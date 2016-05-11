@@ -1,0 +1,330 @@
+:title vecci
+:image veccy.png|veccy window
+
+:h2 Basic
+
+:h3 Colors
+Using veccy you will notice different colorings:
+- black~~ the background is allways black
+- darkgray~~the grid (if enabled) is allways dark gray
+- different shades of gray~~
+  are vectors with different intensities
+- blue surrounding~~
+  are selected entities
+- light purble~~
+  are highlighted entities
+- purple vectors~~
+  are vectors which have "joined" ends at both sides
+- red little squares~~
+  are the endpoints of vectors
+- pink little squares~~
+  are "joined" endpoints of vectors
+- dark blue vectors~~
+  are "move" vectors (pattern 0) which are made (optionally) visible  
+- dots/patterns~~
+  are patterned vectors (these do not fit 100% to vectrex patterns!)
+- orange~~
+  the ruler/crosshair is orange
+- green~~
+  the ruler/crosshair is green while a mouse button is pressed
+- dark green alpha values~~
+  is the rectangle that can be build by dragging the mouse on the editor
+- bright red~~
+  selected entities in the "DISPLAY" panel
+- bright yellow~~
+  highlight entities in the "DISPLAY" panel
+ 
+
+:h3 Entities
+With veccy you can handle two different entities. 
+1) Vectorlists
+2) Animations/Scenarios
+
+:h3 Vectorlists
+Vectorlists are vectrex basic vector lists. They come in different flavors, just as there are different BIOS routines in the vectrex BIOS.
+In general following permutations are possible:
+- relative vector information
+- non relative vector information
+- intensity settings
+- pattern settings
+- continueous drawing <-> position dependend drawing
+- with "move" or without "move" (could be a subset of pattern)
+
+Not all of these cases are implemented as exports as of now, but all of these factors can be edited and persisted by veccy.
+
+The main "list" of vectors is displayed in the first tab named "Vector List" on the left side of the window. 
+
+Below that table are two buttons with which you can save the current list in veccy-format.
+:h3 Animations/Scenarios
+Animations is what I call a collection of vectorlists which have a common "interest" this might be a rotation, a movement or a "real" animation.
+
+An animation consists of an arbitrary number of vector list. As of now these can be saved/loaded in Veccy format. Custom routines to use animations must still be made...
+
+**Note!**~~
+The DISPLAY panel can be switched from "vectorlist" display to "animation/scenario" display using the "play" button!
+
+:h2 Window entities in short
+- the "black" panels are vector displays or editors
+- editing can only be done in the upper half of veccy, in the vector editor panel(s) or in the vector table
+- in the middle you have a vector DISPLAY panel, and several tabs/buttons with which you can change modes or build/transform vectorlists
+- in the lower section of the window you have the animation/scencario settings and functions
+
+:h3 Vector panels
+
+There are a number of "black" panels you see in the veccy window. These in general display vectors.
+The three largest (all in the upper half of the window (two are "hidden" on the tab "Y/Z") ) are "editor" panels. Here you can actually draw, select, delete and move vectors. The three largest also fathom a "grid". The grid can be toggled on/off with the small checkbox "grid" on the left of the window.
+You can also select the width of the grid. If the grid is enabled, vectors are placed on the current grid spacing!
+
+The middle "smaller" vector display window is only a "DISPLAY", here you can see the current vectorlist:
+a) as a 3d setting
+b) as an animation
+c) as a scenario
+
+depending on your current settings.
+
+There are two sliders which you can see when you open veccy, both are used to change the scale of the nearby vector displays. If you center the sliders the scale value is one and you see approximatly a display with coordinates ranging from -150 to +150. You will probably also see a light blue border.
+This border I call "byteFrame" it can be switched on and off using the "byteFrame" checkbox in the upper left of the window.
+The byteFrame is drawn around the coordinates -128 to +127, this is the largest/smallest possible value a vector for vectrex should have, since it is a 8bit-machine and the values are signed.
+
+:h3 Vector table
+Right of the main vector editor panel you can see a table, this table holds (in veccy format) all vector information of the currently edited vectorlist.
+The relevant fields (coordinates, pattern, intensity) can be edited.
+Below the table are several buttons, with these you can persist or load single vectorlists.
+
+- ##page_go.png## __**load vectorlist**~~Load a vectorlist from a XML-file, the current is overwritten.
+- ##page_save.png## __**save vectorlist**~~Save the current vectorlist to a XML-file.~~
+~~
+- ##arrow_undo.png## __**undo**~~
+- ##arrow_redo.png## __**redo**~~
+~~
+- ##page_copy.png## __**copy selected vectors**~~Put the current selected vectors in a buffer (this is no clipboard buffer, but can be accessed from all veccy-panels)
+- ##paste_plain.png## __**paste buffer**~~Paste the current buffer into the current vectorlist. 
+- ##cut.png## __**cut selected vectors**~~ The current selected vectors are deleted, but also placed in the buffer
+~~ ~~
+- ##page_add.png## __**insert vectorlist file**~~Insert another XML-file into the current vectorlist.
+- ##page_edit.png## __**save selection as XML-file**~~Save the current selected vectors as a XML-file.
+~~
+- ##new.png## __**new**~~Clear vectorlist.
+
+If in the "select vector" mode (see below), you can also select vectors by selecting the rows in the table, if you want to move them, remember to press shift while draging!
+
+The table also shows the selection you make by selecting vectors in the edit panel.
+
+Start- and end- points selections are also shown in the table.
+
+
+:h3 3d settings and other...
+The above table is part of a tabbed pane surrounding it. The other tabs are:
+- Y/Z~~
+If you want to edit 3d vectorlists, here are the other to visual displays. The "normal" display I call "Front", the second I call "Top" and the third "Sideways". All three displays are orthogonal displays. To view the actual 3d structure you have to look at the DISPLAY vector display.
+- 3d axis settings~~
+Usually the DISPLAY display is the same as the "Front" display, but using this tab you can change the angle (camera position), the location and the axis of the DISPLAY.
+- import and export~~
+See extra pages for these...
+- vectorlist status~~
+:image VeccyInfo.png|information
+On this tab you can see diverse information about the current edited vectorlist. The information you can find here give you clues in what way you can export the current list or what is right/wrong with it in its current state. The checkboxes on this page are only means to display the current status, checking/unchecking them manually does not result in any changes!
+Following information is provided:
++ all vectors same intensity~~ only information, no relevance otherwise
++ all vectors same pattern~~ some save formats will be disabled, since these have no means to convey pattern information
++ all pattern high bit set~~are all patterns > 128 some vectorlist formats require that!
++ 2d only~~ all z coordinates must be 0, only information, no relevance otherwise
++ vectors in one path~~are all vectors (except start and end) connected? (determined by different method -> start, end point)
++ vectors continuous~~are all vectors (except start and end) connected? (determined by different method -> relative)
++ vectors continuous~~are all vectors (except start and end) connected? (determined by different method)
++ closed polygon~~ same as the last two, but including start/end vectors
++ ordered closed polygon~~ as above but the vectors must also be ordered correctly
++ also displayed are the min/max coordinates of vectors and the maximal length found (which will be red if larger than 127)
+
+:h2 Drawing vectors
+
+:h3 Mode
+There are as of yet three different modes, veccy can be set to. Depending on the mode settings you can do different things.
+ 
+The modes can be changed by a setting nearly in the middle of the window. In a tabbed pane with the heading "Mode/Select": 
+:image VeccyMode.png|Mode
+The "Set" mode, does what it is named after - it sets vectors. The other modes are "edit" modes.~~
+
+Veccy starts of in Mode "Set"
+
+:h4 Mode "SET"
+In the "set" mode, you can actually draw vectors. Left click on the "black" panel on the upper right, dragging the mouse and releasing the button draws one single vector.
+Right click after you have drawn your first vector will create a new vector from the last "end" position to the current click position.
+
+The draw mode can have two additional "features" which can be turned on/off with the checkboxes directly to the left of the "Set" button.
+a) continue~~
+This option if enabled "continues" drawing directly to the next position. The resulting "multiple" vectors are connected (you can unconnect them later if needed - as you can also connect previously unconnected vectors later)
+b) points ok~~
+This option allows you to set points, vectors with a length of 0, don't know if one ever needs it, but here you go as an option.
+
+Setting vectors is straight forward and thats all you can do in this mode!
+
+:h4 Mode "select point"
+In this mode you can select and move single points of vectors.
+
+If you move the mouse over the vector panel, the point under the mouse is highlighted. With a click on the left mouse button you select the point (blue surrounding). You can "drag" a point with the mouse button.
+
+If you shift/click you can select more than one point - draging, drags "all" selected points.
+
+I you click on an "empty" spot (no highlighted point), you can drag a "rectangle" and capture points with it (select points). Shift/draging allows again to drag all of them.
+
+To "unselect" a single point, keep shift pressed and click the point you want to remove with the middle mouse button.
+
+Right click on a point gives you (depending on current circumstances) more options, a popup menu will be displayed.
+
+For example, if you drag two points over each other AND have "continue" enabled, you can  join vectors at these points.
+
+:h4 Mode "select vector"
+In this mode you can select and move vectors.
+
+The settings are nearly identical to the "point" section...
+
+If you move the mouse over the vector panel, the vector under the mouse is highlighted. With a click on the left mouse button you select the vector (blue surrounding). You can "drag" a vector with the mouse button.
+
+If you shift/click you can select more than one vector - draging, drags "all" selected vectors.
+
+I you click on an "empty" spot (no highlighted vector), you can drag a "rectangle" and capture vectors with it (select vectors). Shift/draging allows again to drag all of them.
+
+To "unselect" a single vector, keep shift pressed and click the vector you want to remove with the middle mouse button.
+
+Right click on a vector gives you (depending on current circumstances) more options, a popup menu will be displayed.
+
+:h3 Popup / Point selection
+
+::Always::~~
+- Set as Start~~
+Sets the current highlighted point as startpoint of the vectorlist.
+The vectorlist might be reordered in order to set the point. 
+
+::Without continue:~~
+-----------------~~::
+2 points selected:
+- "join selected (here)"~~
+  moves both points to the highlighted location
+  they are not JOINED, only brought to the same location!
+- "connect selected"~~
+  builds a new vector between the two selected points
+- "Rip joined vectors"~~
+  rips two (truly) joined vectors 
+
+::With continue:~~
+--------------::~~
+x Points selected~~
+- "join here"~~
+  Joins all points at the current location and truly joins them!
+
+2 Points selected~~
+- "connect selected"~~
+  builds a new vector between the two selected points and joins both ends
+  of the new vector to their endpoints
+- "join selected (here)"~~
+  moves both points to the highlighted location
+  and truly JOINS them
+- "Rips joined vectors"~~
+  rips two (truly) joined vectors 
+
+:h3 Popup / Vector selection
+Here you only have two selections:
+- delete selected 
+- delete not selected
+
+:h3 Visual
+On the same Tab as the mode selects there are also some additional options available:
+- arrows~~
+Draw vectors as arrows, shows simply the direction of a vector.
+- position~~
+Draw a number on each vector which shows the ordering position in the vectorlist.
+- moves visible~~
+If checked move vectors (pattern = 0) are display using a dark blue color.
+- expanding/shrinking~~
+With the ##add.png## and ##delete.png## buttons you can enlarge or shrink the vectorlist according to the factor given by the nearby textfield. (shrinking uses 1/value of textfield as factor)~~
+Since the value is a FACTOR you can not expand points!
+- clear~~
+Clears the current vectorlist.
+
+:h2 build animation
+Under this tab there are a few functions to build animations or scenarios from the current vectorlist.
+
+:h3 Rotation
+:image rotation.png|Rotation example
+Rotations can be calculated by veccy, you can chose the axis (1 or more axis) the maximal angle and the number of steps you would like to rotate.
+
+If you use "large" coordinates in your vectorlists, the rotation list values //can// be higher than the byte range vectrex allows, to prevent this you can chose the extra option "scale to byte", this ensures that the resulting list still "fits".
+
+:image test.gif|Rotation example
+
+:h3 Morphing
+You can also "morph" from one vectorlist to another. The two first vectorlists in the current animation (see below) are used as input. You can chose the number of steps you wish to use.
+:image ChrisFrog.gif|Morph example
+
+:h3 Scenario
+As of now only one function ist provided:
+~~seperate paths as scenario entries:~~
+Using this button you can split the current vectorlist in seperate vectorlists. For each "connected path" in the vectorlist one scenario entry is generated.
+The opposite function is the "join" function in the animation/scenario section.
+~~Example:~~
+##splitExample1.png## <-> ##splitExample2.png##
+
+:h2 Shortcuts
+:image shortcuts.png|shortcuts
+There are a couple of "helper" functions provided, these function on complete vectorlists (not animations(yet) ).
+- center vectorlist~~
+Well - centers the current vectorlist
+- connect when possible~~
+If vectors in the list have the same start/end coordinates, this functions "joins" these vectors.
+- order vectorlist~~
+This function orders the vectors to the best of vides automation abilities, this means there are several steps taken:
++ first it is insured that all "joined" vectors are joined to their "correct" ends, meaning startpoints are joined to endpoints vice/versa, if this is done, usualy one of the vectors changes its orientation
++ all joined vectors are ordered in their "natural" join order
++ all other vectors are ordered in their natural order
++ the "order" parameter of vectors is set accordingly~~Example:~~
+##OrderedWrong.png## <-> ##OrderedCorrect.png##
+- split where needed~~
+Tests all vector lengths, if a vector is longer in any dimension than 127 "pixels" the vector is splitted in half. After processing there is no single vector that is "longer" than 127.
+- fill gaps (with move vectors)~~
+This ensures all points are connected (but no circular connection is formed, meaning start and end points are not connected). "Ordering" is invoked upon start, apart from reordering no vectors are changed, new vectors are inserted, where gaps were found. The new vectors are always "moves" (pattern = 0), new vectors are allways smaller than 128.~~
+##noFilled.png## <-> ##gapsFilled.png##
+- remove dots~~
+- fit byte~~
+enlarges/shrinks the current vectorlists to optimally fit into the byte range~~
+
+**Note!**~~
+There are "strange" cases of vectorlists, when above implemented shortcuts may not lead to optimal results. One simple case is a construct like:~~
+##polygonError.png## ~~
+
+Here you see a start vector going off in one direction and the start location is JOINED with two other vectors (a three-way join) which forms a closed polygon.~~
+This and similar constructs are not easy to analyse and handle correctly. I have not even tried very hard - if you have vectorlists like that, please optimize them by hand!
+
+
+
+:h2 Animations / Scenario
+(for a picture look at "Rotation")~~
+Animations/Scenarios are both a collection of different vectorlists. I differ the two entities because one displays all vectorslists at the same time (scenario) the other plays each vectorlist after another (with a delay) to create the illusion of an animation. ~~
+The datastructure and the handling in veccy are identical!
+~~In short what you can see/do:~~
+- ##page_go.png## __**load animation**~~Load an animaton from a XML-file, the current is overwritten.
+- ##page_save.png## __**save animation**~~Save the current animation to a XML-file.~~
+- "add current"~~ adds the current edited vectorlist (a clone actually) to the current animation
+- "apply" ~~if you edit the "current" animation frame (which is a clone of the frame!) you can use the apply button to actually apply the changes to the animation
+- "add view"~~
+adds the current "DISPLAY" of the current edited vectorlist to the animation. If you e.g. translocated of rotated the camera (see TAB "3d axis settings") the DISPLAY differes from the current vectorlist in the editor. With this button you can "use" the DISPLAY.
+- "revers"~~ reverses all animation frames
+- "<-" and "->"~~
+sets the next animation frame as the current edited (clone!) vectorlist.~~
+SHIFT clicking the buttons MOVES one animation frame in the corresponding direction!
+- "delete" ~~ delete one animation frame (the current selected)
+- "clear" ~~ completely clears the current animation
+- "join" ~~ This joins all vectorlist entries in the current animation/scenario into one single vectorlist
+
+
+:h2 Veccy format (Save/Load)
+The vecvy save format is a straight forward XML-File with all data in appropriate sub structures.
+
+- a VectorAnimation consists of n XML-structures of the type GFXVectorList
+- a GFXVectorList consists of n XML-structures of the type GFXVector
+- a GFXVector consists of 2 XML-structures of the type Vertex (start and end) and several atomic entities (int, double, string)
+- all Vertexes (even joined and supposedly relative vectors) are stored with ABSOLUT positioning information.
+- in a vectorlist "connected" vectorlist are connected via a unique ID of vectors, the unique ID is only guranteed to be unique in ONE saved XML file (be it GFXVectorList or VectorAnimation)
+
+If need should arise I can also provide a "JSON" format.
+

@@ -1,0 +1,111 @@
+Cosmic Chasm 
+------------
+Can you save the galaxy by blowing up the alien-inhabited planet... and get off
+the planet before you explode?  You must burrow deep inside, finding your way
+through the underground maze while battling the Planet Protectors.  If you can
+get to the center, plant your one bomb and try to find your way out.  It's only
+a matter of seconds before the planet goes BOOM!
+
+Controls
+--------
+Joystick:  Rotates your ship.  Pulling back releases bomb in center chamber.
+Button 1:  Drill.
+Button 2:  Shield.
+Button 3:  Thrust.
+Button 4:  Fire.
+
+Game Play
+---------
+   Your mission is to penetrate an alien planet, travel through its underground
+maze and place a bomb by the planet's power structure in the center cavern. 
+First, you will be shown a map of the planet, including its caverns and
+passageways.  The blinking light indicates the cavern where you will enter the
+planet.  You must determine the quickest path to the center.
+   Once in the first cavern, use your joystick to maneuver your ship and button
+3 to thrust forward.  The Planet Protectors will attempt to hit you, but you can
+destroy them first by firing dual lasers with button 4.
+   To get to the next cavern, press button 1, the drill, and inch up SLOWLY to
+the force field you wish to penetrate.  If you thrust too quickly while
+drilling, you will destroy yourself.
+   Continue doing battle and traveling through the planet until you reach the
+center cavern.  Once there, plant your bomb and find the quickest way out of the
+planet.  You will then move on to the next, more difficult, mission.
+
+Planet Protectors
+-----------------
+   Each cavern has eight Planet Protectors.  They will try and destroy you by
+colliding with you.  As you approach the center chamber, they will get faster. 
+They will also get faster on each new mission.
+   The Planet Protectors are also aware of the danger you present.  Therefore,
+they have booby-trapped the center of each cavern -- it grows larger and larger
+in an attempt to squeeze you.  Don't dawdle in any cavern, you may get crushed.
+   You don't have to kill all the Planet Protectors before you move to the next
+cavern.  However, you will then have to battle them if you exit the planet
+through that cavern.
+
+Shield
+------
+   By pressing button 2 you can surround your ship with a protective shield. 
+This shield will cause the Planet Protectors to bounce off and will prevent you
+from colliding with the wall.  However, you cannot drill or fire with the shield
+on.
+   Unfortunately, too much energy is used by your ship in planting your bomb. 
+Therefore, your shield will be ineffective from the time you plant the bomb to
+the beginning of your next mission.
+
+Center Chamber
+--------------
+   The center chamber contains the planet's power structure, which you must
+attempt to destroy.  When you get close enough to the power structure plant your
+bomb by pulling back on the joystick.  You will then have 15 seconds to exit the
+planet safely.
+
+Exiting Safely
+--------------
+   To escape the planet safely, you can either travel back through the path you
+carved or any other you'd prefer.  If you enter a new cavern, you will be faced
+with additional Planet Protectors.  Don't forget, you must escape the planet,
+not just return to an outside cavern.  Work quickly.  You only have 15 seconds
+until the planet explodes.
+   You can abort your mission and escape the planet at any time by leaving the
+planet through any of the outside caverns.  You will be given a new mission of
+the same difficulty level as the old.
+    [Not mentioned in manual--->  Aborting a mission WILL cost you one ship.
+     If you do this while using your last ship, the game will end.]
+
+Getting Hit
+-----------
+   If a Planet Protector collides with you or you hit any wall, you will lose
+one ship.  If you have additional ships left, you will return to the cavern
+where you were destroyed.  The same conditions the existed when you entered the
+cavern will be in effect.
+   If you do not escape the planet within the 15 seconds allowed, you will
+explode along with the planet.  If you have additional ships left, you will
+attempt another mission similar to the one you did not complete.
+
+Number of Ships
+---------------
+   In each game you start with 5 ships.
+
+Scoring
+-------
+   Points are earned as follows:
+
+          Action                     Points
+  -----------------------------------------
+  Destroying each Planet
+  Protector in Cavern One             80
+
+  Destroying each
+  Planet Protector
+  in successive caverns               80 + 10 for each new cavern
+
+  Drilling to next cavern             25
+
+  Getting to next cavern
+  while escaping planet              100
+
+  Completion of
+  successful mission                1000
+
+

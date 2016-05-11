@@ -1,0 +1,95 @@
+<html>
+
+<head>
+<title>Vector positioning optimization thoughts</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Vector positioning optimization
+thoughts</strong></font></p>
+
+<p>For Vectrex Frogger I did in many cases not use BIOS
+functions, but ripped them and fitted them for my purposes. This
+was necessary to fit the program into the tiny timescale of
+30,000 cycles for one update round. One major cycle saving trick
+was done at a late stage of optimizing. It utilizes the idle
+phase during vector positioning. For some more information about
+this look at the documentation of Vectrex Frogger, the source code
+and the 'progger.txt'. Here I will give another brief
+introduction to the idea I had. In the above documented BIOS
+function Moveto_d the last relevant lines of code are: </p>
+
+<pre>LF345:	BITB &lt;VIA_int_flags 	;Wait for timer 1
+	BEQ LF345
+</pre>
+
+<p>The positioning is usually done with quite a large scale
+factor. In Vectrex Frogger I often used $90 (or so). The above
+loop does nothing but check for the timer to expire. It is an
+idle loop, that waits for nearly $90 cycles. After the loop is
+finished not a single thing is done anymore, the routine is
+finished and returns to its caller. You will see quickly, that a
+wait loop like that can be used to do more than just nothing. In
+a tightly packed program there are always some things to do, like
+collision checking, preparing the next vector drawing,
+positioning updating, decrementing timers or preparing sound
+output. All these things can be done during that waiting. HALT!</p>
+
+<p>Not all things, you are not allowed to do anything that
+changes vector drawing relevant registers in the VIA chip, that
+applies to VIA_Port A, B, Shift register, Timer 1 and possibly a
+few others (control registers). That generally means, that you
+are not allowed to access VIA at all, that again means, no sound
+output, and no joystick inquiries, no new scaling value... But I
+experienced that, with clever programming MANY things can be done
+in that idle time. You do not have to worry about taking to long
+either, since the timer will expire all by itself. The only thing
+you have to watch out for is, that you don't finish to early,
+since if you start drawing the vector when you have not finished
+positioning the beam... well, you probably can imagine what
+happens. But making sure, that positioning has correctly
+finished - all you need to do is put that little 'idle'-loop
+from above at the end of your intermediate section. Voila, you
+saved some really valuable time here! </p>
+
+<p>The same thing can theoretically be applied to vector drawing.
+With drawing vectors you must make sure, that you finish you
+intermediate stuff in time, so that you can switch the beam off
+in time, otherwise you will always see a bright dot at the end of
+your vectors. But generally speaking, the above optimization is
+not really such a good idea while drawing vectors. Since you
+usually have quite small timing figures (or at least SHOULD
+have). As mentioned above, Vectrex Frogger draws all 'sprites'
+using a scale factor of six. There is not all that much idle
+time left. What I did is to skip the loop entirely, since ALL
+vectors I draw have the same scale value, I was able to put some
+fixed code into the drawing 'idle' time, so I DID save a few
+cycles here as well. But this is a field where you have to
+experiment individually for your program. I had to change my
+routines quite a few times, till I got them right for fitting in
+that 'idle' time. One major hog was the above mentioned uncertain
+time for some vector drawing related flags to arrive at the
+integration hardware. On the other hand, cycles saved in the
+routine for drawing single vectors is really, really, REALLY!!!
+important. Since you usually draw 'sprites' consisting of many
+vectors. And you'll probably draw many sprites. Imagine drawing
+10 sprites, each using 20 vectors, that'll make 200 vectors. Now
+imaging your optimized code takes for each drawn vector 10
+imaging your optimized code takes for each drawn vector 10
+cycles less than the non optimized code. That would save about
+(or exactly in this example) 2,000 cycles. If you do a game where
+you will have not much time left you will appreciate these saved
+cycles very much! </p>
+
+<p>For examples of the above mentioned routines look at Vectrex
+Frogger.</p>
+
+<p align="center"><a href="optimization.htm">Next page</a> <a
+href="whywait.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

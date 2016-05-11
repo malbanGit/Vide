@@ -1,0 +1,273 @@
+BANK 0
+LABEL $C811 V_Buttons
+COMMENT_LABEL $C811 Current toggle state of all buttons
+LABEL $C81B V_Joy_1_X
+COMMENT_LABEL $C81B Joystick 1 left/right
+LABEL $C81C V_Joy_1_Y
+COMMENT_LABEL $C81C Joystick 1 up/down
+LABEL $C81F V_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C820 V_Joy_Mux_1_Y
+COMMENT_LABEL $C820 Joystick 1 Y enable/mux flag (=3)
+LABEL $C821 V_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C822 V_Joy_Mux_2_Y
+COMMENT_LABEL $C822 Joystick 2 Y enable/mux flag (=7)
+LABEL $C83D V_Rfrsh
+COMMENT_LABEL $C83D Refresh time (divided by 1.5MHz)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $F192 F_Wait_Recal
+LABEL $F1AA F_DP_to_D0
+LABEL $F1AF F_DP_to_C8
+LABEL $F1BA F_Read_Btns
+LABEL $F1F8 F_Joy_Digital
+LABEL $F2A1 F_Intensity_3F
+LABEL $F2A5 F_Intensity_5F
+LABEL $F2A9 F_Intensity_7F
+LABEL $F2FC F_Moveto_d_7F
+LABEL $F354 F_Reset0Ref
+LABEL $F410 F_Draw_VLp
+LABEL $F61F F_Rot_VL_Mode_a
+LABEL $C880 v_player_ptr
+COMMENT_LABEL $C880 + $c881
+LABEL $C882 v_wait
+LABEL $C883 v_wait2
+LABEL $C884 v_player_y
+LABEL $C885 v_player_x
+LABEL $C886 v_player_dir
+LABEL $C887 v_joy_wait
+LABEL $C888 v_level_ptr
+COMMENT_LABEL $C888 + $c889
+LABEL $C88A v_can_push
+LABEL $C88B v_rotate
+LABEL $C88C v_rot_dir
+LABEL $C88D v_temp_1
+LABEL $C88E v_temp_2
+COMMENT_LABEL $C88E + $c88f
+LABEL $C900 v_level_ram
+COMMENT_LABEL $C900 - $c97f
+LABEL $C980 v_vector_temp
+COMMENT_LABEL $C980 (should be) 88 bytes
+LABEL $CA00 v_level_vector
+COMMENT_LABEL $CA00 max. len 202 bytes
+LABEL $CB00 vec_start_dst
+LABEL $CB00 t_target
+LABEL $CB28 t_box
+LABEL $CB44 t_box_on
+LABEL $CB69 t_player
+EQU $00 rFL
+EQU $01 rWL
+EQU $02 rTG
+EQU $03 rBX
+EQU $04 lPLbase
+EQU $05 lPLe
+EQU $07 lPLall
+EQU $08 lBX
+EQU $40 lTG
+LABEL $0088 lWL
+EQU $3F intens_level
+EQU $5F intens_obj
+EQU $7F intens_player
+LABEL $033F d_no_music
+LABEL $0347 vec_start_src
+LABEL $0064 f_decrunch_vector
+LABEL $0773 t_levels
+LABEL $0084 restart_level
+LABEL $007F exit_decrunch_vector
+LABEL $0072 fd1
+LABEL $007B fd2
+LABEL $00A1 one_byte
+LABEL $00A6 one_element
+LABEL $00BC is_fl
+LABEL $00BA is_wl
+LABEL $00B6 is_tg
+LABEL $00BC set_tile
+LABEL $00D8 main_loop
+LABEL $01E2 f_paint_level
+LABEL $00FF no_rot
+LABEL $015F wait_joy
+LABEL $0142 no_x_dir
+LABEL $0121 left
+LABEL $012F l1
+LABEL $015F no_y_dir
+LABEL $0159 up
+LABEL $02E6 move_to_dir
+LABEL $016C noJoy
+LABEL $0171 check
+LABEL $017E buttons
+LABEL $0193 go_next_level
+LABEL $01CF next_level
+LABEL $019D go_next_level_loop
+LABEL $01BD draw_level
+LABEL $079D t_level_last
+LABEL $01DA nl1
+LABEL $01E7 f_paint_level_loop
+LABEL $01EB norts
+LABEL $021A is_pl
+LABEL $020A is_box
+LABEL $0212 is_box_on
+LABEL $0241 drawNow
+LABEL $0270 move_north
+LABEL $02E2 exit_move
+LABEL $0292 go_north
+LABEL $02BF push_sub
+LABEL $02CE go_sub
+LABEL $0296 move_south
+LABEL $02BB go_south
+LABEL $0317 move_east
+LABEL $0313 go_west
+LABEL $033B go_east
+LABEL $03DE t_level_0_vec
+LABEL $0419 t_level_0_ram
+LABEL $0439 t_level_1_vec
+LABEL $0478 t_level_1_ram
+LABEL $0498 t_level_2_vec
+LABEL $0519 t_level_2_ram
+LABEL $0539 t_level_3_vec
+LABEL $0582 t_level_3_ram
+LABEL $05A2 t_level_4_vec
+LABEL $0615 t_level_4_ram
+LABEL $0635 t_level_5_vec
+LABEL $06C1 t_level_5_ram
+LABEL $06E1 t_level_6_vec
+LABEL $0753 t_level_6_ram
+COMMENT_LINE $0000 This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/deed.en_US.
+COMMENT_LINE $0000 VECTREX SYSTEM CONSTANTS
+COMMENT_LINE $0000 RAM USAGE
+COMMENT_LINE $0000 the current level
+COMMENT_LINE $0000 holds the rotated player
+COMMENT_LINE $0000 holds the vector of the current level
+COMMENT_LINE $0000 uncompressed vectors
+COMMENT_LINE $0000 CONSTANTS
+COMMENT_LINE $0000 compressed level data
+COMMENT_LINE $0000 level data
+COMMENT_LINE $0000 macros
+COMMENT_LINE $0000 START!
+COMMENT_LINE $0000 rom header
+COMMENT_LINE $0029 init routine
+COMMENT_LINE $0029 which joystick(s) to read
+COMMENT_LINE $003B joystick is ready
+COMMENT_LINE $003E set fram rate
+COMMENT $003E that is a 16 bit, exactly what we want!
+COMMENT_LINE $0041 but from my experience setting the refreshrate is allways a bad idea!
+COMMENT_LINE $0044 decrunch all 4 vector objects
+COMMENT_LINE $0053 the current level
+COMMENT_LINE $0059 the "move to the middle" vector element which is prefixed to the rotated player
+COMMENT $0059 $00 = don't display
+COMMENT $005F 15, 15 = move the beam
+COMMENT_LINE $0062 jump to the restart level routine
+COMMENT_LINE $0064 decrunch a vector
+COMMENT_LINE $0064 X = src
+COMMENT_LINE $0064 Y = dst
+COMMENT_LINE $0084 restart the current level
+COMMENT_LINE $0084 U = ptr to level
+COMMENT_LINE $0087 x and y position of the player
+COMMENT $0089 + x
+COMMENT_LINE $008C pointer to the player in the level data
+COMMENT_LINE $0093 decrunch the vector which draws the level
+COMMENT_LINE $009B unpack level ram
+COMMENT_LINE $00B2 decb
+COMMENT_LINE $00B2 beq is_bx
+COMMENT_LINE $00CA add player to level
+COMMENT_LINE $00D0 basics
+COMMENT $00D2 heading east
+COMMENT $00D5 currently not rotating
+COMMENT_LINE $00D8 main routine
+COMMENT_LINE $00D8 screen
+COMMENT_LINE $00DB paint level background
+COMMENT $00E9 scale factor
+COMMENT_LINE $00F4 is the player rotating: rotate more
+COMMENT_LINE $00FF read the yoystick
+COMMENT_LINE $0102 have we to wait until the joustick is released?
+COMMENT_LINE $0107 X direction: rotate player
+COMMENT_LINE $0142 Y direction: move player / push box (only forward)
+COMMENT_LINE $015F wait until the joystick is released
+COMMENT_LINE $016C check level done
+COMMENT $0177 we found an target without a box -> not done
+COMMENT_LINE $017E joystick buttons
+COMMENT_LINE $0184 check for next level btton
+COMMENT_LINE $018A check for restart level button
+COMMENT_LINE $0190 we're done -> start the main loop again
+COMMENT_LINE $0193 a level is done!! (wait a little bit and then blink the level)
+COMMENT_LINE $019D screen
+COMMENT_LINE $01A0 blink?
+COMMENT_LINE $01A7 paint level background
+COMMENT $01B5 scale factor
+COMMENT_LINE $01CF advance to the next level (either by completing one or pressing the button)
+COMMENT_LINE $01D2 when this is the last level -> start over
+COMMENT_LINE $01DA calc the next level
+COMMENT_LINE $01DF and restart
+COMMENT_LINE $01E2 paint the level objects
+COMMENT $01ED no object
+COMMENT $01EF wall
+COMMENT_LINE $01F4 object
+COMMENT $0236 needs dp = $c8
+COMMENT_LINE $0241 now X = object to draw
+COMMENT $0241 kills a+b
+COMMENT_LINE $0244 calc position on screen
+COMMENT $0265 scale factor
+COMMENT_LINE $0270 move/push the player
+COMMENT $027A is a wall
+COMMENT $027E is neither wall nor box
+COMMENT_LINE $0280 is box, check next field
+COMMENT $0284 behind the block is the border
+COMMENT $028A behind the block is a wall or another block
+COMMENT $029C right border
+COMMENT $02A2 is a wall
+COMMENT $02A6 is neither wall nor box
+COMMENT_LINE $02A8 is box, check next field
+COMMENT $02AC behind the block is the border
+COMMENT $02B3 behind the block is a wall or another block
+COMMENT $02FB is a wall
+COMMENT $02FF is neither wall nor box
+COMMENT_LINE $0301 is box, check next field
+COMMENT $0305 behind the block is the border
+COMMENT $030B behind the block is a wall or another block
+COMMENT $031D right border
+COMMENT $0323 is a wall
+COMMENT $0327 is neither wall nor box
+COMMENT_LINE $0329 is box, check next field
+COMMENT $032D behind the block is the border
+COMMENT $0333 behind the block is a wall or another block
+COMMENT_LINE $033F the "no music" data
+COMMENT_LINE $0347 the level objects (crunched)
+COMMENT_LINE $0347 t_target
+COMMENT_LINE $0369 t_box
+COMMENT_LINE $037D t_box_on
+COMMENT_LINE $039A t_player
+COMMENT_LINE $03DE the level data
+COMMENT_LINE $03DE the crunched vector + the level data + and pointers around
+COMMENT_LINE $0773 t_level_0:
+COMMENT_LINE $077A t_level_1:
+COMMENT_LINE $0781 t_level_2:
+COMMENT_LINE $0788 t_level_3:
+COMMENT_LINE $078F t_level_4:
+COMMENT_LINE $0796 t_level_5:
+COMMENT_LINE $079D t_level_6:
+RANGE $0000-$0220 DP $D0
+RANGE $0220-$0241 DP $C8
+RANGE $0241-$0270 DP $D0
+RANGE $0270-$033F DP $C8
+RANGE $033F-$07A4 DP $D0
+RANGE $0000-$000B DB_DATA
+RANGE $000B-$000D DW_DATA
+RANGE $000D-$0029 DB_DATA
+RANGE $0029-$033F CODE
+RANGE $033F-$0343 DW_DATA
+RANGE $0343-$0773 DB_DATA
+RANGE $0773-$0777 DW_DATA
+RANGE $0777-$077A DB_DATA
+RANGE $077A-$077E DW_DATA
+RANGE $077E-$0781 DB_DATA
+RANGE $0781-$0785 DW_DATA
+RANGE $0785-$0788 DB_DATA
+RANGE $0788-$078C DW_DATA
+RANGE $078C-$078F DB_DATA
+RANGE $078F-$0793 DW_DATA
+RANGE $0793-$0796 DB_DATA
+RANGE $0796-$079A DW_DATA
+RANGE $079A-$079D DB_DATA
+RANGE $079D-$07A1 DW_DATA
+RANGE $07A1-$07A4 DB_DATA
+

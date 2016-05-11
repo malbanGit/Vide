@@ -1,0 +1,239 @@
+
+
+RANGE   0xe000 0xffff
+COMMENT 0 "Start of Memory"
+COMMENT 0xffff "End of Memory"
+
+RANGE   0xe000 0xffff DP 0xd0
+RANGE   0xe000 0xffff DP 0xd0
+
+
+LABEL   0xfffe RESET_VECTOR_LOW
+LABEL   0xffff RESET_VECTOR_HIGH
+
+LABEL 0xf029 _label_test_
+
+COMMENT_LINE 0xe016 "The fabulous Minstorm!!!"
+COMMENT_LINE 0xe016 "Is now available as dissassembled"
+COMMENT_LINE 0xe016 "Rom images!!!"
+LABEL   0xe016 start_m
+
+COMMENT 0xe016 "Start of Minestorm game"
+COMMENT 0xf000 "Start of EXEC"
+
+COMMENT 0xd000 "PIA reg 0"
+COMMENT 0xd001 "PIA reg 1"
+COMMENT 0xd002 "PIA reg 2"
+COMMENT 0xd003 "PIA reg 3"
+COMMENT 0xd004 "PIA reg 4"
+COMMENT 0xd005 "PIA reg 5"
+COMMENT 0xd006 "PIA reg 6"
+COMMENT 0xd007 "PIA reg 7"
+COMMENT 0xd008 "PIA reg 8"
+COMMENT 0xd009 "PIA reg 9
+COMMENT 0xd00a "PIA reg a"
+COMMENT 0xd00b "PIA reg b"
+COMMENT 0xd00c "PIA reg c"
+COMMENT 0xd00d "PIA reg d"
+COMMENT 0xd00e "PIA reg e"
+COMMENT 0xd00f "PIA reg f"
+
+
+DIRECT_LABEL 0xd0 0x00 VIA_port_B_data_IO_reg
+DIRECT_LABEL 0xd0 0x01 VIA_port_A_data_IO_reg
+DIRECT_LABEL 0xd0 0x02 VIA_port_B_data_dir_reg
+DIRECT_LABEL 0xd0 0x03 VIA_port_A_data_dir_reg
+DIRECT_LABEL 0xd0 0x04 VIA_timer_1_count_reg
+DIRECT_LABEL 0xd0 0x05 VIA_timer_1_count_reg_hi
+DIRECT_LABEL 0xd0 0x06 VIA_timer_1_latch_reg_lo
+DIRECT_LABEL 0xd0 0x07 VIA_timer_1_latch_reg_hi
+DIRECT_LABEL 0xd0 0x08 VIA_timer_2_count_lreg_lo
+DIRECT_LABEL 0xd0 0x09 VIA_timer_2_count_lreg_hi
+DIRECT_LABEL 0xd0 0x0a VIA_shift_reg
+DIRECT_LABEL 0xd0 0x0b VIA_auxiliary_control_reg
+DIRECT_LABEL 0xd0 0x0c VIA_control_reg
+DIRECT_LABEL 0xd0 0x0d VIA_interrupt_flags_reg
+DIRECT_LABEL 0xd0 0x0e VIA_interrupt_enable_reg
+DIRECT_LABEL 0xd0 0x0f VIA_port_A_data_IO_reg_nh
+
+LABEL 0xd000 VIA_port_B_data_IO_reg
+LABEL 0xd001 VIA_port_A_data_IO_reg
+LABEL 0xd002 VIA_port_B_data_dir_reg
+LABEL 0xd003 VIA_port_A_data_dir_reg
+LABEL 0xd004 VIA_timer_1_count_reg
+LABEL 0xd005 VIA_timer_1_count_reg_hi
+LABEL 0xd006 VIA_timer_1_latch_reg_lo
+LABEL 0xd007 VIA_timer_1_latch_reg_hi
+LABEL 0xd008 VIA_timer_2_count_lreg_lo
+LABEL 0xd009 VIA_timer_2_count_lreg_hi
+LABEL 0xd00a VIA_shift_reg
+LABEL 0xd00b VIA_auxiliary_control_reg
+LABEL 0xd00c VIA_control_reg
+LABEL 0xd00d VIA_interrupt_flags_reg
+LABEL 0xd00e VIA_interrupt_enable_reg
+LABEL 0xd00f VIA_port_A_data_IO_reg_nh
+
+LABEL 0xE7B5 calc_rise_run1
+LABEL 0xE7D2 calc_rise_run2
+LABEL 0xE8E3 init_motion_dots
+LABEL 0xE98A MS_get_2_random_nums
+LABEL 0xEA3E MS_random_num_4_to_3C
+LABEL 0xEA6D draw_dot7F_ptr_in_y
+LABEL 0xEA9D MS_print_1_string7F
+LABEL 0xEAA8 move_y_print_string
+LABEL 0xEACF display_both_scores
+LABEL 0xEAF0 process_indirect_jumps
+LABEL 0xED77 Mine_Storm_music
+LABEL 0xF000 Cold_Start
+LABEL 0xF01C powerup_loop
+LABEL 0xF06C Warm_Start
+LABEL 0xF0A4 powerup_loop2
+LABEL 0xF14C Init_VIA
+LABEL 0xF164 Init_OS_RAM
+LABEL 0xF173 init_flags1
+LABEL 0xF18B Init_OS
+LABEL 0xF192 Wait_Recal
+LABEL 0xF1A2 Set_Refresh
+LABEL 0xF1AA DP_to_D0
+LABEL 0xF1AF DP_to_C8
+LABEL 0xF1B4 Read_Btns_Mask
+LABEL 0xF1BA Read_Btns
+LABEL 0xF1F5 Joy_Analog
+LABEL 0xF1F8 Joy_Digital
+LABEL 0xF256 Sound_Byte
+LABEL 0xF259 Sound_Byte_x
+LABEL 0xF25B Sound_Byte_raw
+LABEL 0xF272 Clear_Sound
+LABEL 0xF27D Sound_Bytes
+LABEL 0xF284 Sound_Bytes_x
+LABEL 0xF289 Do_Sound
+LABEL 0xF28C Do_Sound_x
+LABEL 0xF29D Intensity_1F
+LABEL 0xF2A1 Intensity_3F
+LABEL 0xF2A5 Intensity_5F
+LABEL 0xF2A9 Intensity_7F
+LABEL 0xF2AB Intensity_a
+LABEL 0xF2BE Dot_ix_b
+LABEL 0xF2C1 Dot_ix
+LABEL 0xF2C3 Dot_d
+LABEL 0xF2C5 Dot_here
+LABEL 0xF2D5 Dot_List
+LABEL 0xF2DE Dot_List_Reset
+LABEL 0xF2E6 Recalibrate
+LABEL 0xF2F2 Moveto_x_7F
+LABEL 0xF2FC Moveto_d_7F
+LABEL 0xF308 Moveto_ix_FF
+LABEL 0xF30C Moveto_ix_7F
+LABEL 0xF30E Moveto_ix_a
+LABEL 0xF310 Moveto_ix
+LABEL 0xF312 Moveto_d
+LABEL 0xF34A Reset0Ref_D0
+LABEL 0xF34F Check0Ref
+LABEL 0xF354 Reset0Ref
+LABEL 0xF35B Reset_Pen
+LABEL 0xF36B Reset0Int
+LABEL 0xF373 Print_Str_hwyx
+LABEL 0xF378 Print_Str_yx
+LABEL 0xF37A Print_Str_d
+LABEL 0xF385 Print_List_hw
+LABEL 0xF38A Print_List
+LABEL 0xF38C Print_List_chk
+LABEL 0xF391 Print_Ships_x
+LABEL 0xF393 Print_Ships
+LABEL 0xF3AD Mov_Draw_VLc_a
+LABEL 0xF3B1 Mov_Draw_VL_b
+LABEL 0xF3B5 Mov_Draw_VLcs
+LABEL 0xF3B7 Mov_Draw_VL_ab
+LABEL 0xF3B9 Mov_Draw_VL_a
+LABEL 0xF3BC Mov_Draw_VL
+LABEL 0xF3BE Mov_Draw_VL_d
+LABEL 0xF3CE Draw_VLc
+LABEL 0xF3D2 Draw_VL_b
+LABEL 0xF3D6 Draw_VLcs
+LABEL 0xF3D8 Draw_VL_ab
+LABEL 0xF3DA Draw_VL_a
+LABEL 0xF3DD Draw_VL
+LABEL 0xF3DF Draw_Line_d
+LABEL 0xF404 Draw_VLp_FF
+LABEL 0xF408 Draw_VLp_7F
+LABEL 0xF40C Draw_VLp_scale
+LABEL 0xF40E Draw_VLp_b
+LABEL 0xF410 Draw_VLp
+LABEL 0xF434 Draw_Pat_VL_a
+LABEL 0xF437 Draw_Pat_VL
+LABEL 0xF439 Draw_Pat_VL_d
+LABEL 0xF46E Draw_VL_mode
+LABEL 0xF495 Print_Str
+LABEL 0xF511 Random_3
+LABEL 0xF517 Random
+LABEL 0xF533 Init_Music_Buf
+LABEL 0xF53F Clear_x_b
+LABEL 0xF542 Clear_C8_RAM
+LABEL 0xF545 Clear_x_256
+LABEL 0xF548 Clear_x_d
+LABEL 0xF550 Clear_x_b_80
+LABEL 0xF552 Clear_x_b_a
+LABEL 0xF55A Dec_3_Counters
+LABEL 0xF55E Dec_6_Counters
+LABEL 0xF563 Dec_Counters
+LABEL 0xF56D Delay_3
+LABEL 0xF571 Delay_2
+LABEL 0xF575 Delay_1
+LABEL 0xF579 Delay_0
+LABEL 0xF57A Delay_b
+LABEL 0xF57D Delay_RTS
+LABEL 0xF57E Bitmask_a
+LABEL 0xF584 Abs_a_b
+LABEL 0xF58B Abs_b
+LABEL 0xF593 Rise_Run_Angle
+LABEL 0xF5D9 Get_Rise_Idx
+LABEL 0xF5DB Get_Run_Idx
+LABEL 0xF5EF Rise_Run_Idx
+LABEL 0xF5FF Rise_Run_X
+LABEL 0xF601 Rise_Run_Y
+LABEL 0xF603 Rise_Run_Len
+LABEL 0xF610 Rot_VL_ab
+LABEL 0xF616 Rot_VL
+LABEL 0xF61F Rot_VL_Mode_a
+LABEL 0xF62B Rot_VL_Mode
+LABEL 0xF635 Xform_next_point
+LABEL 0xF637 Rot_VL_dft
+LABEL 0xF65B Xform_Run_a
+LABEL 0xF65D Xform_Run
+LABEL 0xF661 Xform_Rise_a
+LABEL 0xF663 Xform_Rise
+LABEL 0xF67F Move_Mem_a_1
+LABEL 0xF683 Move_Mem_a
+LABEL 0xF687 Init_Music_chk
+LABEL 0xF68D Init_Music
+LABEL 0xF692 Init_Music_x
+LABEL 0xF794 player_str
+LABEL 0xF79F game_str
+LABEL 0xF7A9 Select_Game
+LABEL 0xF7C5 handle_buttons
+LABEL 0xF835 display_option_str
+LABEL 0xF84F Clear_Score
+LABEL 0xF85E Add_Score_a
+LABEL 0xF87C Add_Score_d
+LABEL 0xF8B7 Strip_Zeros
+LABEL 0xF8C7 Compare_Score
+LABEL 0xF8D8 New_High_Score
+LABEL 0xF8E5 Obj_Will_Hit_u
+LABEL 0xF8F3 Obj_Will_Hit
+LABEL 0xF8FF Obj_Hit
+LABEL 0xF903 bullet_on_stack_hi
+LABEL 0xF92E Explosion_Snd
+LABEL 0xFD0D music1
+LABEL 0xFD1D music2
+LABEL 0xFD81 music3
+LABEL 0xFDD3 music4
+LABEL 0xFE38 music5
+LABEL 0xFE76 music6
+LABEL 0xFEC6 music7
+LABEL 0xFEF8 music8
+LABEL 0xFF26 music9
+LABEL 0xFF44 musica
+LABEL 0xFF62 musicb
+LABEL 0xFF7A musicc
+LABEL 0xFF8F musicd
+LABEL 0xFF9F Draw_Grid_VL

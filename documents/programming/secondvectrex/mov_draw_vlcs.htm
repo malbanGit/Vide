@@ -1,0 +1,42 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Move_Draw_VLCS</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Mov_Draw_VLcs ($F3B5)</p>
+
+<p>This routine moves to the first location specified in vector
+list, and then draws lines between the rest of coordinates in the
+list. The number of vectors to draw is specified as the first
+byte in the vector list, and the scale factor is the second byte
+in the vector list. The vector list has the following format: </p>
+
+<p>count, scale, rel y, rel x, rel y, rel x, ...</p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $D0</p>
+
+<p>X-reg points to the vector list</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<p>X-reg points to next byte after list </p>
+
+<p>D-reg, X-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F3B5">Source</a></p>
+</body>
+</html>

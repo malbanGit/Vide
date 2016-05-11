@@ -1,0 +1,106 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=be5a889b -->
+<title>FAQ veccy</title>
+</head>
+<body class="doc">
+<h1>FAQ veccy</h1>
+<h2>How can I "draw" vectors?</h2>
+
+<p>You can draw vectors only if veccy is set to mode: "Set" than you can use the mouse buttons:
+<ul><li>
+<p>(left)click, drag and release and you have drawn a vector</p>
+</li><li>
+<p>or (in the top you always see displayed the current "start" position) if you (right) click, a vector is drawn from   that start position to the current position (in non continuous mode these vectors are NOT joined)</p>
+</li><li>
+<p>in "continuous" mode right click is the same as left click</p>
+</li></ul>
+</p>
+<h2>How can I delete vectors?</h2>
+
+<p>You can delete vectors only if veccy is set to mode: "Select vector" Than you can:
+<ul><li>
+<p>select one or more vectors, use the right mousebutton to access the popup and chose the delete option you want</p>
+</li><li>
+<p>you can also use the button "cut" (on the vectorlist tab), the "deleted" vectors are than also put into the internal buffer </p>
+</li></ul>
+</p>
+<h2>What does the lilac color of vectors indicate? </h2>
+
+<p>These vectors are "totally" relative, meaning both start and end are shared between this vector and its "neighbours".</p>
+<h2>I want to change one "frame" of an animation, but it seems I always work on a copy!</h2>
+
+<p>Yes, that is true. If you click on a animation frame, the editor is always filled with a copy of that frame. There is no direct editing. However, you can edit to your hearts content, when finished use the "apply" button (in the animation section), the edited vector list than replaces the current selected animation frame.</p>
+<h2>What is the "add view" button useful for?</h2>
+
+<p>At first it looks like it is just the same as the "add current" button. The difference is, that it does not add the current vectorlist of the editor, but rather the "displayed" vectorlist in the little panel below that. If that panel is not in play mode, it displays the currently edited vectorlist. The "trick" is, that the displayed vectorlist can be viewed from different angles.<br />
+Switch to the tab "3d axis settings", here you can change the 3d display settings the "viewport" perspective if you might want to call it.<br />
+You will notice as you either change the object angle or the coordinate system axis, that the displayed vectorlist changes its display. Using the "add view" button, you add the currently shown viewport "version" of the edited vectorlist to the animation. This might be usefull if you do not want to create a rotation animation with all angles, but rather would like to add specific viewport versions of your vectorlist.<br />
+ <br />
+Note:<br />
+The display panel always uses the given 3d settings. If you just added a view to your animation the new "view" to that vectorlist instantly changes, since the 3d settings are applied to the new vectorlist (the settings are thus applied TWICE in relation to the original vectorlist). To view the "correct" list, you must reset the 3d settings!</p>
+<h2>If I rotate a vectorlist, it is not as smooth as I want it, why?</h2>
+
+<p>The "smoothness" depends in general on two factors:
+<ol><li>
+<p>the count of steps you specified between your start angle and your end angle. If you specified (for example) only 10 steps for a 360degree rotation, that means each frame will differ with 36 degrees, which IS rather "unsmooth" - just chose to use more steps</p>
+</li><li>
+<p>all vector coordinates are integers, if your vectors are rather short (like each coordinate below 20) than the resulting rotation vectors tend to "jump" from one integer point to the next upon one step, which is also rather "unsmooth". In that case you should use a larger scale to draw your vectors, the resulting rotation will be much smoother, since it results in a better differentiation of coordinates.</p>
+</li></ol>
+</p>
+
+<p>Note:<br />
+Beware! That "sensible" coordinates range from -128 to +127!</p>
+<h2>It seems you only allow anti clockwise rotation, darn!</h2>
+
+<p>Well, just you hit the "reverse" button of your animation and have it your way!</p>
+<h2>Reverse is a nice feature for the animation list, but what if I want to reorder the animation manually?</h2>
+
+<p>There are the two "arrow" buttons. Just "clicking" them changes the selection, but SHIFT clicking on them moves the selected animation frame in the animation list! </p>
+<h2>Can I somehow "grab" vectors from other games/cartridges?</h2>
+
+<p>Well - apart from disassembling and using dissi features there are actually two other things you might try:
+<ul><li>
+<p>vector - screenshort<br />
+In dissi you can take a screenshort in form of a (very big) vectorlist. These vectorlists can be loaded in veccy. There you can select/edit/delete/save the vectors you are interested in. <br />
+Note:<br />
+You should set the emulation to "pure emulation", since things as drift or others will offset the vectors and the resulting grabbed lists will not be "nice fitting"<br />
+ <br />
+</p>
+</li><li>
+<p>scan for vectorlists<br />
+in the configuration under "editor" you can enable "scan for vectorlists". This option tells vecxy to actually "watch" known BIOS draw routines for vectorlists. If vecxy thinks it has found a vectorlists it saves it (using the cartridge name as a filename).<br />
+Note:<br />
+This obviously only works if the program you want to "grab" from uses BIOS routines! </p>
+</li></ul>
+</p>
+<h2>I can't export my vectorlist, what have I done wrong? What can I do?</h2>
+
+<p>In general free drawn vectorlists are not immediately exportable, since vectrex allways wishes to have continuous vectorlists. There are several ways to get going:
+<ol><li>
+<p>draw in continuous mode, that way you are insured to have a drawing in "one go"</p>
+</li><li>
+<p>this is not always possible, I realize that, appart from doing continuous drawing by hand, veccy is strong at supporting you to do that later!
+<ul><li>
+<p>pressing the 3 shortcuts: <br />
+<b> "connect where possible"<br />
+"order vectorlist"<br />
+"split where needed"<br />
+</b> in general only does good things, you should use them often!</p>
+</li><li>
+<p>if that was not enough you obviously do not have continuous vectors, than you must insert them. You can do so manually (be sure to also "join" them) or automated, the later is done by using the shortcut <b>"fill gaps"</b>. Usually you want gaps filled with "moves" (invisible vectors), this is what the default does. If you however want to use the "Draw&nbsp;VLx" routines, than moves inherent in a vectorlists are not allowed. Than you can TRY checking the "line" checkbox nearby. This inserts "lines" instead of "moves", but that will probably look bad and you have to go back to the drawing board!</p>
+</li></ul>
+</p>
+</li></ol>
+</p>
+<h2>I don't get it, what are scenarios good for?</h2>
+<h2>Why can't I chose what export I want, why are some grayed out?</h2>
+<h2>What is it with "User" export/import?</h2>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Draw_VL_b ($F3D2)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Draw_VL_b ($F3D2)</p>
+
+<p>This routine draws vectors between the set of (y,x) points
+pointed to by the X register. The vector list has the following
+format:</p>
+
+<blockquote>
+    <p>rel y, rel x, rel y, rel x, ...</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $D0</p>
+    <p>B-reg = the scale factor</p>
+    <p>X-reg points to the vector list</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<blockquote>
+    <p>X-reg points to next byte after list</p>
+    <p>D-reg trashed</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F3D2">Source</a></p>
+</body>
+</html>

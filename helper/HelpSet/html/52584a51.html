@@ -1,0 +1,135 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=52584a51 -->
+<title>YM-Conversion II</title>
+</head>
+<body class="doc">
+<h1>YM-Conversion II</h1>
+
+<p>So much has changed...</p>
+
+<p>I leave the old "document" as it is, since it describes some of the history - and other parts are still relevant and I don't need to repeat/update that.</p>
+
+<p>Under this section I'll put all stuff that come in addition to everything said in "YM-Conversion I". </p>
+
+<p>Obviously, now when YM-files are selected for conversion a new panel pops up. Here I will describe what you can do with that!</p>
+<br/><p align="center">
+<img src="pics/ympanel2.png" width="1026" height="599" /><br/>
+<em>YM-Panel</em></p><br/>
+
+<p>In general the panel is split in different sections (which again can be devided in several clusters).</p>
+<h2>YM-Data</h2>
+<h3>YM-Table</h3>
+
+<p>The right side of the window is mainly occupied by a table. That table keeps all rows of YM-Data which is available at a given time.</p>
+
+<p>The rows in the table can have different colors:
+<ul><li>
+<p>white<br />
+nothing special - just data</p>
+</li><li>
+<p>lavender (sort of color)<br />
+that is the current "active" row, the data of that row is displayed at the top, this data can be edited by the ym-gui, playing ym- data advances this 50 times per second. By double clicking on a row, you can set it. </p>
+</li><li>
+<p>gray<br />
+these are rows that are selected (by dragging the mouse over rows)</p>
+</li></ul>
+</p>
+<h3>YM-Edit</h3>
+
+<p>To the top of the table you see different "Editors" for volume, noise, notes etc. With these controls you can manipulate register entries of the YM-Data. Note:<br />
+With these controls you edit the YM-Data, not the PSG registers!</p>
+
+<p>Below each control you can see (sometimes colored) textfields. The textfields show you the same data as the above controls. You can also edit the values in numerical form via these textfields.</p>
+
+<p>Note:<br />
+A double click on a textfield sends the data to the PSG-emulator of the YM-Panel!</p>
+
+<p>Below the textfields you see a checkbox for each of the registers.  These checkboxes enable/disable the denoted registers, enables/disables means:
+<ul><li>
+<p>the YM-Player recognizes the switches and plays only the channels which are enabled</p>
+</li><li>
+<p>the source code generator of the ym-panel also recognizes the switches and only data (and the player) is generated for the selected registers</p>
+</li></ul>
+</p>
+<h3>Channels</h3>
+
+<p>As you can see the channel specific data words/bytes/bits are colored consistently for each of the three available channels.</p>
+<h3>PSG</h3>
+
+<p>At the bottom of the page you can see the actual registers the PSG emulation for the YM-panel at any given time are set to. These can not directly be edited or altered.</p>
+<h3>Special edit-buttons </h3>
+
+<p>On the top there are a couple of special buttons, here a short description:
+<ul><li>
+<p><img src="pics/add.png" alt="add.png" /> &nbsp;&nbsp;<b>insert new row</b><br />
+ This button inserts a new row (with 0-lled data) <i>befor</i> the current active row</p>
+</li><li>
+<p><img src="pics/page_copy.png" alt="page_copy.png" /> &nbsp;&nbsp;<b>copy selected rows</b><br />
+Put the current selected rows in a YM-Buffer (this is no clipboard buffer, but can be accessed from all YM-panels which are open)</p>
+</li><li>
+<p><img src="pics/paste_plain.png" alt="paste_plain.png" /> &nbsp;&nbsp;<b>paste buffer</b><br />
+Paste the current buffer befor the current active row. The pasted rows are inserted, they do not overwrite existing rows!</p>
+</li><li>
+<p><img src="pics/cut.png" alt="cut.png" /> &nbsp;&nbsp;<b>cut selected rows</b><br />
+ The current selected rows are deleted, but also placed in the buffer</p>
+</li><li>
+<p><img src="pics/page_add.png" alt="page_add.png" /> &nbsp;&nbsp;<b>insert ym file</b><br />
+Insert another YM-file befor the current active row.</p>
+</li><li>
+<p><img src="pics/page_edit.png" alt="page_edit.png" /> &nbsp;&nbsp;<b>save selection as ym file</b><br />
+Save the current selected rows as a YM-file.</p>
+</li></ul>
+</p>
+<h2>YM-Player</h2>
+
+<p>The left side of the window belongs mainly to the YM-Player.</p>
+<h3>Buttons</h3>
+
+<p>At the top row there are several buttons:
+<ul><li>
+<p><img src="pics/control_play_blue.png" alt="control_play_blue.png" /> &nbsp;&nbsp;<b>play current ym-data</b><br />
+The data that is shown to the left is played (and looped)</p>
+</li><li>
+<p><img src="pics/control_stop_blue.png" alt="control_stop_blue.png" /> &nbsp;&nbsp;<b>stop playing</b><br />
+Yeah, really, stop it!</p>
+</li><li>
+<p><img src="pics/control_rewind_blue.png" alt="control_rewind_blue.png" /> &nbsp;&nbsp;<b>rewind</b><br />
+Set current active YM-data row to 0.</p>
+</li><li>
+<p><img src="pics/page_go.png" alt="page_go.png" /> &nbsp;&nbsp;<b>load YM-file</b><br />
+Load a YM-file, all current data is overwritten.</p>
+</li><li>
+<p><img src="pics/page_save.png" alt="page_save.png" /> &nbsp;&nbsp;<b>save YM-file</b><br />
+Save the complete current data to a YM-file.</p>
+</li><li>
+<p><img src="pics/new.png" alt="new.png" /> &nbsp;&nbsp;<b>new YM-file</b><br />
+Deletes all data, creates a new "empty" YM-data table (with ONE row of nulled data)</p>
+</li><li>
+<p>Further<br />
+ you can select (only two settings at the time), if you would like to play back in 50 or 60 Hz.</p>
+</li></ul>
+</p>
+<h3>YM-file data</h3>
+
+<p>Below the player buttons, you can see listed the meta-data that was gathered from the loaded YM-file. Not all YM-versions supply all data fields, so some may be empty.</p>
+<h3>Source-generater</h3>
+
+<p>Below the YM-file information you see a two button and two checkboxes, with those you can influence (or start) the generation of source files. They are pretty self explainatory.</p>
+<h2>AYFX Support</h2>
+
+<p>The last available feature is support for AYFX files (see the other chapter where these may come from). AYFX is a format for sound effects of the PSG-chips. The sound effects are channel independend, and are saved WITHOUT channel information (and can be loaded to any channel - any of the three :-)). The below description goes for all three channels.</p>
+<h3>Save as AYFX</h3>
+
+<p>You can save either one complete channel or the current selected rows of one channel as an AYFX file.</p>
+<h3>Load from AYFX</h3>
+
+<p>You can load AYFX data to the current YM-file. You can select if new rows should be inserted [befor the current active row] (than all other channel data will be set to 0 (null)), or you can select if the data in the current YM-file should overwritten with AYFX data [starting from the current active row]. Data for the selected channel will be overwritten. Mixer settings for that channel only will also be changed (but the other channel data in Reg 7 will be kept unchanged). The noise register (Reg 6) will be changed to the data that is loaded from the AYFX file (there is only one noise register for all 3 channels, so this <i>may</i> make a difference!)</p>
+</body>
+</html>

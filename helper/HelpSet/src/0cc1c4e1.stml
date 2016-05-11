@@ -1,0 +1,18 @@
+:title regi
+:image regi.png|regi window
+
+All registers are displayed.~~
+
+- tooltips will show the translation to decimal and hex.
+- double click on a "address" register will initiate jump to that address in dissi
+- SHIFT double click on a "address" register will initiate jump to that address in dumpi
+- the table under "S" shows the current callstack
+- double click on a callstack address will initiate jump to that address in dissi
+- red registers changed since last regi update
+- regi also display the bank (in [] after pc)
+
+
+Notice:~~
+The callstack is not the contents of the stack!~~
+The callstack only has "subroutine"-return-addresses!
+

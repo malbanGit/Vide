@@ -1,0 +1,225 @@
+; ### Public Domain for all Vecfreaks
+; ### Testing my abilities so far...
+; ### Code & comments by man@sci.fi
+
+; ### Needed BIOS routines
+
+WAITRECAL	equ	$f192
+INTENSITY	equ	$f2ab
+PRINTSTR	equ	$f37a
+
+RESET0REF	equ	$f354
+MOVEPEN		equ	$f2fc
+MOVEDRAW	equ	$f3b7
+
+JOYDIGITAL	equ	$f1f8	; Reads joystick positions
+JOY1XENABLE	equ	$c81f	; Enables joystick 1 X
+JOY1YENABLE	equ	$c820	; Enables joystick 1 Y
+JOY2XENABLE	equ	$c821	; Enables joystick 2 X
+JOY2YENABLE	equ	$c822	; Enables joystick 2 Y
+JOY1X		equ	$c81b	; Joystick 1 left/right
+JOY1Y		equ	$c81c	; Joystick 1 up/down
+READBUTTONS	equ	$f1ba	; Reads joystick buttons
+
+alusx		equ	$c881	; Space ship x position
+alusy		equ	$c882	; Space ship y position
+
+; ### Here we go.
+
+	org	0
+
+; ### The required init block.
+
+	fcb	$67,$20		 
+	fcc	"GCE MANU"
+	fcb	$80		; All text ends with $80
+	fdb	$fd0d		; Play song "$fe38" from ROM
+	fdb	$f850		; Width, height
+	fdb	$30b8		; y-position, x-position
+	fcc	"SPACE SHIP"
+	fcb	$80,$0		; Init block ends with $0
+
+; ### Okay, this sets up the joystick checks, and only
+; ### allows them for joystick 1, thus saving us a few
+; ### hundred cycles. Don't forget to set joystick 2
+; ### to 0, if you don't need it.
+
+	lda	#1		; 1 is the flag to enable
+	sta	JOY1XENABLE	; joystick 1 X
+	lda	#3		; 3 is the flag to enable
+	sta	JOY1YENABLE	; joystick 1 Y
+	lda	#0
+	sta	JOY2XENABLE	; 5 would enable this
+	sta	JOY2YENABLE	; 7 would enable this
+	lda	#-50		; Set the starting y-coordinate
+	sta	alusy		; of the space ship to -50
+
+; #################################
+; ### Here's the actual program ###
+; #################################
+
+tikku	jsr	WAITRECAL	; BIOS recalibration
+
+; ### The space ship
+
+	jsr	RESET0REF	; Beam to the center
+	lda	#127
+	jsr	INTENSITY	; Sets intensity to 127
+	lda	alusy		; Y - coordinate
+	ldb	alusx		; X - coordinate
+	jsr	MOVEPEN
+	ldx	#alus		; Drawing the space ship
+	lda 	#17		; Number of vectors
+	ldb	#128		; Scaling
+	jsr	MOVEDRAW
+
+; ### Let's frame the area
+
+	jsr	RESET0REF	; Beam to the center
+	lda	#30
+	jsr	INTENSITY	; Intesity to 30
+	lda	#0		; Y
+	ldb	#0		; X
+	jsr	MOVEPEN	
+	ldx	#reunat		; Drawing the edges
+	lda 	#8		; Vectors
+	ldb	#128		; Scaling
+	jsr	MOVEDRAW
+
+; #########################
+; ### Reads the buttons ###
+; #########################
+
+butt1	jsr	READBUTTONS	
+	cmpa	#0		; Compares a to 0
+	lbeq	lovejoy		; If it was 0 -> lovejoy
+				; Otherwise
+	bita	#$01		; Tests for button 1
+	lbeq	lovejoy		; If it wasn't button 1
+				; If it was button 1 ->
+
+; ##########################
+; ### Reads the joystick ###
+; ##########################
+
+lovejoy	jsr	JOYDIGITAL	; Reads joystick
+	lda	JOY1X		; Joy 1 X position to A
+	lbeq	noxmove		; If 0 -> jump to noxmove
+	lbmi	lmove		; If negative -> lmove
+
+; ### If something else (positive)		###
+; ### the joystick has been moved right. Right. ###
+; ### Limiting the maximum x-value to 118 	###
+
+rmove	lda	alusx		; Value of alusx to A
+	cmpa	#118		; Compare A to 118
+	lbeq	xiso		; If it is 118 -> xiso
+	inc	alusx		; Increase alusx 
+	bra	xready		; Jump to xready		
+
+xiso	lda	#118		; Load 118 to A
+	sta	alusx		; Store A to alusx
+	bra	xready		; Jump to xready
+
+; ### Joystick has been moved left.	   ###
+; ### Limiting the minimum y-value to -118 ###
+
+lmove 	lda	alusx		; Value of alusx to A
+	cmpa	#-118		; Compare A to -118
+	lbeq	xpieni		; If it is -118 -> xpieni
+	dec	alusx		; Decrease alusx
+	bra	xready		; Jump to xready
+
+xpieni	lda	#-118		; Load -118 to A
+	sta	alusx		; Store A to alusx
+	bra	xready		; Jump to xready
+
+; ### Joystick hasn't been moved left or right.
+
+noxmove	
+
+; ### Done with checking if the joystick
+; ### was moved left or right, now checking
+; ### if it was moved up or down.
+
+xready	lda	JOY1Y		; Joy 1 Y position to A
+	beq	noymove		; If 0 -> jump to noymove
+	bmi	dmove		; If negative -> dmove
+
+; ### If something else (positive)        ###
+; ### the joystick has been moved up.	  ###
+; ### Limiting the maximum y-value to 126 ###
+
+umove	lda	alusy		; Value of alusy to A
+	cmpa	#126		; Compare A to 126
+	lbeq	yiso		; If it is 126 -> yiso
+	inc	alusy		; Increase alusy 
+	bra	yready		; Jump to yready		
+
+yiso	lda	#126		; Load 126 to A
+	sta	alusy		; Store A to alusy
+	bra	yready		; Jump to yready
+
+; ### Joystick has been moved down.	   ###	
+; ### Limiting the minimum y-value to -111 ###
+
+dmove	lda	alusy		; Value of alusy to A
+	cmpa	#-111		; Compare A to -116
+	lbeq	ypieni		; If it is -116 -> ypieni
+	dec	alusy		; Decrease alusy
+	bra	yready		; Jump to yready
+
+ypieni	lda	#-111		; Load -116 to A
+	sta	alusy		; Store A to alusy
+	bra	yready		; Jump to yready
+
+; ### When making the limits (ie. how far)
+; ### the ship can go, you have to count in
+; ### the size of the ship. Best way to do this
+; ### is to try it out. Ships 'hot spot' is 
+; ### where the first vector starts from.
+
+; ### Joystick hasn't been moved up or down.
+	
+noymove	
+
+; ### Done with checking if the joystick has
+; ### been moved up or down - so let's go
+; ### back to the beginning and check all again.
+
+yready	lbra 	tikku		; Repeat 	
+
+; ### You need LBRA, because BRA is too short a jump
+; ### to jump to the beginning all the way from here
+
+; ### Then all the coordinates that are needed
+
+alus	fcb 	0,0		; Tip of the ship
+				; also the 'hot spot'
+	fcb	-3,2
+	fcb	-3,1
+	fcb	-2,0
+	fcb	-3,1
+	fcb	0,2
+	fcb	-3,2
+	fcb	0,-3
+	fcb	2,-2
+	fcb	0,-6
+	fcb	-2,-2
+	fcb	0,-3
+	fcb	3,2
+	fcb	0,2
+	fcb	3,1
+	fcb	2,0
+	fcb	3,1
+	fcb	3,2
+
+reunat	fcb	126,-126
+	fcb	0,126
+	fcb	0,126
+	fcb	-126,0
+	fcb	-126,0
+	fcb	0,-126
+	fcb	0,-126
+	fcb	126,0
+	fcb	126,0

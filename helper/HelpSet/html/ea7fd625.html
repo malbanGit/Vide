@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=ea7fd625 -->
+<title>FAQ development</title>
+</head>
+<body class="doc">
+<h1>FAQ development</h1>
+<h2>I am new to vectrex development, what can do I do to get started?</h2>
+
+<ul><li>
+<p>hm, difficult, where to start?</p>
+</li><li>
+<p>There are two good starters you should read:
+<ul><li>
+<p>the introduction texts of the two "Chris"s <br />
+&nbsp;&nbsp;1) go to menu: Library&rarr;Programming&rarr;Tutorial Christopher Tumber <br />
+&nbsp;&nbsp;2) go to menu: Library&rarr;Programming&rarr;Tutorial Malban</p>
+</li><li>
+<p>The first emphasises assembler for starters</p>
+</li><li>
+<p>The second emphasises vectrex/vectrex BIOS for starters</p>
+</li></ul>
+</p>
+</li><li>
+<p>in relation to VIDE open a Vedi panel (menu: Tools&rarr;vide)</p>
+</li><li>
+<p>create a new project (button NEW&rarr; new Project)</p>
+</li><li>
+<p>give your trial project a name, and check create game loop</p>
+</li><li>
+<p>now you have your first "hello world" program, with the two reads from above you should start to experiment</p>
+</li></ul>
+<h2>I have an asm-file - how do I assemble that?</h2>
+
+<p>Again there are (at least) two options, for both - open vedi and:
+<ul><li>
+<p>First: 
+<ul><li>
+<p>Create a project without checking "create game" loop</p>
+</li><li>
+<p>right click the root of the project and select add file, select the asm file you want, it will be copied to the project directory</p>
+</li><li>
+<p>right click on the file and select "set as main"</p>
+</li><li>
+<p>now click the build button</p>
+</li></ul>
+</p>
+</li><li>
+<p>Second:
+<ul><li>
+<p>click on the Open File button, select the source you have. It will open in a new editor</p>
+</li><li>
+<p>click the assemble/run button</p>
+</li></ul>
+</p>
+</li></ul>
+</p>
+<h2>My sources are spread over several files, how do I assemble them?</h2>
+
+<p>Look at the answer to the last question, both work.
+<ul><li>
+<p>build a project and select add all files, set the "main" as main</p>
+</li><li>
+<p>all the other files are included by the assembler </p>
+</li></ul>
+</p>
+
+<p>If the files represent different banks for bankswitching, create a new project according to your bankswitching scheme. Set to each bank the according file as main (this can only be done from the project properties panel)</p>
+<h2>I love my old assembler I don't want to use assi, what can I do?</h2>
+
+<p>Easy answer, well than don't - umpf! (so much work wasted....)<br />
+<br />
+Not so easy answer...<br />
+You don't have to, but building and error editing in vedi won't be as comfortable.<br />
+ <br />
+</p>
+
+<p>Each file can have it's own properties. Even your main ASM file. Create a property file for your main ASM file(s):
+<ul><li>
+<p>right click in the tree on that file and select "Properties"</p>
+</li><li>
+<p>check the "no internal processing" button (with that you switch assi for that file off)</p>
+</li><li>
+<p>to still assemble the file with the "build" button, you can/should configure a script for pre build commands</p>
+</li><li>
+<p>an example is provided for a MS Windows calling of AS09 to configure/view it:
+<ul><li>
+<p>press configure script</p>
+</li><li>
+<p>select the class "Utility"</p>
+</li><li>
+<p>select name: "execute Win command"</p>
+</li><li>
+<p>than the script sources are displayed, the script as it is shovels the current file to as09 (which is expected to be in the same directory, if you have some "central" position, edit the script)</p>
+</li><li>
+<p>output is done to Vedi-Messages, but you can not jump to errors with double clicks etc...</p>
+</li></ul>
+</p>
+</li></ul>
+</p>
+<h2>How can I insert vectorlists into vedi?</h2>
+
+<p>There are actually two easy ways:
+<ul><li>
+<p>generate the data in veccy, all data is after generation available in the system clipboard, so you after generation you can PASTE the data</p>
+</li><li>
+<p>in vedi go to the place you want to insert the data, right click with the mouse in the editor and select "insert veftorlist". A filechoser appears where you can chose any saved vectorlist. If it is exportable you can chose the exportmethod and the generated code is inserted to the selected position in vedi.</p>
+</li></ul>
+</p>
+</body>
+</html>

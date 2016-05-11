@@ -1,0 +1,66 @@
+:title FAQ general
+
+
+:h2 What java version do you need to start/use VIDE?
+I do all development with the - at the time - newest java version. I was told, that you need at least Java 1.8.~~ An exception:~~
+//Exception in thread "main" java.lang.UnsupportedClassVersionError: de/malban/VideMain : Unsupported major.minor version 52.0~~
+at java.lang.ClassLoader.defineClass1(Native Method)~~
+...~~//
+will occur if your java version is to old.
+
+:h2 How do I enter new cartridges to the Starter?
+- Open the cartridge panel (menu: File->Extra->EditCartridgeInfo)
+- press new
+- enter at least a "name", a "cart name" and either a "bin" file or a Binary Link, all other fields are more or less optional.
+
+:h2 Vide behaves strange, are there any bugs?
+Well... yes probably.~~
+Most bugs that I know of are history. New bugs should be reported to Malban.
+There are some things you can do to discover bugs and get information:
+- run from command prompt may show output to the command line
+- in the menu: File->Extra->Application Configuration~~
+you can set the debug level (3, pretty high) is as of now default.
+- in the menu: Window->Debug Window you can show a "Debug-Log" window, here some additional information may be displayed.
+
+:h2 I used rightclick on a file in the vide - tree and accidently deleted a file. What can I do?
+Nothing, the file was deleted.
+
+:h2 Closing project/file/vide does not save or ask for save, why is that?
+Because I programmed it that way, you should know what you do!
+
+
+:h2 I just want to play some games, why is dissi always starting?
+Because the program is called vide and not gami!
+
+:h2 Is there a fullscreen mode, with just vecxy?
+Nope, this is only 10 lines of code, but the program is called vide, not gami!
+
+:h2 Why don't you use OpenGL and some shaders, the results would be much prettier, look at paraJVE?
+Because Vide is an developement environment, not a game center!~~
+Also...  Vide is pure java.
+
+:h2 There are more vectrex programs available, why aren't they in the starter listing?
+Most homebrewlers are pretty strict with their creations. No homebrew program is bundled with vide (apart from the sources in the codi area).
+If vide is able to download the programs, than I have added them. If they are behind some internet walls, they are not included.
+
+:h2 Why does vide need an internet connection to start some programs?
+See last answer.
+
+:h2 Can I get the source code to VIDE?
+Yup, the source comes along with it.
+
+
+:h2 What kind of copyright/licencing does the source have?
+VIDE consists of different parts, which are programs collected from different sources.
+The old copyright still apply. I only used sources which are freely available, but that does NOT mean they are public domain.
+With all sources I included copyright notices and license files (if available) - look at the respective places in the code.
+Code done by me (Malban) is open source und licence of GPL V2.0.
+
+:h2 The source is huge, at least compared to the "compactness" of vecx, any tips?
+I use Netbeans version 8.x. All development was done with Netbeans, so that is what I recomend as IDE.
+Add the libraries in the "lib" (jars) folder, and you should be able to build.
+I use quite a lot of sourcecode from my other projects, for that reason there are probably many sources in the archive not really NEEDED for VIDE, nonethelss they are there.
+The "Main" program can be found under: de.malban.VideMain, this mainly just instantiates a "CSAMainFrame", which is the main desktop application, from here all events are triggered.
+All things directly "vide"-related can be found under: de.malban.vide.*
+
+

@@ -1,0 +1,77 @@
+Spike
+-----
+
+Controls
+--------
+Joystick: Moves Spike backwards and forwards along the moving catwalks, and 
+          helps him climb up and down ladders.
+Button 1: Ladder/Cage- Changes the position of the ladder (and the cage on the 
+          top level) and selects a game for one or two players.
+Button 2: Kick left
+Button 3: Kick right
+Button 4: Jump- Allows Spike to jump over hazards.  Used with joystick.
+
+Game play
+---------
+   Our lovely and innocent heroine, Molly, has been kidnapped by the evil Spud!
+You will hear her cry, "Eek! Help, Spike!" as he drags her away. Only Spike can
+save her from this awful fate.  As soon as Spike kicks open the door to the
+villain Spud's hideaway shouting "Oh, no! Molly!", the game field appears. 
+Spike enters on the bottom catwalk... and then YOU have control of him!
+   There are three catwalks connected by a moveable ladder.  Above the top
+catwalk, Molly has been imprisoned inside a cell.  To help Spike rescue her,
+you must manoeuvre him to the top catwalk with the help of the ladder.  Move
+him to the left or right and also make him climb the ladder with the joystick. 
+If you want to make him jump a gap in the catwalks, press button 4 at the same
+time as you move the joystick.  Press button 1 to move the ladder around and
+help Spike get to Molly's rescue faster!
+   You will also have to retrieve the key to unlock Molly's cell.  It will
+appear in different places, so keep a sharp watch out!
+
+Bouncers and Birds
+------------------
+   After your first round, you will face Spud's evil bouncers -- Spike's worst
+enemies!  They'll do ANYTHING to keep Spike away from Molly's secret prison
+cell!
+   On the third and subsequent rounds, Birds join the Bouncers in their attack
+on Spike.  Help Spike avoid them both -- and earn extra points -- by kicking
+with buttons 2 and 3.  However, he cannot kick when he is on a ladder.
+
+Rescuing Molly
+--------------
+   When Spike has retrieved the key to Molly's cell and reached the top level,
+help him free his true love by positioning him under the cage and jumping to
+rescue her!  If Spike is defeated, he will have to start again from the bottom
+catwalk.  Spike will be defeated if he falls from a catwalk with no other
+catwalks underneath, if he collides with side of the screen, or if he touches a
+Bird or Bouncer.  Every time he is defeated you will hear him exclaim, "Darn
+It!".
+   Also, after the first round, Molly's bow will fall from her cell.  If Spike
+catches it, all his opponents will freeze for a short time, allowing him to
+advance more safely towards her cell.
+
+More Difficult Levels
+---------------------
+   After the first three levels of game play, Spud's creatures begin to move
+faster with each level.  When you have earned between 12,000 and 15,000 points,
+or after six rounds of play, the catwalks will change direction each time Spike
+destroys a Bouncer or Bird with his powerful kick.  Game play continues in the
+one-player game until Spike has suffered four defeats (more if you earn extra
+lives as you play).  Game play continues in the two-player game until both
+players have suffered all their allowed defeats... the highest score determines
+the winner!
+
+Scoring
+-------
+   Action                              Points
+--------------------------------------------------
+Kicking a Bouncer                      100
+Kicking a Bird                         200
+Getting a cell key                     500
+Opening Molly's cell                  2000
+
+Earn one bonus life (an extra allowed defeat) for every 10,000 points.
+
+
+z_morganrw@ccsvax.sfasu.edu
+

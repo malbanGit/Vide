@@ -1,0 +1,41 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Draw_Line_d ($F3DF)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Draw_Line_d ($F3DF)</p>
+
+<p>This routine will draw a line from the current pen position,
+to the point specified by the (y,x) pair specified in the D
+register. The current scale factor is used. Before calling this
+routine, $C823 should be = 0, so that only the one vector will be
+drawn. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $D0</p>
+    <p>A-reg = relative y position</p>
+    <p>B-reg = relative x position</p>
+    <p>&nbsp;</p>
+</blockquote>
+
+<p>EXIT:</p>
+
+<blockquote>
+    <p>X-reg is incremented by 2</p>
+    <p>D-reg trashed</p>
+    <p>&nbsp;</p>
+</blockquote>
+
+<p><a href="bios.htm#F3DF">Source</a></p>
+</body>
+</html>

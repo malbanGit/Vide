@@ -1,0 +1,57 @@
+
+Damned if I can remember but I know there was something
+which made me have to switch to MESS. I think the problem
+worked itself out as it seems to play OK on DVE now.
+
+Here's the public 64K Vectopia, but I've got to
+dig around for the Vecmania copy.
+
+The bank switching is terribly simple. The 6522
+manual and a real Vectrex are not playing ball
+in the same park though.
+
+To sum it up, the high line is on pin 35 (PB6). When
+you turn a Vectrex on, it's automatically high. Both
+high & low banks hold the same loader code.
+
+Here's the bank switch code:
+
+Without notes in front of me, I don't even
+remember what it's doing, but PB6 does not
+actually toggle H/L the way the 6522 manual
+says to do ! If you follow the manual to
+set it high, it will send a single high
+pulse then revert to low.
+
+This took some experimenting to come up with this ...
+
+LOWBNK  JSR     DPTOD0          ;SET THE LOW BANK !!!
+        LDA     #223
+        LDB     #$FF
+        STD     $D002
+        LDD     #$0100
+        STD     $D000
+        LDD     #$987F
+        STA     $D00B
+        STB     $D004
+        JSR     RES0RF
+        RTS
+
+HIGHBNK JSR     DPTOD0          ;SET THE HIGH BANK !!!
+        LDA     #$9F
+        LDB     #$FF
+        STD     $D002
+        LDD     #$4100
+        STD     $D000
+        LDD     #$987F
+        STA     $D00B
+        STB     $D004
+        JSR     RES0RF
+        RTS
+-- 
+
+Please note the new E-Mail addresses !
+pcjohn@classicgamecreations.com (Main Address)
+classicgamecreations@yahoo.com (Backup Address)
+www.classicgamecreations.com
+"New games for classic systems"   

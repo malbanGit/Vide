@@ -1,0 +1,45 @@
+:title Samples
+
+:image sample1.png|Sample editor
+
+Using the popup on the tree of files in a project you can access the sample editor.
+
+What you see is a gui to handle samples, handle means:
+- you are able to record samples on the fly (one can e.g. just talk to it (using a micro) after pressing the "record button")
+- you can also load (wav) sample files
+- you can "cut" selections of samples
+- you can play samples
+- you can "normalize" samples (no range compression though)
+- you can convert given samples to vectrex format (8 bit signed, one channel pcm)
+- you can set a desired sample rate
+
+For one reason or another, the tooltips can not be displayed on modal windows in Vide, for that reason some more information about the gui:
+- ##control_record_blue.png##~~start recording your samples (easiest with a microphone, select the audio device via the combobox besides the microphone icon)
+For recording you can also chose in what "setting" you want to record, above the microphone you can see whether your selection of settings is accepted: 
++ ##help.png## = unkown
++ ##accept.png## = ok
++ ##cancel.png## = noz ok
+- ##control_play_blue.png##~~play a loaded or recorded sample
+- ##control_stop_blue.png##~~stop recording, or stop playing a sample
+- ##cut.png##~~cut the selected area in from the sample (no undo)
+- ##control_equalizer_blue.png##~~do the above mentioned "normalization", selecting a number of bits "cuts" these numbers of bits from the top, and moves all samples "up" (it gets all louder) (no undo)
+- samples can only be loaded from "wav"- files (hm - never tried anything else though...)
+
+Some general information:~~
+
+a) Internally all samples are kept in the format: 
++ 44100 khz 
++ 2 channel 
++ 16 bit 
++ signed 
++ little endian 
+
+a). this is what you see in the sample display window (left channel) 
+b) Recording is done with the settings you enter to the right (and is than converted to above format)
+c) (the original) samples can be saved, save format is "wav", saving is done in the above format, since in this format all information is kept (internally) anyway.
+d) (the vectrex) samples can be saved, save format is "wav", saving is done in the format chosen (only sample rate can be chosen, the rest is always set).
+e) you can save the vectrex samples as "raw" data, the raw data uses 8 bit signed data (this is what vectrex wants)
+
+The generated "play" routines use sampled data "backwards", therefor you can select to reverse the order of the data statements generated.
+
+The data is output in data-statements, the format of the data is described in the (generated) source. With the sourcecode some example code is also generated.

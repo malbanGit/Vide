@@ -1,0 +1,57 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Rot_VL</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Rot_VL ($F616) </p>
+
+<p>Rot_VL_ab ($F610) </p>
+
+<p>This routine rotates a vector list of length 'n+1', where 'n'
+is specified by the value in the B register. The A register
+contains the rotation value, and the X contains a pointer to the
+vector list. The U register contains a pointer to a buffer into
+which the transformed points are to be saved. The vector list has
+the following format: </p>
+
+<p>rel y, rel x, rel y, rel x, ...</p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>A-reg = rotation angle value (Rot_VL_ab only)</p>
+
+<p>$C836 = rotation angle value (Rot_VL only)</p>
+
+<p>B-reg = number of points - 1 (Rot_VL_ab only)</p>
+
+<p>$C823 = number of points - 1 (Rot_VL only)</p>
+
+<p>X-reg points to original vector list</p>
+
+<p>U-reg points to rotated vector list</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<p>DP = $C8</p>
+
+<p>X-reg points to next byte after list</p>
+
+<p>U-reg points to next byte after rotated list</p>
+
+<p>D-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F610">Source</a></p>
+</body>
+</html>

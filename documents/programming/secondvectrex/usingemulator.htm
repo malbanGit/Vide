@@ -1,0 +1,106 @@
+<html>
+
+<head>
+<title>Using the emulator to program vectrex</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Using the emulator to program vectrex
+programs</strong></font></p>
+
+<p>In general, the vectrex emulator does it's job fairly well.
+BUT you can't rely entirely on it. Most of the time if you do
+things like you are supposed to, you'll be alright. If you use
+the BIOS routines you won't get into any trouble (unless you
+really ask for it). For one BIOS trouble maker, look at the
+dot-plotting section, and why to insert a delay loop.</p>
+
+<p>What the emulator can not cope with: </p>
+
+<blockquote>
+    <p>- time critical programming of VIA registers, vector
+    hardware (this probably only applies to hardcore optimized
+    vector routines) (might try recompiling the emulator, with
+    different analogous section enabled, this gives you &lt;some&gt;
+    more accuracy) (But :-) the right things will always be
+    right on the emulator too)<br>
+    <br>
+    - e-function style integrator stuff, watchable with a real
+    vectrex mainly by switching the ~BLANK to enable while
+    zeroing<br>
+    <br>
+    - 3D imager programming, if done in no time critical way,
+    using the timing parameters for a known 3d game (Narrow
+    Escape preferably), should be ok, on the other side, perhaps
+    not, I have no iImager, so I can't test it very well...<br>
+    <br>
+    - using different VIA Shift register settings than 4, which
+    is now the only used one<br>
+    <br>
+    - Integrator offset stuff implemented, but never tested,
+    probably not 100% correct<br>
+    <br>
+    - fixed vector wobbling if not drawn in a 30,000 cycle update
+    round <br>
+    - flicker not corresponding to vectrex update frequency
+    (might change DVE update frequency though)<br>
+    <br>
+    - analogous hardware failures/differences because of age (not
+    all anyway) <br>
+    <br>
+    - some parts of vectrex test program are not correctly
+    handled<br>
+    <br>
+    - weird stuff I can't think of now<br>
+    <br>
+    </p>
+</blockquote>
+
+<p>This sounds as if the emulator is of no use. WRONG.<br>
+As I said, the emulator is quite good. It runs by now every
+available commercial and non commercial program nearly perfectly,
+this includes <em><strong>weird</strong></em> ones, like lightpen
+using ArtMaster (with RAM expansion), Pole Position (which
+changes DAC values while drawing a vector), Spike (digital
+sound), Clean Sweep (different vector drawing routines)... </p>
+
+<p>Vectrex Frogger was programmed using the emulator till I got
+my vectrex hooked up. There was only one stupid mistake I (not
+the emulator) made. It caused a small offset of all vectors, that
+was all. Well one other thing, the wobble effect, when not
+updated in a 30,000 cycle round. But in many respects the
+emulator can be of invaluable help. Cycle counting, there is a
+function in the monitor, that calculates the cycles per update
+round (when using Wait_Recal function), with it you can test the
+speed of your program, it should be under all circumstances under
+30,000 in order to have a solid image. You have a debugger, can
+set breakpoints, watch all registers, change values of registers
+and ROM/RAM locations online. Set watch points for memory
+locations and and and.</p>
+
+<p>If you use the assembler I use, you can create automatically
+control files for use with DVE. This enables you to use all
+variables, function names, and constants while in the DVE
+monitor! Just write something like: </p>
+
+<blockquote>
+    <p>WATCH frog_x</p>
+</blockquote>
+
+<p>And a window will pop up, which will always show the RAM
+location frog_x, which might be something like $c8f5 (or
+whatever???). </p>
+
+<p>IMHO, the vectrex emulator is not perfect, nor will it ever be
+perfect, since there are many analogous parts that cannot be
+(easily) emulated, but it is of great use for programming
+vectrex. </p>
+
+<p align="center"><a href="optimization.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

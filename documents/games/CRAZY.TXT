@@ -1,0 +1,61 @@
+3-D Crazy Coaster 
+-----------------
+   Climb aboard the Crazy Coaster and get ready for a roller coaster ride
+more dangerous and exciting than any you've experienced before!  The magic of
+Vectrex 3-D makes your ride so real...you'll feel yourself leaning with the
+G-force!
+   You control the movements of the passenger in the lead car as he
+plummets down the spectacularly steep hills and careens around the
+gravity-defying curves of the Crazy Coaster.  Will you be able to keep his
+arms raised throughout the ride without sending him flying off into space?!
+
+3-D Crazy Coaster Controls
+--------------------------
+   Joystick:  Push forward to make the coaster go faster, backward to make it
+              go slower.  Push to left or right to lean passenger in left or
+              right direction.
+   Button 1:  Unused.
+   Button 2:  DUCK.  Causes passenger to duck his head (and lower arms if
+              raised) to avoid low-flying birds and other objects.
+   Button 3:  RAISE ARMS.  Causes passenger to raise his arms and earn bonus
+              points.
+   Button 4:  GRAB.  Causes passenger to grab restrainer bar.
+
+Game Play
+---------
+   Your goal in 3-D Crazy Coaster is to ride a wild roller coaster as fast
+and as far as possible.  There are steep hills, right turns, left turns, and
+even low-flying birds!  The faster you go, the more dangerous it will
+be...but you'll score more points too.
+   When speeding around curves, push the joystick left and right to make
+your passenger lean in the correct direction.  If he leans too much, the
+coaster will slow down and lose precious time.  If he doesn't lean at all, he
+could fly right out of the coaster!  For added danger and excitement, use
+Button 3 to raise your passenger's arms and score bonus points!  But be
+careful...with arms raised your passenger will be TWICE as likely to fly out
+of the coaster.  Use Button 4 to grab the restrainer bar just in time before
+the coaster makes a sharp turn or reaches a hilltop.  Whenever birds fly at
+you, press Button 2 to duck.  Otherwise, you will be knocked out of the car.
+Also duck when ice cream cones and other objects come at you; if they hit
+you, you will lose your vision for awhile.
+
+(Note: If your arms are already raised, they will automatically be lowered
+ when you duck)
+
+Number of Passengers
+--------------------
+   In each game you have four passengers.  If a passenger flies out of the
+coaster or gets knocked out by the birds, you will lose the time it takes for
+another passenger to appear, and the game will continue at the point where
+the previous passenger was lost.  The game will end when all four passengers
+have been lost.
+
+Scoring
+-------
+   Your score is based on how FAST your coaster travels as well as the
+total DISTANCE it travels with the four passengers.  The faster the average
+speed and the further the coaster goes, the higher your score.  Your speed
+points will be doubles while your arms are raised.
+
+
+

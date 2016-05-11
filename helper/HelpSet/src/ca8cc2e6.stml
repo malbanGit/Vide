@@ -1,0 +1,25 @@
+:title AYFX-Conversion
+
+Perhaps in a far, far away future I will do a FX generator/editor or at least a register editor for the AY-soundchip. Until that time this feature might help you doing sound effects.
+
+There is a (discontinued - but runable on emulators) windows program called:~~
+**AY Sound FX Editor**~~
+
+~~
+Which can be found at: [[https://shiru.untergrund.net/software.shtml]]~~
+
+With that editor you can save files in a "*.afx" format. These files contain AY register values in a slightly compressed format.  These register storages are meant to contain sound effects.
+
+With the software come about 200 different sound effects which you can use "out of the box" - or edit them yourself.
+The program looks like:
+:image ayfx.png|AYFX
+
+The copyright status of the program is unkown, there is no hint whatsoever regarding copyright. The programer seems to be known as "Shiru". Thanks for your software!
+
+Right clicking on such a file allows you to "convert" it to vectrex usage (including sample code).
+The vectrex "player"-code was done by a proboard member which goes by the name "Vectrexrc"... Thanks!
+
+Nothing more - nothing less...
+
+
+

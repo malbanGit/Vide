@@ -1,0 +1,6 @@
+;***************************************************************************
+; code Gen init template
+                    LDA      #$D0 
+                    TFR      A,DP 
+                    direct   $D0 
+                    CLR      VIA_shift_reg                ; ensure no trash in shift 

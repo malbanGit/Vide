@@ -1,0 +1,1090 @@
++======================================================+
+|  Introduction to the losslessy compression schemes   |
+|   Description of the source files and the methods    |
++------------------------------------------------------+
+| From David Bourgin (E-mail: dbourgin@ufrima.imag.fr) |
+| Date: 12/10/95                          VERSION: 1.5 |
++======================================================+
+
+			  ------ BE CARE ------
+This file must be given in a package containing the following files into two
+directories:
+* French files in codecs.dir/francais directory:
+lisezmoi,compress.txt,codrle1.c,codrle2.c,codrle3.c,codrle4.c,codhuff.c,codlzw.c,
+dcodrle1.c,dcodrle2.c,dcodrle3.c,dcodrle4.c,dcodhuff.c,dcodlzw.c
+* English files in codecs.dir/english directory:
+readme,compress.txt,codrle1.c,codrle2.c,codrle3.c,codrle4.c,codhuff.c,codlzw.c,
+dcodrle1.c,dcodrle2.c,dcodrle3.c,dcodrle4.c,dcodhuff.c,dcodlzw.c
+
+Please read the file 'readme' to get more infos about copyrights and the
+contents of the files.
+			  ---------------------
+
+There are several means to compress data. Here, we are only going to deal with
+the losslessy schemes. These schemes are also called non-destructive because
+you always recover the initial data you had, and this, as soon as you need them.
+With losslessy schemes, you won't never lose any informations (except perhaps
+when you store or transmit your data but this is another problem...).
+
+In this introduction, we are going to see:
+- The RLE scheme (with different possible algorithms)
+- The Huffman schemes (dynamical scheme)
+- And the LZW scheme
+
+For the novice, a compresser is a program able to read several data (e.g. bytes)
+in input and to write several data in output. The data you obtain from the
+output (also called compressed data) will - of course - take less space than
+the the input data. This is true in most of cases, if the compresser works
+and if the type of the data is correct to be compressed with the given scheme.
+The codec (coder-decoder) enables you to save space on your hard disk and/or
+to save the communication costs because you always store/transmit the compressed
+data. You'll use the decompresser as soon as you need to recover your initial
+useful data. Note that the compressed data are useless if you have not
+the decoder...
+
+You are doubtless asking "How can I reduce the data size without losing some
+informations?". It's easy to answer to this question. I'll only take an example.
+I'm sure you have heard about the morse. This system established in the 19th
+century use a scheme very close to the huffman one. In the morse you encode
+the letters to transmit with two kinds of signs. If you encode these two sign
+possibilities in one bit, the symbol 'e' is transmitted in a single bit and
+the symbols 'y' and 'z' need four bits. Look at the symbols in the text you are
+reading, you'll fast understand the compression ratio...
+
+From there I explain into two parts:
+- How to change the source codes
+- What are RLE1, RLE2, RLE3, Huffman, and LZW encoding/decoding
+
+********** FIRST PART: Source modifications you can do **********
+
+Important: The source codes associated to the algorithms I present are
+completely adaptative on what you need to compress. They all use basical
+macros on the top of the file. Usually the macros to change are:
+
+- beginning_of_data
+- end_of_data
+- read_byte
+- read_block
+- write_byte
+- write_block
+
+These allow the programmer to modify only a little part of the header
+of the source codes in order to compress as well memory as files.
+
+beginning_of_data(): Macro used to set the program so that the next read_byte()
+call will read the first byte to compress.
+end_of_data(): Returns a boolean to know whether there is no more bytes to read
+from the input stream. Return 0 if there is no more byte to compress, another
+non-zero value otherwise.
+read_byte(): Returns a byte read from the input stream if available.
+write_byte(x): Writes the byte 'x' to the output stream.
+read_block(...) and write_block(...): Same use as read_byte and write_byte(x)
+but these macros work on blocks of bytes and not only on a single byte.
+
+If you want to compress *from* the memory, before entering in a xxxcoding
+procedure ('xxx' is the actual extension to replace with a given codec), you
+have to add a pointer set up to the beginning of the zone to compress. Note
+that the following pointer 'source_memory_base' is not to add, it is just given
+here to specify a name to the address of the memory zone you are going to
+encode or decode. That is the same about source_memory_end which can be either
+a pointer to create or an existing pointer.
+
+unsigned char *source_memory_base, /* Base of the source memory */
+	      *source_memory_end,  /* Last address to read.
+source_memory_end=source_memory_base+source_zone_length-1 */
+	      *source_ptr;         /* Used in the xxxcoding procedure */
+void pre_start()
+{ source_ptr=source_memory_base;
+  xxxcoding();
+}
+
+end_of_data() and read_byte() are also to modify to compress *from* memory:
+
+#define end_of_data()  (source_ptr>source_memory_end)
+#define read_byte()  (*(source_ptr++))
+
+If you want to compress *to* memory, before entering in a xxxcoding procedure
+('xxx' is the actual extension to replace with a given codec), you have to add
+a pointer. Note that the pointer 'dest_memory_base' is not to add, it is just
+given there to specify the address of the destination memory zone you are
+going to encode or decode.
+
+unsigned char *dest_memory_base, /* Base of the destination memory */
+	      *dest_ptr;         /* Used in the xxxcoding procedure */
+void pre_start()
+{ dest_ptr=dest_memory_base;
+  xxxcoding();
+}
+
+Of course, you can combine both from and to memory in the pre_start() procedure.
+The files dest_file and source_file handled in the main() function are
+to remove...
+
+void pre_start()
+{ source_ptr=source_memory_base;
+  dest_ptr=dest_memory_base;
+  xxxcoding();
+}
+
+In fact, to write to memory, the problem is in the write_byte(x) procedure.
+This problem exists because your destination zone can either be a static
+zone or a dynamically allocated zone. In the two cases, you have to check
+if there is no overflow, especially if the coder is not efficient and must
+produce more bytes than you reserved in memory.
+
+In the first case, with a *static* zone, write_byte(x) macro should look like
+that:
+
+unsigned long int dest_zone_length,
+		  current_size;
+
+#define write_byte(x)  { if (current_size==dest_zone_length) \
+			    exit(1); \
+			 dest_ptr[current_size++]=(unsigned char)(x); \
+		       }
+
+In the static version, the pre_start() procedure is to modify as following:
+
+void pre_start()
+{ source_ptr=source_memory_base;
+  dest_ptr=dest_memory_base;
+  dest_zone_length=...; /* Set up to the actual destination zone length */
+  current_size=0; /* Number of written bytes */
+  xxxcoding();
+}
+Otherwise, dest_ptr is a zone created by the malloc instruction and you can try
+to resize the allocated zone with the realloc instruction. Note that I increment
+the zone one kilo-bytes by one kylo-bytes. You have to add two other variables:
+
+unsigned long int dest_zone_length,
+		  current_size;
+
+#define write_byte(x)  { if (current_size==dest_zone_length) \
+			    { dest_zone_length += 1024; \
+			      if ((dest_ptr=(unsigned char *)realloc(dest_ptr,dest_zone_length*sizeof(unsigned char)))==NULL) \
+				 exit(1); /* You can't compress in memory \
+					       => I exit but *you* can make a routine to swap on disk */ \
+			    } \
+			 dest_ptr[current_size++]=(unsigned char)(x); \
+		       }
+
+With the dynamically allocated version, change the pre_start() routine as following:
+
+void pre_start()
+{ source_ptr=source_memory_base;
+  dest_ptr=dest_memory_base;
+  dest_zone_length=1024;
+  if ((dest_ptr=(unsigned char *)malloc(dest_zone_length*sizeof(unsigned char)))==NULL)
+     exit(1); /* You need at least 1 kb in the dynamical memory ! */
+  current_size=0; /* Number of written bytes */
+  xxxcoding();
+  /* Handle the bytes in dest_ptr but don't forget to free these bytes with:
+     free(dest_ptr);
+  */
+}
+
+The previously given macros work as:
+
+void demo()       /* The file opening, closing and variables
+		     must be set up by the calling procedure */
+{ unsigned char byte;
+		  /* And not 'char byte' (!) */
+  while (!end_of_data())
+	{ byte=read_byte();
+	  printf("Byte read=%c\n",byte);
+	}
+}
+
+You must not change the rest of the program unless you're really sure and
+really need to do it!
+
+********** SECOND PART: Encoding/Decoding explainations **********
+
++==========================================================+
+|                     The RLE encoding                     |
++==========================================================+
+
+RLE is an acronym that stands for Run Length Encoding. You may encounter it
+as an other acronym: RLC, Run Length Coding.
+
+The idea in this scheme is to recode your data with regard to the repetition
+frames. A frame is one or more bytes that occurr one or several times.
+
+There are several means to encode occurrences. So, you'll have several codecs.
+For example, you may have a sequence such as:
+0,0,0,0,0,0,255,255,255,2,3,4,2,3,4,5,8,11
+
+Some codecs will only deal with the repetitions of '0' and '255' but some other
+will deal with the repetitions of '0', '255', and '2,3,4'.
+
+You have to keep in your mind something important based on this example. A codec
+won't work on all the data you will try to compress. So, in case of non
+existence of sequence repetitions, the codecs based on RLE schemes must not
+display a message to say: "Bye bye". Actually, they will try to encode these
+non repeted data with a value that says "Sorry, I only make a copy of the inital
+input". Of course, a copy of the input data with an header in front of this copy
+will make a biggest output data but if you consider the whole data to compress,
+the encoding of repeated frames will take less space than the encoding
+of non-repeated frames.
+
+All of the algorithms with the name of RLE have the following look with three
+or four values:
+- Value saying if there's a repetition
+- Value saying how many repetitions (or non repetition)
+- Value of the length of the frame (useless if you just encode frame
+with one byte as maximum length)
+- Value of the frame to repeat (or not)
+
+I gave four algorithms to explain what I say.
+
+*** First RLE scheme ***
+
+The first scheme is the simpliest I know, and looks like the one used in MAC
+system (MacPackBit) and some image file formats such as Targa, PCX, TIFF, ...
+
+Here, all compressed blocks begin with a byte, named header, which description
+is:
+
+Bits   7 6 5 4 3 2 1 0
+Header X X X X X X X X
+
+Bits 7: Compression status (1=Compression applied)
+     0 to 6: Number of bytes to handle
+
+So, if the bit 7 is set up to 0, the 0 to 6 bits give the number of bytes
+that follow (minus 1, to gain more over compress) and that were not compressed
+(native bytes). If the bit 7 is set up to 1, the same 0 to 6 bits give
+the number of repetition (minus 2) of the following byte.
+
+As you see, this method only handle frame with one byte.
+
+Additional note: You have 'minus 1' for non-repeated frames because you must
+have at least one byte to compress and 'minus 2' for repeated frames because the
+repetition must be 2, at least.
+
+Compression scheme:
+
+	      First byte=Next
+		    /\
+		   /  \
+Count the byte         Count the occurrence of NON identical
+occurrences            bytes (maximum 128 times)
+(maximum 129 times)    and store them in an array
+	|                        |
+	|                        |
+  1 bit '1'                 1 bit '0'
++ 7 bits giving           + 7 bits giving
+  the number (-2)           the number (-1)
+  of repetitions            of non repetition
++ repeated byte           + n non repeated bytes
+	|                        |
+ 1xxxxxxx,yyyyyyyy        0xxxxxxx,n bytes
+[-----------------]      [----------------]
+
+Example:
+
+Sequence of bytes to encode | Coded values | Differences with compression
+			    |              |         (unit: byte)
+-------------------------------------------------------------------------
+       255,15,              |  1,255,15,   |            -1
+       255,255,             |    128,255,  |             0
+	15,15,              |    128,15,   |             0
+     255,255,255,           |   129,255,   |            +1
+       15,15,15,            |    129,15,   |            +1
+   255,255,255,255,         |   130,255,   |            +2
+     15,15,15,15            |    130,15    |            +2
+
+See codecs source codes: codrle1.c and dcodrle1.c
+
+*** Second RLE scheme ***
+
+In the second scheme of RLE compression you look for the less frequent byte
+in the source to compress and use it as an header for all compressed block.
+
+In the best cases, the occurrence of this byte is zero in the data to compress.
+
+Two possible schemes, firstly with handling frames with only one byte,
+secondly with handling frames with one byte *and* more. The first case is
+the subject of this current compression scheme, the second is the subject
+of next compression scheme.
+
+For the frame of one byte, header byte is written in front of all repetition
+with at least 4 bytes. It is then followed by the repetition number minus 1 and
+the repeated byte.
+Header byte, Occurrence number-1, repeated byte
+
+If a byte don't repeat more than tree times, the three bytes are written without
+changes in the destination stream (no header nor length, nor repetition in front
+or after theses bytes).
+
+An exception: If the header byte appears in the source one, two, three and up
+times, it'll be respectively encoded as following:
+- Header byte, 0
+- Header byte, 1
+- Header byte, 2
+- Header byte, Occurrence number-1, Header byte
+
+Example, let's take the previous example. A non frequent byte is zero-ASCII
+because it never appears.
+
+Sequence of bytes to encode | Coded values | Differences with compression
+			    |              |         (unit: byte)
+-------------------------------------------------------------------------
+       255,15,              |    255,15,   |             0
+       255,255,             |   255,255,   |             0
+	15,15,              |     15,15,   |             0
+     255,255,255,           | 255,255,255, |             0
+       15,15,15,            |   15,15,15,  |             0
+   255,255,255,255,         |   0,3,255,   |            -1
+     15,15,15,15            |    0,3,15    |            -1
+
+If the header would appear, we would see:
+
+Sequence of bytes to encode | Coded values | Differences with compression
+			    |              |         (unit: byte)
+-------------------------------------------------------------------------
+	  0,                |      0,0,    |            +1
+	 255,               |      255,    |             0
+	 0,0,               |      0,1,    |             0
+	 15,                |      15,     |             0
+	0,0,0,              |      0,2,    |            -1
+	 255,               |      255,    |             0
+       0,0,0,0              |     0,3,0    |            -1
+
+See codecs source codes: codrle2.c and dcodrle2.c
+
+*** Third RLE scheme ***
+
+It's the same idea as the second scheme but we can encode frames with
+more than one byte. So we have three cases:
+
+- If it was the header byte, whatever is its occurrence, you encode it with:
+Header byte,0,number of occurrence-1
+- For frames which (repetition-1)*length>3, encode it as:
+Header byte, Number of frame repetition-1, frame length-1,bytes of frame
+- If no previous cases were detected, you write them as originally (no header,
+nor length, nor repetition in front or after theses bytes).
+
+Example based on the previous examples:
+
+Sequence of bytes to encode |   Coded values   | Differences with compression
+			    |                  |         (unit: byte)
+-----------------------------------------------------------------------------
+	   255,15,          |      255,15,     |             0
+	   255,255,         |     255,255,     |             0
+	    15,15,          |       15,15,     |             0
+	 255,255,255,       |   255,255,255,   |             0
+	   15,15,15,        |     15,15,15,    |             0
+       255,255,255,255,     | 255,255,255,255, |             0
+	 15,15,15,15,       |   15,15,15,15,   |             0
+      16,17,18,16,17,18,    |16,17,18,16,17,18,|             0
+     255,255,255,255,255,   |    0,4,0,255,    |            -1
+       15,15,15,15,15,      |     0,4,0,15,    |            -1
+ 16,17,18,16,17,18,16,17,18,|  0,2,2,16,17,18, |            -3
+  26,27,28,29,26,27,28,29   |0,1,3,26,27,28,29 |            -1
+
+If the header (value 0) would be met, we would see:
+
+Sequence of bytes to encode | Coded values  | Differences with compression
+			    |               |         (unit: byte)
+--------------------------------------------------------------------------
+	  0,                |     0,0,0,    |            +2
+	 255,               |      255,     |             0
+	 0,0,               |     0,0,1,    |            +1
+	  15,               |       15,     |             0
+	0,0,0,              |     0,0,2,    |             0
+	 255,               |      255,     |             0
+       0,0,0,0              |     0,0,3     |            -1
+
+See codecs source codes: codrle3.c and dcodrle3.c
+
+*** Fourth RLE scheme ***
+
+This last RLE algorithm better handles repetitions of any kind (one byte
+and more) and non repetitions, including few non repetitions, and does not
+read the source by twice as RLE type 3.
+
+Compression scheme is:
+
+		  First byte=Next byte?
+			   /\
+		      Yes /  \ No
+			 /    \
+		 1 bit '0'     1 bit '1'
+		       /        \
+		      /          \
+       Count the                    Motif of several
+       occurrences                  repeated  byte?
+       of 1 repeated                ( 65 bytes repeated
+       byte (maximum                257 times maxi)
+       16449 times)                           /\
+	    /\                               /  \
+	   /  \                             /    \
+	  /    \                           /      \
+	 /      \                         /        \
+  1 bit '0'       1 bit '1'        1 bit '0'          1 bit '1'
++ 6 bits        + 14 bits        + 6 bits of              |
+giving the      giving the       the length      Number of non repetition
+length (-2)     length (-66)     of the motif         (maximum 8224)
+of the          of the           + 8 bits of               /\
+repeated byte   repeated byte    the number (-2)     < 33 /  \ > 32
++ repeated byte + repeated byte  of repetition           /    \
+    |                |           + bytes of the   1 bit '0'       1 bit '1'
+    |                |           motif          + 5 bits of     + 13 bits
+    |                |               |          the numer (-1)  of the
+    |                |               |          of non          number (-33)
+    |                |               |          repetition      of repetition
+    |                |               |          + non           + non
+    |                |               |          repeated        repeated
+    |                |               |          bytes           bytes
+    |                |               |             |               |
+    |                |               |             |  111xxxxx,xxxxxxxx,n bytes
+    |                |               |             | [-------------------------]
+    |                |               |             |
+    |                |               |      110xxxxx,n bytes
+    |                |               |     [----------------]
+    |                |               |
+    |                |  10xxxxxx,yyyyyyyy,n bytes
+    |                | [-------------------------]
+    |                |
+    |   01xxxxxx,xxxxxxxx,1 byte
+    |  [------------------------]
+    |
+ 00xxxxxx,1 byte
+[---------------]
+
+Example, same as previously:
+
+Sequence of bytes to encode |         Coded values          | Differences with compression
+			    |                               |         (unit: byte)
+------------------------------------------------------------------------------------------
+    255,15,255,255,15,15    |11000101b,255,15,255,255,15,15 |             +1
+     255,255,255            |        00000001b,255,         |             -1
+       15,15,15             |         00000001b,15,         |             -1
+   255,255,255,255          |         00000010b,255,        |             -2
+     15,15,15,15            |          00000010b,15,        |             -2
+  16,17,18,16,17,18         |     10000001b,0,16,17,18,     |             -1
+ 255,255,255,255,255        |        00000011b,255,         |             -3
+   15,15,15,15,15           |         00000011b,15,         |             -3
+ 16,17,18,16,17,18,16,17,18 |      10000001b,16,17,18,      |             -4
+  26,27,28,29,26,27,28,29   |     10000010b,26,27,28,29     |             -2
+
+
++==========================================================+
+|                   The Huffman encoding                   |
++==========================================================+
+
+This method comes from the searcher who established the algorithm in 1952.
+This method allows both a dynamic and static statistic schemes. A statistic
+scheme works on the data occurrences. It is not as with RLE where you had
+a consideration of the current occurrence of a frame but rather a consideration
+of the global occurrences of each data in the input stream. In this last case,
+frames can be any kinds of sequences you want. On the other hand, Huffman
+static encoding appears in some compressers such as ARJ on PCs. This enforces
+the encoder to consider every statistic as the same for all the data you have.
+Of course, the results are not as good as if it were a dynamic encoding.
+The static encoding is faster than the dynamic encoding but the dynamic encoding
+will be adapted to the statistic of the bytes of the input stream and will
+of course become more efficient by producing shortest output.
+
+The main idea in Huffman encoding is to re-code every byte with regard to its
+occurrence. The more frequent bytes in the data to compress will be encoded with
+less than 8 bits and the others could need 8 bits see even more to be encoded.
+You immediately see that the codes associated to the different bytes won't have
+identical size. The Huffman method will actually require that the binary codes
+have not a fixed size. We speak then about variable length codes.
+
+The dynamical Huffman scheme needs the binary trees for the encoding. This
+enables you to obtain the best codes, adapted to the source data.
+The demonstration won't be given there. To help the neophyt, I will just explain
+what is a binary tree.
+
+A binary tree is special fashion to represent the data. A binary tree is
+a structure with an associated value with two pointers. The term of binary has
+been given because of the presence of two pointers. Because of some conventions,
+one of the pointer is called left pointer and the second pointer is called right
+pointer. Here is a visual representation of a binary tree.
+
+     Value
+      / \
+     /   \
+ Value    Value
+  / \      / \
+... ...  ... ...
+
+One problem with a binary encoding is a prefix problem. A prefix is the first
+part of the representation of a value, e.g. "h" and "he" are prefixes of "hello"
+but not "el". To understand the problem, let's code the letters "A", "B", "C",
+"D", and "E" respectively as 00b, 01b, 10b, 11b, and 100b. When you read
+the binary sequence 00100100b, you are unable to say if this comes from "ACBA"
+or "AEE". To avoid such situations, the codes must have a prefix property.
+And the letter "E" mustn't begin with the sequence of an other code. With "A",
+"B", "C", "D", and "E" respectively affected with 1b, 01b, 001b, 0001b, and
+0000b, the sequence 1001011b will only be decoded as "ACBA".
+
+ 1      0
+<-  /\  ->
+   /  \
+ "A"  /\
+    "B" \
+	/\
+      "C" \
+	  /\
+       "D"  "E"
+
+As you see, with this tree, an encoding will have the prefix property
+if the bytes are at the end of each "branch" and you have no byte at the "node".
+You also see that if you try to reach a character by the right pointer you add
+a bit set to 0 and by the left pointer, you add a bit set to 1 to the current
+code. The previous *bad* encoding provide the following bad tree:
+
+       /\
+      /  \
+     /    \
+    /\    /\
+   /  \ "B" "A"
+  /    \
+"D"  "C"\
+      /  \
+	 "E"
+
+You see here that the coder shouldn't put the "C" at a node...
+
+As you see, the largest binary code are those with the longest distance
+from the top of the tree. Finally, the more frequent bytes will be the highest
+in the tree in order you have the shortest encoding and the less frequent bytes
+will be the lowest in the tree.
+
+From an algorithmic point of view, you make a list of each byte you encountered
+in the stream to compress. This list will always be sorted. The zero-occurrence
+bytes are removed from this list. You take the two bytes with the smallest
+occurrences in the list. Whenever two bytes have the same "weight", you take two
+of them regardless to their ASCII value. You join them in a node. This node will
+have a fictive byte value (256 will be a good one!) and its weight will be
+the sum of the two joined bytes. You replace then the two joined bytes with
+the fictive byte. And you continue so until you have one byte (fictive or not)
+in the list. Of course, this process will produce the shortest codes if the list
+remains sorted. I will not explain with arcana hard maths why the result
+is a set of the shortest bytes...
+
+Important: I use as convention that the right sub-trees have a weight greater
+or equal to the weight of the left sub-trees.
+
+Example: Let's take a file to compress where we notice the following
+occurrences:
+
+Listed bytes | Frequences (Weight)
+----------------------------------
+      0      |        338
+     255     |        300
+      31     |        280
+      77     |         24
+     115     |         21
+      83     |         20
+     222     |         5
+
+We will begin by joining the bytes 83 and 222. This will produce a fictive node
+1 with a weight of 20+5=25.
+
+(Fictive 1,25)
+      /\
+     /  \
+(222,5) (83,20)
+
+Listed bytes | Frequences (Weight)
+----------------------------------
+      0      |        338
+     255     |        300
+      31     |        280
+  Fictive 1  |         25
+      77     |         24
+     115     |         21
+
+Note that the list is sorted... The smallest values in the frequences are 21 and
+24. That is why we will take the bytes 77 and 115 to build the fictive node 2.
+
+(Fictive 2,45)
+      /\
+     /  \
+(115,21) (77,25)
+
+Listed bytes | Frequences (Weight)
+----------------------------------
+      0      |        338
+     255     |        300
+      31     |        280
+  Fictive 2  |         45
+  Fictive 1  |         25
+
+The nodes with smallest weights are the fictive 1 and 2 nodes. These are joined
+to build the fictive node 3 whose weight is 40+25=70.
+
+	(Fictive 3,70)
+	     /   \
+	   /       \
+	 /           \
+       /\            / \
+     /   \          /    \
+(222,5)  (83,20) (115,21) (77,25)
+
+Listed bytes | Frequences (Weight)
+----------------------------------
+      0      |        338
+     255     |        300
+      31     |        280
+  Fictive 3  |         70
+
+The fictive node 3 is linked to the byte 31. Total weight: 280+70=350.
+
+	     (Fictive 4,350)
+		   /   \
+		 /       \
+	       /           \
+	     /  \       (31,280)
+	   /      \
+	 /          \
+       /\            / \
+     /   \          /    \
+(222,5)  (83,20) (115,21) (77,25)
+
+Listed bytes | Frequences (Weight)
+----------------------------------
+  Fictive 4  |        350
+      0      |        338
+     255     |        300
+
+As you see, being that we sort the list, the fictive node 4 has become the first
+of the list. We join the bytes 0 and 255 in a same fictive node, the number 5
+whose weight is 338+300=638.
+
+(Fictive 5,638)
+	/\
+       /  \
+(255,300) (0,338)
+
+Listed bytes | Frequences (Weight)
+----------------------------------
+  Fictive 5  |        638
+  Fictive 4  |        350
+
+The fictive nodes 4 and 5 are finally joined. Final weight: 638+350=998 bytes.
+It is actually the total byte number in the initial file: 338+300+24+21+20+5.
+
+			 (Tree,998)
+		       1     /  \     0
+		      <-   /      \   ->
+			 /          \
+		       /              \
+		     /                  \
+		   /   \                / \
+		 /       \             /    \
+	       /           \          /       \
+	     /  \       (31,280)  (255,300) (0,338)
+	   /      \
+	 /          \
+       /\            / \
+     /   \          /    \
+(222,5)  (83,20) (115,21) (77,25)
+
+Bytes | Huffman codes | Frequences | Binary length*Frequence
+------------------------------------------------------------
+  0   |       00b     |     338    |           676
+ 255  |       01b     |     300    |           600
+  31  |       10b     |     280    |           560
+  77  |      1101b    |      24    |            96
+ 115  |      1100b    |      21    |            84
+  83  |      1110b    |      20    |            80
+ 222  |      1111b    |      5     |            20
+
+Results: Original file size: (338+300+280+24+21+20+5)*8=7904 bits (=998 bytes)
+versus 676+600+560+96+84+80+20=2116 bits, i.e. 2116/8=265 bytes.
+
+Now you know how to code an input stream. The last problem is to decode all this
+stuff. Actually, when you meet a binary sequence you can't say whether it comes
+from such byte list or such other one. Furthermore, if you change the occurrence
+of one or two bytes, you won't obtain the same resulting binary tree. Try for
+example to encode the previous list but with the following occurrences:
+
+Listed bytes | Frequences (Weight)
+----------------------------------
+     255     |        418
+      0      |        300
+      31     |        100
+      77     |         24
+     115     |         21
+      83     |         20
+     222     |         5
+
+As you can observe it, the resulting binary tree is quite different, we had yet
+the same initial bytes. To not be in such a situation we will put an header
+in front of all data. I can't comment longly this header but I can say
+I minimize it as much as I could. The header is divided into two parts.
+The first part of this header looks closely to a boolean table (coded more or
+less in binary to save space) and the second part provide to the decoder
+the binary code associated to each byte encountered in the original input
+stream.
+
+Here is a summary of the header:
+
+First part
+----------
+			First bit
+			  /  \
+		      1 /      \ 0
+		      /          \
+  256 bits set to 0 or 1        5 bits for the number n (minus 1)
+  depending whether the         of bytes encountered
+  corresponding byte was        in the file to compres
+  in the file to compress                   |
+  (=> n bits set to 1,                     \ /
+   n>32)                        n values of 8-bits (n<=32)
+		     \           /
+		       \       /
+			 \   /
+Second part                |
+-----------                |
+			   |
+	    +------------->|
+(n+1) times |              |
+(n bytes of |          First bit?
+the values  |            /   \
+encountered |         1 /      \ 0
+in the      |          /        \ 
+source file |   8 bits of      5 bits of the 
++ the code  | the length       length (-1)
+of a        | (-1) of the      of the following
+fictive     | following        binary
+byte        | binary code      code
+to stop the | (length>32)      (length<=32)
+decoding.   |          \       /
+The fictive |           \     /
+is set to   |            \   /
+256 in the  |              |
+Huffman     |         binary code
+-tree of    |              |
+encoding)   +--------------|
+			   |
+	    Binary encoding of the source file
+			   |
+		  Code of end of encoding
+			   |
+
+
+With my codecs I can handle binary sequences with a length of 256 bits.
+This correspond to encode all the input stream from one byte to infinite length.
+In fact if a byte had a range from 0 to 257 instead of 0 to 255, I would have a
+bug with my codecs with an input stream of at least 370,959,230,771,131,880,927,
+453,318,055,001,997,489,772,178,180,790,105 bytes !!!
+
+Where come this explosive number? In fact, to have a severe bug, I must have
+a completely unbalanced tree:
+
+   Tree
+    /\
+      \
+      /\
+	\
+	/\
+	  \
+	  ...
+	   /\
+	     \
+	     /\
+
+Let's take the following example:
+
+Listed bytes | Frequences (Weight)
+----------------------------------
+      32     |         5
+      101    |         3
+      97     |         2
+      100    |         1
+      115    |         1
+
+This produces the following unbalanced tree:
+
+    Tree
+     /\
+(32,5) \
+       /\
+ (101,3) \
+	 /\
+   (97,2)  \
+	   /\
+    (115,1)  (100,1)
+
+Let's speak about a mathematical series: The Fibonacci series. It is defined as
+following:
+
+{ Fib(0)=0
+{ Fib(1)=1
+{ Fib(n)=Fib(n-2)+Fib(n-1)
+
+Fib(0)=0, Fib(1)=1, Fib(2)=1, Fib(3)=2, Fib(4)=3, Fib(5)=5, Fib(6)=8, Fib(7)=13,
+etc.
+
+But 1, 1, 2, 3, 5, 8 are the occurrences of our list! We can actually
+demonstrate that to have an unbalanced tree, we have to take a list with
+an occurrence based on the Fibonacci series (these values are minimal).
+If the data to compress have m different bytes, when the tree is unbalanced,
+the longest code need m-1 bits. In our little previous example where m=5,
+the longest codes are associated to the bytes 100 and 115, respectively coded
+0001b and 0000b. We can also say that to have an unbalanced tree we must have
+at least 5+3+2+1+1=12=Fib(7)-1. To conclude about all that, with a coder that
+uses m-1 bits, you must never have an input stream size over than Fib(m+2)-1,
+otherwise, there could be a bug in the output stream. Of course, with my codecs
+there will never be a bug because I can deal with binary code sizes of 1 to 256
+bits. Some encoder could use that with m=31, Fib(31+2)-1=3,524,577 and m=32,
+Fib(32+2)-1=5,702,886. And an encoder that uses unisgned integer of 32 bits
+shouldn't have a bug until about 4 Gb...
+
++==========================================================+
+|                     The LZW encoding                     |
++==========================================================+
+
+The LZW scheme is due to three searchers, i.e. Abraham Lempel and Jacob Ziv
+worked on it in 1977, and Terry Welch achieved this scheme in 1984.
+
+LZW is patented in USA. This patent, number 4,558,302, is covered by Unisys
+Corporation and CompuServe. IBM seems to have discovered the same, and patented
+it. (Who's right???)
+You may get a limited licence by writting to:
+Welch Licencing Department
+Office of the General Counsel
+M/S C1SW19
+Unisys corporation
+Blue Bell
+Pennsylvania, 19424 (USA)
+
+If you're occidental, you are surely using an LZW encoding every time you are
+speaking, especially when you use a dictionary. Let's consider, for example,
+the word "Cirrus". As you read a dictionary, you begin with "A", "Aa", and so
+on. But a computer has no experience and it must suppose that some words
+already exist. That is why with "Cirrus", it supposes that "C", "Ci", "Cir",
+"Cirr", "Cirru", and "Cirrus" exist. Of course, being that this is a computer,
+all these words are encoded as index numbers. Every time you go forward, you add
+a new number associated to the new word. Being that a computer is byte-based
+and not alphabetic-based, you have an initial dictionary of 256 letters instead
+of our 26 ('A' to 'Z') letters.
+
+Example: Let's code "XYXYZ". First step, "X" is recognized in the initial
+dictionary of 256 letters as the 89th. Second step, "Y" is read. Does "XY"
+exist? No, then "XY" is stored as the word 256. You write in the output stream
+the ASCII of "X", i.e. 88. Now "YX" is tested as not referenced in the current
+dictionary. It is stored as the word 257. You write now in the output stream 89
+(ASCII of "Y"). "XY" is now met. But now "XY" is known as the reference 256.
+Being that "XY" exists, you test the sequence with one more letter, i.e. "XYZ".
+This last word is not referenced in the current dictionary. You write then the
+value 256. Finally, you reach the last letter ("Z"). You add "YZ" as the
+reference 258 but it is the last letter. That is why you just write the value
+90 (ASCII of "Z").
+
+Another encoding sample with the string "ABADABCCCABCEABCECCA".
+
++----+-----+---------------+------+----------+-------------------------+------+
+|Step|Input|Dictionary test|Prefix|New symbol|Dictionary               |Output|
+|    |     |               |      |          |D0=ASCII with 256 letters|      |
++----+-----+---------------+------+----------+-------------------------+------+
+|  1 | "A" |"A" in D0      | "A"  |    "B"   | D1=D0                   |  65  |
+|    | "B" |"AB" not in D0 |      |          | and "AB"=256            |      |
++----+-----+---------------+------+----------+-------------------------+------+
+|  2 | "A" |"B" in D1      | "B"  |    "A"   | D2=D1                   |  66  |
+|    |     |"BA" not in D1 |      |          | and "BA"=257            |      |
++----+-----+---------------+------+----------+-------------------------+------+
+|  3 | "D" |"A" in D2      | "A"  |    "D"   | D3=D2                   |  65  |
+|    |     |"AD" not in D2 |      |          | and "AD"=258            |      |
++----+-----+---------------+------+----------+-------------------------+------+
+|  4 | "A" |"D" in D3      | "D"  |    "A"   | D4=D3                   |  68  |
+|    |     |"DA" not in D3 |      |          | and "DA"=259            |      |
++----+-----+---------------+------+----------+-------------------------+------+
+|  5 | "B" |"A" in D4      | "AB" |    "C"   | D5=D4                   |  256 |
+|    | "C" |"AB" in D4     |      |          | and "ABC"=260           |      |
+|    |     |"ABC" not in D4|      |          |                         |      |
++----+-----+---------------+------+----------+-------------------------+------+
+|  6 | "C" |"C" in D5      | "C"  |    "C"   | D6=D5                   |  67  |
+|    |     |"CC" not in D5 |      |          | and "CC"=261            |      |
++----+-----+---------------+------+----------+-------------------------+------+
+|  7 | "C" |"C" in D6      | "CC" |    "A"   | D7=D6                   |  261 |
+|    | "A" |"CC" in D6     |      |          | and "CCA"=262           |      |
+|    |     |"CCA" not in D6|      |          |                         |      |
++----+-----+---------------+------+----------+-------------------------+------+
+|  8 | "B" |"A" in D7      | "ABC"|    "E"   | D8=D7                   |  260 |
+|    | "C" |"AB" in D7     |      |          | and "ABCE"=263          |      |
+|    | "E" |"ABC" in D7    |      |          |                         |      |
+|    |    <"ABCE" not in D7|      |          |                         |      |
++----+-----+---------------+------+----------+-------------------------+------+
+|  9 | "A" |"E" in D8      | "E"  |    "A"   | D9=D8                   |  69  |
+|    |     |"EA" not in D8 |      |          | and "EA"=264            |      |
++----+-----+---------------+------+----------+-------------------------+------+
+| 10 | "B" |"A" in D9      |"ABCE"|    "C"   | D10=D9                  |  263 |
+|    | "C" |"AB" in D9     |      |          | and "ABCEC"=265         |      |
+|    | "E" |"ABC" in D9    |      |          |                         |      |
+|    | "C" |"ABCE" in D9   |      |          |                         |      |
+|    |    <"ABCEC" not in D9>     |          |                         |      |
++----+-----+---------------+------+----------+-------------------------+------+
+| 11 | "C" |"C" in D10     | "CCA"|          |                         |  262 |
+|    | "A" |"CC" in D10    |      |          |                         |      |
+|    |    <"CCA" not in D10|      |          |                         |      |
++----+-----+---------------+------+----------+-------------------------+------+
+
+You will notice a problem with the above output: How to write a code of 256
+(for example) on 8 bits? It's simple to solve this problem. You just say that
+the encoding starts with 9 bits and as you reach the 512th word, you use a
+10-bits encoding. With 1024 words, you use 11 bits; with 2048 words, 12 bits;
+and so on with all numbers of 2^n (n is positive). To better synchronize
+the coder and the decoder with all that, most of implementations use two
+additional references. The word 256 is a code of reinitialisation (the codec
+must reinitialize completely the current dictionary to its 256 initial letters)
+and the word 257 is a code of end of information (no more data to read).
+Of course, you start your first new word as the code number 258.
+
+You can also do so as in the GIF file format and start with an initial
+dictionary of 18 words to code an input stream with only letters coded on 4 bits
+(you start with codes of 5 bits in the output stream!). The 18 initial words
+are: 0 to 15 (initial letters), 16 (reinit the dictionary), and 17 (end of
+information). First new word has code 18, second word, code 19, ...
+
+Important: You can consider that your dictionary is limited to 4096 different
+words (as in GIF and TIFF file formats). But if your dictionary is full, you
+can decide to send old codes *without* reinitializing the dictionary. All the
+decoders must be compliant with this. This enables you to consider that it is
+not efficient to reinitialize the full dictionary. Instead of this, you don't
+change the dictionary and you send/receive (depending if it's a coder or a
+decoder) existing codes in the full dictionary.
+
+My codecs are able to deal as well with most of initial size of data in the
+initial dictionary as with full dictionary.
+
+Let's see how to decode an LZW encoding. We saw with true dynamical Huffman
+scheme that you needed an header in the encoding codes. Any header is useless
+in LZW scheme. When two successive bytes are read, the first must exist in the
+dictionary. This code can be immediately decoded and written in the output
+stream. If the second code is equal or less than the word number in the current
+dictionary, this code is decoded as the first one. At the opposite, if the
+second code is equal to the word number in dictionary plus one, this means you
+have to write a word composed with the word (the sentence, not the code number)
+of the last code plus the first character of the last code. In between, you make
+appear a new word. This new word is the one you just sent to the output stream,
+it means composed by all the letters of the word associated to the first code
+and the first letter of the word of the second code. You continue the processing
+with the second and third codes read in the input stream (of codes)...
+
+Example: Let's decode the previous encoding given a bit more above.
+
++------+-------+----------------+----------+------------------+--------+
+| Step | Input | Code to decode | New code |    Dictionary    | Output |
++------+-------+----------------+----------+------------------+--------+
+|   1  |   65  |       65       |    66    |     65,66=256    |   "A"  |
+|      |   66  |                |          |                  |        |
++------+-------+----------------+----------+------------------+--------+
+|   2  |   65  |       66       |    65    |     66,65=257    |   "B"  |
++------+-------+----------------+----------+------------------+--------+
+|   3  |   68  |       65       |    68    |     65,68=258    |   "A"  |
++------+-------+----------------+----------+------------------+--------+
+|   4  |  256  |       68       |    256   |     68,65=259    |   "D"  |
++------+-------+----------------+----------+------------------+--------+
+|   5  |   67  |       256      |    67    |   65,66,67=260   |   "AB" |
++------+-------+----------------+----------+------------------+--------+
+|   6  |  261  |       67       |    261   |     67,67=261    |   "C"  |
++------+-------+----------------+----------+------------------+--------+
+|   7  |  260  |       261      |    260   |   67,67,65=262   |   "CC" |
++------+-------+----------------+----------+------------------+--------+
+|   8  |   69  |       260      |    69    |  65,66,67,69=263 |  "ABC" |
++------+-------+----------------+----------+------------------+--------+
+|   9  |  263  |       69       |    263   |     69,65=264    |   "E"  |
++------+-------+----------------+----------+------------------+--------+
+|  10  |  262  |       263      |    262   |65,66,67,69,67=256| "ABCE" |
++------+-------+----------------+----------+------------------+--------+
+|  11  |       |       262      |          |                  |  "CCA" |
++------+-------+----------------+----------+------------------+--------+
+
+Summary: The step 4 is an explicit example. The code to decode is 68 ("D" in
+ASCII) and the new code is 256. The new word to add to the dictionary is the
+letters of the first word plus the the first letter of the second code (code
+256), i.e. 65 ("A" in ASCII) plus 68 ("D"). So the new word has the letters 68
+and 65 ("AD").
+
+The step 6 is quite special. The first code to decode is referenced but the
+second new code is not referenced being that the dictionary is limited to 260
+referenced words. We have to make it as the second previously given case, it
+means you must take the word to decode plus its first letter, i.e. "C"+"C"="CC".
+Be care, if any encountered code is *upper* than the dictionary size plus 1, it
+means you have a problem in your data and/or your codecs are...bad!
+
+Tricks to improve LZW encoding (but it becomes a non-standard encoding):
+- To limit the dictionary to an high amount of words (4096 words maximum enable
+you to encode a stream of a maximmum 7,370,880 letters with the same dictionary)
+- To use a dictionary of less than 258 if possible (example, with 16 color
+pictures, you start with a dictionary of 18 words)
+- To not reinitialize a dictionary when it is full
+- To reinitialize a dictionary with the most frequent of the previous dictionary
+- To use the codes from (current dictionary size+1) to (maximum dictionary size)
+because these codes are not used in the standard LZW scheme.
+Such a compression scheme has been used (successfully) by Robin Watts
+<ct93008@ox.ac.uk>.
+
++==========================================================+
+|                         Summary                          |
++==========================================================+
+
+-------------------------------------------------
+RLE type 1:
+Fastest compression. Good ratio for general purpose.
+Doesn't need to read the data by twice.
+Decoding fast.
+-------------------------------------------------
+RLE type 2:
+Fast compression. Very good ratio in general (even for general purposes).
+Need to read the data by twice.
+Decoding fast.
+-------------------------------------------------
+RLE type 3:
+Slowest compression. Good ratio on image file,quite middle for general purposes.
+Need to read the data by twice.
+Change line:
+#define MAX_RASTER_SIZE 256
+into:
+#define MAX_RASTER_SIZE 16
+to speed up the encoding (but the result decreases in ratio). If you compress
+with memory buffers, do not modify this line...
+Decoding fast.
+-------------------------------------------------
+RLE type 4:
+Slow compression. Good ratio on image file, middle in general purposes.
+Change line:
+#define MAX_RASTER_SIZE 66
+into:
+#define MAX_RASTER_SIZE 16
+to speed up the encoding (but the result decreases in ratio). If you compress
+with memory buffers, do not modify this line...
+Decoding fast.
+-------------------------------------------------
+Huffman:
+Fast compression. Good ratio on text files and similar, middle for general
+purposes. Interesting method to use to compress a buffer already compressed by
+RLE types 1 or 2 methods...
+Decoding fast.
+-------------------------------------------------
+LZW:
+Quite fast compression. Good, see even very good ratio, for general purposes.
+Bigger the data are, better the compression ratio is.
+Decoding quite fast.
+-------------------------------------------------
+
+The source codes work on all kinds of computers with a C compiler.
+With the compiler, optimize the speed run option instead of space option.
+With UNIX system, it's better to compile them with option -O.
+If you don't use a GNU compiler, the source file MUST NOT have a size
+over 4 Gb for RLE 2, 3, and Huffman, because I count the number
+of occurrences of the bytes.
+So, with GNU compilers, 'unsigned lont int' is 8 bytes instead of 4 bytes
+(as normal C UNIX compilers and PCs' compilers, such as Microsoft C++
+and Borland C++).
+Actually:
+* Normal UNIX compilers,                => 4 Gb (unsigned long int = 4 bytes)
+  Microsoft C++ and Borland C++ for PCs
+* GNU UNIX compilers                    => 17179869184 Gb (unsigned long int = 8 bytes)
+
++==========================================================+
+|                             END                          |
++==========================================================+

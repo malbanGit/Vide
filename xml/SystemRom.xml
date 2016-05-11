@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<AllSystemRom>
+	<SystemRom>
+		<Class>SystemRom</Class>
+		<Name>Fastboot</Name>
+		<CartName>system/FASTBOOT.IMG</CartName>
+		<Version></Version>
+		<Comment>Fastboot</Comment>
+	</SystemRom>
+	<SystemRom>
+		<Class>SystemRom</Class>
+		<Name>System</Name>
+		<CartName>system/SYSTEM_B796.IMG</CartName>
+		<Version>B796</Version>
+		<Comment></Comment>
+	</SystemRom>
+</AllSystemRom>

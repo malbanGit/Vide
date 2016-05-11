@@ -1,0 +1,94 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Samples</title>
+</head>
+<body class="doc">
+<h1>Samples</h1>
+<br><p align="center">
+<img src="pics/sample1.png" width="633" height="647"><br>
+<em>Sample editor</em></p><br>
+
+<p>Using the popup on the tree of files in a project you can access the sample editor.</p>
+
+<p>What you see is a gui to handle samples, handle means:
+<ul><li>
+<p>you are able to record samples on the fly (one can e.g. just talk to it (using a micro) after pressing the "record button")</p>
+</li><li>
+<p>you can also load (wav) sample files</p>
+</li><li>
+<p>you can "cut" selections of samples</p>
+</li><li>
+<p>you can play samples</p>
+</li><li>
+<p>you can "normalize" samples (no range compression though)</p>
+</li><li>
+<p>you can convert given samples to vectrex format (8 bit signed, one channel pcm)</p>
+</li><li>
+<p>you can set a desired sample rate</p>
+</li></ul>
+</p>
+
+<p>For one reason or another, the tooltips can not be displayed on modal windows in Vide, for that reason some more information about the gui:
+<ul><li>
+<p><img src="pics/control_record_blue.png" alt="control_record_blue.png"><br>
+start recording your samples (easiest with a microphone, select the audio device via the combobox besides the microphone icon) For recording you can also chose in what "setting" you want to record, above the microphone you can see whether your selection of settings is accepted: 
+<ul><li>
+<p><img src="pics/help.png" alt="help.png"> = unkown</p>
+</li><li>
+<p><img src="pics/accept.png" alt="accept.png"> = ok</p>
+</li><li>
+<p><img src="pics/cancel.png" alt="cancel.png"> = noz ok</p>
+</li></ul>
+</p>
+</li><li>
+<p><img src="pics/control_play_blue.png" alt="control_play_blue.png"><br>
+play a loaded or recorded sample</p>
+</li><li>
+<p><img src="pics/control_stop_blue.png" alt="control_stop_blue.png"><br>
+stop recording, or stop playing a sample</p>
+</li><li>
+<p><img src="pics/cut.png" alt="cut.png"><br>
+cut the selected area in from the sample (no undo)</p>
+</li><li>
+<p><img src="pics/control_equalizer_blue.png" alt="control_equalizer_blue.png"><br>
+do the above mentioned "normalization", selecting a number of bits "cuts" these numbers of bits from the top, and moves all samples "up" (it gets all louder) (no undo)</p>
+</li><li>
+<p>samples can only be loaded from "wav"- files (hm - never tried anything else though...)</p>
+</li></ul>
+</p>
+
+<p>Some general information:<br>
+</p>
+
+<ol><li>
+<p>Internally all samples are kept in the format: 
+<ul><li>
+<p>44100 khz </p>
+</li><li>
+<p>2 channel </p>
+</li><li>
+<p>16 bit </p>
+</li><li>
+<p>signed </p>
+</li><li>
+<p>little endian </p>
+</li></ul>
+</p>
+
+<p>this is what you see in the sample display window (left channel) </p>
+</li><li>
+<p>Recording is done with the settings you enter to the right (and is than converted to above format)</p>
+</li><li>
+<p>(the original) samples can be saved, save format is "wav", saving is done in the above format, since in this format all information is kept (internally) anyway.</p>
+</li><li>
+<p>(the vectrex) samples can be saved, save format is "wav", saving is done in the format chosen (only sample rate can be chosen, the rest is always set).</p>
+</li><li>
+<p>you can save the vectrex samples as "raw" data, the raw data uses 8 bit signed data (this is what vectrex wants)</p>
+</li></ol>
+
+<p>The generated "play" routines use sampled data "backwards", therefor you can select to reverse the order of the data statements generated.</p>
+
+<p>The data is output in data-statements, the format of the data is described in the (generated) source. With the sourcecode some example code is also generated.</p>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Moveto_x_7f</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Moveto_x_7F ($F2F2)</p>
+
+<p>This routine forces the scale factor to 0x7F, and then moves
+the pen to the location pointed to by the X register. The
+relative y and relative x coordinates are both 2 byte quantities;
+however, only the most signicant byte of each is of any interest.
+The values pointed to by the X register have the following
+format: </p>
+
+<p>X =&gt; (rel y hi),(rel y lo), (rel x hi), (rel x lo)</p>
+
+<p>The position moved to is obtained by y=(0,x) &amp; x=(2,x). </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $D0</p>
+
+<p>X-reg points to double-sized coordinate pair</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<p>D-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F2F2">Source</a></p>
+</body>
+</html>

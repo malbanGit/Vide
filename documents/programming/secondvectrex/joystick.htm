@@ -1,0 +1,146 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.5 [en] (Win98; I) [Netscape]">
+   <title>Joystick/Button input</title>
+</head>
+<body text="#C0C0C0" bgcolor="#000000">
+<a href="toc.htm">Vectrex Programming TOC</a>
+<p><b><font size=+2>Joystick/Button input</font></b>
+<p>This is going to be the last chapter, and as the chapters before, no
+in depth view and programming information will be given. I'll only tell
+you about the BIOS routines. And I don't think any sane person will need
+any more information, as I already mentioned in my babblings about sound,
+the joypads are (indirectly) connected to the PSG soundchip, which in turn
+can only be accessed using some weird pokes to the VIA chip. So I dearly
+recommend any programmer to only use the available functions. These functions
+are:
+<blockquote>Joy_Analog ($F1F5)
+<br>Joy_Digital ($F1F8)
+<br>Read_Btns_Mask ($F1B4)
+<br>Read_Btns ($F1BA)</blockquote>
+All of these routines require the DP register set to $D0! Furthermore there
+are some very interesting BIOS RAM locations, here is a list of them, but
+read on for some more information about them:
+<blockquote>Vec_Btn_State ($C80F) Current state of all joystick buttons
+<br>Vec_Prev_Btns ($C810) Previous state of all joystick buttons
+<br>Vec_Buttons ($C811) Current toggle state of all buttons
+<br>Vec_Button_1_1 ($C812) Current toggle state of stick 1 button 1
+<br>Vec_Button_1_2 ($C813) Current toggle state of stick 1 button 2
+<br>Vec_Button_1_3 ($C814) Current toggle state of stick 1 button 3
+<br>Vec_Button_1_4 ($C815) Current toggle state of stick 1 button 4
+<br>Vec_Button_2_1 ($C816) Current toggle state of stick 2 button 1
+<br>Vec_Button_2_2 ($C817) Current toggle state of stick 2 button 2
+<br>Vec_Button_2_3 ($C818) Current toggle state of stick 2 button 3
+<br>Vec_Button_2_4 ($C819) Current toggle state of stick 2 button 4
+<br>Vec_Joy_Resltn ($C81A) Joystick A/D resolution ($80=min $00=max)
+<br>Vec_Joy_1_X ($C81B) Joystick 1 left/right
+<br>Vec_Joy_1_Y ($C81C) Joystick 1 up/down
+<br>Vec_Joy_2_X ($C81D) Joystick 2 left/right
+<br>Vec_Joy_2_Y ($C81E) Joystick 2 up/down
+<br>Vec_Joy_Mux ($C81F) Joystick enable/mux flags (4 bytes)
+<br>Vec_Joy_Mux_1_X ($C81F) Joystick 1 X enable/mux flag (=1)
+<br>Vec_Joy_Mux_1_Y ($C820) Joystick 1 Y enable/mux flag (=3)
+<br>Vec_Joy_Mux_2_X ($C821) Joystick 2 X enable/mux flag (=5)
+<br>Vec_Joy_Mux_2_Y ($C822) Joystick 2 Y enable/mux flag (=7)
+<p>Vec_Misc_Count ($C823) misc counter/flag byte, zero when not in use</blockquote>
+One small note in advance, in order for the joypad routines to work correctly,
+you must again assure that the Vec_Misc_Count ($C823) BIOS RAM location
+is zero, since it is used for analogous testing. As said before, if you don't
+change that variable somewhere, than everything is ok, since BIOS functions
+always return leaving that location zero.
+<p>Again I will not describe all functions and all variables, only two
+actually, probably the two you'll need most. The other functions can again
+be easily worked out by looking at the appropriate BIOS disassembly (where
+you can actually find everything (nearly) I say in this document), or <a href="appendixa.htm">Appendix
+A</a>.
+<p>Let us first do the most easy things, as usual. Let us have a look at
+the buttons. Here is a small example:
+<p><a href="button1.asm">button1.asm</a>
+<p>The above function calls the Read_Btns ($F1BA) function. This function
+does a couple of things. But the only thing we use in the above example
+is the information given to us in register A. In that register a button
+transition information is given. That means a bit is set at a button specific
+position, if it's state has changed. But only half the transition is registered,
+the transition from unpressed to pressed. If such a transition occurred
+than for the next call of Read_Btns the appropriate bit will be set. Most
+of the time that little information is enough. Especially if you don't
+want continues fire or the like. I guess I don't have to go through the
+program line by line, as I did before, since (pardon me) it IS fairly obvious.
+The Read_Btns function has some other uses (for an exact description look
+at the disassembled ROM listing or Appendix A), further down you will find
+a program that makes use of the RAM locations mentioned above, that are
+set to the current button state by the Read_Btns function. The function
+does following other things:
+<blockquote>Vec_Buttons ($C811) Current toggle state of all buttons
+<br>Contains the same information as register A.
+<p>Vec_Btn_State ($C80F) Current state of all joystick buttons
+<br>Contains a bitmap whether a button is pressed (1) or not (0).
+<p>Vec_Prev_Btns ($C810) Previous state of all joystick buttons
+<br>Contains a bitmap whether a button was pressed (1) or not (0) before
+the function call.
+<p>Vec_Button_1_1 ($C812) Current toggle state of stick 1 button 1
+<br>Vec_Button_1_2 ($C813) Current toggle state of stick 1 button 2
+<br>Vec_Button_1_3 ($C814) Current toggle state of stick 1 button 3
+<br>Vec_Button_1_4 ($C815) Current toggle state of stick 1 button 4
+<br>Vec_Button_2_1 ($C816) Current toggle state of stick 2 button 1
+<br>Vec_Button_2_2 ($C817) Current toggle state of stick 2 button 2
+<br>Vec_Button_2_3 ($C818) Current toggle state of stick 2 button 3
+<br>Vec_Button_2_4 ($C819) Current toggle state of stick 2 button 4</blockquote>
+The bitmap used in all above BIOS RAM locations is as in the above program:
+<blockquote><b>joystick 1</b>:
+<br>button 1: $01
+<br>button 2: $02
+<br>button 3: $04
+<br>button 4: $08
+<p><b><font size=+0>joystick 2</font></b>:
+<br>button 1: $10
+<br>button 2: $20
+<br>button 3: $40
+<br>button 4: $80</blockquote>
+With the that information we can easily change our above program to print
+a steady message whether a button is currently pressed or not. From the
+at least two different approaches we take the (IMHO) easier one:
+<p><a href="button2.asm">button2.asm</a>
+<p>I think we pretty much exhausted the possibilities of the buttons with
+the above two examples (leave alone the masked button requests, but they
+are not really that different) let us go on to the joystick(s).
+<p>As you have seen above there are two functions for joystick information
+gathering. I will only explain a bit of Joy_Digital ($F1F8), since analogous
+is (again IMHO) not all that useful, and takes considerable time to calculate
+and is even a bit unstable.
+<p>Some preliminaries first. When you program a game you'll probably at
+one stage know what kind of joystick routine you need (one or two joysticks,
+digital or analogous), once you know that, you should set up the BIOS joystick
+routines for your needs, because (and I really mean it) these routines
+are cycle wasters, and every bit they have to calculate to much is really
+a waste. There are the following BIOS RAM locations:
+<blockquote>Vec_Joy_Mux_1_X ($C81F) Joystick 1 X enable/mux flag (=1)
+<br>Vec_Joy_Mux_1_Y ($C820) Joystick 1 Y enable/mux flag (=3)
+<br>Vec_Joy_Mux_2_X ($C821) Joystick 2 X enable/mux flag (=5)
+<br>Vec_Joy_Mux_2_Y ($C822) Joystick 2 Y enable/mux flag (=7)</blockquote>
+Into these you should pass the information what you want to know. 0 means
+not interested and the 'flag' numbers mean that you are interested. In
+the example program below we are only interested in joystick one, but both
+X and Y position.
+<p><a href="joystick1.asm">joystick1.asm</a>
+<p>The above example is (hopefully understandable) again straight forward.
+A simple example for a joypad inquiry. The above tested BIOS RAM locations
+contain always the current position of the joypad (current means last
+set by the Joy_Digital function). Negative values stand for left/down,
+positive for right/up and zero for no movement detected. Following are
+again the BIOS RAM locations, where these will be set, both for joypad
+1 and joypad 2.
+<blockquote>Vec_Joy_1_X ($C81B) Joystick 1 left/right
+<br>Vec_Joy_1_Y ($C81C) Joystick 1 up/down
+<br>Vec_Joy_2_X ($C81D) Joystick 2 left/right
+<br>Vec_Joy_2_Y ($C81E) Joystick 2 up/down</blockquote>
+
+<center>
+<p><a href="vectordisplay.htm">Next page</a> <a href="soundplaying.htm">Last
+Page</a>
+<p><a href="toc.htm">Vectrex Programming TOC</a></center>
+
+</body>
+</html>

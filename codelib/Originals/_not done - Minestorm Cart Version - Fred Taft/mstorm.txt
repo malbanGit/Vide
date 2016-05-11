@@ -1,0 +1,3793 @@
+	include "OSMap.h"
+	include "MSMap.h"
+	include "FnMap.h"
+
+;
+; This work was originally done by Fred Taft
+; (fred@hp.com). Please forward any comments,
+; corrections or additions back to Fred.
+;
+; Mine Storm
+;
+;********************************************
+;
+; The following is the memory map for 
+; Minestorm RAM usage:
+;
+; C880		This contains the enable mask
+;		used when Minestorm wants to
+;		read the console buttons.
+;
+; C881-C882	This contains the mask used 
+;		by Minestorm when it wants to
+;		read the joystick state.  
+;		This mask will be used for 
+;		both the console 1 & 2 pots;
+;		console 2 ones are ignored.
+;
+; C883		Used when calculating the 
+;		angle at which a magnetic
+;	      	mine will travel, as it is 
+;		drawn toward the command
+;	      	ship.  It will end up holding
+;		the new angle value.
+;
+; C884-C886	Not used.
+;
+; C887-C888	Used when calculating the 
+;		value of a mine; contains
+;	      	any bonus for the mine size.
+;
+; C889-C88A	Used when calculating the 
+;		value of a mine; contains the
+;		base value for the mine type;
+;		the mine size bonus is later
+;		added in.
+;
+; C88B		Work variable.
+;
+; C88C-C88E	Not used.
+;
+; C88F		This is used as a loop 
+;		counter during bullet 
+;		processing.
+;
+; C890-C891	Work variables.
+;
+; C892-C89A	Not used.
+;
+; C89B		This indicates which players
+;		turn it is:
+;
+;			0 -> Player 1
+;			2 -> Player 2
+;
+; C89C
+; C89D-C89E	These locations are used as 
+;		an indirect jump pointer and
+;		counter pair.  The address of
+;		the routine to be called is 
+;		placed in C89D-C89E, and a 
+;		value is placed in C89C.  
+;		Each time through the main 
+;		loop, the counter is 
+;		decremented.  When the value
+;		finally reaches 0, the 
+;		routine will be called.  By 
+;		using random counters, you 
+;		can make things behave 
+;		differently each time.
+;
+; C89F
+; C8A0-C8A1	These locations are used as 
+;		an indirect jump pointer and
+;		counter pair.  The address of
+;		the routine to be called is 
+;		placed in C8A0-C8A1, and a 
+;		value is placed in C89F.  
+;		Each time through the main 
+;		loop, the counter is 
+;		decremented.  When the value
+;		finally reaches 0, the 
+;		routine will be called.  By
+;		using random counters, you 
+;		can make things behave 
+;		differently each time.
+;
+; C8A2
+; C8A3-C8A4	These locations are used as
+;		an indirect jump pointer and
+;		counter pair.  The address of
+;		the routine to be called is 
+;		placed in C8A3-C8A4, and a 
+;		value is placed in C8A2.  
+;		Each time through the main 
+;		loop, the counter is 
+;		decremented.  When the value
+;		finally reaches 0, the 
+;		routine will be called.  By
+;		using random counters, you 
+;		can make things behave 
+;		differently each time.
+;
+; C8A5
+; C8A6-C8A7	These locations are used as
+;		an indirect jump pointer and
+;		counter pair.  The address of
+;		the routine to be called is 
+;		placed in C8A6-C8A7, and a 
+;		value is placed in C8A5.  
+;		Each time through the main 
+;		loop, the counter is 
+;		decremented.  When the value
+;		finally reaches 0, the 
+;		routine will be called.  By
+;		using random counters, you 
+;		can make things behave 
+;		differently each time.
+; 
+; C8A8-C8AE	This is a 7 byte buffer, used
+;		to contain player 1's score
+;		string.  The string has the 
+;		following format:
+; 
+;      			"     0",0x80
+; 
+; C8AF-C8B5	This is a 7 byte buffer, used
+;		to contain player 2's score 
+;		string.  The string has the 
+;		following format:
+; 
+;      			"     0",0x80
+; 
+; C8B6		Flags that a bullet sound 
+;		should be made.
+; 
+; C8B7		Used as a loop counter during
+;		initial screen seeding.
+; 
+; C8B8		Used as a temporary variable
+;		in several places.
+;		Saves number of mines, during
+;		screen re-seeding.
+;
+; C8B9-C8BA	Points to an entry in the 
+;		mine buffer; used during
+;		screen re-seeding.
+;
+; C8BB-C8BC	Not used.
+;
+; C8BD		Flags that the command ship 
+;		has been disabled.
+;
+; C8BE		Set when the active player 
+;		has no more command ships to
+;		play with.
+;
+; C8BF		During a screen re-seed 
+;		operation (when the user has
+;		cleared all but small mines),
+;		this keeps track of the 
+;		number of mines which still
+;		need to be re-seeded by the 
+;		mother ship.
+;
+; C8C0		This flags that a new mine 
+;		has been made visible, during
+;		screen re-seeding.
+; 
+; C8C1		Used as a loop counter during
+;		mine re-seeding.
+; 
+; C8C2-C8C3	This contains a pointer into
+;		the structure describing 
+;		which mines are visible at 
+;		the level the active player
+;		is at.
+; 
+; C8C4-C8C5	This contains a pointer into
+;		the structure describing
+;		which mines are visible at 
+;		the level that player 1 is
+;		at.
+; 
+; C8C6-C8C7	This contains a pointer into
+;		the structure describing
+;		which mines are visible at 
+;		the level that player 2 is 
+;		at.
+; 
+; C8C8-C8C9	This contains the y 
+;		coordinate of the command 
+;		ship.  When drawing the 
+;		command ship, only the upper
+;		byte (C8C8) is used.  The 
+;		lower byte is there only to
+;		make motion graceful; i.e. 
+;		when the ship is moving, the
+;		motion delta is added into 
+;		the lower byte (C8C9), and 
+;		the ship will only end up 
+;		moving, when the lower byte 
+;		overflows into the upper 
+;		byte.
+; 
+; C8CA-C8CB	This contains the x 
+;		coordinate of the command 
+;		ship.  When drawing the 
+;		command ship, only the upper
+;		byte (C8CA) is used.  The 
+;		lower byte is there only to
+;		make motion graceful; i.e. 
+;		when the ship is moving, the
+;		motion delta is added into 
+;		the lower byte (C8CB), and 
+;		the ship will only end up 
+;		moving, when the lower byte
+;		overflows into the upper
+;		byte.
+; 
+; C8CC-C8CD
+; C8CE-C8CF
+; C8D0-C8D1
+; C8D2-C8D3	Used when calculating ship 
+;		movement.
+; 
+; C8D4		This contains the rotation 
+;		value for the command ship.
+; 
+; C8D5		This contains the velocity of
+;		the command ship.
+; 
+; C8D6
+; C8D7
+; C8D8		These are used when 
+;		calculating the x and y 
+;		position for the command 
+;		ship, while it is moving.
+; 
+; C8D9		This contains the extra ship
+;		count for the active player.
+; 
+; C8DA		This contains the extra ship
+;		count for player 1.
+; 
+; C8DB		This contains the extra ship
+;		count for player 2.
+; 
+; C8DC-C8DD	Contains the position (y,x)
+;		at which the enemy mother
+;		ship is to be drawn.
+; 
+; C8DE-C8DF	Used to calculate the y 
+;		coordinate of the enemy 
+;		mother ship, during screen 
+;		re-seeding.
+; 
+; C8E0-C8E1	Used to calculate the x 
+;		coordinate of the enemy 
+;		mother ship, during screen 
+;		re-seeding.
+; 
+; C8E2-C8E3	Used to calculate the y 
+;		coordinate of the enemy 
+;		mother ship, during screen 
+;		re-seeding.
+; 
+; C8E4-C8E5	Used to calculate the x 
+;		coordinate of the enemy 
+;		mother ship, during screen 
+;		re-seeding.
+; 
+; C8E6		This contains the value which
+;		indicates at what angle a 
+;		re-seeded mine will drift.
+; 
+; C8E7		Flags that the enemy mother 
+;		ship is out re-seeding the
+;		screen, because the user has
+;		cleared all but some small
+;		mines.
+; 
+; C8E8-C8E9	Use as temporary storage for
+;		a pointer.
+; 
+; C8EA		This contains the number of 
+;		active bullets.
+; 
+; C8EB		This is used to keep track of
+;		the number of active (those 
+;		which are floating around) 
+;		mines.
+; 
+; C8EC		This is set after the command
+;		ship has started exploding,
+;		and is cleared when the 
+;		command ship explosion has
+;		completed.
+; 
+; C8ED		This contains the number of 
+;		unused mines; i.e. those
+;		which are still dots.
+; 
+; C8EE		Flags that a hyperspace is 
+;		active.
+; 
+; C8EF		This contains the scale 
+;		factor to be used the next 
+;		time the hyperspace dots are
+;		drawn.  This value is 
+;		decremented by 4 each time 
+;		through the loop, until the
+;		lower limit is reached; at 
+;		that point, the hyperspace is
+;		complete.
+; 
+; C8F0-C8F1	This serves as the end of 
+;		game loop counter;  after a
+;		game is over, the system 
+;		waits awhile (unless you 
+;		press a button) before it 
+;		starts a new game 
+;		automatically.  When this 
+;		value decrements to 0, the 
+;		new game starts.
+; 
+; C8F2		Flags that the command ship 
+;		movement sound should be 
+;		made.
+; 
+; C8F3		Flags that an explosion sound
+;		should be made.
+; 
+; C8F4		Flags that a sound for a new
+;		mine 'popping' up should be 
+;		made.
+; 
+; C8F5		Not used.
+; 
+; C8F6		Flags that the hyperspace 
+;		sound should be made.
+; 
+; C8F7		Used as a counter, while the
+;		command ship is being
+;		destroyed.
+; 
+; C8F8		Contains the scale factor 
+;		which is used to draw the
+;		command ship, as it is being
+;		destroyed.  This is 
+;		incremented, to give the 
+;		effect of the ship being
+;		destroyed, and the parts 
+;		separating.
+; 
+; C8F9-C8FF	This is a 7 byte buffer, used
+;		to contain player 1's level 
+;		string.  The string has the 
+;		following format:
+; 
+;			"     0",0x80
+; 
+; C900-C906	This is a 7 byte buffer, used
+;		to contain player 2's level 
+;		string.  The string has the 
+;		following format:
+; 
+;			"     0",0x80
+; 
+; C907-C908
+; C909-C90A	These are used to contain 
+;		some calculated values, which
+;		are used to transform the 
+;		command ships coordinates.
+;		These values pertain to 
+;		rotation, and could possibly
+;		be sin & cos values.  
+;		Actually, I think they are 
+;		rise & run values.
+; 
+; C90B-C932	This is a 40 byte buffer, 
+;		used to keep track of active
+;		bullets.  The buffer is 
+;		composed of 4 entries, each 
+;		of 10 bytes.  Upto 4 bullets
+;		may be active at any moment.
+;		See the section on Data 
+;		Structures, for an 
+;		explanation of how this 
+;		buffer is organized.
+; 
+; C933-CB2A	This is a 504 byte buffer, 
+;		used to keep track of all of
+;		the mines (both active, 
+;		inactive & dead).  The buffer
+;		is composed of 28 entries, 
+;		each of 18 bytes.  See the 
+;		section on Data Structures, 
+;		for an explanation of how 
+;		this buffer is organized.
+; 
+; CB2B-CB70	This is a 70 byte buffer, 
+;		used to keep track of 
+;		explosions which are 
+;		currently being displayed.
+;		The buffer is composed of 14
+;		entries, each of 5 bytes.  
+;		Obviously, only upto 14 
+;		explosions can be displayed 
+;		at any one time.  See the 
+;		section on Data Structures,
+;		for an explanation of how 
+;		this buffer is organized.
+; 
+; CB71-CB80	This is an array of 8 
+;		pointers.  Each of these 
+;		pointers point to a set of 
+;		motion dots, which are drawn
+;		as the ship (and user) move 
+;		to the next mine level.  They
+;		are meant to simulate ship 
+;		motion.
+; 
+; CB81-CB88	This is an array of 8 scale 
+;		factors.  The scale factors
+;		are used when the 
+;		corresponding set of motion 
+;		dots (see above entry) are 
+;		drawn.
+; 
+; CB89-CBA2	This is a 26 byte buffer, 
+;		used to hold the 
+;		transformated points which 
+;		make up the command ship.  
+;		The values here are produced
+;		by taking the command ship 
+;		points, and running them 
+;		through a rotation 
+;		transformation.
+; 
+; CBA3-CBA6	Not used.
+; 
+; CBA7-CBB3	This is a 13 byte buffer, 
+;		used to hold the 
+;		transformated points which 
+;		make up a fire ball.  These 
+;		are re-transformed every so 
+;		often, to give the fireball
+;		the effect of rotating.
+;
+;*********
+;
+; DATA STRUCTURES
+; ---------------
+; 
+; Bullet Structure
+; 	
+;	Each entry in the bullet structure is
+;	composed of 10 bytes.  The format for
+;	an entry is as follows:
+;      
+;	  -------------------  0 = not in use
+;	0 | in-use flag     |  1 = in use
+;	  -------------------
+;	1 |     Rise        |
+;	  -                 -
+;	2 |    Value        |
+;	  -------------------
+;	3 |     Run         |
+;	  -                 -
+;	4 |    Value        |
+;	  -------------------
+;	5 |   Bullet  y     |
+;	  -                 -
+;	6 |   Coordinate    |
+;	  -------------------
+;	7 |   Bullet  x     |
+;	  -                 -
+;	8 |   Coordinate    |
+;	  -------------------  Time until
+;	9 |   Life span     |  bullet dies
+;	  -------------------  (disappears)
+;
+;
+;
+; Mine Structure
+;
+;	Each entry in the mine structure is
+;	18 bytes, and has the following 
+;	format:
+;
+;
+;	   -------------------
+;	0  |   State flag    |   (see note 1)
+;	   -------------------
+;	1  |   Mine type     |   (see note 2)
+;	   -------------------
+;	2  |  Scale  Factor  |
+;	   -------------------
+;	3  |  Generation #   |   (see note 3)
+;	   -------------------
+;	4  |    Mine  y      |
+;	   -                 -
+;	5  |    Coordinate   |
+;	   -------------------
+;	6  |    Mine  x      |
+;	   -                 -
+;	7  |    Coordinate   |
+;	   -------------------
+;	8  |     Rise        |
+;	   -                 -
+;	9  |     Value       |
+;	   -------------------
+;	10 |      Run        |
+;	   -                 -
+;	11 |     Value       |
+;	   -------------------
+;	12 | Width of mine/2 |
+;	   -------------------
+;	13 | Height of mine/2|
+;	   -------------------
+;	14 |    Value of     |
+;	   -                 -
+;	15 |   Mine (BCD)    |
+;	   -------------------
+;	16 |  (see note 4)   |
+;	   -------------------
+;	17 | final x postion |
+;	   -------------------
+;
+;	note1 : The state flag is used to 
+;		indicate what the state of
+;		this mine is.  It can take on
+;		one of the following values:
+;      
+;		0x00	No mine defined.
+;		0x01	Being destroyed.
+;		0x08	Visible, and moving.
+;		0x10	Visible, not moving.
+;		0x20	Becoming visible.
+;		0x40	Mine is still a dot.
+;		0x80	Dot is still moving 
+;			to its final x 
+;			position.
+;      
+;      	The life of a mine follows the story
+;	presented below.  Before a mine is 
+;	defined, the state is 0x00.  When a 
+;	mine is first being seeded, a final x
+;	position is calculated, and the mine
+;	is 'dropped' from the mother ship; 
+;	the state is now 0x80.  It will drift
+;	off in the x direction, until it 
+;	reaches its final x position; the 
+;	state is now 0x40.  As the mine is 
+;	first made visble, the state will 
+;	become 0x20.  Once a mine is visible,
+;	it does not immediately start moving;
+;	the state is now 0x10.  Once the mine
+;	starts moving, the state becomes 
+;	0x08.  When (if) the mine is ever 
+;	destroyed, the state will be 0x01
+;	while the explosion pattern is 
+;	displayed.  When the explosion 
+;	pattern is complete, the state will 
+;	revert back to 0x00.
+;      
+;	note2 : The mine type can take on any
+;		of the following 5 values:
+;      
+;		0	dumb mine
+;		1	magnetic mine
+;		2	fireball mine
+;		3	magnetic fireball
+;		4	fireball
+;      
+;	note3 : The generation number 
+;		indicates whether the mine is
+;		a large (3), medium (2) or 
+;		small (1) mine.
+;      
+;	note4 : Depending upon the state of 
+;		the mine, this field can mean
+;		1 of 3 things:
+;      
+;		1) When the mine is a dot, 
+;		   moving towards its final
+;		   resting place, this 
+;		   contains the delta x 
+;		   value; i.e. how much it 
+;		   should move each time, 
+;		   until it reaches its final
+;		   resting place.
+;      
+;		2) If this is a large mine, 
+;		   then when the mine first
+;		   'pops' up, it doesn't go 
+;		   right from a dot to a 
+;		   large mine; rather, it 
+;		   goes from a dot to a small
+;		   mine, to a medium mine, 
+;		   and then to a large mine.
+;		   It this case, this field 
+;		   contains the scale factor 
+;		   which is used to draw the
+;		   large mine as it 'pops' 
+;		   up.
+;      
+;		3) Once a mine becomes 
+;		   visible, it does not 
+;		   immediately begin to move;
+;		   it stays stationary for a
+;		   short amount of time.  In
+;		   this case, this field 
+;		   contains a counter value,
+;		   which says how long the 
+;		   mine should remain
+;		   stationary.
+;      
+;      
+; Explosion Buffer
+;
+;	Each entry in the explosion buffer is
+;	5 bytes long, and has the following 
+;	format:
+;      
+;	  -----------------------
+;	0 |  Type of explosion  |(see note 5)
+;	  -----------------------
+;	1 |  Max scale factor   |
+;	  -----------------------
+;	2 |    Y coordinate     |
+;	  -----------------------
+;	3 |    X coordinate     |
+;	  -----------------------
+;	4 |Current scale factor |
+;	  -----------------------
+;
+;	note5:	The type field can assume any
+;		of the following values:
+;      
+;	      0   = Not an active explosion
+;	   0x81   = Command ship explosion.
+;	all other = Mine/enemy ship explosion
+;
+;********************************************
+;
+
+
+     org 0x0000;
+
+MS_header:
+      db "g GCE 1988",0x80
+      dw MS_music  	; Music block ptr 
+      db  -8    	; height
+      db  80    	; width
+      db  48    	; rel y
+      db -24    	; rel x
+      db "MINE",0x80
+      db  -8    	; height
+      db  80    	; width
+      db  0   		; rel y
+      db  -34    	; rel x
+      db "STORM",0x80
+      db  -8    	; height
+      db  80    	; width
+      db  -48  		; rel y
+      db  -20    	; rel x
+      db "III",0x80
+      db 0x00
+
+; Start of the Mine Storm game 
+MS_start:
+      ldx   #ETMP1        ; Clear C883 - CBC5
+PE019: clr   ,x+
+      cmpx  #ENDRAM
+      bne   PE019
+
+      jsr   init_motion_dots
+      inc   ZSKIP
+      lda   #0xBB        ; Set console enable
+      sta   SATUS        ; flags
+      ldx   #0x0101
+      stx   SJOY         ; Set jstick mask
+
+restart_game:
+      ldx   #ETMP1       ; Clear C883 - CB70
+PE034: clr   ,x+
+      cmpx  #MS_END
+      bne   PE034
+      bra   PE03D
+
+	direct	$C8
+PE03D: jsr   DPRAM
+      ldd   #0x0200      ; Get # of players
+      jsr   SELOPT
+      dec   PLAYRS       ; # players selected
+      clr   TSTAT
+      clr   ACTPLY       ; Active player
+
+      ldx   #SCOR1       ; Init player 1 
+      jsr   SCLR         ; score
+      ldx   #SCOR2       ; Init player 2
+      jsr   SCLR         ; score
+      ldx   #P1LVL       ; Init mine field #
+      jsr   SCLR         ; for player 1  
+      ldd   #0x0001
+      jsr   SCRADD
+      ldx   #P2LVL       ; Init mine field #
+      jsr   SCLR         ; for player 2 
+      ldd   #0x0001
+      jsr   SCRADD
+
+      ldx   #mines_at_level_x  ; Init ptrs
+      stx   P1MINES      ; describing mines 
+      stx   P2MINES      ; at current level.  
+
+      lda   #0x05        ; # ships for active
+      sta   CPXSHP       ; player 
+      sta   P1XSHP       ; Player 1 ships
+      sta   P2XSHP       ; Player 2 ships
+      bra   restart_same_level
+
+
+start_next_mine_level:
+      jsr   bring_ship_to_center
+      ldy   #P1MINES     ; Point to mine info
+      lda   ACTPLY       ; for the next level
+      ldx   a,y
+      leax  4,x
+      stx   a,y
+
+      ldx   #mine_field_level_pointers
+      lda   ACTPLY       ; Award bonus ship
+      ldx   a,x          ; if level is a
+      lda   5,x          ; multiple of 4
+      anda  #0x03
+      bne   goto_next_mine_level
+      inc   CPXSHP
+
+goto_next_mine_level:
+      ldd   #0x0001      ; Incr mine field 
+      jsr   SCRADD       ; level indicator. 
+restart_same_level:
+      jsr   init_RAM_for_new_level
+      ldx   #P1MINES     ; Use active players
+      lda   ACTPLY       ; info to determine
+      ldx   a,x          ; mines at this
+      lda   ,x           ; level.
+      bmi   check_4_end_of_game ; After level 
+      jsr   seed_the_screen  ; 13, skip any
+      bra   main_loop    ; level whose 1st
+                         ; byte is negative.
+
+check_4_end_of_game:
+      ldd   ENDCNTR      ; If ENDCNTR counts
+      subd  #0x0001      ; down to 0, start a
+      std   ENDCNTR      ; a new game.
+      beq   start_a_new_game
+
+      ; Display 'game over' string, & both 
+      ; scores 
+      pshs  dp
+      jsr   DPIO
+	direct $D0
+      jsr   display_both_scores
+      ldu   #game_over
+      jsr   MS_print_1_string7F
+      puls  dp
+	direct $C8
+
+      lda   TRIGGR       ; If no buttons 
+      beq   main_loop    ; pressed, then see
+                         ; if we should goto
+                         ; advanced levels.
+
+      ; Find out if a new hi score is 
+      ; available, and then start up a new 
+      ; game.
+	
+start_a_new_game:
+      ldx   #SCOR1       ; Check player 1 
+      ldu   #HISCOR      ; score.
+      jsr   HISCR
+      ldx   #SCOR2       ; Check player 2 
+      ldu   #HISCOR      ; score.
+      jsr   HISCR
+      ldd   ENDCNTR
+      lbne  restart_game ; Start new game      
+      jsr   INTALL
+      clr   LEG          ; Flag that hi score
+      lds   #STKSTRT     ; should be shown.
+      jmp   PWRUP        ; Go thru complete 
+                         ; reset sequence .
+
+;
+; This is the main loop during a players 
+; turn.  Control will remain in this loop, 
+; until either a player clears a level,
+; or has his ship destroyed.
+
+main_loop:
+      pshs  dp
+      jsr   process_indirect_jumps
+      jsr   draw_non_dead_mines
+      jsr   process_jstick_and_buttons
+      jsr   process_bullets
+      jsr   reseed_screen
+      puls  dp
+      jsr   check_bullets_for_hits
+      jsr   check_ship_4_mine_collision
+      jsr   check_ship_4_enemy_collision
+      jsr   display_explosion_pattern
+      blo   main_loop
+      lda   CS_DIS       ; See if cmd ship is
+      lbeq  start_next_mine_level ; disabled.
+      lda   GAMEOVR      ; See if the game is
+      lbne  check_4_end_of_game   ; over.
+      jmp   restart_same_level
+
+
+;
+; This block of code is responsible for 
+; seeding the screen at the beginning of 
+; play.  It will draw the enemy ship as it 
+; moves from the top of the screen to the 
+; bottom.  After the field has been 
+; completely seeded, the mine field number 
+; will be displayed.  I think that the x 
+; register, at entry, points to a structure 
+; describing the types of mines for this 
+; level.
+
+seed_the_screen:
+      stx   CPMINES      ; Save mine info ptr  
+      ldd   #0x7F00
+      std   MSHP_YX      ; Enemy ship coords .
+      sta   SEEDCTR      ; Loop cntr (0x7F) .
+      lda   #0x20
+      sta   TMR1         ; Set indirect jump 
+      ldx   #generate_mine_coords ; ptr to
+      stx   T1FUNC       ; set mine coords.        
+      ldx   #MINEBUF     ; Load mine buf addr
+      stx   MINEPTR
+      lda   #0x1D        ; Load # of mines
+      sta   MINECNT
+      clr   TSTAT
+      ldu   #MS_music
+      jsr   SPLAY
+continue_seeding_screen:
+      pshs  dp           ; Draw active player
+      jsr   PE711        ; ship count.
+      jsr   REPLAY
+      lda   FRAMLO       ; Decr loop counter
+      bita  #0x01        ; every other pass.                
+      bne   PE15C
+      dec   SEEDCTR
+PE15C: jsr   process_indirect_jumps
+
+      ; This block draws the enemy ship
+	direct -1
+      jsr   display_both_scores
+      jsr   REQOUT
+      jsr   draw_non_dead_mines
+      jsr   INT3Q        ; Wait til screen is
+      ldb   SEEDCTR      ; seeded, then start
+      beq   activate_4_mines ; 1st 4 mines.   
+      ldx   #enemy_ship_pt1
+      ldy   MSHP_YX
+      jsr   move_y_draw_x ; Draw enemy ship.
+      ldx   #enemy_ship_pt2
+      jsr   move_y_draw_x
+      ldx   #enemy_ship_pt3
+      jsr   move_y_draw_x
+      puls  dp
+	direct $C8       ; Move enemy ship
+      dec   MSHP_Y       ; from top to bottom
+      bra   continue_seeding_screen
+
+;
+; This routine is called at the beginning of 
+; a turn for the active player.  It will 
+; activate the first 4 mines for the level.  
+; The type of mines activated are controlled
+; by the array whose pointer is contained in 
+; CPMINES.
+
+activate_4_mines:
+      puls  dp
+      clr   TMR1
+      lda   #0x04        ; Set loop counter. 
+      sta   SEEDCTR      ; Set delay counter;
+      lda   #0x7F        ; when = 0, stop
+      sta   MINECNT      ; displaying mine
+                         ; field # and start
+                         ; 1st 4 mines.
+
+PE198: lda   SEEDCTR     ; Exit when loop
+      beq   PE1E6        ; counter = 0 .
+      ldb   MINECNT
+      beq   PE1A4        ; Don't activate the
+      dec   MINECNT      ; mines til MINECNT
+      bra   PE1B6        ; =0 to allow the
+                         ; mine field # to
+                         ; show a while.
+PE1A4: ldb   FRAMLO      ; After every 31
+      andb  #0x1F        ; loops, activate
+      bne   PE1B6        ; another mine. 
+      deca
+      sta   SEEDCTR      ; Decr loop counter.
+      ldx   CPMINES
+      lda   a,x          ; Get mine type.
+      ldb   #0x03        ; Set generation #
+      jsr   activate_a_mine ; to 'largest'.
+	direct -1
+PE1B6: pshs  dp
+      jsr   process_indirect_jumps
+
+      ; Tell user what mine field # this is 
+      jsr   INTMAX
+      ldu   #mine_field
+      jsr   MS_print_1_string7F
+      ldy   #0xE0F8
+      ldu   #mine_field_level_pointers
+      lda   ACTPLY
+      ldu   a,u
+      jsr   move_y_print_string
+
+      jsr   draw_non_dead_mines
+      jsr   process_jstick_and_buttons
+      jsr   process_bullets
+      puls  dp
+      jsr   check_bullets_for_hits
+      jsr   display_explosion_pattern
+      bra   PE198
+PE1E6: rts
+
+
+; 
+; This block of code generates random 
+; coordinates for a single mine.  MINEPTR 
+; contains a pointer to the appropriate entry
+; in the mine structure.  Before exiting, 
+; this routine will update the pointer in 
+; MINEPTR to point to the next entry.
+
+	direct $C8
+generate_mine_coords:
+      dec   MINECNT      ; Decr mine cntr.
+      beq   PE239        ; Exit when = 0.  
+      inc   DOTMINE      ; Incr mine dot cntr       
+      jsr   RANDOM
+      anda  #0x07        ; Reset jump cntr to 
+      adda  #0x04        ; generate next set
+      sta   TMR1         ; of mine coords.                   
+      ldu   MINEPTR      ; Flag a mine is in
+      lda   #0x80        ; this slot .
+      sta   ,u           ; Get the coords of
+      ldd   MSHP_YX      ; the enemy ship.
+      adda  #0x08
+      sta   4,u          ; Save y coord.
+      clr   5,u
+      stb   6,u          ; Save x coord.
+      clr   7,u
+generate_final_x_for_mine:
+      jsr   RANDOM       ; Generate final x
+      tsta               ; pos for the mine.                        
+      bmi   PE21A
+      cmpa  #0x10
+      bge   PE214
+      adda  #0x0C
+PE214: cmpa  #0x60
+      ble   PE226
+      bra   generate_final_x_for_mine
+PE21A: cmpa  #0xF0
+      ble   PE220
+      suba  #0x0C
+PE220: cmpa  #0xA0
+      bge   PE226
+      bra   generate_final_x_for_mine
+
+PE226: sta   0x11,u
+      tfr   a,b          ; Determine delta
+      sex                ; movement value for
+      ora   #0x01        ; the mine (1 or -1)
+      sta   0x10,u
+      clr   2,u          ; Set scale factor.
+      leay  0x12,u       ; Point to next slot 
+      sty   MINEPTR
+PE239: rts
+
+final_mine_scale_factor:
+      db 0x00
+      db 0x02            ; Small 
+      db 0x07            ; Medium 
+      db 0x10            ; Large 
+
+mine_velocity:
+      db 0x00
+      db 0x20            ; Small 
+      db 0x18            ; Medium 
+      db 0x10            ; Large 
+
+mine_values:
+      db 0x01            ; dumb mine =
+      db 0x00            ; BCD 100.
+      db 0x05            ; magnetic mine =
+      db 0x00            ; BCD 500.
+      db 0x03            ; fireball mine =
+      db 0x25            ; BCD 325.
+      db 0x07            ; magnetic fireball
+      db 0x50            ; mine = BCD 750.
+
+extra_mine_value:
+      db 0x00
+      db 0x00
+      db 0x01            ; Small (100) 
+      db 0x00
+      db 0x00            ; Medium (35) 
+      db 0x35
+      db 0x00            ; Large (0) 
+      db 0x00
+
+mine_sizes:
+      db 0x00
+      db 0x00
+      db 0x04            ; Small 
+      db 0x04
+      db 0x08            ; Medium 
+      db 0x08
+      db 0x0D            ; Large 
+      db 0x0D
+
+; Table of pointers to mine vectors 
+mine_vector_ptrs:
+      dw dumb_mine
+      dw magnetic_mine
+      dw fireball_mine
+      dw magnetic_fireball_mine
+
+
+;
+; This block of code processes the hyperspace
+; and move buttons.  It also checks the state
+; of the joystick, and updates the command 
+; ship rotation value, kept in SHPANGL, if 
+; the joystick is not centered.  If the 
+; joystick is left, then the rotation value
+; is incremented; if it is to the right, then
+; the rotation value is decremented.  After 
+; updating the rotation value, the command 
+; ship will be redrawn at its current 
+; position (specified in SHIP_Y - SHIPY+1).
+
+process_jstick_and_buttons:
+      pshs  dp
+      lda   #0xC8
+      tfr   a,dp
+      lda   CS_DIS       ; Skip if cmd ship
+      lbne  PE30A        ; is disabled.
+      lda   HYPERON     ; Continue hyperspace
+      lbne  continue_hyperspace ; if active.
+      lda   KEY1         ; Check hyperspace
+      lbne  hyperspace   ; button (btn 2).
+      lda   KEY2         ; Check move button
+      beq   no_ship_movement ; (btn 3).
+
+      ;
+      ; The following block of code takes 
+      ; care of generating the new command 
+      ; coordinates, because it is moving.  
+      ; It attempts to make all turns into 
+      ; smooth motion.
+	
+      lda   SHPANGL
+      cmpa  SHPANG2
+      beq   PE2A0
+      cmpa  SHPANG3
+      beq   PE290
+      lda   SHPVEL
+      beq   PE2A0
+      lda   SHPANG4
+      bne   no_ship_movement
+PE290: lda   SHPANG4
+      adda  #0x0C
+      cmpa  #0x7F
+      bhi   no_ship_movement
+      sta   SHPANG4
+      lda   SHPANGL
+      sta   SHPANG3
+      bra   PE2AE
+PE2A0: lda   SHPVEL
+      adda  #0x0C
+      cmpa  #0x7F
+      bhi   no_ship_movement
+      sta   SHPVEL
+      lda   SHPANGL
+      sta   SHPANG2
+PE2AE: inc   MKMVSND     ; Flag that a sound
+                         ; should be made .
+
+no_ship_movement:
+      lda   SHPVEL
+      beq   PE2C2
+      suba  #0x02
+      sta   SHPVEL
+      ldb   SHPANG2
+      jsr   calc_rise_run1
+      sty   SHIP_RISE_MOVING
+      stx   SHIP_RUN_MOVING
+PE2C2: lda   SHPANG4
+      beq   PE2D4
+      suba  #0x02
+      sta   SHPANG4
+      ldb   SHPANG3      ; Calc new rise/run.
+      jsr   calc_rise_run1
+      sty   SHPRIS2
+      stx   SHPRUN2
+PE2D4: ldd   SHIP_Y      ; Update cmd ships y
+      addd  SHIP_RISE_MOVING ; coord.
+      addd  SHPRIS2
+      std   SHIP_Y
+      ldd   SHIP_X       ; Update cmd ships x
+      addd  SHIP_RUN_MOVING  ; coord.
+      addd  SHPRUN2
+      std   SHIP_X
+
+      ; Check joystick state (in POT0) 
+      lda   POT0
+      beq   draw_cmd_ship1; ; Centered.
+      bmi   PE2EE
+      dec   SHPANGL      ; Joystick to right.
+      bra   draw_cmd_ship2
+PE2EE: inc   SHPANGL     ; Joystick to left.
+      bra   draw_cmd_ship2
+PE2F2: pshs  dp
+
+;
+; draw_cmd_ship2() runs the command ships 
+; coordinates thru a rotation transformation, 
+; and then draws the command ship using the 
+; transformed coordinates.  draw_cmd_ship1() 
+; draws the command ship using the current 
+; transformed ship coordinates.
+
+draw_cmd_ship2:
+      jsr   rotate_cmd_ship ; Rotate the cmd
+draw_cmd_ship1:             ; ship.
+      lda   #0xD0
+      tfr   a,dp
+	direct $D0
+      jsr   INT3Q
+      ldb   #0x0C
+      ldy   #SHIP_YX     ; Draw xformed cmd
+      ldx   #XFRMSHP     ; ship.
+      jsr   move_y_draw_x2
+PE30A: puls  dp,pc
+
+
+; This routine handles the hyperspace request 
+	direct $C8
+hyperspace:
+      lda   #0x80
+      sta   HYPERON
+      jsr   RANDOM
+      anda  #0x03
+      adda  #0x03
+      sta   HYPSCAL
+      inc   MKHYSND
+continue_hyperspace:
+      lda   HYPERON
+      bpl   process_hyperspace_dots
+      dec   HYPSCAL
+      beq   PE330
+      jsr   MS_get_2_random_nums
+      sta   SHIP_Y
+      clr   SHIP_YL      ; Generate new cmd   
+      stb   SHIP_X       ; ship coords.      
+      clr   SHIP_XL
+      puls  dp,pc
+PE330: lsr   HYPERON
+      lda   #0x1F
+      sta   HYPSCAL
+      puls  dp,pc
+
+
+;
+; This code draws the ever decreasing 
+; hyperspace dots during an active 
+; hyperspace.  The scale factor for the 
+; hyperspace dots, stored in HYPSCAL, is 
+; decremented, and when it finally reaches a 
+; minimum value, the hyperspace is complete.
+
+process_hyperspace_dots:
+      ldb   HYPSCAL      ; See if scale 
+      cmpb  #0xE0        ; factor has reached
+      ble   hyperspace_complete ; the limit.
+      lda   HYPSCAL
+      suba  #0x04        ; Decr scale factor.
+      sta   HYPSCAL
+      clra
+      jsr   draw_hyperspace_motion_dots
+      puls  dp,pc
+
+hyperspace_complete:
+      clr   HYPSCAL
+      clr   HYPERON
+      jsr   clear_cmd_ship_xformation
+      puls  dp,pc
+
+
+;
+; After the player has cleared all but the 
+; small mines from a layer, the enemy ship 
+; will again appear, and attempt to reseed 
+; the screen.  This code checks to see if 
+; the enemy ship is visible (RESEED), and if
+; it is, then it generates new coordinates 
+; for it, and then moves it.
+
+	direct -1
+reseed_screen:
+      lda   RESEED       ; do only if ship
+      beq   PE383        ; is visible .
+      pshs  dp
+      lda   #0xC8
+      tfr   a,dp
+	direct $C8
+      lda   RESEED
+      beq   PE383
+      ldd   NXMINEY
+      addd  MINERIS
+      std   NXMINEY
+      sta   MSHP_Y       ; New y coord.
+      ldd   NXMINEX
+      addd  MINERUN
+      std   NXMINEX
+      sta   MSHP_X       ; New x coord.
+      puls  dp
+	direct -1
+      jsr   INT3Q
+      ldb   #0x08
+      ldy   MSHP_YX
+      ldx   #simple_enemy_ship
+      jsr   move_y_draw_x ; Draw enemy ship.
+PE383: rts
+
+
+;
+; This procedure is invoked only through the
+; indirect jump pointers.  After only small
+; mines are left, this routine will
+; eventually be called.  It will determine
+; which way the enemy ship will move, and
+; will also set up another indirect jump to
+; the routine which does the actual reseeding
+; of the screen.
+
+	direct $C8
+ind_init_screen_reseeding:
+      ldx   #ind_reseed_screen
+      stx   T3FUNC       ; Set up jump ptr.
+      jsr   RANDOM
+      ldx   #SE448       ; Determine where
+      anda  #0x06        ; enemy ship will
+      ldx   a,x          ; move.
+      ldd   ,x++
+      std   MSHP_YX      ; Save enemy ships
+      sta   NXMINEY      ; new coords.
+      clr   NXMINEY+1
+      stb   NXMINEX
+      clr   NXMINEX+1
+      bra   PE3F9
+
+
+;
+; This routine is invoked only through the 
+; indirect jump mechanism.  It will continue
+; to be called, until either the enemy ship
+; is destroyed, or until the screen has been
+; reseeded.  It will reseed upto 7 new mines.
+
+ind_reseed_screen:
+      lda   RESEDCT      ; See if all mines
+      bne   PE3BE        ; have been seeded.
+PE3A5: jsr   RANDOM                                  
+      anda  #0x7F
+      adda  #0x30        ; Set jump cntr for 
+      sta   TMR3         ; the next pass.                     
+      jsr   RANDOM
+      anda  #0x3F
+      sta   RESDANG
+      jsr   RANDOM
+      adda  #0x10
+      sta   RESEED
+      bra   PE407
+PE3BE: lda   CS_DIS
+      bne   PE3A5
+
+      ; 
+      ; Load the b register with the number
+      ; of mines (28), and load the u
+      ; register with the pointer to the mine
+      ; structure.  Then look through the
+      ; mine structure for an available slot,
+      ; and fill it with the newly seeded 
+      ; mine.
+	
+      ldb   #0x1C
+      ldu   #MINEBUF
+PE3C7: lda   ,u          ; Find unused slot.    
+      beq   found_avail_mine
+      leau  0x12,u
+      decb
+      bne   PE3C7
+      bra   PE407
+
+found_avail_mine:        ; Incr # of mines
+      inc   DOTMINE      ; which are dots.
+      dec   RESEDCT      ; Decr reseed cntr. 
+      ldx   NXMINEY
+      stx   4,u          ; Set mines y coord.
+      ldx   NXMINEX
+      stx   6,u          ; Set mines x coord.
+      lda   #0x40        ; Mine is a
+      sta   ,u           ; stationary dot. 
+      lda   NWMNVIS      ; Check if 1st mine
+      bne   PE3F7        ; activated.
+      ldx   #ind_start_large_mine
+      stx   T1FUNC      ; Set things up to
+      jsr   RANDOM      ; eventually activate
+      anda  #0x7F       ; 1 large mine.
+      adda  #0x40
+      sta   TMR1
+      inc   NWMNVIS     ; Flag that 1st mine
+                        ; has been activated.
+PE3F7: ldx   TMPPTR
+PE3F9: lda   ,x+
+      sta   TMR3
+      lda   ,x+
+      sta   RESDANG
+      lda   ,x+
+      sta   RESEED
+      stx   TMPPTR
+PE407: ldb   RESDANG
+      jsr   calc_rise_run1 ; Generate rise &
+      sty   MINERIS     ; run for mine.
+      stx   MINERUN
+      rts
+
+;
+; This routine is called only thru the 
+; indirect jump handler.  It is responsible
+; for activating a single large mine.  The
+; type of mine is indicated by the first
+; entry in the table of mines for this level.
+
+ind_start_large_mine:
+      ldu   #P1MINES
+      lda   ACTPLY
+      ldu   a,u
+      lda   ,u          ; Determine mine type
+      ldb   #0x03       ; Set generation to
+      jsr   activate_a_mine ; 'largest'.
+      ldx   #ind_activate_rangen_mine
+      stx   T1FUNC
+      rts
+
+;
+; This routine decrements the counter in
+; LOOPCTR, and if it equal 0, then it
+; activates a mine with a random generation
+; number; else, it sets the indirect counter
+; in C89C to -1, and returns.  This routine
+; is called only thru the indirect jump
+; handler.
+
+ind_activate_rangen_mine:
+      dec   LOOPCTR
+      beq   PE430
+      lda   #0xFF
+      sta   TMR1
+      bra   PE447
+PE430: jsr   RANDOM
+      tfr   a,b
+      andb  #0x03
+      bne   PE43B
+      addb  #0x01
+PE43B: ldu   #P1MINES
+      lda   ACTPLY
+      ldu   a,u
+      lda   ,u
+      jsr   activate_a_mine
+PE447: rts
+
+
+; Some sort of pointer table 
+SE448: dw SE450
+       dw SE46A
+       dw SE484
+       dw SE49E
+
+SE450: db 0x7F
+      db 0x00
+      db 0x28
+      db 0x20
+      db 0x30
+      db 0x40
+      db 0x28
+      db 0x30
+      db 0x28
+      db 0x00
+      db 0x10
+      db 0x30
+      db 0x10
+      db 0x40
+      db 0x18
+      db 0x20
+      db 0x50
+      db 0x40
+      db 0x30
+      db 0x28
+      db 0x30
+      db 0x08
+      db 0x60
+      db 0x7F
+      db 0x38
+      db 0x70
+
+SE46A: db 0x80
+      db 0x00
+      db 0x40
+      db 0x00
+      db 0x30
+      db 0x20
+      db 0x10
+      db 0x50
+      db 0x20
+      db 0x28
+      db 0x40
+      db 0x30
+      db 0x3E
+      db 0x70
+      db 0x18
+      db 0x30
+      db 0x60
+      db 0x20
+      db 0x18
+      db 0x40
+      db 0x30
+      db 0x24
+      db 0x50
+      db 0x7F
+      db 0x06
+      db 0x70
+
+SE484: db 0x00
+      db 0x7F
+      db 0x40
+      db 0x10
+      db 0x60
+      db 0x28
+      db 0x38
+      db 0x30
+      db 0x28
+      db 0x08
+      db 0x40
+      db 0x30
+      db 0x28
+      db 0x7F
+      db 0x20
+      db 0x18
+      db 0x30
+      db 0x30
+      db 0x08
+      db 0x68
+      db 0x40
+      db 0x20
+      db 0x50
+      db 0x7F
+      db 0x38
+      db 0x70
+
+SE49E: db 0x00
+      db 0x80
+      db 0x40
+      db 0x30
+      db 0x60
+      db 0x38
+      db 0x18
+      db 0x30
+      db 0x30
+      db 0x20
+      db 0x18
+      db 0x20
+      db 0x38
+      db 0x40
+      db 0x28
+      db 0x10
+      db 0x60
+      db 0x20
+      db 0x00
+      db 0x30
+      db 0x40
+      db 0x38
+      db 0x50
+      db 0x7F
+      db 0x1C
+      db 0x70
+
+
+;
+; This routine is responsible for displaying
+; any active bullets, and also for firing new
+; bullets, when an available spot in the
+; bullet structure becomes available.  The
+; maximum number of active bullets is 4.  The
+; 40 byte bullet structure starts at
+; ACTIVE_BULLETS.  A bullet will remain
+; 'active' for at most 0x18 passes thru this
+; routine.
+
+	direct -1
+process_bullets:
+      lda   #0x04       ; Loop counter = 4.
+      ldu   #ACTIVE_BULLETS ; Bullet buffer.
+      ldx   #KEY3       ; State of fire btn.
+      sta   TEMP1
+      jsr   INTMAX
+next_bullet:            ; If current slot is
+      lda   ,u          ; empty, see if new
+      beq   check_fire_button; bullet should
+                        ; be fired.
+      dec   9,u         ; Decr cycle cntr and
+      beq   erase_bullet; erase bullet if = 0
+      ldd   5,u
+      addd  1,u         ; y                                  
+      std   5,u         ; Incr bullet coords. 
+      ldd   7,u
+      addd  3,u         ; x                                  
+      std   7,u
+      leay  5,u
+      jsr   draw_dot7F_ptr_in_y; Draw bullet.
+update_bufr_ptr:
+      leau  10,u
+      dec   TEMP1       ; Point to next entry 
+      bne   next_bullet
+      rts
+
+erase_bullet:
+      clr   ,u
+      dec   NMACTBL     ; Decr active bullet
+                        ; counter.
+check_fire_button:
+      lda   CS_DIS
+      bne   update_bufr_ptr
+      lda   HYPERON
+      bne   update_bufr_ptr
+      lda   ,x          ; Check 'fire' btn.
+      beq   update_bufr_ptr
+
+      ;
+      ; This code 'fires' a new bullet, and
+      ; fills the available spot in the
+      ; bullet structure.
+	
+      clr   ,x
+      inc   MKBLSND     ; Flag that a bullet
+                        ; sound should be
+                        ; made.
+      inc   ,u
+      ldd   SHIP_Y      ; Get ships coords.      
+      std   5,u
+      ldd   SHIP_X
+      std   7,u
+      ldd   TRUE_SHIP_RISE ; Get ship rise.
+      std   1,u
+      ldd   TRUE_SHIP_RUN  ; Get ship run.
+      std   3,u
+      lda   #0x18       ; # of passes before
+      sta   9,u         ; bullet expires.
+      inc   NMACTBL     ; Incr active bullet
+      bra   update_bufr_ptr; counter.
+
+
+;
+; This procedure processes each mine which
+; has not been destroyed.  If the mine is a
+; moving dot, then its position is updated;
+; if the mine is a dot, then it is draw in
+; its appropriate place; if the mine is
+; active, then the appropriate mine is drawn;
+; if it is a fireball, then the fireball is
+; drawn.  The state of the mine is determined
+; by the first byte in the mine structure. 
+; The following values are valid:
+;
+;   0x00 - Mine is dead.
+;   0x01 - Mine is being destroyed.
+;   0x08 - Mine is visible and moving.
+;   0x10 - Mine is visible, but not moving.
+;   0x20 - Mine is just becoming visible.
+;   0x40 - Mine is a stationary dot.
+;   0x80 - Mine still moving to final resting
+;          place.
+;
+
+draw_non_dead_mines:
+      lda   #0x1C
+      sta   TEMP1       ; Set loop cntr. 
+      ldu   #MINEBUF    ; Get mine ptr.
+PE526: lda   ,u
+      bne   non_dead_mine
+update_mine_ptr:
+      leau  0x12,u
+      dec   TEMP1
+      bne   PE526
+      rts
+
+non_dead_mine:
+      lbmi  move_mine_dot
+      bita  #0x40
+      lbne  draw_mine_as_dot
+      bita  #0x20
+      lbne  mine_becoming_visible
+      bita  #0x10
+      lbne  delay_B4_moving_mine
+      bita  #0x01
+      lbne  process_destroyed_mine
+      lda   1,u
+      cmpa  #0x04       ; Check for fireball.  
+      beq   process_fireball
+      bita  #0x01       ; Move visible mines.
+      beq   non_magnetic_mine
+      lda   HYPERON     ; Skip if hyperspace
+                        ; active.
+      bne   non_magnetic_mine
+      lda   CS_DIS      ; Skip if cmd ship 
+                        ; disabled.
+      bne   non_magnetic_mine
+      pshs  dp
+      jsr   DPRAM
+	direct $C8
+      lda   SHIP_Y      ; Draw the mine
+      suba  4,u         ; towards the cmd
+      ldb   SHIP_X      ; ship.
+      subb  6,u
+      jsr   CMPASS
+      suba  #0x10
+      sta   ETMP1
+      ldx   #mine_velocity
+      ldb   3,u
+      lda   b,x
+      ldb   ETMP1
+      jsr   calc_rise_run1; Calc new rise and
+      sty   8,u           ; run values.
+      stx   10,u
+      puls  dp
+	direct -1
+non_magnetic_mine:
+      ldd   4,u         ; Update mine coords. 
+      addd  8,u
+      std   4,u
+      ldd   6,u
+      addd  10,u
+      std   6,u
+
+;
+; This block of code draws a mine, using
+; information in the mine structure element
+; pointed to by the u register.
+
+draw_a_visible_mine:
+      jsr   INT3Q
+      ldx   #mine_vector_ptrs
+      lda   1,u         ; Mine type         
+      asla
+      ldx   a,x         ; Mine vector list.
+      leay  4,u         ; Mine coordinates.  
+      ldb   2,u         ; Scale factor.      
+      jsr   move_y_draw_x2
+      jmp   update_mine_ptr
+
+;
+; This routine appears to be processing a
+; fireball.  It checks to see if the fireball
+; has reached the edge of the display, and if
+; it has, then the fireball is removed; else,
+; the fireball is drawn on the display.
+
+process_fireball:
+      ldd   4,u         ; Fireball reached
+      addd  8,u         ; the edge of the
+      bvs   remove_fireball  ; display?
+      std   4,u
+      ldd   6,u
+      addd  10,u
+      bvs   remove_fireball
+      std   6,u
+      jsr   INTMAX
+      leay  4,u         ; Draw the fireball.
+      ldx   #XFRM_FIRE_BALL
+      ldb   #0x04
+      jsr   move_y_draw_x2
+      jmp   update_mine_ptr
+
+remove_fireball:
+      clr   ,u          ; Flag that fireball
+      dec   NUM_ACTIVE_MINES ; has been
+      jmp   update_mine_ptr  ; removed.
+
+
+;
+; move_mine_dot () does some sort of
+; processing on the mine's coordinates, and
+; then draws the mine as a dot.  I believe
+; that the processing being done is the
+; movement of the dot in the x direction,
+; after the mine field has been seeded, but
+; before the mine dot has reached it's final
+; place.  draw_mine_as_dot() draws a mine as
+; a dot.
+;
+; For both these routines, the u register
+; must point to a structure element
+; describing the mine.
+
+move_mine_dot:
+      lda   6,u         ; Update mines x
+      adda  16,u        ; coord & check if it
+      sta   6,u         ; has reached final
+      cmpa  17,u        ; resting place.
+      bne   draw_mine_as_dot; Flag that mine
+      lsr   ,u          ; dot is at its final
+                        ; resting place.
+draw_mine_as_dot:
+      jsr   INT3Q
+      leay  4,u
+      jsr   draw_dot7F_ptr_in_y
+      jmp   update_mine_ptr
+
+
+;
+; This procedure is called when a mine first
+; becomes visible.  If the mine is not a
+; large mine, then the mine is drawn at full
+; scale factor; otherwise, if the mine is a
+; large mine, then it will be drawn with a
+; steadily increasing scale factor.  This
+; gives the effect of the mine 'popping' up.
+
+mine_becoming_visible:
+      lda   3,u         ; Check if this is a
+      cmpa  #0x03       ; large mine.
+      bne   use_max_scale_factor
+      lda   2,u
+      cmpa  16,u
+      bge   use_max_scale_factor
+      adda  #0x08
+      sta   2,u         ; Incr scale factor.
+      bra   PE61A
+use_max_scale_factor:
+      lsr   ,u          ; Flag that mine is
+      lda   16,u        ; full size & visible
+      sta   2,u         ; Set final scale
+      lda   #0x18       ; factor.
+      sta   16,u        ; Set up a delay.
+      lda   DOTMINE
+      bne   PE61A       ; More mine dots?
+      lda   NWMNVIS     ; Reseeding already
+      bne   PE61A       ; in progress?
+      lda   #0x7F       ; Set cntr for
+      sta   TMR3        ; reseeding since
+                        ; only small mines
+                        ; are left. 
+PE61A: jmp   draw_a_visible_mine
+
+
+;
+; This procedure is used to delay the
+; movement of a mine right after it become
+; visible.  After the delay is over, the mine
+; will start moving.
+
+delay_B4_moving_mine:
+      dec   16,u        ; Decr delay cntr.
+      bne   PE624
+      lsr   ,u
+PE624: jmp   draw_a_visible_mine
+
+
+;
+; This procedure processes the activation of
+; 2 new mines after a mine has been
+; destroyed.  If the destroyed mine was a
+; small mine, or a fireball, then 2 new mines
+; will not be activated.  At entry time, the
+; 'a' register must contain the type of mine
+; to be started up.
+
+process_destroyed_mine:
+      clr   ,u          ; Flag mine as gone.
+      lda   1,u
+      cmpa  #0x04       ; If fireball, don't 
+      beq   PE644       ; start up new mines.      
+      ldb   3,u
+      decb              ; If small mine, do
+      beq   PE644       ; not start up new
+      pshs  a,dp        ; mines.
+      lda   #0xC8
+      tfr   a,dp
+      lda   ,s          ; Get type of mine.
+      jsr   activate_a_mine
+      jsr   activate_a_mine
+      puls  a,dp
+PE644: jmp   update_mine_ptr
+
+
+;
+; This routine is responsible for displaying
+; the explosion pattern for all active
+; explosions.  If the command ship is
+; exploding, then it will also switch over to
+; the next player (eventually).
+
+display_explosion_pattern:
+      pshs  dp
+      jsr   DPIO
+      jsr   INTMAX
+      ldu   #ACTIVE_EXPLOSIONS; Get ptr to
+      lda   #0x0E       ; explosion struct.
+      sta   TEMP1       ; Set loop counter.
+check_next_explosion:
+      lda   ,u
+      lbeq  inc_expl_ptr
+      ldb   4,u         ; If explosion scale
+      cmpb  1,u         ; factor below max
+      bhs   chk_4_cmd_ship_explosion; value,
+      addb  #0x03       ; then incr it.
+      stb   4,u
+      ldy   2,u
+      ldx   #explosion  ; Draw explosion.
+      jsr   move_y_draw_x
+
+chk_4_cmd_ship_explosion:
+      tsta              ; Cmd ship explosion
+      lbpl  check_4_expired_explosion; if bit
+                        ; 0x80 is set.
+      dec   SHIP_EXPLODING_CNTR; Stop  when
+      lbeq  dead_ship   ; cntr reaches zero.              
+      lda   FRAMLO
+      anda  #0x01       ; Every other pass
+      bne   draw_expl_cmd_ship; incr scale
+      inc   SHIP_EXP_SCALE; factor used to
+                        ; draw cmd ship.
+
+draw_expl_cmd_ship:
+      lda   SHIP_EXP_SCALE; Draw the cmd ship
+      ldy   #0x7F00     ; in pieces.
+      ldx   #cmd_ship_pt1
+      jsr   draw_cmd_ship_fragment
+      ldy   #0x6080
+      ldx   #cmd_ship_pt2
+      jsr   draw_cmd_ship_fragment
+      ldy   #0x8050
+      ldx   #cmd_ship_pt3
+      jsr   draw_cmd_ship_fragment
+      ldy   #0xA080
+      ldx   #cmd_ship_pt4
+      jsr   draw_cmd_ship_fragment
+      bra   inc_expl_ptr
+
+;
+; This routine is called after a ship has
+; been destroyed.  The number of ships for
+; the active player, kept in CPXSHP, will be
+; decremented.  If more than one player is
+; playing, then save the active players ship
+; count in a memory location (P1XSHP for
+; player 1, and P2XSHP for player 2), and
+; then determine who's turn it now is.
+
+dead_ship:
+      dec   CPXSHP      ; Decr ship count.
+      clr   NUM_ACTIVE_MINES
+      clr   DOTMINE
+
+      lda   PLAYRS      ; If > 1 player, then
+      beq   check_ship_count; ; save active
+      lda   ACTPLY      ; players ship count.
+      lsra              
+      ldx   #P1XSHP
+      ldb   CPXSHP
+      stb   a,x
+
+      lda   P1XSHP      ; See who's turn it
+      bne   next_player ; is; skip player if
+      lda   P2XSHP      ; no more ships.
+      beq   flag_no_ships_left
+
+next_player:
+      lda   ACTPLY      ; Incr active player
+      adda  #0x02       ; indicator.
+      anda  #0x02
+      sta   ACTPLY
+
+      lsra              ; Load ship count for
+      ldx   #P1XSHP     ; new player.
+      ldb   a,x
+      stb   CPXSHP
+      beq   next_player
+
+;
+; This routine checks to see if the active
+; player has any ships left, after the
+; command ship has exploded.
+
+check_ship_count:
+      lda   CPXSHP
+      bne   explosion_expired
+flag_no_ships_left:
+      lda   #0x01       ; Flag 'game over'
+      sta   GAMEOVR     ; if no ships left.
+      bra   explosion_expired
+
+;
+; This routine checks to see if the explosion
+; has expired.  An explosion expires when its
+; scale factor surpasses a preset maximum
+; value.
+
+check_4_expired_explosion:
+      ldb   4,u         ; See if scale factor
+      cmpb  1,u         ; has reached the
+      blo   inc_expl_ptr; max value.
+explosion_expired:
+      clr   ,u
+      dec   CMD_SHIP_EXPLODING; Flag 
+                        ; completion of cmd
+                        ; ship explosion.
+
+inc_expl_ptr:
+      leau  5,u
+      dec   TEMP1
+      lbne  check_next_explosion
+      jsr   make_misc_sounds
+      bra   draw_tiny_ships
+
+; Draw the tiny ships in lower righthand
+; corner .
+PE711: pshs  dp
+      jsr   DPIO
+draw_tiny_ships:
+      jsr   INT3Q
+      ldx   #0x8038     ; Position for first
+      stx   TEMP2       ; ship; don't bother
+      lda   CPXSHP      ; if active player 
+      beq   rotate_fireball_vectors; ; has no
+      sta   TEMP1       ;ships left.
+PE727: dec   TEMP1
+      beq   rotate_fireball_vectors; ; Exit
+      lda   TEMP3     ; when all ships drawn.
+      adda  #0x06       ; Incr x coord.     
+      sta   TEMP3
+      ldb   #0x04
+      ldy   TEMP2
+      ldx   #command_ship
+      jsr   move_y_draw_x; Draw tiny md ship.
+      bra   PE727
+
+;
+; This routine rotates the fireball vector
+; list.  Also, it checks to see whether this
+; level has been cleared.
+
+rotate_fireball_vectors:
+      puls  dp
+	direct $C8
+      lda   FRAMLO
+      anda  #0x01
+      asla
+      asla
+      asla
+      ldx   #fireball
+      ldu   #XFRM_FIRE_BALL
+      jsr   PROT
+
+      ;
+      ; This block of code determines whether
+      ; or not the main loop should be
+      ; exited.  If the cmd ship is disabled,
+      ; or if the player has cleared the
+      ; level, then the main loop will be
+      ; exited (this is flagged by clearing
+      ; the carry bit.
+	
+      ldb   CMD_SHIP_EXPLODING; Cmd ship
+      bne   PE767       ; exploding?
+      lda   CS_DIS      ; Cmd ship disabled?
+      bne   PE764
+      ldb   NUM_ACTIVE_MINES; Check # of
+      bne   PE767       ; active mines.
+      ldb   DOTMINE     ; Check # of dot
+      bne   PE767       ; mines.
+PE764: andcc #0xFE      ; Flag to force
+      rts               ; 'exit main loop'.
+PE767: orcc  #0x01      ; Resume main loop.
+      rts
+
+
+;
+; This routine is responsible for drawing a
+; single fragment of the exploding command
+; ship.  At entry, 'a' = scale factor, 
+; 'y' = pen position, and 'x' = ptr to
+; vector list.
+
+	direct $D0
+draw_cmd_ship_fragment:
+      pshs  a,x,y
+      ldx   #SHIP_YX    ; Move pen to cmd
+      jsr   POSWID      ; ship location.
+      lda   ,s
+      sta   T1LOLC      ; Set scale factor.
+      tfr   y,d
+      jsr   POSITN      ; Move pen to pos in
+      ldb   #0x0C       ; y register.
+      ldx   1,s
+      jsr   TPACK       ; Draw vector list
+      puls  a,x,y,pc    ; pointed to by x
+                        ; register.
+
+
+;
+; This routine is called after a bullet has
+; hit something, or the command ship collides
+; with something.  It will search through the
+; explosion structure, looking for an empty
+; slot.  When it finds one, it will fill it
+; with the information passed in.  At entry
+; time, 'a' = type of explosion and the scale
+; factor to use, 'b' = the max scale factor
+; to be used, and 'x' contains the position
+; for the explosion.  If the hi bit of 'a' is
+; set, then that flags that it is the command
+; ship exploding; the lower 7 bits are used to
+; specify the initial scale factor.
+
+	direct $C8
+add_an_explosion:
+      pshs  a,b,x
+      ldx   #ACTIVE_EXPLOSIONS
+      lda   #0x0E
+PE78B: ldb   ,x         ; Find empty slot.
+      beq   found_empty_exp_slot
+      leax  5,x
+      deca
+      bne   PE78B
+      bra   PE7B3
+
+found_empty_exp_slot:
+      lda   ,s          ; Set explosion type.
+      anda  #0x80
+      inca
+      sta   ,x          ; Cmd ship explosion?
+      bpl   PE7A1
+      inc   CS_DIS      ; Flag that cmd ship
+                        ; is disabled.
+PE7A1: lda   ,s
+      anda  #0x7F       ; Save starting scale
+      sta   4,x         ; factor.
+      lda   1,s
+      sta   1,x
+      ldd   2,s         ; Save maximum scale
+      std   2,x         ; factor.
+      inc   CMD_SHIP_EXPLODING; Flag cmd ship
+                        ; exploding.
+      inc   MAKE_EXPL_SOUND; Flag that 
+                        ; explosion sound
+                        ; should be made.
+PE7B3: puls  a,b,x,pc
+
+
+;
+; This routine is responsible for calculating
+; a rise and run for an object whose angle of
+; travel is in the 'b' register, and whose
+; velocity is in the 'a' register.  The rise
+; is returned in the 'y' register, and the
+; run is returned in the 'x' register.
+
+calc_rise_run1:
+      pshs  a,b,x,y
+      jsr   LNROT
+      sta   4,s
+      sex
+      aslb
+      rola
+      aslb
+      rola
+      aslb
+      rola
+      std   2,s
+      ldb   4,s
+      sex
+      aslb
+      rola
+      aslb
+      rola
+      aslb
+      rola
+      std   4,s
+      puls  a,b,x,y,pc
+
+
+;
+; This routine also calculates some sort of
+; rise & run pair.  The same parameters are
+; expected at entry time, and the values are
+; returned in the same registers.
+
+calc_rise_run2:
+      pshs  a,b,x,y
+      bsr   calc_rise_run1
+      ldd   -4,s
+      aslb
+      rola
+      std   4,s
+      ldd   -6,s
+      aslb
+      rola
+      std   2,s
+      puls  a,b,x,y,pc
+
+
+;
+; This routine is called each time a new mine
+; level is started.  It initializes
+; everything necessary.
+
+init_RAM_for_new_level:
+      lda   #0xD0
+      tfr   a,dp
+	direct $D0
+      jsr   INTPSG
+      lda   #0xC8
+      tfr   a,dp
+	direct $C8
+      clr   TMR1        ; Clear all 4 jump
+      clr   TMR2        ; counters.
+      clr   TMR3
+      clr   TMR4
+      ldx   #ACTIVE_BULLETS; Clear level
+PE7FA: clr   ,x+           ; specific RAM.
+      cmpx  #MOTION_DOT_PTRS
+      bne   PE7FA
+      ldd   #0x0000
+      std   NXMINEY
+      std   NXMINEX
+      std   MINERIS
+      std   MINERUN
+      sta   RESEED
+      sta   CS_DIS      ; Clear cmd ship
+                        ; disabled flag.
+      sta   GAMEOVR     ; Clear 'no ships'
+                        ; flag.
+      sta   NMACTBL     ; Clear active bullet
+                        ; counter.
+      sta   NUM_ACTIVE_MINES
+      sta   CMD_SHIP_EXPLODING; Clear cmd 
+                        ; ship exploding flag 
+      sta   SHIP_EXP_SCALE; Clear destroyed
+                        ; cmd ship scale
+                        ; factor.
+      ldb   #0x40
+      stb   SHIP_EXPLODING_CNTR; Init cmd 
+                        ; ship exploding loop
+                        ; counter .
+      sta   DOTMINE     ; Clear # of dot 
+                        ; mines.
+      sta   NWMNVIS     ; Clear mine 
+                        ; activated during
+                        ; reseeding flag.
+      ldx   #0x0800
+      stx   ENDCNTR     ; Set end of game 
+                        ; loop counter.
+      lda   #0x07
+      sta   RESEDCT     ; Init # of mines to
+                        ; be reseeded.
+      ldx   #ind_init_screen_reseeding
+      stx   T3FUNC      ; Init jump location
+                        ; for reseeding.
+      ldd   #0x0000
+      std   SHIP_Y      ; Clear cmd ship's   
+      std   SHIP_X      ; position.
+
+clear_cmd_ship_xformation:
+      ldd   #0x0000
+      sta   SHPANGL     ; Clear rotation cntr     
+      std   SHIP_RISE_MOVING
+      std   SHIP_RUN_MOVING
+      sta   SHPVEL      ; Clear cmd ships 
+                        ; velocity.
+      sta   SHPANG2
+      std   SHPRIS2
+      std   SHPRUN2
+      sta   SHPANG4
+      sta   SHPANG3
+
+;
+; This block of code takes the vector list
+; describing the command ship, and applies a
+; rotation transformation to them.  The
+; current rotation value is in SHPANGL, and
+; the transformed vector list is stored in
+; the buffer starting at XFRMSHP.
+
+rotate_cmd_ship:
+      lda   SHPANGL
+      ldx   #command_ship
+      ldu   #XFRMSHP
+      jsr   PROT
+
+      lda   #0x7F
+      ldb   SHPANGL
+      jsr   calc_rise_run2
+      sty   TRUE_SHIP_RISE
+      stx   TRUE_SHIP_RUN
+      rts
+
+
+;
+; This routine is called after the active
+; player clears a mine field level.  This
+; routine will slowly bring the command ship
+; back to the center of the screen.  As this
+; is being done, a series of dots will be
+; drawn to simulate motion.
+
+bring_ship_to_center:
+      pshs  x,y
+      pshs  dp
+      jsr   DPIO
+	direct $D0
+      jsr   INTPSG
+      puls  dp
+	direct $C8
+      lda   #0xA0
+      sta   TEMP1       ; Set loop counter.
+
+PE876: lda   SHIP_Y
+      beq   PE884       ; Modify y coord for
+      bmi   PE87F       ; command ship, to 
+      deca              ; force it back to 0.
+      bra   PE880 
+PE87F: inca
+PE880: sta   SHIP_Y
+      clr   SHIP_YL
+
+PE884: lda   SHIP_X     ; Modify x coord for
+      beq   PE892       ; command ship, to
+      bmi   PE88D       ; force it back to 0.
+      deca
+      bra   PE88E
+PE88D: inca
+PE88E: sta   SHIP_X
+      clr   SHIP_XL
+
+PE892: lda   SHPANGL    ; Modify rotation
+      beq   PE8A2       ; value for cmd ship,
+      cmpa  #0x1F       ; to force it back
+      bgt   PE89D       ; to 0.
+      deca
+      bra   PE89E
+PE89D: inca
+PE89E: anda  #0x3F
+      sta   SHPANGL
+
+; This loop, repeated 8 times (once for each
+; scale factor in the array) increaments each
+; of the scale factors for the motions dots 
+; by 3.
+PE8A2: jsr   PE2F2
+      ldx   #MOTION_DOT_SCALES
+      ldb   #0x08
+PE8AA: lda   ,x
+      adda  #0x03
+      sta   ,x+
+      decb
+      bne   PE8AA
+
+      pshs  dp
+      jsr   DPIO
+	direct $D0
+      jsr   display_both_scores
+      clrb
+      lda   #0x20
+      jsr   simulate_motion1
+      jsr   modify_motion_scales
+      puls  dp
+	direct $C8
+
+      ; Repeat the above until the ship is 
+      ; centered.
+      lda   SHIP_Y
+      lbne  PE876
+      lda   SHIP_X
+      lbne  PE876
+      lda   SHPANGL
+      lbne  PE876
+      dec   TEMP1
+      lbne  PE876
+      jsr   init_RAM_for_new_level
+      puls  x,y,pc
+
+
+;
+; This routine initializes the two arrays
+; (MOTION_DOT_PTRS and MOTION_DOT_SCALES)
+; which contain the data needed to produce
+; the motion dots (the dots displayed as the
+; ship moves from one level to the next). 
+; The 8 entries in MOTION_DOT_PTRS are
+; pointers to the 8 sets of required dots. 
+; The 8 entries in MOTION_DOT_SCALES are the
+; corresponding scale factors.
+
+init_motion_dots:
+      ldx   #motion_dots
+      ldy   #MOTION_DOT_PTRS
+      ldu   #MOTION_DOT_SCALES
+      ldb   #0x08
+      lda   #0x16
+PE8F1: stx   ,y++
+      leax  8,x
+      sta   ,u+
+      adda  #0x0F
+      decb
+      bne   PE8F1
+      rts
+
+
+;
+; modify_motion_scales() increments each of
+; the 8 motion scale factors, and then draws
+; the new motion dots.  simulate_motion1()
+; and simulate_motion2() both draw the
+; current motion dots.  The motion dots will
+; only be drawn if the scale factor is > the
+; value specified in the 'a' register, and
+; if (scale - 'b') > 0.
+
+modify_motion_scales:
+      pshs  a,b,dp,x
+      ldx   #MOTION_DOT_SCALES
+      lda   #0x08
+PE904: inc   ,x+        ; Incr each of the
+      deca              ; scale factors.
+      bne   PE904
+      bra   simulate_motion2
+
+simulate_motion1:
+      pshs  a,b,dp,x
+simulate_motion2:
+      lda   #0xD0
+      tfr   a,dp
+	direct $D0
+      lda   #0x09       ; Set loop counter.  
+      pshs  a
+PE915: dec   ,s
+      bne   PE920
+      jsr   ZERGND
+      puls  a
+      puls  a,b,dp,x,pc
+PE920: jsr   ZERGND
+      lda   #0x03       ; LIST holds # of
+      sta   LIST        ; dots to draw (4).           
+      lda   ,s
+      deca
+      ldx   #MOTION_DOT_SCALES
+      ldb   a,x
+      andb  #0x7F       ; Make sure scale
+      cmpb  1,s         ; factor is within  
+      bls   PE915       ; specified range.
+      subb  2,s
+      ble   PE915
+      stb   T1LOLC      ; Set hardware scale
+                        ; factor.
+
+      ldx   #MOTION_DOT_PTRS; Draw dot list.          
+      asla              ; Convert loop cntr
+      ldx   a,x         ; to a word offset.
+      jsr   INTMAX
+      jsr   DIFDOT
+      bra   PE915
+
+
+;
+; This routine is responsible for drawing the
+; hyperspace dot during a hyperspace.  It
+; draws the 8 sets of motion dots, using a
+; decreasing scale factor.  At entry, the 'b'
+; register contains the minimum scale factor
+; to be used.
+
+draw_hyperspace_motion_dots:
+      pshs  a,b,dp,x
+      lda   #0xD0
+      tfr   a,dp
+	direct $D0
+      lda   #0x09       ; Push loop cntr on
+      pshs  a           ; the stack.
+next_set_of_dots:
+      dec   ,s
+      bne   draw_the_dots
+      jsr   ZERGND
+      puls  a
+      puls  a,b,dp,x,pc
+
+draw_the_dots:
+      jsr   ZERGND
+      lda   #0x03     
+      sta   LIST        ; # of dots to draw.
+      ldx   #SHIP_YX
+      jsr   POSWID
+      ldb   ,s
+      aslb
+      aslb
+      addb  2,s         ; Calc scale factor.
+      ble   next_set_of_dots
+      andb  #0x7F
+      stb   T1LOLC      ; Set scale factor.
+      ldx   #MOTION_DOT_PTRS
+      lda   ,s          ; Draw appropriate
+      deca              ; set of dots.
+      asla
+      ldx   a,x
+      jsr   INTMAX
+      jsr   DIFDOT
+      bra   next_set_of_dots
+
+
+;
+; Generate 2 random numbers (1 byte each),
+; and return them in a and b.  The range for
+; the two numbers is:
+;
+;   0x80 <= first #  <= 0x7F     (a register)
+;   0xA0 <= second # <= 0x60     (b register)
+
+	direct -1
+MS_get_2_random_nums:
+      pshs  a,b
+      jsr   RANDOM
+      sta   ,s
+PE991: jsr   RANDOM
+      cmpa  #0x60
+      bgt   PE991
+      cmpa  #0xA0
+      blt   PE991
+      sta   1,s
+      puls  a,b
+      rts
+
+
+;
+; This routine randomly activates a single
+; mine.  At entry, the 'a' register must
+; contain the type of mine to be activated,
+; while the 'b' register must contain the
+; generation number for the mine (i.e. large,
+; medium, or small).
+
+	direct $C8
+activate_a_mine:
+      pshs  a,b,x,y,u
+      lda   DOTMINE     ; Check if there are
+      lbeq  PEA3C       ; any dot mines; if
+      dec   DOTMINE     ; not, then return.
+
+      jsr   RANDOM      ; Generate random idx
+      anda  #0x1F       ; into mine array.                
+PE9B0: sta   ETMP9
+      cmpa  #0x1B
+      bls   PE9BA
+      suba  #0x04
+      bra   PE9B0
+
+PE9BA: ldb   #0x12      ; Multiple offset by
+      mul               ; element size.
+      addd  #MINEBUF
+      tfr   d,u
+      lda   ,u          ; See if this slot is
+      anda  #0xC0       ; already being used.
+      bne   init_a_visible_mine; If so, check
+      inc   ETMP9       ; next slot; else use
+      lda   ETMP9       ; this slot.
+      cmpa  #0x1B
+      ble   PE9BA
+      clr   ETMP9
+      clra
+      bra   PE9BA
+
+init_a_visible_mine:
+      lda   ,s          ; Save mine type.
+      sta   1,u
+      ldx   #mine_values
+      asla
+      ldy   a,x
+      sty   ETMP7       ; Save mine value.
+      ldb   #0x20
+      stb   ,u
+      ldx   #mine_velocity
+      lda   1,s         ; Save mine velocity.
+      ldb   a,x
+      stb   ETMP9
+      ldx   #final_mine_scale_factor
+      ldb   a,x
+      stb   16,u        ; Save scale factor.
+      sta   3,u         ; Save generation #. 
+      ldx   #mine_sizes
+      asla
+      ldy   a,x
+      sty   12,u        ; Save mine's size.
+      ldx   #extra_mine_value
+      ldy   a,x
+      sty   ETMP5       ; Get any extra value
+      cmpa  #0x06       ; for mine's size.
+      bne   PEA13
+      inc   MAKE_NEW_MINE_SND; Flag that a
+                        ; sound should be
+                        ; made.
+PEA13: lda   ETMP6
+      adda  ETMP8
+      daa               ; Generate lo byte
+      sta   15,u        ; of score.
+      lda   ETMP5
+      adca  ETMP7
+      daa               ; Generate hi byte
+      sta   14,u        ; of score.
+      lda   ETMP9
+      jsr   MS_random_num_4_to_3C
+      jsr   calc_rise_run1
+      sty   8,u         ; Save the rise.
+      stx   10,u        ; Save the run.
+      inc   NUM_ACTIVE_MINES; Incr 'active
+                        ; mine' cntr.
+      lda   NWMNVIS
+      beq   PEA3C
+      lda   #0xFF
+      sta   TMR1
+      lda   #0x03
+      sta   LOOPCTR
+PEA3C: puls  a,b,x,y,u,pc
+
+
+;
+; Generate a random number between 4 and
+; 0x3C.  The result is returned in the b
+; register.
+
+	direct -1
+MS_random_num_4_to_3C:
+      pshs  a,b
+      jsr   RANDOM
+      tfr   a,b
+      anda  #0x30
+      sta   1,s
+      andb  #0x0F
+      cmpb  #0x04
+      bhs   PEA51
+      addb  #0x04
+PEA51: cmpb  #0x0C
+      bls   PEA57
+      subb  #0x04
+PEA57: addb  1,s
+      stb   1,s
+      puls  a,b,pc
+
+
+;
+; Force the scale factor to 0x7F, then
+; draw a dot at the position contained
+; in the y register.
+
+	direct $D0
+draw_dot7F_at_y:
+      pshs  a,b
+      lda   #0x7F
+      sta   T1LOLC
+      tfr   y,d
+      jsr   DOTAB
+      jsr   ZERGND
+      puls  a,b,pc
+
+
+;
+; Force the scale factor to 0x7F, then draw a
+; dot at the position pointed to by the y
+; register (y coord = (0,y), x coord = (2,y))
+
+	direct $D0
+draw_dot7F_ptr_in_y:
+      pshs  a,b
+      lda   #0x7F
+      sta   T1LOLC
+      lda   ,y
+      ldb   2,y
+      jsr   DOTAB
+      jsr   ZERGND
+      puls  a,b,pc
+
+
+;
+; Move the pen to the position specified
+; in the y register, then draw the vector
+; list pointed to by the x register; the
+; scale factor is in the b register. 
+
+	direct -1
+move_y_draw_x:
+      pshs  a,b,x
+      tfr   y,d
+      jsr   POSITD
+      ldb   1,s
+      jsr   TPACK
+      puls  a,b,x,pc
+
+
+;
+; Move the pen to the position pointed to by
+; the y register, and draw the list of
+; vectors pointed to by the x register; the
+; scale factor to be used is in the b reg.
+; (y coord = (0,y), x coord = (x,y))
+
+	direct -1
+move_y_draw_x2:
+      pshs  a,b,x
+      tfr   y,x
+      jsr   POSWID
+      ldb   1,s
+      ldx   2,s
+      jsr   TPACK
+      puls  a,b,x,pc
+
+
+;
+; Force the scale factor to 0x7F, then print
+; a single string (upto a 0x80).  The pointer
+; to the string block is contained in the 
+; u register.
+
+	direct -1
+MS_print_1_string7F:
+      pshs  a,b,x,u
+      lda   #0x7F
+      sta   T1LOLC
+      jsr   RSTSIZ
+      puls  a,b,x,u,pc
+
+
+;
+; Move the pen to the position specified in
+; the y register, then print a string.  The
+; pointer to the string (not a string block)
+; is in the u register.
+
+	direct -1
+move_y_print_string:
+      pshs  a,b,x,u
+      tfr   y,d
+      jsr   POSITD
+      jsr   RASTER
+      puls  a,b,x,y,pc
+
+
+;
+; Use the value in ACTPLY (the active player)
+; to determine which players score to display
+; and then display the score string.
+
+	direct -1
+display_active_players_score:
+      jsr   INTMAX
+      ldd   #0xFC38
+      std   SIZRAS      ; Specify ht & width.
+      lda   ACTPLY
+      ldy   #score_string_positions
+      ldy   a,y         ; Load string pos.
+      ldu   #score_string_pointers
+      ldu   a,u         ; Load score string.
+      bsr   move_y_print_string
+      rts
+
+
+;
+; Display the score for both players 
+
+	direct -1
+display_both_scores:
+      jsr   INTMAX
+      ldd   #0xFC38
+      std   SIZRAS      ; Set ht & width.
+      ldy   #0x7FA0     ; Load y&x pos.  
+      ldu   #SCOR1      ; Player 1 score.
+      bsr   move_y_print_string                            
+      lda   PLAYRS      ; Display player 2
+      beq   PEAEF       ; score?
+      ldy   #0x7F10     ; Load y&x pos.  
+      ldu   #SCOR2      ; Player 2 score.
+      bsr   move_y_print_string
+PEAEF: rts
+
+
+; 
+; This routine is responsible for reading the
+; current states of the joystick and buttons.
+; Next, it will check each of the four
+; indirect jump counters, and if any of them
+; equal 0 after being decremented, then the
+; appropriate indirect handling routine will
+; be called.  The four indirect counters, and
+; their corresponding handler routines are
+; shown below:
+;
+;         counter          handler
+;         -------          -------
+;           C89C           C89D-C89E
+;           C89F           C8A0-C8A1
+;           C8A2           C8A3-C8A4
+;           C8A5           C8A6-C8A7
+;
+
+	direct -1
+process_indirect_jumps:
+      jsr   FRWAIT
+      pshs  dp
+      jsr   DEFLOK
+      jsr   display_active_players_score
+
+      ; Set mask and read the switches.
+      lda   SATUS
+      jsr   DBNCE
+
+      ; Set enable flags and read joystick. 
+      ldd   SJOY
+      std   EPOT0
+      std   EPOT2
+      jsr   JOYBIT
+
+      lda   #0xC8
+      tfr   a,dp
+	direct $C8
+      lda   TMR1
+      beq   PEB1D
+      dec   TMR1
+      bne   PEB1D
+      jsr   [T1FUNC]
+PEB1D: lda   TMR2
+      beq   PEB29
+      dec   TMR2
+      bne   PEB29
+      jsr   [T2FUNC]
+PEB29: lda   TMR3
+      beq   PEB35
+      dec   TMR3
+      bne   PEB35
+      jsr   [T3FUNC]
+PEB35: lda   TMR4
+      beq   PEB41
+      dec   TMR4
+      bne   PEB41
+      jsr   [T4FUNC]
+PEB41: puls  dp,pc
+
+
+;
+; This routine check to see if any of the
+; bullets have hit a mine or a fireball or
+; the enemy ship.  If something is hit, then
+; the active player's score will be modified.
+
+	direct $C8
+check_bullets_for_hits:
+      lda   NMACTBL     ; Don't check if no
+      beq   PEB59       ; active bullets.
+      ldy   #ACTIVE_BULLETS
+      lda   #0x04
+      sta   TEMP1       ; Set loop counter.
+check_for_active_bullet:
+      tst   ,y          ; Is bullet active?
+      bne   check_enemy_ship_4_hit
+inc_bullet_ptr2:
+      leay  10,y        ; Pt to next bullet.
+      dec   TEMP1
+      bne   check_for_active_bullet
+PEB59: rts
+
+	direct $C8
+check_enemy_ship_4_hit:
+      lda   RESEED      ; Only check if enemy 
+      beq   check_mines_for_hit; ship showing
+      pshs  y
+      lda   5,y
+      ldb   7,y
+      tfr   d,x         ; Bullet position.
+      ldd   #0x0616     ; Ht/2 and Wid/2 of
+                        ; enemy ship.
+      ldy   MSHP_YX     ; Pos of enemy ship.
+      jsr   BXTEST      ; Check for hit.
+      puls  y
+      bhs   check_mines_for_hit
+      clr   ,y          ; HIT - flag bullet
+                        ; as dead.
+      clr   RESEED      ; Flag enemy ship as
+                        ; dead.
+      clr   TMR3        ; Clear jump cntr. 
+      ldx   #score_string_pointers
+      lda   ACTPLY
+      ldx   a,x
+      ldd   #0x1000     ; Add 1000 to score.  
+      jsr   SCRADD
+      lda   #0x30
+      ldb   #0x70
+      ldx   MSHP_YX
+      jsr   add_an_explosion
+      dec   NMACTBL     ; Decr # of active
+      bra   PEB59       ; bullets.
+
+;
+; This routine checks to see if a bullet hit 
+; any of the active mines or fireballs.
+
+	direct $C8
+check_mines_for_hit:
+      ldu   #MINEBUF    ; Load mine info.
+      lda   #0x1C
+      sta   TEMP2       ; Set loop counter.      
+check_for_active_mine:
+      lda   ,u
+      anda  #0x3F       ; Is mine active?
+      bne   check_this_mine
+inc_mine_ptr2:
+      leau  0x12,u      ; Point to next mine.
+      dec   TEMP2
+      bne   check_for_active_mine
+      bra   inc_bullet_ptr2
+
+check_this_mine:
+      pshs  y
+      lda   5,y
+      ldb   7,y
+      tfr   d,x         ; Bullet coords.         
+      lda   4,u
+      ldb   6,u         ; Mine coords.           
+      tfr   d,y
+      ldd   12,u        ; Ht & width of mine.
+      jsr   BXTEST      ; Carry set = hit,
+      puls  y           ; else miss.
+      bhs   inc_mine_ptr2
+      lda   1,u         ; fireball mine?
+      anda  #0x02
+      beq   not_a_fireball_mine
+      ldx   #score_string_pointers
+      lda   ACTPLY
+      ldx   a,x
+      ldd   14,u        ; Add mines value to
+      jsr   SCRADD      ; players score.
+      inc   UNKNOWN1
+      lda   4,u
+      ldb   6,u
+      tfr   d,x
+      lda   2,u
+      ldb   #0x20
+      jsr   add_an_explosion
+      ldd   #0x0110     ; Init fireball score
+      std   14,u
+      lda   SHIP_Y
+      suba  4,u
+      ldb   SHIP_X
+      subb  6,u
+      jsr   CMPASS
+      suba  #0x10
+      tfr   a,b
+      pshs  y
+      lda   #0x3F
+      jsr   calc_rise_run1
+      sty   8,u         ; Calculate rise/run
+      stx   10,u        ; for fireball.
+      puls  y
+      clr   ,y          ; Flag bullet dead.
+      ldd   #0x0404     ; Set Ht/2 & Wid/2
+      std   12,u        ; for fireball.
+      lda   1,u
+      ldb   3,u         ; Decr generation #
+      decb              ; for this mine and
+                        ; don't start another
+                        ; if it = 0.
+      beq   start_a_fireball
+      jsr   activate_a_mine
+      jsr   activate_a_mine
+start_a_fireball:
+      lda   #0x04       ; Flag that this is a
+      sta   1,u         ; fireball.
+      dec   NMACTBL     ; Decr active bullet
+      jmp   inc_bullet_ptr2; counter.
+
+;
+; This processes a hit on a non-fireball type
+; mine.
+
+not_a_fireball_mine:
+      lda   #0x01
+      sta   ,u
+      clr   ,y          ; Flag bullet dead.
+      ldx   #score_string_pointers
+      lda   ACTPLY
+      ldx   a,x         ; Add mines value to
+      ldd   14,u        ; players score.
+      jsr   SCRADD
+      lda   4,u
+      ldb   6,u
+      tfr   d,x
+      lda   2,u
+      ldb   #0x40
+      jsr   add_an_explosion
+      dec   NUM_ACTIVE_MINES; Decr active mine
+                            ; counter.
+      dec   NMACTBL     ; Decr active bullet
+                        ; counter.
+      jmp   inc_bullet_ptr2
+
+
+;
+; This routine check each active mine to see
+; if it has collided with the command ship.
+
+	direct $C8
+check_ship_4_mine_collision:
+      lda   CS_DIS      ; Do only if cmd ship
+      bne   PEC63       ; not already dead.
+      lda   HYPERON     ; Do only if
+      bne   PEC63       ; hyperspace inactive 
+      ldy   #MINEBUF
+      lda   #0x1C
+      sta   TEMP1       ; Set up loop cntr.
+PEC56: lda   ,y
+      anda  #0x3F
+      bne   check_this_active_mine
+inc_mine_ptr3:
+      leay  0x12,y
+      dec   TEMP1
+      bne   PEC56
+PEC63: rts
+
+check_this_active_mine:
+      pshs  y
+      lda   SHIP_Y
+      ldb   SHIP_X      ; Load cmd ship's
+      tfr   d,x         ; position.
+      lda   4,y
+      ldb   6,y
+      ldy   12,y        ; Load mine position.
+      exg   y,d
+      jsr   BXTEST
+      puls  y
+      bhs   inc_mine_ptr3
+      clr   ,y          ; Flag mine is dead.
+      clr   DOTMINE
+      lda   SHIP_Y
+      ldb   SHIP_X
+      tfr   d,x
+      lda   2,y
+      ora   #0x80
+      ldb   #0x30
+      jsr   add_an_explosion
+      inc   MAKE_EXPL_SOUND ; Flag for an
+                            ; explosion snd.
+      dec   NUM_ACTIVE_MINES; Decr active
+                        ; mine counter.
+      bra   PEC63
+
+
+;
+; This routine checks to see if the command
+; ship has collided with the enemy ship
+; during reseeding.
+
+	direct $C8
+check_ship_4_enemy_collision:
+      lda   CS_DIS      ; Do only if cmd ship
+      bne   PECB2       ; not disabled.
+      lda   HYPERON     ; Don't do if
+      bne   PECB2       ; hyperspace active.
+      lda   RESEED      ; Check only if enemy
+      beq   PECB2       ; ship visible.
+      lda   SHIP_Y
+      ldb   SHIP_X
+      tfr   d,x         ; Cmd ship location.
+      ldd   #0x0616     ; Size of enemy ship.
+      ldy   MSHP_YX     ; Enemy ship location      
+      jsr   BXTEST
+      blo   cmd_and_enemy_ship_collision
+PECB2: rts
+
+cmd_and_enemy_ship_collision:
+      clr   RESEED      ; Flag enemy ship no
+                        ; longer visible.
+      clr   TMR3
+      lda   SHIP_Y
+      ldb   SHIP_X
+      tfr   d,x
+      lda   #0x08
+      ora   #0x80
+      ldb   #0x30
+      jsr   add_an_explosion
+      inc   MAKE_EXPL_SOUND; Enable explosion
+                           ; sound.
+      rts
+
+;
+; This routine is responsible for making
+; miscellaneous sound, such as when an
+; explosion occurs, or a bullet is fired.
+
+	direct -1
+make_misc_sounds:
+      lda   MKMVSND
+      beq   PECD6
+      clr   MKMVSND     ; Make cmd ship
+                        ; movement snd.
+      ldu   #cmd_ship_movement_sound
+      bra   make_the_misc_sound
+PECD6: lda   MAKE_EXPL_SOUND
+      beq   PECE3
+      clr   MAKE_EXPL_SOUND  ; Make explosion
+      ldu   #explosion_sound ; sound.
+      bra   make_the_misc_sound
+PECE3: lda   MKBLSND
+      beq   PECF0
+      clr   MKBLSND        ; Make bullet
+      ldu   #bullet_sound  ; firing sound.
+      bra   make_the_misc_sound
+PECF0: lda   MAKE_NEW_MINE_SND
+      beq   PED00
+PECF5: clr   MAKE_NEW_MINE_SND
+      clr   MKHYSND         ; Make sound of 
+      ldu   #mine_pop_sound ; mine 'popping'
+      bra   make_the_misc_sound; up.
+PED00: lda   MKHYSND
+      bne   PECF5       ; Make hyperspace snd      
+      bra   PED0A
+
+make_the_misc_sound:
+      jsr   PSGLST
+PED0A: ldb   REG0
+      addb  #0x10
+      cmpb  #0xA0
+      bhs   PED1A
+      lda   #0x00
+      jsr   WRREG
+      bra   PED20
+PED1A: ldd   #0x0800
+      jsr   WRREG
+PED20: ldb   REG2
+      addb  #0x20
+      cmpb  #0xF0
+      bhs   PED30
+      lda   #0x02
+      jsr   WRREG
+      bra   PED36
+PED30: ldd   #0x0900
+      jsr   WRREG
+PED36: rts
+
+
+cmd_ship_movement_sound:
+      db 0x00
+      db 0x10
+      db 0x01
+      db 0x00
+      db 0x06
+      db 0x1F
+      db 0x07
+      db 0x06
+      db 0x08
+      db 0x0F
+      db 0xFF
+
+bullet_sound:
+      db 0x02
+      db 0x39
+      db 0x03
+      db 0x00
+      db 0x06
+      db 0x1F
+      db 0x07
+      db 0x05
+      db 0x09
+      db 0x0F
+      db 0xFF
+
+explosion_sound:
+      db 0x06
+      db 0x1F
+      db 0x07
+      db 0x07
+      db 0x0A
+      db 0x10
+      db 0x0B
+      db 0x00
+      db 0x0C
+      db 0x38
+      db 0x0D
+      db 0x00
+      db 0xFF
+
+mine_pop_sound:
+      db 0x00
+      db 0x00
+      db 0x01
+      db 0x00
+      db 0x02
+      db 0x30
+      db 0x03
+      db 0x00
+      db 0x04
+      db 0x00
+      db 0x05
+      db 0x00
+      db 0x06
+      db 0x1F
+      db 0x07
+      db 0x3D
+      db 0x08
+      db 0x00
+      db 0x09
+      db 0x0F
+      db 0x0A
+      db 0x00
+      db 0x0B
+      db 0x00
+      db 0x0C
+      db 0x00
+      db 0x0D
+      db 0x00
+      db 0xFF
+
+; Start of Mine Storm music block 
+MS_music:
+      dw MS_music_header1
+      dw MSCHDR7
+      db 0x00
+      db 0x19
+      db 0x01
+      db 0x19
+      db 0x00
+      db 0x19
+      db 0x01
+      db 0x32
+      db 0x00
+      db 0x19
+      db 0x01
+      db 0x19
+      db 0x00
+      db 0x19
+      db 0x06
+      db 0x19
+      db 0x05
+      db 0x19
+      db 0x00
+      db 0x80
+
+MS_music_header1:
+      dw 0xFFEE
+      db 0xDD
+      db 0xCC
+      db 0xBB
+      db 0xAA
+      db 0x99
+      db 0x88
+      db 0x77
+      db 0x77
+      db 0x77
+      db 0x77
+      db 0x77
+      db 0x77
+      db 0x77
+      db 0x77
+
+; Pointers to player's score string
+score_string_pointers:
+      dw SCOR1     ; Player 1
+      dw SCOR2     ; Player 2
+
+; Y,X positions for drawing player's
+; score string.
+score_string_positions:
+      db 0x7F      ; Player 1 rel y score pos
+      db 0xA0      ; Player 1 rel x score pos
+      db 0x7F      ; Player 2 rel y score pos
+      db 0x10      ; Player 2 rel x score pos
+
+; Pointers to player's mine field # string
+mine_field_level_pointers:
+      dw P1LVL     ; Player 1
+      dw P2LVL     ; Player 2
+
+; This contains the information describing
+; which mines are to appear at the first 13
+; mine field levels.  The values map a
+; follows:
+;
+;  0 = dumb mine
+;  1 = magnetic mine
+;  2 = fireball mine
+;  3 = magnetic fireball mine
+;
+
+mines_at_level_x:
+      db 0x00           ; level 1 
+      db 0x00
+      db 0x00
+      db 0x00
+      db 0x02           ; level 2 
+      db 0x00
+      db 0x00
+      db 0x00
+      db 0x01           ; level 3 
+      db 0x00
+      db 0x00
+      db 0x00
+      db 0x03           ; level 4 
+      db 0x00
+      db 0x00
+      db 0x00
+      db 0x02           ; level 5 
+      db 0x01
+      db 0x00
+      db 0x00
+      db 0x02           ; level 6 
+      db 0x03
+      db 0x00
+      db 0x00
+      db 0x01           ; level 7 
+      db 0x03
+      db 0x00
+      db 0x00
+      db 0x02           ; level 8 
+      db 0x02
+      db 0x00
+      db 0x00
+      db 0x01           ; level 9 
+      db 0x01
+      db 0x00
+      db 0x00
+      db 0x03           ; level 10 
+      db 0x03
+      db 0x00
+      db 0x00
+      db 0x02           ; level 11 
+      db 0x02
+      db 0x02
+      db 0x00
+      db 0x01           ; level 12 
+      db 0x01
+      db 0x01
+      db 0x00
+      db 0x03           ; level 13 
+      db 0x03
+      db 0x03
+      db 0x00
+      db 0x80
+
+motion_dots:
+      db 0xC8
+      db 0x40 
+      db 0x3F 
+      db 0x00 
+      db 0x20 
+      db 0x80 
+      db 0x10 
+      db 0x1F 
+      db 0x3F 
+      db 0x3F 
+      db 0x00 
+      db 0xBF 
+      db 0xBF 
+      db 0xBF 
+      db 0xC0 
+      db 0x20 
+      db 0x48 
+      db 0x08 
+      db 0xF8 
+      db 0x30 
+      db 0xA8 
+      db 0x10 
+      db 0xD0 
+      db 0xA0 
+      db 0xBF 
+      db 0xBF 
+      db 0x00 
+      db 0x3F 
+      db 0x3F 
+      db 0x48 
+      db 0x20 
+      db 0x80 
+      db 0x00 
+      db 0xB0 
+      db 0x48 
+      db 0x38 
+      db 0xFB 
+      db 0x38 
+      db 0x80 
+      db 0x28 
+      db 0x30 
+      db 0x48 
+      db 0x80 
+      db 0x80 
+      db 0x45 
+      db 0xF0 
+      db 0x28 
+      db 0x7F 
+      db 0x3F 
+      db 0xBF 
+      db 0xA5 
+      db 0x00 
+      db 0xD0 
+      db 0x60 
+      db 0x20 
+      db 0x28 
+      db 0xB8 
+      db 0x40 
+      db 0x15 
+      db 0x80 
+      db 0x40 
+      db 0xF8 
+      db 0x40 
+      db 0x18 
+
+mine_field:
+      db  -6    ; height
+      db  56    ; width
+      db -32    ; rel y
+      db -56    ; rel x
+      db "MINE FIELD", 0x80;
+
+game_over:
+      db  -6    ; height
+      db  56    ; width
+      db -32    ; rel y
+      db -40    ; rel x
+      db "GAME OVER",0x80;
+
+dumb_mine:
+      db 0x00
+      db 0x10 
+      db 0x00 
+      db 0xFF 
+      db 0x20 
+      db 0xA0 
+      db 0xFF 
+      db 0xC0 
+      db 0x40 
+      db 0xFF 
+      db 0x90 
+      db 0x20 
+      db 0xFF 
+      db 0x70 
+      db 0x20 
+      db 0xFF 
+      db 0x50 
+      db 0x50 
+      db 0xFF 
+      db 0xD0 
+      db 0x90 
+      db 0x01 
+
+magnetic_mine:
+      db 0x00 
+      db 0x20 
+      db 0x00 
+      db 0xFF 
+      db 0x30
+      db 0xB0
+      db 0xFF
+      db 0xB0
+      db 0x30
+      db 0xFF
+      db 0xB0
+      db 0xD0
+      db 0xFF
+      db 0x30
+      db 0x50
+      db 0xFF
+      db 0xD0
+      db 0x50
+      db 0xFF
+      db 0x50
+      db 0xD0
+      db 0xFF
+      db 0x50
+      db 0x30
+      db 0xFF
+      db 0xD0
+      db 0xB0
+      db 0x01
+
+fireball_mine:
+      db 0xFF
+      db 0x00
+      db 0x00
+      db 0x00
+      db 0x30
+      db 0x00
+      db 0xFF
+      db 0x10
+      db 0xC0
+      db 0xFF
+      db 0xC0
+      db 0x10
+      db 0xFF
+      db 0xC0
+      db 0xF0
+      db 0xFF
+      db 0x10
+      db 0x40
+      db 0xFF
+      db 0xF0
+      db 0x40
+      db 0xFF
+      db 0x40
+      db 0xF0
+      db 0xFF
+      db 0x40
+      db 0x10
+      db 0xFF
+      db 0xF0
+      db 0xC0
+      db 0x01
+
+magnetic_fireball_mine:
+      db 0xFF
+      db 0x00
+      db 0x00
+      db 0x00
+      db 0xF0
+      db 0xD0
+      db 0xFF
+      db 0xC0
+      db 0x40
+      db 0xFF
+      db 0x20
+      db 0x00
+      db 0xFF
+      db 0x40
+      db 0x40
+      db 0xFF
+      db 0x00
+      db 0xE0
+      db 0xFF
+      db 0x40
+      db 0xC0
+      db 0xFF
+      db 0xE0
+      db 0x00
+      db 0xFF
+      db 0xC0
+      db 0xC0
+      db 0xFF
+      db 0x00
+      db 0x20
+      db 0x01
+
+fireball:  
+      db 0x00
+      db 0x3F
+      db 0x00
+      db 0xFF
+      db 0x80
+      db 0x00
+      db 0x00
+      db 0x3F
+      db 0x3F
+      db 0xFF
+      db 0x00
+      db 0x80
+      db 0x01
+
+explosion:
+      db 0xFF
+      db 0x7F
+      db 0x20
+      db 0x00
+      db 0xC0
+      db 0x10
+      db 0xFF
+      db 0xC0
+      db 0xD0
+      db 0xFF
+      db 0x20
+      db 0x7F
+      db 0x00
+      db 0xE0
+      db 0xC0
+      db 0xFF
+      db 0x00
+      db 0xC0
+      db 0xFF
+      db 0xE0
+      db 0x30
+      db 0x00
+      db 0xC0
+      db 0x00
+      db 0xFF
+      db 0x60
+      db 0xCD
+      db 0xFF
+      db 0xA0
+      db 0x00
+      db 0x00
+      db 0x20
+      db 0xD0
+      db 0xFF
+      db 0x3C
+      db 0x30
+      db 0xFF
+      db 0x00
+      db 0x82
+      db 0x00
+      db 0x30
+      db 0x30
+      db 0xFF
+      db 0xD0
+      db 0x50
+      db 0xFF
+      db 0x20
+      db 0xF0
+      db 0x01
+
+command_ship:
+      db 0x00
+      db 0x3F
+      db 0x00
+      db 0xFF
+      db 0xC4
+      db 0x08
+      db 0xFF
+      db 0xD8
+      db 0xD8
+      db 0xFF
+      db 0x20
+      db 0x00
+      db 0x00
+      db 0x00
+      db 0x40
+      db 0xFF
+      db 0xE0
+      db 0x00
+      db 0xFF
+      db 0x28
+      db 0xD8
+      db 0xFF
+      db 0x3C
+      db 0x08
+      db 0x01
+
+cmd_ship_pt1:
+      db 0x00
+      db 0x3F
+      db 0x00
+      db 0xFF
+      db 0xC4
+      db 0x08
+      db 0x01
+
+cmd_ship_pt2:
+      db 0x00
+      db 0x04
+      db 0x08
+      db 0xFF
+      db 0xD8
+      db 0xD8
+      db 0xFF
+      db 0x20
+      db 0x00
+      db 0x01
+
+cmd_ship_pt3:
+      db 0x00
+      db 0x3F
+      db 0x00
+      db 0xFF
+      db 0xC4
+      db 0xF8
+      db 0x01
+
+cmd_ship_pt4:
+      db 0x00
+      db 0x04
+      db 0xF8
+      db 0xFF
+      db 0xD8
+      db 0x28
+      db 0xFF
+      db 0x20
+      db 0x00
+      db 0x01
+
+enemy_ship_pt1:
+      db 0x00
+      db 0x20
+      db 0x00
+      db 0xFF
+      db 0x00
+      db 0xD8
+      db 0xFF
+      db 0xD0
+      db 0xA8
+      db 0xFF
+      db 0xF0
+      db 0x40
+      db 0xFF
+      db 0x08
+      db 0x18
+      db 0xFF
+      db 0x18
+      db 0xF0
+      db 0xFF
+      db 0xF0
+      db 0xB8
+      db 0x00
+      db 0x10
+      db 0x48
+      db 0xFF
+      db 0x08
+      db 0x00
+      db 0xFF
+      db 0xE8
+      db 0x10
+      db 0xFF
+      db 0xF8
+      db 0x00
+      db 0x00
+      db 0x08
+      db 0x00
+      db 0xFF
+      db 0x00
+      db 0x06
+      db 0x00
+      db 0x10
+      db 0xFA
+      db 0xFF
+      db 0x08
+      db 0x00
+      db 0xFF
+      db 0x00
+      db 0xF0
+      db 0x00
+      db 0x10
+      db 0x18
+      db 0xFF
+      db 0xF0
+      db 0x08
+      db 0x01
+
+enemy_ship_pt2:
+      db 0x00
+      db 0x20
+      db 0x00
+      db 0xFF
+      db 0x00
+      db 0x28
+      db 0xFF
+      db 0xD0
+      db 0x58
+      db 0xFF
+      db 0xF0
+      db 0xC0
+      db 0xFF
+      db 0x08
+      db 0xE8
+      db 0xFF
+      db 0x18
+      db 0x10
+      db 0xFF
+      db 0xF0
+      db 0x48
+      db 0x00
+      db 0x10
+      db 0xB8
+      db 0xFF
+      db 0x08
+      db 0x00
+      db 0xFF
+      db 0xE8
+      db 0xF0
+      db 0xFF
+      db 0xF8
+      db 0x00
+      db 0xFF
+      db 0x08
+      db 0x00
+      db 0xFF
+      db 0x00
+      db 0xFA
+      db 0x00
+      db 0x10
+      db 0x06
+      db 0xFF
+      db 0x08
+      db 0x00
+      db 0xFF
+      db 0x00
+      db 0x10
+      db 0x00
+      db 0x10
+      db 0xE8
+      db 0xFF
+      db 0xF0
+      db 0xF8
+      db 0x01
+
+enemy_ship_pt3:
+      db 0xFF
+      db 0x00
+      db 0xD8
+      db 0xFF
+      db 0xE8
+      db 0x08
+      db 0xFF
+      db 0x00
+      db 0x40
+      db 0xFF
+      db 0x18
+      db 0x08
+      db 0xFF
+      db 0x00
+      db 0xD8
+      db 0x00
+      db 0x08
+      db 0xE0
+      db 0xFF
+      db 0x10
+      db 0x00
+      db 0xFF
+      db 0x00
+      db 0x40
+      db 0xFF
+      db 0xF0
+      db 0x00
+      db 0xFF
+      db 0x00
+      db 0xC0
+      db 0x01
+
+simple_enemy_ship:  
+      db 0x00
+      db 0x18
+      db 0x00
+      db 0xFF
+      db 0x00
+      db 0x20
+      db 0xFF
+      db 0xC8
+      db 0x70
+      db 0xFF
+      db 0x10
+      db 0xA0
+      db 0xFF
+      db 0x00
+      db 0xA0
+      db 0xFF
+      db 0xEC
+      db 0xA4
+      db 0xFF
+      db 0x39
+      db 0x6D
+      db 0xFF
+      db 0x00
+      db 0x20
+      db 0x01

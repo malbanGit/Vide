@@ -1,0 +1,255 @@
+<?xml version="1.0"?>
+<AllXMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class></Class>
+		<Name></Name>
+		<PACKAGENAME>de.malban.veccy.codi</PACKAGENAME>
+		<CLASSNAME>CodeLibraryData</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>Filenames</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>Filenames</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>Vector&lt;String></TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>VIDE</Class>
+		<Name>Cartridge</Name>
+		<PACKAGENAME>de.malban.vide.vecx.cartridge</PACKAGENAME>
+		<CLASSNAME>CartridgeProperties</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>CartName</FIELDNAME>
+		<FIELDNAME>Author</FIELDNAME>
+		<FIELDNAME>Year</FIELDNAME>
+		<FIELDNAME>CRC</FIELDNAME>
+		<FIELDNAME>TypeFlags</FIELDNAME>
+		<FIELDNAME>FullFilename</FIELDNAME>
+		<FIELDNAME>Information</FIELDNAME>
+		<FIELDNAME>Cheats</FIELDNAME>
+		<FIELDNAME>Eastereggs</FIELDNAME>
+		<FIELDNAME>Homepage</FIELDNAME>
+		<FIELDNAME>InstructionFile</FIELDNAME>
+		<FIELDNAME>FrontImage</FIELDNAME>
+		<FIELDNAME>BackImage</FIELDNAME>
+		<FIELDNAME>Overlay</FIELDNAME>
+		<FIELDNAME>InGameImage</FIELDNAME>
+		<FIELDNAME>Critic</FIELDNAME>
+		<FIELDNAME>Other</FIELDNAME>
+		<FIELDNAME>BinaryLink</FIELDNAME>
+		<FIELDNAME>Licence</FIELDNAME>
+		<FIELDNAME>CopyrightType</FIELDNAME>
+		<FIELDNAME>PDFLink</FIELDNAME>
+		<FIELDNAME>PDFFile</FIELDNAME>
+		<FIELDNAME>CartridgeImage</FIELDNAME>
+		<FIELDNAME>Homebrew</FIELDNAME>
+		<FIELDNAME>Demo</FIELDNAME>
+		<FIELDNAME>Snippet</FIELDNAME>
+		<FIELDNAME>CompleteGame</FIELDNAME>
+		<FIELDNAME>extremeVecFileImage</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>CartName</XMLNAME>
+		<XMLNAME>Author</XMLNAME>
+		<XMLNAME>Year</XMLNAME>
+		<XMLNAME>CRC</XMLNAME>
+		<XMLNAME>TypeFlags</XMLNAME>
+		<XMLNAME>FullFilename</XMLNAME>
+		<XMLNAME>Information</XMLNAME>
+		<XMLNAME>Cheats</XMLNAME>
+		<XMLNAME>Eastereggs</XMLNAME>
+		<XMLNAME>Homepage</XMLNAME>
+		<XMLNAME>InstructionFile</XMLNAME>
+		<XMLNAME>FrontImage</XMLNAME>
+		<XMLNAME>BackImage</XMLNAME>
+		<XMLNAME>Overlay</XMLNAME>
+		<XMLNAME>InGameImage</XMLNAME>
+		<XMLNAME>Critic</XMLNAME>
+		<XMLNAME>Other</XMLNAME>
+		<XMLNAME>BinaryLink</XMLNAME>
+		<XMLNAME>Licence</XMLNAME>
+		<XMLNAME>CopyrightType</XMLNAME>
+		<XMLNAME>PDFLink</XMLNAME>
+		<XMLNAME>PDFFile</XMLNAME>
+		<XMLNAME>CartridgeImage</XMLNAME>
+		<XMLNAME>Homebrew</XMLNAME>
+		<XMLNAME>Demo</XMLNAME>
+		<XMLNAME>Snippet</XMLNAME>
+		<XMLNAME>CompleteGame</XMLNAME>
+		<XMLNAME>extremeVecFileImage</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>Vector&lt;String></TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>String</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>VIDE</Class>
+		<Name>FileProperties</Name>
+		<PACKAGENAME>de.malban.vide.vedi.project</PACKAGENAME>
+		<CLASSNAME>FileProperties</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>Filename</FIELDNAME>
+		<FIELDNAME>Typ</FIELDNAME>
+		<FIELDNAME>ActionScript</FIELDNAME>
+		<FIELDNAME>PreScriptName</FIELDNAME>
+		<FIELDNAME>PreScriptClass</FIELDNAME>
+		<FIELDNAME>Flags</FIELDNAME>
+		<FIELDNAME>Description</FIELDNAME>
+		<FIELDNAME>Version</FIELDNAME>
+		<FIELDNAME>Paremeter1</FIELDNAME>
+		<FIELDNAME>Paremeter2</FIELDNAME>
+		<FIELDNAME>Paremeter3</FIELDNAME>
+		<FIELDNAME>PostScriptName</FIELDNAME>
+		<FIELDNAME>PostScriptClass</FIELDNAME>
+		<FIELDNAME>ActionScriptName</FIELDNAME>
+		<FIELDNAME>ActionScriptClass</FIELDNAME>
+		<FIELDNAME>NoInternalProcessing</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>Filename</XMLNAME>
+		<XMLNAME>Typ</XMLNAME>
+		<XMLNAME>ActionScript</XMLNAME>
+		<XMLNAME>PreScriptName</XMLNAME>
+		<XMLNAME>PreScriptClass</XMLNAME>
+		<XMLNAME>Flags</XMLNAME>
+		<XMLNAME>Description</XMLNAME>
+		<XMLNAME>Version</XMLNAME>
+		<XMLNAME>Paremeter1</XMLNAME>
+		<XMLNAME>Paremeter2</XMLNAME>
+		<XMLNAME>Paremeter3</XMLNAME>
+		<XMLNAME>PostScriptName</XMLNAME>
+		<XMLNAME>PostScriptClass</XMLNAME>
+		<XMLNAME>ActionScriptName</XMLNAME>
+		<XMLNAME>ActionScriptClass</XMLNAME>
+		<XMLNAME>NoInternalProcessing</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>boolean</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>VIDE</Class>
+		<Name>Downloader</Name>
+		<PACKAGENAME>de.malban.util</PACKAGENAME>
+		<CLASSNAME>Downloader</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>URL</FIELDNAME>
+		<FIELDNAME>isZip</FIELDNAME>
+		<FIELDNAME>FileInZip</FIELDNAME>
+		<FIELDNAME>FileUnpacked</FIELDNAME>
+		<FIELDNAME>UnpackAll</FIELDNAME>
+		<FIELDNAME>DestinationDirAll</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>URL</XMLNAME>
+		<XMLNAME>isZip</XMLNAME>
+		<XMLNAME>FileInZip</XMLNAME>
+		<XMLNAME>FileUnpacked</XMLNAME>
+		<XMLNAME>UnpackAll</XMLNAME>
+		<XMLNAME>DestinationDirAll</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>Vector&lt;String></TYPE>
+		<TYPE>Vector&lt;String></TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>String</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>VIDE</Class>
+		<Name>ProjectProperties</Name>
+		<PACKAGENAME>de.malban.vide.vedi.project</PACKAGENAME>
+		<CLASSNAME>ProjectProperties</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>ProjectName</FIELDNAME>
+		<FIELDNAME>DirectoryName</FIELDNAME>
+		<FIELDNAME>Path</FIELDNAME>
+		<FIELDNAME>MainFile</FIELDNAME>
+		<FIELDNAME>Description</FIELDNAME>
+		<FIELDNAME>Version</FIELDNAME>
+		<FIELDNAME>Author</FIELDNAME>
+		<FIELDNAME>Bankswitching</FIELDNAME>
+		<FIELDNAME>createBankswitchCode</FIELDNAME>
+		<FIELDNAME>createGameLoopCode</FIELDNAME>
+		<FIELDNAME>NumberOfBanks</FIELDNAME>
+		<FIELDNAME>BankMainFiles</FIELDNAME>
+		<FIELDNAME>Extras</FIELDNAME>
+		<FIELDNAME>ProjectPreScriptClass</FIELDNAME>
+		<FIELDNAME>ProjectPreScriptName</FIELDNAME>
+		<FIELDNAME>ProjectPostScriptClass</FIELDNAME>
+		<FIELDNAME>ProjectPostScriptName</FIELDNAME>
+		<FIELDNAME>BankDefines</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>ProjectName</XMLNAME>
+		<XMLNAME>DirectoryName</XMLNAME>
+		<XMLNAME>Path</XMLNAME>
+		<XMLNAME>MainFile</XMLNAME>
+		<XMLNAME>Description</XMLNAME>
+		<XMLNAME>Version</XMLNAME>
+		<XMLNAME>Author</XMLNAME>
+		<XMLNAME>Bankswitching</XMLNAME>
+		<XMLNAME>createBankswitchCode</XMLNAME>
+		<XMLNAME>createGameLoopCode</XMLNAME>
+		<XMLNAME>NumberOfBanks</XMLNAME>
+		<XMLNAME>BankMainFiles</XMLNAME>
+		<XMLNAME>Extras</XMLNAME>
+		<XMLNAME>ProjectPreScriptClass</XMLNAME>
+		<XMLNAME>ProjectPreScriptName</XMLNAME>
+		<XMLNAME>ProjectPostScriptClass</XMLNAME>
+		<XMLNAME>ProjectPostScriptName</XMLNAME>
+		<XMLNAME>BankDefines</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>Vector&lt;String></TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>Vector&lt;String></TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+	<XMLClassBuilderData>
+		<Class>VIDE</Class>
+		<Name>System</Name>
+		<PACKAGENAME>de.malban.vide.vecx.cartridge</PACKAGENAME>
+		<CLASSNAME>SystemRom</CLASSNAME>
+		<FIELDNAMEs>		<FIELDNAME>CartName</FIELDNAME>
+		<FIELDNAME>Version</FIELDNAME>
+		<FIELDNAME>Comment</FIELDNAME>
+		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>CartName</XMLNAME>
+		<XMLNAME>Version</XMLNAME>
+		<XMLNAME>Comment</XMLNAME>
+		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>String</TYPE>
+		</TYPEs>	</XMLClassBuilderData>
+</AllXMLClassBuilderData>

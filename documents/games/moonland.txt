@@ -1,0 +1,83 @@
+Moon Lander Instructions
+
+(Front Cover)
+
+Vectrex Arcade System (logo)
+Moon Lander (logo)
+
+Game Design & Code       : Clay Cowgill
+Additional Design & Code : Chris Salomon
+Cartridge Manufacture    : Mark Shaker
+Cartridge Design         : John Dondzila
+
+
+(Page 1)
+
+Set-up:
+
+   Always turn off the Vectrex when inserting
+   or removing a cartridge.
+
+   Insert the cartridge with the label right
+   side up.
+
+   Please ignore the "Insert to this line"
+   instruction on the cartridge. This is from
+   the cartridge's prior life as an Intellivision
+   cartridge.
+
+Title Screen:
+
+   Press a button to start.
+
+Game Play:
+   Button 1       : Rotate counter-clockwise.
+   Button 2       : Rotate clockwise.
+   Button 3       : Pause/Resume
+   Button 4       : Full Thrust
+   Joystick Up    : Variable Thrust
+
+Scoring:
+   Successful Landing:
+      100 points +
+      (left over fuel bonus *
+      landing pad bonus multiplier)
+
+
+(Page 2)
+
+Outer Space is a dangerous place!
+
+To get home you must "hop" from moon
+to moon. Each landing will bring you 1
+step closer to home.
+
+You must make 32 landings to make it home
+alive.
+
+You start with 3 ships. An additional ship will
+be awarded after every 5 successful landings.
+
+Each moon has different terrain, gravity and
+wind.
+
+There is a fuel limit on every landing.
+
+You can only land on designated landing pads.
+Each landing pad is marked with it's fuel bonus
+multiplier.
+
+Oh yeah, did I mention the satellites & killer
+satellites?
+
+Good Luck and God Speed!
+
+
+(Back Cover)
+
+This Vectrex Game Cartridge was produced by
+gaming enthusiasts for the enjoyment of fellow
+enthusiasts. It was sold for materials cost
+(US$ 14.50 in 1999). Please do not ruin the
+spirit of our hobby by re-selling the cartridge
+for a profit.

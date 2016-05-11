@@ -1,0 +1,42 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Xform_Run(_a)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Xform_Run ($F65D)</p>
+
+<p>Xform_Run_a ($F65B)</p>
+
+<p>These two routines generate a run value, using the run index
+pair in $C837-$C838. For Xform_Run_a the scalar value is passed
+in the A register, while for Xform_Run, the scalar value must
+already be in $C83B. The transformed value is return in the A
+register. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $C8</p>
+
+<p>A-reg = length for rise/run (Xform_Rise_a only)</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<p>A-reg = run value</p>
+
+<p>B-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F65B">Source</a></p>
+</body>
+</html>

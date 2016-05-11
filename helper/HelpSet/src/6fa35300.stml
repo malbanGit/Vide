@@ -1,0 +1,320 @@
+:title Other: Copyrights and Licenses...
+::
+**Documentation/Code by Christopher L. Tumber**~~
+-------------------------------------------~~
+The document:~~
+documents\\programming\\Introduction to Vectrex Programming.pdf~~
+~~
+and the assembler sources in directories under:~~
+\\programming\\...\\Christopher Tumber
+~~ ~~
+ were done by Christopher L. Tumber and are ~~
+(c) Copyright Christopher L. Tumber 1998
+~~ ~~
+He kindly allowed redistribution with VIDE.
+  ~~
+~~
+Chris has a new website:~~
+[[http://www.ctumber.com/vectrex.html]]~~
+~~
+~~
+**Code by Alex Kazik**~~
+------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Alex Kazik
+~~ ~~
+ were done by Alex Kazik
+~~ 
+  ~~
+License~~
+-------~~
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit [[http://creativecommons.org/licenses/by-sa/4.0/deed.en_US]] ~~
+~~
+The original release was on Alex' blog:~~
+[[http://alex.kazik.de/278/vectrex-p1x3l-pushr/]]~~
+~~
+ 
+~~
+**Code by John Dondzila**~~
+---------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\John Dondzila
+~~ ~~
+ were done by John Dondzila
+~~ 
+  ~~
+John placed the sources in the public domain, although his original website is gone and I can't find any current text that proves that. But I have been around at that time and I remember :-)!  ~~
+~~
+ 
+~~
+**Code by Manu Pärssinen**~~
+----------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Manu
+~~ ~~
+ were done by Manu Pärssinen
+~~ 
+  ~~
+Manu placed the sources in the public domain!  ~~
+ 
+~~
+Manu has a website:~~
+[[http://pelikonepeijoonit.net/files/vec/]]~~
+ 
+ 
+~~
+**Code by Michael Simonds**~~
+-----------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Michael Simonds
+~~ ~~
+ were done by Michael Simonds
+~~ 
+  ~~
+License:  ~~
+ Please do anything you like with the code apart from selling/making clone (unlikely! !)
+~~
+I have not found any kind of web presence...~~
+ 
+ 
+~~
+**Code by Ronan Habot**~~
+-------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Ronan Habot
+~~ ~~
+ were done by Ronan Habot and are:
+~~ Copyright 2000, 2001, Ronen Habot
+~~ 
+  ~~
+License:  ~~
+ Hm. Didn't find any, but there is that copyright notice. Well than - you just look at the source!
+ 
+~~ ~~
+Ronan has a website:~~
+[[http://vgcollect.freehosting.net/myvectrex.htm]]~~
+ 
+~~
+**Code by Ville Krumlinde**~~
+-----------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Ville Krumlinde
+~~ ~~
+ were done by Ville Krumlinde and are:
+~~ Copyright (C) 2004  Ville Krumlinde
+ 
+~~ 
+  ~~
+License:  ~~
+Here is the complete source code for my game Vectrex Thrust. This game would never have been possible to write without all the information people have shared on the web, so releasing this source code is my way of giving something back and hoping that someone will find it useful.
+ 
+~~ ~~
+Manu has a website:~~
+[[http://www.emix8.org]]~~
+ 
+~~
+**Code by Frog**~~
+------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Frog
+~~ ~~
+ were done by Frog
+ 
+~~ 
+I have not found any copyright notice or licence file, but the source files are freely available
+ 
+~~ ~~
+Frog has a website:~~
+[[http://frog.enlight.ru]]~~
+(but you might be more successful if you go: [[http://enlight.ru/search/all]]?q=vectrex)
+ ~~
+~~
+**Code by Jeff Woolsay**~~
+----------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Jeff Woolsay
+~~ ~~
+ were done by Jeff Woolsay
+ 
+~~ 
+I have not found any copyright notice or licence file, but the source files are/were freely available.
+ 
+~~ ~~
+The sources used to be at:~~
+[[ftp://ftp.csus.edu/pub/vectrex]]~~
+ 
+~~
+**Code by Mike Blackwell**~~
+----------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Mike Blackwell
+~~ ~~
+ were done by Mike Blackwell
+ 
+~~ 
+I have not found any copyright notice or licence file, but the source files are/were freely available.
+ 
+~~ ~~
+The sources used to be at:~~
+[[ftp://ftp.csus.edu/pub/vectrex]]~~
+ 
+~~
+**Code by Bruce Tomlin**~~
+----------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Bruce Tomlinl
+~~ ~~
+ were done by Bruce Tomlin
+ 
+~~ 
+I have not found any copyright notice or licence file, but the source files are/were freely available.
+ 
+~~ ~~
+The sources used to be at:~~
+[[ftp://ftp.csus.edu/pub/vectrex]]~~
+ 
+ 
+~~
+**Code by Metalvotze/Nitro/Nuance**~~
+-------------------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\MV
+~~ ~~
+ were done by Metalvotze/Nitro/Nuance
+ 
+~~ 
+I have not found any copyright notice or licence file, but the source files are/were freely available.
+ 
+~~ ~~
+The sources can be found at:~~
+[[http://metalvotze.de/files/vecsrc]]~~
+ 
+ 
+ 
+~~
+**Code by Orb**~~
+-----------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Orb
+~~ ~~
+ were done by Orb, ~~
+(c) 2009 orb
+ 
+~~ ~~
+The sources can be found at:~~
+[[http://www.ultrafex.de/twistex/]]~~
+ 
+ 
+~~
+**Code by Alex Herbert**~~
+--------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Alex Herbert
+~~ ~~
+ were done by Alex Herbert, ~~
+Copyright (c) Alex Herbert 2004 ~~
+(I hope that copyright does not mean nobody is allowed to use that code, because otherwise the hardware it describes is pretty useless)
+ 
+ 
+~~ ~~
+The homepage can be found at:~~
+[[www.herbs64.com]]~~
+ 
+ 
+~~
+**Code by C. Malcom aka Binarystar**~~
+--------------------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\C. Malcom
+~~ ~~
+ were done by C. Malcom ~~
+(the sourcecode included was released on a vectrex forum, not on his homepage)
+ 
+~~ ~~
+The homepage can be found at:~~
+[[http://www.binarystarsoftware.com/]]~~
+ 
+ 
+~~
+**Code by Andrew Coleman**~~
+----------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Andrew Coleman
+~~ ~~
+ were done by Andrew Coleman ~~
+ ~~
+Licence:~~
+This source code is copyright Andrew Coleman ~~
+This whole thing is Freeware.~~
+~~
+You can play around with it, steal bits of it, do whatever you want with it really, but please DO NOT distribute any modified versions of this source without my permission.~~
+ 
+~~ 
+The homepage can be found at:~~
+[[http://vectrex.playntradeonline.com/skiing.html]]~~
+ 
+ 
+~~
+**Code by Brian Mastrobuono**~~
+-------------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Brian Mastrobuono
+~~ ~~
+ were done by Brian Mastrobuono ~~
+ Copyright 2001-2014 
+ ~~ ~~
+Licence:~~
+GNU GPL licensed, use as you wish as long as your changes in source form are made public.~~
+ 
+ 
+~~ 
+The homepage can be found at:~~
+[[https://github.com/gauze/spudster]]~~
+ 
+ 
+  
+~~
+**Code by Clay Cowgill**~~
+--------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Clay Cowgill
+~~ ~~
+ were done by Clay Cowgill ~~
+ ~~ ~~
+I have not found any copyright notice or licence file, but the source files are/were freely available.
+ 
+ 
+~~ 
+His homepage can be found at (no vectrex stuff though):~~
+[[http://www.multigame.com]]~~
+ 
+ 
+~~
+**Code by Garry**~~
+-------------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Garry
+~~ ~~
+ were done by Garry ~~
+ ~~ ~~
+ I have not found any copyright notice or licence file, but the source files are/were freely available.
+ 
+~~ 
+The homepage can be found at:~~
+[[http://garrysgamingblog.blogspot.de/p/programming-projects.html]]~~
+ 
+ 
+ 
+~~
+**Code by Tomsoft**~~
+-------------------------~~
+The assembler sources in directories under:~~
+\\programming\\...\\Tomsoft
+~~ ~~
+ were done by Tomsoft ~~
+ ~~ ~~
+ I have not found any copyright notice or licence file, but the source files are/were freely available.
+ 
+~~ 
+The homepage can be found at:~~
+[[http://landspurg.net/tomsoft/Vectrex.html]]~~

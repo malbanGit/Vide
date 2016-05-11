@@ -1,0 +1,78 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Init_Music_chk ($F687)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Init_Music ($F68D)</p>
+
+<p>Init_Music_chk ($F687)</p>
+
+<p>Init_Music_dft ($F692)</p>
+
+<p>These routines are responsible for filling the music work
+buffer while a sound is being made. It should be called once
+during each refresh cycle. If you want to start a new sound, then
+you must set $C856 to 0x01, and point the U-register to the sound
+block. If no sound is in progress ($C856 = 0), then it returns
+immediately (unless you called Init_Music or Init_Music_dft,
+which do not make this check). When a sound is in progress, $C856
+will be set to 0x80.</p>
+
+<p>These routines process a single note at a time, and calculate
+the amplitude and course/fine tuning values for the 3 sound
+channels. The values calculated are stored in the music work
+buffer, at $C83F-$C84C.</p>
+
+<p>Music data format:</p>
+
+<p>header word -&gt; $C84F 32 nibble ADSR table<br>
+header word -&gt; $C851 8-byte &quot;twang&quot; table<br>
+data bytes</p>
+
+<p>The ADSR table is simply 32 nibbles (16 bytes) of amplitude
+values.</p>
+
+<p>The twang table is 8 signed bytes to modify the base frequency
+of each note being played. Each channel has a different limit to
+its twang table index (6-8) to keep them out of phase to each
+other. </p>
+
+<p>Music data bytes:</p>
+
+<p>Bits 0-5 = frequency<br>
+Bit 6 clear = tone<br>
+Bit 6 set = noise<br>
+Bit 7 set = next music data byte is for next channel<br>
+Bit 7 clear, play note with duration in next music data byte:<br>
+bits 0-5 = duration<br>
+bit 6 = unused<br>
+bit 7 set = end of music<br>
+</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $C8</p>
+
+<p>U-reg points to the start of the music data</p>
+
+<p>$C84D points to frequency table (Init_Music_dft only)</p>
+
+<p>$C856 may need to be set.</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<p>D-reg, X-reg, Y-reg, U-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F687">Source</a></p>
+</body>
+</html>

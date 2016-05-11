@@ -1,0 +1,30 @@
+<html>
+
+<head>
+<title>Scaling</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Scaling</strong></font></p>
+
+<p>The above program also sets the scaling value to 50, which is
+still a pretty small scaling value. Vectrex achieves scaling with
+a timer. The time for how long a vector is drawn (or just
+positioned) is the scale value. Thus (as also mentioned befor)
+using high scale factors result in a 'waste' of time. The scaling
+factor is set by loading the value directly to the timer of the
+VIA 6522 chip, namely register VIA_t1_cnt_lo ($D004). Below you
+can find some functions that will set the scaling value while
+(befor) postioning the vectorbeam (further below).</p>
+
+<p>&nbsp;</p>
+
+<p align="center"><a href="vectorpositioning.htm">Next page</a> <a
+href="dotdrawing.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

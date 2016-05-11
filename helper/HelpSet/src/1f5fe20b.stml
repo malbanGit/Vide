@@ -1,0 +1,99 @@
+:title YM-Conversion I
+
+This section is a 1:1 conversion of the utility I did about 15 years ago. The old routines were translated to java and 100% reused. For that reason the description that follows will be in huge passages just a copy and paste of the old readme file.
+
+:image ym1.png|YM
+
+For this conversion I did not build an own panel, it is sufficient if you right click on a ym file and chose "build vectrex YM".
+
+A process will start which translates (if possible) the selected file to a vectrex assembler include. There is no way to chose different settings, as I reduced YM-Conversion to always chose the optimal packrate. 
+This in turn means, that conversion may take quite a few seconds, look at the message window to get the current status of conversion.
+
+In opposite to the "original" routines, there is no need to unpack (lharc) the "YM"-files beforehand. LHARC files can be processed by java, so no external help is needed.
+
+Three files are generated:
+- a main file, as a player example
+- an include file which contains the "player" subroutines (always the same)
+- and an actual data file which contains the data 
+
+Following is the original readme file from way back in time:~~
+(but edited to not tell lies...)~~
+~~
+
+:div code
+Hi!
+
+I tried to write a packer for YM files to be able to be
+'runnable' on vectrex.
+
+The idea to this came from two other people, namely:
+
+        Ville Krumlinde and Ville Gustavsson
+
+Thanks guys!
+
+In this directory you find a couple batch files, which convert
+*.ym files to *.bin files.
+These *.bin files are 'playable' vectrex binaries (no graphic, just sound)
+(well a title is displayed now).
+
+This converts an ym file to a binary, it may however
+produce fairly large files. They may even be to large for vectrex to
+handle (> 32Kb).
+
+Samples in ym files are not supported, neither are loops or other
+not simple things like drums... and and and
+
+My packer does not come near the original ym-file size (the lharced once).
+Perhaps another programmer wants to try to fiddle some more bytes out
+of the files. But consider this: you must unpack them on a vectrex
+with not much RAM.
+
+Programmers point of view - vectrex side:
+The unpack routines generally use about 2000-3000 cycles per 'round'
+but there are peaks that reach about 5000-6000 (though 'seldom').
+The unpacking is 'streamed' the routine uses constantly 161 bytes RAM.
+The unpacker is a 'bit' optimimized, though there could probably
+be done much more. The routine itself uses about 600 bytes.
+
+The packer is a mixture of three schemes:
+- First a dictionay scheme (this is what takes the time... finding a good
+  dictionary)
+- Shannon/Fanno bit coding (huffman is implemented to, but for some reason or
+  another I use Shannon/Fanno)
+- RLE
+
+Enjoy...
+
+Malban
+
+PS
+The code is not all that cleaned up... pitty... but right now - I
+couldn't be bothered...
+:/div
+
+If you look for a good collection of YM-Files:
+[[http://pacidemo.planet-d.net/aldn/index.html]]
+~~ The package "ST synth musics" contains nearly 4000 pieces of music!
+
+
+**Tracker~~**
+There are at least to PSG trackers, which are available under windows:~~
+- Arkos tracker: [[http://www.julien-nevo.com/arkos/]]
+- WYZTracker: [[https://sites.google.com/site/augustoruiz/]]
+
+As far as I know both of them are still activily developed, mainly to support other equipment like:
+- CPC Computer
+- MSX Computer
+- Spectrum Computer
+- Atari ST
+- and other
+
+As of yet no "direct" player for these trackers exist. If I have MUCH spare time in the future I might tackle the one or the other // Don't wait for that! // ~~
+I would rather prefer **YOU** would write a vectrex player and send it for inclusion to VIDE!
+
+
+
+
+
+

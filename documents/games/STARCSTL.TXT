@@ -1,0 +1,114 @@
+Star Castle
+-----------
+
+   You and other experienced intergalactic voyagers have heard about and
+shared the legend of Star Castle -- a mysterious fortress in a far away
+galaxy filled with incredible riches and surrounded by revolving walls of
+shimmering solid gold.  Yet no one, until now, has ever actually seen the
+Castle -- or lived to tell about it!
+   As you approach, you are overwhelmed with the beauty of the Castle but you
+suddenly realize that the golden walls hide a deadly arsenal.  To survive you
+must destroy the walls and the powerful Energy Cannon they shield.  Perhaps
+you will be the first to survive the Star Castle's arsenal and prove the
+legend true.  Perhaps not!
+
+Controls
+--------
+Joystick:  Controls the rotation of your star cruiser.
+Button 1:  Rotate left.
+Button 2:  Rotate right.
+Button 3:  Thrust.
+Button 4:  Fire.
+
+   Star Castle can be played as either a one or two-player game using the
+built-in control panel.  In a two-player game, a second, optional control
+panel can also be used.
+
+Skill Levels
+------------
+   There are two skill levels for Star Castle.  Level 1 is the most
+difficult, level 2 is the least difficult.
+
+Game Play
+---------
+   As the commander of a highly maneuverable star cruiser, your mission in
+Star Castle is to destroy the powerful and deadly Energy Cannon that is
+shielded by three revolving octagonal walls.
+   You skill and reflexes will be tested like never before as you attempt to
+destroy sections of the Castle's walls in order to give you a direct line of
+fire at the deadly Cannon.  At the same time you must avoid or destroy the
+outer wall's energy bombs and the Cannon's awesome fireballs.
+   Your mission will increase in difficulty as the game progresses.  The
+longer it takes you to destroy the protective walls of the Castle, the more
+aggressive the energy bombs will become.  And as you blast your way through
+more sections of the walls, you will allow the Energy Cannon to fire directly
+upon your cruiser with greater and greater accuracy.
+   Your best chance for survival is to conduct your mission from the far
+corners of the screen -- using your thrust to avoid the Castle's weapons. 
+After striking the Castle, you can avoid retaliation by thrusting quickly
+around the screen.  Use your reflexes and knowledge well -- you are provided
+with only five star cruisers.  Perhaps you will be the first to destroy the
+arsenal protecting the mysterious Star Castle.  Or perhaps you will be one of
+the many never to escape its deadly beauty.
+
+Star Cruiser
+------------
+   In Star Castle, you are provided with five highly maneuverable star
+cruisers that shoot powerful missiles in bursts of four at a time.  (No more
+than four missiles may appear on the screen at one time.)
+   A cruiser will be destroyed when it is hit by either a fireball or energy
+bomb.  If you should happen to actually bump one of the Castle walls, your
+cruiser will bounce off in the opposite direction.  Thrust your cruisers
+forward by pressing button 3.  Change course either by pushing buttons 1 & 2
+or by using your joystick.
+
+Castle Walls
+------------
+   The three revolving walls of the Star Castle are octagonal in shape, with
+eight sections each.  Each section must be hit twice by your missiles in
+order to be destroyed.  After the first hit, a wall section will glow --
+indicating it requires one more hit to be destroyed.  The inner and outer
+walls revolve in the same direction; the middle wall revolves in the opposite
+direction.  When outer Castle walls are completely destroyed, the inner walls
+quickly expand and a new wall forms around the Energy Cannon.
+   Energy bombs are released at random from the outer walls.  These bombs
+will track your cruiser until it is destroyed.  However, they can not follow
+you if you thrust off the screen and they can de disarmed by your missiles. 
+There is no limit to the number of energy bombs the Castle will release and
+there are no points scored for disarming a bomb.
+
+Energy Cannon
+-------------
+   The Energy Cannon, located at the center of the Castle and protected by
+three revolving Castle walls, is a deadly adversary.  It will always track
+your cruiser as you move around the screen and as the game progresses it will
+move so quickly that it appears to blink into position.
+   Each time there are gaps in all three walls that are lined up together,
+the Energy Cannon will release a fireball directly at your star cruiser. 
+Fireballs can not be destroyed with your missiles, they can only be avoided
+by thrusting your cruiser off the screen.  These same gaps that allow the
+Cannon to release fireballs at your star cruiser also enable you to take
+direct aim at the Cannon to destroy it.  Use extreme caution and aim well!
+
+Scoring
+-------
+   Points are awarded as follows:
+
+       Target               Points
+   -----------------------------------
+    Outer wall section        10
+    Middle wall section       20
+    Inner wall section        30
+    Energy Cannon            A bonus star cruiser
+
+   Player one's score is displayed in the upper right corner and the second
+player's score is shown in the upper left corner.  The number of star
+cruisers remaining for your use is centered at the top of the playing area
+below the scores.  Only nine star cruisers will be displayed at the top of
+the screen at one time.  Those that are earned and are not displayed will
+still be available for your use.
+
+
+z_morganrw@ccsvax.sfasu.edu
+
+

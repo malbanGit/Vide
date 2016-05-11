@@ -1,0 +1,59 @@
+<AFTER_KEYWORD, WHITE_SPACE_AFTER_KEYWORD> {WhiteSpace}+ {
+    nextState = WHITE_SPACE_AFTER_KEYWORD;    
+    lastToken = PropertiesToken.WHITE_SPACE;
+    String text = yytext();
+    PropertiesToken t = (new PropertiesToken(lastToken,text,yyline,yychar,yychar+text.length(),nextState));
+    yybegin(nextState);
+    return (t);
+}
+
+
+
+
+
+
+
+
+<AFTER_KEYWORD_WHITE_SPACE> {Character} { 
+    lastToken = M6809Token.LITERAL_CHARACTER;
+    String text = yytext();
+    M6809Token t = (new M6809Token(lastToken,text,yyline,yychar,yychar+text.length(),nextState));
+    return (t);
+}
+<YYINITIAL, AFTER_KEYWORD, AFTER_LABEL, WHITE_SPACE, AFTER_KEYWORD_WHITE_SPACE, LINE_END> {ErrorIdentifier} 
+{ 
+    lastToken = M6809Token.ERROR_IDENTIFIER;
+    String text = yytext();
+    M6809Token t = (new M6809Token(lastToken,text,yyline,yychar,yychar+text.length(),nextState));
+    return (t);
+}
+
+
+
+
+
+<WHITE_SPACE_AFTER_KEYWORD> {Quote} { 
+    lastToken = M6809Token.LITERAL_STRING;
+    nextState = IN_STRING;    
+    String text = yytext();
+    M6809Token t = (new M6809Token(lastToken,text,yyline,yychar,yychar+text.length(),nextState));
+    yybegin(nextState);
+    return (t);
+}
+
+<IN_STRING> {AnyStrChr}+ { 
+    lastToken = M6809Token.LITERAL_STRING;
+    nextState = IN_STRING;    
+    String text = yytext();
+    M6809Token t = (new M6809Token(lastToken,text,yyline,yychar,yychar+text.length(),nextState));
+    yybegin(nextState);
+    return (t);
+}
+<IN_STRING> {Quote} { 
+    lastToken = M6809Token.LITERAL_STRING;
+    nextState = WHITE_SPACE_AFTER_KEYWORD;    
+    String text = yytext();
+    M6809Token t = (new M6809Token(lastToken,text,yyline,yychar,yychar+text.length(),nextState));
+    yybegin(nextState);
+    return (t);
+}

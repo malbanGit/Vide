@@ -1,0 +1,66 @@
+Solar Quest 
+-----------
+   How many types of alien vessels will you be able to destroy?  Seven
+different types are after you.  You must first destroy them and then attempt
+to rescue the survivors before that float into the sun.  Don't get your ship
+too close to the sun... its high temperatures can destroy you.
+
+Controls
+--------
+Joystick:  Rotates your alien destroying ship.
+Button 1:  Hyperspace.
+Button 2:  Nuke.  Fires Nukes at alien vessels.
+Button 3:  Thrust.
+Button 4:  Fire.
+
+Game Play
+---------
+   The first group of aliens will fly on to the screen.  Use the joystick to
+rotate your ship and button 3 to move forward.  You must try to destroy the
+ships before they collide with you.  To destroy alien vessels one at a time,
+press button 4 to fire rockets.  You can destroy many alien vessels at the
+same time by using button 2, the Nuke.  Press this button once to fire the
+Nuke and a second time to release its force.  The number of remaining Nukes
+are shown at the bottom of the screen.
+   Button 1 allows you to move mysteriously on the screen to avoid begin hit. 
+Use it cautiously... it might put you in an even more difficult predicament.
+   Once an alien vessel is destroyed, its survivor will remain and float
+toward the sun in the center of the screen.  You can earn extra points by
+either destroying the survivors or picking them up in your craft before the
+sun destroys them.
+   As the game progresses, new types of aliens, who are even faster and more
+deadly, will enter the field.
+
+Getting Hit
+-----------
+   If an alien collides with you or you get to close to the sun, you will
+lose one ship.  If you have additional ships left, you will return to the
+field with the same type of alien that destroyed you.
+
+Number of Ships
+---------------
+   In each game you start with 3 ships.  An extra ship is awarded for each 25
+survivors rescued.
+
+Scoring
+-------
+   Points are awarded for destroying the alien ships, os follows:
+             Alien          Points
+           -------------------------
+            Alien 1           250
+            Alien 2           300
+            Alien 3           350
+            Alien 4           400
+            Alien 5           450
+            Alien 6           500
+            Alien 7           750
+
+   After careful piloting, a ghost ship will appear.  You will earn 3500
+points for destroying it.  If a survivor is destroyed, 250 points are earned. 
+If a survivor is picked up, 1000 points are earned.  An extra Nuke is awarded
+for each 10,000 points earned.
+
+
+z_morganrw@ccsvax.sfasu.edu
+
+

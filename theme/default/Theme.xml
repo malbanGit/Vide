@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<AllThemeData>
+	<ThemeData>
+		<Class>Themes</Class>
+		<Name>default</Name>
+		<ResizeTitleImage>false</ResizeTitleImage>
+		<ResizeGameImage>false</ResizeGameImage>
+		<GameImage></GameImage>
+	</ThemeData>
+</AllThemeData>

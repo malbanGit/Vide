@@ -1,0 +1,114 @@
+; *** Rotating and zooming a vector object
+; *** Public Domain for all VecFreaks
+; *** Commented & coded by man@sci.fi
+; *** Thanks to Marq.
+
+; *** The needed BIOS functions
+; *** - not too many huh?
+
+WAITRECAL	    equ	$f192
+MOVEDRAW	    equ	$f3b7
+MOVEPEN       equ	$f2fc
+INTENSITY	    equ	$f2ab
+ROTVL         equ     $f610
+
+
+; *** Needed variables
+
+rotangle        equ   $c886    ; Rotation angle
+scale           equ   $c887    ; Scale variable
+rotated         equ   $c890    ; Takes up some RAM
+                               ; (the rotated coordinates)
+
+	org    0
+
+; *** Init block
+
+	fcb    $67,$20
+	fcc    "GCE MANU"
+	fcb    $80
+	fdb    musa
+	fdb    $f850
+	fdb    $30b8
+	fcc    "ZOOM & ROTATE"
+	fcb    $80,$0
+
+; *** Then the actual program 
+
+    clra                    ; Reseting rotation angle
+    sta    rotangle         ; and scaling just
+    sta    scale            ; to make sure..
+    
+rot 
+    inc    rotangle         ; Increase rotation angle
+    inc    scale            ; Increase scaling
+    lda    scale            ; Check if scaling
+    cmpa   #127             ; is 127, if not
+    bne    gorot            ; then go to ->gorot    
+    clra                    ; if yes, then
+    sta    scale            ; reset scaling
+            
+gorot   
+    jsr    WAITRECAL        ; BIOS recalibration
+    lda    #127                 
+    jsr    INTENSITY        ; Set intensity to 127
+
+  	ldx    #vec		      ; Load the vector list
+	ldb    #32		      ; Number of vectors
+	lda    rotangle		; Rotation angle
+    ldu    #rotated         ; Save to pyoritetyt
+    jsr    ROTVL            ; Rotates the coordinates
+    
+    
+    lda    #0
+    ldb    #0
+    jsr    MOVEPEN
+    ldx    #rotated         ; Rotated vectorlist
+    lda    #32              ; Then drawing the vector
+    ldb    scale            ; Scaling
+	jsr    MOVEDRAW         ; Draw
+    bra    rot              ; Loop
+
+; *** The vectorlist rotates around (0,0)
+; *** Vectorlist for the logo
+
+vec	 
+    fcb    30,-60
+    fcb    0,20
+    fcb    -30,0
+    fcb    0,20
+    fcb    30,0
+    fcb    0,50
+    fcb    -10,0
+    fcb    10,10
+    fcb    0,20
+    fcb    -10,0
+    fcb    0,-20
+    fcb    -30,0
+    fcb    0,20
+    fcb    -10,0
+    fcb    0,-20
+    fcb    10,-10
+    fcb    30,0
+    fcb    0,-20
+    fcb    -10,0
+    fcb    0,10
+    fcb    -10,0
+    fcb    0,-10
+    fcb    -10,0
+    fcb    0,20
+    fcb    -10,0
+    fcb    0,-30
+    fcb    50,0
+    fcb    -10,-10
+    fcb    -10,0
+    fcb    -30,-20
+    fcb    30,-20
+    fcb    10,0
+    fcb    10,-10
+
+musa	            ; Start music that plays nothing
+    fdb    $fee8
+	fdb	 $fbe6
+	fcb    $0,$80
+	fcb    $0,$80

@@ -1,0 +1,36 @@
+:title ayi
+:image aypanel.png|ayi window
+
+**Why?**~~
+Does this window look different than all the other panels?
+~~
+Hm, no reason - I did it on a different day, or even in a different month, so I somehow decided to do it this way.
+
+**But it is bad, to have different looks in one application, the poor users...?**~~
+Yep... I know. Still. learn to live with it, or change the sources yourself!
+
+:h2 Save as Bin/Data/YM-file
+There is a new option to now save the PSG output (not digital sound as of yet).
+
+:h3 YM file
+YM-files consist of register information of the PSG, which are (best) saved at specific intervals.
+The file format was developed by Arnaud Carré originally for Atari ST sound files. (See: [[http://leonard.oxg.free.fr/ymformat.html]])
+
+:h3 Data
+Chosing this option the PSG data will be saved to assembler compatible db-statements, 16 registers per row .
+
+:h3 Bin
+Chosing this option the PSG data will be saved to binary "raw" data 16 registers repeatedly.
+
+:h3 Record when?
+You can chose to the intervall at which data shall be recorded by two different options:
+- record when address = xxxx~~
+For example each time after a subroutine that updates sound registers is called (do_sound)
+- or you can give a fixed timed intervall in 6809 cylce information (30000 cycles = 50Hz)
+
+:h3 Buttons
+- ##control_record_blue.png## __**start recording**
+- ##control_stop_blue.png## __**stop recording**~~Only after stopping properly, data files will be saved!
+
+
+

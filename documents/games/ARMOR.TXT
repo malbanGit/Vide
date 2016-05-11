@@ -1,0 +1,79 @@
+Armor..Attack
+-------------
+   Maneuver your jeep through the streets and alleys of an occupied town. 
+Hide from the enemy tanks behind buildings and launch your own surprise
+attack!  Improve your chance of survival by playing with an ally.  But beware
+of the deadly helicopter flying overhead... no place is safe from this
+treacherous enemy.
+
+Controls
+--------
+   For simultaneous two player game play, a second control panel is needed.
+
+Joystick:  Rotates your jeep.
+Button 1:  Left rotation.
+Button 2:  Right rotation.
+Button 3:  Thrust.
+Button 4:  Fire.
+
+Game Selection
+--------------
+   You can select any of three game play options.  They are:
+
+GAME 1: The buildings are drawn in on the screen giving you a clear picture
+        of the obstacles.  The joystick is used to rotate your jeep, but
+        buttons 1 and 2 can also be used to "fine tune" your movements.
+        Every time you press button 1 or 2 you rotate only SLIGHTLY to the
+        left or right.
+
+GAME 2: The buildings are drawn in on the screen, as in GAME 1.  The joystick
+        can be used to rotate your jeep, but buttons 1 and 2 can also be used
+        to rotate your jeep freely to the left or right.  There is no "fine
+        tuning" feature in this option.
+
+GAME 3: The buildings are not drawn in on the screen, creating a blind maze.
+        The joystick or buttons 1 and 2 can be used to rotate your jeep, as
+        in GAME 2.
+
+Game Play
+---------
+   Your jeep will appear in the middle of a bombed out city still inhabited
+by your enemies.  If two players are defending the city, two jeeps will
+appear.  An enemy tank will roll in from the outskirts of the city and you
+must destroy him before he destroys you.  Use the joystick or buttons 1 and 2
+to aim your jeep and button 3 to move forward.  Once in striking range, use
+button 4 to fire your missiles.  Hitting the tank once will only dismantle
+him... you must hit him a second time to destroy him.  As you destroy tanks,
+additional tanks will be dispatched from the enemy battalion and an enemy
+helicopter will also enter, prepared to do battle.  Your missiles can destroy
+the helicopter too, but there is no place to hide from this treacherous
+enemy.
+
+Getting Hit
+-----------
+   If you are hit by a tank or helicopter missile you will lose one jeep.  If
+you have additional jeeps left, you will return to the city and face your
+enemies again.
+
+Number of Jeeps
+---------------
+   At the beginning of each game, you will have 5 jeeps.  A bonus jeep is
+awarded each time 5 helicopters are hit.
+
+Scoring
+-------
+   Points are earned for destroying tanks and helicopters, as follows:
+
+      Action                       Points
+   ---------------------------------------------
+    First hit on tank                200
+    Second hit on tank               300 + bonus
+    Helicopter destroyed            1000
+
+   The bonus is equal to 100 points for each helicopter previously hit. 
+After each 5 helicopters, the bonus starts again at 100 for the next
+helicopter.
+
+
+z_morganrw@ccsvax.sfasu.edu
+

@@ -1,0 +1,91 @@
+Bedlam 
+------
+   Your home galaxy has been invaded by alien colonists hoping to claim all
+inhabited worlds as their own.  Unacceptable!
+   You have been given the ultimate responsibility of protecting your
+galactic neighbors from the invaders.  Blasting the aliens with the amazing
+anti-molecular cannon transports them thousands of light years away where
+they cause no further bedlam.  But beware, the invaders will be
+increasingly ruthless.
+   The future of the galaxy rests on your shoulders.  Good luck!
+
+Controls
+--------
+Joystick: Rotates your cannon.
+Button 1: Fast Rotate.
+Button 2: Zap.  Removes all aliens in a pattern.  Only one zap per pattern.
+Button 3: Fast Rotate.
+Button 4: Fire.
+
+Game Play
+---------
+   As the game begins, you find yourself at the center of the first
+galactic sector.  From the far corners of the sector, the alien colonists
+begin their attack moving directly toward your position.  Rotate the
+direction of the cannon by using the joystick.  For faster rotation, press
+button 3 [or 1] and move the joystick at the same time.  As the aliens come
+within range, fire with button 4.  If it becomes impossible to maintain a
+controlled defense, you are allowed to ZAP all the aliens at once by
+pressing button 2.  However, you are only allowed to use the Zap ONE time
+in each sector.
+   After you have cleared a sector of alien invaders, you will be
+immediately transported to a different part of the galaxy.  Each new sector
+will be more challenging, with increasingly aggressive aliens.
+
+Cannons
+-------
+   You are provided with three anti-molecular cannons per game and
+unlimited ammunition.  One extra cannon will be earned for every 10,000
+points you score.  Although you may earn a large number of extra cannons,
+the greatest number that will be displayed at the bottom of the screen will
+be eight, any number over eight will still be available for use.
+
+Direct Hits
+-----------
+   Your cannon will be destroyed whenever an alien is allowed to make
+direct contact.  After a hit, you will be returned to the same galactic
+sector where you must eliminate the remaining aliens before advancing to
+the next sector.
+
+Galactic Sectors
+----------------
+   The shape and challenge of each sector will change during the game.  As
+you progress to more difficult levels in the game, sectors will rotate,
+shrink, and pulsate.
+
+Alien Types and Characteristics
+-------------------------------
+Escort Ships- [Eight-pointed stars]  These alien ships surround the
+       colonists' space armada and will be present in each sector.  Escort
+       ships will approach your cannon directly without pausing.
+
+Astral Defenders- [Six-sided split figure]  Special star ships in the  
+       invaders' armada that direct the defense activities of the aliens.  
+       They will approach your cannon only when it's pointed in another
+       direction and you are vulnerable to attack.
+
+Droids- [Plus signs]  Deadly unmanned star ships that have been programmed
+       by the aliens to seek out and destroy any force unfriendly to the  
+       colonists.  The Destroyer Droids will circle your cannon waiting to
+       destroy you at your most vulnerable moment.
+
+Colonist Transports- [Four-pointed stars]  These star ships hold the
+       civilian colonists.  Because of their powerful shield, they can
+       never be directly blasted out of our galaxy, but you do gain points
+       each time you score a direct hit.  Direct hits force the Transports
+       back to the farthest reaches of each sector, but they will return. 
+       These ships remain in each sector until all other ships are removed.
+
+Scoring
+-------
+Points are awarded for blasting aliens in the galactic sector as follows:
+   Alien Type                    Points
+  ----------------------------------------
+   Escort Ships                    75
+   Astral Defenders               100
+   Destroyer Droids               150
+   Colonist Transports            175
+
+z_morganrw@ccsvax.sfasu.edu
+
+

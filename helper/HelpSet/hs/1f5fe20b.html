@@ -1,0 +1,103 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>YM-Conversion I</title>
+</head>
+<body class="doc">
+<h1>YM-Conversion I</h1>
+
+<p>This section is a 1:1 conversion of the utility I did about 15 years ago. The old routines were translated to java and 100% reused. For that reason the description that follows will be in huge passages just a copy and paste of the old readme file.</p>
+<br><p align="center">
+<img src="pics/ym1.png" width="788" height="1146"><br>
+<em>YM</em></p><br>
+
+<p>For this conversion I did not build an own panel, it is sufficient if you right click on a ym file and chose "build vectrex YM".</p>
+
+<p>A process will start which translates (if possible) the selected file to a vectrex assembler include. There is no way to chose different settings, as I reduced YM-Conversion to always chose the optimal packrate.  This in turn means, that conversion may take quite a few seconds, look at the message window to get the current status of conversion.</p>
+
+<p>In opposite to the "original" routines, there is no need to unpack (lharc) the "YM"-files beforehand. LHARC files can be processed by java, so no external help is needed.</p>
+
+<p>Three files are generated:
+<ul><li>
+<p>a main file, as a player example</p>
+</li><li>
+<p>an include file which contains the "player" subroutines (always the same)</p>
+</li><li>
+<p>and an actual data file which contains the data </p>
+</li></ul>
+</p>
+
+<p>Following is the original readme file from way back in time:<br>
+(but edited to not tell lies...)<br>
+<br>
+</p>
+
+<div class="code">
+<p>Hi!</p>
+
+<p>I tried to write a packer for YM files to be able to be "runnable' on vectrex.</p>
+
+<p>The idea to this came from two other people, namely:</p>
+
+<p>        Ville Krumlinde and Ville Gustavsson</p>
+
+<p>Thanks guys!</p>
+
+<p>In this directory you find a couple batch files, which convert *.ym files to *.bin files. These *.bin files are "playable' vectrex binaries (no graphic, just sound) (well a title is displayed now).</p>
+
+<p>This converts an ym file to a binary, it may however produce fairly large files. They may even be to large for vectrex to handle (&gt; 32Kb).</p>
+
+<p>Samples in ym files are not supported, neither are loops or other not simple things like drums... and and and</p>
+
+<p>My packer does not come near the original ym-file size (the lharced once). Perhaps another programmer wants to try to fiddle some more bytes out of the files. But consider this: you must unpack them on a vectrex with not much RAM.</p>
+
+<p>Programmers point of view - vectrex side: The unpack routines generally use about 2000-3000 cycles per "round' but there are peaks that reach about 5000-6000 (though "seldom'). The unpacking is "streamed' the routine uses constantly 161 bytes RAM. The unpacker is a "bit' optimimized, though there could probably be done much more. The routine itself uses about 600 bytes.</p>
+
+<p>The packer is a mixture of three schemes:
+<ul><li>
+<p>First a dictionay scheme (this is what takes the time... finding a good   dictionary)</p>
+</li><li>
+<p>Shannon/Fanno bit coding (huffman is implemented to, but for some reason or   another I use Shannon/Fanno)</p>
+</li><li>
+<p>RLE</p>
+</li></ul>
+</p>
+
+<p>Enjoy...</p>
+
+<p>Malban</p>
+
+<p>PS The code is not all that cleaned up... pitty... but right now - I couldn't be bothered...</p>
+</div>
+
+<p>If you look for a good collection of YM-Files: <a target="_blank" href="http://pacidemo.planet-d.net/aldn/index.html">http://pacidemo.planet-d.net/aldn/index.html</a> <br>
+ The package "ST synth musics" contains nearly 4000 pieces of music!</p>
+
+<p><b>Tracker<br>
+</b> There are at least to PSG trackers, which are available under windows:<br>
+
+<ul><li>
+<p>Arkos tracker: <a target="_blank" href="http://www.julien-nevo.com/arkos/">http://www.julien-nevo.com/arkos/</a></p>
+</li><li>
+<p>WYZTracker: <a target="_blank" href="https://sites.google.com/site/augustoruiz/">https://sites.google.com/site/augustoruiz/</a></p>
+</li></ul>
+</p>
+
+<p>As far as I know both of them are still activily developed, mainly to support other equipment like:
+<ul><li>
+<p>CPC Computer</p>
+</li><li>
+<p>MSX Computer</p>
+</li><li>
+<p>Spectrum Computer</p>
+</li><li>
+<p>Atari ST</p>
+</li><li>
+<p>and other</p>
+</li></ul>
+</p>
+
+<p>As of yet no "direct" player for these trackers exist. If I have MUCH spare time in the future I might tackle the one or the other <i> Don't wait for that! </i> <br>
+I would rather prefer <b>YOU</b> would write a vectrex player and send it for inclusion to VIDE!</p>
+</body>
+</html>

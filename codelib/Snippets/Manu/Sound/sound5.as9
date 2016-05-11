@@ -1,0 +1,146 @@
+; A little program the plays a different tone
+; when pressing controller 1 buttons 1-4
+; not completely explained, but by studying a little bit
+; more and applying this code to your own program, you
+; should be able to make simple sound effects.
+; Manu [man@sci.fi] / 2002
+
+WAITRECAL	equ	$f192
+BYTE2SNDCHIP	equ	$f256
+CLEARSOUND	equ	$f272 
+READBUTTONS	equ	$f1ba
+
+soundflag	equ	$c881		; This one is used to determine
+					; how long a tone is playing
+
+	org	0
+	fcb	$67,$20
+	fcc	"GCE MANU"
+	fcb	$80
+	fdb	musa,$f850,$30b8	
+	fcc	"SOUND TONES"
+	fcb	$80,$0
+	
+	clra	
+	sta	soundflag		; Reset soundflag
+	jsr	READBUTTONS		; Read buttons for comparison
+	jsr	CLEARSOUND		; And stop all sounds possibly playing
+	
+player	jsr	WAITRECAL		; The actual program
+	
+soundcheck				; Check if a sound is playing
+	lda	soundflag
+	cmpa	#0			; If there is a sound playing
+					; (pressing any button sets this to 10)
+	bne	keepplaying		; Then keep playing
+	jsr	CLEARSOUND		; Unless soundflag reaches zero
+	bra	buttonread		; In that case, read the buttons
+	
+keepplaying
+	dec	soundflag		; Decrease soundflag, so the playing time
+					; of each 'note' is for 10 cycles
+					
+buttonread				; Then let's read the buttons
+	jsr 	READBUTTONS	
+	cmpa	#0	
+	beq	player			; No buttons pressed -> loop back
+	bita	#$01			; Otherwise check if it was button 1
+	beq	nappi2			; no, it wasn't -> nappi2
+	jsr	play			; yes it was -> play
+	bra	player			; and when returning, loop back
+	
+nappi2	bita	#$02			; check if it was button 2
+	beq	nappi3			; no, it wasn't -> nappi3
+	jsr	play2			; yes it was -> play2
+	bra	player			; and when returning, loop back
+
+nappi3	bita	#$04		     	; check if it was button 3
+	beq	nappi4			; no, it wasn't -> nappi4
+	jsr	play3			; yes it was -> play3
+	bra	player			; and when returning, loop back
+	
+nappi4	bita	#$08			; check if it was button 4
+	lbeq	player			; no, it wasn't -> loop back
+	jsr	play4			; yes it was -> play4
+	bra	player			; and when returning, loop back
+
+					; Play the sound for button 1
+play    lda     #$01                    ; Modify Register 1
+        ldb     $fc93                   ; Tone Frequency = #$0XX
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$00                    ; Modify Register 0
+        ldb     $fc92                   ; Tone Frequency = #$Xff
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$08                    ; Modify Register 8
+        ldb     #15                     ; Volume=15
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$07                    ; Modify Register 7
+        ldb     $c807                   ; Get previous value for reg 7
+        andb    #$fe                    ; Turn on Tone on Voice 1
+        orb     #$08                    ; Turn off Noise on Voice 1
+        jsr     BYTE2SNDCHIP            ; Set register
+
+        lda     #10			; Set soundflag to 10
+        sta     soundflag
+	rts				; And return to main program
+	
+					; Play the sound for button 2
+play2   lda     #$01                    ; Modify Register 1
+        ldb     $fc95                   ; Tone Frequency = #$0XX
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$00                    ; Modify Register 0
+        ldb     $fc94                   ; Tone Frequency = #$Xff
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$08                    ; Modify Register 8
+        ldb     #15                     ; Volume=15
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$07                    ; Modify Register 7
+        ldb     $c807                   ; Get previous value for reg 7
+        andb    #$fe                    ; Turn on Tone on Voice 1
+        orb     #$08                    ; Turn off Noise on Voice 1
+        jsr     BYTE2SNDCHIP            ; Set register
+
+        lda     #10
+        sta     soundflag
+	rts
+	
+play3   lda     #$01                    ; Modify Register 1
+        ldb     $fc97                   ; Tone Frequency = #$0XX
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$00                    ; Modify Register 0
+        ldb     $fc96                   ; Tone Frequency = #$Xff
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$08                    ; Modify Register 8
+        ldb     #15                     ; Volume=15
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$07                    ; Modify Register 7
+        ldb     $c807                   ; Get previous value for reg 7
+        andb    #$fe                    ; Turn on Tone on Voice 1
+        orb     #$08                    ; Turn off Noise on Voice 1
+        jsr     BYTE2SNDCHIP            ; Set register
+
+        lda     #10
+        sta     soundflag
+	rts
+	
+play4   lda     #$01                    ; Modify Register 1
+        ldb     $fc99                   ; Tone Frequency = #$0XX
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$00                    ; Modify Register 0
+        ldb     $fc98                   ; Tone Frequency = #$Xff
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$08                    ; Modify Register 8
+        ldb     #15                     ; Volume=15
+        jsr     BYTE2SNDCHIP            ; Set register
+        lda     #$07                    ; Modify Register 7
+        ldb     $c807                   ; Get previous value for reg 7
+        andb    #$fe                    ; Turn on Tone on Voice 1
+        orb     #$08                    ; Turn off Noise on Voice 1
+        jsr     BYTE2SNDCHIP            ; Set register
+
+        lda     #10			; Set soundflag to 10
+        sta     soundflag
+	rts				; and return to main program.
+		
+musa	fdb	$fee,$fbe6		; Silent song
+	fcb	$0,$80

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<AllProjectProperties>
+	<ProjectProperties>
+		<Class>Project</Class>
+		<Name>Lineart</Name>
+		<ProjectName>Lineart</ProjectName>
+		<DirectoryName></DirectoryName>
+		<Path>codelib/demos/MV</Path>
+		<MainFile>Lineart.asm</MainFile>
+		<Description></Description>
+		<Version>1.0</Version>
+		<Author>Metalvotze / Nuance</Author>
+		<Bankswitching>VecFlash (up to 64 banks)</Bankswitching>
+		<createBankswitchCode>false</createBankswitchCode>
+		<createGameLoopCode>false</createGameLoopCode>
+		<NumberOfBanks>9</NumberOfBanks>
+		<BankMainFiless>
+			<BankMainFiles>lineart.asm</BankMainFiles>
+			<BankMainFiles></BankMainFiles>
+			<BankMainFiles></BankMainFiles>
+			<BankMainFiles></BankMainFiles>
+			<BankMainFiles></BankMainFiles>
+			<BankMainFiles>lineart.asm</BankMainFiles>
+			<BankMainFiles>lineart.asm</BankMainFiles>
+			<BankMainFiles>lineart.asm</BankMainFiles>
+			<BankMainFiles>lineart.asm</BankMainFiles>
+		</BankMainFiless>
+		<Extras>0</Extras>
+		<ProjectPreScriptClass></ProjectPreScriptClass>
+		<ProjectPreScriptName></ProjectPreScriptName>
+		<ProjectPostScriptClass></ProjectPostScriptClass>
+		<ProjectPostScriptName></ProjectPostScriptName>
+		<BankDefiness>
+			<BankDefines>BANK=1</BankDefines>
+			<BankDefines></BankDefines>
+			<BankDefines></BankDefines>
+			<BankDefines></BankDefines>
+			<BankDefines></BankDefines>
+			<BankDefines>BANK=1</BankDefines>
+			<BankDefines>BANK=2</BankDefines>
+			<BankDefines>BANK=3</BankDefines>
+			<BankDefines>BANK=4</BankDefines>
+		</BankDefiness>
+	</ProjectProperties>
+</AllProjectProperties>

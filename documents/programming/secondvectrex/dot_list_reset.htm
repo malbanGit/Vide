@@ -1,0 +1,53 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Dot_List_Reset ($F2DE)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Dot_List_Reset ($F2DE)</p>
+
+<p>This routine draws a series of dots, specified by the list
+pointed to by the X register. The list has the following format: </p>
+
+<blockquote>
+    <p>mode, relative y, relative x,</p>
+    <p>mode, relative y, relative x,</p>
+    <p>. . .</p>
+    <p>. . .</p>
+    <p>mode, relative y, relative x</p>
+    <p>0x01</p>
+    <p>&nbsp;</p>
+</blockquote>
+
+<p>This routine will continue to traverse the list, until a mode
+&gt; 0 is encountered; at that point, it will reset the zero
+reference (the integrators). </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $D0</p>
+    <p>X-reg points to the dot list</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<blockquote>
+    <p>X-reg points to next byte after the terminator</p>
+    <p>D-reg trashed</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F2DE">Source</a></p>
+</body>
+</html>

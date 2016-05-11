@@ -1,0 +1,101 @@
+:title FAQ debugging/dissi
+
+
+:h2 I realy like program XY and I would like to know how it functions, what is the best way to start disassembling and commenting it?
+Wow that question should have a real long answer.~~
+Here are some tips:
+- be sure in configuration the options under disassembler: ~~
+codescan in vecxi is checked~~
+build generic labels is checked ~~
+assume vectrex files is checked 
+
+- just run the cartridge!~~
+- play as much as you like, go to dissi and press the "reset dissi" button
+- while playing dissi should have collected some information about what part is code, and what is data (this can still be optimized!)
+- just to be on the save side, press the button "save gathered information to cnt file"
+- get used to the button, this is important! With that all your entered information is persisted!
+- go to the start of the program, in the first line set a breakpoint
+- go to dissi command line and type "sr" (soft reset) the cartridge restarts and enters
+debug mode as soon as the breakpoint is reached
+- write your comments to the comment column of dissi (seperate comments in one line with ":")
+- if ram locations are accessed, open a vari panel (show variables)
+- all "used" ram locations are listed, you can edit the column "variables" and give the memory location nice names (source in dissi is updated!)
+- if loops or other labels are encountered, give them meaningfull names (column label in dissi can be edited), source is updated accordingly
+- if you know what the dp register is at some location, select the lines in dissi, right click, and tell dissi the dp register with the menu item DP
+- repeat until you documented all
+- and allways save a CNT file
+- if you want to assemble or reuse parts, click on "save dissi as asm file", and a asm file is generated in the same directory as the bin file
+
+:h2 My program seems to have a bug, how do I start debugging it?
+When a program starts, there is ALWAYS a dissi window! Click on the only button without a tooltip, that is a BUG button. With that you start debugging.
+Alternatively you can go in dissi to an address you like, and press space or the "Breakpoint" button. With that you enable a breakpoint at that location and once the emulator reaches that address it will switch to debugging mode.
+
+
+:h2 I use assembler xy for many years now, I don't like using assi, can I debug my programs anyway using Vide?
+Yep!
+
+
+
+:h2 I disassemble a file and after a jump to BIOS dissi jumps to $7fff what is that?
+Per default the BIOS area is not displayed in dissi. If you want dissi to display BIOS area, check the "BIOS" checkbox.
+
+:h2 How do I best start debugging unkown sources?
+See answer about debugging above.~~
+Apart from that, some more tips:
+- to got to interesting places in foreign programs it is often a good start to look where vectors are drawn
+- go to dissi, check the ckeckbox "select vectors and show information"
+- pause emulation and select a particularly interesting vector ( :-) )
+- click with the mouse on it opens a vinfi panel
+- there are two interesing things:
++ PC, this is the address where this vector was finished (usually where the blank signal was enabled)
++ the callstack listing below PC, this shows the stack (addresses where subroutines will return to)
+- clicking on these addresses will set dissi to these addresses
+- if still interested in these locations, set a breakpoint there
+- continue running till breakpoint is hit
+- if hit and you want to know "how" this vector was drawn, use the "take last instruction back" and go to the start of the drawing
+- if particulary interested in exact drawing procedures, go to configuration and 
+check (debug section) "paint integrator position" - a little red circle will appear (next step) and show where the electron beam of vectrex at the moment is placed!
+
+:h2 How can I persist my comments I did with dissi?
+Press button "save gathered information to cnt file"!
+
+:h2 Why would I want to "select a vector with the mouse"? And what can I use that for?
+See two questions above.
+
+
+
+:h2 Tracki - some programs do not show any tracki information, why is that?
+They do to!
+Most probably you didn't configure tracki correctly. Tracky measure cycles between two memory locations the CPU (pc - program counter) passes.
+The default configuration is set up to measure cycles between the exit and the entry of the BIOS routine "WaitRecal". Many programs use that routine to do vector recalibration at the end of their game loop. Therefor for these programs the given locations measures the cylces of a game loop round.
+For programs which do not use the "WaitRecal" routine for their recalibration, the setup does not show any results. You must figure out what the program you are interested in uses for a game loop and/or recalibration. You can enter the so found addresses into the supplied start/end addreesses of tracki - than you can measure those programs.
+Also:
+Remember to switch the "allways update" button to "on" - otherwise you won't see anything either :-)
+
+
+
+:h2 In dissi, what is the advantage of setting DP register knowledge to a location?
+DP - Variable names can be automatically used. Some DP variables (like VIA addresses) are "automatically" used if DP is set correctly. "VIA_ORB" is IMHO better readable than "$d000". 
+
+:h2 In dissi, sometimes something is marked bright green what happened?
+If you click on a "Label" (coloumn label, and a label must be present) all usages of that label are highlighted in bright green. That way you can find branches to a location very easily!
+
+:h2 In dissi, when I search something, what exactly is searched?
+- searching always starts with the current selected row
+- first the label(s) of the row (are) searched, 
+- second if nothing was found, the comment(s) of the row is (are) searched
+- if something was found, searching is halted and dissy jumps to the row
+- if nothing was found searching continues with next (previous) row
+
+:h2 In dissi, the number of cycles sometimes do not match with the table I got from motorola, what the...?
+Well yes.
+Dissi displays the REAL number of cycles, some official tables only show the "base" number of cycles. 
+For indirect and/or indexed addressing you must add some cycles because the address has to be calculated by the CPU.
+Believe me, the cycle information in dissi is "more" correct!
+
+:h2 In dissi, what is "highlight op" usefull for?
+Well, depends what your definition of usefull is.
+Play with it! The column "Operand" is taken as a string, if (case independend) the string you entered in "highlight op:" was part of the string, the operand column for that row is highlighted (yellow). This can be anything you like, a label, an address or anything that can be an operand. Great for a quick visual search! 
+
+:h2 In dissi is a "Label" panel, what can I use that for?
+As the name suggests, this is a listing of all known labels. The advantage of the list is, that you can use it as a "table of contents" and quickly move to locations, double click on any entry jumps dissi to the given address, shift double click moves dumpi to the given address.

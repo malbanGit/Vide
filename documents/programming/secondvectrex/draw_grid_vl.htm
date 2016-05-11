@@ -1,0 +1,64 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Draw_Grid_VL ($FF9F)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Draw_Grid_VL ($FF9F)</p>
+
+<p>This routine apparently will draw a vector list using a 16x16
+grid, and occasionally using regular vector lists too. This could
+possibly be useful for drawing gridded things like a chess board
+and all of its pieces at the same time. </p>
+
+<p>The master vector list contains multiple sublists that start
+with a flag byte: </p>
+
+<blockquote>
+    <p>Bit 7 = draw the next regular vector list (from X-reg)
+    first<br>
+    Bit 6 = this is the last sublist in the master vector list<br>
+    Bits 5,4 = unused<br>
+    Bits 3-0 = number of points in this sublist (1-16)<br>
+    </p>
+</blockquote>
+
+<p>The points are stored as a pair of nibbles:</p>
+
+<blockquote>
+    <p>Bits 7-4 = Y coordinate (?)<br>
+    Bits 3-0 = X coordinate (?)<br>
+    </p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $D0</p>
+    <p>X-reg points to regular vector lists</p>
+    <p>Y-reg points to master vector list</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<blockquote>
+    <p>X-reg points to next byte after last regular vector list
+    used</p>
+    <p>Y-reg points to next byte after end of master vector list</p>
+    <p>D-reg trashed</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#FF9F">Source</a></p>
+</body>
+</html>

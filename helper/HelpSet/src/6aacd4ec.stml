@@ -1,0 +1,100 @@
+:title Import
+There are different ways you can import vectorlists into veccy.
+
+:h2 Text import
+:image veccytextImport.png|text import
+
+On the tab "import" the first tab is called "text import".
+
+As text import I summarize imports that one can do via "copy / paste" of some kind of text, sourcecode or other "text" data.
+
+The first textarea is the place where you must put the "text data" that should be imported. This usually should be done via a copy (from some other place) and paste (to the said textarea).
+
+The next textarea is the "interpretation" area. Here is where veccy shows what is its interpretation of the text data you supplied. This will be filled once you press the "!" button (or another interpretation mode is selected -> combobox).
+
+To the complete right the black area is the same interpretation shown as a veccy vectorlist-display.
+
+:h3 How does this work?
+The text you enter is processed the following way:
+- it is assumed that the text is some kind of source code, this means
+- lines starting with "*" are discarded
+- (assumed) comments after a ";" are discarded
+- whitespaces and many other non-number characters are discarded
+- the resulting "words" are "cast" to integer (decimal or hex is recognized)
+- if the cast resulted in a number, the number is added to a data array
+
+After the above procedure veccy has an array of byte data, that array needs to be interpreted as a vectorlist. Here the user has to step in and help!
+
+The upper right area of the textimport tab is occupied by a combobox. Here you can select what kind of (initially only) BIOS data format the data should be interpreted with.
+
+Once you select an entry, veccy goes to work and shows you the result (in the interpretation as data "statements" and in the vector display window).
+
+Initially veccy is supplied with the most used BIOS vector list formats, but you can add your own formats! That is what the next 4 textfields can be used for.
+
+:h3 Patterns
+
+The data is interpreted using patterns. The user can supply these patterns so that an arbitrary number of formats can be supported. The pattern in general can have 3 entries:
+a) first line ~~(this usually might be something like a "count"), this can be empty
+b) line x~~
+every line between the first and the last line, here usually the vector list is kept in earnest
+c) last line~~
+the last line can have a break criteria (or can be left empty),~~
+the break criteria allways refers to the first byte of the next "line x"
+
+
+For examples look at the supplied BIOS format patterns.
+
+Following symbols can be used in a pattern line:
+- only in line 1:
++ %C0 ___ use byte as counter
++ %C+ ___ use byte+1 as counter
++ %C- ____ use byte-1 as counter
++ %I ______ ignore byte
++ %X _____ move to x coordinate (relative), pattern = 0
++ %Y _____ move to y coordinate (relative), pattern = 0
++ %R"SOMETHING"~~
+___________ removes in the complete interpretation the text SOMETHING (can be inserted multiple times)
+
+-. it only makes sense to have one of the "%C" statements in line 1!~~
+~~
+
+- only in line x:
++ %X _____ x coordinate (relative)
++ %Y _____ y coordinate (relative)
++ %X0 ___ start x coordinate (absolut)
++ %Y0 ___ start y coordinate (absolut)
++ %X1 ___ end x coordinate (absolut)
++ %Y1 ___ end y coordinate (absolut)
++ %P _____ pattern
++ %B _____ brightness (intensity)
++ %M ____ mode (see bios explanation)
++ %I ______ ignore
+
+
+- only in last line:
++ %0 _____ end of list, when byte is 0
++ %1 _____ end of list, when byte is 1
++ %+ _____ end of list, when byte smaller 128 (but not 0)
++ %- ______ end of list, when byte is greater equal 128 (unsigned byte obviously) [high bit is set]
+
+:h2 Examples
+
+**Frogger**~~
+:image FroggerExample.png|Frogger example
+
+**Patriots**~~
+:image PatriotsExample.png|Patriots example
+
+**Vaboom**~~
+:image VaboomExample.png|Vaboom example
+
+**Bresenham**~~
+:image BresenhamExample.png|Bresenham example
+
+**Thrust**~~
+:image ThrustShipExample.png|Thrust example
+
+
+**Spudster**~~
+:image SpudsterExample.png|Spudster example
+

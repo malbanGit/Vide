@@ -1,0 +1,265 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>VecSound Decoder in C(++) example</title>
+</head>
+<body class="doc">
+<h1>VecSound Decoder in C(++) example</h1>
+
+<p><tt> /*<br>
+&nbsp;To work the first commented out byte (a counter) of each register must be uncommented.<br>
+&nbsp;The counter to how many different bytes are used within the &nbsp;"SHANNON'-coding...<br>
+*/<br>
+<br>
+#include &lt;fstream.h&gt;<br>
+#include &lt;string.h&gt;<br>
+#include &lt;stdlib.h&gt;<br>
+#include &lt;ctype.h&gt;<br>
+#include &lt;stdio.h&gt;<br>
+<br>
+#define PHRASES&nbsp;MAX 100<br>
+#define MAX&nbsp;PHRASE&nbsp;LEN 100<br>
+struct phrase<br>
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;    int  phrase[MAX&nbsp;PHRASE&nbsp;LEN];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;   int  len;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;    int  count;<br>
+};<br>
+phrase phrases[PHRASES&nbsp;MAX];<br>
+<br>
+const MAXBUFF = 2000000;<br>
+//START inclusive<br>
+#define ENCODE&nbsp;START 0<br>
+//END exclusive<br>
+#define ENCODE&nbsp;END 11<br>
+<br>
+FILE *inFile;<br>
+FILE *outFile;<br>
+FILE *outFile2;<br>
+unsigned char buf[MAXBUFF];<br>
+unsigned char out&nbsp;buf[MAXBUFF/11+11][11];<br>
+int len;<br>
+int vbl&nbsp;len;<br>
+int byte&nbsp;pointer&nbsp;read = 0;<br>
+int byte&nbsp;pointer&nbsp;write = 0;<br>
+<br>
+int current&nbsp;bit&nbsp;counter = -1;<br>
+int current&nbsp;out&nbsp;byte=0;<br>
+<br>
+<br>
+#define MAP&nbsp;BIT&nbsp;MAX 127<br>
+#define MAP&nbsp;CODE&nbsp;MAX 255<br>
+<br>
+int map[MAP&nbsp;BIT&nbsp;MAX][MAP&nbsp;CODE&nbsp;MAX];<br>
+<br>
+int GET&nbsp;BYTE()<br>
+{<br>
+&nbsp;&nbsp;current&nbsp;bit&nbsp;counter = -1;<br>
+&nbsp;&nbsp;return buf[byte&nbsp;pointer&nbsp;read++];<br>
+}<br>
+void WRITE&nbsp;BYTE(int byte)<br>
+{<br>
+&nbsp;&nbsp;fprintf(outFile," DB $%02X \n",byte);<br>
+&nbsp;&nbsp;fwrite(&amp;byte,1,1,outFile2);<br>
+}<br>
+<br>
+int GET&nbsp;BIT()<br>
+{<br>
+&nbsp;&nbsp;if (current&nbsp;bit&nbsp;counter == -1)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;current&nbsp;out&nbsp;byte = GET&nbsp;BYTE();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;current&nbsp;bit&nbsp;counter = 7;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;if (current&nbsp;out&nbsp;byte&amp;(1&lt;&lt;(current&nbsp;bit&nbsp;counter--)))<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;return 0;<br>
+}<br>
+<br>
+int total&nbsp;unpack&nbsp;count = 0;<br>
+<br>
+int main( int argc, char* argv[] )<br>
+{<br>
+&nbsp;&nbsp;cout " nCalling ";<br>
+&nbsp;&nbsp;for (int ii=0;ii&lt;argc;ii++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cout " "argv[ii];<br>
+&nbsp;&nbsp;cout  " \n \n";<br>
+&nbsp;&nbsp;if ( argc != 2 )<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cout  "Usage: decode &lt;infile&gt;  \n";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return 0;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;inFile=fopen(argv[1],"rb");<br>
+&nbsp;&nbsp;if( !inFile )<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cout  "A file error occured with "  argv[1]  "! \n";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return 2;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;len=fread( buf, sizeof(char),sizeof(char)*MAXBUFF,inFile );<br>
+&nbsp;&nbsp;fclose(inFile);<br>
+&nbsp;&nbsp;printf("Length of file: %i \n",len);<br>
+<br>
+&nbsp;&nbsp;vbl&nbsp;len = GET&nbsp;BYTE()*256+GET&nbsp;BYTE();<br>
+&nbsp;&nbsp;printf("Length of track: %i \n",vbl&nbsp;len);<br>
+&nbsp;&nbsp;int ym&nbsp;register;<br>
+<br>
+&nbsp;&nbsp;outFile=fopen("out&nbsp;int.asm","wb+");<br>
+&nbsp;&nbsp;if (!outFile)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;printf("File Open Error! \n");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;outFile2=fopen("out&nbsp;int.bin","wb+");<br>
+&nbsp;&nbsp;if (!outFile2)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;printf("File Open Error! \n");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return 1;<br>
+&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;fprintf(outFile," DW %i ; length of track \n", vbl&nbsp;len);<br>
+<br>
+<br>
+&nbsp;&nbsp;for (ym&nbsp;register=ENCODE&nbsp;START; ym&nbsp;register&lt; ENCODE&nbsp;END; ym&nbsp;register++)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int to&nbsp;map = GET&nbsp;BYTE();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int i;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;printf("Register %i has %i different "bytes' \n", ym&nbsp;register, to&nbsp;map);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// initialize mapper<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fprintf(outFile,"; mapper for ym&nbsp;register %i \n", ym&nbsp;register);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fprintf(outFile," DB $%02X ; uses different bytes \n", to&nbsp;map);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for (i=0; i &lt; MAP&nbsp;BIT&nbsp;MAX; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j=0; j &lt; MAP&nbsp;CODE&nbsp;MAX; j++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map[i][j] = -1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int no&nbsp;phrases=0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for (i=0; i &lt; to&nbsp;map; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int bits = GET&nbsp;BYTE();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int code = GET&nbsp;BYTE();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int real&nbsp;byte = GET&nbsp;BYTE();<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fprintf(outFile," DB %02X, %02X, %02X ; bits, code, realbyte \n", bits, code, real&nbsp;byte);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((bits&amp;127) &gt; MAP&nbsp;BIT&nbsp;MAX)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf("Bit overflow - bye! \n");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exit(1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map[bits&amp;127][code] = real&nbsp;byte;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (bits&amp;128)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no&nbsp;phrases++;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map[bits&amp;127][code]+=256;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fprintf(outFile,"; Phrases follow (%i) \n",no&nbsp;phrases);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// load phrases<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for (i=0;i&lt;no&nbsp;phrases;i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phrases[i].len = GET&nbsp;BYTE();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fprintf(outFile," DB %02X", phrases[i].len);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int j;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (j=0;j &lt; phrases[i].len; j++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;phrases[i].phrase[j] = GET&nbsp;BYTE();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fprintf(outFile,", %02X", phrases[i].phrase[j]);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fprintf(outFile," \n");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fprintf(outFile,"; Data follows...\n");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// done... now start decoding!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int byte&nbsp;decrunched&nbsp;count = 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;while (byte&nbsp;decrunched&nbsp;count &lt; vbl&nbsp;len)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int RLE&nbsp;count = 0;<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GET&nbsp;BIT() == 0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// one byte<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RLE&nbsp;count = 1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// rle encoded<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count&nbsp;bits = 1; // already got a 1, see above<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (GET&nbsp;BIT() == 1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count&nbsp;bits++;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count&nbsp;bits+=2; // plus two, since we start coding with 3 bits<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// the following count&nbsp;bits represent the RLE count<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// lsb first<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i=0; i &lt; count&nbsp;bits; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RLE&nbsp;count+=  i);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// in RLE&nbsp;count now the number of times we should repeat the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// following bit data...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// msb first<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int bits = 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int code = 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int is&nbsp;phrase = 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int unpacked&nbsp;byte = 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code = 1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code += GET&nbsp;BIT();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bits++;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (map[bits][code] != -1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unpacked&nbsp;byte = map[bits][code];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (unpacked&nbsp;byte&gt;=256)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;phrase = 1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unpacked&nbsp;byte -= 256;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+/*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fprintf(outFile,"; byte&nbsp;decrunched&nbsp;count %i \n",byte&nbsp;decrunched&nbsp;count);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (is&nbsp;phrase == 0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fprintf(outFile,"; byte %02X, times %i \n",unpacked&nbsp;byte,RLE&nbsp;count);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fprintf(outFile,"; phrase %02X, times %i \n",unpacked&nbsp;byte,RLE&nbsp;count);<br>
+*/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i=0; i&lt;RLE&nbsp;count; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (is&nbsp;phrase == 0)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;BYTE(unpacked&nbsp;byte);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte&nbsp;decrunched&nbsp;count++;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total&nbsp;unpack&nbsp;count++;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int j;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (j=0;j&lt;phrases[unpacked&nbsp;byte].len;j++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;BYTE(phrases[unpacked&nbsp;byte].phrase[j]);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte&nbsp;decrunched&nbsp;count++;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total&nbsp;unpack&nbsp;count++;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;printf("Bytes unpacked: %i \n", total&nbsp;unpack&nbsp;count);<br>
+&nbsp;&nbsp;fclose(outFile);<br>
+&nbsp;&nbsp;fclose(outFile2);<br>
+<br>
+&nbsp;&nbsp;return 0;<br>
+}<br>
+<br>
+<br>
+</tt></p>
+</body>
+</html>

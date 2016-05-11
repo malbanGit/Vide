@@ -1,0 +1,70 @@
+Berzerk 
+-------
+   Maneuver your humanoid through the electrified mazes of robot filled
+rooms.  You may kill the first group of robots but initial success does not
+mean survival... future groups begin firing at you!  Added danger lurks when
+Evil Otto enters.  He can jump the maze walls and squash you if you linger
+too long!
+
+Controls
+--------
+Joystick:  Moves your humanoid forward through the maze (8 directions).
+Button 1:  Unused.
+Button 2:  Unused.
+Button 3:  Unused.
+Button 4:  Fire.  Shoots bullets at Robots while moving forward.
+
+Characters
+----------
+   There are 3 types of characters who will appear in the mazes:
+
+     The Humanoid (you).
+     The Robots.
+     Evil Otto (Smiley-face).
+
+Game Play
+---------
+   As your humanoid enters the electrified maze, he will blink on and off. 
+Use the joystick to run through the maze in any of 8 directions.  As you run,
+you will be attempting to destroy the Robots who inhabit the maze.  As you
+run, press button 4 to shoot bullets in the direction you are moving.  Be
+careful not to walk into the walls or into a robot -- they are electrified
+and can destroy you.  You can escape the maze at any time by running through
+any of the indicated exits.  Every time you exit a maze, you will
+automatically be transported to another maze filled with Robots.
+
+Number of Robots
+----------------
+   There may be from 1 to 11 Robots in each maze.
+
+Evil Otto
+---------
+   In addition to the Robots, Evil Otto will appear later and will try to
+destroy you by crushing you.  He can jump over walls and cannot be destroyed
+by your bullets, so your only hope is to run to the next maze.
+
+Getting Hit
+-----------
+   If you are hit by a Robot ar Evil Otto, you will lose a man and be
+automatically transported to another maze.
+
+Types of Robots
+---------------
+   At first, it will be easy to shoot the Robots because they do not fire
+bullets at you.  However, as your score gets higher, the Robots get meaner. 
+They will shoot more bullets and move more quickly.
+
+Number of Humanoids
+-------------------
+   At the beginning of the game, you will have 3 Humanoids.  A bonus Humanoid
+is awarded for each 5000 points scored.
+
+Scoring
+-------
+   Each Robot you destroy is worth 50 points.  If the whole maze is cleared,
+you receive a bonus of 10 points for each Robot that was in the maze.
+
+
+z_morganrw@ccsvax.sfasu.edu
+
+

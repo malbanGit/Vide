@@ -1,0 +1,44 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Draw_VL_a ($F3DA)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Draw_VL_a ($F3DA)</p>
+
+<p>This routine draws vectors between the set of (y,x) points
+pointed to by the register. The current scale factor is used. The
+vector list has the following format: </p>
+
+<blockquote>
+    <p>rel y, rel x, rel y, rel x, ...</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $D0</p>
+    <p>A-reg = the number of vectors to draw</p>
+    <p>X-reg points to the vector list</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<blockquote>
+    <p>X-reg points to next byte after list</p>
+    <p>D-reg trashed</p>
+    <p>&nbsp;</p>
+</blockquote>
+
+<p><a href="bios.htm#F3DA">Source</a></p>
+</body>
+</html>

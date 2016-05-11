@@ -1,0 +1,70 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>vedi</title>
+</head>
+<body class="doc">
+<h1>vedi</h1>
+<br><p align="center">
+<img src="pics/vedi.png" width="1007" height="739"><br>
+<em>vedi window</em></p><br>
+<h2>Editor</h2>
+
+<ul><li>
+<p>double click on a  "include" tries to load the denoted file in an editor tab</p>
+</li><li>
+<p>search and replace works</p>
+</li><li>
+<p>tab, shiftab works as "indent"</p>
+</li><li>
+<p>there is a "pretty print" button for 6809 sources (only)</p>
+</li></ul>
+<h2>Assembling</h2>
+
+<p>Pressing the button: <img src="pics/control_play_blue.png" alt="control_play_blue.png">  starts the assembler with the current active file as input (file is automatically saved). If successfull, vecxi will automatically be started.<br>
+The messages of assi can be viewed in the bottom tab called "ASM messages":</p>
+<br><p align="center">
+<img src="pics/vediAss.png" width="987" height="596"><br>
+<em>message window</em></p><br>
+
+<ul><li>
+<p>error messages are colored red</p>
+</li><li>
+<p>warning messages are colored blue</p>
+</li><li>
+<p>optimization messages are colored green</p>
+</li><li>
+<p>info messages are colored black</p>
+</li></ul>
+
+<p>Error/Warning/Optimization messages are related to the assembled source. They allways consist of two lines of information:<br>
+Line 1: What happened?<br>
+Line 2: Where did it happen?<br>
+</p>
+
+<p>Doubleclicking on any of the two lines will jump to the source (will also open include files, if message is about an include).</p>
+
+<p>The third tab on the bottom contains the listing output of the assembler. The Error/Warning/Optimization messages are also included in the "correct" places in the listing (although not double clickable to any effect).</p>
+<h2>Syntax highlighting</h2>
+
+<p>VIDE uses "Syntax" programmed by (c) Stephen Ostermiller. I slightly changed some code and did a flex grammar that covers some aspects of assi.  This was my first contact with flex and grammars, so the results are not 100% and probably not very efficient either.</p>
+
+<p>The expressions that are possible with parenthesis and macro usage are IMHO nearly impossible to cover with a regular expression based scanner. After all, who would identify an opcode <i>lda</i> that is puzzled together by a macro, like:</p>
+
+<div class="code">
+<p>fillregister&nbsp;&nbsp;&nbsp;macro reg, val<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ld\1&nbsp;&nbsp;&nbsp;#val<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endm<br>
+</p>
+
+<p> &nbsp;&nbsp;&nbsp;fillregister a, 1 ; set a to 1<br>
+&nbsp;&nbsp;&nbsp;fillregister b, 2 ; set b to 2<br>
+</p>
+</div>
+<br><p align="center">
+<img src="pics/syntax.png" width="589" height="170"><br>
+<em>syntax example window</em></p><br>
+
+<p>I would like to enhance syntax highlighting further about the knowledge of macros and labels/variables. I will try that when I do "projects" in VIDE.</p>
+</body>
+</html>

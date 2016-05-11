@@ -1,0 +1,569 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package de.malban.gui.components;
+
+/**
+ *
+ * @author Malban
+ * Taken from: http://java.sun.com/developer/JDCTechTips/2001/tt1220.html
+ * THX!
+ */
+import java.awt.*;
+import java.awt.event.InvocationEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyVetoException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
+public class ModalInternalFrame extends JInternalFrame {
+
+  public static int isModalCount=0;
+  public boolean isModal=false;
+  private JButton mExit = null;
+  private String mExitText = null;
+  // using special glass pane is for use in fullscrren mode
+  JGlassPanel glass = new JGlassPanel();
+  java.awt.Component oldGlass = null;
+  JRootPane myRootPane =null;
+  boolean exitButtonUsed = false;
+  ArrayList<JButton> allExitButtons=null;
+  String namedExit="";
+  
+  boolean manualExit = false;
+  boolean manualExitState = false;
+  public void modalExit(boolean b)
+  {
+      manualExit = true;
+      manualExitState = b;
+      setVisible(false);
+  }
+  public boolean isManualOkExit()
+  {
+      return manualExit && manualExitState;
+  }
+  
+  
+  
+  public String getNamedExit()
+  {
+      return namedExit;
+  }
+  public boolean isExitButtonUsed()
+  {
+      return exitButtonUsed;
+  }
+  
+  public ModalInternalFrame(String title, JRootPane rootPane, Component desktop, final JDialog pane)
+  {
+    super(title);
+    // ImageIcon i = new ImageIcon(Configuration.getConfiguration().getCurrentTheme().getImage("BlueIconSmall.png"));
+    // setFrameIcon(i);
+    init( title,  rootPane,  desktop, pane.getContentPane());
+    notInConstructor = true;
+  }
+  public ModalInternalFrame(String title, JRootPane rootPane, Component desktop, final Container pane)
+  {
+   this(title, rootPane, desktop, pane, null, null, null);
+  }
+  public ModalInternalFrame(String title, JRootPane rootPane, Component desktop, final Container pane, JButton exit)
+  {
+   this(title, rootPane, desktop, pane, exit, null, null);
+  }
+  public ModalInternalFrame(String title, JRootPane rootPane, Component desktop, final Container pane, String buttonName)
+  {
+   this(title, rootPane, desktop, pane, null, buttonName, null);
+  }
+  public ModalInternalFrame(String title, JRootPane rootPane, Component desktop, final Container pane, JButton exit, String buttonName)
+  {
+    this(title, rootPane, desktop, pane, null, buttonName, null);
+      
+  }
+  public ModalInternalFrame(String title, JRootPane rootPane, Component desktop, final Container pane, JButton exit, String buttonName, ArrayList<JButton> aeb)
+  {
+    super(title);
+    mExit = exit;
+    allExitButtons = aeb;
+    mExitText = buttonName;
+    // ImageIcon i = new ImageIcon(Configuration.getConfiguration().getCurrentTheme().getImage("BlueIconSmall.png"));
+    // setFrameIcon(i);
+    init( title,  rootPane,  desktop, pane);
+    notInConstructor = true;
+  }
+
+  // found somewhere in forums of the www
+  void repair( java.awt.Container  c)
+  {
+    if (c instanceof java.awt.Container)
+    for (int j=0;j<((java.awt.Container)c).getComponentCount();j++)
+    {
+        final java.awt.Component mc = ((java.awt.Container)c).getComponent(j);
+        repair((java.awt.Container)mc);
+    }
+    if (c instanceof JComboBox)
+    {
+        JComboBox cbo = (JComboBox)c;
+        cbo.setLightWeightPopupEnabled(false);
+        try {
+                Class cls = Class.forName("javax.swing.PopupFactory");
+                Field field = cls.getDeclaredField("forceHeavyWeightPopupKey");
+                field.setAccessible(true);
+                cbo.putClientProperty(field.get(null), Boolean.TRUE);
+        } catch (Exception e1) {/*e1.printStackTrace();*/}
+    }
+  }
+
+  private boolean isCombo(Object s)
+  {
+      Component p;
+      if (s instanceof Component) p = (Component)s; else return false;
+      do
+      {
+          if (p instanceof JComboBox) return true;
+          p=p.getParent();
+      }while (p != null);
+      return false;
+  }
+
+  Container cpane=null;
+
+  boolean isSystemDialog = false;
+  public void setSystemDialog(boolean b)
+  {
+      isSystemDialog = b;
+  }
+  boolean isSystemDialog()
+  {
+      return isSystemDialog;
+  }
+  
+  java.awt.event.ActionListener al = null;
+  private void init(String title, JRootPane rootPane, Component desktop, final Container pane)
+  {
+    // this is for combo boxes in Windowed mode!
+    repair(pane);
+    cpane = pane;
+    myRootPane = rootPane;
+    initGlass();
+    // Add in option pane
+    getContentPane().add(pane, BorderLayout.CENTER);
+
+    // TODO: right now closing on every!!! button click!
+    // Define close behavior
+    al = new java.awt.event.ActionListener() {
+            @Override public void actionPerformed(java.awt.event.ActionEvent evt) 
+            {
+                //if (evt.is
+                boolean exit = true;
+                if (isCombo(evt.getSource())) exit = false;
+
+                if (isSystemDialog())
+                {
+                    if (evt.getActionCommand() == null)
+                    {
+                        exit = false;
+                    }
+                    else if (evt.getActionCommand().length() == 0)
+                    {
+                        exit = false;
+                    }
+                }
+                
+                
+                
+                if (mExit != null)
+                {
+                    exit = false;
+                    if (evt.getSource() instanceof JButton)
+                    {
+                        JButton b = (JButton)evt.getSource();
+                        if (b==mExit)
+                            exit = true;
+                    }
+                }
+                else if (mExitText != null)
+                {
+                    exit = false;
+                    if (evt.getSource() instanceof JButton)
+                    {
+                        JButton b = (JButton)evt.getSource();
+                        String buttonText = b.getText();
+                        if (buttonText != null)
+                        {
+                            if (buttonText.equals(mExitText))
+                                exit = true;
+                        }
+                                    
+                    }
+                }
+                if (allExitButtons != null)
+                {
+                    exit = false;
+                    if (evt.getSource() instanceof JButton)
+                    {
+                        JButton b = (JButton)evt.getSource();
+                        for (JButton eb: allExitButtons)
+                        {
+                            if (b == eb)
+                            {
+                                namedExit = b.getName();
+                                if (namedExit==null) namedExit = "";
+                                exit = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                else if(evt.getSource() instanceof JButton)
+                {
+                    JButton b = (JButton)evt.getSource();
+                    if (b!=null)
+                    {
+                        if (b.getAction() != null)
+                        {
+                            String test = b.getAction().toString();
+                            // action command file chose directory up... I know its bad, any ideas?
+                            if (test.toUpperCase().indexOf("PARENT")!=-1) exit=false;
+                        }
+                    }
+                }
+               if (exit)
+               {
+                   exitButtonUsed = true;
+                   ModalInternalFrame.this.setVisible(false);
+                    /* is all done in setVisible(false)
+                    try
+                    {
+                        setClosed(true);
+                    }
+                    catch (PropertyVetoException ignored) { }
+                    
+                    glass.setVisible(false);
+                    setButtonListener(pane, this, false);
+                    */
+               }
+            }};
+
+        setButtonListener(pane, al, true);
+
+    // Change frame border
+    putClientProperty("JInternalFrame.frameType", "optionDialog");
+
+    // Size frame
+    Dimension size = getPreferredSize();
+    Dimension rootSize = desktop.getSize();
+
+    setBounds((rootSize.width - size.width) / 2, (rootSize.height - size.height) / 2, size.width, size.height);
+    desktop.validate();
+    try
+    {
+        setSelected(true);
+    }
+    catch (PropertyVetoException ignored)
+    {
+    }
+
+  //  ModalInternalFrame.this.setVisible(true);
+    // Add modal internal frame to glass pane
+    glass.add(this);
+
+    oldGlass = rootPane.getGlassPane();
+    // Change glass pane to our panel
+    rootPane.setGlassPane(glass);
+
+    // Show glass pane, then modal dialog
+    glass.setVisible(true);
+  }
+
+    void setButtonListener(java.awt.Component c, java.awt.event.ActionListener al, boolean set)
+    {
+        if (c instanceof JButton)
+        {
+            if(set)
+                ((JButton) c).addActionListener(al);
+            else
+                ((JButton) c).removeActionListener(al);
+        }
+        else if (c instanceof java.awt.Container)
+        {
+            for (int j=0;j<((java.awt.Container)c).getComponentCount();j++)
+            {
+                final java.awt.Component mc = ((java.awt.Container)c).getComponent(j);
+                if (mc instanceof java.awt.Container)
+                {
+                    setButtonListener(mc, al, set);
+                }
+            }
+        }
+    }
+
+  boolean notInConstructor = false;
+  public ModalInternalFrame(String title, JRootPane
+      rootPane, Component desktop, JOptionPane pane) {
+    super(title);
+    cpane = pane;
+    myRootPane = rootPane;
+    // ImageIcon i = new ImageIcon(Configuration.getConfiguration().getCurrentTheme().getImage("BlueIconSmall.png"));
+    // setFrameIcon(i);
+    initGlass();
+
+
+    // Add in option pane
+    getContentPane().add(pane, BorderLayout.CENTER);
+
+    // Define close behavior
+    PropertyChangeListener pcl =
+        new PropertyChangeListener()
+        {
+            @Override
+            public void propertyChange(PropertyChangeEvent event)
+            {
+                if (isVisible()
+                        && (event.getPropertyName().equals( JOptionPane.VALUE_PROPERTY)
+                        || event.getPropertyName().equals( JOptionPane.INPUT_VALUE_PROPERTY)))
+                {
+                try
+                {
+                    setClosed(true);
+                }
+                catch (PropertyVetoException ignored) { }
+                ModalInternalFrame.this.setVisible(false);
+                glass.setVisible(false);
+            }
+        }
+    };
+
+        pane.addPropertyChangeListener(pcl);
+
+    // Change frame border
+    putClientProperty("JInternalFrame.frameType", "optionDialog");
+
+    // Size frame
+    Dimension size = getPreferredSize();
+    Dimension rootSize = desktop.getSize();
+
+    setBounds((rootSize.width - size.width) / 2, (rootSize.height - size.height) / 2, size.width, size.height);
+    desktop.validate();
+    try
+    {
+        setSelected(true);
+    }
+    catch (PropertyVetoException ignored) {
+    }
+
+    // Add modal internal frame to glass pane
+    glass.add(this);
+
+    // Change glass pane to our panel
+    oldGlass = rootPane.getGlassPane();
+
+    rootPane.setGlassPane(glass);
+
+    // Show glass pane, then modal dialog
+    glass.setVisible(true);
+    notInConstructor = true;
+  }
+
+  private void initGlass()
+  {
+    // create opaque glass pane
+    glass.setLayout(null);
+    glass.setOpaque(false);
+    glass.setName("JPortalGlass");
+
+    // Attach mouse listeners
+    MouseInputAdapter adapter = new MouseInputAdapter(){};
+    glass.addMouseListener(adapter);
+    glass.addMouseMotionListener(adapter);
+  }
+
+  private boolean inClosing = false;
+  private static int visCountStatic =0;
+    @Override
+  public void setVisible(boolean value)
+  {
+        boolean visible = isVisible();
+        if (inClosing) return;
+        super.setVisible(value);
+        if (!notInConstructor) return;
+        if (value == visible) return;
+        
+        int visCount = visCountStatic;
+        visCountStatic++;
+
+        if (value)
+        {
+            startModal();
+        }
+        else
+        {
+            stopModal();
+            try
+            {
+                inClosing = true;
+                setClosed(true);
+                inClosing = false;
+            }
+            catch (PropertyVetoException ignored) { }
+            
+            if ((cpane !=null ) && (al != null))
+                setButtonListener(cpane, al, false);
+
+            if (glass != null)
+                glass.setVisible(false);
+            if (myRootPane != null) if (oldGlass!=null)
+            {
+                if (oldGlass instanceof JGlassPanel)
+                {
+                    myRootPane.setGlassPane(oldGlass);
+
+                    // Show glass pane, then modal dialog
+                    oldGlass.setVisible(true);
+                }
+                 else
+                 {
+                    myRootPane.setGlassPane(oldGlass);
+                 }
+            }
+             else
+             {
+                myRootPane.setGlassPane(oldGlass);
+             }
+        }
+  }
+
+  private synchronized void startModal() {
+    try {
+        if (!isModal)isModalCount++;
+        isModal=true;
+
+      if (SwingUtilities.isEventDispatchThread())
+      {
+        EventQueue theQueue = getToolkit().getSystemEventQueue();
+        
+        while (isVisible())
+        {
+          AWTEvent event = theQueue.getNextEvent();
+          Object source = event.getSource();
+          try
+          {
+              if (event instanceof ActiveEvent)
+              {
+                ((ActiveEvent)event).dispatch();
+                  if (event instanceof InvocationEvent )
+                  {
+                    if (!glass.isVisible()) // this circumvents "invisiblity" after a resize of the modal window!
+                        glass.setVisible(true);
+                  }
+              }
+              else if (source instanceof Component)
+              {
+//                  if (event.getID() == )
+                ((Component)source).dispatchEvent(event);
+              }
+              else if (source instanceof MenuComponent)
+              {
+                ((MenuComponent)source).dispatchEvent( event);
+              }
+              else
+              {
+                System.err.println( "Unable to dispatch: " + event);
+              }
+          }
+          catch (java.lang.IllegalStateException e)
+          {
+              // shitty clipboard stuff              Syte
+          }
+        }
+      } 
+      else
+      {
+        while (isVisible())
+        {
+            wait();
+        }
+      }
+    } catch (InterruptedException ignored)
+    {
+    }
+    System.out.println();
+  }
+
+  private synchronized void stopModal()
+  {
+    if (isModal) isModalCount--;
+    isModal=false;
+    notifyAll();
+  }
+
+
+  // paint pop ups on glass pane, since they normally appear in a layer below glass pane!
+  // see
+  /**
+   *
+http://www.pushing-pixels.org/?p=95
+An additional implementation of a glass pane that respects the lightweight popup
+        menus for our scenario might do the following after painting the validation
+        overlays (sample implementation in
+        org.pushingpixels.validation.glasspane.ValidationGlassPaneForPopups):
+https://pushingpixels.dev.java.net/source/browse/pushingpixels/src/org/pushingpixels/validation/glasspane/
+Starting from the root pane
+Go over all components recursively
+If a component is a JPopupMenu, is showing and is visible
+Paint it on the Graphics passed to the paintComponent() of the glass pane
+   *
+   *
+   * https://pushingpixels.dev.java.net/source/browse/pushingpixels/src/org/pushingpixels/validation/#dirlist
+http://www.pushing-pixels.org/?p=90
+
+   */
+  class JGlassPanel extends JPanel
+  {
+
+    @Override
+    protected void paintComponent(Graphics g)
+    {
+        Point myLoc = this.getLocationOnScreen();
+        Component startPoint = SwingUtilities.getRootPane(this);
+        Point startLoc = startPoint.getLocationOnScreen();
+        int dx = startLoc.x - myLoc.x;
+        int dy = startLoc.y - myLoc.y;
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.translate(dx, dy);
+        JRootPane rootPane = SwingUtilities.getRootPane(this);
+        paintPopupMenus(rootPane, rootPane, g2d);
+        g2d.dispose();
+    }
+
+    public void paintPopupMenus(JRootPane rootPane, Component comp, Graphics g)
+    {
+        if (comp instanceof JPopupMenu)
+        {
+            JPopupMenu jpm = (JPopupMenu) comp;
+            if (jpm.isShowing() && jpm.isVisible())
+            {
+                Graphics2D g2d = (Graphics2D) g.create();
+                Point rootPaneLoc = rootPane.getLocationOnScreen();
+                Point popupLoc = jpm.getLocationOnScreen();
+                g2d.translate(popupLoc.x - rootPaneLoc.x, popupLoc.y - rootPaneLoc.y);
+                jpm.paint(g2d);
+                g2d.dispose();
+            }
+        }
+        if (comp instanceof Container)
+        {
+            Container cont = (Container) comp;
+            for (int i = 0; i < cont.getComponentCount(); i++)
+            {
+                paintPopupMenus(rootPane, cont.getComponent(i), g);
+            }
+        }
+    }
+  }
+}

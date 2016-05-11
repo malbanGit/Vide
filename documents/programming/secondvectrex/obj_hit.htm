@@ -1,0 +1,50 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Obj_Hit</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Obj_Hit ($F8FF)</p>
+
+<p>Thit routine checks to see if a missile hashit an object. If
+the missile has hit the object, then the carry bit will be set;
+otherwise, the carry bit will be cleared. A hit is checked for in
+the following fashion: </p>
+
+<p>if (object y-height/2) &lt;= missile y &lt;= (object
+y+height/2) </p>
+
+<p>and</p>
+
+<p>(object x-width/2) &lt;= missile x &lt;= (object x+width/x)</p>
+
+<p>then the missile hit, otherwise it missed.</p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>Y-reg = (y,x) position of the object</p>
+
+<p>X-reg = (y,x) position of the missile</p>
+
+<p>D-reg = (h/2,w/2) size of object</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<p>Carry bit set if the object &amp; missile have collided</p>
+
+<p>All registers preserved.</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F8FF">Source</a></p>
+</body>
+</html>

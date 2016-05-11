@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'></meta>
+<title>Sample</title>
+</head>
+<body>
+<hr />
+<h1>Sample</h1>
+
+<p>Some information:
+<ol><li>
+<p>Internally all samples are kept in the format:<br />
+
+<ul><li>
+<p>44100 khz<br />
+</p>
+</li><li>
+<p>2 channel<br />
+</p>
+</li><li>
+<p>16 bit<br />
+</p>
+</li><li>
+<p>signed<br />
+</p>
+</li><li>
+<p>little endian<br />
+</p>
+</li></ul>
+</p>
+
+<p>this is what you see in the sample display window (left channel)<br />
+</p>
+</li><li>
+<p>Recording is done with the settings you enter to the right <br />
+(and is than converted to above format)</p>
+</li><li>
+<p>(the original) samples can be saved, save format is "wav", saving is done in the above format, since in this format all information is kept (internally) anyway.</p>
+</li><li>
+<p>(the vectrex) samples can be saved, save format is "wav", saving is done in the  format chosen (only sample rate can be chosen, the rest is allways set).</p>
+</li><li>
+<p>you can save the vectrex samples as "raw" data, the raw data uses 8 bit signed data (this is what vectrex wants)</p>
+</li><li>
+<p>Normalization uses no range compression algorithm, this is just a maximization so that the largest absolut sample reaches its format maximum (and all other samples are scaled accordingly)</p>
+</li></ol>
+</p>
+</body>
+</html>

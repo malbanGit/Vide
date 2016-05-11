@@ -1,0 +1,37 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>New_High_Score</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>New_High_Score ($F8D8)</p>
+
+<p>This routine compares a players score string, pointed to by
+the X register, to the current hi score, pointed by the U
+register. If the player's score is higher than the currently
+saved hi score, then the player's score will be copied into the
+hi score buffer pointed to by the U register. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>X-reg points to a player's score stringX-reg points to
+double-sized coordinate pair</p>
+
+<p>U-reg points to the high score string (usually $CBEB?)</p>
+
+<p>EXIT:</p>
+
+<p>X-reg, U-reg, D-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F8D8">Source</a></p>
+</body>
+</html>

@@ -1,0 +1,259 @@
+:title VecSound Decoder in C(++) example
+::
+/*~~
+_To work the first commented out byte (a counter) of each register must
+be uncommented.~~
+_The counter to how many different bytes are used within the
+_'SHANNON'-coding...~~
+*/~~
+~~
+#include <fstream.h>~~
+#include <string.h>~~
+#include <stdlib.h>~~
+#include <ctype.h>~~
+#include <stdio.h>~~
+~~
+#define PHRASES_MAX 100~~
+#define MAX_PHRASE_LEN 100~~
+struct phrase~~
+{~~
+____    int  phrase[MAX_PHRASE_LEN];~~
+____   int  len;~~
+____    int  count;~~
+};~~
+phrase phrases[PHRASES_MAX];~~
+~~
+const MAXBUFF = 2000000;~~
+\//START inclusive~~
+#define ENCODE_START 0~~
+\//END exclusive~~
+#define ENCODE_END 11~~
+~~
+FILE *inFile;~~
+FILE *outFile;~~
+FILE *outFile2;~~
+unsigned char buf[MAXBUFF];~~
+unsigned char out_buf[MAXBUFF/11+11][11];~~
+int len;~~
+int vbl_len;~~
+int byte_pointer_read = 0;~~
+int byte_pointer_write = 0;~~
+~~
+int current_bit_counter = -1;~~
+int current_out_byte=0;~~
+~~
+~~
+#define MAP_BIT_MAX 127~~
+#define MAP_CODE_MAX 255~~
+~~
+int map[MAP_BIT_MAX][MAP_CODE_MAX];~~
+~~
+int GET_BYTE()~~
+{~~
+__current_bit_counter = -1;~~
+__return buf[byte_pointer_read++];~~
+}~~
+void WRITE_BYTE(int byte)~~
+{~~
+__fprintf(outFile," DB $%02X \\n",byte);~~
+__fwrite(&byte,1,1,outFile2);~~
+}~~
+~~
+int GET_BIT()~~
+{~~
+__if (current_bit_counter == -1)~~
+__{~~
+____current_out_byte = GET_BYTE();~~
+____current_bit_counter = 7;~~
+__}~~
+__if (current_out_byte&(1\<<(current_bit_counter--\)\))~~
+__{~~
+____return 1;~~
+__}~~
+__return 0;~~
+}~~
+~~
+int total_unpack_count = 0;~~
+~~
+int main( int argc, char* argv[] )~~
+{~~
+__cout <<" \nCalling ";~~
+__for (int ii=0;ii<argc;ii++)~~
+____cout <<" "<<argv[ii];~~
+__cout << " \\n \\n";~~
+__if ( argc != 2 )~~
+__{~~
+____cout << "Usage: decode <infile>  \\n";~~
+____return 0;~~
+__}~~
+__inFile=fopen(argv[1],"rb");~~
+__if( !inFile )~~
+__{~~
+____cout << "A file error occured with " << argv[1] << "! \\n";~~
+____return 2;~~
+__}~~
+__len=fread( buf, sizeof(char),sizeof(char)*MAXBUFF,inFile );~~
+__fclose(inFile);~~
+__printf("Length of file: %i \\n",len);~~
+~~
+__vbl_len = GET_BYTE()*256+GET_BYTE();~~
+__printf("Length of track: %i \\n",vbl_len);~~
+__int ym_register;~~
+~~
+__outFile=fopen("out_int.asm","wb+");~~
+__if (!outFile)~~
+__{~~
+____printf("File Open Error! \\n");~~
+____return 1;~~
+__}~~
+__outFile2=fopen("out_int.bin","wb+");~~
+__if (!outFile2)~~
+__{~~
+____printf("File Open Error! \\n");~~
+____return 1;~~
+__}~~
+~~
+__fprintf(outFile," DW %i ; length of track \\n", vbl_len);~~
+~~
+~~
+__for (ym_register=ENCODE_START; ym_register< ENCODE_END; ym_register++)~~
+__{~~
+____int to_map = GET_BYTE();~~
+____int i;~~
+____printf("Register %i has %i different 'bytes' \\n", ym_register, to_map);~~
+____\// initialize mapper~~
+____fprintf(outFile,"; mapper for ym_register %i \\n", ym_register);~~
+____fprintf(outFile," DB $%02X ; uses different bytes \\n", to_map);~~
+____for (i=0; i < MAP_BIT_MAX; i++)~~
+____{~~
+______for (int j=0; j < MAP_CODE_MAX; j++)~~
+______{~~
+________map[i][j] = -1;~~
+______}~~
+____}~~
+____int no_phrases=0;~~
+____for (i=0; i < to_map; i++)~~
+____{~~
+______int bits = GET_BYTE();~~
+______int code = GET_BYTE();~~
+______int real_byte = GET_BYTE();~~
+~~
+______fprintf(outFile," DB %02X, %02X, %02X ; bits, code, realbyte \\n", bits, code, real_byte);~~
+______if \((bits&127) > MAP_BIT_MAX)~~
+______{~~
+________printf("Bit overflow - bye! \\n");~~
+________exit(1);~~
+______}~~
+~~
+______map[bits&127][code] = real_byte;~~
+______if (bits&128)~~
+______{~~
+________no_phrases++;~~
+________map[bits&127][code]+=256;~~
+______}~~
+____}~~
+____fprintf(outFile,"; Phrases follow (%i) \\n",no_phrases);~~
+____\// load phrases~~
+____for (i=0;i<no_phrases;i++)~~
+____{~~
+______phrases[i].len = GET_BYTE();~~
+______fprintf(outFile," DB %02X", phrases[i].len);~~
+______int j;~~
+______for (j=0;j < phrases[i].len; j++)~~
+______{~~
+________phrases[i].phrase[j] = GET_BYTE();~~
+________fprintf(outFile,", %02X", phrases[i].phrase[j]);~~
+______}~~
+____fprintf(outFile," \\n");~~
+____}~~
+~~
+____fprintf(outFile,"; Data follows...\\n");~~
+____\// done... now start decoding!~~
+____int byte_decrunched_count = 0;~~
+____while (byte_decrunched_count < vbl_len)~~
+____{~~
+______int RLE_count = 0;~~
+~~
+______if (GET_BIT() == 0)~~
+______{~~
+________\// one byte~~
+________RLE_count = 1;~~
+______}~~
+______else~~
+______{~~
+________\// rle encoded~~
+________int count_bits = 1; \// already got a 1, see above~~
+________while (GET_BIT() == 1)~~
+________{~~
+__________count_bits++;~~
+________}~~
+________count_bits+=2; \// plus two, since we start coding with 3 bits~~
+~~
+________\// the following count_bits represent the RLE count~~
+________\// lsb first~~
+________for (i=0; i < count_bits; i++)~~
+________{~~
+__________RLE_count+=((GET_BIT()) << i);~~
+________}~~
+______}~~
+~~
+______\// in RLE_count now the number of times we should repeat the~~
+______\// following bit data...~~
+______\// msb first~~
+______int bits = 0;~~
+______int code = 0;~~
+______int is_phrase = 0;~~
+______int unpacked_byte = 0;~~
+______while (1)~~
+______{~~
+________code <<= 1;~~
+________code += GET_BIT();~~
+________bits++;~~
+________if (map[bits][code] != -1)~~
+________{~~
+__________unpacked_byte = map[bits][code];~~
+__________if (unpacked_byte>=256)~~
+__________{~~
+____________is_phrase = 1;~~
+____________unpacked_byte -= 256;~~
+__________}~~
+__________break;~~
+________}~~
+______}~~
+/*~~
+____fprintf(outFile,"; byte_decrunched_count %i \\n",byte_decrunched_count);~~
+____if (is_phrase == 0)~~
+______fprintf(outFile,"; byte %02X, times %i \\n",unpacked_byte,RLE_count);~~
+____else~~
+______fprintf(outFile,"; phrase %02X, times %i \\n",unpacked_byte,RLE_count);~~
+*/~~
+______for (i=0; i<RLE_count; i++)~~
+______{~~
+________if (is_phrase == 0)~~
+________{~~
+__________WRITE_BYTE(unpacked_byte);~~
+__________byte_decrunched_count++;~~
+__________total_unpack_count++;~~
+________}~~
+________else~~
+________{~~
+__________int j;~~
+__________for (j=0;j<phrases[unpacked_byte].len;j++)~~
+__________{~~
+____________WRITE_BYTE(phrases[unpacked_byte].phrase[j]);~~
+____________byte_decrunched_count++;~~
+____________total_unpack_count++;~~
+__________}~~
+________}~~
+______}~~
+____}~~
+__}~~
+__printf("Bytes unpacked: %i \\n", total_unpack_count);~~
+__fclose(outFile);~~
+__fclose(outFile2);~~
+~~
+__return 0;~~
+}~~
+~~
+~~
+

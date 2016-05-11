@@ -1,0 +1,144 @@
+; ### Public Domain for all Vecfreaks
+; ### Joystick movement test
+; ### Code & comments by man@sci.fi
+; ### Debugging by marq@iki.fi
+
+; ### Needed BIOS routines
+
+WAITRECAL	equ	$f192
+INTENSITY	equ	$f2ab
+PRINTSTR	equ	$f37a
+
+JOYDIGITAL	equ	$f1f8	; Reads joystick positions
+JOY1XENABLE	equ	$c81f	; Enables joystick 1 X
+JOY1YENABLE	equ	$c820	; Enables joystick 1 Y
+JOY2XENABLE	equ	$c821	; Enables joystick 2 X
+JOY2YENABLE	equ	$c822	; Enables joystick 2 Y
+JOY1X		equ	$c81b	; Joystick 1 left/right
+JOY1Y		equ	$c81c	; Joystick 1 up/down
+
+; ### Here we go.
+
+	org	0
+
+; ### The required init block.
+
+	fcb	$67,$20		 
+	fcc	"GCE MANU"
+	fcb	$80		; All text ends with $80
+	fdb	$fe38		; Play song "$fe38" from ROM
+	fdb	$f850		; Width, height
+	fdb	$30b8		; y-position, x-position
+	fcc	"JOYSTICK TEST"
+	fcb	$80,$0		; Init block ends with $0
+
+; ### Okay, this sets up the joystick checks, and only
+; ### allows them for joystick 1, thus saving us a few
+; ### hundred cycles. Don't forget to set joystick 2
+; ### to 0, if you don't need it.
+
+	lda	#1		; 1 is the flag to enable
+	sta	JOY1XENABLE	; joystick 1 X
+	lda	#3		; 3 is the flag to enable
+	sta	JOY1YENABLE	; joystick 1 Y
+	lda	#0
+	sta	JOY2XENABLE	; 5 would enable this
+	sta	JOY2YENABLE	; 7 would enable this
+
+; ### Here begins the actual joystick reading.
+
+tikku	jsr	WAITRECAL	; BIOS recalibration
+
+	lda	#95		
+	jsr	INTENSITY	; Sets intensity to 95	
+
+	jsr	JOYDIGITAL	; Reads joystick
+	lda	JOY1X		; Joy 1 X position to A
+	lbeq	noxmove		; If 0 -> jump to noxmove
+	lbmi	lmove		; If negative -> lmove
+
+; ### If something else (positive)
+; ### the joystick has been moved right. Right.
+
+rmove	lda	#40		; Y-coordinate
+	ldb	#-50		; X-coordinate
+	ldu	#rtext		; Get the text
+	jsr 	PRINTSTR
+	bra	xready		; Jump to xready
+
+; ### Joystick has been moved left.
+
+lmove	lda	#40		; Y-coordinate
+	ldb	#-50		; X-coordinate
+	ldu	#ltext		; Get the text
+	jsr 	PRINTSTR
+	bra	xready		; Jump to xready
+
+; ### Joystick hasn't been moved left or right.
+
+noxmove	lda	#40		; Y-coordinate
+	ldb	#-50		; X-coordinate
+	ldu	#noxtext	; Get the text
+	jsr 	PRINTSTR
+
+; ### Done with checking if the joystick
+; ### was moved left or right, now checking
+; ### if it was moved up or down.
+
+xready	lda	JOY1Y		; Joy 1 Y position to A
+	beq	noymove		; If 0 -> jump to noymove
+	bmi	dmove		; If negative -> dmove
+
+; ### If something else (positive)
+; ### the joystick has been moved up.
+
+umove	lda	#20		; Y-coordinate
+	ldb	#-50		; X-coordinate
+	ldu	#utext		; Get the text
+	jsr 	PRINTSTR
+	bra	yready		; Jump to yready
+
+; ### Joystick has been moved down.
+
+dmove	lda	#20		; Y-coordinate
+	ldb	#-50		; X-coordinate
+	ldu	#dtext		; Get the text
+	jsr 	PRINTSTR
+	bra	yready		; Jump to yready
+
+; ### Joystick hasn't been moved up or down.
+	
+noymove	lda	#20		; Y-coordinate
+	ldb	#-50		; X-coordinate
+	ldu	#noytext	; Get the text
+	jsr 	PRINTSTR
+
+; ### Done with checking if the joystick has
+; ### been moved up or down - so let's go
+; ### back to the beginning and check all again.
+
+yready	lbra 	tikku		; Repeat 	
+
+; ### You need LBRA, because BRA is too short a jump
+; ### to jump to the beginning all the way from here
+
+; ### Then all the texts that are needed
+; ### to be displayed.
+
+noxtext	fcc	"NO LEFT OR RIGHT"
+	fcb	$80
+
+ltext	fcc	"LEFT !!!"
+	fcb	$80
+
+rtext	fcc	"RIGHT !!!"
+	fcb	$80
+
+noytext	fcc	"NO UP OR DOWN"
+	fcb	$80
+
+utext	fcc	"UP !!!"
+	fcb	$80
+
+dtext	fcc	"DOWN !!!"
+	fcb	$80

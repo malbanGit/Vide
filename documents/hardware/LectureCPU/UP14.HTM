@@ -1,0 +1,145 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 14</H2>
+<H3>Interrupts</H3>
+
+The 6809, like most other microprocessors, has instructions and the hardware to
+handle <I>interrupts</I>.     Interrupts are a mechanism for allowing
+outside events temporarily to divert the micro from its current program.  
+When an interrupt arrives, a call is made to a nominated routine which runs
+an 'interrupt service routine' ending with a
+'return' instruction which returns the micro to the interrupted
+program.  So, an interrupt is just like a subroutine call except that
+control is not passed explicitly to the routine by the main program,
+but happens independently of it.
+<P>
+Interrupts are used for infrequent or irregular events which must be
+acted upon by the processor.    The use of interrupts saves having to
+look periodically to see whether the event has occurred or not. 
+This is known as <I>polling</I> and can tie the micro up for a large proportion
+of the time, especially if the event is a rare one, like power
+failure.   Another reason for using interrupts is to achieve a fast
+response to external events.      
+If an event has just been polled and
+found inactive, and then occurs just after polling, then it will have
+to wait until the next time the event is polled.
+<P>
+<H3>Implementation of Interrupts</H3>
+Most micros have one or more pins on them devoted to interrupts.
+A level (usually "0") on one of these pins causes the processor to enter
+an <I>interrupt service routine</I> (<B>ISR</B>), whose entry address is kept in a
+special area in memory.     This is done by means of something very like
+a subroutine call; the return address is pushed onto the stack.          
+The routine completes and a <I>return from interrupt</I> instruction is
+executed, which resumes execution of the interrupted program.        
+In order to avoid chaos, further interrupts on the same pin are not
+usually allowed between the arrival of the interrupt and the return
+from the interrupt routine.
+<P>
+Clearly, there is a risk that the registers used by the interrupted
+program will be overwritten by the interrupt routine.       
+This is avoided by the processor, which automatically stacks up 
+the machine registers when servicing an interrupt and unstacks them 
+again when a <I>return from interrupt</I> instruction <B>(RTI)</B> is executed.        
+Some processors allow multiple interrupts, which means that one interrupt service
+routine may itself be interrupted by another ISR.      
+In this case integrity of the
+registers is still assured as they will again be stacked, preserving
+the work being done by the first interrupt routine.       
+This is known as <I>nesting</I> interrupts.   
+Whether or not an interrupt is serviced at all
+may be decided by the user, who may <I>disable</I> and <I>enable</I> interrupts,
+so that they may be ignored if they are not relevant.
+<P>
+<H3>Warnings</H3>
+Interrupts can be dangerous!!      
+Care must be taken to ensure that
+interrupts do not corrupt information which is being used by the
+interrupted routine.      This takes some thought.          
+The elementary precautions have been taken for you by the 
+designer of the microprocessor, when he decided that all 6809 
+registers would be stacked on NMI and IRQ.
+This is not done on all micros.       
+Other things to look out for are
+locations in memory which are written by the interrupting routine.
+Will a new value appearing in one of these locations confuse the
+interrupted program?  The same cautions apply to bits of hardware that
+have their states changed by the interrupt routine.
+<P>
+Interrupt routines may also need to use locations in memory for use as
+<I>scratch-pad</I> locations.     
+In this case use of the stack will guarantee
+non-corruption of vital location, as   space will then be allocated and
+deallocated as the interrupt is serviced.
+<P>
+      Finally, the cause of an interrupt MUST be cleared (if necessary) by
+      the micro before the RTI instruction is executed, or else the processor
+      will be immediately interrupted again, and you get into a deadlock
+      situation
+<H2>6809 Interrupts</H2>
+
+      The 6809 has three pins for interrupts; NMI, IRQ and FIRQ.  A low
+      level on any of these pins will cause an interrupt, provided that the
+      appropriate bit in the flag register (CC register) is clear (except NMI
+      which as its name - <I>non-maskable interrupt</I> implies, cannot be
+      masked).   The machine state will  then be stacked and the routine
+      entered.    The appropriate routine address is found in a table of
+      interrupt <I>vectors</I> stored at the top of memory.  Two locations are
+      dedicated to each Interrupt pin, in which are loaded the two bytes of
+      the interrupt routine address :-
+<PRE>
+                         +--------------+
+          FFFF,FFFE      |    /RESET    |   Starting address on reset
+                         +--------------+
+          FFFD,FFFC      |    /NMI      |   Non-maskable interrupt routine
+                         +--------------+
+          FFFB,FFFA      |     SWI      |   Software Interrupt no. 1
+                         +--------------+
+          FFF9,FFF8      |    /IRQ      |   Interrupt request
+                         +--------------+
+          FFF7.FFF6      |    /FIRQ     |   Fast interrupt request
+                         +--------------+
+          FFF5,FFF4      |     SWI2     |   Software interrupt no. 2
+                         +--------------+
+          FFF3,FFF2      |     SWI3     |   Software interrupt no. 3
+                         +--------------+
+</PRE>
+      An order of priority is imposed - the interrupts at the top of the list
+      (/RESET, /NMI) set the flag bits of the other interrupts to stop them
+      interrupting during the interrupt service routine.      The former values
+      of these bits are restored when the flag register is pulled off the
+      stack on return from the interrupt.    Further interrupts are then
+      free to occur thereafter.
+<P>
+      The software interrupts (SWI.  SWI2, SWI3) allow interrupt facilities to
+      be reached explicitly from a program.       By invoking one of these
+      instructions. a program may transfer control to a subroutine in the
+      same way that control is transferred on an interrupt, including the
+      stacking of registers etc.
+<P>
+      Most of the interrupts cause all the registers to be stacked. An
+      exception is the fast interrupt (/FIRQ). For applications where
+      quick response is required, FIRQ is useful as it only stacks the flag
+      register (and of course the program counter!). The user then has
+      responsibility for stacking the registers that must be preserved
+      during the course of the interrupt routine; not all may be in use. A
+      record is kept in the <I>entire</I> flag (E) in the flag register that only
+      the flag register and  PC have been saved, by clearing E.  For all
+      other interrupts, E is set to "1" to indicate that the entire register
+      set has been stacked.  E is then referred to during RTI to determine
+      how many registers are pulled off the stack at the end of the routine.
+      As the flag register is always stacked, this is referred to after
+      pulling to see whether only the PC is to be pulled or the complete set
+      of registers and THEN the PC.
+<hr>
+Another description of <A HREF="up14a.htm">interrupts</A> is given by Dr Tollyfield.
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up15.htm">Next</A> |</CENTER>
+
+</BODY>
+</HTML> 
+

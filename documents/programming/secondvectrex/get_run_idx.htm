@@ -1,0 +1,57 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Get_Run_Idx ($F5DB)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Get_Run_Idx ($F5DB)</p>
+
+<p>These routines are responsible for generating the two index
+pairs which are required by the rest of the rotation routines.
+Each index pair is two bytes long, and has the following format:</p>
+
+<blockquote>
+    <p>The high byte is obtained by masking the anglewith 0x1F
+    (this forces the angle to be between 0 and 180 degrees), and
+    then using this value to index into the multiplier table.</p>
+    <p>The lower byte contains information about whether the
+    angle lies along either the x or y axis, and whether the
+    rise/run will be positive or negative.</p>
+    <p>0 =&gt; positive rise, not on an axis, or negative run,
+    not on an axis.<br>
+    0x80 =&gt; negative rise, not on an axis, or positive run,
+    not on an axis.<br>
+    1 =&gt; positive rise, on an axis, or negative run, on an
+    axis.<br>
+    0x81 =&gt; negative rise, on an axis, or positive run, on an
+    axis.</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>A-reg = the angle value</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<blockquote>
+    <p>A-reg = slope?</p>
+    <p>B-reg = slope direction?</p>
+    <p>X-reg trashed</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F5DB">Source</a></p>
+</body>
+</html>

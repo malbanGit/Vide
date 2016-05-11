@@ -1,0 +1,79 @@
+;read_spinner
+;A routine by Christopher L. Tumber
+;
+;This routine reads the spinner. It requires one variable named
+;
+;old_spinner
+;
+;Which stores the previous spinner value.
+;
+;This routine branches to two locations as follows:
+;
+;player_plus: - Rotates/moves the player "plus" (ie: counter-clockwise)
+;player_minus: - Rotates/moves the player "minus" (ie: clockwise)
+
+read_spinner:
+          lda #$00
+          ldb $c816
+          beq not_a2
+          lda #$02
+not_a2:
+          ldb $c817
+          beq not_b2
+          inca
+not_b2:
+          cmpa old_spinner
+          beq no_spinner_move
+
+          ldb old_spinner          
+          sta old_spinner
+          cmpa #$00
+          bne not_spin1
+          cmpb #$01
+          beq player_plus
+not_spin1:
+          cmpa #$01
+          bne not_spin2
+          cmpb #$03
+          beq player_plus
+not_spin2:
+          cmpa #$03
+          bne not_spin3
+          cmpb #$02
+          beq player_plus
+not_spin3:
+          cmpa #$02
+          bne not_spin4
+          cmpb #$00
+          beq player_plus
+not_spin4:
+
+          cmpa #$00
+          bne not_spin5
+          cmpb #$02
+          beq player_minus
+not_spin5:
+          cmpa #$02
+          bne not_spin6
+          cmpb #$03
+          beq player_minus
+not_spin6:
+          cmpa #$03
+          bne not_spin7
+          cmpb #$01
+          beq player_minus
+not_spin7:
+          cmpa #$01
+          bne not_spin8
+          cmpb #$00
+          beq player_minus
+not_spin8:
+
+no_spinner_move:
+
+          rts
+
+
+
+player_plus:
+player_minus:

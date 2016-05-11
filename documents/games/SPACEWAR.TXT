@@ -1,0 +1,65 @@
+Space Wars 
+----------
+   Who says there are no rules in intergalactic warfare.  Pick your own --
+bounce, expanded universe, black hole -- as you embark on a deadly dogfight.
+
+Controls
+--------
+Joystick: Rotates your destroyer.
+Button 1: Select number of players.
+Button 2: Hyperspace (and select game number).
+Button 3: Thrust.
+Button 4: Fire.
+
+Game Selection
+--------------
+   You can select any of 7 different game play options.  Each game play option
+determines the ship and bomb speed, as well as the type and amount of the sun's
+gravity.  The game play options and their skill levels are as follows:
+   Game        Skill          Ship and            Sun's
+   Number      Level          Laser speed         Gravity
+  ----------------------------------------------------------
+     1         Beginner       Slow                None
+     2         Intermediate   Moderate            None
+     3         Intermediate   Fast                None
+     4         Expert         Moderate            Moderate
+     5         Expert         Moderate            Negative
+     6         Expert         Moderate            Strong
+     7         Expert         Fast                Strong
+
+Game Play
+---------
+   Space Wars is a battle between 2 opposing space ships in a hostile space
+field.  Each round begins with your ship appearing on the right side of the
+screen and your opponent on the left.  In a two player game, the right control
+panel manipulates the right ship and the left control panel manipulates the
+left ship.  Steer your ship with the joystick and thrust forward by pressing
+button 3.  As you move around space, beware of the meteorite.  It can destroy
+you.  Button 4 fires lasers at your opponent.  The laser may destroy a portion
+of the ship, but don't let a crippled ship fool you.  The fight is to the
+death, so a crippled ship may fight back to win.
+   Button 2 allows you to move mysteriously on the screen to avoid being hit. 
+Use it cautiously... it might put you in an even more difficult predicament.
+   The sun is found at the center and can be deadly if you collide with it.  Be
+especially aware of its gravity forces!
+
+Fuel and Laser Strength
+-----------------------
+   Each new ship has a fixed amount of fuel and laser strength.  As you travel
+through space and fire lasers, you are using up their limited quantities.  The
+quantity remaining for each ship is shown at the top of the screen with the
+left number representing the fuel and the right representing laser strength.
+
+Getting Hit
+-----------
+   Once a ship is destroyed, the score is shown and a fanfare is played.  If no
+one has yet win the game, the next round is started.
+
+Scoring
+-------
+   1 point is awarded each time your opponent is destroyed.  The game ends when
+one ship has 10 points.
+
+
+z_morganrw@ccsvax.sfasu.edu
+

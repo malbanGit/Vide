@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Print_Str</title>
+</head>
+<body class="doc">
+<h1>Print_Str</h1>
+
+<p>In the disassembly from Bruce Tomlin there are many "garbled" comments (Ramp on/off switched, T1 one shot enabled disabled...)</p>
+
+<p>Here a corrected version: </p>
+
+<p><tt> ;-----------------------------------------------------------------------;<br>
+;       F495    Print&nbsp;Str                                               ;<br>
+;                                                                       ;<br>
+; This is the routine which does the actual printing of a string.  The  ;<br>
+; U register points to the start of the string, while $C82A contains    ;<br>
+; the height of the character, cell, and $C82B contains the width of    ;<br>
+; the character cell.  The string is terminated with an 0x80.           ;<br>
+;                                                                       ;<br>
+; The string is displayed by drawing 7 horizontal rows of dots.  The    ;<br>
+; first row is drawn for each character, then the second, etc.  The     ;<br>
+; character generation table is located at ($F9D4 + $20).  Only         ;<br>
+; characters 0x20-0x6F (upper case) are defined; the lower case         ;<br>
+; characters a-o produce special icons.                                 ;<br>
+;                                                                       ;<br>
+; ENTRY DP = $D0                                                        ;<br>
+;       U-reg points to the start of the string                         ;<br>
+;                                                                       ;<br>
+; EXIT: U-reg points to next byte after terminator                      ;<br>
+;                                                                       ;<br>
+;       D-reg, X-reg trashed                                            ;<br>
+;-----------------------------------------------------------------------;<br>
+<br>
+Print&nbsp;Str:      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STU     Vec&nbsp;Str&nbsp;Ptr     ;Save string pointer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDX     #Char&nbsp;Table-$20 ;Point to start of chargen bitmaps<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD     #$1883          ;a-&gt;AUX: b-&gt;ORB: $8x = Disable RAMP, Disable Mux, mux sel = 01 (int offsets)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR     &lt;VIA&nbsp;port&nbsp;a     ;Clear D/A output<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;aux&nbsp;cntl   ;Shift reg mode = 110 (shift out under system clock), T1 PB7 disabled, one shot mode<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDX     #Char&nbsp;Table-$20 ;Point to start of chargen bitmaps<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; first entry here, ramp is disabled<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; if there was a jump from below<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ramp will be enabled by next line<br>
+LF4A5:          <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB     &lt;VIA&nbsp;port&nbsp;b     ;ramp off/on set mux to channel 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEC     &lt;VIA&nbsp;port&nbsp;b     ;Enable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD     #$8081          ;both to ORB, both disable ram, mux sel = 0 (y int), a:-&gt;enable mux: b:-&gt;disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP                     ;Wait a moment<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INC     &lt;VIA&nbsp;port&nbsp;b     ;Disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB     &lt;VIA&nbsp;port&nbsp;b     ;Disable RAMP, set mux to channel 0, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;Enable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TST     $C800           ;I think this is a delay only<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INC     &lt;VIA&nbsp;port&nbsp;b     ;disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     Vec&nbsp;Text&nbsp;Width  ;Get text width<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;a     ;Send it to the D/A<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD     #$0100			    ;both to ORB, both ENABLE RAMP, a:-&gt; disable mux, b:-&gt; enable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDU     Vec&nbsp;Str&nbsp;Ptr     ;Point to start of text string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;[4]enable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA     LF4CB	         ;[3]<br>
+; one letter is drawn (one row that is) in 18 cycles<br>
+; 13 cycles overhead<br>
+; ramp is thus active for #ofLetters*18 + 13 cycles<br>
+LF4C7:          <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     A,X             ;[+5]Get bitmap from chargen table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;shift&nbsp;reg  ;[+4]rasterout of char bitmap "row" thru shift out in shift register<br>
+LF4CB:          <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     ,U+             ;[+6]Get next character<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BPL     LF4C7           ;[+3]Go back if not terminator<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     #$81	         ;[2]disable mux, disable ramp <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;[4]disable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEG     &lt;VIA&nbsp;port&nbsp;a     ;Negate text width to D/A<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     #$01	         ;enable ramp, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;enable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CMPX    #Char&nbsp;Table&nbsp;End-$20;[4]Check for last row<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEQ     LF50A           ;[3]Branch if last row<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAX    $50,X           ;[3]Point to next chargen row<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TFR     U,D             ;[6]Get string length<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUBD    Vec&nbsp;Str&nbsp;Ptr     ;[7] <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUBB    #$02            ;[2] -  2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASLB                    ;[2] *  2 calculate return "way"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRN     LF4EB           ;[3]Delay a moment<br>
+LF4EB:          <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     #$81            ;[2]disable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP		         ;[2]<br>
+                DECB                    ;[2]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BNE     LF4EB           ;Delay some more in a loop<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;disable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB     Vec&nbsp;Text&nbsp;Height ;Get text height<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB     &lt;VIA&nbsp;port&nbsp;a     ;Store text height in D/A [go down -&gt; later]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEC     &lt;VIA&nbsp;port&nbsp;b     ;Enable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD     #$8101<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP                     ;Wait a moment<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;disable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR     &lt;VIA&nbsp;port&nbsp;a     ;Clear D/A<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB     &lt;VIA&nbsp;port&nbsp;b     ;enable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;disable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB     #$03            ;$0x = ENABLE RAMP?<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA     LF4A5           ;Go back for next scan line<br>
+<br>
+LF50A:          <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     #$98<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;aux&nbsp;cntl   ;T1-&gt;PB7 enabled<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JMP     Reset0Ref       ;Reset the zero reference<br>
+<br>
+</tt></p>
+</body>
+</html>

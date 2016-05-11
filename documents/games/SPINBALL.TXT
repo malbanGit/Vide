@@ -1,0 +1,180 @@
+Vectrex
+ARCADE SYSTEM
+
+SPINBALL
+----------
+
+GCE
+A Milton Bradley Company
+
+Copyright General Consumer Electronics Inc. 1983 Santa Monica, CA 90401. All Rights Reserved.
+A copyright protection is claimed on the program stored within the cartridge.
+
+SPINBALL
+
+Get ready for even more excitment and split-second action than traditional arcade pinball. SpinBall's special features like a ball splitter, drop targets and ball savers will give you the ultimate pinball challenge. It even TILTS!
+
+SpinBall's action moves fast and furious. You'll need your sharpest reflexes to keep the ball in play and rack up bonus points.
+
+Setting Up
+
+¥ Make sure the console power cord is plugged into a 120 volt AC 60 cycle electrical outlet.
+
+¥ Check to be sure the plug for the built-in control panel is firmly seated in the control panel outlet on the right.
+
+¥ MAKE SURE THE CONSOLE IS TURNED OFF BE FORE INSERTING THE CARTRIDGE. Insert the cartridge into the cartridge slot with the label side up. Be sure it is firmly inserted to the guideline marked on the cartridge.
+
+¥ Insert the screen overlay behind the tabs at the top and bottom of the screen.
+
+¥ Turn the OFF/ON/VOLUME CONTROL to the ON posi tion (clockwise). You will see the Vectrex title for a few seconds, then the name of the game.
+
+¥ Adjust the volume control to the desired listening level.
+
+SpinBall Controls
+
+SpinBall is designed to be played with the built-in control panel only. The functions of the controls are:
+
+Pause - Selects one or two player game. While in play, activates PAUSE - depress again to conbnue play.
+
+Shoot - Releases ball into play when ball is resting on plunger spring.
+
+Joystick - When ball is at rest, sets tension on the plunger spring Pull backwards to increase tension for max imum ball release speed. Push forward to decrease tension. When ball is in play, controls the hitting or "juking" of the pinball table.
+
+Right Flippers - Controls flippers on right side.
+
+Left Flippers - Controls flippers on left side
+
+How to Play
+
+Player Selection
+   SpinBall can be played as either a one or two-player game. When ÒPLAYER 1Ó appears on the screen, press Button 1 once to switch to a two-player game.  ÒPLAYER 2Ó will then show on the screen. When played as a two-player game, only the built-in control panel is used. Players take turns using this control panel. You can return to a one-player game by pressing Button 1 again before starting game play.
+
+Starting Game Play
+   Once you select the number of players, press Button 4 to automatically prepare the pinball table with your first of five balls.
+
+Game Play
+   When your ball appears at the bottom of the chute, use the Joystick to set the tension on the plunger spring. (The further back you pull the Joystick, the more speed your ball will have when it is released). Press Button 4 to release the ball into play. Use Buttons 2 and 3 to control the left and right sets of flippers which will help keep the ball in motion.
+   Once the ball is in play, use the Joystick to control the hitting or "juking" of the pinball table. This traditional pinball feature helps influence the motion of the ball. But be careful, if you use the Joystick too often in a short period of time, you will "tilt" the machine and lose the ball in play.
+   Your goal in SpinBall is to keep each ball in play as long as possiblet hitting as many targets as you can and scoring the greatest number of points. There are a total of five balls in the game.
+
+Score Multiplier
+   The Score Multiplier is the number followed by an "x" that appears above your score. It indicates the number by which accumulated Bonus points will be multiplied when added to your score. The maximum Score Multiplier is 6. The multiplier is increased by activating the Ball Splitter or simultaneously lighting all four bumpers.
+
+Center Chute Diamonds
+   The three center chutes at the top of the table are con nected with the four six-sided bumpers located directly below them. When your ball passes through one of the chutes while the diamond is still on, a 500-point Bonus is scored and one of the bumper lights will be activated. If the diamond in the chute is not on when your ball passes through, then 1500 points are scored and a bumper light will not be activated. If you activate the lights in all four bumpers without hitting any of them, you will increase your Score Multiplier.
+   When all the diamonds are turned off, they will automati cally "rest" and one of the Ball Saver arrows will be turned on for a short time (see below).
+
+Six-Sided Bumpers
+   When your ball hits one of the six-sided bumpers at the top of the table, the bumper will flash and 15 points will be scored. If the bumper light is on when it is hit, an additional 500 points will be scored and the bumper light will go out.
+
+Spinners
+  There are four spinners located at the top left corner, at the middle of the right side and in both lower corners. When ever a ball passes through one of these spinners, 300 points are scored. The spinners' bonus arrows are acti vated by hitting any set of Drop Targets in order (see below). When the Bonus Arrow is on and your ball passes through that spinner, a 2000-point Bonus is scored and the Ball Splitter is activated for an unlimited period of time.
+
+Drop Targets
+   There are five sets of Drop Targets located on either side of the center chutes and below the right and left upper flippers. When all targets in a set are hit, a 100 point Bonus is scored for each target. If the targets are hit in order (from right to left or left to right)/ then 200 Bonus points are scored for each target. This also activates the Spinner Bon~s Arrows and the Ball Splitter is activated for a short period of time.
+
+Ball Bplitter
+   The Ball Splitter is the star-shaped object that will flash in the center of the table. If your ball lands on the Ball Splitter while it is activated, the ball will split into two balls, which are then put into play at the same time, and a triangular bumper will appear between the lower flippers. If the ball lands on the Ball Splitter when it has been activated for an unlimited amount of time, your Score Multiplier is increased. There can only be two balls in play at one time.
+
+Ball Savers
+   There are two Ball Savers located in both chutes in the lower corners of the ta'ble. Normally, when your ball enters either of the chutes, it is lost and the next ball is put into play. When a ball enters a chute with a Ball Saver on, the ball is caught, returned to play, and a 1000-point Bonus is scored.
+
+Glassies
+   Just like in real pinball when a ball jumps over a bumper or barrier/ your ball will sometimes appear to go through a bumper or wall. Continue to play the ball as you would normally. There are no penalties or points awarded for Glassies.
+
+Scoring Summary
+
+                                           Points
+Center Chute Lights   with diamonds on        500
+                      with diamonds off      1500
+Six-sided Bumpers     without light            15
+                      with light              515
+Spinners              with Bonus Arrows off   300
+                      with Bonus Arrows on   2000
+Drop Targets          when not hit in order   100 each
+                      when hit in order       200 each
+Ball Savers                                  1000
+
+Combination Scoring
+
+Upper right Drop Targets and lower left
+   Spinner with Bonus Arrow                  5000
+Upper left Drop Targets and lower right
+   Spinner with Bonus Arrow                  5000
+Lower left Drop Targets and upper left
+   Spinner with Bonus Arrow                  5000
+Lower right Drop Targets and lower right
+   Spinner with Bonus Arrow                  5000
+All Drop Targets and triangular Ball Saver 10,000
+
+High Score Memory
+   As long as your machine is on with the SpinBall car tridge in place, the high score is retained. Once the machine is turned off, and the cartridge is removed, the high score is lost. To check the high score, press the Reset Button on the console.
+
+Restarting the Game
+   To restart the game with the same number of players, press any of the four buttons on the console once the game is over. To restart the game before it is completed or to change the number of players, press the Reset Button.
+
+90 Day Limited Warranty
+
+   This Video Game Cartridge is warranted by General Consumer Elec tronics, Inc to the original consumer purchaser in the U S A for a period of 90 days from the original purchase date under normal use and service against defective workmanship and materials. ANY IMPLIED WARRAN TIES ARE ALSO LIMITED IN DURATION TO THE NINETY (90) DAY PERIOD FROM THE ORIGINAL PURCHASE DATE SOME STATES DO NOT ALLOW LIMITATIONS ON HOW LONG AN IMPLIED WARRANTY LASTS, SO THE ABOVE LIMITATION MAY NOT APPLY TO YOU
+   This warranty is void if the GCE Video Game Cartridge has been damaged by accident, unreasonable use, neglect, misuse, abuse, im proper service, moditication, subject to commercial use or other causes not arising out of defects in workmanship or materials and is limited to electronic and mechanical parts contained in the cartridge.
+   GENERAL CONSUMER ELECTRONICS, INC SHALL NOT BE LIABLE FOR LOSS OF USE OF THE VIDEO GAME CARTRIDGE OR OTHER INCIDENTAL OR CONSEQUENTIAL COSTS, EXPENSES OR DAMAGES INCURRED BY THE PURCHASER RESULTING FROM BREACH OF ANY EXPRESS OR IMPLIED WARRANTIES ON THE VIDEO GAME CAR TRIDGE. SOME STATES DO NOT ALLOW THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THE ABOVE LIMITATION OR EXCLUSION MAY NOT APPLY TO YOU
+   During the warranty period, if found to be defective due to workman ship or materials, the GCE Video Game Cartridge will at the option of General Consumer Electronics, Inc be repaired or replaced with a new or reconditioned GCE Video Game Cartridge without charge for parts or labor when returned by Purchaser with proof of purchase date. shipped prepaid to General Consumer Electronics, Inc at the following address:
+
+   General Consumer Electronics, Inc,
+   520 Broadway
+   Santa Monica~ California 90401
+
+  In the event that your GCE Video Game Cartridge is replaced, the warranty on the replacement will be ninety (90) days from the date of its return to you
+
+Order Form for Replacement Screen Overlays
+
+   Additional screen overlays may be ordered by completing this form and mailing it with your check or money order for $2.00 each. Address check or money order to: GCE, Vectrex Screen Overlays, P.O. Box 8123, San Francisco, CA 94128
+   Please allow 2-3 weeks for delivery. Offer subject to availability. Note: Separate cartridges are needed tor the overlays listed below.
+
+SCREEN OVERLAY
+
+Mine Storm       Solar Quest          Spike
+ArmorAttack      Space Wars           SpinBall
+Berzerk          Star Hawk            Web Wars
+Clean Sweep      Star Trek            Pole Position
+Hyperchase       Blitz!               Dark Tower
+Cosmic Chasm     Heads-Up             Star Castle
+Rip-Off          Fortress of Narzod   Others
+Scramble         Bedlam               (specify)
+
+SCREEN
+OVERLAY (fill in)       QUANTITY (fill in)    COST (fill in)
+
+                                      @ $2.00    $ _________
+
+                                      @ $2.00      _________
+
+                                      @ $2.00      _________
+
+                                      @ $2.00      _________
+
+                                      @ $2.00      _________
+
+                                      @ $2.00      _________
+
+         Total Overlays Ordered      Total Costs  $_________
+
+               Calif. Residents Add 6% Sales Tax  $_________
+
+                           Total Amount Enclosed  $_________
+
+
+Name ___________________________ Phone (____) ______________
+
+Address ____________________________________________________
+
+City ___________________________ State ____ Zip ____________
+
+
+VECTREX
+Arcade System
+
+
+GCE
+A Milton Bradley Company                           9872P-033
+

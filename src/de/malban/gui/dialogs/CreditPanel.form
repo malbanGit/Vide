@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jScrollPane1" alignment="0" pref="460" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jScrollPane1" alignment="1" pref="476" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="jScrollPane1" noResource="true"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextPane" name="jTextPane1">
+          <Properties>
+            <Property name="contentType" type="java.lang.String" value="text/html" noResource="true"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xd;&#xa;  &lt;head&gt;&#xd;&#xa;&#xd;  &lt;/head&gt;&#xd;&#xa;  &lt;body&gt;&#xd;&#xa;    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;&#xa;&lt;h1&gt;Credits&lt;/h1&gt;&#xa;&lt;p&gt;&#xa;&lt;b&gt;TT - Tile Tools&lt;/b&gt; (and all code done by me) is open source and released und GPL 2.0.&#xa;&lt;/p&gt;&#xa;&lt;p&gt;All stuff I didn&#xb4;t do myself was taken from some accessable internet site. In my believe everything contained in this program is either done by myself or free to share. Some stuff I searched for, found and put into the game and can&#xb4;t seem to track down anymore. I&#xb4;m sorry if I miss some credits here. If a credit is missing it is &lt;b&gt;not&lt;/b&gt; because I don&#xb4;t want to give credit where it is due, but because I&#xb4;m such a scatterbrain, that I didn&#xb4;t keep track of things I found. If you are such a person, please contact me and I will certainly give credit!&lt;BR&gt;&#xa;If for some reason copyrighted work which is not free to use is contained, please contact me and I will remove it as soon as possible.&lt;/p&gt; &#xa;&#x9;&#xa;&#x9;&lt;P&gt; &lt;b&gt;Graphics:&lt;/b&gt;&lt;br&gt; &#xa;&#x9;&lt;i&gt;a)&lt;/i&gt; Some taken from:&lt;BR&gt;&#xa;&#x9;Homepage: &quot;http://www.reinerstilesets.de/&quot;&lt;i&gt;Reiner &quot;Tiles&quot; Prokein&lt;/i&gt;&lt;BR&gt;&#xa;&#x9;Thanks for making such a generous site. &lt;BR&gt;&#xa;&#xa;&#x9;&lt;i&gt;b)&lt;/i&gt; Jerry Huxtable, for the coding of image filters, and making them available:&lt;BR&gt;&#xa;&#x9;Homepage: &quot;http://www.jhlabs.com/&quot;&lt;BR&gt;&#xa;&#x9;&lt;BR&gt;&#xa;&#xa;&#x9;&lt;i&gt;c)&lt;/i&gt; WTactics, releasing there graphics under the GPL 2.0 license - &lt;b&gt;absolut fantastic!&lt;/B&gt;&lt;BR&gt;&#xa;&#x9;Homepage: &quot;http://wtactics.org/&quot;&lt;BR&gt;&#xa;&#x9;(see also README in image folder)&#xa;&#x9;&lt;BR&gt;&lt;BR&gt;&#xa;&#x9;&lt;/p&gt;&#xa;&#xa;&#x9;&lt;P&gt; &lt;b&gt;Coding:&lt;/b&gt;&lt;br&gt; &#xa;&#x9;&lt;i&gt;a)&lt;/i&gt; Scripting Bean Shell:&lt;BR&gt;&#xa;&#x9;Homepage: &quot;http://www.beanshell.org/&quot;&lt;BR&gt;&#xa;&#x9;&#xa;&#x9;&lt;i&gt;b)&lt;/i&gt; Glitter inspired by:&lt;BR&gt;&#xa;&#x9;Homepage: &quot;http://www.eigelb.at/&quot;&lt;BR&gt;&#xa;&#xa;&#x9;&lt;i&gt;c)&lt;/i&gt; Syntax highlighting:&lt;BR&gt;&#xa;&#x9;(shifted to my code base, corrected a bug and got rid of that &quot;I want to live forever&quot;- Thread!)&lt;br&gt;&#xa;&#x9;Homepage: &quot;http://ostermiller.org/syntax/&quot;&lt;BR&gt;&#xa;&#xa;&#x9;&lt;i&gt;g)&lt;/i&gt; Sun :-)&lt;BR&gt;&#xa;&#x9;For Java and Netbeans.&lt;br&gt;&#xa;&#x9;&lt;/p&gt;&#xa;&#xa;&#x9;&lt;P&gt; &lt;b&gt;Help:&lt;/b&gt;&lt;br&gt; &#xa;&#x9;&lt;i&gt;a)&lt;/i&gt; Javadoc2Help&lt;BR&gt;&#xa;&#x9;Homepage: &quot;http://javadoc2help.sourceforge.net/&quot; &lt;i&gt;&lt;/i&gt;&lt;BR&gt;&#xa;&#xa;&#x9;&lt;i&gt;b)&lt;/i&gt; HelpSetMaker:&lt;BR&gt;&#xa;&#x9;Homepage: &quot;http://www.cantamen.de/helpsetmaker.php&quot;&lt;BR&gt;&#xa;&#x9;&lt;/p&gt;&#xa; &lt;/p&gt;&#xd;&#xa;  &lt;/body&gt;&#xd;&#xa;&lt;/html&gt;&#xd;&#xa;" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="jTextPane1" noResource="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

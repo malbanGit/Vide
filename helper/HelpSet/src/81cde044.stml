@@ -1,0 +1,39 @@
+:title Thanks!
+
+Vide is a collection of different sources - and some new creations - in a single application.
+It is a **V**ectrex **I**ntegrated **D**evelopement **E**nvironment.
+
+It as of now consists of:
+- a java port of the vecx emulator (by me - Malban)~~
+The port is a port of a port and reaches back to the original author: //Valavan Manohararajah// of whom I can't find a valid homepage. Copyright status to me unkown, but as often as that code was used, I guess it is "freely distributable".~~ ~~The port also has some enhancements, as you will notice.~~ ~~This part will be called **vecxi** further on.~~ ~~
+
+
+- a java port (by me - Malban) (or should I say a complete rewrite? - not much of the original code is left) of DASM6809, which I am sure also is a port of a port of a rewrite. Originally developed by //Sean Riddle//, Copyright (c)1995 Sean Riddle (freely distributable... see source files).~~ ~~ 
+The port also has some enhancements/changes, as you will notice.~~
+ ~~This part will be called **dissi** further on.~~ ~~ 
+
+- a code adaption of a java 6809 assembler called "asmj".~~ (sourceforge: [[http://sourceforge.net/projects/asmj/]]) developed by //Bill Yakowenko//. ~~The sources in the sourceforge zip, the svn version and the binaries are not complete nor compatible. I tried reaching out to the author, but have received no feedback yet. I fixed the part I am interested in - so that it works for me. The source is public domain.
+~~
+ ~~This part will be called **assi** further on.~~ ~~ 
+
+- a set of editor classes, done by me. Syntax highlighting uses a modified version of "Syntax", a package done by (c) //Stephen Ostermiller// ([[http://ostermiller.org/syntax/]] ), the source is distributed under GNU V2 or later license (... see source files). M6809 Syntax JFlexed by me - Malban. 
+~~
+ ~~This part will be called **vedi** further on.~~ ~~ 
+
+- a set of vector editor classes, done by me. Hm... didn't really reuse any other software here... something is wrong.
+~~
+ ~~This part will be called **vecci** further on.~~ ~~ 
+
+- perhaps more will follow, like: ~~some sound editing, ~~or ym-stuff, ~~or bitmap to vectrex conversion... ~~ ~~
+who knows where all paths lead...~~ ~~
+You can start thinking about som **funni** names :-)
+
+The icons on display are taken from "famfamfam.com" a website of Mark James, a web developer from Birmingham, UK. ~~
+[[http://www.famfamfam.com/lab/icons/silk/]]~~
+~~
+The icons can also be used under Creative Commons Attribution 3.0 License (Hi Debian folks!) with the following requirements:
+
+:div gray
+As an author, I would appreciate a reference to my authorship of the Silk icon set contents within a readme file or equivalent documentation for the software which includes the set or a subset of the icons contained within. 
+:/div
+~~Thanks a lot Mark!

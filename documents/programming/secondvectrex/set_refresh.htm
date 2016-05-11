@@ -1,0 +1,38 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Set_Refresh</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Set_Refresh ($F1A2)</p>
+
+<p>This routine loads the refresh timer (t2) with the value in
+$C83D- $C83E, and recalibrates the vector generators, thus
+causing the pen to be left at the origin (0,0). The high order
+byte for the timer is loaded from $C83E, and the low order byte
+is loaded from $C83D. The refresh rate is calculated as follows:</p>
+
+<p>rate = (C83E)(C83D) / 1.5 mhz </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $D0</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<p>D-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F1A2">Source</a></p>
+</body>
+</html>

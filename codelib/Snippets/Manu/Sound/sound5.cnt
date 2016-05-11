@@ -1,0 +1,127 @@
+BANK 0
+LABEL $F192 WAITRECAL
+LABEL $F256 BYTE2SNDCHIP
+LABEL $F272 CLEARSOUND
+LABEL $F1BA READBUTTONS
+LABEL $C881 soundflag
+COMMENT_LABEL $C881 This one is used to determine
+LABEL $010B musa
+LABEL $0028 player
+LABEL $0037 keepplaying
+LABEL $003A buttonread
+COMMENT_LABEL $003A Then let's read the buttons
+LABEL $004A nappi2
+LABEL $0067 play
+LABEL $0053 nappi3
+LABEL $0090 play2
+LABEL $005C nappi4
+LABEL $00B9 play3
+LABEL $00E2 play4
+COMMENT_LINE $0000 A little program the plays a different tone
+COMMENT_LINE $0000 when pressing controller 1 buttons 1-4
+COMMENT_LINE $0000 not completely explained, but by studying a little bit
+COMMENT_LINE $0000 more and applying this code to your own program, you
+COMMENT_LINE $0000 should be able to make simple sound effects.
+COMMENT_LINE $0000 Manu [man@sci.fi] / 2002
+COMMENT_LINE $0000 how long a tone is playing
+COMMENT $001F Reset soundflag
+COMMENT $0022 Read buttons for comparison
+COMMENT $0025 And stop all sounds possibly playing
+COMMENT $0028 The actual program
+COMMENT $002E If there is a sound playing
+COMMENT_LINE $0030 (pressing any button sets this to 10)
+COMMENT $0030 Then keep playing
+COMMENT $0032 Unless soundflag reaches zero
+COMMENT $0035 In that case, read the buttons
+COMMENT $0037 Decrease soundflag, so the playing time
+COMMENT_LINE $003A of each 'note' is for 10 cycles
+COMMENT $003F No buttons pressed -> loop back
+COMMENT $0041 Otherwise check if it was button 1
+COMMENT $0043 no, it wasn't -> nappi2
+COMMENT $0045 yes it was -> play
+COMMENT $0048 and when returning, loop back
+COMMENT $004A check if it was button 2
+COMMENT $004C no, it wasn't -> nappi3
+COMMENT $004E yes it was -> play2
+COMMENT $0051 and when returning, loop back
+COMMENT $0053 check if it was button 3
+COMMENT $0055 no, it wasn't -> nappi4
+COMMENT $0057 yes it was -> play3
+COMMENT $005A and when returning, loop back
+COMMENT $005C check if it was button 4
+COMMENT $005E no, it wasn't -> loop back
+COMMENT $0062 yes it was -> play4
+COMMENT $0065 and when returning, loop back
+COMMENT_LINE $0067 Play the sound for button 1
+COMMENT $0067 Modify Register 1
+COMMENT $0069 Tone Frequency = #$0XX
+COMMENT $006C Set register
+COMMENT $006F Modify Register 0
+COMMENT $0071 Tone Frequency = #$Xff
+COMMENT $0074 Set register
+COMMENT $0077 Modify Register 8
+COMMENT $0079 Volume=15
+COMMENT $007B Set register
+COMMENT $007E Modify Register 7
+COMMENT $0080 Get previous value for reg 7
+COMMENT $0083 Turn on Tone on Voice 1
+COMMENT $0085 Turn off Noise on Voice 1
+COMMENT $0087 Set register
+COMMENT $008A Set soundflag to 10
+COMMENT $008F And return to main program
+COMMENT_LINE $0090 Play the sound for button 2
+COMMENT $0090 Modify Register 1
+COMMENT $0092 Tone Frequency = #$0XX
+COMMENT $0095 Set register
+COMMENT $0098 Modify Register 0
+COMMENT $009A Tone Frequency = #$Xff
+COMMENT $009D Set register
+COMMENT $00A0 Modify Register 8
+COMMENT $00A2 Volume=15
+COMMENT $00A4 Set register
+COMMENT $00A7 Modify Register 7
+COMMENT $00A9 Get previous value for reg 7
+COMMENT $00AC Turn on Tone on Voice 1
+COMMENT $00AE Turn off Noise on Voice 1
+COMMENT $00B0 Set register
+COMMENT $00B9 Modify Register 1
+COMMENT $00BB Tone Frequency = #$0XX
+COMMENT $00BE Set register
+COMMENT $00C1 Modify Register 0
+COMMENT $00C3 Tone Frequency = #$Xff
+COMMENT $00C6 Set register
+COMMENT $00C9 Modify Register 8
+COMMENT $00CB Volume=15
+COMMENT $00CD Set register
+COMMENT $00D0 Modify Register 7
+COMMENT $00D2 Get previous value for reg 7
+COMMENT $00D5 Turn on Tone on Voice 1
+COMMENT $00D7 Turn off Noise on Voice 1
+COMMENT $00D9 Set register
+COMMENT $00E2 Modify Register 1
+COMMENT $00E4 Tone Frequency = #$0XX
+COMMENT $00E7 Set register
+COMMENT $00EA Modify Register 0
+COMMENT $00EC Tone Frequency = #$Xff
+COMMENT $00EF Set register
+COMMENT $00F2 Modify Register 8
+COMMENT $00F4 Volume=15
+COMMENT $00F6 Set register
+COMMENT $00F9 Modify Register 7
+COMMENT $00FB Get previous value for reg 7
+COMMENT $00FE Turn on Tone on Voice 1
+COMMENT $0100 Turn off Noise on Voice 1
+COMMENT $0102 Set register
+COMMENT $0105 Set soundflag to 10
+COMMENT $010A and return to main program.
+COMMENT $010B Silent song
+RANGE $0000-$0002 DB_DATA
+RANGE $0002-$000A CHAR_DATA
+RANGE $000A-$000B DB_DATA
+RANGE $000B-$0011 DW_DATA
+RANGE $0011-$001C CHAR_DATA
+RANGE $001C-$001E DB_DATA
+RANGE $001E-$010B CODE
+RANGE $010B-$010F DW_DATA
+RANGE $010F-$0111 DB_DATA
+

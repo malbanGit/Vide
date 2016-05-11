@@ -1,0 +1,99 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS LABORATORY</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Assembly Code Programming</H2>
+<H3>Notes on using the M6809 assembler in the lab</H3>
+<OL>
+<LI>Prepare the source file using the Editor program in the usual way. The filename
+should be given the extension <B>.asm</B> (e.g. test.asm).  
+The format must be as given
+below - if there is no label on a line there must be at least 
+one space character
+preceding the instruction mnemonic.
+<PRE>
+                                  org     $3000
+                                  ldx     #$C646
+                          loop    leax    -1,x
+                                  bne     loop
+                                  swi
+                                  end
+</PRE>
+Note that assembler directives do not have a dot preceding them and to obtain the
+# symbol it may be necessary to use the "pound" key (shift-3).
+
+<LI>Exit from the editor and type <B>asmset</B> to set up a path to the 
+directory in which the assembler is stored.  
+The source program is assembled by giving the command
+<B>asm6809</B> followed by the filename.  
+In order to generate a file containing a listing
+of the source and object programs it is necessary to give the command in the
+form below:-
+<PRE>
+                          asm6809 test.asm -l > test.lst
+</PRE>
+This redirects the output listing to a file called test.lst which can then be listed or
+printed.
+
+<LI>Errors in the source program can be corrected using the editor and then the
+program can be re-assembled using the procedure in (2).  Do not use the machine
+code from a listing which contains errors as these may invalidate code even if it
+appears to be correct.
+
+<LI>The assembler has a tendency to use direct page addressing. To ensure that
+extended addressing is used prefix the address with >.
+<PRE>
+                          e.g.   lda   >$fe00
+</PRE>
+</OL>
+<I>A.J.Tollyfield 26/10/93</I>
+
+<H3>Notes on downloading assembled programs in the lab</H3>
+<OL>
+<LI>When you have successfully assembled a program the assembler automatically
+creates an S19 file.  
+This is a file which contains the machine code version of your
+program in a special format known as S records which includes all the instruction
+bytes together with address information and error checking bytes.  The name of
+this file will be the same as the file you assembled but with a <B>.s19</B> extension.  
+I.e. if you assemble <B>test.asm</B> a file <B>test.s19</B> will be produced.  
+This is the file which will be downloaded to the lab-kits.
+
+<LI>Two programs are required to download the S19 file, one running on the PC and
+one on the lab-kit.  
+To run the program on the PC type <B>asmset</B> to set up a path to
+the directory where the program is located, then <B>download</B> to run the 
+downloading program.
+The settings for the serial link are displayed and you are requested to type the
+name of the file to be downloaded.  
+Type the name <B>without</B> the S19 extension.  
+If the file exists the download program asks you to press any key to start
+transmission.  <B>Do not do this yet.</B>
+
+<LI>Make sure the serial link from the PC is plugged into the correct 
+connector on the lab-kit.  
+This is the <B>left-hand</B> connector viewing the <B>kit from the front.</B>
+
+<LI>On the lab-kit, make sure the normal prompt is displayed <B>Cmd/Add></B> 
+and start running the program by typing <B>E5C0 G</B>. 
+The screen will go blank.
+
+<LI>Press any key on the PC to start the process. 
+A dot will be displayed for each byte sent.  
+If the file is transferred successfully the PC will display an appropriate
+message and the lab-kit will display <B>Trans O.K.</B> 
+before returning to command mode.  
+If an error occurs the lab-kit will display <B>Trans Error.</B>  
+In this case the procedure should be repeated.
+</OL>
+<I>A.J.Tollyfield 25/10/94</I>
+<hr>
+See a <A HREF="sample.txt">sample program</A> written in assembler format.
+
+<hr>
+<A HREF="micros.htm">Lecture notes</A>
+
+</BODY>
+</HTML> 
+

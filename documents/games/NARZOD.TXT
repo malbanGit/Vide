@@ -1,0 +1,136 @@
+Fortress of Narzod 
+------------------
+   A long time ago, before our history began, wizards -- both good and evil --
+battled for supremacy of the earth.  It was a time of magic and adventure when
+all men possessed special powers.
+   The most evil wizard, Narzod, gained the power to enslave all mankind.  You
+are the only remaining honorable wizard with the knowledge to harness all the
+forces of good to defeat Narzod and destroy his sinister fortress.  But Narzod
+has prepared for your approach and guards his realm with deadly creatures of
+darkness, including the Mystic Hurler.  Beware, and approach the Fortress of
+Narzod with great caution!
+
+Controls
+--------
+Joystick: Moves your hovercraft.
+Button 1: Select number of players.
+Button 2: Select skill level (1 is easiest).
+Button 3: Unused.
+Button 4: Fire.
+
+Game Play
+---------
+   Your goal in the Fortress of Narzod is to successfully travel a series of
+three roadways leading to the Fortress then destroy the powerful Mystic Hurler
+who acts as guardian to Narzod himself.  Once the Mystic Hurler is destroyed,
+the Fortress of Narzod and all the evil it contains will disintegrate before
+your eyes.
+
+Lower Roadway
+-------------
+   As the game begins, you find your hovercraft at the base of the Lower
+Roadway.  You have been sighted by Narzod and he immediately releases his lead
+guardians -- the DoomGrabbers.  Like all other guardians of the fortress, they
+will randomly release deadly Spikers which will destroy your hovercraft on
+contact.  (Contact with any of the guardians will also destroy you.)  Use your
+joystick to move your hovercraft and push button 4 to activate the blaster in
+an attempt to destroy DoomGrabbers and their Spikers.  After destroying all
+DoomGrabbers, you must face the Tarantulas, then the Ghouls.
+   You may fire continuously by holding down button 4, but be careful, your
+bullets can ricochet off the roadway walls directly back into your hovercraft.
+
+Middle Roadway
+--------------
+   On the Middle Roadway, you will face the same types of guardians, however
+Narzod will send them in greater numbers.  You will also face two more
+challenges -- the Spikers thrown by the guardians will split in half when hit
+by your blaster to double the danger, and Warbirds will accompany each wave of
+DoomGrabbers, Tarantulas and Ghouls.
+   The Warbirds on the Middle Roadway can only harm you if they are allowed to
+make contact with your hovercraft.  You can also use them to your advantage,
+blasting them while they are directly over the roadway.  When blasted, they
+will act as shields from the guardians' Spikers.  However, they will only
+shield you for a short amount of time and will eventually disappear.
+
+Upper Roadway
+-------------
+   You will again face the same types of guardians as you have on the previous
+roadways, only in even greater numbers.  As on the Middle Roadway, the
+guardians' Spikers will split in half when blasted and you will also face the
+Warbirds.  However, the Warbirds on the Upper Roadway will fire upon you with
+bullets if they come within range of your hovercraft.
+
+The Fortress
+------------
+   If you are able to destroy all three waves of guardians on the Upper
+Roadway, you will be allowed to pass through the final guard tower into the
+Fortress of Narzod itself.  Upon entering, you will find yourself face-to-face
+with the Mystic Hurler -- a creature so evil, even Narzod himself trembles in
+fear.  The Mystic Hurler will aim an unlimited number of Spikers directly at
+your hovercraft and on either side of you to ensure that you will not progress
+any further.  The Spikers will split in half when hit by your blaster.
+   In order to destroy the Mystic Hurler, you must hit it with your blaster SIX
+times.
+
+Hovercraft
+----------
+   You are provided with six hovercrafts per game and unlimited ammunition.
+One extra hovercraft is earned for destroying the Mystic Hurler.  Up to nine
+extra hovercrafts will be displayed by a numeral.  Any earned hovercrafts over
+nine will be represented by [an infinity sign].
+
+Direct Hits
+-----------
+   Your hovercraft will be destroyed whenever any of the following occurs:
+    - Contact with one of the guardians or their Spikers.
+    - Contact with one of the Warbirds or their bullets.
+    - Contact with bullets from your own blaster that have ricocheted off the
+      Roadway's walls.
+   When you are hit, you will return to the same roadway level to face those
+guardians you have not yet destroyed.
+
+The Guardians
+-------------
+   All of the guardians to the Fortress of Narzod are under the spell of the
+evil wizard.  Their only goal is to destroy an unwanted visitor to the
+fortress.  They will move back-and-forth randomly across the roadway as they
+approach your hovercraft.
+   Each guardian can hurl one Spiker.  Their Spikers may be thrown at any time
+and at any downward angle.  When you reach the Middle and Upper Roadways, the
+guardians' Spikers will split in two -- doubling the danger.
+   The guardians become easier to destroy as they come closer to your
+hovercraft.  The farther they are up the roadway, the greater number of shots
+from your blaster it will take to eliminate them.
+
+Warbirds
+--------
+   The Warbirds are used as a secret and unpredictable weapon by the evil
+Narzod.  On the Middle Roadway, they can only cause you harm if they come into
+direct contact with your hovercraft.  On the Upper Roadway and beyond, Narzod
+arms the Warbirds with powerful bullets that will fire directly at your
+hovercraft if they are not destroyed or avoided.  Remember, you can us all
+Warbirds to your advantage as shields from the guardians' Spikers.
+
+Mystic Hurler
+-------------
+   After you have passed through the third guard tower, you will be
+face-to-face with the Mystic Hurler.  It is supplied with an unlimited number
+of Spikers which will be thrown directly at your hovercraft and to either side
+and will split in two when hit by your blaster.
+
+Scoring
+-------
+Points are awarded for blasting guardians on the roadways as follows:
+   Guardian Type                        Points
+------------------------------------------------------------
+DoomGrabbers                              10
+Tarantulas                                10
+Ghouls                                    10
+Warbirds                                 100
+Mystic Hurler                             10 (And a bonus hovercraft)
+Standard Spiker                           50
+Split Spiker                             100
+
+
+z_morganrw@ccsvax.sfasu.edu
+

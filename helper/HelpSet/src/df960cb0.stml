@@ -1,0 +1,19 @@
+:title vinfi
+:image vinfi.png|vinfi window
+
+Vector information window.~~
+Here you can see some data of a selected vector. The data shown are:
+- the coordinates
+- a tooltip displays the distance
+- intensity of the vector
+- the PC where the ~BLANK signal became 1 (when the vector was finished drawing)
+- and the callstack at that time
+- double click on PC will initiate jump to that address in dissi
+- double click on a callstack address will initiate jump to that address in dissi
+
+Notice:~~
+The callstack is not the contents of the stack!~~
+The callstack only has "subroutine"-return-adresses!
+
+**Mouse**~~
+Below the callstack, while moving over the emulation window, you can see the mouse-coordinates displayed. These coordinates are calculated to represent the actual integrator values needed for that position. This means the mouse coordinates are displayed in vectrex integrator/coordinates.

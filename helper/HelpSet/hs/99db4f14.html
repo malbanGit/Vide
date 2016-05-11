@@ -1,0 +1,63 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>vecxi</title>
+</head>
+<body class="doc">
+<h1>vecxi</h1>
+<br><p align="center">
+<img src="pics/vecxi.png" width="531" height="678"><br>
+<em>vecxi emulation window</em></p><br>
+
+<p>Emulation wise this is the heart of VIDE.  In the above example you can see the wonderful implementation of Cleansweep in the emulator.</p>
+
+<p>The shown window is a preliminary version, I am sure the final output will be different!</p>
+
+<p>In short: <br>
+
+<ul><li>
+<p><img src="pics/folder_go.png" alt="folder_go.png"> <b>&nbsp;&nbsp;load</b><br>
+ a new vectrex file (doesn't start the emulation)</p>
+</li><li>
+<p><img src="pics/control_play.png" alt="control_play.png"> <b>&nbsp;&nbsp;start</b><br>
+ running (if in debug mode, do a single step) (if SHIFT is held, it resets the current loaded rom)</p>
+</li><li>
+<p><img src="pics/control_pause.png" alt="control_pause.png"> <b>&nbsp;&nbsp;pause</b><br>
+</p>
+</li><li>
+<p><img src="pics/control_stop.png" alt="control_stop.png"> <b>&nbsp;&nbsp;stop</b><br>
+ (unloads the current rom)</p>
+</li><li>
+<p><b>load</b><br>
+ well - load a state (only one savestate possible as of now)</p>
+</li><li>
+<p><b>save</b> <br>
+ save a state</p>
+</li><li>
+<p><img src="pics/pencil.png" alt="pencil.png"> <b>&nbsp;&nbsp;enable lightpen</b><br>
+ (only in port 2 as of now)</p>
+</li><li>
+<p><img src="pics/color_wheel.png" alt="color_wheel.png"> <b>&nbsp;&nbsp;enable imager</b><br>
+ (not done yet)</p>
+</li></ul>
+</p>
+
+<p>Emulation and debuggings wise, vecxi is the center of VIDE. Once you load a rom and start emulation, a "dissi" window will pop up (if not already open).</p>
+
+<p>From dissi you can access all other debugging utilities VIDE has to offer. . .</p>
+
+<p>Some features:
+<ul><li>
+<p>If in debug mode, vecxy will display the "current" drawn vector in yellow, rather than white.</p>
+</li><li>
+<p>If in debug mode, vecxy will display the drawn vectors in the "current" refresh cycle in BRIGHTER white than "older" vectors.</p>
+</li><li>
+<p>vecxy can be told (mainly usable in debug mode, otherwise there is just a "blur") to draw a small circle at the current "integrator position", so you can follow the virtual beam</p>
+</li><li>
+<p>vecxy can be told to draw "arrows" rather than vectors, so you can see the direction of all vectors</p>
+</li><li>
+<p>many more...</p>
+</li></ul>
+</p>
+</body>
+</html>

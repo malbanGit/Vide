@@ -1,0 +1,261 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 17</H2>
+<H3>SRAM and DRAM</H3>
+
+          We have looked at some of the ROM devices which can be used in a
+          small microcomputer system and at some of the different
+          technologies which are used to make them. The same technologies
+          are also available for read/write memory, commonly called RAM.
+<P>
+          In addition when we look at the most common type, NMOS, there are
+          two categories of memory device; static RAM and dynamic RAM.
+
+<H2>Static RAM</H2>
+
+          In a static memory device the data bits are stored in a simple
+          flip/flop circuit consisting of two cross-coupled transistors.
+          The data is thus stored permanently as long as power is supplied.
+          The advantage of this arrangement is simplicity - the
+          disadvantages are that each memory cell consumes power all the
+          time so the overall power consumption is high and also the memory
+          cell requires two transistors plus load resistors (usually also
+          transistors) in addition to select transistors making the circuit
+          relatively large to construct.
+<P>
+One example of a CMOS static RAM cell is shown below.
+<P>
+<CENTER>
+<IMG SRC="6809cmos.gif">
+</CENTER>
+
+<H2>Dynamic RAM</H2>
+
+          The alternative is dynamic RAM which uses a very  simple single
+          transistor memory cell in which the data is stored  on the gate of
+          an MOS transistor.  This charge turns the transistor on if it is
+          present thus making it possible to read the data.  The main
+          problem is that the charge leaks away slowly and data will be
+          lost if it is not refreshed periodically (typically every 2ms).
+          The process of reading the data also refreshes it, so effectively
+          every bit of memory must be read every 2ms.  
+<P>
+<CENTER>
+<IMG SRC="dramc.gif">
+</CENTER>
+<P>
+
+To reduce the amount
+          of time spent in refreshing each memory chip is organised as a
+          matrix of cells and when a bit in any row is read the entire row
+          (of perhaps 256) cells is refreshed.  Thus to refresh the entire
+          chip one read operation has to be performed on every row (again
+          typically 256).  Also all the chips in the system can have their
+          row addresses connected together so that the same row in every
+          chip is refreshed at the same time.  Thus only 256 read cycles are
+          needed every 2ms to keep the memory intact.  A dynamic memory
+          controller ensures that at regular intervals a memory refresh
+          cycle takes place on the next row - often this can be done when
+          the processor is not accessing memory but sometimes it is
+          necessary to make the processor wait while the refresh takes
+          place.
+<P>
+          The big advantage of dynamic memory which makes the extra
+          complication of refreshing worthwhile is that because of the
+          simplicity of the memory cell very many more bits can be fitted
+          on the same size of chip (typically a factor of 8).  Thus while
+          1MBit memory chips are commonplace (and 4 MBit available) static
+          memory devices 64 kByte is a more typical size.  Another advantage
+         is that unless the cell is being read from or written to it does
+         not consume any power.  Thus the overall power consumption is much
+         lower.
+<P>
+         Another problem in dynamic memories is that the capacitor on
+         which the charge is stored is so small that a single ionising
+         particle passing through it can sufficiently disrupt the charge
+         pattern so as to cause a mis-read of the data.  Thus in large
+         memory systems, and ones where data integrity is crucial memory
+         checking is necessary - either a simple parity check by adding
+         one more bit to each word or a more complex check allowing
+         correction which will add several bits to each word.
+<P>
+The address inputs to a DRAM are multiplexed into ROW and COLUMN addresses
+by a DRAM controller (or other multiplexing hardware). 
+<P>
+For example, a small 64K x 1 DRAM chip (4164) has the pinout below:
+<P>
+<CENTER>
+<IMG SRC="68094164.gif">
+</CENTER>
+<P>
+This is a 64K bit device and 64K bits of memory needs 16 address lines.
+First, half of the 16 address lines are applied to the DRAM's A0-A7 
+with /RAS (and latched internally).
+Then the other half of the 16 address lines are applied to the DRAM's A0-A7 
+with /CAS as shown below.  
+<P>
+<CENTER>
+<IMG SRC="6809dram.gif">
+</CENTER>
+
+<H2>Bit and Word Organised Memories</H2>
+
+         There are two ways in which any memory device can be organised.
+         Either each chip can store one bit of a word, thus requiring 8
+         such chips to make a memory system capable of storing 8-bit
+         words, or each chip can store a number of complete 8-bit words.
+         In a memory system storing say 64 Kbytes the total number of chips
+         would be the same, either 8 chips each storing 64 Kbits or 8 chips
+         each storing 8 kBytes.  There are three reasons for choosing the
+         former.  The first is that the total number of connecting pins on
+         the one bit chip is fewer than the byte chip.
+<PRE>
+                             Address lines       Data lines      Total
+              1 bit chip          16                   1          17
+              8 bit chip          13                   8          21
+</PRE>
+         This means that the bit organised chip is physically smaller than
+         the byte organised one.
+<P>
+         The second reason relates to the connections to the chips on the
+         printed-circuit board.  In the first case each data bus line only
+         connects to one chip while in the second each data bus line
+         connects to 8 chips.  This means the loading on the data bus is
+         considerably higher (therefore requiring extra drivers or a
+         degradation in speed) and also that considerably more space is
+         required for the connections on the PCB
+<P>
+         The third reason is that extra address decoding is required since
+         only 13 of the address lines go to each chip therefore the other
+         3 have to be decoded (1 of 8) to drive chip select inputs.
+<P>
+         Why have byte or word organised chips at all then?  The answer is
+         that in some systems, particularly small dedicated microprocessor
+         ones, only a small amount of memory is needed.  For example if
+         only 16 kBytes is needed then this can be satisfied with two
+         8 kByte chips whereas using bit-organised would require 8. Thus
+         both types of device have a role in system design.
+
+<H2>Address Decoding</H2>
+
+	  When an address is presented to a memory chip it must obviously
+          select one bit or one word depending upon which type of chip it
+          is. This process of selecting which memory cell is selected is
+          known as address decoding.  The process is usually carried out in
+          stages.  As we have already seen, one stage is selecting one of
+          the many memory or interface devices in the system.  For a given
+          address only one chip will be selected if we have byte organised
+          memory or one group of 8 chips will be selected if we have byte-
+          organised.
+<P>
+          The on-chip decoding takes place in two stages.  The address
+          connections are divided into two approximately equal groups one
+          group selects the row in the memory matrix in which the required
+          cell is located and the other group selects the column.  The row
+          address decoder wil consist of buffers and inverters which make
+          each address line and its complement available.  AND gates then
+          pick out every combination of addresses - thus the first row
+          (row0) will be:-
+<PRE>
+               row0         /A7./A6./A5./A4./A3./A2./A1./A0
+               rowl         /A7./A6./A5./A4./A3./A2./A1. A0
+               row2         /A7./A6./A5./A4./A3./A2. Al./A0
+		..
+               row254        A7. A6. A5. A4. A3. A2. A1./A0
+               row255        A7. A6. A5. A4. A3. A2. A1. A0
+</PRE>
+          When a particular row is selected then the outputs of every
+          cell in that row will be made available on the column data lines.
+          The column address is decoded in the same way using addresses A8
+          to A16 and this decoded signal is used to select one out of these
+          256 outputs to be fed to the single output pin (assuming bit
+          organisation).  If the chip is byte organised then only five
+          column address lines will be used and decoded to give 1 out of
+          32. This signal then selects a group of 8 out of the 256
+          available outputs to be fed to the output pins.
+
+<H2>Chip Select Inputs</H2>
+
+          All memory chips have at least one chip select input.  If this input is
+          <I>FALSE</I> then the chip does not respond to any address on the address
+          bus.  Thus this is used both for higher level address decoding and
+          for timing.
+<P>
+          In a small system it is desirable to reduce the number of chips
+          as far as possible and this can be done by partial address
+          decoding as we have already seen.  This can be taken a step
+          further by providing several chip select inputs on memory and
+          interface devices, preferably some active high and some active
+          low.  For example suppose we have small 128 byte word organised
+          memory devices with six chip select inputs CS0 to CS5 where CS0
+          and CS3 are active high and the rest are active low.  In other
+          words the chip will only respond if the pattern 100100 is present
+          on the CS inputs.  Suppose also that we want to divide memory
+          space such that below $8000 we have RAM, from $8000 to $BFFF is
+          for interfaces and above $C000 is ROM.  In the RAM area we could
+          easily have a number of such memory chips without requiring any
+          additional address decoding.
+<CENTER>
+<PRE>
+A15 A14 A13 A12 All A10  A9  A8  A7  A6  A5  A4  A3  A2  Al  A0
+CS1 CS2                      CS4 CS5  |   To all chips	      |
+CS1 CS2                      CS4 CS0  |			      |
+CS1 CS2                      CS3 CS5  |			      |
+CS1 CS2                      CS3 CS0  |			      |
+</PRE>
+<PRE>
+                          A15 A14    A8   A7
+Chipl  $0000 to $007F      0   0      0   0
+Chip2  $0080 to $OOFF      0   0      0   1
+Chip3  $0100 to $017F      0   0      1   0
+Chip4  $0180 to $01FF      0   0      1   1
+Chipl  $0200 to $027F      0   0      0   0
+   etc.
+</PRE>
+</CENTER>
+          Notice that we have in fact used all six of the chip select
+          inputs in different combinations.  Notice also that because we
+          have not completely decoded the addresses the memory chips will
+          appear repeatedly for every different combination of  A9 to A13
+          i.e. each location will have 32 different addresses.
+<P>
+          Take a different example, where a system requires just
+          one 128 byte RAM, a 2Kbyte ROM and 3 PIAS. Each of them has
+          a different number of chip select inputs
+<PRE>
+               2708       2 Kbyte ROM        /CS
+               6810       128 byte RAM       CS0 /CS1 /CS2 CS3 /CS4 /CS5
+               6821       PIA (4 locations)  CS0  CS1 /CS2
+</PRE>
+          As we know the  ROM must be at the top of memory and since we have
+          only one chip select we have to allocate half of memory from
+          $8000 to $FFFF to this one device.  We use A15 through a NAND gate
+          with E (Enable) to do this.
+<P>
+          It is normal to put the RAM at location 0 upwards - we can do
+          this by connecting A15 and A14 to /CS1 and /CS2.  Enable is
+          connected to CS0 to enable RAM only when Enable is 1.
+<P>
+          The PIAs can be allocated memory from $4000 upwards by connecting
+          A15 to /CS2 and A14 to CS1.  The remaining CS0 must separate the
+          three so we can connect A2 to CS0 in one case, A3 in the second
+          and A4 in the third.  Thus we have:-
+<PRE>
+                     PIA1 $4004 to $4007
+                     PIA2 $4008 to $400B
+                     PIA3 $4010 to $4013
+</PRE>
+          A danger in doing this is that if the processor outputs an address
+          with A2, A3 and A4 all '1' then all three devices will respond.  Such
+          an address would be $401F.  Clearly the programmer would have to
+          take great care to avoid such a situation.   This situation only occurs
+	  when partial address coding is used,
+
+<<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up18.htm">Next</A> |</CENTER>
+
+</BODY>
+</HTML>

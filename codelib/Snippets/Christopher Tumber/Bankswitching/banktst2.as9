@@ -1,0 +1,84 @@
+;Bank Switching demo
+;
+;by Christopher L. Tumber
+;
+;Demonstrates Bankswitching techniques.
+;
+;Load banktst1.bin at $0000 and banktst2.bin at $8000
+;
+;Press button 1 and button 2 to switch between banks.
+;
+;This is Bank 2
+
+read_switches           EQU     $f1b4
+print_at_d              EQU     $f37a
+waitrecal               EQU     $f192
+move_pen7f_to_d         EQU     $f2fc
+
+user_RAM        EQU     $c880
+
+
+
+        ORG     $0000
+
+; Magic Init Block
+
+        FCB     $67,$20
+        FCC     "GCE     "
+        FCB     $80
+        FDB     music
+        FDB     $f850
+        FDB     $30c0
+        FCC     "BANK 2"
+        FCB     $80,$0
+
+start:
+      jsr waitrecal
+      ldd #0
+      jsr move_pen7f_to_d
+      ldd #00
+      ldu #bankstring
+      jsr print_at_d
+
+      lda #$ff
+      jsr read_switches      
+
+      lda $c812
+      bne bank1
+      lda $c813
+      bne bank2
+      bra start
+
+bank1:
+      ldd #$dfff
+      std $d002
+      ldd #$100
+      std $d000
+      ldd #$987f
+      sta $d00b
+      stb $d004
+      jmp start
+bank2:
+      ldd #$9fff
+      std $d002
+      ldd #$100
+      std $d000
+      ldd #$987f
+      sta $d00b
+      stb $d004
+      jmp start
+
+
+bankstring: FCC "BANK 2"
+        FCB     $80,$0
+         
+
+music:
+          FDB     $fee8
+          FDB     $feb6
+          FCB     $0,$80
+          FCB     $0,$80
+
+
+
+

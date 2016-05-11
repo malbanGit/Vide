@@ -1,0 +1,50 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Print_Ships(_x)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Print_Ships_x ($F391)</p>
+
+<p>Print_Ships ($F393)</p>
+
+<p>This routine displays the number of ships passed in the B
+register followed by a minus sign and the ship icon character
+passed in the A register at the (y,x) coordinates passed in the X
+register. If the B-register &gt; 9, then the infinity symbol is
+displayed. </p>
+
+<p>Note: This routine uses bytes at a negative offset from the
+stack as temporary storage, so hopefully an IRQ won't happen
+until the string is finished bring printed! </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $D0</p>
+
+<p>A-reg = ship icon character</p>
+
+<p>B-reg = number of ships</p>
+
+<p>X-reg = (y,x) coordinates (Print_Ships only)</p>
+
+<p>X-reg points to (y,x) coordinates (Print_Ships_x only)</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<p>D-reg, X-reg, U-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F391">Source</a></p>
+</body>
+</html>

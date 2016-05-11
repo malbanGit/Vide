@@ -1,0 +1,25 @@
+; codeGen pattern start
+                    LDD      #%YRELPOS%                   ; A = 0; B = Y 
+                    STD      VIA_port_b 
+                    LDB      #%XRELPOS% 
+                    LDA      #%PATTERN% 
+                    INC      VIA_port_b                   ;Disable mux 
+                    STB      VIA_port_a                   ;Send X to A/D 
+                    LDB      #$40                         ;B-reg = T1 interrupt bit 
+                    CLR      <VIA_t1_cnt_hi               ;Clear T1H 
+setPattern%UID%: 
+                    STA      <VIA_shift_reg               ;Store pattern in shift register 
+                    BITB     <VIA_int_flags               ;Wait for T1 to time out 
+                    BNE      lineDone%UID%  
+                    NOP                                   ;delay up to 18 cycles befor next shift 
+                    NOP      
+                    BRA      setPattern%UID%  
+
+lineDone%UID%: 
+                    BRA      delayBeforShift%UID%         ;delay up to 18 cycles befor next shift 
+
+delayBeforShift%UID%: 
+                    NOP      
+                    NOP      
+                    CLR      <VIA_shift_reg               ;Clear shift register (blank output) 
+; codeGen pattern end

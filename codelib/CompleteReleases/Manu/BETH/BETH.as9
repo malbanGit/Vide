@@ -1,0 +1,1022 @@
+; #######################################
+; ### Battle Earth Terror Hazard      ###
+; ### Version 0.30 (not final!)       ###
+; ### Last updated 24-07-2000	      ###
+; ### From http://pkp.cjb.net/vec     ###
+; ### Code & comments by man@sci.fi   ###
+; ### Special thanks to marq@iki.fi   ###
+; #######################################
+
+; Public domain for all Vecfreaks as long
+; as you don't publish this as your own,
+; or use the unfinished game as a base for
+; your game. Just let me finish this first,
+; okay? 
+
+; ############################
+; ### Needed BIOS routines ###
+; ############################
+
+WAITRECAL	equ	$f192	; BIOS recalibration
+INTENSITY	equ	$f2ab	; Beam brightness
+PRINTSTR	equ	$f37a	; String printing
+
+RESET0REF	equ	$f354	; Beam to the center
+MOVEPEN		equ	$f2fc	; Move beam
+MOVEDRAW	equ	$f3b7	; Draw with beam
+TXTHEIGHT	equ	$c82a	; Fonttikorkeus
+TXTWIDTH	equ	$c82b 	; Fonttileveys
+
+JOYDIGITAL	equ	$f1f8	; Reads joystick positions
+JOY1XENABLE	equ	$c81f	; Enables joystick 1 X
+JOY1YENABLE	equ	$c820	; Enables joystick 1 Y
+JOY2XENABLE	equ	$c821	; Enables joystick 2 X
+JOY2YENABLE	equ	$c822	; Enables joystick 2 Y
+JOY1X		equ	$c81b	; Joystick 1 left/right
+JOY1Y		equ	$c81c	; Joystick 1 up/down
+READBUTTONS	equ	$f1ba	; Reads joystick buttons
+
+OBJHIT		equ	$f8ff	; Checks object collision
+
+; ######################
+; ### Used variables ###
+; ######################
+
+alusx		equ	$c881	; Space ship x position
+alusy		equ	$c882	; Space ship y position
+
+bully		equ	$c883	; Bullet y position
+bullx		equ	$c884	; Bullet x position
+bulloop		equ	$c885
+
+fuelx		equ	$c886	; Fuel meter x position
+fueloop		equ	$c887	; Loop needed to slow down
+				; the fuel meter
+
+vihuy		equ	$c888	; Enemy y position
+vihux		equ	$c889	; Enemy x position
+vihuelo		equ	$c88a	; Enemy dead or alive
+vihuani		equ	$c88b	; Frame of enemy animation
+
+pojot		equ	$c890	; Score variable
+pojotxt		equ	$c892	; Score as text, needs
+				; 5 bytes of RAM.
+
+aika		equ	$c897	; Time variable
+aikatxt		equ	$c898	; Time as text, needs
+				; 5 bytes of RAM.
+
+aikaloop	equ	$c89c	; Loop to slow the timer
+
+lives		equ	$c89d	; Number of lives
+
+; ### Here we go. ###
+
+	org	0		; All programs start from 0
+
+; ################################
+; ### The required init block. ###
+; ### Changed a little bit to  ###
+; ### display multiple rows of ###
+; ### information and playing  ###
+; ### a song stored in ROM.    ###
+; ################################
+
+	fcb	$67,$20		 
+	fcc	"GCE MANU"
+	fcb	$80		; All text ends with $80
+	fdb	$fe38		; Play song "$fe38" from ROM
+        fcb     $f8,$50,$30,$c0 ; Width, height, y, x
+        fcc     'BATTLE'
+	fcb	$80,$f8,$50,$20,$c0
+        fcc     'EARTH'
+	fcb	$80,$f8,$50,$10,$c0
+        fcc     'TERROR'
+	fcb	$80,$f8,$50,$00,$c0
+        fcc     'HAZARD'
+	fcb	$80,0		; Init block ends with $0
+
+; ########################################################
+; ### Okay, this sets up the joystick checks, and only ###
+; ### allows them for joystick 1, thus saving us a few ###
+; ### hundred cycles. Don't forget to set joystick 2   ###
+; ### to 0, if you don't need it.                      ###
+; ########################################################
+
+	lda	#1		; 1 is the flag to enable
+	sta	JOY1XENABLE	; joystick 1 X
+	lda	#3		; 3 is the flag to enable
+	sta	JOY1YENABLE	; joystick 1 Y
+	lda	#0
+	sta	JOY2XENABLE	; 5 would enable this
+	sta	JOY2YENABLE	; 7 would enable this
+
+; ##############################################
+; ### Then setting some values to begin with ###
+; ##############################################
+
+	ldd	#0
+	std	pojot		; Set score to 0
+	lda	#3
+	std	lives		; And lives to 3
+
+; ###################################
+; ### We return here after we die ###
+; ### (nice to know, huh?)        ###
+; ###################################
+
+kohtu	lda	#-100		; Set the starting y-coordinate
+	sta	alusy		; of the space ship to -100
+	lda	#-20		; Set the starting x-coordinate
+	sta	fuelx		; of the fuel meter to -20
+	lda	#80		; Set the starting y-coordinate
+	sta	vihuy		; of enemy to 80
+	lda	#1		; Set the life state
+	sta	vihuelo		; of enemy to 1
+	lda	#$16
+	std	aika		; And time to 16
+	
+; #################################
+; ### Here's the actual program ###
+; #################################
+
+tikku	jsr	WAITRECAL	; BIOS recalibration
+
+; ### The space ship
+
+	jsr	RESET0REF	; Beam to the center
+	lda	#127
+	jsr	INTENSITY	; Sets intensity to 127
+	lda	alusy		; Y - coordinate
+	ldb	alusx		; X - coordinate
+	jsr	MOVEPEN
+	ldx	#alus		; Drawing the space ship
+	lda 	#17		; Number of vectors
+	ldb	#128		; Scaling
+	jsr	MOVEDRAW
+
+; ### The enemy
+
+	lda	vihuelo		; Is the enemy alive
+	cmpa	#0		; if not (lifestate=0)
+	lbeq	vready		; then skip drawing
+
+	jsr	RESET0REF	; Beam to the center
+	lda	vihuy		; Y	
+	ldb	vihux		; X - coordinate
+	jsr	MOVEPEN
+
+	inc 	vihuani		; Enemy animation
+	lda	vihuani		; Every time vihuani
+	cmpa	#10		; grows to 10, jump
+	bgt	frame2		; to draw frame2.
+	
+	ldx	#vihu		; Drawing the enemy
+	lda 	#16		; Number of vectors
+	ldb	#128		; Scaling
+	jsr	MOVEDRAW
+	bra 	animohi
+	
+frame2	ldx	#vihu2		; Drawing enemy frame2
+	lda 	#18		; Number of vectors
+	ldb	#128		; Scaling
+	jsr	MOVEDRAW
+	
+	lda	vihuani		; Drawing frame2 until
+	cmpa	#20		; vihuani is 20, then
+	bgt	fuusix		; jumping to fuusix
+	bra	animohi		; Otherwise continue
+
+fuusix	lda	#0		; Setting vihuani to 0
+	sta	vihuani
+
+; ###########################################
+; ### Here we move the enemy and          ###
+; ### check if it goes too 		  ###
+; ### much to the right or comes too low. ###
+; ### If it does, then we make it return  ###
+; ### to the left or/and up.  		  ###
+; ###########################################
+
+animohi 
+	lda	vihux		; Value of alusx to A
+	cmpa	#116		; Compare A to 116
+	bgt	vxiso		; If it is >116 -> vxiso
+	inc	vihux		; Increase vihux 
+	inc 	vihux		; Increase it again, I'm
+				; too lazy to make a loop
+				; for two times.
+				; (makes enemy go faster)
+	bra	vready		; Jump to vready		
+
+
+vxiso	lda	#-118		; Load 118 to A
+	sta	vihux		; Store A to alusx
+				; (moves enemy to left edge)
+
+	lda 	vihuy		; Compare enemy Y
+	cmpa	#0		; to 0.
+	blt	vihuylos	; If 0 -> vihuylos
+	adda 	#-10		; if not, make enemy
+	sta	vihuy		; go down more.
+	bra	vready	
+
+vihuylos
+	lda	#80		; Move enemy up
+	sta	vihuy		; Set vihuy to 80
+
+vready				; Done moving the enemy
+
+; #################################################
+; ### Next we mess with the fuel tank operation ###
+; ### making sure the 'meter' don't go too low  ###
+; ### or too high. Also making it go down if    ###
+; ### ship is in the air and go up if the ship  ###
+; ### is on the ground. 		        ###
+; #################################################
+
+	inc 	fueloop		; This loop makes
+	lda	fueloop		; sure that the fuel
+	cmpa	#5		; level goes down only
+	lbeq	esso		; every 5 cycles 
+	bra	fuelchecked	; (goes too fast otherwise)
+
+esso	lda	#0
+	sta	fueloop		; Fueloop back to 0
+
+	lda 	alusy		; If ship is on the ground
+	cmpa	#-100		; then jump to give more fuel
+	lbeq	tankkaus	; If alusy=-100 -> tankkaus
+				; If not then
+	lda	fuelx		; check if fuel tank 
+	cmpa	#-80		; is empty
+	lbeq	nofuel 		; if yes -> nofuel
+	dec	fuelx		; Ship is in the air
+				; use fuel, minimum -80
+	bra	fuelchecked
+
+nofuel	lda	#-80		; If fuel is gone
+	sta	fuelx		; don't let the meter
+	bra	fuelchecked	; go any lower
+
+tankkaus 
+				; Ship is landed, 
+	inc	fuelx		; more fuel
+	inc	fuelx		; more, more!!
+
+	lda	fuelx		
+	cmpa	#-21		; -21 is the maximum
+	bgt	ffuel		; If tank full -> ffuel
+				; bgt = branch if greater
+	bra	fuelchecked
+	
+ffuel	lda	#-21		; If tank is full, don't
+	sta	fuelx		; let the meter go higher
+
+fuelchecked			; All done with the fuel
+
+; #############################################
+; ### Fuel low and fuel out - warnings      ###
+; ### and what happens if the fuel runs out ###
+; #############################################
+
+	lda	fuelx		; Check if the fuel
+	cmpa	#-50		; meter is at 'half full'
+	blt	fuellow		; if yes -> fuellow
+	bra	nowarning	; if not -> nowarning
+
+fuellow
+	jsr	RESET0REF	; Beam to the center
+	lda	#80	
+	jsr	INTENSITY	; Intensity to 80
+	lda 	#-5 		; Height
+	ldb 	#40 		; Width
+	sta	TXTHEIGHT
+	stb	TXTWIDTH
+
+	lda	fuelx		; Check if fuel is out
+	cmpa	#-80		; If fuel is out
+	beq	fuelout		; jump to -> fuelout
+	
+	lda	#0		; Y	
+	ldb	#-25		; X
+	ldu	#tekst6 	; "FUEL LOW!"
+	jsr	PRINTSTR
+	bra	nowarning
+
+fuelout	lbra	offdeath	; Fuel out -> offdeath
+
+nowarning			; Done with fuel warnings
+
+; ### Time low - warning
+
+	lda	aika		; Load aika to A
+	cmpa	#$6		; If time is less than 6
+	blt	timelow		; then warn
+	bra	notwarn		; if not -> notwarn
+
+timelow
+	jsr	RESET0REF	; Beam to the center
+	lda	#80	
+	jsr	INTENSITY	; Intensity to 80
+	lda 	#-5 		; Height
+	ldb 	#40 		; Width
+	sta	TXTHEIGHT
+	stb	TXTWIDTH
+
+	lda	aika		
+	cmpa	#$0		; If time is 0
+	beq	timeout		; go to -> timeout
+		
+	lda	#20		; Y	
+	ldb	#-25		; X
+	ldu	#tekst7 	; "TIME LOW!"
+	jsr	PRINTSTR
+	bra	notwarn
+
+timeout	lda	#20		; Y	
+	ldb	#-25		; X
+	ldu	#tekst8 	; "TIME OUT!"
+	jsr	PRINTSTR
+
+	lda	lives		; If time has run out
+	deca			; take one life and
+	sta	lives		; jump back to "kohtu"
+	lbra	kohtu
+
+notwarn				; All done with Time
+				; Warner Company
+
+; ###################################
+; ### Let's draw a frame the area ###
+; ### Don't know how the Vectrex  ###
+; ### likes this, but looks much  ###
+; ### nicer to me and serves a    ###
+; ### purpose as well.		  ###
+; ###################################
+
+	jsr	RESET0REF	; Beam to the center
+	lda	#60
+	jsr	INTENSITY	; Intensity to 60
+	lda	#0		; Y
+	ldb	#0		; X
+	jsr	MOVEPEN	
+	ldx	#reunat		; Drawing the edges
+	lda 	#8		; Vectors
+	ldb	#128		; Scaling
+	jsr	MOVEDRAW
+
+; ##########################
+; ### And some landscape ###
+; ### Getting artistic   ###
+; ### here are we? 	 ###
+; ##########################
+
+	jsr	RESET0REF	; Beam to the center
+	lda	#30
+	jsr	INTENSITY	; Intensity to 30
+	lda	#-115		; Y
+	ldb	#-126		; X
+	jsr	MOVEPEN	
+	ldx	#city		; Drawing the edges
+	lda 	#28		; Vectors
+	ldb	#128		; Scaling
+	jsr	MOVEDRAW
+
+; ###################################
+; ### Name of the game to the top ###
+; ###################################
+
+	jsr	RESET0REF	; Beam to the center
+	lda	#80
+	jsr	INTENSITY	; Intensity to 100
+	lda 	#-5 		; Height
+	ldb 	#40 		; Width
+	sta	TXTHEIGHT
+	stb	TXTWIDTH
+	lda	#126		; Y	
+	ldb	#-126		; X
+	ldu	#tekst3 	; read the text
+	jsr	PRINTSTR
+
+; #########################################
+; ### Displaying and handling the SCORE ###
+; ### now I know there's a BIOS routine ###
+; ### for this, and I'll probably       ###
+; ### change it here sometime, but for  ###
+; ### now, here's how it works. Marq    ###
+; ### helped me a lot with this one.    ###
+; #########################################
+
+	jsr	RESET0REF	; Beam to the center
+	lda	#80
+	jsr	INTENSITY	; Intensity to 100
+	lda 	#-5 		; Height
+	ldb 	#40 		; Width
+	sta	TXTHEIGHT
+	stb	TXTWIDTH
+	lda	#-126		; Y	
+	ldb	#-126		; X
+	ldu	#tekst4 	; Get the text "FUEL SCORE"
+	jsr	PRINTSTR
+
+	clra
+	clrb
+	jsr	MOVEPEN		; Moves beam to 0,0
+
+; ######################################################
+; ### Converting the counter to a string 	            ###
+; ### located at 'pojotxt'		            ###
+; ### Okay, this is mostly done by Marq, so not much ###
+; ### commenting here yet. (Except in Finnish)       ###
+; ######################################################
+
+	lda	pojot		; Sanan ylempi tavu
+	tfr	a,b
+	lsra			; Tavun ylempi puolitavu
+	lsra
+	lsra
+	lsra
+	adda	#48		; numero+'0'=numero ASCIIna
+	sta	pojotxt
+	andb	#15		; Alempi puolitavu
+	addb	#48
+	stb	pojotxt+1
+
+	lda	pojot+1		; Sanan alempi tavu
+	tfr	a,b
+	lsra			; Tavun ylempi puolitavu
+	lsra
+	lsra
+	lsra
+	adda	#48
+	sta	pojotxt+2
+	andb	#15		; Alempi puolitavu
+	addb	#48
+	stb	pojotxt+3
+	
+	lda	#$80		; The end
+	sta	pojotxt+4
+
+	clra			; Displaying the string
+	clrb
+	lda	#-126
+	ldb	#100
+	ldu	#pojotxt
+	jsr	PRINTSTR
+
+; ###############################################
+; ### Ok, then we handle displaying the lives ###
+; ### There's probably better ways for this   ###
+; ### too, but here's how I solved it.	      ###
+; ### One thing I learned with this : never   ###
+; ### give label a name starting with a       ###
+; ### number. Just wont work. At least not    ###
+; ### with the assembler I'm using.           ###
+; ###############################################
+
+	jsr	RESET0REF	; Beam to the center
+	lda	#80
+	jsr	INTENSITY	; Intensity to 100
+	lda 	#-5 		; Height
+	ldb 	#40 		; Width
+	sta	TXTHEIGHT
+	stb	TXTWIDTH
+
+	lda	lives		; Check if the number
+	cmpa	#3		; of lives is 3, 
+	lbne	twolives	; if not -> twolives
+	
+	lda	#-126		; Y	
+	ldb	#20		; X
+	ldu	#lives3 	; 3 lives
+	jsr	PRINTSTR	
+	lbra	endlives
+
+twolives
+	lda	lives		; Check if the number
+	cmpa	#2		; of lives is 2
+	lbne	onelives	; if not -> onelives
+	jsr	RESET0REF	; Beam to the center
+	lda	#-126		; Y	
+	ldb	#20		; X
+	ldu	#lives2 	; 2 lives
+	jsr	PRINTSTR	
+	lbra	endlives
+
+onelives
+	lda	lives		; Check if the number
+	cmpa	#1		; of lives is 1
+	lbne	nolives		; if not -> nolives
+	jsr	RESET0REF	; Beam to the center
+	lda	#-126		; Y	
+	ldb	#20		; X
+	ldu	#lives1 	; 1 lives
+	jsr	PRINTSTR	
+	lbra 	endlives
+
+nolives	
+	lbra	gameover	; No lives -> gameover
+
+endlives			; Done with lives
+
+; ###############################
+; ### Now handling the timer  ###
+; ### in the top right corner ###
+; ### again based on Marq's   ###
+; ### code, so not much       ###
+; ### commenting yet.	      ###
+; ###############################
+
+	inc 	aikaloop	; Loop to make the timer
+	lda	aikaloop	; go down only on every
+	cmpa	#50		; 50th cycle.
+	blt	aikatulostus
+
+	lda	aika		
+	beq	nolla
+	adda	#$99		; BCD decreases like this
+	daa
+nolla	sta	aika
+
+	clra	
+	sta	aikaloop
+
+; ########################################
+; ### Converting time variable to a    ###
+; ### corresponding string. Just like  ### 
+; ### old times. (Like with the score) ###
+; ########################################
+
+aikatulostus	
+
+	lda	aika
+	tfr	a,b
+	lsra
+	lsra
+	lsra
+	lsra
+	adda	#48
+	sta	aikatxt
+	andb	#15
+	addb	#48
+	stb	aikatxt+1
+
+	lda	#$80		; Ends here	
+	sta	aikatxt+2
+
+	sta	#-30		; Displaying the time
+	clrb
+	lda 	#-10 		; Height
+	ldb 	#80 		; Width
+	sta	TXTHEIGHT
+	stb	TXTWIDTH
+	lda	#110		; Y	
+	ldb	#92		; X
+	ldu	#aikatxt
+	jsr	PRINTSTR
+
+; ##############################
+; ### Drawing the fuel meter ###
+; ##############################
+
+	jsr	RESET0REF	; Beam to the center
+	lda	#30
+	jsr	INTENSITY	; Intensity to 30
+	lda	#-126		; Y
+	ldb	#-80		; X
+	jsr	MOVEPEN	
+	ldx	#ftank		
+	lda 	#4		; Vectors
+	ldb	#128		; Scaling
+	jsr	MOVEDRAW
+
+	jsr	RESET0REF	; Beam to the center
+	lda	#100
+	jsr	INTENSITY	; Intensity to 30
+	lda	#-126		; Y
+	ldb	fuelx		; X
+	jsr	MOVEPEN	
+	ldx	#pati	
+	lda 	#4		; Vectors
+	ldb	#128		; Scaling
+	jsr	MOVEDRAW
+
+
+; #########################
+; ### Reads the buttons ###
+; #########################
+
+butt1	jsr	READBUTTONS	
+	cmpa	#0		; Compares a to 0
+	lbeq	lovejoy		; If it was 0 -> lovejoy
+				; Otherwise
+	bita	#$01		; Tests for button 1
+	lbeq	lovejoy		; If it wasn't button 1
+				; If it was button 1 ->
+
+	lda	alusy		; Load ship y position
+	sta	bully		; to bullet y position
+	lda	alusx		; and ship x position
+	sta	bullx		; to bullet x position
+				; So the bullet leaves
+				; from the tip of the 
+				; ship.
+
+bullet	jsr	RESET0REF	; Beam to the center
+	lda	#127
+	jsr	INTENSITY	; Intensity to 127
+	lda	bully		; Y
+	ldb	bullx		; X
+	jsr	MOVEPEN	
+	ldx	#pati		; Drawing the bullet
+	lda 	#4		; Vectors
+	ldb	#128		; Scaling
+	jsr	MOVEDRAW
+
+	lda	bully		; Value of bully to A
+	adda	#5		; Add bullet y with 5
+	sta 	bully
+
+; ################################################
+; ### Trying to find out if enemy has been hit ###
+; ### Gotta love that OBJHIT routine.	       ###
+; ### Thanks to Marq for some useful tips.     ###
+; ################################################
+
+	ldy	vihuy		; loads both y and x to Y
+			        ; because they're stored in
+				; that order in the RAM
+	ldx	bully		; loads both y and x to X
+	lda	#6		; enemy height/2
+	ldb	#8		; enemy width/2
+	jsr	OBJHIT
+	bcs	killnmy		; if hit -> killnmy
+	bra	missnmy		; if not -> missnmy
+
+killnmy	lda	#0		; Set the life status
+	sta	vihuelo		; of enemy to 0
+	lda	#-120		; Set the coordinates
+	sta	vihuy		; of enemy out of
+	lda	#-120		; bullets reach, so 
+	sta	vihux		; you can't get more
+				; points by shooting
+				; at an empty spot.
+
+; ##########################################
+; ### Again by Marq. You know the drill. ###
+; ### adding to the BCD-score counter    ###
+; ### (max 9999) 			 ###
+; ##########################################
+
+	lda	pojot+1
+	adda	#$10		; add 10 points
+	daa			
+	tfr	a,b
+	lda	pojot
+	adca	#0
+	daa
+	std	pojot
+
+; ######################################
+; ### If enemy was missed, draw more ###
+; ### bullets until enemy is hit or  ###
+; ### 10 bullets has been drawn.     ###
+; ### I think I might change the     ###
+; ### 'laser' later though. Would    ###
+; ### like to know how it looks like ###
+; ### on a real Vectrex.             ###
+; ######################################
+
+missnmy	inc	bulloop		; Grow loop	
+	lda	bulloop	
+	cmpa	#10		; Has loop reached 10
+	bne	bullet		; No, draw again
+	clra			; Yes, set to 0
+	sta	bulloop
+
+; ##########################
+; ### Reads the joystick ###
+; ##########################
+
+lovejoy	jsr	JOYDIGITAL	; Reads joystick
+	lda	JOY1X		; Joy 1 X position to A
+	lbeq	noxmove		; If 0 -> jump to noxmove
+	lbmi	lmove		; If negative -> lmove
+
+; #################################################
+; ### If something else (positive)		###
+; ### the joystick has been moved right. Right. ###
+; ### Limiting the maximum x-value to 0 	###
+; #################################################
+
+rmove	lda	alusx		; Value of alusx to A
+	cmpa	#118		; Compare A to 118
+	lbeq	xiso		; If it is 118 -> xiso
+	inc	alusx		; Increase alusx 
+	bra	xready		; Jump to xready		
+
+xiso	lda	#118		; Load 118 to A
+	sta	alusx		; Store A to alusx
+	bra	xready		; Jump to xready
+
+; ############################################
+; ### Joystick has been moved left.	   ###
+; ### Limiting the minimum y-value to -118 ###
+; ############################################
+
+lmove 	lda	alusx		; Value of alusx to A
+	cmpa	#-118		; Compare A to -118
+	lbeq	xpieni		; If it is -118 -> xpieni
+	dec	alusx		; Decrease alusx
+	bra	xready		; Jump to xready
+
+xpieni	lda	#-118		; Load -118 to A
+	sta	alusx		; Store A to alusx
+	bra	xready		; Jump to xready
+
+; #################################################
+; ### Joystick hasn't been moved left or right. ###
+; ### Kept this here in case I need it later.   ###
+; #################################################
+
+noxmove	
+
+; #############################################
+; ### Done with checking if the joystick    ###
+; ### was moved left or right, now checking ###
+; ### if it was moved up or down.	    ###
+; #############################################
+
+xready	lda	JOY1Y		; Joy 1 Y position to A
+	beq	noymove		; If 0 -> jump to noymove
+	bmi	dmove		; If negative -> dmove
+
+; #########################################
+; ### If something else (positive)      ###
+; ### the joystick has been moved up.	###
+; ### Limiting the maximum y-value to 0 ###
+; #########################################
+
+umove	lda	alusy		; Value of alusy to A
+	cmpa	#0		; Compare A to 0
+	lbeq	yiso		; If it is 0 -> yiso
+				; If it's not 0, then
+	inc	alusy		; Increase alusy 
+	bra	yready		; Jump to yready		
+
+yiso	lda	#0		; Load 126 to A
+	sta	alusy		; Store A to alusy
+	bra	yready
+	
+; ############################################
+; ### Joystick has been moved down.	   ###	
+; ### Limiting the minimum y-value to -100 ###
+; ############################################
+
+dmove	lda	alusy		; Value of alusy to A
+	cmpa	#-100		; Compare A to -100
+	lbeq	ypieni		; If it is -100 -> ypieni
+	dec	alusy		; Decrease alusy
+	bra	yready		; Jump to yready
+
+ypieni	lda	#-100		; Load -100 to A
+	sta	alusy		; Store A to alusy
+	bra	yready		; Jump to yready
+
+; #################################################
+; ### When making the limits (ie. how far)      ### 
+; ### the ship can go, you have to count in     ### 
+; ### the size of the ship. Best way to do this ###
+; ### is to try it out. Ships 'hot spot' is     ###
+; ### where the first vector starts from.       ###
+; #################################################
+
+; ###############################################
+; ### Joystick hasn't been moved up or down.  ###
+; ### Kept this here in case I need it later. ###
+; ###############################################
+	
+noymove	
+
+; ##################################################
+; ### Done with checking if the joystick has     ###
+; ### been moved up or down - so let's go        ###  
+; ### back to the beginning and check all again. ###
+; ##################################################
+
+yready	lbra 	tikku		; Repeat 	
+
+; #################################################
+; ### You need LBRA, because BRA is too short a ###
+; ### jump to jump to the beginning all the way ###
+; ### from here.			        ###
+; #################################################
+
+; ################################################
+; ### Then all the coordinates that are needed ###
+; ################################################
+
+alus	fcb 	0,0		; Tip of the ship
+				; also the 'hot spot'
+	fcb	-3,2
+	fcb	-3,1
+	fcb	-2,0
+	fcb	-3,1
+	fcb	0,2
+	fcb	-3,2
+	fcb	0,-3
+	fcb	2,-2
+	fcb	0,-6
+	fcb	-2,-2
+	fcb	0,-3
+	fcb	3,2
+	fcb	0,2
+	fcb	3,1
+	fcb	2,0
+	fcb	3,1
+	fcb	3,2
+
+reunat	fcb	115,-126	; The frames
+	fcb	0,126
+	fcb	0,126
+	fcb	-115,0
+	fcb	-115,0
+	fcb	0,-126
+	fcb	0,-126
+	fcb	115,0
+	fcb	115,0
+
+city	fcb 	0,0		; Landscape
+	fcb 	20,36
+	fcb 	20,0
+	fcb 	0,20
+	fcb 	-10,0
+	fcb 	0,10
+	fcb 	20,0
+	fcb 	0,20
+	fcb 	-30,0
+	fcb 	0,20
+	fcb 	20,0
+	fcb 	0,20
+	fcb 	-20,0
+	fcb 	0,10
+	fcb 	10,10
+	fcb 	-10,10
+	fcb 	30,0
+	fcb 	0,10
+	fcb 	-30,0
+	fcb 	0,10
+	fcb 	30,0
+	fcb 	0,10
+	fcb 	-30,0
+	fcb 	-10,10
+	fcb 	20,0
+	fcb 	0,20
+	fcb 	-10,0
+	fcb 	-10,10
+	fcb 	-10,26
+
+tekst3	fcc	"> BATTLE EARTH TERROR HAZARD <          TIME"
+	fcb	$80
+
+tekst4	fcc	"  FUEL                             SCORE"
+	fcb	$80
+
+tekst6	fcc	"FUEL LOW!"
+	fcb	$80
+
+tekst7	fcc	"TIME LOW!"
+	fcb	$80
+
+tekst8	fcc	"TIME OUT!"
+	fcb	$80
+
+lives1	fcc 	"    h"
+	fcb	$80
+
+lives2	fcc 	"  h h"
+	fcb	$80
+
+lives3	fcc 	"h h h"
+	fcb	$80
+
+pati	fcb	0,0		; Bullet
+	fcb	-2,2
+	fcb	-2,-2
+	fcb	2,-2
+	fcb 	2,2
+
+ftank	fcb	0,0		; Fuel tank
+	fcb	0,60
+	fcb	-3,0
+	fcb	0,-60
+	fcb	3,0
+
+vihu	fcb 	0,0		; Enemy
+	fcb	4,2		; frame #1
+	fcb	4,6
+	fcb	4,-6
+	fcb	-2,-2
+	fcb	0,2
+	fcb	-2,2
+	fcb	-2,-2
+	fcb	2,-2
+	fcb	-2,-2
+	fcb	2,-2
+	fcb	2,2
+	fcb	0,2
+	fcb	2,-2
+	fcb	-4,-6
+	fcb	-4,6
+	fcb	-4,2
+
+vihu2	fcb 	0,0		; Enemy
+	fcb	3,5		; frame #2
+	fcb	5,3
+	fcb	3,-4
+	fcb	1,1
+	fcb	0,-3
+	fcb	-2,0
+	fcb	-2,2
+	fcb	-2,-2
+	fcb	2,-2
+	fcb	-2,-2
+	fcb	2,-2
+	fcb	2,2
+	fcb	2,0
+	fcb	0,-3
+	fcb	-1,1
+	fcb	-3,-4
+	fcb	-5,3
+	fcb	-3,5
+
+; ###########################
+; ### Reason for death :  ###
+; ### You ran out of fuel ###
+; ### (Now that's a nasty ###
+; ### way to go.)         ###      
+; ###########################		 
+
+offdeath
+	lda	lives		; If fuel runs out
+	deca			; take one life and
+	sta	lives		; display the text
+
+	jsr	WAITRECAL	; BIOS recalibration
+	jsr	RESET0REF	; Beam to the center
+	lda	#127
+	jsr	INTENSITY	; Intensity to 127
+	lda 	#-5 		; Height
+	ldb 	#40 		; Width
+	sta	TXTHEIGHT
+	stb	TXTWIDTH
+	lda	#0		; Y	
+	ldb	#-40		; X
+	ldu	#overtext 	; Get the text
+	jsr	PRINTSTR
+
+	bra	gameover	; Keep looping it 
+
+; Ok then I need to get it delay that for a while
+; after which it should jump to :
+; lbra	kohtu		; "kohtu"
+
+overtext	
+	fcc	"YOU RAN OUT OF FUEL"
+	fcb	$80
+
+; ###############################
+; ### A very simple Game Over ###
+; ### screen for now.         ###
+; ###############################		 
+
+gameover
+	jsr	WAITRECAL	; BIOS recalibration
+	jsr	RESET0REF	; Beam to the center
+	lda	#127
+	jsr	INTENSITY	; Intensity to 127
+	lda 	#-10 		; Height
+	ldb 	#80 		; Width
+	sta	TXTHEIGHT
+	stb	TXTWIDTH
+	lda	#0		; Y	
+	ldb	#-40		; X
+	ldu	#overtext 	; Get the text
+	jsr	PRINTSTR
+
+	bra	gameover	; Keep looping it 
+
+overtext	
+	fcc	"GAME OVER"
+	fcb	$80
+
+; ##################################
+; ### Th-th-th-that's all folks! ###
+; ##################################
+; ### Makes me feel proud when   ###
+; ### I add this to the end :    ###
+; ##################################
+; ###   (c) man@sci.fi 2000	 ###
+; ##################################
+

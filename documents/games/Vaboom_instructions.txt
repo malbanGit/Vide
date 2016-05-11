@@ -1,0 +1,23 @@
+VABOOM! is a modified clone of one of ATARI 2600's best games - KABOOM!
+
+In order to provide the player with the same feel of the original game, it supports the modified Atari 2600 paddle controller 
+
+Instructions
+
+Your goal is to catch as many bombs as you can. If you miss a bomb, you loose one of the 3 paddles you start with. Along the gameplay, the following shapes will fall down:
+
+Heart - Catching it will add a paddle in case you have less than 3 of them.
+
+X shape - Catching it will take away one of your paddles.
+
+Diamond - Catching it will add 100 points to your score.
+
+Once in a while a caught bomb will bounce back at the man at the top. In case it hits the man, two bricks that support the bar that the man is moving along would explode. In case you hit the man 10 times, all the bricks holding the bar are gone and the bar holding the man will fall to the bottom. At this stage, you start a bonus round! During the bonus round, missing a bomb won't remove any of your paddles, however, catching a bomb will add 30 points to your score.
+
+Scores:
+
+Regular bomb- 10 points
+Bomb @ bonus round- 30 points
+Heart- 50 points
+Diamond- 100 points
+

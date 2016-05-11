@@ -1,0 +1,3360 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; Armor Attack
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; Memory Usage:
+;
+;;;;;;;;;;;;;;;
+;
+; XTMR0(C82E): Delay before play action starts
+; XTMR1(C82F): Delay before starting more tanks
+; XTMR2(C830): Delay before processing helecopter
+; SATUS(C867): Sound mask:
+;                bit 0 - slow tank sound
+;                bit 1 - fast tank sound
+;                bit 2 - helecopter??
+;                bit 3 - missile fired
+;                bit 4 - 
+;                bit 5 - 
+;                bit 6 - 
+;                bit 7 - 
+; FEAST(C871): Set but never referenced.
+; LASRAM(C880): Indicates whether slow tanks(1)
+;             or fast tanks (2) are in use.
+; SJOY(C881): Max # of tanks for this level
+; C882      : 
+; ETMP1(C883): Controls when helecopter resyncs
+;              the player's position.
+; ETMP2(C884): Controls course/fine tuning of the
+;              angle between a player and a tank
+;              or helecopter.  As levels get harder
+;              this mask does less course tuning of
+;              the angle value.
+; ETMP3(C885): Mask; controls how often the helecopter's
+;              angle of travel is updated: 
+;                0x03 = moderate update rate
+;                0x01 = fast update rate
+;                0x00 = update every pass
+; ETMP4(C886): Controls when the helecopter and tanks
+;              will attempt to fire a missile.
+; ETMP5(C887): Index into level-specific data array.
+; ETMP6(C888): Tanks are slow (1) or fast (2)
+; ETMP7(C889): Tank body angle delta
+; ETMP8(C88A): Incrementing flag, used primarily to
+;              signal when level-specific data should
+;              be initialized.
+; ETMP9(C88B): # of tanks currently visible
+; ETMP10(C88C): y position of helecopter target.
+; C88D       : x position of helecopter target.
+; TEMP3(C891): Controls which missile movement deltas
+;              are used: -1=large, 1=small
+;              Toggles on every other iteration.
+; TEMP4(C892): Helecopter intensity
+; TEMP5(C893): Helecopter scale
+; C894-C8A6 : Helecopter data
+; C8A7-C8C6 : Helecopter body vlists
+; C8C7      : # of players still alive
+; C8C8      : # of players
+; C8C9      : Another scale factor
+; C8CA      : Scale factor used to move, when
+;             drawing ____.
+; C8CB      : Work variable
+; C8CC-C8CD : Function pointer
+; C8CD      : (1) # of tanks to start up
+;           : (2) Angle from helecopter to player
+;           : (3) Helecopter's desired angle of travel
+; C8CE      : Proximity of helecopter to player
+; C8CF      : (1) Angle from tank to player
+;             (2) Helecopter angle delta (+-1)
+; C8D0      : Proximity of tank to player
+; C8D2      : Missile processing loop counter
+; C8DA      : Used during missile processing:
+;                2 = player 1
+;                3 = player 2
+;                4 = helecopter/tank
+;             Used when player fires missile to
+;             index into missile vlist array:
+;                0 = player 1
+;                2 = player 2
+; C8DE-C8DF : Helecopter processing delay
+; C8E0      : Tank startup delay counter
+; C8E1      : Startup delay counter
+; C8E2      : # of jeeps remaining
+; C8E3      : Award for 1st tank hit (BCD 0200)
+; C8E4      : Award for 2nd tank hit (BCD 0300)
+; C8E5      : Value to add to player 1 score.
+; C8E6      : Value to add to player 2 score.
+; C8E7      : Placeholder for tank/helecopter
+;             score updates.
+; C8E8      : 1/2 target size; used during hit
+;             detection; size = 2nx2n
+; C8E9      : Controls display of # jeeps & score
+;                >= 0 - Display score & # jeeps
+;                < 0  - Don't display
+; C8EB      : Mask; when tank sounds are enabled,
+;             indicates which sound is made:
+;                bit 0 = slow tanks
+;                bit 1 = fast tanks
+; C8EC      : Enable mask; used to control which,
+;             if any, tank sound is made:
+;                bit 0 = slow tanks
+;                bit 1 = fast tanks
+; C8ED      : -1 (game active) or 0 (display "END")
+; C8EE      : Counts # of passes thru main loop
+; C8EF      : Used by sound code; flags that helecopter
+;             is exploding (-1), so all other sounds
+;             are disabled.
+; C8F0      : Btn mask; controls whether a button is
+;             continuous read (bit = 0) or 
+;             press/release (bit = 1).
+; C900-C93F : Tank 1 data
+; C940-C97F : Tank 2 data
+; C980-C9BF : Tank 3 data
+; C9C0-C9C6 : Player 1 1st missile data
+; C9C7-C9CD : Player 1 2nd missile data
+; C9CE-C9D4 : Player 2 1st missile data
+; C9D5-C9DB : Player 2 2nd missile data
+; C9DC-C9E2 : Helecopter missile data
+; C9E3-C9E9 : Tank 1 missile data
+; C9EA-C9F0 : Tank 2 missile data
+; C9F1-C9F7 : Tank 3 missile data
+; CA00-CA26 : Player 1 data
+; CA27-CA4D : Player 2 data
+; CA4E-CA55 : Button & Joystick state info
+; CA56-CA5F : Player 1 1st missile vlist
+; CA60-CA69 : Player 1 2nd missile vlist
+; CA6A-CA73 : Player 2 1st missile vlist
+; CA74-CA7D : Player 2 2nd missile vlist
+; CA7E-CA87 : Rotated missile vlist
+; CA88-CA89 : Position for plyr 1 score str
+; CA8A-CA90 : Player 1 score string
+; CA91-CA92 : Position for plyr 2 score str
+; CA93-CA99 : Player 2 score string
+; CA9A-CAF9 : Helecopter rotor vlists; 4 sets
+;             of 12 vectors.
+; CB00-CB1F : Array of points; used during the
+;             drawing of an exploding missile,
+;             when drawing tank flames, or when
+;             the helecopter is hit.
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; Data Structures
+;
+;;;;;;;;;;;;;;;;;
+;
+; Button/Joystick Information (CA4E-CA55)
+;   (The joystick left/right information is)
+;   (merged in with the key 0 & key 1 data)
+;
+;    ---------------- 
+;  0 | Key 0 (left) | \
+;    ----------------  |
+;  1 | Key 1 (right)|  |
+;    ----------------  | Player 1
+;  2 | Key 2 (move) |  |
+;    ----------------  |
+;  3 | Key 3 (fire) | /
+;    ----------------
+;  4 | Key 0 (left) | \
+;    ----------------  |
+;  5 | Key 1 (right)|  |
+;    ----------------  | Player 2
+;  6 | Key 2 (move) |  |
+;    ----------------  |
+;  7 | Key 3 (fire) | /
+;    ----------------
+;
+; Missile (C9C0-C9C6)
+;
+;    -----------------------
+;  0 |  State flag         | -> -1 = In use
+;    -----------------------     0 = Inactive
+;  1 |    y pos            |    >0 = Exploding
+;    -----------------------
+;  2 |    x pos            |
+;    -----------------------
+;  3 | dwell (exploding)   |
+;    | y delta (in use)    |
+;    -----------------------
+;  4 | scale (exploding)   |
+;    | x delta (in use)    |
+;    -----------------------
+;  5 | diffy dot vlist ptr | -> Exploding
+;    --       -or-        --
+;  6 | (y,x) small deltas  | -> In use
+;    -----------------------
+;
+; Player Data (CA00-CA26) [RAMMES]
+;
+;    -----------------------
+;  0 |    State Flag       | ->  0 = Inactive/dead
+;    -----------------------    >0 = Alive
+;  1 | Address of first    |    <0 = Exploding
+;    --                   --
+;  2 | missile data block  |
+;    -----------------------
+;  3 |firing delay (alive) |
+;    |Expl scale (expldng) |
+;    -----------------------
+;  4 | y delta (alive)     |
+;    |scale delta (expldng)|
+;    -----------------------
+;  5 |     x delta         |
+;    -----------------------
+;  6 |     16-bit y        |
+;    --                   --
+;  7 |     position        |
+;    -----------------------
+;  8 |     16-bit x        |
+;    --                   --
+;  9 |     position        |
+;    -----------------------
+; 10 |      angle          |
+;    -----------------------
+; 11 |      Packet         |
+;  . |      jeep           |
+; 38 |      vlist          |
+;    -----------------------
+; 
+;    When player is alive, the embedded vlist is drawn.
+;    When player is exploding, vlist at 0xCA9A is drawn.
+;    When player is first hit, state is set to 0x80, and
+;      value is then counted up until it reaches 0.
+;
+; Tank Data (C900-C93F)
+;
+;    -----------------------
+;  0 |    State Flag       | ->  0 = Inactive/dead
+;    -----------------------    >0 = Alive
+;  1 |    # of hits        |    <0 = Burning
+;    -----------------------
+;  2 |Fire missile counter |
+;    -----------------------
+;  3 |                     |
+;    -----------------------
+;  4 |                     |
+;    -----------------------
+;  5 |Tank body angle delta|
+;    -----------------------
+;  6 |     Turret angle    |
+;    -----------------------
+;  7 |                     |
+;    -----------------------
+;  8 |                     |
+;    -----------------------
+;  9 |                     |
+;    -----------------------
+; 10 |  Ptr to array of    | -> Only when burning?
+;    --                   --
+; 11 |  flame locations    |
+;    -----------------------
+; 12 |    Scale factor     |
+;    -----------------------
+; 13 | Flames array index  |
+;    -----------------------
+; 14 |     y position      |
+;    -----------------------
+; 15 |     x position      |
+;    -----------------------
+; 16 |      y delta        |
+;    -----------------------
+; 17 |      x delta        |
+;    -----------------------
+; 18 |   Tank body angle   |
+;    -----------------------
+; 19 |       Tank          |
+;    --                   --
+;  . |       body          |
+;    --                   --
+; 37 |       vlist         |
+;    -----------------------
+; 38 |       Tank          |
+;    --                   --
+;  . |      turret         |
+;    --                   --
+; 62 |       vlist         |
+;    -----------------------
+;
+;    When tank is first hit, state is set to 0x80, and
+;      value is then counted up until it reaches 0.
+;
+; Helecopter Data (C894-C8A6)
+;
+;    -----------------------
+;  0 |    State Flag       | TEMP6
+;    -----------------------
+;  1 | index - controls    | TEMP7 -> 0 = try to fire
+;    | firing -vs- tracking|          1 = update position
+;    -----------------------
+;  2 |   counter - track   | TEMP8 -> Resync when counts
+;    | players new position|          down to 0.
+;    -----------------------
+;  3 |  counter - update   | TEMP9 -> Update when 0
+;    |   angle of travel   |
+;    -----------------------
+;  4 |Update body vlist flg| TEMP10 -> -1 = update needed
+;    -----------------------            0 = update not needed
+;  5 |                     | C899
+;    -----------------------
+;  6 |Fire missile counter | C89A
+;    -----------------------
+;  7 |  Pointer to player  | ACTPLY
+;    --                   --
+;  8 |    being stalked    | TMR1
+;    -----------------------
+;  9 |   Body y position   | T1FUNC
+;    -----------------------
+; 10 |   Body x position   | C89E
+;    -----------------------
+; 11 |    Body y offset    | TMR2
+;    -----------------------
+; 12 |    Body x offset    | T2FUNC
+;    -----------------------
+; 13 |  Heading delta (y)  | C8A1
+;    -----------------------
+; 14 |  Heading delta (x)  | TMR3
+;    -----------------------
+; 15 |  Movement delta (y) | T3FUNC
+;    -----------------------
+; 16 |  Movement delta (x) | C8A4
+;    -----------------------
+; 17 |   Angle of fire     | TMR4
+;    -----------------------
+; 18 | Body rotation angle | T4FUNC
+;    -----------------------
+; 19 |     Helecopter      |
+;    --                   --
+;  . |       body          |
+;    --                   --
+; 50 |       vlist         |
+;    -----------------------
+;
+;    When the helecopter is started, the (y,x) position
+;      is randomly set to one of the following: (0,7F),
+;      (0,81), (7F,0) or (81,0).
+;
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+    include "osmapV2.h"
+    include "fnmapV2.h"
+
+; Bogus jump point back into the OS ROM
+;
+PF000	equ	$F000
+
+
+   org 0x0000;
+       db    "g GCE 1982",0x80
+       dw    0xFD81;           
+       db    0xF8    ; height
+       db    0x50    ; width
+       db    0x20    ; rel y
+       db    0xC0    ; rel x
+       db    "ARMOR ATTACK",0x80,0x00
+
+P001F: ldx   #LASRAM  ; Clear 0xC880-0xCAFF
+       ldd   #0x0280
+       jsr   CLRBLK
+       ldd   #0x0203  ; Get # of players (max 2)
+       jsr   SELOPT   ; Get game # (3 choices)
+       jsr   DPRAM
+       lda   #0xFF    ; Set line pattern used
+       sta   DASH     ; when drawing buildings.
+       ldb   #0xBB    ; Button state mask:
+                      ;   Btns 1,2,4: press/release
+                      ;   Btn 3: continous
+       lda   OPTION   ; Which game was choosen?
+       cmpa  #0x01    ; Game 1?
+       beq   P0045    ; Branch if game 1
+       ldb   #0x88    ; Button state mask:
+                      ;   Btn 4: press/release
+                      ;   Btns 1,2,3: continous
+       cmpa  #0x02    ; Game 2?
+       beq   P0045    ; Branch if game 2
+       inc   DASH     ; Use invisible buildings
+P0045: stb   0xC8F0   ; Store game specific btn mask
+       clr   EPOT1    ; Disable up/down movement
+       clr   EPOT3    ; for both console jsticks.
+       ldd   #0x7F7F
+       std   0xC8C9   ; Init two scale factors
+
+RestartGame:
+       lda   PLAYRS
+       sta   0xC8C8   ; Save copy of # of players
+       clr   ETMP5    ; Index into level-specific
+                      ; data; init to 0.
+
+       ; Initialize some OS variables
+       lda   #0x10
+       sta   POTRES   ; Set jstick resolution limit
+       ldd   #0xFA38
+       std   SIZRAS   ; Set font cell size (-6x56)
+
+       ; Initialize some game specific variables
+       ldx   #0xC8DE  ; Initialize some variables,
+       ldu   #Defaults; by copying the default
+       lda   #0x07    ; values from ROM into the
+       jsr   CopyUtoX ; appropriate RAM locations.
+
+       ; Initialize player 1 score string
+       ldx   #0xCA88  ; Ptr to player 1 score str
+       ldd   #0x7888  ; Position to display score
+       std   ,x++     ; Init player 1 score and
+       jsr   SCLR     ; its display position.
+
+       ; Initialize player 2 score string
+       leax  7,x      ; Ptr to player 2 score str
+       ldd   #0x7838  ; Position to display score
+       std   ,x++     ; Init player 2 score and
+       jsr   SCLR     ; its display position.
+
+       jsr   INTREQ   ; Initialize sound stuff
+       lda   #0xFF;
+       sta   FEAST    ; Set, but never referenced!
+       sta   ETMP8    ; Init flag to -1
+       sta   0xC8E9   ; Disable disp of #jeeps & score
+       sta   0xC8ED   ; Disable "END" display
+       sta   TEMP3    ; Start with big missile deltas
+
+       ; Create 4 sets of 12 vectors, representing
+       ; the rotating helecopter rotors.
+       ldx   #HelecopterRotorVlist ; Src bufr
+       ldu   #0xCA9A  ; dest buffer
+       ldb   #0x02    ; Vector count - 1 (3)
+       jsr   CreateHelecopterRotors;
+
+P0099: lda   0xC8E1   ; Set delay controlling when
+       sta   XTMR0    ; play action starts.
+       lda   0xC8E0   ; Set delay controlling when
+       sta   XTMR1    ; tanks are started up.
+       lda   0xC8DE   ; Set the delay controlling
+       sta   XTMR2    ; helecopter processing.
+       jsr   InitPlayerData;
+P00A8: jsr   DisableAllTanks;
+       clr   TEMP6    ; Disable the helecopter
+       ldx   #0xC9C0  ; Disable all 8 missiles
+       ldd   #0x0807  ; Count=8, obj size=7 bytes
+       jsr   DisableObjects;
+       clr   SATUS    ; Disable all sounds
+       lda   0xC8E2   ; Any jeeps left?
+       bne   P00DD    ; Branch if some left
+       ldx   #0xCA8A  ; Get ptr to player 1 score
+       leau  9,x      ; Get ptr to player 2 score
+       jsr   WINNER   ; Determine which player won
+       cmpa  #0x02    ; Player 2 have hi score?
+       bne   P00CA    ; Jump if player 1 hi
+       leax  ,u       ; Player 2 has hi score
+P00CA: ldu   #HISCOR
+       jsr   HISCR    ; Save new high score
+       clr   0xC8ED   ; Enable display of "END"
+       ldd   #0x0BFF  ; Set the counter controlling
+       std   XTMR4    ; auto-restart of a new game.
+       lda   0xC8C8   ; Get # of players
+       sta   0xC8E9   ; Enable score/# jeeps display
+       bra   IdleLoop;
+P00DD: lda   0xC8C7   ; Any players still alive?
+       bne   MainLoop ; Branch if yes
+       lda   XTMR0    ; Branch if play action timer
+       beq   P0099    ; already expired.
+       lda   0xC8C8   ; Get # of players
+       sta   0xC8E9   ; Enable score/# jeeps display
+       dec   XTMR0    ; Decr play action counter
+       bne   IdleLoop ; Branch if not ready to start
+       com   0xC8E9   ; Disable score/# jeeps display
+
+MainLoop:
+       ldb   0xC8C7   ; Any players still alive?
+       beq   P00A8    ; Branch if not
+       lda   ETMP8    ; This flag starts at -1, and
+       bpl   P010F    ; the first pass thru, will 
+       nega           ; signal that the level-specific
+       sta   ETMP8    ; initialization is needed. As
+       anda  #0x03    ; tanks & helecopters start, its
+       cmpa  #0x01    ; value will become 2, then 3.
+       bne   P010F    ; Branch if initialization done.
+       ldb   ETMP5    ; Get level-specific index
+       ldu   #LevelSpecificData ; Get ptr to
+       leau  b,u      ; level specific values.
+       ldx   #LASRAM  ; Initialize level-specific
+       lda   #0x08    ; values by copying them from
+       jsr   CopyUtoX ; ROM into RAM.
+P010F: jsr   CheckForMissileHits;
+       jsr   ProcessHelecopter;
+       jsr   ProcessTanks;
+       jsr   ProcessBtnsBothPlayers;
+
+       ; Draw visuals and make sounds.  If the game
+       ; is active, then goto the mainloop, to
+       ; continue normal processing.  Otherwise, do
+       ; a soft game restart (using current # players)
+       ; if the user presses a button before the two
+       ; step idle loop counter expires.
+IdleLoop:
+       inc   0xC8EE   ; Incr mainloop counter
+       jsr   MakeSounds ; Process active sounds
+       jsr   DrawVisuals; Draw active objects
+       lda   0xC8ED   ; Is game over?
+       bmi   MainLoop ; Branch if not
+       ldb   TRIGGR   ; Get button states
+       lbne  RestartGame; Restart if btn pressed
+       dec   XTMR5    ; Decr the 2-step auto
+       bne   IdleLoop ; restart counter. Stay
+       dec   XTMR4    ; in the idle loop until
+       bne   IdleLoop ; 2-step counter expires.
+
+       ; Do a hard game restart (start from the
+       ; game intro screen) after either the user
+       ; presses a button, or the restart counter
+       ; counts down to 0.
+       ldd   #0x06FF  ; Reset XTMR4, to control
+       std   XTMR4    ; the hard restart loop.
+P013A: jsr   FRWAIT   ; Wait for frame beginning
+       jsr   INPUT    ; Read controller buttons
+       jsr   DPRAM    ; Set DP ptr to RAM
+       ldx   XTMR4    ; Stay in this loop, until
+       leax  -1,x     ; either a btn is pressed,
+       stx   XTMR4    ; or XTMR4 counts down to
+       beq   P0150    ; 0; then restart game.
+       lda   TRIGGR   ; Get button states
+       beq   P013A    ; Loop if no btns pressed.
+P0150: jmp   PF000    ; Restart from intro screen
+                      ; FDT - May be a bug; did not
+                      ; do right thing on a multi-
+                      ; cart.
+
+; MoveDrawDashed()
+;
+; Entry: a = scale factor for moving
+;        u = ptr to rel (y,x) position
+;        x = ptr to diffy vlist
+;        s+0 = # of iterations remaining
+;        s+1 = vector count
+;
+; Used to draw the buildings.  The dashed line pattern
+; is used, to allow the walls to be visible (solid line)
+; or invisible (line pattern turned off).
+;
+MoveDrawDashed:
+       sta   T1LOLC   ; Set scale factor (move)
+       ldd   ,u++     ; Get pos to move to
+       jsr   POSITN   ; Move to rel (y,x) pos
+       lda   #0x3F
+       sta   T1LOLC   ; Set scale factor (0x3F)
+       lda   3,s      ; Retrieve vector count
+       sta   LIST     ; Save vector count
+       jsr   DASHDF   ; Draw dashed lines
+       dec   2,s      ; Decr vlist counter
+       rts;
+
+; DrawAtMultipleLocations()
+;
+; Entry: u = ptr to the following:
+;            byte 0     = iteration counter (?)
+;            byte 1     = vector count (?)
+;            byte 2,3   = rel (y,x) for pass 1
+;            byte x,x+1 = rel (y,x) for pass n
+;        x = ptr to diffy vlist
+;
+; Draw a given diffy vlist multiple times, at the
+; specified set of locations.
+;
+DrawAtMultipleLocations:
+       ldd   ,u++     ; Get iteration & vector counts
+       pshs  a,b,x    ; Save on stack
+P016D: ldx   2,s      ; Get ptr to vlist
+       lda   0xC8CA   ; Load 'move' scale factor
+       bsr   MoveDrawDashed ; Draw vlist
+       bne   P016D    ; More iterations?
+       puls  a,b,x,pc ; All done
+
+; DrawMultipleVlists()
+;
+; Entry: u = ptr to the following:
+;            byte 0     = # of vlists (?)
+;            byte 1     = vector count (?)
+;            byte 2,3   = rel (y,x) for vlist 1
+;            byte x,x+1 = rel (y,x) for vlist n
+;        x = ptr to set of diffy vlists
+;
+; Draw a set of diffy vlist, at the
+; specified set of locations.
+;
+DrawMultipleVlists:
+       ldd   ,u++     ; Get vlist & vector counts
+       pshs  a,b      ; Save on stack
+P017C: lda   0xC8C9   ; Load 'move' scale factor
+       bsr   MoveDrawDashed ; Draw vlist
+       bne   P017C    ; More iterations?
+       puls  a,b,pc   ; All done
+
+; DrawVisuals()
+;
+; Takes care of drawing all buildings and outer boundaries,
+; jeeps, tanks, the helecopter and any missiles.  Also
+; displays the score and # of jeeps, when enabled.
+;
+DrawVisuals:
+       inc   ZSKIP;
+       jsr   FRWAIT   ; DP comes back set to IO
+       jsr   REQOUT   ; Output sound chip values
+       jsr   INT3Q    ; Use 3/4 intensity
+
+       ; Draw the outer boundary area and the
+       ; enclosed buildings.  The attribute list
+       ; provides details like the number of vlists
+       ; to draw, the vector count and the (y,x)
+       ; position for each vlist.
+       ldx   #OuterBoundaryVlists;
+       ldu   #AllVlistAttrs;
+       bsr   DrawMultipleVlists;
+       ldx   #LgSquareBuildingVlist;
+       bsr   DrawAtMultipleLocations;
+       leax  12,x     ; SmSquareBuildingVlist
+       bsr   DrawAtMultipleLocations;
+       leax  8,x      ; LBuildingVlists
+       bsr   DrawMultipleVlists;
+
+       clr   ZSKIP;
+       leas  -10,s    ; Allocate some work space
+
+       ; Draw any active tanks (upto 3)
+       ldu   #0xC900  ; Get ptr to array of tanks
+       ldd   #ProcessArrayEntry;
+       std   ,s       ; Set array iterator proc
+       ldd   #DrawTank; Primary processing proc
+       std   2,s      ; Save primary proc addr
+       lda   SJOY     ; Loop cntr - max # tanks
+       ldb   #0x40    ; Size of each array entry
+       jsr   CallProcMultipleTimes;
+
+       ; Draw each player's jeep
+       ; Reuses iterator set above
+       ldu   #RAMMES  ; Get ptr to player 1 data
+       ldd   #DrawJeep; Primary processing proc
+       std   2,s      ; Save primary proc addr
+       lda   0xC8C8   ; Loop cntr - # of players
+       ldb   #0x27    ; Size of each array entry
+       jsr   CallProcMultipleTimes;
+
+       ; Draw any active missiles (upto 8)
+       ; Reuses iterator set above
+       ldu   #0xC9C0  ; Get ptr to 1st missile
+       ldd   #DrawMissile; Primary processing proc
+       std   2,s      ; Save primary proc addr
+       ldy   #0xCA56  ; Ptr to 1st missile vlist
+       ldd   #0x0807  ; Loop cntr(8); entry size(7)
+       jsr   CallProcMultipleTimes;
+
+       ; Draw the helecopter
+       ; Reuses iterator set above
+       ldu   #TEMP6   ; Get ptr to helecopter data
+       ldd   #DrawHelecopter; Primary processing proc
+       std   2,s      ; Save primary proc addr
+       lda   #0x01    ; Loop counter (1)
+       jsr   CallProcMultipleTimes;
+
+       ; Add any score updates (due to hits on tanks
+       ; or helecopters) to each player's score
+       ldd   #UpdateScore
+       std   ,s       ; Set array iterator proc
+       ldx   #0xCA8A  ; Ptr to player 1 score
+       ldu   #0xC8E5  ; Ptr to plyr1 score additions
+       lda   0xC8C8   ; Loop cntr - # of players
+       jsr   CallProcMultipleTimes;
+
+       ; Set new intensity & scale for remaining drawing
+       ldd   #0x7E7F
+       stb   T1LOLC   ; Set scale = 0x7F
+       jsr   INTENS   ; Set intensity = 0x7E
+
+       ; If still in the startup delay, display the score
+       lda   0xC8E9   ; Is game play active?
+       bmi   P021A    ; Branch if yes
+       lda   0xC8C8   ; Loop cntr - # of players
+       ldx   #RSTPOS  ; Proc to display score
+       stx   ,s       ; Set array iterator proc
+       ldu   #0xCA88  ; Addr of player 1 score
+       jsr   CallProcMultipleTimes;
+
+       ; If still in the startup delay, display the #
+       ; of remaining jeeps, or, if none, then the
+       ; "END" string.
+P021A: leas  10,s     ; Free up work space
+       lda   0xC8E9   ; Is game play active?
+       bmi   ProcessInput; Branch if yes
+       ldx   #0x78EF  ; Set relative (y,x) pos
+       ldb   0xC8E2   ; Get # of remaining jeeps
+       lda   #0x60    ; Jeep symbol char code
+       jsr   DSHIP    ; Draw remaining tanks
+       lda   0xC8ED   ; Is the game over?
+       bne   ProcessInput; Branch if not
+       ldu   #EndString;
+       jsr   RSTPOS   ; Display "END" string
+
+       ; Load the jstick/btn storage area with the
+       ; current button states.  Then, adjust the
+       ; values for btn 0 (left) or btn 1 (right)
+       ; depending upon the joystick setting.
+ProcessInput:
+       lda   0xC8F0   ; Load button state mask
+       jsr   DBNCE    ; Read console buttons
+       jsr   JOYBIT   ; Read joysticks
+       lda   0xC8C8   ; Skip if no players
+       beq   P026F;
+       ldx   #0xCA4E  ; Ptr to jstick/btn storage area
+       ldu   #KEY0    ; Ptr to current button states
+       ldy   #POT0    ; Ptr to current jstick states
+P024F: pshs  a,x      ; Save loop cntr & data ptr
+       ldd   ,u++     ; Get btn 1 & 2 states
+       std   ,x+      ; Save btn 1 & 2 states
+       ldd   ,u++     ; Get btn 3 & 4 states
+       std   1,x      ; Save btn 3 & 4 states
+       clrb
+       lda   ,y++     ; Load L/R jstick value
+       beq   P0268    ; Do nothing if centered
+       rola           ; Get a's sign bit into b
+       rolb
+       beq   P0264    ; Branch if 'a' was +
+       coma           ; Make 'a' positive
+       negb           ; Set 'b' to -1
+P0264: ora   b,x      ; Adj L/R value, based on the
+       sta   b,x      ; jstick position.
+P0268: puls  a,x      ; Restore loop cntr & data ptr
+       leax  4,x      ; Pt to player 2's storage area
+       deca           ; Decrement loop counter
+       bne   P024F    ; Branch if more iterations
+P026F: jsr   ZERGND;
+       jmp   DPRAM;
+
+;
+; DrawTank()
+;
+; Entry: u = ptr to tank data
+;
+; Draws a tank
+;
+DrawTank:
+       leax  14,u     ; Get ptr to (y,x) pos
+       jsr   POSIT1   ; Move there
+       leax  3,x      ; Get ptr to tank body vlist
+       ldb   #0x30    ; Set scale factor
+       jsr   TPACK    ; Draw the packet vlist
+       leax  0x26,u   ; Get ptr to turret vlist
+       ldb   #0x20    ; Set scale factor
+       jsr   TPACK    ; Draw the packet vlist
+       lda   ,u       ; Get tank's state flag
+       bpl   P02AF    ; Branch if still alive
+       jsr   ZERGND;
+       jsr   INTMAX   ; Set maximum intensity
+       leax  14,u     ; Get ptr to (y,x) pos
+       jsr   POSIT1   ; Move there
+       ldx   10,u     ; Get ptr to 'move' pos
+       ldb   13,u     ; Calc offset (b * 6)
+       lda   #0x06
+       mul
+       abx            ; Add offset to 'move' ptr
+       ldb   12,u     ; Load scale factor
+       jsr   POSITB   ; Move to pos pointed by x
+       lda   #0x01    ; Set vector count -1 (2)
+       ldb   12,u     ; Load scale factor
+       jsr   TDIFFY   ; Draw diffy vlist
+       jsr   INT3Q    ; Set intensity to 75%
+P02AF: jmp   ZERGND;
+
+; DrawMissile()
+;
+; Entry: u = ptr to missile data
+;        y = ptr to missile vlist
+;
+; Draw a missile
+;
+DrawMissile:
+       leax  1,u      ; Get ptr to (y,x) pos
+       jsr   POSIT1   ; Move there
+       ldb   ,u       ; Get mode flag
+       bmi   P02CD    ; Branch if flag < 0
+       ldd   3,u      ; Extract scale & dwell
+       sta   DWELL    ; Set dot dwell time
+       stb   T1LOLC   ; Set scale factor
+       lda   #0x03    ; Vector count - 1
+       sta   LIST     ; Set vector count - 1
+       ldx   5,u      ; Set diffy dot list ptr
+       jsr   DIFDOT   ; Draw the dots
+       rts;
+P02CD: incb           ; Is flag -1?
+       bmi   P02DA    ; Branch if flag < -1
+       lda   #0x08    ; Load fixed dot dwell time
+       sta   DWELL    ; Set dot dwell time
+       jsr   DOT      ; Draw a single dot
+       bra   P02E2;
+P02DA: ldd   #0x0428  ; vcount=5 & scale=0x28
+       leax  ,y       ; Get ptr to alt vlist
+       jsr   TDIFFY   ; Draw diffy vlist
+P02E2: jsr   ZERGND;
+       rts;
+
+; DrawJeep()
+;
+; Entry: u = ptr to player data
+;
+; Draw a player's jeep, or an explosion
+;
+DrawJeep:
+       leax  6,u      ; Ptr to 16-bit (y,x) pos
+       jsr   POSWID   ; Move to specified pos
+       lda   ,u       ; Get player's state flag
+       bpl   P0301    ; Branch if alive
+       ldb   3,u      ; Load scale factor
+       stb   T1LOLC   ; Set scale factor
+       ldx   #0xCA9A  ; Get ptr to explosion vlist
+P02F6: lda   #0x0B    ; Load vector count - 1 (12)
+       sta   LIST     ; Set vector count - 1
+       jsr   LDIFFY   ; Draw diffy vlist
+P02FE: jmp   ZERGND;
+P0301: leax  11,u     ; Ptr to Jeep vlist
+       ldb   #0x28    ; Set scale factor
+       jmp   DrawPacketVlist;
+
+; DrawHelecopter()
+;
+; Entry: u = ptr to helecopter data
+;
+; Draws the helecopter
+;
+DrawHelecopter:
+       leax  9,u      ; Get ptr to (y,x) pos
+       ldd   ,x       ; Load (y,x) position
+       adda  2,x      ; Add y body offset
+       bvs   P0314    ; Branch if overflow
+       addb  3,x      ; Add x body offset
+       bvc   P0315    ; Branch if no overflow
+P0314: rts;
+P0315: jsr   POSIT1   ; Move to pos pointed by x
+       jsr   POSIT1   ; Offset by x & y body offsets
+       ldx   #0xC8A7  ; Ptr to body vlists
+       lda   ,u       ; Get helecopter state flag
+       bmi   P0336    ; Branch if exploding
+       ldb   #0x20    ; Load scale factor
+       jsr   TPACK    ; Draw helecopter body
+       ldb   #0x20    ; Load scale factor
+       stb   T1LOLC   ; Set scale factor
+       ldx   #0xCA9A  ; Ptr to rotor vlist array
+       ldb   5,u      ; Calc offset into vlist
+       lda   #0x18    ; offset = b * 24
+       mul
+       abx            ; Add offset to vlist ptr
+       bra   P02F6    ; Draw the rotors
+
+       ; Helecopter is exploding
+P0336: leay  -2,u     ; Ptr to intensity & scale
+       ldu   #0xCB00  ; Get ptr to 'move' pos
+       lda   ,y       ; Load intensity value
+       exg   u,x 
+       jsr   INTENS   ; Set intensity
+       ldb   1,y      ; Load scale factor
+       aslb           ; Adjust scale factor
+       jsr   POSITB   ; Move to pos pointed by x
+       exg   x,u      ; Get vlist ptr into x
+       ldb   #0x20    ; Load scale factor
+       jsr   TPACK    ; Draw 1st piece of hele body
+       ldb   1,y      ; Load scale factor
+       exg   u,x      ; Get ptr to 'move' pos
+       jsr   POSITB   ; Move to pos pointed by x
+       exg   x,u      ; Get ptr to scale & vlist
+       ldb   ,x+      ; Load scale factor
+       jsr   TPACK    ; Draw 2nd piece of hele body
+       ldx   #0xCA9A  ; Ptr to rotor vlist array
+       ldb   7,y      ; Calc vlist offset 
+       lda   #0x18    ; offset = b * 24
+       mul
+       abx            ; Add vlist offset
+       ldb   #0x04 
+       stb   -5,s     ; Set loop counter (4)
+P036A: ldb   1,y      ; Load scale factor
+       stb   T1LOLC   ; Set scale factor
+       ldd   ,u++     ; Load 'move' pos
+       jsr   POSITN   ; Move to pos in 'd'
+       ldb   #0x20    ; Set scale factor
+       lda   #0x02    ; Set vector count - 1 (3)
+       jsr   TDIFFY   ; Draw rotors
+       dec   -5,s     ; Decrement loop counter
+       bne   P036A    ; Branch if more iterations
+       jmp   ZERGND;
+
+; CallProcMultipleTimes()
+;
+; Entry: s,s+1 = Ptr to iterator function
+;        a     = # of times to call function
+;        b     = Function specific value
+;
+; Invokes the specified function a given number
+; of times.  When the specified function is 
+; called, the stack has been set up as follows:
+;
+;           ---------------
+;       top | a (counter) |
+;           ---------------
+;           |      b      |
+;           ---------------
+;           |    Return   |
+;           --           --
+;           |   Address   |
+;           ---------------
+;           |   Iterator  |
+;           --           --
+;           |   Function  |
+;           ---------------
+;           |  Processing |
+;           --           --
+;           |   Function  |
+;           ---------------
+;
+CallProcMultipleTimes:
+       pshs  a,b      ; Save loop cntr & b(?)
+       tsta           ; Check loop counter
+       beq   P038D    ; Bail if already 0
+P0386: jsr   [ 0x04,s ] ; Invoke function
+       dec   ,s       ; Decrement loop cntr
+       bne   P0386    ; Jump if > 0
+P038D: puls  a,b,pc   ; Clean up
+
+; ProcessArrayEntry()
+;
+; Entry: s+3 = Size of each array entry
+;        s+6,s+7 = Ptr to processing function
+;        u = ptr to an array of objects to be
+;            processed.
+;        y = Function specific value; only used to
+;            hold a ptr to the missile vlists.
+;
+; Invokes the specified processing function on an 
+; array object, if the object is active (its 
+; state != 0).  Afterwards, it updates the array 
+; pointer, so that the next time it is called, it 
+; will be referring to the next object to be 
+; processed.
+;
+; When the specified processing function is called, 
+; the stack has been set up as follows:
+;
+;           ---------------
+;       top |    Return   |
+;           --           --
+;           |   Address   |
+;           ---------------
+;           | a (counter) |
+;           ---------------
+;           | b (array sz)|
+;           ---------------
+;           |    Return   |
+;           --           --
+;           |   Address   |
+;           ---------------
+;           |   Iterator  |
+;           --           --
+;           |   Function  |
+;           ---------------
+;           |  Processing |
+;           --           --
+;           |   Function  |
+;           ---------------
+;
+; This is an iterator function.
+;
+ProcessArrayEntry:
+       lda   ,u       ; Get object's state flag
+       beq   P0396    ; Branch if inactive
+       jsr   [ 0x08,s ] ; Invoke processing function
+P0396: ldb   3,s      ; Get array object size
+       leau  b,u      ; Offset to next array object
+       leay  10,y     ; Point to next missile vlist
+       rts;
+
+; ProcessTanks()
+;
+ProcessTanks:
+       lda   #0xFC    ; Disable tank movement
+       anda  SATUS    ; sounds.
+       sta   SATUS
+       lda   XTMR1    ; Get tank startup delay cntr
+       lbeq  P0448    ; Branch if already expired
+       dec   XTMR1    ; Decr tank delay counter
+       bne   P03E9    ; Branch if not expired
+       com   ETMP8    ; Flag tanks are being processed
+       ldx   #0xCB00  ; Init explosion endpoints
+       ldu   #SmSquareBuildingVlist ; Src info
+       lda   #0x04    ; Loop counter
+       pshs  a        ; Save loop counter
+P03B9: ldd   #0x0408  ; a=offset mask; b=byte cnt
+       jsr   CopyRandomArrayData ; Copy data
+       dec   ,s       ; Decr loop counter
+       bne   P03B9    ; Branch if more iterations
+       puls  a        ; Clean up stack
+       lda   LASRAM   ; Load the slow/fast tank mask
+       sta   ETMP6    ; Save it
+       cmpa  #0x01    ; Are slow tank sounds enabled?
+       bne   P03D2    ; Branch if not
+       ldd   #0x01FD  ; Init slow tank sound mask
+       bra   P03D5;
+P03D2: ldd   #0x02FE  ; Init fast tank sound mask
+P03D5: std   0xC8EB   ; Save the sound masks
+       jsr   DisableAllTanks;
+       lda   0xC882
+       sta   ETMP7    ; Set tank body angle delta
+       ldx   #0xC900  ; Get ptr to tank 1 data
+       ldb   SJOY     ; Get max # tanks allowed
+       stb   ETMP9    ; Set # of visible tanks
+P03E5: stb   0xC8CD   ; Save # of tanks to start
+       bne   P03EA    ; Branch if more to start
+P03E9: rts;
+P03EA: lda   #0x09    ; Locate the default 
+       mul            ; attributes associated
+       ldu   #DftTankAttrsBase ; with this tank.
+       leau  b,u;
+       inca           ; Set to '1'
+       sta   ,x+      ; Flag tank as active
+       lda   #0x08    ; Loop counter
+P03F7: clr   ,x+      ; Clear the next 8 bytes
+       deca           ; of the tank data.
+       bne   P03F7    ; Branch if more bytes left
+       jsr   RAND3    ; Get random # -> 'a'
+       anda  #0x03    ; Force in range 0-3
+       sta   ,x+      ;
+       lda   #0x09    ; Copy in some default attrs
+       jsr   CopyUtoX ; for this tank.
+P0408: leau  -2,x     ; Get ptr to delta x value
+       lda   ,u       ; Retrieve delta x value
+       bne   P0410    ; Branch if != 0
+       lda   ,-u      ; Retrieve delta y value
+P0410: ldb   ETMP6    ; 1=slow tanks, 2=fast tanks
+       mul            ; Calculate the real movement
+       negb           ; delta, based on whether the
+       stb   ,u       ; tanks are fast or slow.
+       ldb   -10,x;
+       beq   P0427;
+       leau  -5,x     ; Get ptr to tank's (y,x) pos
+       coma;
+P041D: nega;
+       leau  a,u;
+       neg   ,u;
+       neg   2,u;
+       decb;
+       bne   P041D;
+P0427: clra;
+P0428: tfr   d,y;
+       ldd   -5,x     ; Get tanks's (y,x) pos
+       jsr   CalcAngle3;Calc turret angle
+       sta   -13,x    ; Set turret angle
+       lda   -1,x     ; Get body rotation angle
+       leau  ,x       ; Set destination bufr
+       ldx   #TankBodyVlist ; Packet vlist to rotate
+       jsr   PROT     ; Rotate the vlist
+       lda   0xE0,u   ; Get turret rotation angle
+       jsr   PROT     ; Rotate turret vlist
+       leax  1,u;
+       ldb   0xC8CD   ; Get # of tanks to start
+       decb           ; Decr the new tank counter
+       bra   P03E5;
+
+P0448: lda   ETMP9    ; Any tanks still visible?
+       bne   P0451    ; Branch if yes
+       lda   0xC8E0   ; Get dflt tank startup counter
+       sta   XTMR1    ; Reset tank startup counter
+       rts;
+
+P0451: ldb   0xC900   ; Get tank 1 mode flag
+       bgt   P0464    ; Branch if active
+       ldb   0xC940   ; Get tank 2 mode flag
+       bgt   P0464    ; Branch if active
+       ldb   0xC980   ; Get tank 3 mode flag
+       bgt   P0464    ; Branch if active
+       lda   #0xFC    ; Disable all tank
+       sta   0xC8EC   ; sounds.
+P0464: lda   SATUS    ; Make sure that the
+       ora   0xC8EB   ; appropriate tank sounds,
+       anda  0xC8EC   ; if any, are enabled (none,
+       sta   SATUS    ; slow or fast).
+       ldx   #0xC8C8  ; Get base ptr for tank data
+       ldb   0xC88E   ;
+P0471: incb           ; Generate a value in the
+       andb  #0x03    ; the range 1-3 (will be used
+       stb   0xC88E   ; to index in tank array).
+       beq   P0471    ; Try again, if value = 0
+       lda   #0x40    ; Create offset into array;
+       mul            ; each array entry is 0x40
+       abx            ; bytes.
+       lda   -8,x     ; Load tank's state flag
+       beq   P048B    ; Branch if not visible
+       bmi   TankBurning ; Branch if burning
+       ldb   -7,x     ; Get # of hits on tank
+       bne   TankHit  ; Branch if hits > 0
+       tsta           ; Is tank alive?
+       lbne  TankIsAlive ; Branch if yes
+P048B: rts;
+
+       ; Tank has been hit; from now on, draw it
+       ; as burning.
+TankHit:
+       lda   #0x80    ; Flag tank as burning, by
+       sta   -8,x     ; setting the state flag.
+       ldu   #0xCB00  ; Set ptr to the flames
+       stu   2,x      ; positioning array.
+       ldb   #0x10    ; Get flames scale factor
+       lda   10,x     ; Load tank body angle
+       stb   4,x      ; Set scale factor
+       clr   5,x      ; Set flames array offset=0
+       leau  11,x     ; Set dest bufr
+       ldx   #DestroyedTankBodyVlist ; Src bufr
+       jmp   PROT     ; Rotate tank body vlist
+
+       ; Tank is burning.
+       ; Once the state field (burn counter) increments
+       ; to 0, the tank has burned up and will be
+       ; deactivated.
+TankBurning:
+       inc   -8,x     ; Incr burn counter
+       bne   StillBurning ; Branch if != 0
+       clr   -7,x     ; Clear # hits on tank
+       dec   ETMP9    ; Decr # of visible tanks
+       bne   P04B1    ; Branch if more tanks visible
+       clr   0xC8EB   ; Disable tank sounds
+P04B1: rts;
+
+       ; The tank is still burning.
+       ; As we approach the end of the burn stage,
+       ; we need to make the flames appear to grow.
+       ; If the tank has taken a 2nd hit, then it
+       ; will now be completely disabled.
+StillBurning:
+       cmpa  #0xF8    ; Cnt up time < -8?
+       blt   P04BC    ; Branch if yes
+       lda   #0x02    ; Incr scale factor used to
+       adda  4,x      ; draw flames; makes flames
+       sta   4,x      ; look larger.
+P04BC: jsr   UpdateVlistIndex; Update flames vlist idx
+       ldb   -7,x     ; Get # hits on tank
+       decb           ; Does tank only have 1 hit?
+       beq   TurretActive ; Branch if yes
+       ldu   #DestroyedTurretVlist
+       leax  0x1E,x   ; Switch to using the disabled
+       lda   #0x19    ; turret vlist
+       jmp   CopyUtoX
+
+       ; Tank has 1 hit, which means the tank body is
+       ; disabled, but the turret is still active, and
+       ; thus, can track the user and fire.
+TurretActive:
+       dec   -6,x     ; Decr 'attempt to fire' counter
+       bgt   TankTrackPlayer ; Branch if not time to fire
+       ldu   #0xC9DC  ; Get base ptr to system missiles
+       ldb   0xC88E   ; Get ptr to the missile
+       lda   #0x07    ; associated with this tank.
+       mul;
+       leau  b,u;
+       ldb   ,u       ; Get missile state flag
+       bne   TankTrackPlayer ; Branch if already in use
+       ldd   6,x      ; Get tank's (y,x) pos
+       std   1,u      ; Save as missile's pos
+       ldb   -2,x     ; Get turret angle
+       lda   ETMP4    ; Reset counter controlling
+       sta   -6,x     ; when tank tries to fire.
+
+CalcMovementDelta:
+       lda   #0x07    ; Velocity = 7
+       jsr   LROT90   ; Calc missile move deltas
+       std   3,u      ; Save delta y & delta x
+       asra           ; The next block takes
+       asrb           ; the deltas we just
+       std   5,u      ; calculated, divides them
+       ldd   3,u      ; by 2, and then saves the
+       suba  5,u      ; new values.
+       subb  6,u
+       std   3,u      ; New values saved here
+       dec   ,u       ; Set missile state = in use
+P0500: rts;
+
+; TankTrackPlayer()
+;
+; Determine which player is closer, and head towards
+; that player.
+;
+TankTrackPlayer:
+       lda   #0x7F    ; Initialize the proximity
+       sta   0xC8D0   ; value to max distance.
+       ldu   #0xCA06  ; Get ptr to player 1 pos
+       lda   -6,u     ; Get player 1 state flag
+       ble   P0517    ; Branch if not visible or dying
+       ldd   6,x      ; Get tank's (y,x) pos
+       jsr   CalcAngle2; Calc angle to player's jeep
+       cmpb  #0x04    ; Did they collide?
+       blt   TankCollidedWithPlayer; Branch if yes
+       std   0xC8CF   ; Save angle & proximity
+P0517: lda   0xC8C8   ; Get # of players
+       deca           ; > 1 player?
+       beq   P0530    ; Branch if not
+       leau  0x27,u   ; Get ptr to player 2 pos
+       lda   -6,u     ; Get player 2 state flag
+                      ; FDT: bug - should be ble!
+       blt   P0530    ; Branch if being destroyed
+       ldd   6,x      ; Get tank's (y,x) pos
+       jsr   CalcAngle2; Calc angle to player's jeep
+       cmpb  #0x04    ; Did they collide?
+       blt   TankCollidedWithPlayer; Branch if yes
+       cmpb  0xC8D0   ; Are we closer to player 2?
+       blt   P0532    ; Branch if yes
+P0530: lda   0xC8CF   ; Track player 1 (closer)
+P0532: anda  ETMP2    ; Course tune the angle
+       cmpa  -2,x     ; Does turret angle need to
+       beq   P0500    ; change? Branch if not.
+       ldb   0xC8EE   ; Update only on every
+       bitb  #0x01    ; other pass.
+       beq   P0500    ; No update on this pass
+       sta   -2,x     ; Save updated turret angle
+       leau  0x1E,x   ; Set destination bufr
+       ldx   #TankTurretVlist ; Src packet vlist
+       jmp   PROT     ; Rotate turret vlist
+
+; TankCollidedWithPlayer()
+;
+; When a tank and a player collide, both are destroyed.
+; Mark the tank as having taken 2 hits (thus disabling 
+; it) and mark the jeep as destroyed.
+;
+TankCollidedWithPlayer:
+       lda   #0x02
+       sta   -7,x     ; Force tank to have 2 hits
+       lda   #0x80
+       sta   -6,u     ; Flag player as hit
+       rts;
+
+; TankIsAlive()
+;
+; Entry: x = pointer to tank data (+8)
+;
+TankIsAlive:
+       lda   ,x;
+       beq   P0568;
+       suba  ETMP7    ;
+       sta   ,x;
+       lda   10,x     ; Get current tank body angle
+       adda  -3,x     ; Update it (add delta)
+       sta   10,x     ; Save updated rotation angle
+       leau  11,x     ; Set destination bufr
+       ldx   #TankBodyVlist ; Packet vlist to rotate
+       jmp   PROT     ; Rotate the vlist
+
+; Entry: x = pointer to tank data (+8)
+;
+P0568: ldy   #S0DA0;
+       lda   5,x;
+       lbeq  P0600;
+       leau  0x40,x   ; Get ptr to next tank (secondary)
+       cmpu  #0xC9C8  ; Do we need to wrap?
+       bne   P057E    ; Branch if no wrap needed
+       ldu   #0xC908  ; Wrap back to tank 1
+P057E: lda   -8,u     ; Get secondary tank state flag
+       ble   P05DD    ; Branch if inactive or burning
+       ldd   6,u      ; Get secondary tank's (y,x) pos
+       suba  6,x      ; Subtract primary tank's y pos
+       bvs   P05DD    ; Branch if invalid (overflow)
+       subb  7,x      ; Subtract primary tank's x pos
+       bvs   P05DD    ; Branch if invalid (overflow)
+       jsr   ABSAB    ; Get abs val of the pos deltas
+       std   0xC8CB   ; Save y & x delta values
+       tsta           ; Are tanks at same y pos?
+       beq   P0597    ; Branch if yes
+       tstb           ; Are tanks at same x pos?
+       bne   P05DD    ; Branch if not
+P0597: adda  0xC8CC   ; Add deltas, to get proximity
+       cmpa  #0x0C    ; Are the tanks close (w/in 12 units)?
+       bgt   P05DD    ; Branch if not
+       lda   3,x;
+       cmpa  2,x;
+       beq   P05DD;
+       deca;
+       ldb   #0x08;
+       mul;
+       leay  4,y;
+       leay  d,y;
+       ldb   4,x;
+       lda   b,y;
+       suba  5,x;
+       beq   P05DD;
+       sta   5,x;
+       addb  #0x02;
+       andb  #0x03;
+       stb   4,x      ; Set scale factor
+       leay  -4,y;
+       incb;
+       andb  #0x03;
+       lda   b,y;
+       bne   P05CF;
+       incb;
+       incb;
+       andb  #0x03;
+       lda   b,y;
+       bne   P05CF;
+       incb;
+       andb  #0x03;
+P05CF: stb   -4,x;
+       neg   8,x      ; Reverse y delta dir
+       neg   9,x      ; Reverse x delta dir
+       clr   -1,x;
+       ldd   2,x      ; Swap the 2 bytes
+       sta   3,x;
+       stb   2,x;
+P05DD: lda   5,x;
+       suba  ETMP6    ; 1=slow tanks, 2=fast tanks
+       bpl   P05F3;
+       leay  9,x      ; Get ptr to x delta
+       ldb   ,y       ; Get x delta value
+       bne   P05EB;
+       ldb   ,-y      ; Get y delta value
+P05EB: bpl   P05EE;
+       nega;
+P05EE: adda  ,--y     ; Add current x or y pos
+       sta   ,y       ; Save new x or y pos
+       clra;
+P05F3: sta   5,x;
+       ldd   6,x      ; Get tank's (y,x) pos
+       adda  8,x      ; Add y delta
+       addb  9,x      ; Add x delta
+       std   6,x      ; Save updated position
+       jmp   TurretActive;
+
+P0600: lda   -5,x;
+       beq   P0618;
+       ldb   #0x08;
+       stb   5,x;
+       suba  1,x;
+       anda  #0x03;
+       sta   1,x;
+       lda   -5,x;
+       anda  #0x02;
+       asra;
+       sta   4,x      ; Update scale factor
+       clr   -5,x;
+       rts;
+P0618: lda   2,x;
+       deca;
+       ldb   #0x08;
+       mul;
+       leay  d,y;
+       ldb   -4,x;
+       bmi   P0628;
+       com   -4,x;
+       bsr   P065F;
+P0628: ldb   -2,x     ; Get turret angle
+       lsrb           ; Divide it by 16
+       lsrb
+       lsrb
+       lsrb
+       cmpb  1,x;
+       bne   P0633;
+       negb;
+P0633: addb  1,x;
+       cmpb  #0x04;
+       bne   P063B;
+       ldb   #0x02;
+P063B: andb  #0x03;
+       tfr   b,a;
+       inca;
+       pshs  a,b;
+       jsr   RANDOM   ; Get random # -> a
+       puls  a,b;
+       bhs   P064B;
+       exg   a,b;
+P064B: sta   0xC8CB  ;
+       bsr   P065F;
+       ldb   0xC8CB  ;
+       bsr   P065F;
+       ldb   4,x;
+       bsr   P065F;
+       ldb   #0x03;
+P0659: bsr   P065F;
+       decb;
+       bpl   P0659;
+       rts;
+
+; Entry: y = ptr to data (0x0DA0)
+;        b = ?
+;        x = ptr to data (+8)
+P065F: andb  #0x03;
+       lda   b,y;
+       beq   P066D;
+       cmpa  3,x;
+       bne   P066E;
+       tst   -1,x;
+       beq   P0672;
+P066D: rts;
+P066E: clr   -1,x;
+       bra   P0674;
+P0672: inc   -1,x;
+P0674: std   ,s++;
+       cmpa  2,x;
+       bne   P0683;
+       rorb;
+       blo   P067F;
+       addb  #0x02;
+P067F: addb  #0x02;
+       stb   -5,x;
+P0683: lda   2,x;
+       sta   3,x;
+       ldd   -2,s;
+       sta   2,x;
+       leay  b,y;
+       lda   4,y;
+       sta   5,x;
+       tfr   b,a;
+       subb  4,x;
+       andb  #0x03;
+       beq   P06A5;
+       sta   4,x;
+       cmpb  #0x02;
+       bne   P06A6;
+       ldd   8,x      ; Load tank's y & x deltas
+       nega           ; Reverse y direction
+P06A2: negb           ; Reverse x direction
+P06A3: std   8,x;     ; Update tank's y & x deltas
+P06A5: rts;
+P06A6: lda   #0x10;
+       sta   ,x;
+       lda   1,x;
+       rora;
+       bhs   P06B3;
+       addb  #0x02;
+       andb  #0x03;
+P06B3: lda   ETMP7    ; Get dflt tank body angle delta
+       sta   -3,x     ; Save it
+       lda   9,x      ; Get tank's x delta
+       pshs  b;
+       ldb   8,x      ; Get tank's y delta
+       dec   ,s+;
+       beq   P06A2;
+       nega           ; Reverse x delta direction
+       neg   -3,x     ; Reverse tank body angle delta
+       bra   P06A3;
+
+; ProcessBtnsBothPlayers()
+; 
+; Process the buttons and joystick for each player,
+; adjusting position and angle as requested, and
+; firing a missile when requested (and one is 
+; available).
+;
+ProcessBtnsBothPlayers:
+       ldx   #RAMMES  ; Get ptr to player 1 data
+       clra           ; Plyr 1 missile vlist offset=0
+       sta   0xC8DA   ; Save missile vlist offset
+       ldy   #0xCA4E  ; Ptr to player 1 btn state info
+P06D0: bsr   ProcessBtnsOnePlayer;
+       lda   #0x02    ; Plyr 2 missile vlist offset=2
+       sta   0xC8DA   ; Save missile vlist offset
+       leay  4,y      ; Ptr to player 2 btn state info
+       leax  0x27,x   ; Ptr to player 2 data
+       cmpx  #0xCA4E  ; All done?
+       bne   P06D0    ; Branch if not
+       rts
+
+; ProcessExplodingJeep()
+;
+; Entry: x = ptr to player data
+;        a = player's state flag
+;
+ProcessExplodingJeep:
+       ldb   3,x      ; Get explosion scale factor
+       cmpa  #0x80    ; Was jeep just hit?
+       bne   P06EF    ; Branch if not
+       ldb   #0x02    ; Set the explosion scale
+       stb   4,x      ; factor delta.
+       ldb   #0x01    ; Set the initial explosion
+       stb   3,x      ; scale factor.
+P06EF: inca           ; Incr player's state (counter
+       sta   ,x       ; controlling explosion duration.
+       bne   P06FB    ; Branch if not explosion done
+       dec   0xC8C7   ; Decr # of players still alive
+       bne   P06FA    ; Branch if >= 1 player still alive
+       dec   0xC8E2   ; Decr # of jeeps remaining
+P06FA: rts;
+
+P06FB: cmpa  #0xC2    ; State counted down to -62?
+       bne   P0701    ; Branch if not
+P06FF: neg   4,x      ; Negate explosion scale factor delta
+P0701: asra           ; Skip the following code every
+       blo   P06FA    ; other pass.
+       addb  4,x      ; Add explosion scale factor delta
+       stb   3,x      ; to the current scale factor.
+       rts
+
+; UpdateVlistIndex()
+;
+; Entry: x = ptr to object data
+;
+UpdateVlistIndex:
+       lda   5,x      ; Get current vlist index
+       inca           ; Increment the index
+       anda  #0x03    ; Force in range 0-3
+       sta   5,x      ; Save update value
+P0710: rts
+
+; ProcessBtnsOnePlayer()
+;
+; Entry: x = ptr to player data
+;        y = ptr to btn state info
+;        C8DA = 0 - player 1
+;               2 - player 2
+;
+ProcessBtnsOnePlayer:
+       lda   ,x       ; Get player's state
+       bmi   ProcessExplodingJeep ; Exploding
+       beq   P0710    ; Branch if not active
+       pshs  x;
+       lda   3,x      ; Get firing delay
+       beq   P0721    ; Proceed if expired
+       dec   3,x      ; Decr firing delay
+       bne   ProcessBtns ; Branch if not expired
+P0721: lda   3,y      ; Get state of firing btn
+       beq   ProcessBtns ; Branch if not pressed
+       ldb   0xC8DA   ; Get missile vlist base index
+       ldu   1,x      ; Get ptr to player's 1st missile
+       lda   ,u       ; Is missile in use?
+       beq   MissileAvailable ; Branch if available
+       incb           ; Incr missile vlist index
+       leau  7,u      ; Get ptr to missile 2
+       lda   ,u       ; Is missile in use?
+       bne   ProcessBtns ; Branch if already in use
+
+MissileAvailable:
+       stb   0xC8CB   ; Save index of available missile
+       dec   ,u       ; Flag missile as in use
+       lda   #0x10    ; Enable missile firing sound
+       ora   SATUS
+       sta   SATUS
+       lda   6,x      ; Get player's y pos
+       ldb   8,x      ; Get player's x pos
+       std   1,u      ; Save as initial missile pos
+       ldb   10,x     ; Get jeep's rotation angle
+       jsr   CalcMovementDelta;
+       lda   #0x08    ; Get default firing delay
+       sta   3,x      ; Reset player's firing delay
+       ldb   #0x0A    ; Calculate the address of
+       lda   0xC8CB   ; of the missile vlist to use.
+       mul
+       ldu   #0xCA56 
+       leau  b,u      ; Get ptr to missile vlist
+       lda   10,x     ; Get jeep's rotation angle
+       ldx   #MissileVlist ; Src vlist to rotate
+       ldb   #0x04    ; Vector count - 1 (5)
+       jsr   DROT     ; Rotate the missile vlist
+       lda   0xC8EF   ; Is helecopter exploding?
+       bmi   P076F    ; Branch if yes.
+       lda   #0x80;
+       ora   SATUS;
+       sta   SATUS;
+       lda   #0x20;
+       sta   0xC8EF  ;
+P076F: puls  x,pc;
+
+; ProcessBtns()
+;
+; Entry: y = ptr to player's button/joystick info
+;        x = ptr to player data
+;
+; Process the buttons and joystick, to determine
+; the jeeps position or direction of travel needs
+; to change.  Also checks if the player has run
+; into a wall.
+;
+ProcessBtns:
+       lda   2,y      ; Get state of 'move' btn
+       beq   P07CD    ; Branch if not pressed
+       ldb   4,x      ; Get y delta
+       sex            ; Convert to 16-bits, and
+       aslb           ; multiply by 8.
+       rola
+       aslb
+       rola
+       aslb
+       rola
+       std   0xC8CB   ; Save 16-bit y delta
+       addd  6,x      ; Add player's current y pos
+       std   6,x      ; Save new position
+       ldb   5,x      ; Get x delta
+       sex            ; Convert to 16-bits, and
+       aslb           ; multiply by 8.
+       rola
+       aslb
+       rola
+       aslb
+       rola
+       std   0xC8CD   ; Save 16-bit x delta
+       addd  8,x      ; Add player's current x pos
+       std   8,x      ; Save new position
+       clrb           ; Used to track sign of y & x
+       lda   6,x      ; Load new y pos (hi byte)
+       bpl   P079A    ; Get absolute value
+       nega           ; Make positive
+       incb           ; Flag it was negative
+P079A: sta   0xC8DB   ; Save absolute y pos
+       lda   8,x      ; Load new x pos (hi byte)
+       bpl   P07A3    ; Get absolute value
+       nega           ; Make positive
+       orb   #0x02    ; Flag it was negative
+P07A3: sta   0xC8DC   ; Save absolute x pos
+       pshs  b        ; Save +/- sign flags
+       ldb   0xC8DB   ; Load absolute y value
+       ldu   #HorizontalWalls; Check if user is
+       bsr   CheckForWallContact; up against a
+       bvc   P07B2    ; horizontal wall.
+       stb   0xC8DB   ; Store updated abs y val
+P07B2: ldb   0xC8DC   ; Load absolute x value
+       ldu   #VerticalWalls; Check if user is
+       bsr   CheckForWallContact; up against a
+       bvc   P07BD    ; vertical wall.
+       stb   0xC8DC   ; Store updated abs x val
+P07BD: ldd   0xC8DB   ; Get updated (y,x) values
+       ror   ,s       ; Restore the original
+       bhs   P07C4    ; +/- sign for the y
+       nega           ; value.
+P07C4: sta   6,x      ; Save updated signed y value
+       ror   ,s+      ; Restore the original
+       bhs   P07CB    ; +/- sign for the x
+       negb           ; value;
+P07CB: stb   8,x      ; Save updated signed x value
+P07CD: clra           ; Clear the rotation adjustment
+       ldb   ,y       ; Get state of 'rotate left' btn
+       beq   P07D3    ; Skip if not pressed
+       inca           ; Rotate left (add +1)
+P07D3: ldb   1,y      ; Get state of 'rotate right' btn
+       beq   P07D8    ; Skip if not pressed
+       deca           ; Rotate right (add -1)
+P07D8: tsta           ; Do nothing if both pressed, or
+       beq   P07FA    ; neither btn pressed.
+       adda  10,x     ; Update jeep's angle of travel
+       anda  #0x3F    ; Make angle 0-360
+       sta   10,x     ; Save new angle
+       tfr   a,b      ; Load rotation angle
+       lda   #0x20    ; Velocity = 32
+       jsr   LROT90   ; Calc new movement deltas
+       std   4,x      ; Save new movement deltas
+       lda   0xC8DA   ; 0=plyr1, 2=plyr2
+       ldb   #0x0E    ; Half size of each element
+       mul            ; Calc offset into vlist set
+       lda   10,x     ; Get rotation angle
+       leau  11,x     ; Set destination bufr
+       ldx   #JeepVlists ; Set vlist to rotate
+       abx            ; Add in the offset (plyr1/plyr2)
+       jsr   PROT     ; Rotate the packet vlist
+P07FA: puls  x,pc;
+
+       ; This appears to be dead code!
+P07FC: ldb   -13,x;
+       lda   #0x02;
+       sta   -13,x;
+       leax  ,u;
+       subb  #0x02;
+       bmi   P080E;
+       lda   #0x80;
+       sta   ,x;
+       puls  x,pc;
+P080E: ldd   6,x;
+       subd  0xC8CB  ;
+       std   6,x;
+       ldd   8,x;
+       subd  0xC8CD  ;
+       std   8,x;
+       bra   P07CD;
+
+; CheckForWallContact()
+;
+; Entry: b = absolute value of x or y position
+;        u = ptr to horizontal (y) or vertical (x)
+;            wall data
+;        C8DB = absolute value(y pos)
+;        C8DC = absolute value(x pos)
+;
+; Exit:  cc: 1 = contact occurred
+;            0 = no contact
+;         b : if contact, updated y or x position;
+;             prevent jeep from passing thru wall.
+;
+; Uses the coordinate to generate a table offset,
+; which is then used to get a list of walls within
+; range of the coordinate.  If the coordinate is
+; within the bounds of a wall, then the cc is set,
+; and an updated coordinate is returned in b (this
+; prevents a jeep from passing thru a wall).
+;
+; The coordinate ranges for each table offset are
+; as follows:
+;
+;      0x0A-0x19 => 0x00
+;      0x1A-0x29 => 0x02
+;      0x2A-0x39 => 0x04
+;      0x3A-0x49 => 0x06
+;      0x4A-0x59 => 0x08
+;      0x5A-0x69 => 0x0A
+;      0x6A-0x79 => 0x0C
+;
+CheckForWallContact:
+       subb  #0x0A    ; Subtract 10 from the position
+       bmi   P084A    ; Branch if orig value <= 9
+       andb  #0x70    ; Get 3 most significant bits
+       asrb           ; Shift right 3 bits, to
+       asrb           ; form a table offset in the
+       asrb           ; lower nibble (0x00-0x0C).
+       ldd   b,u      ; Set a=offset, b=loop cntr
+       leau  a,u      ; Get ptr to wall data
+       stb   0xC8DD   ; Save loop counter
+P082B: ldd   0xC8DB   ; Get object's (y,x) pos
+       suba  ,u       ; Check if y falls within the
+       bmi   P0842    ; bounds of the current wall;
+       cmpa  1,u      ; move onto the next wall,
+       bgt   P0842    ; if not.
+       subb  2,u      ; Check if x falls within the
+       bmi   P0842    ; bounds of the current wall;
+       cmpb  3,u      ; move onto the next wall,
+       bgt   P0842    ; if not.
+       ldb   4,u      ; Return updated y or x pos
+       orcc  #0x02    ; Set overflow bit, to signal
+       rts            ; wall contact occurred.
+P0842: leau  5,u      ; Point to next wall data block
+       dec   0xC8DD   ; More walls to process?
+       bne   P082B    ; Branch if yes
+       andcc #0xFD    ; Clear overflow bit, to signal
+P084A: rts            ; no wall contact occurred.
+
+; InitPlayerData()
+;
+; Initializes the player data associated with each
+; active player.
+;
+InitPlayerData:
+       ldu   #RAMMES  ; Set destination bufr
+       ldy   #0xC9C0  ; Save ptr to 1st missile
+       ldx   #JeepVlists ; Packet vlist to rotate
+       lda   0xC8C8   ; Get # of players
+       sta   0xC8C7   ; Save as # players still alive
+       ldb   #0x20    ; Player 1 starting y pos
+P085B: pshs  a,b      ; Save for later use
+       sta   ,u+      ; Init the state flag
+       sty   ,u++     ; Save addr of 1st missile
+       ldb   #0x08    ; Clear the next 8 bytes
+P0864: clr   ,u+      ; of the user data.
+       decb           ; More bytes?
+       bne   P0864    ; Branch if yes
+       ldd   ,s       ; Load x delta & y position
+       std   -6,u     ; Save x delta & y position
+       jsr   PROT     ; Rotate packet vlist
+       leay  14,y     ; Point to next player
+       puls  a,b      ; Restore saved values
+       negb           ; Init player 2 starting y pos
+       deca           ; Another player?
+       bne   P085B    ; Branch if yes
+       rts;
+
+; HelecopterExploding()
+;
+; Entry: x = ptr to helecopter position (C89D)
+;        a = Helecopter mode flag (TEMP6)
+;
+HelecopterExploding:
+       nega           ; Check if helecopter was just
+       bvc   P088D    ; hit; branch if not
+       deca           ; Decr helecopter intensity,
+       clrb           ; and clear scale; save the
+       std   TEMP4    ; updated values.
+       asr   T3FUNC   ; Decrease y movement delta
+       asr   0xC8A4   ; Decrease x movement delta
+       decb           ; Set to -1
+       stb   0xC8EF   ; Flag helecopter exploding
+       lda   #0x80    ; Enable a sound (helecopter
+       ora   SATUS    ; hit/exploding??)
+       sta   SATUS
+P088D: inc   TEMP6    ; Increment helecopter state
+       bne   ContinueExplosion ; Branch if not done 
+                               ; exploding
+       clr   0xC8EF   ; Clear helecopter exploding
+       lda   #0xF7    ; Disable a sound (helecopter
+       anda  SATUS    ; exploding??)
+       sta   SATUS;
+       rts;
+
+; ContinueExplosion()
+;
+; Every few passes through this function, we will
+; increase the allowed angle of fire for the next
+; helecopter, and we will alter the angle used to
+; draw the destroyed helecopter.  We will also
+; decrease the intensity used to draw the helecopter,
+; and update the vector list.
+;
+ContinueExplosion:
+       rora 
+       bhs   P08B7    ; Branch if bit 7 = 0
+       inc   TMR4     ; Increase angle of fire
+                      ; allowed for next helecopter.
+       dec   T4FUNC   ; Decr helecopter rotation angle
+       rora
+       bhs   P08A8    ; Branch if bit 6 = 0
+       dec   TEMP4    ; Decr helecopter intensity
+       inc   TEMP5    ; Incr helecopter scale
+P08A8: lda   T4FUNC   ; Get helecopter rotation angle
+       leau  10,x     ; Set destination bufr
+       ldx   #DestroyedHelecopterVlists ; Src vlist
+       jsr   PROT     ; Rotate packet vlist
+       lda   T4FUNC   ; Get helecopter rotation angle
+       jsr   PROT     ; Rotate packet vlist
+P08B7: jmp   ValidateHelePos
+
+; ProcessHelecopter()
+;
+ProcessHelecopter:
+       ldx   XTMR2    ; Get startup counter
+       beq   CheckHelecopter ; Skip if already processed (0)
+       leax  -1,x     ; Decrement the counter and
+       stx   XTMR2    ; save updated value.
+       bne   P0910    ; Branch if not counted down to 0
+       lda   #0xF7    ; Start a helecopter
+       anda  SATUS;
+       sta   SATUS;
+       com   ETMP8    ; Flag helecopter being processed
+       ldx   #TEMP6   ; Clear the first 25 bytes
+       ldb   #0x19    ; of the helecopter data
+       jsr   BCLR     ; structure.
+       lda   #0x00;
+       sta   FEAST    ; Set, but never referenced!
+       lda   #0x02;
+       sta   TEMP6    ; Set the helecopter state flag
+       deca           ; Don't have the helecopter fire
+       sta   TEMP7    ; a missile yet.
+       ldd   #RAMMES  ; Config to initially stalk
+       std   ACTPLY   ; player 1.
+       lda   ETMP1    ; Set counter controlling when
+       sta   TEMP8    ; to requery player's position.
+       lda   ETMP4    ; Set counter controlling when
+       sta   0xC89A   ; to fire a missile.
+       leax  9,x;
+       jsr   RANDOM   ; Load random # -> a; determines
+       clrb           ; edge helecopter enters from:
+       rola           ; bit 7: 0=top/bottom(set y pos) 
+                      ;        1=left/right(set x pox)
+       rolb           ; bit 6: 0=right(x)/top(y) 
+                      ;        1=left(x)/bottom(y)
+       leax  b,x      ; Get ptr to y or x position
+       stb   0xC8CB   ; (0 or 1)
+       ldb   #0x7F    ; Starting position
+       rola           ; If bit 6=1, then negate position
+       bhs   P08FE    ; to start from left (if x) or
+       negb           ; bottom (if y).
+P08FE: stb   ,x       ; Save initial y or x position
+       asrb           ; Initialize the body offset
+       asrb           ; to be the initial position/4.
+       stb   2,x      ; Save initial body offset.
+       lda   #0x07;
+       suba  0xC8CB   ; (0 or 1)
+       suba  0xC8CB   ; (0 or 1)
+P090A: leax  a,x;
+       inc   ,x;
+       com   TEMP10   ; Flag vlist needs updating
+P0910: rts;
+
+; CheckHelecopter()
+;
+CheckHelecopter:
+       ldx   #TEMP6   ; Get ptr to helecopter data
+       jsr   UpdateVlistIndex ; Update rotor index
+       leax  9,x      ; Get ptr to hele (y,x) pos
+       lda   TEMP6    ; Get helecopter state flag
+       lbmi  HelecopterExploding
+       bne   HelecopterActive;
+       std   ETMP10   ; Reset target position
+       ldd   0xC8DE   ; Reset helecopter processing
+       std   XTMR2    ; delay counter.
+       rts;
+
+; HelecopterActive()
+;
+; Entry: x = ptr to helecopter data (+9)
+HelecopterActive:
+       lda   #0x08;
+       ora   SATUS;
+       sta   SATUS;
+       ldb   TEMP10   ; Branch if helecopter body
+       bpl   TrackPlayer ; vlist doesn't need updating.
+       leau  10,x     ; Set dest bufr
+       ldx   #HelecopterBodyVlist ; Src vlist
+       lda   T4FUNC   ; Get helecopter rotation angle
+       jsr   PROT     ; Rotate packet vlist
+       clr   TEMP10   ; Clear 'needs update' flag
+       bra   ValidateHelePos
+
+; TrackPlayer()
+;
+; Entry: x = pointer to helecopter data (+ 9)
+;
+TrackPlayer:
+       ldd   ETMP10   ; Get pos of player to track
+       tfr   d,y      ; Xfer pos to y register
+       jsr   CalcAngle1; Get angle to player
+       anda  ETMP2    ; Course tune the angle
+       std   0xC8CD   ; Store angle & proximity
+       leax  9,x      ; Get ptr to angle of travel
+       cmpb  #0x08    ; Is player close (w/in 8 units)?
+       bls   P0959    ; Branch if yes
+       suba  T4FUNC   ; Sub helecopter rotation angle
+       beq   P0959    ; Branch if already heading in
+                      ; the desired direction.
+       bsr   UpdateTravelAngle ; Update angle of travel
+       dec   TEMP10   ; Flag that vlist needs updating
+P0959: leax  -1,x;
+       lda   TEMP7    ; Based on whether the helecopter
+       anda  #0x01    ; is supposed to fire or just move,
+       asla           ; call the appropriate processing
+       ldu   #HelecopterActionTable ; function.
+       jsr   [ a,u ] 
+
+; ValidateHelePos()
+;
+; See if the helecopter has reached the boundary of the
+; playing area, and if so, force it back in.
+;
+ValidateHelePos:
+       ldd   #0x78FF  ; Edge coordinate = 0x78; delta = -1
+       leax  -6,x     ; Get ptr to (y,x) offset
+       cmpa  ,x+      ; Is 'y' in range?
+       blt   P097E    ; Branch if out of range
+       cmpa  ,x+      ; Is 'x' in range?
+       blt   P097E    ; Branch if out of range
+       nega           ; Edge coordinate = -0x78
+       negb           ; Delta = +1
+       leax  -2,x     ; Get ptr to (y,x) offset
+       cmpa  ,x+      ; Is 'y' in range?
+       bgt   P097E    ; Branch if out of range
+       cmpa  ,x+      ; Is 'x' in range?
+       blt   P0980    ; Branch if in range
+P097E: stb   3,x      ; Set the movement delta for the
+                      ; out of range coordinate.
+P0980: ldd   TMR2     ; Get helecopter y/x pos offset
+       adda  T3FUNC   ; Add y movement delta
+       addb  0xC8A4   ; Add x movement delta
+       std   TMR2     ; Save updated y/x pos offset
+       rts;
+
+; UpdateTravelAngle()
+;
+; Entry: a = difference between the current angle of
+;            travel, and the desired angle of travel.
+;        x = pointer to helecopter's angle of travel.
+;        C8CD = desired angle of travel.
+;
+; Determines whether CW or CCW rotation is needed to
+; bring the helecopter to the desired angle of travel.
+; Updates the helecopter's angle of travel in the
+; necessary direction.
+;
+UpdateTravelAngle:
+       anda  #0x3F    ; Make 0<=angle<360
+       ldb   #0x01    ; Assume CCW angle delta
+       cmpa  #0x20    ; Angle delta <= 180 degrees?
+       ble   P0992    ; Branch if yes
+       negb           ; Use CW angle delta
+P0992: stb   0xC8CF   ; Save angle delta value
+       addb  ,x       ; Add current angle of travel
+       andb  #0x3F    ; Make 0<=angle<360
+       cmpb  0xC8CD   ; Match desired angle of travel?
+       beq   P09A0    ; Branch if yes
+       addb  0xC8CF   ; Add angle delta a second time
+       andb  #0x3F    ; Make 0<=angle<360
+P09A0: stb   ,x       ; Save updated angle of travel
+       rts
+
+; UpdateHelecopterHeading()
+;
+; Update the helecopter's angle of travel, as we
+; track the player.
+;
+UpdateHelecopterHeading:
+       lda   TEMP8    ; Is it time to get an update
+       deca           ; on the player's position?
+       bne   P09AA    ; Branch if not
+       bsr   GetPlayerPos ; Get player's current pos
+P09AA: lda   #0x02;
+       sta   FEAST    ; Set, but never referenced!
+       ldd   T1FUNC   ; Get hele's nose (y,x) offset
+       jsr   CalcAngle3; Get angle to player & proximity
+       cmpb  #0x04    ; Are they really close?
+       ble   EnableMissileFire ; Allow firing, if so
+       tfr   a,b      ; Set rotation angle
+       lda   #0x01    ; Velocity = 1
+       jsr   LROT90   ; Calc heading change deltas
+       std   0xC8A1   ; Save heading change deltas
+       adda  T1FUNC   ; Add helecopter's y position
+       addb  0xC89E   ; Add helecopter's x position
+       std   T1FUNC   ; Update hele's (y,x) position
+       rts;
+
+; EnableMissileFire()
+;
+; If we an update position for the player, then enable
+; missile firing.
+;
+EnableMissileFire:
+       lda   TEMP8    ; Have we already updated the
+       bne   AdjTargetPos ; player's pos? Branch if not.
+       sta   TEMP7    ; Prepare hele to fire missile
+       rts;
+
+; AdjTargetPos()
+;
+; Rather than firing directly where the player was, add
+; some random adjustments to the target location, so give
+; the player a chance.
+;
+AdjTargetPos:
+       dec   TEMP8    ; Decr 'update' counter, and
+       beq   GetPlayerPos ; Update player's pos if 0.
+       jsr   RANDOM   ; 'Adjust' the perceived 'y'
+       adda  ETMP10   ; location of the player we're
+       sta   ETMP10   ; targeting.
+       rola           ; 'Adjust' the perceived 'x'
+       rola           ; location of the player we
+       coma           ; are targeting.  In other words,
+       adda  0xC88D   ; allow for some randomness when
+       sta   0xC88D   ; targeting a missile.
+       rts
+
+; GetPlayerPos()
+;
+; Entry: ACTPLY = ptr to player being stalked
+;
+; Exit:  ETMP10 = player's position
+;        cc = 0 (no position set)
+;             1 (ETMP10 updated with pos)
+;        ACTPLY = ptr to player to stalk
+;
+; If player 1 is alive, get his position.
+; Otherwise, set up to return player 2's
+; position the next time we are called.
+;
+GetPlayerPos:
+       ldu   ACTPLY   ; Get ptr to player being stalked
+       lda   ,u       ; Get player's state flag
+       bgt   P09F5    ; Branch if alive
+       ldu   #0xCA27  ; Get ptr to player 2 data
+       stu   ACTPLY   ; Save as player being stalked
+       lda   #0x01    ; Don't have the helecopter
+       sta   TEMP7    ; fire yet.
+       inc   TEMP8    ; Force another update later
+       orcc  #0x02    ; Flag no position set
+       rts;
+P09F5: lda   6,u      ; Get player's y pos
+       ldb   8,u      ; Get player's x pos
+       std   ETMP10   ; Save position
+       andcc #0xFE    ; Flag that position was set
+P09FD: rts;
+
+; FireHelecopterMissile()
+;
+FireHelecopterMissile:
+       lda   #0x01;
+       sta   FEAST    ; Set, but never referenced!
+       jsr   GetPlayerPos ; Get player's position
+       bvs   P09FD    ; Branch if no player found
+       std   T1FUNC   ; Update hele's nose offset
+       ldd   0xC8CD   ; Load angle & proximity to player
+       suba  TMR4     ; Subtract allowed angle of fire
+       beq   P0A26    ; Branch if target within allowed
+                      ; angle of fire.
+       cmpb  #0x10    ; Is player close?
+       bls   P0A26    ; Branch if yes
+       ldb   TEMP9    ; Update counter controlling
+       incb           ; when helecopter angle of
+       andb  ETMP3    ; travel should be updated.
+       stb   TEMP9    ; Save updated value
+       bne   P0A26    ; Update only when = 0
+       jsr   UpdateTravelAngle;
+       lda   #0x02    ; Velocity = 2
+       jsr   LROT90   ; Calc movement deltas
+       std   T3FUNC   ; Save movement deltas
+P0A26: dec   0xC89A   ; Time to fire?
+       bgt   P09FD    ; Branch if not
+       ldu   #0xC9DC  ; Ptr to missile data
+       lda   ,u       ; Missile in use already?
+       bne   P09FD    ; Branch if yes
+       ldd   T1FUNC   ; Get hele's nose offset
+       adda  TMR2     ; Add y position offset
+       bvs   P09FD    ; Skip if overflow
+       addb  T2FUNC   ; Add x position offset
+       bvs   P09FD    ; Skip if overflow
+       std   1,u      ; Save starting position
+       lda   ETMP4    ; Reset cntr for next
+       sta   0xC89A   ; attempt to fire.
+       dec   ,u       ; Flag missile as active
+       ldb   T4FUNC   ; Get hele rotation angle
+       jsr   CalcMovementDelta;
+       lda   T4FUNC   ; Get hele rotation angle
+       ldu   #0xCA7E  ; Missile vlist buffer
+       ldx   #MissileVlist ; Src vlist to rotate
+       ldb   #0x04    ; Vector count-1 (5)
+       jmp   DROT     ; Rotate the vlist
+
+HelecopterActionTable:
+       dw    FireHelecopterMissile
+       dw    UpdateHelecopterHeading
+
+; CheckForMissileHits()
+;
+CheckForMissileHits:
+       neg   TEMP3    ; Toggle between using big &
+                      ; small missile movement deltas.
+       ldy   #0xC8E3  ; Ptr to player 1 bonus info
+       clr   2,y      ; Clear player 1 bonus
+       clr   3,y      ; Clear player 2 bonus
+       lda   #0x02    ; Flag we're processing
+       sta   0xC8DA   ; player 1's missiles.
+       ldx   #0xC9C0  ; Ptr to 1st missile
+       ldd   #CheckForHelecopterHit;
+       std   0xC8CC   ; Set processing function
+       ldb   #0x08    ; Loop cntr (8 missiles)
+P0A71: stb   0xC8D2   ; Save/update loop cntr
+       lda   ,x       ; Get missile state
+       bmi   UpdateMissilePos ; Branch if active
+       beq   P0A92    ; Branch if not in use
+       ldu   #0xCB00  ; Ptr to expl position array
+       deca           ; Decr state counter
+       sta   ,x       ; Store updated value
+       anda  #0x03    ; Every 4th pass, double
+       bne   P0A8B    ; the scale factor use to
+       ldb   4,x      ; draw the explosion, and
+       addb  4,x      ; decrement the dwell (intens).
+       stb   4,x      ; Store update scale factor
+       dec   3,x      ; Decrement the dwell value
+P0A8B: ldb   #0x08    ; Create an offset into the
+       mul            ; array of explosion locations.
+       leau  b,u      ; Get ptr to explosion data
+       stu   5,x      ; Update explsn vlist ptr
+P0A92: leax  7,x      ; Point to next missile
+       ldb   0xC8D2   ; Get loop counter
+       decb           ; Decrement it
+       beq   P0AAC    ; Branch if all processed
+       cmpb  #0x06    ; Player 2's 1st missile?
+       bne   P0A9F    ; Branch if not
+       inc   0xC8DA   ; Flag plyr 2 processing
+P0A9F: cmpb  #0x04    ; Helecopter missile?
+       bne   P0A71    ; Branch if not
+       ldu   #CheckForSystemMissileHits;
+       stu   0xC8CC   ; Set processing function
+       inc   0xC8DA   ; Flag we're processing
+       bra   P0A71    ; system missiles.
+P0AAC: rts;
+
+; UpdateMissilePos()
+;
+; Entry: x = ptr to missile data
+;
+UpdateMissilePos:
+       lda   TEMP3    ; Use big (-1) or small (1)
+       adda  #0x04    ; missile movement deltas.
+       leau  a,x      ; Get ptr to y & x deltas
+       ldd   1,x      ; Get missile's (y,x) pos
+       adda  ,u       ; Update y pos
+       addb  1,u      ; Update x pos
+       std   1,x      ; Save updated position
+       jsr   ABSAB    ; Get abs val of a & b
+       std   0xC8DB   ; Save new values
+       cmpa  #0x78    ; Explode the missile if
+       bhs   ExplodeMissile ; it has reached
+       cmpb  #0x78    ; the outer bounds of the
+       bhs   ExplodeMissile ; playing area.
+       ldu   #VerticalWalls ; Check if missile
+       jsr   CheckForWallContact ; has hit a
+       bvs   ExplodeMissile ; vertical wall.
+       ldb   0xC8DB   ; Get missile's x pos
+       ldu   #HorizontalWalls ; Check if missile
+       jsr   CheckForWallContact ; has hit a
+       bvs   ExplodeMissile ; horizontal wall.
+       ldu   #0xC900  ; Ptr to tank 1 data
+       ldb   SJOY     ; Get max # tanks allowed
+P0ADF: stb   0xC8CB   ; Save/update loop cntr
+       subb  0xC8D2   ; Sub missile loop cntr
+       addb  #0x03;
+       subb  SJOY;
+       beq   P0B0B;
+       ldd   ,u;
+       tsta           ; Check tank's state flag
+       beq   P0B0B    ; Skip if tank is not active
+       cmpb  #0x02    ; Skip if the tank is disabled;
+       bge   P0B0B    ; i.e. already has 2 hits.
+       lda   #0x05    ; Set the target half size
+       sta   0xC8E8   ; for the tank (10x10).
+       ldd   14,u     ; Get tank's position
+       bsr   CheckForMissileHit
+       bvc   P0B0B    ; Branch if no hit
+       ldb   1,u      ; Get # hits on tank
+       lda   b,y      ; Load bonus value for hit
+       ldb   0xC8DA   ; Do a BCD add of the new
+       adda  b,y      ; bonus value to the player's
+       daa            ; cumulative bonus value, and
+       sta   b,y      ; save it.
+       inc   1,u      ; Register hit on the tank
+       bra   ExplodeMissile ; Explode the missile
+P0B0B: leau  0x40,u   ; Get ptr to next tank
+       ldb   0xC8CB   ; Get loop counter
+       decb           ; Decr loop counter
+       bne   P0ADF    ; Branch if more tanks
+       jsr   [ 0xC8CC ] ; Call processing proc
+       lbvc  P0A92    ; Branch if no hit
+
+ExplodeMissile:
+       lda   #0x08    ; Set missile state flag
+       sta   ,x       ; to show it's exploding.
+       ldd   #0x090A  ; Set dwell (0x09) and
+       std   3,x      ; scale factor (0x0A).
+       ldd   #0xCB00  ; Explosion end points
+       std   5,x      ; Set explosion vlist
+       jmp   P0A92;
+
+; CheckForSystemMissileHits()
+;
+CheckForSystemMissileHits:
+       ldu   #RAMMES  ; Ptr to player 1 data
+P0B2F: lda   ,u       ; Get player's state flag
+       ble   P0B46    ; Branch if dead/exploding
+       lda   #0x02    ; Set the target size of
+       sta   0xC8E8   ; the player (4x4).
+       lda   6,u      ; Get player's y pos
+       ldb   8,u      ; Get player's x pos
+       bsr   CheckForMissileHit
+       bvc   P0B46    ; Branch if no hit
+       lda   #0x80    ; Flag the player as
+       sta   ,u       ; being hit.
+       orcc  #0x02    ; Signal a hit occurred.
+       rts
+P0B46: leau  0x27,u   ; Get ptr to next player
+       cmpu  #0xCA4E  ; All done?
+       bne   P0B2F    ; Branch if not done
+       andcc #0xFD    ; Signal no hit occurred.
+       rts
+
+; CheckForMissileHit()
+;
+; Entry: x = ptr to missile data
+;        a = target y
+;        b = target x
+;        C8E8 = target half size
+;
+CheckForMissileHit:
+       suba  1,x      ; Get delta between missile
+       bvs   P0B6B    ; and target y; branch if
+       bpl   P0B59    ; overflow.  Else, get abs
+       nega           ; value of the delta.
+P0B59: subb  2,x      ; Get delta between missile
+       bvs   P0B6B    ; and target x; branch if
+       bpl   P0B60    ; overflow.  Else, get abs
+       negb           ; value of the delta.
+P0B60: cmpa  0xC8E8   ; Is y within the target?
+       bgt   P0B6B    ; Branch if not
+       cmpb  0xC8E8   ; Is x within the target?
+       bgt   P0B6B    ; Branch if not
+       orcc  #0x02    ; Signal a hit occurred
+       rts
+P0B6B: andcc #0xFD    ; Signal no hit occurred
+       rts
+
+; CheckForHelecopterHit()
+;
+; Entry: x = Ptr to missile data
+;        y = ptr to player 1 bonus info (-2)
+;
+CheckForHelecopterHit:
+       lda   TEMP6    ; Get Helecopter state flag
+       ble   P0BCD    ; Branch if inactive/exploding
+       ldd   T1FUNC   ; Get hele's (y,x) offset
+       adda  TMR2     ; Add y offset position
+       bvs   P0BCD    ; Branch if invalid (overflow)
+       addb  T2FUNC   ; Add x offset position
+       bvs   P0BCD    ; Branch if invalid (overflow)
+       suba  1,x      ; Subtract missile y
+       bvs   P0BCD    ; Branch if invalid (overflow)
+       subb  2,x      ; Subtract missile x
+       bvs   P0BCD    ; Branch if invalid (overflow)
+       asra           ; Divide y difference by 2
+       asrb           ; Divide x difference by 2
+       std   0xC8CF   ; Save y & x differences
+       ldb   T4FUNC   ; Get helecopter rotation angle
+       subb  #0x40    ; Adjust angle
+       andb  #0x3F    ; Force in 0-360 range
+       jsr   LNROT    ; Rotate single line
+       std   0xC8CE   ; Save rotated (y,x) endpt
+       lda   0xC8D0   ; Velocity
+       ldb   ANGLE    ; Get angle of travel
+       jsr   LROT90   ; Calc movement deltas
+       adda  0xC8CE   ; Take into account the hele's
+                      ; pending y movement.
+       bpl   P0B9F    ; Branch if positive
+       nega           ; Make positive
+P0B9F: addb  0xC8CF   ; Take into account the hele's
+                      ; pending x movement.
+       bpl   P0BA4    ; Branch if positive
+       negb           ; Make positive
+P0BA4: cmpa  #0x02    ; Is missile within 2 y units?
+       bgt   P0BCD    ; Branch if not
+       cmpb  #0x04    ; Is missile within 4 x units?
+       bgt   P0BCD    ; Branch if not
+       lda   #0x80    ; Set helecopter state flag
+       sta   TEMP6    ; to signal it's been hit.
+       ldb   0xC8DA   ; Based on whose missile it
+       lda   b,y      ; was, add a 1000 point
+       adda  #0x0A    ; bonus to the appropriate
+       daa            ; player's bonus area.
+       sta   b,y      ; Save the new bonus value
+       ldb   1,y      ; Get the current bonus for
+       incb           ; the second tank hit. Incr it.
+       cmpb  #0x08    ; Has it reached 800 points?
+       bne   P0BC8    ; Branch if not
+       inc   0xC8E2   ; Award a bonus jeep
+       bne   P0BC6    ; Are they now at 0 jeeps?
+       dec   0xC8E2   ; If so, then remove bonus jeep;
+                      ; player must have just died also.
+P0BC6: ldb   #0x02    ; Reset 2nd hit bonus to 200 points
+P0BC8: stb   1,y      ; Save updated 2nd hit bonus
+       orcc  #0x02    ; Signal a hit occurred
+       rts
+P0BCD: andcc #0xFD    ; Signal no hit occurred
+       rts
+
+P0BD0: jmp   EXPLOD   ; Make explosion noise
+
+; MakeSounds()
+;
+MakeSounds:
+       ldu   #ExplosionSounds ; Load ptr to sound 
+       lda   0xC8EF   ; Helecopter exploding?
+       beq   P0BE5    ; Branch if not
+       bmi   P0BD0    ; Branch if yes
+       dec   0xC8EF   ;
+       leau  4,u      ; Ptr to alt explosion snd
+       jsr   EXPLOD   ; Make explosion sound
+       bra   P0C33;
+
+P0BE5: lda   #0x0F;
+       sta   REQ5     ; Channel A amplitude
+       sta   REQ4     ; Channel B amplitude
+       sta   REQ3     ; Channel C amplitude
+       ldb   REQ6     ; Tone/Noise enables
+       lda   SATUS    ; Check if tank sounds
+       anda  #0x03    ; are enabled.
+       beq   P0C2F    ; Branch if not
+       andb  #0xF9    ; Enable tone chans B&C
+       orb   #0x30    ; Disable noise chans B&C
+       stb   REQ6     ; Tone/Noise enables
+       adda  BACON;
+       sta   BACON;
+       bita  #0x08;
+       bne   P0C07;
+       orb   #0x04    ; Disable tone channel C
+       stb   REQ6     ; Tone/Noise enables
+P0C07: bita  #0x10;
+       bne   P0C0D;
+       eora  #0x07;
+P0C0D: anda  #0x07;
+       adda  #0x10;
+       sta   REQ9     ; Channel C fine tone period
+       clr   REQ8     ; Channel C course tone period
+       lda   #0x08;
+       sta   REQ3     ; Channel C amplitude
+       lda   SATUS;
+       bita  #0x01    ; Slow tank sounds?
+       beq   P0C24    ; Branch if not (then fast tanks)
+       ldd   #0x0FFF  ; Chan B course/fine tone period
+       bra   P0C27;
+
+       ; Fast moving tanks sounds
+P0C24: ldd   #0x0BFF  ; Chan B course/fine tone period
+P0C27: std   REQA     ; Channel B course tone period (a)
+                      ; Channel B fine tone period (b)
+       lda   #0x0E    ; New Chan B amplitude
+       std   REQ4     ; Channel B amplitude (a)
+                      ; Channel A amplitude (b)
+       bra   P0C33;
+
+P0C2F: orb   #0x36    ; Disable noise & tone chans B&C
+       stb   REQ6     ; Tone/Noise enables
+P0C33: ldb   REQ6     ; Tone/Noise enables
+       lda   SATUS    ; Is the helecopter flying sound
+       bita  #0x08    ; enabled?
+       beq   P0C59    ; Branch if not
+       inc   GAP;
+       lda   GAP;
+       bita  #0x02;
+       beq   P0C59;
+       andb  #0xF7    ; Enable noise channel A
+       stb   REQ6     ; Tone/Noise enables
+       rora;
+       ldb   #0x20;
+       blo   P0C4D;
+       lsrb;
+P0C4D: clra;
+       std   REQC     ; Channel A course tone period
+                      ; Channel A fine tone period
+       ldb   #0x03;
+       stb   REQ7     ; Noise period
+       lda   #0x0D;
+       sta   REQ5     ; Channel A amplitude
+       rts;
+
+P0C59: orb   #0x09    ; Disable noise & tone chan A
+       stb   REQ6     ; Noise/Tone enables
+       rts;
+
+ExplosionSounds:
+       db    0x3B     ; Channel enables
+       db    0x00     ; Sweep freq (up)
+       db    0x00     ; Sweep vol (up)
+       db    0x01     ; Explosion duration
+
+       db    0x36     ; Channel enables
+       db    0x78     ; Sweep freq (down)
+       db    0x00     ; Sweep vol (up)
+       db    0x04     ; Explosion duration
+
+; CalcAngle1()
+;
+; Entry: x = ptr to tracker's (y,x) position
+;        y = target (player) position
+;
+; Exit:  a = angle from tracker to target
+;        b = sum of abs(delta y + delta x)
+;            (for proximity testing).
+;
+; Calculates the angle from the tracker to the
+; target.
+;
+CalcAngle1:
+       ldd   ,x       ; Get tracker's (y,x) pos
+       asra           ; Divide y by 2
+       asrb           ; Divide x by 2
+       std   -2,s     ; Save results on stack
+       ldd   2,x      ; Get tracker's movement deltas
+       asra           ; Divide y delta by 2
+       asrb           ; Divide x delta by 2
+       adda  -2,s     ; Add adjusted y delta to y pos
+       addb  -1,s     ; Add adjusted x delta to x pos
+       bra   P0C82
+
+
+; CalcAngle2()
+;
+; Entry: u = ptr to player's (y,x) position
+;        d = trackers (y,x) position
+;
+; Exit:  a = angle from tracker to target
+;        b = sum of abs(delta y + delta x)
+;            (for proximity testing).
+;
+; Calculates the angle from the tracker to the
+; target.
+;
+CalcAngle2:
+       pshs  a,b      ; Save tank's (y,x) pos
+       lda   ,u       ; Get player's y pos
+       ldb   2,u      ; Get player's x pos
+       tfr   d,y      ; Xfer position to y register
+       puls  a,b      ; Restore tank's (y,x) pos
+
+
+; CalcAngle3()
+;
+; Entry: d = Tracker's (y,x) position
+;        y = target (player) position
+;
+; Exit:  a = angle from tracker to target
+;        b = sum of abs(delta y + delta x)
+;            (for proximity testing).
+;
+; Calculates the angle from the tracker to the
+; target.  This appears to be used to do a gradual
+; angle adjustment, since it halves the tracker's
+; angle, before doing the calculation.
+;
+CalcAngle3:
+       asra           ; Divide y by 2
+       asrb           ; Divide x by 2
+P0C82: pshs  a,b      ; Save tracker's updated pos
+       tfr   y,d      ; Get target's position
+       asra           ; Divide y by 2
+       asrb           ; Divide x by 2
+       suba  ,s+      ; Get delta between the y's
+       subb  ,s+      ; Get delta between the x's
+       pshs  a,b      ; Save the delta values
+       jsr   CMPASS   ; Use the result to calc the
+                      ; angle from the tracker to
+                      ; the target.
+       puls  a,b      ; Restore the delta values
+       jsr   ABSAB    ; Get abs val of the deltas
+       pshs  a        ; Sum the abs value of the 2
+       orb   ,s+      ; deltas, to get proximity val
+       lda   ANGLE    ; Load calculated angle
+       rts;
+
+; DrawPacketVlist()
+;
+; Entry: b = scale factor
+;        x = packet vlist pointer
+;
+DrawPacketVlist:
+       jsr   TPACK    ; Draw packet vlist
+       jmp   ZERGND;
+
+; UpdateScore()
+;
+; This is an iterator function.
+;
+UpdateScore:
+       lda   ,u+      ; Get upper BCD score byte
+       clrb           ; Lower BCD score byte = "00"
+       jsr   SCRADD   ; Add "xx00" to score str
+       leax  9,x      ; Pt to next score str
+       rts;
+
+; CreateHelecopterRotors()
+;
+; Entry: x = ptr to diffy rotor vlist
+;        u = ptr to destination buffer
+;        b = vector count - 1
+;
+; Takes the source rotor vlist (3 vectors) and
+; creates four copies, each rotated at 90 degrees
+; from the each other, to produce a set of rotors.
+; It does this four times, to produce 4 complete
+; sets of rotors, each at a slightly different
+; rotation angle.  These will be used to produce
+; the effect of rotating helecopter rotors.
+; The 4 sets of 12 vectors are stored into the 
+; destination buffer.
+;
+CreateHelecopterRotors:
+       leay  ,x       ; Save ptr to rotor diffy vlist
+       lda   #0x04    ; Outer loop counter
+       pshs  a,b      ; Save loop cntr & # vectors
+       ldb   #0x04    ; b = angle (22.5 degrees)
+       pshs  a,b      ; a = inner loop counter
+P0CB6: lda   1,s      ; Get rotation angle
+P0CB8: adda  #0x10    ; Adjust: add 90 degrees
+       sta   1,s      ; Save updated value
+       ldb   3,s      ; Set vector count -1
+       jsr   DROT     ; Rotate rotor diffy vlist
+       leax  ,y       ; Restore ptr to rotor vlist
+       dec   ,s       ; Decr inner loop counter
+       bne   P0CB6    ; Branch if more iterations
+       lda   #0x04    ; Reset inner 
+       sta   ,s       ; loop counter.
+       adda  1,s      ; Adj angle (add 22.5 degrees)
+       dec   2,s      ; Decr outer loop counter
+       bne   P0CB8    ; Branch if more iterations
+       leas  4,s      ; Clean up stack
+       rts
+
+; DisableAllTanks()
+;
+; Disables all tanks, by setting their state flag
+; to 0.
+;
+DisableAllTanks:
+       ldx   #0xC900  ; Ptr to 1st tank bufr
+       ldd   #0x0340  ; a=loop cnt; b=bufr size
+
+; DisableObjects()
+;
+; Entry: x = ptr to first object to be disabled
+;        a = # of objects to disable
+;        b = size of each object
+;
+DisableObjects:
+       clr   ,x       ; Disable this object
+       abx            ; Point to next object
+       deca           ; Decrement loop counter
+       bne   DisableObjects ; More interations?
+       rts
+
+; CopyRandomArrayData()
+;
+; Entry: a = offset mask
+;        u = ptr to source array
+;        x = ptr to destination
+;        b = # of bytes to copy
+;
+; Generates a random number, which is then masked
+; using the specified offset mask.  The result is
+; used to index into the specified array.  Each
+; byte in the source array is divided by 4, and
+; then copied into the destination buffer.  The
+; specified number of bytes are copied.
+;
+CopyRandomArrayData:
+       pshs  a,b;
+       jsr   RANDOM   ; Load random # -> a
+       anda  ,s+      ; Mask with offset mask
+       leau  a,u      ; Offset into src array
+       puls  a        ; Get # bytes to copy
+P0CEC: ldb   ,u+      ; Get next byte
+       asrb           ; Divide the value
+       asrb           ; by 4.
+       stb   ,x+      ; Store in dest buffer
+       deca           ; Decr loop counter
+       bne   P0CEC    ; Branch if more bytes
+       rts
+
+; CopyUtoX()
+;
+; Entry: u = ptr to source buffer
+;        x = ptr to destination buffer
+;        a = # bytes to copy
+;
+CopyUtoX:
+       ldb   ,u+      ; Get next byte
+       stb   ,x+      ; Save in dest buffer
+       deca           ; Decr loop counter
+       bne   CopyUtoX ; Branch if more bytes
+       rts
+
+       db    0x12;           
+
+; Values used to initialize C880-C887
+LevelSpecificData:
+       db    0x01     ; Use slow tank sounds
+       db    0x01     ; Max # of tanks
+       db    0x02     ; Tank body angle delta
+       db    0x06     ; Resync plyr's pos counter
+       db    0xFC     ; Course tuning angle mask
+       db    0x03     ; Hele angle update mask
+       db    0x20     ; Delay before firing missile
+       db    0x08     ; Index to level-specific data
+
+       db    0x01     ; Use slow tank sounds
+       db    0x02     ; Max # of tanks
+       db    0x02     ; Tank body angle delta
+       db    0x04     ; Resync plyr's pos counter
+       db    0xFD     ; Course tuning angle mask
+       db    0x01     ; Hele angle update mask
+       db    0x20     ; Delay before firing missile
+       db    0x10     ; Index to level-specific data
+
+       db    0x01     ; Use slow tank sounds
+       db    0x02     ; Max # of tanks
+       db    0x02     ; Tank body angle delta
+       db    0x02     ; Resync plyr's pos counter
+       db    0xFD     ; Course tuning angle mask
+       db    0x01     ; Hele angle update mask
+       db    0x20     ; Delay before firing missile
+       db    0x18     ; Index to level-specific data
+
+       db    0x01     ; Use slow tank sounds
+       db    0x03     ; Max # of tanks
+       db    0x02     ; Tank body angle delta
+       db    0x02     ; Resync plyr's pos counter
+       db    0xFD     ; Course tuning angle mask
+       db    0x01     ; Hele angle update mask
+       db    0x1C     ; Delay before firing missile
+       db    0x20     ; Index to level-specific data
+
+       db    0x01     ; Use slow tank sounds
+       db    0x03     ; Max # of tanks
+       db    0x02     ; Tank body angle delta
+       db    0x02     ; Resync plyr's pos counter
+       db    0xFE     ; Course tuning angle mask
+       db    0x01     ; Hele angle update mask
+       db    0x1C     ; Delay before firing missile
+       db    0x28     ; Index to level-specific data
+
+       db    0x02     ; Use fast tank sounds
+       db    0x03     ; Max # of tanks
+       db    0x02     ; Tank body angle delta
+       db    0x01     ; Resync plyr's pos counter
+       db    0xFE     ; Course tuning angle mask
+       db    0x01     ; Hele angle update mask
+       db    0x1C     ; Delay before firing missile
+       db    0x30     ; Index to level-specific data
+
+       db    0x02     ; Use fast tank sounds
+       db    0x03     ; Max # of tanks
+       db    0x02     ; Tank body angle delta
+       db    0x01     ; Resync plyr's pos counter
+       db    0xFF     ; Course tuning angle mask
+       db    0x00     ; Hele angle update mask
+       db    0x1C     ; Delay before firing missile
+       db    0x38     ; Index to level-specific data
+
+       db    0x02     ; Use fast tank sounds
+       db    0x03     ; Max # of tanks
+       db    0x04     ; Tank body angle delta
+       db    0x01     ; Resync plyr's pos counter
+       db    0xFF     ; Course tuning angle mask
+       db    0x00     ; Hele angle update mask
+       db    0x14     ; Delay before firing missile
+       db    0x38     ; Index to level-specific data
+
+
+Defaults:
+       db    0x02   ; Counter - delay before
+       db    0x00   ; processing helecopter.
+       db    0x30   ; Counter - tank startup delay
+       db    0xFF   ; Counter - startup delay
+       db    0x05   ; Starting jeep count
+       db    0x02   ; Value for 1st tank hit (0200)
+       db    0x03   ; Value for 2nd tank hit (0300)
+
+JeepVlists:
+Jeep1: db    0x00, 0x08, 0x0C
+       db    0xFF, 0xF0, 0x00
+       db    0xFF, 0x00, 0xE8
+       db    0xFF, 0x10, 0x00
+       db    0xFF, 0x00, 0x18
+       db    0x00, 0xF4, 0x00
+       db    0xFF, 0xFC, 0xF6
+       db    0xFF, 0x10, 0x00
+       db    0xFF, 0xFC, 0x0A
+       db    0x01
+
+Jeep2: db    0x00, 0x08, 0x0C
+       db    0xFF, 0xF0, 0x00
+       db    0xFF, 0x00, 0xE8
+       db    0xFF, 0x10, 0x00
+       db    0xFF, 0x00, 0x18
+       db    0xFF, 0xF0, 0xF6
+       db    0xFF, 0x10, 0x00
+       db    0xFF, 0xF0, 0x0A
+       db    0x01
+
+MissileVlist:
+       db    0x00
+DftTankAttrsBase:
+       db    0x1B
+       db    0x00
+       db    0xEE
+       db    0x03
+       db    0xFD
+       db    0xFA
+       db    0x00
+       db    0x03
+       db    0x03
+
+DftTankAttrs:
+Tank1: db    0x0F   ; 
+       db    0x0F   ; 
+       db    0x02   ; scale
+       db    0x08   ; index
+       db    0x18   ; y
+       db    0x78   ; x
+       db    0x00   ; delta y
+       db    0x01   ; delta x
+       db    0x30   ; angle
+
+Tank2: db    0x0A   ; 
+       db    0x0A   ; 
+       db    0x02   ; scale
+       db    0x08   ; index
+       db    0x38   ; y
+       db    0x78   ; x
+       db    0x00   ; delta y
+       db    0x01   ; delta x
+       db    0x30   ; angle
+
+Tank3: db    0x06   ; 
+       db    0x06   ; 
+       db    0x03   ; scale
+       db    0x08   ; index
+       db    0x78   ; y
+       db    0x38   ; x
+       db    0x01   ; delta y
+       db    0x00   ; delta x
+       db    0x00   ; angle
+
+S0DA0: db    0x00
+       db    0x02
+       db    0x01
+       db    0x01
+       db    0x00
+       db    0x20
+       db    0x08
+       db    0x08
+       db    0x0B
+       db    0x03
+       db    0x02
+       db    0x01
+       db    0x30
+       db    0x30
+       db    0x08
+       db    0x20
+       db    0x04
+       db    0x00
+       db    0x03
+       db    0x02
+       db    0x10
+       db    0x00
+       db    0x08
+       db    0x30
+       db    0x00
+       db    0x05
+       db    0x03
+       db    0x00
+       db    0x00
+       db    0x18
+       db    0x10
+       db    0x00
+       db    0x06
+       db    0x00
+       db    0x00
+       db    0x04
+       db    0x20
+       db    0x00
+       db    0x00
+       db    0x18
+       db    0x00
+       db    0x00
+       db    0x05
+       db    0x07
+       db    0x00
+       db    0x00
+       db    0x20
+       db    0x18
+       db    0x08
+       db    0x06
+       db    0x00
+       db    0x0B
+       db    0x20
+       db    0x18
+       db    0x00
+       db    0x30
+       db    0x00
+       db    0x00
+       db    0x07
+       db    0x09
+       db    0x00
+       db    0x00
+       db    0x20
+       db    0x20
+       db    0x0A
+       db    0x08
+       db    0x00
+       db    0x0C
+       db    0x18
+       db    0x20
+       db    0x00
+       db    0x10
+       db    0x00
+       db    0x00
+       db    0x09
+       db    0x0F
+       db    0x00
+       db    0x00
+       db    0x18
+       db    0x20
+       db    0x0C
+       db    0x07
+       db    0x02
+       db    0x00
+       db    0x20
+       db    0x30
+       db    0x30
+       db    0x00
+       db    0x00
+       db    0x09
+       db    0x0B
+       db    0x0D
+       db    0x00
+       db    0x10
+       db    0x20
+       db    0x10
+       db    0x0F
+       db    0x0C
+       db    0x00
+       db    0x0E
+       db    0x18
+       db    0x10
+       db    0x00
+       db    0x10
+       db    0x00
+       db    0x0D
+       db    0x00
+       db    0x0E
+       db    0x00
+       db    0x10
+       db    0x00
+       db    0x08
+       db    0x00
+       db    0x0A
+       db    0x0D
+       db    0x00
+       db    0x00
+       db    0x20
+       db    0x18
+       db    0x00
+
+; Pairs of (y,x) values
+OuterBoundaryVlists:
+       db    0x30, 0x00
+       db    0x00, 0x60
+       db    0xD0, 0x00
+       db    0x00, 0x40
+       db    0xC0, 0x00
+       db    0x00, 0x30
+       db    0xA0, 0x00
+       db    0x00, 0xD0
+       db    0xC0, 0x00
+
+       db    0x00, 0x30
+       db    0xA0, 0x00
+       db    0x00, 0xD0
+       db    0xC0, 0x00
+       db    0x00, 0xC0
+       db    0xD0, 0x00
+       db    0x00, 0xA0
+       db    0x30, 0x00
+       db    0x00, 0xC0
+
+       db    0xD0, 0x00
+       db    0x00, 0xA0
+       db    0x30, 0x00
+       db    0x00, 0xC0
+       db    0x40, 0x00
+       db    0x00, 0xD0
+       db    0x60, 0x00
+       db    0x00, 0x30
+       db    0x40, 0x00
+
+       db    0x00, 0xD0
+       db    0x60, 0x00
+       db    0x00, 0x30
+       db    0x40, 0x00
+       db    0x00, 0x40
+       db    0x30, 0x00
+       db    0x00, 0x60
+       db    0xD0, 0x00
+       db    0x00, 0x40
+
+; Pairs of (y,x) values
+LgSquareBuildingVlist:
+       db    0x00, 0x40
+       db    0xC0, 0x00
+       db    0xC0, 0x00
+       db    0x00, 0xC0
+       db    0x40, 0x00
+       db    0x40, 0x00
+
+; Pairs of (y,x) values
+SmSquareBuildingVlist:
+       db    0x00, 0x20
+       db    0x40, 0x00
+       db    0x00, 0xE0
+       db    0xC0, 0x00
+
+; Pairs of (y,x) values
+LBuildingVlists:
+       db    0x00, 0x40
+       db    0x48, 0x00
+       db    0x00, 0xE0
+       db    0xD8, 0x00
+       db    0x00, 0xE0
+       db    0xE0, 0x00
+
+       db    0x20, 0x00
+       db    0x00, 0xE0
+       db    0x28, 0x00
+       db    0x00, 0xE0
+       db    0xB8, 0x00
+       db    0x00, 0x40
+
+       db    0xE0, 0x00
+       db    0x00, 0xE0
+       db    0xD8, 0x00
+       db    0x00, 0xE0
+       db    0x48, 0x00
+       db    0x00, 0x40
+
+       db    0x00, 0x40
+       db    0xB8, 0x00
+       db    0x00, 0xE0
+       db    0x28, 0x00
+       db    0x00, 0xE0
+       db    0x20, 0x00
+
+AllVlistAttrs:
+       db    0x04    ; # of vlists
+       db    0x08    ; Vector count - 1
+       db    0x60    ; relative y1
+       db    0x10    ; relative x1
+       db    0xF0    ; relative y2
+       db    0x60    ; relative x2
+       db    0xA0    ; relative y3
+       db    0xF0    ; relative x3
+       db    0x10    ; relative y4
+       db    0xA0    ; relative x4
+
+       ; Attributes for LgSquareBuildingVlist
+       db    0x02    ; # of iterations
+       db    0x05    ; vector count - 1
+       db    0x20    ; relative y1
+       db    0x20    ; relative x1
+       db    0x20    ; relative y2
+       db    0xC0    ; relative x2
+
+       ; Attributes for SmSquareBuildingVlist
+       db    0x04    ; # of iterations
+       db    0x03    ; vector count - 1
+       db    0x30    ; relative y1
+       db    0x40    ; relative x1
+       db    0x30    ; relative y2
+       db    0xB0    ; relative x2
+       db    0xB0    ; relative y3
+       db    0xB0    ; relative x3
+       db    0xB0    ; relative y4
+       db    0x40    ; relative x4
+
+       ; Attributes for LBuildingVlists
+       db    0x04    ; # of vlists
+       db    0x05    ; vector count - 1
+       db    0x40    ; relative y1
+       db    0x10    ; relative x1
+       db    0x40    ; relative y2
+       db    0xF0    ; relative x2
+       db    0xC0    ; relative y3
+       db    0xF0    ; relative x3
+       db    0xC0    ; relative y4
+       db    0x10    ; relative x4
+
+TankBodyVlist:
+       db    0x00, 0x0C, 0x08
+       db    0xFF, 0x00, 0xF0
+       db    0xFF, 0xE8, 0x00
+       db    0xFF, 0x00, 0x10
+       db    0xFF, 0x18, 0x00
+       db    0x00, 0xF4, 0xF8
+       db    0x01
+
+TankTurretVlist:
+       db    0xFF, 0x04, 0x00
+       db    0xFF, 0x04, 0xFC
+       db    0xFF, 0xFC, 0xF0
+       db    0xFF, 0xF8, 0x00
+       db    0xFF, 0xFC, 0x10
+       db    0xFF, 0x04, 0x04
+       db    0xFF, 0x04, 0x00
+       db    0xFF, 0x00, 0x28
+       db    0x01
+
+DestroyedTankBodyVlist:
+       db    0x00, 0x0A, 0x05
+       db    0xFF, 0x04, 0xF0
+       db    0xFF, 0xEF, 0x06
+       db    0xFF, 0xF7, 0xFD
+       db    0xFF, 0xFD, 0x11
+       db    0xFF, 0x0F, 0xF7
+       db    0x01
+
+DestroyedTurretVlist:
+       db    0xFF, 0x06, 0xFA
+       db    0xFF, 0xFE, 0xFC
+       db    0xFF, 0x02, 0xF8
+       db    0xFF, 0xFA, 0xFE
+       db    0xFF, 0xFC, 0x06
+       db    0xFF, 0x08, 0x10
+       db    0xFF, 0xFE, 0x14
+       db    0xFF, 0x02, 0x14
+       db    0x01
+
+;   Vertical wall boundaries
+;
+;   |  *            *
+;   |  *            *
+;70 +  *            *
+;   |  *            *
+;   |  *            *
+;   |  *            *
+;60 +  *    *  *    *       *
+;   |       *  *            *
+;   |       *  *            *
+;   |       *  *            *
+;50 +       *  *            *
+;   |   *   *  *    *  *    *
+;   |   *      *    *  *    *
+;   |   *      *    *  *    *
+;40 +   *      *    *  *    *
+;   |               *  *          *
+;   |               *  *          *
+;   |               *  *          *
+;30 +               *  *          *
+;   |                             *
+;   |                             *
+;   |                             *
+;20 +                             *
+;   |       *      *              *
+;   |       *      *              *
+;   |       *      *              *
+;10 +       *      *              *
+;   |       *      *        *     *
+;   |       *      *        *
+;   |       *      *        *
+;00 +---+---*---+--*+---+---*---+--
+;   00  10  20  30  40  50  60  70
+;
+VerticalWalls:
+       db    0x0E ; offset (0x0A-0x19)
+       db    0x02 ; # of walls
+       db    0x18 ; offset (0x1A-0x29)
+       db    0x02 ; # of walls
+       db    0x22 ; offset (0x2A-0x39)
+       db    0x01 ; # of walls
+       db    0x27 ; offset (0x3A-0x49)
+       db    0x03 ; # of walls
+       db    0x36 ; offset (0x4A-0x59)
+       db    0x01 ; # of walls
+       db    0x3B ; offset (0x5A-0x69)
+       db    0x02 ; # of walls
+       db    0x45 ; offset (0x6A-0x79)
+       db    0x01 ; # of walls
+
+       db    0x60 ; min y
+       db    0x1C ; max y delta
+       db    0x0C ; min x
+       db    0x04 ; max x delta
+       db    0x10 ; updated x pos
+
+       db    0x40 ; min y
+       db    0x10 ; max y delta
+       db    0x10 ; min x
+       db    0x04 ; max x delta
+       db    0x10 ; updated x pos
+
+       db    0x4C ; min y
+       db    0x18 ; max y delta
+       db    0x20 ; min x
+       db    0x04 ; max x delta
+       db    0x20 ; updated x pos
+
+       db    0x00 ; min y
+       db    0x20 ; max y delta
+       db    0x20 ; min x
+       db    0x04 ; max x delta
+       db    0x20 ; updated x pos
+
+       db    0x40 ; min y
+       db    0x24 ; max y delta
+       db    0x2C ; min x
+       db    0x04 ; max x delta
+       db    0x30 ; updated x pos
+
+       db    0x60 ; min y
+       db    0x1C ; max y delta
+       db    0x40 ; min x
+       db    0x04 ; max x delta
+       db    0x40 ; updated x pos
+
+       db    0x30 ; min y
+       db    0x20 ; max y delta
+       db    0x40 ; min x
+       db    0x04 ; max x delta
+       db    0x40 ; updated x pos
+
+       db    0x00 ; min y
+       db    0x20 ; max y delta
+       db    0x3C ; min x
+       db    0x04 ; max x delta
+       db    0x40 ; updated x pos
+
+       db    0x30 ; min y
+       db    0x20 ; max y delta
+       db    0x4C ; min x
+       db    0x04 ; max x delta
+       db    0x50 ; updated x pos
+
+       db    0x40 ; min y
+       db    0x24 ; max y delta
+       db    0x60 ; min x
+       db    0x04 ; max x delta
+       db    0x60 ; updated x pos
+
+       db    0x00 ; min y
+       db    0x10 ; max y delta
+       db    0x60 ; min x
+       db    0x04 ; max x delta
+       db    0x60 ; updated x pos
+
+       db    0x0C ; min y
+       db    0x34 ; max y delta
+       db    0x78 ; min x
+       db    0x04 ; max x delta
+       db    0x78 ; updated x pos
+
+;   Horizontal wall boundaries
+;     FDT - Note bug, marked by 'xx'; this
+;           wall invisibly extends 8 units
+;           beyond where the physical wall
+;           really is!
+;
+;   |  **************
+;   |
+;70 +
+;   |
+;   |
+;   |
+;60 ****    ****    **********
+;   |
+;   |
+;   |
+;50 +
+;   |   ******      ****
+;   |
+;   |
+;40 +   ********xx          *******
+;   |
+;   |
+;   |
+;30 +               ****
+;   |
+;   |
+;   |
+;20 +
+;   |       ********
+;   |
+;   |
+;10 +
+;   |                       *******
+;   |
+;   |
+;00 +---+---+---+---+---+---+---+--
+;   00  10  20  30  40  50  60  70
+;
+HorizontalWalls:
+       db    0x0E ; offset (0x0A-0x19)
+       db    0x01 ; # of walls
+       db    0x13 ; offset (0x1A-0x29)
+       db    0x01 ; # of walls
+       db    0x18 ; offset (0x2A-0x39)
+       db    0x01 ; # of walls
+       db    0x1D ; offset (0x3A-0x49)
+       db    0x02 ; # of walls
+       db    0x27 ; offset (0x4A-0x59)
+       db    0x02 ; # of walls
+       db    0x31 ; offset (0x5A-0x69)
+       db    0x03 ; # of walls
+       db    0x40 ; offset (0x6A-0x79)
+       db    0x01 ; # of walls
+
+       db    0x0C ; min y
+       db    0x04 ; max y delta
+       db    0x60 ; min x
+       db    0x1C ; max x delta
+       db    0x10 ; updated y pos
+
+       db    0x1C ; min y
+       db    0x04 ; max y delta
+       db    0x20 ; min x
+       db    0x20 ; max x delta
+       db    0x20 ; updated y pos
+
+       db    0x30 ; min y
+       db    0x04 ; max y delta
+       db    0x40 ; min x
+       db    0x10 ; max x delta
+       db    0x30 ; updated y pos
+
+       db    0x40 ; min y
+       db    0x04 ; max y delta
+       db    0x10 ; min x
+       db    0x28 ; max x delta
+       db    0x40 ; updated y pos
+
+       db    0x40 ; min y
+       db    0x03 ; max y delta
+       db    0x60 ; min x
+       db    0x1C ; max x delta
+       db    0x40 ; updated y pos
+
+       db    0x4C ; min y
+       db    0x04 ; max y delta
+       db    0x10 ; min x
+       db    0x14 ; max x delta
+       db    0x50 ; updated y pos
+
+       db    0x4C ; min y
+       db    0x04 ; max y delta
+       db    0x40 ; min x
+       db    0x10 ; max x delta
+       db    0x50 ; updated y pos
+
+       db    0x60 ; min y
+       db    0x04 ; max y delta
+       db    0x00 ; min x
+       db    0x10 ; max x delta
+       db    0x60 ; updated y pos
+
+       db    0x60 ; min y
+       db    0x04 ; max y delta
+       db    0x20 ; min x
+       db    0x10 ; max x delta
+       db    0x64 ; updated y pos
+
+       db    0x60 ; min y
+       db    0x04 ; max y delta
+       db    0x40 ; min x
+       db    0x24 ; max x delta
+       db    0x60 ; updated y pos
+
+       db    0x78 ; min y
+       db    0x04 ; max y delta
+       db    0x0C ; min x
+       db    0x38 ; max x delta
+       db    0x78 ; updated y pos
+
+HelecopterBodyVlist:
+       db    0x00, 0x00, 0x1C
+       db    0xFF, 0x0C, 0xF4
+       db    0xFF, 0x00, 0xE0
+       db    0xFF, 0xF8, 0xF4
+       db    0xFF, 0xFC, 0xCC
+       db    0xFF, 0xFC, 0x34
+       db    0xFF, 0xF8, 0x0C
+       db    0xFF, 0x00, 0x20
+       db    0xFF, 0x0C, 0x0C
+       db    0x00, 0x00, 0xE4
+       db    0x01
+
+
+DestroyedHelecopterVlists:
+       db    0x00, 0x0C, 0x10
+       db    0xFF, 0xF4, 0x0C
+       db    0xFF, 0xF4, 0xF4
+       db    0xFF, 0x00, 0xD0
+       db    0x20
+
+       db    0x00, 0xE8, 0xE4
+       db    0xFF, 0x08, 0x0C
+       db    0xFF, 0x04, 0xCC
+       db    0xFF, 0x04, 0x34
+       db    0xFF, 0x08, 0x0C
+       db    0xFF, 0x00, 0x30
+       db    0x01
+
+; Pairs of (y,x) points
+HelecopterRotorVlist:
+       db    0x30, 0x00
+       db    0x00, 0xF8
+       db    0xD0, 0x08
+
+EndString:
+       db    0x00
+       db    0xF0
+       db    "END",0x80
+
+       db    0x03
+       db    0x97
+       db    0x68
+       db    0x0F
+       db    0x67
+S0FFF: db    0x39

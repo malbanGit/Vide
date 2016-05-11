@@ -1,0 +1,1237 @@
+
+- NOT done (wont do):
+  - LEX Macro syntax where a assembler instruction is concatinated from macros, like:
+        ;Set the hi/lo part of a 16-bit register individually
+        mCombine macro reg,hival,loval
+        ld\1 #(lo hival)<<8 | (lo loval)
+    endm
+  - LEX same line, wont change lo hi, hi lo, which might be correct but shows as error
+        these operators identify as variable, and two variables in a row are an error
+        if syntax was not as flexible to allow lo Variable in stead of lo(variable) everything would
+        be ok, but I rather be a little lax about the syntax!
+  - LEX parenthesis: 
+        lda (((2)+(1)) is no error, because at no stage arent enough closing brackets available...
+  - ASM Might some day, not a priority- STRUCT Jup! :-( DEF.ASM (is that franks asm outpu???)
+        Struct not done
+  - LEX in OMEGA.as9  sprite_2           EQU sprite_1+#15       ;Start of structure for Sprite #2
+        in the middle of nowhere a '#' should be wrong
+        assembler accepts it, but IMHO that is not good, wont change!
+  - DIS not done  - won't do ? or? if we are at it, also in between comments!
+        (comments for lines which are grouped (in group) are not generated!)
+
+
+- done: VECX todo _> support samples (Moonlander)
+- done: VECX spike not drawn correctly!
+- done: DIS allways on switchable
+- done: DIS debug
+- done: VECX auto step to above
+- done: VECX breakpoints
+- done: VECX stacklist
+- done: VECX click on a vector and get a stack frame!
+- done: DIS till "here" -> well that is just a breakpoint and go...
+- done: DIS on dissi -> doppelclick, jump to adress
+- done: VECX Bug Callstack sometmes has values > 0xffff
+- done: VECX Letters at moonlander correct
+- done: VECX cleansweep correct (ow well...)
+- done: VECX integrators with faults -> don't think it necessary an more, test exesivly
+- done: VECX overlay
+- done: VECX lightpen port 2
+- done: EDI only set highliter to asm & inc
+- done: EDI run assembler in ajother thread and update display!
+- done: ASM also don't output everything to stdio!
+- done: ASM negative zahlen in assi
+- done: EDI search not crooect placemnt yet (long string in moonlander: "; if negative we are presenting stuff, go there")
+- done: ASM as preorder OP asm "internal" macro "lo"
+- done: ASM asm macro definition "local" for labels
+- done: EDI jump to error in editor
+- done: ASM assi , makros
+- done: ASM save cnt
+- done: EDI delete selection on "delete", not only line selection!
+- done: VECX idea: add "glow" to vectors, not CLEARING the old vectors, but rather "darken" them 
+- done: DIS (var/label) dissi "access" maped from vecxy (memory read/execute none)
+- done: DIS window with code labels to jump to!
+- done: DIS todo make configi correct as of now only editable ONCE
+- done: DIS list of vars
+- done: DIS waitrecall timings
+- done: DIS psg + joystick (analog) info window
+- done: EDI: edi -> assemble and start from here
+- done: DIS reopen of windows after closing not possible (some) -> Test
+- done: DIS search option in dissi for "comments" or labels
+- done: DIS -> now all! question: labels in dissi, contain all of group or just address?
+- done: DIS -> now all! question: comments in dissi, contain all of group or just address?
+- done: DIS COMMENT_LABEL -> show them in dissi
+- done: ASM produce all ranges in hex "$"
+- done: DIS remove secondary breakpoint list in dissi
+        all breakpoints should be kept in ONE place only!
+- done: LEX syntax to set breakpoints in assi "comments"
+- done: LEX (many)for Mem Op do incorrect scans, like
+        var var = false
+        + SPACE +
+        #SPACE ....
+        +- (, (- (+ ....
+- done: ASM no bug, there was a label called "1", which was defined as 0 BUG! ##### dissi (see vpong (232))
+            CMPA    #$00               ; is a button pressed?
+            -> disassebles to $81 $00    CMPA #01
+- done: ASM vpong.asm
+            DB   hi(SCORE_TEXT_SIZE)
+- done: ASM flag for asm to automatic use long branches if short ones don't do?
+- done: ASM LDB	    #+65 -> error unrecognized expression, Monsterhouse2.asm
+- done: ASM DB     '0123456789:;<=>?',$80
+            ";" truncates line, ... error!  (in Anthem.asm)
+- done: ASM (art.asm -> 108 errors) force direct <-> extended
+- done: ASM LBEQ    $F000   ;Cold_Start -> out of range hä? (Spectrum.asm)
+- done: ASM Numbers: (OMEGA.AS9) state              EQU #$00
+- done: ASM: not AS09 , I won't look for correct assembler of christoph OMEGA.AS9 -  assembles, but dos not work correctly
+- done: ASM daisyNew: Opcodes: ALIGN, STRUCT, LIST, NOLIST, TITLE, PAGE, DATA BSS, CODE, use or org+ds as "equ"
+- done: SYN Coloror THREADS are alive after closing editor!!!!
+- done: LEX test macro calls with 3 paremeters, are they RED? (Thrust .asm)
+- done: LEX syntax local PF58B,PF592,PF33B,PF33D,PF341,PF345,exit
+- done: LEX macro definition more than one paremeter comma red?
+- done: LEX direct binary:              ora #%10000000
+- done: LEX DB      'g GCE 1776',$80 Strings (Anthem.asm e.g.)
+- done: DIS after editing a comment in dissi, scan comment for "hey dissi"
+- done: LEX lex a correct 6809 syntax! -> speedups!
+- done: EDI (now using "real" files) transalte tmp filenames in error to "real" filenames!
+- done: DIS (started) command line tools in dissi, like Go 10000 (cycles), showB/W $label, setBP $2151, print cycles, measureCycles $90-$9a, set pc =$1000, set a =0; set RAMP = 1
+- done: DIS display a "brwakpoint HIT" message!
+- done: ASM opt (some) implemented, asm convert lbra -> jmp option
+- done: ASM opt: l"B??" -> "B??" when short offset!, short jmp -> bra, short JSR -> bsr NO! l to non l only for BRA, other give warning, must insert NOPS! (AS09 does same!)
+- done: ASM built cdissi ... Frogger & Moonlander same (opt switched on) Compare ASM to AS09, binary...
+- done: ASM "ye, I think so!" is EQU handled correctly while generating CNT?
+- done: DIS from Dissi -> make source
+- done: LEX, registers in TFR are dark blue instead of bold black!
+- done: LEX   var1     = lo(#user_RAM)  is error!
+- done: ASM macro comments should be places with the macro lines, not "in front" of all macro lines!
+         on macro expand place comments, not on macro load!
+- done: DIS source - recompile! to test and should 1:1 !
+- done: DIS d asm export, all labels, even in between groups
+- done: ASM was DIS does not output macro comments (e.g. frogger loop unrolling???
+- done: VED doubleclick on include -> load
+- done: ASM   bne   $06 is interpreted as JMP to #$6, not as jump +6 forward!
+- done: DIS line 1450 of bedlam dasm                  cpx   >$AA1D
+- done: DIS dissi create of bedlam (in non code sextion - ok) :  ror   []
+- done: DIS Join same data type on cdissi, fucks up operands, DB data is doubled!
+        Badlam red parts, seems they look like DB data, but internally are not, only after cast can they be grouped....
+- done: LEX blt   -$09 "minus" is red!
+        cwai  #$EF #... is red (both bedlam.dasm!)
+- done: LEX bne   $06, $06 is interpreted as variable, not as number
+- done: LEX suba  [<-$68,pc]  pc is red
+- done: VED in config, button to clean up editor state (in case of deleted files!)
+            (or on load error auto clean files out....)
+- done: DIS CRC in cdissi for complete bin
+- done: DIS option to generate labels, eg. DISASM starts with
+            bra   $31                   ; start of cartridge code!
+            where the heck is that?
+- done: DIS edit labels, so one can add them on the fly
+- done: DIS crc to a range
+- done: VARI - allow edit of var names
+- done: VARI Allow edit of comment
+- done: DIS (should tell assi!) - only used vars in output
+- done: DIS/CNT tried, can't to dumb for it!  make a definitve difference between label and immediate values
+- done: VEC/DIS Version v1.0, not really much of a version though ...: smart dissi, code where code was executed!
+- done: DIS export CNT file
+- done: VECX DIRECT DRAW!!!! DOES NOT WORK!
+- done: ANA windows/vector window, Integrator and vector position (and mouse) should be equal scale to be comparable!
+- done: VECX option, PRINT CURRENT BEAM POS!
+- done: DIS init dis after loading a saved state
+- done: SD from chris tumber does not work AT ALL (bankswitch?)
+- done: VECX cartridge class for bankswitching!
+- done: VECX VecFlash http://www.vectrex.fr/tracker/print_bug_page.php?bug_id=29
+- done: VECX bankswitch http://www.vectrex.fr/tracker/view.php?id=14
+- done: DIS bankswitch in dissi
+- done: DIS bankswitch breakpoints
+- done: VECX (not tested) in savestate rollback buffer also direct draw vecor!
+- done: DIS (on reg panel) somewhere on display show which bank we are on
+- done: DIS command cls
+- done: DIS (not tested) hey dissy set bp with bank!
+- done: VECX/DIS command run for x cyxles
+- done: DIS (not tested) hey dissy in bankswitches CNT
+- done: DIS/VECX (not tested) codescan memory CodeScanMemory is not bank switch compatible!
+- done: VEDI - pretty print asm (VERY simple!)
+- done: VECX load save with cartridge
+- done: DIS in cnt START BANK $xx , END BANK $xx
+- done: DIS cycle count in dis is just BASE, must be modified by postbyte!
+- done: DIS (not tested) banked cnt-output for dissi 
+- done: DIS dasm.asm output of banked cartridges
+- done: ASM bankswitch for cnt assi, add keyword BANK
+- done: VEDI selected line, TAB/UNTAB -> indent
+- done: ASM tfr a, b -> illegal register (SPACE)
+- done: ASM           ldd # (lo(1500000/25)<<8) | (hi(1500000/25)) ; that is a 16 bit, exactly what we want!
+           this eems to be calculated WROng!
+- done: ASM in macro if does not work alright?
+        in pushr intensity macro does not work correctly - CHECK!
+- done: CODI cls befor each compile
+- done: BUG? -> No Windows behaves differently in regard to "current path"
+        Mac says, current is where I loaded a file from
+        Windows says current is where I started the program from, regardless of anything else
+- done: ASM (not tested) AS09 can take SP in stead of S for stackpointer! (see thrust sources)
+- done: ASM nop #
+- done: ASM struct
+- done: ASM CMAP
+- done: ASM If Bug
+- done: ASM local Bug
+- done: ASM * adress pointer (not AS09 compatible)
+- done: ASM DS in code filled with 0
+- done: LEX         dec     -1,sp
+- done: LEX                  BNE     \1                ; if no rest... jump (parameter of makro...)
+- done: LEX ifneq
+- done: LEX   cmpb -1,s (Thrust)
+- done: LEX I keep it that way!  is red        DB     'PQRSTUVWXYZ[\]^_',$80
+- done: LEX nop 6 
+- done: LEX struct, set, cmap
+- done: LEX vars auch übernhemen mit set und "=" 
+- done: LEX call macro with a register as parameter (,u) -> red
+- done: LEX multiple macro paraeters in call not colored correct!
+- done: LEX neu scannen after UNDO
+- done: VECX when curved lines (vectrex electricity demo) qubic spline
+        detect whther lines without switchin light of have
+        x or y changes (x really)
+        if so draw a "curve" with points as outer limits!
+- done: VECX Bug, sound annoying in Berzerk
+- done: LEX syntax scan:
+        build and update lists of known macros and labels for syntax scan?
+- done: LEX                     jsr      >_10E4             ; start of cartridge code!
+        gnerated labels, is red, although after a few scans it turns green (ok)
+        postponed to "project"
+- done: LEX struct labels must also be inserted in global defs!
+- done: yes that is so, so what? ASM no "set" pseudoOp (done as replace with " = ")
+- done: LEX When var is deleted, check is other var is still avaibale, not automaticallx delete ALL
+- done: VECX remove jar from spline
+- done: VECX Thrust -> Sound fucked up? Stuttering when playing
+- done: VEDI PRETTY Print! Switch Thread from color off; pretty print manually; switch thread on!
+- done: DIS add feature to hide columns
+- done: VEDI (well did something, gurantee???) delete large selection -> hangs
+- done: cannot reproduce DIISI  widerholtes betätigen von "debug" reseted - exceptuon...
+- done: so what display very flickery
+- done: VEDI MARK and SHIFT MARK selects in between!
+- done: (fill mem with 1) polar rescue -> dead on start - debug!
+        see: http://vectrex-emu.blogspot.de/2006/07/talking-about-history.html - > 07/07/2006 01 for minstorm, does the trick
+        for polar rescue also!
+- done: VECX Text in rounders is BAD
+- done: (but not gone further yet) implement ray gun!
+- done: VECX - added auto sync display generally SUCKS!
+- done: VECX added ZERO Offset, zeroing was done to FAST - sd.bin shot is not working not correct
+- done: VEDI action, pre and post for project FILES
+- done: Starter game list for multi banks
+- done: Starter download to download folder!
+- done: VEDI parameter übergabe an scripts
+- done: VECX Splines in Pole position - Fucked!
+- done: VECX hex(alpha) sound?
+- done: Starter downloader also for PDF's as Message Box
+- done: VEDI Project script FOR compile, AFTER compile
+- done: VEDI  Scripts + Pop up execute
+- done: upon building in vedi, a cartridge prop should be created and vecx be started with THAT!
+- done: VECX panel - splines with drift (chris) look llike shit!
+- done: CONFIG config -> save all configs, preferable in different settings!
+- done: VEDI file rename -> file properties also rename / delete...
+- done: VEDI - project for lineart - so that it compiles and runs
+- done: VEDI file properties in general
+- done: VEDI scripts for files
+- done: VECX bitmaps in lineart not ok
+- done: VECX TIMING Lineart (Raster) is not same as vectrex!
+- done: VECX spline and real vectors!!! -> should "look" the same!
+- done: VEDI new file 
+- done: ASSI BUG ASSS  jmp      >main  (optimize jmp to bra, than extended addressing gives error!)
+- done: VECX T2 was used for digitla timing, auto sync choked on that! Get into Vectrex not working at all?
+- done: DISSI generated CNT file not loaded ith BS project VecFlash! because CNT files is called  mainBank0.cnt and bin file mainBank0_0.bin
+- done: VECX test done, nothing really impemented though...do a zero test with pos, and blank off zero on...
+- done: VEDI in projexct save all befor compile!
+- done: VIDE use vide only as editor, not as assi -> option for not calling assi, but
+        let it work alone with pre and post and actions
+- done: VECXY glow vectors
+- done: VEDI - save as
+- done: VEDI switch to editor if open already on tree selection
+- done: VECXY not possible, since most lines are not rectangles! instead of x lines - to a ractangle with gradient 
+
+- done: VECXY  check forward backward and "single stape" in between!
+- done: VECX Invitron - demo looks bad
+- done: VEDI project
+- done: DISSI Adding new labels, does not update labbi
+- done: DISSI Setting DP to a value in dissi
+               should enable dissi to (autromatically) use a label for that address!
+- done: DISSI Add CA CB to DP popMenu
+- done: VARI add variable in vari
+- done: DISSI Setting columns in config does not change dissi (directly)
+- done: VEDI dos not save divider position anymore?
+- done: VECX shiftreg 18 cycle emulation
+- done: ASSI yes that is so, now an error is output! assi bug, forward reference not expandable
+- done: VECXY vectrex generations / DAC offset
+- done: VECXY probably not finalized DAC timing in general
+- done: ANA analog windows, use dac instead of VIA_ORA
+- done: SOUND do tiny sound!
+- done: SOUND digital output in vecxi has some "crackling" sounds, this is emulation related I think - vecterx does only have aminro crack at
+        the end of a complete sample
+- done: VECX was false CLR emulation (read) digital.i with clr shiftreg, -> vertical stripe on real vectrex -> not on emulator!
+- done: Hmmmm - sound in vfrogger not correct anymore?
+- done: SOUND was fals digital counter in PSG amen break -> bad sound? after spikes hopping?
+- done: DISSI breakpoints after a restart are not shown in dissi (in table breaki yes!)
+- done: DISSI Breakpoints in Vecxy still not cleared (or displayed when allegedly cleared!)
+- done: DISSI clear breakpoints when i clear them!!!
+- done: VEDI SHIFT TAB NOT WORKING! (autosync)
+- done: DISSI softreset should not disable breakpoints!
+- done: DISSI BUG no cycle in cylce column for page 1/2 opcode (see sample playing) CMPU / ldy 
+- done: DISSI ray gun not working anymore
+- done: AUDIO vectrex 3 generation -> low DAC Sound!
+- done: ASSI assembler should give warning when file to large!
+- done: ANI repeated opening of VIAI does not open ANA
+- done: ASSI - assume undefined = 0 as default... codi - doesnt' use projects yet? - Lineart didn't work...
+- done: digital sound, dac changes, spikes hopping my old vectrex first sound is not heard...
+- done: veccy/dissi VECTOR Screenshot! 
+- done: veccy animation in veccy
+- done: veccy load and save of animations
+- done: veccy veccy select in table -> selects vectors in graph
+- done: veccy move "selection"
+- done: veccy change setting for seletced vectors (pattern/intesisty...)
+- done: veccy easier delete of vectors!
+- done: veccy right mousbutton popup not allways working
+- done: veccy SHIFT-click on arrow of animation, -> should move the selected frame to anothe rposiition!
+- done: codi - no syntx highlihjtin!
+- done: ym sound unpack routine generates crappy bytes?
+- done: ym only xy registers (also enable registers >11)
+- done: ym allow editing of register in a "YM table"
+- done: ym allow recording of ym files
+- done: vedi - test mod2vectrex
+- done: vedi - ym
+- done: vedi - wave stuff
+- done: vedi vector - pictures ala bad apple
+- done: veccy on delete selected vector, the resulting vectors are still marked as relative if it was befor...
+- done: veccy point selection display in table is not reseted
+- done: veccy - cancle the animation "loading" loads something "random"
+- done: veccy save selected
+- done: veccy load TO current list as selection
+
+next:
+- d not allow saving of anims when one veftor > 127
+
+- vector PANEL
+ - build it so that max vetor length is 127!!! DONE
+- IN VECCY build move vectors must not be larger than 127!
+- in veccy move / rotation vectors must not be larger than 127 
+
+- create a runnable BIN file from the current Vevtlrlist / animation / scene
+- bild a vector list "scanner " that watches BIOS addresses
+// import standard vectrex list from BIOS formats (from binary data)
+
+- import from inkscape - SVG
+- import from JSON
+
+in vedi button to add vectorlists or animations
+in vedi right mouseclick "insert vectorlist" 
+
+
+* VECXY Bug , less the two NOPS is to fast for real VEC!
+Draw_VLp_Malban:
+                LDD     1,X             ;Get next coordinate pair
+                STA     <VIA_port_a     ;Send Y to A/D
+                CLR     <VIA_port_b     ;Enable mux
+                LDA     ,X              ;Get pattern byte
+                LEAX    3,X             ;Advance to next point in list
+                INC     <VIA_port_b     ;Disable mux
+                STB     <VIA_port_a     ;Send X to A/D
+                LDB     #$40            ;B-reg = T1 interrupt bit
+                CLR     <VIA_t1_cnt_hi  ;Clear T1H
+setPattern:
+                STA     <VIA_shift_reg  ;Store pattern in shift register
+
+                BITB    <VIA_int_flags  ;Wait for T1 to time out
+                BNE     lineDone
+                NOP 
+                NOP               
+                BRA     setPattern
+lineDone:
+                CLR     <VIA_shift_reg  ;Clear shift register (blank output)
+                LDA     ,X              ;Get next pattern byte
+                BLE     Draw_VLp_Malban ;Go back if high bit of pattern is set
+                JMP     Check0Ref
+
+
+
+* display which import formats are possible
+* do import export to/from asm
+
+- BUG joined more than one, polygon, fill gap -> ordering errors.!
+- option for "dos only"!
+- option for 3d rotation to clip the vectors "behind" the front
+
+- add save to wait recal
+- BIOS disasm is allways taken from SYSTEM.IMG
+- vecxy every end of vector in frogger is still a DOT
+- disasm lineart with labels does not work (from codi)
+- cycle display in vedi
+- when exiting a windows (vecx be sure to shut everything down!
+- labels of system bios not loaded?
+- in via if a signal is active color it "orange"?
+- command line paramters for assi and vcexy alone!
+- all kins of breakpoints
+  add in tab
+  add on popum menu on panels (e.g. vari/viai) 
+- many times debug on/off -> reset
+- dissi , columns not taken from config?
+- drift allways toward zero?
+- test: is drift ramp / ref depenended?
+- on delete of files, also delete files in vedi settings
+- generated project files (raster), do not know their variables!! (scan for vars/macros not working!)
+- ASS: Option to save LST files from ASSI
+- VEDI clear last files
+- SINZ - Tool svg to db
+- dissi new command -> wipe vec window
+
+
+- add a "speed" viewer, which shows how fast in a relation to a real vectrex we are
+BUG:
+- right mouse click on data statements _> convert to vector / call veccy
+- try own handwritten graphics primitives for glow on byte array of buffer
+- try ray gun with handwritten graphic rouines, perhaps on a 255x255 grid, which might be scaled...
+
+
+ASM
+do || and && for IF
+
+vector - raster images, inclusive display routine
+veccy - finalyse (animation, building, saving, importing etc)
+
+
+- CNT information for byte data (and counts) are sometimes LOST
+implement "color" drift
+
+ auto saves
+- bankswitch for lst in dissi and assi
+
+- VED enable apple keys
+- VED started, no save as SAVE files
+- VED helper - small conversion % to $ to Dez...
+
+- SPUDSTER test with vecVoice
+
+
+
+THE HIGHER THE (integrator) Voltage, the longer the delay,
+does that mean, that the delay befor switching ramp on again
+must be higher?
+What happens if not?
+-> see also EXEC PDF page 47/48
+They make a difference between 
+- no delay ((<$40)
+- delay 4*3 cylces (>$40)
+- delay 8*3 cycles (>$64)
+(ABS, positive and negativ!
+
+
+- proboard, mentiones that drift is stronger -y and -x than +y and +x
+  (se curved lines stuff stared by christopher: http://vectorgaming.proboards.com/thread/1234/drawing-6522s-shift-register-timer?page=3)
+
+
+
+
+
+
+
+
+
+...
+        BNE     DASHE   ;DO ONE MORE
+        RTS             ;EXIT POINT IF SHORT VECTOR
+
+DEXIT   LDA     DASH
+DASIT   STA     SR
+        NOP             ;TO PRESERVE 18 CYCLES
+////
+
+
+- raster to vector tool: http://potrace.sourceforge.net/
+- look at threading while loading editor file
+- look at threading while compiling editor file
+
+
+- ASM:
+Special opt.... firat use ALLWAYS short branches instead of longs
+  - these can be automatically unpotimzed vie versa - not...
+
+- build automatic comments for via access
+
+
+- util: copyDirectoryAllFiles(String from, String to) for subdirs!
+  - works under windows...
+- ASM: lda   #$-8                      ;Get y ($2FBE)
+- build a vecflash card format
+- vecx alg_rsh not emulated at all!
+- PROG - what about refresh offset, Mux refresh
+- save to db
+- VECX lightPen port 1
+- VECX input devices & 
+- VECX imager
+- VECX sync vector drawing to wait recal
+- VECX breakpoints MORE!
+- VECX save breakpoints
+- VECX list of breakpoints 
+- VECX var breakpoints
+- VECX breakpoint upon analog/VIA/REG changes
+- VECX vectrex animaction extra ram
+- VECX vecram
+- VECX bankswitching
+- VECX vecvox
+- VECX look at bug mentioned in mame vectrex RND Minestorm
+- VECX look at bugs mentions by para
+- more configurations
+- VED output to real vectrex from here
+- VECX analog joystick
+- vec "C"
+- compiled vector lists (into ass code)
+- ASM: no AND in if
+  Thrust: Thrust_FX.asm
+        ;if ('IndexReg' != '0') && ('IndexReg' != 'b')
+          ifeq ('IndexReg','0') 
+            ifeq ('IndexReg','b')
+              tfr IndexReg,b
+            endif
+          endif
+LEX Thrust.asm
+  mClearFlag (InactiveFlag | RefuelFlag | ShieldFlag | PullFlag)
+ macro call parameters should be 1memops additionally comma seperated!
+LEX
+ bra TileW TileW TileW TileW TileW 
+
+
+- VecVox: http://www.herbs64.plus.com, https://github.com/gauze/spudster, 
+
+// Parabellum: Implemented VIA6522 SR Mode 101 (Shift Out Under T2 control). It was not handled yet, as I thought this ACR mode was never set ... until I saw it used in the Test Cartridge (rev.4), in the "Adjust DAC offset" part.
+// Sound DAC:
+// Parabellum: Finally implemented what I'd call "Direct DAC Sound output", ie. the MC1408-P8 writing directly to the sound output line through the MUX (when PB1 and PB2 are high).
+
+// Parabellum: Lightpen in Port 1
+// The Engine Analyzer ROM is not really a game per se (and not entertaining in anyway), but is nonetheless interesting as it is the only binary I know of that makes use of a lightpen plugged in the first game port.
+/*
+When plugged in the second gameport, the lightpen's pin 4 is connected to the 6522's CA1 input pin, so the application just polls the state of the 6522's CA1 interrupt flag to know if the pen detects the line that is just being drawn. Also, the application will sometime setup the 6522 interrupt enable register so that it propagates a real IRQ to the CPU when CA1 is set.
+
+When connected in the first gameport, the lightpen may be used through the CPU's FIRQ (rather than IRQ), as the pin 4 of the first gameport is connected to the CPU's FIRQ line. This is how the Engine Analyzer program reads the lightpen inputs.
+
+*/
+
+// support Spektrum
+// support other Bankswitchings
+// ray gun instead of vectors
+//dokcoments - 
+// Vectosr are not part of a save state!
+
+//artmaster 0x77a enable CA1 interrup! while displaying a "search" line!
+// interrup handler at 0x7ce
+
+
+
+- ASM Frogger cant be assembled???
+
+
+
+
+
+
+
+
+
+
+
+
+
+ if (!Imager)
+ {
+  /* Imager support!
+   * notice, this support is NOT real. It does not emu/simulate the
+   * Pulse width modulation used by the real thing, I don't as yet know
+   * the formula. Below are fixed values for the three known Imager
+   * supporting games.
+   *
+   * These values are as of now FIXED. Should the cycle count differ
+   * from the values in the case instruction, than we are in trouble,
+   * keep that in mind when updating the CPU core!
+  */
+  if ((next_imager_interrupt-=lwTickMark)<0)
+  {
+   imager_color=(imager_color+1)%3;
+   if (imager_color==0)
+   {
+    imager_eye=(imager_eye+1)%2; /* left eye // right eye */
+    if (imager_eye==0)
+    {
+     t6522CA1=1;
+     t6522IFLG|=E6522IFLG_CA1;
+     if (t6522IER&E6522IFLG_CA1)
+     {
+      m6809_Regs Regs;
+      m6809_GetRegs(&Regs);
+      if ((Regs.cc&0x10)==0)
+       m6809_Cause_Interrupt(M6809_INT_IRQ);
+     }
+     t6522IRA&=(255-128);
+     switch (imager_pulse_ticks)
+     {
+      case 633-20:
+      {
+       #define MINESTORM_3D_DEGREE_BLUE           58
+       #define MINESTORM_3D_DEGREE_RED            10
+       #define MINESTORM_3D_DEGREE_GREEN          112
+       #define MINESTORM_3D_HALF_WHEEL_DEGREES    180
+       #define MINESTORM_3D_CYCLES_FULL_WHEEL     65024
+       #define MINESTORM_3D_CYCLES_HALF_WHEEL     (MINESTORM_3D_CYCLES_FULL_WHEEL/2)
+       ImagerColorDegrees[IMAGER_BLUE]  = (MINESTORM_3D_CYCLES_HALF_WHEEL*MINESTORM_3D_DEGREE_BLUE)/MINESTORM_3D_HALF_WHEEL_DEGREES;
+       ImagerColorDegrees[IMAGER_RED]   = (MINESTORM_3D_CYCLES_HALF_WHEEL*MINESTORM_3D_DEGREE_RED)/MINESTORM_3D_HALF_WHEEL_DEGREES;
+       ImagerColorDegrees[IMAGER_GREEN] = (MINESTORM_3D_CYCLES_HALF_WHEEL*MINESTORM_3D_DEGREE_GREEN)/MINESTORM_3D_HALF_WHEEL_DEGREES;
+       if (MINESTORM_3D_CYCLES_HALF_WHEEL!=(ImagerColorDegrees[0]+ImagerColorDegrees[1]+ImagerColorDegrees[2]))
+       {
+        ImagerColorDegrees[0]+=MINESTORM_3D_CYCLES_HALF_WHEEL-(ImagerColorDegrees[0]+ImagerColorDegrees[1]+ImagerColorDegrees[2]);
+       }
+       break;
+      }
+      case 606-20:
+      {
+       #define CRAZY_COASTER_DEGREE_BLUE           55
+       #define CRAZY_COASTER_DEGREE_RED            69
+       #define CRAZY_COASTER_DEGREE_GREEN          56
+       #define CRAZY_COASTER_HALF_WHEEL_DEGREES    180
+       #define CRAZY_COASTER_CYCLES_FULL_WHEEL     61440
+       #define CRAZY_COASTER_CYCLES_HALF_WHEEL     (CRAZY_COASTER_CYCLES_FULL_WHEEL/2)
+       ImagerColorDegrees[IMAGER_BLUE]  = (CRAZY_COASTER_CYCLES_HALF_WHEEL*CRAZY_COASTER_DEGREE_BLUE)/CRAZY_COASTER_HALF_WHEEL_DEGREES;
+       ImagerColorDegrees[IMAGER_RED]   = (CRAZY_COASTER_CYCLES_HALF_WHEEL*CRAZY_COASTER_DEGREE_RED)/CRAZY_COASTER_HALF_WHEEL_DEGREES;
+       ImagerColorDegrees[IMAGER_GREEN] = (CRAZY_COASTER_CYCLES_HALF_WHEEL*CRAZY_COASTER_DEGREE_GREEN)/CRAZY_COASTER_HALF_WHEEL_DEGREES;
+       if (CRAZY_COASTER_CYCLES_HALF_WHEEL!=(ImagerColorDegrees[0]+ImagerColorDegrees[1]+ImagerColorDegrees[2]))
+       {
+        ImagerColorDegrees[0]+=CRAZY_COASTER_CYCLES_HALF_WHEEL-(ImagerColorDegrees[0]+ImagerColorDegrees[1]+ImagerColorDegrees[2]);
+       }
+       break;
+      }
+      case 594-20:
+      {
+       #define NARROW_ESCAPE_DEGREE_BLUE           55
+       #define NARROW_ESCAPE_DEGREE_RED            69
+       #define NARROW_ESCAPE_DEGREE_GREEN          56
+       #define NARROW_ESCAPE_HALF_WHEEL_DEGREES    180
+       #define NARROW_ESCAPE_CYCLES_FULL_WHEEL     57344
+       #define NARROW_ESCAPE_CYCLES_HALF_WHEEL     (NARROW_ESCAPE_CYCLES_FULL_WHEEL/2)
+       ImagerColorDegrees[IMAGER_BLUE]  = (NARROW_ESCAPE_CYCLES_HALF_WHEEL*NARROW_ESCAPE_DEGREE_BLUE)/NARROW_ESCAPE_HALF_WHEEL_DEGREES;
+       ImagerColorDegrees[IMAGER_RED]   = (NARROW_ESCAPE_CYCLES_HALF_WHEEL*NARROW_ESCAPE_DEGREE_RED)/NARROW_ESCAPE_HALF_WHEEL_DEGREES;
+       ImagerColorDegrees[IMAGER_GREEN] = (NARROW_ESCAPE_CYCLES_HALF_WHEEL*NARROW_ESCAPE_DEGREE_GREEN)/NARROW_ESCAPE_HALF_WHEEL_DEGREES;
+       if (NARROW_ESCAPE_CYCLES_HALF_WHEEL!=(ImagerColorDegrees[0]+ImagerColorDegrees[1]+ImagerColorDegrees[2]))
+       {
+        ImagerColorDegrees[0]+=NARROW_ESCAPE_CYCLES_HALF_WHEEL-(ImagerColorDegrees[0]+ImagerColorDegrees[1]+ImagerColorDegrees[2]);
+       }
+       break;
+      }
+      case 0:
+      {
+       break;
+      }
+      default:
+      {
+       next_imager_interrupt=imager_pulse_ticks*100; /* or something... startup */
+       ImagerColorDegrees[IMAGER_BLUE]  = imager_pulse_ticks*100/3;
+       ImagerColorDegrees[IMAGER_RED]   = imager_pulse_ticks*100/3;
+       ImagerColorDegrees[IMAGER_GREEN] = imager_pulse_ticks*100/3;
+       break;
+      }
+     } /* switch (imager_pulse_ticks) */
+    } /* if (imager_state==0) */
+   } /* if (imager_color==0) */
+   next_imager_interrupt=ImagerColorDegrees[imager_color];
+  } /* if ((next_imager_interrupt-=lwTickMark)<0) */
+ } /* Imager */            
+
+
+
+
+
+/** TODO fixme test!
+ * 
+T_UCHAR f6522Addr0EWrite(T_UWORD tAddress,T_UCHAR tData)
+{
+   if (tData&0x80)
+   {
+    // Hi bits enable the relevant IE
+    t6522IER|=(tData&0x7f);
+   }
+   else
+   {
+    // Hi bits disable the relevant IE
+    // fixme
+    if (bGblLightpenEnable==T_TRUE)
+     t6522IER&=((tData&0x7f)^(0xff-2));
+    else
+     t6522IER&=((tData&0x7f)^(0xff));
+    /* -2 for artmaster 1 only, since the disable CA1 is done *
+    /* by clearing d00e, which is not the way it should be done *
+    /* this patch should not cause any trouble with anything else *
+   }
+   return(tData);
+}
+ * 
+ */
+
+
+
+
+
+Archived from groups: rec.games.vectrex (More info?)
+
+"Michael Lenardon" <m.lenardon@shaw.ca> wrote:
+> I have made a backup of my YASI/Protector cartridge binary and tried to
+load
+> it on my Vec Flash. Unfortunatly it will not boot. Has anyone managed to
+> get either game working on Vec Flash as they are such good games and I
+> probably will be leaving the Vec Flash in regularly when people are over.
+
+The high score memory in Protector/YASI uses the same I/O as the VecFlash
+bank switching system, which is why it crashes. A VecFlash compatible
+version Protector/YASI binary (without the high score save code) will be
+available very soon. I had planned to have it ready for the VecFlash
+release, but I am slow.
+
+Alex 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Gruppen
+	
+	
+10 von 45
+Startseite
+Klicken Sie auf das Sternsymbol einer Gruppe, um sie zu Ihren Favoriten hinzuzufügen.
+Zuletzt angezeigt
+Datenschutz - Nutzungsbedingungen
+rec.games.vectrex ›
+EXTRA ! EXTRA ! READ ALL ABOUT IT - PCJOHN AND ANOTHER VECTREX FIRST !!!
+15 Einträge von 4 Autoren
+	John Dondzila 	
+29.10.99
+Nachricht auf Deutsch übersetzen  
+
+Thanks to Peter Pachla's suggestion, I spent the last 2 nights working on
+the software selectable mini bankswitch cart and I'm pleased to announce:
+
+SUCCESS !!!
+
+Hardware wise is really easy, just wire the PB6 line (pin 35) to the
+high address line (A15) on the 64K EPROM.
+
+The software end was a little trickier, the 6522 info I have and the actual
+execution of the thing don't work quite the same ...
+
+Basically, if you set the PB6 line to INPUT, it seems to automatically go
+high. If you set it to OUTPUT, it goes low. You can send a high bit in the
+output mode, but it will only pulse once, then reset to low. This could be
+useful for larger carts, but I need the 2 banks to stay steady right now without
+re-writing all 8 programs. I'm not sure if my manual is wrong or the Vec does
+this, either way - it works. Now I just need to test it on some more machines
+before I implement it into the final package.
+
+Looks like emulator users will be getting Volume I and Volume II
+seperate binaries.
+
+JD
+
+
+.
+Anti SPAM In Use !
+Remove the * from *pcj...@monmouth.com
+to send E-Mail.
+
+	Brett Walach 	
+01.11.99
+Nachricht auf Deutsch übersetzen  
+
+John Dondzila wrote:
+
+- zitierten Text einblenden -
+
+SWEEET DEAL!!  Sounds like you've outdone yourself again John! Can't wait to
+get my grubby little hands on it and play into the wee hours until the sun
+comes up! ;)
+
+Keep up the outstanding work!
+
+Sincerely,
+Brett Walach
+
+
+	John Dondzila 	
+03.11.99
+Nachricht auf Deutsch übersetzen  
+>Wow, fame at last. ;-)
+>
+Hey, you saved me some work. I don't understand as much about the
+hardware end as I would like to. I'm happier this way than with the
+added time of hardwiring a switch.
+>
+>If you examine the "read buttons" and sound routines you'll see that
+>whenever they write to VIA port B they don't only change the bits they are
+>fiddling with at the time (by reading the current contents of port B and
+>ANDing/ORing as apt.) but just blast the entire register with whatever they
+>think should be in it.
+>
+It seems to do that even without calling those routines. A simple loop with
+a standard WAITRCL will hold it low when set as an output. Setting it high
+will only last one cycle.
+
+Thank heavens for my trusty logic probe with a pulse detector !
+
+>I've also noticed that, for some reason, PB6 is being initialised to be an
+>input(!) by the EXEC ROM....this is inconsistent with everything I've read
+>which suggests this line was intended to be used to switch between two 32K
+>ROM banks. Seems more like it was actually intended to be used as some sort
+>of input from the cartridge - possibly a "cartridge present" signal?
+>
+
+Yes, the bit is definitely set as an input right at the begining of the
+initialization code.
+
+Kind of makes you wonder what other possibilities are now open ...
+
+JD
+
+
+Anti SPAM In Use !
+Remove the * from *pcj...@monmouth.com
+to send E-Mail.
+
+	Peter Pachla 	
+04.11.99
+Nachricht auf Deutsch übersetzen  
+Hi, for some reason your message didn't appear on my new ISPs news
+server....
+
+  > Thanks to Peter Pachla's suggestion, I spent the last 2 nights working
+  >on the software selectable mini bankswitch cart....
+
+Wow, fame at last. ;-)
+
+  >....and I'm pleased to announce:
+  >
+  > SUCCESS !!!
+
+Great news.
+
+
+  > The software end was a little trickier, the 6522 info I have and the
+  >actual execution of the thing don't work quite the same ...
+
+Uh, oh....
+
+  > Basically, if you set the PB6 line to INPUT, it seems to automatically
+  >go high....
+
+That sounds about right.
+
+When the pin is set to input mode it isn't driven by the bus drivers inside
+the 6522, this being a TTL/MOS IC an undriven input will tend to float high.
+
+  > If you set it to OUTPUT, it goes low. You can send a high bit in the
+  >output mode, but it will only pulse once, then reset to low....
+
+OK, you've probably spotted this yourself by now, but it appears to be the
+fault of the Vectrex' EXEC ROM.
+
+If you examine the "read buttons" and sound routines you'll see that
+whenever they write to VIA port B they don't only change the bits they are
+fiddling with at the time (by reading the current contents of port B and
+ANDing/ORing as apt.) but just blast the entire register with whatever they
+think should be in it.
+
+The button and sound routines always write "0" to PB6. I haven't looked any
+further through the code but I'd assume this is the case wherever the EXEC
+ROM writes to VIA port B. :-(
+
+I've also noticed that, for some reason, PB6 is being initialised to be an
+input(!) by the EXEC ROM....this is inconsistent with everything I've read
+which suggests this line was intended to be used to switch between two 32K
+ROM banks. Seems more like it was actually intended to be used as some sort
+of input from the cartridge - possibly a "cartridge present" signal?
+
+Sorry to have lead you off on what seems to be a wild goose chase.
+
+
+  TTFN - Pete.
+
+--
+Spam deflector in effect, edit reply address - it's obvious!
+
+**********
+Join "vectrex_dev" today, the new mailing list for Vectrex developers.
+Go to http://www.egroups.com/list/vectrex_dev/ to join.
+**********
+
+Hardware & Software Engineer. Sound Engineer.
+Collector of Arcade Machines, Games Consoles & Obsolete Computers (esp DEC)
+--
+
+
+	Brett Walach 	
+04.11.99
+Nachricht auf Deutsch übersetzen  
+
+Peter Pachla wrote:
+
+>   > Basically, if you set the PB6 line to INPUT, it seems to automatically
+>   >go high....
+>
+> That sounds about right.
+>
+> When the pin is set to input mode it isn't driven by the bus drivers
+inside
+> the 6522, this being a TTL/MOS IC an undriven input will tend to float
+high.
+
+John D.,
+
+Hmmm, If it's just floating HIGH when set to an input I would add a 10K ohm
+pull-up resistor in the CART from PB6 to +5V. I looked at the schematic and
+didn't see one inside the Vectrex. Never rely on a floating input to control
+something such as this or it may come back to haunt you. The floating input
+may not float so high on someone else's Vectrex causing it to hold your bank
+switch in the CART low. Actually, the 64K EPROM in the CART may pull that
+line low in some cases. The resistor won't hurt the line when it is changed
+to an output and driven LOW either. Another possibility is turning on
+internal pull-up resistors inside the 6522, if it has that option...I really
+wouldn't know. But you still might run into problems with that if the
+Vectrex EXEC ROM is resetting and setting various bits inside the 6522. The
+pull-up is a safe bet.
+
+BTW: Are you using Marks PCB's for your new game? Still going to use the
+Intelli cases?
+
+Sincerely,
+Brett Walach
+
+	John Dondzila 	
+07.11.99
+Nachricht auf Deutsch übersetzen  
+>Annoyingly I cannot find my Rockwell data book at the moment, which contains
+>the 6522 programming details. However AFAIR this pin shouldn't be acting in
+>this manner, and I can't think of a mode in which it would work this way.
+>
+>The pulse you're getting would be too short for an interrupt routine to be
+>resetting the bit "accidentally".
+>
+>Do you have another Vec' you could test your code on, or another 6522 you
+>could pop in there to eliminate a hardware problem (assuming you logic board
+>is socketed)?
+>
+
+I've tried it on 3 Vectrexes so far and they all work the same way. The Exec
+sets PB6 as an input as soon as it starts up. The PB6 line immediately goes
+high at that point. Setting PB6 as an output sets it low, setting it again as
+an input makes it go high.
+
+Anti SPAM In Use !
+Remove the * from *pcj...@monmouth.com
+to send E-Mail.
+
+	John Dondzila 	
+07.11.99
+Nachricht auf Deutsch übersetzen  
+>  > Hmmm, If it's just floating HIGH when set to an input I would add a 10K
+>  >ohm pull-up resistor in the CART from PB6 to +5V. I looked at the schematic
+>  >and didn't see one inside the Vectrex. Never rely on a floating input to
+>  >control something such as this or it may come back to haunt you.....
+>
+>Absolutely, TTL inputs are not guaranteed to float either high or low. They
+>TEND to float high in most cases, but that one time that they don't will get
+>you sooner or later....
+
+A 6522 is not a TTL chip. This may explain the odd behaviour.
+
+Anti SPAM In Use !
+Remove the * from *pcj...@monmouth.com
+to send E-Mail.
+
+	Peter Pachla 	
+08.11.99
+Nachricht auf Deutsch übersetzen  
+Hi John,
+
+  >....A simple loop with a standard WAITRCL will hold it low when set as
+
+  >an output. Setting it high will only last one cycle.
+
+Annoyingly I cannot find my Rockwell data book at the moment, which contains
+
+the 6522 programming details. However AFAIR this pin shouldn't be acting in
+this manner, and I can't think of a mode in which it would work this way.
+
+The pulse you're getting would be too short for an interrupt routine to be
+resetting the bit "accidentally".
+
+Do you have another Vec' you could test your code on, or another 6522 you
+could pop in there to eliminate a hardware problem (assuming you logic board
+is socketed)?
+
+
+  > Kind of makes you wonder what other possibilities are now open ...
+
+Well....one possibility springs to mind, you could use a flip-flop triggered
+by PB6 to switch banks.
+
+If you used a 7474, you could use "Q" to provide the A15 signal to the EPROM.
+"/Q" would be connected to the flip-flops "D" input causing the state of "Q"
+to invert with each clock pulse (provided by connecting PB6 to the clock
+input).
+
+As long as you had the menu program in the same relative location in each
+bank, and a byte in there somewhere to identify which bank is enabled, you
+wouldn't need to worry about the initial state of the flip-flop when you power
+up or reset the machine.
+
+I haven't checked, but surely a flip flop is cheaper than a switch?
+
+
+  TTFN - Pete (listening to Orbital).
+
+--
+Spam deflector in effect, edit reply address - it's obvious!
+
+**********
+Join "vectrex_dev" today, the new mailing list for Vectrex developers.
+Go to http://www.egroups.com/list/vectrex_dev/ to join.
+**********
+
+Hardware & Software Engineer. Sound Engineer.
+Collector of Arcade Machines, Games Consoles & Obsolete Computers (esp DEC)
+--
+
+
+	Peter Pachla 	
+08.11.99
+Nachricht auf Deutsch übersetzen  
+Hi Brett,
+
+  > Hmmm, If it's just floating HIGH when set to an input I would add a 10K
+  >ohm pull-up resistor in the CART from PB6 to +5V. I looked at the schematic
+  >and didn't see one inside the Vectrex. Never rely on a floating input to
+  >control something such as this or it may come back to haunt you.....
+
+Absolutely, TTL inputs are not guaranteed to float either high or low. They
+TEND to float high in most cases, but that one time that they don't will get
+you sooner or later....
+
+
+  TTFN - Pete.
+
+--
+Spam deflector in effect, edit reply address - it's obvious!
+
+**********
+Join "vectrex_dev" today, the new mailing list for Vectrex developers.
+Go to http://www.egroups.com/list/vectrex_dev/ to join.
+**********
+
+Hardware & Software Engineer. Sound Engineer.
+Collector of Arcade Machines, Games Consoles & Obsolete Computers (esp DEC)
+--
+
+	Peter Pachla 	
+09.11.99
+Nachricht auf Deutsch übersetzen  
+Hi John,
+
+  > A 6522 is not a TTL chip. This may explain the odd behaviour.
+
+True, it's a MOS IC isn't it? If so it should act pretty much the same way as
+a TTL IC AFAIR.
+
+
+  TTFN - Pete.
+
+--
+Spam deflector in effect, edit reply address - it's obvious!
+
+**********
+Join "vectrex_dev" today, the new mailing list for Vectrex developers.
+Go to http://www.egroups.com/list/vectrex_dev/ to join.
+**********
+
+Hardware & Software Engineer. Sound Engineer.
+Collector of Arcade Machines, Games Consoles & Obsolete Computers (esp DEC)
+--
+
+
+	Peter Pachla 	
+09.11.99
+Nachricht auf Deutsch übersetzen  
+Hi John,
+
+  > I've tried it on 3 Vectrexes so far and they all work the same
+  >way....
+
+Well, that blows that theory out of the water.... :-)
+
+Since that's obviously the way all Vectrex' work I'd suggest giving that
+flip-flop idea a whirl. I can think of other solutions, but they all involve a
+lot more hardware (and I'm sure you've considered them already). :-(
+
+
+  TTFN - Pete.
+
+--
+Spam deflector in effect, edit reply address - it's obvious!
+
+**********
+Join "vectrex_dev" today, the new mailing list for Vectrex developers.
+Go to http://www.egroups.com/list/vectrex_dev/ to join.
+**********
+
+Hardware & Software Engineer. Sound Engineer.
+Collector of Arcade Machines, Games Consoles & Obsolete Computers (esp DEC)
+--
+
+
+	Brett Walach 	
+09.11.99
+Nachricht auf Deutsch übersetzen  
+
+Peter Pachla wrote:
+> Hi John,
+>
+>   > I've tried it on 3 Vectrexes so far and they all work the same
+>   >way....
+>
+> Well, that blows that theory out of the water.... :-)
+>
+> Since that's obviously the way all Vectrex' work I'd suggest giving that
+> flip-flop idea a whirl. I can think of other solutions, but they all
+involve a
+> lot more hardware (and I'm sure you've considered them already). :-(
+
+
+How about a time delayed, open collector, one shot that holds the bank
+switch LOW until the menu loads and takes over? Is this the problem
+though... you get a pulse which starts to screw with the bank switching
+before you want it to? I might even be able to get the same action out of an
+8 pin DIP PIC Microchip with no external components.. just need an
+appropriate time delay...? Or.. it could look for another pin to go HIGH/LOW
+to change the bank switch input from LOW to TRI-STATE. Would cost 84 cents
+each in quantities of 100.
+
+I'm I on the right page here?
+
+Sincerely,
+Brett Walach
+
+	Peter Pachla 	
+10.11.99
+Nachricht auf Deutsch übersetzen  
+Hi,
+
+  >How about a time delayed, open collector, one shot that holds the bank
+  >switch LOW until the menu loads and takes over? Is this the problem
+  >though... you get a pulse which starts to screw with the bank switching
+  >before you want it to?
+
+No, the problem, as I understand it, is that John is extending an existing
+design and cat'n use PB6 as an address input to the ROM (essentially switching
+between two 32K banks) because when used as an output it won't stay high. You
+*NEED* that line to be stable in both states, a pulse is no use....
+
+That's why I suggested a flip-flop wired so that it's output toggles every
+time it's clocked. It's not an ideal solution by any means, but is
+quick/simple/cheap alternative to a switch.
+
+The disadvantage is that you need the menu program to be present in the same
+place in each of the two 32K banks since you don't know in what state the
+flip-flop will power up in - though on reflection you'd have much the same
+problem with the version with a switch.
+
+
+  TTFN - Pete.
+
+--
+Spam deflector in effect, edit reply address - it's obvious!
+
+**********
+Join "vectrex_dev" today, the new mailing list for Vectrex developers.
+Go to http://www.egroups.com/list/vectrex_dev/ to join.
+**********
+
+Hardware & Software Engineer. Sound Engineer.
+Collector of Arcade Machines, Games Consoles & Obsolete Computers (esp DEC)
+--
+
+
+	John Dondzila 	
+10.11.99
+Nachricht auf Deutsch übersetzen  
+>No, the problem, as I understand it, is that John is extending an existing
+>design and cat'n use PB6 as an address input to the ROM (essentially switching
+>between two 32K banks) because when used as an output it won't stay high. You
+>*NEED* that line to be stable in both states, a pulse is no use....
+>
+I can use the PB6. Vecmania is completely stable on 3 different machines.
+Beats me why it goes high when it's set to input, but it does and it stays
+that way until it is set low.
+
+>That's why I suggested a flip-flop wired so that it's output toggles every
+>time it's clocked. It's not an ideal solution by any means, but is
+>quick/simple/cheap alternative to a switch.
+>
+>The disadvantage is that you need the menu program to be present in the same
+>place in each of the two 32K banks since you don't know in what state the
+>flip-flop will power up in - though on reflection you'd have much the same
+>problem with the version with a switch.
+>
+
+My menu actually starts at 30,000 - this is because I don't have the source
+for Disc Duel and didn't feel like de-compiling/recompiling it.
+
+Basically, each game runs it's on it's own until you tell it to
+go back to Vecmania, at which time it warm resets at $F000.
+Regardless what bank you're on, it's the same code and you don't
+have to worry about switching the bank until you run the game.
+
+Anti SPAM In Use !
+Remove the * from *pcj...@monmouth.com
+to send E-Mail.
+
+	Peter Pachla 	
+15.11.99
+Nachricht auf Deutsch übersetzen  
+Hi John,
+
+  > Beats me why it goes high when it's set to input, but it does
+  >and it stays that way until it is set low.
+
+As I mentioned before, PB6 floating high when set as an input is perfectly
+normal behaviour.
+
+What isn't normal is the behaviour you describe when using it as an
+output....I wonder, is something somewhere perhaps reprogramming the pin as an
+input again after you've set it up (clutching at straws again perhaps)?
+
+
+  TTFN - Pete.
+
+--
+Spam deflector in effect, edit reply address - it's obvious!
+
+**********
+Join "vectrex_dev" today, the new mailing list for Vectrex developers.
+Go to http://www.egroups.com/list/vectrex_dev/ to join.
+**********
+
+Hardware & Software Engineer. Sound Engineer.
+Collector of Arcade Machines, Games Consoles & Obsolete Computers (esp DEC)
+--
+
+
+
+
+

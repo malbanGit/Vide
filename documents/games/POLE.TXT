@@ -1,0 +1,80 @@
+Pole Position 
+-------------
+   The spectacular arcade game, Pole Position, takes on an exciting new look
+through the magic of Vectrex!  Experience all the challenge of a Grand Prix
+racing event with non-stop action that'll leave you breathless!
+   Do you possess the skill, dexterity and courage to pull out from the crowd
+for qualification in one of the exclusive starting positions... or will you
+end up as an also ran?
+
+Controls
+--------
+Joystick:  Push right or left to change direction of your racer.
+Button 1:  1st Gear.
+Button 2:  2nd Gear.
+Button 3:  Gas.  Press to accelerate, release to slow down.
+Button 4:  Gas.  (Same as button 3)
+
+Game Play
+---------
+   Pole Position transports you into the exciting sport of world class Grand
+Prix auto racing.  Buckle yourself into your high performance Formula I
+racer, adjust your safety helmet and get ready for an exhilarating and
+danger-filled challenge.
+   You first goal in Pole Position is to race through a lap fast enough to
+qualify for one of the four exclusive starting positions -- passing
+competitors and avoiding hazardous obstacles along the way.  Once you have
+qualified, your challenge continues into four successive laps as you race to
+maintain your position and complete laps in progressively shorter time
+periods.
+   As the game begins, you'll find yourself at the starting line of the world
+renowned Fuji Speedway.  The words "Prepare To Qualify" will travel across
+the screen and you will hear the sound of your engine starting.  The moment
+your engine sound begins, you should take off on your qualifying lap.  Press
+buttons 3 or 4 to accelerate.  When you hear your engine "laboring," change
+to second gear by pressing button 2.  (Your speed will never exceed 135
+m.p.h. in first gear.)  You can return to first gear during your lap by
+pressing button 1.
+   While you speed through your qualifying lap, be sure to avoid your
+competitors' racers and the treacherous obstacles in the roadway -- contact
+will mean loss your car!  There will be no warning of obstacles, so pay close
+attention to the condition of the track.  Steer your car to avoid hazards and
+gain a better track position by pushing the joystick either left or right.
+
+   Although you are provided with an unlimited number of cars in Pole
+Position, you will lose a great deal of time whenever a car is crashed.  So
+be careful!  It is possible to drive off the speedway track -- but doing so
+will slow you down, cost you valuable time and increase your chances of
+losing a car.
+   You are provided with 120 seconds to complete your qualifying lap --
+although you must complete the lap well ahead of 120 seconds to qualify for
+on of the four starting positions.  If you qualify, you will be provided with
+90 seconds to complete your first actual race lap.  Completion of the first
+lap within the 90 second time period permits you to continue with a second,
+third and fourth lap which must be completed in 60 seconds.  During the
+actual race, the time remaining on the clock after completion of a lap will
+be carried over to the next lap -- allowing you more than the usual time
+provided to complete the lap.
+   Game play will continue until you are unable to complete a lap in the
+allowable time or when you have completed all four race laps.  If you
+complete all four laps, you'll receive 200 bonus points for each second
+remaining on the clock!
+   You will also earn points for distance traveled on the track, competitor's
+cars passed, and having achieved a starting position on your qualifying lap.
+
+Scoring
+-------
+     Action                            Points
+   ------------------------------------------------------
+     Passing competitor's cars          50 points per car
+     Completing one lap                12,000
+     Achieving first position           4,000
+     Achieving second position          2,000
+     Achieving third position           1,000
+     Achieving fourth position            500
+     Completing all four laps             200 Points for every second
+                                              remaining on the clock.
+
+
+z_morganrw@ccsvax.sfasu.edu
+

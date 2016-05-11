@@ -1,0 +1,611 @@
+ANIMACTlON 
+########## 
+
+
+ANIMACTlON is the first video craft of
+its kind that enables you to create and animate
+your own art like never before! ANIMACTION's
+totally new concept lets you create any scene
+using pre-drawn figures and shapes...and
+then combine those with other figures, back-
+grounds and scenery you draw yourself! Follow
+the easy-to-read instructions in this manual
+and animate your basic scene, watching your
+creations come to life right in front of your
+eyes! It's easy...fun...and ANIMACTION
+brings a whole new dimension to your art!
+
+
+Setting Up
+==========
+* Make sure the console power cord is plugged into a
+  120 volt AC 60 cycle electrical outlet.
+
+* Check to be sure the plug for the built-in control panel
+  is firmly seated in the control panel outlet on the right.
+
+* Plug the Vectrex Light Pen into the outlet marked, '2nd
+  Player' (to the left of where the control panel is plugged
+  in).
+
+* MAKE SURE THE CONSOLE IS TURNED OFF
+  BEFORE INSERTING THE CARTRIDGE. Insert the
+  ANIMACTION cartridge into the cartridge slot with the
+  label side up. Be sure it is firmly inserted to the guideline
+  marked on the cartridge.
+
+* Turn the OFF/ON/VOLUME CONTROL to the ON posi-
+  tion (clockwise). You will see the Vectrex title for a few
+  seconds, then the ANIMACTION title, followed by the
+  Menu.
+
+* Adjust the volume control to the desired listening level.
+
+* IMPORTANT: Adjust the BRIGHTNESS CONTROL (on
+  back of console) so that the white dot in the center of
+  the screen just barely disappears. If the brightness is
+  too dim, the Light Pen will not provide maximum
+  performance.
+
+
+BEFORE YOU BEGIN ...
+--------------------
+AnimAction's features make it one of the most amazing
+video crafts available today so before we go into all the
+details, here's a simple summary of the basic steps in-
+volved in creating and animating art with AnimAction:
+
+* Review the pre-drawn figures and shapes (called
+  'sprites') in the AnimAction library and decide which
+  ones you want to use in your basic scene. If you like, you
+  can make your own figures and shapes and add them
+  to the AnimAction library'.
+
+* Select any of the sprites (both pre-drawn and your
+  own) from the library and put them into your basic
+  scene.
+
+* Adjust the sprites in your basic scene... you can make
+  them larger or smaller... turn them around... flip them
+  inside-out... or make them brighter or dimmer.
+
+* Add other details to your basic scene (called 'etching')
+  backgrounds like mountains, a horizon, trees, houses,
+  pastures, the ocean  anything that you want to remain
+  stationary while your sprites are animating.
+
+* Once your basic scene is composed in Frame 1, pro-
+  ceed on to other frames where you can make changes
+  to the sprites... move them around to different areas,
+  enlarge or reduce them, turn them around! You can do
+  something different in each frame!
+
+* After you've animated all the frames you wish, you can
+  'play' them back... watch them animate... forward,
+  backward and at different speeds!
+
+Now let's take these basic steps and explain them in
+more detail...
+
+
+CREATING THE BASIC SCENE
+------------------------
+Put your Light Pen in hand... and get ready for the most
+mind-boggling art experience of your life! First you must
+create a basic scene-and the possibilities are end-
+less. Compose a country setting with trees, birds, wild
+horses, the sun and a mountain backdrop. Create your
+own faraway galaxy with stars, planets, comets, mete-
+orites, spaceships! Draw your own racecourse with hot
+Formula I cars, a pace clock, even the cheering crowd
+After you've created your basic scene, you can then ani-
+mate and watch your creation come to life!
+
+Reviewing the Pre-Drawn Sprites
+-------------------------------
+AnimAction has been pre-programmed with 48 sprites
+pre-drawn shapes and figures-which you can use in
+your basic scene. It's a good idea to take a look at all of
+these sprites in the 3 Sprite Libraries before you start
+creating your scene so you can decide which ones
+you'll want to use.
+After the AnimAction title, you'll see this on the screen:
+
+...
+
+This is Frame 1 of your composition. It is where you'll
+create your basic scene before moving on to Frames 2,
+3 and beyond to animate your scene.
+
+To review the first page of the sprite library aim the
+Light Pen at the word, 'LIB' When the other words at the
+bottom of the screen disappear press Button 3 on the
+control panel. You will see:
+
+...
+
+Take a look at these sprites and make a mental note
+of those you think you might want to use in your basic
+design, Then aim the Light Pen at the word, 'NXT' and
+press Button 3 to see the next page of sprites.
+
+Again, pick out the sprites you might want to use,
+Then aim the Light Pen at 'NXT' and press Button 3 to
+see this last page of pre-drawn sprites:
+
+...
+
+Making Your Own Sprites
+-----------------------
+If you wish, you can now draw your own sprites and add
+them to the library Point the Light Pen at the word,
+'MAKE' and press Button 3, You will see this:
+
+...
+
+This is your 'sketch pad' The lines you see are simply
+guidelines to help you sketch your own sprites, Remem-
+ber that your sprite must be drawn within the outer box.
+These guidelines will not show up in your finished sprite.
+
+DRAWING THE SPRITE
+------------------
+To draw your sprite, aim the Light Pen at your desired
+starting point and press Button 1 to get a dot and  "+"  to
+appear To create a line starting at this dot, aim the Light
+Pen at another point where you want the line to end and
+press Button 2. In creating your sprite, use Buttons 1
+and 2 to define starting points and draw lines. To close a
+figure, aim the Light Pen at a previously defined point.
+When it is detected, a square will appear around the
+point. Then press Button 2. You can also move the "+"
+sign by aiming the Light Pen at your desired new start-
+ing point and pressing Button 1 (Note: Your sprite can
+contain up to 29 lines.)
+
+Press Button 1 at desired
+starting point
+
+Press Button 2 to draw line
+starting at first point
+
+Press Button 2 again to
+continue the drawing
+
+To close figure, aim Light Pen
+at existing point and press
+Button 2.
+
+MAKING ADJUSTMENTS
+------------------
+Before adding your sprite to the library you can make
+any adjustments you feel necessary Just aim the Light
+Pen at any point on your sprite. When the point is de-
+tected, a square will appear around the point. Press But-
+ton 3 and hold it while you move the point with the Light
+Pen. This will also move the line or lines connected to
+that point (like a 'rubber band' effect). Release Button 3
+when that point is in the desired location. Continue to
+adjust your figure until it is completed and looks just the
+way you want it to look!
+You can remove lines from your sprite one at a
+time in the reverse order than you drew them. Each
+time you press Button 4, a line will be erased. (Note:
+you don't need to aim the Light Pen at the line being
+erased.) You can also erase the entire sprite by aiming
+the Light Pen at the word: 'ERA' and pressing Button 3.
+
+Aim the Light Pen at
+any point
+
+Press Button 3 and
+move point with the
+Light Pen
+
+To erase everything,
+aim the Light Pen at
+'ERA' and press
+Button 3
+
+ADDING YOUR SPRITE TO THE LIBRARY
+---------------------------------
+When your sprite is completed add it to the blank library
+page by aiming the Light Pen at the word 'EXIT' and
+pressing Button 3.
+
+CREATING EVEN MORE SPRITES!
+---------------------------
+You can create up to 20 of your own sprites and enter
+them on your library page. Just aim the Light Pen at the
+word, 'MAKE' to get back to the 'sketch pad' mode and
+then follow the same procedure for each sprite you want
+to make.
+
+DELETING SPRITES FROM YOUR LIBRARY
+----------------------------------
+Should you want to delete one or more of your sprites
+from the library simply go to the library page and aim
+the Light Pen at the sprite you want to delete. Then
+press and hold Button 3 and press Button 4.
+
+Selecting The First Four Sprites For The Basic Scene
+----------------------------------------------------
+You can select four sprites at a time from the entire
+library of sprites and use them in your basic scene.
+To select a sprite, first go to the library page on which
+the sprite is located. Aim the Light Pen at the wordD 'LIB'
+or 'NXT' and press Button 3 one or more times until you
+find the right page. To select a sprite aim the Light Pen
+at the sprite. When it gets brighter press Button 3. You'll
+see the sprite you selected appear at the top of the
+screen. Continue to select up to three more sprites in
+this same manner.
+
+Placing The First Four Sprites In The Basic Scene
+After selecting the first four sprites, you can use them in
+composing your basic scene. Point the Light Pen at the
+word 'EXIT' on any library page and press Button 3. This
+will take you to the main compose screen  Frame 1
+which looks like this:
+
+...
+
+These are your four
+selected sprites
+
+To enter a sprite into the basic scene, aim the Light
+Pen at that sprite at the top of the screen. (Note: be sure
+to always aim the Light Pen at the dot in the center of
+the sprite.) When the sprite gets brighter press and hold
+Button 3 and use the Light Pen to move the sprite down
+into the main part of the screen. Then release Button 3.
+Don't worry about the exact positioning of the sprite
+right now You'll be able to move it around, make it
+bigger or smaller later.
+You can use each sprite as many times as you wish in
+your basic scene. Just go back up to the sprite Menu at
+the top of the screen and move it down again into your
+basic scene.
+
+Aim the Light Pen at
+the sprite
+
+Press & hold Button 3
+and move the sprite
+down with the Light Pen
+
+use any sprite as many
+times as you wish
+
+Adjusting The Sprites
+---------------------
+You can make many adjustments to any or all of your
+sprites now Move them anywhere on the screen! Make
+them larger or smaller, brighter or dimmer rotate them...
+even flip them inside-out! Here's how:
+
+* To Move a Sprite Around the Screen: Aim the Light
+  Pen at the bright dot in the center of the sprite. Press
+  and hold Button 3 and move the sprite with the Light
+  Pen anywhere you want on the screen.
+
+* To Make a Sprite Larger or Smaller. Aim the Light Pen
+  at the dot in the sprite and push the joystick forward to
+  make the sprite larger or backward to make it smaller.
+
+* To Make a Sprite Brighter or Dimmer. Aim the Light
+  Pen at the dot in the sprite. Press and hold Button 1 to
+  make the sprite dimmer Or press and hold Button 2 to
+  make the sprite brighter.
+
+* To Rotate a Sprite: Aim the Light Pen at the dot in the
+  sprite and push the joystick to the right for clockwise
+  rotation or to the left for counter-clockwise rotation.
+  To Flip a Sprite in Three Directions: Aim the Light Pen
+  at the dot in the sprite and press and hold down Button
+  3. Then press Button 2 one or more times. Each time
+  you press Button 2, you will get one of three different
+  mirror images of the sprite.
+
+* To Erase a Sprite: If you decide that you don't want to
+  use a sprite in your scene, simply aim the Light Pen at
+  the sprite. Press and hold Button 3 and then press But-
+  ton 4 and the sprite will vanish from your scene. Al-
+  though you have erased this sprite at this time, it is
+  available for use again later if you wish.
+
+ Selecting and Using Additional Sprites
+ For The Basic Scene
+ After using the first four sprites you selected, you can go
+ back to the library and select more sprites  up to four
+ at a time. Simply follow the same procedure described
+ above. (Note: you can use up to 32 sprites in the basic
+ scene,)
+
+Adding Other Details To The Basic Scene
+---------------------------------------
+When you've finished selecting and placing sprites into
+your basic scene, you can add other details. This pro-
+cess is called 'etching'. For example, you can draw a
+mountain backdrop, a horizon line, trees, houses-
+anything that you want to remain stationary while your
+sprites are animating.
+To enter the 'ETCH' mode, aim the Light Pen at the
+word, 'SPR' at the top left side of the main compose
+screen, Then press Button 3, When you release the but-
+ton and move the Light Pen away from the screen, you
+will be in the 'ETCH' mode and you will see the cursor
+("+") in the center of the screen.
+
+'Free-Hand' Etching:
+To start etching, aim the Light
+Pen at the "+" and use the Light Pen to move the "+" to
+your desired starting position, To draw free-hand lines,
+press and hold Button 1 on the control panel while you
+move the "+" around the screen with the Light Pen, The
+slower you draw the easier it will be to create curved
+lines. To draw another figure or part of the background
+on the screen, release Button 1 and move the "+" with
+your Light Pen to another starting position, Then press
+and hold Button 1 again as you draw more lines. (Note:
+you can etch up to approximately 80 free-hand lines)
+
+'Straight-line' Etching:
+To draw straight lines in the
+'ETCH' mode, move the "+" with the Light Pen anywhere
+on the screen, This will be your starting point, Then
+press and hold Button 2 and move the Light Pen around
+the screen... watch your line stretch and pull to all direc-
+tions, just like a rubber band! Release Button 2 when
+your straight line is at the desired location and the de-
+sired length. (Note: you can etch up to approximately 40
+straight lines.)
+
+Erasing:
+You can erase your entire etching or just one
+line at a time, To erase the entire etching, aim the Light
+Pen at the word, 'ERA' and press Button 3, To erase one
+line at a time-in the reverse order that you drew them
+- press Button 4 once for each line you wish to erase.
+(Note: you don't need to aim the Light Pen at the line
+being erased)
+
+When you have finished etching, you must go back to
+the 'sprite' mode before you start to animate, Aim the
+Light Pen at the word 'ETCH' at the top left side of the
+screen and press Button 3, When you release the button
+and move the Light Pen away from the screen, you will
+be back in the 'sprite' mode and ready to animate .,
+
+ANIMATING YOUR SCENE
+--------------------
+When your basic scene is completed in Frame 1 of the
+'sprite' mode, you can start to animate it!
+
+Advancing to New Frames & Adjusting Sprites
+To advance to Frame 2 and begin animating your scene,
+aim the Light Pen at the word, 'NXT' at the bottom of the
+screen and press Button 3.
+Once you're in Frame 2, you can adjust your sprites in
+any way using the same methods described earlier in
+'Adjusting The Sprites' If you wish to see a 'shadow' of
+the previous frame's figures, press Button 4 twice.
+(Pressing Button 4 once will remove the words from the
+bottom of the screen which will also reduce any 'flicker'
+in your drawing) Pressing Button 4 a third time will re-
+move the previous frame's 'shadow' and will cause the
+words at the bottom to reappear.
+
+After making all adjustments in Frame 2, you can
+advance to Frame 3 and beyond by using the same
+procedure. The total number of frames available for ani-
+mation depends on the number of sprites you used in
+your basic scene:
+
+Number of Sprites Number of Frames in Scene Available for Animation
+3 sprites or less 28 frames
+4-16 sprites 14 frames
+17-32 sprites 7 frames
+
+You don't need to use all of the frames available for
+your animation... you can animate as few as two frames.
+
+'Playing' Your Animation
+------------------------
+To watch your creation come to life, aim the Light Pen at
+the word, 'PLY' at the bottom of the screen and press
+Button 3. This animation shows your scene in a continu-
+ous forward and reverse motion. You'll see your scene
+beginning in Frame 1, progressing frame-by-frame
+through the last frame you completed. It then pro-
+gresses frame-by-frame in reverse back to Frame 1. This
+animation will continue until you press Button 1 to stop it.
+For example, if you completed seven frames, it would
+'play' this way.
+
+Frame: 1234567654321234567 etc.
+
+There are two other play options for your animation. If
+you press Button 2 once while your scene is animating,
+it will move in a forward direction only, smoothly looping
+from the last frame back to the first frame. For example,
+in a seven-frame animation, it would 'play' like this:
+
+Frame: 123456712345671234567 etc.
+
+If you press Button 2 a second time, your scene will
+then animate in a forward direction only  without a
+smooth loop from the last frame back to the first. For ex-
+ample, in a seven-frame animation, it would 'play' as
+follows:
+
+Frame: 1 2 3 4 5 6 7
+1234567
+1234567
+etc
+
+If you press Button 2 a third time, you will return to the
+original forward and reverse animation sequence.
+You can also control the speed of the animation while
+it's in motion in any of the 'play' options. While the ani-
+mation is 'playing' you can speed it up by pressing But-
+ton 4 one or more times... or slow it down by pressing
+Button 3 one or more times.
+You can always stop the animation at any time by
+pressing Button 1 which will return you to the last frame
+you were in before 'play'.
+
+Editing Your Animation
+----------------------
+You can go back to any frame and make adjustments to
+your sprites. You can also go to additional frames (if
+they are available) and continue your animation. First
+press Button 1 to stop the 'play' mode. Go backward or
+forward to any frame to re-edit, that frame by aiming the
+Light Pen at 'LAS' or 'NXT' and pressing Button 3 one or
+more times. To erase all frames, simply aim the Light
+Pen at the word, 'ERA' and press Button 3. You can then
+start over again and create a whole new scene.
+
+There's No Limit To What Animaction Can Do!
+
+Make her run, walk
+send her out on a
+shopping spree! Draw
+your own background
+and send her camping
+sailing climbing
+dancing!
+
+Speed him up slow
+him down send him
+through tunnels across
+bridges into a dan-
+gerous jungle!
+
+Create your own star
+wars! The enemy fleet
+attacks! Dive bomb!
+Soar through the gal-
+axy/Fire your secret
+weapons!
+
+He's your own personal
+robot-with special
+powers! Make him spin
+his arms, his eyes grow
+brighter then make
+him disappear! Send
+him flying through
+space... you're in con-
+trol of all his actions!
+
+Example 1
+---------
+Create this basic scene using
+the first set of sprites on the
+screen.
+
+In Frame 2 move the eyes
+around
+
+In Frame 3 make more
+adjustments
+
+Fine-tune your animation
+before you go into the 'play'
+mode
+
+Example 2
+---------
+Go to 'ETCH' mode and draw
+your own design.
+
+Go to 'SPRITE' mode and
+select these sprites from the
+third library page
+
+Assemble all the pieces
+making whatever adjustment
+necessary in Frame 1
+
+In Frame 2 bring the horse's
+body and head forward and
+place legs in running position
+
+Raise the horse's head and
+body and place his legs in
+jumping position
+
+Position his legs so that they
+are fully extended over the
+hurdle
+
+Lower his head and body and
+place his legs on the ground
+
+Lower the horse's head
+to graze
+
+Example 3
+---------
+Then make the explosion
+'invisible' by using Button 1
+
+In Frame 2, lower hammer to
+top of nail
+
+In Frame 3, bring up the
+intensity of the explosion by
+pressing Button 2
+
+In Frame 4 lower nail into
+table and move hammer to
+top of nail Then make the
+explosion 'invisible' by using
+Button 1.
+Play sequence by pointing
+Light Pen at 'PLY`.
+
+90 Day Limited Warranty
+-----------------------
+This Video Game Cartridge is warranted by General Consumer Elec-
+tronics, Inc. to the original consumer purchaser in the U.S A for a pe-
+riod of 90 days from the original purchase date under normal use and
+service against defective workmanship and materials ANY IMPLIED
+WARRANTIES ARE ALSO LIMITED IN DURATION TO THE NINETY (90)
+DAY PERIOD FROM THE ORIGINAL PURCHASE DATE SOME STATES
+DO NOT ALLOW LIMITATIONS ON HOW LONG AN IMPLIED WAR-
+RANTY LASTS SO THE ABOVE LIMITATION MAY NOT APPLY TO YOU
+
+This warranty is void if the GCE Video Game Cartridge has been
+damaged by accident, unreasonable use, neglect, misuse, abuse, im-
+proper service, modification, subject to commercial use or other
+causes not arising out of defects in workmanship or materials and is
+limited to electronic and mechanical parts contained in the cartridge.
+
+GENERAL CONSUMER ELECTRONICS, INC SHALL NOT BE LIA-
+BLE FOR LOSS OF USE OF THE VIDEO GAME CARTRIDGE OR
+OTHER INCIDENTAL OR CONSEQUENTIAL COSTS EXPENSES OR
+DAMAGES INCURRED BY THE PURCHASER RESULTING FROM
+BREACH OF ANY EXPRESS OR IMPLIED WARRANTIES ON THE
+VIDEO GAME CARTRIDGE SOME STATES DO NOT ALLOW THE EX-
+CLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL
+DAMAGES. SO THE ABOVE LIMITATION OR EXCLUSIION MAY NOT
+APPLY TO YOU.
+
+During the warranty period, if found to be defective due to work-
+manship or materials, the GCE Video Game Cartridge will at the option
+of General Consumer Electronics. Inc be repaired or replaced with a
+new or reconditioned GCE Video Game Cartridge without charge for
+parts or labor when returned by Purchaser with proof of purchase
+date, shipped prepaid to General Consumer Electronics, Inc. at the fol-
+lowing address:
+
+ General Consumer Electronics Inc.
+ 233 Wilshire Boulevard
+ Santa Monica, California 90401
+
+In the event that your GCE Video Game Cartridge is replaced, the
+warranty on the replacement will be ninety (90) days from the date of
+its return to you.

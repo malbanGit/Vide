@@ -1,0 +1,206 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=93d9f3f4 -->
+<title>Analog </title>
+</head>
+<body class="doc">
+<h1>Analog </h1>
+<br/><p align="center">
+<img src="pics/vec_art_scheme.png" width="960" height="360" /><br/>
+<em>basic scheme</em></p><br/>
+
+<p>(picture stolen from: <a target="_blank" href="http://enlight.ru/post/9479/">http://enlight.ru/post/9479/</a>)</p>
+
+<p>For a <i>very</i> general idea of the vectrex hardware, look at the diagram.</p>
+
+<p>I will try to describe the diagram with my own words, perhaps it will help :-).</p>
+
+<p>What do you want Vectrex to do?</p>
+
+<p>YES, draw Vectors, that is what this is all about. To draw something you need something to draw upon, back in the 80ies screens to draw upon were large, heavy and were powered with huge voltages. The underlying principal was called Cathode Ray Tube, or short CRT, thats what is on the utter left of the diagram. Your vectrex "monitor".</p>
+
+<p>To draw a vector you basically shoot some electrons at a phosphor coated piece of glass, the phosphor begins to glow and you recognise that as a bright spot on the outside. To draw just one point is sort of boring, thats why people wanted to "move" the spot. Luckily electrons happen to interact to magnetism. And luckily technology enables us to "control" magnetism. We don't need a man standing beside the screen and juggling with little magnets to deflect the electron beam :-)!</p>
+
+<p>If you have a copper wire, and some current running thru it, you also have a magnetic field around the wire. With some mathematical background you can calculate the magnetism and build nice things, like transformers, wireless iphone rechargers, induction cookers etc - all the same principal. But lucky for us also deflection coils for CRTs... ehm, I am drifting away...</p>
+
+<p>Where was I? With  the help of deflection coils you can change the path the electrons take and so move the bright spot on the screen any way you like.</p>
+
+<p>If you move the spot from left to right switched "on" than from right to left switched off, this 625 times with a tiny bit down every line, you are pretty near the PAL television norm, at least if you do that 25 times in one second.</p>
+
+<p>Vectrex can't draw 625 "fullscreen" lines 25 times a second. It's no TV. </p>
+
+<p>Anyway, going back to vectrex, and what it CAN actualy do.</p>
+
+<p>Vectrex has more or less DIRECT controll over the beam. In the diagram you can see three lines connected to the CRT: X, Y and Z. </p>
+
+<p>X - is the X position of the spot Y - is the Y position of the spot Z - is the brightness of the spot </p>
+
+<p>These input lines to the CRT are ANALOG voltages. </p>
+
+<p>How do we get from our digital world to analog values for the positioning of the spot on the CRT?</p>
+
+<p>Ok</p>
+
+<p>Lets go to the other side of the diagram.</p>
+
+<p>The Microprocessor of the vectrex does not communicate directly with any analog part. It uses the VIA 6552 to comunicate with all periphals.</p>
+
+<p>The CPU only knows 16 registers of VIA and pokes and peeks to/from them to achieve control over the beam.</p>
+
+<p>The relevant VIA parts and its analog pendants are:<br />
+</p>
+
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CA2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ZERO<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CB2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- BLANK<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bit 7 of ORB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- RAMP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bit 0 of ORB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- mux enable<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bit 1-2 of ORB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- mux select<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ORA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- input to DAC<br />
+</p>
+
+<p>This is a wild mixture of "things" Via has to offer!<br />
+CA and CB are "Control Lines" there are 2 control lines each for "A" and "B". The control lines can generate interrupts, can be used as input or output and "B" can be "driven" by timers. The behaviour of these control lines is internally controlled by register $c [Control Register].</p>
+
+<p>The bits of the ORB can theoreticall be both input and output, the above bits are ONLY used as output! Bit 7 is "special" in the way, that output can also be "controlled" by the timer 1 of VIA.</p>
+
+<p>ORA is used as "direct" input to the DAC.</p>
+
+<p>No matter how these signals are generated internally by VIA the following for the analog section of vectrex is the result:</p>
+
+<p><b>CA2 - ZERO</b><br />
+If CA2 is 0 than the "ZERO" signal is active! If CA2 is 1 than the "ZERO" signal is NOT active!</p>
+
+<p><b>CB2 - BLANK</b><br />
+If CB2 is 0 than the "BLANK" signal is active! If CB2 is 1 than the "BLANK" signal is NOT active!</p>
+
+<p><b>bit 7 of ORB - RAMP</b><br />
+If bit7 is 0 than the "RAMP" signal is active! If bit7 is 1 than the "RAMP" signal is NOT active!</p>
+
+<p><b>bit 0 of ORB - mux enable</b><br />
+If bit0 is 0 than the mux is enabled! If bit0 is 1 than the mux is NOT enabled!</p>
+
+<p><b>bit 1-2 of ORB - mux select</b><br />
+If mux is enabled, this two bit number selects the DAC output.</p>
+
+<p><b>ORA - DAC Value</b><br />
+The DAC input is THAT value.</p>
+<h2>What does that mean?</h2>
+<h3>ZERO</h3>
+
+<p>In short zero means "ground", if you look at the diagram the zero line is connected to both integrators. If ZERO is active, than the integrators are grounded, and no matter what values are present there is no integration ongoing. If an integration happend befor, values are resetted! If zero is active and you as a programmer try to draw something - all you will see is a bright spot in the middle of the screen - the point zero!</p>
+<h3>BLANK</h3>
+
+<p>The same thing as ZERO only this time for the brightness of the beam, not the position. If BLANK is active, the beam is switched off, no matter what other brightness you might have set befor.</p>
+<h3>RAMP</h3>
+
+<p>The RAMP signal enables or disables integration. In the diagramm the RAMP line is connected to "switches" befor the integrators. If RAMP is active, the switch is in ON position and integration happens. If not, NO integration is possible. But the integrators "hold" their values (well for a little time anyway). It is not possible to switch only one of the integrators on or off, you do allways set RAMP for both! If you don't want to integrate the other one, set the "integration value" to 0.</p>
+<h3>mux enable</h3>
+
+<p>As seen in the diagram, the output of the DAC goes as input into the MUX. If mux is enabled, than the DAC (analog) value is send to its destination (given by mux select). If mux is disabled, NO output is done to any of the mux lines. (BUT: as you can see the output of the DAC goes directly to the X-Integrator input (switch). Regardless of the MUX, x-integrator ALWAYS recieves the current DAC output!)</p>
+<h3>mux select</h3>
+
+<p>These two bits are used together to build a 2 bit value. This two bit value ranges from 0 to 3. According to the resulting number, the multiplexer switches the output of the DAC to the respective recieving hardware:<br />
+0 (binary: 00) Integrator for vector y-position<br />
+1 (binary: 01) X, Y integrator offset values<br />
+2 (binary: 10) Z-value of vector hardware (brightness)<br />
+3 (binary: 11) audio hardware<br />
+</p>
+
+<p>Not discerable on the diagram is, that for the line 0 and line 2 (y-Integration and Brightness) the values that are set are hold till set to another value. Responsible for holding are the op-amps of type IC LF347(s).For setting a value one can also say, that the current DAC value is a (short) "sample", and these sample values are on hold till new samples arrive. In many documentations you may find "sample and hold" values.  The values that are set to the above four different destinations are those "sample and hold" values.</p>
+<h3>DAC Value</h3>
+
+<p>The DAC translates a 8bit input (-128 - +127) to an analog voltage ranging from -5 volt to +5 volt to its output</p>
+<h2>Putting it all together</h2>
+
+<p>If you want to draw a vector there are some items you allways have:
+<ol><li>
+<p>start position e.g. 10, -10</p>
+</li><li>
+<p>end position e.g. 20, -20</p>
+</li><li>
+<p>brightness e.g. 50</p>
+</li></ol>
+</p>
+
+<p>If you want the analog hardware to draw a vector you must give it these values in a form that it can understand.</p>
+
+<p>There are some things to assume befor we start drawing.
+<ul><li>
+<p>BLANK is ENABLED</p>
+</li><li>
+<p>ZERO is ENABLED</p>
+</li><li>
+<p>RAMP is DISABLED</p>
+</li><li>
+<p>MUX is DISABLED</p>
+</li></ul>
+</p>
+
+<p>This is the "standard" beginning of a draw procedure. In terms of analog hardware the following must be done:
+<ol><li>
+<p>set brightness
+<ul><li>
+<p>DAC = 50 (brightness value to DAC)</p>
+</li><li>
+<p>mux sel = 10 (select brightness output in mux)</p>
+</li><li>
+<p>mux enable</p>
+</li><li>
+<p>mux disable<br />
+[note: blank is still enabled!]<br />
+[This short "mux enable/disable" is "enough" so that the brightness is set to 50. The "storage" position (sample/hold) for brightness is nowhere to be found in the diagram]</p>
+</li></ul>
+</p>
+</li><li>
+<p>move to 10, -10
+<ul><li>
+<p>DAC = -10 (y coordinate)</p>
+</li><li>
+<p>mux sel = 00 (y integrator)</p>
+</li><li>
+<p>mux enable</p>
+</li><li>
+<p>mux disable<br />
+now y integration value is set to -10 [one could say (regarding the diagram) that the y-integration value is stored by the "y-switch" (- again sample/hold)]</p>
+</li><li>
+<p>DAC = 10 (this sets X-intgeration value to 10)</p>
+</li><li>
+<p>ZERO = 1 (ZERO not active!)</p>
+</li><li>
+<p>RAMP = 0 (enable RAMP, integrators are working)</p>
+</li><li>
+<p>wait for a defined time (in real life this is the scale factor)</p>
+</li><li>
+<p>RAMP = 1 (disable RAMP, integrators are not working)<br />
+[now we are at position 10, -10]</p>
+</li></ul>
+</p>
+</li><li>
+<p>draw vector to 20, -20 <br />
+The drawing of a vector is usually relative, so here we are not using 20, -20 but the difference (offset) to our "current" position, which is exactly 10, -10 again, so we can reuse the values for the integrators we already set above! 
+<ul><li>
+<p>BLANK = 1 (disable BLANK, the phosphor is shining!)</p>
+</li><li>
+<p>RAMP = 0 (enable RAMP, integrators are working)</p>
+</li><li>
+<p>wait for a defined time (in real life this is the scale factor)</p>
+</li><li>
+<p>RAMP = 1 (disable RAMP, integrators are not working)<br />
+</p>
+</li><li>
+<p>BLANK = 0 (enable BLANK, beam is switched off)<br />
+[now we are at position 20, -20, and have just drawn a vector]</p>
+</li></ul>
+</p>
+</li></ol>
+</p>
+
+<p>The actual assembler code looks a little bit more complicated, since the analog "objects" can not be set directly. The BLANK is usually set "through" the SHIFT register of VIA, which in turn is set up by the auxiliary control register. The RAMP is (often) controlled by the timer, which in term is controlled by the control register ...</p>
+</body>
+</html>

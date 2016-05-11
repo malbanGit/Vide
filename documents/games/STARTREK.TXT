@@ -1,0 +1,132 @@
+Star Trek: The Motion Picture
+-----------------------------
+
+Welcome, Captain Kirk, to your command on the Starship Enterprise.  Your mission
+is to seek out and destroy the enemy Klingon Mothership.  Travel through nine
+sectors of space, each more difficult, or take a shortcut through the Black
+Hole.  Be careful... the Klingons and Romulans are hiding in space, waiting to
+destroy you at every turn!
+
+Controls
+--------
+Joystick:  Moves your ship through space from the pilot's view.
+Button 1:  No function.
+Button 2:  Power Link- Locks your ship on your Space Station door (to refuel)
+           or in the Black Hole.
+Button 3:  Shield.
+Button 4:  Fire- at Klingons, Romulans, and their torpedoes.
+
+Black Hole Sector Selection
+---------------------------
+   You can select which of the first eight sectors contains the Black Hole,
+which is the shortcut to the enemy Klingon Mothership.  When  Game 1  appears on
+the screen, press button 2 to change the sector in which you want the Black Hole
+to appear.  For example, if you press button 2 twice,  Game 3  will appear on
+the screen.  This will put the Black Hole in Sector 3.  If you do not choose a
+particular sector, the Black Hole will be in Sector 1.
+
+Starting Game Play
+------------------
+   Once you select the number of players and the sector of the Black Hole, press
+button 4 to enter the first sector of space and start game play.
+   If you do not press button 4 once the number of players and the sector of the
+sector of the Black Hole are selected, the game will be in a self-play mode. 
+Pressing any button when you are in this mode will return you to the beginning
+of the game.
+ Descriptions:  [My descriptions, the manual has little drawings..]
+ -------------
+  Klingons:  Have a triangle in the center of their ships.
+  Romulans:  The other ships.  Flat, bat-like ships..
+  Klingon Torpedoes:  Six-pointed star (asterisk).
+  Romulan Torpedoes:  Four-pointed star.
+  Black Hole:  Several concentric squares.
+  Your Space Station:  Bowl-like with rotating "door."
+  Enemy Klingon Mothership:  Large bad-ass ship.  You'll know it when you find
+     it.  :)
+
+Game Play
+---------
+   As Captain Kirk, you view the action from behind the windshield of the
+Starship Enterprise. [Don't accuse me of that one, the manual says windshield] 
+Use the joystick to maneuver your ship through space and aim your gunsight at
+the appropriate target.  Use button 4 to fire lasers at your enemies and the
+torpedoes they hurl at you.  If you can't hit the torpedo, press button 3 to
+place a protective shield in front of your ship.  Your shield will cause the
+torpedoes to bounce off.  If you destroy all the ships in a sector, you will
+automatically move to the next sector.  Each new sector has more enemies who
+move even faster.  If your clear out the first eight sectors, you will enter
+Sector 9... and face the dreaded Klingon Mothership.
+
+Getting Hit
+-----------
+   If you are hit by a torpedo, your windshield [Exactly how much wind IS in
+space, anyway :)] will crack.  If you have additional ships left, you will be
+given another chance to clear out the sector you are in.
+
+The Black Hole
+--------------
+   Rather than fighting through all eight sectors in order to get to Sector 9,
+you can take a shortcut through the Black Hole.  To enter the Black Hole, aim
+your gunsight and press button 2, the Power Link.  You will automatically be
+transported to Sector 9.  There is only one Black Hole in each game.
+
+Klingon Mothership
+------------------
+   Sector 9 contains the deadly Klingon Mothership, which furiously shoots
+torpedoes of all types at you.  The Mothership must be hit directly on the nose
+in order to be destroyed.  Additionally, the Mothership can only be destroyed
+when its nose is lit up.
+   Beware... very few get out alive!  If you do manage to survive (somehow) you
+will be automatically transported back to Sector 1 and the game will continue.
+
+Laser Power and Shield Strength
+-------------------------------
+   Laser power and shield strength are limited.  The gauges are at the bottom of
+the screen -- the line on the left is your remaining laser power and the line on
+the right is your remaining shield strength.  Each of your ships will start with
+full laser power and shield strength.  Keep an eye on your gauges.  When the
+lines start to look low, you will need to refuel at your Space Station.  Watch
+carefully each time you complete all nine sectors in a galaxy.  Every new galaxy
+uses up lasers and shield at quicker rates.
+
+Refuelling
+----------
+   Time your refuelling carefully because you only have 1 Space Station in each
+sector.  To refuel, you must hook up with door of your Space Station by lining
+up your gunsight with the door and then pressing button 2, the Power Link.  If
+you make contact, the Space Station will freeze as your tanks fill up.
+   [Not in manual- Normally, you are invincible while doing this (actually, the
+enemy ships will not fire at you while you are docked).  However, if an enemy
+torpedo has already been shot at you when you dock, it WILL hit you.  Watch out
+for this...]
+
+Number of Ships
+---------------
+   At the beginning of each game, you will have 3 ships.  A bonus ship is
+awarded each time destroy the Mothership.
+
+Scoring
+-------
+   Points are earned for destroying enemy ships, torpedoes, and the Mothership,
+as follows:
+
+   Object                 Points
+  ------------------------------------
+   Torpedo                300
+
+   Romulans and           300 - 800    The farther the enemy is from you, the
+   Klingons in                         more points you get.
+   normal flight.
+
+   Romulans and          1000
+   Klingons
+   banking near
+   you ship.
+
+   Mothership            5000
+
+   Additionally, you are awarded a bonus of 1500 points for destroying all ships
+in a sector.  No points are earned or lost for destroying your own Space
+Station.
+
+

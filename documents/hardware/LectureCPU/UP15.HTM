@@ -1,0 +1,209 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 15</H2>
+<H3>Interrupts (continued)</H3>
+          An interrupt is a signal to the processor which causes
+          it to discontinue the current program sequence and start running
+          a different program often called the interrupt service routine.
+<P>
+          To find this program the processor fetches an address from
+          predefined (by the hardware) locations.  There may be just one of
+          these interrupt vector locations but generally there are several
+          which allow different types of response.
+<P>
+          In the case of the 6809 there seven interrupt vectors
+<PRE>
+          FFFE/F    Reset      Reset signal for startup and reinitialisation
+          FFFC/D    NMI        Non Maskable Interrupt
+          FFFA/B    SWI        Software Interrupt
+          FFF8/9    IRQ        Interrupt Request
+          FFF6/7    FIRQ       Fast Interrrupt  Request
+          FFF4/5    SWI2       Software Interrupt 2
+          FFF2/3    SWI3       Software Interrupt 3
+</PRE>
+          The 'normal' interrupt input is IRQ.  The sequence of events when
+          an IRQ signal is received (logic 0) is:-
+<OL>
+<LI>The processor continues to the end of the current
+               instruction so that it is not left in an ill-defined state.
+<LI>If the interrupt mask is set nothing happens.
+               If the mask is not set (i.e. zero) then ...
+<LI>The complete processor status is stored on the system stack ...
+<LI>The interrupt mask is set to prevent further interrupts
+               until the programmer decides it is safe to re-enable them.
+               I.e. the source of the interrupt has been indentified and the
+               signal cancelled.
+<LI>The contents of memory locations $FFF8 and $FFF9 is loaded
+    into the Program Counter and normal program execution resumed.
+</OL>
+<H2>Interrupt Service Routine</H2>
+
+          This is the name given to the program which runs as a result of
+          the occurrence of an interrupt.  Its task is to identify the
+          source of the interrupt (there may be many possible souces e.g.
+          the VIA can generate interrupts for seven different reasons).  The
+          routine will then call up a program which handles that particular
+          interrupt.  These are often referred to as device handlers.  Thus
+          there will be a printer device handler which is called when the
+          printer causes an interrupt.  The interrupt may be for a variety
+          of reasons, the most common will be that it is ready for more
+          data.  The handler will read more data from a buffer area of
+          memory and send it to the printer.  Similarly there will a device
+          handler for the mouse.  When the mouse is moved an interrupt is
+          caused.  The mouse handler will read the new position and update
+          the screen display to reflect the change of position.
+<P>
+          The first task is finding the source of the interrupt.  There are
+          a variety of ways in which this can be achieved.
+<P>
+          <B>Software Polling</B> - The ISR contains program which looks at flags
+          in each of the interfaces in turn to see whether it is the one
+          causing the interrupt.  If it is then a branch is executed to the
+          relevant device handler, if not the next interface is examined.
+          This is why the VIA (or PIA) has a single flag to indicate if it
+          is causing an interrupt for whatever reason.  Obviously a priority
+          can be built into this process so that high priority devices are
+          checked first so that if two devices interrupt simultaneously
+          (i.e. within the same instruction period) then the one with
+          higher priority is the one which is serviced first.
+<P>
+          <B>Hardware Polling</B> - The processor, either automatically or under
+          program control, sends out an interrupt acknowledge signal which
+          tells the device causing the interrupt to put its device code on
+          the the data bus so that the processor can read it.  Again a
+          priority structure can be included by daisy chaining the
+          acknowledge signal so that an interrupting device does not send
+          it on to subsequent devices.  Thus the first interrupting device
+          in the chain will respond with its code.  Special interface
+          devices are required for this as they need to be programmed with
+          the appropriate device code in the initialisation part of the
+          software.  This technique is not used by the M6809.
+<P>
+          <B>Hardware Vectoring</B> - This effectively means that there are
+          different interrupt inputs for each device and different vector
+          locations.  Thus when a device interrupts the processor goes
+          directly to the device handler.  The 68000 allows this approach
+          provided there are not more than seven devices in the system.
+          External Interrupt Controller chips are available which provide
+          this facility for processors which don't have it built in.  They
+          work by modifying the address sent out by the processor when it
+          responds to an interrupt depending upon which device caused the
+          interrupt.  This technique is not available to the M6809.
+<P>
+          In practice a combination of techniques may be used with a few
+          devices sharing each of a few interrupt inputs.  Thus software
+          polling is kept to a minimum whilst keeping hardware to a minimum
+          as well.  This is the approach used in 6809 systems where we have
+          two other interrupt inputs although they work slightly
+          differently.
+
+<H3>NMI - Non-maskable Interrupt</H3>
+
+          This is a separate input to the processor and has its own vector
+          locations.  The only difference in the way the processor responds
+          is that the interrupt flag is not checked first. in other words
+          the processor always responds, even if it is already in the
+          middle of responding to an IRQ interrupt.  Thus is therefore a
+          high priority interrupt and would be used for power-failure,
+          memory parity error or other important and not to be ignored
+          event.   Another hardware difference is that IRQ is level
+          sensitive, which means an interrupt is caused whenever a low
+          level is detected (this allows interrupts to be interrupted when
+          the mask is cleared and allows queuing).  If NMI was level
+          sensitive it would continually interrupt itself.  Thus since it
+          cannot be masked out it has to be edge sensitive i.e. it is the 1
+          to 0 transition which causes the interrupt.  The result of this is
+          that you cannot sensibly have more that one device connected to
+          it unless they are mutually exclusive or you have special
+          hardware to sort out contentions.
+
+<H3>FIRQ - Fast Interrupt Request</H3>
+
+          This again is a separate input with its own vector location.  It
+          is very similar to the IRQ interrupt in that it can be inhibited
+          by setting the F flag in the Condition Code register.  Again this
+          happens automatically when the processor responds to a FIRQ
+          input.  It is also higher priority than IRQ since a FIRQ will set
+          the I flag as well but a IRQ does not set the F flag.  Thus an
+          FIRQ interrupt will interrupt an IRQ but not vice-versa.  The
+          other difference is that the processor does not store the
+          complete processor status only the Program Counter and Condition
+          Code register.  Thus the interrupted program can only be resumed
+          provided none of the other registers have been modified.  It the
+          job of the interrupt is simply to transfer a byte of data to/from
+          memory then perhaps only one accumulator will be involved.  The
+          programmer can arrange for that to be stacked and retrieved.  Thus
+          the advantage of this input is that the response is much faster
+          since you don't have to wait for all the processor registers to
+          be stacked.  The disadvantage is that the programmer has to
+          remember to stack any registers that are used.
+
+<H3>Software Interrupts</H3>
+
+          This sounds like a contradiction in terms.  Interrupts are by
+          definition external events which occur at unpredicatable times
+          and therefore interrupt the software.  However there are
+          situations where a program may wish to generate an interrupt-like
+          response, that of storing the processor status and calling up
+          another program.  One such situation is the one we have in the lab
+          where we have a two levels of program, a monitor or supervisory
+          program, and a user program.  The monitor program is running when
+          you switch on and is responsible for allowing the user to enter
+          data into memory, examine memory etc.  At some point the user will
+          want to run his/her program.  Obviously this could be done by a
+          simple jump instruction.  At the end of the program we want some
+          simple way of getting back to the monitor, again this could be a
+          jump but then the user would have to remember the address for the
+          start of the monitor.
+<P>
+         A more satisfactory approach is to make returning to the monitor
+         an interrupt-like situation.  Effectively we interrupt the user
+         program to return temporarily to the monitor.  Moreover since
+         interrupts cause the processor status to be stored on the stack
+         the monitor can then examine the stack directly and show us what
+         was in the processor registers when the program stopped.
+<P>
+         So we use the SWI instruction to get back to the monitor.  It
+         stacks all the registers and starts running the program whose
+         address appears in the SWI vector locations i.e. the monitor.  To
+         run the user program the monitor executes a Return From Interrupt
+         instruction.  This restores all the registers from the stack.  The
+         monitor first arranges that the PC stack locations contain the
+         starting address of the user program.  This has the added
+         advantage that all the other registers are restored to the values
+         they had when the user program stopped.  Thus you can continue a
+         program from the point it was stopped without loss of data.
+<P>
+         We find in any computer system that there are these levels of
+         program.  The equivalent of the monitor may be the operating
+         system which allows us to communicate with the system and enter
+         commands to load and run programs from disc.  When a user program
+         wishes to read data from a disc file you don't have to write the
+         necessary sofware since it already exists in the OS.  All you do
+         is call up the OS and tell it to read a file by putting a code
+         for the appropriate action in, say, AccA and a pointer to the
+         area of memory the data should be put in in X. Again SWI makes a
+         useful way of calling up the OS without having to specify any
+         addresses.
+<P>
+         The 6809 has three such SWIs.  They all work the same way, they
+         just have different vector locations allowing different programs
+         to be run.  Usually these are just different entry points in the
+         same monitor or O.S.  For example a different entry point may be
+         needed when errors occur.  If there is a disc read error then the
+         program may have to abort with a suitable error message.  A
+         different SWI could be used in this case.  In the 68000 several
+         such instructions are provided although they have a different
+         name, they are called traps, and some of them have specific uses,
+         e.g. an attempt to use an illegal instruction code.
+
+<hr>
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up16.htm">Next</A> |</CENTER>
+
+
+</BODY>
+</HTML> 

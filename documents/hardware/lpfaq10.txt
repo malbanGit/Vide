@@ -1,0 +1,76 @@
+The Vectrex Lightpen is an add-on accessory developed & released in 1983 to make the Vectrex more interactive and supposidly more educational.
+
+The original hardware required is the VT3600 Lightpen. Alternative Lightpens include the original design and a "modified" design. Circuits of both of these designs are available on Brett's Vectrex Preserve. 
+
+1. Game cartridges that work with the Vectrex Lightpen include:
+
+VT 3601 Art Master (pack-in game with Lightpen) [4K ROM]
+VT 3602 Melody Master [8K ROM]
+VT 3604 Animaction [8K ROM +2K RAM]
+
+
+2. The two following programs were written for the Lightpen:
+
+VT 3603 Mail Plane 100% completed) (Vaporware)
+VT ---- Engine Analyzer (On Sean Kelly's Multicart 1996-1999)
+
+
+3. How to use the Vectrex Lightpens:
+
+For most games plug the Lightpen into controller port 2 (left port) and a standard controller into controller port 1 (right port). Then activate the various functions by pressing one of the four buttons while holding the Lightpen 1-2 cm from the Vectrex screen. An exception to this setup is for the Engine Analyzer (on Sean Kelly's Multicart 1996-1999). For this program plug the Lightpen into controller port 1 (right port). Then select from a menu of choices by aiming the pen at a box.
+
+
+4. Where to find instructions for the three released Lightpen cartridges:
+
+Instruction manuals in TEXT format for these cartridges and the original Lightpen can be found on Brett's Vectrex Preserve. 
+
+
+5. How does the Lightpen work?
+
+The Lightpen sends a negative edge pulse to "button 4" when it senses a certain intensity of light. The software on the program cartridges places a "crosshair" on the screen or monitors predetermined text menu selections. By aiming the Lightpen at this crosshair it draws a shape similar to a bullseye. As the pen is moved, it crosses the rings of the bullseye and this new position is detected and made to be the new center. In this manner the bullseye crosshair may be dragged across the screen. If it is lost by the Lightpen, it must be "picked up" again.
+
+
+6. Do the Lightpen catridges have overlays like the other Vectrex games?
+
+There are no overlays for these game progams.
+
+
+7. Where can someone get a Vectex Lightpen?
+
+Soon a limited number of reproduction Lightpens will be available for sale from Brett's Vectrex Preserve. Occasionally a Lightpen may be advertized for sale on eBay or the Vectrex newsgroup.
+
+
+8. What is the difference between the two Lightpen designs VLP and MVLP?
+
+The VLP is the original GCE design and the MVLP is a simpler version designed by Tony Duell in 1995 (updated in 1999 by Brett Walach & Rob Mitchell so you can actually build one!).
+
+
+9. How can someone get a Vectrex Lightpen kit?
+
+A kit of parts and schematic by which to construct a Lightpen will be available from Brett's Vectrex Preserve.
+
+
+10. How can someone build his own Vectrex Lightpen?
+
+Commonly available parts and a schematic are available from Brett's Vectrex Preserve.
+
+
+11. What is the Engine Analyzer good for?
+
+This program is an educational tool and has no real functionality. However, it does show an auto mechanic's example of good and bad graph functions that suggest certain problems with a particular car engine under analysis. I presume that GCE was thinking of marketing the Vectrex as a diagnostic tool to mechanics and this program was to be part of the training package. Of course the real Engine Analyzer program has never shown up, nor has the equipment for attaching it to the spark plug wires and ignition coil of a car.
+
+
+12. What about the Mail Plane game?
+
+This is rumored to be a completed Lightpen game that was never released by GCE or MB. All attempts to locate a prototype of this game have been unsuccessful.
+
+
+
+
+
+Vectrex Lightpen FAQ v1.0 was written by Rob Mitchell, Feburary 2nd, 2000.
+Last edited Feburary 3rd, 2000 by Brett Walach.
+
+Newsgoup ideas by Chris Tumber and Tony Duell have been incorporated 
+into the body of the text.
+ 

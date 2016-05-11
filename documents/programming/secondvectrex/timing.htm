@@ -1,0 +1,50 @@
+<html>
+
+<head>
+<title>Timing</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Timing</strong></font></p>
+
+<p>Vectrex uses a Motorola 68A09 microprocessor at 1.5Mhz. Thus
+one cycle is 1/1,500,000 seconds. In order to to have a 50Hz
+stable display (which is most desirable), we must do everything
+we want within a limit of 30,000 cycles. The BIOS uses Timer 2 to
+keep track of 'system time'. The Wait_Recal routine waits for
+that timer to expire before continuing and recalibrating the
+vector system. This BIOS timing information can be set at BIOS
+RAM location Vec_Rfrsh ($C83D), which is a word pointer, $C83D is
+the timer low byte, $C83E is the timer high byte. Thus a value of
+the above 30,000=$7530 would be stored to the BIOS RAM location
+with a sequence like: </p>
+
+<p>LDD #$3075</p>
+
+<p>STD Vec_Rfrsh</p>
+
+<p>My experience: If you change the timer value, most of the time
+the vectors will 'shake' a bit, especially if you don't zero the
+beam frequently. The game speed will vary, and non moving vectors
+(fixed, like a court or so) will annoyingly 'shake'! </p>
+
+<p>The second (there are only two timers) timer (actually timer
+1) is used for drawing vectors within BIOS vector drawing
+routines. Actually while drawing vectors the timer is set with
+the SCALE factor (which IS the low byte of the timer 1, a VIA
+register, VIA_t1_cnt_lo ($D004)). Thus scaling DIRECTLY relates
+to timing. Using a large scale factor always takes 'a lot' of
+time. If at all possible use small scaling values. See also the
+next Vectors-&gt;length! </p>
+
+<p align="center">&nbsp;</p>
+
+<p align="center"><a href="vectors.htm">Next page</a> <a
+href="vectrexos.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

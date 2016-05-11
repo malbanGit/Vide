@@ -1,0 +1,689 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="author" content="malban">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Appendix A</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0" link="#0000EE"
+vlink="#551A8B" alink="#FF0000">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a> </p>
+
+<p><font size="5"><b>Appendix A</b></font> </p>
+
+<p>List of Vectrex ROM functions: <br>
+(by Bruce Tomlin, modified by Christopher Salomon) </p>
+
+<p><a name="Functionally"></a>Functionally ordered: </p>
+
+<p><font size="5">Overview of functional classes</font> </p>
+
+<blockquote>
+    <p><a href="#1">1.</a> Calibration/vector reset functions <br>
+    <a href="#2">2.</a> Counter handling functions <br>
+    <a href="#3">3.</a> Day to day functions <br>
+    <a href="#4">4.</a> Delay functions <br>
+    <a href="#5">5.</a> Drawing functions </p>
+    <blockquote>
+        <p>5.1 Dot functions <br>
+        5.2 String functions <br>
+        5.3 Vector functions </p>
+        <blockquote>
+            <p>5.3.1 Drawing only <br>
+            5.3.2 Drawing and moving</p>
+        </blockquote>
+    </blockquote>
+    <p><a href="#6">6.</a> Mathematical functions <br>
+    <a href="#7">7.</a> Memory managment </p>
+    <blockquote>
+        <p>7.1 Memory clear functions <br>
+        7.2 Memory copy functions <br>
+        7.3 Memory fill functions</p>
+    </blockquote>
+    <p><a href="#8">8.</a> Joystick handling functions <br>
+    <a href="#9">9.</a> Player option functions <br>
+    <a href="#10">10.</a> Reset and initializition functions <br>
+    <a href="#11">11.</a> Score functions <br>
+    <a href="#12">12.</a> Sound functions <br>
+    <a href="#13">13.</a> Vector beam positioning functions <br>
+    <a href="#14">14.</a> Vector brightness functions <br>
+    <a href="#15">15.</a> Vector object handling functions </p>
+    <blockquote>
+        <p>15.1. Object collision detection functions <br>
+        15.2 Rotating functions</p>
+    </blockquote>
+</blockquote>
+
+<p><a name="1"></a></p>
+
+<p><font size="4"><b>1. Calibration/vector reset functions</b></font>
+</p>
+
+<blockquote>
+    <p><a href="check0ref.htm">Check0Ref </a>($F34F) <br>
+    <a href="recalibrate.htm">Recalibrate</a> ($F2E6) <br>
+    <a href="reset_pen.htm">Reset_Pen</a> ($F35B) <br>
+    <a href="reset0int.htm">Reset0Int</a> ($F36B) <br>
+    <a href="reset0ref.htm">Reset0Ref</a> ($F354) <br>
+    <a href="reset0ref_d0.htm">Reset0Ref_D0</a> ($F34A) <br>
+    <a href="set_refresh.htm">Set_Refresh</a> ($F1A2) <br>
+    <a href="wait_recal.htm">Wait_Recal</a> ($F192)</p>
+</blockquote>
+
+<p><a name="2"></a></p>
+
+<p><font size="4"><b>2. Counter handling functions</b></font> </p>
+
+<blockquote>
+    <p><a href="dec_3_counters.htm">Dec_3_Counters</a> ($F55A) <br>
+    <a href="dec_6_counters.htm">Dec_6_Counters</a> ($F55E) <br>
+    <a href="dec_counters.htm">Dec_Counters</a> ($F563)</p>
+</blockquote>
+
+<p><a name="3"></a></p>
+
+<p><font size="4"><b>3. Day to day functions</b></font> </p>
+
+<blockquote>
+    <p><a href="bitmask_a.htm">Bitmask_a</a> ($F57E) <br>
+    <a href="dec_3_counters.htm">Dec_3_Counters</a> ($F55A) <br>
+    <a href="dec_6_counters.htm">Dec_6_Counters</a> ($F55E) <br>
+    <a href="dec_counters.htm">Dec_Counters</a> ($F563) <br>
+    <a href="dp_to_c8.htm">DP_to_C8</a> ($F1AF) <br>
+    <a href="dp_to_d0.htm">DP_to_D0</a> ($F1AA) <br>
+    <a href="print_ships.htm">Print_Ships_x</a> ($F391) <br>
+    <a href="print_ships.htm">Print_Ships</a> ($F393) <br>
+    <a href="random.htm">Random</a> ($F517) <br>
+    <a href="random.htm">Random_3</a> ($F511)</p>
+</blockquote>
+
+<p><a name="4"></a></p>
+
+<p><font size="4"><b>4. Delay functions</b></font> </p>
+
+<blockquote>
+    <p><a href="delay_0.htm">Delay_0</a> ($F579) <br>
+    <a href="delay_1.htm">Delay_1</a> ($F575) <br>
+    <a href="delay_2.htm">Delay_2</a> ($F571) <br>
+    <a href="delay_3.htm">Delay_3</a> ($F56D) <br>
+    <a href="delay_b.htm">Delay_b</a> ($F57A) <br>
+    <a href="delay_rts.htm">Delay_RTS</a> ($F57D)</p>
+</blockquote>
+
+<p><a name="5"></a></p>
+
+<p><font size="4"><b>5. Drawing functions</b></font> </p>
+
+<blockquote>
+    <p><b>5.1 Dot functions</b> </p>
+    <blockquote>
+        <p><a href="dot_d.htm">Dot_d</a> ($F2C3) <br>
+        <a href="dot_here.htm">Dot_here</a> ($F2C5) <br>
+        <a href="dot_ix_b.htm">Dot_ix_b</a> ($F2BE) <br>
+        <a href="dot_ix.htm">Dot_ix</a> ($F2C1) <br>
+        <a href="dot_list.htm">Dot_List</a> ($F2D5) <br>
+        <a href="dot_list_reset.htm">Dot_List_Reset</a> ($F2DE)</p>
+    </blockquote>
+    <p><b>5.2 String functions</b> </p>
+    <blockquote>
+        <p><a href="print_str_d.htm">Print_Str_d</a> ($F37A) <br>
+        <a href="print_list.htm">Print_List</a> ($F38A) <br>
+        <a href="print_list.htm">Print_List_chk</a> ($F38C) <br>
+        <a href="print_list_hw.htm">Print_List_hw</a> ($F385) <br>
+        <a href="print_str.htm">Print_Str</a> ($F495) <br>
+        <a href="print_str_hwyx.htm">Print_Str_hwyx</a> ($F373) <br>
+        <a href="print_str_yx.htm">Print_Str_yx</a> ($F378)</p>
+    </blockquote>
+    <p><b>5.3 Vector functions</b> </p>
+    <blockquote>
+        <p>5.3.1 Drawing only </p>
+        <blockquote>
+            <p><a href="draw_grid_vl.htm">Draw_Grid_VL</a>
+            ($FF9F) <br>
+            <a href="draw_line_d.htm">Draw_Line_d</a> ($F3DF) <br>
+            <a href="draw_pat_vl.htm">Draw_Pat_VL</a> ($F437) <br>
+            <a href="draw_pat_vl_a.htm">Draw_Pat_VL_a</a> ($F434)
+            <br>
+            <a href="draw_pat_vl_d.htm">Draw_Pat_VL_d</a> ($F439)
+            <br>
+            <a href="draw_vl.htm">Draw_VL</a> ($F3DD) <br>
+            <a href="draw_vl_a.htm">Draw_VL_a</a> ($F3DA) <br>
+            <a href="draw_vl_ab.htm">Draw_VL_ab</a> ($F3D8) <br>
+            <a href="draw_vl_b.htm">Draw_VL_b</a> ($F3D2) <br>
+            <a href="draw_vl_mode.htm">Draw_VL_mode</a> ($F46E) <br>
+            <a href="draw_vlc.htm">Draw_VLc</a> ($F3CE) <br>
+            <a href="draw_vlcs.htm">Draw_VLcs</a> ($F3D6) <br>
+            <a href="draw_vlp.htm">Draw_VLp</a> ($F410) <br>
+            <a href="draw_vlp_7f.htm">Draw_VLp_7F</a> ($F408) <br>
+            <a href="draw_vlp_b.htm">Draw_VLp_b</a> ($F40E) <br>
+            <a href="draw_vlp_ff.htm">Draw_VLp_FF</a> ($F404) <br>
+            <a href="draw_vlp_scale.htm">Draw_VLp_scale</a>
+            ($F40C)</p>
+        </blockquote>
+        <p>5.3.2 Drawing and moving </p>
+        <blockquote>
+            <p><a href="mov_draw_vl.htm">Mov_Draw_VL</a> ($F3BC) <br>
+            <a href="mov_draw_vl_ab.htm">Mov_Draw_VL_ab</a>
+            ($F3B7) <br>
+            <a href="mov_draw_vl_ab.htm">Mov_Draw_VL_a</a>
+            ($F3B9) <br>
+            <a href="mov_draw_vl.htm">Mov_Draw_VL_d</a> ($F3BE) <br>
+            <a href="mov_draw_vlc_a.htm">Mov_Draw_VLc_a</a>
+            ($F3AD) <br>
+            <a href="mov_draw_vlc_b.htm">Mov_Draw_VLc_b</a>
+            ($F3B1) <br>
+            <a href="mov_draw_vlcs.htm">Mov_Draw_VLcs</a> ($F3B5)</p>
+        </blockquote>
+    </blockquote>
+</blockquote>
+
+<p><a name="6"></a></p>
+
+<p><font size="4"><b>6. Mathematical functions</b></font> </p>
+
+<blockquote>
+    <p><a href="abs_a_b.htm">Abs_a_b</a> ($F584) <br>
+    <a href="abs_b.htm">Abs_b</a> ($F58B) <br>
+    <a href="bitmask_a.htm">Bitmask_a</a> ($F57E)</p>
+</blockquote>
+
+<p><a name="7"></a></p>
+
+<p><font size="4"><b>7. Memory managment</b></font> </p>
+
+<blockquote>
+    <p><b>7.1 Memory clear functions</b> </p>
+    <blockquote>
+        <p><a href="clear_c8_ram.htm">Clear_C8_RAM</a> ($F542) <br>
+        <a href="clear_x_b.htm">Clear_x_b</a> ($F53F) <br>
+        <a href="clear_x_d.htm">Clear_x_d</a> ($F548) <br>
+        <a href="clear_x_256.htm">Clear_x_256</a> ($F545) <br>
+        <a href="clear_score.htm">Clear_Score</a> ($F84F) <br>
+        <a href="clear_sound.htm">Clear_Sound</a> ($F272)</p>
+    </blockquote>
+    <p><b>7.2 Memory copy functions</b> </p>
+    <blockquote>
+        <p><a href="move_mem_a.htm">Move_Mem_a</a> ($F683) <br>
+        <a href="move_mem_a.htm">Move_Mem_a_1</a> ($F67F)</p>
+    </blockquote>
+    <p><b>7.3 Memory fill functions</b> </p>
+    <blockquote>
+        <p><a href="clear_x_b_80.htm">Clear_x_b_80</a> ($F550) <br>
+        <a href="clear_x_b_a.htm">Clear_x_b_a</a> ($F552)</p>
+    </blockquote>
+</blockquote>
+
+<p><a name="8"></a></p>
+
+<p><font size="4"><b>8. Joystick handling functions</b></font> </p>
+
+<blockquote>
+    <p><a href="joy.htm">Joy_Analog</a> ($F1F5) <br>
+    <a href="joy.htm">Joy_Digital</a> ($F1F8) <br>
+    <a href="read_btns_mask.htm">Read_Btns_Mask</a> ($F1B4) <br>
+    <a href="read_btns_mask.htm">Read_Btns</a> ($F1BA)</p>
+</blockquote>
+
+<p><a name="9"></a></p>
+
+<p><font size="4"><b>9. Player option functions</b></font> </p>
+
+<blockquote>
+    <p><a href="display_option.htm">Display_Option</a> ($F835) <br>
+    <a href="select_game.htm">Select_Game</a> ($F7A9)</p>
+</blockquote>
+
+<p><a name="10"></a></p>
+
+<p><font size="4"><b>10. Reset and initializition functions</b></font>
+</p>
+
+<blockquote>
+    <p><a href="cold_start.htm">Cold_Start</a> ($F000) <br>
+    <a href="init_os.htm">Init_OS</a> ($F18B) <br>
+    <a href="init_os_ram.htm">Init_OS_RAM</a> ($F164) <br>
+    <a href="init_via.htm">Init_VIA</a> ($F14C) <br>
+    <a href="recalibrate.htm">Recalibrate</a> ($F2E6) <br>
+    <a href="reset_pen.htm">Reset_Pen</a> ($F35B) <br>
+    <a href="reset0int.htm">Reset0Int</a> ($F36B) <br>
+    <a href="reset0ref.htm">Reset0Ref</a> ($F354) <br>
+    <a href="reset0ref_d0.htm">Reset0Ref_D0</a> ($F34A) <br>
+    <a href="wait_recal.htm">Wait_Recal</a> ($F192) <br>
+    <a href="warm_start.htm">Warm_Start</a> ($F06C)</p>
+</blockquote>
+
+<p><a name="11"></a></p>
+
+<p><font size="4"><b>11. Score functions</b></font> </p>
+
+<blockquote>
+    <p><a href="add_score_a.htm">Add_Score_a</a> ($F85E) <br>
+    <a href="add_score_d.htm">Add_Score_d</a> ($F87C) <br>
+    <a href="clear_score.htm">Clear_Score</a> ($F84F) <br>
+    <a href="compare_score.htm">Compare_Score</a> ($F8C7) <br>
+    <a href="new_high_score.htm">New_High_Score</a> ($F8D8) <br>
+    <a href="strip_zeros.htm">Strip_Zeros</a> ($F8B7)</p>
+</blockquote>
+
+<p><a name="12"></a></p>
+
+<p><font size="4"><b>12. Sound functions</b></font> </p>
+
+<blockquote>
+    <p><a href="clear_sound.htm">Clear_Sound</a> ($F272) <br>
+    <a href="do_sound.htm">Do_Sound</a> ($F289) <br>
+    <a href="do_sound_x.htm">Do_Sound_x</a> ($F28C) <br>
+    <a href="init_music.htm">Init_Music</a> ($F68D) <br>
+    <a href="init_music_buf.htm">Init_Music_Buf</a> ($F533) <br>
+    <a href="init_music.htm">Init_Music_chk</a> ($F687) <br>
+    <a href="init_music.htm">Init_Music_dft</a> ($F692) <br>
+    <a href="explosion_snd.htm">Explosion_Snd</a> ($F92E) <br>
+    <a href="sound_byte.htm">Sound_Byte</a> ($F256) <br>
+    <a href="sound_byte.htm">Sound_Byte_x</a> ($F259) <br>
+    <a href="sound_byte.htm">Sound_Byte_raw</a> ($F25B) <br>
+    <a href="sound_bytes.htm">Sound_Bytes</a> ($F27D) <br>
+    <a href="sound_bytes.htm">Sound_Bytes_x</a> ($F284)</p>
+</blockquote>
+
+<p><a name="13"></a></p>
+
+<p><font size="4"><b>13. Vector beam positioning functions</b></font>
+</p>
+
+<blockquote>
+    <p><a href="check0ref.htm">Check0Ref</a> ($F34F) <br>
+    <a href="moveto_d.htm">Moveto_d</a> ($F312) <br>
+    <a href="moveto_d_7f.htm">Moveto_d_7F</a> ($F2FC) <br>
+    <a href="moveto_ix.htm">Moveto_ix</a> ($F310) <br>
+    <a href="moveto_ix_7f.htm">Moveto_ix_7F</a> ($F30C) <br>
+    <a href="moveto_ix_7f.htm">Moveto_ix_b</a> ($F30E) <br>
+    <a href="moveto_ix_7f.htm">Moveto_ix_FF</a> ($F308) <br>
+    <a href="moveto_x_7f.htm">Moveto_x_7F</a> ($F2F2) <br>
+    <a href="reset_pen.htm">Reset_Pen</a> ($F35B) <br>
+    <a href="reset0int.htm">Reset0Int</a> ($F36B) <br>
+    <a href="reset0ref.htm">Reset0Ref</a> ($F354) <br>
+    <a href="reset0ref_d0.htm">Reset0Ref_D0</a> ($F34A) <br>
+    <a href="wait_recal.htm">Wait_Recal</a> ($F192)</p>
+</blockquote>
+
+<p><a name="14"></a></p>
+
+<p><font size="4"><b>14. Vector brightness functions</b></font> </p>
+
+<blockquote>
+    <p><a href="intensity.htm">Intensity_1F</a> ($F29D) <br>
+    <a href="intensity.htm">Intensity_3F</a> ($F2A1) <br>
+    <a href="intensity.htm">Intensity_5F</a> ($F2A5) <br>
+    <a href="intensity.htm">Intensity_7F</a> ($F2A9) <br>
+    <a href="intensity.htm">Intensity_a</a> ($F2AB) <br>
+    <a href="reset_pen.htm">Reset_Pen</a> ($F35B) <br>
+    <a href="wait_recal.htm">Wait_Recal</a> ($F192)</p>
+</blockquote>
+
+<p><a name="15"></a></p>
+
+<p><font size="4"><b>15. Vector object handling functions</b></font>
+</p>
+
+<blockquote>
+    <p><b>15.1 Object collision detection functions</b> </p>
+    <blockquote>
+        <p><a href="obj_hit.htm">Obj_Hit</a> ($F8FF) <br>
+        <a href="obj_will_hit.htm">Obj_Will_Hit</a> ($F8F3) <br>
+        <a href="obj_will_hit.htm">Obj_Will_Hit_u</a> ($F8E5)</p>
+    </blockquote>
+    <p><b>15.2 Rotating functions</b> </p>
+    <blockquote>
+        <p><a href="get_rise_idx.htm">Get_Rise_Idx</a> ($F5D9) <br>
+        <a href="get_run_idx.htm">Get_Run_Idx</a> ($F5DB) <br>
+        <a href="rise_run_angle.htm">Rise_Run_Angle</a> ($F593) <br>
+        <a href="rise_run_idx.htm">Rise_Run_Idx</a> ($F5EF) <br>
+        <a href="rise_run_len.htm">Rise_Run_Len</a> ($F603) <br>
+        <a href="rise_run_len.htm">Rise_Run_X</a> ($F5FF) <br>
+        <a href="rise_run_len.htm">Rise_Run_Y</a> ($F601) <br>
+        <a href="rot_vl.htm">Rot_VL</a> ($F616) <br>
+        <a href="rot_vl.htm">Rot_VL_ab</a> ($F610) <br>
+        <a href="rot_vl_m_dft.htm">Rot_VL_M_dft</a> ($F62B) <br>
+        <a href="rot_vl_m_dft.htm">Rot_VL_Mode</a> ($F61F) <br>
+        <a href="xform_rise.htm">Xform_Rise</a> ($F663) <br>
+        <a href="xform_rise.htm">Xform_Rise_a</a> ($F661) <br>
+        <a href="xform_run.htm">Xform_Run</a> ($F65D) <br>
+        <a href="xform_run.htm">Xform_Run_a</a> ($F65B)</p>
+    </blockquote>
+</blockquote>
+
+<p><a name="Alphabetically"></a></p>
+
+<p>Alphabetically ordered: </p>
+
+<blockquote>
+    <p><font size="4"><b>A</b></font> <br>
+    <a href="abs_a_b.htm">Abs_a_b</a> ($F584) <br>
+    <a href="abs_b.htm">Abs_b</a> ($F58B) <br>
+    <a href="add_score_a.htm">Add_Score_a</a> ($F85E) <br>
+    <a href="add_score_d.htm">Add_Score_d</a> ($F87C) </p>
+    <p><font size="4"><b>B</b></font> <br>
+    <a href="bitmask_a.htm">Bitmask_a</a> ($F57E) </p>
+    <p><font size="4"><b>C</b></font> <br>
+    <a href="check0ref.htm">Check0Ref</a> ($F34F) <br>
+    <a href="clear_c8_ram.htm">Clear_C8_RAM</a> ($F542) <br>
+    <a href="clear_score.htm">Clear_Score</a> ($F84F) <br>
+    <a href="clear_sound.htm">Clear_Sound</a> ($F272) <br>
+    <a href="clear_x_256.htm">Clear_x_256</a> ($F545) <br>
+    <a href="clear_x_b.htm">Clear_x_b</a> ($F53F) <br>
+    <a href="clear_x_b_80.htm">Clear_x_b_80</a> ($F550) <br>
+    <a href="clear_x_b_a.htm">Clear_x_b_a</a> ($F552) <br>
+    <a href="clear_x_d.htm">Clear_x_d</a> ($F548) <br>
+    <a href="cold_start.htm">Cold_Start</a> ($F000) <br>
+    <a href="compare_score.htm">Compare_Score</a> ($F8C7) </p>
+    <p><b>D</b> <br>
+    <a href="dec_3_counters.htm">Dec_3_Counters</a> ($F55A) <br>
+    <a href="dec_6_counters.htm">Dec_6_Counters</a> ($F55E) <br>
+    <a href="dec_counters.htm">Dec_Counters</a> ($F563) <br>
+    <a href="delay_0.htm">Delay_0</a> ($F579) <br>
+    <a href="delay_1.htm">Delay_1</a> ($F575) <br>
+    <a href="delay_2.htm">Delay_2</a> ($F571) <br>
+    <a href="delay_3.htm">Delay_3</a> ($F56D) <br>
+    <a href="delay_b.htm">Delay_b</a> ($F57A) <br>
+    <a href="delay_rts.htm">Delay_RTS</a> ($F57D) <br>
+    <a href="display_option.htm">Display_Option</a> ($F835) <br>
+    <a href="do_sound.htm">Do_Sound</a> ($F289) <br>
+    <a href="do_sound_x.htm">Do_Sound_x</a> ($F28C) <br>
+    <a href="dot_d.htm">Dot_d</a> ($F2C3) <br>
+    <a href="dot_here.htm">Dot_here</a> ($F2C5) <br>
+    <a href="dot_ix_b.htm">Dot_ix_b</a> ($F2BE) <br>
+    <a href="dot_ix.htm">Dot_ix</a> ($F2C1) <br>
+    <a href="dot_list.htm">Dot_List</a> ($F2D5) <br>
+    <a href="dot_list_reset.htm">Dot_List_Reset</a> ($F2DE) <br>
+    <a href="dp_to_c8.htm">DP_to_C8</a> ($F1AF) <br>
+    <a href="dp_to_d0.htm">DP_to_D0</a> ($F1AA) <br>
+    <a href="draw_grid_vl.htm">Draw_Grid_VL</a> ($FF9F) <br>
+    <a href="draw_line_d.htm">Draw_Line_d</a> ($F3DF) <br>
+    <a href="draw_pat_vl.htm">Draw_Pat_VL</a> ($F437) <br>
+    <a href="draw_pat_vl_a.htm">Draw_Pat_VL_a</a> ($F434) <br>
+    <a href="draw_pat_vl_d.htm">Draw_Pat_VL_d</a> ($F439) <br>
+    <a href="draw_vl.htm">Draw_VL</a> ($F3DD) <br>
+    <a href="draw_vl_a.htm">Draw_VL_a</a> ($F3DA) <br>
+    <a href="draw_vl_ab.htm">Draw_VL_ab</a> ($F3D8) <br>
+    <a href="draw_vl_b.htm">Draw_VL_b</a> ($F3D2) <br>
+    <a href="draw_vl_mode.htm">Draw_VL_mode</a> ($F46E) <br>
+    <a href="draw_vlc.htm">Draw_VLc</a> ($F3CE) <br>
+    <a href="draw_vlcs.htm">Draw_VLcs</a> ($F3D6) <br>
+    <a href="draw_vlp.htm">Draw_VLp</a> ($F410) <br>
+    <a href="draw_vlp_7f.htm">Draw_VLp_7F</a> ($F408) <br>
+    <a href="draw_vlp_b.htm">Draw_VLp_b</a> ($F40E) <br>
+    <a href="draw_vlp_ff.htm">Draw_VLp_FF</a> ($F404) <br>
+    <a href="draw_vlp_scale.htm">Draw_VLp_scale</a> ($F40C) </p>
+    <p><font size="4"><b>E</b></font> <br>
+    <a href="explosion_snd.htm">Explosion_Snd</a> ($F92E) </p>
+    <p><font size="4"><b>G</b></font> <br>
+    <a href="get_rise_idx.htm">Get_Rise_Idx</a> ($F5D9) <br>
+    <a href="get_run_idx.htm">Get_Run_Idx</a> ($F5DB) </p>
+    <p><font size="4"><b>I</b></font> <br>
+    <a href="init_music.htm">Init_Music</a> ($F68D) <br>
+    <a href="init_music_buf.htm">Init_Music_Buf</a> ($F533) <br>
+    <a href="init_music.htm">Init_Music_chk</a> ($F687) <br>
+    <a href="init_music.htm">Init_Music_dft</a> ($F692) <br>
+    <a href="init_os.htm">Init_OS</a> ($F18B) <br>
+    <a href="init_os_ram.htm">Init_OS_RAM</a> ($F164) <br>
+    <a href="init_via.htm">Init_VIA</a> ($F14C) <br>
+    <a href="intensity.htm">Intensity_1F</a> ($F29D) <br>
+    <a href="intensity.htm">Intensity_3F</a> ($F2A1) <br>
+    <a href="intensity.htm">Intensity_5F</a> ($F2A5) <br>
+    <a href="intensity.htm">Intensity_7F</a> ($F2A9) <br>
+    <a href="intensity.htm">Intensity_a</a> ($F2AB) </p>
+    <p><font size="4"><b>J</b></font> <br>
+    <a href="joy.htm">Joy_Analog</a> ($F1F5) <br>
+    <a href="joy.htm">Joy_Digital</a> ($F1F8) </p>
+    <p><font size="4"><b>M</b></font> <br>
+    <a href="mov_draw_vl.htm">Mov_Draw_VL</a> ($F3BC) <br>
+    <a href="mov_draw_vl_ab.htm">Mov_Draw_VL_ab</a> ($F3B7) <br>
+    <a href="mov_draw_vl_ab.htm">Mov_Draw_VL_a</a> ($F3B9) <br>
+    <a href="mov_draw_vl.htm">Mov_Draw_VL_d</a> ($F3BE) <br>
+    <a href="mov_draw_vlc_a.htm">Mov_Draw_VLc_a</a> ($F3AD) <br>
+    <a href="mov_draw_vlc_b.htm">Mov_Draw_VLc_b</a> ($F3B1) <br>
+    <a href="mov_draw_vlcs.htm">Mov_Draw_VLcs</a> ($F3B5) <br>
+    <a href="move_mem_a.htm">Move_Mem_a</a> ($F683) <br>
+    <a href="move_mem_a.htm">Move_Mem_a_1</a> ($F67F) <br>
+    <a href="moveto_d.htm">Moveto_d</a> ($F312) <br>
+    <a href="moveto_d_7f.htm">Moveto_d_7F</a> ($F2FC) <br>
+    <a href="moveto_ix.htm">Moveto_ix</a> ($F310) <br>
+    <a href="moveto_ix_7f.htm">Moveto_ix_7F</a> ($F30C) <br>
+    <a href="moveto_ix_7f.htm">Moveto_ix_b</a> ($F30E) <br>
+    <a href="moveto_ix_7f.htm">Moveto_ix_FF</a> ($F308) <br>
+    <a href="moveto_x_7f.htm">Moveto_x_7F</a> ($F2F2) </p>
+    <p><font size="4"><b>N</b></font> <br>
+    <a href="new_high_score.htm">New_High_Score</a> ($F8D8) </p>
+    <p><font size="4"><b>O</b></font> <br>
+    <a href="obj_hit.htm">Obj_Hit</a> ($F8FF) <br>
+    <a href="obj_will_hit.htm">Obj_Will_Hit</a> ($F8F3) <br>
+    <a href="obj_will_hit.htm">Obj_Will_Hit_u</a> ($F8E5) </p>
+    <p><font size="4"><b>P</b></font> <br>
+    <a href="print_str_d.htm">Print_Str_d</a> ($F37A) <br>
+    <a href="print_list.htm">Print_List</a> ($F38A) <br>
+    <a href="print_list.htm">Print_List_chk</a> ($F38C) <br>
+    <a href="print_list_hw.htm">Print_List_hw</a> ($F385) <br>
+    <a href="print_ships.htm">Print_Ships_x</a> ($F391) <br>
+    <a href="print_ships.htm">Print_Ships</a> ($F393) <br>
+    <a href="print_str.htm">Print_Str</a> ($F495) <br>
+    <a href="print_str_hwyx.htm">Print_Str_hwyx</a> ($F373) <br>
+    <a href="print_str_yx.htm">Print_Str_yx</a> ($F378) </p>
+    <p><font size="4"><b>R</b></font> <br>
+    <a href="random.htm">Random</a> ($F517) <br>
+    <a href="random.htm">Random_3</a> ($F511) <br>
+    <a href="read_btns_mask.htm">Read_Btns_Mask</a> ($F1B4) <br>
+    <a href="read_btns_mask.htm">Read_Btns</a> ($F1BA) <br>
+    <a href="recalibrate.htm">Recalibrate</a> ($F2E6) <br>
+    <a href="reset_pen.htm">Reset_Pen</a> ($F35B) <br>
+    <a href="reset0int.htm">Reset0Int</a> ($F36B) <br>
+    <a href="reset0ref.htm">Reset0Ref</a> ($F354) <br>
+    <a href="reset0ref_d0.htm">Reset0Ref_D0</a> ($F34A) <br>
+    <a href="rise_run_angle.htm">Rise_Run_Angle</a> ($F593) <br>
+    <a href="rise_run_idx.htm">Rise_Run_Idx</a> ($F5EF) <br>
+    <a href="rise_run_len.htm">Rise_Run_Len</a> ($F603) <br>
+    <a href="rise_run_len.htm">Rise_Run_X</a> ($F5FF) <br>
+    <a href="rise_run_len.htm">Rise_Run_Y</a> ($F601) <br>
+    <a href="rot_vl.htm">Rot_VL</a> ($F616) <br>
+    <a href="rot_vl.htm">Rot_VL_ab</a> ($F610) <br>
+    <a href="rot_vl_m_dft.htm">Rot_VL_M_dft</a> ($F62B) <br>
+    <a href="rot_vl_m_dft.htm">Rot_VL_Mode</a> ($F61F) </p>
+    <p><font size="4"><b>S</b></font> <br>
+    <a href="select_game.htm">Select_Game</a> ($F7A9) <br>
+    <a href="set_refresh.htm">Set_Refresh</a> ($F1A2) <br>
+    <a href="sound_byte.htm">Sound_Byte</a> ($F256) <br>
+    <a href="sound_byte.htm">Sound_Byte_x</a> ($F259) <br>
+    <a href="sound_byte.htm">Sound_Byte_raw</a> ($F25B) <br>
+    <a href="sound_bytes.htm">Sound_Bytes</a> ($F27D) <br>
+    <a href="sound_bytes.htm">Sound_Bytes_x</a> ($F284) <br>
+    <a href="strip_zeros.htm">Strip_Zeros</a> ($F8B7) </p>
+    <p><font size="4"><b>W</b></font> <br>
+    <a href="wait_recal.htm">Wait_Recal</a> ($F192) <br>
+    <a href="warm_start.htm">Warm_Start</a> ($F06C) </p>
+    <p><font size="4"><b>X</b></font> <br>
+    <a href="xform_rise.htm">Xform_Rise</a> ($F663) <br>
+    <a href="xform_rise.htm">Xform_Rise_a</a> ($F661) <br>
+    <a href="xform_run.htm">Xform_Run</a> ($F65D) <br>
+    <a href="xform_run.htm">Xform_Run_a</a> ($F65B)</p>
+</blockquote>
+
+<p><a name="Other"></a></p>
+
+<p><font size="5"><b>Other Rom Addresses</b></font> </p>
+
+<p>$F9DC Bit_Masks <br>
+$F9E4 Music_Table_1 <br>
+$F9EA Music_Table_2 <br>
+$F9F0 Recal_Points <br>
+$F9F4 Char_Table <br>
+$FC24 angle_data1 <br>
+$FC2C angle_data2 <br>
+$FC6D rotation_pair_table <br>
+$FC8D Freq_Table <br>
+$FD0D power-on music and music for Crazy Coaster and Narrow
+Escape <br>
+$FD1D music for Berzerk <br>
+$FD69 ADSR table for Berzerk and FF7A <br>
+$FD79 twang table for Berzerk and Scramble <br>
+$FD81 music <br>
+$FDC3 ADSR table for FD81 and FF8F <br>
+$FDD3 music for Scramble <br>
+$FE28 ADSR table for Scramble, FF26, FF44, FF62 <br>
+$FE38 music for Solar Quest <br>
+$FE66 ADSR table for Solar Quest <br>
+$FE76 music <br>
+$FEB2 ADSR table for FE76 <br>
+$FEB6 &quot;flat&quot; twang table <br>
+$FEC6 music <br>
+$FEE8 ADSR table for FEC6 <br>
+$FEF8 music for Melody Master <br>
+$FF16 ADSR table for FEF8 <br>
+$FF26 music <br>
+$FF44 music <br>
+$FF62 music <br>
+$FF7A music <br>
+$FF8F music </p>
+
+<p><a name="Reference"></a><font size="5"><b>ROM Reference (by
+Bruce Tomlin)</b></font> </p>
+
+<pre>Addr&nbsp;&nbsp;&nbsp; Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Inreg&nbsp;&nbsp; Outreg&nbsp; Trashreg
+----&nbsp;&nbsp;&nbsp; --------------- ---&nbsp;&nbsp;&nbsp;&nbsp; ------- ------- --------
+F000&nbsp;&nbsp;&nbsp; Start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --
+F06C&nbsp;&nbsp;&nbsp; Warm_Start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --
+F14C&nbsp;&nbsp;&nbsp; INIT_VIA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F164&nbsp;&nbsp;&nbsp; Init_OS_RAM&nbsp;&nbsp;&nbsp;&nbsp; =C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F18B&nbsp;&nbsp;&nbsp; Init_OS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F192&nbsp;&nbsp;&nbsp; Wait_Recal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F1A2&nbsp;&nbsp;&nbsp; Set_Refresh&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F1AA&nbsp;&nbsp;&nbsp; DP_to_D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,DP
+F1AF&nbsp;&nbsp;&nbsp; DP_to_C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,DP
+F1B4&nbsp;&nbsp;&nbsp; Read_Btns_Mask&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B,X
+F1BA&nbsp;&nbsp;&nbsp; Read_Btns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B,X
+F1F5&nbsp;&nbsp;&nbsp; Joy_Analog&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F1F8&nbsp;&nbsp;&nbsp; Joy_Digital&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F256&nbsp;&nbsp;&nbsp; Sound_Byte&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F259&nbsp;&nbsp;&nbsp; Sound_Byte_x&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F25B&nbsp;&nbsp;&nbsp; Sound_Byte_raw&nbsp; D0
+F272&nbsp;&nbsp;&nbsp; Clear_Sound&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F27D&nbsp;&nbsp;&nbsp; Sound_Bytes&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,U
+F284&nbsp;&nbsp;&nbsp; Sound_Bytes_x&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X,U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,U
+F289&nbsp;&nbsp;&nbsp; Do_Sound&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,U
+F28C&nbsp;&nbsp;&nbsp; Do_Sound_x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,U
+F29D&nbsp;&nbsp;&nbsp; Intensity_1F&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2A1&nbsp;&nbsp;&nbsp; Intensity_3F&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2A5&nbsp;&nbsp;&nbsp; Intensity_5F&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2A9&nbsp;&nbsp;&nbsp; Intensity_7F&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2AB&nbsp;&nbsp;&nbsp; Intensity_a&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2BE&nbsp;&nbsp;&nbsp; Dot_ix_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2C1&nbsp;&nbsp;&nbsp; Dot_ix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2C3&nbsp;&nbsp;&nbsp; Dot_d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2C5&nbsp;&nbsp;&nbsp; Dot_here&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2D5&nbsp;&nbsp;&nbsp; Dot_List&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2DE&nbsp;&nbsp;&nbsp; Dot_List_Reset&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2E6&nbsp;&nbsp;&nbsp; Recalibrate&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F2F2&nbsp;&nbsp;&nbsp; Moveto_x_7F&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F2FC&nbsp;&nbsp;&nbsp; Moveto_d_7F&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F308&nbsp;&nbsp;&nbsp; Moveto_ix_FF&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F30C&nbsp;&nbsp;&nbsp; Moveto_ix_7F&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F30E&nbsp;&nbsp;&nbsp; Moveto_ix_a&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X,A&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F310&nbsp;&nbsp;&nbsp; Moveto_ix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F312&nbsp;&nbsp;&nbsp; Moveto_d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B&nbsp;&nbsp;&nbsp;&nbsp; D
+F34A&nbsp;&nbsp;&nbsp; Reset0Ref_D0&nbsp;&nbsp;&nbsp; =D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F34F&nbsp;&nbsp;&nbsp; Check0Ref&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F354&nbsp;&nbsp;&nbsp; Reset0Ref&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F35B&nbsp;&nbsp;&nbsp; Reset_Pen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F36B&nbsp;&nbsp;&nbsp; Reset0Int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F373&nbsp;&nbsp;&nbsp; Print_Str_hwyx&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F378&nbsp;&nbsp;&nbsp; Print_Str_yx&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F37A&nbsp;&nbsp;&nbsp; Print_Str_d&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B,U&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F385&nbsp;&nbsp;&nbsp; Print_List_hw&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F38A&nbsp;&nbsp;&nbsp; Print_List&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F38C&nbsp;&nbsp;&nbsp; Print_List_chk&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F391&nbsp;&nbsp;&nbsp; Print_Ships_x&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,U
+F393&nbsp;&nbsp;&nbsp; Print_Ships&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,U
+F3AD&nbsp;&nbsp;&nbsp; Mov_Draw_VLc_a&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; count y x y x ...
+F3B1&nbsp;&nbsp;&nbsp; Mov_Draw_VL_b&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B,X&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F3B5&nbsp;&nbsp;&nbsp; Mov_Draw_VLcs&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; count scale y x ...
+F3B7&nbsp;&nbsp;&nbsp; Mov_Draw_VL_ab&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B,X&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F3B9&nbsp;&nbsp;&nbsp; Mov_Draw_VL_a&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,X&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F3BC&nbsp;&nbsp;&nbsp; Mov_Draw_VL&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F3BE&nbsp;&nbsp;&nbsp; Mov_Draw_VL_d&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F3CE&nbsp;&nbsp;&nbsp; Draw_VLc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; count y x y x ...
+F3D2&nbsp;&nbsp;&nbsp; Draw_VL_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B,X&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F3D6&nbsp;&nbsp;&nbsp; Draw_VLcs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; count scale y x ...
+F3D8&nbsp;&nbsp;&nbsp; Draw_VL_ab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B,X&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F3DA&nbsp;&nbsp;&nbsp; Draw_VL_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,X&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F3DD&nbsp;&nbsp;&nbsp; Draw_VL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F3DF&nbsp;&nbsp;&nbsp; Draw_Line_d&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F404&nbsp;&nbsp;&nbsp; Draw_VLp_FF&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pat y x ... $01
+F408&nbsp;&nbsp;&nbsp; Draw_VLp_7F&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pat y x ... $01
+F40C&nbsp;&nbsp;&nbsp; Draw_VLp_scale&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scale pat y x ... $01
+F40E&nbsp;&nbsp;&nbsp; Draw_VLp_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B,X&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pat y x ... $01
+F410&nbsp;&nbsp;&nbsp; Draw_VLp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pat y x ... $01
+F434&nbsp;&nbsp;&nbsp; Draw_Pat_VL_a&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,X&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F437&nbsp;&nbsp;&nbsp; Draw_Pat_VL&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F439&nbsp;&nbsp;&nbsp; Draw_Pat_VL_d&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F46E&nbsp;&nbsp;&nbsp; Draw_VL_mode&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mode y x ... $01
+F495&nbsp;&nbsp;&nbsp; Print_Str&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F511&nbsp;&nbsp;&nbsp; Random_3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A
+F517&nbsp;&nbsp;&nbsp; Random&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A
+F533&nbsp;&nbsp;&nbsp; Init_Music_Buf&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F53F&nbsp;&nbsp;&nbsp; Clear_x_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B,X&nbsp;&nbsp;&nbsp;&nbsp; D
+F542&nbsp;&nbsp;&nbsp; Clear_C8_RAM&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+F545&nbsp;&nbsp;&nbsp; Clear_x_256&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F548&nbsp;&nbsp;&nbsp; Clear_x_d&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X&nbsp;&nbsp;&nbsp;&nbsp; D
+F550&nbsp;&nbsp;&nbsp; Clear_x_b_80&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B,X&nbsp;&nbsp;&nbsp;&nbsp; A,B
+F552&nbsp;&nbsp;&nbsp; Clear_x_b_a&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B,X&nbsp;&nbsp; B
+F55A&nbsp;&nbsp;&nbsp; Dec_3_Counters&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X,B
+F55E&nbsp;&nbsp;&nbsp; Dec_6_Counters&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X,B
+F563&nbsp;&nbsp;&nbsp; Dec_Counters&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B,X&nbsp;&nbsp;&nbsp;&nbsp; B
+F56D&nbsp;&nbsp;&nbsp; Delay_3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 30 cycles
+F571&nbsp;&nbsp;&nbsp; Delay_2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 25 cycles
+F575&nbsp;&nbsp;&nbsp; Delay_1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 20 cycles
+F579&nbsp;&nbsp;&nbsp; Delay_0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 12 cycles
+F57A&nbsp;&nbsp;&nbsp; Delay_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5*B + 10 cycles
+F57D&nbsp;&nbsp;&nbsp; Delay_RTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 cycles
+F57E&nbsp;&nbsp;&nbsp; Bitmask_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X
+F584&nbsp;&nbsp;&nbsp; Abs_a_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B&nbsp;&nbsp;&nbsp;&nbsp; A,B
+F58B&nbsp;&nbsp;&nbsp; Abs_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B
+F593&nbsp;&nbsp;&nbsp; Rise_Run_Angle&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B&nbsp;&nbsp;&nbsp;&nbsp; A,B
+F5D9&nbsp;&nbsp;&nbsp; Get_Rise_Idx&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B&nbsp;&nbsp;&nbsp;&nbsp; X
+F5DB&nbsp;&nbsp;&nbsp; Get_Run_Idx&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B&nbsp;&nbsp;&nbsp;&nbsp; X
+F5EF&nbsp;&nbsp;&nbsp; Rise_Run_Idx&nbsp;&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F5FF&nbsp;&nbsp;&nbsp; Rise_Run_X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B
+F601&nbsp;&nbsp;&nbsp; Rise_Run_Y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B
+F603&nbsp;&nbsp;&nbsp; Rise_Run_Len&nbsp;&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,B&nbsp;&nbsp;&nbsp;&nbsp; A,B
+F610&nbsp;&nbsp;&nbsp; Rot_VL_ab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =C8&nbsp;&nbsp;&nbsp;&nbsp; A,B,X,U DP,X,U&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F616&nbsp;&nbsp;&nbsp; Rot_VL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =C8&nbsp;&nbsp;&nbsp;&nbsp; X,U&nbsp;&nbsp;&nbsp;&nbsp; DP,X,U&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y x y x ...
+F61F&nbsp;&nbsp;&nbsp; Rot_VL_Mode&nbsp;&nbsp;&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,X,U&nbsp;&nbsp; X,U&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mode y x ... $01
+F62B&nbsp;&nbsp;&nbsp; Rot_VL_M_dft&nbsp;&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X,U&nbsp;&nbsp;&nbsp;&nbsp; X,U&nbsp;&nbsp;&nbsp;&nbsp; D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mode y x ... $01
+F65B&nbsp;&nbsp;&nbsp; Xform_Run_a&nbsp;&nbsp;&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B
+F65D&nbsp;&nbsp;&nbsp; Xform_Run&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B
+F661&nbsp;&nbsp;&nbsp; Xform_Rise_a&nbsp;&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B
+F663&nbsp;&nbsp;&nbsp; Xform_Rise&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B
+F67F&nbsp;&nbsp;&nbsp; Move_Mem_a_1&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,X,U&nbsp;&nbsp; A,B
+F683&nbsp;&nbsp;&nbsp; Move_Mem_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,X,U&nbsp;&nbsp; A,B
+F687&nbsp;&nbsp;&nbsp; Init_Music_chk&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,Y,U
+F68D&nbsp;&nbsp;&nbsp; Init_Music&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,Y,U
+F692&nbsp;&nbsp;&nbsp; Init_Music_dft&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,Y,U
+F7A9&nbsp;&nbsp;&nbsp; Select_Game&nbsp;&nbsp;&nbsp;&nbsp; =C8&nbsp;&nbsp;&nbsp;&nbsp; A,B&nbsp;&nbsp;&nbsp;&nbsp; DP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,Y
+F835&nbsp;&nbsp;&nbsp; Display_Option&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,Y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,U
+F84F&nbsp;&nbsp;&nbsp; Clear_Score&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F85E&nbsp;&nbsp;&nbsp; Add_Score_a&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A,X,U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F87C&nbsp;&nbsp;&nbsp; Add_Score_d&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F8B7&nbsp;&nbsp;&nbsp; Strip_Zeros&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D
+F8C7&nbsp;&nbsp;&nbsp; Compare_Score&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X,U&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B
+F8D8&nbsp;&nbsp;&nbsp; New_High_Score&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X,U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X,U,D
+F8E5&nbsp;&nbsp;&nbsp; Obj_Will_Hit_u&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,Y,U C-flag
+F8F3&nbsp;&nbsp;&nbsp; Obj_Will_Hit&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,Y,U C-flag
+F8FF&nbsp;&nbsp;&nbsp; Obj_Hit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X,Y&nbsp;&nbsp; C-flag
+F92E&nbsp;&nbsp;&nbsp; Explosion_Snd&nbsp;&nbsp; C8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D,X
+FF9F&nbsp;&nbsp;&nbsp; Draw_Grid_VL&nbsp;&nbsp;&nbsp; D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; X,Y&nbsp;&nbsp;&nbsp;&nbsp; X,Y&nbsp;&nbsp;&nbsp;&nbsp; D</pre>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a> </p>
+</body>
+</html>

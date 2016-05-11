@@ -1,0 +1,543 @@
+:title asmj - original syntax
+(more or less a copy of the page at [[http://asmj.sourceforge.net/doc/syntax.html]], omitted are the command line options, since they are not relevant for VIDE, also omitted are reference to other processors than the 6809)
+
+
+Asmj syntax
+Last revised: 23-Nov-2003
+
+:h1 \1. Notation**
+
+- Syntax is just a pattern that describes the strings of characters that we accept. For the sake of brevity, we take some shortcuts. For instance, some instructions require an operand, while others do not allow one; the operand is almost never optional. But our generic pattern for an operation line shows an optional operand, because in an imprecise way they are "sometimes" required.
+
+- We use a kind of Backus-Naur Form (BNF) to describe patterns. This lets us build bigger patterns from littler ones. A pattern definition begins with a word that we use as a name for the pattern, followed by the symbol "\::=", which you could read as "is defined as". Following that are the elements that make up the pattern. Definitions can cover multiple lines, and are often spread out more than is really necessary just to make them more readable. A pattern ends just before a line that is either blank or begins another pattern definition (which you recognize because it contains the "\::=" definition symbol).
+
+- The simplest element is a literal string in quotes. A string matches this pattern element if it consists of exactly the characters between the quotes, in the same order.
+
+- A pattern element enclosed in square brackets matches either the empty string, or the string that matches the enclosed element. Informally, this means the enclosed pattern element is optional, and may be omitted.
+
+- If several pattern elements appear one after the other, separated by white space, then a string matches the pattern if the string can be chopped into pieces that match the individual pattern elements in that order. Informally, this means that the parts are appended together.
+
+- If a pattern element is followed by an elipsis (three dots), then it matches a string made of one or more substrings that each match the element. Informally, this is for patterns that can be repeated one or more times. (If you want "zero or more", use square brackets to make the whole thing optional.)
+
+- If two pattern elements have a vertical bar between them, then the pattern matches any string that matches either one of them. Informally, this is how to make an "either this or that" pattern.
+
+- If a word is enclosed in angle brackets (less-than and greater-than signs), then the word must be the name of a pattern, and it matches any string that matches that named pattern. This is how to make bigger patterns from littler ones. We sometimes cheat a little and put an English description here that has not been defined. For instance, we used <anything_but_single_quote> to mean any character other than the single-quote character "'". If this bothers you, feel free to formalize those definitions and write them into your copy of this document. :-)
+
+- If you read a pattern strictly from left to right, you may not always get what you want. This is just like in math, where you have to do the multiplications before the additions, even if the addition came first. This is called "precedence"; in math, multiplications get higher precedence than additions. In our patterns, elipses (repetition) gets the highest precedence, followed by spaces (appending), then vertical bars (either-or). In a pinch, we allow parentheses to group things, just as you would in math.
+
+- By way of example, we will use BNF to describe the BNF notation itself.~~
+___________syntax \::= <definition> \... ~~
+___________definition \::= <word> "\::=" <element>~~
+___________element \::= <string>~~
+______________________| <option>~~
+______________________| <append>~~
+______________________| <repeat>~~
+______________________| <either>~~
+______________________| <element_name>~~
+______________________| <grouping>~~
+___________string \::= \'"\' <anything_but_double_quote> \... \'"\'~~
+______________________| "\'" <anything_but_single_quote> \... "\'"~~
+___________option \::= "[" <element> "]"~~
+___________append \::= <element> ( " " <element> ) \...~~
+___________repeat \::= <element> "\..."~~
+___________either \::= <element> "|" <element>~~
+___________element_name \::= "<" <word> ">"~~
+___________grouping \::= "(" <element> ")"~~
+~~ ~~
+
+:h1 \2. The Input File
+
+Asmj expects its input file to contain assembly language source code. Each line of the input file can have either one operation, a comment, or be blank (all white-space or length of zero). 
+
+\a) Comment lines~~
+Comment lines are discarded by the assmbler, but are used by the programmer to leave notes for humans to read. Blank lines are considered as comment lines.~~
+~~
+ A comment line consists of some number of white-space characters (possibly zero), followed by an asterisk, followed by anything else. The entire line is discarded. Blank lines are also discarded, and can be considered as comment lines.
+
+:div code
+ ____________________spaces \::= " " \... ~~
+____________________commentline \::= <spaces> '*' <anything> ~~
+ _
+:/div
+
+:h2 Operation lines~~
+Each operation line consists of a label word beginning with the very first character of the line, followed by one or more white-space characters, followed by the operation name, followed by one or more white-space characters, followed by the instruction's operand, followed by one or more white-space characters and a comment. The label may almost always be ommitted (except with the "equ" pseudo-op), in which case the line must begin with a white-space character. The trailing comment (and the spaces immediately preceding it) is ignored if present, and may always be ommitted. For some instructions, the operand may also be ommitted.
+
+:div code
+ ____________________s \::= <spaces> ~~
+____________________opline \::= [label] <s> <op> [<s> <operand>] [<s> <comment>] ~~
+ _
+:/div
+
+A label can consist only of letters, digits, and underscores, and cannot begin with a digit. Labels are case-sensitive. Operation names are all made of letters and digits, and are not case-sensitive. An operation can be either a machine instruction or a "pseudo-op". The machine instructions can be grouped into a small handful of sets, where all of the instructions in a set share the same syntax. The pseudo-ops are more varied. An operand is typically made of a number with some other stuff telling what the number means. This is explained more under "Operand in memory" below. For now, just note that the number can be given in several forms.
+
+:h3 Numeric expressions//~~
+A number can be specified in decimal, hexadecimal, ASCII, or as a symbol which was defined elsewhere to have a numeric value; or it can be a mathematical formula combining these elements.
+
+:h4 Decimal numbers
+
+A number is specified in decimal as a simple sequence of digits, exactly as you would expect. For instance, seventy-eight is 78 . Nothing complicated here.
+:div code
+ ____________________digit \::= "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"~~
+____________________decimal_number \::= <digit>\...~~
+ _
+:/div
+:h4 Hexadecimal numbers
+
+                A number is specified in hexadecimal as a "0x" prefix, followed by a sequence of hexadecimal digits. A hexadecimal digit is a decimal digit or a letter from "a" to "f". (This is not case-sensitive; you could use upper-case "A" to "F" if you like.) For instance, seventy-eight is 0x4E .
+:div code
+ ____________________hex_digit \::= <digit>|"A"|"B"|"C"|"D"|"E"|"F"~~
+____________________hex_number \::= "0x" <hex_digit>\...~~
+ _
+:/div
+:h4 ASCII strings
+
+                A string is just a sequence of characters between matching quotes. If single-quotes are used to delimit the string, then it may contain any number of unescaped double-quotes, and vice-versa. But whichever kind of quote is used to delimit the string, that kind can occur in the string only in escaped form (see below) or else it would be mistaken for the quote that marks the end of the string. In the definition below, we gloss over the fact that the delimiting quotes must match, and that they can occur within the string only if escaped. But you know the truth.
+:div code
+ ____________________quote \::= "\'" | \'"\'~~
+____________________escape \::= <backslash> <anyCharacter>~~
+____________________character \::= <nonQuote_nonBackslash> | <escape>~~
+____________________string \::= <quote> <character>\... <quote>~~
+ _
+:/div
+                Strings are used as such in a few pseudo-ops, such as the filename when including other assembly source files, or when creating constant text in memory. But strings can also be treated as numbers. Each character of the string forms one byte of the number. If the string is longer than two characters, all of them after the second are discarded whenever the string is used as a number. For instance, seventy-eight could be represented as 'N', or as '\0N', or as '\0Nthese extra bytes are discarded when making a number'.
+
+                Between the quote-marks, the backslash character is treated specially: the backslash and the following character both are used to represent a single byte. In most cases, the byte represented is just the character that followed the backslash. But if the character after the backslash was the lower-case letter "n", then those two characters together ("\n") represent the byte for the new-line character (ASCII value 10). Other special characters can be represented this way too. Representing a character this way is called an escape, because it is a way of letting the character escape from its normal meaning. The following table shows them all.
+:div code
+ ____________________**code____________________value____________________ASCII~~
+__________________________________________ represented______character name~~**
+____________________\'\\0'____________________________0_________________________null~~
+____________________\'\\a'____________________________7_________________________alarm/bell~~
+____________________\'\\b'____________________________8_________________________backspace~~
+____________________\'\\f'___________________________12_________________________form feed~~
+____________________\'\\n'__________________________10_________________________newline/linefeed~~
+____________________\'\\r'___________________________13_________________________carriage return~~
+____________________\'\\t'_____________________________9_________________________tab~~
+____________________\'\\v'___________________________11________________________vertical tab~~
+____________________\'\\\'\'____________________________39________________________single quote~~
+____________________\'\\"\'___________________________34_________________________double quote~~
+____________________\'\\\\\'___________________________92_________________________backslash~~
+ _
+:/div
+
+                In situations where a limited number of bytes are expected, such as when loading a number into a register, the same rules are followed as for any other number: the least significant byte(s) of the number are used, and the rest are discarded. This produces an odd effect: when a string of two or more characters is used as the data to load into a one-byte register, the second byte of the string is the one that is used. Here is why. Whenever a string is treated as a number, its first two characters are taken. But when a number is put into a one-byte register, its least significant byte is used. The least significant byte of the first two bytes of a string is the second byte.
+
+:h4 Processor-specific syntax
+
+Additional syntax for numeric constants is available for each family of processors, according to the tradition of their manufacturers. 
+
+Syntax of 68xx-family hexadecimal numbers
+
+For 68xx processors, numbers can be specified with a prefix that indicates the base. The prefix is a single character.
+
+Decimal numbers~~
+    A decimal number needs no prefix; lack of any special prefix indicates that the number is decimal.
+:div code
+ ____________________decimal_digit \::= "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"~~
+____________________decimal_number \::= <decimal_digit>\...~~
+ _
+:/div
+
+    Hexadecimal numbers~~
+A hexadecimal number is indicated by a dollar-sign prefix. This is exactly equivalent to the processor-neutral form in which "0x" is used as the prefix. (This does not displace the processor-neutral syntax; either prefix may be used to the same effect.)
+
+:div code
+ ____________________hex_digit \::= <decimal_digit>|"A"|"B"|"C"|"D"|"E"|"F"~~
+____________________hex_number \::= "$" <hex_digit>\...~~
+ _
+:/div
+
+    Octal numbers~~
+An octal number is indicated by an at-sign prefix.
+:div code
+ ____________________octal_digit \::= "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"~~
+____________________octal_number \::= "@" <octal_digit>\...~~
+ _
+:/div
+
+    Binary numbers~~
+A binary number is indicated by a percent-sign prefix.
+:div code
+ ____________________binary_digit \::= "0"|"1"~~
+____________________binary_number \::= "%" <binary_digit>\...~~
+ _
+:/div
+
+:h4 Symbols
+A symbol can be defined by the "equ" pseudo-op (see below) to have a numeric value, or can be defined implicitly by being used as a label on any other operation. A symbol begins with a letter, and is followed by any sequence of letters, digits, and underscores. Any such word may be used as a symbol, but note that in places where a register name might be expected, any word that matches a register name will be treated as a register name, and not recognized as a symbol. So if you define a symbol to have the same name as a register, you will not be able to reference your symbol in those places. To be safe, avoid using register names as symbols. Symbol names are case-sensitive. Using a symbol definition, we may define the word "length" to have the value seventy-eight, and then we could use that word anyplace where we might have used 78 or 0x4E or 'N' .
+
+The asterisk is a special pre-defined symbol. It normally represents the address of the byte immediately following the current instruction, which is normally the address of the next instruction.
+:div code
+ ____________________symbol \::= "*" | <letter> (<letter>|<digit>|"__")\...~~
+ _
+:/div
+
+If the address of the next instruction depends on this instruction's argument value, such as for the org pseudo-op, then using "*" creates a circular dependency: the value of "*" depends on the value of the current instruction's argument, but that value depends on the value of "*". Another pseudo-op, 'rmb' (called 'ds' in 8080-land), produces the same problem. The solution is to give "*" a special meaning in those situations: it means the address of the //current// instruction, rather than the next one. This special meaning allows at least two potentially-useful constructs:
+:div code
+ ____________________**Instruction____________________________________Meaning**~~
+________________________rmb *%4_____________________reserve up to the nearest word-aligned address ~~
+________________________org *+N_______________________leave N bytes out of the object image~~
+ _
+:/div
+
+Note that the decision of whether to use 6800 direct or extended addressing is not such a special situation. Although the value of the argument can have some impact on the instruction size, we do not have the same kind of circular dependency, because the difference in code size is just one byte; if it is not totally clear that direct addressing is possible, extended addressing will be used. Since using "*" in the argument of such an instruction makes it unclear whether direct addressing could work, the decision would be to use extended addressing, which then determines the instruction size and the value of "*".
+
+:h4 Formulas
+
+A number can be represented by a formula made of the preceding elements, the mathematical operations, and parentheses. For instance, given that we had defined the word length to mean three, we could specify seventy-eight by length*2+'B'+('m'-'a')/2 . Most of the operators of the "C" programming language are supported, listed below in order of decreasing precedence:
+:div code
+ ______________**operator____________________meaning**~~
+____________________!_______________________boolean negation~~
+____________________~______________________bitwise NOT; 1's complement~~
+____________________-_______________________integer negation~~
+____________________*_______________________multiplication~~
+____________________/_______________________addition~~
+____________________%_____________________modulus; remainder after division~~
+____________________+______________________addition~~
+____________________-_______________________subtraction~~
+____________________\<<____________________shift left~~
+____________________\>>____________________shift right~~
+____________________<=____________________less than or equal~~
+____________________<______________________less than~~
+____________________>=____________________greater than or equal~~
+____________________>______________________greater than~~
+____________________==____________________equal~~
+____________________!=_____________________not equal~~
+____________________&______________________bitwise AND~~
+____________________^_______________________bitwise XOR~~
+____________________|_______________________bitwise OR~~
+ _
+:/div
+
+The syntax for formulas is simple, since it is independent of precedence.
+:div code
+ ____________________term \::= <decimal_number> | <hex_number> | <string> | <symbol> | "(" <formula> ")"~~
+____________________formula \::= <term> | (<formula> <op> <formula>)~~
+ _
+:/div
+
+:h3 Machine Instructions~~
+:h4 Syntax of 6809 Machine Instructions
+
+Unless otherwise indicated, all words of all instructions (patterns whose names end in "_instr") must be separated by one or more spaces. We omit those from the syntax expressions for brevity. In other patterns, there are no such omissions; spaces are needed as explicitly specified.
+
+Inherent
+
+Inherent instructions do not need any information to tell where to find the data to operate on; it is implicitly specified as part of the instruction itself. For instance, the "mul" instruction always multiplies the contents of accumulators A and B; it cannot multiply anything else. Syntactically, these are the simplest possible instructions.
+:div code
+ ____________________inh_op \::= "abx"|"daa"|"mul"|"sex"|"nop"|"rti"|"rts"~~
+___________________________________|"swi"|"swi2"|"swi3"|"sync"|"cwai"~~
+___________________________________|"asla"|"asra"|"clra"|"coma"|"deca"|"inca"|"lsla"~~
+___________________________________|"aslb"|"asrb"|"clrb"|"comb"|"decb"|"incb"|"lslb"~~
+___________________________________|"lsra"|"nega"|"psha"|"pula"|"rola"|"rora"|"tsta"~~
+___________________________________|"lsrb"|"negb"|"pshb"|"pulb"|"rolb"|"rorb"|"tstb"~~
+____________________inherent_instr \::= [label] <inh_op> [<comment>]~~
+ _
+:/div
+
+    Operand in memory
+
+    Some instructions find one operand in memory (or at least compute an address as if they were going to do that) and can do so by any of several addressing modes. For brevity, our syntax diagram allows a few combinations that are actually illegal. For instance, store instructions cannot have immediate operands, jump instructions can have neither immediate nor direct operands, load-effective-address (lea_) instructions can have only indexed operands, and the condition-register instructions (andcc and orcc) can have only immediate operands. But syntactically they all follow the same pattern, as shown below.
+:div code
+ ____________________mem_op \::= "adda"|"adca"|"anda"|"bita"|"eora"|"ora"|"suba"|"sbca"~~
+______________________________________|"addb"|"adcb"|"andb"|"bitb"|"eorb"|"orb"|"subb"|"sbcb"~~
+______________________________________|"cmpa"|"cmpb"|"cmpd"|"cmpx"|"cmpy"|"cmpu"|"cmps"~~
+______________________________________|"lda" |"ldb" |"ldd" |"ldx" |"ldy" |"ldu" |"lds"~~
+______________________________________|"sta" |"stb" |"std" |"stx" |"sty" |"stu" |"sts"~~
+______________________________________|"asl"|"asr"|"clr"|"com"|"dec"|"inc"|"jmp"|"jsr"~~
+______________________________________|"lsl"|"lsr"|"neg"|"psh"|"pul"|"rol"|"ror"|"tst"~~
+______________________________________|"addd"|"subd" | "leax"|"leay"|"leau"|"leas"~~
+______________________________________|"andcc"|"orcc"~~
+____________________mem_arg \::= <immediate_arg>|<extended_arg>|<direct_arg>|<indexed_arg>~~
+____________________mem_instr \::= [label] <mem_op> <mem_arg> [<comment>]~~
+ _
+:/div
+
+    The syntax of the operand depends on the addressing mode, as follows.
+
+        Immediate
+
+        The operand is the byte (or word) in memory immediately following the opcode. The operand argument begins with a pound-sign "#", followed by a numeric expression.
+:div code
+ ____________________immediate_arg \::= "#" <numeric_expression>~~
+ _
+:/div
+
+        Extended
+
+        The operand's address immediately follows the opcode in memory. The operand argument is just a numeric expression.
+:div code
+ ____________________extended_arg \::= <numeric_expression>~~
+ _
+:/div
+
+        Direct
+
+        The byte following the opcode is used as the least significant byte of the operand's address. The most significant byte of the address is taken from the "direct page" register. The operand argument is a numeric expression representing the memory byte, followed by ",dp".
+:div code
+ ____________________direct_arg ::= <numeric_expression> ",dp"~~
+ _
+:/div
+        Indexed
+
+        This mode is itself quite varied, as the 6809 allows for many forms of indexed addressing. For constant-offset addressing, Asmj accepts hints to make the offset-length shorter than the default of two bytes. (The default applies when the offset involves symbols that have not yet been defined; since the assembler cannot determine the value of the offset when it need to reserve space for it, it must leave room for the largest possible one.) A prefix of a single less-than sign indicates that the length should fit into a single byte, while two less-than signs mean that the length should fit into the postbyte itself. This later form is only legal with constant-offset from a proper index register; it is not available for use with PC-relative addressing.
+:div code
+ ____________________index_register \::= "x" | "y" | "u" | "s"~~
+____________________accumulator \::= "a" | "b" | "d"~~
+____________________indexed_indirect \::= "[" <indexed_direct> "]"~~
+_________________________________________________| "[" <numeric_expression> "]"~~
+____________________indexed_direct \::= <constant_offset>~~
+_________________________________________________| <accumulator_offset>~~
+_________________________________________________| <auto_increment>~~
+____________________constant_offset \::= [<numeric_expression>] "," <index_register>~~
+_________________________________________________|  <numeric_expression> ",pcr" ~~
+____________________accumulator_offset \::= <accumulator> "," <index_register>~~
+____________________auto_increment \::= "," ("-"|"--") <index_register>~~
+_________________________________________________|  "," <index_register> ("+"|"++")~~
+~~
+____________________indexed_arg \::= [ "\<<" | "<" ] ( <indexed_direct> | <indexed_indirect> )~~
+ _
+:/div
+
+    Two-register
+
+    The only two-register instructions are tfr and exg. Each needs a list of exactly two registers to act on, with the only limitation being that both registers must be the same size; it is illegal to transfer an 8-bit register to or from a 16-bit register.
+:div code
+ ____________________register_8 = "a" | "b" | "cc" | "dp"~~
+____________________register_16 = "x" | "y" | "u" | "s" | "d" | "pc"~~
+____________________two_reg_arg \::= <register_8> "," <register_8>~~
+__________________________________________| <register_16> "," <register_16>~~
+____________________two_reg_op \::= "tfr"|"exg"~~
+____________________two_reg_instr \::= [label] <two_reg_op> <two_reg_arg> [<comment>]~~
+ _
+:/div
+
+    Stack
+
+    The only stack instructions are pshs/pshu and puls/pulu. Each needs a list of registers to push or pull, with the only limitation being that pshs/puls cannot push/pull the S stack pointer, while pshu/pulu cannot push/pull the U stack pointer. The operand argument is the list of register names, separated by commas, with no spaces between them.
+:div code
+ ____________________register \::= <register_8> | <register_16>~~
+____________________stack_arg \::= <register> [ "," <register> ]\...~~
+____________________stack_op \::= "pshs"|"pshu"|"puls"|"pulu"~~
+____________________stack_instr \::= [label] <stack_op> <stack_arg> [<comment>]~~
+ _
+:/div
+
+    Branch
+
+    Branch instructions always need a single argument: the address to branch to. This can be any numeric expression, although in practice it will usually be just a symbol that was defined as the label of an instruction.
+
+    Ordinary branch instructions (those that begin with "B") can only reach labels up to 127 (or -128) bytes away from the following instruction. Long branches (those that begin with "L"), on the other hand, can branch to labels at any distance.
+:div code
+ ____________________branch_op \::= "bra"|"brn"|"bcc"|"bcs"|"beq"|"bge"|"bgt"~~
+__________________________________________|"bhi"|"bhs"|"ble"|"blo"|"bls"|"blt"~~
+__________________________________________|"bmi"|"bne"|"bvc"|"bvs"|"bpl"|"bsr"~~
+__________________________________________|"lbra"|"lbrn"|"lbcc"|"lbcs"|"lbeq"|"lbge"|"lbgt"~~
+__________________________________________|"lbhi"|"lbhs"|"lble"|"lblo"|"lbls"|"lblt"~~
+__________________________________________|"lbmi"|"lbne"|"lbvc"|"lbvs"|"lbpl"|"lbsr"~~
+____________________branch_instr \::= [label] <branch_op> <numeric_expression> [<comment>]~~
+ _
+:/div
+
+:h3 Pseudo-ops
+:h4 68xx processors
+Syntax of 68xx-family pseudo-ops
+
+fcb
+
+"Form constant bytes" allows for leaving initialized byte data in memory. Its argument is a comma-separated list of numeric values, each stored in a single byte. Any value which is too large to fit in a single byte is shortened to its least-significant byte, except for strings in quotes which are treated as if each character was a distinct value in the list.
+
+fcc
+
+    "Form constant characters" is just the same as "fcb".
+
+fdb
+
+    "Form double bytes" is like "fcb", except that each value is stored in a pair of bytes, most-significant byte first. Just as for "fcb", characters of quoted strings are treated as if they were specified as individual values, which now means that they get two bytes each.
+
+rmb
+
+    This pseudo-op lets you "reserve a memory block" of a specified length. The contents of the block of memory are unspecified, and your program cannot depend on them to be initialized. The argument is a numeric expression telling how many bytes to reserve.
+
+    Because the value of the expression determines the placement in memory of the following code, and therefore the value of the symbols defined there, the expression cannot contain forward references to those symbols; all symbols used in the expression must have values defined before the 'rmb' itself.                
+
+  
+:h4 Some are the same for all families of processor; these follow.
+
+end
+
+This marks the end of the source file, and optionally tells the address at which program execution should start. If any operand is given, it is a numeric expression for the starting address. Text in the file after this line is not read by the assembler.
+
+equ
+
+This is used to "equate" a symbol with a value - to define it. Its operand is evaluated, and the line's label is entered into the symbol table with that value. This one of very few operations that require a label.
+
+include
+
+The "include" pseudo-op allows for reading from another file as if it were part of the specified source file. The operand is the filename in quotes. Such inclusions can be nested; the first included file can include another, and so on. Relative pathnames in an "include" are relative to the directory of the source file that contains the include. That is, if "/usr/bill/foo.asm" contains 'include "lib/bar.asm", the actual file included is "/usr/bill/lib/bar.asm".
+
+Beware of any file that "include"s itself! (Can you say "occurs check"? How about "unbounded recursion"?)
+
+org
+
+The origin is the address into which subsequent operations should be put. Its argument is a numeric expression; the address. If no "org" is given, the starting address is zero.
+
+Because the value of the expression determines the placement in memory of the following code, and therefore the value of the symbols defined there, the expression cannot contain forward references to those symbols; all symbols used in the expression must have values defined before the 'org' itself.
+
+macro...endm
+
+These pseudo-ops are used to define a "macro", which is a new mnemonic representing a series of instructions. The label on the macro line is the new mnemonic. All lines between the macro line and the endm line are scooped up together and saved for later use. Anyplace later in the program where that new mnemonic is used, it is a "call" to the macro, and all of those lines are substituted in place of the calling line.
+
+To add flexibility, macros are allowed to take arguments. In the macro definition, lines may contain placeholders for arguments, which consist of an ampersand followed by a number or one of a few special characters. In the call to the macro, the new mnemonic can be followed by a comma-separated list of arguments, which are substituted for the numbered placeholders in the lines that replace the call.
+
+The calling line consists of an optional label, spaces, the macro name, more spaces, the argument list, and then either the end of the line or some spaces followed by anything. The argument list cannot contain any white space.
+:div code
+ ____________________macroDefinitionHeadingLine \::= <label> <spaces> <macroName>~~
+____________________macroCall \::= [<label>] <spaces> <macroName> <spaces> <argList>~~
+____________________arg \::= <nonWhiteSpace_nonComma>\...~~
+____________________argList \::= <arg> [ "," <arg> ]\...~~
+ _
+:/div
+
+                The argument list is treated as raw text; the arguments need not meet any syntactic restrictions, and can contain unbalanced parentheses or quotes, illegal expressions, and so on. Of course, the code resulting from the macro call will be assembled, and at that time it must be syntactically correct to succeed. But the arguments can be embedded in the line in any way that makes the result come out right; they need not make any kind of sense outside of those lines. For instance, the following two snippets of code produce the same object code:
+:div code
+ ____________________length equ 3~~
+____________________width equ 4~~
+____________________fnord macro ~~
+____________________________add&1 length&2)____________________adda length*(width+7)  ~~
+____________________________endm~~
+                	~~
+____________________________fnord a,*(width+7  ~~
+ _
+:/div
+
+
+References to arguments that were not supplied are replaced by the empty string, which is the same as if the placeholder was silently deleted. So if the argument list is too short, the result will have some missing parts. (This behavior can be exploited intentionally, of course). Similarly, no check is made that all of the supplied arguments are used; unused arguments are simply ignored. Argument number zero is special; it is the label from the calling line. An ampersand followed by a comma is always discarded, but can be useful if you want a number to immediately follow a placeholder; without something extra in there, the number would be read as part of the placeholder itself. An ampersand followed by a pound-sign expands to the number of arguments actually given on the calling line. An ampersand followed by an asterisk expands to the entire comma-separated list of arguments as given on the calling line. An ampersand followed by an at-sign produces a number that is unique to this macro invocation. (This is useful if the macro needs to define its own labels, but must generate different labels each time it is invoked to avoid production of conflicting definitions.) Finally, an ampersand followed by a any other character represents just that character. So, if you want the ampersand character to come out in the result of a macro call, it must be represented by two consecutive ampersands in the macro definition. This is particularly awkward if the macro contains a formula involving the logical AND operator "&&", which must now be represented as four consecutive ampersands.
+:div code
+ ____________________**symbol______expands to**~~
+__________________________&,____________nothing~~
+__________________________&0___________the label from the calling line~~
+__________________________&@_________a unique number~~
+__________________________&#___________the number of arguments~~
+__________________________&*____________the whole argument list~~
+ _
+:/div
+
+
+                So the following code snippets produce the same result:
+:div code
+ ____________________fnord macro ~~
+_________________________________fcc "label=&0"__________________________________fcc "label=xyz"~~
+_________________________________fcc "unique_id=&@"__________________________fcc "unique_id=1"~~
+_________________________________fcc "nothing=&,"_______________________________fcc "nothing="~~
+_________________________________fcc "num_args=&#"___________________________fcc "num_args=4"~~
+_________________________________fcc "all_args=&*"_______________________________fcc "all_args=AB,CD,EF,GH" ~~
+_________________________________fcc "this && that"______________________________fcc "this & that"~~
+_________________________________fcc "20th_arg=&20"___________________________fcc "20th_arg="~~
+_________________________________fcc "2nd_arg+0=&2&,0" ____________________fcc "2nd_arg+0=CD0"~~
+_________________________________endm____________________________~~
+                	~~
+____________________xyz fnord AB,CD,EF,GH~~
+ _
+:/div
+
+
+                Parsing of macro definitions has higher priority than conditional compilation. When a macro definition is begun, all following lines are pulled into the definition until the macro-end is found. Those lines can contain conditionals, syntax errors, or anything else; the content is not noticed until the macro is called later. So a macro definition can contain the beginning of a conditional without its end, or vice-versa; but there is no way to specify that a conditional contains just the beginning or end of a macro definition.
+
+                Macros can be recursive, using conditional compilation to prevent infinite recursion. The depth of macro expansion is limited to 65536.
+:div code
+ ____________________left macro ~~
+____________________if &1>0________________asla ~~
+____________________asla_____________________asla ~~
+____________________left &1-1  _____________asla ~~
+____________________endif____________________asla ~~
+____________________endm___________________asla ~~
+________________________________________________asla ~~
+____________________left 7____________________asla ~~
+ _
+:/div
+
+
+                Because the expansion of recursive macros includes a lot of uninteresting lines associated with the conditional, the output listing of a macro call will show only those lines that actually generate code, and those lines that give rise to error messages.
+
+                if...elseif...else...endif
+
+                These pseudo-ops allow for conditional compilation - skipping over sections of the source code depending on the values of symbols and such. For instance, you might need to generate extra code to handle the case that the symbol "precision" has a value greater than 1. Or you might want to include some lines of code only if the symbol "debug" is defined. There are actually five different forms of the "if" part of the conditional; each will be explained below. All of them can have an "else", and all end with an "endif" pseudo-op.
+
+                The "if" conditional allows testing of an arbitrary numeric expression to make its decision. Its argument is a formula, as described in the section under "numeric expressions". The formula is evaluated, and the result is considered to be true if it is not zero. The "if" can have any number of "elseif"s, each of which has its own condition just like the "if" did.
+:div code
+ ____________________if \::= [<label>] <spaces> "if" <spaces> <formula>~~
+____________________elseif \::= <spaces> "elseif" <spaces> <formula>~~
+ _
+:/div
+
+                Once again, the following code snippets produce the same result:
+:div code
+ ____________________howmany macro~~
+____________________if &1<=0~~
+____________________fcc "&1 is none"~~
+____________________elseif &1<=4~~
+____________________fcc "&1 is some"~~
+____________________elseif &1<=10~~
+____________________fcc "&1 is lots"______________________fcc "0 is none"~~
+____________________else______________________________________fcc "2 is some"~~
+____________________fcc "&1 is too many"_____________fcc "5 is lots"~~
+____________________endif_____________________________________fcc "99 is too many" ~~
+____________________endm~~
+                    ~~
+____________________howmany 0~~
+____________________howmany 2~~
+____________________howmany 5~~
+____________________howmany 99~~
+ _
+:/div
+
+
+                The "ifdef" and "ifndef" conditionals test whether or not a specific symbol has been defined. The argument is just a symbol name. The "ifndef" is the negation of "ifdef" - each is true when the other would have been false. These can each have an "else", but no "elseif".
+:div code
+ ____________________ifdef \::= [<label>] <spaces> ("ifdef"|"ifndef") <spaces> <symbol>~~
+ _
+:/div
+
+
+                The "ifeq" and "ifneq" conditionals test whether two strings are identical. These can each have an "else", but no "elseif". Neither of the two argument strings can contain any white spaces or commas, because they are separated by a comma and ended by a white space character. Note that the strings are merely tested for equality; they are not evaluated as formulas or symbols. To see the difference, consider the statement "ifeq 1+1,2". The first argument is a string of three characters, the second is a string of only one character; the two strings are not equal to each other.
+:div code
+ ____________________ifeq \::= [<label>] <spaces> ("ifeq"|"ifneq") <spaces> <args>~~
+____________________arg \::= <nonWhiteSpace_nonComma>\...~~
+____________________args \::= <arg> "," <arg>~~
+ _
+:/div
+
+
+                The "ifeq" pseudo-op is mostly useful within a macro, in which one or both of the strings contain (or consist of) placeholders for macro arguments. (Otherwise the two strings would both be visible on the line, and the programmer would have noticed their equality and not needed a compile-time conditional to decide that.)
+
+                Finally, note that "if", "elseif", "ifdef", "ifndef", "ifeq", "ifneq", "else", and "endif" are all pseudo-ops, and each must appear on its own line, like any other operation.
+
+                error
+
+                The error pseudo-op forces the assembler to generate an error message of your choosing. This is useful if you detect a problem by using conditional compilation, to make it clear that something is wrong, when it might not otherwise be obvious that there is a problem, or exactly what the problem is.
+
+                exitm
+
+                The exitm pseudo-op ends a macro expansion early. It is a convenience; you could always get the same effect with some combination of conditionals. It is typically used within a conditional, with the error pseudo-op. For instance, you may check that the arguments to a macro are reasonable using 'if'. If it turns out that the argument values would cause illegal code to be generated, you could put in an exitm to prevent that. This makes the output cleaner, making it easier for the human to figure out where the real problem is, especially if used in conjunction with the error pseudo-op described above.
+:div code
+ ___________shift macro~~
+____________________*~~
+____________________ifneq &1,left~~
+____________________ifneq &1,right~~
+____________________error "shift left or right, not &1" ~~
+____________________exitm~~
+____________________endif~~
+____________________endif~~
+____________________*~~
+____________________ifeq &1,left~~
+____________________asla~~
+____________________else~~
+____________________asra~~
+____________________endif~~
+____________________*~~
+____________________endm~~
+ _
+:/div
+
+

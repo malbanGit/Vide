@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=7b55f032 -->
+<title>FAQ emulation</title>
+</head>
+<body class="doc">
+<h1>FAQ emulation</h1>
+<h2>How do I start a game?</h2>
+
+<p>There are several ways:
+<ul><li>
+<p>Use the starter panel. You find it in the menu "Tools&rarr;Starter". From the list select the cartridge you want to start and double click the entry.</p>
+</li><li>
+<p>Open a vecx panel (menu: Tools&rarr;vecx), press the "folder" button and select a binary file. Press the start button (if another program is still running, press stop first)</p>
+</li><li>
+<p>Open a "codi" panel (menu: Tools&rarr;codi) navigate in the tree to an assembler program you would like to run and press the start button</p>
+</li><li>
+<p>do "the same" in vedi (menu: Tools&rarr;vedi), here load a project or a "single" source, and press the start button</p>
+</li></ul>
+</p>
+<h2>I have a xxxx.bin file - how do a run that?</h2>
+
+<p>See "How do I start a game", second bullet point.</p>
+<h2>My own new game should have an overlay, what can I do?</h2>
+
+<p>Overlays are just "normal" pictures where some regions have some alpha values. Try your favourite paint program. Save them as "png" images. (The overlay provided were stolen from MESS!) The filename of the overlay should be the same as the "bin" file, only with a different extension (png)</p>
+<h2>Where should I put my own overlay image?</h2>
+
+<p>Several options:
+<ul><li>
+<p>in the same directory as the binary</p>
+</li><li>
+<p>in the directory "overlay"</p>
+</li><li>
+<p>if the overlay belongs to a "cartridge" file, than just put the path to the image in the appropriate place</p>
+</li></ul>
+</p>
+<h2>Some vectors in games seem wrong, vector lists appear to have lose ends?</h2>
+
+<p>An analoge fault: "drift" is emulated. If you want (unnatural) correctness of all vectors, you should set drift to 0 (slider to the center).</p>
+<h2>Some texts are printed "more diagonal" than others, why is that?</h2>
+
+<p>See answer to last question, this also is a drift "feature".</p>
+<h2>On my real vectrex some programs look different, why is that?</h2>
+
+<p>Because the emulator is not a real vectrex. IMHO vide is pretty exact at emulating vectrex. But knowledgable programmers can certainly still outsmart vide with just a few lines of code.</p>
+
+<p>Appart from that nothing comes close to the vector glow of a real vectrex :-)!</p>
+<h2>Can I do something, that Vide emulation is more close to my own vectrex?</h2>
+
+<p>Yes.<br />
+Well, probably<br />
+
+<ul><li>
+<p>first: there is the drift (mentioned above), this may be slightly different for each vectrex</p>
+</li><li>
+<p>second: "timing" parameter seem to differ for different vectrex generations. Just fiddle with the timings till emulation comes close to your vectrex. But be sure to try different cartridges with your settings - all of them should be working, not just one!</p>
+</li><li>
+<p>also, you may fiddle with "pure" display settings, like vector glow, brightness, line width, drawing splines, antialiazing etc...</p>
+</li></ul>
+</p>
+<h2>Most programs display very clearly, but some seem to flicker a lot, what is that?</h2>
+
+<p>In the configuration there is an option "Try autoSync". Well - if autosyncing is switched off, or the "auto" part did not work, display will "flicker".</p>
+<h2>Emulation seems to be awfully slow, can I speed things up?</h2>
+
+<p>Yep. Just remember, vide was never build for speed! <br />
+you can:
+<ul><li>
+<p>set line width to 1</p>
+</li><li>
+<p>disable glow</p>
+</li><li>
+<p>don't use an overlay</p>
+</li><li>
+<p>antialiazing ON (on is faster on my system, why? I don't now!)</p>
+</li><li>
+<p>switch off the use of splines</p>
+</li><li>
+<p>disable cycle exact emulation</p>
+</li><li>
+<p>disable ringbuffer</p>
+</li><li>
+<p>disable codescan</p>
+</li><li>
+<p>be absolutley sure that "ray gun" is switched off!</p>
+</li></ul>
+</p>
+<h2>When I start one of the 3d games only a black screen is shown after the start, why?</h2>
+
+<p>Because I have not bothered yet, to emulate the 3d Imager.</p>
+<h2>When I debug my program, I notice vectors are drawn differently, what is that?</h2>
+
+<p>Depending on your VIDE settings ("activate direct draw on debug"), vectors while single stepping/multistepping are REALLY drawn differently!<br />
+Explanation:<br />
+Usually vecxy emulates and "collects" vectors for a certain amount of time (one frame, depending on sync settings). All collected vectors are than drawn in one go, while in the background vector "collecting" continuous (different thread). When single stepping,  a user is probably not amused, if the vector that should be drawn NOW is drawn 30000 cycles later... so while in debug mode vectors are drawn "directly". Directly here means after one "vector" is finished (if not in "ray mode" vectors are drawn as a whole, not in "single steps"). To be able to discern the just drawn vector, it is drawn in "yellow" (not in grayscale), the yellow is only visible for one frame in which the vector was drawn! (this can be best seen if "glow" is disabled in emulation, since the glow effect is still grayscaled!)</p>
+</body>
+</html>

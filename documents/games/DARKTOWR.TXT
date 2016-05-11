@@ -1,0 +1,253 @@
+Dark Tower
+----------
+     Enter the fantastic world of the Dark Tower -- a world filled with
+adventure, danger and all the mysteries of ancient times.
+     You control a squadron of warriors as you search an adventure-filled
+forest for the magical keys that will unlock the entrance to the Dark Tower. 
+Guide your warriors to the enchanted chests scattered throughout the forest --
+each will contain a new puzzle, adventure, terror or treasure.  Use your
+warriors wisely and beware the evils of the forest!
+
+Controls:
+---------
+Joystick: Moves warrior.
+Button 1: Possessions.  Press and hold to view listing of all your possessions, 
+          remaining number of warriors and current score.  Release to return
+          to game.
+Button 2: Fire Left/Arrow.  Press to select game option.  Press to fire left
+          in Brigand Sequence.  Press to move arrow in the Riddle of the Keys.
+Button 3: Fire Straight/Key Select.  Press to fire straight in Brigand
+          Sequence.  Press to select key type in Riddle of the Keys.
+Button 4: Fire Right/Test.  Press to fire right in Brigand Sequence.  Press to
+          open the chests in the forest.  Press to test your solution in the
+          Riddle of the Keys.
+
+Skill Level Selection:
+----------------------
+     Dark Tower is a one player game.  You can begin Dark Tower at any of four
+different skill levels.  The skill level determines how many keys you are given
+before starting your journey.  Game 1 is the most difficult; Game 4 is the
+least difficult.
+
+     The games are as follows:
+     Skill Level               Keys Provided
+     ---------------------------------------
+     Game 1                    NONE
+     Game 2                    Silver
+     Game 3                    Silver and bronze
+     Game 4                    Silver, bronze and brass
+
+     To select the skill level, press Button 2.  (Note:  You will not receive
+and points for the keys initially given in Games 2, 3 or 4.)
+
+Game Play
+---------
+     Your goal is to unlock the door of the Dark Tower by solving the Riddle of
+the Keys.  To solve the riddle, you must first find the four different keys
+scattered throughout the forest and then find and enter the Dark Tower itself. 
+Along the way, you will encounter a series of hazards and mysteries.  Tread
+carefully... you never know where dangers lurk!
+
+Warriors
+     At the beginning of the game, you are provided with a warrior who appears
+somewhere within the forest.  You are also provided with five reserve warriors
+and two bags of gold.  You can earn additional warriors and gold during the
+game, as explained later.
+
+Possessions
+     Any time during the game, you can press Button 1 to see a list of your
+possessions, your inventory of reserve troops, and your score.
+
+Forest Sequence
+---------------
+Forest maps and boundaries
+     The forest is divided into four equal sectors, each represented by a
+different type of tree -- pines, elms, maples, and dead trees.  In the very
+center of the forest, called the Dark Forest, there are no trees at all.  This
+is where the Dark Tower is hidden and will become visible only when your
+warrior has collected all four keys (see Dark Tower Sequence).  There are also
+smaller dark forest zones scattered throughout the forest map.  It is easy to
+get lost in these zones.
+     Be especially careful when in the Zone of Death, where the plague occurs
+more often.  It is advisable to enter the Zone of Death only when you have a
+healer in your possession (see Plague and Healer).
+     If you reach the boundaries of the forest, the trees will disappear, you
+will enter a fog and will be placed randomly somewhere else within the forest.
+     It is helpful to map the forest as you play the game because objects
+always appear in the same location from game to game.  (Using standard graph
+paper is helpful in mapping the forest).  As you learn where objects will be
+found, your skill in playing the game will be increased.
+
+
+               Pine Trees                        Dead Trees
+                                               (Zone of Death)
+                                  Dark
+                                 Forest
+
+               Elm Trees                         Maple Trees
+
+Direction of Travel
+     Use the joystick to move your warrior around the forest.  As your warrior
+walks through the forest, his direction of travel is shown at the top right
+side of the screen (N, NW, W, SW, S, SE, E, NE).  The number of steps forward
+he has taken since he made his last turn is also shown.  To go in a specific
+direction (eg, North), rotate your warrior to the left (counter clockwise)
+until the desired direction appears at the top of the screen.  Then your
+warrior will be heading in that direction.
+
+Fog [Appears as a series of long horizontal lines]
+     In addition to the boundary fog, you can also run into fig while walking
+within the forest.  You may also find fog in some of the chests scattered
+throughout the forest (see Chests).  When you run into fog, it will move up
+from the bottom of the screen and you will be placed randomly somewhere else
+with the forest unless you have a scout in your possession (see Magician
+Sequence).
+
+Plague [Appears as a series of broken horizontal lines]
+     Like fog, you can run into the plague while walking throughout the forest
+and may also find the plague in a chest (see Chests).  When you run into the
+plague, it will move up from the bottom of the screen like the fog, but you
+will lose your warrior unless you have a healer in your possession (see
+Magician Sequence).
+
+Chests
+     You will see many chests scattered throughout the forest.  All chests look
+alike and give no clue as to their contents.  To open a chest, move warrior in
+front of the chest and press Button 4.  If you press Button 4 again BEFORE the
+chest lid is fully opened you can close the chest and move on.  Once the chest
+is fully opened, you must proceed to handle whatever it has in store for you.
+There are six types of chests:
+Treasure Chests - These chests are very rare and contain a no-risk treasure
+     (one to nine bags of gold or one to four replacement warriors). A
+     particular Treasure chest can only be opened once per game -- opening
+     this same chest again will take you to the Brigand Sequence (see below).
+'Do-Nothing' Chests - These are empty chests that will open, pause for a
+     moment, and then close.
+Fog Chests - These chests contain fog.  When fully opened, the fog cycle will
+     be started, as explained earlier.
+Plague Chests - These chests contain the plague.  When fully opened, the
+     plague cycle will be started, as explained earlier.
+Brigand Chests - These contain enemy beasts called 'Brigands' who you must
+     fight for your warrior's survival (see Brigand Sequence).
+Magician Chests - These contain magicians who can provide you with many
+     valuable treasures (see Magician Sequence).  As with treasure chests,
+     each Magician Chest can only be opened once per game -- opening the same
+     chest again will take you to the Brigand Sequence.
+
+Bags of Gold
+     Scattered throughout the forest are bags of gold which you can pick up and
+add to your possessions.  You can pick up the bag of gold by walking forward
+directly toward it.  Each bag of gold can be picked up only once per game.
+
+Keys
+     In each of the four sectors of the forest there is one of the needed to
+solve the Riddle of the Keys and open the Dark Tower.  These keys will be in
+the same location for each game, although the particular type of key (gold,
+silver, brass or bronze) will vary from game to game.  (Note: You will only be
+able to find the number of keys still needed depending on which game option you
+selected.  For example, if you selected Game #4 you will only find one key in
+the forest, since you already have the three other keys in your possession.) 
+You can pick up a key by walking forward directly toward it.  Each key can be
+picked up only once per game.
+
+Brigand Sequence
+----------------
+     The Brigand Sequence begins when a warrior opens a brigand chest.  The
+warrior will be drawn into the chest and must fight for his survival by hurling
+flamoids at the brigands while avoiding the flamoids the brigands throw at him. 
+The brigands will appear from and disappear behind walls on the left and right. 
+Use the joystick to move the warrior to the right and left and press Buttons 2,
+3 and 4 to throw flamoids at the brigands.  Button 2 throws flamoids to the
+left; Button 3 throws flamoids straight ahead; and Button 4 throws flamoids to
+the right.
+     The brigands will throw most of their flamoids directly at the warrior,
+but will also throw some in other directions once in a while hoping that the
+warrior will walk into them and be killed.  Neither the warrior nor the
+brigands can be killed by their own flamoids.
+     If the warrior successfully destroys a random number of brigands, (up to
+about 20 brigands) he will receive a treasure -- either replacement warriors or
+more bags of gold -- or may be told to just 'BE GONE.'  In any case, he will be
+returned to the forest at the same location he left.  If the warrior is killed
+by one of the brigands, a replacement warrior will be provided (if one is
+available), which will be returned to the same location outside the Brigand
+Chest.  The same Brigand Chest can be re-opened again or the warrior can move
+on through the forest.
+
+Magician Sequence
+-----------------
+     The Magician Sequence begins when a warrior opens a magician chest.  The
+warrior will be drawn into the chest and will be open to the will of the
+magician.  If you have enough gold in your inventory, the magician may sell you
+a key, replacement warriors, a healer, a scout or the crystal crown.  The
+amount of gold needed to buy these treasures is as follows:
+
+     Treasure                      Gold Needed
+     -----------------------------------------
+     Gold Key                      60-69 bags
+     Silver Key                    50-59 bags
+     Bronze Key                    40-49 bags
+     Brass Key                     30-39 bags
+     Warrior                       10-20 bags
+     Crystal Crown                 60-69 bags
+     Healer                        15-20 bags
+     Scout                         20-30 bags
+
+     The Crystal Crown is a special treasure that is worth 1500 points if it is
+in your possession at the end of the game.
+     The Healer is one of the warrior's helpers that prevents the fatal effects
+of the plague.  The Healer can be used only 4-6 times while in your possession
+and will then be lost.  Another Healer may be granted by the Magician later in
+the game if there are still Magician Chests available and the player has enough
+gold.
+     A Scout is another one of the Warrior's helpers.  The Scout prevents a
+Warrior from getting lost in a fog.  The only exception is the boundary fog,
+where the Scout cannot help the Warrior from getting lost.  As with the Healer,
+the Scout can be used only 4-6 times while in your possession.  Another Scout
+may be granted by the Magician later in the game if there are still Magician
+Chests available and the player has enough gold.
+
+Dark Tower Sequence
+-------------------
+     Once you have all four keys in your possession, you can enter the Dark
+Tower and try to solve the Riddle of the Keys to open the tower door.
+     The Dark Tower is visible only when all four keys are in your possession. 
+It is located near the center of the map in the largest of the dark forests,
+which is surrounded by a mixture of all four types of trees.  When you find the
+Dark Tower, use the joystick to move your warrior forward directly into the
+entrance of the door.
+     Once you are inside the door, you will see the four keys, which you must
+put in the correct order to try and unlock the tower.  Press Button 2 one or
+more times to move the arrow and select the desired key.  Then press Button 3
+one or more times to select the type of key (gold, silver, bronze or brass). 
+Make sure each type of key is used only once.
+     When you think you have put the keys in the correct sequence, press Button
+4 to test your solution.  If all four keys are in the correct position, the
+game will end.  If not, those keys that are in the correct positions will stay
+lit for a few seconds and then the Warrior will be placed back into the forest
+at a randomly selected location.  If you have a Scout in your possession, your
+Warrior will be placed outside the Dark Tower rather than somewhere within the
+forest, and he can enter the tower and try to solve the Riddle of the Keys
+again.
+
+Scoring
+-------
+     Points are awarded for each treasure you pick up after the start of the
+game (ie, you do not receive points for the keys, gold, or warriors you are
+given at the beginning of the game.)  Points are also earned for destroying
+brigands and for solving the Riddle of the Keys.
+
+     Possessions
+     ------------------------------------------
+     Gold Key                      1,000 points
+     Silver Key                      900 points
+     Bronze Key                      800 points
+     Brass Key                       700 points
+     Bag of Gold                     100 points
+     Warrior                         100 points
+     Crystal Crown                 1,500 points
+     Healer                          300 points + a bonus warrior
+     Scout                           300 points + a bonus warrior
+     Destroying each Brigand                125 points
+     Solving the Riddle of the Keys       3,000 points
+
+

@@ -1,0 +1,36 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Reset0Ref</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Reset0Ref ($F354)</p>
+
+<p>This routine zeros the integrators, and resets the pen back to
+the origin. It leaves the integrators in zero mode, so nothing
+can be drawn until a move is done, or $D00C is set to 0xCE to
+bring /ZERO high. This routine must be called every so often, to
+prevent your vectors from getting out of whack. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $D0</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<p>D-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F354">Source</a></p>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<AllStatements>
+	<Statement>
+		<Name>show sequences</Name>
+		<Class>MacOneClick</Class>
+		<Describtion></Describtion>
+		<SQLStatement>select * from sys.SYSSEQUENCES</SQLStatement>
+		<DBConnection>MacOneClickDB</DBConnection>
+		<Variables>
+		</Variables>
+	</Statement>
+	<Statement>
+		<Name>Sequence Query</Name>
+		<Class>MacOneClick</Class>
+		<Describtion></Describtion>
+		<SQLStatement>VALUES SYSCS_UTIL.SYSCS_PEEK_AT_SEQUENCE(&apos;ADMIN&apos;,&apos;IDS&apos;)</SQLStatement>
+		<DBConnection>MacOneClickDB</DBConnection>
+		<Variables>
+		</Variables>
+	</Statement>
+	<Statement>
+		<Name>All Tables</Name>
+		<Class>MacOneClick</Class>
+		<Describtion></Describtion>
+		<SQLStatement>select * from sys.systables</SQLStatement>
+		<DBConnection>MacOneClickDB</DBConnection>
+		<Variables>
+		</Variables>
+	</Statement>
+	<Statement>
+		<Name>List FS_UAE</Name>
+		<Class>MacOneClick</Class>
+		<Describtion></Describtion>
+		<SQLStatement>select * from FS_UAE_FIELDS</SQLStatement>
+		<DBConnection>MacOneClickDB</DBConnection>
+		<Variables>
+		</Variables>
+	</Statement>
+	<Statement>
+		<Name>show table Info</Name>
+		<Class>MacOneClick</Class>
+		<Describtion>select * from sys.sysaliases
+select * from sys.syscolumns
+select * from sys.systables
+
+select * from sys.syscolumns where referenceid = (select tableid from sys.systables where tablename = &apos;$v1&apos;)</Describtion>
+		<SQLStatement>
+select * from sys.syscolumns where referenceid = (select tableid from sys.systables where tablename = Upper(&apos;$v0&apos;)) order by columnnumber</SQLStatement>
+		<DBConnection>MacOneClickDB</DBConnection>
+		<Variables>
+			<Variable>
+				<Position>0</Position>
+				<VariableContent>FS_UAE_FIELDS</VariableContent>
+				<Comment></Comment>
+			</Variable>
+		</Variables>
+	</Statement>
+	<Statement>
+		<Name>List DOSBOX</Name>
+		<Class>MacOneClick</Class>
+		<Describtion></Describtion>
+		<SQLStatement>select * from DOSBOX_FIELDS</SQLStatement>
+		<DBConnection>MacOneClickDB</DBConnection>
+		<Variables>
+		</Variables>
+	</Statement>
+</AllStatements>

@@ -1,0 +1,55 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Rise_Run_Len(_x)(_y)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Rise_Run_Len ($F603)</p>
+
+<p>Rise_Run_X ($F5FF)</p>
+
+<p>Rise_Run_Y ($F601)</p>
+
+<p>This routine takes an angle value which is relative to the x-
+or y-axis, and calculates the rise and run for that angle,
+relative to a passed-in scalar velocity value. A large scalar
+value will cause an object to move quickly, while a small scalar
+value will cause an object to move more slowly. </p>
+
+<p>Keep in mind that most games store x &amp; y coordinates as 2
+bytes each, with the upper byte being the actual coordinate, and
+the lower byte being that which is usually added to the rise/run
+value; when the lower byte overflows into the hi byte, then the
+object will 'move'. The rise/run values returned here are meant
+to be added to the low byte -- NOT the hi byte!! </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $C8</p>
+
+<p>A-reg = the scalar velocity value (except Rise_Run_Len)</p>
+
+<p>B-reg = the Vectrex angle value</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<p>A-reg = the rise value</p>
+
+<p>B-reg = the run value</p>
+
+<p>All other registers are saved.</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F5FF">Source</a></p>
+</body>
+</html>

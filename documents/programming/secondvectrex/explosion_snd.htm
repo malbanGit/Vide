@@ -1,0 +1,67 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Explosion_Snd ($F92E)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Explosion_Snd ($F92E)</p>
+
+<p>This routine appears to generate some type of an explosion
+sound, dependent upon the 4 bytes which are pointed to by the U
+register. You will probably need to call Do_Sound for this to do
+anything. The format of the 4-byte block is:</p>
+
+<blockquote>
+    <p>1) </p>
+    <blockquote>
+        <p>Bits 0-2 = ? Stored in $C85D<br>
+        Bits 3-5 = ? Stored in $C853<br>
+        Bits 6-7 = 0<br>
+        Bits 0-2 and 3-5 are ORed and stored in bits 0-2 of<br>
+        $C854</p>
+    </blockquote>
+    <p>2) </p>
+    <blockquote>
+        <p>&lt;0 = ? Something to do with register 6<br>
+        =0 = ?<br>
+        &gt;0 = ?</p>
+    </blockquote>
+    <p>3) </p>
+    <blockquote>
+        <p>&lt;0 = ?<br>
+        =0 = ?<br>
+        &gt;0 = ?</p>
+    </blockquote>
+    <p>4) </p>
+    <blockquote>
+        <p>Speed? Higher values = lower duration?</p>
+    </blockquote>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $C8</p>
+    <p>U-reg points to 4-byte block of data if $C867 high bit set</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<blockquote>
+    <p>D-reg, X-reg trashed</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F92E">Source</a></p>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<AllConnections>
+	<Connection>
+		<Name>MacOneClickDB</Name>
+		<Type>Derby (Java DB)</Type>
+		<User>admin</User>
+		<Password>admin</Password>
+		<DatabaseName>MacOneClickDB</DatabaseName>
+		<Host></Host>
+		<Port></Port>
+		<DriverString></DriverString>
+		<Server></Server>
+		<URL></URL>
+		<CLASS></CLASS>
+	</Connection>
+</AllConnections>

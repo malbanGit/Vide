@@ -1,0 +1,50 @@
+:title vedi
+
+:image vedi.png|vedi window
+
+:h2 Editor
+- double click on a  "include" tries to load the denoted file in an editor tab
+- search and replace works
+- tab, shiftab works as "indent"
+- there is a "pretty print" button for 6809 sources (only)
+
+:h2 Assembling
+Pressing the button: ##control_play_blue.png## 
+starts the assembler with the current active file as input (file is automatically saved). If successfull, vecxi will automatically be started.~~
+The messages of assi can be viewed in the bottom tab called "ASM messages":
+
+:image vediAss.png|message window
+
+- error messages are colored red
+- warning messages are colored blue
+- optimization messages are colored green
+- info messages are colored black
+
+Error/Warning/Optimization messages are related to the assembled source. They allways consist of two lines of information:~~
+Line 1: What happened?~~
+Line 2: Where did it happen?~~
+
+Doubleclicking on any of the two lines will jump to the source (will also open include files, if message is about an include).
+
+The third tab on the bottom contains the listing output of the assembler. The Error/Warning/Optimization messages are also included in the "correct" places in the listing (although not double clickable to any effect).
+
+:h2 Syntax highlighting
+VIDE uses "Syntax" programmed by (c) Stephen Ostermiller.
+I slightly changed some code and did a flex grammar that covers some aspects of assi. 
+This was my first contact with flex and grammars, so the results are not 100% and probably not very efficient either.
+
+The expressions that are possible with parenthesis and macro usage are IMHO nearly impossible to cover with a regular expression based scanner.
+After all, who would identify an opcode //lda// that is puzzled together by a macro, like:
+:div code
+fillregister___macro reg, val~~
+____________ld\\1___#val~~
+______endm~~
+
+ ___fillregister a, 1 ; set a to 1~~
+___fillregister b, 2 ; set b to 2~~
+:/div
+
+:image syntax.png|syntax example window
+
+I would like to enhance syntax highlighting further about the knowledge of macros and labels/variables. I will try that when I do "projects" in VIDE.
+

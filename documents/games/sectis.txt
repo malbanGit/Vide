@@ -1,0 +1,38 @@
+(taken from: http://vectrex.wikia.com/wiki/Sectis)
+StoryEdit
+
+Long before the Apocalypse began, Sectis spawned a legion of sectoids to guard the outskirts of hell...fending off any attempts made by the powers of good to infiltrate and convert the souls of the damned.
+
+Bypass this seemingly impenetrable dark fortress, destroy Sectis, and bring forth the days of Armageddon!
+Basic gameplay/dangersEdit
+
+The majority of the game involves destroying enemies known as sectoids (in levels one and three), along with end of level bosses, although there are also puzzles to solve in the second level.
+
+At the start of a new game, the player can freely fly around; however, when the player's ship flies into an area with a sectoid in it, the sectoid will automatically tether itself to the player and start flying around in a circle (which occurs in the first and third levels). If the player allows it to fly around long enough it will take away one or more shield units. If all five of the player's shield units are destroyed then the game will end. If two sectoids are tethered to the player's ship they will do twice as much damage to the player's shields until the player is able to shoot either one or both of them. The player cannot exit a screen that has sectoids in it until they have been shot. The player's shields will be recharged back to full strength after the completion of a level.
+
+Also, colliding with a wall segment (except for the walls of the chamber housing Oculis in level two), being damaged by a boss (in the same manner of a sectoid, as the bosses in the first and third levels will also tether themselves to the player's ship, whereas Oculis will just fire at a player), the Mourning Stars in level two when they explode after hitting a wall and being shot by Oculis will cause damage to player's shields, although Cruci-FIX Repair Kits are found in every level that will restore one unit of the player's shields once the player makes contact with a Kit. Colliding with one of the chamber walls housing Oculis, taking a full, direct hit from a Mourning Star in level two or touching Sectis' cocoon will destroy the player's ship and end the game, despite how many shield units the player had available.
+
+The other gameplay element (in the second area) involves the player figuring out what routes to take in a Labyrinth, leading to a puzzle to solve and the Oculis boss to destroy at the end of the level.
+LevelsEdit
+The Outskirts of HellEdit
+
+The player starts off alone in this level, although that doesn't last for long, as the moment they fly to another screen they will find one or two sectoids attached to their ship. This level has 10 sectoids that need to be destroyed; if the player can destroy all 10 of them, a chamber will open up at the bottom center of the play area, which will lead to the large boss Queen Sectoid that takes five hits to be destroyed before the player can continue onto the next level.
+The Labyrinth of OculisEdit
+
+Unlike the other two levels in this game, there are no sectoids in this one. As the name suggests, the player is in a labyrinth and must choose a certain set of paths in order to continue through the level/game.
+
+There are several areas where a Mourning Star entity will emerge from a passageway in the Labyrinth. If the player chooses the correct set of paths -- leading to a vortex -- they will find themselves in a puzzle area (after they enter the vortex, they will be warped to this area), with nine vortex boxes making the shape of a square, which must be solved in order to advance further through the Labyrinth. Choosing an incorrect vortex to run into with their ship will send the player back to the main part of the Labyrinth; other vortexes will move the player to an opposite square (i. e. if the player runs into the vortex at the center left of the puzzle, it will transport them to the center right square). If the player makes contact in the correct order of vortexes, they will be transported to another Labyrinth area with a few one-way passageways, complete with a couple of Cruci-FIX Repair Kits, another Mourning Star, and then Oculis himself, who resides inside a chamber in the center of the screen.
+
+If the player is able to figure out how to destroy Oculis, a vortex will appear, which, when entered, will transport the player to the final area of the game.
+The Lair of SectisEdit
+
+The gameplay of this final level is similar to the first level's goal, as the player has sectoids to destroy, although there are over twice as many this time around (25 in all), more Cruci-FIX Repair Kits, and the play area is a lot larger, running several screens across and down.
+
+Sectis can be seen as a cocoon at first, and if the player destroys all 25 sectoids, he will emerge from the cocoon in a final battle with the player once the player's ship enters that area. If the player is able to destroy Sectis and enters the final portal that appears afterwards then the game ends.
+ControlsEdit
+
+    Turn ship--left or right on joystick or D-pad
+    Fire--button 4
+    Thrust--button 3 
+
+

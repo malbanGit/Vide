@@ -1,0 +1,133 @@
+Heads-Up 
+--------
+   Take the ultimate soccer challenge... without ever leaving your seat! 
+Play with a friend or tackle the computer itself in an action-packed soccer
+game that takes all the concentration, strategy and split-second reactions of
+the real thing!  You're in control as the realistic, dimensional players get
+the ball down the field by passing, bouncing and kicking it back and forth to
+one another -- just like a real soccer game!
+   HEADS-UP!  And get ready for an exciting and demanding soccer
+tournament... complete with the roar of the crowd!
+
+Controls
+--------
+   For two-player simultaneous game play, a second control panel is needed.
+
+Joystick:  Controls the player, on offense or defense, with the dot over his
+           head.
+Button 1:  Not used.
+Button 2:  Not used.
+Button 3:  Offense shoot/defense goalie.  When on offense, this button
+           releases a shot at the goal.  On defense, press and hold this
+           button while using the joystick to control movement of the goalie.
+Button 4:  Offense pass/defense switch.  When on offense, this button
+           releases a pass to another team-mate.  On defense, this button
+           transfers control of the joystick among the three defensive
+           players.
+
+Skill Level Selection
+---------------------
+   You can begin Heads-Up at any of three different skill levels.  Level 1 is
+the least difficult and level 3 is the most difficult.  To select a skill
+level, press button 2.
+
+Starting Game Play
+------------------
+   Once you have selected the number of players and the skill level, press
+button 4 for kick-off.  In a one player game, you always control the brightly
+lit players and the computer controls the dimly lit players.  In a two-player
+game, the built-in control panel controls the brightly lit players and the
+second control panel controls the dimly lit players.
+
+Game Play
+---------
+   Listen to the roar of the crowd, Head-Up is about to begin!  [They sure
+are proud of that roar, aren't they?  :) ]
+   The objective is to kick the ball into the opposing team's net and score
+as often as possible when on offensive -- and prevent the opposing players
+from kicking the ball into YOUR goal when on defense.  Just like the real
+pros!
+   Each team has three players on the field and one goalie who remains in his
+goalie box.  The joystick controls the player, on offense or defense, who has
+a dot over his head.  The offensive man who has the ball will be the
+controllable player and will have the dot over his head.  The defensive
+player who is controllable has a dot over his head and is switchable among
+the three players by pressing button 4.
+
+The Game Field
+--------------
+   The "scrolling" effect of the Heads-Up playing field is specially designed
+to create a feeling of real soccer play.  You'll never see the entire field
+at once.
+   [A rough description of the playing field:  You start around the Center
+Circle and the Center Line.  On either side of the playing field are the
+goals for the two teams.  The outer square is the Goal Area and the inner
+square is the Goalie Zone.  Above the playing field are three sets of
+numbers.  They are the Left Team Score, Clock, and the Right Team Score. 
+Below the playing field is the Period Indicator.]
+
+The Kick-Off
+------------
+   When the teams are lined up for kick-off, the team with the center man
+furthest from the center line is the offensive team.  On start-up, the team
+on the right side of the screen is always on offense.  The kick-off, started
+by pressing button 4, brings the center player to the ball.  He kicks it
+either to the top or bottom team-mate.  When the ball is caught, the two
+remaining offensive players begin moving in a pattern and will travel down
+the field as long as the goal line is not in view.
+
+Passing & Shooting
+------------------
+   Get ready!  Here comes a pass right at you!  The offensive team may
+dribble, pass or shoot the ball in any direction by pointing the joystick in
+that direction.  A pass will travel in the direction the joystick is pointing
+when button 4 is pressed.  A pass slows in speed as it travels and will
+eventually come to a stop if it is not caught.
+   To kick or shoot the ball, press button 3 in the same way as for a pass. 
+Any player, offense or defense, coming in contact with the ball can take
+possession when the ball is passed or kicked.  (A kick travels faster than a
+pass.)
+   Use the scrolling effect of the game to your advantage when you pass or
+shoot.  Remember, there will always be three players on your team.  When a
+player disappears off the screen, he will reappear on the opposite side --
+directly across from the point where he left the screen -- as the field
+scrolls.  When passing, aim for that position.
+
+The Defensive Player & Defensive Goalie
+---------------------------------------
+   The defensive player that is controlled by the joystick is the player with
+the dot over his head.  Control can be switched from one defensive player to
+another by pressing button 4.  The defensive player can charge and steal the
+ball from the offensive player by coming in contact with the ball.  The
+defensive steal is not always automatic!
+   The defensive goalie can be controlled with the joystick when button 3 is
+pressed.  He'll move up and down in front of the goal in the same direction
+the joystick is pushed.
+
+The Throw-In & Out-of-Bounds Shots
+----------------------------------
+   When the ball travels out-of-bounds on the sideline, the team touching the
+ball last loses possession of the ball and the other team will throw the ball
+in.  When the ball travels out along the end line and the defense touched it
+last, the offense will have a corner kick.  If the offense touched the ball
+last, the goalie will kick the ball in.
+   For the throw-in, a player automatically runs to the boundary line and
+throws the ball into the field to a selected team-mate by pressing button 4.
+
+Watch the Clock!
+----------------
+   The game consists of two consecutive three-minute halves.  (Halves are
+indicated at the bottom center of the screen.)  The clock, located at the top
+center of the screen, only stops when a team scores.  If the score happens to
+be tied at the end of the two halves, be prepared for a Sudden Death
+overtime!  Once in Sudden Death, the game will continue at three minutes per
+period until a team scores and wins the game.
+
+Scoring
+-------
+   Just like in real soccer, a team earns one point each time it kicks a ball
+into the goal.  When the game ends, the final score is tallied and shown.
+
+
+z_morganrw@ccsvax.sfasu.edu
+

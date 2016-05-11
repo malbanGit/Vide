@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=f5e2c938 -->
+<title>Raster images</title>
+</head>
+<body class="doc">
+<h1>Raster images</h1>
+<br/><p align="center">
+<img src="pics/raster1.png" width="962" height="713" /><br/>
+<em>raster image</em></p><br/>
+
+<p>On a popup you can convert images (png, bmp, gif and jpg) to vectrex raster images, but I wouldn't get my dreams up to high, image results in resolutions greater than about 150x100 "pixel" are probably out of the 30000 cylce limit! Raster display routine were hacked together in one afternoon, so you are invited to get more performance out of it!</p>
+
+<p>Above you can see the actual conversion "tool". As one can see it is not completly finished, but it will probably stay the way it is implemented now for quite some time.</p>
+
+<p>The image to convert is taken from the right clicked popup from above, the size is displayed.</p>
+
+<p>On the left side you can see a "generated" vector image (the left slider zooms in/out), below the vector display you can give the resulting size - with this it is possible to resize the image any way you like.</p>
+
+<p>One can chose what information to take for vector generation, the "color" - strength of a pixel (r+g+b/3) or the alpha channel. The slider on the right/bottom can be used to enter a threshold at what value a vector will be generated.</p>
+
+<p>Also taken into account (although this could be optimized) is the fact, that shift register values are actually 9 bits instead of 8 (the last bit is repeated), the displayed vector list is updated with every change.</p>
+
+<p>There used to be an option to include "brightness" data for the vector list. The generation routine is still in the code but disabled, since it performs so very badly, creating has been disabled.</p>
+
+<p>Using the checkboxes to the left and the create button to the right generates code (and an example main program). </p>
+
+<p>The data is output in binary-data-statements, that way (with some fantasy) you can still discern your image, although this is made more difficult with each alternating line, since the display routine is bidirectional, meaning the data of every second line is stored "backwards".</p>
+
+<p>The format of the data is described in the (generated) source.</p>
+
+<p> </p>
+</body>
+</html>

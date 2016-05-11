@@ -1,0 +1,43 @@
+                    	INCLUDE  "VECTREX.i"
+sfx_pointer         EQU      $c880 
+sfx_status          EQU      $c882 
+sfx_effect          EQU      #AYFX_DATA_ADDRESS#
+
+;
+        code
+                    ORG      0 
+                    db      "g GCE 2014", $80 
+                    dw       music1 
+                    db       $F8, $50, $20, -$45 
+                    db      "AYFX EFFECT",$80
+                    db       0 
+init: 
+                    LDD      #$0000                       ; init sfx vars 
+                    STD      sfx_pointer 
+                    STA      sfx_status 
+                    JSR      Read_Btns                    ; init button read 
+loopforever: 
+                    JSR      Wait_Recal                   ; wait for vector refresh 
+                    lda      #0                           ; Y-coordinate 
+                    ldb      #-80                         ; X-coordinate 
+                    ldu      #message1                    ; print message 
+                    jsr      Print_Str_d 
+                    LDA      sfx_status                   ; check if sfx to play 
+                    BEQ      checkbuttons 
+                    JSR      sfx_doframe 
+checkbuttons: 
+                    JSR      Read_Btns                    ; get button status 
+                    CMPA     #$00                         ; is a button pressed? 
+                    BEQ      loopforever                  ; no, than loop 
+                    LDX      #sfx_effect                  ; play sfx_effect 
+                    STX      sfx_pointer 
+                    LDA      #$01 
+                    STA      sfx_status 
+                    BRA      loopforever 
+
+message1: 
+                    fcc      "#AYFX_NAME#"
+                    fcb      $80 
+
+                    include  "ayfxPlayer.i"
+                    include  "#AYFX_DATA#"

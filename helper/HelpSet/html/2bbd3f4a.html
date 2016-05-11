@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160312124922" />
+<!-- created with HelpSetMaker, ID=2bbd3f4a -->
+<title>Vectrex "Faults"</title>
+</head>
+<body class="doc">
+<h1>Vectrex "Faults"</h1>
+<h2>Commutative law is not applicable!</h2>
+
+<p>Vectrex calculates its vector positioning using mainly two factors:
+<ul><li>
+<p>the scale (length of integration)</p>
+</li><li>
+<p>the strength (voltage) of integration values</p>
+</li></ul>
+</p>
+
+<p>So a position X, e.g. 6000 (vectrex pixel position) (y the same) can be calculated with:
+<ul><li>
+<p>strength 60 x scale 100 = 6000<br />
+<br />
+or<br />
+<br />
+</p>
+</li><li>
+<p>strength 100 x scale 60 = 6000<br />
+</p>
+</li></ul>
+</p>
+
+<p>So I thought - and stated that about 18 years ago in my vectrex instructions. While in "general" this is true and can be used, specifically this is <b>NOT</b> true.     In many cases even IF there is a slight difference - it does not matter. Since usually object are allways drawn with the same scale factor and the same strength value.</p>
+
+<p>If you use different values, you usually draw different things on screen no one ever notices a difference. Like drawing "backgorund" with large scale factors and sprites and such with small factors.</p>
+
+<p>BUT there are a few programs which DO draw "combined" "objects" using different values. E.G. Cleansweep (see section why emulators hate cleansweep).</p>
+
+<p>For all people who have access to a vectrex I have written an easy (quite a few actually but one ni particular) example program to show that the difference is very real!</p>
+
+<p>See: <a target="_blank" href="TestMultiply3.asm">TestMultiply3.asm</a></p>
+
+<p>Let me in short explain the program:
+<ul><li>
+<p>two dots are drawn near the center</p>
+</li><li>
+<p>using joystick X you can position the dot from 0-$ff (although only up to $7f make sense)</p>
+</li><li>
+<p>one dot is drawn with a scale of 1 and strength of position</p>
+</li><li>
+<p>the other is drawn with scale of position and strength of 1</p>
+</li></ul>
+</p>
+<br/><p align="center">
+<img src="pics/mult3Emu.png" width="478" height="671" /><br/>
+<em>Mult3 - emulator</em></p><br/>
+<br/><p align="center">
+<img src="pics/mult3Vec.png" width="414" height="640" /><br/>
+<em>Mult3 - vectrex</em></p><br/>
+
+<p>While on these pictures the difference may not seem all that substantial, I might remind you, that we only look at coordinates "+127" (from about a maximum of 20000).</p>
+
+<p>The difference DOES add up.</p>
+
+<p>I don't know if that is the only "CleanSweep" fault, but this is a major player!</p>
+<h2>Other "Faults"</h2>
+
+<p>I am pretty sure there is at least one other "undiscovered" feature. Mostly visible with "optimized" raster displays. I will sometime in the future further research that!</p>
+</body>
+</html>

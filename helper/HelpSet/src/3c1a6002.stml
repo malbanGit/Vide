@@ -1,0 +1,32 @@
+:title codi
+
+:image codi.png|codi window
+
+Codi = codeLibrary
+
+A collection of sources that are free or I have permission to include with VIDE.
+These are sources to vectrex binaries which can be assembled on the fly and run in vecxi.
+These sources can be investigated, studied or reused (within reason!).
+
+Within the code library window you can not persist any changes, although you can edit, you can not save! If you need the code you will have to copy and paste!
+
+Codi is "only" a view to a directory within VIDE. The directory is scanned for subdirectories and files and all that is there is displayed.
+
+Where I could, I provided an "origin.txt" file, which gives more information where the "original" came from.
+
+Some files were slightly modified so they can be assembled correctly.
+
+Some examples:
+- Most of Fred Taft disassembled files, like 
++ Star Castle
++ Narrow Escape
++ Minestorm
++ etc
+- Bruce Tomlin
++ SpectrumI+
++ BIOS
+- John Dondzillas early public domain releases
+- Omega Chase (Christoper Tumber) [if I get permission]
+
+- and many many more, if I get permissions, as of now about 20 MB of vectrex sources
+

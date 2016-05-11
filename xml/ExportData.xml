@@ -1,0 +1,281 @@
+<?xml version="1.0"?>
+<AllExportData>
+	<ExportData>
+		<Class></Class>
+		<Name></Name>
+		<Comment></Comment>
+		<Script></Script>
+	</ExportData>
+	<ExportData>
+		<Class>Vecci Import</Class>
+		<Name>Bin Import</Name>
+		<Comment></Comment>
+		<Script>import de.malban.vide.script.BinParser;
+import java.io.*;
+/*
+FileDialog fd = new FileDialog(frame, &quot;Choose a file&quot;, FileDialog.LOAD);
+fd.setVisible(true);
+String filename = fd.getFile();
+if (filename == null)
+  System.out.println(&quot;You cancelled the choice&quot;);
+else
+  System.out.println(&quot;You chose &quot; + filename);
+*/
+vecci.clearVectors();
+
+String filename = &quot;cartridges&quot;+File.separator+&quot;CASTLE.BIN&quot;;
+BinParser parser = new BinParser();
+boolean ok = parser.readFile(filename);
+parser.setPosition(3615);
+parser.setExpectedListType(BinParser.Draw_VL);
+Vector v= parser.getNextVectorList(9);
+
+if (v != null)
+{
+	out += &quot;Vectors found: &quot; + v.size();
+	for (int i=0; i&lt;v.size(); i++)
+	{
+		GFXVector gv = (GFXVector) v.elementAt(i);
+		vecci.addVector(gv);
+		System.out.println(gv.end.x()+ &quot;, &quot;+gv.end.y());
+//		System.out.println(String.format(&quot;$%02X&quot;,gv.end.x())+ &quot;, &quot;+String.format(&quot;$%02X&quot;,gv.end.y()));
+
+	}
+}
+else
+{
+ out += &quot;vector null!&quot;;
+}
+
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class></Class>
+		<Name>ToFile</Name>
+		<Comment></Comment>
+		<Script>
+FileDialog fd = new FileDialog(frame, &quot;Choose a file&quot;, FileDialog.LOAD);
+fd.setVisible(true);
+String filename = fd.getFile();
+if (filename == null)
+  System.out.println(&quot;You cancelled the choice&quot;);
+else
+  System.out.println(&quot;You chose &quot; + filename);
+
+
+
+
+
+StringBuffer b = new StringBuffer();
+Vector allvectors = vecci.getVectors();
+b.append(&quot;\tSCALE\tEQU\t10\n&quot;);
+b.append(&quot;veccy:\n&quot;);
+for (int i=0; i&lt;allvectors.size(); i++)
+{
+  GFXVector onvector =(GFXVector)  allvectors.elementAt(i);
+  Vertex start = onvector.start;
+  Vertex end = onvector.end;
+  b.append(&quot;\t db\t&quot;+(int)start.x()+&quot;*SCALE, &quot;+(int)start.y()+&quot;*SCALE, &quot;+(int)end.x()+&quot;*SCALE, &quot;+(int)end.y() +&quot;*SCALE\t ; start x,y : end x,y \n&quot;);
+}
+  out += b.toString();
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Vecci Script</Class>
+		<Name>test</Name>
+		<Comment></Comment>
+		<Script>y&lt;ydsd</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Utility</Class>
+		<Name>execute Win Command</Name>
+		<Comment></Comment>
+		<Script>String AS09 =    &quot;as09.exe&quot;;
+String OPTIONS = &quot;-w200 -h0 -l -mcti&quot;;
+
+String path = ed.path;
+if (!path.endsWith(File.separator))
+{
+ if (path.length() != 0)
+ {
+  path += File.separator;	
+ }
+}
+
+String FILE = ed.filename;
+String OUTPUT = &quot;>&quot;+&quot;error&quot;;
+
+String [] cmd = new String[3];
+cmd[0] = &quot;cmd.exe&quot; ;
+cmd[1] = &quot;/C&quot; ;
+cmd[2] = AS09+&quot; &quot;+OPTIONS+&quot; &quot;+FILE+&quot; &quot;+OUTPUT;
+
+out += &quot;executing: &quot;+cmd[0]+&quot; &quot;+cmd[1]+&quot; &quot;+ cmd[2]+&quot;\n&quot;;
+if (vedi != void)
+{
+  vedi.printMessage(&quot;Executing: &quot;+cmd[0]+&quot; &quot;+cmd[1]+&quot; &quot;+ cmd[2]);
+}
+
+try
+{
+  Process p = Runtime.getRuntime().exec(cmd, null,new File(path));
+  p.waitFor();
+}
+catch (Throwable e)
+{
+  out += e.toString()+&quot;\n&quot;;
+}
+
+String result = &quot;result not set&quot;;
+try
+{
+result = de.malban.util.UtilityString.readTextFileToOneString(new File(path+&quot;error&quot;));
+out += &quot;&quot;+result+&quot;\n&quot;;
+}
+catch (Throwable e)
+{
+ out+= &quot;Error reading file &apos;error&apos;&quot;+&quot;\n&quot;;
+}
+
+
+if (vedi != void)
+{
+  vedi.printMessage(&quot;Script was executed...&quot;);
+  vedi.printMessage(result);
+}
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Utility</Class>
+		<Name>Show Message start</Name>
+		<Comment></Comment>
+		<Script>JOptionPane.showMessageDialog(null, &quot;Compile start&quot;, &quot;Hello!&quot;, JOptionPane.OK_OPTION);</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Utility</Class>
+		<Name>Show Message done</Name>
+		<Comment></Comment>
+		<Script>JOptionPane.showMessageDialog(null, ed.filename+&quot;\nCompile done&quot;, &quot;Hello!&quot;, JOptionPane.OK_OPTION);</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Vecci Export</Class>
+		<Name>Export</Name>
+		<Comment>Export of vector information.
+Assuming all vector coordinates are ABSOLUT.</Comment>
+		<Script>StringBuffer b = new StringBuffer();
+Vector allvectors = vecci.getVectors();
+b.append(&quot;\tSCALE\tEQU\t10\n&quot;);
+b.append(&quot;veccy:\n&quot;);
+for (int i=0; i&lt;allvectors.size(); i++)
+{
+  GFXVector onvector =(GFXVector)  allvectors.elementAt(i);
+  Vertex start = onvector.start;
+  Vertex end = onvector.end;
+  b.append(&quot;\t db\t&quot;+(int)start.x()+&quot;*SCALE, &quot;+(int)start.y()+&quot;*SCALE, &quot;+(int)end.x()+&quot;*SCALE, &quot;+(int)end.y() +&quot;*SCALE\t ; start x,y : end x,y \n&quot;);
+}
+  out += b.toString();
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Vecci Export</Class>
+		<Name>ChoseFile</Name>
+		<Comment></Comment>
+		<Script>
+FileDialog fd = new FileDialog(frame, &quot;Choose a file&quot;, FileDialog.LOAD);
+fd.setVisible(true);
+String filename = fd.getFile();
+if (filename == null)
+  System.out.println(&quot;You cancelled the choice&quot;);
+else
+  System.out.println(&quot;You chose &quot; + filename);
+
+
+
+
+
+StringBuffer b = new StringBuffer();
+Vector allvectors = vecci.getVectors();
+b.append(&quot;\tSCALE\tEQU\t10\n&quot;);
+b.append(&quot;veccy:\n&quot;);
+for (int i=0; i&lt;allvectors.size(); i++)
+{
+  GFXVector onvector =(GFXVector)  allvectors.elementAt(i);
+  Vertex start = onvector.start;
+  Vertex end = onvector.end;
+  b.append(&quot;\t db\t&quot;+(int)start.x()+&quot;*SCALE, &quot;+(int)start.y()+&quot;*SCALE, &quot;+(int)end.x()+&quot;*SCALE, &quot;+(int)end.y() +&quot;*SCALE\t ; start x,y : end x,y \n&quot;);
+}
+  out += b.toString();
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Vecci Export</Class>
+		<Name>Export DrawVL as Code</Name>
+		<Comment>This exports the current vectorlist as a code routine
+(no data).
+This is done to show the abilities of User exports!</Comment>
+		<Script>todo
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Vecci Import</Class>
+		<Name>AddOne</Name>
+		<Comment></Comment>
+		<Script>vecci.clearVectors();
+
+// create new vector
+// if first param is a vector, than the next one will be 
+// an offset vector
+// if not, the start coordinates will be 0,0,0
+GFXVector v = new GFXVector(null, 10,10,0);
+vecci.addVector(v);
+
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Vecci Import</Class>
+		<Name>DB Import</Name>
+		<Comment></Comment>
+		<Script>import de.malban.vide.script.DBParser;
+/*
+FileDialog fd = new FileDialog(frame, &quot;Choose a file&quot;, FileDialog.LOAD);
+fd.setVisible(true);
+String filename = fd.getFile();
+if (filename == null)
+  System.out.println(&quot;You cancelled the choice&quot;);
+else
+  System.out.println(&quot;You chose &quot; + filename);
+*/
+
+String filename = &quot;abc.i&quot;;
+DBParser parser = new DBParser();
+boolean ok = parser.readFile(filename);
+parser.setPositionAfterLabel(&quot;_t_&quot;);
+parser.setExpectedListType(DBParser.Draw_VLc);
+Vector v= parser.getNextVectorList();
+
+if (v != null)
+{
+	out += &quot;Vectors found: &quot; + v.size();
+	for (int i=0; i&lt;v.size(); i++)
+	{
+		GFXVector gv = (GFXVector) v.elementAt(i);
+		vecci.addVector(gv);
+
+	}
+}
+else
+{
+ out += &quot;vector null!&quot;;
+}
+
+
+</Script>
+	</ExportData>
+</AllExportData>

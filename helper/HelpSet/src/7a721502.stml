@@ -1,0 +1,94 @@
+:title assi
+There is no wonderfull screenshot available, since assi is more or less "internal".
+
+First:~~
+
+Assi is a code adaption of a java 6809 assembler called "asmj".~~ (sourceforge: [[http://sourceforge.net/projects/asmj/]]) developed by //Bill Yakowenko//. ~~The sources in the sourceforge zip, the svn version and the binaries are not complete nor compatible. I tried reaching out to the author, but have received no feedback yet. I fixed the part I am interested in - so that it works for me. The source is public domain.
+~~
+** Thank you for programming ASMJ and for making it available as public domain! **
+
+The assembler syntax of the original asmj is still in working order! See the section in this documentation.
+
+Regardless of that I made many changes to the assembler - pragmatic changes that do work, but didn't make the source more compatible. I have not even tried. From the original sources I pried out the 6809 part I needed and fed the rest to the wolves.
+
+In general I tried adding compatibilty to the assembler from  Frank A. Vorstenbosch, Kingswood Software, AS09 - since that was for a long time my assembler of choice and nearly all of my own programs I did for vectrex are AS09 written.
+
+Here I will write down the changes I did to asmj.~~
+(in no particular order)~~
+
+- assi is not so sensitive about whitespaces as asmj. Whereever it finds some, it ignores them. The original asmj would throw errors if an expression or a list of binary data contained any spaces.
+- added pseudo opcode "direct" for direct pages register recognition
+- added "<" prefix for direct addressing
+- added pseudo opcodes for data handling (db, dw, ds)
+- added operator "lo" and "hi", to get the lower/higher part of a 16bit address
+- added pseudo macro opcode "local" to predefine a local macro label
+- macros can now have "named" parameters
+- added a second "escape"-sequence for macro parameters (as09 uses \\, asmj uses &)
+- if assi knows about the DP register and an "extended" address comes along which fits -> it will use direct addressing (jsr/jmp are dangerous, I left them out!)
+- assi accepts ";" as a comment char
+- assi can do end of line comments
+- assi accepts "\_" as a first label character
+- assi accepts ":" as a label "end marker"
+- assi register names can be both, upper and lower case!
+- "=" synonym for "equ"
+- flag for automatic use long branches if short ones don't fit
+- long range branches can't be out of range (was a bug in the original asmj)
+- more freely use of "#" possible, is not syntax correct, but doesn't do any harm either
+- BSS, DATA, CODE, STRUCT, ALIGN, PAGE, TITLE, LIST, NOLIST,as dummy opcodes (they do nothing yet - but do not give compiler errors either :-\))
+- OPT, NOOPT ~~slight optimization (started)
++ //lbra// are converted to //jmp// (save one cylce), the instruction is one byte shorter, this byte is filled with a NOP (AS09 does the same, otherwise more passes are needed, since addresses and memory keeps changing)
++ //lbsr// are converted to //jsr// (see above)
++ //jmp// with jumps over a short range are converted to //bra// (see above) 
++ other long branches are not converted to shortbranches, since the //nop// filler would waste the cycles - an information is given in output nonetheless
+- short branches are converted to long branches if offset is to high (warning is given in output)
+- still more compatability added
+- //lo// was added befor, I forgot //hi//...
+- assi saves "*.CNT" files (for dissi) after successfull assembly
+- comments on macro lines are now associated with the "lines" created from the macro, not with the "address" where the macro was defined (in the source)
+- bug from original fixed, a branch defined by offset, rather than by label was not handled correctly (e.g. BNE $6 would jump to address $6 rather than 6 bytes ahead)
+- bug from original, CWAI was treated as an inherent instruction, although it expects an immediate parameter
+- added pseudo opcode "bank x", so that assi can discern different main files, and give output to other programs in the building chain.
+- TFR a, b now works too! (space is ignored)
+- expressions > 65536 can be calculated (befor there was a limit to each value of 65536. This sounds ok, but if you want to calculate 1500000/25 _> that gives garbage!
+- if supports now "=", befor it only supported "=="
+- corrected File seperator in assi, befor it was hardcoded "\\", now "File.seperator"
+- support for "SP" as stack register (befor only "S" was allowed) 
+- added "Krumlinde" (sources to Thrust) compatabilty, which means many small steps towards more AS09 compatabitly, like implementing:
++ struct
++ cmap
++ and many other small things 
+
+
+**not compatible, not changed, and will not change:~~**
+- undefined labels in AS09 are initialized with 0, so you can check if a label is defined by 
+~~//if LABEL != 0//~~
+- asmj has a "proper" "//ifdef//" syntax, I like that better!
+- actually - as an option that **IS** supported now
+
+:h1 Differences to AS09
+There are a few differences which I did not "correct", since it either was trivial or would have resulted in very huge changes to asmj internally.
+Following are the differences I am aware of:
+- "** * **" the Symbol for HERE. In AS09 this symbol represents the **begin** of the current instruction. In asmj the "** * **" represents the address **after** the current instruction!~~
+that means a code like ~~
+______blo____*+4____ in AS09 translates to $25 $02~~
+~~
+To achieve the same in assi:~~  
+______blo____*+2____ in Assi translates to $25 $02~~
+(This 
+a) can not be easily changed, since assi uses the "*" symbol for internal calculations quite regularily
+b) the usage of asmj (if you look at the resulting machine code) is more "real" )
+
+- if~~
+asmj can as of yet not concatinate conditions with && or ||. Here you have to use more than one if to circumvent
+- if - second...~~
+ asmj has two sets of if's one for expressions, this is the "normal" if, and one set for string comparison ifeq.
+- optmize~~
+optimization is not as "good" as AS09 (no optimize for long branches to short branches e.g.)
+
+
+
+
+
+
+
+

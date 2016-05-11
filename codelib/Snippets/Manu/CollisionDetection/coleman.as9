@@ -1,0 +1,199 @@
+; ### Public Domain for all Vecfreaks
+; ### Collision detection example v.2
+; ### with joystick reading too..
+; ### Code & comments by man@sci.fi
+; ### Compiles fine with as09.exe
+
+; ### Needed BIOS routines
+
+WAITRECAL	equ	$f192
+INTENSITY	equ	$f2ab
+PRINTSTR	equ	$f37a
+MOVEPEN		equ	$f2fc
+MOVEDRAW	equ	$f3b7
+RESET0REF	equ	$f354
+
+JOYDIGITAL	equ	$f1f8	; Reads joystick positions
+JOY1XENABLE	equ	$c81f	; Enables joystick 1 X
+JOY1YENABLE	equ	$c820	; Enables joystick 1 Y
+JOY2XENABLE	equ	$c821	; Enables joystick 2 X
+JOY2YENABLE	equ	$c822	; Enables joystick 2 Y
+JOY1X		equ	$c81b	; Joystick 1 left/right
+JOY1Y		equ	$c81c	; Joystick 1 up/down
+COLLTEST	equ	$f8ff	; Collision detection
+
+player1y	equ	$c880	; Variable for Player 1 Y-Coordinate
+player1x	equ	$c881	; Variable for Player 1 X-Coordinate
+target1y	equ	$c882	; Variable for target's Y-Coordinate
+target1x	equ	$c883	; Variable for target's X-Coordinate
+
+; ### Here we go.
+
+	org	0		; Da Beginning
+
+; ### The required init block.
+
+	fcb	$67,$20		 
+	fcc	"GCE MANU"
+	fcb	$80		; All text ends with $80
+	fdb	nomusic		; Play nomusic
+	fdb	$f850,$30b8	; Width, height,y-position, x-position
+	fcc	"COLLISION TEST"
+	fcb	$80,$0		; Init block ends with $0
+
+; ### Set the variables
+
+	clra
+	sta	player1x	; Player1 starts at 0,0
+	sta	player1y
+
+	lda	#50		; Target is at 50,50
+	sta	target1x
+	sta	target1y
+
+; ### Okay, this sets up the joystick checks, and only
+; ### allows them for joystick 1, thus saving us a few
+; ### hundred cycles. Don't forget to set joystick 2
+; ### to 0, if you don't need it.
+
+	lda	#1		; 1 is the flag to enable
+	sta	JOY1XENABLE	; joystick 1 X
+	lda	#3		; 3 is the flag to enable
+	sta	JOY1YENABLE	; joystick 1 Y
+	lda	#0
+	sta	JOY2XENABLE	; 5 would enable this
+	sta	JOY2YENABLE	; 7 would enable this
+
+tikku	jsr	WAITRECAL	; BIOS recalibration
+
+; ### Draw the two boxes
+
+	lda	#95		
+	jsr	INTENSITY	; Sets intensity to 95	
+
+; ### First box where the joystick is
+	
+	lda	player1y	; Y-coordinate
+	ldb	player1x	; X-coordinate
+	jsr	MOVEPEN	
+	ldx	#box		; Get the vector list
+	lda	#4 		; Number of lines
+	ldb	#127		; Scaling 
+				; (Collision detection assumes it is 127, anyways)
+	jsr	MOVEDRAW	; Draw the vector list
+
+; ### Second box wherever
+
+	jsr	RESET0REF	; 
+	lda	target1y	; Y-coordinate
+	ldb	target1x	; X-coordinate
+	jsr	MOVEPEN	
+	ldx	#box2		; Get the vector list
+	lda	#4 		; Number of lines
+	ldb	#127		; Scaling 
+	jsr	MOVEDRAW	; Draw the vector list
+
+; ### Here begins the actual joystick reading.
+
+	jsr	JOYDIGITAL	; Reads joystick
+	lda	JOY1X		; Joy 1 X position to A
+	lbeq	noxmove		; If 0 -> jump to noxmove
+	lbmi	lmove		; If negative -> lmove
+
+; ### If something else (positive)
+; ### the joystick has been moved right. Right.
+
+rmove	inc	player1x
+	bra	xready		; Jump to xready
+
+; ### Joystick has been moved left.
+
+lmove	dec	player1x
+
+; ### Joystick hasn't been moved left or right.
+; ### Done with checking if the joystick
+; ### was moved left or right, now checking
+; ### if it was moved up or down.
+
+noxmove				; If something special happened here
+
+xready	lda	JOY1Y		; Joy 1 Y position to A
+	beq	noymove		; If 0 -> jump to noymove
+	bmi	dmove		; If negative -> dmove
+
+; ### If something else (positive)
+; ### the joystick has been moved up.
+
+umove	inc	player1y
+	bra	yready
+
+; ### Joystick has been moved down.
+
+dmove	dec	player1y
+
+; ### Joystick hasn't been moved up or down.
+
+noymove				; If something special would happen here
+
+; ########################################################
+;  ##### HERE BEGINS THE ACTUAL COLLISION DETECTION #####
+;   ####################################################
+;    #################################################
+
+yready
+	ldx     player1y        ; Y/X Coordinates of object 1
+        ldy     target1y        ; Y/X Coordinates of object 2
+				; As far I understand, these load
+				; both Y and X coordinates, because
+				; they are stored one after the other
+				; in the memory.
+        lda	#40		; (Height of object #1 + Height of object #2)/2
+	ldb	#30		; (Width of object #1 + Width of object #2)/2
+				; Thanks to Alex H.
+        jsr   	COLLTEST	; Check for collision
+        bcc	alldone		; Branch to 'alldone' if no collision 
+				; bcs would branch if collision
+	
+; ### If collision happened, display a simple text
+
+	jsr	RESET0REF	; 
+	lda	#100		; Set intensity	
+	jsr	INTENSITY	; as 100 (pretty bright)
+	lda	#100		; Y-coordinate
+	ldb	#-20		; X-coordinate
+        ldu     #touching       ; Get the text
+	jsr 	PRINTSTR
+
+;    #################################################
+;   ####################################################
+;  ##### THUS ENDED THE ACTUAL COLLISION DETECTION  #####
+; ########################################################
+
+; ### The collision detection is always restricted to a 
+; ### rectangle shaped area. If you have something more
+; ### complicated, you have to set up several test or just
+; ### accept the facts and guestimate the height and width.
+
+; ### Done with everything - so let's go
+; ### back to the beginning and do it all again.
+
+alldone	
+	lbra 	tikku		; Go back to beginning
+
+; ### You need LBRA, because BRA is too short a jump
+; ### to jump to the beginning all the way from here
+
+; ### Then the vector list for the objects
+; ### And needed text
+
+touching
+	fcc	"TOUCHING!"
+	fcb	$80
+
+box	fcb	-30,20,60,0,0,-40,-60,0,0,40	; 60 high, 40 wide
+box2	fcb	-10,10,20,0,0,-20,-20,0,0,20	; 20 high, 20 wide
+
+; ### The music data that plays about nothing
+
+nomusic fdb     $fee8,$feb6
+        fcb     $28,$08,$0,$80

@@ -1,0 +1,13 @@
+; codeGen Move start
+                    LDD      #%YRELPOS%                   ; A = 0; B = Y 
+                    STD      VIA_port_b 
+                    LDB      #%XRELPOS% 
+                    INC      VIA_port_b                   ;Disable mux 
+                    STB      VIA_port_a                   ;Send X to A/D 
+                    STA      VIA_t1_cnt_hi                ;enable timer 1 
+                    LDA      #$40                         ;B-reg = T1 interrupt bit 
+T1_WAIT_LOOP%UID%: 
+                    BITA     VIA_int_flags                ;Wait for T1 to time out 
+                    BEQ      T1_WAIT_LOOP%UID%            ; 
+; codeGen Move end
+

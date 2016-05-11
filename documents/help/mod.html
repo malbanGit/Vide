@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'></meta>
+<title>Mod</title>
+</head>
+<body>
+<hr />
+<h1>Mod</h1>
+
+<p>Mod to vectrex conversion is not an entirely trivial thing. Here a couple of notes:</p>
+
+<ul><li>
+<p>&larr;the orginal MOD has 4 voices (later versions can have even more than 4)</p>
+</li><li>
+<p>&rarr;vectrex only as 3 voices</p>
+</li><li>
+<p>&larr;MODs play samples</p>
+</li><li>
+<p>&rarr;although vectrex can be brought to play samples, it is not its "natural" cause (unlike theg good old Amiga), therefor vectrex will play generated sound after conversion (not samples)</p>
+</li><li>
+<p>&larr;because MODs play samples there is no way to "auto-map" one instrument (sample) to a PSG setting (something instrument like), since every MOD can have different samples</p>
+</li><li>
+<p>&rarr;not all samples have a "fitting" counterpart in vectrex "instruments".   </p>
+</li></ul>
+
+<p>Therefor:<br />
+In order to achieve conversion results which are at least somewhat pleasing, you as a user have to help!</p>
+
+<ol><li>
+<p>You must tell which of the 4 voices are supposed to be matched to the three vectrex voices</p>
+</li><li>
+<p>You must tell which of the instruments(samples) of the MOD are mapped to what PSG settings [The vectrex mod-routines use the BIOS sound playing routines]</p>
+</li></ol>
+
+<p>(This might not be an easy task, since there are two stumbling blocks:
+<ol><li>
+<p>Mod writers often do not name their instruments very descriptive</p>
+</li><li>
+<p>You have to know how the vectrex sound routines work in order to find settings for "instruments")</p>
+</li></ol>
+</p>
+</body>
+</html>

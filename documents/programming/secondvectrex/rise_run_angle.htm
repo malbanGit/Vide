@@ -1,0 +1,44 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Rise_Run_Angle</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Rise_Run_Angle ($F593)</p>
+
+<p>Given a (rise,run) pair, this routine calculates the angle
+which corresponds to that (rise,run) pair. The returned angle is
+relative to the x-axis (+ is CCW), so to convert it to a Vectrex
+angle (relative to the y-axis, + is CCW), you must subtract the
+number 0x10 (90 degrees) from the returned value. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $C8</p>
+
+<p>A-reg = rise value</p>
+
+<p>B-reg = run value</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<p>A-reg = the angle from the x-axis</p>
+
+<p>B-reg = the angle from the x-axis</p>
+
+<p>All other registers preserved.</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F593">Source</a></p>
+</body>
+</html>

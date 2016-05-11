@@ -1,0 +1,42 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Compare_Score ($F8C7)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Compare_Score ($F8C7)</p>
+
+<p>This routine will compare two BCD score strings, to determine
+which one is higher. The two strings are pointed to by the U and
+X registers. Depending upon how the scores compare, one of the
+following values will be returned in the A-register: </p>
+
+<blockquote>
+    <p>1) The scores are the same: a = 0<br>
+    2) X score &gt; U score: a = 1<br>
+    3) U score &gt; X score: a = 2<br>
+    </p>
+</blockquote>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>X-reg points to first score string (terminated with $80)</p>
+    <p>U-reg points to second score string</p>
+    <p>&nbsp;</p>
+</blockquote>
+
+<p>EXIT: </p>
+
+<blockquote>
+    <p>A-reg returns result of the compare</p>
+    <p>B-reg trashed</p>
+</blockquote>
+<p><a href="bios.htm#F8C7">Source</a></p>
+</body>
+</html>

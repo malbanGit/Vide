@@ -1,0 +1,53 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Draw_VLp ($F410)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Draw_VLp ($F410)</p>
+
+<p>This routine draws patterned lines using the vector list
+pointed to by the X-register. The current scale factor is used.
+The vector ist has the following format: </p>
+
+<blockquote>
+    <p>pattern, rel y, rel x<br>
+    pattern, rel y, rel x<br>
+    . . .<br>
+    . . .<br>
+    pattern, rel y, rel x<br>
+    0x01<br>
+    </p>
+</blockquote>
+
+<p>The list is terminated by a pattern byte with the high bit
+cleared.</p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $D0</p>
+    <p>X-reg points to the vector list</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<blockquote>
+    <p>X-reg points to the terminator byte</p>
+    <p>D-reg trashed</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F410">Source</a></p>
+</body>
+</html>

@@ -1,0 +1,71 @@
+:title dissi - indexed addressing
+:image indexadressing.png|indexed adressing modes
+
+Dissi generates data (instead of code), if the postbyte of an indexed instruction is not as described in the above official table.
+
+To be exact here an extract of the dissi corresponding source code ("DASM6809.java"):~~
+
+:div code
+ ____reg=(pb>>5)&0x3;~~
+____~~
+____\/\/ filter out not allowed combinations~~
+____\/\/ 1xxx 0111~~
+____\/\/ 1xxx 1010~~
+____\/\/ 1xxx 1110~~
+____if ( \((pb & 0x8f) == 0x87) ||~~
+________\((pb & 0x8f) == 0x8a) ||~~
+________\((pb & 0x8f) == 0x8e)  )~~
+____{~~
+________return incorrectDisassembleFoundAt(currentPC, "Illegal postbyte value for indexed addressing, bit combination of 4 lower bits.");                        ~~
+____}         ~~       
+____\/\/ filter out not allowed combinations~~
+____\/\/ 1xx1 0010~~
+____\/\/ 1xx1 0000~~
+____if ( \((pb & 0x9f) == 0x92) ||~~
+________\((pb & 0x9f) == 0x90) )~~
+____{~~
+________return incorrectDisassembleFoundAt(currentPC, "Illegal postbyte value ,-R or ,R+  not allowed for indirect indexed addressing.");   ~~                     
+____}    ~~      
+                ~~
+____\/\/ filter out not allowed combinations~~
+____\/\/ 1xx0 1111~~
+____if ( \((pb & 0x9f) == 0x8f) )~~
+____{~~
+________return incorrectDisassembleFoundAt(currentPC, "Illegal postbyte value 16 bit extended not allowed in indexed (non indirect) addressing.");                        ~~
+____}          ~~
+____\/\/ filter out not allowed combinations~~
+____\/\/ 1011 1111~~
+____\/\/ 1101 1111~~
+____\/\/ 1111 1111~~
+____if ( \((pb & 0xff) == 0xbf) ||~~
+________\((pb & 0xff) == 0xdf) ||~~
+________\((pb & 0xff) == 0xff)  )~~
+____{~~
+________return incorrectDisassembleFoundAt(currentPC, "Illegal postbyte value 16 bit indirect indexed addressing expects bits 5 and 6 to be 0");                        ~~
+____}          ~~
+                ~~
+____\/\/ 1xxx 1100~~
+____\/\/ 1xxx 1101~~
+____if \(( (pb&0x8f) == 0x8d) || ( (pb&0x8f) == 0x8c\))~~
+____{~~
+________\/\/ reg == PC!~~
+________reg = 4;~~
+________~~
+________if ( \((pb>>4) & 0x6) != 0)~~
+________{~~
+________________/*                    ~~
+________________________1XX? ????~~
+________________________X bits can be anything,~~
+________________________asmj converts "sta <$30,pc"~~
+________________________to "ec 8c 30"~~
+________________________which is correct~~
+________________________but "ec ec 30"~~
+________________________but "ec dc 30"~~
+________________________but "ec bc 30" are also correct, but only the first 100% ressembles old binary~~
+________________________therefor the below three variants must be converted to DB, with comment not to convert to code!~~
+________________________this is true for both 16 bit or 8 bit variant!~~
+________________*/                    ~~
+________________return incorrectDisassembleFoundAt(currentPC, "Ambiguous pc index addressing, postbytes bit 5 and 6 are non zero (assi generates 0).");                        ~~
+________}~~
+____}~~
+:/div

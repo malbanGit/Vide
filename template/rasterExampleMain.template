@@ -1,0 +1,55 @@
+;***************************************************************************
+; DEFINE SECTION
+;***************************************************************************
+; load vectrex bios routine definitions
+                    INCLUDE  "VECTREX.I"                  ; vectrex function includes
+WIDTH               equ      #WIDTH# 
+HEIGHT              equ      #HEIGHT# 
+XPOS                equ      #XPOS# 
+YPOS                equ      #YPOS# 
+;***************************************************************************
+; Variable / RAM SECTION
+;***************************************************************************
+; insert your variables (RAM usage) in the BSS section
+; user RAM starts at $c880 
+                    BSS      
+                    ORG      $c880                        ; start of our ram space 
+;***************************************************************************
+; HEADER SECTION
+;***************************************************************************
+; The cartridge ROM starts at address 0
+                    CODE     
+                    ORG      0 
+; the first few bytes are mandatory, otherwise the BIOS will not load
+; the ROM file, and will start MineStorm instead
+                    DB       "g GCE 2016", $80 ; 'g' is copyright sign
+                    DW       music1                       ; music from the rom 
+                    DB       $F8, $50, $20, -$80          ; hight, width, rel y, rel x (from 0,0) 
+                    DB       "RASTER EXAMPLE", $80              ; some game information, ending with $80
+                    DB       0                            ; end of game header 
+;***************************************************************************
+; CODE SECTION
+;***************************************************************************
+; here the cartridge program starts off
+main: 
+                    JSR      Wait_Recal                   ; Vectrex BIOS recalibration 
+                    JSR      Intensity_5F                 ; Sets the intensity of the 
+                                                          ; vector beam to $5f 
+                    LDA      #YPOS                        ; Text position relative Y 
+                    LDB      #XPOS                        ; Text position relative X 
+                    jsr      Moveto_d 
+                    lda      #-HEIGHT 
+                    sta      Vec_Text_Height 
+                    lda      #WIDTH 
+                    sta      Vec_Text_Width 
+
+                    LDU      ##RASTERDATA# 
+                    JSR      draw_raster_image            ; Vectrex BIOS print routine 
+
+                    BRA      main                         ; and repeat forever 
+
+;***************************************************************************
+; DATA SECTION
+;***************************************************************************
+                    include  "rasterDraw.asm"
+                    include  "#DATAFILE#"

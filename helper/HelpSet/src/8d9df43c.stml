@@ -1,0 +1,8 @@
+:title viai
+:image viai.png|viai window
+
+Well - also straight forward... all PIA 6522 registers and lines are shown.
+
+They are displayed in hex and in binary form.
+
+Some tooltips enhance the show...

@@ -1,0 +1,15 @@
+Use analogue joystick(s) to control the V-Theremin.
+
+Button 1 = Toggles Mute
+Button 2 = Toggles between 1 and 2 analog sticks for control.
+Button 4 (on either stick) allows you to crudely play melodies without moving up and down to control volume.
+
+When using 1 joystick :
+
+Joy 1 Y Axis = Volume
+Joy 1 X Axis = Pitch
+
+When using 2 joysticks :
+
+Joy 1 Y Axis = Volume                                                                                                
+Joy 2 X Axis = Pitch

@@ -1,0 +1,191 @@
+Blitz! 
+------
+   Will you have a championship season or just be an also-ran?  You're in
+control as head coach of this championship caliber squad.  Run, pass, punt,
+kick field goals -- all the excitement of a real game.  Play against the
+computer's tough defense or invite a visiting coach to join in a real
+showdown!
+
+Controls
+--------
+   For two-player game play, a second control panel is needed.
+
+Joystick:  On offense, moves the ball carrier around the field.  On defense,
+           controls one of your men.
+Button 1:  Strong left or Field Goal Select.  Moves your man into a strong
+           left formation.  Also used to select field goal formation.
+Button 2:  Power Middle or Punt Select.  Moves your man into a power middle
+           formation.  Also used to select punt formation.
+Button 3:  Spread or Pass or Kick.  Moves your men into a spread formation.
+           Also used to release a pass or kick.
+Button 4:  Strong Right or Snap.  Moves your men into a strong right
+           formation.  Also used to snap the ball.
+
+Game Selection
+--------------
+   You have the choice of 3 game options.  Each game operates the same way,
+but they vary in speed and difficulty.  Game 1 is the slowest and easiest
+while Game 3 is the fastest and most difficult.
+
+Starting Game Play
+------------------
+   Once you select the number of players, and the game number, press button 4
+for kick-off formation.  In a one player game, you control the "X" team and
+the computer controls the "O" team.  In a two player game, the left control
+panel controls the "O" team.
+
+Game Play
+---------
+   As the crowd cheer, both sides take the field and prepare for the kick-off
+of a 5 minute game.  The object of the is the same as the pros -- try to get
+10 yards in 4 downs on your way to a touchdown.  The down number and yards to
+go are shown at the bottom of the screen and the first down marker is shown
+on the left side of the field.
+   In a one-player game, the kick-off will happen automatically.  In a two-
+player game, the "O" player (the one using the left control panel) will press
+button 3 to kick-off.  Once the ball lands, the offensive player will have to
+recover the ball and run back downfield.  Once tackled, the field will rotate
+180 degrees because the offense will ALWAYS move from the bottom of the
+screen to the top.
+   At the start of each down, the offensive player selects his team's
+formation with one of the four buttons.  If two people are playing, the
+defensive player then chooses a formation.  In a one player game, the
+computer will select a defensive formation.  As the offensive player, you
+control the brightly lit character on the field.  You can move him anywhere
+behind the line of scrimmage prior to the snap of the ball.  Once you snap
+the ball, by pressing button 4, you control the player with the ball.  The
+ball will always be snapped to the player immediately behind the ball.  As a
+defensive player, you always control the brightly lit defensive character.
+   Just like the real game, you better watch the clock, too.  You only have
+30 seconds to snap the ball once the formations are set.  Otherwise, a delay
+of game penalty will be called.  Once the ball is snapped you have the
+options of running, passing, punting, or attempting a field goal.  You're the
+coach, so anticipate the action as you lead your team down the field.
+
+Positions
+---------
+   There are 5 basic positions you can line your men up in:
+      [NOTE: the "O" is the football.]
+
+         Strong Left                          Power Middle
+         (Button 1)                            (Button 2)
+              O                                    O
+                                               X X   X X
+         X X     X                                 X
+              X                                    X
+       X      X             Spread
+                           (Button 3)
+                               O
+                             X   X
+                               X
+                               X
+                          X         X
+        Strong Right                         Punting of Field Goal
+         (Button 4)                         (See "Kicking" section)
+           O                                           O
+                                                   X       X
+        X     X X                                X            X
+           X                                               X
+           X      X                                    X
+
+Running
+-------
+   You can run on any down.  Push the joystick to move your player in any
+direction.
+
+Passing
+-------
+   You also have the options to pass on any down.  To pass the ball, first
+snap to your quarterback.  Be careful to stay behind the line of scrimmage! 
+Wait for one of your men to get clear, aim the joystick toward him, and then
+press button 3 to release the pass.  You can continue to control the ball
+slightly by using the joystick until the pass is caught or falls to the
+ground.  Make sure an opponent isn't in range of your pass because you might
+get intercepted!  If the pass is complete, you control the receiver and can
+continue to run downfield.
+
+Kicking
+-------
+   You also have the option of punting and kicking field goals.  To attempt a
+punt, first set your men up in any formation.  Once your opponent sets up his
+men, press button 2 to change your men to punt formation.  Press button 4 to
+snap the ball to your punter.  Just like passing, point your joystick in the
+desired direction of your kick and press button 3.
+   To kick a field goal, first select any formation.  Once your opponent sets
+up his men, press button 3 to change your men to field goal formation.  The
+goal posts will appear.  Snap the ball, line up with the goal posts, aim the
+direction of your kick with the joystick and press button 3 to actually kick. 
+To punt of kick, you must be behind the line of scrimmage.  From either punt
+or field goal formation you have the option of running with the ball once the
+ball is snapped.  However, you do not have the option of passing from either
+formation.
+
+Getting Tackled
+---------------
+   Once you are tackled by an opponent or run out of bounds, the official
+will blow a whistle and the play will be over.  Both teams come out again
+ready for the next play.
+
+Penalties
+---------
+   There are two penalties in Blitz!:
+
+DELAY OF GAME:  If you take more that 30 seconds to snap the ball after the
+     formations are set, this penalty will be called.  You will lose five
+     yards.  The clock will not start again until the ball is snapped.
+OFFSIDES:  If you are across the line of scrimmage when the ball is snapped,
+     this penalty will be called.  You will lose five yards.  The clock will
+     start again as soon as your new formation is in place.
+
+   Don't forget, Blitz! is just like real football.  Therefore, the ball will
+be turned over to your opponent if you do not make a first down in 4 tries.
+
+One Player Game
+---------------
+   When playing against the computer, you are always the offensive team. 
+When the computer takes possession of the ball he will either punt or attempt
+a field goal.  However, remember to set up a defensive formation before he
+can attempt to kick or punt.
+
+Self Play Mode
+--------------
+   If you do not choose a formation within 2 minutes, the game will go into a
+self play mode.  Formations and snaps will happen automatically.  You will
+still have control over the movements of the players, but the computer will
+continue to choose formations and snap the ball until the game is over.  You
+can end the self play mode only by pressing the Reset Button on the console.
+
+Scoring
+-------
+   There are three ways to score:
+
+     Action          How Occurs                           Points
+   ---------------------------------------------------------------------
+     Touchdown       Carry or pass the ball into            7
+                     opponent's end zone.
+     Field Goal      Kick ball through                      3
+                     opponent's goal posts.
+     Safety          Tackle opponent in his                 2
+                     own end zone.
+
+   After each score the ball must be kicked-off to continue the game.  In a
+one player game, the kick-off will happen automatically.  In a two player
+game, the scoring team should press button 3 to kick-off.
+
+Statistics
+----------
+   At the end of the game, a statistic page will appear, recapping the game. 
+It will show the following statistic for both the Home Team (player 1) and
+the Visiting Team (player 2 or computer):
+
+                           Score
+                           1st Downs
+                           Yds Rushing
+                           Yds Passing
+
+   Additionally, the longest single run and longest single pass of the game
+will be listed.
+
+
+z_morganrw@ccsvax.sfasu.edu
+

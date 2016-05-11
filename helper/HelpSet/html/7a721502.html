@@ -1,0 +1,165 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=7a721502 -->
+<title>assi</title>
+</head>
+<body class="doc">
+<h1>assi</h1>
+
+<p>There is no wonderfull screenshot available, since assi is more or less "internal".</p>
+
+<p>First:<br />
+</p>
+
+<p>Assi is a code adaption of a java 6809 assembler called "asmj".<br />
+ (sourceforge: <a target="_blank" href="http://sourceforge.net/projects/asmj/">http://sourceforge.net/projects/asmj/</a>) developed by <i>Bill Yakowenko</i>. <br />
+The sources in the sourceforge zip, the svn version and the binaries are not complete nor compatible. I tried reaching out to the author, but have received no feedback yet. I fixed the part I am interested in - so that it works for me. The source is public domain. <br />
+<b> Thank you for programming ASMJ and for making it available as public domain! </b></p>
+
+<p>The assembler syntax of the original asmj is still in working order! See the section in this documentation.</p>
+
+<p>Regardless of that I made many changes to the assembler - pragmatic changes that do work, but didn't make the source more compatible. I have not even tried. From the original sources I pried out the 6809 part I needed and fed the rest to the wolves.</p>
+
+<p>In general I tried adding compatibilty to the assembler from  Frank A. Vorstenbosch, Kingswood Software, AS09 - since that was for a long time my assembler of choice and nearly all of my own programs I did for vectrex are AS09 written.</p>
+
+<p>Here I will write down the changes I did to asmj.<br />
+(in no particular order)<br />
+</p>
+
+<ul><li>
+<p>assi is not so sensitive about whitespaces as asmj. Whereever it finds some, it ignores them. The original asmj would throw errors if an expression or a list of binary data contained any spaces.</p>
+</li><li>
+<p>added pseudo opcode "direct" for direct pages register recognition</p>
+</li><li>
+<p>added "&lt;" prefix for direct addressing</p>
+</li><li>
+<p>added pseudo opcodes for data handling (db, dw, ds)</p>
+</li><li>
+<p>added operator "lo" and "hi", to get the lower/higher part of a 16bit address</p>
+</li><li>
+<p>added pseudo macro opcode "local" to predefine a local macro label</p>
+</li><li>
+<p>macros can now have "named" parameters</p>
+</li><li>
+<p>added a second "escape"-sequence for macro parameters (as09 uses \, asmj uses &amp;)</p>
+</li><li>
+<p>if assi knows about the DP register and an "extended" address comes along which fits &rarr; it will use direct addressing (jsr/jmp are dangerous, I left them out!)</p>
+</li><li>
+<p>assi accepts ";" as a comment char</p>
+</li><li>
+<p>assi can do end of line comments</p>
+</li><li>
+<p>assi accepts "_" as a first label character</p>
+</li><li>
+<p>assi accepts ":" as a label "end marker"</p>
+</li><li>
+<p>assi register names can be both, upper and lower case!</p>
+</li><li>
+<p>"=" synonym for "equ"</p>
+</li><li>
+<p>flag for automatic use long branches if short ones don't fit</p>
+</li><li>
+<p>long range branches can't be out of range (was a bug in the original asmj)</p>
+</li><li>
+<p>more freely use of "#" possible, is not syntax correct, but doesn't do any harm either</p>
+</li><li>
+<p>BSS, DATA, CODE, STRUCT, ALIGN, PAGE, TITLE, LIST, NOLIST,as dummy opcodes (they do nothing yet - but do not give compiler errors either :-))</p>
+</li><li>
+<p>OPT, NOOPT <br />
+slight optimization (started)
+<ul><li>
+<p><i>lbra</i> are converted to <i>jmp</i> (save one cylce), the instruction is one byte shorter, this byte is filled with a NOP (AS09 does the same, otherwise more passes are needed, since addresses and memory keeps changing)</p>
+</li><li>
+<p><i>lbsr</i> are converted to <i>jsr</i> (see above)</p>
+</li><li>
+<p><i>jmp</i> with jumps over a short range are converted to <i>bra</i> (see above) </p>
+</li><li>
+<p>other long branches are not converted to shortbranches, since the <i>nop</i> filler would waste the cycles - an information is given in output nonetheless</p>
+</li></ul>
+</p>
+</li><li>
+<p>short branches are converted to long branches if offset is to high (warning is given in output)</p>
+</li><li>
+<p>still more compatability added</p>
+</li><li>
+<p><i>lo</i> was added befor, I forgot <i>hi</i>...</p>
+</li><li>
+<p>assi saves "*.CNT" files (for dissi) after successfull assembly</p>
+</li><li>
+<p>comments on macro lines are now associated with the "lines" created from the macro, not with the "address" where the macro was defined (in the source)</p>
+</li><li>
+<p>bug from original fixed, a branch defined by offset, rather than by label was not handled correctly (e.g. BNE $6 would jump to address $6 rather than 6 bytes ahead)</p>
+</li><li>
+<p>bug from original, CWAI was treated as an inherent instruction, although it expects an immediate parameter</p>
+</li><li>
+<p>added pseudo opcode "bank x", so that assi can discern different main files, and give output to other programs in the building chain.</p>
+</li><li>
+<p>TFR a, b now works too! (space is ignored)</p>
+</li><li>
+<p>expressions &gt; 65536 can be calculated (befor there was a limit to each value of 65536. This sounds ok, but if you want to calculate 1500000/25 &nbsp;&gt; that gives garbage!</p>
+</li><li>
+<p>if supports now "=", befor it only supported "=="</p>
+</li><li>
+<p>corrected File seperator in assi, befor it was hardcoded "\", now "File.seperator"</p>
+</li><li>
+<p>support for "SP" as stack register (befor only "S" was allowed) </p>
+</li><li>
+<p>added "Krumlinde" (sources to Thrust) compatabilty, which means many small steps towards more AS09 compatabitly, like implementing:
+<ul><li>
+<p>struct</p>
+</li><li>
+<p>cmap</p>
+</li><li>
+<p>and many other small things </p>
+</li></ul>
+</p>
+</li></ul>
+
+<p><b>not compatible, not changed, and will not change:<br />
+</b>
+<ul><li>
+<p>undefined labels in AS09 are initialized with 0, so you can check if a label is defined by  <br />
+<i>if LABEL != 0</i><br />
+</p>
+</li><li>
+<p>asmj has a "proper" "<i>ifdef</i>" syntax, I like that better!</p>
+</li><li>
+<p>actually - as an option that <b>IS</b> supported now</p>
+</li></ul>
+</p>
+<h1>Differences to AS09</h1>
+
+<p>There are a few differences which I did not "correct", since it either was trivial or would have resulted in very huge changes to asmj internally. Following are the differences I am aware of:
+<ul><li>
+<p>"<b> * </b>" the Symbol for HERE. In AS09 this symbol represents the <b>begin</b> of the current instruction. In asmj the "<b> * </b>" represents the address <b>after</b> the current instruction!<br />
+that means a code like <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blo&nbsp;&nbsp;&nbsp;&nbsp;*+4&nbsp;&nbsp;&nbsp;&nbsp; in AS09 translates to $25 $02<br />
+<br />
+To achieve the same in assi:<br />
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blo&nbsp;&nbsp;&nbsp;&nbsp;*+2&nbsp;&nbsp;&nbsp;&nbsp; in Assi translates to $25 $02<br />
+(This 
+<ol><li>
+<p>can not be easily changed, since assi uses the "*" symbol for internal calculations quite regularily</p>
+</li><li>
+<p>the usage of asmj (if you look at the resulting machine code) is more "real" )</p>
+</li></ol>
+</p>
+</li><li>
+<p>if<br />
+asmj can as of yet not concatinate conditions with &amp;&amp; or ||. Here you have to use more than one if to circumvent</p>
+</li><li>
+<p>if - second...<br />
+ asmj has two sets of if's one for expressions, this is the "normal" if, and one set for string comparison ifeq.</p>
+</li><li>
+<p>optmize<br />
+optimization is not as "good" as AS09 (no optimize for long branches to short branches e.g.)</p>
+</li></ul>
+</p>
+</body>
+</html>

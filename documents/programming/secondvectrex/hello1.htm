@@ -1,0 +1,146 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>HELLO WORLD (1)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>HELLO WORLD (1)</strong></font></p>
+
+<p>Well, the usual first, most simple program!</p>
+
+<p>Vectrex is capable of displaying simple texts on its screen.
+The easiest way to display a simple message is to use the ROM
+routines. For this example we will only use three BIOS functions.
+</p>
+
+<p>The text display function we will use is called Print_Str_d
+($F37A). It requires the direct page register to be set to $d0.
+It also requires 3 parameters: </p>
+
+<blockquote>
+    <p>U-reg points to string list<br>
+    A-reg = relative Y position<br>
+    B-reg = relative X position<br>
+    </p>
+</blockquote>
+
+<p>The second used BIOS function is responsible for a clean
+display. It is called Wait_Recal ($F192). This function should be
+called every 'display round'. It waits for a certain period of
+time, recalibrates the vector hardware, sets the pen to zero
+position and so on. It also sets DP to D0, so we don't have to do
+it. The BIOS default time to wait is 30000 cycles, which will
+display our vectors 50 times per second (if we have enough time).
+</p>
+
+<p>So he above function destroys some inner settings, as well as
+cleaning some others. The 'Wait_Recal' call is necessary for example to set
+the intensity after each round. This is not immediately obvious, since
+the program runs well on any vectrex - for a minute or so. But
+slowly the intensity information will 'drift' towards zero. After
+1 or 2 minutes you won't see our 'HELLO WORLD' any more if we do
+not set the intensity. There are BIOS functions for this. For the
+easiness of the example we pick a fixed intensity function,
+Intensity_5F ($F2A5). This function (quite obviously) sets the
+intensity to $5f, which is fairly bright, but not maximum ($7f). </p>
+
+<p>We don't have to worry about uninitialized BIOS stuff, because
+there is no such thing. When vectrex boots up it first
+initializes itself and its BIOS, so some default values are
+always present, like the above timer or a default text size. In
+this first example we do not change any of the default settings. </p>
+
+<p>Here a screenshot:</p>
+
+<p align="center"><img src="hello1.gif" align="absmiddle"
+width="321" height="471"></p>
+
+<p>Here is a source code to a most simple 'HELLO WORLD':</p>
+
+<blockquote>
+    <p><a href="hello1.asm">hello1.asm</a></p>
+</blockquote>
+
+<p>OK, let's start at the top of the source. First thing we do is
+to set some defines, so the source looks a bit more intuitive.
+You will probably know such things. Every modern
+compiler/assembler will allow defining of constants. In the next
+examples this section will be replaces by an 'include' directive,
+which (as you might have guessed) includes all possible global
+definitions. In this example we tell the assembler what ROM
+addresses our function names represent (sorry about being to
+obvious). </p>
+
+<p>Vectrex 'programs' (roms) always start at location 0. The
+first thing we need is a copyright information of GCE, &quot;g
+GCE&quot;. This string MUST be present in order for your program
+to work, the BIOS checks for it. If the above string is not found
+it will boot with minestorm instead! The string can be followed
+by any string you like. </p>
+
+<p>NOTE: only capital letters are supported, small letters
+represent special characters (like the copyright sign) (see <a
+href="appendixe.htm">appendix E</a>). Strings must always be
+terminates with a $80. Following that $80 is a word pointer to a
+music structure. I won't go into music structures at this point.
+For now it is enough to know that in the vectrex BIOS ROM 13
+pieces of music are integrated. Music1 is the power-on music,
+Crazy Coaster and Narrow Escape. Following is a 4 byte structure
+describing the format of the following text. First value is the
+height of the text. This is -8, since the text goes from top to
+bottom, than the width (positive, from left to right). Followed
+by the (not relative) coordinates Y, X. Than the string itself
+follows, terminated by a $80. It would be possible to include
+some other structures like this one (height, width, Y, X,
+&quot;STRING&quot;, $80). The game header finishes of with a 0. </p>
+
+<p>The byte following after the 0 is the first byte of code.
+Since we don't want to initialize anything we go right into our
+display loop from the start. The following steps are repeated
+eternally.</p>
+
+<blockquote>
+    <p>* At first we do call the BIOS function Wait_Recal,
+    calling this function at the beginning of every display round
+    insures a stable image (amongst other things). Since the
+    function does not expect any values and does not return
+    anything, a call is at this point enough. </p>
+    <p>* We than have to make sure our intensity stays the same
+    even after a Wait_Recal call. We call the function
+    Intensity_5F ($F2A5), which does exactly that. It sets the
+    vector intensity (brightness) to $5f. </p>
+    <p>* Next thing we do is prepare the call of the text display
+    function Print_Str_d. We load the U register with the address
+    of the to be displayed text. Since we just called Wait_Recal
+    our position on the vectrex screen should currently be known
+    and 0, 0. We load the relative Y coordinate to A. We load the
+    relative X coordinate to B. Since we just called Wait_Recal
+    we also know that DP is pointing to D0, which is required by
+    Print_Str_d. Thus we have prepared all there is for
+    Print_Str_d. </p>
+    <p>* Now let us call Print_Str_d. The text is displayed on
+    the screen. We are done with drawing the screen. Since that
+    is all we want our program to do we are finished at this
+    point. The only thing left to do is to make sure that the
+    screen gets repainted constantly, so we </p>
+    <p>* jump back to the top, and do everything again. At the
+    end of the source is our &quot;HELLO WORLD&quot; string
+    (again terminated by a $80). </p>
+</blockquote>
+
+<p>Done! This is your first running vectrex program! Wasn't hard
+was it?</p>
+
+<p align="center"><a href="modifying.htm">Next page</a> <a
+href="vectors.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

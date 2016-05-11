@@ -1,0 +1,151 @@
+PATRIOTS
+FOR THE VECTREX ARCADE SYSTEM
+BY JOHN DONDZILA
+PROGRAMMING, MANUAL AND ORIGINAL ARTWORK (C) 1996
+
+
+
+--------------------------------------------------------------------------------
+
+
+OBJECTIVE:
+
+Terrorist missiles are in flight and on route to your country. You 
+control the tracking system of the most advanced Patriot missile system 
+in the world.
+
+It is your mission to shoot down every incoming missile and protect the 
+cities in your country.
+
+ 
+
+GETTING STARTED
+
+With your Vectrex turned off, insert the Patriots game cartridge into 
+the Vectrex cartridge slot with the label side up.
+
+Inserting the cartridge upside down could possibly damage the cartridge 
+or your Vectrex.
+
+Turn the Vectrex on. You will see the familiar Vectrex start up screen 
+and shortly the Patriots introduction screen will appear.
+
+ 
+
+HOW TO PLAY:
+
+At any time during the Patriots title screen, press button 1 to begin.
+
+You will see a game option screen. Press button 2 to select the 
+targeting speed. 1 is slowest, 4 is fastest. Press button 4 to start 
+playing.
+
+When the game starts, you will see a crosshair in the center of the 
+screen.
+
+Use the joystick control to move the crosshair up, down or diagonally.
+
+If you feel the crosshair moves too slow, you may press button 1 at 
+any time during the game to change the speed of the crosshair.
+
+At the bottom left and right corners of the screen you will see two 
+rectangular objects. These are the Patriot missile launchers. As the 
+site moves around, the launchers will track your site.
+
+Pressing button 3 will fire a Patriot from the left launcher. Pressing 
+button 4 will fire a Patriot from the right launcher. The Patriot will 
+streak towards the last position of the crosshair at the time it was 
+fired. When the Patriot reaches this location it will detonate. When 
+it detonates, an explosion will grow in size and intensity.
+
+When that explosion reaches its peak, it will the shrink and fade. Any 
+enemy objects caught in the explosion before it starts to fade will be 
+destroyed.
+
+Underneath each launcher is a line. This line represents how many 
+Patriots that launcher has left. The line will grow shorter each time 
+you fire. When the line is gone, you have used up that launchers supply 
+of Patriots.
+
+The amount of Patriots that you have in supply will increase during 
+each level.
+
+At the bottom of the screen are six diamond shaped objects. These 
+objects represent your cities. If an enemy missile detonates too close 
+to a city, that city will be destroyed. When all six cities have been 
+destroyed, the game is over.
+
+ 
+
+THE ENEMY:
+
+Enemy missiles will start at the top of the screen They are represented 
+by bright white dots with dim lines showing their vapor trail. They 
+will close in on your cities and launchers When they hit the ground, 
+they will detonate. Any city or launcher caught in their explosion will 
+be destroyed
+
+To destoy a missile, target the bright dot and fire. Any missile caught 
+in your Patriot's explosion will be destroyed in the air. Any nearby 
+missiles or targets will also be caught in the explosion, resulting in 
+brilliant chain reactions.
+
+During the game, enemy planes and spacecraft will pass overhead. If you 
+do not destroy them quickly, they will launch more missiles at you and 
+your cities.
+
+Smart missiles will also appear during the game These diamond shaped 
+objects will home in on a single city or launcher. If a Patriot 
+detonates below a smart missile, the smart missile may be able to evade 
+the explosion and continue on course.
+
+When you have destroyed all of the enemy missiles in a level, you will 
+be awarded bonus points for remaining Patriots in your launchers and 
+any cities that have not been destroyed
+
+The amount of enemy missiles that attack will increase after each level
+
+If both of your Patriot launchers are destroyed or are empty, the game 
+will speed up rapidly to end the level
+
+ 
+
+SCORING:
+
+Your score is shown at the bottom center of the screen.
+
+The game score and level indicator will tell you alot.
+
+The first six levels are score multipliers. Any object hit will score 
+points multiplied by that score multiplier. The maximum multiplier is 6.
+
+Hit enemy missiles are 10 points
+Hit spaceships/planes are 25 points
+Hit smart missiles are 50 points
+Leftover patriots are 5 points each
+Surviving cities are 50 points each
+
+Everytime your score hits a multiple of 10,000 you will receive a bonus 
+city. Any city destroyed will be replaced by a bonus city. You can win 
+up to 6 bonus cities per game
+
+ 
+
+TIPS AND OTHER NOTES:
+
+Should you need to take a break to do something else, a pause feature 
+is also included in Patriots. During game play, you can press button 2 
+to pause the game. Press button 2 again to unpause the game.
+
+There is a secret game contained within the Patriots game program. 
+There are hints on the box cover and in this manual to help you find it.
+
+For information on other Vectrex and classic video game projects, visit 
+the author's web page at:
+
+http://www.monmouth.com/~pcjohn
+
+You can contact John Dondzila via E-Mail at:
+
+pcjohn@monmouth.com
+

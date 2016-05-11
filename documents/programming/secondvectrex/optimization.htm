@@ -1,0 +1,131 @@
+<html>
+
+<head>
+<title>Optimization for Vectrex Programs</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Optimization for Vectrex Programs</strong></font></p>
+
+<p>First, for some further information on this subject look at
+the 'vectors' section, the source for Vectrex Frogger and at the
+'progger.txt' file included with Vectrex Frogger. </p>
+
+<p>This will not be a full blown section of its own. I'll just
+give some tips and tricks I encountered/used. This is by no means
+complete. Perhaps some of it is even wrong, who knows, I'm not a
+pro, remember, I just write down some thoughts I have/had. </p>
+
+<p>General optimization techniques apply, as searching for good
+algorithms to do something instead of making up something on the
+fly. General assembler techniques are not really looked into in
+depth. Look at an assembler book for that. </p>
+
+<p>In all programming ever done you will encounter two ways of
+optimizing. One way for speed, the other for size. Both ways are
+usually mutual exclusive. I'll just go into the speed area a bit.
+The first vectrex programmers probably had to look after the size
+of their programs as well as the speed. But at RAM (ROM/EPROM
+that is) prices as they are today we don't really need to be
+concerned about space. We have 32KB we can fill with stuff. 32KB
+assembler programs for a 6809 processor really take some time to
+code. </p>
+
+<p>First thing you might want to look for in your program are
+what sections need optimizing. There is, for example, no need to
+speed optimize the initialization code. It probably doesn't
+matter if you initialize the next level in a hundreds or a tenth
+of a second. This is usually a place where you might think of
+space optimization instead of speed. </p>
+
+<p>The part of the code which has to run 50 times per second is
+another thing, here we are entering code that might be worth a
+second look. Even more interesting are sections of code which run
+many times per update round. Like vector positioning/drawing
+code. Perhaps collision detection stuff. Well, there is no
+general description of what code might be executed that is worth
+optimizing, you'll need some feeling for it. Don't worry, you'll
+know where to optimize once you start with your program. </p>
+
+<p>The way I usually go about writing a program is:</p>
+
+<blockquote>
+    <p>- think about it<br>
+    - program it in the most easy and intuitive way possibly<br>
+    - test/change till it works alright<br>
+    - start optimizing<br>
+    - repeat the last two steps, till satisfied<br>
+    </p>
+</blockquote>
+
+<p>There are probably many people who'll say, do it the right way
+(optimized) right at start. I don't think so, I find that very
+cumbersome. </p>
+
+<p>Anyway, do what you want, as you will do so anyway. Here are
+some points I would like to share:</p>
+
+<blockquote>
+    <p>- once the code is stable remove JSR/RTS, especially where
+    called many times per update round, each JSR/RTS takes 12
+    cycles<br>
+    <br>
+    - use macros instead of subroutines, they are equal in easy
+    changeability, but faster<br>
+    <br>
+    - at the end of your program check if there might be some
+    loop unrolling be done, at places this might save you many
+    cycles (vector lists, look at Vectrex Frogger for an example)<br>
+    <br>
+    - if the last thing in a subroutine is the calling of another
+    subroutine, you can as well jump there, this saves a couple
+    of cycles (and space)<br>
+    <br>
+    - if you can, avoid long branches, they take longer and take
+    two bytes more of space, since their are second page opcodes<br>
+    <br>
+    - if you can, avoid Y register usage, cause this one is too,
+    a second page opcode, it takes longer and uses more space<br>
+    <br>
+    - when finalizing your code, sort you code section, look
+    where you access what RAM/VIA area most, and set the DP
+    register accordingly, you can really save cycles this way and
+    SPACE. I found it convenient to use a macro for changing the
+    DP register, since you can place a 'direct' pseudo opcode
+    within that macro<br>
+    <br>
+    - if you can, do a LDD instead of LDA, LDB, it saves space
+    and cycles, this often occurs when loading Y, X coordinates,
+    and different values for PIA registers<br>
+    <br>
+    - look at the *.lst file the assembler creates (with the
+    correct options), you will clearly see where you waste cycles
+    and space<br>
+    <br>
+    - create a macro library of BIOS routines you use often,
+    perhaps optimize the routines for your needs, the BIOS
+    routines are quite broad in their functionality, you usually
+    use only some parts of them, remove the unused part in you
+    macros (look at the other documents, and Vectrex Frogger
+    makros)<br>
+    <br>
+    - at all costs, if possible avoid BIOS 'print_str' routines,
+    they are born cycle wasters! One string printed can easily
+    take 10,000 cycles!<br>
+    <br>
+    - remember to switch of unused joystick stuff, each joystick
+    direction test takes a few hundred cycles (or so)<br>
+    <br>
+    - if not really necessary, use digital joystick settings
+    instead of analogous </p>
+</blockquote>
+
+<p align="center"><a href="usingemulator.htm">Next page</a> <a
+href="vectoroptimization.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

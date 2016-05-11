@@ -1,0 +1,56 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Select_Game</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Select_Game ($F7A9)</p>
+
+<p>This routine provides a game with the means for allowing the
+player to choose the game number he would like to play, and the
+number of players. The game indicates the number of game versions
+available, by placing the value in the B register. The number of
+players allowed is specified in the A register. If a parameter is
+passed in with a value of 0, then the corresponding question will
+not be asked. The number of players selected is returned in
+$C879, while the game number selected is returned in $C87A. </p>
+
+<p>This routine performs most of the work involved in allowing
+the player to select a game version and the number of players. It
+displays the game # and player options, and allows the player a
+certain amount of time to modify their values. Anytime one of the
+buttons is used to modify a value, the timer will be restarted.
+When a button is pressed, the associated value is modified, and
+then redisplayed on the screen. This routine will return when
+either the timer expires, or button 4 is pressed. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>A-reg = maximum number of players allowed</p>
+
+<p>B-reg = number of game versions available</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<p>DP = $C8</p>
+
+<p>$C879 contains number of players selected</p>
+
+<p>$C87A contains the game version selected</p>
+
+<p>D-reg, X-reg, Y-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F7A9">Source</a></p>
+</body>
+</html>

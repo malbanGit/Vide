@@ -1,0 +1,69 @@
+                    Bank 1
+;***************************************************************************
+; DEFINE SECTION
+;***************************************************************************
+; load vectrex bios routine definitions
+                    INCLUDE  "VECTREX.I"                  ; vectrex function includes
+;***************************************************************************
+; Variable / RAM SECTION
+;***************************************************************************
+; insert your variables (RAM usage) in the BSS section
+; user RAM starts at $c880 
+                    BSS      
+                    ORG      $c880                        ; start of our ram space 
+;***************************************************************************
+; HEADER SECTION
+;***************************************************************************
+; The cartridge ROM starts at address 0
+                    CODE     
+                    ORG      0 
+; the first few bytes are mandatory, otherwise the BIOS will not load
+; the ROM file, and will start MineStorm instead
+                    DB       "g GCE 1998", $80 ; 'g' is copyright sign
+                    DW       music1                       ; music from the rom 
+                    DB       $F8, $50, $20, -$80          ; hight, width, rel y, rel x (from 0,0) 
+                    DB       "BANK SW", $80               ; some game information, ending with $80
+                    DB       0                            ; end of game header 
+;***************************************************************************
+; CODE SECTION
+;***************************************************************************
+; here the cartridge program starts off
+                    JMP      main 
+
+switchToBank0: 
+                    ldd      #$DFFF                       ; Prepare DDR Registers % 1101 1111 1111 1111 
+                    std      >VIA_DDR_b                   ; all ORB/ORA to output except ORB 5, PB6 goes LOW 
+                                                          ; RESET to sensible values
+                    ldd      #$0100                       ; A = $01, B = 0 
+                    std      >VIA_port_b                  ; ORB = $1 (ramp on, mux off), ORA = 0 (DAC) 
+                    ldd      #$987F                       ; A= $98, B = $7F 
+                    sta      >VIA_aux_cntl                ; Standard AUX Cont = $98, T1 One shot mode with control of ramp 
+                    stb      >VIA_t1_cnt_lo               ; Timer = $7f, RAMP On, after timer expires ramp off 
+                    jmp      main                         ; Basically jump to main loop 
+
+main: 
+                    JSR      Read_Btns                    ; get one status first, for 
+                                                          ; the difference 
+                    JSR      Wait_Recal                   ; Vectrex BIOS recalibration 
+                    JSR      Intensity_5F                 ; Sets the intensity of the 
+                                                          ; vector beam to $5f 
+                    LDU      #hello_world_string          ; address of string 
+                    LDA      #$10                         ; Text position relative Y 
+                    LDB      #-$50                        ; Text position relative X 
+                    JSR      Print_Str_d                  ; Vectrex BIOS print routine 
+                    JSR      Read_Btns                    ; get button status 
+                    CMPA     #$00                         ; is a button pressed? 
+                    BEQ      no_button                    ; no, than go on 
+                                                          ; if any button pressed - do a bankswitch 
+                    bra      switchToBank0                ; switch to bank 0 
+
+no_button: 
+                    BRA      main                         ; and repeat forever 
+
+;***************************************************************************
+; DATA SECTION
+;***************************************************************************
+hello_world_string: 
+                    DB       "BANK 1"                     ; only capital letters
+                    DB       $80                          ; $80 is end of string 
+;***************************************************************************

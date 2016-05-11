@@ -1,0 +1,246 @@
+All
+Good
+Things
+4 GAME IN 1 MULTICART
+For The
+VECTREX Arcade System
+© 1996 By John Dondzila
+
+
+--------------------------------------------------------------------------
+
+
+STARTING THE GAME
+
+Looking at the All Good Things game cartridge, you will see that it is a 
+slightly modified Intellivision game cartridge. I was originally using 
+Radio Shack mini project cases but had a difficult time obtaining them 
+in any quantities.
+
+With your Vectrex turned off, insert the cartridge label side up into the 
+Vectrex cartridge port until it stops moving. You can most definitely 
+ignore the original "INSERT TO LINE" imprinted on the Intellivision cart.
+
+With the cartridge fully inserted, you can now turn on the Vectrex. 
+You will see the brief intro screen followed by the All Good Things 
+title/credits screen.
+
+To go to the game title screen, press Button (4). This will cycle through 
+the games in the following order: Rockaroids, More Invaders, Vectris and 
+Spike's Water Balloons.
+
+The title screens are pretty basic. After all, we are talking about a 16K 
+game cart with four great games on it.
+
+To play the selected game, press Button (1).
+
+As mentioned before, there is also a secret game included with the 
+All Good Things game cart. It's a neat little puzzle game which took me 
+only two days to write. Finding it is up to you! It shouldn't be too hard, 
+and me giving any hints would make it too easy.
+
+
+
+--------------------------------------------------------------------------
+
+
+ROCKAROIDS
+
+When the title screen appears, press Button (1) to begin playing the game
+
+The object of the game is to destroy the space rocks (rockaroids) that 
+appear around you. At the start of each level, the rockaroids will appear 
+around the edges of the screen and randomly float around the playfield.
+
+Your ship will appear in the center of the screen. You control your ship 
+with the button controllers. Buttons (1) and (2) rotate your ship left 
+and right.
+
+Button (4) activates your thrusters, which propel your ship in the 
+direction the nose of the ship is facing.
+
+Gravity is in effect, and releasing the thrust will not stop your ship. 
+You must turn your ship around and apply short bursts of thrust to slow 
+down.
+
+Button (3) fires your ship's weapons. You can fire up to four shots at 
+one time.
+
+Pulling down on the joystick will engage your ship's hyperspace engines. 
+Your ship will temporarily disappear and reappear randomly elsewhere on 
+the playfield.
+
+Hyperspace engines are finicky! Sometimes up re-entry, your ship will 
+destroy itself. Sometimes you will reappear directly in front of a moving 
+rockaroid. Use hyperspace wisely.
+
+Shooting a large rock will split it into two smaller rocks. Shooting a 
+smaller rock will split it into an even smaller rock. Shooting the 
+smallest rocks will destroy them.
+
+Once you have destroyed all the rockaroids, you will be transported to 
+a more difficult level.
+
+If your ship collides with a rockaroid, your ship will be destroyed. You 
+begin the game with four ships. Once all of your ships are destroyed, the 
+game is over.
+
+An extra ship is awarded everytime your score reaches a multiple of 
+10,000.
+
+At the start of every level, or anytime you are destroyed and use a 
+reserve ship, your ship will become temporarily invincible. This will 
+last for a few seconds, but gives you enough time to get out of the way 
+of any nearby rockaroids, saucers or enemy fire.
+
+During gameplay, enemy flying saucers will pass across the screen, 
+shooting you as they go. Large saucers shoot randomly, however the 
+smaller saucers can target you precisely. It's best to keep moving when 
+a small saucer appears to avoid being shot down.
+
+Large saucers score 200 points each, and small saucers score 1000 points 
+each. Saucers can be destroyed if they collide with rockaroids, however 
+you do not receive points if they do.
+
+Shooting a large rockaroid will score 10 points. Shooting a medium 
+rockaroid will score 20 points and destroying a small rockaroid will 
+score 50 points.
+
+You begin the game with 3 ships. When all your ships have been destroyed, 
+the game is over.
+
+
+
+--------------------------------------------------------------------------------
+
+
+MORE INVADERS!
+
+More Invaders! is the sequel to the popular Vector Vaders game.
+
+It is faster, has little screen flicker, and the Invaders have more 
+tricks for fighting you.
+
+At the title screen, press Button (1) to begin the game. Your base will 
+appear at the bottom of the screen. Your base will flash for a few 
+seconds, at which time you will be invincible to enemy fire.
+
+Move your base left or right with Buttons (1) and (2). To fire your 
+laser, press Button (4).
+
+Above your base are four protective bunkers, with which you can move 
+under to protect yourself from enemy fire. Every time a bunker is hit by 
+either yours or enemy fire, it will dim slightly. Eventually, it will 
+weaken completely and it will be destroyed.
+
+At the top of the screen are the invaders. There are 6 rows with 8 
+invaders per row. The invaders will slowly march back and forth across 
+the screen. When they hit the side of the screen, they will reverse 
+direction as well as step down closer to you. If any invader overruns 
+your base, then the game is over.
+
+The object of the game is to shoot down all the invaders before they can 
+overrun your bases. Once all the invaders have been destroyed, a new 
+level will appear and they will begin closer to your bases.
+
+As you shoot down invaders, they will march faster and faster. The last 
+invader left will move very fast and you will need some good timing to 
+hit him.
+
+Hitting invaders will score as follows: Top 2 rows are 30 points each, 
+the two middle rows are 20 points each and the bottom two rows are 10 
+points each.
+
+During the game, enemy saucers will pass across the top of the screen. 
+Shooting down a saucer will score random points of either 50, 100, 150 
+or 300 points. Watch out - Saucers shoot back!
+
+You begin the game with three bases. If you are hit by invader fire, you 
+lose a base. Losing all three bases will end the game.
+
+You can win an extra base by scoring 5,000 points.
+
+You can win 500-1000 point bonuses at the end of each level. You'll have 
+to figure out how on your own.
+
+Starting with level 2, some invaders will split into two smaller invaders 
+when you hit them. Hitting these smaller invaders will score the same 
+point values depending on which row they are in.
+
+Good Luck!
+
+
+
+--------------------------------------------------------------------------------
+
+
+VECTRIS
+
+Press Button (1) at the title screen to begin the game.
+
+You will see a pit on the screen. At the top of the pit your first game 
+piece will appear. This piece will slowly drop towards the bottom of the 
+pit. There are seven different pieces, each made up of four small blocks. 
+You can move the piece left and right with the joystick and make it drop 
+faster by pulling down on the joystick. You can rotate the piece left with 
+Button (3) and right with Button (4). When the piece hits the bottom of 
+the pit it will stop and stay there. The next game piece will start at 
+the top of the screen. The next game piece to be played will always appear 
+in the upper left corner of the screen. The pieces are generated at random. 
+There is absolutely no sneaky or tricky programming that will keep you 
+from getting certain pieces. The pit is 10 squares wide by 16 high. 
+The object of the game is to fit the pieces together so that you have 
+10 full squares going across horizontally. This is called making a "line". 
+Making a line will make that line disappear, and any pieces above that 
+line will drop down and fill in the empty space. The more lines you make 
+at once, the higher score you can get. Since the longest piece is four 
+blocks long, you can make up to four lines at once!. Every 10 lines that 
+you make will increase the skill level. This will cause the pieces to 
+fall quicker. In the top right corner of the screen is the total number 
+of lines that you have scored for the game.
+
+Press Button (2) will activate the pause feature, which will also display 
+your total score, level and how many lines you have made for this game.
+
+Creating lines scores as follows: 
+One Line = 100 points
+Two Lines = 200 points
+Three Lines = 300 points
+Four Lines = 1000 points.
+
+If the pieces in the pit fills up to the top, you will lose the game.
+
+Vectris unfortunately suffers from a severe case of "flickeritis". You 
+will notice that the playing pieces tend to flicker (or shimmer). This 
+is a side effect from drawing too many objects on the screen at once. 
+This is not caused by a defect in your Vectrex or the game cartridge.
+
+
+
+--------------------------------------------------------------------------------
+
+
+SPIKE'S WATER BALLOONS
+
+When the title screen appears, press Button (1) to begin the game. When 
+you push the joystick left, Spike will walk left. When you push the 
+joystick right, Spike will walk right. Leaving the joystick centered will 
+not move Spike at all.
+
+During the game, you can control how fast Spike walks by press Button (1) 
+for slow, Button (2) for fast, and Button (3) for fastest. At the top of 
+the screen you will see Molly in the upper left corner and two numbers on 
+the right. The top number is how many water balloons you have popped, and 
+the bottom number is how many tries you have left. You begin the game 
+with 4 tries. When you use up all your tries, the game is over. When the 
+game starts, Spud will begin dropping balloons down towards you. Move 
+Spike underneath the balloons. Spike can only pop balloons on his two 
+top spikes. If Spike misses a balloon, it will hit the floor and break, 
+and Spike will lose a try and have to start the level over again. 
+If Spike is fast enough, he can "Kick" a water balloon back up towards 
+Spud. Press Button (4) to make Spike kick. When the balloon reaches the 
+top of the screen, it wall start falling towards Spike again. If you pop 
+all the balloons, you will proceed to a faster, harder level with more 
+balloons. The object of the game is to see how many balloons you can 
+catch (pop) with your three tries. Molly will be proud of you no matter 
+how you do...

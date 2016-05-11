@@ -1,0 +1,625 @@
+<HTML>
+	<HEAD>
+		<META HTTP-EQUIV="content-type" CONTENT="text/html;charset=iso-8859-1">
+		<META NAME="generator" CONTENT="GoLive CyberStudio">
+		<TITLE>Vectrex Service Manual</TITLE>
+	</HEAD>
+	<BODY BGCOLOR="#FFFFFF">
+		<P><B><FONT FACE="Geneva" SIZE="2" COLOR="#000000">1. SPECIFICATIONS<BR>
+		</FONT></B><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		The VECTREX Is a self-contained, microprocessor based, Vector
+		Display, portable home video game arcade with external game cartridge
+		program capability.<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="1" COLOR="#000000"><TABLE BORDER="0" CELLPADDING="0" CELLSPACING="2" WIDTH="500">
+
+			<TR>
+				<TD><FONT FACE="Geneva" SIZE="1" COLOR="#000000">MPU</FONT></TD>
+				<TD><FONT SIZE="2">68A09</FONT></TD>
+				<TD><FONT FACE="Geneva" SIZE="1" COLOR="#000000">8K X 8 BIT DATA - 16 BIT ADDRESS</FONT></TD>
+				<TD ROWSPAN="4"><FONT SIZE="2">Please note:<BR>
+				INTERNAL ROM 2114 (2)<BR>
+				should read:<BR>
+				INTERNAL RAM 2114 (2)</FONT></TD>
+			</TR>
+
+			<TR>
+				<TD><FONT FACE="Geneva" SIZE="1" COLOR="#000000">INTERNAL ROM</FONT></TD>
+				<TD><FONT FACE="Geneva" SIZE="1" COLOR="#000000">2363</FONT></TD>
+				<TD><FONT FACE="Geneva" SIZE="1" COLOR="#000000">8K X 8 BIT</FONT></TD>
+			</TR>
+
+			<TR>
+				<TD><FONT FACE="Geneva" SIZE="1" COLOR="#000000">INTERNAL RAM</FONT></TD>
+				<TD><FONT FACE="Geneva" SIZE="1" COLOR="#000000">2114(2)</FONT></TD>
+				<TD><FONT FACE="Geneva" SIZE="1" COLOR="#000000">1K X 4 SIT (ea.)</FONT></TD>
+			</TR>
+
+			<TR>
+				<TD><FONT FACE="Geneva" SIZE="1" COLOR="#000000">EXTERNAL ROM</FONT></TD>
+				<TD><FONT FACE="Geneva" SIZE="1" COLOR="#000000">(GAME CARTRIDGE)</FONT></TD>
+				<TD><FONT FACE="Geneva" SIZE="1" COLOR="#000000">8K X 8 BIT CAPABILITY</FONT></TD>
+			</TR>
+		</TABLE>
+		</FONT><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		CRT: SAMSUNG 240RB40 90 DEG. DEF. B&amp;W VECTOR DEFLECTION<BR>
+		<BR>
+		12 EXTERNAL GAME CARTRIDGES CURRENTLY<BR>
+		1 RESIDENT GAME<BR>
+		<BR>
+		Second Controller available as an accessory<BR>
+		<BR>
+		Game Cartridges include a screen overlay.<BR>
+		<BR>
+		120V AC </FONT><FONT FACE="Monaco" SIZE="2" COLOR="#000000">- 60HZ<BR>
+		<BR>
+		</FONT><FONT FACE="Geneva" SIZE="2" COLOR="#000000">DIMENSIONS: 9 3/4 X 11 1/2 X 14 1/2<BR>
+		<BR>
+		WEIGHT: 15 Lbs.<BR>
+		</FONT></P>
+		<P>&nbsp;</P>
+		<P><B><FONT FACE="Geneva" SIZE="2" COLOR="#000000">V. CIRCUIT DESCRIPTION<BR>
+		<BR>
+		</FONT></B></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">As a general description, the MP3000 is a self-contained video
+		game system intended for home use. The system includes its own
+		9&quot; B&amp;W monitor screen and 3&quot; permanent magnet speaker.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">ROM type cartridges are available offering arcade type video and
+		sound game play. No external TV receiver hookup is needed or provided
+		for. A front panel storable controller allows control over the
+		game via joystick and push button action switches. For two player
+		operation a second controller Identical to the single player controller
+		is available as an accessory product. Both controllers attach
+		to the main game console through nine wire coiled telephone style
+		cables. There is a consumer power switch/volume control on the
+		front panel as well as a game reset button. A consumer adjustable
+		brightness control is located on the main console rear housing.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		For the technical description Which follows, the reader is encouraged
+		to refer to the block diagram and schematic.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		The HP3000 is a microprocessor based, vector scan system using
+		a standard 9&quot; black &amp; white CRT as its video display device. The
+		microprocessor (MPU) is the Motorola 66A09 device. The MPU operates
+		at 1.6 MHz from a 6 MHz external Xtal. An Internal divide by 4
+		circuit generates the MPU 1.6 MHz &quot;E&quot; clock signal used in the
+		system. Program memory is stored in the 8K x 8 bit 2363 type ROM.
+		This ROM contains common subroutines. the &quot;executive&quot; or assembler
+		instructions plus one complete game.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		Two 1 K x 4 bit 2114 type static. RAMS provide storage locations
+		for data indicative of locations of objects, game status, and
+		various other information needed by the microprocessor during
+		game operation. Peripheral Interface Adaptor (PIA) Chip, has two
+		8 bit peripheral ports which interfaces the MPU with peripheral
+		devices and external signals. One of the PIA ports Interfaces
+		the General It Instrument AY-3-8912 sound-1.0. chip with the MPU
+		and also drives the digital to analog converter hip MC1408. The
+		other PIA port is used as control lines for the sound chip. selector
+		control for the multiplex chip and as a means to read the A/D
+		comparator that's used in the joystick successive approximation
+		circuitry. Sound is either MPU generated directly or by use of
+		the AY-3-8912 sound chip.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		The AY-3-8912 sound chip is a programmable sound generator containing
+		3 tone generators and wave shaping circuitry. This chip also has
+		a single 8 bit 1.0. port used to read the status of each of the
+		handcontrollers 4 action switches.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		The standard TTL device types 74LS00 and 74LS32 are used as control
+		line decoders to allow the MPU to select the appropriate circuit
+		element to be addressed at any particular time.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		The analog processing section Includes digital to analog converter
+		(DAC) Chip type MC1408. dual 4 channel multiplexer/demultiplexer
+		chip type CD4052, and dual channel op-amps types LF353 and LF347.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		DAC chip MC1408 receives an 8 bit word at data terminals 00-D7.
+		DAC output (pin 4) is current source. One section of 10 LF353
+		is used to change this current to a voltage representative of
+		the 8 bit digital word received by the DAC chip. The LF353 voltage
+		is applied to an input of the dual 4 channel multiplexer (MUX)
+		Chip CD4052. This same voltage (designated &quot;DAC&quot; on the schematic)
+		13 the X-axis drive signal.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		The CD4052 MUX chip serves two purposes: It selectively Couples,
+		under MPU control, the output %if the DAC current/voltage converter
+		to one of 4 places and is used to selectively couple the inputs
+		from the joystick pots to the voltage comparator IC LF353.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">Th e 4 places to which the &quot;DAC&quot; signal is coupled by the MUX
+		are:<BR>
+		<BR>
+		<BR>
+		1) The Y-axis sample and hold IC LF347<BR>
+		2) The &quot;Q&quot; reference Charge capacitor<BR>
+		31 The Z-aX13 (brightness signal) sample and hold IC LF347<BR>
+		4 iPU sound resistive matrix<BR>
+		<BR>
+		Each of these 4 signals is a voltage value representative of the
+		8 bit DAC input word for that function.<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">The joystick pot positions are sensed by a successive approximation
+		process. The MUX chip selects each joystick pot input line and
+		applies it to the plus input of comparator IC LF353. At the same
+		time the MPU generates digital wards that are changed to voltages
+		by the DAC and current/voltage converter mentioned previously.
+		These voltages are successfully applied to the comparator's minus
+		input until the MPU generated voltage 13 equal to the joystick
+		voltage. The MPU then recognizes the digital word representative
+		of the comparison voltage and Is able to establish a location
+		for the joystick pot, The present position for each joystick pot
+		is sensed in this manner. The pot position Information is updated
+		on a regular basis by the MPU.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		Returning to the 4 and Y axis drive signals, these signals are
+		applied to X,Y integrator IC LF347 negative Input pins through
+		series analog switch types 4066B. The &quot;zero&quot; reference signal
+		is applied to the positive inputs of the Integrators. There are
+		also analog switches across the integrator IC capacitors. The
+		series analog switches are controlled by MPU signal RAMP and the
+		parallel capacitor switches are controlled by MPU signal Zero
+		10. RAMP 10 determines when and for how long the X and Y axis
+		voltage levels will be applied to the integrator amps. Zero 10
+		is used to discharge the X &amp; Y axis integrator caps thus Initializing
+		them for the next signal to be integrated.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		The outputs of the X,Y axis integrators are coupled through J-FET
+		switches to IC LM379 deflection amplifiers. The LM379 operates
+		as a voltage to current driver. the current through the deflection
+		coils forming the electromagnetic field which deflects the CRT
+		beam. To protect the CRT from spot burn in the event of a loss
+		of deflection, the Y axis drive amplifiers output 13 detected
+		and a deflection enable/disable signal generated. This signal
+		controls the J-FET switches In series with the X,Y deflection
+		amp inputs to reduce the scan drive signal in the event of a software
+		or hardware failure plus discrete transistor type 2SC1921 operates
+		to bias off the CRT.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		Conventional full wave rectification and three terminal regulators
+		are used in the low voltage power supply. A special negative DC
+		source is generated by a voltage double-circuit which is used
+		to supply a 13V to the DAC chip.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		The high voltage is generated via an oscillator, drive transistor
+		and flyback type transformer circuitry similar to what is commonly
+		used In small black and white TV receivers.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		Judicious use of bypass caps, RF filter chokes. ferrite beads,
+		etc., has been used in the design to control RFI emissions.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		<B>V1. DISASSEMBLY<BR>
+		</B><BR>
+		A. Back Cover Removal<BR>
+		<BR>
+		</FONT><FONT FACE="Times Roman" SIZE="2" COLOR="#000000">1. </FONT><FONT FACE="Geneva" SIZE="2" COLOR="#000000">Lay the unit on a mat, CRT down.<BR>
+		<BR>
+		2. Remove 5 screws from the back cover.<BR>
+		<BR>
+		3. Remove the </FONT><FONT FACE="Times Roman" SIZE="2" COLOR="#000000">back </FONT><FONT FACE="Geneva" SIZE="2" COLOR="#000000">cover.<BR>
+		<BR>
+		B. Power Board Removal<BR>
+		<BR>
+		1. Remove all connectors (5) and HV lead from the CRT.<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">2. Unsolder three leads (2 red, 1 white) from the bottom rear
+		of the board at location EP104, 105 and 106. (Note-- Two of these
+		three leads go to the on/off volume control switch. the white
+		lead goes to the power transformer (secondary C.T.)</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		3. Unsolder the Aquadag ground lead from </FONT><FONT FACE="Times Roman" SIZE="2" COLOR="#000000">the top </FONT><FONT FACE="Geneva" SIZE="2" COLOR="#000000">rear of the board.<BR>
+		<BR>
+		4. Unsolder ground jumper (braid) between the logic board and
+		power board.<BR>
+		<BR>
+		5. Remove two small Phillips head screws from the bottom of the
+		board that secures it to the frame.<BR>
+		<BR>
+		6. Slide board back and remove It from the frame.<BR>
+		<BR>
+		C. Logic Board Removal<BR>
+		<BR>
+		</FONT><FONT FACE="Times Roman" SIZE="2" COLOR="#000000">1. </FONT><FONT FACE="Geneva" SIZE="2" COLOR="#000000">Remove all cable connectors from the top of the board (3).<BR>
+		<BR>
+		2. Unsolder ground jumper between the logic board and power board
+		at the logic board (left side).<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">Unsolder and remove the 3 power leads at the power board. EP104,105
+		and 106. Unsolder 2 of these leads (red) plus 2 from the power
+		transformer on the back of the on/off switch. Remove the logic
+		board mounting frame which includes the speaker, power transformer
+		and reset button by removing retaining screws that hold the frame
+		to the front cover. There are two screws located Just above the
+		power transformer bracket that must be removed also.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		5. Remove the logic board mounting frame.<BR>
+		<BR>
+		</FONT><FONT FACE="Times Roman" SIZE="2" COLOR="#000000">6. </FONT><FONT FACE="Geneva" SIZE="2" COLOR="#000000">Unsolder the leads on the reset button.<BR>
+		<BR>
+		7. Remove the retaining hardware on the front of the volume control,
+		on/off switch.<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">8. Remove 4 small Phillips head screws on the top of the logic
+		board that hold the board to the frame. One of the screws holds
+		the plastic game cartridge guide to the logic board. Remove the
+		</FONT><FONT FACE="Times Roman" SIZE="2" COLOR="#000000">guide.</FONT></P>
+		<P><FONT FACE="Times Roman" SIZE="2" COLOR="#000000"><BR>
+		</FONT><FONT FACE="Geneva" SIZE="2" COLOR="#000000">9. Remove the logic board.<BR>
+		<BR>
+		D. Power Transformer Removal<BR>
+		<BR>
+		<B>MAKE SURE A/C CORD IS UNPLUGGED FROM ALL POWER<BR>
+		</B><BR>
+		1. Remove the small screw holding the fuse cover and remove the
+		cover.<BR>
+		<BR>
+		2. Remove the screw in the center of the Fuse PCB and remove the
+		PCB.<BR>
+		<BR>
+		3. Unsolder the 2 power and two primary leads from the fuse PCB.<BR>
+		<BR>
+		4. Unsolder and remove 2 red leads from the on/off switch mounted
+		behind the volume control.<BR>
+		<BR>
+		S. Remove the splice on the white lead (secondary C.T.).<BR>
+		<BR>
+		6. Remove the two screws holding the power transformer to the
+		frame. Note the ground lead on the right hand screw (as viewed
+		from the rear) has a ground lug on it.<BR>
+		<BR>
+		</FONT></P>
+		<CENTER>
+			<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><IMG SRC="1.gif" WIDTH="420" HEIGHT="333"></FONT></P>
+		</CENTER>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><B>E.  Speaker Removal<BR>
+		</B><BR>
+		Follow steps I thru 7 under &quot;Logic Board Removal.&quot;<BR>
+		<BR>
+		I<BR>
+		<BR>
+		<BR>
+		<BR>
+		1. After the frame is out, remove 2 small screws from the top
+		of the speaker grill on the front of the frame. Lift up and out
+		on the speaker grill. The speaker and grill will come out as one.<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">2. Unsolder speaker leads, note colors on + and - terminals and
+		the position of the terminals -In relation to the speaker grill
+		and frame. It must be replaced the someway for lead routing.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		3. Loosen retaining clip holding the speaker In.<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">4. Gently slide the speaker out of the two plastic retaining lips
+		and remove. Rough handling at this point will break these two
+		plastic retaining lips and cause problems in securing another
+		speaker in the assembly.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		<B>VII. LOGIC BOARD ADJUSTMENTS</B></FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><A HREF="2.gif">logic board schematic</A><BR>
+		<BR>
+		(See Test Cartridge Procedure, Page 18)<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">After the Logic Board has been replaced and installed in the VECTREX,
+		the following adjustments must be made.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		A. Initial Power-up - Install Test Cartridge<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">1. Plug the unit in and turn it on, volume as required. The CRT
+		should display GCE title page and introductory tuns should occur
+		within fifteen (15) seconds of power-up. This should be followed
+		by the test cartridge's title page,</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		1. Select &quot;DAC Zero Test.&quot; These words will appear on the screen
+		followed by a blank Screen.<BR>
+		<BR>
+		the actual adjustment must be made during this blank screen interval.
+		It will cycle back and<BR>
+		forth between the word display and blank screen.<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		Set your scope on &quot;DC&quot; and the 5mv/div scale. Connect the ground
+		lead to ground on the board and Connect the probe to pin 1 of
+		IC 304, adjust R302 &quot;DAC OFFSET&quot; POT for OVDC.<BR>
+		<BR>
+		After the adjustment is completed. press the reset button.<BR>
+		<BR>
+		it . may now be necessary to recenter the picture as the DAC zeroing
+		will affect it. Use the centering magnets on the rear of the <U>deflecti on yoke </U>and the &quot;Linearity Pattern&quot; In the test<BR>
+		cartridge to set the centering. UNDER NO CIRCUMSTANCES IS R302
+		&quot;DAC OFF-SET&quot; TO BE USED TO <BR>
+		HELP CENTER THE PICTURE.<BR>
+		<BR>
+		<BR>
+		C. integrator Off-Set Test<BR>
+		<BR>
+		select the -Integrator Of f-Set&quot; test. Alternately adjust R333
+		&quot;Y Rate Off-Set&quot; and R335 &quot;X Rate<BR>
+		Off-Set&quot; POTS to align the cross bars I for intersection at the
+		center of the diamond patterns.<BR>
+		The bottom row of diamonds is the most critical and </FONT><FONT FACE="Times Roman" SIZE="2" COLOR="#000000">should </FONT><FONT FACE="Geneva" SIZE="2" COLOR="#000000">be used to set these controls -<BR>
+		all patterns should be within one (1) line width.<BR>
+		<BR>
+		D. Sound Test<BR>
+		<BR>
+		select the 'Sound Test.&quot; The display will say &quot;CHANNEL A.&quot; You
+		should them hear the<BR>
+		sound start at a low frequency and increase In frequency. CHANNEL
+		B and CHANNEL C<BR>
+		will follow with identical tones.<BR>
+		<BR>
+		The next title on the CRT will be &quot;NOISE ALL CHANNELS&quot; and this
+		will be noise (static).<BR>
+		<BR>
+		The screen will remain blank and two (2) tones will be heard.
+		This is the &quot;CPU SOUND&quot; check. If any are missing the board must
+		be repaired.<BR>
+		<BR>
+		<B>Vill. POWER BOARD ADJUSTMENTS</B></FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><A HREF="3.gif">power board schematic</A><BR>
+		<BR>
+		After installation of the Power Board Assembly make the following
+		checks and, if necessary, adjustments.<BR>
+		<BR>
+		A. Install the Test Cartridge and turn the VECTREX on. The GCE
+		title page on the CRT and the introductory tunae should occur
+		within 15 seconds<BR>
+		<BR>
+		B. Turn the brightness to minimum (R509) and measure the high
+		voltage; It should be 5.8KV+/15OVDC.<BR>
+		<BR>
+		C. To adjust the high voltage, connect an oscilloscope to T602
+		pin 7 and set the vertical at 20V/div and the horizontal at 10
+		usec/div.<BR>
+		</FONT></P>
+		<CENTER>
+			<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><IMG SRC="4.gif" WIDTH="226" HEIGHT="199"></FONT></P>
+		</CENTER>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		Adjust R526 for minimum ringing in the displayed wave form.<BR>
+		<BR>
+		Recheck the H.V. and adjust R525 to got proper reading (5.8KV+/-
+		105VDC).<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">Repeat the adjustments of these two controls until proper high
+		voltage and minimum ringing are obtained.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		Deflection Protect Circuit Check (Beam Cut Off)<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">Select the &quot;Seam Cut Off&quot; Test. Observe CRT monitor. The pattern
+		will shrink in size, then disappear. In approximately 2-3 seconds,
+		the pattern will reappear at about half-size and continues to
+		increase in size and brightness until it Is full-size. then the
+		cycle will repeat. As the pattern decreases, the circuit time
+		constraints prevent the protect switches from activating. When
+		the circuit allows the switches to activate. they will not turn
+		on until the brightness and deflection reach the design limits.
+		This Is when the pattern reappears at about half-size.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		</FONT><FONT FACE="Times Roman" SIZE="2" COLOR="#000000">H. Audio Amp. Check<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">Select the &quot;Sound Test&quot; and with the volume control set at mid-range.
+		monitor the audio. Sound chip channels A, B, C, and CPU round
+		test signals must be audible with no noticeable distortion.</FONT></P>
+		<P><B><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		</FONT><FONT FACE="Times Roman" SIZE="2" COLOR="#000000">IX. CRT/YOKE REMOVAL </FONT><FONT FACE="Geneva" SIZE="2" COLOR="#000000">AND SET-UP<BR>
+		<BR>
+		</FONT></B></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">CRT removal, replacement and set-up is the same as most B/W TV
+		tubes in most respects. The primary difference is in the centering
+		technique.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		AiLer the CRT/yoke has been installed, do a preliminary centering
+		using the test cartridge linearity pattern for a display and the
+		centering ring magnets on the yoke.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		The next step is to set the &quot;DAC ZERO&quot; as directed in Paragraph
+		11 of the LOGIC BOARD ADJUSTMENTS.  After that is completed again
+		recenter, if necessary, using the ring magnets on the yoke.<BR>
+		<BR>
+		Adjust vertical and horizontal height so the linear lines are
+		at the top and bottom, left and right edges of the CRT and front
+		cover.  Also see R401 and R408.<BR>
+		<BR>
+		<B>X. HAND CONTROL DISASSEMBLY</B></FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><A HREF="5.gif">hand control schematic</A><BR>
+		<BR>
+		A. Remove the Hand Controller cord from the port In the Vectrex.<BR>
+		<BR>
+		B. Remove the top Inlay by Inserting a tool between it and the
+		case (use extreme caution not to injure yourself) and pry up one
+		edge. Discard the tool and pull the inlay off,<BR>
+		<BR>
+		C. Remove the five (5) screws and remove the top cover.<BR>
+		<BR>
+		D. The P/C Board can be removed by taking out the screen in the
+		center of the P/C Board.<BR>
+		<BR>
+		The buttons and pad will then be easily removed.<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><B>XI. TEST CARTRIDGE PROCEDURE<BR>
+		</B><BR>
+		Install Test Cartridge</FONT></P>
+		<CENTER>
+			<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+			<BR>
+			<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="2" WIDTH="500">
+
+				<TR>
+					<TD><FONT FACE="Geneva" SIZE="2" COLOR="#000000">Turn unit on after VECTREX announcement<BR>
+					Title page<BR>
+					then<BR>
+					<BR>
+					Linearity Pattern<BR>
+					Check for:<BR>
+					<BR>
+					1. Pin Cushion<BR>
+					2. Barreling<BR>
+					3. Keystone<BR>
+					4. Vertical Size<BR>
+					5. Horizontal Size<BR>
+					6. Centering</FONT></TD>
+					<TD><IMG SRC="6.gif" WIDTH="184" HEIGHT="210" ALIGN="right"></TD>
+				</TR>
+			</TABLE>
+			</FONT></P>
+		</CENTER>
+		<P>&nbsp;</P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">The next test will have the words &quot;Adjust DAC Offset&quot; followed
+		by a blank screen. This is an Oscilloscope Procedure and should
+		be bypassed by pressing Button 3 or 4 twice in rapid succession.
+		NOTE. The DAC offset test cannot be escaped from via the controller
+		keys unless the words &quot;ADJUST DAC OFFSET&quot; are on the screen. The
+		words reappear for a short period every 6 seconds. Reset will
+		allow escape at any time.<BR>
+		</FONT></P>
+		<P>&nbsp;</P>
+		<CENTER>
+			<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><IMG SRC="7.gif" WIDTH="278" HEIGHT="369"><BR>
+			<BR>
+			All lines must meet and be continuous. <BR>
+			</FONT></P>
+		</CENTER>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		<BR>
+		Press Button 3 or 4:<BR>
+		<BR>
+		Wait a few seconds and the checksum will appear and read:</FONT></P>
+		<P>&nbsp;</P>
+		<CENTER>
+			<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><IMG SRC="8.gif" WIDTH="287" HEIGHT="110"></FONT></P>
+		</CENTER>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		<BR>
+		<BR>
+		(B796) must appear.<BR>
+		<BR>
+		Press Button 3 or 4 <BR>
+		BEAM OUT OFF:</FONT></P>
+		<P>&nbsp;</P>
+		<CENTER>
+			<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><IMG SRC="9.gif" WIDTH="195" HEIGHT="191"></FONT></P>
+		</CENTER>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		<BR>
+		Pattern will decrease in size. then disappear, then reappear in
+		about 2-3 seconds and be about half size and continue to Increase
+		until process repeats itself.<BR>
+		<BR>
+		Press Button 3 or 4 SOUND TEST:<BR>
+		<BR>
+		Words &quot;CHANNEL A&quot; will appear on bottom of the screen should have
+		a one octave tone going from low to high smoothly and continuously.<BR>
+		<BR>
+		words &quot;CHANNEL B&quot; will appear In the middle of the screen with
+		same tone as above.<BR>
+		<BR>
+		Words &quot;CHANNEL C&quot; will appear at the top of the screen with the
+		same tone as above.<BR>
+		<BR>
+		Words will appear In the center of the screen &quot;NOISE ALL CHANNELS.&quot;
+		There will be sound like static for a short duration. Screen will
+		go blank, then you will hear two tones. This is the CPU sound
+		check.<BR>
+		<BR>
+		press either Button 3 or 4:<BR>
+		<BR>
+		The word &quot;INTENSITY- will appear with 17 equally spaced lines
+		running horizontally across the screen, The 2nd, 3rd and 4th line
+		from the top should be extinguished: the 5th from the top sits
+		right on top of the word &quot;INTENSITY.&quot; and should be visible.<BR>
+		<BR>
+		</FONT></P>
+		<P>&nbsp;</P>
+		<CENTER>
+			<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><IMG SRC="10.gif" WIDTH="165" HEIGHT="230"></FONT></P>
+		</CENTER>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		<BR>
+		Press Button 3 or 4: FOCUS TEST<BR>
+		<BR>
+		The focus pattern will appear with symbols.</FONT></P>
+		<P>&nbsp;</P>
+		<CENTER>
+			<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><IMG SRC="12.gif" WIDTH="90" HEIGHT="75"></FONT></P>
+		</CENTER>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		<BR>
+		These symbols should be clearly focused in the center of the screen
+		with minimum unfocus on four (4) corner symbols.<BR>
+		<BR>
+		Press Button 3 or 4:<BR>
+		<BR>
+		A border of triangles will appear on the screen with (DISTORTION)
+		words in the center. If dissymmetry is apparent, make a note.<BR>
+		<BR>
+		</FONT></P>
+		<CENTER>
+			<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><IMG SRC="13.gif" WIDTH="58" HEIGHT="96"></FONT></P>
+		</CENTER>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		<BR>
+		Press Button 3 or 4.<BR>
+		<BR>
+		A rectangle will appear with the words (DISTORTION 2) in the center.
+		There are 16 rectangles traced around each other.<BR>
+		</FONT></P>
+		<P>&nbsp;</P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><TABLE BORDER="0" CELLPADDING="0" CELLSPACING="2" WIDTH="464">
+
+			<TR>
+				<TD WIDTH="300"><IMG SRC="14.gif" WIDTH="241" HEIGHT="224"></TD>
+				<TD WIDTH="150">
+				<CENTER><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+					The spacing of each side must be the same for each succeeding
+					rectangle and the overall pattern must be symmetrical.</FONT>
+				</CENTER></TD>
+			</TR>
+		</TABLE>
+		<BR>
+		<BR>
+		<BR>
+		Press Button 3 or 4.<BR>
+		<BR>
+		The key and Joystick pattern will appear:</FONT></P>
+		<CENTER>
+			<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><IMG SRC="15.gif" WIDTH="409" HEIGHT="267"></FONT></P>
+		</CENTER>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">Press Buttons 1 thru 4 consecutively. The proper symbol must appear
+		as each button is pushed in the appropriate square on the top
+		row.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		Displace the Joystick 90 degrees to the right slowly. The same
+		symbol as above must appear first in the box closest to the center,
+		then disappear and the outer box must Indicate the symbol. There
+		will also be a line that extends f from the center of the diagram
+		In the direction the Joystick is pushed. Check all four directions
+		and check that the appropriate box lights up. Also slowly sweep
+		the Joystick 360 degrees at its limits and make sure the line
+		moves smoothly with no dropouts at any point.</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000"><BR>
+		Remove the hand control cord from its port and move it to the
+		left port. Repeat the above test.<BR>
+		<BR>
+		NOTE; If the left joystick is not plugged In, one of the inner
+		boxes will light because of the 1MEG pull-up resistor Internal
+		to the VECTREX.<BR>
+		<BR>
+		</FONT></P>
+		<P><FONT FACE="Geneva" SIZE="2" COLOR="#000000">To escape from the controller test, hold Key 1 down while pressing
+		either Key 3 (to back up to the distortion test) or Key 4 (to
+		advance to the grid pattern).</FONT></P>
+		<P><FONT FACE="Monaco" SIZE="2" COLOR="#000000"><BR>
+		 &nbsp;</FONT></P>
+	</BODY>
+</HTML>

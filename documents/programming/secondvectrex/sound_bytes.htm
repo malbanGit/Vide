@@ -1,0 +1,49 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Sound_Bytes(_x)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Sound_Bytes ($F27D)</p>
+
+<p>Sound_Bytes_x ($F284)</p>
+
+<p>This routine copies a block of sound information into the
+sound chip buffer (at $C800-$C80E) and into the registers on the
+music chip. The format for the block of sound data is as follows:
+</p>
+
+<p>(register number), (music data),<br>
+(register number), (music data),<br>
+. .<br>
+. .<br>
+0xFF</p>
+
+<p>As long as the register number is &gt;= 0, then the music data
+will be copied; however, as soon as a register number &lt; 0 is
+encountered, the copy will stop. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $D0</p>
+
+<p>U-reg = pointer to the block of sound data</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<p>D-reg, X-reg, U-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F27D">Source</a></p>
+</body>
+</html>

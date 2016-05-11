@@ -1,0 +1,173 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=6aacd4ec -->
+<title>Import</title>
+</head>
+<body class="doc">
+<h1>Import</h1>
+
+<p>There are different ways you can import vectorlists into veccy.</p>
+<h2>Text import</h2>
+<br/><p align="center">
+<img src="pics/veccytextImport.png" width="1210" height="413" /><br/>
+<em>text import</em></p><br/>
+
+<p>On the tab "import" the first tab is called "text import".</p>
+
+<p>As text import I summarize imports that one can do via "copy / paste" of some kind of text, sourcecode or other "text" data.</p>
+
+<p>The first textarea is the place where you must put the "text data" that should be imported. This usually should be done via a copy (from some other place) and paste (to the said textarea).</p>
+
+<p>The next textarea is the "interpretation" area. Here is where veccy shows what is its interpretation of the text data you supplied. This will be filled once you press the "!" button (or another interpretation mode is selected &rarr; combobox).</p>
+
+<p>To the complete right the black area is the same interpretation shown as a veccy vectorlist-display.</p>
+<h3>How does this work?</h3>
+
+<p>The text you enter is processed the following way:
+<ul><li>
+<p>it is assumed that the text is some kind of source code, this means</p>
+</li><li>
+<p>lines starting with "*" are discarded</p>
+</li><li>
+<p>(assumed) comments after a ";" are discarded</p>
+</li><li>
+<p>whitespaces and many other non-number characters are discarded</p>
+</li><li>
+<p>the resulting "words" are "cast" to integer (decimal or hex is recognized)</p>
+</li><li>
+<p>if the cast resulted in a number, the number is added to a data array</p>
+</li></ul>
+</p>
+
+<p>After the above procedure veccy has an array of byte data, that array needs to be interpreted as a vectorlist. Here the user has to step in and help!</p>
+
+<p>The upper right area of the textimport tab is occupied by a combobox. Here you can select what kind of (initially only) BIOS data format the data should be interpreted with.</p>
+
+<p>Once you select an entry, veccy goes to work and shows you the result (in the interpretation as data "statements" and in the vector display window).</p>
+
+<p>Initially veccy is supplied with the most used BIOS vector list formats, but you can add your own formats! That is what the next 4 textfields can be used for.</p>
+<h3>Patterns</h3>
+
+<p>The data is interpreted using patterns. The user can supply these patterns so that an arbitrary number of formats can be supported. The pattern in general can have 3 entries:
+<ol><li>
+<p>first line <br />
+(this usually might be something like a "count"), this can be empty</p>
+</li><li>
+<p>line x<br />
+every line between the first and the last line, here usually the vector list is kept in earnest</p>
+</li><li>
+<p>last line<br />
+the last line can have a break criteria (or can be left empty),<br />
+the break criteria allways refers to the first byte of the next "line x"</p>
+</li></ol>
+</p>
+
+<p>For examples look at the supplied BIOS format patterns.</p>
+
+<p>Following symbols can be used in a pattern line:
+<ul><li>
+<p>only in line 1:
+<ul><li>
+<p>%C0 &nbsp;&nbsp;&nbsp; use byte as counter</p>
+</li><li>
+<p>%C+ &nbsp;&nbsp;&nbsp; use byte+1 as counter</p>
+</li><li>
+<p>%C- &nbsp;&nbsp;&nbsp;&nbsp; use byte-1 as counter</p>
+</li><li>
+<p>%I &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ignore byte</p>
+</li><li>
+<p>%X &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; move to x coordinate (relative), pattern = 0</p>
+</li><li>
+<p>%Y &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; move to y coordinate (relative), pattern = 0</p>
+</li><li>
+<p>%R"SOMETHING"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; removes in the complete interpretation the text SOMETHING (can be inserted multiple times)</p>
+</li></ul>
+</p>
+
+<p>it only makes sense to have one of the "%C" statements in line 1!<br />
+<br />
+</p>
+</li><li>
+<p>only in line x:
+<ul><li>
+<p>%X &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; x coordinate (relative)</p>
+</li><li>
+<p>%Y &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; y coordinate (relative)</p>
+</li><li>
+<p>%X0 &nbsp;&nbsp;&nbsp; start x coordinate (absolut)</p>
+</li><li>
+<p>%Y0 &nbsp;&nbsp;&nbsp; start y coordinate (absolut)</p>
+</li><li>
+<p>%X1 &nbsp;&nbsp;&nbsp; end x coordinate (absolut)</p>
+</li><li>
+<p>%Y1 &nbsp;&nbsp;&nbsp; end y coordinate (absolut)</p>
+</li><li>
+<p>%P &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pattern</p>
+</li><li>
+<p>%B &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; brightness (intensity)</p>
+</li><li>
+<p>%M &nbsp;&nbsp;&nbsp;&nbsp; mode (see bios explanation)</p>
+</li><li>
+<p>%I &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ignore</p>
+</li></ul>
+</p>
+</li><li>
+<p>only in last line:
+<ul><li>
+<p>%0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end of list, when byte is 0</p>
+</li><li>
+<p>%1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end of list, when byte is 1</p>
+</li><li>
+<p>%+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end of list, when byte smaller 128 (but not 0)</p>
+</li><li>
+<p>%- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end of list, when byte is greater equal 128 (unsigned byte obviously) [high bit is set]</p>
+</li></ul>
+</p>
+</li></ul>
+</p>
+<h2>Examples</h2>
+
+<p><b>Frogger</b><br />
+</p>
+<br/><p align="center">
+<img src="pics/FroggerExample.png" width="1227" height="392" /><br/>
+<em>Frogger example</em></p><br/>
+
+<p><b>Patriots</b><br />
+</p>
+<br/><p align="center">
+<img src="pics/PatriotsExample.png" width="1219" height="381" /><br/>
+<em>Patriots example</em></p><br/>
+
+<p><b>Vaboom</b><br />
+</p>
+<br/><p align="center">
+<img src="pics/VaboomExample.png" width="1232" height="385" /><br/>
+<em>Vaboom example</em></p><br/>
+
+<p><b>Bresenham</b><br />
+</p>
+<br/><p align="center">
+<img src="pics/BresenhamExample.png" width="1232" height="393" /><br/>
+<em>Bresenham example</em></p><br/>
+
+<p><b>Thrust</b><br />
+</p>
+<br/><p align="center">
+<img src="pics/ThrustShipExample.png" width="1224" height="386" /><br/>
+<em>Thrust example</em></p><br/>
+
+<p><b>Spudster</b><br />
+</p>
+<br/><p align="center">
+<img src="pics/SpudsterExample.png" width="1227" height="381" /><br/>
+<em>Spudster example</em></p><br/>
+</body>
+</html>

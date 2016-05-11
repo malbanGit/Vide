@@ -1,0 +1,21 @@
+:title tracki
+:image trackyNew.png|tracki window
+
+The time in system cycles between the two memory locations is measured and shown.
+
+Default are suitable memory locations for a measurement of user programs, timed between each Wait\_Recal - call.
+
+:h2 How it works
+The cycle count is always measured between two memory locations. The locations to enter as start and end address are usually "inverse" to the natural order of memory locations.
+
+For example, to do a measurement between two calls of WaitRecal, you chose as start address the "exit" of WaitRecal and as an end address the entry point of WaitRecal.
+
+That way you measure all cycles IN BETWEEN two calls of WaitRecal.
+
+Many original games and some homebrew stuff use the BIOS WaitRecal routine in their game loop to stabilize display, so the default setting should work fairly often.
+
+Nonetheless you will find, especially if you program yourself optimzed stuff, that you will want to measure you own routines. For that you can:
+a) enter start and end addresses
+b) you can also name these and persist them, so you can easily reuse them in a later session.
+
+Just type in a name for your meaurement in the textbox and press the save button. The new measurement setting will be added to the combobox to chose from.

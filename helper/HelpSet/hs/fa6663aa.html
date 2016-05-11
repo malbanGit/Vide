@@ -1,0 +1,54 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Glossar/Hardware</title>
+</head>
+<body class="doc">
+<h1>Glossar/Hardware</h1>
+<h3>DAC Digital Analog Converter<br>
+</h3>
+
+<p>Converts 8 bit digital input values (-128 to +127) to analog "voltages" ranging from -5 volt to +5 volt.
+<ul><li>
+<p>Vector Hardware</p>
+</li><li>
+<p>Sound</p>
+</li><li>
+<p>Joystick</p>
+</li></ul>
+</p>
+
+<p>Vectrex used the Chip: MC1408</p>
+<h3>Integrators<br>
+</h3>
+
+<p>Integrates (summarizes) voltages which are at its input pins over time and gives a "summarized" output voltage.  Vectrex used the Chip: IC LF347</p>
+<h3>Multiplexer</h3>
+
+<p>Vectrex has only one DAC chip, but several "client" chips that use analog values which must be "translated" from digital to analog. In order to serve all clients and only using one DAC the inventors of Vectrex designed the circuit such, that the DAC output can be switched to different clients.
+<ul><li>
+<p>clients are:</p>
+</li><li>
+<p>Integrator for vector y-position</p>
+</li><li>
+<p>X, Y integrator offset values</p>
+</li><li>
+<p>Z-value of vector hardware (brightness)</p>
+</li><li>
+<p>audio hardware</p>
+</li></ul>
+</p>
+
+<p>Vectrex used the Chip:  CD4052</p>
+
+<p>If you are wondering where Integrators for vector x-position get there values, there is a trivial answer - x Integrators ALLWAY receive the DAC value!</p>
+
+<p>Sample and and Hold<br>
+For y-integration and Brightness<br>
+Vectrex used the Chip:   IC LF347<br>
+</p>
+
+<p>Analog switches "in front" of the integrators<br>
+Vectrex used the Chip:   4066B</p>
+</body>
+</html>

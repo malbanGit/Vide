@@ -1,0 +1,27 @@
+Pitchers Duel 
+At the start of the game, use button 1 to select the number of players and button 2 selects how many innings you want to play. 
+Button 4 starts the game. In either the one-player or the two-player game, player 1 will begin on defense. 
+The batter will be introduced showing his portrait and statistics. 
+Press a button to indicate that you are ready and the bat will commence. 
+Select your pitch by pressing one of the four buttons as indicated in the control diagram. 
+Change the location of the pitch by using the joystick. 
+The batter is able to choose between normal and a power swing by pressing the appropiate button. 
+
+Move closer to or away from the plate with the joystick. 
+
+Controls (offense) 
+1 - brings up the current scorecard 
+2 - not used 
+3 - power swing 
+4 - normal swing 
+
+The joystick controls the batter position in relation to the home plate. Step back to take that inside pitch down the line or lean into one that's low and away. 
+
+Controls (defense) 
+1 - brings up the current scorecard 
+2 - knuckleball 
+3 - changeup 
+4 - fastball 
+You can change the location of the pitch with the joystick. 
+
+The cursor on-screen will not move, but the position of the ball will. The ball can be controlled throughout it's entire flight. 

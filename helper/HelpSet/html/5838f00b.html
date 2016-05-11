@@ -1,0 +1,182 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=5838f00b -->
+<title>VIA Versatile Interface Adapter  6522A MOS Technology</title>
+</head>
+<body class="doc">
+<h1>VIA Versatile Interface Adapter  6522A MOS Technology</h1>
+
+<p>Sometimes people also say PIA (Periphal Interface Adapter, but that name usuall goes to another chip 6520), although since VIA is more "versatile" it includes all stuff PIA can do - and more!</p>
+
+<p>VIA is accessed from Vectrex programs using 16 registers which are mapped to the memory location ranging from: <br />
+$d000 to $d00f<br />
+That mapping is shadowed 128 times in the following regions, that means VIA registers are mapped from $d000 to $d800.</p>
+
+<p>For general 6522 description see elsewhere, here I will only collect vectrex relevant stuff.</p>
+<h2>Registers</h2>
+<h3>Register $0 VIA Port B Input/Output</h3>
+<h4>Bit 0 MUX Enable</h4>
+
+<p>This bit is responsible for enabling the multiplexer which selects where the Sample/Hold values the DAC at this time "produces" are switched to.</p>
+
+<p>if set to 0 the multiplexer is ENABLED  if set to 1 the multiplexer is DISABLED </p>
+<h4>Bit 1 and bit 2 Mux Select</h4>
+
+<p>These two bits are used together to build a 2 bit value. This two bit value ranges from 0 to 3. According to the resulting number, the multiplexer switches the output of the DAC to the respective recieving hardware:<br />
+0 (binary: 00) Integrator for vector y-position<br />
+1 (binary: 01) X, Y integrator offset values<br />
+2 (binary: 10) Z-value of vector hardware (brightness)<br />
+3 (binary: 11) audio hardware<br />
+</p>
+<h4>Bit 3 sound BC1</h4>
+<h4>Bit 4 sound BDIR</h4>
+<h4>Bit 5 comparator input</h4>
+
+<p>Joystick...</p>
+<h4>Bit 6 external device (slot pin 35) initialized to input</h4>
+
+<p>Communication wiht cartridge, &rarr; Bankswitching, RAM etc</p>
+<h4>Bit 7 /RAMP</h4>
+<h3>Register $01 VIA Port A Input/Output</h3>
+
+<p>For vectrex purposes via port A is simple the digital register that serves as input to the Digital to Analoge Converter (DAC).</p>
+<h3>Register $02 DDRB (Data Direction Register port B)</h3>
+
+<p>Port B can be used as an output register (referred to as ORB) or as an input register (referred to as IRB). The configuration for input and output can be set for each bit of the port. Usually all bits except bit 5 and 6 are configured as output. Bit 5 and 6 are configured as input.</p>
+
+<p>Bit 6 is connected to the "external line" of the cartridge interface of the vectrex. Because of this bit 6 can be used to "communicate" with hardware "inside" cartridges. </p>
+
+<p>Many multicards and other hardware use bit 6 for this purpose (see bankswitching). </p>
+
+<p>The "tricky" thing with vectrex is, if PB6 is configured as input, bit 6 goes automatically high. If set to output it goes to low automatically. Even if in output mode and a "ONE" is written to pb6, it only goes high for a short period of time and than switches back to low automatically.   </p>
+<h3>Register $b VIA Auxiliary control register</h3>
+
+<p>With the auxilary control register the behaviors of the timers and the shift register can be configured (also latching for ORA and ORB, but I am not aware that this makes any since for vectrex).</p>
+
+<p>SHIFT Mode is contolled by bit 2-4 with these 3 bits 8 SHIFT mode can be configured<br />
+The first mode is DISABLE. The next 3 modes are SHIFT IN modes, which is not used by vectrex.</p>
+
+<p>The other four modes:
+<ul><li>
+<p>100 SHIFT out free running at T2 rate</p>
+</li><li>
+<p>101 SHIFT out under control of T2</p>
+</li><li>
+<p>110 SHIFT out under control of system clock</p>
+</li><li>
+<p>111 SHIFT out under control of ext clock</p>
+</li></ul>
+</p>
+
+<p>Usually shift mode is allways set to 110 - shift out under control of system clock.</p>
+
+<p>Timer 1 modes (bit 7 and bit 6):
+<ul><li>
+<p>bit 7: 1x if set, on timer start ORB bit 7 goes LOW (RAMP = active), on timer stop, ORB bit 7 goes high (RAMP = not active)</p>
+</li><li>
+<p>10 One shot mode (timer runs till zero than stops)</p>
+</li><li>
+<p>11 continues mode (timer runs till zero than "reloads" latch and starts anew)</p>
+</li><li>
+<p>01  &amp; 00 same as above without ORB bit 7</p>
+</li></ul>
+</p>
+
+<p>On normal vector draw bit 7 is usually set.<br />
+On normal "raster" draw bit 7 is often not set.<br />
+</p>
+
+<p>So you may see:
+<ul><li>
+<p>$18: T1 OneSHotMode WITHOUT Ramp control, Shift out under System clock</p>
+</li><li>
+<p>$98: T1 OneSHotMode WITH Ramp control, Shift out under System clock</p>
+</li></ul>
+</p>
+<h3>Register $c VIA control register</h3>
+
+<p>VIA Control register "controls" the Control lines of via. Control lines are:<br />
+CA1<br />
+CA2<br />
+CB1<br />
+CB2<br />
+</p>
+
+<p>All control lines act as interrupt inputs or as handshake Outputs.</p>
+
+<p>For vectrex anlog parts (and for now) only the lines CA2 (ZERO) and CB2 (BLANK) are interesting.</p>
+
+<p>CA2 - ZERO<br />
+Responsible bits are bit 1-3: 
+<ul><li>
+<p>110 = LOW output (translated to vectrex analog - ZERO is enabled)</p>
+</li><li>
+<p>111 = HIGH output (translated to vectrex analog - ZERO is diaabled)</p>
+</li></ul>
+</p>
+
+<p>CB2 - BLANK<br />
+Responsible bits are bit 5-7: 
+<ul><li>
+<p>110 = LOW output (translated to vectrex analog - BLANK is enabled)</p>
+</li><li>
+<p>111 = HIGH output (translated to vectrex analog - BLANK is diaabled) Although blank is "usually" controlled by the shift register (output)!</p>
+</li></ul>
+</p>
+
+<p>Together in vectrex terms:<br />
+(assuming bit 0 and 5 (interrupt controls for CA1 and CB1) are zero)
+<ul><li>
+<p>%110x110x = $cc means ZERO enabled, and BLANK enabled</p>
+</li><li>
+<p>%111x110x = $ec means ZERO enabled, and BLANK disabled</p>
+</li><li>
+<p>%111x111x = $ee means ZERO disabled, and BLANK disabled</p>
+</li><li>
+<p>%110x111x = $ce means ZERO disabled, and BLANK enabled</p>
+</li></ul>
+</p>
+<h2>Timers</h2>
+
+<p>VIA has two timers, both are "used" by the vectrex.  How these timer exactly operate &rarr; see Manual of VIA.</p>
+
+<p>Timer operations are controlled by the AUXILIARY Control register ($b). The timer relevant bits are:<br />
+
+<ul><li>
+<p>Timer 1: bit 6-7</p>
+</li><li>
+<p>Timer 2: bit 5</p>
+</li></ul>
+</p>
+
+<p>The "usual" setting for the timers is:
+<ul><li>
+<p>Timer 1: 10 (One Shot Mode, Timed interrupt each time T1 is loaded)</p>
+</li><li>
+<p>Timer 2:  0 (Timed interrupt)</p>
+</li></ul>
+</p>
+<h3>Timer 1</h3>
+
+<p>Timer 1 is usally used to move the beam across the vectrex screen. Both for just "moving" and "drawing" (only difference is, whether the light of the beam is switched on or off).</p>
+
+<p>For this the timer 1 is configured to the so called "one Shot Mode" ("timing stops after the coundown finished). <br />
+Note:<br />
+Timer starts when something is written to the high byte. So you usually see something like "clr t1h", when timing starts.</p>
+
+<p>Using Timer 1 in one shot mode has one neat effect, the 7 bit of VIA ORB is "automatically" set to LOW when the timer starts (clr t1h), and "automatically" set to "HIGH" when the timer is finished. Bit 7 of ORB is the analog equivalent to RAMP. Setting PB7 to low means enabling RAMP, and setting it to high means disabling RAMP.</p>
+
+<p>Using Timer 1 in combination with its ability to directly "control" the analog integrators makes it just about "perfect" to draw vectors for vectrex!</p>
+
+<p>In vectrex Timer 1 (low value) is usually reffered to as "the scale" of a vector.  </p>
+<h3>Timer 2</h3>
+
+<p>Is used to track "system" time, and wait for 50Hz to be reached and than to do a recalibration (30.000 cycles). This value can be set to vectrex ram: </p>
+</body>
+</html>

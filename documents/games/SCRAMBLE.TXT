@@ -1,0 +1,136 @@
+Scramble 
+--------
+   Watch out for that next mountain!  Maneuver your ship over a rough terrain
+in an effort to destroy the enemy base.  Careful piloting alone won't get you
+to your destination... you must brave rockets, UFOs, flamoids and some very
+tight tunnels.  Few people have ever seen the enemy base, let alone destroy
+it.  Will you be one of the select few?
+
+Controls
+--------
+Joystick:  Moves ship up or down, faster or slower.  Moves in 8 directions
+           indicated on overlay.
+Button 1:  Not used.
+Button 2:  Not used.
+Button 3:  Bomb.  Drops bombs on objects below.
+Button 4:  Laser.  Shoots lasers at approaching objects.
+
+Difficulty Selection
+--------------------
+   You can select any of 3 difficulty levels when beginning Scramble:
+
+   Difficulty         Fuel            Missile          UFO         Maze
+     Level         Consumption        Flight          Speed        Width
+   -------------------------------------------------------------------------
+   Game 1             Slow            Straight        Slow        Average
+   Game 2            Medium           Curves         Medium       Average
+                                      toward you
+   Game 3             Fast            Curves          Fast         Tight
+                                      toward you
+
+Game Play
+---------
+   Your ship will immediately come into view and the landscape of the first
+part of your journey will begin moving beneath you.  Use the joystick to
+maneuver your ship across the terrain, avoiding the mountains and other
+obstacles.  Press button 3 to drop bombs.  Press button 4 to fire lasers at
+the obstacles.  If you are successful in piloting through that section of the
+terrain, you will immediately fly to the next, more difficult part of the
+planet.  If you successfully travel through all levels, you will eventually
+reach the enemy base.
+
+Joystick
+--------
+   The joystick lets you control the ship's height and speed.  Push the
+joystick up and down to control how high you are flying.  By moving the
+joystick right and left, you can control the speed.  You can also move
+diagonally.  You cannot move any further back then the left side of the
+screen.
+
+Objects Found on Journey
+------------------------
+   The various obstacles you will encounter as you head toward the enemy base
+include:
+
+Missiles-       [Obvious- they will launch up at you sometimes.]
+Fuel Tanks-     [Boxes on two legs.]
+Mystery Bases-  [Big box with an X in it.]
+UFOs-           ["Bowl-shaped."  Have vertical symmetry.]
+Flamoids-       [Almost triangles.  Have horizontal symmetry.]
+
+Levels
+------
+   There are five levels in Scramble which you must survive in an effort to
+get to the enemy base.  The levels are as follows:
+
+LEVEL ONE:   The Mountains.
+             Fly over a mountainous terrain, destroying obstacles.  Maneuver
+             carefully... surface-to-air missiles will be constantly
+             released.
+
+LEVEL TWO:   The Cavern.
+             Weave your way through a treacherous cavern.  Be sure to avoid
+             the floor and ceiling while also avoiding or destroying the
+             UFOs.
+
+LEVEL THREE: The Flamoids.
+             Careful piloting is required to survive this level.  Flamoids
+             are speeding toward you and your bullets and lasers have no
+             effect on them -- you can only try to avoid this danger.
+
+LEVEL FOUR:  The City.
+             Climb high over the walls of the city.  Watch carefully because
+             missiles hidden in silos may take off and destroy you at any
+             moment.
+
+LEVEL FIVE:  The Maze.
+             This tight maze requires absolute precision to survive.  The
+             fuel tanks at the beginning are your last chance to fuel up
+             before tackling the enemy base.
+
+LEVEL SIX:   The Enemy Base.
+             Your only objective is to bomb the enemy base.  This level will
+             repeat until the base is successfully destroyed.
+
+Fuel
+----
+   The fuel gauge is at the bottom of the screen.  Each of your ships will
+start with a full tank and you can add fuel by destroying the fuel tanks with
+bombs or lasers.  Each fuel tank is worth 1/8 of your tank.  If you start to
+run low, your fuel gauge will flash and a warning signal will sound.  If you
+do run out of fuel, your ship will crash.
+
+Collisions
+----------
+   If you collide with the landscape or any obstacle, you will lose one ship. 
+You will automatically return to the beginning of the level you were on.
+
+Bombing the Enemy Base
+----------------------
+   Once the enemy base is hit, the Scramble them is played and the difficulty
+of the game is increased further.  You will get a full tank of fuel and will
+automatically advance to LEVEL ONE again.
+
+Number of Ships
+---------------
+   In each game you start with 5 ships.  A bonus ship is awarded when you
+score 10,000 points.
+
+Scoring
+-------
+   As long as you are flying you are awarded 10 points every second.  You are
+also awarded points for destroying obstacles.  The obstacles, their point
+values and the levels in which they appear are as follows:
+
+     Obstacle                Points                Levels
+   ---------------------------------------------------------
+     Missile (on ground)        50                 1,2,3,4
+     Missile (in air)           80                 1,4
+     Fuel Tank                 150                 1,2,3,4,5
+     Mystery Base              200                 1,2,3,4
+     UFO                       100                 2
+     Enemy Base                850                 6
+
+
+z_morganrw@ccsvax.sfasu.edu
+

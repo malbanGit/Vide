@@ -1,0 +1,56 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Rot_VL_M_dft(_Mode)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Rot_VL_M_dft ($F62B)</p>
+
+<p>Rot_VL_Mode ($F61F)</p>
+
+<p>This routine rotates a vector list having the following
+format:</p>
+
+<p>mode, rel y, rel x,<br>
+mode, rel y, rel x,<br>
+. . .<br>
+. . .<br>
+mode, rel y, rel x,<br>
+0x01</p>
+
+<p>The A register contains the rotation value, and the X contains
+a pointer to the vector list. The U register contains a pointer
+to a buffer into which the transformed points are to be saved. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $C8</p>
+
+<p>A-reg = rotation angle value (Rot_VL_Mode only)</p>
+
+<p>X-reg points to original vector list</p>
+
+<p>U-reg points to rotated vector list</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<p>X-reg points to next byte after list</p>
+
+<p>U-reg points to next byte after rotated list</p>
+
+<p>D-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F61F">Source</a></p>
+</body>
+</html>

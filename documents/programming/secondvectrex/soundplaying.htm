@@ -1,0 +1,208 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.5 [en] (Win98; I) [Netscape]">
+   <title>Sound Playing</title>
+</head>
+<body text="#C0C0C0" bgcolor="#000000">
+<a href="toc.htm">Vectrex Programming TOC</a>
+<p><b><font size=+2>Sound Playing</font></b>
+<p>Now you know (with a little experimenting on your side) how to draw
+vectors, dots and whole objects of vectors. You know how to move them,
+how to scale them and give them different brightnesses. All these things
+done via a couple of BIOS functions. Now let us go on to something completely
+different. Let us enter the universe of sound! To keep one thing clear
+in mind, I am no musician, I can't read a single note, and I won't go into
+any depths on this subject, I'll tell you what BIOS routines are available,
+a bit how to use them - that's all!
+<p>A little introduction nonetheless before we start. The soundchip of the
+vectrex is a Programmable Sound Generator (short PSG), it's correct name
+is AY-3-8912. <a href="appendixd.htm">Appendix D</a> is an extract of the
+reference manual of that chip. The vectrex uses the PSG not only for sound
+generation, but also for communicating with the outside world. Register
+16 of the PSG is connected to the joypad electronic. The PSG itself cannot
+be addressed directly, only by sending the correct byte sequences to the
+VIA chip. As you might imagine it is cumbersome to program that thing yourself.
+The original vectrex programmers thought so too, that is why a whole series
+of functions exist that make life easier. There are functions to acquire
+joystick positions, button stati, sending bytes and streams of bytes. There
+are even functions to play songs and noises. The only sound functions I
+used so far are the functions needed to play some notes. These will therefore
+be the only (sound) functions I'll explain a little, the other sound related
+functions are again left as an exercise for the reader.
+<br>&nbsp;
+<br>&nbsp;
+<p><font size=+2>Get on with it...</font>
+<p>First, let me shock you a little with the available sound functions:
+<blockquote>Clear_Sound ($F272)
+<br>Do_Sound ($F289)
+<br>Do_Sound_x ($F28C)
+<br>Init_Music ($F68D)
+<br>Init_Music_Buf ($F533)
+<br>Init_Music_chk ($F687)
+<br>Init_Music_dft ($F692)
+<br>Explosion_Snd ($F92E)
+<br>Sound_Byte ($F256)
+<br>Sound_Byte_x ($F259)
+<br>Sound_Byte_raw ($F25B)
+<br>Sound_Bytes ($F27D)
+<br>Sound_Bytes_x ($F284)</blockquote>
+Of the above functions we will look a bit closer only at the following:
+<blockquote>Init_Music_Buf ($F533)
+<br>Init_Music_chk ($F687)
+<br>Do_Sound ($F289)</blockquote>
+Of these only the last two are needed to play a piece of music. There is
+also a very interesting RAM location, Vec_Music_Flag ($C856), but later
+more on that.
+<p>Before we play our first piece of music, again a little (second) introduction.
+The BIOS designers really cared about programmers who wanted to play music
+which knew nothing about the PSG. They designed routines, which allow us
+to create pieces of music as they come to our mind and writing down the
+notes like we learn them (or don't :-() in school. The PSG supports 3 voices
+at the time, so our music can also be played utilizing three voices. Furthermore
+it has the ability to create noises, so we can not only play music, but
+can also have some shooting or explosion or the like sounds (snare drums...).
+<p>The music playing routines the BIOS provides us with, enables us to
+use 64 notes, ranging from G2 to AS7 (S=Sharp). As usual (?) in each octave
+we have 12 different notes, look at <a href="appendixf.htm">Appendix F</a>
+for a list of all notes. If you absolutely hate music and do not even want
+any further information, the BIOS has several pieces of music built into
+(13 I think), you can use them in your programs for several usages, they
+range from simple songs, to some noise and bonus sounds. Look at the <a href="appendixa.htm">Appendix
+A</a> other ROM addresses as to where these are located. Actually now that
+I think of it, we could start playing one of them, just to show you, how
+to set the system up and going, before we move on to how the song structure
+looks like.
+<p><a href="sound1.asm">sound1.asm</a>
+<p>This time we have to set up something before we enter our main loop.
+In order for the music routines to work they must be initialized. This
+is rather easy, because they are sort of self initializing. All we have
+to do is make sure that they know, that a new piece of music is about to
+begin. The before mentioned BIOS RAM variable Vec_Music_Flag keeps track
+of the current state of music playing routines. Three states are possible,
+0 means no music playing. 1 means about to start a new piece of music,
+and $80 finally means, that a piece of music is currently playing. Since
+we want to start a new piece of music we store a 1 in that location and
+with that we are already done with initializing. We enter the main loop.
+Right before we call the Wait_Recal function the sound update routine is
+usually called, this routine is called Init_Music_chk ($F687). This routine
+checks and updates the state of all PSG shadow registers. These shadow
+registers are copies the music routines use in order to easily keep track
+of the PSG state. The first time we call the routine it initializes the
+shadow registers of the PSG with the first set of notes our piece of music
+consists of. It than changes the state from 1 to $80, from 'about to play'
+to 'I'm currently playing'. This routine only updates and calculates the
+shadow registers, it does not access the PSG. Before calling the routine
+we must ensure two things, first that DP is pointing to $C8, and second
+that we put the address of the music we want to play into register U. This
+we do. The music we want to play is a piece of BIOS music, here called
+(highly unimaginative) music1. This is the all known startup music. After
+vector hardware recalibration we call another music routine, Do_Sound ($F289),
+this routine looks whether the shadow registers have changed, if so it
+copies the changed ones into the PSG chip. In order for that to work correctly
+the DP register must be pointing to $D0, having just called the Wait_Recal
+routine that is insured. Done. We loop through that eternally. What we hear
+is the startup music once played. Only once, since upon finishing Vec_Music_Flag
+contains a zero, thus the Init_Music_chk knows the music is finished and
+nothing more is done. If we wanted to construct a program that played the
+startup music continuously, we would have need to check the above location,
+and if we at some stage encounter a 0 we would have to fill it with another
+initializing 1. That's all.
+<p>Now that we know how to play a piece of music let us go one step further,
+and look what the piece of music is made of. Following text is simply copied
+from the BIOS description done by Bruce Tomlin:
+<p><font face="Fixedsys">; Music data format: ;</font>
+<br><font face="Fixedsys">; ;</font>
+<br><font face="Fixedsys">; header word -> $C84F 32 nibble ADSR table ;</font>
+<br><font face="Fixedsys">; header word -> $C851 8-byte "twang" table ;</font>
+<br><font face="Fixedsys">; data bytes ;</font>
+<br><font face="Fixedsys">; ;</font>
+<br><font face="Fixedsys">; The ADSR table is simply 32 nibbles (16 bytes)
+of amplitude values. ;</font>
+<br><font face="Fixedsys">; ;</font>
+<br><font face="Fixedsys">; The twang table is 8 signed bytes to modify
+the base frequency of ;</font>
+<br><font face="Fixedsys">; each note being played. Each channel has a
+different limit to its ;</font>
+<br><font face="Fixedsys">; twang table index (6-8) to keep them out of
+phase to each other. ;</font>
+<br><font face="Fixedsys">; ;</font>
+<br><font face="Fixedsys">; Music data bytes: ;</font>
+<br><font face="Fixedsys">; Bits 0-5 = frequency ;</font>
+<br><font face="Fixedsys">; Bit 6 clear = tone ;</font>
+<br><font face="Fixedsys">; Bit 6 set = noise ;</font>
+<br><font face="Fixedsys">; Bit 7 set = next music data byte is for next
+channel ;</font>
+<br><font face="Fixedsys">; Bit 7 clear, play note with duration in next
+music data byte: ;</font>
+<br><font face="Fixedsys">; bits 0-5 = duration ;</font>
+<br><font face="Fixedsys">; bit 6 = unused ;</font>
+<br><font face="Fixedsys">; bit 7 set = end of music ;</font>
+<p>It describes very well what a piece of music looks like. Usually you
+will use a BIOS ADSR and TWANG table. But if you like experimenting you
+can set up your own. There is no real magic about them.
+<p>The ADSR table sets up a 'fading' of the notes. If the fading is abrupt
+it sounds very much like an old PONG game. If it last a bit longer you
+can make it somewhat 'organ' like. If you are pretty clever with this you
+can make it sound like different instruments.
+<p>The Twang table is for all pieces of music I know of for all bytes 0.
+The Twang table is also called Vibe table, it sets up some sort of vibrato.
+Actually I have not done much testing with that table but you sure can
+come up with some weird sounds.
+<p>As you see, there is no magic about these values, and for most pieces
+of music the BIOS provided once will be sufficient. Look at the ROM listing
+and/or at <a href="appendixa.htm">Appendix A</a> other ROM addresses, as
+to where they are located, Minestorm including there are at least 6 different
+to be found. The actual piece of music and how it is made up from the above
+byte settings looks a bit confusing at first, but it really is pretty straight
+forward. If you ever did some bit fiddling before you won't have any difficulties.
+Let us give another small example, this time taken again from Vectrex Frogger:
+<p><a href="sound2.asm">sound2.asm</a>
+<p>All that is changed from the program before is the pointer of the music,
+from music1 to yankee, and I added the yankee doodle music data.
+<p>The first two words of the data are BIOS ROM addresses of an ADSR and
+a TWANG table. The TWANG table is as noted above, all zero, the ADSR table
+looks like:
+<p>FEE8 FDB $EEFF,$FFEE,$EEDD,$CCBB,$AA99,$8888,$8888,$8888
+<p>As you can see there is not really all that much fading. It sounds a
+bit organ like. Following are all notes. The first 26 notes are one voice
+notes pretty low notes, actually they were supposed to sound a bit like
+a drum, but using noise, sounded pretty bad, so I used 'tones' instead,
+but took low notes. If you look at Appendix F you can easily translate
+the values to notes, here a small extract:
+<p><font face="Fixedsys">G2 EQU $00 G = 1.5 8ves below middle C</font>
+<br><font face="Fixedsys">GS2 EQU $01 G sharp (second 8ve) , etc.</font>
+<br><font face="Fixedsys">A2 EQU $02</font>
+<br><font face="Fixedsys">AS2 EQU $03</font>
+<p>Thus the 2 means we are playing an A2 note, and the 0 means we are playing
+a G2. The second byte in each line (when there are only two bytes) means
+the length, for how long the note is played. The time is measured in milliseconds.
+<p>I wouldn't know how long a note must last, for it to be a quarter or
+an eighth, but you probably would, I guess quarter about 16, eighth about
+8 and so on. For the yankee doodle I took whatever came to my mind, and
+I don't think it is very well done. Further down you will notice lines
+that are somewhat more occupied. That's where I started using more than
+one voice. Since we have only 64 notes, that means that the 7th (and 6)
+bit of our note index is not used. Well it IS used after all, if it is set
+it means, that the following byte is not the time our note is supposed
+to last, but a value which note the second (or third) voice should play.
+There are a maximum of 3 voices. The missing sixth bit is used to indicate
+whether the note should be played with a noise generator (bit 6 set) or
+via a tone generator (bit 6 clear). The yankee doodle above does not make
+use of the noise generator. The introduction music for armor attack (music3
+($FD81)) is made up solely using the noise generator, it is supposed to
+be snare drum pattern). After the data for the third voice a length (timing)
+information must be given. The timing information also only has a length
+of 6bit. The 6th bit is unused. If the 7th bit is set, than the music
+is over.
+<br>&nbsp;
+<br>&nbsp;
+<br>
+<center>
+<p><a href="joystick.htm">Next page</a> <a href="linedrawing.htm">Last
+Page</a>
+<p><a href="toc.htm">Vectrex Programming TOC</a></center>
+
+</body>
+</html>

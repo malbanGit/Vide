@@ -1,0 +1,67 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Vector beam positioning functions</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Vector beam positioning functions</strong></font></p>
+
+<p>There are quite a few positioning functions available, some
+absolut, some relative and some reset functions. Here is a
+program that will plot some dots using positioning functions. </p>
+
+<p>Here a screenshot:</p>
+
+<p align="center"><img src="dot3.gif" width="321" height="471"></p>
+
+<p><a href="vecpos.asm">vecpos.asm</a></p>
+
+<p>First we draw a dot at the center, like we used to in one of
+the above examples. Than we set a scaling factor of 100. Next we
+prepare for the function call of Moveto_d ($F312). This functions
+positions our vector beam relative to the current position. The
+coordinates are expected in the A (Y position) and B (X position)
+registers (that is the D register). After calling the function we
+plot the dot. Notice, this is the dot on the screen on the bottom
+left side, the coordinates we used for positioning were (-100,
+-50) (Y, X). </p>
+
+<p>Now we take the invers position (100, 50) (Y, X) and only half
+the scale factor. Notice, that with the same positioning
+information and half the scale factor (50 instead of 100), we
+move exactly half the way back! </p>
+
+<p>The last position example in the above program is via indexed
+positioning. The function we will call is named Moveto_ix_b
+($F30E). The function expects an address to a position
+information in the X register and a scaling factor in the B
+register. We have stored another (100, 50) (Y, X) at the address
+of 'position', the X register is pointing to that address.
+Furthermore we moved 200 to B register for scaling information.
+Notice this dot is the one on the top right of the screen.</p>
+
+<p>Further information about positioning functions can be found in
+<a href="appendixa.htm">appendix A</a>:</p>
+
+<blockquote>
+    <p>Moveto_d ($F312)<br>
+    Moveto_d_7F ($F2FC)<br>
+    Moveto_ix ($F310)<br>
+    Moveto_ix_7F ($F30C)<br>
+    Moveto_ix_b ($F30E)<br>
+    Moveto_ix_FF ($F308)<br>
+    Moveto_x_7F ($F2F2)</p>
+    <p>&nbsp;</p>
+    <p align="center"><a href="linedrawing.htm">Next page</a> <a
+    href="scaling.htm">Last Page</a></p>
+    <p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</blockquote>
+</body>
+</html>

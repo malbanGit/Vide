@@ -1,0 +1,3850 @@
+<?xml version="1.0"?>
+<AllCartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vector 21</Name>
+		<CartName>Vector 21</CartName>
+		<Author>George Pelonis</Author>
+		<Year>2006</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\Vector21.BIN</FullFilename>
+		</FullFilenames>
+		<Information>George Pelonis</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.furyunlimited.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Vector 21-2737102180104441409.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vector 21 Download BIN</BinaryLink>
+		<Licence>THESE GAMES ARE RELEASED AS FREEWARE, AND ARE FOR PERSONAL USE ONLY.
+
+THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-CART.
+</Licence>
+		<CopyrightType>FREEWARE</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Mail Plane</Name>
+		<CartName>Mail Plane</CartName>
+		<Author>GCE - Mark Indictor</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>256</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Mail_Plane.bin</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Mark Indictor</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\Mail Plane-2698026950395336459.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Mail Plane2426718698014971448.png</InGameImage>
+		<Critic>documents\games\Mail Plane_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink>Mail Plain Complete Bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Omega Chase</Name>
+		<CartName>Omega Chase</CartName>
+		<Author>Christopher Tumber</Author>
+		<Year>1998</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/omageChase.bin</FullFilename>
+		</FullFilenames>
+		<Information>Christopher Tumber</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.ctumber.com/omega-chase-deluxe.html</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>OmegaChase Bin Download</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright Christopher 1998 Tumber</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Amen Break</Name>
+		<CartName>Amen Break</CartName>
+		<Author>Binary Star</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/AmenLive.bin</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://atariage.com/forums/index.php?app=core&amp;module=attach&amp;section=attach&amp;attach_id=432837</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Amen Live Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Lineart</Name>
+		<CartName>Lineart</CartName>
+		<Author>Nuance &amp; Metalvotze</Author>
+		<Year>2011</Year>
+		<CRC>0</CRC>
+		<TypeFlags>2</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\lineart01.bin</FullFilename>
+			<FullFilename></FullFilename>
+			<FullFilename></FullFilename>
+			<FullFilename></FullFilename>
+			<FullFilename></FullFilename>
+			<FullFilename>download\cartridges\lineart01.bin</FullFilename>
+			<FullFilename>download\cartridges\lineart02.bin</FullFilename>
+			<FullFilename>download\cartridges\lineart03.bin</FullFilename>
+			<FullFilename>download\cartridges\lineart04.bin</FullFilename>
+		</FullFilenames>
+		<Information>Nuance &amp; Metalvotze</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://metalvotze.de/files/vecsrc/</Homepage>
+		<InstructionFile>documents/games/Lineart_instructions.txt</InstructionFile>
+		<FrontImage>./cartridges/images/Lineart-7881467895127104613.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Lineart-6312384250983452480.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>LineArt Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>All good things</Name>
+		<CartName>All good things</CartName>
+		<Author>John Dondzila</Author>
+		<Year>1996</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/agt.bin</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>All good things Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 1996 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>War of the Robots</Name>
+		<CartName>War of the Robots</CartName>
+		<Author>George Pelonis</Author>
+		<Year>2003</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\WOTR.BIN</FullFilename>
+		</FullFilenames>
+		<Information>George Pelonis</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.furyunlimited.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/War of the Robots4507615348291746188.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>War of the Robots Download BIN</BinaryLink>
+		<Licence>THESE GAMES ARE RELEASED AS FREEWARE, AND ARE FOR PERSONAL USE ONLY.
+
+THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-CART.
+</Licence>
+		<CopyrightType>FREEWARE</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Continuum</Name>
+		<CartName>Continuum</CartName>
+		<Author>George Pelonis</Author>
+		<Year>2010</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\continuum.bin</FullFilename>
+		</FullFilenames>
+		<Information>George Pelonis</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.furyunlimited.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Continuum5418870895902977174.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Contiuum Download BIN</BinaryLink>
+		<Licence>THESE GAMES ARE RELEASED AS FREEWARE, AND ARE FOR PERSONAL USE ONLY.
+
+THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-CART.
+</Licence>
+		<CopyrightType>FREEWARE</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Pimmelsafari</Name>
+		<CartName>Pimmelsafari</CartName>
+		<Author>Nuance &amp; Metalvotze</Author>
+		<Year>2005</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\pimmelsafari2.bin</FullFilename>
+		</FullFilenames>
+		<Information>Nuance &amp; Metalvotze</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://metalvotze.de/files/vecsrc/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\Pimmelsafari2354242198265978104.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Pimmelsafari-6735789852555383076.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Pimmelsafari Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Bandai</Name>
+		<CartName>Bandai</CartName>
+		<Author>Alex Nicholson</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/BANDAI.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Alex Nicholson</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.vectorzoa.com/info2.html</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Bandai-909510207661974291.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Bandai Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>VVoxXmas</Name>
+		<CartName>VVoxXmas</CartName>
+		<Author>Alex Nicholson</Author>
+		<Year>2007</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/VVOXXMAS.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Alex Nicholson</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.vectorzoa.com/info2.html</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/VVoxXmas5937257887725250271.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>VVOXXMAS Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Art Master</Name>
+		<CartName>Art Master</CartName>
+		<Author>GCE - Richard Moszkowski</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>256</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/ART.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Richard Moszkowski</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents\games\ARTMAS.TXT</InstructionFile>
+		<FrontImage>.\cartridges\images\Art Master1442730792838493204.png</FrontImage>
+		<BackImage>.\cartridges\images\Art Master-1467646227520266043.png</BackImage>
+		<Overlay></Overlay>
+		<InGameImage>.\cartridges\images\Art Master-6364754777799619534.png</InGameImage>
+		<Critic>documents\games\Art Master_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>Artmaster Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/Art_Master_Manual.pdf</PDFFile>
+		<CartridgeImage>.\cartridges\images\Art Master-5339254432952409156.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Tour de France</Name>
+		<CartName>Tour de France</CartName>
+		<Author>GCE - Mark Indictor</Author>
+		<Year>1983</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/other/TourDeFrance-1983-Prototype.vec</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Mark Indictor</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>./cartridges/images/Tour de France-312721268631388112.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Tour de France-8988028057740753058.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Spike</Name>
+		<CartName>Spike</CartName>
+		<Author>GCE - Tom Sloper</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/SPIKE.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Tom Sloper</Information>
+		<Cheats></Cheats>
+		<Eastereggs>If you position the door just about the entire way to the right of the screen then jump into it to be jammed between the small space at the left and the door, then the game will reward you with 47000 points and increase the difficulty.</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/SPIKE.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Spike-6850045464759561671.png</FrontImage>
+		<BackImage>./cartridges/images/Spike-8657866799463852955.png</BackImage>
+		<Overlay>overlays/spike.png</Overlay>
+		<InGameImage>./cartridges/images/Spike-3560620721796582133.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vectrex Frogger</Name>
+		<CartName>Vectrex Frogger</CartName>
+		<Author>Malban</Author>
+		<Year>1998</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Frogger.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Malban</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>malban.de</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>VFrogger Download bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Public Domain</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vector Pong</Name>
+		<CartName>Vector Pong</CartName>
+		<Author>Binary Star</Author>
+		<Year>2014</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\VectorPongV104.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Vector Pong-8327556080149144658.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vector Pong Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Xmas Cart 2014</Name>
+		<CartName>Xmas Cart 2014</CartName>
+		<Author>Binary Star</Author>
+		<Year>2013</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\Xmas_Cart_2014.bin</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile>documents\games\Xmas Cart 2014_instructions.txt</InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Xmas Cart 2014-3390921816453435200.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Xmas_Cart_2014 Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Melody Master</Name>
+		<CartName>Melody Master</CartName>
+		<Author>GCE - Ronald J. Logsdon</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>256</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/MELODY.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Ronald J. Logsdon</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/MELODY.TXT</InstructionFile>
+		<FrontImage>.\cartridges\images\Melody Master-7923954496175752109.png</FrontImage>
+		<BackImage>.\cartridges\images\Melody Master8466901864956414826.png</BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Melody Master1144243955202638322.png</InGameImage>
+		<Critic>documents\games\Melody Master_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.Free for non commercial use.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>Melody Master Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/Melody_Master_Manual.pdf</PDFFile>
+		<CartridgeImage>./cartridges/images/Melody Master-2931638213987509354.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Nebula Commander</Name>
+		<CartName>Nebula Commander</CartName>
+		<Author>Craig Aker</Author>
+		<Year>2005</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/NebulaCommander.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Craig Aker</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Nebula Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2005 Craig Aker</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Zantis</Name>
+		<CartName>Zantis</CartName>
+		<Author>George Pelonis</Author>
+		<Year>2011</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\zantis.bin</FullFilename>
+		</FullFilenames>
+		<Information>George Pelonis</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.furyunlimited.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Zantis-1553051303637863746.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Zantis Download BIN</BinaryLink>
+		<Licence>THESE GAMES ARE RELEASED AS FREEWARE, AND ARE FOR PERSONAL USE ONLY.
+
+THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-CART.
+</Licence>
+		<CopyrightType>FREEWARE</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Bresenham</Name>
+		<CartName>Bresenham</CartName>
+		<Author>Nuance &amp; Metalvotze</Author>
+		<Year>2008</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\bresenham.bin</FullFilename>
+		</FullFilenames>
+		<Information>Nuance &amp; Metalvotze</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://metalvotze.de/files/vecsrc/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\Bresenham-2483825156118844362.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Bresenham-6365813026975366650.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Bresenham Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Scalar Ownage</Name>
+		<CartName>Scalar Ownage</CartName>
+		<Author>Sebastian Mihai</Author>
+		<Year>2012</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/scalar.bin</FullFilename>
+		</FullFilenames>
+		<Information>Sebastian Mihai</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://sebastianmihai.com/main.php?t=57</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Scalar Ownage8795626802727121575.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Scalar Ownage Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vecmania part 2</Name>
+		<CartName>Vecmania part 2</CartName>
+		<Author>John Dondzila</Author>
+		<Year>1999</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Vecmania2.bin</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vecmania 2 Download Bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 1999 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vecmania part 1</Name>
+		<CartName>Vecmania part 1</CartName>
+		<Author>John Dondzila</Author>
+		<Year>1999</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Vecmania1.bin</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vecmania 1 Download Bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 1999 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Animaction</Name>
+		<CartName>Animaction</CartName>
+		<Author>GCE</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>264</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/ANIMACT.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents\games\ANIMAC.TXT</InstructionFile>
+		<FrontImage>.\cartridges\images\Animaction-1554169985695493328.png</FrontImage>
+		<BackImage>.\cartridges\images\Animaction-4006852206211819669.png</BackImage>
+		<Overlay></Overlay>
+		<InGameImage>.\cartridges\images\Animaction8998158493162863303.png</InGameImage>
+		<Critic>documents\games\Animaction_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>Animaction Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/AnimAction_Manual.pdf</PDFFile>
+		<CartridgeImage>.\cartridges\images\Animaction666182188371488219.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vectopia</Name>
+		<CartName>Vectopia</CartName>
+		<Author>John Dondzila</Author>
+		<Year>2001</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Vectopia.bin</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vectopia Download bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright John Dondzila 2001</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>T-Rex</Name>
+		<CartName>T-Rex</CartName>
+		<Author>DEFAME &amp; disaster area</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\trex.bin</FullFilename>
+		</FullFilenames>
+		<Information>DEFAME &amp; disaster area</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\T-Rex-742428684126211349.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/T-Rex5514621738538711557.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>T-Rex Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Star Wars Cantina Band</Name>
+		<CartName>Star Wars Cantina Band</CartName>
+		<Author>Binary Star</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\CantinaBand.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Star Wars Cantina Band-7263521358846472853.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Cantina Band Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Mr Boston</Name>
+		<CartName>Mr Boston</CartName>
+		<Author>GCE - Richard Moszkowski</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/other/mrboston.bin</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Richard Moszkowski</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/-900806299465311412.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>3d-Crazy Coaster</Name>
+		<CartName>3d-Crazy Coaster</CartName>
+		<Author>GCE</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>512</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/3DCZYCST.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/CRAZY.TXT</InstructionFile>
+		<FrontImage>.\cartridges\images\3d-Crazy Coaster6194636604417004429.png</FrontImage>
+		<BackImage>.\cartridges\images\3-d Crazy Coaster5744395753380674036.png</BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/3d-Crazy Coaster8239488811683953976.png</InGameImage>
+		<Critic>documents\games\3d-Crazy Coaster_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>3d Crazy Coaster Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/3D-Crazy_Coaster_Manual.pdf</PDFFile>
+		<CartridgeImage>.\cartridges\images\3d-Crazy Coaster-1444963961255695161.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Thrust</Name>
+		<CartName>Thrust</CartName>
+		<Author>Ville Krumlinde</Author>
+		<Year>2004</Year>
+		<CRC>0</CRC>
+		<TypeFlags>32</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\THRUST.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Ville Krumlinde</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.emix8.org/static.php?page=VectrexThrust</Homepage>
+		<InstructionFile>documents\games\Thrust_instructions.txt</InstructionFile>
+		<FrontImage>.\cartridges\images\Thrust5152963514027977204.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Thrust9197445783902887068.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Thrust Download BIN</BinaryLink>
+		<Licence>Copyright/License
+-----------------
+VECTREX THRUST (C) 2004 Ville Krumlinde.
+
+This game is freeware, but copyrighted; it may be freely distributed, but it must
+be always accompanied by this documentation file. This program may be included on
+websites and shareware or freeware compilations, but please contact me first. You
+can&apos;t distribute VECTREX THRUST on Vectrex cartridges without my explicit permission.
+
+Ville Krumlinde makes no guarantees, written or implied, on this software. I&apos;m not
+responsible for any damage due to the use of this software.</Licence>
+		<CopyrightType>(C) 2004 Ville Krumlinde</CopyrightType>
+		<PDFLink>Thrust TXT</PDFLink>
+		<PDFFile>download\documents\games\Thrust_Readme.txt</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Subwars</Name>
+		<CartName>Subwars</CartName>
+		<Author>Mountaingoate</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\subwars.bin</FullFilename>
+		</FullFilenames>
+		<Information>Mountaingoate</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://github.com/mountaingoate/vectrex</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Subwars-1626874564018014093.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Subwars Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>copyright 2015 Mountain Goat Entertainment</CopyrightType>
+		<PDFLink>Subwars PDF</PDFLink>
+		<PDFFile>download\documents\games\subwars.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>3d-Narrow Escape</Name>
+		<CartName>3d-Narrow Escape</CartName>
+		<Author>GCE - Richard Moszkowski</Author>
+		<Year>1983</Year>
+		<CRC>0</CRC>
+		<TypeFlags>512</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/NARROW.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Richard Moszkowski</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents\games\NARROW.TXT</InstructionFile>
+		<FrontImage>.\cartridges\images\3-d Narrow Escape-6222585309456150968.png</FrontImage>
+		<BackImage>.\cartridges\images\3-d Narrow Escape-1904774743512082409.png</BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/3d-Narrow Escape-2815241357551434228.png</InGameImage>
+		<Critic>documents\games\3d-Narrow Escape_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>3d Narrow Escape Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/3D-Narrow_Escape_Manual.pdf</PDFFile>
+		<CartridgeImage>.\cartridges\images\3d-Narrow Escape4575573428275996721.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Spinball</Name>
+		<CartName>Spinball</CartName>
+		<Author>GCE - Mark Indictor</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/SPINBALL.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Mark Indictor</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/SPINBALL.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Spinball-2865712421106949629.png</FrontImage>
+		<BackImage>./cartridges/images/Spinball8222931143131804093.png</BackImage>
+		<Overlay>overlays/spinball.png</Overlay>
+		<InGameImage>./cartridges/images/Spinball8081299605927344164.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>.\cartridges\images\Spinnball223143596811156389.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Epic Realtime</Name>
+		<CartName>Epic Realtime</CartName>
+		<Author>Nuance &amp; Metalvotze</Author>
+		<Year>2012</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\epic.bin</FullFilename>
+		</FullFilenames>
+		<Information>Nuance &amp; Metalvotze</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://metalvotze.de/files/vecsrc/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\Epic Realtime-1522913849496331625.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Epic Realtime-1343586906688500797.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Epic Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>XMAS 2015</Name>
+		<CartName>XMAS 2015</CartName>
+		<Author>Binary Star</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\XMAS_2015_FREE.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile>documents\games\XMAS 2015_instructions.txt</InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/XMAS 20153075319102346050241.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>XMAS 2015 Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Electric Force</Name>
+		<CartName>Electric Force</CartName>
+		<Author>Frog</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\electricforce.bin</FullFilename>
+		</FullFilenames>
+		<Information>Frog</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://enlight.ru/post/9575/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\Electric Force7966881903671390367.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Electric Force-4978179215895649737.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Electric Force Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vecsports boxing</Name>
+		<CartName>Vecsports boxing</CartName>
+		<Author>Manu P&#228;rssinen</Author>
+		<Year>2002</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/VecSportBoxing.bin</FullFilename>
+		</FullFilenames>
+		<Information>Manu P&#228;rssinen</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://pelikonepeijoonit.net/files/vec/index.html</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>VecSports Boxing Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2002 Manu P&#228;rssinen</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vectrace</Name>
+		<CartName>Vectrace</CartName>
+		<Author>Ronan Habot</Author>
+		<Year>2000</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/vectrace.bin</FullFilename>
+		</FullFilenames>
+		<Information>Ronan Habot</Information>
+		<Cheats>At the welcome screen, pressing button 2 instead of button 1 will also start the game - but - with no statistic labels printed. This mode has no flicker and faster response time.</Cheats>
+		<Eastereggs>Ronan Habot: 
+VECRACE is my first Vectrex game. I developed it in order to learn and understand this fascinating machine. The game now supports both the original controller and the modified Atari 2600 paddle.</Eastereggs>
+		<Homepage>http://vgcollect.freehosting.net/myvectrex.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>./cartridges/images/Vectrace-7998723335898384919.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Vectrace-5629390199044324913.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vectrace Download Bin</BinaryLink>
+		<Licence>Files can not be downloaded from homepage unless linked from same page!
+</Licence>
+		<CopyrightType>(c) Ronan Habot</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Revector</Name>
+		<CartName>Revector</CartName>
+		<Author>Craig Aker</Author>
+		<Year>2004</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Revector.bin</FullFilename>
+		</FullFilenames>
+		<Information>Craig Aker</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Revector Download bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright Craig Aker</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Star Trek</Name>
+		<CartName>Star Trek</CartName>
+		<Author>GCE - Mark Indictor</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/STARTREK.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Mark Indictor</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/STARTREK.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Star Trek-2565075190235322163.png</FrontImage>
+		<BackImage>./cartridges/images/Star Trek-8580412257245293938.png</BackImage>
+		<Overlay>overlays/startrek.png</Overlay>
+		<InGameImage>./cartridges/images/Star Trek-6227481347003946207.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>.\cartridges\images\Star Trek3517019337228343360.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Doodle</Name>
+		<CartName>Doodle</CartName>
+		<Author>Binary Star</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\DOODLE_v1.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Doodle7233318156086750582.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Doodle Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Random Access Vector</Name>
+		<CartName>Random Access Vector</CartName>
+		<Author>Fit</Author>
+		<Year>2013</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\rav.bin</FullFilename>
+		</FullFilenames>
+		<Information>Fit</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.kameli.net/fit/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Random Access Vector-8504817818892254547.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Random Access Vector Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Twistex</Name>
+		<CartName>Twistex</CartName>
+		<Author>Orb</Author>
+		<Year>2011</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\twistex.bin</FullFilename>
+		</FullFilenames>
+		<Information>Orb</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://orb.ultrafex.de/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\Twistex-3519167827488987495.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Twistex4819989349492687615.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Twistex Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Lord of the Robots</Name>
+		<CartName>Lord of the Robots</CartName>
+		<Author>George Pelonis</Author>
+		<Year>2006</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\LOTR.BIN</FullFilename>
+		</FullFilenames>
+		<Information>George Pelonis</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.furyunlimited.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Lord of the Robots-1128974491882980339.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Lord of the Robots BIN</BinaryLink>
+		<Licence>THESE GAMES ARE RELEASED AS FREEWARE, AND ARE FOR PERSONAL USE ONLY.
+
+THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-CART.
+</Licence>
+		<CopyrightType>FREEWARE</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vec Fu</Name>
+		<CartName>Vec Fu</CartName>
+		<Author>Michael Borrmann</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/vecfu.bin</FullFilename>
+		</FullFilenames>
+		<Information>Michael Borrmann</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.borrmann.in</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Vec Fu6052257855767303781.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>VecFu Download BIN</BinaryLink>
+		<Licence>you are not allowed to sell this .bin file on any carts, multicarts, or spread this  for commercial uses.
+		
+You may give the Vecfu.bin file to your friends, but only together with this readme file. 
+</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>VecFu Download TXT</PDFLink>
+		<PDFFile>download/documents/games/vecfu_readme.txt</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Spike&apos;s Water Balloons</Name>
+		<CartName>Spike&apos;s Water Balloons</CartName>
+		<Author>John Dondzila</Author>
+		<Year>2001</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/spikesBalloons.bin</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>SkiesWaterBallons Download Bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2001 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Get into vectrex</Name>
+		<CartName>Get into vectrex</CartName>
+		<Author>Binary Star</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/getIntoVectrex.bin</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://atariage.com/forums/index.php?app=core&amp;module=attach&amp;section=attach&amp;attach_id=432837</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Get Into Vectrex Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Clean Sweep</Name>
+		<CartName>Clean Sweep</CartName>
+		<Author>GCE - Richard Moszkowski</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/SWEEP.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Richard Moszkowski</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents\games\CLEAN.TXT</InstructionFile>
+		<FrontImage>.\cartridges\images\Clean Sweep6368695962979487282.png</FrontImage>
+		<BackImage>.\cartridges\images\Clean Sweep-4966734456557337599.png</BackImage>
+		<Overlay>overlays\sweep.png</Overlay>
+		<InGameImage>.\cartridges\images\Clean Sweep-5980547763497385808.png</InGameImage>
+		<Critic>documents/games/Clean Sweep_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>.\cartridges\images\Clean Sweep985453619916198623.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vaboom</Name>
+		<CartName>Vaboom</CartName>
+		<Author>Ronan Habot</Author>
+		<Year>2000</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/vaboom.bin</FullFilename>
+		</FullFilenames>
+		<Information>Ronan Habot</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://vgcollect.freehosting.net/myvectrex.htm</Homepage>
+		<InstructionFile>documents/games/Vaboom_instructions.txt</InstructionFile>
+		<FrontImage>./cartridges/images/Vaboom-1142918202034714635.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Vaboom6384374621379284250.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vaboom Download Bin</BinaryLink>
+		<Licence>Files can not be downloaded from homepage unless linked from same page!
+</Licence>
+		<CopyrightType>(c) Ronan Habot</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Marinefox</Name>
+		<CartName>Marinefox</CartName>
+		<Author>Mountaingoate</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\marinefox.bin</FullFilename>
+		</FullFilenames>
+		<Information>Mountaingoate</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://github.com/mountaingoate/vectrex</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Marinefox3303274973236358478.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Marinefox Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>copyright 2015 Mountain Goat Entertainment</CopyrightType>
+		<PDFLink>Marinefox PDF</PDFLink>
+		<PDFFile>download\documents\games\marinefox.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Bad Apple</Name>
+		<CartName>Bad Apple</CartName>
+		<Author>Sprite_tm</Author>
+		<Year></Year>
+		<CRC>2015</CRC>
+		<TypeFlags>4</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/other/badapple.bin</FullFilename>
+		</FullFilenames>
+		<Information>Sprite_tm</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://spritesmods.com/?art=veccart&amp;page=1</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Bad Apple220005666612248315.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage>cartridges/other/vec.bin</extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>iStripes</Name>
+		<CartName>iStripes</CartName>
+		<Author>Alex Nicholson</Author>
+		<Year>2012</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/ColorTest.bin</FullFilename>
+		</FullFilenames>
+		<Information>Alex Nicholson</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.vectorzoa.com/info2.html</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/iStripes-5201537823683444068.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>ISTRIPES Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Space Frenzy</Name>
+		<CartName>Space Frenzy</CartName>
+		<Author>John Dondzila</Author>
+		<Year>2006</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/SpaceFrenzy.BIN</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>SpaceFrenzy Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2006 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>VecDrum</Name>
+		<CartName>VecDrum</CartName>
+		<Author>Binary Star</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\VecDrum_v101.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/VecDrum-2555157023415418035.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>VecDrum Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>VecDrum PDF</PDFLink>
+		<PDFFile>download\documents\games\VecDrum.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>3d-Minestorm</Name>
+		<CartName>3d-Minestorm</CartName>
+		<Author>GCE - William Hawkins</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>512</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/MINE3D.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - William Hawkins</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents\games\MINEST3D.TXT</InstructionFile>
+		<FrontImage>.\cartridges\images\3d Minestorm6444657610011022755.png</FrontImage>
+		<BackImage>.\cartridges\images\3d Minestorm-4991046249776526283.png</BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/3d-Minestorm-5043687641566477582.png</InGameImage>
+		<Critic>documents\games\3d-Minestorm_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>3d Mine Storm Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/3D-Mine_Storm_Manual.pdf</PDFFile>
+		<CartridgeImage>.\cartridges\images\3d-Minestorm4676793989973366520.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Solar Quest</Name>
+		<CartName>Solar Quest</CartName>
+		<Author>GCE - Scott Boden</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/SOLAR.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Scott Boden</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/SOLAR-Q.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Solar Quest-7356753020946654707.png</FrontImage>
+		<BackImage>./cartridges/images/Solar Quest3841717252472322698.png</BackImage>
+		<Overlay>overlays/solar.png</Overlay>
+		<InGameImage>./cartridges/images/Solar Quest-1795239283705661270.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>Solar Quest PDF</PDFLink>
+		<PDFFile>download/documents/games/solar_quest.pdf</PDFFile>
+		<CartridgeImage>.\cartridges\images\Solar Quest-8249045459903231961.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Very Vectight</Name>
+		<CartName>Very Vectight</CartName>
+		<Author>Pex Mahoney Tufvesson</Author>
+		<Year>2014</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\very_vectight.bin</FullFilename>
+		</FullFilenames>
+		<Information>Pex Mahoney Tufvesson</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://livet.se/mahoney/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\Very Vectight7627276196304990107.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Very Vectight-8477602671460639361.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Very Vectight Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Dark Tower</Name>
+		<CartName>Dark Tower</CartName>
+		<Author>GCE - John Hall</Author>
+		<Year>1983</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/DKTOWER.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - John Hall</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/DARKTOWR.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Dark Tower8093045899454060051.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay>overlays/Dktower.png</Overlay>
+		<InGameImage>./cartridges/images/Dark Tower-1001161133076089074.png</InGameImage>
+		<Critic>documents/games/Dark Tower_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>DarkTower Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/Dark_Tower_Manual.pdf</PDFFile>
+		<CartridgeImage>./cartridges/images/Dark Tower8925368192201389251.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Spudster</Name>
+		<CartName>Spudster</CartName>
+		<Author>Brian Mastrobuono</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/spud.bin</FullFilename>
+		</FullFilenames>
+		<Information>Brian Mastrobuono</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://users.tmok.com/~gauze/vectrex/wip/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Spudster6818615147825201533.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Spudster Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Where Have All The Pixels Gone</Name>
+		<CartName>Where Have All The Pixels Gone</CartName>
+		<Author>Carnegie Mellon Computer Club</Author>
+		<Year>2012</Year>
+		<CRC>0</CRC>
+		<TypeFlags>1</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\whatpg.bin</FullFilename>
+		</FullFilenames>
+		<Information>Carnegie Mellon Computer Club</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.club.cc.cmu.edu/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\Where Have All The Pixels Gone1530242202772471424.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Where Have All The Pixels Gone-5197952481718091869.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Where have all Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>SinZ</Name>
+		<CartName>SinZ</CartName>
+		<Author>@ixistenz</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>16</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\sinz.bin</FullFilename>
+		</FullFilenames>
+		<Information>@ixistenz</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://atariage.com/forums/topic/237191-sinz-v07-vectrex-demo-playing-around-with-sinus/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/SinZ7883517561073448062.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>SinZ Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Lords of Code</Name>
+		<CartName>Lords of Code</CartName>
+		<Author>Nuance &amp; Metalvotze</Author>
+		<Year>2013</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\loc.bin</FullFilename>
+		</FullFilenames>
+		<Information>Nuance &amp; Metalvotze</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://metalvotze.de/files/vecsrc/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Lords of Code-5737269061464764597.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>REV2012 Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Rip Off</Name>
+		<CartName>Rip Off</CartName>
+		<Author>GCE - William Hawkins</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/RIPOFF.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - William Hawkins</Information>
+		<Cheats></Cheats>
+		<Eastereggs>After turning the game on, hold 1, 2, and 4 before the title screen music finishes playing. A screen with the words &apos;&apos;PROGRAMMED BY WILLIAM HAWKINS GT 1982&apos;&apos; will appear after the tune ends.</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>./cartridges/images/Rip Off-4124729745784107937.png</FrontImage>
+		<BackImage>./cartridges/images/Rip Off-8054876269325133334.png</BackImage>
+		<Overlay>overlays/ripoff.png</Overlay>
+		<InGameImage>./cartridges/images/Rip Off2322800631617843906.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>.\cartridges\images\Rip Off2956068802102076044.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Pitchers Duel</Name>
+		<CartName>Pitchers Duel</CartName>
+		<Author>GCE</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/other/Pitcher&apos;s Duel (USA) (Proto).vec</FullFilename>
+		</FullFilenames>
+		<Information>GCE</Information>
+		<Cheats></Cheats>
+		<Eastereggs>Pitcher&apos;s Duel is an unreleased Vectrex sports-themed game title from the founding era of the Vectrex.
+
+This title is the Vectrex&apos;s only baseball sports title to be released to date. While not a perfect reproduction of the game of baseball, this title is fairly accurate. A distinctive feature for this title is the inclusion of ESPN Strike Zone© style of view during the pitch. 
+
+Pitcher&apos;s Duel was sold both as cart only and cartridge with manual and full color printed GCE Style cardboard box. Approximately, 250-300 are believed to exist, of which somewhere around 200 were sold complete. Those sold complete with box at the 2007 Classic Gaming Expo had a PCB contained in a green transluscent reproduction shell while those sold after were contained in the standard black shell. There was no overlay included however an overlay design is depicted on the box.  In addition, the was one Pitcher&apos;s Duel Collectors Set auctioned at CGE2K7 which included both the green translucent and black standard versions of Pitcher&apos;s Duel as well as exclusive red translucent and blue translucent version of the cart.</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/Pitchers Duel_instructions.txt</InstructionFile>
+		<FrontImage>.\cartridges\images\Pitchers Duel-4270928596135174146.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Pitchers Duel-4644600826285514619.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>.\cartridges\images\Pitchers Duel-7754865888118080416.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Web Wars</Name>
+		<CartName>Web Wars</CartName>
+		<Author>GCE - William Hawkins, Duncan Muirhead</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/WEBWARS.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - William Hawkins, Duncan Muirhead</Information>
+		<Cheats></Cheats>
+		<Eastereggs>After turning the game on, hold 1, 2, and 4 before the title screen music finishes playing. A screen with the words &apos;&apos;PROGRAMMED BY WILLIAM HAWKINS DUNCAN MUIRHEAD PATRICK KING GT 1983&apos;&apos; will appear after the tune ends.</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/WEBWARS.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Web Wars-5373965867075891872.png</FrontImage>
+		<BackImage>./cartridges/images/Web Wars-2263760490166780748.png</BackImage>
+		<Overlay>overlays/webwars.png</Overlay>
+		<InGameImage>./cartridges/images/Web Wars-2854824180747350022.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Verzerk</Name>
+		<CartName>Verzerk</CartName>
+		<Author>GCE - Duncan Muirhead/Alex Herbert</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>64</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/verzerk.bin</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Duncan Muirhead/Alex Herbert</Information>
+		<Cheats></Cheats>
+		<Eastereggs>One of the coolest features of the arcade game Berzerk was the speech. Sadly this was often left out of the home computer/console versions. But thanks to Richard Hutchinson&apos;s VecVoice module, and a little hacking by me, Berzerk for the Vectrex regains it&apos;s voice.  
+
+This binary requires a VecVoice module for speech to be heard.&amp;#x20;</Eastereggs>
+		<Homepage>http://www.herbs64.plus.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay>overlays/berzerk.png</Overlay>
+		<InGameImage>./cartridges/images/Verzerk-3008603746375770521.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Verzerk Download BIN</BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Fortress of Narzod</Name>
+		<CartName>Fortress of Narzod</CartName>
+		<Author>GCE - John Hall</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/NARZOD.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - John Hall</Information>
+		<Cheats>During the Mystic Hurler battle, if you kill him at the same time he kills you, on screen your lives remaining will turn into an infinity sign and your remaining lives will be raised to 255.</Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents\games\NARZOD.TXT</InstructionFile>
+		<FrontImage>.\cartridges\images\Fortress of Narzod-5956768541840357913.png</FrontImage>
+		<BackImage>.\cartridges\images\Fortress of Narzod-8528327741745398594.png</BackImage>
+		<Overlay>overlays\narzod.png</Overlay>
+		<InGameImage>./cartridges/images/Fortress of Narzod2493434309336374309.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>.\cartridges\images\Fortress of Narzod1133358305711730023.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Cosmic Chasm</Name>
+		<CartName>Cosmic Chasm</CartName>
+		<Author>GCE - William Hawkins</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/CHASM.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - William Hawkins</Information>
+		<Cheats></Cheats>
+		<Eastereggs>After turning the game on, hold 1, 2, and 4 before the title screen music finishes playing. A screen with the words &apos;&apos;PROGRAMMED BY WILLIAM HAWKINS GT 1982&apos;&apos; will appear after the tune ends.</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/COSMIC.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Cosmic Chasm-4974127848504064585.png</FrontImage>
+		<BackImage>./cartridges/images/Cosmic Chasm-1119989835488875389.png</BackImage>
+		<Overlay>overlays/chasm.png</Overlay>
+		<InGameImage>./cartridges/images/Cosmic Chasm-7878163265015672175.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>Cosmic Chasm PDF</PDFLink>
+		<PDFFile>download/documents/games/cosmic_chasm.pdf</PDFFile>
+		<CartridgeImage>./cartridges/images/Cosmic Chasm6403463854153879158.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Rockaroids remix</Name>
+		<CartName>Rockaroids remix</CartName>
+		<Author>John Dondzila</Author>
+		<Year>1996</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/RockaroidsRemix.BIN</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>RockaroidsRemix bin Download</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 1996 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Polar Rescue</Name>
+		<CartName>Polar Rescue</CartName>
+		<Author>GCE - Mark Indictor</Author>
+		<Year>1983</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/POLAR.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Mark Indictor</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/POLAR.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Polar Rescue-8507847050140722939.png</FrontImage>
+		<BackImage>./cartridges/images/Polar Rescue23520414923282875.png</BackImage>
+		<Overlay>overlays/polar.png</Overlay>
+		<InGameImage>./cartridges/images/Polar Rescue-9142387540880430937.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>./cartridges/images/Polar Rescue4940267274078608985.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Tsunami / Vix</Name>
+		<CartName>Tsunami / Vix</CartName>
+		<Author>Christopher Tumber</Author>
+		<Year>2002</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Tsunami.bin</FullFilename>
+		</FullFilenames>
+		<Information>Christopher Tumber</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Tsunami Download bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2002 Christopher Tumber</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Oldsk00l</Name>
+		<CartName>Oldsk00l</CartName>
+		<Author>Manu P&#228;rssinen</Author>
+		<Year>2002</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\0ldsk00l.bin</FullFilename>
+		</FullFilenames>
+		<Information>Manu P&#228;rssinen</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://pelikonepeijoonit.net/files/vec/coders.html</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Oldsk00l-6244781509854487554.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Oldsk00l Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Berzerk</Name>
+		<CartName>Berzerk</CartName>
+		<Author>GCE- Chris King</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/BERZERK.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE- Chris King</Information>
+		<Cheats></Cheats>
+		<Eastereggs>· HIDDEN MESSAGE: Before your man stops flashing when you kill your last man, press and hold 1+3+4. When the &quot;GOT YOU HUMANOID&quot; summary screen appears with your score, the programmer&apos;s initials will appear in the lower right corner – “CMK” (for Chris King). This screen will stay for about 90 seconds before going back to the game select screen.  There’s no way to back out of it. {Pete Rittwage and Fred Taft}
+
+· 2 versions exist!  Early production carts had a bug in it (described below), which was fixed in a revised version (called Berzerk II in-house - see picture).
+
+· BUG: Get to a screen with a lot of robots and continuously fire down a long corridor.  If too much “action” is happening at once, the game will glitch out, and the score counter will either become garbled or disappear (in rare cases the screen may even go “blank” for a few seconds).  At this point, exit the maze.  On the next screen, if you check your score you should have received anywhere from 100,000 to 800,000 points, or extra humanoids, or BOTH!  Note- if the trick works, the game will probably be running at a much harder level.&amp;#x20;</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/BERZERK.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/3421083676570205998.png</FrontImage>
+		<BackImage>./cartridges/images/9135351890595498656.png</BackImage>
+		<Overlay>overlays/berzerk.png</Overlay>
+		<InGameImage>./cartridges/images/Berzerk-5074357583911252040.png</InGameImage>
+		<Critic>documents/games/_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>Berzerk Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/berzerk.pdf</PDFFile>
+		<CartridgeImage>./cartridges/images/-1074817438251089074.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Hyperchase</Name>
+		<CartName>Hyperchase</CartName>
+		<Author>GCE - Chris King</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/HYPER.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Chris King</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>./cartridges/images/Hyperchase-2386463434074827485.png</FrontImage>
+		<BackImage>./cartridges/images/Hyperchase-771573708655811629.png</BackImage>
+		<Overlay>overlays/hyper.png</Overlay>
+		<InGameImage>./cartridges/images/Hyperchase4677046460432195532.png</InGameImage>
+		<Critic>documents/games/_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>./cartridges/images/Hyperchase7981792605886302921.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>P1X3l-Pushr</Name>
+		<CartName>P1X3l-Pushr</CartName>
+		<Author>ALeX Kazik</Author>
+		<Year>2014</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\PUSHR.BIN</FullFilename>
+		</FullFilenames>
+		<Information>ALeX Kazik</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://alex.kazik.de/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/P1X3l-Pushr9114174259783454576.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>P1X3l-Pushr Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Sectis</Name>
+		<CartName>Sectis</CartName>
+		<Author>George Pelonis</Author>
+		<Year>2010</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/sectis.bin</FullFilename>
+		</FullFilenames>
+		<Information>George Pelonis</Information>
+		<Cheats>(taken from: http://vectrex.wikia.com/wiki/Sectis)
+
+ReviewEdit
+
+Well HERE’S a game that makes no sense whatsoever! You steer around some kind of ship, flying around in the same manner as in Mine Storm, Solar Quest, etc. (i. e. turning left and right and thrusting) until you reach a screen that has an enemy (known as a sectoid) in it, which, for some odd reason, no matter where you enter these areas, a sectoid will instantly attach itself to your ship. Shooting the s. o. b.s takes up the majority of this game (two out of its three levels), which at the end of those levels you then – guess what? – have to dispose of a boss in the same manner, except they take five hits to be destroyed! (Then level 2 requires the player to figure out their way through a maze, solve a puzzle and take care of a different kind of boss.)
+
+Although some of the graphics are pretty bare (just lines for borders), the bright sectoids are pretty cool, and the sounds aren’t bad, although I didn’t really like the sound of the player’s ship thrusting, as it sounds like a mosquito.
+
+So, you know how most of the game is in a nutshell there. However, for those who haven’t played it, you might not know it’s DAMN HARD. The sectoids move at the same speed that you turn and it can be pretty difficult to try to shoot them when that happens, having to match up their angle and trajectory and all. It’s like programmer George Pelonis looked at the two main characters tethered together in the Sega 32X game of Knuckles Chaotix and said “what can I do that’s somewhat similar, yet make it about five times worse?” I mean, I’ve currently played a little over 50 Vectrex games as I’m writing this, and out of those 50+ games, it’s either THE hardest, or the second hardest game I’ve ever played out of the bunch. And this is coming from someone who can get to over level 30 on Mine Storm and once beat a multiple world record holder/video game champion in an online gaming contest (no, I’m not saying who, so don’t ask). So for me to say it’s hard, yes, it very much is indeed!
+
+I also know that Pelonis said at the time of release it was his biggest game to date (since all levels span several screens, especially the final one, which runs several screens across and down), yet the game’s still short, as you can beat the whole thing if you do everything correctly (which is unlikely!) in less than 15 minutes.
+
+However, Sectis still has a bit of an addicting quality to it, somehow, for some reason. I’ve been playing it on and off for months; why I don’t know exactly.
+
+Sector-X has been an interesting series thus far, with Continuum (the game after this one) being mostly in the puzzle genre, and it’ll be interesting to see what parts four and five of the series will have in store for us.
+
+But until then, you’ve been warned! 6.5/10
+
+(review by Darrylb500)</Cheats>
+		<Eastereggs>(taken from: http://vectrex.wikia.com/wiki/Sectis)
+
+Trivia/notesEdit
+
+    Once the player&apos;s shields start taking several hits, the damage to their ship is similar to Vectrace, as its shape changes.
+    The main menu screen music is the same that is found on 3D Sector-X and Continuum.
+    There is a &quot;mini-movie&quot; before each level: with The Outskirts of Hell, several sectoids fly forward in a first-person perspective; for The Labyrinth of Oculis, Oculis flies by, and for The Lair of Sectis, Sectis&apos; cocoon appears and disappears, gradually getting closer until Sectis himself can be seen inside the cocoon in the final shot.
+    The puzzle part of the second level is a foreshadowing of the gameplay for the following Continuum game, which involved the player flying their ship into vortexes in order to solve puzzles. The puzzle for this level would also be the exact same puzzle (and can be solved in the exact same manners) as the second puzzle in Continuum.
+    This was the second game in the Sector-X series, which started with 3D Sector-X, was followed by Continuum, will be further followed by Hellhole: Sector-X IV, and will be concluded with a fifth Sector-X game (originally titled Sector-X V: The War in Heaven, but this has been canceled for now as the series has taken a new direction).
+    This is more of an action/shooter game with a couple of puzzle aspects to it, whereas the majority of Continuum involved solving puzzles, with only sectoids appearing in two of the puzzles and two Mourning Stars appearing in one.
+    All of FURY&apos;s games have been limited edition, which this is the first game to be given a trial as to being an unlimited edition cart. Cartridges are also individually numbered, which the number appears after the Vectrex bootup screen.
+    Sectis cart
+
+    Sectis Limited Edition cart.
+    For those that pre-ordered the game, they received a limited edition Sectis t-shirt with the Sectis logo embroidered on the front and the cartridge came in a clear case (see at right).
+    At the time of release, programmer George Pelonis stated this was his biggest game to date.
+    The Sectis ROM was re-released in 2016 as freeware</Eastereggs>
+		<Homepage>http://www.furyunlimited.com</Homepage>
+		<InstructionFile>documents/games/sectis.txt</InstructionFile>
+		<FrontImage>./cartridges/images/-3641067542368744620.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/8525267059683330530.png</InGameImage>
+		<Critic>documents/games/Sectis_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink>Sectis Download</BinaryLink>
+		<Licence>THESE GAMES ARE RELEASED AS FREEWARE, AND ARE FOR PERSONAL USE ONLY.
+
+THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-CART.
+</Licence>
+		<CopyrightType>FREEWARE</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>./cartridges/images/4372577744735322434.png</CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Dance Dance</Name>
+		<CartName>Dance Dance</CartName>
+		<Author>Phillip Riscombe-Burton</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/dancedancevec.bin</FullFilename>
+		</FullFilenames>
+		<Information>Phillip Riscombe-Burton</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>https://github.com/Phillrb/Dance-Dance-Vec</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Dance Dance Download BIN</BinaryLink>
+		<Licence>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</Licence>
+		<CopyrightType>Copyright (c) 2015 Phillip Riscombe-Burton. All rights reserved.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Starhawk</Name>
+		<CartName>Starhawk</CartName>
+		<Author>GCE</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/STARHAWK.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/STARHAWK.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Starhawk-7143205079032313530.png</FrontImage>
+		<BackImage>./cartridges/images/Starhawk941935357666063308.png</BackImage>
+		<Overlay>overlays/starhawk.png</Overlay>
+		<InGameImage>./cartridges/images/Starhawk5247520717881840235.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>./cartridges/images/Starhawk-1048132627120649312.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Block</Name>
+		<CartName>Block</CartName>
+		<Author>Michael Borrmann</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/block.bin</FullFilename>
+		</FullFilenames>
+		<Information>Michael Borrmann</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.borrmann.in</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Block1347049394259400002.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Block Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Performance VC</Name>
+		<CartName>Performance VC</CartName>
+		<Author>Revival studios</Author>
+		<Year>2007</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>performancevx.bin</FullFilename>
+		</FullFilenames>
+		<Information>Revival studios</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.revival-studios.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\Performance VC-5468375791166408529.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Performance VC-6252658107338197699.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Performance VC Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Bloxorz</Name>
+		<CartName>Bloxorz</CartName>
+		<Author>Frank Bu&#223;</Author>
+		<Year>2013</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\bloxorz-rom.bin</FullFilename>
+		</FullFilenames>
+		<Information>Frank Bu&#223;</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.frank-buss.de/vectrex/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Bloxorz-5786276712779159424.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Bloxorz Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Spike Hoppin&apos;</Name>
+		<CartName>Spike Hoppin&apos;</CartName>
+		<Author>John Dondzila</Author>
+		<Year>1997</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/spikeshopping.bin</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Spike is hopping Download bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 1997 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Heps</Name>
+		<CartName>Heps</CartName>
+		<Author>Fit</Author>
+		<Year>2014</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\heps.bin</FullFilename>
+		</FullFilenames>
+		<Information>Fit</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.kameli.net/fit/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Heps658803315620569369.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Heps Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Snow Challenge</Name>
+		<CartName>Snow Challenge</CartName>
+		<Author>Alex Nicholson</Author>
+		<Year>2007</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/CCCSNOW.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Alex Nicholson</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.vectorzoa.com/info2.html</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Snow Challenge1167688479648163186.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Snow Challenge Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Nagoya Attack beta</Name>
+		<CartName>Nagoya Attack beta</CartName>
+		<Author>Binary Star</Author>
+		<Year>2014</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\Nagoya_Attack_beta.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Nagoya Attack beta-3929467750581613697.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Naoya Attack Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Space Wars</Name>
+		<CartName>Space Wars</CartName>
+		<Author>GCE - Larry Rosenthal</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/SPACE.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Larry Rosenthal</Information>
+		<Cheats></Cheats>
+		<Eastereggs>Either ship will become invincible after being hit as long as their pieces are still floating in space. This can be used as an advantage by skimming the edge of the middle star in the middle to knock off a piece of the ship. Then, fly into your opponent while invincible.</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/SPACEWAR.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Space Wars625697174871934931.png</FrontImage>
+		<BackImage>./cartridges/images/Space Wars7616724106801891513.png</BackImage>
+		<Overlay>overlays/space.png</Overlay>
+		<InGameImage>./cartridges/images/Space Wars8222090722164802064.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>.\cartridges\images\Space Wars-8155216007011847072.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Moon Lander</Name>
+		<CartName>Moon Lander</CartName>
+		<Author>Clay Cowgill</Author>
+		<Year>1999</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Moonlander.bin</FullFilename>
+		</FullFilenames>
+		<Information>Clay Cowgill</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>MonnLander Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 1999 Clay Cowgill</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>V-Theremin</Name>
+		<CartName>V-Theremin</CartName>
+		<Author>Binary Star</Author>
+		<Year>2014</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\V-THEREMIN.bin</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile>documents\games\V-Theremin_instructions.txt</InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/V-Theremin-7351878518560253946.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>V-THEREMIN Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Bedlam</Name>
+		<CartName>Bedlam</CartName>
+		<Author>GCE - William Hawkins</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/BEDLAM.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - William Hawkins</Information>
+		<Cheats></Cheats>
+		<Eastereggs>Bug
+
+A lot of the time when Zap is used and there are a lot of ships onscreen, they will still be remaining afterwards. Staying still for a second or so and then using Zap remedies this problem most of the time. 
+
+Trivia
+
+    The Colony and Destroyer ships look pretty alike at first glance, which makes it difficult for the player in case a ship gets too close and it turns out to be a Destroyer, rather than a Colony ship.
+    On the first level only, there is somewhat of a pause: if an Astral Defender is the last enemy remaining in a sector, the player can face them so they&apos;ll stop in their tracks, and there is no way for the player to die or for the game to be interrupted. This only works on sectors during level one though, since, once the sectors start moving on level 2 and onwards, they can move the enemy ships as well, disrupting the pause.
+    When did this game exactly come out? On the title screen, its copyright date says 1982, while the (U. S.) label on the cartridge itself says 1983.</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/BEDLAM.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/-3032738787473815701.png</FrontImage>
+		<BackImage>./cartridges/images/-8737685410186250858.png</BackImage>
+		<Overlay>overlays/bedlam.png</Overlay>
+		<InGameImage>./cartridges/images/BEDLAM2230338973208670404.png</InGameImage>
+		<Critic>documents/games/_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>Bedlam Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/bedlam.pdf</PDFFile>
+		<CartridgeImage>./cartridges/images/BEDLAM5783140052124811222.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Reactor (alpha)</Name>
+		<CartName>Reactor alpha</CartName>
+		<Author>Brian Mastrobuono</Author>
+		<Year>2004</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/reactor.bin</FullFilename>
+		</FullFilenames>
+		<Information>Brian Mastrobuono</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://users.tmok.com/~gauze/vectrex/wip/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Reactor alpha7129499551968250748.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Reactor Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Star Castle</Name>
+		<CartName>Star Castle</CartName>
+		<Author>GCE - William Hawkins</Author>
+		<Year>1983</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/CASTLE.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - William Hawkins</Information>
+		<Cheats></Cheats>
+		<Eastereggs>After turning the game on, hold 1, 2, and 4 before the title screen music finishes playing. A screen with the words &apos;&apos;PROGRAMMED BY WILLIAM HAWKINS GT 1983&apos;&apos; will appear after the tune ends.</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/STARCSTL.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Star Castle-7604821919781605667.png</FrontImage>
+		<BackImage>./cartridges/images/Star Castle3944682125609404315.png</BackImage>
+		<Overlay>overlays/castle.png</Overlay>
+		<InGameImage>./cartridges/images/Star Castle-2692083493541073020.png</InGameImage>
+		<Critic>documents/games/_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>Star Castel Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/Star_Castle_Manual.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Gravitrex</Name>
+		<CartName>Gravitrex</CartName>
+		<Author>John Dondzila</Author>
+		<Year>2002</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/gravitrex.bin</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Gravitrex Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2002 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Blitz</Name>
+		<CartName>Blitz</CartName>
+		<Author>GCE - Jeff Corsiglia</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/BLITZ.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Jeff Corsiglia</Information>
+		<Cheats></Cheats>
+		<Eastereggs>Scoring trick: On game 1 (player 1), get the kickoff around the 15 yard line then run the ball back down the middle of the field.  Wait for a while and let the blockers hold the other team, and then go to the far right of the field (almost out of bounds).  You’ll see a small gap between that final free defensive player and the out of bounds.  If you run through that small gap, you can return the ball from kickoff to about the opponent&apos;s 20 yard line.  {Craig Bariou}
+
+· BUG: If you get a 1st and inches (1 and 0 to go), as long as you stay on the 0 yard line, you keep getting first downs. {Adam Fox}</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/BLITZ.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Blitz-3197322948065404472.png</FrontImage>
+		<BackImage>./cartridges/images/Blitz5622764549445615568.png</BackImage>
+		<Overlay>overlays/blitz.png</Overlay>
+		<InGameImage>./cartridges/images/Blitz225616655246495436.png</InGameImage>
+		<Critic>documents/games/_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>.\cartridges\images\Blitz492485561250615434.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Logic Jumper</Name>
+		<CartName>Logic Jumper</CartName>
+		<Author>Jan Haasch</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/jgame.bin</FullFilename>
+		</FullFilenames>
+		<Information>Jan Haasch</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.simulationsraum.de/blog/2015/09/24/logik-jumper/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Logic Jumper2884784736007291841.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Logic Jumper Bin Download</BinaryLink>
+		<Licence>?</Licence>
+		<CopyrightType>?</CopyrightType>
+		<PDFLink>Logic Jumper Download PDF</PDFLink>
+		<PDFFile>download/documents/games/LogicJumper_German.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Hex alpha</Name>
+		<CartName>Hex alpha</CartName>
+		<Author>Binary Star</Author>
+		<Year>2014</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\HEX_alpha2.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Hex alpha-1016253384549620108.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Hex alpha Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Invitron</Name>
+		<CartName>Invitron</CartName>
+		<Author>Frog</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\invitron.bin</FullFilename>
+		</FullFilenames>
+		<Information>Frog</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://enlight.ru/post/9575/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\Invitron-6105199524109125032.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Invitron-8054787689007218897.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Invitron Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Ronan&apos;s Game Cart</Name>
+		<CartName>Ronan&apos;s Game Cart</CartName>
+		<Author>Ronan Habot</Author>
+		<Year>2000</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/RonanHabotGame.bin</FullFilename>
+		</FullFilenames>
+		<Information>Ronan Habot</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>RonanHabot Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2000 Ronan Habot</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Royal 21</Name>
+		<CartName>Royal 21</CartName>
+		<Author>George Pelonis</Author>
+		<Year>2009</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\Royal21.bin</FullFilename>
+		</FullFilenames>
+		<Information>George Pelonis</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.furyunlimited.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay>FREEWARE</Overlay>
+		<InGameImage>./cartridges/images/Royal 214389173203508814399.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Royal 21 Download BIN</BinaryLink>
+		<Licence>THESE GAMES ARE RELEASED AS FREEWARE, AND ARE FOR PERSONAL USE ONLY.
+
+THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-CART.
+</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Heads Up</Name>
+		<CartName>Heads Up</CartName>
+		<Author>GCE</Author>
+		<Year>1983</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/HEADSUP.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE</Information>
+		<Cheats></Cheats>
+		<Eastereggs>Also Known As: Soccer Football (EU)</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/HEADS-UP.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Heads Up5796218180293465239.png</FrontImage>
+		<BackImage>./cartridges/images/Heads Up-4631458418339496456.png</BackImage>
+		<Overlay>overlays/headsup.png</Overlay>
+		<InGameImage>./cartridges/images/Heads Up1077980343894080014.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage>./cartridges/images/Heads Up-3199576142148895269.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Patriots</Name>
+		<CartName>Patriots</CartName>
+		<Author>John Dondzila</Author>
+		<Year>1994</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Patriots.BIN</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Patriots Download bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 1994 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Scramble</Name>
+		<CartName>Scramble</CartName>
+		<Author>GCE - Paul Allen Newell</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/SCRAMBLE.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Paul Allen Newell</Information>
+		<Cheats></Cheats>
+		<Eastereggs>At the &apos;&apos;game # player #&apos;&apos; screen, hold Down on the joystick until all your ships crash and &apos;&apos;end&apos;&apos; appears. Unplug the controller and plug it into the second port. Then press all four buttons simultaneously and the word &apos;&apos;end&apos;&apos; will change.</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/SCRAMBLE.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Scramble-9066815396514555413.png</FrontImage>
+		<BackImage>./cartridges/images/Scramble-6916824359974339572.png</BackImage>
+		<Overlay>overlays\scramble.png</Overlay>
+		<InGameImage>./cartridges/images/Scramble1945585510235638318.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>Scramble Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/scramble.pdf</PDFFile>
+		<CartridgeImage>.\cartridges\images\Scramble-8675283393428008661.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Rainy</Name>
+		<CartName>Rainy</CartName>
+		<Author>Frog</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\rainy.bin</FullFilename>
+		</FullFilenames>
+		<Information>Frog</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://enlight.ru/post/9575/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>.\cartridges\images\Rainy5221654554613927134.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Rainy6666088337620582653.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Rainy Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Pole Position</Name>
+		<CartName>Pole Position</CartName>
+		<Author>GCE</Author>
+		<Year>1983</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/POLE.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/POLE.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/Pole Position6882607907446490764.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay>overlays/pole.png</Overlay>
+		<InGameImage>./cartridges/images/Pole Position-311121005662365915.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>Pole Position Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/Pole_Position_Manual.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vector Vaders</Name>
+		<CartName>Vector Vaders</CartName>
+		<Author>John Dondzila</Author>
+		<Year>1996</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/VectorVaders.BIN</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vector Vaders Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright John Dondzila 1996</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Hexed</Name>
+		<CartName>Hexed</CartName>
+		<Author>George Pelonis</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\hexed.bin</FullFilename>
+		</FullFilenames>
+		<Information>George Pelonis</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.furyunlimited.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Hexed-7953660426592089973.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Hexed Download BIN</BinaryLink>
+		<Licence>THESE GAMES ARE RELEASED AS FREEWARE, AND ARE FOR PERSONAL USE ONLY.
+
+THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-CART.
+</Licence>
+		<CopyrightType>FREEWARE</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Armor Attack</Name>
+		<CartName>Armor Attack</CartName>
+		<Author>GCE - Duncan Muirhead</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/ARMOR.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - Duncan Muirhead</Information>
+		<Cheats></Cheats>
+		<Eastereggs>Armor Attack was ported to the Vectrex in 1982; however, the original Cinematronics arcade game was released in 1980.
+    Armor Attack is one of the 12 original games released worldwide including the USA, Europe and Japan. This was also one of the very few of the original GCE-released games that supported 1-2 players simultaneous play (which others included Rip Off and Space Wars).
+    A strategy was discovered in Vector Wars IV that the game could be marathoned by using a hiding spot to avoid the jeeps and destroying only the helicopters.
+    There have also been ports of Armor Attack for the PC, PSP, LCD handheld games, and even a homebrew sequel for the Atari 7800.</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/ARMOR.TXT</InstructionFile>
+		<FrontImage>./cartridges/images/-8856771234633155680.png</FrontImage>
+		<BackImage>./cartridges/images/-4905511253550790231.png</BackImage>
+		<Overlay>overlays/armor.png</Overlay>
+		<InGameImage>.\cartridges\images\Armor Attack4051223126045603225.png</InGameImage>
+		<Critic>documents/games/_critics.txt</Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink>Armor Attack Manual PDF</PDFLink>
+		<PDFFile>download/documents/games/armor_attack.pdf</PDFFile>
+		<CartridgeImage>./cartridges/images/Armor Attack-6783135484651539613.png</CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Ronan&apos;s Game Cart</Name>
+		<CartName>Ronan&apos;s Game Cart</CartName>
+		<Author>Ronan Habot</Author>
+		<Year>2000</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/RonanHabotGame.bin</FullFilename>
+		</FullFilenames>
+		<Information>Ronan Habot</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>RonanHabot Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2000 Ronan Habot</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Protector</Name>
+		<CartName>Protector</CartName>
+		<Author>Alex Herbert</Author>
+		<Year>2003</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/protector_yasi.bin</FullFilename>
+		</FullFilenames>
+		<Information>Alex Herbert</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.herbs64.plus.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>./cartridges/images/Protector950306429591191200.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Protector-1841142011292800797.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>YASI Protector Download BIN</BinaryLink>
+		<Licence>PROTECTOR and Y*A*S*I is Copyright © Alex Herbert 2003, 2005. It is *not* Public Domain!</Licence>
+		<CopyrightType>© Alex Herbert 2003, 2005</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Mine Storm</Name>
+		<CartName>Mine Storm</CartName>
+		<Author>GCE - John Hall</Author>
+		<Year>1982</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/MSTORM2.BIN</FullFilename>
+		</FullFilenames>
+		<Information>GCE - John Hall</Information>
+		<Cheats></Cheats>
+		<Eastereggs>Turn the screen brightness to maximum to see mines that normally are not visible.</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay>overlays/mine.png</Overlay>
+		<InGameImage>./cartridges/images/Mine Storm2372539546574686345.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
+		<CopyrightType>Free for non commercial use.</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+</AllCartridgeProperties>

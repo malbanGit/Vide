@@ -1,0 +1,41 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Print_Str_yx</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Print_Str_yx ($F378)</p>
+
+<p>This routine prints a single string (up to an 0x80), using the
+default height and width, as stored in $C82A. The parameter block
+describing the string is pointed to by the U register. The format
+for the parameter block is as follows: </p>
+
+<p>rel y, rel x, string, 0x80</p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $D0</p>
+
+<p>U-reg points to the string list</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<p>U-reg points to the byte after the terminating 0x80</p>
+
+<p>D-reg, X-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F378">Source</a></p>
+</body>
+</html>

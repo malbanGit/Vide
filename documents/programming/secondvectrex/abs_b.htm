@@ -1,0 +1,44 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Abs_b ($F58B)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Abs_b ($F58B)</p>
+
+<p>This routine returns the absolute value of the single byte
+number passed in B register. </p>
+
+<p>There is a special case: 0x80 is returned as 0x7F. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>A-reg contains first value</p>
+    <p>B-reg contains second value (Abs_a_b only)</p>
+</blockquote>
+
+<p>EXIT:</p>
+
+<blockquote>
+    <p>A-reg contains absolute value of first value</p>
+</blockquote>
+
+<blockquote>
+    <p>B-reg contains absolute value of second value (Abs_a_b
+    only)</p>
+</blockquote>
+
+<blockquote>
+    <p>All other registers preserved.</p>
+</blockquote>
+<p><a href="bios.htm#F58B">Source</a></p>
+</body>
+</html>

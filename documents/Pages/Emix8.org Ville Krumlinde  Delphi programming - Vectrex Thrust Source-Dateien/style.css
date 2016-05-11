@@ -1,0 +1,350 @@
+/*
+--------------------
+Simple PHP Blog CSS Styles
+--------------------
+
+Name: String Replace (Default) Theme
+Author: Alexander Palmo
+
+Description:
+This the is the css theme for the String Replace theme.
+You can use this as a template for your own themes.
+
+Also refer to user_style.php...
+*/
+
+/*
+-------
+GENERAL
+-------
+*/
+
+body, html
+{ 
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	color: #666633; /* txt_color */
+	font-family: Helvetica, Arial, Sans-Serif;
+    font-size: 12px;
+	font-weight: normal;
+	text-align: left;
+	height: 100%; 
+	
+	/* Standard. Readable */
+	/* font-family:  'Lucida Grande', Geneva, sans-serif; */
+	/* font-family: Tahoma, Geneva, sans-serif; */
+	/* font-family: Geneva, Verdana, sans-serif; */
+	
+	/* Nice. Classic Looking */
+	/* font-family: 'Times New Roman', Times, serif; */
+	/* font-family: Georgia, serif; */
+	/* font-family: Book Antiqua, Palatino, serif; */
+	
+	/* Modern. Kind of Funky */
+	/* font-family: 'Gill Sans', 'Trebuchet MS', Helvetica, sans-serif; */
+	
+	/* Monospace */
+	/* font-family: Lucida Console, Monaco, monospace; */
+}
+
+/* Typeography */
+
+p
+{
+	margin: 8px 0px 8px 0px; 
+}
+
+code, pre {
+	font-family: 'Courier New', Courier, Fixed;
+}
+
+pre {
+	overflow: auto;
+	width: 550px;
+	border: 1px dotted #D9D9D9; /* inner_border_color */
+	padding: 5px
+}
+
+blockquote {
+	/* color: #777; */
+	margin: 15px 30px 0 10px;
+	padding-left: 20px;
+	border-left: 5px solid #ddd
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	font-family: 'Trebuchet MS', 'Gill Sans', Helvetica, sans-serif;
+	font-weight: bold;
+	color: #666633; /* headline_txt_color */
+    /* text-shadow: #bbb 2px 2px 1px; */
+	margin: 2px 0px 2px 0px;
+}
+
+h1
+{
+	font-size: 20px;
+}
+
+h2
+{
+	font-size: 18px;
+}
+
+h3
+{
+	font-size: 16px;
+}
+
+h4
+{
+	font-size: 14px;
+}
+
+h5
+{ 
+	font-size: 12px;
+}
+
+h6
+{
+	font-size: 10px;
+}
+
+/* Links */
+
+a:link, a:visited
+{
+	font-weight: bold;
+	text-decoration: none;
+	color: #993333; /* link_reg_color */
+}
+
+a:hover
+{
+	text-decoration: underline;
+	color: #FF3333; /* link_hi_color */
+}
+
+a:active
+{
+	color: #3333FF; /* link_down_color */
+}
+
+/* Images */
+
+img
+{
+	border: 0;
+}
+
+#img_float_left
+{
+	/* Used in the [img] tag when float=left */
+	float: left;
+	margin: 2px 8px 4px 2px;
+}
+
+#img_float_right
+{
+	/* Used in the [img] tag when float=right */
+	float: right;
+	margin: 2px 2px 4px 8px;
+}
+
+/* Forms */
+
+form {
+	font-size: 11px;
+	margin: 0px;
+	padding: 0px
+}
+	
+input, select, option, textarea
+{
+	font-size: 11px;
+	text-align: left;
+}
+
+/* Other Elements */
+
+hr	
+{
+	color: #D9D9D9; /* inner_border_color */
+	background-color: #D9D9D9; /* inner_border_color */
+	height: 1px;
+	border: 0px;
+	margin: 4px 0px; 
+}
+
+/*
+------------
+THEME SPECIFIC
+------------
+*/
+
+/* Navigation */
+
+#navigation
+{
+	color: #000;
+	position: relative;
+	height: 25px;
+	background: url(images/nav-background.gif) repeat-x;
+}
+
+#navigation a, #navigation a:hover
+{
+	color: inherit;
+    font-size: inherit;
+	font-weight: inherit;
+	text-decoration: inherit;
+}
+
+/* Header */
+
+#header
+{
+	/* background-image: url(images/background-header.gif); */
+	width: 100%;
+	background-color: #2b557f;
+}
+
+/* Main */
+
+#main
+{
+	padding: 20px 20px 20px 20px;
+	float: left;
+	/* sidebar total width + 10px + 10px = 220 */
+	margin-right: 220px;
+}
+
+#popup
+{
+	padding: 20px;
+}
+
+.comment
+{
+	margin-bottom: 12px;
+	/* border: 1px #0f0 dashed; */
+}
+
+.entry
+{
+	margin-bottom: 24px;
+}
+
+.subject
+{
+	font-family: 'Trebuchet MS', 'Gill Sans', Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	color: #666633;
+	padding: 4px 0px;
+}
+
+.comment .subject
+{
+	font-size: 16px;
+}
+
+.byline
+{
+	color: #999999;
+	font-size: 10px;
+	padding: 2px 0px;
+}
+
+.content
+{
+	padding: 10px 0px;
+}
+
+.buttons
+{
+	padding: 4px 0px;
+}
+
+/* Footer */
+
+#footer
+{
+	padding: 4px 20px;
+	clear: both;
+	border-top: #999999 1px solid;
+}
+
+.copyright
+{
+	font-size: 10px;
+	color: #999999;
+}
+
+/* Sidebar */
+
+div #toggleSidebarAvatar, #toggleSidebarLinks, #toggleSidebarCalendar, #toggleSidebarArchives, #toggleSidebarCategories , #toggleSidebarSearch, #toggleSidebarMenu, #toggleSidebarPreferences, #toggleSidebarRecentComments, #toggleSidebarRecentEntries, #toggleSidebarRecentTrackbacks
+{
+	display: block;
+}
+
+#sidebar
+{
+	padding: 10px;
+	width: 200px;
+	/* padding plus width = 240 */
+  	margin-left: -220px;
+	float: right;
+}
+
+#sidebar .menu_title
+{
+	font-family: 'Trebuchet MS', 'Gill Sans', Helvetica, sans-serif;
+	font-weight: bold;
+	padding: 7px 5px 5px 6px;
+}
+
+#sidebar .menu_title a, #sidebar .menu_title:hover
+{
+	text-decoration: none;
+	color: inherit;
+}
+
+#sidebar .menu_body
+{
+	padding: 10px;
+	margin-bottom: 10px;
+	border: #FF0 1px solid;
+}
+
+#sidebar .calendar
+{
+	font-size: 10px;
+}
+
+#sidebar .calendar a
+{
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#sidebar .calendar td
+{
+	padding: 2px;
+}
+
+#archive_tree_menu ul	
+{
+	list-style: none inside;
+	padding: 0px 0px 0px 10px;
+	margin: 0px;
+}
+
+#archive_tree_menu li	
+{
+	margin: 0px;
+	padding: 0px;
+	/* border: 1px #F0F dashed; */
+}

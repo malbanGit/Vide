@@ -1,0 +1,583 @@
+MELODY MASTER 
+#############
+
+MELODY MASTER  is a high perfor-
+mance learning tool that's easy, educational
+and most of all... fun! Join the electronic rev-
+olution and let your own musical creativity
+come to life!
+State-of-the-art technology now
+makes it possible for you to read music, rec-
+ognize notes by ear and create anything you
+can hear. Try to compose a hit song! Play an
+old favorite! Watch your musical dreams take
+shape and sound!
+You don't have to be a musical whiz to
+use and enjoy MELODY MASTER. All you
+need is a little imagination. We'll show you
+how to make MELODY MASTER  put the
+music in you!
+
+Setting Up
+----------
+* Make sure the console power cord is plugged into a
+  120 volt AC 60 cycle electrical outlet.
+
+* Check to be sure the plug for the built-in control panel
+  is firmly seated in the control panel outlet on the right.
+
+* Plug the Vectrex Light Pen into the outlet marked
+  '2nd PLAYER' (to the left of where the control panel is
+  plugged in).
+
+* MAKE SURE THE CONSOLE IS TURNED OFF BE-
+  FORE INSERTING THE CARTRIDGE. Insert the MEL-
+  ODY MASTER cartridge into the cartridge slot with
+  the label side up. Be sure it is firmly inserted to the
+  guideline marked on the cartridge.
+
+* Turn the OFF/ON/VOLUME CONTROL to the ON posi-
+  tion (clockwise). You will see the Vectrex title for a few
+  seconds, then the MELODY MASTER name.
+
+* Adjust the volume control to the desired listening level.
+
+IMPORTANT:
+
+* Adjust the BRIGHTNESS CONTROL (on the back of
+  the console) so that the white dot in the center of the
+  screen just barely disappears. If the brightness is too
+  dim, the Light Pen will not provide maximum
+  performance.
+
+Your First Music Lesson
+-----------------------
+You can enjoy Melody Master even if you don't know
+anything about music. Here are all the basic definitions
+and the information you'll need to get started on your
+musical adventures with Melody Master.
+What is a note? Musical notes are symbols for particu-
+lar tones or pitches created by sound vibrations For ex-
+ample, the note "A" above middle "C" on the piano
+vibrates 440 times per second. Higher tones vibrate
+faster than lower tones.
+What is a key? Musically a key refers to the tonal center
+or tonic or root note of a song, depending on the mel-
+ody The key is designated by a letter corresponding to
+a note. The key of "C" is the most common key
+What are musical staffs? For the sake of convenience,
+music is written on staffs. The upper staff is the treble
+clef symbolized by the symbol at the left of the
+staff. In the treble clef the notes written ON the lines are
+E, G, B, D and F ("Every Good Boy Deserves Favor")
+The notes written in the spaces between the lines are
+F, A, C and E ("FACE").
+
+In the bass clef symbolized by the symbol at the
+left of the staff, the notes written ON the lines are G, B,
+D, F and A, while the notes written between the lines are
+A, C, E and G. You'll notice sometimes notes extend
+above and below the staffs. The bass clef was created
+to make it easier for musicians to read notes that would
+have been written so far below the treble clef it would
+have been difficult for the players to tell the notes apart.
+
+What is the value of a note? This refers to how LONG
+a particular note is played. MELODY MASTER's rhythm
+section is built around sixteenth notes. In other words, in
+the time it takes a whole note, symbolized by to be
+played-there are sixteen drumbeats. Half notes
+are equal to eight drumbeats, quarter notes to four
+drumbeats, eighth notes to two drumbeats and
+sixteenth notes are the equivalent of one drumbeat
+each.
+What is a rest? Musical rests symbolize periods of
+silence. Whole, half, quarter and eighth rests have the
+same values as their respective notes.
+What is an octave? In Melody Master an octave refers
+to the eight note distance between one "C" note and the
+next higher or lower "C" MELODY MASTER has a four
+octave range, corresponding to octaves 2, 3, 4 and 5 on
+the piano The "C" in octave 4 is commonly known as
+"middle C" (i.e., the middle note on a piano).
+
+Melody Master Range/Four Octaves
+Piano Range/88 Notes
+
+What are sharps and flats? Sharps # refer to notes
+a half-tone HIGHER than the nearest whole tone. Flats
+b refer to notes a half-tone LOWER than the nearest
+whole tone.
+
+(Note that "E" and "F" as well as "B" and "C" are only a
+half-tone apart to begin with, which is why there are no E
+sharps, F flats, B sharps or C flats.)
+As you may have noticed, the black keys on a piano
+border two different whole tones. So what are they
+sharps or flats? The answer is BOTH. The note between
+"C" and "D" is EITHER "C sharp", symbolized by C # or
+"D flat" symbolized by Db. Whether they're called "C
+sharp" or "D flat" is, again, a matter of musical conve-
+nience. The important thing to remember is that they are
+the exact same pitch. (NOTE: For convenience, Melody
+Master shows only sharps, not flats.)
+
+"C" Chromatic Scale/One Octave
+
+...
+
+How To Begin
+------------
+Now that you know the basics of music, you're ready to
+begin your music adventures. After the Vectrex overture,
+a Menu with two selections will appear on the screen.
+
+To make a selection, point the Light Pen at the appro-
+priate word and your desired mode will begin. (NOTE:
+When pointing the Light Pen at a word, move the pen
+across the word slowly until your selection is registered.)
+
+Game Mode
+---------
+This mode allows you to play two different games, both
+designed to help you recognize musical notes. When
+you select GAME, a second Menu appears:
+
+GAME 1 is for visual note recognition. GAME 2 is for
+audible note recognition.
+Again, point the Light Pen at the appropriate word.
+
+The 'Select Key' screen will now
+appear. You can decide the key in
+which you wish to play the game
+by aiming the Light Pen at the
+appropriate note on the keyboard.
+Then press Button 1 on the control
+panel This enters the key and
+you're now ready to play
+You will see the Songman play a single note, which
+will travel along the staff. When the keyboard appears at
+the bottom of the screen, aim the Light Pen at the same
+note on the keyboard that you think was just played.
+Keep the pen aimed at the note until the note appears
+on the staff. Be sure to aim the Light Pen only at the note
+you want. A careless aim may cause the Light Pen to
+pick up a stray (wrong) note.
+If you are right, the Songman will reappear and play
+the same first note, followed by a second note. When
+the keyboard reappears, aim the Light Pen at the first
+note until it appears on the staff then do the same for
+the second note. If you are again correct, the Songman
+will add another note and the game will continue in this
+manner until you make an error.
+If you make an error the Songman will tell you whether
+the note you selected was LOW or HIGH and will begin
+the game all over again. Your score, which will be shown
+in the upper right hand corner of the screen, is the total
+number of notes correctly identified in succession
+If you get 10 notes right in succession, you automati-
+cally get a "second chance" bonus. For example, let's
+say you get 12 notes right and the thirteenth note wrong.
+You will get a second chance at trying the same 13-note
+series. If you miss again, the Songman will start the
+game over. You get a similar bonus at 20 notes, at 30
+notes and so on up to 100 notes. (100 notes is the Song-
+man's limit.) To exit the game at any time, press Button 4.
+
+Game 2
+------
+This game is a little tougher because
+you will only hear the notes played
+by the Songman, but you will not
+see them travel along the staff.
+Otherwise, the game is played the
+same as GAME 1. To exit the game
+at any time, press Button 4.
+
+Music Mode
+----------
+This mode allows you to write and play your own music
+in two-part harmony (called 'voices') plus a rhythm sec-
+tion (snare drum and cymbal). We're going to take one
+step at a time and walk you through some simple exer-
+cises. After you've learned the basics, the rest is entirely
+up to you. Ready? The world of music is at your
+fingertips!
+When you select MUSIC, a second Menu appears:
+
+...
+
+Aiming the light pen at the word "EXIT" will take you
+back to this menu:
+
+...
+
+Let's start by composing a basic melody. We'll do this on
+VOICE 1. Point the Light Pen at 'VOICE 1' and the screen
+will now read:
+
+...
+
+This shows that VOICE 1 is turned "off." To activate this
+voice (i.e., turn it "on"), and to select the characteristics
+of the voice, aim the light pen at 'OFF' and the screen
+changes to:
+
+...
+
+Pointing the light pen at "EXIT" takes you back to:
+
+...
+
+By pointing the light pen at the word LOUD, you
+can change it to SOFT Pointing the pen at PIANO will
+change it to FLUTE. You can also change back
+to LOUD or PIANO by aiming the pen at SOFT or
+FLUTE, respectively.
+When you have selected your desired characteristics
+for VOICE 1, point the Light Pen at 'COMPOSE'. The
+screen will change to a pair of musical staffs and a part
+of the keyboard.
+
+Compose Melody
+--------------
+Now you're ready to compose! The key will automatically
+be in "C" (You can compose in different keys, as de-
+scribed later in the "SELECT KEY" section.)
+You can select notes from four octaves. To choose
+your octave, move the joystick on the control panel to
+the left or right to scan up or down the keyboard, re-
+spectively. The number on the upper left hand side of
+the keyboard shows you in which of these four octaves
+you're playing.
+When you begin, Melody Master will automatically
+register a middle "C" note and notes will automatically
+be eighth notes. You can change that note to any
+other simply by aiming the pen at the note on the key-
+board that you wish to be the first note of your melody.
+When you select a note from the keyboard, it will appear
+on the right side of the appropriate staff.
+When you are sure you have the note you want, press
+Button 3 to enter or "lock in" the note. Continue to add
+notes in this manner until your melody is complete.
+(Don't forget to press Button 3 after your last note to en-
+ter that note into the memory.)
+For practice, try entering this simple melody (all in
+eighth notes) into VOICE 1:
+
+Voice 1 (Octave 4)
+...
+
+Play Melody
+-----------
+When you have finished entering your melody you can
+play it back. First press Button 4 to take you to the
+menu. Then point the Light Pen at the word 'PLAY'. Your
+melody will play through once.
+
+Add Harmony
+-----------
+You can now add a second musical phrase on VOICE 2.
+Aim the Light Pen at the word 'EXIT' to get you back to
+the menu. Then point the Light Pen at 'VOICE 2' and fol-
+low the same steps as for VOICE 1.
+
+For practice, try entering this simple harmony all in
+eighth notes, into VOICE 2:
+
+Voice 2 (Octave 3)
+...
+
+When you have entered all the notes you desire on
+VOICE 2, you can play back both VOICE 1 and VOICE 2
+by pressing Button 4 and aiming the Light Pen at 'PLAY'.
+
+Add Rhythm
+----------
+Now you're ready to add rhythm. Aim the Light Pen at
+the word "EXIT" to get back to the menu. Then point the
+pen at the word 'RHYTHM'. Turn the rhythm on by aiming
+the Light Pen at the word 'OFF' and use the Light Pen to
+choose between a 'LOUD' or 'SOFT' rhythm track. Then
+point the pen at the word 'COMPOSE'.
+
+Because your rhythm track will be automatically
+placed in a continuous loop, it is not necessary to write
+a rhythm track that's the exact same length as your mel-
+ody AII you have to do is enter a short rhythmic phrase
+(i.e., a "beat") and let the automatic Loop take over.
+Press Button 1 and you get a cymbal sound. Press
+Button 2 and you get a snare drum sound. Button 3
+gives you rests. AII these actions occur as sixteenth
+notes. (In other words, there are 16 beats of cymbals/
+drums/rests for every whoIe note.)
+For practice, try entering the following simple beat
+into the RHYTHM track:
+CYMBAL REST DRUM REST
+(Button 1) (Button 3) (Button 2) (Button 3)
+...
+
+Once you've entered the rhythm track, press Button 4
+to get to the menu. Then aim the Light Pen at the word
+'PLAY' and your entire composition will play back as de-
+sired. To stop the music, press Button 4 again.
+
+Select Key
+----------
+You may wish to compose a song in a key other than
+"C" (The key will automatically be in "C" unless you wish
+to change it.) To change the key aim the Light Pen at
+the letter 'M' (for Menu) found in the middle of the
+screen. This gives you the following menu:
+
+...
+
+Aim the Light Pen at the word 'KEY' and the 'Select
+Key' screen will appear Point the Light Pen at the note
+on the keyboard that corresponds to the key you desire
+and press Button 1. This enters the key and takes you
+back to the screen with the staffs and partial keyboard.
+The key will be shown in the upper left hand corner of
+the screen. (The 'ERASE' and 'LOOP' functions are ex-
+plained later)
+
+Note Values & Rests
+-------------------
+Most songs have a variety of note values and rests
+rather than just eighth notes that we used in the simple
+example above. While you are composing your song,
+you can change the value of the note (i.e., how long the
+note plays) or make it a rest (no sound for a period of
+time) by aiming the Light Pen at the note sign found
+in the middle of the screen. The keyboard will disappear
+and a series of symbols will take its place.
+
+You will also see the word 'DOT'. Adding a dot to the
+note you choose increases the length of this note by half
+of its original value. For example, a dotted quarter note
+is the same length as three eighth notes. (MELODY
+MASTER does not allow you to dot a sixteenth note.) You
+can add the dot to a note by aiming the pen at the word
+'DOT' You can remove the dot from the note by aiming
+the pen at the word "DOT" again. There is no need to
+dot a rest.
+Choose the value of the note or rest by aiming the
+Light Pen at the appropriate symbol. If you want to
+change the note itself to a different note, press Button 1
+to return the keyboard to the bottom of the screen and
+then aim the pen at the new note. When you're sure you
+have the note or rest you want, press Button 3. This en-
+ters or "locks in" the note or rest and moves it slightly to
+the left on the staff.
+Note: After the first note of your tune is entered, you
+will see an eighth rest (symbol) on the staff. You
+can automatically enter the rest simply by pressing But-
+ton 3, or you can change the rest to any note or any
+other rest by following the instructions above.
+Continue to add notes or rests in this manner until
+your melody is complete. (Don't forget to press Button 3
+each time to enter your notes or rests.)
+
+Editing
+-------
+If you feel you've made a mistake while entering your
+composition or simply change your mind, aim the Light
+Pen at the word "EXIT". Then point the Light Pen at
+VOICE 1 or VOICE 2 - whichever you wish to change.
+Then aim the Light Pen at the word "EDIT" Each time
+you press Button 3 your composition will appear on the
+screen one note at a time.
+To change a note, point the Light Pen at the desired
+new note. You can also change the value of the note or
+change it to a rest by entering the mode and fol-
+lowing the same procedure as when you entered the
+note-or rest-the first time through. Press Button 3 to
+enter the new note and move it along the staff.
+When you're in the edit mode, aiming the Light Pen at
+the letter "M" found in the middle of the screen will give
+you the "Edit" Menu:
+
+...
+
+Erase
+-----
+This function appears in both the EDIT mode and in the
+COMPOSE mode, Aiming the Light Pen at the word
+"ERASE" will give you the "Erase" Menu:
+
+...
+
+If you change your mind and decide not to erase any-
+thing, aim the pen at the word "EXIT" which takes you
+back to the staffs and keyboard screen.
+To erase everything you've entered on VOICE 1,
+VOICE 2 or RHYTHM, aim the pen at the appropriate
+word, which will take you to that particular track and
+show that it is "OFF". To erase all tracks, point the pen at
+the word "ALL" which will then disappear Then point the
+pen at "EXIT" to get to the menu.
+
+Key.
+----
+Aiming the Light Pen at the word "KEY" will produce the
+"Select Key" screen, which we've discussed earlier.
+
+Delete
+------
+If you want to remove a note from your composition, you
+must first use the "Edit" mode-the staffs and keyboard
+screen-to arrive at the note you wish to delete. For ex-
+ample, say you have a five-note melody and you wish to
+change this to a four-note melody by removing the sec-
+ond note in the series.
+When this note appears at the right side of the staff
+point the Light Pen at the letter "M" found in the middle of
+the screen. This gives you the "Edit" Menu. Now aim the
+Light Pen at the word "DELETE" and the unwanted note
+will vanish. The next note in your composition will then
+appear at the right side of the staff and you can con-
+tinue to edit.
+
+Insert
+------
+If you want to add an extra note to your composition, you
+must first use the "Edit" mode-the staffs and keyboard
+screen-to arrive at the note immediately preceeding
+the note you wish to insert. For example, say you have a
+four-note melody and you wish to change this to a five-
+note melody by adding a new note between the second
+and third notes you already have.
+When the second note appears at the right side of
+the staff, point the Light Pen at the letter "M" found in the
+middle of the screen. This gives you the "Edit" Menu.
+Now aim the Light Pen at the word "INSERT" and a new
+note will appear This new note will be the same as the
+note which preceeded it. If you want to alter the tone or
+value of this new note, you can do this now in the normal
+manner before pressing Button 3 to enter the new note
+into the memory.
+
+Editing Rhythm
+--------------
+If you make a mistake while entering your rhythm track or
+simply change your mind, correct the situation by point-
+ing the Light Pen at the word "EXIT" and return to the
+menu. Then aim the Light Pen at the word "RHYTHM"
+This gives you the "RHYTHM" Menu. Aim the Light Pen
+at the word "COMPOSE" and start over. Your initial
+rhythm track will be automatically erased as you com-
+pose over it.
+
+Looping
+-------
+MELODY MASTER is also capable of creating a musical
+loop (i e., a multi-note phrase that repeats indefinitely).
+For example, let's say you've entered a four-note musical
+phrase on VOICE 1. (Remember you must press Button
+3 to enter the fourth note before going any further) In-
+stead of pressing Button 4, aim the Light Pen at the let-
+ter "M" found in the middle of the screen. This takes you
+back to the "COMPOSE" Menu. Now point the Light Pen
+at the word "LOOP" This will cause your four-note
+phrase to repeat and repeat and repeat... (To stop the
+music, press Button 4.)
+
+On/Off Options
+--------------
+While composing or editing, and during playback, you
+can select which tracks you would like to be "ON" or
+"OFF." You can also change the characteristics of the
+tracks (Loud or Soft, for example).
+For example, let's say you've composed a melody on
+VOICE 1 but want to turn that voice "OFF" while you
+compose harmony on VOICE 2. To switch VOICE 1 "Off",
+simply point the Light Pen at "EXIT" to get back to the
+menu.
+
+Then, aim the pen at "VOICE 1" When the screen dis-
+plays VOICE 1's characteristics, turn the voice "OFF" by
+pointing the pen at the word "On" Then aim the pen at
+the word "EXIT" to get back to the Menu.
+
+Then aim the pen at VOICE 2 and compose as de-
+scribed earlier.
+
+Let's Try A Complete Song!
+--------------------------
+Now that you know all the features built into Melody
+Master you can compose a more interesting tune! Try
+the following song -"She'll Be Comin' Round the Moun-
+tain.' It includes many different note values and rests on
+several octaves. It's even in the key of "F", so don't forget
+to follow the "SELECT KEY" instruction before you begin
+composing. Don't forget, if you make any mistakes, you
+can correct them in the "EDIT" mode. Have fun!
+
+...
+
+A Few Things To Keep In Mind...
+-------------------------------
+* MELODY MASTER stores up to 130 commands on
+  each track. If you attempt to enter 131, the word "OVER-
+  FLOW" will flash on the screen for few seconds. The
+  screen will then return to the last several notes or rests
+  you entered. If this happens, you can either press Button
+  4 and you'll return to VOICE 1/NOlCE 2/RHYTHM menu,
+  or you can put your composition into a loop, as de-
+  scribed earlier You will not lose the information you've
+  entered.
+
+* MELODY MASTER does not store your compositions
+  indefinitely. When you turn the unit off, everything in the
+  system will be lost.
+
+* Most importantly DO NOT REMOVE THE MELODY
+  MASTER CARTRIDGE FROM THE CONSOLE WHILE
+  THE UNIT IS STILL TURNED ON! Switch the unit off first.
+
+* No matter how you choose to use your MELODY MAS-
+  TER, have fun!
+
+90 Day Limited Warranty
+-----------------------
+This Video Game Cartridge is warranted by General Consumer Elec-
+tronics, Inc. to the original consumer purchaser in the U.S.A. for a pe-
+riod of 90 days from the original purchase date under normal use and
+service against defective workmanship and materials. ANY IMPLIED
+WARRANTIES ARE ALSO LIMITED IN DURATION TO THE NINETY (90)
+DAY PERIOD FROM THE ORIGINAL PURCHASE DATE. SOME STATES
+DO NOT ALLOW LIMITATIONS ON HOW LONG AN IMPLIED WAR-
+RANTY LASTS. SO THE ABOVE LIMITATION MAY NOT APPLY TO
+YOU.
+
+This warranty is void if the GCE Video Game Cartridge has been
+damaged by accident, unreasonable use, neglect, misuse, abuse, im-
+proper service, modification, subject to commercial use or other
+causes not arising out of defects in workmanship or materials and is
+limited to electronic and mechanical parts contained in the cartridge.
+
+GENERAL CONSUMER ELECTRONICS, INC. SHALL NOT BE LIA-
+BLE FOR LOSS OF USE OF THE VIDEO GAME CARTRIDGE OR
+OTHER INCIDENTAL OR CONSEQUENTIAL COSTS. EXPENSES OR
+DAMAGES INCURRED BY THE PURCHASER RESULTING FROM
+BREACH OF ANY EXPRESS OR IMPLIED WARRANTIES ON THE
+VIDEO GAME CARTRIDGE. SOME STATES DO NOT ALLOW THE EX-
+CLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL
+DAMAGES. SO THE ABOVE LIMITATION OR EXCLUSIION MAY NOT
+APPLY TO YOU
+
+During the warranty period, if found to be defective due to work-
+manship or materials, the GCE Video Game Cartridge will at the option
+of Gneral Consumer Electronics, Inc. be repaired or replaced with a
+new or reconditioned GCE Video Game Cartridge without charge for
+parts or labor when returned by Purchaser with proof of purchase
+date, shipped prepaid to General Consumer Electronics, Inc. at the fol-
+lowing address:
+
+ General Consumer Electronics Inc.
+ 233 Wilshire Boulevard
+ Santa Monica, California 90401
+
+In the event that your GCE Video Game Cartridge is replaced, the
+warranty on the replacement will be ninety (90) days from the date of
+its return to you.

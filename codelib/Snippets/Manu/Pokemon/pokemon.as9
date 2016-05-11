@@ -1,0 +1,193 @@
+; Okay, my friend Marq helped
+; me with getting multiple vectors
+; on the screen. I'm not gonna 
+; comment as much on here, so 
+; read the previous source code
+; first, if there's something you don't
+; understand.
+; Public Domain for all Vectrex freaks
+
+; Needed BIOS routines
+; simpler names this time
+
+WAITRECAL	equ	$f192
+MOVEPEN		equ	$f2fc
+MOVEDRAW	equ	$f3b7
+INTENSITY	equ	$f2ab
+RESET0REF	equ	$f354
+PRINTSTR	equ	$f37a
+
+	org	0
+
+; The required init block
+
+	fcb	$67,$20
+	fcc	"GCE MANU"
+	fcb	$80
+	fdb	musa
+	fdb	$f850
+	fdb	$30b8
+	fcc	"POKEMON"
+	fcb	$80,$0
+
+; ### Then the actual program ###
+; Note. All the numbers are real numbers, 
+; not hexadecimals. Much more easy this way.
+
+start	jsr	WAITRECAL	; Resets the BIOS and
+				; labels the main program
+				; as "start"
+	lda	#127		; Sets register A to 127
+	jsr	INTENSITY	; where from it is taken
+				; to be the wanted intensity
+				; 127 is the brightest
+				
+				; Pen to the middle (required!)
+	lda	#0		; Y-coordinate to register A
+	ldb	#0		; X-coordinate to register B
+	jsr	MOVEPEN		; Moves the pen to Y,X
+
+	ldx	#viiva		; Gets the coordinates from
+				; viiva (down below)
+	lda	#49		; Number of vectors
+	ldb	#128		; Scaling of vectors
+	jsr	MOVEDRAW	; Draws the vectors
+
+	jsr	RESET0REF	; Beam to the center
+	
+	lda	#80		; Move pen to (80,20)
+	ldb	#20		;
+	jsr	MOVEPEN		;
+	ldx	#viiva2		; Gets the coordinates
+	lda	#6		; Number of vectors
+	ldb	#128		; Scaling of vectors
+	jsr	MOVEDRAW
+
+	jsr	RESET0REF	; Beam to center
+	
+	lda	#80		; Pen to (80,-20)
+	ldb	#-20
+	jsr	MOVEPEN
+	ldx	#viiva2		; Gets the coordinates
+	lda	#6		; Number of vectors
+	ldb	#128		; Scaling of vectors
+	jsr	MOVEDRAW
+
+	jsr	RESET0REF	; Beam to center
+	
+	lda	#70		; Pen to (70,10)
+	ldb	#10
+	jsr	MOVEPEN
+	ldx	#nena		; Get coordinates
+	lda	#3		; Number of vectors
+	ldb	#128		; Scaling of vectors
+	jsr	MOVEDRAW
+
+; And so on...
+
+	jsr	RESET0REF	; Beam to center
+	
+	lda	#60		; Move pen to
+	ldb	#0
+	jsr	MOVEPEN
+	ldx	#nena		; Get Vectors
+	lda	#3		; Number of vectors
+	ldb	#128		; Scaling
+	jsr	MOVEDRAW
+
+; Writing the text
+
+	jsr	RESET0REF	; Beam to center
+
+	lda	#100		; Set intensity
+	jsr	INTENSITY	; Intensity needs only to 
+				; be set again if you want
+				; to change it
+	lda	#-100		; Y - coordinate
+	ldb	#150		; X - coordinate
+	ldu	#teksti		; Gets the text
+	jsr	PRINTSTR	; Prints the text string
+
+	jmp	start		; Jumps back to start
+
+; Then all the required coordinates
+
+viiva	   fcb   0,50           ; Here we go
+	   fcb   30,40		; This is the
+	   fcb	 10,-10		; Pikachu outline
+	   fcb   -20,-35 	
+	   fcb   20,-5
+	   fcb   10,20
+	   fcb   20,-10
+           fcb   20,0
+           fcb   0,20
+	   fcb   10,30		 
+           fcb   10,-20
+           fcb   0,-40
+	   fcb   10,-10
+	   fcb   0,-60	  	
+           fcb   -30,-60
+           fcb   -30,-20
+           fcb   30,50
+           fcb   0,10
+           fcb   -10,-10	 
+	   fcb   -50,0
+           fcb   10,-20
+           fcb   -10,-10
+           fcb   -30,30
+           fcb   -20,0
+	   fcb   -10,-10
+           fcb   10,-10
+           fcb   -20,-20
+           fcb   20,-10
+           fcb   -30,-30	
+	   fcb   -20,20
+           fcb   20,10
+           fcb   -10,10
+           fcb   20,20
+           fcb   -10,10
+	   fcb   30,10
+           fcb   -20,10
+           fcb   -10,10
+           fcb   -10,-10
+           fcb   0,10
+	   fcb   -10,10
+           fcb   20,10
+           fcb   -10,20
+           fcb   0,10
+           fcb   10,20
+   	   fcb   0,10
+	   fcb   -10,10
+           fcb   10,0
+           fcb   0,10
+           fcb   10,-10
+           fcb   40,0
+
+; "viiva2" is the eye, it's drawn twice
+; with different starting points
+
+viiva2	   fcb   0,0		; The first one 
+	   fcb   10,10          ; is always good
+	   fcb   -10,0		; to be 0,0
+	   fcb   5,5		; The actual 
+	   fcb   -5,5		; starting point
+	   fcb	 -10,-10	; is set in the
+   	   fcb	 10,-10		; main program
+
+nena	   fcb   0,0		; The nose
+	   fcb   0,10                  
+	   fcb   -5,-5
+	   fcb   5,-5
+
+teksti	fcc	"GOTTA CATCH EM ALL"
+	fcb	$80
+
+; And the ending tells Vectrex again to 
+; play no music
+
+musa	fdb	$fee8
+	fdb	$fbe6
+	fcb	$28,$08
+	fcb	$0,$80
+
+; Commenting by man@sci.fi - blame me

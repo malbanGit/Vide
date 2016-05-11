@@ -1,0 +1,207 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=c7d2b088 -->
+<title>YM Packing used by VecSound</title>
+</head>
+<body class="doc">
+<h1>YM Packing used by VecSound</h1>
+
+<p>The data for a YM file is saved by VIDE in a packed format. Vectrex in general is not very good at packing / unpacking.</p>
+
+<p>It does not have much RAM and it is not the fastest machine to begin with, so the strategies for packing are somewhat limited.</p>
+
+<p>Here I will describe the format the packed data is saved with,  so you may try
+<ol><li>
+<p>to make a better packer</p>
+</li><li>
+<p>make a better unpacker (faster/less ram usage etc)</p>
+</li></ol>
+</p>
+
+<p>Registers 0 to 10 (both inclusive) are saved.  I have not found any YM files which actually use the other other 3 registers (11-13) 14 and 15 are IO ports so no sense in saving them anyway.</p>
+
+<p>The routines can easily be enhanced for the other three registers should that be needed.</p>
+<h2><b>Shannon-Fano-Code + Run Length encoding</b><br />
+</h2>
+
+<p>The packing in general is a Shannon-Fano-Code, the resulting code bits are than in addition packed with a RLE algorithm. The Shannon-Fano-Code is not only used on the data bytes, but also on entities which I call "phrases".</p>
+
+<p>A phrase is a byte pattern. If in the data of one register repetitions are found then the packer interprets them as a phrase (= pattern), the packer tries to find them and includes them in the Shannon-Fano-Code. With that it is possible to pack groups of bytes with only a few bits.  </p>
+
+<p>Each register is saved and packed on its own. Since if you look at each register alone many data items in a row are quite similar. <br />
+(This is also the reason the original YM-files differentiate between interleaved and non interleaved saving - to pack the data better!)</p>
+
+<p>Note:<br />
+The compression algorithm does not know, that some registers pairs form 12bit values, this knowledge might lead to better packing strategies - I have not followed that path.</p>
+
+<p>In the resulting (asm) data file you will find the data for each register seperately listed.</p>
+
+<p>The data for each register in the packed format comes in three "sections":
+<ol><li>
+<p>translation data</p>
+</li><li>
+<p>phrases</p>
+</li><li>
+<p>data</p>
+</li></ol>
+</p>
+<h4>Translation data</h4>
+
+<p>The translation data is a table where each row consists of three entries
+<ol><li>
+<p>bits used<br />
+The number of bits that are used to build the code for the data. This means if here a "$03" is used, the following code (byte) only uses the three lowest bits. Possible values are than for the code:<br />
+
+<ul><li>
+<p>000</p>
+</li><li>
+<p>001</p>
+</li><li>
+<p>010</p>
+</li><li>
+<p>011</p>
+</li><li>
+<p>100</p>
+</li><li>
+<p>101</p>
+</li><li>
+<p>110</p>
+</li><li>
+<p>111</p>
+</li></ul>
+</p>
+
+<p>If the highest bit is set (the byte start with a "$8') than the decoded data which will be used is a "phrase" not a simple byte!</p>
+</li><li>
+<p>code<br />
+The code used in the Shannon-Fano-Coding. Note, this does not mean, that a 10 bit code is actually ten bit long here at this byte location. This location is allways only one byte. But this bytes "number" will be coded in the number of bits given in the "bits used" data.</p>
+</li><li>
+<p>real data<br />
+Here the real data which is the result of the Shannon-Fano <b>DECODE</b> is listed. If the result is a phrase (see above) than the number of the phrase is given.</p>
+</li></ol>
+</p>
+
+<p>In addition to the actual data listed, there is always a comment after each entry. The comment is always a number and list the count of entries that were found for each row.</p>
+
+<p>The length of this section is not fixed! The length is determined on how many different entries for the Shannon-Fano-Code were found. This might be only a couple of entries, but in a weird worst case scenario it might be well over 100 or even 200 entries.</p>
+<h4>Phrases</h4>
+
+<p>This section is straight forward, here all phrases are listed, the format is: <tt><br />
+ <br />
+phrase_start_reg_X:<br />
+ DB NO_OF_BYTES, BYTE1, BYTE2, ... BYTEX<br />
+ DB NO_OF_BYTES, BYTE1, BYTE2, ... BYTEY<br />
+ <br />
+... for the number of phrases<br />
+</tt></p>
+
+<p>Note:<br />
+There are no "direct" pointers to a phrase. To get to phrase x you have to read the length byte of all other phrases and add the values. This might be a point for optimization!</p>
+<h4>data</h4>
+
+<p>Now the actual data for the register follows. The above mentioned Shannon-Fano-Codes are additionaly packed using a RLE compression.<br />
+RLE algorithm :<br />
+(comments belong to the lines above!)<br />
+<tt>
+<ol><li>
+<p>readBit()</p>
+</li><li>
+<p>if bit = 0 than dataCount = 1 (no rle coding) goto 5<br />
+else bitCount = 1</p>
+</li><li>
+<p>while readBit()=1 bitCount++ <br />
+// the count of bits which are 1 is the bitlength <br />
+// of the following RLE counter </p>
+</li><li>
+<p>for bitCount: dataCount += readBit() &lt;&lt; i <br />
+// build the counter from the following bits, <br />
+// LSB first</p>
+</li><li>
+<p>code &lt;&lt;= 1  // code was initialzied with 0</p>
+</li><li>
+<p>code += readBit()</p>
+</li><li>
+<p>if code is not known goto 5</p>
+</li><li>
+<p>realData = map[code]</p>
+</li><li>
+<p>if realData &gt; 256 than isPhrase = true, realData -= 256</p>
+</li><li>
+<p>for dataCount: </p>
+</li><li>
+<p> &nbsp;&nbsp;&nbsp;if isPhrase than OUTPUT(phrase[realData]) else OUTPUT(realData)</p>
+</li></ol>
+</tt></p>
+
+<p>Following above algorithm unpacks one complete register.</p>
+<h2>"Base data"</h2>
+
+<p>The above data sections are repeated 10 times, once for each register. </p>
+
+<p>The unpacking routines also need some base data, as e.g. where to find above tables. </p>
+
+<p>The setup routine for the ymSound player only needs one address for a song, this is the "data" address or base address.</p>
+
+<p>The YMSound routine places the base address at the end of the actual YM assembler file. At the start of the table which maps to the data of the registers. The register data table has 3 entries for each register, the above described three tables.</p>
+
+<p>The entries and the addresses are automatically build by the generator.</p>
+<h2>Data format:</h2>
+<h3>General file format of ym data:</h3>
+
+<ol><li>
+<p>Length of ym register "lines"</p>
+</li><li>
+<p>Datatables register 0-10 (translation/phrase/data)</p>
+</li><li>
+<p>Base data table</p>
+</li><li>
+<p>Name of YM-Song</p>
+</li></ol>
+<h4>Length of ym register "lines"</h4>
+
+<p>Only one data statement:<br />
+ <br />
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;DW length<br />
+ <br />
+</tt> a 16 bit signed value</p>
+<h4>Datatables register 0-10 (translation/phrase/data)</h4>
+<br />
+
+<p><b>translation table</b><br />
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;DB bits_used, code, data &nbsp;&nbsp;; count of entries<br />
+ <br />
+</tt></p>
+<br />
+
+<p><b>phrase</b><br />
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;DB NO_OF_BYTES, BYTE1, BYTE2, ... BYTEX<br />
+ &nbsp;&nbsp;&nbsp;&nbsp;DB NO_OF_BYTES, BYTE1, BYTE2, ... BYTEY<br />
+... for the number of phrases<br />
+</tt></p>
+<br />
+
+<p><b>data</b><br />
+<tt> &nbsp;&nbsp;&nbsp;&nbsp;DB byte1, byte2...<br />
+ &nbsp;&nbsp;&nbsp;&nbsp;DB ...bytex, bytey<br />
+</tt></p>
+<h4>Base data table</h4>
+
+<p><tt> &nbsp;&nbsp;&nbsp;&nbsp;DW start &nbsp;&nbsp;&nbsp;&nbsp;; pointer to the start of this file<br />
+ &nbsp;&nbsp;&nbsp;&nbsp;DW translationReg0, phraseReg0, dataReg0<br />
+ &nbsp;&nbsp;&nbsp;&nbsp;...<br />
+ &nbsp;&nbsp;&nbsp;&nbsp;DW translationReg10, phraseReg10, dataReg10<br />
+</tt></p>
+<h4>Name of YM-Song</h4>
+
+<p><tt> &nbsp;&nbsp;&nbsp;&nbsp;DB "NAME", $80<br />
+</tt></p>
+
+<p> </p>
+</body>
+</html>

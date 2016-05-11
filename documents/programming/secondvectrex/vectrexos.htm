@@ -1,0 +1,54 @@
+<html>
+
+<head>
+<title>The Vectrex OS and its functions</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>The Vectrex OS and its functions</strong></font></p>
+
+<p>There is no 'official' ROM listing, and therefore there are no
+official function names. I learned the inner workings of the
+vectrex ROM from a documented disassembled ROM. As far as I know
+there are two such disassembled listings, one done by Fred Taft
+and one by Bruce Tomlin (based on Freds work). Throughout this
+document I use the function names given in Bruce's version.<br>
+<strong></strong></p>
+
+<p><strong>Many thanks for the nice job you both have done.</strong><br>
+</p>
+
+<p>The OS is located at memory address $F000 to $FFFF (well
+nearly, the last few bytes are reserved vectors of the 6809 CPU).
+Most functions require parameters, some functions return some
+values. This information is most of the time passed via registers
+of the 6809 microprocessor. There is no 'standard' in what
+registers are used. Look at the functions for the information
+which registers are used. As you will know the 6809 CPU has a
+register called DP (direct page register), this register is used
+to point to 256byte pages within the memory. The 6809 can address
+256*256byte pages, dp therefore can have values from 0-255. The dp
+register if used wisely can shorten and speedup programs, because
+direct page accesses are faster and shorter than extended
+addressing. There are two values that you will encounter
+frequently while programming vectrex, as $c8 and $d0. You can
+see, eyeing the memory map above, these are direct page pointers
+to 1. ($c8) RAM used by the BIOS (or the programmer) and 2. ($d0)
+the base address of the VIA 6522 (VIA Vercatile Interface
+Adapter, sometimes called PIA Periphal Interface Adapter). All
+output and timer functionality are regulated/accessed by that
+chip, it is pretty important :-). For a detailed description of
+that chip see Appendix C. Actually input is also done via VIA,
+but indirectly, by accessing the AY-3-8912 soundchip, see
+Appendix D for a detailed description of that chip.<br>
+</p>
+
+<p align="center"><a href="timing.htm">Next page</a> <a
+href="structure.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

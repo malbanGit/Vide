@@ -1,0 +1,141 @@
+:title YM Packing used by VecSound
+
+The data for a YM file is saved by VIDE in a packed format.
+Vectrex in general is not very good at packing / unpacking.
+
+It does not have much RAM and it is not the fastest machine to begin with, so the strategies for packing are somewhat limited.
+
+Here I will describe the format the packed data is saved with,  so you may try
+a) to make a better packer
+b) make a better unpacker (faster/less ram usage etc)
+
+
+Registers 0 to 10 (both inclusive) are saved. 
+I have not found any YM files which actually use the other other 3 registers (11-13) 14 and 15 are IO ports so no sense in saving them anyway.
+
+The routines can easily be enhanced for the other three registers should that be needed.
+
+:h2 **Shannon-Fano-Code + Run Length encoding**~~
+The packing in general is a Shannon-Fano-Code, the resulting code bits are than in addition packed with a RLE algorithm.
+The Shannon-Fano-Code is not only used on the data bytes, but also on entities which I call "phrases".
+
+A phrase is a byte pattern. If in the data of one register repetitions are found then the packer interprets them as a phrase (= pattern), the packer tries to find them and includes them in the Shannon-Fano-Code. With that it is possible to pack groups of bytes with only a few bits.  
+
+Each register is saved and packed on its own. Since if you look at each register alone many data items in a row are quite similar.
+~~(This is also the reason the original YM-files differentiate between interleaved and non interleaved saving - to pack the data better!)
+
+Note:~~
+The compression algorithm does not know, that some registers pairs form 12bit values, this knowledge might lead to better packing strategies - I have not followed that path.
+
+In the resulting (asm) data file you will find the data for each register seperately listed.
+
+The data for each register in the packed format comes in three "sections":
+1) translation data
+2) phrases
+3) data
+
+:h4 Translation data
+The translation data is a table where each row consists of three entries
+1) bits used~~
+The number of bits that are used to build the code for the data. This means if here a "$03" is used, the following code (byte) only uses the three lowest bits. Possible values are than for the code:~~
++ 000
++ 001
++ 010
++ 011
++ 100
++ 101
++ 110
++ 111
+1). If the highest bit is set (the byte start with a '$8') than the decoded data which will be used is a "phrase" not a simple byte!
+2) code~~
+The code used in the Shannon-Fano-Coding. Note, this does not mean, that a 10 bit code is actually ten bit long here at this byte location. This location is allways only one byte. But this bytes "number" will be coded in the number of bits given in the "bits used" data.
+3) real data~~
+Here the real data which is the result of the Shannon-Fano **DECODE** is listed. If the result is a phrase (see above) than the number of the phrase is given.
+
+In addition to the actual data listed, there is always a comment after each entry. The comment is always a number and list the count of entries that were found for each row.
+
+The length of this section is not fixed! The length is determined on how many different entries for the Shannon-Fano-Code were found. This might be only a couple of entries, but in a weird worst case scenario it might be well over 100 or even 200 entries.
+
+:h4 Phrases
+This section is straight forward, here all phrases are listed, the format is:
+::~~ ~~
+phrase\_start\_reg\_X:~~
+ DB NO\_OF\_BYTES, BYTE1, BYTE2, ... BYTEX~~
+ DB NO\_OF\_BYTES, BYTE1, BYTE2, ... BYTEY~~ ~~
+... for the number of phrases~~
+
+Note:~~
+There are no "direct" pointers to a phrase. To get to phrase x you have to read the length byte of all other phrases and add the values. This might be a point for optimization!
+
+:h4 data
+Now the actual data for the register follows. The above mentioned Shannon-Fano-Codes are additionaly packed using a RLE compression.~~
+RLE algorithm :~~(comments belong to the lines above!)~~::
+1) readBit()
+2) if bit = 0 than dataCount = 1 (no rle coding) goto 5~~
+else bitCount = 1
+3) while readBit()=1 bitCount++ ~~\// the count of bits which are 1 is the bitlength ~~\// of the following RLE counter 
+4) for bitCount: dataCount += readBit() \<< i ~~\// build the counter from the following bits, ~~\// LSB first
+5) code \<<= 1  \// code was initialzied with 0
+6) code += readBit()
+7) if code is not known goto 5
+8) realData = map[code]
+9) if realData > 256 than isPhrase = true, realData -= 256
+10) for dataCount: 
+11)  ___if isPhrase than OUTPUT(phrase[realData]) else OUTPUT(realData)
+
+Following above algorithm unpacks one complete register.
+
+:h2 "Base data"
+The above data sections are repeated 10 times, once for each register. 
+
+The unpacking routines also need some base data, as e.g. where to find above tables. 
+
+The setup routine for the ymSound player only needs one address for a song, this is the "data" address or base address.
+
+The YMSound routine places the base address at the end of the actual YM assembler file. At the start of the table which maps to the data of the registers. The register data table has 3 entries for each register, the above described three tables.
+
+The entries and the addresses are automatically build by the generator.
+
+:h2 Data format:
+:h3 General file format of ym data:
+1) Length of ym register "lines"
+2) Datatables register 0-10 (translation/phrase/data)
+3) Base data table
+4) Name of YM-Song
+
+:h4 Length of ym register "lines"
+Only one data statement:~~ ~~
+:: ____DW length~~ ~~
+:: a 16 bit signed value
+
+:h4 Datatables register 0-10 (translation/phrase/data)
+~~**translation table**~~
+:: ____DB bits\_used, code, data __; count of entries~~ ~~
+
+~~**phrase**~~
+:: ____DB NO\_OF\_BYTES, BYTE1, BYTE2, ... BYTEX~~
+ ____DB NO\_OF\_BYTES, BYTE1, BYTE2, ... BYTEY~~
+... for the number of phrases~~
+
+
+
+~~**data**~~
+:: ____DB byte1, byte2...~~
+ ____DB ...bytex, bytey~~
+
+:h4 Base data table
+:: ____DW start ____; pointer to the start of this file~~
+ ____DW translationReg0, phraseReg0, dataReg0~~
+ ____...~~
+ ____DW translationReg10, phraseReg10, dataReg10~~
+
+
+:h4 Name of YM-Song
+:: ____DB "NAME", $80~~
+
+ 
+
+
+
+
+

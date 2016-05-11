@@ -1,0 +1,18 @@
+:title vari
+:image vari.png|vari window
+
+Well - also straight forward... all known variables (named RAM-locations) are shown.
+
+You can update the variables name on the fly, the disassembly in dissi will reflect the changes, all references to the variable will be updated.
+
+Same with comments.
+
+**all known...**~~
+In case you need more than all known locations, you can add locations using the 
+##add.png## button (this mainly comes handy if RAM-locations are used via accessing with the use of the DP register)
+
+**breakpoints**~~
+As shown in the image above, you can also set breakpoints to ram locations. 
+- read: triggered when the ram location is read
+- write: triggered when ram location is written to
+- value: triggered when ram locations is written to with a certain value

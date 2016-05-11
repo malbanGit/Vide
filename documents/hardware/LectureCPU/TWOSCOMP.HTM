@@ -1,0 +1,140 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+<H3>HEXADECIMAL NOTATION and TWO'S COMPLEMENT ARITHMETIC</H3>
+<H4>Hexadecimal</H4>
+Hexadecimal notation (hex) is based on radix 16.   
+This is particularly convenient for expressing binary values 
+as 4 bits are represented by one hexadecimal digit.   
+Hex digits range from 0 to 15 (decimal) which is 0 to F (hex).   Hex
+numbers above 9 use the letters A through F as follows:
+<PRE>
+	     decimal	   hexadecimal	       binary
+		9		9		1001
+		10		A		1010
+		11		B		1011
+		12		C		1100
+		13		D		1101
+		14		E		1110
+		15		F		1111
+</PRE>		
+Therefore a byte of data can be expressed as two hex digits.
+<PRE>
+	 Example:			10001010
+
+	 Split into two 4-bit fields	1000 1010 = 8A (hexadecimal)
+</PRE>
+<H4>Representation of negative numbers</H4>
+
+         We may sometimes wish to use a number, representation that enables us to have
+         positive and negative numbers, rather than be confined to positive numbers only.
+         An 8-bit byte can represent 256 (2 to the 8th power) different quantities and the
+         usual way of interpreting these would be as the numbers 0 to 255. If we require
+         our range to include negative numbers as well, we might decide that a byte can
+         represent any number in the range -128 to +127 (256 values, including zero).
+         Remember that the exact interpretation of a byte is entirely in the hands of the
+         programmer, so we could allocate the 256 codes to the 256 numbers in any way we
+         wish.
+<P>
+         However it makes sense to allocate them in such a way that arithmetic operations
+         remain as simple as possible and do not involve extra decoding and encoding
+         steps.
+<P>
+         The most general way of representing negative integers in computing and
+         microprocessing is the "Two's Complement" (TC) notation.  Using TC notation,
+         positive and negative numbers may be treated exactly alike during calculations
+         and interpreted as positive or negative only on input/output.  Particularly
+         important is the necessity for the sum of a positive and a negative number to yield
+         the correct result.  I will show below how the TC of a number is calculated and that
+         the above condition is satisfied.
+<H4>RULE for finding the TC of a number</H4>
+<PRE>
+                a)     Invert the number (0 becomes 1; 1 becomes 0)
+                b)     Add 1
+</PRE>
+<P>
+         So if 90  (decimal) is 01011010 in binary (5A in hex)
+         then -90 in TC is found as follows:
+<PRE>
+                a)     Invert:        10100101      (A5 in hex)
+                b)     Add 1:         10100110      (A6 in hex)
+</PRE>
+         We must   prove that this is correct, which we do by adding 90 to -90:
+<PRE>
+                                      01011010       90
+                                      10100110      -90
+				      --------      ---
+                       Carry ->     1 00000000        0
+				      ========      ===
+</PRE>
+         The Carry is ignored; it has "spilled" over the end of the register.
+<P>
+         What is 'zero' in Two's Complement?
+<PRE>
+                       00000000              0
+                a)     11111111
+                b)  1  00000000             -0 = 0 as required
+</PRE>
+          Note that in TC notation, a negative number always has its most significant bit set
+         (equal to 1).
+<H3>Subtraction in Two's Complement</H3>
+         To subtract two numbers the simplest way is to take the TC of the second
+         (subtrahend) and add it to the first:
+<P>
+         We want to know 25H - 17H (numbers in hex).
+<PRE>
+         Take the TC of 17H:          00010111 = 17
+                       a)             11101000
+                       b)             11101001 = E9
+
+         The TC of 17H is E9H.
+
+         Now add them together:       00100101 = 25
+                                      11101001 = -17
+
+                     Carry ->    1    00001110 = OEH (Correct, try it)
+</PRE>
+         What if we wanted 17H - 25H?
+<PRE>
+         Take the TC of 25H:          -25H = DB
+
+         Now add 17H:                 11011011 = DB
+                                      00010111 = 17 +
+
+                     Carry ->    0    11110010 = F2
+</PRE>
+         This is obviously a negative number (MSB is set). To find out which number this
+         is the negative of, we find the TC:
+<PRE>
+                                      11110010 = F2
+
+                       a)             00001101
+                       b)             00001110 = 0E
+</PRE>
+         So F2H is -0EH which is what we should expect.
+<P>
+         On any of these calculations, the answer may have been outside the range of -128
+         to +127.    In this case, the answer will appear negative when it should be positive
+         and vice-versa.   The ALU can detect this condition, known as "overflow" and set its
+         overflow flag accordingly. This flag may then be tested in the program and
+         appropriate action taken.
+<PRE>
+         EXAMPLE               25H + 60H           (=85H)
+
+                               00100101              25H
+                               01100000             +60H
+                               --------             ----
+                 Carry -> 0    10000101              85H, but MSB indicates negative no.
+			       ========		    ====
+                          0    11000000    <-   carrys from previous bit
+                          ^    ^
+</PRE>
+         The OVERFLOW flag is set when the Carry out of the MSB (into CARRY) is different
+         from the Carry out of the next most significant bit. In other words, it is the
+         exclusive-OR of the carrys arrowed above.
+<hr>
+<A HREF="micros.htm">Back</A>
+
+</BODY>
+</HTML>

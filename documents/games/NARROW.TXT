@@ -1,0 +1,121 @@
+3-D NARROW ESCAPE 
+-----------------
+   Enter the stellar fortress of a 23rd century warlord whose evil intent
+is to dominate your home star system and enslave all its inhabitants.
+   Your mission is to navigate through the narrow and fast-moving passages
+of the fortress and destroy the warlord's defense forces and his powerful
+arsenal.  Beware...the passages of the fortress will encircle you in 3-D
+terror while the warlord's defense systems will become more menacing.  Will
+you succumb to the evil of the warlord or destroy him and make a Narrow
+Escape?!
+
+3-D Narrow Escape Controls
+--------------------------
+   Joystick:  Push forward to move your ship down, backward to move it up.
+              Push left and right to move ship sideways.
+   Button 1:  Unused.
+   Button 2:  Unused.
+   Button 3:  Unused.
+   Button 4:  Fire.
+
+Game Play
+---------
+   Your goal in 3-D Narrow Escape is to successfully navigate your ship
+through the narrow, fast-moving passages of the warlord's fortress, destroy
+his defense forces and powerful arsenal, and avoid space debris.  You'll also
+have to maneuver your ship through small holes in a series of walls where
+you'll pick up precious fuel cells that allow you to continue on your
+mission.  If you pilot your ship successfully, you'll be faced with the
+warlord's own escape ship which you must hit several times to destroy it and
+liberate the star system for the warlord's tyranny.
+   Each level gets more difficult as everything will move faster, your fuel
+will be consumed more quickly, the holes in the walls will get smaller, and
+you'll face more menacing defense forces.
+
+Levels
+------
+   The game progresses through increasingly difficult levels of play.  Each
+level of game play consists of two phases:
+
+  Passages : During the first phase of each level, you must maneuver your
+             ship through the narrow, moving passages with the joystick while
+             shooting six of the warlord's defense forces with Button 4.  If
+             you miss any of the six, they will go off the screen and be
+             re-cycled to give you another chance, but you'll use more fuel.
+
+             In addition to various defense forces, which you MUST destroy,
+             there are extra targets that you can try to shoot for additional
+             points.  Unlike the regular defense forces, the extra targets
+             are non-threatening - they will not shoot at you or crash into
+             you.
+
+             During this phase, you must also deal with space debris, which
+             will suddenly shoot up through the play field.  You cannot shoot
+             space debris but can only try to avoid it by dodging from side
+             to side.  If space debris crashes into your ship, it will
+             destroy you.
+
+             As you navigate your ship through the narrow passages, be
+             careful not to crash into the walls or you will destroy your
+             ship.  You can maneuver your ship into a gap between moving
+             walls, but only for a brief moment or you will crash into the
+             approaching wall.  This 'side-stepping' into gaps is helpful
+             when trying to avoid an approaching enemy or space debris.
+
+
+  Walls    : If you successfully navigate the passages and destroy the
+             required six defense forces, you will enter the second phase - a
+             series of walls with holes.  In the first level of the game,
+             there will be five successive walls, each one with a hole
+             through which you must maneuver your ship.  In the second level
+             of play, there will be six successive, in the third level, seven
+             walls, etc.  Also, the size of the holes will get smaller in
+             each new level.  The hole will be in a different location on
+             each wall.
+
+             After passing through the hole in each wall (but before entering
+             the hole in the next wall) there will be a fuel cell which you
+             must pass through in order to capture it.  If you miss a fuel
+             cell, you can still continue playing by entering the hole in the
+             next wall.  But keep an eye on your fuel gauge and try to
+             capture fuel cells if your fuel is running low.  (Note: In early
+             levels of the game, you will not need to capture all of the fuel
+             cells to get to the next level.  However, as the game
+             progresses, your fuel will be consumed faster, so you WILL need
+             to capture all of the fuel cells in order to make it through the
+             next level).
+
+
+Warlords Escape Ship
+--------------------
+   After successfully completing three levels of play, you will come
+face-to-face with the warlord's escape ship in open space.  You must shoot
+the warlords ship FIVE times to destroy it during the first encounter, seven
+times during the second encounter, etc.  But be careful...the warlords ship
+will also shoot at you and try to avoid your shots!  You can also intercept
+the warlords torpedoes with your own shots.  If you destroy the warlords
+escape ship, you will enter the next (fourth) level of play and the game will
+continue.  You will face the warlords escape ship after successfully
+completing every three levels of game play, but each time you face it, you
+will have to hit the escape ship more frequently to destroy it.
+
+Number of Ships
+---------------
+   In each game, you start with four ships, three reserve ships plus your
+ship.
+
+Scoring
+-------
+
+Points are awarded as follows:
+
+Destroying Each Enemy Ship
+in The Defense Force              50 x Level Number
+
+Capturing Fuel Cells              100 points
+ 
+Hitting Warlord's Escape Ship     50 points
+
+Destroying Warlord's Escape Ship  500 points
+
+

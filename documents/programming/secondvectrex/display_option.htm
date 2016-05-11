@@ -1,0 +1,44 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Display_Option ($F835)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Display_Option ($F835)</p>
+
+<p>This routine displays the player or game option string, along
+with the current value for that option. The A-register contains
+the value of the option, while the Y-register points to a block
+of the following form: </p>
+
+<blockquote>
+    <p>rel y, rel x, ( for value )<br>
+    rel y, rel x, ( for option string)<br>
+    option string,<br>
+    0x80<br>
+    </p>
+</blockquote>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $D0</p>
+    <p>A-reg=the option value.</p>
+    <p>Y-reg points to the string block.</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<blockquote>
+    <p>D-reg, U-reg, X-reg trashed</p>
+</blockquote>
+<p><a href="bios.htm#F835">Source</a></p>
+</body>
+</html>

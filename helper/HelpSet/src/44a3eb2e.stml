@@ -1,0 +1,50 @@
+:title Sound / PSG Chip
+ 
+:h2 Vectrex BIOS
+
+One "update" for the PSG is usualy done once time in a typical vectrex game loop.
+
+Thus the update is done every 1/50 seconds (more or less) since vectrex programs //try// do update with 50Hz.
+Each vectrex note can have a "length", the length is simply a counter of "update rounds" that the note stays the same.~~
+
+While "staying the same" the below given changes are done to the "note", it is wrapped in a ADSR envelope and a vibrato is added.
+
+The ADSR envelope can be at maximum 32 nibbles (vibrato only 8 changes).
+If the next note is played befor the ADSR is completely done (or the vibrato), than the next note will be played nonetheless and the counter for the ADSR and vibrato will reset. 
+
+This for example means, if notes are played with a speed of two, only the first two nibbles of the ADSR will be used for that note!
+
+:h3 ADSR
+(**A**ttack, **D**ecay, **S**ustain, **R**elease)
+
+ADSR table = 32 nibbles~~
+Theoretically this could be set per channel!
+Than that would be one ADSR for each "instrument", but with the BIOS routine the one ADSR table is used thru all three channels
+
+ADSR is a "software ADSR", the 4 bit values are written each PSG "update round" (optimally 50Hz) to the corresponding lower 4 bit of the amplitude control register of PSG (ModeBit is always 0).
+
+:h3 TWANG / Vibrato
+Can be negative  / positive and updates the base frequence of the note with the value (of the twang).~~
+
+As with ADSR the twang table updates the value for the vibrato each PSG "update round".
+
+The twang table consists of 8 TWANG/Vibrato bytes. Each channel has a different limit to its update count (see below).
+ 
+It seems like TWANG entry 0 is not used [or only used as last in channel C, since that is the only one, that "rolls over" the 3 bit counter limit], since the routine increments the counter always **befor** it is used (and it starts at 0).
+ 
+
+RAM location: Vec\_Music\_Twang~~
+Is a 3 times Counter/Twang value storage in RAM like:~~
+::
+Channel A: db TWANG_COUNTER, CURRENT_TWANG_VALUE ; TWANG Counter limit 6~~
+Channel B: db TWANG_COUNTER, CURRENT_TWANG_VALUE ; TWANG Counter limit 7~~
+Channel C: db TWANG_COUNTER, CURRENT_TWANG_VALUE ; TWANG Counter limit 8~~
+
+Some links to more information for ADSR/TWANG:~~
+[[http://en.wikiaudio.org/ADSR_envelope]]~~
+[[http://www.audiosonica.com/en/course/post/15/Sound_theory_Envelope]]~~
+
+PSG in general:~~
+[[http://f.rdw.se/AY-3-8910-datasheet.pdf]]~~
+
+

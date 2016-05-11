@@ -1,0 +1,277 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 8</H2>
+<H3>VIA control registers and handshaking</H3>
+
+           The VIA has a total of 16 registers, some of which we have
+           already looked at.  Some of the others are concerned with the
+           control lines we looked at before and others with features we
+           have not yet considered.
+<P>
+<CENTER>
+<TABLE BORDER CELLPADDING=6 WIDTH=600 BGCOLOR=#c0ffc0>
+<TR><TH COLSPAN=3><FONT SIZE=+2>6522 VIA</FONT></TR>
+<TR><TH width=10%>Address<TH width=20%>Name<TH width=60%>Function</TR>      
+<TR><TD>0 <TH>ORB/INB <TD>Output or input register B </TR>
+<TR><TD>1 <TH>ORA/INA <TD>Output or input register A </TR>
+<TR><TD>2 <TH>DDRB <TD>Data direction register B </TR>
+<TR><TD>3 <TH>DDRA <TD>Data direction register A </TR>
+<TR><TD>4 (write)<br>4 (read)<TH>T1L-L <br>T1C-L <TD>Write to Tl latch <br>Read from Tl counter</TR>
+<TR><TD>5 (write)<br>5 (read)<TH>T1L-H <br>T1C-H <TD>Write to Tl latch & load counter <br>Read from Tl counter </TR>
+<TR><TD>6 (write)<br>6 (read)<TH>T1L-L <br>T1L-L <TD>Write to Tl latch (same as 4) <br>Read from latch </TR>
+<TR><TD>7 (write)<br>7 (read)<TH>T1L-H <br>T1L-H <TD>Write to Tl latch (no counter load) <br>Read from latch </TR>
+<TR><TD>8 (write)<br>8 (read)<TH>T2L-L <br>T2C-L <TD>Write to T2 latch <br>Read from T2 counter </TR>
+<TR><TD>9 (write)<br>9 (read)<TH>T2L-H <br>T2C-H <TD>Write to T2 latch & load counter <br>Read from T2 counter </TR>
+<TR><TD>A <TH>SR <TD>Shift register Serial input/output </TR>
+<TR><TD>B <TH>ACR <TD>Auxiliary control register </TR>
+<TR><TD>C <TH>PCR <TD>Peripheral control register </TR>
+<TR><TD>D <TH>IFR <TD>Interrupt flag register </TR>
+<TR><TD>E <TH>IER <TD>Interrupt enable register </TR>
+<TR><TD>F <TH>ORA <TD>Output register A (no effect on CA2) </TR>
+</TABLE>
+</CENTER>
+<P>
+           The control and flag registers are important to the labwork.  
+	   The serial interface will be looked at in more detail later 
+	   and the timer functions will very briefly looked at.
+
+<H4>Timer Functions</H4>
+
+           The timer in a computer system is simply a counter - usually
+           sixteen or more bits to provide a reasonable range.  This can be
+           used in two main ways - counting up to record a number of events
+           e.g. number of people entering through a turnstile or counting
+           down to measure an elapsed time.  In addition to the counting
+           direction the source of clock pulses is different - in the first
+           case the clock comes from an external sensor and in the second
+           the system clock. The way the data is used is also different - in
+           the first case the processor simply reads the count whenever it
+           requires the data and in the second the processor needs to know
+           when the count reaches zero, this is done using interrupts which
+           we will look at later.
+<P>
+          By adding a second timer and a simple gate we enable the
+          processor to measure frequency.  Timer 2 is used to generate a
+          signal of a defined period, say 1 ms (=1000 counts).  This is
+          anded with the unknown frequency signal to generate an input to
+          the first timer T1.  The number of counts in the fixed period is a
+          measure of the frequency.  Thus the processor can easily decode a
+          frequency modulated signal.
+<P>
+          The same arrangement with signals reversed can be used to measure
+          the width of a pulse.  The pulse of unknown width is fed into the
+          and gate with a clock of fixed frequency (system clock usually).
+          The count within the period of the pulse gives a measure of the
+          pulse width.
+<P>
+          Adding a flip/flop and a latch, the contents of which
+          automatically loads into the counter (in count down mode) enables
+          a regular time signal to be generated.  This may be used by the
+          processor e.g. to update its own real-time clock (e.g. every
+          second) or the signal may be output to external equipment (e.g.
+          to generate a pulse train to sound a signal).  The second counter
+          may be used to switch the pulse train on and off so we have an
+          easy way of generating tone bursts.
+<P>
+          There are special counter-timer chips which incorporate all these
+          and other functions.  The timers on the VIA a somewhat more
+          limited and do not do all this.  Nevertheless they are a useful
+          extension to the interface functions.  They are functionally
+          separate from the normal 8 bit interface A and B.
+
+<H4>Control registers</H4>
+
+          The <B>Peripheral Control Register</B> is the most important one as it
+          sets up the way in which the two control lines of each interface
+          are used.  It is organised as follows:-
+<P>
+<CENTER>
+<TABLE BORDER CELLPADDING=6 WIDTH=600 BGCOLOR=#c0ffff>
+<TR><TH COLSPAN=9><FONT SIZE=+2>Peripheral Control Register</FONT></TR>
+<TR><TH width=20%>Bit<TH width=10%>7<TH width=10%>6<TH width=10%>5<TH width=10%>4
+	<TH width=10%>3<TH width=10%>2<TH width=10%>1<TH width=10%>0</TR>
+<TR><TH>Function<TH COLSPAN=3>CB2 Control<TH>CB1<TH COLSPAN=3>CA2 Control<TH>CA1
+</TABLE>
+</CENTER>
+<H4>Bits 0 and 4</H4>
+               The control  lines CA1 and CB1 are both input signals. They
+               are of course looking for transistions or changes in the
+               input signal to indicate when data is available or when data
+               has been accepted.  These control bits determine whether they
+               look for a 0 to 1 transition or a 1 to 0 transition.
+<PRE>
+                    0 = 1 to 0 transition (negative edge)
+                    1 = 0 to 1 transition (positive edge)
+</PRE>
+               When the appropriate transition is detected a flag in the
+               interrupt flag register is set.
+
+<H4>Bits 1 to 3</H4>
+               The control line CA2 can be used as an additional input, or
+               more normally, as an ouput.  Bit 3 determines whether it is
+               an input or an output.
+<PRE>
+                    0 = Input
+                    1 = Output
+</PRE>
+<H4>Input mode (bit 3 = 0)</H4>
+                    Bit 2 determines which transition is detected.
+<PRE>
+                    0 = 1 to 0 transition
+                    1 = 0 to 1 transition
+</PRE>
+                    Bit 1 determines what clears the interrupt flag.
+<PRE>
+                    0 = Cleared by read or write on ORA/INA
+                    1 = Cleared by other transition (check)
+</PRE>
+<H4>Output mode (bit 3 = 1)</H4>
+                    Bit 2 determines whether automatic handshaking is used.
+<PRE>
+                    0 = Automatic handshaking
+                    1 = Programmed output
+</PRE>
+<H4>Automatic Handshaking (bit 2 = 0)</H4>
+                    Bit 1 determines the type of   output
+<PRE>
+                    0 = Normal handshake
+                         CA2 goes low on read or write on INA/ORA
+                         CA2 goes high on active transition on CA1
+                    1 = Pulse handshake
+                         CA2 goes low on read or write on INA/OPA
+                         CA2 goes high one cycle later
+</PRE>
+<H4>Programmed Output (bit 2 = 1)</H4>
+                    Bit 1 determines the state of CA2
+<PRE>
+                    0 = CA2 is 0
+                    1 = CA2 is 1
+</PRE>
+<H4>Bits  5 to 7</H4>
+               Control line CB2 can also be used as an input or an output.
+               If the shift register function is enabled by the ACR then
+               CB2 is used to input or output the data (check).  If the
+               shift register is disabled then bits 5 to 7 control the
+               output in much the same way as CA2 is controlled except that
+               CB2 goes low on read or write on INB/ORB and goes high on an
+               active transition on CB1.
+<P>
+<A NAME = "ACR"></A>
+         The <B>Auxiliary Control Register</B> provides control of the shift
+         register and timers and an additional feature on the data
+         registers when  used for input.
+<P>
+<CENTER>
+<TABLE BORDER CELLPADDING=6 WIDTH=600 BGCOLOR=#c0ffff>
+<TR><TH COLSPAN=9><FONT SIZE=+2>Auxiliary Control Register</FONT></TR>
+<TR><TH width=20%>Bit<TH width=10%>7<TH width=10%>6<TH width=10%>5<TH width=10%>4
+	<TH width=10%>3<TH width=10%>2<TH width=10%>1<TH width=10%>0</TR>
+<TR><TH>Function<TH COLSPAN=2>T1 Control<TH>T2<TH COLSPAN=3>SR Control<TH>PBL<TH>PAL
+</TABLE>
+</CENTER>
+<P>
+         Bits 0 and 1 allow latching of  the input data for situations
+         where data is only available for a very short time and the
+         processor might miss it.
+<P>
+         When the bit is 0 then no latching occurs - when the bit is 1
+         then data is latched by the active transition on CA1 (or CB1).
+         The data remains in the latch and can be read by the processor
+         until the appropriate interrrupt flag is cleared.
+
+<H4>Interrupt flag register</H4>
+
+         This is a read only flag register which is used to indicate when
+         certain events have occurred.  Each bit corresponds to different
+         event.
+<P>
+<CENTER>
+<TABLE BORDER CELLPADDING=6 WIDTH=600 BGCOLOR=#c0ffff>
+<TR><TH COLSPAN=9><FONT SIZE=+2>Interrupt Flag Register</FONT></TR>
+<TR><TH width=20%>Bit<TH width=10%>7<TH width=10%>6<TH width=10%>5<TH width=10%>4
+	<TH width=10%>3<TH width=10%>2<TH width=10%>1<TH width=10%>0</TR>
+<TR><TH>Flag<TH>IRQ<TH>T1<TH>T2<TH>CB1<TH>CB2<TH>SR<TH>CA1<TH>CA2</TR>
+</TABLE></CENTER>
+<P>
+         It is usually obvious what sets one of these flags but we also
+         need to know what clears the flag.
+<P>
+<CENTER>
+<TABLE BORDER CELLPADDING=6 WIDTH=600 BGCOLOR=#c0ffc0>
+<TR><TH COLSPAN=3><FONT SIZE=+2>IFR Flags</FONT></TR>
+<TR><TH width=20%>Flag<TH width=40%>Set by<TH width=40%>Cleared by</TR>
+<TR><TH>CA2<br>
+         CA1<br>
+         SR<br>
+         CB2<br>
+         CB1<br>
+         T2<br>
+         TI<br>
+         IRQ</TH>
+    <TD>Active transition on CA2<br>
+        Active transition on CA1<br>
+        Completion of 8 shifts<br>
+        Active transition on CB2<br>
+        Active transition on CB1<br>
+        Time-out of Timer 2<br>
+        Time-out of Timer 1<br>
+        Any flag =1</TH>
+    <TD>Read or write on ORA<br>
+        Read or write on ORA<br>
+        Read or write on SR<br>
+        Read or write on ORB/INB<br>
+        Read or write on ORB/INB<br>
+        Read T2 counter or Write T2 latch<br>
+        Read Tl counter or Write Tl latch<br>
+        No flag = 1</TH>
+</TABLE></CENTER>
+<P>
+         The  IRQ flag can be used to detect whether any of the flags is
+         set. This can be important when using interrupts as we shall see.
+         When an interrupt occurs the processor will have to identify the
+         source.  Loading the IFR and branching if minus will indicate
+         whether or not it was the VIA.
+
+<H4>Interrupt Enable Register</H4>
+
+         This register has one bit to correspond with each of the above
+         flags 0 to 6. When the corresponding bit is a one then setting
+         the flag causes the interrupt request output of the VIA to go to
+         one thus causing an interrupt to be transmitted to the processor.
+         If the bit is zero the no interrupt is sent.
+<P>
+<CENTER>
+<TABLE BORDER CELLPADDING=6 WIDTH=600 BGCOLOR=#c0ffff>
+<TR><TH COLSPAN=9><FONT SIZE=+2>Interrupt Enable Register</FONT></TR>
+<TR><TH width=20%>Bit<TH width=10%>7<TH width=10%>6<TH width=10%>5<TH width=10%>4
+	<TH width=10%>3<TH width=10%>2<TH width=10%>1<TH width=10%>0</TR>
+<TR><TH>Flag<TH>1=set<br>0=clear<TH>T1<TH>T2<TH>CB1<TH>CB2<TH>SR<TH>CA1<TH>CA2</TR>
+</TABLE>
+</CENTER>
+<P>
+
+         Since it is frequently necessary to enable and disable interrupts
+         selectively a special mechanism is used to write into this
+         register.  A 1 is used in the appropriate position to indicate we
+         wish to change a value, the required value is given in bit 7.
+<P>
+         Thus
+<PRE>
+Thus:						7 6 5 4 3 2 1 0  IER
+	 writing $81 sets   bit 0 to 1		1 0 0 0 0 0 0 1	= 81
+         writing $01 resets bit 0 to 0		0 0 0 0 0 0 0 1	= 01
+					value --^	      ^
+					      affected bit ___|
+</PRE>
+         None of the other bits is affected.
+
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up09.htm">Next</A> |</CENTER>
+
+
+</BODY>
+</HTML>

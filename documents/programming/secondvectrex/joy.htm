@@ -1,0 +1,70 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Joy_Analog ($F1F5)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Joy_Analog ($F1F5)</p>
+
+<p>Joy_Digital ($F1F8)</p>
+
+<p>These routines read the current positions of the two
+joysticks. The joystick enable flags (C81F-C822) must be
+initialized to one of the following values:</p>
+
+<blockquote>
+    <p>0 - ignore; return no value.<br>
+    1 - return state of console 1 left/right position.<br>
+    3 - return state of console 1 up/down position.<br>
+    5 - return state of console 2 left/right position.<br>
+    7 - return state of console 2 up/down position.</p>
+</blockquote>
+
+<p>The joystick values are returned in $C81B-$C81E, where the
+value returned in $C81B corresponds to the mask set in in $C81F,
+and so on and so forth. </p>
+
+<p>The joystick conversion is dependent on which routine is
+called. Results for each routine are:</p>
+
+<blockquote>
+    <p>Joy_Digital:</p>
+    <blockquote>
+        <p>The return value will be:</p>
+        <p>&lt; 0 if joystick is left of down of center.<br>
+        = 0 if joystick is centered.<br>
+        &gt; 0 if joystick is right or up of center.<br>
+        </p>
+    </blockquote>
+    <p>Joy_Analog:</p>
+    <blockquote>
+        <p>A successive approximation algorithm is used to read
+        the actual value of the joystick pot, a signed value. In
+        this case, $C81A must be set to a power of 2, to to
+        control conversion resolution; 0x80 is least accurate,
+        and 0x00is most accurate. </p>
+    </blockquote>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $D0</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<p>D-reg, X-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F1F5">Source</a></p>
+</body>
+</html>

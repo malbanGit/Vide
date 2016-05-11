@@ -1,0 +1,88 @@
+3D Minestorm 
+------------
+   Tread lightly!  The transport lanes of intergalactic space have been
+seeded with mines from an alien vessel.  Use your mine destroying blaster to
+blow up the mines before they annihilate you!  You may survive the floating
+mines, but beware of the fireball, magnetic, and treacherous fireball-
+magnetic mines... 16 fields, each one more difficult, await you!
+
+Controls
+--------
+Joystick:  Rotates your mine destroying ship.
+Button 1:  Escape (hyperspace).
+Button 2:  Escape (hyperspace).
+Button 3:  Thrust.
+Button 4:  Fire.
+
+Game Play
+---------
+   The enemy minelayer will move through your galaxy and will seed the first
+mine field.  The mines will be left in 3 different levels or planes.  Your ship
+will come into view after all the mines have been activated and the minelayer
+leaves the galaxy.
+   Maneuver your ship within the galaxy in an effort to destroy the mines on the
+first level.  Beware... when you hit a large mine it breaks apart into two
+smaller ones!  And once you destroy the mines on the first level, those on the
+second level move up to greet you.  When those are destroyed, the mines that
+were on the third level will move up.
+   Use the joystick to rotate your ship and button 3 to thrust forward.  Buttons
+1 and 2 allow you to mysteriously move to a new location on the screen.  Use it
+cautiously... it might put you in a more difficult predicament!  As you travel
+through space, use button 4 for fire at the mines.  As you destroy them,
+additional mines will become activated.  Be careful... the minelayer may
+reappear to try and personally destroy you, but you can blast him as well.
+   Once you make that part of the galaxy safe, on all three levels, you
+immediately travel to the next mine field.  There are 16 different mine fields,
+each one becoming increasingly difficult.
+
+Getting Hit
+-----------
+   If you are hit by a mine you will lose one ship.  The minelayer will
+reseed the field you are currently in and you will have another chance to
+clear out the field if you have any ships remaining.
+
+Types of Mines
+--------------
+   There are 4 kinds of mines which appear at different stages of the game.
+ Floating Mines:  [Three-pointed, kind of "M" shaped]  These are "dumb" mines
+      which simply drift through space.
+ Fireball Mines:  [Four-sided triangle with dot in middle]  These mines hurl a
+      fireball at you as soon as you hit them.  You can avoid the fireball or
+      destroy it with a rocket.
+ Magnetic Mines:  [Four-pointed "wavy" star]  These mines will follow you
+      anywhere you go, until you destroy them.
+ Magnetic-Fireball Mines:  [Kind of a "bent" Fireball Mine]  These mines have
+      the traits of both Magnetic and Fireball Mines.
+
+   Each type of mine will appear in 2 sizes -- large and small.
+
+Field Types
+-----------
+   Each of the 16 mine fields gets more difficult, but each starts with 12 large
+mines across 3 levels.  Each large mine breaks into 2 smaller mines when shot. 
+The first field has only floating mines, but each new field has a different
+combination of mines.  Will you discover the types of mines in Field 16?
+   If you can survive all 16 mine fields you are certainly an ace pilot, but can
+you handle what comes next?
+
+Number of Ships
+---------------
+   In each game you will start with 3 ships.  A bonus ship is awarded if you
+clear out 4 fields.
+
+Scoring
+-------
+   Points are awarded for destroying the mines, as follows:
+  Types of Mine             Large           Small
+  ------------------------------------------------
+  Floating                   100             135
+  Fireball                   325             360
+  Magnetic                   500             535
+  Magnetic-Fireball          750             785
+
+   Additionally, 110 points are earned for hitting the fireball itself and
+1000 points for hitting the minelayer.
+
+
+z_morganrw@ccsvax.sfasu.edu
+

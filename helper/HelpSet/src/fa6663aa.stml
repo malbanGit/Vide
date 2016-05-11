@@ -1,0 +1,35 @@
+:title Glossar/Hardware
+
+
+:h3 DAC Digital Analog Converter~~
+Converts 8 bit digital input values (-128 to +127) to analog "voltages" ranging from -5 volt to +5 volt.
+- Vector Hardware
+- Sound
+- Joystick
+
+Vectrex used the Chip: MC1408
+
+:h3 Integrators~~
+Integrates (summarizes) voltages which are at its input pins over time and gives a "summarized" output voltage. 
+Vectrex used the Chip: IC LF347
+
+:h3 Multiplexer
+Vectrex has only one DAC chip, but several "client" chips that use analog values which must be "translated" from digital to analog. In order to serve all clients and only using one DAC the inventors of Vectrex designed the circuit such, that the DAC output can be switched to different clients.
+- clients are:
+- Integrator for vector y-position
+- X, Y integrator offset values
+- Z-value of vector hardware (brightness)
+- audio hardware
+
+Vectrex used the Chip:  CD4052
+
+If you are wondering where Integrators for vector x-position get there values, there is a trivial answer - x Integrators ALLWAY receive the DAC value!
+
+Sample and and Hold~~
+For y-integration and Brightness~~
+Vectrex used the Chip:   IC LF347~~
+
+Analog switches "in front" of the integrators~~
+Vectrex used the Chip:   4066B
+
+

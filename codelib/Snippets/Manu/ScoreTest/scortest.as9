@@ -1,0 +1,98 @@
+; --------------------------------------------------------------------------
+; A little example code. The program displays a score and adds ten points to 
+; it everytime you press a button. Big thanks to Marq.
+; If you're a beginner, you don't have to understand it all,
+; just insert the needed code in your program.
+; If someone has a simple example of the built-in score routine
+; or cares to comment this more accurately, I would not mind.
+; Manu [man@sci.fi] / 2002
+; --------------------------------------------------------------------------
+
+WAITRECAL	equ	$f192	; BIOS recalibration
+PRINTSTR	equ	$f37a	; String printing
+READBUTTONS	equ	$f1ba	; Read controller buttons
+
+pojot		equ	$c880	; Score variable, needs 2 bytes of RAM.
+pojotxt		equ	$c882	; Score as text, needs 5 bytes of RAM.
+				
+				; You don't need much of them for this, huh. 
+				; Then the start-up code.				
+				
+	org	0
+	fcb	$67,$20
+	fcc	"GCE MANU"
+	fcb	$80
+	fdb	musa,$f850,$30b8
+	fcc	"SCORETEST"
+	fcb	$80,$0    
+	
+				; That was it. Let's go on.		
+	
+	ldd	#0		; Set score to 0
+	std	pojot		
+	
+	jsr	READBUTTONS	; Read the buttons once for comparison
+	
+				; Converting the 'pojot' counter 
+				; to an ASCII string 'pojotxt'
+
+displayscore
+
+	lda	pojot		; High byte of the word
+	tfr	a,b
+	lsra			; High nibble of the byte
+	lsra
+	lsra
+	lsra
+	adda	#48		; Number+'0' = Number as ASCII
+	sta	pojotxt	
+	andb	#15		; Low nibble
+	addb	#48
+	stb	pojotxt+1
+
+	lda	pojot+1		; Low byte of the word
+	tfr	a,b
+	lsra			; High nibble of the byte
+	lsra
+	lsra
+	lsra
+	adda	#48
+	sta	pojotxt+2
+	andb	#15		; Low nibble
+	addb	#48
+	stb	pojotxt+3
+	
+	lda	#$80		; And the last one.
+	sta	pojotxt+4
+		
+				; Displaying the string
+			
+	jsr	WAITRECAL								
+	lda	#0		; Y-coordinate	
+	ldb	#-20		; X-coordinate
+	ldu	#pojotxt	
+	jsr	PRINTSTR	; Display the score.
+
+				; Read the buttons
+				
+	jsr	READBUTTONS	; Read buttons
+	cmpa	#0		; Was _anything_ pressed?
+	beq	displayscore 	; If not -> loop back to displayscore
+				; Otherwise go on
+	
+				; Let's add 10 points to the score.
+	
+addtenpoints	
+	lda	pojot+1
+	adda	#$10		; Add 10 points
+	daa			
+	tfr	a,b
+	lda	pojot
+	adca	#0
+	daa
+	std	pojot	
+
+	bra	displayscore	; And loop back to beginning
+
+musa	fdb	$fee8,$fbe6	; Silent music
+	fcb	$0,$80

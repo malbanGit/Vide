@@ -1,0 +1,370 @@
+<html>
+
+<head>
+<title>Vector display</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Vector display</strong></font></p>
+
+<p>Just let me drop a few words on how vectrex positions the beam
+on the monitor. How the BIOS does it, and how one can use that
+information to tickle a bit more speed out of the whole system. </p>
+
+<p>I won't really go into the hardware level, if you want a good
+description of a general way how a vector is drawn/positioned
+look at the 'internal.txt' by Keith Wilkins. </p>
+
+<p>There are a couple of highly important things to know in order
+to understand the following. Look at the schematics, at the
+'internal.txt' and at the reference sheet (or the documentation
+of Vectrex Frogger) when I lose you. </p>
+
+<blockquote>
+    <p>~ZERO (=VIA CA2)<br>
+    ~BLANK (=VIA CB2)<br>
+    ~RAMP (=VIA PB7)<br>
+    VIA Timer 1 (One shot mode, PB7 enabled)<br>
+    VIA Shift Register Mode 4 (Shift Out Under T2 Control)<br>
+    VIA Interrupts<br>
+    VIA Auxiliary Control Register<br>
+    VIA Control Register<br>
+    Integrators (look at 'internal.txt' good introduction!)<br>
+    </p>
+</blockquote>
+
+<p>If the above mentioned don't tell you anything, you are
+probably better off learning a bit more an come back later :-)! </p>
+
+<p>First I'll describe how the BIOS positions the beam, than how
+it draws vectors and after that... well, let's see. </p>
+
+<p>The BIOS upon initialization sets some VIA registers, if the
+programmer does not change them, they will be relevant until you
+switch your vectrex off. The BIOS most of the time assumes some
+of the settings, if they should not be as expected your vectors
+probably won't be drawn correctly anymore. </p>
+
+<p>BIOS initializes the data direction registers of VIA port A
+all for output and port B all for output except bit 5 and 6
+(which are input). It than pokes $98 to VIA_aux_cntl. </p>
+
+<table border="1" cellpadding="2" bordercolor="#C0C0C0"
+bordercolordark="#808080" bordercolorlight="#FFFFFF">
+    <tr>
+        <td><font face="Fixedsys">Bitmask $98</font></td>
+        <td>bit</td>
+        <td><font face="Fixedsys">Meaning in register
+        VIA_aux_cntl</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 7</font></td>
+        <td><font face="Fixedsys">1</font></td>
+        <td><font face="Fixedsys">t1 enable PB7 output</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 6</font></td>
+        <td><font face="Fixedsys">0</font></td>
+        <td><font face="Fixedsys">0 -&gt; t1 one shot</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 5</font></td>
+        <td><font face="Fixedsys">0</font></td>
+        <td><font face="Fixedsys">0 -&gt; t2 one shot</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 4<br>
+        bit 3<br>
+        bit 2 </font></td>
+        <td><font face="Fixedsys">1<br>
+        1<br>
+        0</font></td>
+        <td><font face="Fixedsys">shift register control<br>
+        110 -&gt; output to CB2 under <br>
+        control of phase 2 clock</font> </td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 1</font></td>
+        <td><font face="Fixedsys">0</font></td>
+        <td><font face="Fixedsys">0 -&gt; PB latch disable</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 0</font></td>
+        <td><font face="Fixedsys">0</font></td>
+        <td><font face="Fixedsys">0 -&gt; PA latch disable</font></td>
+    </tr>
+</table>
+
+<p>There are mainly two aspects of interest in that setting,
+first the shift mode, which is shift mode 4. Which means, that
+shifting is enabled by poking something to the shift register,
+and that the bit shifted out from bit 7 is circulated back to bit
+0. Shifting continues even after 8 shifts. Shifting is done at
+1/2 the system clock speed. The bit that is shifted out is put
+into CB2 (~BLANK). ~BLANK is zero active, that means if the bit
+is zero, output is switched off. The other interesting bit is the
+one that enables PB7 output when timer1 is active. PB7 is the
+~RAMP signal which is zero active, but becomes inverted. What it
+comes to is that the integrators are switched on, when the bit
+PB7 (= ~RAMP) is set. Integrators on means, that the vectorbeam
+is moving. </p>
+
+<p>Perhaps you can already at this point see where this is
+leading us. The beam will be positioned for a certain time, the
+time is stored to timer 1. While timer 1 is active the beam is
+moving. Depending on the value in the Shift register, we have
+this or that output. If there is %00000000 in the Shift register
+we have no output at all, since at each shift a zero will be
+stored to the ~BLANK line, which disables all output. If a
+%10101010 would be stored to the Shift register we would see
+something like a dotted line. Depending on the 'strength' of the
+vectors we would see short 'dots' or wider 'dots'(!). If a
+%11111111 was set we would see a solid line! </p>
+
+<p>Following is some part of the BIOS Moveto_d function: </p>
+
+<pre>
+Moveto_d:       STA     &lt;VIA_port_a     ;Store Y in D/A register
+                CLR     &lt;VIA_port_b     ;Enable mux
+                PSHS    D               ;Save D-register on stack
+LF318:          LDA     #$CE            ;Blank low, zero high?
+                STA     &lt;VIA_cntl
+                CLR     &lt;VIA_shift_reg  ;Clear shift register
+                INC     &lt;VIA_port_b     ;Disable mux
+                STB     &lt;VIA_port_a     ;Store X in D/A register
+                CLR     &lt;VIA_t1_cnt_hi  ;timer 1 count high
+                PULS    D               ;Get back D-reg
+                JSR     Abs_a_b
+                STB     -1,S
+                ORA     -1,S
+                LDB     #$40
+                CMPA    #$40
+                BLS     LF345
+                CMPA    #$64
+                BLS     LF33B
+                LDA     #$08
+                BRA     LF33D
+
+LF33B:          LDA     #$04            ;Wait for timer 1
+LF33D:          BITB    &lt;VIA_int_flags
+                BEQ     LF33D
+LF341:          DECA                    ;Delay a moment
+                BNE     LF341
+                RTS
+:HERE
+LF345:          BITB    &lt;VIA_int_flags  ;Wait for timer 1
+                BEQ     LF345
+                RTS
+
+
+</pre>
+
+<p>In D is the Y, X position, the first thing the function does
+is send the Y strength to Port A of the VIA, which also is input
+to the DAC. The DAC output can be distributed VIA a MUX to
+different destinations since this is the Y coordinate we enable
+the MUX with MUX settings which send the DAC data to the Y
+integration data storage (the strength which will be added at
+each cycle to the Y integrators, once additions are allowed), the
+MUX settings which enable sending to Y is 00 (two bits of VIA
+Port B). Enabling the MUX itself is also a bit of VIA Port B, bit
+0, MUX is enabled by clearing that bit. Here a small description
+of the bits of VIA port B:</p>
+
+<p>VIA_port_b $D000: </p>
+
+<table border="1" cellpadding="2" bordercolor="#C0C0C0"
+bordercolordark="#808080" bordercolorlight="#FFFFFF">
+    <tr>
+        <td><font face="Fixedsys">VIA port B <br>
+        data I/O register</font></td>
+        <td><font face="Fixedsys">Bit Meaning</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 7</font></td>
+        <td><font face="Fixedsys">~RAMP</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 6</font></td>
+        <td><font face="Fixedsys">external device (slot pin 35)
+        initialized to input</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 5</font></td>
+        <td><font face="Fixedsys">comparator input</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 4</font></td>
+        <td><font face="Fixedsys">sound BDIR</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 3</font></td>
+        <td><font face="Fixedsys">sound BC1</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 2<br>
+        bit 1</font></td>
+        <td><font face="Fixedsys">mux sel: 00-Y integrator, 01-X,
+        Y integrator offset <br>
+        10-Z brightness, 11 sound output</font></td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 0</font></td>
+        <td><font face="Fixedsys">sample/hold (0=enable mux
+        1=disable mux)</font></td>
+    </tr>
+</table>
+
+<p>Than the functions stores register D on stack, which also
+serves as a short delay before disabling the MUX again. Right
+after that we load register A with $CE, which as a bitmask is:</p>
+
+<table border="1" cellpadding="2" bordercolor="#C0C0C0"
+bordercolordark="#808080" bordercolorlight="#FFFFFF">
+    <tr>
+        <td>Bitmask $CE</td>
+        <td>bit</td>
+        <td>Meaning in register VIA_cntl</td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 7<br>
+        bit 6<br>
+        bit 5</font></td>
+        <td><font face="Fixedsys">1<br>
+        1<br>
+        0</font></td>
+        <td>CB2 control CB2 -&gt; ~BLANK 110=low 111=high</td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 4</font></td>
+        <td><font face="Fixedsys">0</font></td>
+        <td>CB1 control CB1 -&gt; NC 0=IRQ on low</td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 3<br>
+        bit 2<br>
+        bit 1</font></td>
+        <td><font face="Fixedsys">1<br>
+        1<br>
+        1</font></td>
+        <td>CA2 control CA2 -&gt; ~ZERO 110=low 111=high</td>
+    </tr>
+    <tr>
+        <td><font face="Fixedsys">bit 0</font></td>
+        <td><font face="Fixedsys">0</font></td>
+        <td>CA1 control CA1 -&gt; SW7 0=IRQ on low</td>
+    </tr>
+</table>
+
+<p>This sets the ~BLANK to low, which disables output and ~ZERO
+to high, which disables zeroing. If zeroing is enabled, the
+vector beam can not be moved, since it is 'grounded', it remains
+in zero position. The settings thus allow the vector beam to be
+moved. </p>
+
+<p>Next we clear the Shift register, that means, when the
+integration starts, the vector moves, there will be no output,
+since at every shift out a zero will be moved to ~BLANK.
+Integration will start as soon as ~RAMP is zero (which as said
+before will be negated before reaching the integration circuit). </p>
+
+<p>After that we disable the MUX, remember, the enable bit for
+that was bit 0 of VIA port B. It gets disabled when the bit is
+set. This means that the DAC value now only gets to the X
+integration storage (which always gets the DAC value, the MUX
+setting doesn't change that). </p>
+
+<p>Than we store the X strength to VIA port A and thus to the DAC
+register. The next step is to enable the timer by writing to the
+hi byte. The high byte is cleared, since we integrate at most to
+$ff time, which is the highest scale value. The scale value was
+set before even calling the move function into the low byte of the
+timer. </p>
+
+<p>The next lines are IMHO not necessary, all this computing of
+some extra cycles to wait. And actually I don't understand it.
+Since the additional waiting is done AFTER the timer reaches
+zero, that means the ~RAMP is disabled anyway, so no change to
+any vector position will occur. </p>
+
+<p>Anyway, let us assume that we reach the point marked ':HERE'.
+Register B is loaded with $40, which is the bitmask for timer 1
+interrupt testing. The loop's only purpose is to wait for the
+time to expire. After the time has gone by the ~RAMP will be
+again not active, no integration is done and position of the beam
+will not change anymore (presumable), since ~RAMP is disabled, as
+soon as the timer reaches zero. Why on earth the BIOS programmers
+wait for some more cycles to go by - I don't understand. Apart
+from that - you see that once you know where to put the correct
+timers, and what registers are used for what... it is sort of
+understandable how a vector is positioned. </p>
+
+<p>The Vector drawing routines are essentially the same, apart
+from the Shift register, which is not cleared, but set to $ff =
+%11111111, which when shifted results in ~BLANK to be non active,
+thus the beam is illuminated. </p>
+
+<p>Here is a simple BIOS vector plot routine: </p>
+
+<pre>Draw_Line_d     STA     &lt;VIA_port_a     ;Send Y to A/D
+                CLR     &lt;VIA_port_b     ;Enable mux
+                LEAX    2,X             ;Point to next coordinate pair
+                NOP                     ;Wait a moment
+                INC     &lt;VIA_port_b     ;Disable mux
+                STB     &lt;VIA_port_a     ;Send X to A/D
+                LDD     #$FF00          ;Shift reg=$FF (solid line), T1H=0
+LF3ED:          STA     &lt;VIA_shift_reg  ;Put pattern in shift register
+                STB     &lt;VIA_t1_cnt_hi  ;Set T1H (scale factor?)
+                LDD     #$0040          ;B-reg = T1 interrupt bit
+LF3F4:          BITB    &lt;VIA_int_flags  ;Wait for T1 to time out
+                BEQ     LF3F4
+                NOP                     ;Wait a moment more
+                STA     &lt;VIA_shift_reg  ;Clear shift register (blank output)
+                LDA     $C823           ;Decrement line count
+                DECA
+                BPL     Draw_VL_a       ;Go back for more points
+                JMP     Check0Ref       ;Reset zero reference if necessary
+</pre>
+
+<p>That routine is part of some other routines, because of that
+some things are done, which are not directly related to vector
+drawing. The corresponding source lines do not interest us here.
+As you can see the routine starts of exactly as the Moveto
+routine, by setting the DAC to the Y strength. The MUX becomes
+enabled, we wait a moment, than we disable the MUX again. This
+time the routine assumes, that the ~ZERO flag is already set
+correctly, so we don't bother with it. Then we poke the X
+strength to the DAC. When integration starts we have the correct
+strengths set to the integrators. Now we prepare the shift
+register, we poke a $ff to it, which means we will be plotting a
+solid line. Notice, that we are not integrating yet. But the
+light is already switched on (so to say), since shifting starts
+the moment we set a new shifting value. This is one of the
+reasons, why all lines we draw have a bright spot at the
+beginning. The light is always switched on a few cycles to early!
+After that we clear the hi value of timer one, this enabled the
+~RAMP, integration, now the vector beam is moving with the light
+switched on, that means we are actually drawing a vector now.
+This drawing will last till timer one expires. The movement will
+cease the moment the timer reaches zero. Unfortunately the light
+is not switched off automatically. We therefore wait in a loop,
+till we get a message, that timer one has expired ($40 (bit 6) in
+the VIA_int_flags register). After that we switch the light off
+by clearing the shift register. Done, the complete line is drawn
+now. As you can see there is no fiddling with any strange
+additional wait loops, while drawing lines, but otherwise it is
+exactly the same thing as positioning the vectors (apart from $ff
+in the Shift register instead of $00). This sort of confirms my
+suspicion, that these strange loops in the positioning functions
+are sort of useless. In my experiments I have not seen any
+differences, if I left them out.</p>
+
+<p align="center"><a href="whywait.htm">Next page</a> <a
+href="joystick.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

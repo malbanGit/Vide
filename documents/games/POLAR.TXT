@@ -1,0 +1,211 @@
+Polar Rescue 
+------------
+   Journey to the icy waters beneath the North Pole.  As commander of a
+powerful and highly maneuverable submarine, you must rescue the survivors of
+an ill-fated expedition.
+   Seek out the survivors on your sonar screen and pilot your sub to their
+rescue!  To complete your mission, you must avoid deadly mine fields, enemy
+submarines and the terror of the maelstrom!  Monitor your oxygen supply
+carefully and hurry!  Lives are at stake!
+
+Controls
+--------
+Joystick:  Push forward to dive, backward to surface, left to rotate your
+           sub left and right to rotate your sub right.
+Button 1:  Pause.  Press to resume game play again.
+Button 2:  Reverse thrust.
+Button 3:  Forward thrust.  (Note: pressing buttons 2 and 3 at the same
+           time will maintain your sub's current speed.)
+Button 4:  Torpedo fire.
+
+Skill Level Selection
+---------------------
+   You can being Polar Rescue at any of four different skill levels.  Level 1
+is the least difficult; Level 4 is the most difficult.
+
+Game Play
+---------
+   Your goal in Polar Rescue is to successfully maneuver your submarine in
+the icy waters beneath the North Pole and rescue the survivors of an ill-
+fated mission.  You'll battle enemy subs, blow up and avoid mine fields and
+ice chunks, even experience the powerful maelstroms -- turbulent underwater
+whirlpools that throw you off course.  There's no escape from a maelstrom...
+you get out only when it throws you out of its powerful center!  As you
+become more proficient and advance to higher skill levels, your sub will have
+to travel further to get to the survivors and you may encounter more and more
+enemy subs!
+
+Instrument Panel
+----------------
+   [My words- the manual has a little drawing...]
+
+Sonar Display- The center of the instrument panel.
+
+Oxygen Indicator- Gauge on left side of Sonar.  Needle to the right is full,
+       and it travels to the left as you use up oxygen.
+
+Torpedoes Remaining- The number directly above the Oxygen Indicator.  Starts
+       at 10.
+
+Speed Indicator- Gauge on the right side of the Sonar.  Needle on the center
+       line indicates no movement.  Needle to the right of the center line
+       indicates forward speed, to the left of the center line indicates
+       reverse speed.
+
+Damage Points- The number directly above the Speed Indicator.  Starts at 00.
+
+Ships Remaining- Located beneath the Speed Indicator.
+
+Sonar Display
+-------------
+   The sonar display at the bottom center of the screen is used to locate the
+survivors, maneuver around obstacles and detect enemy subs.  Your sonar range
+is about TWICE as far as you can see out of your viewing window.  Your
+viewing window is represented by the "V" portion of the sonar screen.
+   All obstacles within your sonar range are represented by blips of light
+that reach full brightness when passed by the rotating scanning arm of sonar,
+and then reduce in brightness.  There is one exception to this rule: a blip
+representing an enemy sub always remains at FULL brightness.  This is how
+you'll be able to tell the difference between an enemy sub and another
+object.
+   The survivors' pod is represented by an arrow rather than a blip of light. 
+The brightness of this arrow will pulsate and you will hear a series of
+beeping sounds that will get faster as you get closer to the survivor's pod. 
+To head toward the survivors, use the joystick and buttons 2 and 3 to
+maneuver your sub so that the arrow appears at the top center area of the
+sonar screen.
+
+Oxygen Supply
+-------------
+   At the beginning of the game, you are provided with a full tank of oxygen. 
+During the game, you constantly use oxygen.  The faster you travel, the more
+oxygen you use... so keep a sharp eye on your oxygen supply on the instrument
+panel.  Oxygen may be replenished when you destroy enemy subs (see Enemy
+Subs).  If you run out of oxygen, you will lose a sub.
+
+Speed and Direction
+-------------------
+   You can control the speed and direction of your submarine's movement with
+buttons 2 and 3.  Press and hold button 3 to increase speed in a forward
+direction.  Press and hold button 2 to increase your speed in a reverse
+direction.  If you release buttons 2 and 3, your sub will soon come to a
+standstill.  By pressing buttons 2 and 3 at the same time, you can maintain
+your current speed.  Your speed and direction are shown on the instrument
+panel -- the center line indicates no movement, forward speeds are to the
+right and reverse speeds are to the left.
+   Use your joystick to maneuver your sub -- push it forward to dive deeper
+into the water, push backward to surface, push to the right or left to change
+the direction of your heading.
+
+Obstacles
+---------
+MINES- [Four pointed star shapes floating on the end of a cable (line).]
+       Mines are stationary... but very sensitive as you draw close.  If you
+       pass mines too quickly, they will explode and destroy you instantly!
+       You can shoot and destroy a mine with your torpedoes, but if you are
+       too close to it when you shoot, you'll get damage points. (See Damage
+       Points).
+
+ICE CHUNKS- [Seven-sided abstract shape.]  If you collide with an ice chunk,
+       damage points are collected (see Damage Points).  The number of points
+       against you is determined by the speed of the collision.  If you
+       "bounce" off an ice chunk, your direction of travel is reversed. 
+       Watch out for ice chunks directly overhead... if your sub sits under
+       one, it will continuously "bonk" on top of your vessel, causing
+       continuously increasing damage.  You can disengage yourself from this
+       "bonking trap" by simultaneously diving and moving either forward or
+       backward.  You can also shoot and break up ice chunks with your 
+       torpedoes.
+
+MAELSTROMS- [Large spring-like things...]  Maelstroms -- turbulent underwater
+       whirlwinds -- always throw you off course.  There's no way to avoid a
+       maelstrom.  All you can do is wait until it hurls you out of its
+       powerful swirl!
+
+Enemy Subs
+----------
+   Each enemy sub has five torpedoes, so it can fire at you only five times. 
+When YOU shoot and destroy an enemy sub, you receive all the enemy's
+torpedoes remaining at the time you fired the hit.  You also receive extra
+oxygen!  Plan your strategy and shoot enemy subs when your oxygen supply and
+your torpedoes are low, as shown on your instrument panel.
+   If an enemy sub becomes "aggressive," you will enter into Battle Mode (see
+Battle Mode).  An enemy sub will become aggressive if you shoot one or more
+of your torpedoes at it while it is in your sonar range.  An enemy sub can
+also become aggressive if you are traveling at high speed within its range...
+or even if he sights you in range without any provocation at all!
+
+Damage Points
+-------------
+   Damage points are collected when objects are struck by your sub.  The
+number of points increases with the speed of your sub on impact.  Damage
+points are also collected objects explode within close range of your sub and
+when you shoot a mine at close range.  As you collect damage points, some of
+your sob's functions become non-operational.  These are as follows:
+
+     Damage Points      Resulting Damage
+   ---------------------------------------------------------------------
+     0-10               No damage
+     10-19              You lose your upper left torpedo tube
+     20-29              You lose your upper right torpedo tube
+     30-39              You lose your lower left torpedo tube
+         NOTE:  If you have 40 or more damage points, it is impossible to
+                dock with the survivors' pod.
+     40-49              You lose your lower right torpedo tube
+     50-59              You lose your survivors' pod arrow on the sonar
+                        screen
+     60-69              You lose your sonar display
+     70-79              You lose control of speed
+     80-89              You completely lose your engine speed and you're
+                        dead in the water
+     90-99              You lose your sub
+
+   Your crew repairs the damage over time, so your damage points will get
+lower if you are able to stay alive.
+
+Battle Mode
+-----------
+   Battle Mode is entered whenever there is at least one aggressive sub in
+your sonar range (see Enemy Subs).  While in Battle Mode, the words "BATTLE
+MODE" will appear on your instrument panel, and your maximum speed is greatly
+reduced.  An aggressive enemy sub will try to destroy your sub but will NOT
+fire until he is in front of you AND is pointing at you.  Be extra alert in
+Battle Mode because the enemy sub can fire even if he is too far in front of
+you for you to see him from your viewing window.  Aggression is canceled when
+an enemy sub fires... but it may be re-triggered immediately, so be careful! 
+Docking with the survivors' pod is not possible while in Battle Mode (see
+Docking Mode).
+
+Docking Mode
+------------
+   Docking Mode enables you to successfully reach the survivors.  You enter
+Docking Mode when the survivors' pod is in sight of your sub.  While in
+Docking Mode, the words "DOCKING MODE" will appear on your instrument panel
+and a new sonar display, which shows a "cross" and a "sight," will guide you
+in this very sensitive docking maneuver.
+   In order to successfully dock with the survivors' pod, you must line up
+the "cross" in the exact center of the "sight"... WHILE MAINTAINING A VERY
+SLOW SPEED.  If you are successful, you will see special docking sequence on
+the screen during which the survivors will return to your ship.  The game
+will then continue with a new search and rescue mission.
+
+Number of Submarines
+--------------------
+   In each game you start with 5 submarines.  A bonus sub is awarded when you
+score 25,000 points.
+
+Scoring
+-------
+   Points are awarded as follows:
+
+     Action                              Points
+   ----------------------------------------------
+     Docking                             5,000
+     Destroying an Enemy Sub             1,000
+     Destroying an Enemy Torpedo           750
+     Destroying a Mine                     500
+     Destroying an Ice Chunk               275
+
+
+z_morganrw@ccsvax.sfasu.edu
+

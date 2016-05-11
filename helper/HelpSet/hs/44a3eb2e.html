@@ -1,0 +1,55 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Sound / PSG Chip</title>
+</head>
+<body class="doc">
+<h1>Sound / PSG Chip</h1>
+
+<p> </p>
+<h2>Vectrex BIOS</h2>
+
+<p>One "update" for the PSG is usualy done once time in a typical vectrex game loop.</p>
+
+<p>Thus the update is done every 1/50 seconds (more or less) since vectrex programs <i>try</i> do update with 50Hz. Each vectrex note can have a "length", the length is simply a counter of "update rounds" that the note stays the same.<br>
+</p>
+
+<p>While "staying the same" the below given changes are done to the "note", it is wrapped in a ADSR envelope and a vibrato is added.</p>
+
+<p>The ADSR envelope can be at maximum 32 nibbles (vibrato only 8 changes). If the next note is played befor the ADSR is completely done (or the vibrato), than the next note will be played nonetheless and the counter for the ADSR and vibrato will reset. </p>
+
+<p>This for example means, if notes are played with a speed of two, only the first two nibbles of the ADSR will be used for that note!</p>
+<h3>ADSR</h3>
+
+<p>(<b>A</b>ttack, <b>D</b>ecay, <b>S</b>ustain, <b>R</b>elease)</p>
+
+<p>ADSR table = 32 nibbles<br>
+Theoretically this could be set per channel! Than that would be one ADSR for each "instrument", but with the BIOS routine the one ADSR table is used thru all three channels</p>
+
+<p>ADSR is a "software ADSR", the 4 bit values are written each PSG "update round" (optimally 50Hz) to the corresponding lower 4 bit of the amplitude control register of PSG (ModeBit is always 0).</p>
+<h3>TWANG / Vibrato</h3>
+
+<p>Can be negative  / positive and updates the base frequence of the note with the value (of the twang).<br>
+</p>
+
+<p>As with ADSR the twang table updates the value for the vibrato each PSG "update round".</p>
+
+<p>The twang table consists of 8 TWANG/Vibrato bytes. Each channel has a different limit to its update count (see below).   It seems like TWANG entry 0 is not used [or only used as last in channel C, since that is the only one, that "rolls over" the 3 bit counter limit], since the routine increments the counter always <b>befor</b> it is used (and it starts at 0).  </p>
+
+<p>RAM location: Vec_Music_Twang<br>
+Is a 3 times Counter/Twang value storage in RAM like:<br>
+<tt> Channel A: db TWANG&nbsp;COUNTER, CURRENT&nbsp;TWANG&nbsp;VALUE ; TWANG Counter limit 6<br>
+Channel B: db TWANG&nbsp;COUNTER, CURRENT&nbsp;TWANG&nbsp;VALUE ; TWANG Counter limit 7<br>
+Channel C: db TWANG&nbsp;COUNTER, CURRENT&nbsp;TWANG&nbsp;VALUE ; TWANG Counter limit 8<br>
+</tt></p>
+
+<p>Some links to more information for ADSR/TWANG:<br>
+<a target="_blank" href="http://en.wikiaudio.org/ADSR_envelope">http://en.wikiaudio.org/ADSR_envelope</a><br>
+<a target="_blank" href="http://www.audiosonica.com/en/course/post/15/Sound_theory_Envelope">http://www.audiosonica.com/en/course/post/15/Sound_theory_Envelope</a><br>
+</p>
+
+<p>PSG in general:<br>
+<a target="_blank" href="http://f.rdw.se/AY-3-8910-datasheet.pdf">http://f.rdw.se/AY-3-8910-datasheet.pdf</a><br>
+</p>
+</body>
+</html>

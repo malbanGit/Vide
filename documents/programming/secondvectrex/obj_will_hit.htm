@@ -1,0 +1,54 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Obj_Will_Hit(u)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Obj_Will_Hit ($F8F3)</p>
+
+<p>Obj_Will_Hit_u ($F8E5)</p>
+
+<p>This routine first modifies the position of the object, and
+then it checks to see if the missile has hit the object. The Y
+register contains the (y,x) position of the object, the U
+register contains a pointer to the (y,x) modification values, the
+X register contains the missile (y,x) position, and the D
+register contains the (height/2, width/2) of the object. </p>
+
+<p>(0,u) is temporarily added to the y position of the object,
+and </p>
+
+<p>(1,u) is temporarily added to the x position. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>Y-reg = (y,x) position of the object</p>
+
+<p>X-reg = (y,x) position of the missile</p>
+
+<p>U-reg points to movement (y,x) (Mov_Obj_Hit_u only)</p>
+
+<p>U-reg = movement (y,x) (Mov_Obj_Hit only)</p>
+
+<p>D-reg = (h/2,w/2) size of object</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<p>Carry bit set if the object &amp; missile have collided</p>
+
+<p>ALL registers saved. Even the original Y-register.</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F8E5">Source</a></p>
+</body>
+</html>

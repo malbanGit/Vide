@@ -1,0 +1,73 @@
+:title FAQ emulation
+
+
+:h2 How do I start a game?
+There are several ways:
+- Use the starter panel. You find it in the menu "Tools->Starter". From the list select the cartridge you want to start and double click the entry.
+- Open a vecx panel (menu: Tools->vecx), press the "folder" button and select a binary file. Press the start button (if another program is still running, press stop first)
+- Open a "codi" panel (menu: Tools->codi) navigate in the tree to an assembler program you would like to run and press the start button
+- do "the same" in vedi (menu: Tools->vedi), here load a project or a "single" source, and press the start button
+
+:h2 I have a xxxx.bin file - how do a run that?
+See "How do I start a game", second bullet point.
+
+:h2 My own new game should have an overlay, what can I do?
+Overlays are just "normal" pictures where some regions have some alpha values. Try your favourite paint program. Save them as "png" images. (The overlay provided were stolen from MESS!)
+The filename of the overlay should be the same as the "bin" file, only with a different extension (png)
+
+:h2 Where should I put my own overlay image?
+Several options:
+- in the same directory as the binary
+- in the directory "overlay"
+- if the overlay belongs to a "cartridge" file, than just put the path to the image in the appropriate place
+
+
+
+:h2 Some vectors in games seem wrong, vector lists appear to have lose ends?
+An analoge fault: "drift" is emulated. If you want (unnatural) correctness of all vectors, you should set drift to 0 (slider to the center).
+
+:h2 Some texts are printed "more diagonal" than others, why is that?
+See answer to last question, this also is a drift "feature".
+
+:h2 On my real vectrex some programs look different, why is that?
+Because the emulator is not a real vectrex. IMHO vide is pretty exact at emulating vectrex. But knowledgable programmers can certainly still outsmart vide with just a few lines of code.
+
+Appart from that nothing comes close to the vector glow of a real vectrex :-)!
+
+:h2 Can I do something, that Vide emulation is more close to my own vectrex?
+Yes.~~
+Well, probably~~
+- first: there is the drift (mentioned above), this may be slightly different for each vectrex
+- second: "timing" parameter seem to differ for different vectrex generations. Just fiddle with the timings till emulation comes close to your vectrex. But be sure to try different cartridges with your settings - all of them should be working, not just one!
+- also, you may fiddle with "pure" display settings, like vector glow, brightness, line width, drawing splines, antialiazing etc...
+
+
+:h2 Most programs display very clearly, but some seem to flicker a lot, what is that?
+In the configuration there is an option "Try autoSync". Well - if autosyncing is switched off, or the "auto" part did not work, display will "flicker".
+
+:h2 Emulation seems to be awfully slow, can I speed things up?
+Yep. Just remember, vide was never build for speed!
+~~you can:
+- set line width to 1
+- disable glow
+- don't use an overlay
+- antialiazing ON (on is faster on my system, why? I don't now!)
+- switch off the use of splines
+- disable cycle exact emulation
+- disable ringbuffer
+- disable codescan
+- be absolutley sure that "ray gun" is switched off!
+
+
+:h2 When I start one of the 3d games only a black screen is shown after the start, why?
+Because I have not bothered yet, to emulate the 3d Imager.
+
+:h2 When I debug my program, I notice vectors are drawn differently, what is that?
+Depending on your VIDE settings ("activate direct draw on debug"), vectors while single stepping/multistepping are REALLY drawn differently!~~
+Explanation:~~
+Usually vecxy emulates and "collects" vectors for a certain amount of time (one frame, depending on sync settings). All collected vectors are than drawn in one go, while in the background vector "collecting" continuous (different thread).
+When single stepping,  a user is probably not amused, if the vector that should be drawn NOW is drawn 30000 cycles later... so while in
+debug mode vectors are drawn "directly". Directly here means after one "vector" is finished (if not in "ray mode" vectors are drawn as a whole, not in
+"single steps").
+To be able to discern the just drawn vector, it is drawn in "yellow" (not in grayscale), the yellow is only visible for one frame in which the vector was drawn!
+(this can be best seen if "glow" is disabled in emulation, since the glow effect is still grayscaled!)

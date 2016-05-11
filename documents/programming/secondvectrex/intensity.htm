@@ -1,0 +1,52 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Intensity_1F ($F29D)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Intensity_1F ($F29D)</p>
+
+<p>Intensity_3F ($F2A1)</p>
+
+<p>Intensity_5F ($F2A5)</p>
+
+<p>Intensity_7F ($F2A9)</p>
+
+<p>Intensity_a ($F2AB)</p>
+
+<p>Each of these routines are responsible for setting the
+vector/dot intensity (commonly used to denote the z axis) to a
+specific value. 0x00 is the lowest intensity, and 0x7F is the
+brightest intensity. A negative intensity is also lowest
+intensity (7th bit set). The intensity must be reset to the
+desired value after each call to Wait_Recal; however, it can also
+be changed at any other time. A copy of the new intensity value
+is saved in $C827. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $D0</p>
+    <p>A-reg = intensity (Intensity_a only)</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT:</p>
+
+<blockquote>
+    <p>D-reg trashed</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F29D">Source</a></p>
+</body>
+</html>

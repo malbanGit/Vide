@@ -1,0 +1,71 @@
+Starhawk
+--------
+
+   Fasten your seatbelt... you're the pilot defending the sovereignty of your
+planet.  Don't blink -- you might miss one of the alien vessels.
+
+Controls
+--------
+Joystick:  Moves your ships gunsight as you travel over the planet.
+Button 1:  Unused.
+Button 2:  Unused.
+Button 3:  Unused.
+Button 4:  Fire.
+
+   Two controllers are required to two player games.
+
+Game selection
+--------------
+   You have a choice of two game play options.  They are:
+
+   GAME 1:  Your gunsight will move proportionally to the joystick movement.
+            In other words, if you were to move the joystick slightly to the
+            right, and then let it recenter itself, your gunsight would have
+            moved slightly to the right and would remain there.
+
+   GAME 2:  You gunsight will move in a direct ratio to the joystick
+            movement.  In other words, if you want your gunsight to move to
+            the right, you would push the joystick to the right and would
+            have to hold the joystick there in order to keep the gunsight
+            there.
+
+Game Play
+---------
+   Fly over your planet, protecting your comrades from alien ships trying to
+infiltrate your culture.  Use the joystick to aim your gunsight and press
+button 4 to release your missiles toward the aliens.  You only have 60
+seconds to prevent as many enemy craft as possible from getting through.
+   In a two player game, you are both protecting the planet.  The action
+builds as you compete to destroy the aliens!
+
+Command Ships
+-------------
+   Every few seconds, an enemy Command Ship will signal his presence and
+appear.  If you destroy him, the planet's rotation speeds up, you gunsight
+will get larger for 5 seconds, and you will receive double points for any
+other alien ships destroyed.
+
+Scoring
+-------
+   Points are awarded for destroying each alien, as follows:
+
+              Alien             Points
+          -----------------------------------
+            Command Ship         800
+            Starship             500
+            Rocket               300
+            Missile              200
+            Bomber               100
+
+Bonus
+-----
+   A bonus of 20 seconds is awarded for each 10,000 points scored.  An
+additional ship (up to four) will come into view.  However, your aim will
+have to improve after each bonus because the ships will become more difficult
+to hit.
+
+
+
+z_morganrw@ccsvax.sfasu.edu
+
+

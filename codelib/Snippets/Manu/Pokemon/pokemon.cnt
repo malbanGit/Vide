@@ -1,0 +1,105 @@
+BANK 0
+LABEL $F192 WAITRECAL
+LABEL $F2FC MOVEPEN
+LABEL $F3B7 MOVEDRAW
+LABEL $F2AB INTENSITY
+LABEL $F354 RESET0REF
+LABEL $F37A PRINTSTR
+LABEL $0124 musa
+LABEL $001A start
+LABEL $0097 viiva
+LABEL $00FB viiva2
+LABEL $0109 nena
+LABEL $0111 teksti
+COMMENT_LINE $0000 Okay, my friend Marq helped
+COMMENT_LINE $0000 me with getting multiple vectors
+COMMENT_LINE $0000 on the screen. I'm not gonna
+COMMENT_LINE $0000 comment as much on here, so
+COMMENT_LINE $0000 read the previous source code
+COMMENT_LINE $0000 first, if there's something you don't
+COMMENT_LINE $0000 understand.
+COMMENT_LINE $0000 Public Domain for all Vectrex freaks
+COMMENT_LINE $0000 Needed BIOS routines
+COMMENT_LINE $0000 simpler names this time
+COMMENT_LINE $0000 The required init block
+COMMENT_LINE $001A ### Then the actual program ###
+COMMENT_LINE $001A Note. All the numbers are real numbers,
+COMMENT_LINE $001A not hexadecimals. Much more easy this way.
+COMMENT $001A Resets the BIOS and
+COMMENT_LINE $001D labels the main program
+COMMENT_LINE $001D as "start"
+COMMENT $001D Sets register A to 127
+COMMENT $001F where from it is taken
+COMMENT_LINE $0022 to be the wanted intensity
+COMMENT_LINE $0022 127 is the brightest
+COMMENT_LINE $0022 Pen to the middle (required!)
+COMMENT $0022 Y-coordinate to register A
+COMMENT $0024 X-coordinate to register B
+COMMENT $0026 Moves the pen to Y,X
+COMMENT $0029 Gets the coordinates from
+COMMENT_LINE $002C viiva (down below)
+COMMENT $002C Number of vectors
+COMMENT $002E Scaling of vectors
+COMMENT $0030 Draws the vectors
+COMMENT $0033 Beam to the center
+COMMENT $0036 Move pen to (80,20)
+COMMENT $003D Gets the coordinates
+COMMENT $0040 Number of vectors
+COMMENT $0042 Scaling of vectors
+COMMENT $0047 Beam to center
+COMMENT $004A Pen to (80,-20)
+COMMENT $0051 Gets the coordinates
+COMMENT $0054 Number of vectors
+COMMENT $0056 Scaling of vectors
+COMMENT $005B Beam to center
+COMMENT $005E Pen to (70,10)
+COMMENT $0065 Get coordinates
+COMMENT $0068 Number of vectors
+COMMENT $006A Scaling of vectors
+COMMENT_LINE $006F And so on...
+COMMENT $006F Beam to center
+COMMENT $0072 Move pen to
+COMMENT $0079 Get Vectors
+COMMENT $007C Number of vectors
+COMMENT $007E Scaling
+COMMENT_LINE $0083 Writing the text
+COMMENT $0083 Beam to center
+COMMENT $0086 Set intensity
+COMMENT $0088 Intensity needs only to
+COMMENT_LINE $008B be set again if you want
+COMMENT_LINE $008B to change it
+COMMENT $008B Y - coordinate
+COMMENT $008D X - coordinate
+COMMENT $008F Gets the text
+COMMENT $0092 Prints the text string
+COMMENT $0095 Jumps back to start
+COMMENT_LINE $0097 Then all the required coordinates
+COMMENT $0097 Here we go
+COMMENT $0099 This is the
+COMMENT $009B Pikachu outline
+COMMENT_LINE $00FB "viiva2" is the eye, it's drawn twice
+COMMENT_LINE $00FB with different starting points
+COMMENT $00FB The first one
+COMMENT $00FD is always good
+COMMENT $00FF to be 0,0
+COMMENT $0101 The actual
+COMMENT $0103 starting point
+COMMENT $0105 is set in the
+COMMENT $0107 main program
+COMMENT $0109 The nose
+COMMENT_LINE $0124 And the ending tells Vectrex again to
+COMMENT_LINE $0124 play no music
+COMMENT_LINE $012C Commenting by man@sci.fi - blame me
+RANGE $0000-$0002 DB_DATA
+RANGE $0002-$000A CHAR_DATA
+RANGE $000A-$000B DB_DATA
+RANGE $000B-$0011 DW_DATA
+RANGE $0011-$0018 CHAR_DATA
+RANGE $0018-$001A DB_DATA
+RANGE $001A-$0097 CODE
+RANGE $0097-$0111 DB_DATA
+RANGE $0111-$0123 CHAR_DATA
+RANGE $0123-$0124 DB_DATA
+RANGE $0124-$0128 DW_DATA
+RANGE $0128-$012C DB_DATA
+

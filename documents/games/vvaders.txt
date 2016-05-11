@@ -1,0 +1,79 @@
+VECTOR VADERS
+By John Dondzila
+
+
+--------------------------------------------------------------------------------
+
+
+VECTOR VADERS
+INSTRUCTIONS
+
+With your Vectrex turned off, insert the Vector Vaders cartridge into the 
+cartridge slot of your Vectrex. Push it in carefully until it will not go 
+any further. Make sure the label that says "THIS SIDE UP" is facing up. 
+Inserting the cartridge with the label facing down can damage either the 
+cartridge or your Vectrex!
+
+Turn your Vectrex on. You will see the familiar title screen. After a few 
+seconds the game will start. The Vector Vaders title screen will then 
+appear. You can either wait or press the "4" button to get to the game 
+screen.
+
+When you get the game screen, you will see the following:
+
+Your score, displayed in the upper right corner of the screen. The 
+Vaders, marching across the screen, The bunkers at the bottom of the 
+screen, The level number, in the bottom right corner of the screen.
+
+Press button "3" to start the game.
+
+Your base will appear underneath the first bunker. Your base will move 
+left by pushing the "1" button and move right by pushing the "2" button.
+
+To fire a missile, press the "4" button. As with many "Invader" type 
+games, your missile must either hit a target or reach the top of the 
+screen before you can fire again.
+
+The Vaders will march left and right across the screen. When they get 
+to either side of the screen, they will step down getting closer to you. 
+The Vaders objective is to overrun your base. If any Vader gets down to 
+your base, then the game is over.
+
+The object of course, is to shoot down all the Vaders. Shooting all the 
+Vaders will start a new level where the Vaders will start closer to you.
+
+The Vaders score points as follows: Top row = 30 points each. 2nd and 
+3rd row = 20 points each. Bottom 2 rows = 10 points each.
+
+Occasionally a flying saucer will pass overhead. Hitting the saucer will 
+randomly award you either 50,100,150 or 300 points.
+
+Of course, the Vaders will shoot back at you. The bunkers will provide 
+pretty good protection for awhile, but any bunker that is shot 16 times 
+(by either you or the Vaders) will be obliterated and you will lose that 
+protection.
+
+If the Vaders overrun the bunkers, then all 4 bunkers will be 
+obliterated and you will have no protection from the Vader's fire.
+
+Whenever you lose a ship (or start the game), you will see your remaining 
+ships displayed in the upper left corner of the screen for a few seconds.
+
+You start the game with 3 ships. Everytime you get hit by a Vader 
+missile, you die and lose a ship. Losing all ships will end the game.
+
+You can win an extra ship if you score 3000 points. It is difficult, but 
+not impossible.
+
+If you beat the current high score, it will be displayed on the title 
+screen after the game is over. The high score will not get erased until 
+you turn the Vectrex off.
+
+You can even press RESET and still keep the high score.
+
+TECHNICAL NOTES:
+The "shimmering" effect that you see when a level starts is normal. The 
+Vectrex can only draw so many Vectors before this happens. This will 
+also slow down the game a bit, but after you shoot down a few Vaders, 
+things will speed up to normal.
+

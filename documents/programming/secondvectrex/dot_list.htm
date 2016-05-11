@@ -1,0 +1,48 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Dot_List ($F2D5)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Dot_List ($F2D5)</p>
+
+<p>This routine draws a series of dots, using the intensity
+already set up in $C828. The format for the dot list, which is
+pointed to by the X register, is: </p>
+
+<blockquote>
+    <p>( rel y, rel x), (rel y, rel x), .....</p>
+</blockquote>
+
+<p>The number of dots-1 to draw is specified in $C823.</p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $D0</p>
+    <p>X-reg points to the list of dot coordinates</p>
+    <p>$C823 specifies the number of dots to draw</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<blockquote>
+    <p>X-reg points to next byte after list</p>
+    <p>$C823 cleared</p>
+    <p>D-reg trashed</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F2D5">Source</a></p>
+</body>
+</html>

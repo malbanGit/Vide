@@ -1,0 +1,205 @@
+:title VIDE: Copyrights and Licenses...
+::
+**Code done by Jerry Huxtable**~~
+---------------------------~~
+All code in the directory: de\\malban\\gui\\image ~~
+was done by: Jerry Huxtable~~
+~~
+Copyright 2006 Jerry Huxtable~~
+~~
+and is distributed under the Apache License, Version 2.0.~~
+~~
+The only changes to the code I made was to:~~
+a) move the files to a package in my code structure~~
+b) use only the filters I needed in my code.~~
+
+~~::
+In the directory you find a ~~
+LICENSE~~
+and a ~~
+README~~
+~~
+file of the original author. The original project website can be accessed under:~~
+[[http://www.jhlabs.com/ip/filters/]]~~
+~~
+~~
+**Icons done by Mark James**~~
+------------------------~~
+All icons in the directory: de\\malban\\vide\\images ~~
+were made by: Mark James~~
+In the directory you find a ~~
+"legalcode"
+
+::The original website can be accessed under: [[http://www.famfamfam.com/lab/icons/silk/]]  ~~ ~~
+The icons can also be used under Creative Commons Attribution 2.5 License.
+
+::
+**Code done by Finn Kuusisto**~~
+--------------------------~~
+All code in the directory: de\\malban\\sound\\tinysound ~~
+was done by: Finn Kuusisto~~
+~~
+Copyright (c) 2012, Finn Kuusisto ~~
+~~
+TinySound is licensed under the BSD 2-Clause license.~~
+~~
+I made some code changes:~~
+a) move the files to a package in my code structure~~
+b) added some code to stream sound from the emulator.~~
+
+~~::
+In the directory you find a ~~
+LICENSE~~
+and a ~~
+README~~
+~~
+file of the original author. The original project website can be accessed under:~~
+[[https://github.com/finnkuusisto/TinySound]]~~
+~~
+
+::
+**Code done by Bill Yakowenko**~~
+--------------------------~~
+All code in the directory: de\\malban\\vide\\assi ~~
+was done by: Bill Yakowenko~~
+~~
+Bill placed the complete package in the public domain!~~
+~~
+The code changes I made are numerous, see the "assi" pages.~~
+~~
+The original project website can be accessed under:~~
+[[http://sourceforge.net/projects/asmj]]~~
+
+
+::
+**Code done by Sean Riddle**~~
+------------------------~~
+In the directory: de\\malban\\vide\\dissi ~~
+the orginal code for the disassembler was done by: Sean Riddle~~
+~~
+Copyright (c)1995 Sean Riddle ~~
+~~
+DASM6809 may be distributed with the following remark:~~
+"Freely distributable on any medium given all copyrights are retained by the author and no charge greater than $7.00 is made for obtaining this software."
+~~
+~~
+I made MANY changes, to many to list!~~ ~~
+ 
+The original project website can be accessed under:~~
+[[http://www.seanriddle.com]]~~
+~~
+
+
+::
+**Code done by Valavan Manohararajah**~~
+----------------------------------~~
+In the directory: de\\malban\\vide\\vecx ~~
+the orginal code for vecxy was done by: ~~Valavan Manohararajah~~
+~~
+Apart from others picking like vultures on the orginal code and placing dubious copyright notice like:~~ ~~"hey dude, I added SDL (10 lines of code) I hereby claim copyright of that!"~~
+ ~~ (sorry, I am in a foul mood...)~~
+I didn't find any information on copyright of the original code. I can't even find a homepage of Valavan or any notice of what has become of him.
+ 
+I hope in using your great vecx-start in vide didn't upset you in any way, thanks for your code!
+ ~~
+ ~~
+ In that directory there is also the AY-3-8910 emulation code. This was taken of an old version of the MAME project and diverse people were involved here:~~ ~~
+ "Based on various code snippets by Ville Hallik, Michael Cuddy, Tatsuyuki Satoh, Fabrice Frances, Nicola Salmoria. "
+ ~~
+
+
+::
+**Code by Gabe Johnson**~~
+--------------------~~
+Code in the directory: de\\malban\\vide\\vecx\\spline ~~
+was inspired by a blog entry of: Gabe Johnson~~
+~~
+To get to the source code, you have to download a 250MB package with all stuff (seemingly) Gabe Johnson ever did, including CV and a dissertation. It //might be// that somewhere there is a copyright notice, but I didn't find one on a quick search.~~
+~~
+~~
+I made some code changes:~~
+a) I extracted the code I needed, and just about THAT.~~
+
+::
+~~
+The original blog website can be accessed under:~~
+[[http://johnsogg.blogspot.de/2010/01/cardinal-splines-and-catmull-rom.html]]~~
+~~
+
+::
+**Code by Gabe Martin Cameron**~~
+---------------------------~~
+Code in the directory: de\\malban\\vedi\\sound\\ibxm ~~
+was done by: Martin Cameron~~
+~~
+(c)2011 mumart@gmail.com ~~
+~~
+IBXM license allows usage and distribution.~~
+~~
+I made some code changes:~~
+a) move the files to a package in my code structure~~
+b) added some code to have a stripped down panel, and be able to switch off voices.~~
+
+~~::
+In the directory you find a ~~
+LICENSE~~
+and a ~~
+README~~
+~~
+file of the original author. The original project website can be accessed under:~~
+[[https://code.google.com/archive/p/micromod/downloads]]~~
+~~
+
+
+::
+**Code by FieserWolf/Nitro**~~
+------------------------~~
+The original Pascal code to the file: de\\malban\\vedi\\sound\\Mod2Vectrex.java ~~
+was done by: FieserWolf, additions by Nitro~~
+~~
+The source for inclusion to VIDE was kindly given by the two guys above.
+~~
+The closest thing to a homepage is:~~
+[[http://metalvotze.de/files/vecsrc]]~~
+~~
+
+
+::
+~~
+~~
+I Also use the following libraries:~~
+~~
+**TinyLAF**~~
+-------~~
+Author: Hans Bickel  ~~
+Licence: GNU Lesser General Public License. ~~
+Homepage: [[http://www.muntjak.de/hans/java/tinylaf/index.html]]~~
+Homepage: [[http://sourceforge.net/projects/tinylaf/]]~~
+~~
+**Java Beanshell**~~
+--------------~~
+Author: Pat Niemeyer~~
+Licence: Sun Public License / GNU Lesser General Public License. ~~
+Homepage: [[http://www.beanshell.org/]]~~
+~~
+**Syntax Highlighting**~~
+-------------------~~
+Author: Stephen Ostermiller ~~
+Licence: GNU General Public License (GPL) V2.0~~
+Homepage: [[http://ostermiller.org/syntax/]]~~
+~~
+**Classmexer agent**~~
+----------------~~
+Licence: use as you like, do not redistribute~~
+Author: Neil Coffey, Copyright © Javamex UK 2008~~
+Homepage: [[http://www.javamex.com/classmexer/]]~~
+~~
+~~
+Used to build the documentation:~~
+~~
+**HelpSetMaker**~~
+------------~~
+Author: Cantamen [Dirk Hillbrecht, Peter Peterburgskyy]~~
+Licence: GNU General Public License (GPL) V2.0 (or later)~~
+Homepage: [[http://www.cantamen.de/helpsetmaker.php]]~~
+::

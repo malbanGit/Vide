@@ -1,0 +1,56 @@
+;***************************************************************************
+; DEFINE SECTION
+;***************************************************************************
+; load vectrex bios routine definitions
+music1          EQU     $FD0D
+VIA_t1_cnt_lo   EQU     $D004   ;VIA timer 1 count register lo (scale factor)
+
+Intensity_5F    EQU     $F2A5   ;
+Wait_Recal      EQU     $F192   ;
+Draw_VL_mode    EQU     $F46E   ;mode y x mode y x ... $01
+Moveto_d        EQU     $F312   ;
+
+;***************************************************************************
+; Variable / RAM SECTION
+;***************************************************************************
+; insert your variables (RAM usage) in the BSS section
+; user RAM starts at $c880 
+                    BSS      
+                    ORG      $c880                ; start of our ram space 
+
+;***************************************************************************
+; HEADER SECTION
+;***************************************************************************
+; The cartridge ROM starts at address 0
+                    CODE     
+                    ORG      0 
+; the first few bytes are mandatory, otherwise the BIOS will not load
+; the ROM file, and will start MineStorm instead
+                    DB       "g GCE 1998", $80    ; 'g' is copyright sign
+                    DW       music1               ; music from the rom 
+                    DB       $F8, $50, $20, -$80  ; hight, width, rel y, rel x (from 0,0) 
+                    DB       "DRAW VL MODE", $80  ; some game information, ending with $80
+                    DB       0                    ; end of game header 
+
+;***************************************************************************
+; CODE SECTION
+;***************************************************************************
+; here the cartridge program starts off
+main: 
+                    JSR      Wait_Recal           ; Vectrex BIOS recalibration 
+                    JSR      Intensity_5F         ; Sets the intensity of the 
+                                                  ; vector beam to $5f 
+                    LDA      #$40                 ; scalefactor
+                    STA      VIA_t1_cnt_lo
+                    LDA      #$00                 ; position relative Y 
+                    LDB      #$00                 ; position relative X
+                    JSR      Moveto_d             ; sets up VIA control register after a wait recal
+
+                    LDX      #vData               ; address of string 
+                    JSR      Draw_VL_mode         ; Vectrex BIOS print routine 
+                    BRA      main                 ; and repeat forever 
+
+;***************************************************************************
+; DATA SECTION
+;***************************************************************************
+

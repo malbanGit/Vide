@@ -1,0 +1,129 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=5d9d584e -->
+<title>Cartridges</title>
+</head>
+<body class="doc">
+<h1>Cartridges</h1>
+<br/><p align="center">
+<img src="pics/CartProps.png" width="580" height="773" /><br/>
+<em>Cartridge configuration</em></p><br/>
+
+<p>Cartridges are the "main" input to Vecx (even if not fully implemented yet).</p>
+
+<p>Cartridges can be configured with all kinds of properties - some emulation relevant, some only for documentation or history reasons.</p>
+
+<p>Most options and fields are very straight forward. <br />
+<b>page 1 - general </b><br />
+
+<ul><li>
+<p>names and checkboxes can be filled as usual</p>
+</li><li>
+<p>a "homepage" for homebrew auhors can be provided, the button starts the current system browser to that page.</p>
+</li><li>
+<p>overlay config is simple a png (as in MESS)</p>
+</li><li>
+<p>the binary file configuration may be somewhat involved and is splitted into two options:
+<ul><li>
+<p>first: <br />
+chosing a file locations with a file choser, for this use the buttons "+" and "-" to add (or delete from config) a "rom images" to your configuration (basically one image per bank, most of the time only one image!) <br />
+Double click on the table row, lets you chose a "rom" - done </p>
+</li><li>
+<p>second, configuration of a link to some rom in the internet ... see below...</p>
+</li></ul>
+</p>
+</li></ul>
+</p>
+
+<p><b>page 2 - instructions </b><br />
+can either be:
+<ul><li>
+<p>a textfile (chose from a file choser)</p>
+</li><li>
+<p>a pdf file (chose from a file choser)</p>
+</li><li>
+<p>or a text entered (which than will be saved as a text file and appear as a file in the above field)</p>
+</li><li>
+<p>or a pdflink (pdf links are configured exactly like linked roms - therefor, see below)</p>
+</li></ul>
+</p>
+
+<p><b> page 3-5 - images </b><br />
+The images can be chosen with a file choser dialog OR, can be pasted using the button. The pasted image will be saved to a directory, and named like the cartridge name + a random number.</p>
+
+<p><b> page 6 - critics </b><br />
+Either a text file - or a "generated" text file (see instructions)</p>
+
+<p><b> page 7 - others </b><br />
+2 "Other" possible text entries, + a in game image field (use as images above) </p>
+
+<p>If these are not enough ... I have still some spare room - I can provide additional fields :-).</p>
+
+<p><b>Links</b><br />
+There are people which offer their files freely - as long as you do not distribute them in any way. These can be text, pdf or binaries (or whatever).  Since these files are still basically free and of interest to vectrex "users" - I provided a mechanism to include them in the configuration without violating the rights.</p>
+
+<p>You can download these files using VIDE. If you just use the "Starter" window this functions quite seemless. But at some stage these files and their internet locations must be configured... </p>
+
+<p>This is the time - this is the place!</p>
+<br/><p align="center">
+<img src="pics/Downloader.png" width="699" height="400" /><br/>
+<em>Downloader configuration</em></p><br/>
+
+<p>As described above, at the moment there are two kinds of files (and places) where the mechanism is used, rom images and instructions. The handling is identical, therefor I will just go thru one example - a rom image.</p>
+
+<p>Look at the window above. You see:
+<ul><li>
+<p>a field with a name, this is a IDENTIFIER (must not be doubled!) of the downloader configuration you are doing, it stands to reason to name it appropriatly!</p>
+</li><li>
+<p>a URL to a location. Only a single file can be "downloaded" (and downloadble configured) at one time</p>
+</li><li>
+<p>although, the file can be a zip file, which can be extracted</p>
+</li><li>
+<p>if the file is a zip and should be extracted, you can use the</p>
+</li><li>
+<p>"+" and "-" button to configure the number of files to extract</p>
+</li><li>
+<p>enter for each of these files the "path" in the ZIP</p>
+</li><li>
+<p>and a location where to save it to</p>
+</li><li>
+<p>if it is no zip, than you must enter a destination file location at the bottom </p>
+</li><li>
+<p>done</p>
+</li></ul>
+</p>
+
+<p>Conventions:<br />
+All downloaded zip files are downloaded to the path:<br />
+(relative to vide main dir)<br />
+
+<ul><li>
+<p>download/zips </p>
+</li><li>
+<p>and stored there</p>
+</li></ul>
+</p>
+
+<p>Rom images downloaded I give the location:<br />
+
+<ul><li>
+<p>download/cartridges  </p>
+</li></ul>
+</p>
+
+<p>Instructions downloaded I give the location:<br />
+
+<ul><li>
+<p>download/documents/games  </p>
+</li></ul>
+</p>
+
+<p>Zip files are extracted in the tmp directory which is cleaned afterwards.</p>
+</body>
+</html>

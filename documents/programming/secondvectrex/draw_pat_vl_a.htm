@@ -1,0 +1,47 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Draw_Pat_VL_a ($F434)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Draw_Pat_VL_a ($F434)</p>
+
+<p>This routine draws a series of patterned vectors. The pattern
+to use must already be specified in $C829. The number of vectors
+to draw minus 1 must be passed in in the A register. The vector
+list, pointed to by the X register, has the following format: </p>
+
+<blockquote>
+    <p>rel y, rel x, rel y, rel x, ...</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $D0 </p>
+    <p>X-reg points to the vector list</p>
+    <p>A-reg = the number of vectors to draw </p>
+    <p>$C829 contains the line pattern.</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<blockquote>
+    <p>X-reg points to next byte after list </p>
+    <p>D-reg trashed</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F434">Source</a></p>
+</body>
+</html>

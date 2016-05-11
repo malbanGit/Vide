@@ -1,0 +1,9 @@
+Credits
+Source and documentation by Ville Krumlinde.
+EEPROM (highscore battery backup) code by Alex Herbert.
+Music code and data originally by Rob Hubbard
+Clever frame interval test routine by Thomas Jentzsch.
+
+Vectrex Thrust logo by Manu Pärssinen.
+
+Beta testers: Thomas Jentzsch, Manu Pärssinen, Mark Shaker, Alex Herbert and Rob Mitchell.

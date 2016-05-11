@@ -1,0 +1,75 @@
+<html>
+
+<head>
+<title>MemoryMap</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Memory Map</strong></font></p>
+
+<p>Memory map (hardware):<br>
+(taken from Keith Wilkins 'internal.txt')</p>
+
+<p>&nbsp;</p>
+
+<p><strong>0000-7fff</strong></p>
+
+<p>Cartridge ROM Space, the CART line is also gated with ~E to
+produce a signal that can be fed directly to the output enable of
+a ROM. This address range is not gated with the read-write line
+but this line is fed to the cartridge connector. (r/w) </p>
+
+<p><br>
+<strong>8000-C7FF </strong></p>
+
+<p>Unmapped space.</p>
+
+<p><br>
+<strong>C800-CFFF </strong></p>
+
+<p>Vectrex RAM Space 1Kx8, shadowed twice. (r/w)</p>
+
+<p><br>
+<strong>D000-D7FF </strong></p>
+
+<p>6522VIA shadowed 128 times (r/w)</p>
+
+<p><br>
+<strong>D800-DFFF</strong> </p>
+
+<p>Don't use this area. Both the 6522 and RAM are selected in any
+reads/writes to this area.</p>
+
+<p><br>
+<strong>E000-FFFF</strong> </p>
+
+<p>System ROM Space 8Kx8 (r/w)</p>
+
+<p><br>
+<strong>C800-C880 </strong></p>
+
+<p>is RAM used by the vectrex BIOS for housekeeping. (see
+appendix B) CBEA-CBFE is RAM used by the vectrex BIOS for
+housekeeping. (see appendix B)</p>
+
+<p><br>
+<strong>C880-CBEA</strong> </p>
+
+<p>is RAM that can be used by the programmer!</p>
+
+<p><br>
+<strong>E000-EFFF</strong> </p>
+
+<p>is ROM, the built in game MINE STORM.</p>
+
+<p>&nbsp;</p>
+
+<p align="center"><a href="coordinates.htm">Next page</a> <a
+href="conventions.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

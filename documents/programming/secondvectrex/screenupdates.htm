@@ -1,0 +1,53 @@
+<html>
+
+<head>
+<title>Screen Updates</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Screen updates</strong></font></p>
+
+<p>Since you are looking at this text, I might assume that you
+have already some programming experience. You most probably
+collected your experience programming raster screen 'machines'.
+Be it computers, arcades, consoles, handhelds or whatever. If you
+have already programmed vector screen 'machines' you will find
+nothing new in this small section. If you on the other hand have
+no experience programming vector displays, let me do a little
+introduction first, and be ready for a whole new experience in
+screen updates :-). <br>
+There are nice and not so nice aspects of vector screens, as you
+will see. You as a programmer have total control over the vector
+beam (or you let the BIOS do the job for you -&gt; recommended!).
+If you want to draw a vector you have to place the beam at the
+position you want the vector to start. 'Switch the light on',
+move the beam and 'switch the light off'. Due to the persistence
+of the screen, the vector will than be displayed for some
+milliseconds (I don't exactly know for how long). Than the vector
+will fade away. Most of the time you will not be satisfied with a
+vector being displayed only for some milliseconds, so sooner or
+later you will start thinking about how to draw a stable image.
+Well, there is no secret to it, you just have to keep drawing...
+.Draw the vector you want to appear stable, about 50 times per
+second and you can happily view a stable vector image! While the
+BIOS has routines for vector drawing, even vector lists or string
+drawing, it does not update the screen automatically. You as a
+programmer are responsible for updating the screen regularly. If
+you lose to much time between these updates the display will
+surely flicker. As a rule of thumb the above mentioned value of
+50Hz is sufficient for a stable image. The nice effect of this
+is, that you don't have to worry about garbage on your screen, if
+you move a 'sprite' you don't have to keep track of the
+background, since in the next round everything is 'clean' again. </p>
+
+<p>&nbsp;</p>
+
+<p align="center"><a href="structure.htm">Next page</a> <a
+href="coordinates.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

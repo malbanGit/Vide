@@ -1,0 +1,378 @@
+:title dissi
+:image dissi.png|dissi window
+
+Dissi only shows sensible data that was **LOADED** from a file, dissi does **NOT** read data from the emulator, all addresses not loaded are marked as "unkown" and contain for the purpose of dissi only a "0" (null). That means it is not possible to look at RAM or IO locations and per default these are hidden from view! 
+
+:h2 Disassembly in general
+If no help is given (in form of information, see below) dissi tries to disassemble the given file as follows:
+- it assumes the file is a valid vectrex file, meaning it searches the start of the file for a vectrex header:~~
++ copyright string
++ music
++ text display list (with size and position information)
++ 0 (zero)
++ assumes code therafter
+- "assuming code therafter" in //general// is kind of difficult, because if data is encountered dissy tries to interprete data as code and that looks most of the time pretty silly - so please help dissi!
+- dissi allways tries to disassemble the file so that assi can compile the generated source code to be 100% the same binary as was given in the first place
+- for that at all to be possible (see bulletpoint 2) dissi even without help //must// generate data, because there are data bytes that have no representation as an assembler mnemonic, or a postbyte is illegal for a correct mnemonic
+- dissi generates DB data values for those occasions and provides a line comment for its reasoning
+- in general dissi would be grateful, if you discover "bunches" of such generated DB-Data, that you provide help and mark these ranges as DATA (which is just a drag, a click and another click to save them for next time)
+
+:h2 Debugging using dissi
+
+For dissi and its "children" you can often find the following icon in the uper left corner:~~ ~~
+##webcam.png##__**always update**~~ which means the contents of this window will be updated "always". This mainly refers to when not in debug mode. 
+The term "always" is a bit misleading. Always here means after each "emulator call". This does not mean "after each emulated instruction".
+The later is only true, when in single step or continuous mode. 
+When the emulator is in "play" mode, each emulator call approximately emulates 30000 cycles worth of instructions.
+~~
+Following buttons are available for dissi:
+
+- ##bug_go.png##__**debug**~~ start debuging (program halts for now), also opens a "regi" window
+- ##bullet_go.png##__**single step**~~ perform one single step, all output/status windows are updated
+- ##arrow_refresh.png##__**overstep**~~ the next "one time" breakpoint is set after the address of the next instruction. This means, the next instruction **is** emulated, and e.g. if that one is a JSR to some other place, that whole subroutine is executed and the program will be halted after returning.
+- ##arrow_out.png##__**step out**~~ if the program is performing a subroutine, the next "one time" breakpoint is set to the top most callstack address
+- ##stop.png##__**breakpoint**~~ a breakpoint is set at the current selected address in "dissi".~~
+Breakpoints are ALWAYS active, even when not in debug mode!
+- ##arrow_rotate_clockwise.png##__**continuous single step**~~ single step until breakpoint is hit, or the user interferes ~~ ~~
+
+- ##arrow_turn_left.png##__**undo**~~ undo the last emulated instruction. Currently the undo-buffer is set to "2000", after that no undo is possible. This will be configurable at a later point.
+
+- ##arrow_turn_right.png##__**redo**~~ the next "state" in the ringbuffer of undoable state is set. If I did everything correct, this should be exactly the same as performing a single step. Performing a "real" single step "resets" the redo "pointer". ~~ ~~
+
+
+- ##chart_curve_edit.png##__**tracki**~~ opens a tracki window
+- ##monitor_add.png##__**viai**~~ open a monitor window for the 6522
+- ##application_view_list.png##__**dumpi**~~ opens a memory dump window
+- ##table_refresh.png##__**vari**~~ opens a variable listing window
+- ##table_relationship.png##__**labi**~~ opens a label listing window ~~ 
+- ##sound_add.png##__**ayi**~~ opens an ayi window ~~ 
+- ##application_lightning.png##__**breaki**~~ opens a breaki window ~~ ~~
+- ##mouse_error.png##__**vinfi**~~ this will enable a mouse pointer in the emulation window. You can select any displayed vector and get information about it. Upon selecting a vector a "vinfi" window opens.
+~~ ~~
+- ##page_save.png##__** write file**~~ This writes a source file of the current dissi contents to your hard drive. The file generated will save to the location the current bin file was loaded from and has a file extenstion of *.dasm.asm". ~~
+Shift click will save a "clean" assembler file. Clean, as in no variables, defines, equ or whatever. Just plain assembler with lots of numbers! ~~
+If the current cartridge has more than one bank, a file is generated for EACH bank.
+
+- ##page_code.png##__** write cnt file**~~ 
+This writes the current collected or individually gained information of dissi to a cnt file (or more than one if banks are used). This is the only way to persist your comments and insights. Use it!
+~~
+- ##vectorCam.png##__** save vector screenshot**~~ 
+Saves the current vectrex display as a Vectorlist to use in veccy.
+~~
+~~
+- ##resultset_previous.png## **history back**~~ Within dissi you can easily "jump" from one address to the next, dissi keeps a history of these "jumps", with these buttons you can navigate your history 
+- ##resultset_next.png## **history forward**~~ ...
+:h2 The table...
+The main part of "dissi" is occupied by a "memory" table. Each line represents one memory location of your vectrex. Per default unkown locations are hidden. Addresses which are "part of other" addresses are also per default hidden (both can be viewed toggling the two checkboxes in the upper right area). 
+
+The columns of the table are more or less self explainatory, here some more information:~~
+- **Column 1 - Address**~~
+This is the memory location where this line starts. Machine code instructions can occupy more than one memory location, as do "groups" of bytes, words or chars. Per default one group of such data is displayed per line. The next address will be the one //after// the grouped memory locations.~~
+SHIFT-mouse click opens dumpi at address.
+- **Column 2 - Label**~~
+This column contains all known labels for that address (group). If there is more than one label, they are seperated by a ":".
+Single click on a label cell, will hightlight the first label in the operand entry of the table.
+~~Labels can be edited! When you enter the editor, you see all labels for //exactly// the address of that line seperated by a ":" (in opposition to when you are not editing, than you can see all labels belonging to the corresponding instruction group of that address).
++ You can enter new labels, delete old ones as you like. 
++ The disassembly after finishing editing the labels will change accordingly.
++ If you "delete" any of the old labels, the reference in the source will be replaced with the first label in the list. 
++ Changing the order does not change references. 
++ Adding a new first label does not change references.
++ deleting the last label will either replace the reference with the actuall address (or offset), or generate a new label on the fly (depending on dissi configuration settings)
++ there is no "syntax checking" on edited labels, if they contain spaces or otherwise "bad" characters, than "bad luck" if you want to assemble exported sources
+- **Column 3 - Content**~~
+This is a hex-byte representation of this memory location (group)
+- **Column 4 - Mnemonic**~~
+A Mnemonic representation of the underlying manchine language instruction - or a pseudo opcode for data (DB, DW).
+- **Column 5 - Operand**~~
+Underlying operand of the machine language instruction or a representation of data.
+- **Column 6 - Page**~~
+one of four possible states:~~
+____0____- page 0 opcode~~
+____1____- page 1 opcode~~
+____2____- page 2 opcode~~
+___-1____- data~~
+- **Column 7 - Cycles**~~
+The number of cycles an instruction takes (or ??? for data)
+- **Column 8 - Mode**~~
+If the instruction has an "address mode", than it is listed here (empty otherwise). Possible states are:~~
+____- immediate~~
+____- direct~~
+____- extended~~
+____- indexed~~
+____- relative~~
+____- inherent~~
+- **Column 9 - ->Address**~~ 
+If column 9 was one of (direct, extended, relative) the resulting "target"-address is listed here.
+If the resulting address is a 16bit address, the tooltip will show the contents of that location.
+A double click on the address will move dissi to that location (8 bit addresses are interpreted as relative jumps, 16 bit addresses as absolut jumps). In many cases this convention makes sense - not in all. A SHIFT double click opens dumpi at that address location. 
+- **Column 10 - Type**~~ 
+The type of the memory location. Can be one of:~~
+____- DB Char~~
+____- DB Byte~~
+____- DB Ptr~~
+____- DB Word~~
+____- INS 1~~
+____- INS 2~~
+____- INS 3~~
+____- INS 4~~
+____- INS 5~~
+____- INSPart 2~~
+____- INSPart 3~~
+____- INSPart 4~~
+____- INSPart 5~~
+- **Column 11 - Length**~~
+Length of the instruction in bytes - or the length of the grouped data in bytes.
+- **Column 12 - Comments**~~
+All comments belonging to the address. Seperate lines are seperated by ":".
+All comments are displayed by the tooltip!
+Comments can be edited - as labels only for //exactly// the address of the current row. 
+- **Column 13 - DP**~~
+Guessed or set direct page register dissi thinks appropriate for that address. //This is not allways correct!/
+:h3 Popup-Menu
+:image dissi2.png|popup window
+Selecting rows in dissi enables you to change the "display" of the data on the fly.
+Right clicking opens a popup. Selecting the menuitems applies the selected entry to the currently selected rows (and their represented addresses).
+Following options are provided:~~
+- **cast to code**~~ casts the selected rows to be "enforced" to code
+- **cast to byte**~~ casts the selected rows to be "enforced" to byte data
+- **cast to word**~~ casts the selected rows to be "enforced" to word data
+- **cast to char**~~ casts the selected rows to be "enforced" to char data
+- **ungroup** ~~ ungroup selected rows (if possible, code e.g. can't be ungrouped or joined)
+- **join** ~~ groups selected rows, ALL selected (if possible, data which are not ascii e.g. can't be char-joined)
+- **join #** ~~ group to selected number (2-6)
+- **DP** ~~ set direct page register (what dissi is led to believe the dp is) to one of $c8, $c9, $d0
+
+
+:h3 Keyboard shortcuts
+There are not many yet - dissi is still in development:~~
+- "SPACE", sets or unsets a breakpoint at the current row.
+- "R", run (disables debugging, till a breakpoint is hit)
+
+:h2 Below the table
+(This is not finished yet)
+Below the main table is a split panel, which again consists of two entities.
+a) a "message" board, which at some stage might give you some feedback of what you are doing
+b) a commandline where you can enter dissi commands without getting dizzy from all the mouse movements (although, this is a part which is not complete yet).
+:h3 Dissi commands
+:image disscommands.png|dissi commands
+- h shows a help of the current available commands, ...
+- these will be expanded as I need them, as of now following "written" commands are available:
++ reset
++ go
++ cycles (set or read)
++ count cycles (between two addresses)
++ print (memory location)
++ breakpoint address, upon bankswitch, or any bit of VIA ORB
++ label reset (all automatically build lables)
++ clear ALL breakpoints
++ information about current cartridge
++ switch debugger to bank #
++ remove all automatically build "error" comments
++ toggle display about when a bankswitch occurred
++ cls
++ poke $xxxx $yy [change any memory location]
+
+(as you see, these were commands that I at some stage needed while hacking VIDE together :-\))
+
+:h3 Searching
+On the bottom of dissi is a search field. Searches covers all kinds of labels and commentary
+
+:h3 Searching in operands
+Entering any text will hightlight the operand cells, that contain a match.
+
+:h2 Hey dissi...
+In order to satisfy old debugging habbits (of doing a "System.out.println(...)" or a Console.writeln("...") or whatever) - I implemented a "hey dissi" routine.
+
+In short, you can tell your source code to output information to the dissi message board. Everything works in form of comments. How comments are entered - see below (CNT, LST or ASSI, which of these is of no importance, as long as dissy knows the comments, when a vectrex program is executed).
+
+As of now there are only two commands implemented, but if needs arise I can improvise and supply more :-).
+
+The comment syntax is quite easy, dissi parses all comments and if it finds the keywords:~~
+______**hey dissi**~~
+It knows that you are talking to it. Dissi than takes the string it finds after "hey dissi" which is expected to be in parentheses and tries to interprete it as commands.~~
+Dissi as of now only knows two commands:~~
+- **print**~~print some information
+- **break** ~~insert a breakpoint here
+
+Example 1:
+
+:div code
+____________; hey dissi "print I am great" ~~
+:/div
+
+Will output ~~
+~~
+"I am great"
+~~ ~~
+Whenever this line is passed in emulation.
+The emulation is **not** stopped, only the string is printed.
+
+Example 2:
+
+:div code
+____________; hey dissi "print value of $c9b5" ~~
+:/div
+
+Will output ~~
+~~
+"value of $c9b5 = $89"
+~~ ~~
+(in case the memory location of $c95b equals $89 at the time)
+
+Example 3:
+
+:div code
+____________; hey dissi "print value of $loop" ~~
+:/div
+
+Will output ~~
+~~
+"value of loop = $01"
+~~ ~~
+(in case the memory location of the label "loop" equals $01 at the time)~~
+
+In short:~~
+- you can output any text after a print provided in parantheses
+- you can give the print command a 16bit hex-number which must start with a "$", it than will print that address and the 8bit value stored in that address
+- you can print any known "variable" and its 8bit contents, the label must be proceded by a "$"
+- technically the string in the parantheses is "split("_")" and all resulting words are interpreted with the above syntax, so in one line you can print as much as you like
+
+Example 4:
+
+:div code
+____________; hey dissi "break" ~~
+:/div
+
+~~
+Will simply add a breakpoint to that line. Program execution will be halted.
+
+
+:h2 Supply dissi with information
+There are three (plus one) ways to supply dissy with information.
+1) if you happen to use as09 from: **Copyright 1990-..., Frank A. Vorstenbosch, Kingswood Software.**~~
+You can use the "LST" files that this assembler generates. If the "LST" file is in the same directory as the rom file, it will be loaded automatically.
+2) Compile your source file with assi in VIDE.
+3) edit dissi (not implemented yet, and this is actually the "plus one")
+4) Supply a "CNT" file, if the "CNT" file is in the same directory as the rom, it will be loaded automatically.
+:h3 CNT-Files
+A CNT file is a description file for a rom. There are a handfull of entries you can provide. If done with enough endurance and research you can supply a wealth of information.
+Following entries are possible:~~
+
+**START_BANK x / END_BANK x**~~
+All entries between those tags are only relevant for the given bank.
+The same CNT file can be used for different banks, but all information not belonging to the corresponding bank are ignored.~~
+If no start or end is given, all information are considered to be relevant for bank 0. ~~
+After an END_BANK x the default switches back to bank 0.
+~~(Not parsable numbers/characters are treated also as bank 0)~~ ~~
+
+**END_BANK x**~~
+
+
+**EQU**~~
+Defines a "constant".~~
+Example:
+:div code
+ ________EQU____VECTOR\_LENGTH____0x10~~
+________EQU____LENGTH\_TIME___________$A0~~
+________EQU____LENGTH\_POS\_X_______20~~ ~~
+:/div
+
+**LABEL**~~
+Defines a "label".~~
+Example:
+:div code
+ ________LABEL____$F192____Wait\_Recal~~ ~~
+:/div
+
+**DIRECT\_LABEL**~~
+Defines a "label" for DP addressing, with this option you can assign different names to same values and have dissi enabled to discern the two.~~
+Example:
+:div code
+ ________DIRECT\_LABEL____$D0____$00____ORB~~ 
+ ________DIRECT\_LABEL____$D0____$01____ORA~~ 
+ ________DIRECT\_LABEL____$C9____$00____Ship\_counter~~ ~~
+:/div
+**COMMENT\_LINE**~~
+Adds a complete line of commentary befor the given address.~~
+Example:
+:div code
+ ________COMMENT\_LINE____$0020____From here on, the wonderfull vectrex program will do ... ~~ ~~
+:/div
+
+**COMMENT**~~
+Adds a comment to the end of the instruction (group) beginning at the address.~~
+Example:
+:div code
+ ________COMMENT____$0022____Plus 1 here because the ship exploded yesterday ... ~~ ~~
+:/div
+
+**COMMENT\_LABEL**~~
+Adds a comment to a label (this is mainly interesting for labels in RAM).~~
+Example:
+:div code
+ ________COMMENT\_LABEL____$C89F____Amount of shrimps the player has eaten ... ~~ ~~
+:/div
+
+**RANGES**~~
+The range keyword has several subdivisions, which all work alike.~~
+First the examples, than a quick explaination.~~
+Example:
+:div code
+ ________RANGE________$17 - ____$28 ____CHAR\_DATA~~
+________RANGE____$1917 - $1943 ____DB\_DATA~~
+________RANGE____$1913 - $1917 ____DW\_DATA~~
+________RANGE____$2913 - $2917 ____DWP\_DATA~~
+________RANGE____$1943 - $3499 ____CODE~~
+________RANGE____$1B2D - $5255 ___DP $D0~~
+ ~~
+:/div
+Essentially tell dissi what kind of data/code it has to expect. The example shows all six different type of ranges currently implemented.~~
+//CHAR\_DATA~~//
+Are Vectrex "ASCII" chars, usually terminated by a $80. ~~ ~~
+//DB\_DATA~~//
+Byte data. ~~ ~~
+//DW\_DATA~~//
+Word data. ~~ ~~
+//DWP\_DATA~~//
+Word pointer data. ~~ ~~
+//CODE~~//
+Code, here dissi should be put to work! ~~ ~~
+//DP~~//
+Tell dissi to expect DP to be set to the following value. ~~ ~~
+The first four of those ranges can have an additional value added. A number describing the maximal group length. If supplied, dissi tries to group the data found in the range into groups with that length.~~
+Example:
+:div code
+ ________RANGE____$1917 - $1943 ____DB\_DATA 5~~
+ ~~
+:/div
+Will group data into "packages" of five:
+:div code
+ ________DB  $10,  $ff, $03, $06, $0c~~
+________DB $10,  $ff, $18, $0c, $08~~
+________DB $10,  $ff,  $01,  $02,  $02  ~~
+ ~~
+:/div
+
+
+:h2 Not yet done:~~
+- edit and save data to local "derby" database
+- (done!) make assi and dissi completely compatible
+
+:h1 cdissi
+In order to test the assembler, I wrote a special version of dissi, -> cdissi (compare dissi).
+:image cdissi.png|compare dissi
+CDissi only makes sense if you have two nearly identical binary images.~~
+You can load both of them and have them displayed side by side.
+
+Both lists are in sync, and can not be unsynced.
+
+"Rows" in dissi are compared address wise. All that are equal have white background, all that are different are red.
+
+Below the table you can enter a start and an end address for a CRC generation for both loaded files. 
+
+Note: ~~
+Format (byte, word, char, code) of the output is **respected**, so the same data as word and byte shows as a difference.~~
+On both tables you do have the popup-menu to cast the data to anything you like.
+
+

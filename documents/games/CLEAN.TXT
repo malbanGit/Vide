@@ -1,0 +1,89 @@
+Clean Sweep 
+-----------
+   Evil bank robbers have just blown your bank to smithereens.  As bank
+president, you only have a vacuum available to recover the money strewn among
+the rubble, before the thieves destroy you!  The thieves get increasingly
+anxious, but for added challenge, turn off the lights of the bank's corridors
+and gather the money through a blind maze.
+
+Controls
+--------
+Joystick: Moves your vacuum throughout the bank.
+          (Only control used in game play)
+
+Game Selection
+--------------
+   You have the choice of two game play options.  They are:
+GAME 1:  The bank's corridors are shown, creating a maze.  You will have a
+         clear picture of the passageways.
+GAME 2:  The bank's corridors are not shown, creating a blind maze.  In
+         effect, you are fighting the robbers without any lights on in the
+         bank.
+
+Game Play
+---------
+   Evil bank robbers have just tried to burglarize your bank.  The dynamite
+they planted caused an explosion, leaving the bank in a terrible mess.  The
+corridors create a maze, with money strewn everywhere.  Use the joystick to
+maneuver your vacuum throughout the bank and sweep up the money.  The
+joystick can move your vacuum up, down, right or left.
+   Your vacuum bag is limited in what it can hold.  You will start to see it
+grow larger.  Eventually, it will not hold any more money, and you will have
+to re-deposit the money by entering the vault in the center if the screen. 
+Your vacuum does not have to be full to enter the vault and re-deposit the
+money.
+   Picking up the money with your vacuum is not easy because the bank robbers
+return, one by one, to try and destroy you.  You must avoid them or get
+"supercharged" and try to destroy them.
+
+Supercharging
+-------------
+   Your vacuum can become temporarily supercharged by entering one of the
+four special rooms in the corners of the bank.  As long as you are
+supercharged, you will have the power to destroy the robbers.  When you begin
+to blink, beware... your supercharged powers are about to end.  Once you use
+a special room, the door closes and you cannot use it again until you have
+swept up all the money in that level of the bank and enter the next level.
+
+Getting Destroyed
+-----------------
+   Once you are destroyed by a robber, you will disappear.  If you have any
+additional vacuums left, you will return in the center and be given another
+chance to complete the level you were in.
+
+The Maze
+--------
+   The maze is a series of hallways, with the vault in the center.  You are
+always safe from the robbers when you are in the vault.
+   There are four doorways, one on each side.  The robbers will enter from
+them.  You can leave the maze through any of the doorways and return through
+the doorway on the opposite side.
+
+Levels
+------
+   Each time you collect all the money in a maze, you will be transported to
+the next level that has a new, tougher maze.  Your vacuum will fill up faster
+and the robbers will enter sooner and will move more quickly.
+
+Number of Vacuums
+-----------------
+   At the beginning of each game, you will have 5 vacuums.  A bonus vacuum is
+awarded after earning 10,000 points.
+
+Scoring
+-------
+   Points are earned as follows:
+            Action                          Points
+   ----------------------------------------------------------------
+   Each dollar collected                      10
+   Each dollar re-deposited in vault          20
+   Supercharging in corner                    50
+   While supercharged:
+      Eating 1 robber                        100
+      Eating 2 robbers                      +200
+      Eating 3 robbers                      +400
+      Eating 4 robbers                      +800
+
+
+z_morganrw@ccsvax.sfasu.edu
+

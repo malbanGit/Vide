@@ -1,0 +1,74 @@
+<html>
+
+<head>
+<title>Vectors</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Vectors</strong></font><br>
+Vectors in vectrex relation consist of following parts.</p>
+
+<blockquote>
+    <p>- <a href="#Brightness">Brightness</a><br>
+    - Y <a href="#Position">position</a> start<br>
+    - X <a href="#Position">position</a> start<br>
+    - <a href="#Length">length</a> in Y direction<br>
+    - <a href="#Length">length</a> in X direction<br>
+    - <a href="#Length">scaling</a> factor<br>
+    </p>
+</blockquote>
+
+<p><a name="Brightness"></a><font size="4"><strong>Brightness</strong></font></p>
+
+<p>There are two ways to control brightness. First the
+'Intensity', which is a value from 0-$7f (if the 7th bit is set
+there is no intensity), 0 means black, $7f means full brightness.
+Apart from the intensity you can vary brightness of vectors by
+drawing vectors more than ones or for dots leaving the vector
+beam for a longer period of time on the same dot. For the last
+there is a BIOS variable Vec_Dot_Dwell ($C828), which sets a
+counter for how long the vector beam will illuminate the dot. </p>
+
+<p>&nbsp;</p>
+
+<p><a name="Position"></a><font size="4"><strong>Positions</strong></font></p>
+
+<p>The position of vectors are most of the time relative to the
+last known position. Sometimes the position is not interesting
+when drawing a vector, since it was set some other time, and now
+drawing just continues. Positioning with any function is done in
+relation to the present scaling factor (TIME). The programmer must
+keep track of the position, and should zero it now and than. If
+the set position is not 'used' within a certain time, the
+position will drift (my vectrex drifts always to +,+ (cartesian
+coordinates), a few centimeters per 10,000 cycles!). Position is
+given in values from -128 to +127. Most position information is
+set with first Y than X position. </p>
+
+<p>&nbsp;</p>
+
+<p><a name="Length"></a><font size="4"><strong>Length of vectors
+/ Scale</strong></font></p>
+
+<p>The length of vectors here means something like the speed with
+which the beam will travel across the screen. The scaling is
+something like the time, for how long the travelling will be
+done. Thus it is easy to see, that travelling with a speed of 10
+for a time of 5, which would equal a travelled space of 50, is
+about the same as travelling with a speed of 50 for a time of 1,
+which also results in a space of 50 to be covered. The only
+difference is, that the first will take five times as long as the
+second! Length is given in values from -128 to +127. Most length
+information is set with first Y than X length. </p>
+
+<p>&nbsp;</p>
+
+<p align="center"><a href="hello1.htm">Next page</a> <a
+href="timing.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

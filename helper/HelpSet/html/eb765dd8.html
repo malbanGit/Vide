@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=eb765dd8 -->
+<title>dissi - indexed addressing</title>
+</head>
+<body class="doc">
+<h1>dissi - indexed addressing</h1>
+<br/><p align="center">
+<img src="pics/indexadressing.png" width="780" height="539" /><br/>
+<em>indexed adressing modes</em></p><br/>
+
+<p>Dissi generates data (instead of code), if the postbyte of an indexed instruction is not as described in the above official table.</p>
+
+<p>To be exact here an extract of the dissi corresponding source code ("DASM6809.java"):<br />
+</p>
+
+<div class="code">
+<p> &nbsp;&nbsp;&nbsp;&nbsp;reg=(pb&gt;&gt;5)&amp;0x3;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// filter out not allowed combinations<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// 1xxx 0111<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// 1xxx 1010<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// 1xxx 1110<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if ( ((pb &amp; 0x8f) == 0x87) ||<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((pb &amp; 0x8f) == 0x8a) ||<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((pb &amp; 0x8f) == 0x8e)  )<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return incorrectDisassembleFoundAt(currentPC, "Illegal postbyte value for indexed addressing, bit combination of 4 lower bits.");                        <br />
+&nbsp;&nbsp;&nbsp;&nbsp;}         <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;// filter out not allowed combinations<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// 1xx1 0010<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// 1xx1 0000<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if ( ((pb &amp; 0x9f) == 0x92) ||<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((pb &amp; 0x9f) == 0x90) )<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return incorrectDisassembleFoundAt(currentPC, "Illegal postbyte value ,-R or ,R+  not allowed for indirect indexed addressing.");   <br />
+                      &nbsp;&nbsp;&nbsp;&nbsp;}    <br />
+                       <br />
+&nbsp;&nbsp;&nbsp;&nbsp;// filter out not allowed combinations<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// 1xx0 1111<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if ( ((pb &amp; 0x9f) == 0x8f) )<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return incorrectDisassembleFoundAt(currentPC, "Illegal postbyte value 16 bit extended not allowed in indexed (non indirect) addressing.");                        <br />
+&nbsp;&nbsp;&nbsp;&nbsp;}          <br />
+&nbsp;&nbsp;&nbsp;&nbsp;// filter out not allowed combinations<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// 1011 1111<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// 1101 1111<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// 1111 1111<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if ( ((pb &amp; 0xff) == 0xbf) ||<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((pb &amp; 0xff) == 0xdf) ||<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((pb &amp; 0xff) == 0xff)  )<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return incorrectDisassembleFoundAt(currentPC, "Illegal postbyte value 16 bit indirect indexed addressing expects bits 5 and 6 to be 0");                        <br />
+&nbsp;&nbsp;&nbsp;&nbsp;}          <br />
+                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;// 1xxx 1100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;// 1xxx 1101<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if (( (pb&amp;0x8f) == 0x8d) || ( (pb&amp;0x8f) == 0x8c))<br />
+&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// reg == PC!<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reg = 4;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( ((pb&gt;&gt;4) &amp; 0x6) != 0)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*                    <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1XX? ????<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X bits can be anything,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asmj converts "sta &lt;$30,pc"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to "ec 8c 30"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which is correct<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;but "ec ec 30"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;but "ec dc 30"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;but "ec bc 30" are also correct, but only the first 100% ressembles old binary<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;therefor the below three variants must be converted to DB, with comment not to convert to code!<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this is true for both 16 bit or 8 bit variant!<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/                    <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return incorrectDisassembleFoundAt(currentPC, "Ambiguous pc index addressing, postbytes bit 5 and 6 are non zero (assi generates 0).");                        <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+</p>
+</div>
+</body>
+</html>

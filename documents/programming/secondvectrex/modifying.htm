@@ -1,0 +1,100 @@
+<html>
+
+<head>
+<title>Modifying HELLO WORLD</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Modifying HELLO WORLD</strong></font></p>
+
+<p>Well, we just did assemble our first vectrex program and let
+it run (or didn't you?). What small things can be done to the
+above program, so that we can learn a bit more about vectrex? </p>
+
+<p>Let us now change the size of the text. </p>
+
+<p>This is fairly simple, since only a changing of a BIOS RAM
+location is necessary. The 'variable' responsible is Vec_Text_HW
+($C82A), which is a word pointer. It consists of two byte
+variables, namely Vec_Text_Height ($C82A) and Vec_Text_Width
+($C82B). As mentioned above the height is a negative size. The
+default size is $F848, which is height=-8 and width=72. Well,
+these are just numbers they don't tell me anything. What these
+numbers actually are is the 'speed' of the vector beam as
+described in '<a href="vectors.htm#Length">Length of vectors /
+Scale</a>'. Just experiment with the numbers to get a feeling for
+which numbers represent the display size you want. </p>
+
+<p>Before the 'main:' line in the 'HELLO WORLD' example enter the
+following lines:</p>
+
+<blockquote>
+    <p><font face="Fixedsys">LDA #$F1 ; HEIGHT (big=-14)<br>
+    LDB #$60 ; WIDTH (big=96)<br>
+    STA Vec_Text_Height ; store height<br>
+    STB Vec_Text_Width ; store width</font></p>
+</blockquote>
+
+<p><br>
+(NOTE, instead of the more obvious code above you can also
+abbreviate like:</p>
+
+<blockquote>
+    <p><font face="Fixedsys">LDD #$F160 ; HEIGTH, WIDTH (-14, 96)<br>
+    STD Vec_Text_HW ; store to BIOS RAM location</font></p>
+</blockquote>
+
+<p>)<br>
+This gives you a larger text display. Note, to center the text
+you might also want to change the Y, X position (see example
+further below). </p>
+
+<p>We can also change the brightness of the text, there are some
+other 'static' functions for intensity, like:</p>
+
+<blockquote>
+    <p>Intensity_1F ($F29D)<br>
+    Intensity_3F ($F2A1)<br>
+    Intensity_5F ($F2A5)<br>
+    Intensity_7F ($F2A9)<br>
+    </p>
+</blockquote>
+
+<p>Just call them instead of the Intensity_5F ($F2A5) in the
+example (you must change the 'defines' in the header section
+too). There also is a 'variable' intensity function, Intensity_a
+($F2AB). As you might have guessed, this function expects a
+parameter in the A register. The value in A is the intensity
+which will be set by the function. </p>
+
+<p>So... by now we can change three settings: position, size and
+brightness. If you like exercising you might try a HELLO WORLD
+which bounces the text around the screen, changes text size and
+brightness at every bounce (or something like that). </p>
+
+<p>You might also want to take a look at the following BIOS
+functions (<a href="appendixa.htm">Appendix A</a>), they all have
+some relation to string printing. The later functions print a
+group (list) of strings. </p>
+
+<blockquote>
+    <p>Print_Str_hwyx ($F373)<br>
+    Print_Str_yx ($F378)<br>
+    Print_Str_d ($F37A)<br>
+    Print_Str ($F495)<br>
+    Print_List_hw ($F385)<br>
+    Print_List ($F38A)<br>
+    Print_List_chk ($F38C)</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p align="center"><a href="dotdrawing.htm">Next page</a> <a
+href="hello1.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

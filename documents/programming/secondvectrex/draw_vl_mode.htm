@@ -1,0 +1,59 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Draw_VL_mode ($F46E)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Draw_VL_mode ($F46E)</p>
+
+<p>This routine processes the vector list pointed to by the X
+register. The current scale factor is used. The vector list has
+the following format:</p>
+
+<blockquote>
+    <p>mode, rel y, rel x,<br>
+    mode, rel y, rel x,<br>
+    . . .<br>
+    . . .<br>
+    mode, rel y, rel x,<br>
+    0x01<br>
+    </p>
+</blockquote>
+
+<p>where mode has the following meaning:</p>
+
+<blockquote>
+    <p>&lt; 0 use the pattern in $C829<br>
+    = 0 move to specified endpoint<br>
+    = 1 end of list, so return<br>
+    &gt; 1 draw to specified endpoint</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<blockquote>
+    <p>DP = $D0</p>
+    <p>X-reg points to the vector list</p>
+    <p>$C829 contains the line pattern.</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<blockquote>
+    <p>X-reg points to next byte after terminator</p>
+    <p>D-reg trashed</p>
+    <p>&nbsp;</p>
+</blockquote>
+
+<p><a href="bios.htm#F46E">Source</a></p>
+</body>
+</html>

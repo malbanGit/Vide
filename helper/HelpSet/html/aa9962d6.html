@@ -1,0 +1,214 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=aa9962d6 -->
+<title>Export</title>
+</head>
+<body class="doc">
+<h1>Export</h1>
+
+<p>There are different ways you can import vectorlists from veccy.</p>
+<h2>Text export</h2>
+<br/><p align="center">
+<img src="pics/VeccyExport.png" width="1508" height="421" /><br/>
+<em>text export</em></p><br/>
+
+<p>Text export is the "main" export veccy offers, all other exports (at the moment) must be user defined - but with user definitions you can probably export to any imaginable format (if you do know a little bit about java).</p>
+
+<p>Anyway...<br />
+</p>
+
+<p>The export tab is divided into 2 main sections:</p>
+
+<ul><li>
+<p>Vectorlist export</p>
+</li><li>
+<p>Animation/Scenario export</p>
+</li></ul>
+
+<p>Following features are the same for both sections:</p>
+
+<ul><li>
+<p>the type of list/lists determine the type of saves that are available.</p>
+</li><li>
+<p>all export generated is put into the textarea to the right (and into the system clipboard, for immediate access)</p>
+</li><li>
+<p>if the checkbox "runnable" is checked (befor creating an export) a runnable vectrex sourcecode is generated (and also put into the textarea, source is ment as an EXAMPLE not as clever programming!</p>
+</li><li>
+<p>if a runnable source is generated, the button <img src="pics/control_play_blue.png" alt="control_play_blue.png" /> is enabled, and by pressing it you start your generated vectrex binary in the emulator.</p>
+</li><li>
+<p>you can also change the source in the editor an run it than. If "nothing" happened you entered a syntax error (check the log). If that is so, better copy and paste the text into vedi, there you can access error messages of assi directly</p>
+</li></ul>
+
+<p>Following types of exports are supported (if possible):<br />
+ <br />
+<tt> <b>Mov_Draw_VLc_a</b>     <br />
+                                       This routine moves to the first location specified in vector list,    <br />
+ and then draws lines between the rest of coordinates in the list.    <br />
+   The number of vectors to draw is specified as the first byte in the     vector list.  The current scale factor is used.  The vector list has  <br />
+ the following format:                            <br />
+                      <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count, rel y, rel x, rel y, rel x, ...   <br />
+                        <br />
+ ENTRY DP = $D0                           <br />
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X-reg points to the vector list    <br />
+                              <br />
+ EXIT: X-reg points to next byte after list  <br />
+                           <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D-reg trashed                   <br />
+                                </tt></p>
+
+<p> </p>
+
+<p><tt><b>Draw_VLc      </b><br />
+                                                                                                                    This routine draws vectors between the set of (y,x) points pointed    <br />
+ to by the X register.  The number of vectors to draw is specified     <br />
+ as the first byte in the vector list.  The current scale factor is    <br />
+ used.  The vector list has the following format:     <br />
+                                                                      <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count, rel y, rel x, rel y, rel x, ...      <br />
+                                                                        <br />
+                      ENTRY DP = $D0                                <br />
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X-reg points to the vector list          <br />
+                                                                        <br />
+                         EXIT: X-reg points to next byte after list      <br />
+                                                                      <br />
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D-reg trashed                           <br />
+                        </tt></p>
+
+<p><tt><b>Draw_VLp </b><br />
+                                                                                                                         This routine draws patterned lines using the vector list pointed to   <br />
+ by the X-register.  The current scale factor is used.  The vector     <br />
+ list has the following format:                                        <br />
+                                                                       <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pattern, rel y, rel x                                           <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pattern, rel y, rel x                                           <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.      .      .                                              <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.      .      .                                              <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pattern, rel y, rel x                                           <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0x01                                                            <br />
+                                                                       <br />
+ The list is terminated by a pattern byte with the high bit cleared.   <br />
+                                                                       <br />
+ ENTRY DP = $D0                                                        <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X-reg points to the vector list                                 <br />
+                                                                       <br />
+ EXIT: X-reg points to the terminator byte                             <br />
+                                                                       <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D-reg trashed                  <br />
+</tt></p>
+
+<p><b>Note!</b><br />
+The BIOS Draw_VLp seems to be buggy, for the examples I provided a working version.</p>
+
+<p><tt><b>Draw_VL_mode</b><br />
+                                                                                                                   This routine processes the vector list pointed to by the X register.  <br />
+ The current scale factor is used.  The vector list has the following  <br />
+ format:                                                               <br />
+                                                                       <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mode, rel y, rel x,                                             <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mode, rel y, rel x,                                             <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.      .      .                                                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.      .      .                                                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mode, rel y, rel x,                                             <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0x01                                                            <br />
+                                                                       <br />
+ where mode has the following meaning:                                 <br />
+                                                                       <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt; 0  use the pattern in $C829                                   <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 0  move to specified endpoint                                 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 1  end of list, so return                                     <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt; 1  draw to specified endpoint                                 <br />
+                                                                       <br />
+ ENTRY DP = $D0                                                        <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X-reg points to the vector list                                 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$C829 contains the line pattern.                                <br />
+                                                                      <br />
+   EXIT: X-reg points to next byte after terminator                     <br />
+                                                                        <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D-reg trashed                                                 <br />
+ </tt></p>
+
+<p>Looking at the above definitions of these vectorlist types you can gather that not vectorlists can be exported with every list type. <br />
+There is one thing <b>all</b> these routines have in common, they all only take <i>relative</i> positioning information. That is the reason why you can export only vectorlists, which can be drawn in one "go". <br />
+"In one go" is again relative :-()! Since some formats accepts patterns or mode bytes. Using these it is possible to sneak some invisible vectors (pattern = 0) into a list. Thus you can still draw them in one go, but some drawing are simply invisible.</p>
+
+<p>The only possible way to draw totally "disjunct" vectorlists is doing so with a scenario. (You might not use it with veccy, but drawing two or more vectorlists seperately is just exactly what a scenario does...)</p>
+
+<p><b>Note:</b>!<br />
+The formats: Draw&nbsp;VLx have no way to "place" the vectorlist. The vectorlist is drawn at the "current" place with the first relative coordinate. Keep that in mind, when you wonder why it looks "displaced". (This is espacially queer if you have an animation, these seem to spin around themselfs...)</p>
+
+<p><b>Note:</b>!<br />
+In order to be able to export an animation be sure the "original" single vectors are exportable in the format you wish.</p>
+<h2>Vectorlist export</h2>
+
+<p>Look above...</p>
+<h2>Animation/Scenario export</h2>
+<h3>Animation</h3>
+
+<p>In order to be able to save an animation in one format, <b>ALL</b> vectorlists of that animation must be saveable in that format!</p>
+
+<p>If you use rotation, be sure to either have a correct startpoint, or use one of the Mov_Draw... or Mode... format otherwise, it might happen, that you are "rotating" around the wrong point!</p>
+<h3>Scenario</h3>
+
+<p>Scenarios, since they MUST use positioning, can only ever be saved with the Mov_Draw... or Mode... formats.</p>
+
+<p>Scenarios also make sense if you want to display LARGE vectorlists (say &gt;40 or 50 vectors), since it is very advisable to give the integrators some rest, if you zero them or at least reset them once in a while.</p>
+<h2>Code export</h2>
+<br/><p align="center">
+<img src="pics/CodeGen.png" width="1511" height="424" /><br/>
+<em>code export</em></p><br/>
+
+<p>The following section is the same for vectorlists/animations/scenarios, I won't differentiate here.</p>
+
+<p>Code export has the same pre requisites than the text - "Move..." export. Apart from that it differes greatly from text export.</p>
+
+<p>Using the code export options allows you to export your vectors not as DATA statements, but as code, which actually draws vectors directly. If you are old enought to know the concept behind a library called Xlib (from DOS days) than you might recognize this as a <i>relative</i> to compiled bitmaps (so obviously these are no bitmaps!).</p>
+
+<p>The general logic for the codeexport goes like this:
+<ul><li>
+<p>there is a template for "init" and "deinit" the code</p>
+</li><li>
+<p>there are different templates for "move", "draw", "patterned" draw</p>
+</li><li>
+<p>the different templates are exported for each vector as they are needed.</p>
+</li></ul>
+</p>
+
+<p>Thats all - for large vectorlists (or animations/scenarios for that matter) HUGE pieces of code are generated (but nowadays you can bankswitch for all your needs).</p>
+
+<p>The templates provided work fairly well, but they were done more in the spirit of an example than as well optimized code. You as the user can change them to your needs.<br />
+Following templates are used:
+<ul><li>
+<p>"codeGenInit.template" </p>
+</li><li>
+<p>"codeGenMove.template" </p>
+</li><li>
+<p>"codeGenDraw.template" </p>
+</li><li>
+<p>"codeGenPattern.template" </p>
+</li><li>
+<p>"codeGenDeInit.template" </p>
+</li></ul>
+</p>
+
+<p>They (as usually) can be found in the "template" directory! In order to set apropriate vectorinformation following keys are used for replacement in the above files:
+<ul><li>
+<p>%XRELPOS% - x relative position taken from the vectorlist</p>
+</li><li>
+<p>%YRELPOS% - y relative position taken from the vectorlist</p>
+</li><li>
+<p>%PATTERN% - pattern taken from the vectorlist</p>
+</li><li>
+<p>%INTENSITY% - intensity taken from the vectorlist (not used in the provided examples)</p>
+</li><li>
+<p>%UID% - each call to a template is done with a unique ID, that way you can insure the use of different branch addresses  </p>
+</li></ul>
+</p>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=53d0cc79 -->
+<title>tracki</title>
+</head>
+<body class="doc">
+<h1>tracki</h1>
+<br/><p align="center">
+<img src="pics/trackyNew.png" width="306" height="209" /><br/>
+<em>tracki window</em></p><br/>
+
+<p>The time in system cycles between the two memory locations is measured and shown.</p>
+
+<p>Default are suitable memory locations for a measurement of user programs, timed between each Wait_Recal - call.</p>
+<h2>How it works</h2>
+
+<p>The cycle count is always measured between two memory locations. The locations to enter as start and end address are usually "inverse" to the natural order of memory locations.</p>
+
+<p>For example, to do a measurement between two calls of WaitRecal, you chose as start address the "exit" of WaitRecal and as an end address the entry point of WaitRecal.</p>
+
+<p>That way you measure all cycles IN BETWEEN two calls of WaitRecal.</p>
+
+<p>Many original games and some homebrew stuff use the BIOS WaitRecal routine in their game loop to stabilize display, so the default setting should work fairly often.</p>
+
+<p>Nonetheless you will find, especially if you program yourself optimzed stuff, that you will want to measure you own routines. For that you can:
+<ol><li>
+<p>enter start and end addresses</p>
+</li><li>
+<p>you can also name these and persist them, so you can easily reuse them in a later session.</p>
+</li></ol>
+</p>
+
+<p>Just type in a name for your meaurement in the textbox and press the save button. The new measurement setting will be added to the combobox to chose from.</p>
+</body>
+</html>

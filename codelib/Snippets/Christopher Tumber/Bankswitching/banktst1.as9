@@ -1,0 +1,127 @@
+;Bank Switching demo
+;
+;by Christopher L. Tumber
+;
+;Demonstrates Bankswitching techniques.
+;
+;Load banktst1.bin at $0000 and banktst2.bin at $8000
+;
+;Press button 1 and button 2 to switch between banks.
+;
+;This is Bank 1
+
+read_switches           EQU     $f1b4
+print_at_d              EQU     $f37a
+waitrecal               EQU     $f192
+move_pen7f_to_d         EQU     $f2fc
+
+user_RAM        EQU     $c880
+
+
+
+        ORG     $0000
+
+; Magic Init Block
+
+        FCB     $67,$20
+        FCC     "GCE     "
+        FCB     $80
+        FDB     music
+        FDB     $f850
+        FDB     $30c0
+        FCC     "BANK 1"
+        FCB     $80,$0
+
+start:
+      jsr waitrecal
+      ldd #0
+      jsr move_pen7f_to_d
+      ldd #00
+      ldu #bankstring
+      jsr print_at_d
+
+      lda #$ff
+      jsr read_switches      
+
+      lda $c812
+      bne bank1
+      lda $c813
+      bne bank2
+      bra start
+
+bank1:
+; isn't it sufficient to:
+;	lda #$df
+;	sta $d002
+
+      ldd #$dfff	; A = $df = %11011111, B = $ff = %11111111
+      std $d002	    ; Reg 2 = Input, Output Port B (0=input 1=output)
+      				; Reg 3 = Input, Output Port A (0=input 1=output)
+      				; -> Only Bit 5 (comparator) of port B is Input!
+      ldd #$100		; A = $01 = %00000001, B = $00 = %00000000
+      std $d000		; Reg 0 = Port B Data I/O Register
+      				; 	Bit 0   = 1 - Mux disabled
+      				; 	Bit 1,2 = 0 - Y Integrator (don't care)
+      				; 	Bit 3   = 0 - Sound BC1 (don't care)
+      				; 	Bit 4   = 0 - Sound BBDIR (don't care)
+      				; 	Bit 5   = 0 - comparator (don't care)
+      				; 	Bit 6   = 0 - external (don't care)
+      				; 	Bit 7   = 0 - Ramp (don't care)
+      				; Reg 1 = Port A 
+      ldd #$987f	; A = $98 = %10011000 B = $7f = %01111111
+      sta $d00b		; Reg B auxiliary control register
+      				;   Bit 0 = 0 disable Input Latch Port A
+      				;   Bit 1 = 0 disable Input Latch Port B
+      				;   Bit 2 \ 
+      				;   Bit 3  > 110 output to CB2 under control of phase 2 clock
+      				;   Bit 4 / 
+      				;   Bit 5 = 0 Timer 2 One Shot
+      				;   Bit 6 = 0 Timer 1 One Shot
+      				;   Bit 7 = 1 t1 enable PB7 output
+      stb $d004		; Reg Timer 1 Low Register (scale factor) -> $7f
+      jmp start
+bank2:
+; isn't it sufficient to:
+;	lda #$9f
+;	sta $d002
+      ldd #$9fff	; A = $9f = %11011111, B = $ff = %11111111
+      std $d002		; Reg 2 = Input, Output Port B (0=input 1=output)
+      				; Reg 3 = Input, Output Port A (0=input 1=output)
+      				; -> Only Bit 5 (comparator) and 6 (external device) of port B is Input!
+      				; External set to 0!
+      				
+      ldd #$100		; A = $01 = %00000001, B = $00 = %00000000
+      std $d000		; Reg 0 = Port B Data I/O Register
+      				; 	Bit 0   = 1 - Mux disabled
+      				; 	Bit 1,2 = 0 - Y Integrator (don't care)
+      				; 	Bit 3   = 0 - Sound BC1 (don't care)
+      				; 	Bit 4   = 0 - Sound BBDIR (don't care)
+      				; 	Bit 5   = 0 - comparator (don't care)
+      				; 	Bit 6   = 0 - external (don't care)
+      				; 	Bit 7   = 0 - Ramp (don't care)
+      				; Reg 1 = Port A 
+      ldd #$987f	; A = $98 = %10011000 B = $7f = %01111111
+      sta $d00b		; Reg B auxiliary control register
+      				;   Bit 0 = 0 disable Input Latch Port A
+      				;   Bit 1 = 0 disable Input Latch Port B
+      				;   Bit 2 \ 
+      				;   Bit 3  > 110 output to CB2 under control of phase 2 clock
+      				;   Bit 4 / 
+      				;   Bit 5 = 0 Timer 2 One Shot
+      				;   Bit 6 = 0 Timer 1 One Shot
+      				;   Bit 7 = 1 t1 enable PB7 output
+      stb $d004		; Reg Timer 1 Low Register (scale factor) -> $7f
+      jmp start
+
+
+bankstring: FCC "BANK 1"
+        FCB     $80,$0
+         
+
+music:
+          FDB     $fee8
+          FDB     $feb6
+          FCB     $0,$80
+          FCB     $0,$80
+
+

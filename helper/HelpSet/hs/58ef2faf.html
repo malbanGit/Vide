@@ -1,0 +1,49 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>ayi</title>
+</head>
+<body class="doc">
+<h1>ayi</h1>
+<br><p align="center">
+<img src="pics/aypanel.png" width="608" height="354"><br>
+<em>ayi window</em></p><br>
+
+<p><b>Why?</b><br>
+Does this window look different than all the other panels? <br>
+Hm, no reason - I did it on a different day, or even in a different month, so I somehow decided to do it this way.</p>
+
+<p><b>But it is bad, to have different looks in one application, the poor users...?</b><br>
+Yep... I know. Still. learn to live with it, or change the sources yourself!</p>
+<h2>Save as Bin/Data/YM-file</h2>
+
+<p>There is a new option to now save the PSG output (not digital sound as of yet).</p>
+<h3>YM file</h3>
+
+<p>YM-files consist of register information of the PSG, which are (best) saved at specific intervals. The file format was developed by Arnaud CarrÃ© originally for Atari ST sound files. (See: <a target="_blank" href="http://leonard.oxg.free.fr/ymformat.html">http://leonard.oxg.free.fr/ymformat.html</a>)</p>
+<h3>Data</h3>
+
+<p>Chosing this option the PSG data will be saved to assembler compatible db-statements, 16 registers per row .</p>
+<h3>Bin</h3>
+
+<p>Chosing this option the PSG data will be saved to binary "raw" data 16 registers repeatedly.</p>
+<h3>Record when?</h3>
+
+<p>You can chose to the intervall at which data shall be recorded by two different options:
+<ul><li>
+<p>record when address = xxxx<br>
+For example each time after a subroutine that updates sound registers is called (do&nbsp;sound)</p>
+</li><li>
+<p>or you can give a fixed timed intervall in 6809 cylce information (30000 cycles = 50Hz)</p>
+</li></ul>
+</p>
+<h3>Buttons</h3>
+
+<ul><li>
+<p><img src="pics/control_record_blue.png" alt="control_record_blue.png"> &nbsp;&nbsp;<b>start recording</b></p>
+</li><li>
+<p><img src="pics/control_stop_blue.png" alt="control_stop_blue.png"> &nbsp;&nbsp;<b>stop recording</b><br>
+Only after stopping properly, data files will be saved!</p>
+</li></ul>
+</body>
+</html>

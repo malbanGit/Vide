@@ -1,0 +1,115 @@
+Spike Hoppin'
+An Exciting New Game For The
+Vectrex Arcade System!
+By John Dondzila
+(Vectrex Extraordinairre)
+
+
+
+--------------------------------------------------------------------------------
+Spike Hoppin'
+
+The Name Of The Game...
+
+Spikes Hops... He can't help it... It's what he does and he does it well!
+
+When the game starts, you will first see a title screen. You can press 
+button 4 to start the game.
+
+You play the game with the joystick. When the game begins you will see 
+Spike on top of a series of little triangles. These little triangles form 
+a large pyramid. Spike can only hop diagonally. Push the joystick in a 
+diagonal direction to make Spike hop. Holding the joystick in that 
+position will make Spike continue to hop. If there is no small triangle 
+for Spike to land on when he hops, he will fall over the edge and die!
+
+When Spike successfully lands on a triangle, that triangle will change 
+color (well, it just gets darker). The object is to hop on every triangle 
+and change its color. Doing this will complete a level and move Spike onto 
+a more challenging level (15 skill levels in all!).
+
+Spike won't find this easy, there are many enemies to avoid. Contact with 
+these enemies will prove fatal, although there are a few "friendly" [ones.]
+
+A Special Note... 
+Spike Hoppin' is controlled by moving the joystick diagonally.
+
+Some Joysticks may have problems! If so, on the title screen press 
+button 2 to select the angled stick. You will have to rotate the stick on 
+a 45-degree angle but [still push the joystick in a diagonal direction.]
+ 
+
+
+Getting Started!
+
+With your Vectrex turned off, insert the game cartridge label side up 
+into the cartridge slot. Push in carefully until it stop moving.
+
+Turn your Vectrex on, adjust the volume.
+
+Spike Has Help! 
+On the sides of the pyramid are magic "discs". Hopping on a disk will 
+give Spike a ride to the top. No new enemies will appear at that time 
+and if Spike's arch nemesis Spud is on the screen, he will fall off the 
+playfield. Spike will also become invincible for a few seconds should 
+anyone be waiting for him at the top when he arrives.
+
+A magic hourglass will appear from time to time. Spike can [land on the 
+hourglass, which will freeze all enemies on the screen for a short while.]
+ 
+
+
+Enemies and Scoring
+
+They're out to get you!!! 
+Spike has a lot of things to worry about!
+
+First, his arch nemesis Spud is out to get him (again). Spud will drop 
+down the screen as an egg shaped object and hatch at the screen bottom 
+and then relentlessly pursue Spike.
+
+There are balls which will randomly fall down the pyramid which Spike 
+must avoid.
+
+If things aren't bad enough, a little obnoxious guy (who's name happens 
+to be 'LOG') will appear and change back the colors of the blocks which 
+Spike has already landed on! This is the only enemy which Spike can 
+destroy by hopping on.
+
+Later on the backwards monsters will appear and create even more troubles 
+for our hero!
+ 
+
+
+Spike Scores!!! 
+Well, not with Molly at least - she's away during this game.
+
+Changing a triangle color scores 25 points
+Riding a magic disc scores 100 points
+Grabbing the hourglass scores 200 points
+Hopping on 'LOG' scores 50 points
+
+Spike has 3 lives and can win an extra life by scoring 5,000 points.
+
+Speaking of Scores
+To minimize Vectrex screen flicker, your score is only displayed in 
+between levels.
+
+You can view your score for a few seconds any time during the gameplay 
+by tapping Button 4.
+ 
+
+
+WAIT A MINUTE CHIEF, YOU HAD BETTER NOT READ THIS UNLESS YOU REALLY, 
+REALLY MEAN IT! 
+Think you've really figured out Spike Hoppin' completely?
+
+What if I told you there's more?
+
+Would you believe there's a cool animation called The Voyager Flyby?
+Would you believe another game, hidden somewhere in the main game?
+Would you believe infinite lives and a level skip?
+
+Would you believe I'm not going to tell you how to find any of it?
+ 
+

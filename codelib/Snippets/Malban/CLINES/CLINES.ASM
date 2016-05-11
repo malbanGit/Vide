@@ -1,0 +1,187 @@
+; this is a small demo, how curved lines can be drawn with vectrex
+; idea by myself, implementation mainly by unkown (whoever did the vectrex
+; BIOS)
+; source of draw_curved_line routine taken from "RUMCHIP.ASM",
+; modified, corrected and commented by me...     Malban      MAY/20/1998
+;
+; I place this routine in the public domain (as far as I am able to,
+; since I didn't program the 'draw_curved_line' myself).
+;
+; comments and vectrex talk are welcome
+; my email: xxx@aol.com
+;
+; following command line was used to assemble:
+;
+; C:>as09.exe -w200 -h0 -l -mcti clines.asm >error
+;
+; I used the 6809 assembler:
+; as09 [1.11].
+; Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Software.
+; Available at:
+; http://www.falstaff.demon.co.uk/cross.html
+;
+                INCLUDE "VECTREX.I" ; vectrex function includes
+; user variable definitions
+; $c880
+user_ram                        EQU    $c880              ; well start of our ram space
+user_ram_start                  EQU    user_ram
+
+;***************************************************************************
+                 ORG     0
+; start of vectrex memory with cartridge name...
+                 DB      "g GCE 1998", $80 ; 'g' is copyright sign
+                 DW      music7            ; music from the rom
+                 DB      $F8, $50, $20, -$3a; hight, width, rel y, rel x (from 0,0)
+                 DB      "CURVED LINES", $80; some game information, ending with $80
+                 DB      0                 ; end of game header
+;***************************************************************************
+; here the cartridge program starts off
+
+entry_point:
+                 JSR     Wait_Recal        ; sets dp to d0, and pos at 0, 0
+                                           ; vector calibration
+                 JSR     Intensity_3F      ; intensity to $3f, gets destroyed
+                                           ; by recalibration
+                 LDA     #$7f              ; scale factor
+                 STA     VIA_t1_cnt_lo     ; move to time 1 lo, this means scaling
+                                           ; only for Moveto_d
+                                           ; curved lines can only be
+                                           ; scaled via values of line updates
+                 LDD     #((lo($20))*256+(lo(-$1c))) ; position on screen
+                 JSR     Moveto_d          ; and go to position
+                 LDU     #curved_line      ; load address of curved lines
+                                           ; vector list
+                 JSR     draw_curved_line  ; and draw the thing
+                 BRA     entry_point       ; repeat forever!
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;                         draw_curved_line
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; taken from "RUMCHIP.ASM" file, found somewhere...
+; corrected, commented and renamed labels (by )
+;
+; subroutine for printing curved lines
+; expects pointer to update table in U
+; expects DP pointing to $D0
+;
+; update table has following format:
+;                   DB  Y_update, VIDEO_enable, X_update, Xupdate,... ,0
+;                   DB  Y_update, VIDEO_enable, X_update, Xupdate,... ,0
+;                   DB  ...
+;                   DB  0       ; 0 end of update list
+;
+; VIDEO_enable is a SHIFTREG poke
+; this means $ff             == solid line
+;            $00             == invisible line
+;            everything else == somewhat dotted line
+;
+; Note: smoothest curved lines with X slopes
+;       Y slopes tend to have some edges (since the integration must be
+;       stopped for Y updates)
+;
+draw_curved_line:
+                 LDD     #$1881            ; load D with VIA pokes
+                 STB     VIA_port_b        ; poke $81 to port B
+                                           ; disable MUX
+                                           ; disable ~RAMP
+                 STA     VIA_aux_cntl      ; poke $18 to AUX
+                                           ; shift mode 4
+                                           ; PB7 not timer controlled
+                                           ; PB7 is ~RAMP
+                 BRA     next_update_round ; jump to entry of loop
+x_update_loop_init:
+                 STB     VIA_port_b        ; MUX disable, ~RAMP enable
+                 STA     VIA_shift_reg     ; poke the enable byte (A) found to
+                                           ; shift, that enables/disables ~BLANK
+x_update_loop:
+                 LDA     ,U+               ; load next X_update value
+                 BEQ     finnish_x_update  ; if zero, we are done with this
+                                           ; X_update
+                 STA     VIA_port_a        ; otherwise put the found value to
+                                           ; DAC and thus to X integration
+                 BRA     x_update_loop     ; go on, look if another X_update
+                                           ; value is there...
+finnish_x_update:
+                 LDB     #$81              ; load value for ramp off, MUX off
+                 STB     VIA_port_b        ; poke $81, ramp off, MUX off
+
+                 NOP                       ; these NOP's seem to be neccessary
+                 NOP                       ; since the delay between VIA and
+                 NOP                       ; integration hardware
+                 NOP                       ; otherwise, there is a space
+                                           ; between Y_updates...    Malban
+                 STA     VIA_shift_reg     ; A == %00000000
+next_update_round:
+                 LDA     ,U+               ; load next Y_update
+                 BEQ     done_curved_line  ; go to done if 0
+                 STA     VIA_port_a        ; poke to DAC
+                 DECB                      ; B now $80
+                 STB     VIA_port_b        ; enable MUX, that means put
+                                           ; DAC to Y integrator S/H
+                 LDD     ,U++              ; A=VIDEO_enable, B=X_update
+                 INC     VIA_port_b        ; MUX off, only X on DAC now
+                 STB     VIA_port_a        ; store B (X_update) to DAC
+                 LDB     #$01              ; load poke for MUX disable,
+                                           ; ~RAMP enable
+                 BRA     x_update_loop_init; goto x update loop
+done_curved_line:
+                 LDA     #$98              ; load AUX setting
+                 STA     VIA_aux_cntl      ; restore usual AUX setting
+                                           ; (enable PB7 timer, SHIFT mode 4)
+                 RTS                       ; and out of here
+;***************************************************************************
+;                   DB  Y_update, VIDEO_enable, X_update, Xupdate,... ,0
+;                   DB  Y_update, VIDEO_enable, X_update, Xupdate,... ,0
+;                   DB  ...
+;                   DB  0       ; 0 end of update list
+curved_line:
+                 ; C
+                 DB  $10,  $ff, -$03, -$06, -$0c, -$14,  $00
+                 DB -$10,  $ff, -$18, -$0c, -$08, -$04, -$02, -$02, -$01,  $00
+                 DB -$10,  $ff,  $01,  $02,  $02,  $04 , $08,  $0c,  $10,  $18
+                 DB              $20,  $00
+                 DB  $10,  $ff,  $20,  $18,  $10,  $0c,  $08,  $08,  $04,  $02
+                 DB              $02, -$02  -$02, -$04, -$04, -$08, -$0c, -$0c
+                 DB              $00
+
+                 ; h
+                 DB -$10,  $ff, -$18, -$0c, -$08, -$04, -$02, -$02, -$01,  $00
+                 DB -$10,  $ff, -$01, -$01, -$01, -$01, -$01, -$01, -$01,  $00
+                 DB  $10,  $ff,  $01,  $02,  $03,  $04,  $05,  $07,  $0a,  $00
+                 DB  $04,  $ff,  $04,  $06,  $08,  $0c,  $00
+                 DB -$04,  $ff,  $0c,  $08,  $06,  $04,  $00
+                 DB -$10,  $ff,  $07,  $05,  $01,  $01,  $01,  $01,  $01,  $00
+                 DB -$04,  $ff,  $02,  $04,  $06,  $08,  $00
+
+                 ;r
+                 DB  $04,  $ff,  $08,  $06,  $04,  $02,  $00
+                 DB  $10,  $ff,  $01,  $01,  $01,  $01,  $05,  $07,  $0a,  $00
+                 DB  $04,  $ff,  $04,  $06,  $08,  $0c,  $00
+                 DB -$04,  $ff,  $0c,  $08,  $06,  $04,  $00
+                 DB -$10,  $ff,  $07,  $05,  $01,  $01,  $01,  $01,  $01
+                 DB              $01,  $00
+                 DB  $1c,  $ff,  $01,  $01,  $01,  $01,  $01,  $00
+                 DB -$0c,  $ff,  $05,  $0a,  $15,  $00
+
+                 ; i
+                 DB  $0c,  $ff,  $15,  $0a,  $05,  $00
+                 DB  $0c,  $00,  $01,  $01,  $00
+                 DB  $0c,  $01,  $01,  $00
+                 DB -$0c,  $00, -$01, -$01, -$01,  $00
+                 DB -$10,  $ff,  $01,  $01,  $01,  $01,  $01,  $01,  $01,  $01
+                 DB              $00
+                 DB -$04,  $ff,  $02,  $04,  $06,  $08,  $00
+
+                 ; s
+                 DB  $04,  $ff,  $08,  $06,  $04,  $02,  $00
+                 DB  $10,  $ff,  $06,  $06,  $06,  $06,  $06,  $06,  $06,  $06
+                 DB              $00
+                 DB -$0c,  $ff,  $05,  $0a,  $15,  $00
+                 DB -$06,  $ff,  $0c,  $08,  $07,  $05,  $03,  $00
+                 DB -$0e,  $ff, -$01, -$02, -$03, -$08, -$0a, -$0c,  $00
+
+                 DB 0
+;***************************************************************************
+                 END entry_point
+;***************************************************************************
+

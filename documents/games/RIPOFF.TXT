@@ -1,0 +1,102 @@
+Rip Off 
+-------
+   Beware of scavenging pirates trying to steal your precious fuel cells! 
+The more pirates you destroy, the faster their successors become.  Guard your
+tanks carefully... you are always outnumbered!
+
+Controls
+--------
+Joystick:  Rotates your pirate-destroying ship.
+Button 1:  Left rotation.
+Button 2:  Right rotation.
+Button 3:  Thrust.
+Button 4:  Fire.
+
+   Two controllers are required for two player games.
+
+Game Selection
+--------------
+   You can select any of the 16 different game play options.  Each game play
+option determines the number of available fuel cells and which characters can
+wraparound the screen (e.g. leave on the left side of the screen and return
+on the right).  The game play options are as follows:
+
+
+                                   W   R   A   P   A   R   O   U  N   D
+
+  Game          Number of    Pirate-Destroying  
+  Number        Fuel cells         Ship           Pirates         Lasers
+ ---------------------------------------------------------------------------
+    1               8      |
+    2               8      |                                        X
+    3               8      |                         X
+    4               8      |                         X              X
+    5               8      |        X
+    6               8      |        X                               X
+    7               8      |        X                X
+    8               8      |        X                X              X
+    9               4      |
+   10               4      |                                        X
+   11               4      |                         X
+   12               4      |                         X              X
+   13               4      |        X
+   14               4      |        X                               X
+   15               4      |        X                X
+   16               4      |        X                X              X
+ ---------------------------------------------------------------------------
+
+Game Play
+---------
+   Your pirate-destroying ship will appear on the right side of the screen. 
+In a two player game, a second pirate-destroying ship will appear on the left
+side of the screen.  Your fuel cells will be in the center.  You must guard
+your fuel cells from the pirates who will try to steal them.  The pirates can
+appear from anywhere on the screen.  Steer your ship with either the joystick
+or buttons 1 and 2, for left and right rotation.  Move your ship forward by
+pressing button 3.  Press button 4 to fire lasers at the pirates.  The
+pirates can be destroyed by colliding with them, but you will then have to
+wait for your new pirate-destroying ship to appear before you can fire more
+lasers.  The game is over when all the fuel cells are stolen.
+
+The Pirates
+-----------
+   There are six types of pirates.  Each new type is faster and smarter. 
+They can all steal fuel tanks and fire lasers at you.  In a one player game,
+two pirates of the first type will appear.  If you destroy them, two pirates
+of the second type will attempt to steal fuel cells, and so on.  After all
+six pirates types appear, two at a time, they will start appearing three at a
+time.  In a two player game, you start with six of each type of pirate,
+appearing three at a time.
+
+Getting Hit
+-----------
+   If you are hit by a pirate or collide with a pirate or the other ship (in
+two player game only), you will disappear.  After a brief delay, you will
+return from the side on which you first entered.
+
+Scoring
+-------
+   Points are awarded for destroying each pirate, as follows:
+
+                  Pirate 1  --  10 points
+                  Pirate 2  --  20 points
+                  Pirate 3  --  30 points
+                  Pirate 4  --  40 points
+                  Pirate 5  --  50 points
+                  Pirate 6  --  60 points
+
+   No points are awarded for destroying the other pirate-destroying ship (two
+player game).
+
+Bonus Points
+------------
+   After destroying all six types of ships you go to the bonus levels.  When
+"Bonus + 10" appears on the screen, 10 additional points are earned for each
+pirate destroyed.  After destroying 6 more pirate groups "Bonus + 20" will
+appear.  The bonuses will continue to increase for each six pirate groups
+destroyed.
+
+
+z_morganrw@ccsvax.sfasu.edu
+
+

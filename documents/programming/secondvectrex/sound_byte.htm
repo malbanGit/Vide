@@ -1,0 +1,48 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Sound_Byte(_x)(_raw)</title>
+</head>
+
+<body bgcolor="#000000" text="#C0C0C0">
+
+<p>Sound_Byte ($F256)</p>
+
+<p>Sound_Byte_x ($F259)</p>
+
+<p>Sound_Byte_raw ($F25B)</p>
+
+<p>All of these routines cause a byte of music data to be written
+to the music chip. Sound_Byte stores a shadow copy of the data
+into $C800-$C80E, and Sound_Byte_x stores a shadow copy into a 15
+byte area pointed to by the X register. Sound_Byte_raw does not
+store a shadow copy of the data at all. </p>
+
+<p>&nbsp;</p>
+
+<p>ENTRY:</p>
+
+<p>DP = $D0</p>
+
+<p>A-reg = which of the 15 sound chip registers to modify</p>
+
+<p>B-reg = the byte of sound data</p>
+
+<p>X-reg = 15 byte shadow area (Sound_Byte_x only)</p>
+
+<p>&nbsp;</p>
+
+<p>EXIT: </p>
+
+<p>X-reg = $C800 (Sound_Byte only)</p>
+
+<p>D-reg trashed</p>
+
+<p>&nbsp;</p>
+
+<p><a href="bios.htm#F256">Source</a></p>
+</body>
+</html>

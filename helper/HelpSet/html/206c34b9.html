@@ -1,0 +1,106 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160511154724" />
+<!-- created with HelpSetMaker, ID=206c34b9 -->
+<title>projects</title>
+</head>
+<body class="doc">
+<h1>projects</h1>
+<br/><p align="center">
+<img src="pics/NewProject.png" width="704" height="627" /><br/>
+<em>new project window</em></p><br/>
+
+<p>Projects regarding VIDE are in the simplest of terms directories which serve as a binding element for a bunch of files.</p>
+
+<p>Projects are not really sophisticated entities.</p>
+
+<p>As of now a project consists of:
+<ul><li>
+<p>a directory</p>
+</li><li>
+<p>a (xml) properties file, which mainly includes information about what file of all files in the directory is the "main" file (or main files in case of multiple banks)</p>
+</li><li>
+<p>if you build a project, the main file is always used as the starting point</p>
+</li></ul>
+</p>
+
+<p>Projects are represented by a XML-File with the name of the project in the directory of the project.</p>
+
+<p>If you want to load a project - you have to load the corresponding XML file.</p>
+
+<p>Projects can be created using the "New" button in the main vedi window. After selecting new project, the above window is displayed and you can enter your project configuration. The name and the directory in which the project resides can not be altered later!</p>
+
+<p>In the directory given, a new directory with the name of the project will be created! After the creation process has finished the project files are displayed in a tree view on the right side of the window.</p>
+
+<ul><li>
+<p>upon creation of a project you can select if your project should support bankswitching, if so you can chose between "standard" (two banks) or "VecFlash" (up to 64 banks)</p>
+</li><li>
+<p>you can chose to create code for each bank</p>
+</li><li>
+<p>(not completely done!) each "main" - bank file is treated as such, upon project build the general idea is to create each bank seperatly and than join them to create a file vecxy will recognize as "bankswitchable" </p>
+</li></ul>
+
+<p><b>Tree</b><br />
+</p>
+<br/><p align="center">
+<img src="pics/projectPopUp.png" width="316" height="259" /><br/>
+<em>project popup</em></p><br/>
+
+<p>Right click on the tree elements pops up a PopupWindow :-)!</p>
+
+<p><b>Root</b><br />
+If you right click on the root of the tree you can chose to:
+<ul><li>
+<p>edit the properties</p>
+</li><li>
+<p>close the project</p>
+</li><li>
+<p>add files to the project</p>
+</li><li>
+<p>(and refresh the tree)</p>
+</li></ul>
+</p>
+
+<p><b>add files</b><br />
+Opens a file choser window which lets you select (multiple) files. All selected files are added to the project. Added here means literally: copied to the project directory - nothing more and nothing less!</p>
+
+<p><b>edit properties</b><br />
+Reopens the (very above) displayed window. Here you can change settings. Noteworthy are the two buttons:
+<ul><li>
+<p>configure script<br />
+Here you can select (and create) Java files that you wish to execute befor and/or after a project build process. These are java programs which are interpreted. You can virtually do anything here as long as java can. In the simplest case you can call other programs thru a java "execute/invoke". This way you can for example access batch files after building to "transport" you new binaries to other places (like a real vectrex).</p>
+</li></ul>
+</p>
+
+<p><b>Leaves</b><br />
+If you right click on a leave following popup will be displayed:</p>
+<br/><p align="center">
+<img src="pics/vediFilePopup.png" width="281" height="408" /><br/>
+<em>File popup</em></p><br/>
+
+<ul><li>
+<p>Properties<br />
+(not done yet) <br />
+Each file in a project can have seperate properties, while often these won't be neccessary, this can be used to configure mechanisms to build vectrex includable files from other formats (like mod, raster pictures, samples etc...) Here again you will be able to configure pre build actions which will consist of (again) java programs.</p>
+</li><li>
+<p>set main &rarr; a shortcut thats all</p>
+</li><li>
+<p>delete - deletes a file (or a directory) <b>NO QUESTIONS ASKED!</b> Be carefull!</p>
+</li><li>
+<p>rename - a file (or in java ways - click three times on a leave...)</p>
+</li><li>
+<p>duplicate - a file (gets a "copy" appended)</p>
+</li><li>
+<p>all the othr build/convert options are not yet done<br />
+(but planned :-</p>
+</li></ul>
+
+<p><b>Java</b><br />
+Will be realized as "beanshell" scripts (basically java 1.2 which can be run as a script, you can do everything java 1.2 can do, that means access file system, do input/output etc, execute system commands etc) (don't worry, I will provide examples)</p>
+</body>
+</html>

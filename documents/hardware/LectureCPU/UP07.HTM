@@ -1,0 +1,407 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 7</H2>
+<H3>Input and Output Interfaces</H3>
+
+         There is absolutely no point in having a computer at all unless
+         there is some mechanism for entering data into the computer and
+         outputting data from it.  Obviously the most usual device is the
+         VDU with its associated keyboard.  Any source of information,
+         however, can be connected to a computer, provided a suitable
+         interface can be designed, from a simple two position switch to
+         data from a satellite or the human voice.  Similarly anything can
+         be controlled by a computer from a simple LED to the position of
+         a satellite or a robotic replacement arm or the national grid.
+         All we need is a suitable interface.
+
+<H4>What is an interface?</H4>
+
+         It is a system, usually electronic but may also contain
+         mechanical parts which match the requirements and characteristics
+         of the computer to those of the external device.  What are these
+         requirements and characteristics?
+<OL>
+<LI>Type of signals - Computers (at least Digital computers as
+               opposed   to   Analogue computers) use       digital    signals
+               throughout.  If we wish to connect an analogue device then a
+               D to A or A to D converter is needed.
+</LI>
+<LI>Electrical characteristics - The signals must correspond
+               with the logic signals used in the computer system normally
+               0v for a logic zero and 5v for a logic one.  Remember this is
+               not necessarily true.
+</LI>
+<LI>Loading - Not only must the voltages be correct but the
+               loading of an output device must be correct.  It is perfectly
+               possible for a device to require 5v to work but to take a
+               current   of hundreds of amps (Industrial  Electrolysis
+               equipment for example).
+</LI>
+<LI>Timing and Latching - The processor will normally input data
+               by taking it from the data bus.  As we have seen the timing
+               of this operation is quite critical and it certainly no good
+               for the device to put data onto the bus continually
+               otherwise   the processor would not be able to read
+               instructions from memory.  Similarly data is output by the
+               processor on the data bus in one small part of the
+               instruction cycle.  Most devices will need the data to be
+               present for rather longer.  The signal must therefore be
+               latched by the interface.
+</LI>
+<LI>Speed - Some devices require data at a precisely fixed
+               speed.  For example a disc drive has to write data onto the
+               disc at the correct speed as the disc passes under the head
+               and a sychronous communications link must supply data at
+              exactly the speed of the link.  The computer may not be able
+              to read or write data at the required speed so an interface
+              with a buffer memory would be needed.  Also as we shall see
+              when we deal with interrupts it is often not possible to
+              guarantee that a processor will respond within a fixed time
+              even if it can maintain the average speed required.
+</LI>
+<LI>Flagging - Some deviced generate data continuously (e.g.
+              switches) but others generate data for a short time which is
+              sometimes not even regular (A to D converter).  It is the job
+              of the interface to tell the processor when data is
+              available by means of flags.
+</LI>
+</OL>
+<P>
+An example is given below of an interface using simple latches; normally we
+will not construct ad-hoc interfaces, but use a purpose-built interface chip
+such as a peripheral interface adapter (PIA or VIA) for parallel data.
+One such device, a VIA, is described at the end of these notes and again in
+the following lecture notes.
+
+<H4>Simple example</H4>
+
+         Suppose we wish to connect a single switch to a computer so that
+         its value (on or off) can be read at will.    Obviously we can't
+         just connect one side of the switch onto one line of the data bus
+         and the other to 0v.  If we did then when the switch is closed a
+         continuous logic 0 would be put on the line and the processor
+         would not work and when it is open then the processor  works but
+         any attempt to read the value on the switch results in a floating
+         data bus line which might be one and might be zero.
+<P>
+         We have two problems logic signals and timing.  The logic problem
+         is easily overcome by adding a resistor to +5v.  When the switch
+         is open the reistor pulls the output to logic 1 when closed the
+         output is forced to logic 0.
+<P>
+         The timing problem requires a little more thought.  First we need
+         an output which can be switched on and off - this means a 
+	 tri-state logic gate or buffer.  Then we need to determine when the
+         data should be put on the bus.  Presumably we want the switch to
+         be at some memory location not used by other memory.  Suppose we
+         are not using the range $8000 to $BFFF (we might have RAM below
+         $8000 and ROM from $C000 upwards).  We could therefore choose one
+         of these free locations $8010 for example.  This means we want our
+         interface to respond with the switch data when
+<OL>
+<LI>The correct address ($8010) is on the address bus.
+</LI>
+<LI>The processor is executing a read cycle (The programmer may
+              make a mistake and try to write to this address - we don't
+              want the interface and processor to output data at the same
+              time).
+</LI>
+<LI>The E (Enable) signal is high to ensure correct timing.
+</LI>
+</OL>
+To do this we need to AND all these events together.
+<P><CENTER>
+<IMG SRC="up07a.gif">
+</CENTER>
+<P>
+
+        and feed the output of this 18 input AND gate into the enable on
+        a tri-state buffer.
+        This would actually work if you can find an 18 input AND gate.
+        Unfortunately most ICs of AND gates only have 14 pins and since
+        we need 2 for power and 1 for an output we only have 11 left for
+        inputs.
+<P>
+        There are two solutions to this problem which are usually used in
+        conjunction with each other.
+<P>
+        1.    Incomplete   decoding.    The   process of     selecting    the
+              appropriate address is known as address decoding and what we
+              have done here is to completely decode the address.  I.e. if
+              any other address appears on the address bus then the
+              interface doesn't respond.  But if we look at our system the
+              entire range of addresses from $8000 to $CFFF is unused so
+              we could in theory allow the switch' interface to respond
+              to any or in fact all of these addresses.  All we have to do
+              is to make sure that it doesn't respond to addresses outside
+              that range.  If we look at how the address space is divided
+              up we see that it is controlled by A15 and A14.
+<P><CENTER>
+<TABLE BORDER=1 WIDTH=500 BGCOLOR=#c0ffc0>
+<TR ALIGN=CENTER><TD>A15	<TD>A14	<TD>Address range	<TD>Devices addressed
+<TR ALIGN=CENTER><TD>0	<TD>0	<TD>$0000 - $3FFF	<TD>RAM
+<TR ALIGN=CENTER><TD>0	<TD>1	<TD>$4000 - $7FFF	<TD>RAM
+<TR ALIGN=CENTER><TD>1	<TD>0	<TD>$8000 - $BFFF	<TD>Interface
+<TR ALIGN=CENTER><TD>1	<TD>1	<TD>$C000 - $FFFF	<TD>ROM
+</TABLE>
+<P></CENTER>
+              All we have to do, therefore   is to detect when A15 is 1 AND
+              A14 is zero.  The inputs to our AND gate are now only four.
+
+<P><CENTER>
+<IMG SRC="up07b.gif">
+</CENTER><P>
+              The penalty we have paid for this simplification is that
+              every address in the range now addresses our switch.  This is
+              not a problem but it does mean we have no address space left
+              for any other interface and we are going to need at least
+              one output interface for the system to perform any useful
+              task at all.
+<P>
+              The solution is to add a few more address inputs to our AND
+              gate but not to decode all of them.  For example we might add
+              A0,A1 and A4 so that the interface responds to $8010 as
+              originally intended.
+
+<P><CENTER>
+<IMG SRC="up07c.gif">
+</CENTER><P>
+
+              It will also respond to $8030 and to $8050 and $8014 and
+              many others but it will not respond to $8011 nor $8012 nor
+              $8013 nor $8000 so we have created plenty of room for other
+              interfaces.
+<P>
+         2.   Address Paging - The other approach, which as I have already
+              said is often used in conjunction with incomplete decoding
+              is address paging.  Here the decoding is done in stages.  We
+              might, for example, first create four pages of $4000
+              locations by decoding A15 and A14
+<P><CENTER>
+<IMG SRC="up07d.gif">
+</CENTER><P>
+ 
+              We might then break down each of these large pages into
+              smaller pages of $1000 locations
+<P><CENTER>
+<IMG SRC="up07e.gif">
+</CENTER><P>
+           Each of these sub-pages could be broken down into smaller
+             pages and so on until we end up with individual locations.
+             The snag with this approach if taken to extremes is that we
+             have a large number of decoders in series and therefore more
+             time will be required for address changes to propagate
+             through.
+<P>
+        In practice we use a combination and in this particular example
+        we might take Interface Enable with addresses A4, A1 and A0 and
+        of course R into a 5 input AND gate which is a fairly normal
+        size.
+<P><CENTER>
+<IMG SRC="up07f.gif">
+</CENTER><P>
+         We have looked at a very simple example of an input interface and
+         seen how in this case we can solve the problems of timing and
+         electrical compatibility.  Obviously it we wish to extend the
+         interface so that up to eight switches are used then we simply
+         add more tri-state buffers and use the remaining data bus lines.
+
+<H3>A simple output interface</H3>
+
+         If we wish to output data on a set of lights or LEDs we have
+         similar problems of timing and compatibility but also the
+         additional problem of latching the data.  The processor will only
+         put the data on the data bus for a small part of one cycle, say
+         400 microsecs.  If we actually want to see the data it needs to be
+         present for rather longer, say seconds.  In other words the
+         interface needs to store the data and output it continuously to
+         the displays.  For this we will need a register of some sort which
+         we can load from the data bus at the correct instant.  To follow
+         on from our previous example we might want this device to be at
+         memory location $8011.  We can generate a suitable'timing signal
+         by ANDing Interface Enable with A4, A1 and A0.  Since we only want
+         the device to respond when data is being output by the processor
+         we will have to use the inverse of the R/W signal.
+          The timing signal now loads data into the register where it
+          remains until new data is written, and of course it appears on
+          the output lines.  The register will only have a normal TTL drive
+          capability and so, depending on the size of the LEDs or lamps we
+          will need additional buffers or drivers to supply the current.
+          These might be simple transistor circuits as shown above or, for
+          mains driven lights, thyristor controllers.
+
+<H3>General purpose interfaces</H3>
+
+          The problem of designing interfaces is one    which faces every
+          computer   system designer and frequently     the problems     are
+          identical and fall into general categories.   The interfaces we
+          have looked at are parallel interfaces, that  is, the data to be
+          input or output is continously available on a number of parallel
+          connections.  Such an interface can drive lamps and switches but
+          can also drive more complex devices such as a printer, grahics
+          input device, analogue devices via D to A or A to D convertors,
+          stepper motors, pressure transducers, valve actuators, 7-segment
+          displays etc.  These are all devices which can be positioned near
+          the computer and so the existence of many connections is not a
+          serious problem.  If a device is to be located at a distance then
+          serial data is preferable as the cost of wiring is much reduced.
+
+<H3>Parallel Interface</H3>
+
+          The obvious answer when many applications require a similar
+          solution is to design an integrated circuit to perfom the task.
+          The costs involved in designing such a crcuit are of course very
+          high and so it should be as versatile as possible so that the
+          potential market is large and the returns on the design
+          investment as great as possible.  When you come to look at the
+          problem you find that all applications are different requiring
+          different numbers of inputs and outputs, some using 8 bit data,
+          some 12 and some 16-bit.  An almost universal approach has been to
+          provide two 8-bit parallel interfaces on a single IC.
+<P>
+          The PIA (Peripheral Interface Adapter) from Motorola and the VIA
+          (Versatile Interface Adapter) from Rockwell are typical  and
+          popular examples sharing many common features. Each has these two
+          8-bit parallel interfaces which occupy consecutive locations in
+          memory so that they can if necessary be used in conjunction to
+          provide up to sixteen bits. (Thus a LDD instruction loads the
+          data from both interfaces into D = A:B). Additionally each of  the
+          16 interface connections can be programmed to be either an input
+          or an output connection thus catering for control applications
+          where each line performs a different function (controlling an
+          open or shut valve or detecting the presence or absence of a
+          component on a conveyor belt).  This programming is performed as
+          we have already seen using two further registers in            the
+          interface.  In the case of the VIA these are organised as
+          follows:-
+<P><CENTER>
+<TABLE BORDER WIDTH=40% BGCOLOR=#c0ffc0 CELLPADDING=2>
+<TR><TD>Address n	<TD>Interface Register B
+<TR><TD>n+1	<TD>Interface Register A
+<TR><TD>n+2	<TD>Data Direction Register B
+<TR><TD>n+3	<TD>Data Direction Register A
+</TABLE></CENTER><P>
+
+          Each bit of the Data Direction register controls the direction of
+          one of the interface connections.  Thus DDRA0 controls the
+          direction of data on line PRA0 and DDRA2 on PRA2 etc.
+<P>
+          The address at which the whole interface appears is determined by
+          address decoding as before and also by two Chip Select inputs CS1
+          and CS2.  The first is active high and the second active low which
+          means that "10" on these is required to enable the chip.  The
+          advantage of this is that by suitably juggling the address
+          connections to these pins it may be possible in small systems to
+          avoid any additional address decoding.  For example connecting A15
+          to CS1 and A14 to CS2 puts the interface at memory location $8000
+          (but note that the decoding is incomplete, which means that the
+          interface will also appear at many other addresses.
+
+<P><CENTER>
+<TABLE BORDER WIDTH=600 BGCOLOR=#c0ffc0 CELLPADDING=2>
+<TR ALIGN=CENTER><TD>A15 <TD>A14 <TD>A13 <TD>A12 <TD>A11 <TD>A10 <TD>A9  
+<TD>A8  <TD>A7  <TD>A6  <TD>A5  <TD>A4  <TD>A3  <TD>A2  <TD>A1  <TD>A0 <TD>Register Selected
+<TR ALIGN=CENTER><TD>1 <TD>0 <TD>x <TD>x <TD>x <TD>x <TD>x <TD>x <TD>x 
+<TD>x <TD>x <TD>x <TD>0 <TD>0 <TD>0 <TD>0 <TD>R0
+<TR ALIGN=CENTER><TD>1 <TD>0 <TD>x <TD>x <TD>x <TD>x <TD>x <TD>x <TD>x 
+<TD>x <TD>x <TD>x <TD>0 <TD>0 <TD>0 <TD>1 <TD>R1
+<TR ALIGN=CENTER><TD>1 <TD>0 <TD>x <TD>x <TD>x <TD>x <TD>x <TD>x <TD>x 
+<TD>x <TD>x <TD>x <TD>0 <TD>0 <TD>1 <TD>0 <TD>R2
+
+<TR ALIGN=CENTER><TD>1 <TD>0 <TD>x <TD>x <TD>x <TD>x <TD>x <TD>x <TD>x 
+<TD>x <TD>x <TD>x <TD>. <TD>. <TD>. <TD>. <TD>...
+
+<TR ALIGN=CENTER><TD>1 <TD>0 <TD>x <TD>x <TD>x <TD>x <TD>x <TD>x <TD>x 
+<TD>x <TD>x <TD>x <TD>1 <TD>1 <TD>1 <TD>1 <TD>R15
+
+<TR ALIGN=CENTER><TD>CS1 <TD>CS2 <TD>&nbsp <TD>&nbsp <TD>&nbsp <TD>&nbsp 
+<TD>&nbsp <TD>&nbsp <TD>&nbsp <TD>&nbsp <TD>&nbsp <TD>&nbsp 
+<TD>RS3 <TD>RS2 <TD>RS1 <TD>RS0 <TD>Connections to Address Bus
+</TABLE></CENTER><P>
+
+          The versatility of these devices does not end there.  If a
+          sequence of data is to be transfered to or from an external
+          device then some sort of handshake mechanism is required to
+          ensure that data is received correctly.  For example if a page of
+          text is to be sent to a printer then the processor is capable of
+          sending a new data byte every few instructions by stepping
+          through memory using the index register.  Thus a new byte can be
+          sent every 10 microsecs.  A printer can typically print at 100
+          characters per sec or one character every 10 millisecs.  Thus
+          there is a difference in speed of 1000 or if the processor is
+          sending data continuously then 1 character in 1000 will be
+          printed correctly.  To overcome this we use two handshaking
+          signals which have a variety of names the most common of which
+          are 'Data Available' and 'Data Accepted'.
+<PRE>
+          Data Available      This signal is used to indicate that a new
+                              data byte is available on the interface lines
+                              which requires printing.
+
+          Data Accepted       This indicates to the processor that the
+                              printer has printed the current data byte (or
+                              at least read the byte into a buffer ready
+                              for printing) and is ready for the next one.
+</PRE>
+          The sequence of signals is as follows:-
+<br>
+          1.   The processor sets up the first data byte on the interface
+               lines.
+<br>
+          2.  The processor asserts Data Available.
+<br>
+          3.   The printer reads the data byte.
+<br>
+          4.   The printer asserts Data Accepted.
+<br>
+          5.   The processor removes Data Available.
+<br>
+          6.   The printer removes Data Accepted.
+<br>
+          7.   The process repeats with the next data byte.
+<P>
+          The  handshaking ensures that the processor does not change the
+          data byte before the printer has read it and that the printer
+          does not read data which is incorrect.  Although there are many
+          variations on this it can always be carried out using two
+          signals, one from the sending to the receiving device and the
+          other going in the opposite direction.
+<P>
+          To enable handshaking to take place the VIA (or PIA) has two
+          Control Signals for each of the two interfaces - these are
+          labelled CAI and CA2 for A interface and CB1 and CB2 for B
+          interface.  CA1 and CB1 can only be used as inputs but CA2 and CB2
+          can be used as outputs (for handshaking) or as inputs (for
+          applications not requiring handshaking).
+<P>
+          The operation of the control lines is controlled by a further
+          register in the interface - the Peripheral Control Register,
+          which resides in memory location n + C.
+<PRE>
+                     Address n + C     Peripheral Control Register
+</PRE>
+          The processor is not normally concerned with the actual logic
+          level on the input control line.  What it needs to know is when a
+          transition has occurred on the line which then initiates some
+          action (outputting the next data byte for example).  The interface
+          therefore detects transistions and when such a transition occurs
+          a flag is set which the processor can detect.   In some
+          applications the transition being looked for is the 1 -> 0
+          transition and in some the 0 -> 1. Sometimes both may be
+          important, The control register has a bit which determines which
+          transition is detected.  Another bit does the same thing for CA2
+          (CB2) when it is used as an input.  Obviously there must also be a
+          bit which determines whether CA2 (CB2) is used as an input or
+          output and when programmed as an output another bit must
+          determine what value that output takes up.
+
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up08.htm">Next</A> |</CENTER>
+
+
+</BODY>
+</HTML>

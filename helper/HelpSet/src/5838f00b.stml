@@ -1,0 +1,151 @@
+:title VIA Versatile Interface Adapter  6522A MOS Technology
+Sometimes people also say PIA (Periphal Interface Adapter, but that name usuall goes to another chip 6520), although since VIA is more "versatile" it includes all stuff PIA can do - and more!
+
+VIA is accessed from Vectrex programs using 16 registers which are mapped to the memory location ranging from: ~~
+$d000 to $d00f~~
+That mapping is shadowed 128 times in the following regions, that means VIA registers are mapped from $d000 to $d800.
+
+For general 6522 description see elsewhere, here I will only collect vectrex relevant stuff.
+
+:h2 Registers
+
+:h3 Register $0 VIA Port B Input/Output
+
+:h4 Bit 0 MUX Enable
+This bit is responsible for enabling the multiplexer which selects where the Sample/Hold values the DAC at this time "produces" are switched to.
+
+if set to 0 the multiplexer is ENABLED 
+if set to 1 the multiplexer is DISABLED 
+
+:h4 Bit 1 and bit 2 Mux Select
+These two bits are used together to build a 2 bit value. This two bit value ranges from 0 to 3. According to the resulting number, the multiplexer switches the output of the DAC to the respective recieving hardware:~~
+0 (binary: 00) Integrator for vector y-position~~
+1 (binary: 01) X, Y integrator offset values~~
+2 (binary: 10) Z-value of vector hardware (brightness)~~
+3 (binary: 11) audio hardware~~
+
+:h4 Bit 3 sound BC1
+:h4 Bit 4 sound BDIR
+:h4 Bit 5 comparator input
+Joystick...
+:h4 Bit 6 external device (slot pin 35) initialized to input
+Communication wiht cartridge, -> Bankswitching, RAM etc
+:h4 Bit 7 /RAMP
+
+:h3 Register $01 VIA Port A Input/Output
+For vectrex purposes via port A is simple the digital register that serves as input to the Digital to Analoge Converter (DAC).
+
+:h3 Register $02 DDRB (Data Direction Register port B)
+Port B can be used as an output register (referred to as ORB) or as an input register (referred to as IRB). The configuration for input and output can be set for each bit of the port. Usually all bits except bit 5 and 6 are configured as output. Bit 5 and 6 are configured as input.
+
+Bit 6 is connected to the "external line" of the cartridge interface of the vectrex. Because of this bit 6 can be used to "communicate" with hardware "inside" cartridges. 
+
+Many multicards and other hardware use bit 6 for this purpose (see bankswitching). 
+
+The "tricky" thing with vectrex is, if PB6 is configured as input, bit 6 goes automatically high. If set to output it goes to low automatically.
+Even if in output mode and a "ONE" is written to pb6, it only goes high for a short period of time and than switches back to low automatically. 
+ 
+
+
+:h3 Register $b VIA Auxiliary control register
+With the auxilary control register the behaviors of the timers and the shift register can be configured (also latching for ORA and ORB, but I am not aware that this makes any since for vectrex).
+
+SHIFT Mode is contolled by bit 2-4 with these 3 bits 8 SHIFT mode can be configured~~
+The first mode is DISABLE.
+The next 3 modes are SHIFT IN modes, which is not used by vectrex.
+
+The other four modes:
+- 100 SHIFT out free running at T2 rate
+- 101 SHIFT out under control of T2
+- 110 SHIFT out under control of system clock
+- 111 SHIFT out under control of ext clock
+
+Usually shift mode is allways set to 110 - shift out under control of system clock.
+
+Timer 1 modes (bit 7 and bit 6):
+- bit 7: 1x if set, on timer start ORB bit 7 goes LOW (RAMP = active), on timer stop, ORB bit 7 goes high (RAMP = not active)
+- 10 One shot mode (timer runs till zero than stops)
+- 11 continues mode (timer runs till zero than "reloads" latch and starts anew)
+- 01  & 00 same as above without ORB bit 7
+
+On normal vector draw bit 7 is usually set.~~
+On normal "raster" draw bit 7 is often not set.~~
+
+
+So you may see:
+- $18: T1 OneSHotMode WITHOUT Ramp control, Shift out under System clock
+- $98: T1 OneSHotMode WITH Ramp control, Shift out under System clock
+
+
+
+:h3 Register $c VIA control register
+VIA Control register "controls" the Control lines of via.
+Control lines are:~~
+CA1~~
+CA2~~
+CB1~~
+CB2~~
+
+All control lines act as interrupt inputs or as handshake Outputs.
+
+For vectrex anlog parts (and for now) only the lines CA2 (ZERO) and CB2 (BLANK) are interesting.
+
+CA2 - ZERO~~
+Responsible bits are bit 1-3: 
+- 110 = LOW output (translated to vectrex analog - ZERO is enabled)
+- 111 = HIGH output (translated to vectrex analog - ZERO is diaabled)
+
+
+CB2 - BLANK~~
+Responsible bits are bit 5-7: 
+- 110 = LOW output (translated to vectrex analog - BLANK is enabled)
+- 111 = HIGH output (translated to vectrex analog - BLANK is diaabled)
+Although blank is "usually" controlled by the shift register (output)!
+
+Together in vectrex terms:~~
+(assuming bit 0 and 5 (interrupt controls for CA1 and CB1) are zero)
+- %110x110x = $cc means ZERO enabled, and BLANK enabled
+- %111x110x = $ec means ZERO enabled, and BLANK disabled
+- %111x111x = $ee means ZERO disabled, and BLANK disabled
+- %110x111x = $ce means ZERO disabled, and BLANK enabled
+
+:h2 Timers
+VIA has two timers, both are "used" by the vectrex. 
+How these timer exactly operate -> see Manual of VIA.
+
+Timer operations are controlled by the AUXILIARY Control register ($b). The timer relevant bits are:~~
+- Timer 1: bit 6-7
+- Timer 2: bit 5
+
+The "usual" setting for the timers is:
+- Timer 1: 10 (One Shot Mode, Timed interrupt each time T1 is loaded)
+- Timer 2:  0 (Timed interrupt)
+
+:h3 Timer 1
+Timer 1 is usally used to move the beam across the vectrex screen. Both for just "moving" and "drawing" (only difference is, whether the light of the beam is switched on or off).
+
+For this the timer 1 is configured to the so called "one Shot Mode"
+("timing stops after the coundown finished).
+~~Note:~~
+Timer starts when something is written to the high byte. So you usually see something like "clr t1h", when timing starts.
+
+Using Timer 1 in one shot mode has one neat effect, the 7 bit of VIA ORB is "automatically" set to LOW when the timer starts (clr t1h), and "automatically" set to "HIGH" when the timer is finished. Bit 7 of ORB is the analog equivalent to RAMP. Setting PB7 to low means enabling RAMP, and setting it to high means disabling RAMP.
+
+Using Timer 1 in combination with its ability to directly "control" the analog integrators makes it just about "perfect" to draw vectors for vectrex!
+
+In vectrex Timer 1 (low value) is usually reffered to as "the scale" of a vector.
+ 
+
+
+
+:h3 Timer 2
+Is used to track "system" time, and wait for 50Hz to be reached and than to do a recalibration (30.000 cycles). This value can be set to vectrex ram: 
+
+
+
+
+
+
+
+
+

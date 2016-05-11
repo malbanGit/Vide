@@ -1,0 +1,83 @@
+:title FAQ veccy
+
+:h2 How can I "draw" vectors?
+You can draw vectors only if veccy is set to mode: "Set"
+than you can use the mouse buttons:
+- (left)click, drag and release and you have drawn a vector
+- or (in the top you always see displayed the current "start" position) if you (right) click, a vector is drawn from
+  that start position to the current position (in non continuous mode these vectors are NOT joined)
+- in "continuous" mode right click is the same as left click
+
+:h2 How can I delete vectors?
+You can delete vectors only if veccy is set to mode: "Select vector"
+Than you can:
+- select one or more vectors, use the right mousebutton to access the popup and chose the delete option you want
+- you can also use the button "cut" (on the vectorlist tab), the "deleted" vectors are than also put into the internal buffer 
+
+:h2 What does the lilac color of vectors indicate? 
+These vectors are "totally" relative, meaning both start and end are shared between this vector and its "neighbours".
+
+:h2 I want to change one "frame" of an animation, but it seems I always work on a copy!
+Yes, that is true.
+If you click on a animation frame, the editor is always filled with a copy of that frame. There is no direct editing.
+However, you can edit to your hearts content, when finished use the "apply" button (in the animation section), the
+edited vector list than replaces the current selected animation frame.
+
+:h2 What is the "add view" button useful for?
+At first it looks like it is just the same as the "add current" button.
+The difference is, that it does not add the current vectorlist of the editor, but rather the "displayed" vectorlist in the little
+panel below that. If that panel is not in play mode, it displays the currently edited vectorlist.
+The "trick" is, that the displayed vectorlist can be viewed from different angles.~~
+Switch to the tab "3d axis settings", here you can change the 3d display settings the "viewport" perspective if you might want to call it.~~
+You will notice as you either change the object angle or the coordinate system axis, that the displayed vectorlist changes its display.
+Using the "add view" button, you add the currently shown viewport "version" of the edited vectorlist to the animation.
+This might be usefull if you do not want to create a rotation animation with all angles, but rather would like to add specific viewport versions of your vectorlist.~~ ~~
+Note:~~
+The display panel always uses the given 3d settings. If you just added a view to your animation the new "view" to that vectorlist instantly changes, since the 3d settings are applied to the new vectorlist (the settings are thus applied TWICE in relation to the original vectorlist). To view the "correct" list, you must reset the 3d settings!
+
+:h2 If I rotate a vectorlist, it is not as smooth as I want it, why?
+The "smoothness" depends in general on two factors:
+a) the count of steps you specified between your start angle and your end angle.
+If you specified (for example) only 10 steps for a 360degree rotation, that means each frame will differ with 36 degrees, which IS rather "unsmooth" - just chose to use more steps
+b) all vector coordinates are integers, if your vectors are rather short (like each coordinate below 20) than the resulting rotation vectors tend to "jump" from one integer point to the next upon one step, which is also rather "unsmooth".
+In that case you should use a larger scale to draw your vectors, the resulting rotation will be much smoother, since it results in a better differentiation of coordinates.
+
+Note:~~
+Beware! That "sensible" coordinates range from -128 to +127!
+
+:h2 It seems you only allow anti clockwise rotation, darn!
+Well, just you hit the "reverse" button of your animation and have it your way!
+
+:h2 Reverse is a nice feature for the animation list, but what if I want to reorder the animation manually?
+There are the two "arrow" buttons.
+Just "clicking" them changes the selection, but SHIFT clicking on them moves the selected animation frame in the animation list! 
+
+:h2 Can I somehow "grab" vectors from other games/cartridges?
+Well - apart from disassembling and using dissi features there are actually two other things you might try:
+- vector - screenshort~~
+In dissi you can take a screenshort in form of a (very big) vectorlist. These vectorlists can be loaded in veccy. There you can select/edit/delete/save the vectors you are interested in.
+~~Note:~~
+You should set the emulation to "pure emulation", since things as drift or others will offset the vectors and the resulting grabbed lists will not be "nice fitting"~~ ~~
+- scan for vectorlists~~
+in the configuration under "editor" you can enable "scan for vectorlists". This option tells vecxy to actually "watch" known BIOS draw routines for vectorlists. If vecxy thinks it has found a vectorlists it saves it (using the cartridge name as a filename).~~
+Note:~~
+This obviously only works if the program you want to "grab" from uses BIOS routines! 
+
+:h2 I can't export my vectorlist, what have I done wrong? What can I do?
+In general free drawn vectorlists are not immediately exportable, since vectrex allways wishes to have continuous vectorlists.
+There are several ways to get going:
+1) draw in continuous mode, that way you are insured to have a drawing in "one go"
+2) this is not always possible, I realize that, appart from doing continuous drawing by hand, veccy is strong at supporting you to do that later!
++ pressing the 3 shortcuts: ~~
+** "connect where possible"~~
+"order vectorlist"~~
+"split where needed"~~**
+in general only does good things, you should use them often!
++ if that was not enough you obviously do not have continuous vectors, than you must insert them. You can do so manually (be sure to also "join" them) or automated, the later is done by using the shortcut **"fill gaps"**. Usually you want gaps filled with "moves" (invisible vectors), this is what the default does. If you however want to use the "Draw_VLx" routines, than moves inherent in a vectorlists are not allowed. Than you can TRY checking the "line" checkbox nearby. This inserts "lines" instead of "moves", but that will probably look bad and you have to go back to the drawing board!
+
+:h2 I don't get it, what are scenarios good for?
+
+:h2 Why can't I chose what export I want, why are some grayed out?
+
+:h2 What is it with "User" export/import?
+

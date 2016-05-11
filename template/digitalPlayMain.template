@@ -1,0 +1,90 @@
+;***************************************************************************
+; DEFINE SECTION
+;***************************************************************************
+; load vectrex bios routine definitions
+                    INCLUDE  "VECTREX.I"                  ; vectrex function includes
+SAMPLE_RATE         =        #SAMPLE_RATE# 
+;***************************************************************************
+; Variable / RAM SECTION
+;***************************************************************************
+; insert your variables (RAM usage) in the BSS section
+; user RAM starts at $c880 
+                    BSS      
+                    ORG      $c880                        ; start of our ram space 
+;***************************************************************************
+; HEADER SECTION
+;***************************************************************************
+; The cartridge ROM starts at address 0
+                    CODE     
+                    ORG      0 
+; the first few bytes are mandatory, otherwise the BIOS will not load
+; the ROM file, and will start MineStorm instead
+                    DB       "g GCE 1998", $80 ; 'g' is copyright sign
+                    DW       music1                       ; music from the rom 
+                    DB       $F8, $50, $20, -$80          ; hight, width, rel y, rel x (from 0,0) 
+                    DB       "DIGITAL (EX-)SAMPLE", $80              ; some game information, ending with $80
+                    DB       0                            ; end of game header 
+;***************************************************************************
+; CODE SECTION
+;***************************************************************************
+; here the cartridge program starts off
+start: 
+                    LDD      ##SAMPLE_START#       ; position of sample 
+                    LDX      #SAMPLE_LENGTH#            ; length of sample 
+                    JSR      init_digit_sound             ; init it! 
+                    lda      #1 
+                    sta      digit_looping 
+                    lda      #-5
+                    sta      Vec_Text_Height
+main: 
+                    nop ; tracki end
+                    nop ; tracki start
+                                                          ; first allways is a wait_recal, as usual 
+                    JSR      wait_recal_digitj            ; same as makro: WAIT_RECAL_DIGIT 
+                                                          ; set some intensity for our to be displayed vectors 
+                    LDA      #$7f                         ; seems about bright enough 
+                    JSR      intensity_a_digitj           ; and set the intensity 
+                                                          ; same as makro: INTENSITY_A_DIGIT 
+                    LDA      #-$2b                        ; load y 
+                    LDB      #-$50                        ; load x 
+                    JSR      move_to_d_digitj             ; and move there... 
+                                                          ; same as makro: MOVE_TO_D_DIGIT 
+                    LDX      #frogger_left                ; load right vector list 
+                    JSR      draw_vlc_digitj              ; and draw it 
+
+                    LDA      #$50                         ; load y 
+                    LDB      #-$50                        ; load x 
+                    JSR      move_to_d_digitj             ; and move there... 
+                    ldd      #text 
+                    jsr      Print_Str_digit 
+                    BRA      main                         ; and repeat forever 
+
+;***************************************************************************
+; DATA SECTION
+;***************************************************************************
+text: 
+                    DB       "DIGITAL",$80
+
+                    include  "digitalPlayer.i"
+                    include  "#SAMPLE_FILE#"
+SPRITE_BLOW_UP      EQU      25                           ; thru this sprites get a possible max of 5 * 25 = 125 (pretty near 127...) 
+frogger_left: 
+                    DB       17 
+                    DB       -1*SPRITE_BLOW_UP, 0*SPRITE_BLOW_UP 
+                    DB       0*SPRITE_BLOW_UP, 3*SPRITE_BLOW_UP 
+                    DB       -1*SPRITE_BLOW_UP, 1*SPRITE_BLOW_UP 
+                    DB       -4*SPRITE_BLOW_UP, 0*SPRITE_BLOW_UP 
+                    DB       -1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP 
+                    DB       0*SPRITE_BLOW_UP, 2*SPRITE_BLOW_UP 
+                    DB       4*SPRITE_BLOW_UP, 0*SPRITE_BLOW_UP 
+                    DB       -3*SPRITE_BLOW_UP, 3*SPRITE_BLOW_UP 
+                    DB       -1*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP 
+                    DB       0*SPRITE_BLOW_UP, 4*SPRITE_BLOW_UP 
+                    DB       1*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP 
+                    DB       1*SPRITE_BLOW_UP, 1*SPRITE_BLOW_UP 
+                    DB       2*SPRITE_BLOW_UP, 0*SPRITE_BLOW_UP 
+                    DB       2*SPRITE_BLOW_UP, -1*SPRITE_BLOW_UP 
+                    DB       1*SPRITE_BLOW_UP, -3*SPRITE_BLOW_UP 
+                    DB       2*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP 
+                    DB       0*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP 
+                    DB       -2*SPRITE_BLOW_UP, -2*SPRITE_BLOW_UP 
