@@ -18,7 +18,7 @@ For one reason or another, the tooltips can not be displayed on modal windows in
 For recording you can also chose in what "setting" you want to record, above the microphone you can see whether your selection of settings is accepted: 
 + ##help.png## = unkown
 + ##accept.png## = ok
-+ ##cancel.png## = noz ok
++ ##cancel.png## = not ok
 - ##control_play_blue.png##~~play a loaded or recorded sample
 - ##control_stop_blue.png##~~stop recording, or stop playing a sample
 - ##cut.png##~~cut the selected area in from the sample (no undo)

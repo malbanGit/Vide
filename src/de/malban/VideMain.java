@@ -8,9 +8,6 @@ package de.malban;
 import de.malban.event.EventSupport;
 import de.malban.gui.CSAMainFrame;
 import de.malban.sound.tinysound.TinySound;
-import de.malban.util.extractor.Extractor;
-import de.malban.vide.dissy.GenFlexData;
-import de.malban.vide.vedi.sound.Mod2Vectrex;
 import java.awt.Toolkit;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -29,10 +26,6 @@ public class VideMain {
         
         
         
-//       de.malban.util.UtilityFiles.copyDirectoryAllFiles(".\\dist", ".\\tmp", true);
-       
-//        Extractor.extractPhonemesFiles("phonems");
-  
         Toolkit.getDefaultToolkit().setDynamicLayout(true);
         System.setProperty("sun.awt.noerasebackground", "true");
         JFrame.setDefaultLookAndFeelDecorated(true);

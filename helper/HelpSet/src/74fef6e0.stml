@@ -69,7 +69,7 @@ Below that you see four checkboxes which are per default all set to enabled. Eac
 
 :h3 ADSR/TWANG
 :image adsr.png|ADSR
-The last possible settings are the ADSR (**A**ttack, **D**ecay, **S**ustain, **R**elease) and TWANG (Vibrato) tables. 
+The last possible settings are the ADSR (**A**ttack, **D**ecay, **S**ustain, **R**elease) and TWANG (Vibrato) table. 
 Although I have as yet not found an in depth explaination of how these are best configured... you CAN enable different instrument settings with these. The values displayed are a shameless copy of the lineart demo, but you can surely experiment with them!
 
 ~~Note:~~

@@ -3,7 +3,7 @@ So much has changed...
 
 I leave the old "document" as it is, since it describes some of the history - and other parts are still relevant and I don't need to repeat/update that.
 
-Under this section I'll put all stuff that come in addition to everything said in "YM-Conversion I". 
+Under this section I'll put all stuff that comes in addition to everything said in "YM-Conversion I". 
 
 Obviously, now when YM-files are selected for conversion a new panel pops up. Here I will describe what you can do with that!
 
@@ -29,7 +29,8 @@ To the top of the table you see different "Editors" for volume, noise, notes etc
 Note:~~
 With these controls you edit the YM-Data, not the PSG registers!
 
-Below each control you can see (sometimes colored) textfields. The textfields show you the same data as the above controls. You can also edit the values in numerical form via these textfields.
+Below each control you can see (sometimes colored) textfields. The textfields show you the same data as the above controls. You can also edit the values in numerical form via these textfields.~~
+
 
 Note:~~
 A double click on a textfield sends the data to the PSG-emulator of the YM-Panel!

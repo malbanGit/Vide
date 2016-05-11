@@ -46,13 +46,13 @@ The number of bits that are used to build the code for the data. This means if h
 + 101
 + 110
 + 111
-1). If the highest bit is set (the byte start with a '$8') than the decoded data which will be used is a "phrase" not a simple byte!
+1). If the highest bit is set (the byte starts with a '$8') than the decoded data which will be used is a "phrase" not a simple byte!
 2) code~~
-The code used in the Shannon-Fano-Coding. Note, this does not mean, that a 10 bit code is actually ten bit long here at this byte location. This location is allways only one byte. But this bytes "number" will be coded in the number of bits given in the "bits used" data.
+The code used in the Shannon-Fano-Coding. Note, this does not mean, that a 10 bit code is actualy ten bit long here at this byte location. This location is always only one byte. But this bytes "number" will be coded in the number of bits given in the "bits used" data.
 3) real data~~
 Here the real data which is the result of the Shannon-Fano **DECODE** is listed. If the result is a phrase (see above) than the number of the phrase is given.
 
-In addition to the actual data listed, there is always a comment after each entry. The comment is always a number and list the count of entries that were found for each row.
+In addition to the actual data listed, there is always a comment after each entry. The comment is always a number and lists the count of entries that were found for each row.
 
 The length of this section is not fixed! The length is determined on how many different entries for the Shannon-Fano-Code were found. This might be only a couple of entries, but in a weird worst case scenario it might be well over 100 or even 200 entries.
 
@@ -65,7 +65,7 @@ phrase\_start\_reg\_X:~~
 ... for the number of phrases~~
 
 Note:~~
-There are no "direct" pointers to a phrase. To get to phrase x you have to read the length byte of all other phrases and add the values. This might be a point for optimization!
+There are no "direct" pointer to a phrase. To get to phrase x you have to read the length byte of all other phrases and add the values. This might be a point for optimization!
 
 :h4 data
 Now the actual data for the register follows. The above mentioned Shannon-Fano-Codes are additionaly packed using a RLE compression.~~

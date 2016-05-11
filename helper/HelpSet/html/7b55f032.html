@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511154724" />
+<meta name="date" content="20160511232928" />
 <!-- created with HelpSetMaker, ID=7b55f032 -->
 <title>FAQ emulation</title>
 </head>
@@ -99,6 +99,6 @@ you can:
 
 <p>Depending on your VIDE settings ("activate direct draw on debug"), vectors while single stepping/multistepping are REALLY drawn differently!<br />
 Explanation:<br />
-Usually vecxy emulates and "collects" vectors for a certain amount of time (one frame, depending on sync settings). All collected vectors are than drawn in one go, while in the background vector "collecting" continuous (different thread). When single stepping,  a user is probably not amused, if the vector that should be drawn NOW is drawn 30000 cycles later... so while in debug mode vectors are drawn "directly". Directly here means after one "vector" is finished (if not in "ray mode" vectors are drawn as a whole, not in "single steps"). To be able to discern the just drawn vector, it is drawn in "yellow" (not in grayscale), the yellow is only visible for one frame in which the vector was drawn! (this can be best seen if "glow" is disabled in emulation, since the glow effect is still grayscaled!)</p>
+Usually vecxi emulates and "collects" vectors for a certain amount of time (one frame, depending on sync settings). All collected vectors are than drawn in one go, while in the background vector "collecting" continuous (different thread). When single stepping,  a user is probably not amused, if the vector that should be drawn NOW is drawn 30000 cycles later... so while in debug mode vectors are drawn "directly". Directly here means after one "vector" is finished (if not in "ray mode" vectors are drawn as a whole, not in "single steps"). To be able to discern the just drawn vector, it is drawn in "yellow" (not in grayscale), the yellow is only visible for one frame in which the vector was drawn! (this can be best seen if "glow" is disabled in emulation, since the glow effect is still grayscaled!)</p>
 </body>
 </html>

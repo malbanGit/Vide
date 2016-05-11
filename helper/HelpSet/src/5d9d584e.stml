@@ -8,7 +8,7 @@ Cartridges can be configured with all kinds of properties - some emulation relev
 Most options and fields are very straight forward. ~~
 **page 1 - general **~~
 - names and checkboxes can be filled as usual
-- a "homepage" for homebrew auhors can be provided, the button starts the current system browser to that page.
+- a "homepage" for homebrew authors can be provided, the button starts the current system browser to that page.
 - overlay config is simple a png (as in MESS)
 - the binary file configuration may be somewhat involved and is splitted into two options:
 * first: ~~

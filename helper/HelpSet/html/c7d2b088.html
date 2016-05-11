@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511154724" />
+<meta name="date" content="20160511232928" />
 <!-- created with HelpSetMaker, ID=c7d2b088 -->
 <title>YM Packing used by VecSound</title>
 </head>
@@ -77,17 +77,17 @@ The number of bits that are used to build the code for the data. This means if h
 </li></ul>
 </p>
 
-<p>If the highest bit is set (the byte start with a "$8') than the decoded data which will be used is a "phrase" not a simple byte!</p>
+<p>If the highest bit is set (the byte starts with a "$8') than the decoded data which will be used is a "phrase" not a simple byte!</p>
 </li><li>
 <p>code<br />
-The code used in the Shannon-Fano-Coding. Note, this does not mean, that a 10 bit code is actually ten bit long here at this byte location. This location is allways only one byte. But this bytes "number" will be coded in the number of bits given in the "bits used" data.</p>
+The code used in the Shannon-Fano-Coding. Note, this does not mean, that a 10 bit code is actualy ten bit long here at this byte location. This location is always only one byte. But this bytes "number" will be coded in the number of bits given in the "bits used" data.</p>
 </li><li>
 <p>real data<br />
 Here the real data which is the result of the Shannon-Fano <b>DECODE</b> is listed. If the result is a phrase (see above) than the number of the phrase is given.</p>
 </li></ol>
 </p>
 
-<p>In addition to the actual data listed, there is always a comment after each entry. The comment is always a number and list the count of entries that were found for each row.</p>
+<p>In addition to the actual data listed, there is always a comment after each entry. The comment is always a number and lists the count of entries that were found for each row.</p>
 
 <p>The length of this section is not fixed! The length is determined on how many different entries for the Shannon-Fano-Code were found. This might be only a couple of entries, but in a weird worst case scenario it might be well over 100 or even 200 entries.</p>
 <h4>Phrases</h4>
@@ -102,7 +102,7 @@ phrase_start_reg_X:<br />
 </tt></p>
 
 <p>Note:<br />
-There are no "direct" pointers to a phrase. To get to phrase x you have to read the length byte of all other phrases and add the values. This might be a point for optimization!</p>
+There are no "direct" pointer to a phrase. To get to phrase x you have to read the length byte of all other phrases and add the values. This might be a point for optimization!</p>
 <h4>data</h4>
 
 <p>Now the actual data for the register follows. The above mentioned Shannon-Fano-Codes are additionaly packed using a RLE compression.<br />

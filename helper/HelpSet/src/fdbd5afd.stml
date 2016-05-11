@@ -32,7 +32,7 @@ Because I programmed it that way, you should know what you do!
 :h2 I just want to play some games, why is dissi always starting?
 Because the program is called vide and not gami!
 
-:h2 Is there a fullscreen mode, with just vecxy?
+:h2 Is there a fullscreen mode, with just vecxi?
 Nope, this is only 10 lines of code, but the program is called vide, not gami!
 
 :h2 Why don't you use OpenGL and some shaders, the results would be much prettier, look at paraJVE?
@@ -52,15 +52,16 @@ Yup, the source comes along with it.
 
 :h2 What kind of copyright/licencing does the source have?
 VIDE consists of different parts, which are programs collected from different sources.
-The old copyright still apply. I only used sources which are freely available, but that does NOT mean they are public domain.
+The old copyrights still apply. I only used sources which are freely available, but that does NOT mean they are public domain.
 With all sources I included copyright notices and license files (if available) - look at the respective places in the code.
-Code done by me (Malban) is open source und licence of GPL V2.0.
+Code done by me (Malban) is open source and licenced with GPL V2.0.
 
 :h2 The source is huge, at least compared to the "compactness" of vecx, any tips?
-I use Netbeans version 8.x. All development was done with Netbeans, so that is what I recomend as IDE.
+I use Netbeans version 8.x. All development was done with Netbeans, so that is what I recomend as IDE.~~
 Add the libraries in the "lib" (jars) folder, and you should be able to build.
-I use quite a lot of sourcecode from my other projects, for that reason there are probably many sources in the archive not really NEEDED for VIDE, nonethelss they are there.
-The "Main" program can be found under: de.malban.VideMain, this mainly just instantiates a "CSAMainFrame", which is the main desktop application, from here all events are triggered.
+I use quite a lot of sourcecode from my other projects, for that reason there are probably many sources in the archive not really NEEDED for VIDE, nonethelss they are there.~~
+
+The "Main" program can be found under: de.malban.VideMain, this mainly just instantiates a "CSAMainFrame", which is the main desktop application, from here all events are triggered.~~
 All things directly "vide"-related can be found under: de.malban.vide.*
 
 

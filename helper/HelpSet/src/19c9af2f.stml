@@ -48,7 +48,7 @@ a) move the files to a package in my code structure~~
 b) added some code to stream sound from the emulator.~~
 
 ~~::
-In the directory you find a ~~
+In the directory you find a~~
 LICENSE~~
 and a ~~
 README~~
@@ -69,7 +69,6 @@ The code changes I made are numerous, see the "assi" pages.~~
 ~~
 The original project website can be accessed under:~~
 [[http://sourceforge.net/projects/asmj]]~~
-
 
 ::
 **Code done by Sean Riddle**~~
@@ -127,8 +126,8 @@ The original blog website can be accessed under:~~
 ~~
 
 ::
-**Code by Gabe Martin Cameron**~~
----------------------------~~
+**Code by Martin Cameron**~~
+----------------------~~
 Code in the directory: de\\malban\\vedi\\sound\\ibxm ~~
 was done by: Martin Cameron~~
 ~~
@@ -191,7 +190,7 @@ Homepage: [[http://ostermiller.org/syntax/]]~~
 **Classmexer agent**~~
 ----------------~~
 Licence: use as you like, do not redistribute~~
-Author: Neil Coffey, Copyright © Javamex UK 2008~~
+Author: Neil Coffey, Copyright (c) Javamex UK 2008~~
 Homepage: [[http://www.javamex.com/classmexer/]]~~
 ~~
 ~~
@@ -202,4 +201,14 @@ Used to build the documentation:~~
 Author: Cantamen [Dirk Hillbrecht, Peter Peterburgskyy]~~
 Licence: GNU General Public License (GPL) V2.0 (or later)~~
 Homepage: [[http://www.cantamen.de/helpsetmaker.php]]~~
+::
+
+~~
+Used build vectorized images:~~
+~~
+**Potrace**~~
+-------~~
+Author: Peter Selinger~~
+Licence: Copyright (c) 2001-2015 Peter Selinger, GNU General Public License (GPL) V2.0 (or later)~~
+Homepage: [[http://potrace.sourceforge.net/]]~~
 ::

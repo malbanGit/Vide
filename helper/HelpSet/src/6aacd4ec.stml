@@ -20,16 +20,17 @@ The text you enter is processed the following way:
 - lines starting with "*" are discarded
 - (assumed) comments after a ";" are discarded
 - whitespaces and many other non-number characters are discarded
+- user defined "words" are discarded (see below the %R pattern type)
 - the resulting "words" are "cast" to integer (decimal or hex is recognized)
 - if the cast resulted in a number, the number is added to a data array
 
-After the above procedure veccy has an array of byte data, that array needs to be interpreted as a vectorlist. Here the user has to step in and help!
+After the above procedure vecci has an array of byte data, that array needs to be interpreted as a vectorlist. Here the user has to step in and help!
 
 The upper right area of the textimport tab is occupied by a combobox. Here you can select what kind of (initially only) BIOS data format the data should be interpreted with.
 
-Once you select an entry, veccy goes to work and shows you the result (in the interpretation as data "statements" and in the vector display window).
+Once you select an entry, vecci goes to work and shows you the result (in the interpretation as data "statements" and in the vector display window).
 
-Initially veccy is supplied with the most used BIOS vector list formats, but you can add your own formats! That is what the next 4 textfields can be used for.
+Initially vecci is supplied with the most used BIOS vector list formats, but you can add your own formats! That is what the next 4 textfields can be used for.
 
 :h3 Patterns
 
@@ -39,7 +40,7 @@ b) line x~~
 every line between the first and the last line, here usually the vector list is kept in earnest
 c) last line~~
 the last line can have a break criteria (or can be left empty),~~
-the break criteria allways refers to the first byte of the next "line x"
+the break criteria always refers to the first byte of the next "line x"
 
 
 For examples look at the supplied BIOS format patterns.

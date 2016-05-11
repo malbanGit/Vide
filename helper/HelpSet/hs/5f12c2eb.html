@@ -5,19 +5,23 @@
 </head>
 <body class="doc">
 <h1>vecci</h1>
+
+<p>Veccy is one of the few enties in VIDE which is not based on software of other programmers, so if you are not content with what you find here - all blame belongs to Malban alone!</p>
+
+<p>Anyway... vecci is is the part of VIDE that concerns itself with vector drawing, vector lists and other display stuff. There are many functions hidden under the complicated seeming gui. But I promise you, once you programmed vecci, you know it by heart and can do wonderfull stuff with it!</p>
 <br><p align="center">
 <img src="pics/veccy.png" width="1184" height="946"><br>
-<em>veccy window</em></p><br>
+<em>vecci window</em></p><br>
 <h2>Basic</h2>
 <h3>Colors</h3>
 
-<p>Using veccy you will notice different colorings:
+<p>Using veccy you will notice different colorings in the vector display areas:
 <ul><li>
 <p>black<br>
- the background is allways black</p>
+ the background is always black</p>
 </li><li>
 <p>darkgray<br>
-the grid (if enabled) is allways dark gray</p>
+the grid (if enabled) is always dark gray</p>
 </li><li>
 <p>different shades of gray<br>
   are vectors with different intensities</p>
@@ -25,7 +29,7 @@ the grid (if enabled) is allways dark gray</p>
 <p>blue surrounding<br>
   are selected entities</p>
 </li><li>
-<p>light purble<br>
+<p>light purple<br>
   are highlighted entities</p>
 </li><li>
 <p>purple vectors<br>
@@ -61,7 +65,7 @@ the grid (if enabled) is allways dark gray</p>
 </p>
 <h3>Entities</h3>
 
-<p>With veccy you can handle two different entities. 
+<p>With vecci you can handle two different entities. 
 <ol><li>
 <p>Vectorlists</p>
 </li><li>
@@ -89,13 +93,11 @@ the grid (if enabled) is allways dark gray</p>
 <p>Not all of these cases are implemented as exports as of now, but all of these factors can be edited and persisted by veccy.</p>
 
 <p>The main "list" of vectors is displayed in the first tab named "Vector List" on the left side of the window. </p>
-
-<p>Below that table are two buttons with which you can save the current list in veccy-format.</p>
 <h3>Animations/Scenarios</h3>
 
 <p>Animations is what I call a collection of vectorlists which have a common "interest" this might be a rotation, a movement or a "real" animation.</p>
 
-<p>An animation consists of an arbitrary number of vector list. As of now these can be saved/loaded in Veccy format. Custom routines to use animations must still be made...</p>
+<p>An animation consists of an arbitrary number of vector list. As of now these can be saved/loaded in Veccy format (and exported). Custom routines to use animations are as example provided...</p>
 
 <p><b>Note!</b><br>
 The DISPLAY panel can be switched from "vectorlist" display to "animation/scenario" display using the "play" button!</p>
@@ -167,6 +169,10 @@ Save the current selected vectors as a XML-file. <br>
 </li><li>
 <p><img src="pics/new.png" alt="new.png"> &nbsp;&nbsp;<b>new</b><br>
 Clear vectorlist.</p>
+</li><li>
+<p>expanding/shrinking<br>
+With the <img src="pics/add.png" alt="add.png"> and <img src="pics/delete.png" alt="delete.png"> buttons you can enlarge or shrink the vectorlist according to the factor given by the nearby textfield. (shrinking uses 1/value of textfield as factor)<br>
+Since the value is a FACTOR you can not expand points!</p>
 </li></ul>
 
 <p>If in the "select vector" mode (see below), you can also select vectors by selecting the rows in the table, if you want to move them, remember to press shift while draging!</p>
@@ -193,7 +199,7 @@ See extra pages for these...</p>
 <img src="pics/VeccyInfo.png" width="721" height="361"><br>
 <em>information</em></p><br>
 
-<p>On this tab you can see diverse information about the current edited vectorlist. The information you can find here give you clues in what way you can export the current list or what is right/wrong with it in its current state. The checkboxes on this page are only means to display the current status, checking/unchecking them manually does not result in any changes! Following information is provided:
+<p>On this tab you can see diverse information about the current edited vectorlist. The information you can find here gives you clues in what way you can export the current list or what is right/wrong with it in its current state. The checkboxes on this page are only means to display the current status, checking/unchecking them manually does not result in any changes! Following information is provided:
 <ul><li>
 <p>all vectors same intensity<br>
  only information, no relevance otherwise</p>
@@ -212,9 +218,6 @@ are all vectors (except start and end) connected? (determined by different metho
 </li><li>
 <p>vectors continuous<br>
 are all vectors (except start and end) connected? (determined by different method -&gt; relative)</p>
-</li><li>
-<p>vectors continuous<br>
-are all vectors (except start and end) connected? (determined by different method)</p>
 </li><li>
 <p>closed polygon<br>
  same as the last two, but including start/end vectors</p>
@@ -352,14 +355,7 @@ Draw vectors as arrows, shows simply the direction of a vector.</p>
 Draw a number on each vector which shows the ordering position in the vectorlist.</p>
 </li><li>
 <p>moves visible<br>
-If checked move vectors (pattern = 0) are display using a dark blue color.</p>
-</li><li>
-<p>expanding/shrinking<br>
-With the <img src="pics/add.png" alt="add.png"> and <img src="pics/delete.png" alt="delete.png"> buttons you can enlarge or shrink the vectorlist according to the factor given by the nearby textfield. (shrinking uses 1/value of textfield as factor)<br>
-Since the value is a FACTOR you can not expand points!</p>
-</li><li>
-<p>clear<br>
-Clears the current vectorlist.</p>
+If checked move vectors (pattern = 0) are displayed using a dark blue color.</p>
 </li></ul>
 </p>
 <h2>build animation</h2>
@@ -370,7 +366,7 @@ Clears the current vectorlist.</p>
 <img src="pics/rotation.png" width="732" height="477"><br>
 <em>Rotation example</em></p><br>
 
-<p>Rotations can be calculated by veccy, you can chose the axis (1 or more axis) the maximal angle and the number of steps you would like to rotate.</p>
+<p>Rotations can be calculated by vecci, you can chose the axis (1 or more axis) the maximal angle and the number of steps you would like to rotate.</p>
 
 <p>If you use "large" coordinates in your vectorlists, the rotation list values <i>can</i> be higher than the byte range vectrex allows, to prevent this you can chose the extra option "scale to byte", this ensures that the resulting list still "fits".</p>
 <br><p align="center">
@@ -421,7 +417,7 @@ Example:<br>
 Tests all vector lengths, if a vector is longer in any dimension than 127 "pixels" the vector is splitted in half. After processing there is no single vector that is "longer" than 127.</p>
 </li><li>
 <p>fill gaps (with move vectors)<br>
-This ensures all points are connected (but no circular connection is formed, meaning start and end points are not connected). "Ordering" is invoked upon start, apart from reordering no vectors are changed, new vectors are inserted, where gaps were found. The new vectors are always "moves" (pattern = 0), new vectors are allways smaller than 128.<br>
+This ensures all points are connected (but no circular connection is formed, meaning start and end points are not connected). "Ordering" is invoked upon start, apart from reordering no vectors are changed, new vectors are inserted, where gaps were found. The new vectors are always "moves" (pattern = 0), new vectors are always smaller than 128.<br>
 <img src="pics/noFilled.png" alt="noFilled.png"> &lt;-&gt; <img src="pics/gapsFilled.png" alt="gapsFilled.png"></p>
 </li><li>
 <p>remove dots<br>

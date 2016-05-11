@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511154724" />
+<meta name="date" content="20160511232928" />
 <!-- created with HelpSetMaker, ID=a0d1a1a6 -->
 <title>Configuration</title>
 </head>
@@ -103,7 +103,7 @@ Smoother lines. Suprisingly at my place emulation is a lot faster with antializi
 Nearly all vectrex programs have a different screen "refresh" rate. If you just emulate with a fixed frame sooner or later the screen flickers like mad. With this option switched on, the emulator trys to sync display with Timer T2 of vectrex, which is usually used to also sync vectrex display (WaitRecal). If Vide thinks this is not working it steps back and syncs to aproximately 50Hz - but this may result in vectrex screen flickering.</p>
 
 <p><b>Volume setting</b><br />
-With this you set the sound volumne the vide uses.</p>
+With this you set the sound volume.</p>
 
 <p><b>Line width</b><br />
 The thickness of one vector line. The appearence is also dependend on "glow".  The thicker - the slower emulation!</p>
@@ -209,7 +209,7 @@ Implemented, but as of yet no use found (1/100 cycle exact)!</p>
 Implemented, but as of yet no use found (1/100 cycle exact)!</p>
 
 <p><b> Vectrex generation </b><br />
-To my knowledge there are at least 3 different versions of vectrex hardware. It seems to me, that at least in my two vectri there are different DACs used. This can be seem by sample programs which try cycle exact DAC settings (usually with DAC changes while RAMP is enabled).  Therefor &rarr; the "generation" setting hides in reality a <b>DAC-Delay</b> which seems to be different for these generations.<br />
+To my knowledge there are at least 3 different versions of vectrex hardware. It seems to me, that at least in my two vectri there are different DACs used. This can be seen by sample programs which try cycle exact DAC settings (usually with DAC changes while RAMP is enabled).  Therefor &rarr; the "generation" setting hides in reality a <b>DAC-Delay</b> which seems to be different for these generations.<br />
 I have not tested this extensivly, but implemented is a fixed DAC delay of 2 cycles for 3. generation, and 4 cycles for 1-2 generation (and none for "Off"). The volume of generated sound for digitized music seems to be reduced on new vectri.</p>
 <h2>Thoughts</h2>
 

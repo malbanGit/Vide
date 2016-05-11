@@ -90,7 +90,7 @@ With this option switched on, the emulator trys to sync display with Timer T2 of
 If Vide thinks this is not working it steps back and syncs to aproximately 50Hz - but this may result in vectrex screen flickering.
 
 **Volume setting**~~
-With this you set the sound volumne the vide uses.
+With this you set the sound volume.
 
 **Line width**~~
 The thickness of one vector line. The appearence is also dependend on "glow". 
@@ -191,7 +191,7 @@ Implemented, but as of yet no use found (1/100 cycle exact)!
 ** Vectrex generation **~~
 To my knowledge there are at least 3 different versions of vectrex hardware.
 It seems to me, that at least in my two vectri there are different DACs used.
-This can be seem by sample programs which try cycle exact DAC settings (usually with DAC changes while RAMP is enabled). 
+This can be seen by sample programs which try cycle exact DAC settings (usually with DAC changes while RAMP is enabled). 
 Therefor -> the "generation" setting hides in reality a **DAC-Delay** which seems to be different for these generations.~~
 I have not tested this extensivly, but implemented is a fixed DAC delay of 2 cycles for 3. generation, and 4 cycles for 1-2 generation (and none for "Off").
 The volume of generated sound for digitized music seems to be reduced on new vectri.

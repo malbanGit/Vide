@@ -280,7 +280,7 @@
 <FullTextSearch>true</FullTextSearch>
 <DocumentNode>
 <Filename>be5a889b</Filename>
-<Title>FAQ veccy</Title>
+<Title>FAQ vecci</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 </DocumentNode>
@@ -315,8 +315,6 @@
 <Timestamp>1458683779000</Timestamp>
 <Width>580</Width>
 <Height>773</Height>
-<Width.INTERN>75</Width.INTERN>
-<Height.INTERN>100</Height.INTERN>
 </Image>
 <Image Name="ChrisFrog.gif">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -338,8 +336,6 @@
 <Timestamp>1458683739000</Timestamp>
 <Width>699</Width>
 <Height>400</Height>
-<Width.INTERN>100</Width.INTERN>
-<Height.INTERN>57</Height.INTERN>
 </Image>
 <Image Name="FroggerExample.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -407,6 +403,12 @@
 <Width>253</Width>
 <Height>240</Height>
 </Image>
+<Image Name="VectorPanel.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1463000623000</Timestamp>
+<Width>1070</Width>
+<Height>747</Height>
+</Image>
 <Image Name="accept.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1454400826000</Timestamp>
@@ -424,8 +426,6 @@
 <Timestamp>1461103138000</Timestamp>
 <Width>306</Width>
 <Height>199</Height>
-<Width.INTERN>100</Width.INTERN>
-<Height.INTERN>65</Height.INTERN>
 </Image>
 <Image Name="ani.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -580,48 +580,36 @@
 <Timestamp>1460069470000</Timestamp>
 <Width>557</Width>
 <Height>1089</Height>
-<Width.INTERN>51</Width.INTERN>
-<Height.INTERN>100</Height.INTERN>
 </Image>
 <Image Name="config2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1460071837000</Timestamp>
 <Width>560</Width>
 <Height>1094</Height>
-<Width.INTERN>51</Width.INTERN>
-<Height.INTERN>100</Height.INTERN>
 </Image>
 <Image Name="config3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1460097084000</Timestamp>
 <Width>561</Width>
 <Height>577</Height>
-<Width.INTERN>97</Width.INTERN>
-<Height.INTERN>100</Height.INTERN>
 </Image>
 <Image Name="config4.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1460097677000</Timestamp>
 <Width>560</Width>
 <Height>295</Height>
-<Width.INTERN>100</Width.INTERN>
-<Height.INTERN>52</Height.INTERN>
 </Image>
 <Image Name="config5.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1460097720000</Timestamp>
 <Width>559</Width>
 <Height>231</Height>
-<Width.INTERN>100</Width.INTERN>
-<Height.INTERN>41</Height.INTERN>
 </Image>
 <Image Name="config6.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1460097759000</Timestamp>
 <Width>561</Width>
 <Height>201</Height>
-<Width.INTERN>100</Width.INTERN>
-<Height.INTERN>35</Height.INTERN>
 </Image>
 <Image Name="control_equalizer_blue.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -770,16 +758,12 @@
 <Timestamp>1460918907000</Timestamp>
 <Width>800</Width>
 <Height>801</Height>
-<Width.INTERN>99</Width.INTERN>
-<Height.INTERN>100</Height.INTERN>
 </Image>
 <Image Name="mod2vectrex2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1460920833000</Timestamp>
 <Width>1008</Width>
 <Height>1101</Height>
-<Width.INTERN>91</Width.INTERN>
-<Height.INTERN>100</Height.INTERN>
 </Image>
 <Image Name="monitor_add.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -888,8 +872,6 @@
 <Timestamp>1460100808000</Timestamp>
 <Width>962</Width>
 <Height>713</Height>
-<Width.INTERN>100</Width.INTERN>
-<Height.INTERN>74</Height.INTERN>
 </Image>
 <Image Name="regi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1111,6 +1093,7 @@
 <ThumbName Image="VeccyExport.png">de0e7bbf</ThumbName>
 <ThumbName Image="VeccyInfo.png">f8d88324</ThumbName>
 <ThumbName Image="VeccyMode.png">fa4fa86b</ThumbName>
+<ThumbName Image="VectorPanel.png">2744932f</ThumbName>
 <ThumbName Image="accept.png">1257ff46</ThumbName>
 <ThumbName Image="add.png">c46222c7</ThumbName>
 <ThumbName Image="adsr.png">73cc051a</ThumbName>

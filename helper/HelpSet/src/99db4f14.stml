@@ -20,13 +20,13 @@ Emulation and debuggings wise, vecxi is the center of VIDE. Once you load a rom 
 From dissi you can access all other debugging utilities VIDE has to offer. . .
 
 Some features:
-- If in debug mode, vecxy will display the "current" drawn vector in yellow, rather than white.
+- If in debug mode, vecxi will display the "current" drawn vector in yellow, rather than white.
 
-- If in debug mode, vecxy will display the drawn vectors in the "current" refresh cycle in BRIGHTER white than "older" vectors.
+- If in debug mode, vecxi will display the drawn vectors in the "current" refresh cycle in BRIGHTER white than "older" vectors.
 
-- vecxy can be told (mainly usable in debug mode, otherwise there is just a "blur") to draw a small circle at the current "integrator position", so you can follow the virtual beam
+- vecxi can be told (mainly usable in debug mode, otherwise there is just a "blur") to draw a small circle at the current "integrator position", so you can follow the virtual beam
 
-- vecxy can be told to draw "arrows" rather than vectors, so you can see the direction of all vectors
+- vecxi can be told to draw "arrows" rather than vectors, so you can see the direction of all vectors
 - many more...
 
 

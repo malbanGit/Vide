@@ -347,9 +347,6 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem37">
                   <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="/Users/chrissalo/NetBeansProjects/Veccy/src/de/malban/vide/images/text_dropcaps.png"/>
-                    </Property>
                     <Property name="text" type="java.lang.String" value="Lightpen FAQ"/>
                   </Properties>
                 </MenuItem>

@@ -6,13 +6,13 @@
 <body class="doc">
 <h1>Export</h1>
 
-<p>There are different ways you can import vectorlists from veccy.</p>
+<p>There are different ways you can export vectorlists from vecci.</p>
 <h2>Text export</h2>
 <br><p align="center">
 <img src="pics/VeccyExport.png" width="1508" height="421"><br>
 <em>text export</em></p><br>
 
-<p>Text export is the "main" export veccy offers, all other exports (at the moment) must be user defined - but with user definitions you can probably export to any imaginable format (if you do know a little bit about java).</p>
+<p>Text export is the "main" export vecci offers, all other exports (at the moment) must be user defined - but with user definitions you can probably export to any imaginable format (if you do know a little bit about java).</p>
 
 <p>Anyway...<br>
 </p>
@@ -32,7 +32,7 @@
 </li><li>
 <p>all export generated is put into the textarea to the right (and into the system clipboard, for immediate access)</p>
 </li><li>
-<p>if the checkbox "runnable" is checked (befor creating an export) a runnable vectrex sourcecode is generated (and also put into the textarea, source is ment as an EXAMPLE not as clever programming!</p>
+<p>if the checkbox "runnable" is checked (befor creating an export) a runnable vectrex sourcecode is generated (and also put into the textarea, source is ment as an EXAMPLE not as clever programming!)</p>
 </li><li>
 <p>if a runnable source is generated, the button <img src="pics/control_play_blue.png" alt="control_play_blue.png"> is enabled, and by pressing it you start your generated vectrex binary in the emulator.</p>
 </li><li>
@@ -130,9 +130,9 @@ The BIOS Draw_VLp seems to be buggy, for the examples I provided a working versi
 
 <p>Looking at the above definitions of these vectorlist types you can gather that not vectorlists can be exported with every list type. <br>
 There is one thing <b>all</b> these routines have in common, they all only take <i>relative</i> positioning information. That is the reason why you can export only vectorlists, which can be drawn in one "go". <br>
-"In one go" is again relative :-()! Since some formats accepts patterns or mode bytes. Using these it is possible to sneak some invisible vectors (pattern = 0) into a list. Thus you can still draw them in one go, but some drawing are simply invisible.</p>
+"In one go" is again relative :-()! Since some formats accept patterns or mode bytes. Using these it is possible to sneak some invisible vectors (pattern = 0) into a list. Thus you can still draw them in one go, but some drawings are simply invisible.</p>
 
-<p>The only possible way to draw totally "disjunct" vectorlists is doing so with a scenario. (You might not use it with veccy, but drawing two or more vectorlists seperately is just exactly what a scenario does...)</p>
+<p>The only possible way to draw totally "disjunct" vectorlists is doing so with a scenario. (You might not use the scenario option with vecci, but drawing two or more vectorlists seperately is just exactly what a scenario does...)</p>
 
 <p><b>Note:</b>!<br>
 The formats: Draw&nbsp;VLx have no way to "place" the vectorlist. The vectorlist is drawn at the "current" place with the first relative coordinate. Keep that in mind, when you wonder why it looks "displaced". (This is espacially queer if you have an animation, these seem to spin around themselfs...)</p>
@@ -147,7 +147,7 @@ In order to be able to export an animation be sure the "original" single vectors
 
 <p>In order to be able to save an animation in one format, <b>ALL</b> vectorlists of that animation must be saveable in that format!</p>
 
-<p>If you use rotation, be sure to either have a correct startpoint, or use one of the Mov_Draw... or Mode... format otherwise, it might happen, that you are "rotating" around the wrong point!</p>
+<p>If you use rotation, be sure to either have a correct startpoint, or use one of the Mov_Draw... or Mode... formats, otherwise it might happen, that you are "rotating" around the wrong point!</p>
 <h3>Scenario</h3>
 
 <p>Scenarios, since they MUST use positioning, can only ever be saved with the Mov_Draw... or Mode... formats.</p>
@@ -160,9 +160,9 @@ In order to be able to export an animation be sure the "original" single vectors
 
 <p>The following section is the same for vectorlists/animations/scenarios, I won't differentiate here.</p>
 
-<p>Code export has the same pre requisites than the text - "Move..." export. Apart from that it differes greatly from text export.</p>
+<p>Code export has the same prerequisites than the text - "Move..." export. Apart from that it differs greatly from text export.</p>
 
-<p>Using the code export options allows you to export your vectors not as DATA statements, but as code, which actually draws vectors directly. If you are old enought to know the concept behind a library called Xlib (from DOS days) than you might recognize this as a <i>relative</i> to compiled bitmaps (so obviously these are no bitmaps!).</p>
+<p>Using the code export options allows you to export your vectors not as DATA statements, but as code, which actually draws vectors directly. If you are old enought to know the concept behind a library called Xlib (from DOS days) than you might recognize this as a <i>relative</i> to compiled bitmaps (although obviously these are no bitmaps!).</p>
 
 <p>The general logic for the codeexport goes like this:
 <ul><li>

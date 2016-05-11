@@ -1,10 +1,10 @@
 :title Export
-There are different ways you can import vectorlists from veccy.
+There are different ways you can export vectorlists from vecci.
 
 :h2 Text export
 :image VeccyExport.png|text export
 
-Text export is the "main" export veccy offers, all other exports (at the moment) must be user defined - but with user definitions you can probably export to any imaginable format (if you do know a little bit about java).
+Text export is the "main" export vecci offers, all other exports (at the moment) must be user defined - but with user definitions you can probably export to any imaginable format (if you do know a little bit about java).
 
 Anyway...~~
 
@@ -17,7 +17,7 @@ Following features are the same for both sections:
 
 - the type of list/lists determine the type of saves that are available.
 - all export generated is put into the textarea to the right (and into the system clipboard, for immediate access)
-- if the checkbox "runnable" is checked (befor creating an export) a runnable vectrex sourcecode is generated (and also put into the textarea, source is ment as an EXAMPLE not as clever programming!
+- if the checkbox "runnable" is checked (befor creating an export) a runnable vectrex sourcecode is generated (and also put into the textarea, source is ment as an EXAMPLE not as clever programming!)
 - if a runnable source is generated, the button ##control_play_blue.png## is enabled, and by pressing it you start your generated vectrex binary in the emulator.
 - you can also change the source in the editor an run it than. If "nothing" happened you entered a syntax error (check the log). If that is so, better copy and paste the text into vedi, there you can access error messages of assi directly
 
@@ -115,10 +115,10 @@ ______D-reg trashed                                                 ~~
 
 Looking at the above definitions of these vectorlist types you can gather that not vectorlists can be exported with every list type.
 ~~There is one thing **all** these routines have in common, they all only take //relative// positioning information. That is the reason why you can export only vectorlists, which can be drawn in one "go". ~~
-"In one go" is again relative :-()! Since some formats accepts patterns or mode bytes. Using these it is possible to sneak some invisible vectors (pattern = 0) into a list. Thus you can still draw them in one go, but some drawing are simply invisible.
+"In one go" is again relative :-()! Since some formats accept patterns or mode bytes. Using these it is possible to sneak some invisible vectors (pattern = 0) into a list. Thus you can still draw them in one go, but some drawings are simply invisible.
 
 The only possible way to draw totally "disjunct" vectorlists is doing so with a scenario.
-(You might not use it with veccy, but drawing two or more vectorlists seperately is just exactly what a scenario does...)
+(You might not use the scenario option with vecci, but drawing two or more vectorlists seperately is just exactly what a scenario does...)
 
 **Note:**!~~
 The formats: Draw_VLx have no way to "place" the vectorlist. The vectorlist is drawn at the "current" place with the first relative coordinate. Keep that in mind, when you wonder why it looks "displaced". (This is espacially queer if you have an animation, these seem to spin around themselfs...)
@@ -133,7 +133,7 @@ Look above...
 :h3 Animation
 In order to be able to save an animation in one format, **ALL** vectorlists of that animation must be saveable in that format!
 
-If you use rotation, be sure to either have a correct startpoint, or use one of the Mov\_Draw... or Mode... format otherwise, it might happen, that you are "rotating" around the wrong point!
+If you use rotation, be sure to either have a correct startpoint, or use one of the Mov\_Draw... or Mode... formats, otherwise it might happen, that you are "rotating" around the wrong point!
 :h3 Scenario
 Scenarios, since they MUST use positioning, can only ever be saved with the Mov\_Draw... or Mode... formats.
 
@@ -143,9 +143,9 @@ Scenarios also make sense if you want to display LARGE vectorlists (say >40 or 5
 :image CodeGen.png|code export
 The following section is the same for vectorlists/animations/scenarios, I won't differentiate here.
 
-Code export has the same pre requisites than the text - "Move..." export. Apart from that it differes greatly from text export.
+Code export has the same prerequisites than the text - "Move..." export. Apart from that it differs greatly from text export.
 
-Using the code export options allows you to export your vectors not as DATA statements, but as code, which actually draws vectors directly. If you are old enought to know the concept behind a library called Xlib (from DOS days) than you might recognize this as a //relative// to compiled bitmaps (so obviously these are no bitmaps!).
+Using the code export options allows you to export your vectors not as DATA statements, but as code, which actually draws vectors directly. If you are old enought to know the concept behind a library called Xlib (from DOS days) than you might recognize this as a //relative// to compiled bitmaps (although obviously these are no bitmaps!).
 
 
 The general logic for the codeexport goes like this:

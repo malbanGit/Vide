@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511154724" />
+<meta name="date" content="20160511232928" />
 <!-- created with HelpSetMaker, ID=6aacd4ec -->
 <title>Import</title>
 </head>
@@ -39,19 +39,21 @@
 </li><li>
 <p>whitespaces and many other non-number characters are discarded</p>
 </li><li>
+<p>user defined "words" are discarded (see below the %R pattern type)</p>
+</li><li>
 <p>the resulting "words" are "cast" to integer (decimal or hex is recognized)</p>
 </li><li>
 <p>if the cast resulted in a number, the number is added to a data array</p>
 </li></ul>
 </p>
 
-<p>After the above procedure veccy has an array of byte data, that array needs to be interpreted as a vectorlist. Here the user has to step in and help!</p>
+<p>After the above procedure vecci has an array of byte data, that array needs to be interpreted as a vectorlist. Here the user has to step in and help!</p>
 
 <p>The upper right area of the textimport tab is occupied by a combobox. Here you can select what kind of (initially only) BIOS data format the data should be interpreted with.</p>
 
-<p>Once you select an entry, veccy goes to work and shows you the result (in the interpretation as data "statements" and in the vector display window).</p>
+<p>Once you select an entry, vecci goes to work and shows you the result (in the interpretation as data "statements" and in the vector display window).</p>
 
-<p>Initially veccy is supplied with the most used BIOS vector list formats, but you can add your own formats! That is what the next 4 textfields can be used for.</p>
+<p>Initially vecci is supplied with the most used BIOS vector list formats, but you can add your own formats! That is what the next 4 textfields can be used for.</p>
 <h3>Patterns</h3>
 
 <p>The data is interpreted using patterns. The user can supply these patterns so that an arbitrary number of formats can be supported. The pattern in general can have 3 entries:
@@ -64,7 +66,7 @@ every line between the first and the last line, here usually the vector list is 
 </li><li>
 <p>last line<br />
 the last line can have a break criteria (or can be left empty),<br />
-the break criteria allways refers to the first byte of the next "line x"</p>
+the break criteria always refers to the first byte of the next "line x"</p>
 </li></ol>
 </p>
 
