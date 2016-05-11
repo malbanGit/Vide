@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class LateBorderPanel extends javax.swing.JPanel {
 

@@ -11,7 +11,7 @@ import java.io.IOException;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class ImagePanel extends javax.swing.JPanel {
 

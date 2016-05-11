@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class MemoryDumpPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{

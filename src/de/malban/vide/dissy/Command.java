@@ -7,7 +7,7 @@ package de.malban.vide.dissy;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class Command
 {

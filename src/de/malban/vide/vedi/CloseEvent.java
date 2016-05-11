@@ -7,7 +7,7 @@ package de.malban.vide.vedi;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class CloseEvent {
     public String name;

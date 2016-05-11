@@ -16,7 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
- * @author salchr
+ * @author malban
 // does keep Alpha! But reduces colors only in respect to RGB not to A
  */
 public class ColorReduceJPanel extends javax.swing.JPanel implements Windowable{

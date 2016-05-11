@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class CodeScanMemory {
     

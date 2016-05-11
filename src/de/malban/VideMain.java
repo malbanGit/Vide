@@ -18,7 +18,7 @@ import javax.swing.UIManager;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class VideMain {
 

@@ -9,7 +9,7 @@ import de.malban.vide.vecx.Breakpoint;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class BreakpointAddPanel extends javax.swing.JPanel {
 

@@ -7,7 +7,7 @@ package de.malban.config;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public interface TinyLogInterface 
 {

@@ -12,7 +12,7 @@ import java.util.Vector;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class EventSupport {
     

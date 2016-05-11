@@ -9,7 +9,7 @@ import de.malban.vide.vecx.VecXState.vector_t;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public interface DisplayerInterface {
     public void updateDisplay();

@@ -7,7 +7,7 @@ package de.malban.vide.vedi;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public interface EditorListener {
     public void editorChanged(EditorEvent ev);

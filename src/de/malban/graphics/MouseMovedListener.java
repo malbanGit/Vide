@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public interface MouseMovedListener 
 {

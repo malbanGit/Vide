@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class ImageCache {
 

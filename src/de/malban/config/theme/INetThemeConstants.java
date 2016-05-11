@@ -6,7 +6,7 @@ package de.malban.config.theme;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public interface INetThemeConstants {
     

@@ -13,7 +13,7 @@ import javax.swing.JInternalFrame;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class OriginJPanel extends javax.swing.JPanel {
     JInternalFrame modelDialog;

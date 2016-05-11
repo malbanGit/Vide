@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class GFXVectorList {
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();

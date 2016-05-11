@@ -7,7 +7,7 @@ package de.malban.vide.vedi;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public interface CloseListener {
     public boolean closeRequested(CloseEvent e);

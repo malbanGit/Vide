@@ -9,7 +9,7 @@ import de.malban.vide.assy.instructions.struct;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class Struct {
     struct s=null;

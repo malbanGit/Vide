@@ -14,7 +14,7 @@ import java.util.zip.CRC32;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class Memory {
     // the complete known (and perhaps unkown) memory map

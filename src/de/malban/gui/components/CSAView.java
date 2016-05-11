@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public interface CSAView {
     

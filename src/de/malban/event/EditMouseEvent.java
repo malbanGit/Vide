@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class EditMouseEvent {
     public MouseEvent evt;

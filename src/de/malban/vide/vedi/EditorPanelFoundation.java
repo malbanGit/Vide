@@ -30,7 +30,7 @@ import javax.swing.undo.UndoableEdit;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class EditorPanelFoundation extends javax.swing.JPanel {
 

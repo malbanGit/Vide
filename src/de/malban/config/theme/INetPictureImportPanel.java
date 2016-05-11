@@ -33,7 +33,7 @@ import javax.swing.JLabel;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class INetPictureImportPanel extends javax.swing.JPanel implements INetThemeConstants {
 

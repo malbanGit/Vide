@@ -9,7 +9,7 @@ import java.util.Collection;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class ExportFrame extends javax.swing.JFrame {
 

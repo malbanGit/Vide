@@ -7,7 +7,7 @@ package de.malban.vide.vecx;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public interface E8910Statics 
 {

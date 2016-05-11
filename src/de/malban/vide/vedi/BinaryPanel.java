@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class BinaryPanel extends javax.swing.JPanel {
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();

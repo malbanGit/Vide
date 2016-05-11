@@ -20,7 +20,7 @@ import javax.swing.JPanel;
  * 
  * Background is black with alpha 50 (see below to change) - whoch "darkens" the surroundings of the image)
  * 
- * @author salchr
+ * @author malban
  */
 public class ImageButton extends JButton
 {

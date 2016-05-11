@@ -9,7 +9,7 @@ import static de.malban.vide.script.ExportDataPanel.IMPORT;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class ImportFrame extends javax.swing.JFrame {
 

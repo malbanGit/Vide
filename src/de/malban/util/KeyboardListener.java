@@ -9,7 +9,7 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class KeyboardListener {
 

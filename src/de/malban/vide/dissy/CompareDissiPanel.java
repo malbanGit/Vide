@@ -542,7 +542,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
 
         jLabel5.setText("Bin File");
 
-        jTextFieldTileFile.setText("/Users/chrissalo/NetBeansProjects/Veccy/codelib/CompleteReleases/Ville Krumlinde/thrust.org/thrust.bin");
+        jTextFieldTileFile.setText("/Users/malban/NetBeansProjects/Veccy/codelib/CompleteReleases/Ville Krumlinde/thrust.org/thrust.bin");
         jTextFieldTileFile.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextFieldTileFileFocusLost(evt);
@@ -562,7 +562,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
             }
         });
 
-        jTextFieldTileFile1.setText("/Users/chrissalo/NetBeansProjects/Veccy/codelib/CompleteReleases/Ville Krumlinde/Thrust.bin");
+        jTextFieldTileFile1.setText("/Users/malban/NetBeansProjects/Veccy/codelib/CompleteReleases/Ville Krumlinde/Thrust.bin");
         jTextFieldTileFile1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldTileFile1ActionPerformed(evt);

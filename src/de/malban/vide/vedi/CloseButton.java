@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class CloseButton extends javax.swing.JPanel {
 

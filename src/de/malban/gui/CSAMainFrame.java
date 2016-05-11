@@ -63,7 +63,7 @@ import javax.swing.plaf.UIResource;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class CSAMainFrame extends javax.swing.JFrame
             implements
@@ -624,7 +624,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         });
         jMenu1.add(jMenuItem23);
 
-        jMenuItem37.setIcon(new javax.swing.ImageIcon("/Users/chrissalo/NetBeansProjects/Veccy/src/de/malban/vide/images/text_dropcaps.png")); // NOI18N
+        jMenuItem37.setIcon(new javax.swing.ImageIcon("/Users/malban/NetBeansProjects/Veccy/src/de/malban/vide/images/text_dropcaps.png")); // NOI18N
         jMenuItem37.setText("Lightpen FAQ");
         jMenu1.add(jMenuItem37);
 

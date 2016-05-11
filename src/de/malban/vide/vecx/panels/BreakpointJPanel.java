@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class BreakpointJPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{

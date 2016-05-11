@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class ImageCacheItem
 {

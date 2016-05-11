@@ -7,7 +7,7 @@ package de.malban.sound.tinysound.internal;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public interface PositionListener {
     public void positionChanged(int position);

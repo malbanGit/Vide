@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class VarJPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{

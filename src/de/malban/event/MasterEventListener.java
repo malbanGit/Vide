@@ -6,7 +6,7 @@ package de.malban.event;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public interface MasterEventListener {
     public void eventOccured(MasterEvent e);

@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class CompleteState implements Serializable
 {

@@ -6,7 +6,7 @@ package de.malban.gui;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class AboutPanel extends javax.swing.JPanel {
 

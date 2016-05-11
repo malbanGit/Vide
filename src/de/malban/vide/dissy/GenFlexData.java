@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class GenFlexData extends DASMStatics 
 {

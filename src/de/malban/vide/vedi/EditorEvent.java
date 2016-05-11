@@ -7,7 +7,7 @@ package de.malban.vide.vedi;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class EditorEvent {
     public static final int EV_CARET_CHANGED = 0;

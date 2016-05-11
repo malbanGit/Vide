@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class GFXVector 
 {

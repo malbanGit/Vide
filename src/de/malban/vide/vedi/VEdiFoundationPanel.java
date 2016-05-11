@@ -26,7 +26,7 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         Windowable, Stateable{

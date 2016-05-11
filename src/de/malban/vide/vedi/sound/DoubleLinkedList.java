@@ -7,7 +7,7 @@ package de.malban.vide.vedi.sound;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class DoubleLinkedList 
 {

@@ -9,7 +9,7 @@ import de.malban.gui.TriggerCallback;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class ImageCacheWatchFrame extends javax.swing.JFrame {
 

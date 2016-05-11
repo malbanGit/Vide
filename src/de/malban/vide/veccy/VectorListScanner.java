@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class VectorListScanner {
     public static final int THRESHOLD = 3; // at last this many vectors must be in a list to be saved!

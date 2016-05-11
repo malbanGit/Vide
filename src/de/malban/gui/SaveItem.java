@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class SaveItem implements Serializable{
     public int x,y;

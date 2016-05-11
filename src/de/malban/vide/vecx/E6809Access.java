@@ -7,7 +7,7 @@ package de.malban.vide.vecx;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public interface E6809Access {
     public int e6809_read8(int address);

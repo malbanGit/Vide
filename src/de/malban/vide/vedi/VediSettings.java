@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class VediSettings implements Serializable
 {

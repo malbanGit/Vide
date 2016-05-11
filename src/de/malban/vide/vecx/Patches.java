@@ -7,7 +7,7 @@ package de.malban.vide.vecx;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class Patches 
 {

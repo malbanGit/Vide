@@ -10,7 +10,7 @@ import java.awt.Color;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class OneBreakpointPanel extends javax.swing.JPanel {
 
