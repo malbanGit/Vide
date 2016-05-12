@@ -725,26 +725,43 @@ sampleCycle= cyclesRunning;
                         int_update ();
                         break;
                     case 0xa:
-                        
+                        /*
                         // duno if ignoring is realy alright
                         if (cyclesRunning - lastShiftRegWrite >= 18)
                         {
                             lastShiftRegWrite = cyclesRunning;
                             via_sr = data;
-                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                            via_ifr &= 0xfb; / * remove shift register interrupt flag * /
                             via_srb = 0;
                             via_srclk = 1;
                             int_update ();
                         }                            
                         else
+*/
                         {
-//System.out.println("ToEarly: "+(cyclesRunning - lastShiftRegWrite));
-                            via_stalling = true;
-                           // via_sr = 0; // DUnno!
-                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
-                           // via_srb = 0;
-                            via_srclk = 1;
-                            int_update ();
+                            if (shouldStall((int)(cyclesRunning - lastShiftRegWrite)))
+                            {
+//System.out.println("ToEarly: "+(cyclesRunning - lastShiftRegWrite)+" $"+data);
+                                via_stalling = true;
+                               // via_sr = 0; // DUnno!
+                                via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                               // via_srb = 0;
+                                via_srclk = 1;
+                                int_update ();
+                                // dunno if "stalling" cycle counter should reset...
+                            }
+                            else
+                            {
+                                // do normal - exactly as above
+                                lastShiftRegWrite = cyclesRunning;
+                                via_sr = data;
+                                via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                                via_srb = 0;
+                                via_srclk = 1;
+                                int_update ();
+                            }
+                            
+                            
                         }
                         break;
                     case 0xb:
@@ -1079,6 +1096,9 @@ sampleCycle= cyclesRunning;
                         addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
                         via_srb++;
                     }
+                    
+                    // todo should stall here not only for last bit,
+                    // but that probably doesn't matter
                     
                     
                     
@@ -2582,6 +2602,23 @@ sampleCycle= cyclesRunning;
         }
         return delay;
     }
+    
+    public boolean shouldStall(int shiftCycleDif)
+    {
+        int generation = config.generation;
+        if (generation == 0) return false; // if generation emulation is off, never stall
+        if (generation<3)
+        {
+            if (shiftCycleDif==15) return true;
+        }
+        if (generation==3)
+        {
+            if (shiftCycleDif==15) return true;
+            if (shiftCycleDif==14) return true;
+        }
+        return false;
+    }
+        
     public boolean recording = false;
     int recordingType = REC_YM;
     boolean recordingIsAddress = true;

@@ -23,13 +23,13 @@ public class AboutPanel extends javax.swing.JPanel {
      */
     public AboutPanel() {
         initComponents();
-        jLabelHome.setText("<html><a href=\"\">http://malban.de/programming-projects/java-vide</a></html>");
+        jLabelHome.setText("<html><a href=\"\">http://vide.malban.de</a></html>");
         jLabelHome.setCursor(new Cursor(Cursor.HAND_CURSOR));
         jLabelHome.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    Desktop.getDesktop().browse(new URI("http://malban.de/programming-projects/java-vide"));
+                    Desktop.getDesktop().browse(new URI("http://vide.malban.de"));
                 } catch (URISyntaxException | IOException ex) {
                     //It looks like there's a problem
                 }
