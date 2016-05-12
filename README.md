@@ -9,7 +9,7 @@ It will not be as pretty as ParaJVE, it will not be as fast as VecX and it won't
 
 For further information take a look at malbans homepage for Vide:
 
-http://malban.de/programming-projects/java-vide
+http://vide.malban.de
 
 or at the
 online Vide documentation:
