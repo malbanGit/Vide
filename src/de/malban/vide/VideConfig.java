@@ -7,13 +7,21 @@ package de.malban.vide;
 
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.sound.tinysound.TinySound;
+import de.malban.util.syntax.Syntax.TokenStyles;
+import de.muntjak.tinylookandfeel.Theme;
+import de.muntjak.tinylookandfeel.TinyLookAndFeel;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  *
@@ -102,10 +110,29 @@ public class VideConfig  implements Serializable{
     public boolean scanVars = true;
     public boolean scanForVectorLists = false;
     
+    public String themeFile = "";
 
     private static VideConfig theOneConfig = new VideConfig();
     
     public static String loadedConfig="";
+    
+    static class KeySupport implements Serializable
+    {
+        // make sure statics are initialized!
+        HotKey bla = new HotKey("dummy", null, (JPanel) null);
+
+        HashMap <String, HotKey> allMappings = HotKey.allMappings;
+        ArrayList<HotKey> hotkeyList = HotKey.hotkeyList;
+    }
+    KeySupport keySupport = new KeySupport();
+    
+    static class StyleSupport implements Serializable
+    {
+        HashMap styles = TokenStyles.styles;
+        ArrayList styleList = TokenStyles.styleList;
+    }
+    StyleSupport styleSupport = new StyleSupport();
+    
     public static VideConfig getConfig()
     {
         return theOneConfig;
@@ -120,6 +147,8 @@ public class VideConfig  implements Serializable{
     {
         try
         {
+            keySupport = new KeySupport();
+            styleSupport = new StyleSupport();
             loadedConfig = filename;
             return CSAMainFrame.serialize(this ,filename);
         }
@@ -141,7 +170,40 @@ public class VideConfig  implements Serializable{
             loadedConfig = filename;
             double v =  ((double) soundVolume)/(double)255.0;
             TinySound.setGlobalVolume(v);
+            if (keySupport != null)
+            {
+                if ( keySupport.allMappings.size()>0)
+                {
+                    HotKey.allMappings = keySupport.allMappings;
+                    HotKey.hotkeyList = keySupport.hotkeyList;
+                }
+            }
+            if (styleSupport != null)
+            {
+                if (styleSupport.styles.size()>0)
+                {
+                    TokenStyles.styles = styleSupport.styles;
+                    TokenStyles.styleList = styleSupport.styleList;
+                }
+            }
             
+            if (themeFile!=null)
+            {
+                if (themeFile.length()!=0)
+                {
+                    File file = new File(de.malban.util.UtilityFiles.convertSeperator(themeFile));
+                    if (file.exists())
+                    {
+                        Theme.loadTheme(file);
+                        // re-install the Tiny Look and Feel
+                        UIManager.setLookAndFeel(new TinyLookAndFeel());
+
+                        // Update the ComponentUIs for all Components. This
+                        // needs to be invoked for all windows.
+                        SwingUtilities.updateComponentTreeUI(Configuration.getConfiguration().getMainFrame());  
+                    }
+                }
+            }
         }
         catch (Throwable e)
         {
@@ -160,6 +222,9 @@ public class VideConfig  implements Serializable{
         System.arraycopy(from.delays, 0, to.delays, 0, from.delays.length);
         System.arraycopy(from.partialDelays, 0, to.partialDelays, 0, from.partialDelays.length);
         System.arraycopy(from.delaysDisplay, 0, to.delaysDisplay, 0, from.delaysDisplay.length);
+        to.keySupport = from.keySupport;
+        to.styleSupport = from.styleSupport;
+        to.themeFile = from.themeFile;
         to.rampOffFractionValue = from.rampOffFractionValue; // only implemented "partial" delay for ramp off
         to.rampOnFractionValue = from.rampOnFractionValue; // only implemented "partial" delay for ramp off
         to.blankOnDelay = from.blankOnDelay; // look at an M or a W, that would not be possible!

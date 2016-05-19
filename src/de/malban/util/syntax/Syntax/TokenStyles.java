@@ -18,6 +18,7 @@
 package de.malban.util.syntax.Syntax;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.text.AttributeSet;
@@ -32,13 +33,21 @@ public class TokenStyles
      * A hash table containing the text styles. Simple attribute sets are hashed
      * by name (String)
      */
-    private static HashMap styles = new HashMap();
+    public static HashMap styles;
+    public static ArrayList<MyStyle> styleList;
 
+    public static class MyStyle extends SimpleAttributeSet
+    {
+        public String name="";
+    }
+    
     /**
      * Create the styles and place them in the hash table.
      */
     static 
     {
+        styles = new HashMap();
+        styleList = new ArrayList<>();
         Color maroon = new Color(0xB03060);
         Color darkBlue = new Color(0x000080);
         Color darkGreen = Color.GREEN.darker();
@@ -46,41 +55,54 @@ public class TokenStyles
         Color darkerGreen = new Color(0x105010);
 
         addStyle("register", Color.WHITE, Color.BLACK, true, false);
-        addStyle("body", Color.WHITE, Color.BLACK, false, false);
-        addStyle("tag", Color.WHITE, Color.BLUE, true, false);
-        addStyle("endtag", Color.WHITE, Color.BLUE, false, false);
-        addStyle("reference", Color.WHITE, Color.BLACK, false, false);
-//        addStyle("name", Color.WHITE, maroon, true, false);
-        addStyle("name", Color.WHITE, darkerGreen, true, false);
-        addStyle("value", Color.WHITE, maroon, false, true);
-        addStyle("text", Color.WHITE, Color.BLACK, true, false);
+        addStyle("editLogMessage", Color.WHITE, Color.BLACK, false, false);
+//        addStyle("tag", Color.WHITE, Color.BLUE, true, false);
+        addStyle("editLogWarning", Color.WHITE, Color.BLUE, false, false);
+//        addStyle("reference", Color.WHITE, Color.BLACK, false, false);
+//        addStyle("name", Color.WHITE, darkerGreen, true, false);
+//        addStyle("value", Color.WHITE, maroon, false, true);
+//        addStyle("text", Color.WHITE, Color.BLACK, true, false);
         addStyle("reservedWord", Color.WHITE, Color.BLUE, false, false);
         addStyle("identifier", Color.WHITE, darkerGreen, false, false);
-      //  addStyle("identifier", Color.WHITE, Color.BLACK, false, false);
         addStyle("literal", Color.WHITE, maroon, false, false);
         addStyle("literalstring", Color.WHITE, orange, false, false);
-        addStyle("separator", Color.WHITE, darkBlue, false, false);
+  //      addStyle("separator", Color.WHITE, darkBlue, false, false);
         addStyle("operator", Color.WHITE, Color.BLACK, false, false);
         addStyle("comment", Color.WHITE, darkGreen, false, false);
         addStyle("preprocessor", Color.WHITE, darkBlue, false, false);
         addStyle("whitespace", Color.WHITE, Color.BLACK, false, false);
         addStyle("error", Color.WHITE, Color.RED, false, false);
-        addStyle("unknown", Color.WHITE, Color.RED.darker(), true, false);
+   //     addStyle("unknown", Color.WHITE, Color.RED.darker(), true, false);
         addStyle("grayedOut", Color.WHITE, Color.GRAY, false, false);
         addStyle("literalVariable", Color.WHITE, darkerGreen, false, false);
-
     }
 
     private static void addStyle(String name, Color bg, Color fg, boolean bold, boolean italic) 
     {
-        SimpleAttributeSet style = new SimpleAttributeSet();
-        StyleConstants.setFontFamily(style, "Monospaced");
-        StyleConstants.setFontSize(style, 12);
+        addStyle(name, bg, fg, bold, italic, 12,  "Monospaced"); 
+    }
+    
+    public static void addStyle(String name, Color bg, Color fg, boolean bold, boolean italic, int size, String family) 
+    {
+        MyStyle style = new MyStyle();
+        StyleConstants.setFontFamily(style,family);
+        StyleConstants.setFontSize(style, size);
         StyleConstants.setBackground(style, bg);
         StyleConstants.setForeground(style, fg);
         StyleConstants.setBold(style, bold);
         StyleConstants.setItalic(style, italic);
+        style.name = name;
         styles.put(name, style);
+        for (int i=0;i<styleList.size();i++)
+        {
+            if (styleList.get(i).name.equals(name))
+            {
+                styleList.remove(i);
+                break;
+            }
+        }
+        
+        styleList.add(style);
     }
 
     /**

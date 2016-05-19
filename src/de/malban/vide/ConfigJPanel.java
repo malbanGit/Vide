@@ -14,6 +14,7 @@ import de.malban.gui.Windowable;
 
 
 import de.malban.gui.components.CSAView;
+import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.ShowErrorDialog;
 import de.malban.gui.dialogs.ShowInfoDialog;
 import de.malban.gui.panels.LogPanel;
@@ -27,12 +28,17 @@ import static de.malban.vide.vecx.VecXStatics.*;
 import de.malban.vide.vecx.cartridge.SystemRom;
 import de.malban.vide.vecx.cartridge.SystemRomPanel;
 import de.malban.vide.vecx.cartridge.SystemRomPool;
+import de.muntjak.tinylookandfeel.Theme;
+import de.muntjak.tinylookandfeel.TinyLookAndFeel;
 import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Iterator;
 import javax.swing.JCheckBox;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 /**
@@ -48,6 +54,22 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private int mClassSetting=0;
     VideConfig config = VideConfig.getConfig();
     
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
+    }
     @Override
     public void closing()
     {
@@ -89,6 +111,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     
     private void initValues()
     {
+        jTextField7.setText(de.malban.util.UtilityFiles.convertSeperator(config.themeFile));
         jSliderXSH.setValue(config.delays[TIMER_XSH_CHANGE]);
         jSliderMuxR.setValue(config.delays[TIMER_MUX_R_CHANGE]);
         jSliderMuxY.setValue(config.delays[TIMER_MUX_Y_CHANGE]);
@@ -345,6 +368,17 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jCheckBoxScanForVectorLists = new javax.swing.JCheckBox();
+        jPanel14 = new javax.swing.JPanel();
+        keyBindingsJPanel1 = new de.malban.vide.vedi.project.KeyBindingsJPanel();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jTextField7 = new javax.swing.JTextField();
+        jButtonLoad = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        styleJPanel1 = new de.malban.util.syntax.Syntax.StyleJPanel();
         jLabel3 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
@@ -792,7 +826,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                                         .addComponent(jCheckBox26)
                                         .addGap(18, 18, 18)
                                         .addComponent(jCheckBox11)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                                 .addComponent(jSliderSplineDensity, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel20Layout.createSequentialGroup()
                                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1825,6 +1859,86 @@ public class ConfigJPanel extends javax.swing.JPanel implements
 
         jTabbedPane1.addTab("Editor", jPanel8);
 
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(keyBindingsJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(keyBindingsJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Keyboard", jPanel14);
+
+        jLabel10.setText("Tinylaf theme");
+
+        jButtonLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
+        jButtonLoad.setToolTipText("load vectorlist");
+        jButtonLoad.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoadActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel11.setText("Using tinylaf you can easily configure your own laf. ");
+
+        jLabel12.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel12.setText("If you are willing to, go to the directoy \"externalTools/tinylaf\" and start the jar file:");
+
+        jLabel13.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel13.setText("tinycp.jar (either double click or by typing: java -jar tinycp.jar).");
+
+        jLabel14.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel14.setText("Copy the saved *.theme file to the directory \"themes\", than you can chose it with above button.");
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonLoad))
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14))
+                .addContainerGap(43, Short.MAX_VALUE))
+            .addComponent(styleJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonLoad)
+                    .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel11)
+                .addGap(2, 2, 2)
+                .addComponent(jLabel12)
+                .addGap(2, 2, 2)
+                .addComponent(jLabel13)
+                .addGap(2, 2, 2)
+                .addComponent(jLabel14)
+                .addGap(59, 59, 59)
+                .addComponent(styleJPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(200, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Theme/Colors", jPanel15);
+
         jLabel3.setText("Name");
 
         jTextField6.setToolTipText("More or less a filename!");
@@ -1856,7 +1970,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -2270,6 +2384,47 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         config.scanForVectorLists = jCheckBoxScanForVectorLists.isSelected();
     }//GEN-LAST:event_jCheckBoxScanForVectorListsActionPerformed
 
+    String lastPath="theme";
+    private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setMultiSelectionEnabled(false);
+        if (lastPath.length()==0)
+        {
+        }
+        else
+        {
+            fc.setCurrentDirectory(new java.io.File(lastPath));
+        }
+        FileNameExtensionFilter  filter = new  FileNameExtensionFilter("Themes", "theme");
+        fc.setFileFilter(filter);
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        String fullPath = fc.getSelectedFile().getAbsolutePath();
+        lastPath =fullPath;
+        try
+        {
+            Theme.loadTheme(fc.getSelectedFile());
+
+            // re-install the Tiny Look and Feel
+            UIManager.setLookAndFeel(new TinyLookAndFeel());
+
+            // Update the ComponentUIs for all Components. This
+            // needs to be invoked for all windows.
+            SwingUtilities.updateComponentTreeUI(Configuration.getConfiguration().getMainFrame());  
+            
+            String rel = de.malban.util.Utility.makeRelative(fc.getSelectedFile().toString());
+            
+            jTextField7.setText(rel);
+            config.themeFile = rel;
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+            log.addLog(e, ERROR);
+        }
+        
+    }//GEN-LAST:event_jButtonLoadActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -2278,6 +2433,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButtonLoad;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox10;
     private javax.swing.JCheckBox jCheckBox11;
@@ -2328,6 +2484,11 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBox3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -2341,6 +2502,8 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
@@ -2396,6 +2559,9 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
+    private de.malban.vide.vedi.project.KeyBindingsJPanel keyBindingsJPanel1;
+    private de.malban.util.syntax.Syntax.StyleJPanel styleJPanel1;
     // End of variables declaration//GEN-END:variables
 
     public static String SID = "config";

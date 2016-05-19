@@ -138,6 +138,22 @@ public class StarterJPanel extends javax.swing.JPanel implements
     {
         deinit();
     }
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
+    }
     @Override
     public void setParentWindow(CSAView jpv)
     {
@@ -1105,7 +1121,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
         CSAMainFrame p = (CSAMainFrame)mParent;
         VecXPanel vecxy  = p.getVecxy();
         if (vecxy ==null) return;
-        vecxy.startCartridge(allCartridges.get(no));
+        vecxy.startCartridge(allCartridges.get(no), true);
     }
     public static String convertSeperator(String filename)
     {

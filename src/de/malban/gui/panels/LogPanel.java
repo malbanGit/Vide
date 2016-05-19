@@ -10,8 +10,10 @@
  */
 
 package de.malban.gui.panels;
+import de.malban.config.Configuration;
 import de.malban.config.LogListener;
 import de.malban.config.Logable;
+import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import java.io.*;
@@ -49,6 +51,22 @@ public class LogPanel extends javax.swing.JPanel implements Windowable, Logable{
     public void setDebugFileOnly(boolean b)
     {
         mFileOnly=b;
+    }
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
     }
 
     @Override

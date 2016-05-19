@@ -7,6 +7,7 @@ package de.malban.vide.veccy;
 
 import de.malban.config.Configuration;
 import de.malban.graphics.GFXVector;
+import de.malban.graphics.GFXVectorAnimation;
 import de.malban.graphics.GFXVectorList;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
@@ -53,6 +54,8 @@ public class VeccyInterpreter {
     ArrayList<String> removers = new ArrayList<>();
     
     String representation = "";
+    ArrayList<Byte> dataInterpreted = new ArrayList<>();
+    String textOrg="";
     
     public VeccyInterpreter()
     {
@@ -60,11 +63,9 @@ public class VeccyInterpreter {
     }
     
     
-    ArrayList<Byte> data = new ArrayList<>();
-    String textOrg="";
     public ArrayList<Byte> setData(String text)
     {
-        data = new ArrayList<>();
+        ArrayList<Byte> data = dataInterpreted;
         
         // windows text to "usable" text
         text = de.malban.util.UtilityString.replace(text, "\r\n","\n");
@@ -136,7 +137,6 @@ public class VeccyInterpreter {
         
         return data;
     }
-    
     public void setPatterns(String l1, String lx, String ll)
     {
         String l1Org = l1;
@@ -198,7 +198,6 @@ public class VeccyInterpreter {
         }
         if (textOrg.length()!=0) setData(textOrg);
     }
-
     String[] removeEmpty(String[] s)
     {
         ArrayList<String> ss = new ArrayList<>();
@@ -208,7 +207,6 @@ public class VeccyInterpreter {
         }
         return ss.toArray(new String[0]);
     }
-    
     // returns Integer.MAX_VALUE if no number
     public static int toNumber(String s)
     {
@@ -247,18 +245,33 @@ public class VeccyInterpreter {
         return result;
     }
 
-    public GFXVectorList getVectorList()
+    
+    class IntegerPointer
     {
+        int pos;
+    }
+    
+    public GFXVectorList getVectorList(IntegerPointer startPos)
+    {
+        ArrayList<Byte> data = dataInterpreted;
+        
         StringBuilder s = new StringBuilder();
+        int pos = startPos.pos;
         GFXVectorList vl = new GFXVectorList();
-        int pos = 0;
         int count = -1; // no count
         if (data.size() == 0) return vl;
-
-        
+        if (pos>= data.size()) return vl;
         
         for (String p : patternLine1)
         {
+            if (pos>= data.size()) 
+            {
+                s.append("end of data encountered line 1");
+                representation = s.toString();
+                startPos.pos = pos;
+                return vl;        
+            }
+            
             if (p.equals("C0"))
             {
                 count = data.get(pos++);
@@ -323,6 +336,14 @@ public class VeccyInterpreter {
                     breaking = true;
                     break;
                 }
+                if (pos>= data.size()) 
+                {
+                    s.append("end of data encountered line x");
+                    representation = s.toString();
+                    startPos.pos = pos;
+                    return vl;        
+                }
+
                 // is first entry, than check if stop criteria
                 // but only if not FIRST entry
                 if (vl.size()!=0)
@@ -440,8 +461,44 @@ public class VeccyInterpreter {
             if (pos>=data.size()) break;
         }
         representation = s.toString();
-        return vl;
+        startPos.pos = pos;
+        return vl;        
     }
+    
+    public GFXVectorList getVectorList()
+    {
+        IntegerPointer pos = new IntegerPointer();
+        pos.pos = 0;
+        return getVectorList(pos);
+    }
+    
+    public GFXVectorAnimation getVectorAnimation()
+    {
+        GFXVectorAnimation al = new GFXVectorAnimation();
+        IntegerPointer pos = new IntegerPointer();
+        pos.pos = 0;
+        int oldPos = -1;
+        String allIntRep = "";
+        while (oldPos != pos.pos)
+        {
+            oldPos = pos.pos;
+            GFXVectorList vl = getVectorList(pos);
+            if (oldPos != pos.pos)
+            {
+                al.list.add(vl);
+                if (allIntRep.length() != 0)
+                {
+                    allIntRep += ";;;; \n";
+                }
+                allIntRep += representation;
+                
+            }
+        }
+        
+        representation = allIntRep;
+        return al;
+    }
+    
     public String toString()
     {
         return representation;

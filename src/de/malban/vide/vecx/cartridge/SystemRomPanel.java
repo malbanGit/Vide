@@ -2,6 +2,7 @@ package de.malban.vide.vecx.cartridge;
 
 
 import de.malban.config.Configuration;
+import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
@@ -16,6 +17,22 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
 
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
+    }
     @Override
     public void closing()
     {
@@ -331,10 +348,11 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jTextFieldPath2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonFileSelect3))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonFileSelect3)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(jTextFieldPath2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -343,11 +361,9 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel2)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)

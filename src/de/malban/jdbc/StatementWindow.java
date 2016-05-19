@@ -6,6 +6,7 @@
 
 package de.malban.jdbc;
 
+import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
@@ -62,6 +63,22 @@ public class StatementWindow extends javax.swing.JPanel implements
     @Override
     public void closing()
     {
+    }
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
     }
     @Override
     public void setParentWindow(CSAView jpv)

@@ -6,32 +6,14 @@
 package de.malban.vide.dissy;
 
 import de.malban.config.Configuration;
+import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
-import de.malban.util.KeyboardListener;
-import static de.malban.vide.dissy.MemoryInformation.MEM_TYPE_IO;
-import static de.malban.vide.dissy.MemoryInformation.MEM_TYPE_RAM;
-import static de.malban.vide.dissy.MemoryInformation.MEM_TYPE_ROM;
-import de.malban.vide.vecx.Breakpoint;
-import de.malban.vide.vecx.panels.MemoryDumpPanel;
-import de.malban.vide.vecx.panels.RegisterJPanel;
 import de.malban.vide.vecx.VecXPanel;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import javax.swing.JTable;
-import javax.swing.JViewport;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -51,6 +33,22 @@ public class DissiFullPanel extends javax.swing.JPanel  implements
     public void setVecxy(VecXPanel v)
     {
         vecxPanel = v;
+    }
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
     }
 
     @Override

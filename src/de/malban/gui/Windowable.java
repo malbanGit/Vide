@@ -18,4 +18,6 @@ public interface Windowable
     public javax.swing.JMenuItem getMenuItem();
     public javax.swing.JPanel getPanel();
     public void closing(); // probably called multiple times, since closing events happen a lot :-)
+    public void setIcon(boolean b);
+    public boolean isIcon();
 }

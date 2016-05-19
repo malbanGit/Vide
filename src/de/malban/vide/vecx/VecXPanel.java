@@ -130,7 +130,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     PSGJPanel ayi = null;
     
     BufferedImage image;
-    
+    boolean startTypeRun = true;
 
     @Override
     public void closing()
@@ -143,6 +143,22 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     public void setParentWindow(CSAView jpv)
     {
         mParent = jpv;
+    }
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
     }
     @Override
     public void setMenuItem(javax.swing.JMenuItem item)
@@ -416,8 +432,11 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             if (dissi == null) return; 
         }
         setDissi(dissi);
+        dissi.setIcon(startTypeRun);
         vecx.init(jTextFieldstart.getText(), cartProp);
         dissi.dis(vecx.cart);
+        if (!startTypeRun)
+            dissi.setStartbreakpoint();
         dissiInit = true;
         if (config.overlayEnabled)
             loadOverlay(jTextFieldstart.getText()); // ensure overlay in scaled form is available
@@ -434,6 +453,11 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     }
     public void startUp(String path, boolean checkCartridge)
     {
+        startUp( path,  checkCartridge, true);
+    }
+    public void startUp(String path, boolean checkCartridge, boolean runType)
+    {
+        startTypeRun = runType;
         if (image == null)
             resetGfx();
         jButtonStopActionPerformed(null);
@@ -825,19 +849,24 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             if (dumpi == null) return;
             dumpi.setDissi(dissi);
         }
+        dumpi.setIcon(false);
         dumpi.setVecxy(this);
         dumpi.updateValues(true);
     }
     public void showTracki()
     {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
         if (tracki == null)
         {
-            tracki = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).getWRTracker();
+            tracki = frame.getWRTracker();
         }
         if (tracki == null) return;
+        tracki.setIcon(false);
         tracki.setVecxy(this);
         tracki.updateValues(true);
     }
+
+    
     public void showViai()
     {
         if (viai == null)
@@ -847,11 +876,13 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         if (viai == null) return;
         viai.setVecxy(this);
         viai.updateValues(true);
+        viai.setIcon(false);
         if (ani == null)
         {
             ani = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).getAni();
         }
         if (ani == null) return;
+        ani.setIcon(false);
         ani.setVecxy(this);
         ani.updateValues(true);
     }
@@ -864,6 +895,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         }
         if (vari == null) return;
         vari.setVecxy(this);
+        vari.setIcon(false);
         
         vari.setDissi(dissi);
         vari.updateValues(true);
@@ -877,6 +909,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         }
         if (labi == null) return;
         labi.setVecxy(this);
+        labi.setIcon(false);
         
         labi.setDissi(dissi);
         labi.updateValues(true);
@@ -890,6 +923,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         }
         if (ayi == null) return;
         ayi.setVecxy(this);
+        ayi.setIcon(false);
         
         ayi.setDissi(dissi);
         ayi.updateValues(true);
@@ -902,6 +936,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             breaki = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).getBreaki();
         }
         if (breaki == null) return;
+        breaki.setIcon(false);
         breaki.setVecxy(this);
         
         breaki.setDissi(dissi);
@@ -2468,8 +2503,9 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     {
         vecx.setTrackingAddress( start, end);
     }
-    public void startCartridge(CartridgeProperties cartProp)
+    public void startCartridge(CartridgeProperties cartProp, boolean runType)
     {
+        startTypeRun = runType;        
         // stop everything
         jButtonStopActionPerformed(null);                                            
         
@@ -2515,6 +2551,9 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         }
         setDissi(dissi);
         dissi.dis(vecx.cart); // to dissi
+        if (!startTypeRun)
+            dissi.setStartbreakpoint();
+        dissi.setIcon(startTypeRun);
         dissiInit = true;
         if (config.overlayEnabled)
             loadOverlay(vecx.cart.currentCardProp.getOverlay()); // ensure overlay in scaled form is available
@@ -2555,7 +2594,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             vector_t v = currentVectors.vectrexVectors[ve];
             GFXVector vector = new GFXVector();
             vector.pattern = 255;
-            vector.intensity = v.color;
+            vector.intensity = v.color &0xff; // can be higher 255, due to dwell timing!
             double x0 =Scaler.scaleDoubleToInt(v.x0, exportScaleWidth);
             double y0 =Scaler.scaleDoubleToInt(v.y0, exportScaleHeight)*-1;
             double x1 =Scaler.scaleDoubleToInt(v.x1, exportScaleWidth);

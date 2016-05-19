@@ -51,6 +51,22 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
     private int mClassSetting=0;
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
+    }
     @Override
     public void closing()
     {

@@ -261,6 +261,8 @@
                   <Component id="jButtonPrettyPrint" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                   <Component id="jButtonAssemble" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jButtonDebug" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
@@ -288,6 +290,7 @@
                       <Component id="jButtonNew" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonPrettyPrint" min="-2" max="-2" attributes="0"/>
                       <Component id="jButtonRefresh" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonDebug" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSplitPane1" pref="702" max="32767" attributes="0"/>
@@ -418,7 +421,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/malban/vide/images/control_play_blue.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Assemble current file, if if project is loaded, build project"/>
+            <Property name="toolTipText" type="java.lang.String" value="Assemble current file, if if project is loaded, build project and run it (if so defined in config)."/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 1, 0, -1]"/>
             </Property>
@@ -509,12 +512,20 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane5" alignment="0" pref="195" max="32767" attributes="0"/>
+                              <Component id="jScrollPane5" pref="195" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jButtonNew1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane5" alignment="0" pref="467" max="32767" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jButtonNew1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane5" pref="445" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -544,6 +555,21 @@
                             </Component>
                           </SubComponents>
                         </Container>
+                        <Component class="javax.swing.JButton" name="jButtonNew1">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/de/malban/vide/images/delete.png"/>
+                            </Property>
+                            <Property name="toolTipText" type="java.lang.String" value="delete entries"/>
+                            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                              <Insets value="[0, 1, 0, -1]"/>
+                            </Property>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonNew1MousePressed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNew1ActionPerformed"/>
+                          </Events>
+                        </Component>
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="jPanel5">
@@ -558,12 +584,20 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane6" alignment="0" pref="195" max="32767" attributes="0"/>
+                              <Component id="jScrollPane6" pref="195" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jButtonNew7" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane6" alignment="0" pref="467" max="32767" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jButtonNew7" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane6" min="-2" pref="442" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -593,6 +627,21 @@
                             </Component>
                           </SubComponents>
                         </Container>
+                        <Component class="javax.swing.JButton" name="jButtonNew7">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/de/malban/vide/images/delete.png"/>
+                            </Property>
+                            <Property name="toolTipText" type="java.lang.String" value="delete entries"/>
+                            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                              <Insets value="[0, 1, 0, -1]"/>
+                            </Property>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonNew7MousePressed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonNew7ActionPerformed"/>
+                          </Events>
+                        </Component>
                       </SubComponents>
                     </Container>
                   </SubComponents>
@@ -724,9 +773,6 @@
               <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                 <EtchetBorder/>
               </Border>
-            </Property>
-            <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[964, 27]"/>
             </Property>
           </Properties>
 
@@ -979,6 +1025,20 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRefreshActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonDebug">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/de/malban/vide/images/bug_go.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Assemble current file, if if project is loaded, build project and start debugging it (if so defined in config)."/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[0, 1, 0, -1]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDebugActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

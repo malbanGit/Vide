@@ -351,9 +351,8 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
                 double y1v = y0Offset + y1;
 
 
-
                 g.setColor(new Color(v.r, v.g, v.b, v.a));
-               // g.setColor(Color.white);
+                // g.setColor(Color.white);
                 if (v.highlight)
                 {
                     g.setColor(Color.YELLOW);

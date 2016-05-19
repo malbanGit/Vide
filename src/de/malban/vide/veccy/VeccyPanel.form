@@ -608,7 +608,7 @@
                       <Component id="jTabbedPane4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jTabbedPane2" min="-2" pref="243" max="-2" attributes="0"/>
-                      <EmptySpace pref="40" max="32767" attributes="0"/>
+                      <EmptySpace pref="51" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -2494,14 +2494,21 @@
                                                   <EmptySpace pref="67" max="32767" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="jLabel25" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
-                                                      <Component id="jLabel26" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
-                                                      <Component id="jLabel27" alignment="0" min="-2" pref="55" max="-2" attributes="0"/>
-                                                      <Group type="102" alignment="1" attributes="0">
-                                                          <Component id="jButtonInterprete" min="-2" pref="20" max="-2" attributes="0"/>
-                                                          <EmptySpace max="32767" attributes="0"/>
-                                                          <Component id="jButtonSave3" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                          <Component id="jLabel25" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
+                                                          <Component id="jLabel26" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
+                                                          <Component id="jLabel27" alignment="0" min="-2" pref="55" max="-2" attributes="0"/>
+                                                          <Group type="102" alignment="1" attributes="0">
+                                                              <Component id="jButtonInterprete" min="-2" pref="20" max="-2" attributes="0"/>
+                                                              <EmptySpace max="32767" attributes="0"/>
+                                                              <Component id="jButtonSave3" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
+                                                      </Group>
+                                                      <Group type="102" attributes="0">
+                                                          <Component id="jLabel49" min="-2" pref="36" max="-2" attributes="0"/>
+                                                          <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                                                          <Component id="jCheckBoxMulti" min="-2" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
                                                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
@@ -2537,14 +2544,21 @@
                                                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="1" attributes="0">
                                                       <Group type="102" attributes="0">
-                                                          <Component id="jComboBoxPatterns" min="-2" max="-2" attributes="0"/>
+                                                          <Group type="103" groupAlignment="0" attributes="0">
+                                                              <Component id="jComboBoxPatterns" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jCheckBoxMulti" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
                                                           <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="1" attributes="0">
                                                               <Component id="jTextFieldPatternName" min="-2" max="-2" attributes="0"/>
                                                               <Component id="jButtonSave3" min="-2" max="-2" attributes="0"/>
                                                           </Group>
                                                       </Group>
-                                                      <Component id="jButtonInterprete" min="-2" max="-2" attributes="0"/>
+                                                      <Group type="102" attributes="0">
+                                                          <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace max="-2" attributes="0"/>
+                                                          <Component id="jButtonInterprete" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
                                                   </Group>
                                                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="1" attributes="0">
@@ -2734,6 +2748,13 @@
                                   <Events>
                                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonInterpreteActionPerformed"/>
                                   </Events>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="jLabel49">
+                                  <Properties>
+                                    <Property name="text" type="java.lang.String" value="multi"/>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JCheckBox" name="jCheckBoxMulti">
                                 </Component>
                               </SubComponents>
                             </Container>

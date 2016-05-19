@@ -1206,7 +1206,7 @@ memInfo.cycles+=2;
     }
     
     // returns adress of vectrex program start
-    int processVectrexHeader()
+    public int processVectrexHeader()
     {
         // look for startaddress
         // and vectrex header in rom
@@ -1292,11 +1292,8 @@ memInfo.cycles+=2;
     }
     public String disassemble(byte[] data, int romStartAddress, int disassemblyStartAddress, boolean assumeVectrexModule, int bank)
     {
-        if (data == null) return "";
         myMemory.setBank(bank, true);
         currentCNTScanBank = bank;
-        int len = data.length;
-        if (len > 32768) len = 32768;
         if (assumeVectrexModule)
         {
             boolean tmp = createLabels;
@@ -1343,6 +1340,9 @@ memInfo.cycles+=2;
             }
         }
         
+        if (data == null) return "";
+        int len = data.length;
+        if (len > 32768) len = 32768;
         
         
         // check for:

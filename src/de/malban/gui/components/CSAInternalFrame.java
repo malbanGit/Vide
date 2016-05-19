@@ -43,21 +43,26 @@ public class CSAInternalFrame extends javax.swing.JInternalFrame {
         setResizable(true);
         setPreferredSize(new java.awt.Dimension(800, 600));
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
-            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
-            }
-            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
-                formInternalFrameClosing(evt);
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameClosed(evt);
             }
-            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
             }
             public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
             }
-            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                formComponentResized(evt);
             }
         });
 
@@ -72,6 +77,10 @@ public class CSAInternalFrame extends javax.swing.JInternalFrame {
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         mParent.aboutToCloseInternalFrame(this);
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formComponentResized
     javax.swing.JPanel mPanel;
     public void addPanel(javax.swing.JPanel panel)
     {

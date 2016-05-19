@@ -12,8 +12,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
   <Events>
-    <EventHandler event="internalFrameClosing" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameClosing"/>
     <EventHandler event="internalFrameClosed" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameClosed"/>
+    <EventHandler event="internalFrameClosing" listener="javax.swing.event.InternalFrameListener" parameters="javax.swing.event.InternalFrameEvent" handler="formInternalFrameClosing"/>
+    <EventHandler event="componentResized" listener="java.awt.event.ComponentListener" parameters="java.awt.event.ComponentEvent" handler="formComponentResized"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>

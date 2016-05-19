@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vedi;
 
+import de.malban.gui.HotKey;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
@@ -39,10 +40,11 @@ import de.malban.vide.vedi.raster.VectorJPanel;
 import de.malban.vide.vedi.sound.ModJPanel;
 import de.malban.vide.vedi.sound.SampleJPanel;
 import de.malban.vide.vedi.sound.YMJPanel;
-import de.malban.vide.vedi.sound.YmSound;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,12 +52,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.EventObject;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
+import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -106,7 +111,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     DefaultMutableTreeNode root = null;
     static ArrayList<VediPanel> listVedi = new ArrayList<VediPanel>();
     Path currentStartPath = Paths.get(".");
-    
+    boolean startTypeRun = true;
+
     // see: http://stackoverflow.com/questions/11107984/get-edited-treenode-from-a-celleditorlistener
     private DefaultTreeCellEditor editor;
     private TreeEntry currentSelectedTreeLeaf = null;
@@ -200,6 +206,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jEditorPaneASMListing.setContentType("text/html");
         
         jLabel6.setVisible(false);
+        
+        
+        jSplitPane1.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) .put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), "none");        
+        jSplitPane2.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) .put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), "none");        
         init();
     }
     public void setTreeVisible(boolean v)
@@ -292,9 +302,93 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     currentSelectedTreeLeaf = (TreeEntry)node.getUserObject();
                 }
             }
-        });        
+        });    
+        
+        new HotKey("Run", new AbstractAction() { public void actionPerformed(ActionEvent e) {  run(); }}, this);
+        new HotKey("Debug", new AbstractAction() { public void actionPerformed(ActionEvent e) {  
+            debug();
+        }}, this);
+
+        
+        
+        
+        new HotKey("GoBookmark1Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(1); }}, this);
+        new HotKey("GoBookmark1Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(1); }}, this);
+        new HotKey("SetBookmark1Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(1); }}, this);
+        new HotKey("SetBookmark1Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(1); }}, this);
+        
+        new HotKey("GoBookmark2Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(2); }}, this);
+        new HotKey("GoBookmark2Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(2); }}, this);
+        new HotKey("SetBookmark2Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(2); }}, this);
+        new HotKey("SetBookmark2Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(2); }}, this);
+        
+        new HotKey("GoBookmark3Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(3); }}, this);
+        new HotKey("GoBookmark3Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(3); }}, this);
+        new HotKey("SetBookmark3Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(3); }}, this);
+        new HotKey("SetBookmark3Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(3); }}, this);
+        
+        new HotKey("GoBookmark4Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(4); }}, this);
+        new HotKey("GoBookmark4Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(4); }}, this);
+        new HotKey("SetBookmark4Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(4); }}, this);
+        new HotKey("SetBookmark4Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(4); }}, this);
+        
+        new HotKey("GoBookmark5Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(5); }}, this);
+        new HotKey("GoBookmark5Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(5); }}, this);
+        new HotKey("SetBookmark5Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(5); }}, this);
+        new HotKey("SetBookmark5Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(5); }}, this);
+        
+        new HotKey("GoBookmark6Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(6); }}, this);
+        new HotKey("GoBookmark6Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(6); }}, this);
+        new HotKey("SetBookmark6Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(6); }}, this);
+        new HotKey("SetBookmark6Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(6); }}, this);
+        
+        new HotKey("GoBookmark7Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(7); }}, this);
+        new HotKey("GoBookmark7Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(7); }}, this);
+        new HotKey("SetBookmark7Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(7); }}, this);
+        new HotKey("SetBookmark7Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(7); }}, this);
+        
+        new HotKey("GoBookmark8Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(8); }}, this);
+        new HotKey("GoBookmark8Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(8); }}, this);
+        new HotKey("SetBookmark8Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(8); }}, this);
+        new HotKey("SetBookmark8Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(8); }}, this);
+        
+        new HotKey("GoBookmark9Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(9); }}, this);
+        new HotKey("GoBookmark9Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(9); }}, this);
+        new HotKey("SetBookmark9Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(9); }}, this);
+        new HotKey("SetBookmark9Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(9); }}, this);
+        
+        new HotKey("GoBookmark0Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(0); }}, this);
+        new HotKey("GoBookmark0Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  goBookmark(0); }}, this);
+        new HotKey("SetBookmark0Mac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(0); }}, this);
+        new HotKey("SetBookmark0Win", new AbstractAction() { public void actionPerformed(ActionEvent e) {  setBookmark(0); }}, this);
     }
 
+    void setBookmark(int b)
+    {
+        Bookmark bm = new Bookmark();
+        bm.number = b;
+        bm.lineNumber = getSelectedEditor().getCursorPos().y;
+        bm.name = getSelectedEditor().getFilename();
+        bm.fullFilename = getSelectedEditor().getFilename();
+        if (currentProject != null)
+        bm.project = currentProject.getDirectoryName();
+        settings.bookmarks.put(b, bm);
+        printMessage("Bookmark set: " + bm.toString());
+    }
+    
+    void goBookmark(int b)
+    {
+        Bookmark bm = settings.bookmarks.get(b);
+        if (bm == null) return;
+        printMessage("Bookmark go: " + bm.toString());
+        
+        addEditor(bm.fullFilename, true);
+        String nameOnly = new File(bm.fullFilename).getName();
+        
+        tabExistsSwitch(nameOnly);
+        getSelectedEditor().jump(bm.lineNumber);
+    }
+    
     public void updateList()
     {
         projectsListModel = new DefaultListModel();
@@ -312,9 +406,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             filesListModel.addElement(p.getFileName().toString());
         }
         jListFiles.setModel(filesListModel);
-        
     }
-    
     
     EditorPanel addEditor(String fullPathname, boolean addToSettings)
     {
@@ -327,6 +419,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             String settingsAbs = de.malban.util.Utility.makeAbsolut(fullPathname);
             if (settings.currentOpenFiles.contains(settingsAbs))
             {
+                
                 return null;
             }
             if (settings.currentOpenFiles.contains(settingsRel))
@@ -455,9 +548,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel4 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jListFiles = new javax.swing.JList();
+        jButtonNew1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jListProjects = new javax.swing.JList();
+        jButtonNew7 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -486,6 +581,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jLabel6 = new javax.swing.JLabel();
         jButtonClearMessages = new javax.swing.JButton();
         jButtonRefresh = new javax.swing.JButton();
+        jButtonDebug = new javax.swing.JButton();
 
         jPopupMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -734,7 +830,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
 
         jButtonAssemble.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_play_blue.png"))); // NOI18N
-        jButtonAssemble.setToolTipText("Assemble current file, if if project is loaded, build project");
+        jButtonAssemble.setToolTipText("Assemble current file, if if project is loaded, build project and run it (if so defined in config).");
         jButtonAssemble.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonAssemble.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -784,15 +880,35 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
         jScrollPane5.setViewportView(jListFiles);
 
+        jButtonNew1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
+        jButtonNew1.setToolTipText("delete entries");
+        jButtonNew1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonNew1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButtonNew1MousePressed(evt);
+            }
+        });
+        jButtonNew1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNew1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jButtonNew1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addComponent(jButtonNew1)
+                .addGap(2, 2, 2)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("last files", jPanel4);
@@ -809,15 +925,35 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
         jScrollPane6.setViewportView(jListProjects);
 
+        jButtonNew7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
+        jButtonNew7.setToolTipText("delete entries");
+        jButtonNew7.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonNew7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButtonNew7MousePressed(evt);
+            }
+        });
+        jButtonNew7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNew7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jButtonNew7)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addComponent(jButtonNew7)
+                .addGap(2, 2, 2)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane2.addTab("last projects", jPanel5);
@@ -886,7 +1022,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel3.setSize(new java.awt.Dimension(964, 27));
 
         jLabel1.setText("search:");
 
@@ -1067,6 +1202,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
 
+        jButtonDebug.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/bug_go.png"))); // NOI18N
+        jButtonDebug.setToolTipText("Assemble current file, if if project is loaded, build project and start debugging it (if so defined in config).");
+        jButtonDebug.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonDebug.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDebugActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1095,6 +1239,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 .addComponent(jButtonPrettyPrint)
                 .addGap(46, 46, 46)
                 .addComponent(jButtonAssemble)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonDebug)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1117,7 +1263,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     .addComponent(jButtonAssemble)
                     .addComponent(jButtonNew)
                     .addComponent(jButtonPrettyPrint)
-                    .addComponent(jButtonRefresh))
+                    .addComponent(jButtonRefresh)
+                    .addComponent(jButtonDebug))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
@@ -1231,6 +1378,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     {
         if (asmStarted) return;
         asmStarted = true;
+        jButtonDebug.setEnabled(false);
         jButtonAssemble.setEnabled(false);
         // paranoia!
         if (one != null) return;
@@ -1276,6 +1424,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
                 one = null;
                 jButtonAssemble.setEnabled(true);
+                jButtonDebug.setEnabled(true);
                 asmStarted = false;
             }  
         };
@@ -1305,7 +1454,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         fname = fname.substring(0,li);
                 }
                 fname = fname + ".bin";
-                vec.startUp(fname);
+                vec.startUp(fname, true, startTypeRun);
                 printMessage("Assembly successfull, starting emulation...");
             }
             else
@@ -1317,19 +1466,34 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         else
         {
             printError("Assembly not successfull, see ASM output...");
+            jTabbedPane.setSelectedIndex(1);
         }
         refreshTree();
     }
 
     
     private void jButtonAssembleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleActionPerformed
+        run();
+    }//GEN-LAST:event_jButtonAssembleActionPerformed
+
+    public void debug()
+    {
+        startTypeRun = false;
+        runInternal();
+    }
+    public void run()
+    {
+        startTypeRun = true;
+        runInternal();
+    }
+    public void runInternal()
+    {
         // save File(s) to tmp
         if (inProject)
         {
             doBuild();
             return;
         }
-        
         // just compile current
         clearASMOutput();
         EditorPanel edit = getSelectedEditor();
@@ -1339,8 +1503,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         String fname = getSelectedEditor().getFilename();
         if (fname == null) return;
         startASM(fname);
-    }//GEN-LAST:event_jButtonAssembleActionPerformed
-
+    }
+    
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
         tabChanged(true);
     }//GEN-LAST:event_jTabbedPane1StateChanged
@@ -2108,6 +2272,28 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         doVector();
     }//GEN-LAST:event_jMenuItemVectorActionPerformed
 
+    private void jButtonNew1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNew1MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonNew1MousePressed
+
+    private void jButtonNew1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNew1ActionPerformed
+        settings.recentOpenFiles = new ArrayList<>();
+        updateList();
+    }//GEN-LAST:event_jButtonNew1ActionPerformed
+
+    private void jButtonNew7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNew7MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonNew7MousePressed
+
+    private void jButtonNew7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNew7ActionPerformed
+        settings.recentProject = new ArrayList<>();
+        updateList();
+    }//GEN-LAST:event_jButtonNew7ActionPerformed
+
+    private void jButtonDebugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDebugActionPerformed
+        debug();
+    }//GEN-LAST:event_jButtonDebugActionPerformed
+
     public String getLine(JEditorPane comp, int pos)
     {
         try
@@ -2151,9 +2337,17 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JButton jButtonClearMessages;
     private javax.swing.JButton jButtonCopy;
     private javax.swing.JButton jButtonCut;
+    private javax.swing.JButton jButtonDebug;
     private javax.swing.JButton jButtonIgnoreCase;
     private javax.swing.JButton jButtonLoad;
     private javax.swing.JButton jButtonNew;
+    private javax.swing.JButton jButtonNew1;
+    private javax.swing.JButton jButtonNew2;
+    private javax.swing.JButton jButtonNew3;
+    private javax.swing.JButton jButtonNew4;
+    private javax.swing.JButton jButtonNew5;
+    private javax.swing.JButton jButtonNew6;
+    private javax.swing.JButton jButtonNew7;
     private javax.swing.JButton jButtonPaste;
     private javax.swing.JButton jButtonPrettyPrint;
     private javax.swing.JButton jButtonRedo;
@@ -2234,7 +2428,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     {
         try
         {
-            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("body"));
+            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("editLogMessage"));
         } catch (Throwable e) { }
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
     }
@@ -2242,7 +2436,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     {
         try
         {
-            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("endtag"));
+            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("editLogWarning"));
         } catch (Throwable e) { }
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
     }    
@@ -2846,7 +3040,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (project == null) return; // cancel or error
         
         // try to create dir and save project properties
-        Path p = Paths.get(project.getPath(),project.getProjectName());
+        String p1 = project.getPath();
+        String p2 = project.getProjectName();
+        Path p = Paths.get(p1,p2);
         
         
         if ((p.toAbsolutePath().toFile().exists()))
@@ -3022,7 +3218,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         {
             String filename = entity.getFile().toString();
             if (filename.length()==0)return;
-            jumpToEdit(filename, entity.getLineNumber());
+            int line = entity.getLineNumber();
+            SwingUtilities.invokeLater(new Runnable()
+            {
+                public void run()
+                {
+                    jumpToEdit(filename, line);
+                }
+            });                    
         }
         catch (Throwable e)
         {
@@ -3196,6 +3399,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (asmStarted) return;
         asmStarted = true;
         jButtonAssemble.setEnabled(false);
+        jButtonDebug.setEnabled(false);
         // paranoia!
         if (one != null) return;
         one = new Thread() 
@@ -3224,6 +3428,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                             });                    
                             one = null;
                             jButtonAssemble.setEnabled(true);
+                            jButtonDebug.setEnabled(true);
                             asmStarted = false;
                             return;
                         }
@@ -3302,6 +3507,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                             });                    
                             one = null;
                             jButtonAssemble.setEnabled(true);
+                            jButtonDebug.setEnabled(true);
                             asmStarted = false;
                             return;
                         }
@@ -3321,6 +3527,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     });   
                     one = null;
                     jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
                     asmStarted = false;
                     return;
                 }
@@ -3335,6 +3542,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     });                    
                     one = null;
                     jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
                     asmStarted = false;
                     return;
                 }
@@ -3359,6 +3567,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 
                 one = null;
                 jButtonAssemble.setEnabled(true);
+                jButtonDebug.setEnabled(true);
                 asmStarted = false;
             }  
         };
@@ -3366,6 +3575,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         one.setName("Build: "+currentProject.getProjectName());
         one.start();           
     }            
+        
     protected void buildResult(boolean buildOk)
     {
         refreshTree();
@@ -3377,7 +3587,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
                 CartridgeProperties cartProp = buildCart(currentProject);
-                vec.startCartridge(cartProp);
+                vec.startCartridge(cartProp, startTypeRun);
                 printMessage("Assembly successfull, starting emulation...");
             }
             else
@@ -3389,6 +3599,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         else
         {
             printError("Assembly not successfull, see ASM output...");
+            jTabbedPane.setSelectedIndex(1);
         }
         refreshTree();
     }  
@@ -3514,6 +3725,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     {
         String tabname = entry.pathAndName.getFileName().toString();
 
+        return tabExistsSwitch(tabname);
+    }
+    boolean tabExistsSwitch(String tabname)
+    {
         int count = jTabbedPane1.getTabCount();
         int found = -1;
         for (int i=0; i< count; i++)
@@ -3733,4 +3948,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         VectorJPanel.showModPanelNoModal(pathFull, this);
     }
+
+
+    
+
+
 }

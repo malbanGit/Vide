@@ -7,7 +7,7 @@ package de.malban.vide.vedi;
 
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
-import de.malban.graphics.GFXVectorList;
+import de.malban.gui.HotKey;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.util.KeyboardListener;
 import de.malban.util.UtilityString;
@@ -31,7 +31,6 @@ import javax.swing.AbstractAction;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -212,46 +211,31 @@ public class EditorPanel extends EditorPanelFoundation
         editorPaneDocument.addUndoableEditListener(undoManager);
         
         
-        // KEY Setup
-        KeyStroke copyKeystrokeMac = KeyStroke.getKeyStroke(KeyEvent.VK_C, Event.META_MASK);
-        KeyStroke pasteKeystrokeMac = KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.META_MASK);
-        KeyStroke cutKeystrokeMac = KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.META_MASK);
-        jTextPane1.getInputMap().put(copyKeystrokeMac, javax.swing.text.DefaultEditorKit.copyAction);
-        jTextPane1.getInputMap().put(pasteKeystrokeMac, javax.swing.text.DefaultEditorKit.pasteAction);
-        jTextPane1.getInputMap().put(cutKeystrokeMac, javax.swing.text.DefaultEditorKit.cutAction);
         
-        KeyStroke shiftTabKeystrokeMac = KeyStroke.getKeyStroke(KeyEvent.VK_TAB, Event.SHIFT_MASK);
-        KeyStroke tabKeystrokeMac = KeyStroke.getKeyStroke(KeyEvent.VK_TAB,0);
-        jTextPane1.getInputMap().put(tabKeystrokeMac, "tab");
-        jTextPane1.getActionMap().put("tab", tabAction);
-        jTextPane1.getInputMap().put(shiftTabKeystrokeMac, "shiftTab");
-        jTextPane1.getActionMap().put("shiftTab", shiftTabAction);
         
-        KeyStroke undoKeystrokeMac = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.META_MASK);
-        KeyStroke redoKeystrokeMac = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.META_MASK);
-        jTextPane1.getInputMap().put(undoKeystrokeMac, "UndoMac");
-        jTextPane1.getActionMap().put("UndoMac", undoAction);
-        jTextPane1.getInputMap().put(redoKeystrokeMac, "RedoMac");
-        jTextPane1.getActionMap().put("RedoMac", redoAction);  
-
-        KeyStroke undoKeystrokeWin = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
-        KeyStroke redoKeystrokeWin = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
-        jTextPane1.getInputMap().put(undoKeystrokeWin, "UndoWin");
-        jTextPane1.getActionMap().put("UndoWin", undoAction);
-        jTextPane1.getInputMap().put(redoKeystrokeWin, "RedoWin");
-        jTextPane1.getActionMap().put("RedoWin", redoAction);        
-
+        new HotKey(javax.swing.text.DefaultEditorKit.copyAction,null, jTextPane1);
+        new HotKey(javax.swing.text.DefaultEditorKit.pasteAction, null, jTextPane1);
+        new HotKey(javax.swing.text.DefaultEditorKit.cutAction, null, jTextPane1);
+        new HotKey("unindent", shiftTabAction, jTextPane1);
+        new HotKey("indent", tabAction, jTextPane1);
+        new HotKey("UndoMac", undoAction, jTextPane1);
+        new HotKey("RedoMac", redoAction, jTextPane1);
+        new HotKey("UndoWin", undoAction, jTextPane1);
+        new HotKey("RedoWin", redoAction, jTextPane1);
+        new HotKey("UndoWin", undoAction, jTextPane1);
+        new HotKey("RedoWin", redoAction, jTextPane1);
+        new HotKey("SearchMac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.requestSearchFocus(); }}, this);
+        new HotKey("SearchWin", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.requestSearchFocus(); }}, this);
+        new HotKey("Run", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.run(); }}, this);
+        new HotKey("Debug", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.debug(); }}, this);
+        new HotKey("RecolorMac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  
+            stopColoring(); 
+            startColoring();}}, jTextPane1);
+        new HotKey("RecolorWin", new AbstractAction() { public void actionPerformed(ActionEvent e) {  stopColoring(); startColoring();}}, jTextPane1);
+        new HotKey("JumpMac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jump();}}, jTextPane1);
+        new HotKey("JumpWin", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jump();}}, jTextPane1);
         
-       // Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
         
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F,Event.META_MASK), "SearchMac");
-        this.getActionMap().put("SearchMac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.requestSearchFocus(); }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F,Event.CTRL_MASK), "SearchWin");
-        this.getActionMap().put("SearchWin", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.requestSearchFocus(); }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_H,Event.META_MASK), "SearchMac");
-        this.getActionMap().put("SearchMac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.requestSearchFocus(); }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_H,Event.CTRL_MASK), "SearchWin");
-        this.getActionMap().put("SearchWin", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (parent != null) parent.requestSearchFocus(); }});
         
 
         // table setup
@@ -857,12 +841,14 @@ public class EditorPanel extends EditorPanelFoundation
             final int lineNowf = lineNow;
             final int lenNowf = lenNow;
             jTextPane1.requestFocusInWindow();
-            jTextPane1.setSelectionStart(lenNowf);
+            jTextPane1.setSelectionStart(0);
             jTextPane1.setSelectionEnd(lenNowf+lines[lineNowf-1].length()); // -1 look shiity, but enables another previous search
+            jTextPane1.setSelectionStart(lenNowf);
+            
         }
         catch (Throwable e)
         {
-            
+            e.printStackTrace();
         }
         
         return true;
@@ -1133,4 +1119,37 @@ public class EditorPanel extends EditorPanelFoundation
         parent.tabChanged(false);
     }
 
- }
+    public void jump()
+    {
+        int line = GetJumpValuePanel.showEnterValueDialog();
+        jump(line);
+        if (line <=0 ) 
+        {
+            goLine(0);
+        }
+        else if (line >getTextpaneRowCount())
+        {
+            goLine(getTextpaneRowCount()-1);
+        }
+        else
+        {
+            goLine(line);
+        }
+        jTextPane1.grabFocus();
+    }
+    public void jump(int line)
+    {
+        if (line <=0 ) 
+        {
+            goLine(0);
+        }
+        else if (line >getTextpaneRowCount())
+        {
+            goLine(getTextpaneRowCount()-1);
+        }
+        else
+        {
+            goLine(line);
+        }
+        jTextPane1.grabFocus();
+    } }

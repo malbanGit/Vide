@@ -8,6 +8,7 @@ package de.malban;
 import de.malban.event.EventSupport;
 import de.malban.gui.CSAMainFrame;
 import de.malban.sound.tinysound.TinySound;
+import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -62,7 +63,6 @@ Toolkit.getDefaultToolkit().addAWTEventListener( new AWTEventListener()
 }, eventMask);
 */
 
-        
         TinySound.init();
         CSAMainFrame mainFrame = new CSAMainFrame();
         mainFrame.setVisible(true);

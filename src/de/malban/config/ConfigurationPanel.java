@@ -14,6 +14,7 @@ package de.malban.config;
 import de.malban.config.sound.SoundMap;
 import de.malban.config.sound.SoundMapPool;
 import de.malban.config.theme.ThemeDataPanel;
+import de.malban.gui.CSAMainFrame;
 import de.malban.gui.ImageCache;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
@@ -60,6 +61,22 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
     public javax.swing.JPanel getPanel()
     {
         return this;
+    }
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
     }
 
     /** Creates new form ConfigurationPanel */

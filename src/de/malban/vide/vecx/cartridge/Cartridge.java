@@ -176,6 +176,7 @@ public class Cartridge  implements Serializable
                         
                     }
                 }
+                if (allData == null) return;
                 if (allData.length<pos+1024+512) pos = 0;
                 for (int ii=0; ii< 1024+512;ii++)
                 {
@@ -203,7 +204,7 @@ public class Cartridge  implements Serializable
             log.addLog("Cart: getBankeRomName() bankFileNames = null", WARN);
             return null;
         }
-        if (bank > bankFileNames.length)
+        if (bank >= bankFileNames.length)
         {
             log.addLog("Cart: getBankeRomName() bank > size", WARN);
             return null;
@@ -214,9 +215,17 @@ public class Cartridge  implements Serializable
     {
         if (bankLength==null)
         {
-            log.addLog("Cart: getByteData() bankLength = 0", WARN);
+            log.addLog("Cart: getByteData() bankLength = null", WARN);
             return new byte[0];
         }
+        if (bank >= bankLength.length)
+        {
+            log.addLog("Cart: getByteData() bank >= bankLength", WARN);
+            return new byte[0];
+        }
+        
+        
+        
         byte[] ret = new byte[bankLength[bank]];
         for (int i=0; i< bankLength[bank];i++)
         {
@@ -382,7 +391,11 @@ public class Cartridge  implements Serializable
             bankLength = new int[bankMax]; // so many bank length we need
             bankFileNames= new String[bankMax];
 
-            
+            if (loadLen == 0) 
+            {
+                log.addLog("Cartridge not loaded, loadLen = 0", WARN);
+                return false;
+            }
             int length = loadLen;
             for (int b=0;b<bankMax;b++)
             {

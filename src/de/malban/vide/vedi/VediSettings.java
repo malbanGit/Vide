@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -18,6 +19,7 @@ public class VediSettings implements Serializable
 {
     public int pos1 = 0;
     public int pos2 = 0;
+    public HashMap <Integer, Bookmark> bookmarks = new HashMap<>();
     public static class P implements Serializable
     {
         String mName;

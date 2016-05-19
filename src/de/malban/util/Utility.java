@@ -69,6 +69,10 @@ public class Utility
         String here = f.getAbsolutePath();
         String fullpathTest = fullpath;
         String hereTest = here;
+        
+        if (fullpath.endsWith(File.separator)) fullpath = fullpath.substring(0, fullpath.length()-File.separator.length());
+        if (hereTest.endsWith(File.separator)) hereTest = hereTest.substring(0, hereTest.length()-File.separator.length());
+        
         if (isWin)
         {
             // one has the drive letter in lower, the other in upper case??? What the HECK?????
@@ -104,7 +108,7 @@ public class Utility
             // 3\.
             // blub\sound.wav
             int up = UtilityString.countStrings(rHere, File.separator);
-            for (int i=0; i< up; i++)
+            for (int i=0; i<=up; i++)
             {
                 rPath = ".."+File.separator+rPath;
             }

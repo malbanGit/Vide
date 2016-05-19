@@ -188,7 +188,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         for (int i=0; i<Breakpoint.BP_TARGET_COUNT; i++)
             breakpoints[i] = new ArrayList<>();
         line = TinySound.getOutStream();
-line.start();
+        line.start();
         }
     void deinitAudio()
     {

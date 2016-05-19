@@ -84,7 +84,7 @@ public class AboutPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setText("1.0 RC");
+        jLabel1.setText("1.0 RC2");
 
         jLabel3.setText("Homepage: ");
 
@@ -109,8 +109,8 @@ public class AboutPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel5))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

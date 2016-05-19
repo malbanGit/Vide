@@ -18,6 +18,7 @@ import de.malban.gui.components.CSAView;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.gui.dialogs.FileUtil;
 import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.gui.panels.TipOfDayGUI;
 import de.malban.gui.panels.WindowablePanel;
@@ -29,6 +30,7 @@ import de.malban.vide.dissy.DissiFullPanel;
 import de.malban.vide.vecx.panels.AnalogJPanel;
 import de.malban.vide.vecx.panels.BreakpointJPanel;
 import de.malban.vide.ConfigJPanel;
+import de.malban.vide.VideConfig;
 import de.malban.vide.codi.CodeLibraryPanel;
 import de.malban.vide.vecx.panels.LabelJPanel;
 import de.malban.vide.vecx.panels.MemoryDumpPanel;
@@ -43,6 +45,8 @@ import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import de.malban.vide.vedi.VediPanel;
 import java.awt.*;
+import static java.awt.BorderLayout.CENTER;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.io.File;
@@ -60,6 +64,7 @@ import javax.help.JHelpContentViewer;
 import javax.help.WindowPresentation;
 import javax.swing.*;
 import javax.swing.plaf.UIResource;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
  *
@@ -71,6 +76,7 @@ public class CSAMainFrame extends javax.swing.JFrame
                         java.awt.event.AWTEventListener,
                         ConfigChangedListener
 {
+    boolean fullDesktopDefault = false; // desktop window or move to front on menu item click
     static boolean isMac = Global.getOSName().toUpperCase().indexOf("MAC")!=-1;
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     class JM extends JMenu
@@ -183,13 +189,17 @@ public class CSAMainFrame extends javax.swing.JFrame
     public CSAMainFrame() {
         //initComponents();
         Global.mMainWindow = this;
-
         ToolTipManager.sharedInstance().setDismissDelay(15000);
         Theme t = Configuration.getConfiguration().getCurrentTheme();
         getFrame().setIconImage(t.getImage(("RedIconSmall.png")));
         Configuration.getConfiguration().setMainFrame(getFrame());
         initComponents();
-
+        jMenuItemCloseWin.setVisible(fullDesktopDefault);
+        jMenuItem16.setVisible(false);
+        jMenuItem15.setVisible(false);
+        jMenuItem5.setVisible(false);
+        jMenuItemDissy.setVisible(false);
+        jMenuItemAssi.setVisible(false);
         if (!device.isFullScreenSupported())
         {
         }
@@ -198,8 +208,6 @@ public class CSAMainFrame extends javax.swing.JFrame
         mainPanel.setLayout(new java.awt.BorderLayout());
         mainPanel.add(mDesktop, java.awt.BorderLayout.CENTER);
         resetMainPanel();
-
-//        titlePanel1.setPortalView(this);
 
         Configuration.getConfiguration().init();
         Configuration.getConfiguration().addConfigListerner(this);
@@ -235,10 +243,16 @@ public class CSAMainFrame extends javax.swing.JFrame
             }
         });
 
+        VideConfig.getConfig();
+        setUpGlobalKeys();
+        
         getFrame().setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         loadMe();
     }
-
+    void windowManagerStart()
+    {
+        
+    }
     public final JFrame getFrame()
     {
         return this;
@@ -840,11 +854,13 @@ public class CSAMainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     private void jMenuItemVeccyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVeccyActionPerformed
-      
-        VeccyPanel p = new VeccyPanel();
-        addPanel(p);
-        setMainPanel(p);
-        CSAInternalFrame frame = windowMe(p, 800, 600, VeccyPanel.SID);
+        Windowable p = getVeccy();
+        CSAInternalFrame frame = getInternalFrame(p);
+        try
+        {
+            if (frame.isIcon()) frame.setIcon(false);
+        }
+        catch (Throwable ex) { }
     }//GEN-LAST:event_jMenuItemVeccyActionPerformed
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
@@ -860,27 +876,36 @@ public class CSAMainFrame extends javax.swing.JFrame
         StatementWindow p = new StatementWindow();
         addPanel(p);
         setMainPanel(p);
+        CSAInternalFrame frame = windowMe(p, 800, 600, "SQL Window");
+        
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     private void jMenuItemDissyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDissyActionPerformed
-        DissiFullPanel p = new DissiFullPanel();        
-        addPanel(p);
-        setMainPanel(p);
-        CSAInternalFrame frame = windowMe(p, 800, 600, DissiFullPanel.SID);
+        Windowable p = getDissi();
+        CSAInternalFrame frame = getInternalFrame(p);
+        try
+        {
+            if (frame.isIcon()) frame.setIcon(false);
+        }
+        catch (Throwable ex) { }
     }//GEN-LAST:event_jMenuItemDissyActionPerformed
 
     private void jMenuItemAssiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAssiActionPerformed
         AssyPanel p = new AssyPanel();
         addPanel(p);
         setMainPanel(p);
+        CSAInternalFrame frame = windowMe(p, 800, 600, "Assi Window");
     }//GEN-LAST:event_jMenuItemAssiActionPerformed
 
     private void jMenuItemVecxiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVecxiActionPerformed
-      
-        VecXPanel p = new VecXPanel();
-        addPanel(p);
-        setMainPanel(p);
-        CSAInternalFrame frame = windowMe(p, 800, 600, VecXPanel.SID);
+        Windowable p = getVecxy();
+        CSAInternalFrame frame = getInternalFrame(p);
+        try
+        {
+            if (frame.isIcon()) frame.setIcon(false);
+        }
+        catch (Throwable ex) { }
+        
     }//GEN-LAST:event_jMenuItemVecxiActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -888,28 +913,28 @@ public class CSAMainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_formWindowClosing
 
     private void jMenuItemVediActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVediActionPerformed
-        getVedi();
+        Windowable p = getVedi();
+        CSAInternalFrame frame = getInternalFrame(p);
+        try
+        {
+            if (frame.isIcon()) frame.setIcon(false);
+        }
+        catch (Throwable ex) { }
     }//GEN-LAST:event_jMenuItemVediActionPerformed
 
     private void jMenuItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConfigActionPerformed
         ConfigJPanel configi = new ConfigJPanel();
-        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
-        frame.addPanel(configi);
-        frame.setMainPanel(configi);
-        frame.windowMe(configi, 331, 514, ConfigJPanel.SID);
+        addAsWindow(configi, 331, 514, ConfigJPanel.SID);
     }//GEN-LAST:event_jMenuItemConfigActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         CompareDissiPanel cd = new CompareDissiPanel();
-        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
-        frame.addPanel(cd);
-        frame.setMainPanel(cd);
-        frame.windowMe(cd, 331, 514, CompareDissiPanel.SID);
+        addAsWindow(cd, 331, 514, CompareDissiPanel.SID);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
 
-     Configuration C = Configuration.getConfiguration();
+        Configuration C = Configuration.getConfiguration();
         FileUtil ac = new FileUtil();
         ModalInternalFrame modal = new ModalInternalFrame("FileUtil", C.getMainFrame().getRootPane(), C.getMainFrame(), ac, ac.getExitButton());
         ac.setDialog(modal);
@@ -922,7 +947,13 @@ public class CSAMainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItemCodiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCodiActionPerformed
-        getCodi();
+        Windowable p = getCodi();
+        CSAInternalFrame frame = getInternalFrame(p);
+        try
+        {
+            if (frame.isIcon()) frame.setIcon(false);
+        }
+        catch (Throwable ex) { }
     }//GEN-LAST:event_jMenuItemCodiActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -1083,24 +1114,36 @@ public class CSAMainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_jMenuItem36ActionPerformed
 
     private void jMenuItemStarterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStarterActionPerformed
-        getStarter();
+        Windowable p = getStarter();
+        CSAInternalFrame frame = getInternalFrame(p);
+        try
+        {
+            if (frame.isIcon()) frame.setIcon(false);
+        }
+        catch (Throwable ex) { }
     }//GEN-LAST:event_jMenuItemStarterActionPerformed
 
     private void jMenuItemCartridgeEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCartridgeEditActionPerformed
         
         CartridgePropertiesPanel cd = new CartridgePropertiesPanel();
-        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
-        frame.addPanel(cd);
-        frame.setMainPanel(cd);
-        frame.windowMe(cd, 331, 514, CartridgePropertiesPanel.SID);
-        
-        
+        addAsWindow(cd, 331, 514, CartridgePropertiesPanel.SID);
     }//GEN-LAST:event_jMenuItemCartridgeEditActionPerformed
 
     private void jMenuItemDebugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDebugActionPerformed
         if (Configuration.getConfiguration().isDebugOff()) return;
         if (!(Configuration.getConfiguration().getDebugEntity() instanceof de.malban.gui.panels.LogPanel)) return;
         LogPanel c = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+        
+        
+        CSAInternalFrame frame = addAsWindow(c, 331, 514, "Debug Window");
+            frame.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {
+                @Override
+                public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                    mDebugDisplayed = false;
+                }
+            });
+        mDebugDisplayed = true;
+        /*
         if (Configuration.getConfiguration().isDebugWindowFrameable())
         {
             if (mDebugDisplayed)
@@ -1129,14 +1172,12 @@ public class CSAMainFrame extends javax.swing.JFrame
         }
         addPanel(c);
         setMainPanel(c);
-        mDebugDisplayed = true;
+        */
     }//GEN-LAST:event_jMenuItemDebugActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         ConfigurationPanel c = new ConfigurationPanel();
-        addPanel(c);
-        setMainPanel(c);
-        windowMe(c,1018,680, "Configuration");
+        addAsWindow(c, 1018, 680, "Application onfiguration");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     boolean gameMode = false;
@@ -1330,7 +1371,6 @@ public class CSAMainFrame extends javax.swing.JFrame
             {
                 removeInternalFrame(frame);
                 frame.removeInternalFrameListener(fl.get(frame));
-                
             }
         };
         frame.addInternalFrameListener(l);
@@ -1359,9 +1399,14 @@ public class CSAMainFrame extends javax.swing.JFrame
         {
             if (((Windowable)frame.getPanel()) != null)
                 ((Windowable)frame.getPanel()).closing();
+
+        
+            JMenuItem item = ((Windowable)frame.getPanel()).getMenuItem();
+            if (item!=null)
+                windowMenu.remove(item);
         }
         
-        
+
         frame.removeInternalFrameListener(fl.get(frame));
     }
 
@@ -1672,106 +1717,6 @@ public class CSAMainFrame extends javax.swing.JFrame
 //        titlePanel1.startGlitter();
     }
 
-    public void addPanel(final Windowable p)
-    {
-        ((JPanel)p).setVisible(false);
-        mPanels.addElement(p.getPanel());
-        mCurrentPanel = p.getPanel();
-        javax.swing.JMenuItem jMenuItem = new javax.swing.JMenuItem();
-        p.setMenuItem(jMenuItem);
-        p.setParentWindow(this);
-        jMenuItem.addActionListener(new java.awt.event.ActionListener()
-        {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
-                if (mCurrentPanel == p.getPanel())
-                {
-                    windowMe((Windowable)p, 100, 100, p.getMenuItem().getName());
-                }
-                else
-                {
-                    setMainPanel(p.getPanel());
-                    mCurrentPanel = p.getPanel();
-                }
-            }
-        });
-        windowMenu.add(jMenuItem);
-        // reset in fullscreen the addEnter Structure
-        if (fullscreen)
-        {
-            addEnter(pop, false);
-            addEnter(pop, true);
-        }
-
-        ((JPanel)p).setVisible(true);
-    }
-
-    public void removePanel(final Windowable p)
-    {
-        removePanel(p, true);
-    }
-    public void removePanel(final Windowable p, boolean closing)
-    {
-        ((JPanel)p).setVisible(false);
-        mPanels.removeElement(p.getPanel());
-        
-        
-        for(JInternalFrame frame: mFrames)
-        {
-            CSAInternalFrame f = (CSAInternalFrame)frame;
-            if (f.getPanel().equals((JPanel)p)) 
-            {
-                try
-                {
-                    p.closing();
-                    mFrames.remove(f);
-                    f.setClosed(true);
-                    f.dispose();
-                }
-                catch (Throwable e)
-                {
-                    log.addLog("CSAMainFrame: removePanel: "+e.getMessage(), WARN);
-                }
-                break;
-            }
-        }
-       
-        
-        
-        
-        JMenuItem item = p.getMenuItem();
-        if (item!=null)
-            windowMenu.remove(item);
-        // reset in fullscreen the addEnter Structure
-        if (fullscreen)
-        {
-            addEnter(pop, false);
-            addEnter(pop, true);
-        }
-        if (mPanels.size()>0)
-        {
-            
-            setMainPanel(mPanels.elementAt(0));
-            mCurrentPanel = mPanels.elementAt(0);
-        }
-        else
-        {
-            mCurrentPanel = null;
-            resetMainPanel();
-        }
-        if (p ==(Windowable) Configuration.getConfiguration().getLogEntity())
-        {
-            mLogDisplayed = false;
-        }
-        if (Configuration.getConfiguration().getDebugEntity() instanceof Windowable)
-        if (p ==(Windowable) Configuration.getConfiguration().getDebugEntity())
-        {
-            mDebugDisplayed = false;
-        }
-        if (closing)
-            p.closing();
-    }
 
 
     private void toFullscreen()
@@ -1952,51 +1897,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         setMainPanel((JPanel)p);
     }
 
-    public void desktopMe(CSAInternalFrame f)
-    {
-        JPanel p = f.getPanel();
-        ((JPanel)p).setVisible(false);
-        f.setVisible(false);
-        try
-        {
-            f.setClosed(true);
-        }
-        catch (Throwable e){}
-        removeInternalFrame(f);
-        addPanel((Windowable) p);
-        ((JPanel)p).setVisible(true);
-        setMainPanel(p);
-    }
 
-    public CSAInternalFrame windowMe(Windowable p, int w, int h, String title)
-    {
-        ((JPanel)p).setVisible(false);
-        removePanel(p, false);
-        CSAInternalFrame frame = new CSAInternalFrame();
-        frame.addPanel((JPanel)p);
-        frame.setSize(w, h);
-
-        addInternalFrame(frame);
-        
-        frame.setTitle(title);
-        frame.setVisible(true);
-        
-        if (internalFrameDifference == null)
-        {
-            Container c = frame.getContentPane();
-            Dimension cc = c.getSize();
-            Dimension f = frame.getSize();
-            
-            internalFrameDifference = new Dimension(f.width-cc.width, f.height-cc.height);
-        }
-        
-        ((JPanel)p).setVisible(true);
-        if (p instanceof Stateable)
-        {
-            loadState((Stateable)p, frame);
-        }
-        return frame;
-    }
 
     public boolean closeMyWindow(JPanel p)
     {
@@ -2027,9 +1928,12 @@ public class CSAMainFrame extends javax.swing.JFrame
     }
     public boolean showMyPanel(Windowable p, boolean now)
     {
-        addPanel(p);
         if (now)
-            windowMe(p, 800, 800, p.getMenuItem().getName());
+        {
+            addAsWindow(p, 800, 800, p.getMenuItem().getName());
+            return true;
+        }
+        addPanel(p);
         return true;
     }
 
@@ -2076,74 +1980,7 @@ public class CSAMainFrame extends javax.swing.JFrame
             setMainPanel(mCurrentPanel);
     }
 
-    public void setMainPanel(javax.swing.JPanel panel)
-    {
-        if (panel == null) return;
-        boolean backdrop = false;
-        if (Configuration.getConfiguration().isBackImageShown())
-        {
-            backdrop = true;
-        }
-        backdrop = backdrop && (!panel.isOpaque());
-        if (!backdrop )
-        {
-            setMainPanelOld(panel);
-        }
-        else
-        {
-        }
-        invalidate();
-        validate();
-        repaint();
-    }
 
-    public void setMainPanelOld(javax.swing.JPanel panel)
-    {
-        panel.setVisible(false);
-        mDesktop.setVisible(false);
-        
-        for (int i = 0;i<mDesktop.getComponentCount();i++)
-        {
-            mDesktop.getComponent(i).setVisible(false);
-        }
-        
-        
-        mDesktop.removeAll();
-        for (int i=0; i <  mFrames.size(); i++)
-        {
-            JInternalFrame f = mFrames.elementAt(i);
-            getMainPanel().add(f);
-            f.setVisible(true);
-            getMainPanel().setComponentZOrder(f, 0);
-        }
-
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mDesktop);
-        mDesktop.setLayout(mainPanelLayout);
-
-
-        synchronized (panel)
-        {
-            mainPanelLayout.setHorizontalGroup(
-                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            );
-            mainPanelLayout.setVerticalGroup(
-                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            );
-            panel.setVisible(true);
-        }
-        mDesktop.setVisible(true);
-
-    }
-    private void resetMainPanel()
-    {
-    }
-
-    public java.awt.Container getMainPanel()
-    {
-        return mDesktop;
-    }
 
     
     void testFirstTime()
@@ -2351,7 +2188,8 @@ public class CSAMainFrame extends javax.swing.JFrame
         }
         catch (Throwable e)
         {
-            Configuration.getConfiguration().getDebugEntity().addLog(e, ERROR);
+            Configuration.getConfiguration().getDebugEntity().addLog("Deserialize not possible for: "+fileName, INFO);
+//            Configuration.getConfiguration().getDebugEntity().addLog(e, ERROR);
         }
         return null;
     }    
@@ -2409,9 +2247,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public DissiPanel createDissi()
     {
         DissiPanel p = new DissiPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 600, 300, DissiPanel.SID);
+        addAsWindow(p, 800, 600, p.SID);
         return p;
     }
     // returns the "first" found vecxy panel or creates a new one!
@@ -2444,9 +2280,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public VecXPanel createVecxy()
     {
         VecXPanel p = new VecXPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 600, 300, VecXPanel.SID);
+        addAsWindow(p, 600, 300, p.SID);
         return p;
     }
     // returns the "first" found dissi panel or creates a new one!
@@ -2479,9 +2313,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public RegisterJPanel createRegi()
     {
         RegisterJPanel p = new RegisterJPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 94, 320, RegisterJPanel.SID);
+        addAsWindow(p, 94, 320, p.SID);
         return p;
     }
     public VectorInfoJPanel getVinfi()
@@ -2513,9 +2345,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public VectorInfoJPanel createVinfi()
     {
         VectorInfoJPanel p = new VectorInfoJPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 94, 320, VectorInfoJPanel.SID);
+        addAsWindow(p, 94, 320, p.SID);
         return p;
     }
     public MemoryDumpPanel getDumpy()
@@ -2547,9 +2377,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public MemoryDumpPanel createDumpy()
     {
         MemoryDumpPanel p = new MemoryDumpPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 94, 320, MemoryDumpPanel.SID);
+        addAsWindow(p, 94, 320, p.SID);
         return p;
     }
     // returns the "first" found vecxy panel or creates a new one!
@@ -2582,9 +2410,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public VIAJPanel createViay()
     {
         VIAJPanel p = new VIAJPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 600, 300, VIAJPanel.SID);
+        addAsWindow(p, 600, 300, p.SID);
         return p;
     }
     
@@ -2618,9 +2444,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public VediPanel createVedi()
     {
         VediPanel p = new VediPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 600, 600, VediPanel.SID);
+        addAsWindow(p, 600, 600, p.SID);
         return p;
     }
 
@@ -2654,9 +2478,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public AnalogJPanel createAni()
     {
         AnalogJPanel p = new AnalogJPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 300, 200, AnalogJPanel.SID);
+        addAsWindow(p, 300, 200, p.SID);
         return p;
     }
     
@@ -2692,9 +2514,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public VarJPanel createVari()
     {
         VarJPanel p = new VarJPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 300, 200, VarJPanel.SID);
+        addAsWindow(p, 300, 200, p.SID);
         return p;
     }
     
@@ -2728,9 +2548,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public BreakpointJPanel createBreaki()
     {
         BreakpointJPanel p = new BreakpointJPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 460, 200, BreakpointJPanel.SID);
+        addAsWindow(p, 460, 200, p.SID);
         return p;
     }
     
@@ -2764,9 +2582,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public LabelJPanel createLabi()
     {
         LabelJPanel p = new LabelJPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 300, 200, LabelJPanel.SID);
+        addAsWindow(p, 320, 200, p.SID);
         return p;
     }
         // returns the "first" found vecxy panel or creates a new one!
@@ -2800,9 +2616,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public PSGJPanel createAyi()
     {
         PSGJPanel p = new PSGJPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 300, 200, PSGJPanel.SID);
+        addAsWindow(p, 320, 200, p.SID);
         return p;
     }
     
@@ -2836,9 +2650,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public CodeLibraryPanel createCodi()
     {
         CodeLibraryPanel p = new CodeLibraryPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 300, 200, CodeLibraryPanel.SID);
+        addAsWindow(p, 320, 200, p.SID);
         return p;
     }
     
@@ -2872,9 +2684,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public WRTrackerJPanel createWRTracker()
     {
         WRTrackerJPanel p = new WRTrackerJPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 300, 200, WRTrackerJPanel.SID);
+        addAsWindow(p, 320, 200, p.SID);
         return p;
     }
 
@@ -2906,9 +2716,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     public StarterJPanel createStarter()
     {
         StarterJPanel p = new StarterJPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 300, 200, StarterJPanel.SID);
+        addAsWindow(p, 320, 200, p.SID);
         return p;
     }
     
@@ -2940,9 +2748,7 @@ public VeccyPanel getVeccy()
     public VeccyPanel createVeccy()
     {
         VeccyPanel p = new VeccyPanel();        
-        addPanel(p);
-        setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame frame = windowMe(p, 1024, 768, VeccyPanel.SID);
+        addAsWindow(p, 1024, 768, p.SID);
         return p;
     }
     
@@ -2972,7 +2778,7 @@ public VeccyPanel getVeccy()
         s.w=frame.getWidth();
         s.h=frame.getHeight();
         s.name = p.getID();
-        
+        s.iconified = frame.isIcon();
 
         try
         {
@@ -3000,7 +2806,15 @@ public VeccyPanel getVeccy()
                 if (s == null) return false;
                 if (frame == null) return false;
                 frame.setBounds(s.x, s.y, s.w, s.h);
-                
+                try
+                {
+                    frame.setIcon(s.iconified);
+                }
+                catch (Throwable e)
+                {
+                    
+                }
+
                 Serializable ser =  (Serializable) CSAMainFrame.deserialize("serialize"+File.separator+p.getID()+"Add"+"Window.ser");
                 if (ser != null)
                 {
@@ -3136,5 +2950,534 @@ public VeccyPanel getVeccy()
         return true;
     }
 
-    
+    public void addPanel(final Windowable p)
+    {
+        if (mPanels.contains(p.getPanel())) return;
+        ((JPanel)p).setVisible(false);
+        mPanels.addElement(p.getPanel());
+        mCurrentPanel = p.getPanel();
+        javax.swing.JMenuItem jMenuItem = new javax.swing.JMenuItem();
+        p.setMenuItem(jMenuItem);
+        p.setParentWindow(this);
+        jMenuItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                
+                if (mCurrentPanel == p.getPanel())
+                {
+                    if (fullDesktopDefault)
+                        windowMe((Windowable)p, 100, 100, p.getMenuItem().getName());
+                    else
+                    {
+                        Windowable wp = (Windowable)p;
+                        if (getInternalFrame(wp).isIcon())
+                        {
+                            try
+                            {
+                                getInternalFrame(wp).setIcon(false);
+                            }
+                            catch (Throwable e)
+                            {
+                                
+                            }
+                        }
+                        getInternalFrame(wp).toFront();
+                        getInternalFrame(wp).grabFocus();
+                        try
+                        {
+                            getInternalFrame(wp).setSelected(true);
+                        }
+                        catch (Throwable e)
+                        {
+
+                        }
+                    }
+                        
+                }
+                else
+                {
+                    if (fullDesktopDefault)
+                    {
+                        setMainPanel(p.getPanel());
+                        mCurrentPanel = p.getPanel();
+                    }
+                    else
+                    {
+                        Windowable wp = (Windowable)p;
+                        if (getInternalFrame(wp).isIcon())
+                        {
+                            try
+                            {
+                                getInternalFrame(wp).setIcon(false);
+                            }
+                            catch (Throwable e)
+                            {
+                                
+                            }
+                        }
+                        getInternalFrame(wp).toFront();
+                        getInternalFrame(wp).grabFocus();
+                        try
+                        {
+                            getInternalFrame(wp).setSelected(true);
+                        }
+                        catch (Throwable e)
+                        {
+
+                        }
+                    }
+                }
+            }
+        });
+        
+        boolean alreadyAdded = false;
+        Component[] c = windowMenu.getPopupMenu().getComponents();
+        for (int i=0; i<c.length; i++)
+        {
+            if (c[i] instanceof javax.swing.JMenuItem)
+            {
+                javax.swing.JMenuItem mi = (javax.swing.JMenuItem) c[i];
+                if (mi == jMenuItem)
+                {
+                    alreadyAdded = true;
+                    break;
+                }
+            }
+        }
+        if (!alreadyAdded)
+            windowMenu.add(jMenuItem);
+        // reset in fullscreen the addEnter Structure
+        if (fullscreen)
+        {
+            addEnter(pop, false);
+            addEnter(pop, true);
+        }
+
+        ((JPanel)p).setVisible(true);
+    }
+    public void removePanel(final Windowable p)
+    {
+        removePanel(p, true);
+    }
+    public void removePanel(final Windowable p, boolean closing)
+    {
+        ((JPanel)p).setVisible(false);
+        mPanels.removeElement(p.getPanel());
+        
+        
+        for(JInternalFrame frame: mFrames)
+        {
+            CSAInternalFrame f = (CSAInternalFrame)frame;
+            if (f.getPanel().equals((JPanel)p)) 
+            {
+                try
+                {
+                    p.closing();
+                    mFrames.remove(f);
+                    f.setClosed(true);
+                    f.dispose();
+                }
+                catch (Throwable e)
+                {
+                    log.addLog("CSAMainFrame: removePanel: "+e.getMessage(), WARN);
+                }
+                break;
+            }
+        }
+       
+        
+        
+        if (closing)
+        {
+            JMenuItem item = p.getMenuItem();
+            if (item!=null)
+                windowMenu.remove(item);
+        }
+        // reset in fullscreen the addEnter Structure
+        if (fullscreen)
+        {
+            addEnter(pop, false);
+            addEnter(pop, true);
+        }
+        if (mPanels.size()>0)
+        {
+            
+            setMainPanel(mPanels.elementAt(0));
+            mCurrentPanel = mPanels.elementAt(0);
+        }
+        else
+        {
+            mCurrentPanel = null;
+            resetMainPanel();
+        }
+        if (p ==(Windowable) Configuration.getConfiguration().getLogEntity())
+        {
+            mLogDisplayed = false;
+        }
+        if (Configuration.getConfiguration().getDebugEntity() instanceof Windowable)
+        if (p ==(Windowable) Configuration.getConfiguration().getDebugEntity())
+        {
+            mDebugDisplayed = false;
+        }
+        if (closing)
+            p.closing();
+    }
+    public void setMainPanel(javax.swing.JPanel panel)
+    {
+        if (panel == null) return;
+        boolean backdrop = false;
+        if (Configuration.getConfiguration().isBackImageShown())
+        {
+            backdrop = true;
+        }
+        backdrop = backdrop && (!panel.isOpaque());
+        if (!backdrop )
+        {
+            setMainPanelOld(panel);
+        }
+        else
+        {
+        }
+        invalidate();
+        validate();
+        repaint();
+    }
+
+    public void setMainPanelOld(javax.swing.JPanel panel)
+    {
+        panel.setVisible(false);
+        mDesktop.setVisible(false);
+        
+        for (int i = 0;i<mDesktop.getComponentCount();i++)
+        {
+            mDesktop.getComponent(i).setVisible(false);
+        }
+        
+        
+        mDesktop.removeAll();
+        for (int i=0; i <  mFrames.size(); i++)
+        {
+            JInternalFrame f = mFrames.elementAt(i);
+            getMainPanel().add(f);
+            f.setVisible(true);
+            getMainPanel().setComponentZOrder(f, 0);
+        }
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mDesktop);
+        mDesktop.setLayout(mainPanelLayout);
+
+
+        synchronized (panel)
+        {
+            mainPanelLayout.setHorizontalGroup(
+                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+            mainPanelLayout.setVerticalGroup(
+                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+            panel.setVisible(true);
+        }
+        mDesktop.setVisible(true);
+
+    }
+    private void resetMainPanel()
+    {
+    }
+
+    public java.awt.Container getMainPanel()
+    {
+        return mDesktop;
+    }    
+    public void desktopMe(CSAInternalFrame f)
+    {
+        JPanel p = f.getPanel();
+        ((JPanel)p).setVisible(false);
+        f.setVisible(false);
+        try
+        {
+            f.setClosed(true);
+        }
+        catch (Throwable e){}
+        removeInternalFrame(f);
+        addPanel((Windowable) p);
+        ((JPanel)p).setVisible(true);
+        setMainPanel(p);
+    }
+    public CSAInternalFrame windowMe(Windowable p, int w, int h, String title)
+    {
+        ((JPanel)p).setVisible(false);
+        removePanel(p, false);
+        CSAInternalFrame frame = new CSAInternalFrame();
+        frame.addPanel((JPanel)p);
+        frame.setSize(w, h);
+        if (!fullDesktopDefault)
+            frame.setIconifiable(true);
+        
+        addInternalFrame(frame);
+        
+        frame.setTitle(title);
+        frame.setVisible(true);
+        
+        if (internalFrameDifference == null)
+        {
+            Container c = frame.getContentPane();
+            Dimension cc = c.getSize();
+            Dimension f = frame.getSize();
+            
+            internalFrameDifference = new Dimension(f.width-cc.width, f.height-cc.height);
+        }
+        
+        ((JPanel)p).setVisible(true);
+        if (p instanceof Stateable)
+        {
+            loadState((Stateable)p, frame);
+        }
+        return frame;
+    }
+
+
+    public CSAInternalFrame addAsWindow(Windowable p, int w, int h, String title)
+    {
+        ((JPanel)p).setVisible(false);
+        if (mPanels.contains(p.getPanel()))
+        {
+            removePanel(p, false);
+        }
+        javax.swing.JMenuItem jMenuItem = new javax.swing.JMenuItem();
+        p.setMenuItem(jMenuItem);
+        p.setParentWindow(this);
+        jMenuItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                
+                if (mCurrentPanel == p.getPanel())
+                {
+                    if (fullDesktopDefault)
+                        windowMe((Windowable)p, 100, 100, p.getMenuItem().getName());
+                    else
+                    {
+                        Windowable wp = (Windowable)p;
+                        if (getInternalFrame(wp).isIcon())
+                        {
+                            try
+                            {
+                                getInternalFrame(wp).setIcon(false);
+                            }
+                            catch (Throwable e)
+                            {
+                                
+                            }
+                        }
+                        getInternalFrame(wp).toFront();
+                        getInternalFrame(wp).grabFocus();
+                        try
+                        {
+                            getInternalFrame(wp).setSelected(true);
+                        }
+                        catch (Throwable e)
+                        {
+
+                        }
+                    }
+                        
+                }
+                else
+                {
+                    if (fullDesktopDefault)
+                    {
+                        setMainPanel(p.getPanel());
+                        mCurrentPanel = p.getPanel();
+                    }
+                    else
+                    {
+                        Windowable wp = (Windowable)p;
+                        if (getInternalFrame(wp).isIcon())
+                        {
+                            try
+                            {
+                                getInternalFrame(wp).setIcon(false);
+                            }
+                            catch (Throwable e)
+                            {
+                                
+                            }
+                        }
+                        getInternalFrame(wp).toFront();
+                        getInternalFrame(wp).grabFocus();
+                        try
+                        {
+                            getInternalFrame(wp).setSelected(true);
+                        }
+                        catch (Throwable e)
+                        {
+
+                        }
+                    }
+                }
+            }
+        });        
+        boolean alreadyAdded = false;
+        Component[] co = windowMenu.getPopupMenu().getComponents();
+        for (int i=0; i<co.length; i++)
+        {
+            if (co[i] instanceof javax.swing.JMenuItem)
+            {
+                javax.swing.JMenuItem mi = (javax.swing.JMenuItem) co[i];
+                if (mi == jMenuItem)
+                {
+                    alreadyAdded = true;
+                    break;
+                }
+            }
+        }
+        if (!alreadyAdded)
+            windowMenu.add(jMenuItem);
+
+        CSAInternalFrame frame = new CSAInternalFrame();
+        frame.addPanel((JPanel)p);
+        frame.setSize(w, h);
+        if (!fullDesktopDefault)
+            frame.setIconifiable(true);
+        
+        addInternalFrame(frame);
+        
+        frame.setTitle(title);
+        frame.setVisible(true);
+        
+        if (internalFrameDifference == null)
+        {
+            Container c = frame.getContentPane();
+            Dimension cc = c.getSize();
+            Dimension f = frame.getSize();
+            internalFrameDifference = new Dimension(f.width-cc.width, f.height-cc.height);
+        }
+        
+        ((JPanel)p).setVisible(true);
+        if (p instanceof Stateable)
+        {
+            loadState((Stateable)p, frame);
+        }
+        return frame;
+    }
+
+    void setUpGlobalKeys()
+    {
+        KeyboardFocusManager keyManager;
+
+        keyManager=KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        keyManager.addKeyEventDispatcher(new KeyEventDispatcher() 
+        {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) 
+            {
+                if (e.getKeyCode()==KeyEvent.VK_CONTROL)
+                {
+                    if (e.getID()==KeyEvent.KEY_PRESSED)
+                    {
+                    }
+                    if (e.getID()==KeyEvent.KEY_RELEASED)
+                    {
+                        stopWindowManager();
+                        return true;
+                    }
+                }
+                
+                // TAB
+                if (e.getKeyCode()==KeyEvent.VK_TAB)
+                {
+                    if (e.getID()==KeyEvent.KEY_PRESSED)
+                    {
+                        if (e.isControlDown())
+                        {
+                            startWindowManager();
+                            return true;
+                        }
+                    }
+                }
+                
+                if(e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==KeyEvent.VK_ESCAPE)
+                {
+//                    System.out.println("Esc");
+                    return true;
+                }
+                return false;
+            }
+
+        });        
+        
+    }
+    boolean wmStarted = false;
+    CSAInternalFrame wmFrame = null;
+    WindowManagerJPanel wm = null;
+    void startWindowManager()
+    {
+        if (wmStarted)
+        {
+            windowManagerNextTab();
+            return;
+        }
+        
+        
+        wm = new WindowManagerJPanel(this);
+        
+        
+        wmFrame = new CSAInternalFrame();
+
+        BasicInternalFrameUI bi = (BasicInternalFrameUI)wmFrame.getUI();
+        bi.setNorthPane(null);        
+        wmFrame.setBorder(null);
+        /*
+        wmFrame.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                wm.setBounds(0,0,wmFrame.getWidth(), wmFrame.getHeight());
+            
+            }
+        });
+        */
+        wmFrame.setBackground(new java.awt.Color(200, 200, 255,255));
+
+        wmFrame.addPanel(wm);
+        wmFrame.setSize(155, 400);
+        wmFrame.setResizable(false);
+        wmFrame.setParent(this);
+        getMainPanel().add(wmFrame);
+        getMainPanel().setComponentZOrder(wmFrame, 0);
+        
+        wmFrame.setBounds(this.getWidth()/2-wmFrame.getBounds().width/2, this.getHeight()/2-wmFrame.getBounds().height/2, wmFrame.getBounds().width, wm.getSizeY());
+        
+        wmFrame.setTitle("WinMan");
+        wmFrame.setVisible(true);
+        wmStarted = true;
+    }
+    void stopWindowManager()
+    {
+        if (!wmStarted) return;
+        int i = wm.getSel();
+        try
+        {
+            mFrames.elementAt(i).setIcon(false);
+            mFrames.elementAt(i).toFront();
+            mFrames.elementAt(i).setSelected(true);
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        
+        getMainPanel().remove(wmFrame);
+        wmStarted = false;
+        wmFrame.setVisible(false);
+        wmFrame = null;
+        wm = null;
+        this.repaint();
+    }
+    void windowManagerNextTab()
+    {
+        wm.doTab();
+    }
 }
+

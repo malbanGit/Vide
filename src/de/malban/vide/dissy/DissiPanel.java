@@ -5,9 +5,13 @@
  */
 package de.malban.vide.dissy;
 
+import de.malban.config.Configuration;
+import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.util.KeyboardListener;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.vide.VideConfig;
@@ -62,6 +66,7 @@ import javax.swing.table.TableColumn;
  */
 public class DissiPanel extends javax.swing.JPanel  implements
         Windowable, Stateable, Updatable, CartridgeListener{
+    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public boolean isLoadSettings() { return true; }
 
     public static final String MESSAGE_INFO = "body";
@@ -122,6 +127,22 @@ public class DissiPanel extends javax.swing.JPanel  implements
     {
         if (vecxPanel != null) vecxPanel.resetDissi();
         deinit();
+    }
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
     }
     @Override
     public void setParentWindow(CSAView jpv)
@@ -2016,6 +2037,20 @@ public class DissiPanel extends javax.swing.JPanel  implements
         handleCodeScan();
 
         String lastName = card.getBankeRomName(0);
+        String ret = "";
+        if ((lastName == null) || (card.getBankCount()==0))
+        {
+            // no rom file loadable
+            // at least load system rom info!
+            try
+            {
+                ret = dasm.disassemble(card.getByteData(0),0, 0, config.assumeVectrex, 0);
+            }
+            catch (Throwable e)
+            {
+                log.addLog(e, WARN);
+            }
+        }
         if (config.lstFirst)
         {
             if (!dasm.tryLoadList(lastName))
@@ -2028,7 +2063,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
 
         dasm.setCreateLabels(config.createUnkownLabels);
-        String ret = "";
         try
         {
             for (int b=0;b<card.getBankCount(); b++)
@@ -2059,7 +2093,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
         catch (Throwable e)
         {
-            System.out.println(de.malban.util.Utility.getStackTrace(e));
+            log.addLog(e, WARN);
         }
         // in case banks were set by CNT file
         getMemory().setBank(0);
@@ -2712,7 +2746,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
             
             int b = vecxPanel.getVecXMem8(adr)&0xff;
             message.append(String.format("$%04X",adr )).append("=").append(String.format("$%02X",b )).append(" ");
-            
         }
         printMessage(message.toString(), MESSAGE_INFO);
     }
@@ -3431,5 +3464,18 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         }        
         updateTableOnly();
+    }
+    public void setStartbreakpoint()
+    {
+        int adr = dasm.processVectrexHeader();
+        if (adr == -1) return; // no adress selected!
+        Breakpoint bp = new Breakpoint();
+        bp.targetAddress = adr;
+        bp.targetBank = getCurrentBank();
+        bp.targetType = Breakpoint.BP_TARGET_CPU;
+        bp.targetSubType = Breakpoint.BP_SUBTARGET_CPU_PC;
+        bp.type = Breakpoint.BP_COMPARE | Breakpoint.BP_MULTI;
+        if (vecxPanel != null)
+            vecxPanel.breakpointAddressToggle(bp);
     }
 }

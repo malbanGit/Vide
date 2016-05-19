@@ -2,6 +2,7 @@ package de.malban.vide.vedi.project;
 
 
 import de.malban.config.Configuration;
+import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.components.ModalInternalFrame;
@@ -130,6 +131,22 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     public void setParentWindow(CSAView jpv)
     {
         mParent = jpv;
+    }
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
     }
     @Override
     public void setMenuItem(javax.swing.JMenuItem item)
@@ -536,7 +553,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jScrollPane1.setViewportView(jTextAreaDescription);
 
         jPanel3.add(jScrollPane1);
-        jScrollPane1.setBounds(135, 111, 360, 77);
+        jScrollPane1.setBounds(135, 111, 360, 80);
 
         jLabel2.setText("Version");
         jPanel3.add(jLabel2);
@@ -556,7 +573,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jLabel7.setText("Path");
         jPanel3.add(jLabel7);
-        jLabel7.setBounds(17, 30, 23, 15);
+        jLabel7.setBounds(17, 30, 50, 15);
 
         jTextFieldProjectName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -580,19 +597,19 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jLabel5.setText("Name");
         jPanel3.add(jLabel5);
-        jLabel5.setBounds(17, 7, 30, 15);
+        jLabel5.setBounds(17, 7, 50, 15);
 
         jLabel8.setText("Main file");
         jPanel3.add(jLabel8);
-        jLabel8.setBounds(17, 57, 44, 15);
+        jLabel8.setBounds(17, 57, 80, 15);
 
         jLabel9.setText("Author");
         jPanel3.add(jLabel9);
-        jLabel9.setBounds(17, 82, 36, 15);
+        jLabel9.setBounds(17, 82, 70, 15);
 
         jLabel1.setText("Description");
         jPanel3.add(jLabel1);
-        jLabel1.setBounds(17, 111, 61, 15);
+        jLabel1.setBounds(17, 111, 90, 15);
 
         jComboBoxBankswitch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none", "2 bank standard", "VecFlash (up to 64 banks)" }));
         jComboBoxBankswitch.addActionListener(new java.awt.event.ActionListener() {
@@ -605,11 +622,11 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jCheckBoxCreateSupportCode.setText("create bankswitch code");
         jPanel3.add(jCheckBoxCreateSupportCode);
-        jCheckBoxCreateSupportCode.setBounds(135, 280, 148, 19);
+        jCheckBoxCreateSupportCode.setBounds(135, 280, 170, 19);
 
         jCheckBoxCreateGameLoop.setText("create standard game loop");
         jPanel3.add(jCheckBoxCreateGameLoop);
-        jCheckBoxCreateGameLoop.setBounds(135, 252, 166, 19);
+        jCheckBoxCreateGameLoop.setBounds(135, 252, 180, 19);
 
         jComboBoxBankswitchNumber.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1" }));
         jComboBoxBankswitchNumber.setEnabled(false);
@@ -802,15 +819,15 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jCheckBox4, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jCheckBox3)))
-                    .addComponent(jCheckBox5)
-                    .addComponent(jCheckBox6))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCheckBox3, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                    .addComponent(jCheckBox4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCheckBox5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCheckBox6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -844,7 +861,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jLabel6.setText("Pre build commands");
         jPanel3.add(jLabel6);
-        jLabel6.setBounds(17, 200, 108, 15);
+        jLabel6.setBounds(17, 200, 120, 15);
 
         jComboBoxPostName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxPostName.setPreferredSize(new java.awt.Dimension(59, 19));
@@ -853,7 +870,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jLabel10.setText("Post build commands");
         jPanel3.add(jLabel10);
-        jLabel10.setBounds(17, 225, 116, 15);
+        jLabel10.setBounds(17, 225, 130, 15);
 
         jComboBoxPostClass.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxPostClass.setPreferredSize(new java.awt.Dimension(59, 19));
