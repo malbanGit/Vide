@@ -406,6 +406,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel19 = new javax.swing.JLabel();
         jButtonCube = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPanel35 = new javax.swing.JPanel();
+        jButtonRotate2d = new javax.swing.JButton();
+        jTextFieldRotate2d = new javax.swing.JTextField();
+        jButtonMirrorVertically = new javax.swing.JButton();
+        jButtonMirrorHorizontally = new javax.swing.JButton();
+        jLabel50 = new javax.swing.JLabel();
+        jLabel53 = new javax.swing.JLabel();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel9 = new javax.swing.JPanel();
         jRadioButtonSetPoint = new javax.swing.JRadioButton();
@@ -1030,7 +1037,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPattern1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addComponent(jButtonSetStyle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1070,7 +1077,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jTextFieldBaseSize, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonCube, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1083,10 +1090,86 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButtonCube, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(125, Short.MAX_VALUE))
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Figure", jPanel11);
+
+        jButtonRotate2d.setText("2d rotate (z-axis)");
+        jButtonRotate2d.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonRotate2d.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonRotate2d.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRotate2dActionPerformed(evt);
+            }
+        });
+
+        jTextFieldRotate2d.setText("90");
+
+        jButtonMirrorVertically.setText("mirror vertically");
+        jButtonMirrorVertically.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonMirrorVertically.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonMirrorVertically.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMirrorVerticallyActionPerformed(evt);
+            }
+        });
+
+        jButtonMirrorHorizontally.setText("mirror horizontally");
+        jButtonMirrorHorizontally.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonMirrorHorizontally.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonMirrorHorizontally.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMirrorHorizontallyActionPerformed(evt);
+            }
+        });
+
+        jLabel50.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel50.setText("around x-axis");
+
+        jLabel53.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel53.setText("around y-axis");
+
+        javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
+        jPanel35.setLayout(jPanel35Layout);
+        jPanel35Layout.setHorizontalGroup(
+            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel35Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel35Layout.createSequentialGroup()
+                        .addComponent(jButtonRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel35Layout.createSequentialGroup()
+                        .addComponent(jButtonMirrorVertically, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE))
+                    .addGroup(jPanel35Layout.createSequentialGroup()
+                        .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        jPanel35Layout.setVerticalGroup(
+            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel35Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonMirrorVertically, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel50))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel53))
+                .addContainerGap(133, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Tools", jPanel35);
 
         buttonGroup1.add(jRadioButtonSetPoint);
         jRadioButtonSetPoint.setSelected(true);
@@ -1196,7 +1279,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jCheckBoxPosition)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxMoves)))
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Mode/Select", jPanel9);
@@ -1313,7 +1396,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonFitByteRange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxFraktion))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("shortcuts", jPanel27);
@@ -1389,6 +1472,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jTextFieldRotateSteps.setText("12");
+        jTextFieldRotateSteps.setToolTipText("<html>\nNumber of steps <b>BETWEEN</b> the original and the final angle.<BR>\nThis means step count of 0 (zero) results in 2 added animation frames, one for the original, \nand one frame for the rotated angle given.<BR>\nThis also means if the final angle is 360 degrees the first and the last added frame have the same rotation angle!\n</html>");
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/accept.png"))); // NOI18N
         jButton4.setText("do it");
@@ -1466,7 +1550,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jTextFieldRotateY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(2, 2, 2)
                 .addComponent(jCheckBoxScaleToByte)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldRotateSteps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel33))
@@ -1531,7 +1615,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel21)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTextFieldMorphSteps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1564,7 +1648,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonPathsAsScenario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addContainerGap(153, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Scenario", jPanel14);
@@ -1609,8 +1693,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -5057,6 +5141,98 @@ public class VeccyPanel extends javax.swing.JPanel implements
         checkAssemblerButton2();
     }//GEN-LAST:event_jButtonAnimCodeGenActionPerformed
 
+    private void jButtonRotate2dActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRotate2dActionPerformed
+        addHistory();
+        int angle = de.malban.util.UtilityString.IntX(jTextFieldRotate2d.getText(), 90);
+        GFXVectorList start = singleImagePanel1.getForegroundVectorList();
+
+        GFXVectorList newList = start;
+        Matrix4x4 rotz = Matrix4x4.getRotationZ(Math.toRadians(angle));
+
+        for (int c = 0; c <newList.size(); c++)
+        {
+            GFXVector v = newList.get(c);
+            Vertex p1 = v.start;
+            Vertex p2 = v.end;
+
+            p1 = rotz.multiply(p1);
+            p2 = rotz.multiply(p2);
+
+            p1.coords[0] = Math.round(p1.coords[0]);
+            p1.coords[1] = Math.round(p1.coords[1]);
+            p1.coords[2] = Math.round(p1.coords[2]);
+
+            p2.coords[0] = Math.round(p2.coords[0]);
+            p2.coords[1] = Math.round(p2.coords[1]);
+            p2.coords[2] = Math.round(p2.coords[2]);
+
+            v.start = p1;
+            v.end = p2;            
+        }
+        singleImagePanel1.sharedRepaint();
+        jTable1.repaint();
+        fillStatus();
+        
+    }//GEN-LAST:event_jButtonRotate2dActionPerformed
+
+    private void jButtonMirrorVerticallyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMirrorVerticallyActionPerformed
+        addHistory();
+        GFXVectorList start = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList newList = start;
+
+        for (int c = 0; c <newList.size(); c++)
+        {
+            GFXVector v = newList.get(c);
+            Vertex p1 = v.start;
+            Vertex p2 = v.end;
+
+            p1.coords[0] = -Math.round(p1.coords[0]);
+            p1.coords[1] = Math.round(p1.coords[1]);
+            p1.coords[2] = Math.round(p1.coords[2]);
+
+            p2.coords[0] = -Math.round(p2.coords[0]);
+            p2.coords[1] = Math.round(p2.coords[1]);
+            p2.coords[2] = Math.round(p2.coords[2]);
+
+            v.start = p1;
+            v.end = p2;            
+        }
+        
+        
+        singleImagePanel1.sharedRepaint();
+        jTable1.repaint();
+        fillStatus();
+    }//GEN-LAST:event_jButtonMirrorVerticallyActionPerformed
+
+    private void jButtonMirrorHorizontallyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMirrorHorizontallyActionPerformed
+        addHistory();
+        GFXVectorList start = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList newList = start;
+
+        for (int c = 0; c <newList.size(); c++)
+        {
+            GFXVector v = newList.get(c);
+            Vertex p1 = v.start;
+            Vertex p2 = v.end;
+
+            p1.coords[0] = Math.round(p1.coords[0]);
+            p1.coords[1] = -Math.round(p1.coords[1]);
+            p1.coords[2] = Math.round(p1.coords[2]);
+
+            p2.coords[0] = Math.round(p2.coords[0]);
+            p2.coords[1] = -Math.round(p2.coords[1]);
+            p2.coords[2] = Math.round(p2.coords[2]);
+
+            v.start = p1;
+            v.end = p2;            
+        }
+        
+        
+        singleImagePanel1.sharedRepaint();
+        jTable1.repaint();
+        fillStatus();
+    }//GEN-LAST:event_jButtonMirrorHorizontallyActionPerformed
+
     // interface function for communication of events with singleVectorPanel
     public void pressed(EditMouseEvent evt)
     {
@@ -5391,6 +5567,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonJoin;
     private javax.swing.JButton jButtonLoad;
     private javax.swing.JButton jButtonLoad1;
+    private javax.swing.JButton jButtonMirrorHorizontally;
+    private javax.swing.JButton jButtonMirrorVertically;
     private javax.swing.JButton jButtonMov_Draw_VLc_a;
     private javax.swing.JButton jButtonMov_Draw_VLc_aAnim;
     private javax.swing.JButton jButtonOneBack;
@@ -5404,6 +5582,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonRedo;
     private javax.swing.JButton jButtonRemoveDots;
     private javax.swing.JButton jButtonReverse;
+    private javax.swing.JButton jButtonRotate2d;
     private javax.swing.JButton jButtonSave1;
     private javax.swing.JButton jButtonSave2;
     private javax.swing.JButton jButtonSave3;
@@ -5486,8 +5665,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -5547,6 +5728,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
+    private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -5614,6 +5796,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextFieldMorphSteps;
     private javax.swing.JTextField jTextFieldPattern;
     private javax.swing.JTextField jTextFieldPatternName;
+    private javax.swing.JTextField jTextFieldRotate2d;
     private javax.swing.JTextField jTextFieldRotateSteps;
     private javax.swing.JTextField jTextFieldRotateX;
     private javax.swing.JTextField jTextFieldRotateY;
@@ -6039,7 +6222,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         GFXVectorList start = singleImagePanel1.getForegroundVectorList();
 
         int steps = de.malban.util.UtilityString.Int0(jTextFieldRotateSteps.getText());
-        if (steps == 0) return;
+     //   if (steps == 0) return;
+        steps++; // start does not count as step
         double angleX = 0;
         double angleY = 0;
         double angleZ = 0;
@@ -6077,9 +6261,22 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         }
         
+        
+        GFXVectorList newList = start.clone();
+        newList.resetDisplay();
+
+
+        currentAnimation.add(newList);
+        selectedAnimationFrameUID = newList.uid;
+
+        angleX+=incX;
+        angleY+=incY;
+        angleZ+=incZ;
+        
+        
         for (int i=0; i<steps; i++)
         {
-            GFXVectorList newList = start.clone();
+            newList = start.clone();
             Matrix4x4 rotx = Matrix4x4.getRotationX(Math.toRadians(angleX));
             Matrix4x4 roty = Matrix4x4.getRotationY(Math.toRadians(angleY));
             Matrix4x4 rotz = Matrix4x4.getRotationZ(Math.toRadians(angleZ));
@@ -6119,9 +6316,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
             angleZ+=incZ;
         }
         
+        
+        
+        
+        
+        
+        
+        
+        
         if (jCheckBoxScaleToByte.isSelected())
         {
-            double max = currentAnimation.getMaxAbsValue();
+            double max = currentAnimation.getMaxAbsLenValue();
             if (max > 127.0)
             {
                 double mul = 127.0/max;
@@ -6381,14 +6586,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
         singleImagePanel1.sharedRepaint();
         jTable1.repaint();
-        
     }
     void fitByteRange()
     {
         centerVectorList();
         GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
 
-        double max = vl.getMaxAbsValue();
+        double max = vl.getMaxAbsLenValue();
         if (jCheckBoxFraktion.isSelected())
         {
             double mul = 127.0/max;

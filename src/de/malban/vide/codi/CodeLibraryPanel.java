@@ -70,7 +70,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         {
             if (type == ASM_MESSAGE_INFO)
             {
-                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("body"));
+                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("editLogMessage"));
             }
             else if (type == ASM_MESSAGE_ERROR)
             {
@@ -78,7 +78,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
             }
             else if (type == ASM_MESSAGE_WARNING)
             {
-                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("endtag"));
+                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("editLogWarning"));
             }
             else if (type == ASM_MESSAGE_OPTIMIZATION)
             {
@@ -842,7 +842,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     {
         try
         {
-            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("body"));
+            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("editLogMessage"));
         } catch (Throwable e) { }
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
     }
@@ -850,7 +850,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     {
         try
         {
-            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("endtag"));
+            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("editLogWarning"));
         } catch (Throwable e) { }
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
     }    

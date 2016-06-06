@@ -2493,18 +2493,18 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 }
                 else if (s.startsWith("++++++"))
                 {
-                    jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle("endtag"));
+                    jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle("editLogWarning"));
                 }
                 else if (s.startsWith("######"))
                 {
                     jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle( "comment"));
                 }
                 else
-                    jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle("body"));
+                    jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle("editLogMessage"));
             }
             else if (type == ASM_SYMBOL)
             {
-                jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle("endtag"));
+                jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle("editLogWarning"));
             }
         } catch (Throwable e) { }
         jEditorPaneASMListing.setCaretPosition(jEditorPaneASMListing.getDocument().getLength());
@@ -2515,7 +2515,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         {
             if (type == ASM_MESSAGE_INFO)
             {
-                jEditorASMMessages.getDocument().insertString(jEditorASMMessages.getDocument().getLength(), s, TokenStyles.getStyle("body"));
+                jEditorASMMessages.getDocument().insertString(jEditorASMMessages.getDocument().getLength(), s, TokenStyles.getStyle("editLogMessage"));
             }
             else if (type == ASM_MESSAGE_ERROR)
             {
@@ -2523,7 +2523,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
             else if (type == ASM_MESSAGE_WARNING)
             {
-                jEditorASMMessages.getDocument().insertString(jEditorASMMessages.getDocument().getLength(), s, TokenStyles.getStyle("endtag"));
+                jEditorASMMessages.getDocument().insertString(jEditorASMMessages.getDocument().getLength(), s, TokenStyles.getStyle("editLogWarning"));
             }
             else if (type == ASM_MESSAGE_OPTIMIZATION)
             {

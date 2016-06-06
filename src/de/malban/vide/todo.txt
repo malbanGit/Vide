@@ -337,6 +337,9 @@ Done:
 
 
 todo:
+- eprom 
+- multi ram
+- vox
 - bookmarks
 - hotkeys: jump, run, debug, search
 

@@ -205,6 +205,18 @@ public class GFXVectorAnimation
         }       
         return max;
     }
+    public double getMaxAbsLenValue()
+    {
+        double max = 0;
+        GFXVectorAnimation al = this;
+        
+        for (int i=0; i< al.size(); i++)
+        {
+            double vmax = al.get(i).getMaxAbsLenValue();
+            if (max<vmax)  max = vmax;
+        }       
+        return max;
+    }
     
     public void scaleAll(double scale, HashMap<Vertex, Boolean> safetyMap)
     {

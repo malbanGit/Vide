@@ -69,8 +69,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public boolean isLoadSettings() { return true; }
 
-    public static final String MESSAGE_INFO = "body";
-    public static final String MESSAGE_WARN = "endtag";
+    public static final String MESSAGE_INFO = "editLogMessage";
+    public static final String MESSAGE_WARN = "editLogWarning";
     public static final String MESSAGE_ERR = "error";
     VideConfig config = VideConfig.getConfig();
     

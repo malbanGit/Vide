@@ -255,8 +255,7 @@ public class GFXVector
         return true;
     }
     
-    
-    
+    // always positive
     public double getMaxAbsValue()
     {
         double minX = Integer.MAX_VALUE;
@@ -280,13 +279,26 @@ public class GFXVector
         if (minZ>v.end.z()) minZ = v.end.z();
         if (maxZ<v.start.z()) maxZ = v.start.z();
         if (maxZ<v.end.z()) maxZ = v.end.z();
-        double max = Math.max(maxX, maxY);
-        max = Math.max(max, maxZ);
-        max = Math.max(max, -minX);
-        max = Math.max(max, -minY);
-        max = Math.max(max, -minZ);    
+    
+        double max = Math.max(Math.abs(maxX), Math.abs(maxY));
+        max = Math.max(max, Math.abs(maxZ));
+        max = Math.max(max, Math.abs(minX));
+        max = Math.max(max, Math.abs(minY));
+        max = Math.max(max, Math.abs(minZ));    
         return max;
     }
+    // always positive
+    public double getMaxAbsLenValue()
+    {
+        GFXVector v = this;
+        double xLen = v.end.x() - v.start.x();
+        double yLen = v.end.y() - v.start.y();
+        double zLen = v.end.z() - v.start.z();
+        double max = Math.max(Math.abs(xLen), Math.abs(yLen));
+        max = Math.max(max, Math.abs(zLen));
+        return max;
+    }
+
     public void scaleAll(double scale, HashMap<Vertex, Boolean> safetyMap)
     {
         GFXVector v = this;

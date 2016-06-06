@@ -314,6 +314,18 @@ public class GFXVectorList {
         }       
         return max;
     }
+    public double getMaxAbsLenValue()
+    {
+        double max = 0;
+        GFXVectorList vl = this;
+        
+        for (int i=0; i< vl.size(); i++)
+        {
+            double vmax = vl.get(i).getMaxAbsLenValue();
+            if (max<vmax)  max = vmax;
+        }       
+        return max;
+    }
     
     // safety map is used to
     // ensure no vertices are scaled double
