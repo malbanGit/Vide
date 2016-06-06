@@ -340,6 +340,7 @@ todo:
 - eprom 
 - multi ram
 - vox
+- quick keys and visualaization which mode is current
 - bookmarks
 - hotkeys: jump, run, debug, search
 

@@ -401,11 +401,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jTextFieldIntensity = new javax.swing.JTextField();
         jLabelPattern1 = new javax.swing.JLabel();
         jButtonSetStyle = new javax.swing.JButton();
-        jPanel11 = new javax.swing.JPanel();
-        jTextFieldBaseSize = new javax.swing.JTextField();
-        jLabel19 = new javax.swing.JLabel();
-        jButtonCube = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jPanel35 = new javax.swing.JPanel();
         jButtonRotate2d = new javax.swing.JButton();
         jTextFieldRotate2d = new javax.swing.JTextField();
@@ -413,6 +408,16 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonMirrorHorizontally = new javax.swing.JButton();
         jLabel50 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
+        jTextFieldScaleFactor = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        jButtonEnlarge = new javax.swing.JButton();
+        jButtonShrink = new javax.swing.JButton();
+        jButtonOneForwardSelection2 = new javax.swing.JButton();
+        jPanel11 = new javax.swing.JPanel();
+        jTextFieldBaseSize = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        jButtonCube = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel9 = new javax.swing.JPanel();
         jRadioButtonSetPoint = new javax.swing.JRadioButton();
@@ -650,11 +655,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonSave1 = new javax.swing.JButton();
         jButtonLoad = new javax.swing.JButton();
         jButtonOneForwardSelection1 = new javax.swing.JButton();
-        jButtonShrink = new javax.swing.JButton();
-        jButtonEnlarge = new javax.swing.JButton();
-        jTextFieldScaleFactor = new javax.swing.JTextField();
-        jLabel32 = new javax.swing.JLabel();
-        jButtonOneForwardSelection2 = new javax.swing.JButton();
+        jLabelMode = new javax.swing.JLabel();
 
         jPopupMenuPoint.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -1015,7 +1016,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addComponent(jTextFieldPattern, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabelPattern)))
-                        .addGap(0, 105, Short.MAX_VALUE))
+                        .addGap(0, 139, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonSetStyle, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1037,12 +1038,146 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPattern1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addComponent(jButtonSetStyle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jTabbedPane2.addTab("Line", jPanel10);
+
+        jButtonRotate2d.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_rotate_anticlockwise.png"))); // NOI18N
+        jButtonRotate2d.setText("2d rotate (z-axis)");
+        jButtonRotate2d.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonRotate2d.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonRotate2d.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRotate2dActionPerformed(evt);
+            }
+        });
+
+        jTextFieldRotate2d.setText("90");
+
+        jButtonMirrorVertically.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_flip_vertical.png"))); // NOI18N
+        jButtonMirrorVertically.setText("mirror vertically");
+        jButtonMirrorVertically.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonMirrorVertically.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonMirrorVertically.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMirrorVerticallyActionPerformed(evt);
+            }
+        });
+
+        jButtonMirrorHorizontally.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_flip_horizontal.png"))); // NOI18N
+        jButtonMirrorHorizontally.setText("mirror horizontally");
+        jButtonMirrorHorizontally.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonMirrorHorizontally.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonMirrorHorizontally.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMirrorHorizontallyActionPerformed(evt);
+            }
+        });
+
+        jLabel50.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel50.setText("around x-axis");
+
+        jLabel53.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel53.setText("around y-axis");
+
+        jTextFieldScaleFactor.setText("1.5");
+
+        jLabel32.setText("factor");
+
+        jButtonEnlarge.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
+        jButtonEnlarge.setToolTipText("expand vectorlist");
+        jButtonEnlarge.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonEnlarge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEnlargeActionPerformed(evt);
+            }
+        });
+
+        jButtonShrink.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
+        jButtonShrink.setToolTipText("shrink vectorlist");
+        jButtonShrink.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonShrink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonShrinkActionPerformed(evt);
+            }
+        });
+
+        jButtonOneForwardSelection2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/images.png"))); // NOI18N
+        jButtonOneForwardSelection2.setText("image to vector");
+        jButtonOneForwardSelection2.setToolTipText("image to vector");
+        jButtonOneForwardSelection2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonOneForwardSelection2.setPreferredSize(new java.awt.Dimension(134, 19));
+        jButtonOneForwardSelection2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOneForwardSelection2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
+        jPanel35.setLayout(jPanel35Layout);
+        jPanel35Layout.setHorizontalGroup(
+            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel35Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel35Layout.createSequentialGroup()
+                        .addComponent(jButtonOneForwardSelection2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel35Layout.createSequentialGroup()
+                        .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel35Layout.createSequentialGroup()
+                                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButtonMirrorVertically, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButtonRotate2d, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(jPanel35Layout.createSequentialGroup()
+                                .addComponent(jButtonShrink)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonEnlarge)
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(70, 70, 70)))
+                        .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                            .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                            .addGroup(jPanel35Layout.createSequentialGroup()
+                                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))))
+        );
+        jPanel35Layout.setVerticalGroup(
+            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel35Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonMirrorVertically, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel50))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel53))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonShrink)
+                    .addComponent(jButtonEnlarge)
+                    .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel32)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonOneForwardSelection2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(76, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("2d-Tools", jPanel35);
 
         jTextFieldBaseSize.setText("1");
 
@@ -1077,7 +1212,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jTextFieldBaseSize, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonCube, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addContainerGap(191, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1090,86 +1225,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButtonCube, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Figure", jPanel11);
-
-        jButtonRotate2d.setText("2d rotate (z-axis)");
-        jButtonRotate2d.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonRotate2d.setPreferredSize(new java.awt.Dimension(74, 19));
-        jButtonRotate2d.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRotate2dActionPerformed(evt);
-            }
-        });
-
-        jTextFieldRotate2d.setText("90");
-
-        jButtonMirrorVertically.setText("mirror vertically");
-        jButtonMirrorVertically.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonMirrorVertically.setPreferredSize(new java.awt.Dimension(74, 19));
-        jButtonMirrorVertically.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonMirrorVerticallyActionPerformed(evt);
-            }
-        });
-
-        jButtonMirrorHorizontally.setText("mirror horizontally");
-        jButtonMirrorHorizontally.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonMirrorHorizontally.setPreferredSize(new java.awt.Dimension(74, 19));
-        jButtonMirrorHorizontally.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonMirrorHorizontallyActionPerformed(evt);
-            }
-        });
-
-        jLabel50.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel50.setText("around x-axis");
-
-        jLabel53.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel53.setText("around y-axis");
-
-        javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
-        jPanel35.setLayout(jPanel35Layout);
-        jPanel35Layout.setHorizontalGroup(
-            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel35Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel35Layout.createSequentialGroup()
-                        .addComponent(jButtonRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextFieldRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel35Layout.createSequentialGroup()
-                        .addComponent(jButtonMirrorVertically, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE))
-                    .addGroup(jPanel35Layout.createSequentialGroup()
-                        .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        jPanel35Layout.setVerticalGroup(
-            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel35Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonMirrorVertically, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel50))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel53))
-                .addContainerGap(133, Short.MAX_VALUE))
-        );
-
-        jTabbedPane2.addTab("Tools", jPanel35);
 
         buttonGroup1.add(jRadioButtonSetPoint);
         jRadioButtonSetPoint.setSelected(true);
@@ -1279,7 +1338,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jCheckBoxPosition)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxMoves)))
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Mode/Select", jPanel9);
@@ -1396,7 +1455,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonFitByteRange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxFraktion))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("shortcuts", jPanel27);
@@ -1550,7 +1609,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jTextFieldRotateY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(2, 2, 2)
                 .addComponent(jCheckBoxScaleToByte)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldRotateSteps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel33))
@@ -1615,7 +1674,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel21)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTextFieldMorphSteps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1648,7 +1707,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonPathsAsScenario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Scenario", jPanel14);
@@ -3200,7 +3259,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         jPanel18.add(jCheckBoxGrid);
-        jCheckBoxGrid.setBounds(190, 350, 50, 19);
+        jCheckBoxGrid.setBounds(230, 350, 50, 19);
 
         jTextFieldGridWidth.setText("1");
         jTextFieldGridWidth.setToolTipText("grid distance");
@@ -3215,7 +3274,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         jPanel18.add(jTextFieldGridWidth);
-        jTextFieldGridWidth.setBounds(250, 350, 30, 19);
+        jTextFieldGridWidth.setBounds(280, 350, 30, 19);
 
         jCheckBoxByteFrame.setSelected(true);
         jCheckBoxByteFrame.setText("byteFrame");
@@ -3331,36 +3390,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
-        jButtonShrink.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
-        jButtonShrink.setToolTipText("shrink vectorlist");
-        jButtonShrink.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonShrink.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonShrinkActionPerformed(evt);
-            }
-        });
-
-        jButtonEnlarge.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
-        jButtonEnlarge.setToolTipText("expand vectorlist");
-        jButtonEnlarge.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonEnlarge.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEnlargeActionPerformed(evt);
-            }
-        });
-
-        jTextFieldScaleFactor.setText("1.5");
-
-        jLabel32.setText("factor");
-
-        jButtonOneForwardSelection2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/images.png"))); // NOI18N
-        jButtonOneForwardSelection2.setToolTipText("image to vector");
-        jButtonOneForwardSelection2.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonOneForwardSelection2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonOneForwardSelection2ActionPerformed(evt);
-            }
-        });
+        jLabelMode.setFont(new java.awt.Font("Times", 1, 12)); // NOI18N
+        jLabelMode.setForeground(new java.awt.Color(51, 51, 255));
+        jLabelMode.setText("SET");
 
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
         jPanel31.setLayout(jPanel31Layout);
@@ -3370,41 +3402,37 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButtonLoad)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSave1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonOneForwardSelection1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonUndo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonRedo)
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCopy)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonPaste)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCut)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonInsertYM)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSaveSelection)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonOneForwardSelection1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonOneForwardSelection2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
-                .addComponent(jButtonSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(jButtonShrink)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonEnlarge)
-                .addGap(4, 4, 4)
-                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jLabelMode, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel31Layout.setVerticalGroup(
-            jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel31Layout.createSequentialGroup()
+                .addComponent(jButtonSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jLabelMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel31Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonOneForwardSelection2)
                     .addComponent(jButtonOneForwardSelection1)
                     .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButtonSave1)
@@ -3413,16 +3441,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jButtonPaste)
                         .addComponent(jButtonCut)
                         .addComponent(jButtonInsertYM)
-                        .addComponent(jButtonSaveSelection)
-                        .addComponent(jButtonSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonSaveSelection))
+                    .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButtonRedo)
-                        .addComponent(jButtonUndo)
-                        .addComponent(jButtonShrink)
-                        .addComponent(jButtonEnlarge)
-                        .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel32))))
-                .addGap(0, 0, 0))
+                        .addComponent(jButtonUndo))))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -3545,6 +3567,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
        {
             singleImagePanel1.setMode(SVP_SELECT_POINT);
        }
+        jLabelMode.setText("POINT");
        singleImagePanel1.getForegroundVectorList().resetSelection();
        jTable1.repaint();
         
@@ -3563,6 +3586,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
        {
             singleImagePanel1.setMode(SingleVectorPanel.SVP_SELECT_LINE);
        }
+        jLabelMode.setText("VECTOR");
        singleImagePanel1.getForegroundVectorList().resetSelection();
        jTable1.repaint();
 
@@ -3618,6 +3642,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
        {
             singleImagePanel1.setMode(SingleVectorPanel.SVP_SET);
        }
+        jLabelMode.setText("SET");
        jTable1.repaint();
     }//GEN-LAST:event_jRadioButtonSetPointActionPerformed
 
@@ -5289,22 +5314,41 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
         if (evt.evt.getButton() == MouseEvent.BUTTON2)
         {
-            if (jRadioButtonSelectPoint.isSelected())
+            if (!evt.shiftPressed)
+            {   
+                if (jRadioButtonSetPoint.isSelected())
+                {
+                    jRadioButtonSelectPoint.setSelected(true);
+                    jRadioButtonSelectPointActionPerformed(null);                                                        
+
+                }
+                else if (jRadioButtonSelectPoint.isSelected())
+                {
+                    jRadioButtonSelectLine.setSelected(true);
+                    jRadioButtonSelectLineActionPerformed(null);                                                        
+
+                }
+                else if (jRadioButtonSelectLine.isSelected())
+                {
+                    jRadioButtonSetPoint.setSelected(true);
+                    jRadioButtonSetPointActionPerformed(null);                                                        
+
+                }
+
+            }
+            else
             {
-                if (evt.shiftPressed)
+                if (jRadioButtonSelectPoint.isSelected())
                 {
                     svp.removeHighlightedToSelectedVPoint();
                     setSelectedInTable();
-                }
-            }        
-            else if (jRadioButtonSelectLine.isSelected())
-            {
-                if (evt.shiftPressed)
+                }        
+                else if (jRadioButtonSelectLine.isSelected())
                 {
                     svp.removeHighlightedToSelectedVector();
                     setSelectedInTable();
-                }
-            }        
+                }        
+            }
         }
         
         
@@ -5354,6 +5398,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
     // interface function for communication of events with singleVectorPanel
     public void released(EditMouseEvent evt)
     {
+        if (evt.evt.getButton() == MouseEvent.BUTTON2)
+        {
+            return;
+        }
         SingleVectorPanel svp = (SingleVectorPanel)evt.panel;
         // only add a point, when in setting mode!
         if (jRadioButtonSetPoint.isSelected())
@@ -5682,6 +5730,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabelImageNow;
     private javax.swing.JLabel jLabelMaxY;
     private javax.swing.JLabel jLabelMinY;
+    private javax.swing.JLabel jLabelMode;
     private javax.swing.JLabel jLabelPattern;
     private javax.swing.JLabel jLabelPattern1;
     private javax.swing.JLabel jLabelScale;
