@@ -66,17 +66,16 @@ mFxSplitTargetFx macro
 
 ;Emit effect, all registers except D are preserved
 mEmitFx macro FxTarget,FxType,IndexReg
-  ;if ('IndexReg' != '0') && ('IndexReg' != 'b')
-  ifneq ('IndexReg','0') 
-    ifneq ('IndexReg','b')
-      tfr IndexReg,b
-    endif
+  if ('IndexReg'!='0')
+      if ('IndexReg'!='b')
+        tfr IndexReg,b
+      endif
   endif
   lda #FxTarget | (FxType<<4)
   jsr EmitFx
   endm
 
-;$6bb
+
 ;*****************
 EmitFx:         ;a=encoded target/type, b=index
   pshs x,y
@@ -272,7 +271,7 @@ FxDrawSpriteVL:                 ;Draw a single sprite  u=pointer to x,y  x=vecto
 
   ldx ,u
   ldy 2,u
-  bsr FxGetScreenCoords ; Malban jsr -> bsr
+  bsr FxGetScreenCoords
   beq fxdExit
 
   std LocalW2,s

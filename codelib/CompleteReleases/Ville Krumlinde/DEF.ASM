@@ -2,7 +2,6 @@
 ; Copyright (C) 2004  Ville Krumlinde
 
 
-
 ScreenW equ 256
 ScreenH equ 256
 TileCountX equ 8   ;Must be power of 2
@@ -86,7 +85,7 @@ l1:
 
 ;Set the hi/lo part of a 16-bit register individually
 mCombine macro reg,hival,loval
-  ld\1 #(lo hival)<<8 | (lo loval)
+  ld\1 #(lo (hival))<<8 | (lo (loval))
   endm
 
 
@@ -341,7 +340,6 @@ mGet_D_from_fixed macro
 ;  u is pointer to sprite structure
 ;  X_Offset is u-relative offset to 3 byte x-coordinate
 ;  VelocX_Offset is u-relative offset to x-velocity
-Malban:
 mUpdateXCoord macro X_Offset, VelocX_Offset
   local CheckRightEdge,XOk
   leax X_Offset,u               ;Update sprite X coordinate
@@ -730,7 +728,7 @@ draw_to_d               equ $f3df
 draw_vl_a               equ     $f3da
 draw_vl_count4          equ     $f3ce
 drawl1b                 equ     $f40e
-dwp_with_count = $F434
+dwp_with_count=$F434
 explosion_snd           equ     $f92e
 get_abs_val_ab          equ     $F584
 get_pl_game             equ     $f7a9
@@ -1047,8 +1045,7 @@ GunShotAllActive = %111   ;Must be in sync with maxgunshots
 GunShotTimer: ds 1        ;Delay timer for next shot
 GunShotMask: ds 1         ;Mask and delay for new shots, constants depending on level no and gamemode
 GunShotDelay: ds 1
-GunShotSpeed: ds 1 
-
+GunShotSpeed: ds 1
 GunShots: ds GunShotEntry * MaxGunShots
 
 

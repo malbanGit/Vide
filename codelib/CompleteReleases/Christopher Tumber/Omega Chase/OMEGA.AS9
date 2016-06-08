@@ -7003,7 +7003,7 @@ not_str_o:
         bne not_str_p
         ldd tmp3
         jsr draw_letter_p
-        bra next_letter
+        lbra next_letter
 not_str_p:
         cmpa "Q"
         bne not_str_q

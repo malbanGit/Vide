@@ -2527,8 +2527,6 @@ COMMENT_LINE $06BB teleport in/out effect
 COMMENT_LINE $06BB mEmitFx FxTarget,FxType,InitTime,IndexReg (optional)
 COMMENT_LINE $06BB A holds byte, exits with targettype in a, and fxtype in b
 COMMENT_LINE $0000 Emit effect, all registers except D are preserved
-COMMENT_LINE $0000 if ('IndexReg' != '0') && ('IndexReg' != 'b')
-COMMENT_LINE $0000 $6bb
 COMMENT_LINE $0000 *****************
 COMMENT_LINE $0000 7 B is max, add more if needed
 COMMENT $06BD declare buffer
@@ -2570,7 +2568,6 @@ COMMENT $07C3 declare buffer
 COMMENT_LINE $07C3 5 W is max, add more if needed
 COMMENT_LINE $07C5 DP must be D0
 COMMENT_LINE $07C5 **todo: perhaps make a FxDrawVL also, this routine takes sprite format of VL
-COMMENT $07D0 Malban jsr -> bsr
 COMMENT $07D6 Scale $7f is required for move_pen_d to reach whole screen
 COMMENT $07D6 if argument exists, load into a, otherwise use current a
 COMMENT_LINE $07F5 PF33B: lda   #0x04
@@ -2725,7 +2722,6 @@ COMMENT_LINE $0BF2 *****************
 COMMENT_LINE $0000 Calculate center coordinate
 COMMENT $0C1A Pod and ship coords need to be recalced
 COMMENT $0C23 half speed
-COMMENT_LINE $0C2F if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT_LINE $0C35 *****************
 COMMENT_LINE $0C35 Find the angle between pod and ship when pod is picked up.
 COMMENT_LINE $0C35 Loop the distance table and find the best match, this is the angle.
@@ -2782,11 +2778,8 @@ COMMENT $0DFB Test if fuel is under ship
 COMMENT $0DFF load count
 COMMENT_LINE $0E0D point is fuel-pos, rect is area under ship
 COMMENT $0E39 Fuel found
-COMMENT_LINE $0E41 if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $0E48 Refuel one unit every 4th frame
 COMMENT $0E50 Decrease amount in fuel cell, remove if empty
-COMMENT_LINE $0E5E if ('IndexReg' != '0') && ('IndexReg' != 'b')
-COMMENT_LINE $0E67 if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $0E70 start with all bits set
 COMMENT $0E72 clear carry flag, rolb will shift it into b
 COMMENT $0E78 b now has a hole in it, AND with addr to clear bit
@@ -2908,8 +2901,6 @@ COMMENT_LINE $1237 ShipY := PixY - DistanceLUT[ I+1 ];
 COMMENT_LINE $1237 PodX := PixX - DistanceLUT[ I ];
 COMMENT_LINE $1237 PodY := PixY + DistanceLUT[ I+1 ];
 COMMENT $1279 disable ship movement
-COMMENT_LINE $0000 if ('IndexReg' != '0') && ('IndexReg' != 'b')
-COMMENT_LINE $128A if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT_LINE $12A5 *****************
 COMMENT $12A7 Check for world ends
 COMMENT $12AA Left end hit, wrap
@@ -3002,7 +2993,6 @@ COMMENT $1C05 Reset delay for next shot
 COMMENT $1C05 call rom
 COMMENT_LINE $1C0E mEmitSound GunFireSoundId
 COMMENT $1C0E Get index of firing gun, use for fx
-COMMENT_LINE $1C16 if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $1C1B Exit
 COMMENT_LINE $1C29 *****************              ;Update active gun shots.
 COMMENT_LINE $0000 7 B is max, add more if needed
@@ -3066,7 +3056,6 @@ COMMENT_LINE $1E87 suba LocalW1,s
 COMMENT $1E94 if argument exists, load into a, otherwise use current a
 COMMENT_LINE $1E94 sta   $C827
 COMMENT_LINE $1EB8 Planet exploded
-COMMENT_LINE $1EB8 if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $1EC9 if argument exists, load into a, otherwise use current a
 COMMENT_LINE $1ECB sta   $C827
 COMMENT $1EE1 draw rising dot if active
@@ -3296,9 +3285,7 @@ COMMENT $24A3 start with all bits set
 COMMENT $24A6 clear carry flag, rolb will shift it into d
 COMMENT $24AE D now has a hole in it, AND with addr to clear bit
 COMMENT $24B4 gun index
-COMMENT_LINE $24B8 if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $24BD gun index
-COMMENT_LINE $24C1 if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $24CB remove shot
 COMMENT $24D6 Collision shots vs fuel
 COMMENT $24DE load count
@@ -3307,12 +3294,9 @@ COMMENT $2520 start with all bits set
 COMMENT $2522 clear carry flag, rolb will shift it into b
 COMMENT $2528 b now has a hole in it, AND with addr to clear bit
 COMMENT $252C fuel cell index
-COMMENT_LINE $252E if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $2533 fuel cell index
-COMMENT_LINE $2535 if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $253F remove shot
 COMMENT $254B Collision shot vs powerplant
-COMMENT_LINE $2584 if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $258F decrease powerplant hitpoints
 COMMENT $2594 Start planet explode countdown
 COMMENT_LINE $2598 one hit when powerlife 15 =  1 second wait
@@ -3323,7 +3307,6 @@ COMMENT $25A1 Collision shots vs switches
 COMMENT $25A6 skip check if door is not closed
 COMMENT $25AC load count
 COMMENT $25E9 hit, open doors
-COMMENT_LINE $25EF if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $25F6 remove shot
 COMMENT $2601 shots vs pod
 COMMENT $2646 remove shot
@@ -3382,8 +3365,6 @@ COMMENT_LINE $273F Init ship direction up or down depending on gravity
 COMMENT_LINE $275F mSetFlag HasOrbFlag          ;uncomment to always start with orb
 COMMENT_LINE $275F Warp-in effect
 COMMENT $275F disable ship movement
-COMMENT_LINE $0000 if ('IndexReg' != '0') && ('IndexReg' != 'b')
-COMMENT_LINE $2770 if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT_LINE $2776 *****************
 COMMENT_LINE $0000 7 B is max, add more if needed
 COMMENT $2776 declare buffer
@@ -3497,8 +3478,6 @@ COMMENT $2AF7 end list
 COMMENT_LINE $0000 *****************
 COMMENT $2AF7 do nothing if already exploding
 COMMENT $2AFE explode orb also if carried
-COMMENT_LINE $2B05 if ('IndexReg' != '0') && ('IndexReg' != 'b')
-COMMENT_LINE $2B0A if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $2B0F disable ship movement
 COMMENT_LINE $2B18 *****************
 COMMENT_LINE $2B18 refresh DrawList-memory with lines from tiles in the current level
@@ -3638,19 +3617,12 @@ COMMENT_LINE $2E0B .X
 COMMENT_LINE $2E0B XX
 COMMENT_LINE $2E20 XX
 COMMENT_LINE $2E20 X.
-COMMENT_LINE $2E24 Malban lble tcFull
-COMMENT_LINE $2E31 Malban blo tcFull
 COMMENT_LINE $2E34 X.
 COMMENT_LINE $2E34 ..
-COMMENT_LINE $2E38 Malban lbge tcEmpty
-COMMENT_LINE $2E43 Malban blo tcFull
 COMMENT_LINE $2E46 .X
 COMMENT_LINE $2E46 ..
-COMMENT_LINE $2E4A Malban  lbge tcEmpty
-COMMENT_LINE $2E4F Malban  lblo tcFull
 COMMENT_LINE $2E52 XX
 COMMENT_LINE $2E52 .X
-COMMENT_LINE $2E56 Malban  lbmi tcFull
 COMMENT_LINE $2E60 Tiles for door collision
 COMMENT_LINE $2E60 Test is adjusted with amount door is open
 COMMENT_LINE $2EA9 invert door open value and call normal horiz door
@@ -4594,7 +4566,6 @@ COMMENT_LINE $5943 walker has been hit by head-shot
 COMMENT_LINE $5992 lda #1
 COMMENT_LINE $5992 sta weWalkerActive,x        ;start death animation
 COMMENT $5992 -1 becomes 1, start death animation
-COMMENT_LINE $5997 if ('IndexReg' != '0') && ('IndexReg' != 'b')
 COMMENT $59A8 SetDifficulty overwrites U
 COMMENT_LINE $59AF Remove shot
 COMMENT_LINE $59BC *****************
@@ -5643,15 +5614,11 @@ COMMENT $7E04 reset device
 COMMENT $7E07 exit if no device present
 COMMENT $7E09 no need to access rom
 COMMENT $7E0B send command
-COMMENT_LINE $7E0D Malban jsr     ds1w_txbyte     ; send command
 COMMENT $7E0D copy eeprom to scratch pad
 COMMENT $7E0F send command
-COMMENT_LINE $7E11 malban jsr     ds1w_txbyte     ; send command
 COMMENT $7E11 address of first byte to verify
 COMMENT $7E12 send address
-COMMENT_LINE $7E14 malban jsr     ds1w_txbyte     ; send address
 COMMENT $7E14 read byte from scratch pad
-COMMENT_LINE $7E16 malban jsr     ds1w_rxbyte     ; read byte from scratch pad
 COMMENT $7E16 compare to ram
 COMMENT $7E18 exit if not same
 COMMENT $7E1A decrement loop counter
@@ -5681,7 +5648,6 @@ COMMENT $7E3A send command
 COMMENT $7E3D address of first byte to load
 COMMENT $7E3E send address
 COMMENT $7E41 read byte from scratch pad
-COMMENT_LINE $7E43 malban jsr     ds1w_rxbyte     ; read byte from scratch pad
 COMMENT $7E43 save to ram
 COMMENT $7E45 decrement loop counter
 COMMENT $7E47 until all bytes are read
@@ -5720,15 +5686,10 @@ COMMENT $7E82 validation key
 COMMENT $7E84 send key
 COMMENT $7E87 eeprom write (scratch pad copy) duration
 COMMENT $7E8A start timer
-COMMENT_LINE $7E8D malban to be 100% same rom, AS09 for whatever reason assumes DP NOT to be at d0
-COMMENT_LINE $7E8D std     T1LOLC          ; start timer
-COMMENT_LINE $7E92 malban to be 100% same rom, AS09 for whatever reason assumes DP NOT to be at d0
-COMMENT_LINE $7E92 bitb    IFLAG
 COMMENT $7E92 wait for timer
 COMMENT $7E94 close port
 COMMENT $7E97 restore registers from stack and return
 COMMENT $7E9C load 32 byte eeprom to ram
-COMMENT_LINE $7E9E malban jsr     ds2430_load             ; load 32 byte eeprom to ram
 COMMENT $7EA1 sum the bytes
 COMMENT $7EA6 equal to checksum?
 COMMENT $7EA8 if not, then format the eeprom
@@ -5809,9 +5770,6 @@ RANGE $61A5-$61B5 DP $D0
 RANGE $6215-$6234 DP $D0
 RANGE $711F-$72B9 DP $CA
 RANGE $7DBB-$7E51 DP $D0
-RANGE $7E59-$7E7B DP $D0
-RANGE $7E83-$7EA6 DP $D0
-RANGE $7EAE-$7EF1 DP $D0
 RANGE $0000-$000B DB_DATA
 RANGE $000B-$000D DW_DATA
 RANGE $000D-$0038 DB_DATA

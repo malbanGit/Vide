@@ -1,10 +1,10 @@
-
 ; Vectrex Thrust main program
 ; Copyright (C) 2004  Ville Krumlinde
 
 ;----------------------------------------
 ; THRUST.ASM
 ;----------------------------------------
+
   opt   ;optimizations on
   include "def.asm"
   code
@@ -1192,7 +1192,7 @@ dorNext:
   lda LocalB1,s
   leau DoorEntry,u
   deca
-  bne dorLoop
+  lbne dorLoop
 
 dorExit:
   mFreeLocals
@@ -1526,7 +1526,6 @@ ussLoop:
   lbeq ussNext
 
   ;Move shots
-Malban:
   mUpdateXCoord ssShotX, ssShotVelocX
   mUpdateYCoord ssShotY, ssShotVelocY, ussRemoveShot
 
@@ -1534,7 +1533,7 @@ Malban:
   ldx ssShotX,u
   jsr PointVsLevel
   bcc ussNoHit
-    lbra ussRemoveShot          ;remove shot
+    jmp ussRemoveShot          ;remove shot
 ussNoHit:
 
   ldy CurLevelEntry             ;Collision shots vs guns
@@ -2189,7 +2188,7 @@ oelNoDemo:
 
   inc CurLevel
 
-  bsr SplitLevelNo              ;check if new round
+  jsr SplitLevelNo              ;check if new round
   tsta
   bne oelNoSpecial
   tstb
@@ -2213,11 +2212,11 @@ oelNoNoLand:
     bra oelExit
 oelNoSpecial:
 
-  bsr PrepareLevel
+  jsr PrepareLevel
   bra oelExit
 
 oelIncomplete:
-  bsr RestartLevel
+  jsr RestartLevel
 
 oelExit:
 
@@ -3052,7 +3051,6 @@ tcHit05:
 tcTile06:
   cmpb #TileH/2
   ble tcFull
-  ;Malban lble tcFull
   subb #TileH/2
   lda #TileW
   suba TempPosX
@@ -3060,7 +3058,6 @@ tcTile06:
   sta -1,s
   cmpb -1,s
   blo tcFull
-  ; Malban blo tcFull
   andcc #$fe
   rts
 ;X.
@@ -3068,14 +3065,12 @@ tcTile06:
 tcTile07:
   cmpb #TileH/2
   bge tcEmpty
-  ; Malban lbge tcEmpty
   lda #TileW
   suba TempPosX
   asra
   sta -1,s
   cmpb -1,s
   blo tcFull
-  ; Malban blo tcFull
   andcc #$fe
   rts
 ;.X
@@ -3083,11 +3078,9 @@ tcTile07:
 tcTile08:
   cmpb #TileH/2
   bge tcEmpty
-; Malban  lbge tcEmpty
   aslb
   cmpb TempPosX
   blo tcFull
-;Malban  lblo tcFull
   andcc #$fe
   rts
 ;XX
@@ -3095,7 +3088,6 @@ tcTile08:
 tcTile09:
   subb #TileH/2
   bmi tcFull
-;Malban  lbmi tcFull
   aslb
   cmpb TempPosX
   lblo tcFull
@@ -3664,11 +3656,11 @@ RefuelVectorList:
 ;-----------------
 
 ;Sprite scale factor. Set to a value that makes the sprites look good when drawn with scale DrawScale
-SF = 4
+SF set 4
 
 ;Sprite unit Height and Width. Relative to size of tiles.
 ;The "-1" allows a 8x8 -128 -- 127 resolution without hitting 128
-SH = ((TileH/8) * SF)-1
+SH set ((TileH/8) * SF)-1
 SW set ((TileW/8) * SF)-1
 
 SpriteGunNE:

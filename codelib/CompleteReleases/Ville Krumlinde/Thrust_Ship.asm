@@ -417,7 +417,7 @@ LocalFuelCount = LocalB2
 
   lda DemoMode
   bpl scNoDemo
-    bsr Ship_DemoControl        ;read input from recorded demo data
+    jsr Ship_DemoControl        ;read input from recorded demo data
     bra scInputFin
 scNoDemo:                       ;read input from console
     bsr Ship_ConsoleControl
@@ -602,7 +602,7 @@ scNextFuel:
     leau FuelEntry,u
     inca
     cmpa LocalFuelCount,s
-    bne scFuelLoop
+    lbne scFuelLoop
 scSkipFuelTest:
     mClearFlag RefuelFlag       ;no fuel found
 

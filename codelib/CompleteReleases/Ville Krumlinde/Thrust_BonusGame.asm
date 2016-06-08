@@ -1685,7 +1685,7 @@ WalkerHitBase:
   std ViewX
   ldd #WalkerFloorY-255
   std ViewY
-  bsr ZzapUpdateClipView
+  jsr ZzapUpdateClipView
   mEmitSound PlanetExplodeSoundId
   mSetFlag GameOverFlag
 whsMainLoop:

@@ -37,7 +37,6 @@ IENABL  equ     $d00e   ; IER       - Interrupt Enable Register
 DP_IO macro
   lda   #0xD0
   tfr   a,dp
-  direct $d0
   endm
 
 
@@ -336,19 +335,15 @@ ds2430_verify
 
         lda     #DS1W_SKIPROM   ; no need to access rom
         bsr     ds1w_txbyte     ; send command
-        ; Malban jsr     ds1w_txbyte     ; send command
 
         lda     #DS2430_READMEM ; copy eeprom to scratch pad
         bsr     ds1w_txbyte     ; send command
-        ; malban jsr     ds1w_txbyte     ; send command
 
         clra                    ; address of first byte to verify
         bsr     ds1w_txbyte     ; send address
-        ; malban jsr     ds1w_txbyte     ; send address
 
 dsverify_loop
         bsr     ds1w_rxbyte     ; read byte from scratch pad
-        ; malban jsr     ds1w_rxbyte     ; read byte from scratch pad
         cmpa    ,x+             ; compare to ram
         bne     dsverify_exit   ; exit if not same
         dec     ,s              ; decrement loop counter
@@ -417,7 +412,6 @@ ds2430_load
 
 dsload_loop
         bsr     ds1w_rxbyte     ; read byte from scratch pad
-        ;malban jsr     ds1w_rxbyte     ; read byte from scratch pad
         sta     ,x+             ; save to ram
         dec     ,s              ; decrement loop counter
         bne     dsload_loop     ; until all bytes are read
@@ -480,15 +474,11 @@ dssave_loop
         jsr     ds1w_txbyte     ; send key
 
         ldd     #DS2430_COPYDUR ; eeprom write (scratch pad copy) duration
-        std     >T1LOLC          ; start timer
-; malban to be 100% same rom, AS09 for whatever reason assumes DP NOT to be at d0    
-;        std     T1LOLC          ; start timer
+        std     T1LOLC          ; start timer
 
         ldb     #$40
 dssave_loop2
-        bitb    >IFLAG
-; malban to be 100% same rom, AS09 for whatever reason assumes DP NOT to be at d0    
-;        bitb    IFLAG
+        bitb    IFLAG
         beq     dssave_loop2    ; wait for timer
 
 dssave_exit
@@ -502,7 +492,6 @@ dssave_exit
 eeprom_load
         ldx     #eeprom_buffer          ;
         bsr     ds2430_load             ; load 32 byte eeprom to ram
-        ; malban jsr     ds2430_load             ; load 32 byte eeprom to ram
 
         ldd     #$0020                  ;
 eeload_loop                             ;
