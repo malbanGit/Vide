@@ -108,7 +108,7 @@ public class GetFilenamePanel extends javax.swing.JPanel {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         GetFilenamePanel panel = new GetFilenamePanel();
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         ModalInternalFrame modal = new ModalInternalFrame("Enter name!", frame.getRootPane(), frame, panel,null, null , eb);
         panel.modelDialog = modal;

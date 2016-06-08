@@ -204,7 +204,7 @@ public class Pt extends Point2D.Double implements Comparable<Pt>
   
   public double getDouble(String name) {
     Object shouldBeDouble = getAttribute(name);
-    return ((double)shouldBeDouble);
+    return (double)((java.lang.Double)shouldBeDouble);
   }
   
   public String getString(String name) {

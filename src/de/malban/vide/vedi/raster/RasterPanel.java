@@ -524,7 +524,7 @@ public class RasterPanel extends javax.swing.JPanel implements
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         RasterPanel panel = new RasterPanel();
         panel.setImage(fileName);
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         eb.add(panel.jButtonCancel);
         ModalInternalFrame modal = new ModalInternalFrame("Raster image", frame.getRootPane(), frame, panel,null, null , eb);
@@ -634,7 +634,7 @@ public class RasterPanel extends javax.swing.JPanel implements
                 for (int y=0;y<targetHeight;y++)
                 {
                     rowWidth = 0;
-                    ArrayList<GFXVector> vectorRow = new ArrayList<>();
+                    ArrayList<GFXVector> vectorRow = new ArrayList<GFXVector>();
                     vectorRows[y] = vectorRow;
                     int oldGrayscale = -1;
                     boolean oldShown = false;

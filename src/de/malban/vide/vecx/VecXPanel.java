@@ -1290,7 +1290,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             cs.caculate();
 
             ArrayList<Pt> pts = cs.getPoints();
-            ArrayList<Point> nP = new ArrayList<>();
+            ArrayList<Point> nP = new ArrayList<Point>();
             for (int i=0;i<pts.size(); i++)
             {
                 nP.add(new Point(pts.get(i).ix(), pts.get(i).iy()));
@@ -1524,7 +1524,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     // meaning 0,0 is in the uper left corner
     // (scaling to panel size will be done though)
     ArrayList<Point> spline = new ArrayList();
-    HashMap<String, String> doubleCheck= new HashMap<>();
+    HashMap<String, String> doubleCheck= new HashMap<String, String>();
     StringBuilder sh = new StringBuilder();
     synchronized private void paint(VectrexDisplayVectors vList)
     {
@@ -2503,7 +2503,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     {
         vecx.setTrackingAddress( start, end);
     }
-    public void startCartridge(CartridgeProperties cartProp, boolean runType)
+    public void startCartridge(final CartridgeProperties cartProp, boolean runType)
     {
         startTypeRun = runType;        
         // stop everything

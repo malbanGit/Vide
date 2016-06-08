@@ -172,7 +172,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         }
     }
     
-    private static void notifyVedi(boolean working)
+    private static void notifyVedi(final boolean working)
     {
         
         SwingUtilities.invokeLater(new Runnable()
@@ -207,7 +207,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         jLabel6.setVisible(false);
         
-        
+        // split panel per default uses F6
+        // delete that default java mapping, since we would like to use F6 for "debug"
         jSplitPane1.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) .put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), "none");        
         jSplitPane2.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) .put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), "none");        
         init();
@@ -251,7 +252,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 {
                     loadProject(settings.currentProject.mClass, settings.currentProject.mName, settings.currentProject.mPath);
                 }
-                ArrayList<String> toRemove = new ArrayList<>();
+                ArrayList<String> toRemove = new ArrayList<String>();
                 for (String fn: settings.currentOpenFiles)
                 {
                     EditorPanel edi = addEditor(fn, false);
@@ -305,9 +306,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });    
         
         new HotKey("Run", new AbstractAction() { public void actionPerformed(ActionEvent e) {  run(); }}, this);
-        new HotKey("Debug", new AbstractAction() { public void actionPerformed(ActionEvent e) {  
-            debug();
-        }}, this);
+        new HotKey("Debug", new AbstractAction() { public void actionPerformed(ActionEvent e) { debug(); }}, this);
 
         
         
@@ -1374,7 +1373,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     public boolean pausing = false;
 
     // start a thread for assembler
-    public void startASM(String filenameASM)
+    public void startASM(final String filenameASM)
     {
         if (asmStarted) return;
         asmStarted = true;
@@ -1395,7 +1394,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         //Asmj asm = new Asmj(filenameASM, asmErrorOut, asmListOut, asmSymbolOut, asmMessagesOut);
                         printASMList(asm.getListing(), ASM_LIST);
                         String info = asm.getInfo();
-                        boolean asmOk = info.indexOf("0 errors detected.") >=0;
+                        final boolean asmOk = info.indexOf("0 errors detected.") >=0;
                         
                         SwingUtilities.invokeLater(new Runnable()
                         {
@@ -1405,7 +1404,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                             }
                         });                    
                     }
-                    catch (Throwable e)
+                    catch (final Throwable e)
                     {
                         SwingUtilities.invokeLater(new Runnable()
                         {
@@ -2277,7 +2276,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }//GEN-LAST:event_jButtonNew1MousePressed
 
     private void jButtonNew1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNew1ActionPerformed
-        settings.recentOpenFiles = new ArrayList<>();
+        settings.recentOpenFiles = new ArrayList<String>();
         updateList();
     }//GEN-LAST:event_jButtonNew1ActionPerformed
 
@@ -2286,7 +2285,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }//GEN-LAST:event_jButtonNew7MousePressed
 
     private void jButtonNew7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNew7ActionPerformed
-        settings.recentProject = new ArrayList<>();
+        settings.recentProject = new ArrayList<VediSettings.P>();
         updateList();
     }//GEN-LAST:event_jButtonNew7ActionPerformed
 
@@ -2449,7 +2448,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
     }
     
-    public void printMessageSU(String s)
+    public void printMessageSU(final String s)
     {
         SwingUtilities.invokeLater(new Runnable()
         {
@@ -2459,7 +2458,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });                    
     }    
-    public void printWarningSU(String s)
+    public void printWarningSU(final String s)
     {
         SwingUtilities.invokeLater(new Runnable()
         {
@@ -2469,7 +2468,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });                    
     }    
-    public void printErrorSU(String s)
+    public void printErrorSU(final String s)
     {
         SwingUtilities.invokeLater(new Runnable()
         {
@@ -3216,9 +3215,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
         try
         {
-            String filename = entity.getFile().toString();
+            final String filename = entity.getFile().toString();
             if (filename.length()==0)return;
-            int line = entity.getLineNumber();
+            final int line = entity.getLineNumber();
             SwingUtilities.invokeLater(new Runnable()
             {
                 public void run()
@@ -3413,7 +3412,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     if (path.length() >0 ) path += File.separator;
                     
                     // get all the files from a directory
-                    String failure = executeFileScripts("Pre", path+currentProject.getProjectName());
+                    final String failure = executeFileScripts("Pre", path+currentProject.getProjectName());
                     if (failure!=null) 
                     {
                         if (!asmOk)
@@ -3492,7 +3491,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     }
                     
                     // get all the files from a directory
-                    String failure2 = executeFileScripts("Post", path+currentProject.getProjectName());
+                    final String failure2 = executeFileScripts("Post", path+currentProject.getProjectName());
                     if (failure!=null) 
                     {
                         if (!asmOk)
@@ -3514,7 +3513,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
                     }
                 }
-                catch (Throwable e)
+                catch (final Throwable e)
                 {
                     SwingUtilities.invokeLater(new Runnable()
                     {
@@ -3556,7 +3555,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 
                 ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, currentProject.getProjectName(), "", "VediPanel", pp);
                 boolean ok =  ScriptDataPanel.executeScript(postClass, postName, VediPanel.this, ed);
-                boolean asmOk2 = asmOk; // effectivly final!
+                final boolean asmOk2 = asmOk; // effectivly final!
                 SwingUtilities.invokeLater(new Runnable()
                 {
                     public void run()

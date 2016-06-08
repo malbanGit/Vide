@@ -12,6 +12,6 @@ import java.util.HashMap;
  * @author malban
  */
 public class LabelSink {
-        public static HashMap<String, EntityDefinition> knownGlobalVariables = new HashMap<>();
+        public static HashMap<String, EntityDefinition> knownGlobalVariables = new HashMap<String, EntityDefinition>();
 
 }

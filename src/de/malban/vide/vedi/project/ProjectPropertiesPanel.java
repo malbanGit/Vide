@@ -225,9 +225,9 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     {
         if (mClassSetting > 0) return;
         if (mProjectProperties.mBankMainFiles == null)
-            mProjectProperties.mBankMainFiles = new Vector<>();
+            mProjectProperties.mBankMainFiles = new Vector<String>();
         if (mProjectProperties.mBankDefines == null)
-            mProjectProperties.mBankDefines = new Vector<>();
+            mProjectProperties.mBankDefines = new Vector<String>();
         
         int number=0;
         // determine size of vector and adjust its size
@@ -1195,7 +1195,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ProjectPropertiesPanel panel = new ProjectPropertiesPanel();
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         eb.add(panel.jButtonCancel);
         ModalInternalFrame modal = new ModalInternalFrame("New project", frame.getRootPane(), frame, panel,null, null , eb);
@@ -1217,7 +1217,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         
         
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         eb.add(panel.jButtonCancel);
         ModalInternalFrame modal = new ModalInternalFrame(currentProject.mProjectName, frame.getRootPane(), frame, panel,null, null , eb);

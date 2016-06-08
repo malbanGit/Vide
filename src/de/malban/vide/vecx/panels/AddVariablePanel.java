@@ -91,7 +91,7 @@ public class AddVariablePanel extends javax.swing.JPanel {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         AddVariablePanel panel = new AddVariablePanel();
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         ModalInternalFrame modal = new ModalInternalFrame("Enter value!", frame.getRootPane(), frame, panel,null, null , eb);
         panel.modelDialog = modal;

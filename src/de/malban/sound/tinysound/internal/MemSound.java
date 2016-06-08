@@ -43,7 +43,7 @@ public class MemSound implements Sound {
 	private final int ID; //unique ID to match references
         MemSoundReference ref = null;
         
-        ArrayList<PositionListener> listeners = new ArrayList<>();
+        ArrayList<PositionListener> listeners = new ArrayList<PositionListener>();
         public void addPositionListener(PositionListener listener)
         {
             listeners.remove(listener);

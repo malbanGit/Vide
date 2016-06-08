@@ -69,7 +69,7 @@ public class JOptionPaneDialog
         */
         modal.setVisible(true);
         Object o = c.getValue();
-        returnValue = (int)o;
+        returnValue = (Integer)o;
         return returnValue;
     }
 }

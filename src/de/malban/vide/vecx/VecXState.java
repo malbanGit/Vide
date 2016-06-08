@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx;
 
+import de.malban.vide.vecx.cartridge.DS2430;
 import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import static de.malban.vide.vecx.VecXStatics.TIMER_ACTION_NONE;
@@ -253,7 +254,7 @@ public class VecXState implements Serializable
            to.directDrawVector.y1 = from.directDrawVector.y1;
            to.directDrawVector.color = from.directDrawVector.color;
            to.directDrawVector.speed = from.directDrawVector.speed;
-           to.directDrawVector.callStack = new ArrayList<>();
+           to.directDrawVector.callStack = new ArrayList<Integer>();
            if (from.directDrawVector.callStack != null)
                for (int cs: from.directDrawVector.callStack)
                    to.directDrawVector.callStack.add(cs);
@@ -285,7 +286,7 @@ public class VecXState implements Serializable
        {
            synchronized (from)
            {
-                to.timerItemList = new ArrayList<>();
+                to.timerItemList = new ArrayList<VecX.TimerItem>();
                 for (VecX.TimerItem it: from.timerItemList)
                 {
                     to.timerItemList.add(new VecX.TimerItem(it));

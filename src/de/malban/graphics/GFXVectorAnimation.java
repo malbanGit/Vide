@@ -21,7 +21,7 @@ public class GFXVectorAnimation
 {    
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
 
-    public ArrayList<GFXVectorList> list = new ArrayList<>();
+    public ArrayList<GFXVectorList> list = new ArrayList<GFXVectorList>();
     public boolean isAnimation = true; // if false it is an Scenario
     
     public GFXVectorAnimation()
@@ -100,7 +100,7 @@ public class GFXVectorAnimation
     // a xml "list" of an arbitrary number of GFXVectors
     public boolean fromXML(String xml, XMLSupport xmlSupport)
     {
-        list = new ArrayList<>();
+        list = new ArrayList<GFXVectorList>();
         int errorCode = 0;
         StringBuilder xmlBuffer = new StringBuilder(xml);
         isAnimation= xmlSupport.getBooleanElement("isAnimation", xmlBuffer);errorCode|=xmlSupport.errorCode;

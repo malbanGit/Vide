@@ -24,8 +24,8 @@ public final class CardinalSpline
   double tightness;
 
   public CardinalSpline() {
-    setPoints(new ArrayList<>());
-    this.interp = new ArrayList<>();
+    setPoints(new ArrayList<Pt>());
+    this.interp = new ArrayList<Pt>();
     setTightness(1);
   }
 

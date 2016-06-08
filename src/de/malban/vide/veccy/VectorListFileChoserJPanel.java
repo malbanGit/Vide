@@ -32,7 +32,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class VectorListFileChoserJPanel extends javax.swing.JPanel {
     String filePath = "";
     boolean isAnimation = false;
-    ArrayList<String> files = new ArrayList<>();
+    ArrayList<String> files = new ArrayList<String>();
     String returnText = "";
     public String getStringRepresentation()
     {
@@ -622,7 +622,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         VectorListFileChoserJPanel panel = new VectorListFileChoserJPanel(fileName,ia);
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonOk);
         eb.add(panel.jButtonCancel);
         ModalInternalFrame modal = new ModalInternalFrame(title, frame.getRootPane(), frame, panel,null, null , eb);
@@ -652,7 +652,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         VectorListFileChoserJPanel panel = new VectorListFileChoserJPanel(fileName, ia);
         panel.setExportTypesVisible(showExportTypes);
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonOk);
         eb.add(panel.jButtonCancel);
         eb.add(panel.jButtonMov_Draw_VLc_a);

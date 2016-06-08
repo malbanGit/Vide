@@ -134,8 +134,8 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         }
     }
 
-    ArrayList<InstrumentHandle> instrumentHandles = new ArrayList<>();
-    static ArrayList<VectrexInstrument> vectrexInstruments= new ArrayList<>();
+    ArrayList<InstrumentHandle> instrumentHandles = new ArrayList<InstrumentHandle>();
+    static ArrayList<VectrexInstrument> vectrexInstruments= new ArrayList<VectrexInstrument>();
     static
     {
         vectrexInstruments.add(SILENCE);
@@ -793,7 +793,7 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ModJPanel panel = new ModJPanel(fileName, tl);
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         eb.add(panel.jButtonCancel);
         ModalInternalFrame modal = new ModalInternalFrame("Mod 2 Vectrex", frame.getRootPane(), frame, panel,null, null , eb);
@@ -815,7 +815,7 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ModJPanel panel = new ModJPanel(fileName, tl);
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         eb.add(panel.jButtonCancel);
         

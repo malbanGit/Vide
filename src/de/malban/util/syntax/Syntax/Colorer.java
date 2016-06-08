@@ -596,12 +596,19 @@ VediPanel.setInScan(false);
     }
     boolean didAttributesChange(int sstart, int slen, AttributeSet saset, HighlightedDocument doc)
     {
-        javax.swing.text.Element element;
-        for(int i=sstart; i<sstart+slen;i++) 
+        try
         {
-            element = doc.getCharacterElement(i);
-            AttributeSet attribute = element.getAttributes();   
-            if (!attribute.isEqual(saset)) return true;
+            javax.swing.text.Element element;
+            for(int i=sstart; i<sstart+slen;i++) 
+            {
+                element = doc.getCharacterElement(i);
+                AttributeSet attribute = element.getAttributes();   
+                if (!attribute.isEqual(saset)) return true;
+            }
+        }
+        catch (Throwable e)
+        {
+            
         }
         return false;
     }

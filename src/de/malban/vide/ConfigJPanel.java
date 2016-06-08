@@ -122,6 +122,8 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jSliderMuxSel.setValue(config.delays[TIMER_MUX_SEL_CHANGE]);
         jSliderRealZero.setValue(config.delays[TIMER_ZERO]);
 
+        jCheckBox43.setSelected(config.includeRelativeToParent);
+        
         jComboBox3.setSelectedIndex(config.generation);
 
         
@@ -361,6 +363,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jCheckBox15 = new javax.swing.JCheckBox();
         jCheckBox16 = new javax.swing.JCheckBox();
         jCheckBox25 = new javax.swing.JCheckBox();
+        jCheckBox43 = new javax.swing.JCheckBox();
         jPanel8 = new javax.swing.JPanel();
         jCheckBox17 = new javax.swing.JCheckBox();
         jCheckBox18 = new javax.swing.JCheckBox();
@@ -1745,6 +1748,14 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBox43.setText("includes relative to parent");
+        jCheckBox43.setToolTipText("in opposite to relative to main file");
+        jCheckBox43.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox43ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -1755,8 +1766,9 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                     .addComponent(jCheckBox13)
                     .addComponent(jCheckBox15)
                     .addComponent(jCheckBox16)
-                    .addComponent(jCheckBox25))
-                .addContainerGap(218, Short.MAX_VALUE))
+                    .addComponent(jCheckBox25)
+                    .addComponent(jCheckBox43))
+                .addContainerGap(252, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1769,7 +1781,9 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                 .addComponent(jCheckBox16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox25)
-                .addContainerGap(859, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox43)
+                .addContainerGap(857, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Assembler", jPanel6);
@@ -2425,6 +2439,11 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         
     }//GEN-LAST:event_jButtonLoadActionPerformed
 
+    private void jCheckBox43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox43ActionPerformed
+               config.includeRelativeToParent =  jCheckBox43.isSelected();
+
+    }//GEN-LAST:event_jCheckBox43ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -2471,6 +2490,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox40;
     private javax.swing.JCheckBox jCheckBox41;
     private javax.swing.JCheckBox jCheckBox42;
+    private javax.swing.JCheckBox jCheckBox43;
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JCheckBox jCheckBox9;

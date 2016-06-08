@@ -113,7 +113,7 @@ public class GetRawFilenamePanel extends javax.swing.JPanel {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         GetRawFilenamePanel panel = new GetRawFilenamePanel();
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         ModalInternalFrame modal = new ModalInternalFrame("Enter \"raw\" name!", frame.getRootPane(), frame, panel,null, null , eb);
         panel.modelDialog = modal;

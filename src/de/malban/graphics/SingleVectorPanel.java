@@ -36,12 +36,12 @@ public class SingleVectorPanel extends javax.swing.JPanel
     public static int ARR_SIZE = 10;
     public class SharedVars
     {
-        ArrayList<SingleVectorPanel> siblings = new ArrayList<>();
-        Vector<MouseMovedListener> mMovedListener= new Vector<>();
-        Vector<MousePressedListener> mPressedListener= new Vector<>();
-        Vector<MouseReleasedListener> mReleasedListener= new Vector<>();
+        ArrayList<SingleVectorPanel> siblings = new ArrayList<SingleVectorPanel>();
+        Vector<MouseMovedListener> mMovedListener= new Vector<MouseMovedListener>();
+        Vector<MousePressedListener> mPressedListener= new Vector<MousePressedListener>();
+        Vector<MouseReleasedListener> mReleasedListener= new Vector<MouseReleasedListener>();
         
-        Vector<VectorChangedListener> mVectorListener= new Vector<>();
+        Vector<VectorChangedListener> mVectorListener= new Vector<VectorChangedListener>();
         
         int gridWidth = 10;
         boolean displayGrid = true;
@@ -273,22 +273,22 @@ public class SingleVectorPanel extends javax.swing.JPanel
         public void setValueAt(Object aValue, int row, int col)
         {
             fireVectorPreChange();
-            if (col == 1) vars.foregroundVectors.get(row).start.x((double)aValue);
-            if (col == 2) vars.foregroundVectors.get(row).start.y((double)aValue);
-            if (col == 3) vars.foregroundVectors.get(row).start.z((double)aValue);;
-            if (col == 4) vars.foregroundVectors.get(row).end.x((double)aValue);
-            if (col == 5) vars.foregroundVectors.get(row).end.y((double)aValue);
-            if (col == 6) vars.foregroundVectors.get(row).end.z((double)aValue);
+            if (col == 1) vars.foregroundVectors.get(row).start.x((Double)aValue);
+            if (col == 2) vars.foregroundVectors.get(row).start.y((Double)aValue);
+            if (col == 3) vars.foregroundVectors.get(row).start.z((Double)aValue);;
+            if (col == 4) vars.foregroundVectors.get(row).end.x((Double)aValue);
+            if (col == 5) vars.foregroundVectors.get(row).end.y((Double)aValue);
+            if (col == 6) vars.foregroundVectors.get(row).end.z((Double)aValue);
 //            if (col == 7) vars.foregroundVectors.get(row).end.z((double)aValue);
-            if (col == 8) {vars.foregroundVectors.get(row).uid_end_connect = (int)aValue; fixRelativeByUID(row, (int)aValue);}
-            if (col == 9) {vars.foregroundVectors.get(row).uid_start_connect= (int)aValue; fixRelativeByUID(row, (int)aValue);}
-            if (col == 10) vars.foregroundVectors.get(row).order= (int)aValue;
-            if (col == 11) vars.foregroundVectors.get(row).pattern= (int)aValue;
-            if (col == 12) vars.foregroundVectors.get(row).setIntensity((int)aValue);
-            if (col == 13) vars.foregroundVectors.get(row).factor= (int)aValue;
-            if (col == 14) vars.foregroundVectors.get(row).r= (int)aValue;
-            if (col == 15) vars.foregroundVectors.get(row).g= (int)aValue;
-            if (col == 16) vars.foregroundVectors.get(row).b= (int)aValue;
+            if (col == 8) {vars.foregroundVectors.get(row).uid_end_connect = (Integer)aValue; fixRelativeByUID(row, (Integer)aValue);}
+            if (col == 9) {vars.foregroundVectors.get(row).uid_start_connect= (Integer)aValue; fixRelativeByUID(row, (Integer)aValue);}
+            if (col == 10) vars.foregroundVectors.get(row).order= (Integer)aValue;
+            if (col == 11) vars.foregroundVectors.get(row).pattern= (Integer)aValue;
+            if (col == 12) vars.foregroundVectors.get(row).setIntensity((Integer)aValue);
+            if (col == 13) vars.foregroundVectors.get(row).factor= (Integer)aValue;
+            if (col == 14) vars.foregroundVectors.get(row).r= (Integer)aValue;
+            if (col == 15) vars.foregroundVectors.get(row).g= (Integer)aValue;
+            if (col == 16) vars.foregroundVectors.get(row).b= (Integer)aValue;
             fireVectorPostChange();
             fixRelatives();
             sharedRepaint();
@@ -417,7 +417,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     
     public void deleteSelectedVector()
     {
-        ArrayList<GFXVector> toDelete = new ArrayList<>();
+        ArrayList<GFXVector> toDelete = new ArrayList<GFXVector>();
         synchronized (vars.foregroundVectors.list)
         {
             for (GFXVector v: vars.foregroundVectors.list)
@@ -447,7 +447,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     }
     public void deleteNotSelectedVector()
     {
-        ArrayList<GFXVector> toDelete = new ArrayList<>();
+        ArrayList<GFXVector> toDelete = new ArrayList<GFXVector>();
         synchronized (vars.foregroundVectors.list)
         {
             for (GFXVector v: vars.foregroundVectors.list)
@@ -1867,7 +1867,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         GFXVectorList ret = getForegroundVectorList().clone();
         
         // remove non selected!
-        ArrayList<GFXVector> toRemove = new ArrayList<>();
+        ArrayList<GFXVector> toRemove = new ArrayList<GFXVector>();
         
         // that way all relations are kept intact!
         for (int i=0; i<ret.size(); i++)

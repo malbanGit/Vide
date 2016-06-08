@@ -11,6 +11,7 @@ import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.WARN;
 import static de.malban.gui.panels.LogPanel.INFO;
 import de.malban.util.DownloaderPanel;
+import de.malban.vide.vecx.VecX;
 import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Files;
@@ -43,7 +44,13 @@ public class Cartridge  implements Serializable
         log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     }
     
-
+    public DS2430 ds2430 = new DS2430(this);
+    transient VecX vecx;
+    public void setVecx(VecX v)
+    {
+        vecx = v;
+    }
+    
     int typeFlags=0;
     public long crc=0;
     // default
@@ -51,7 +58,11 @@ public class Cartridge  implements Serializable
     int[] bankLength;      // size of each bank, last might be smaller
     String[] bankFileNames;      
     int loadLen = 0;       // size of cartridge rom loaded (of single rom)
-    transient ArrayList<CartridgeListener> mListener= new ArrayList<>();
+    transient ArrayList<CartridgeListener> mListener= new ArrayList<CartridgeListener>();
+
+    public CartridgeProperties currentCardProp = null;
+    
+    
     public ArrayList<CartridgeListener> getListener()
     {
         return mListener;
@@ -86,7 +97,7 @@ public class Cartridge  implements Serializable
     }
     public void addCartridgeListener(CartridgeListener listener)
     {
-        if (mListener==null) mListener = new ArrayList<>();
+        if (mListener==null) mListener = new ArrayList<CartridgeListener>();
         mListener.remove(listener);
         mListener.add(listener);
     }
@@ -233,7 +244,6 @@ public class Cartridge  implements Serializable
         }
         return ret;
     }
-    public CartridgeProperties currentCardProp = null;
     public boolean init(CartridgeProperties cartProp)
     {
         currentCardProp = cartProp;
@@ -425,6 +435,9 @@ public class Cartridge  implements Serializable
     // parameters to be compatible with vecxy
     public static void deepCopy(Cartridge from, Cartridge to, boolean doRam, boolean doTimer)
     {
+        to.ds2430 = from.ds2430.clone();
+        to.ds2430.cart = to;
+        to.vecx = from.vecx;
     }
     
     // returns true if bank was switched
@@ -489,6 +502,18 @@ public class Cartridge  implements Serializable
         String ret = de.malban.util.UtilityString.replace(filename, "/", File.separator);
         ret = de.malban.util.UtilityString.replace(ret, "\\", File.separator);
         return ret;
+    }
+    public void lineIn(boolean b)
+    {
+        ds2430.lineIn(b);
+    }
+    public void ds2430Step(long cycles)
+    {
+        ds2430.step(cycles);
+    }
+    public void lineOut(boolean b)
+    {
+        vecx.setViaPB6(b);
     }
 }
 /*

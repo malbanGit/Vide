@@ -85,7 +85,7 @@ public class FontChooserPanel extends javax.swing.JPanel {
         
         
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonOk);
         eb.add(panel.jButtonCancel);
         ModalInternalFrame modal = new ModalInternalFrame(title, frame.getRootPane(), frame, panel,null, null , eb);

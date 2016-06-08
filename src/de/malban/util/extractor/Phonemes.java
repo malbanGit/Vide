@@ -101,11 +101,15 @@ public class Phonemes {
         try {
             phonems = Phonemes.loadSamplesImpl(bufferedInputStream, n);
         }
-        catch (Throwable var2_2) {
-            try {
+        catch (IOException var2_2) 
+        {
+            try 
+            {
                 bufferedInputStream.close();
             }
-            catch (Exception v0) {}
+            catch (Exception v0) 
+            {
+            }
             throw var2_2;
         }
         try {
@@ -197,7 +201,7 @@ public class Phonemes {
                 arrphonem = arrphonem2;
                 if (filterInputStream == null) break block22;
             }
-            catch (Throwable var11_18) {
+            catch (IOException var11_18) {
                 if (filterInputStream != null) {
                     try {
                         filterInputStream.close();
@@ -300,7 +304,7 @@ public class Phonemes {
                 if (filterInputStream == null) 
                     break block22;
             }
-            catch (Throwable var11_18) {
+            catch (IOException var11_18) {
                 if (filterInputStream != null) {
                     try {
                         filterInputStream.close();
@@ -345,7 +349,7 @@ public class Phonemes {
             try {
                 phonems = Phonemes.loadSamplesImplWithSave(bufferedInputStream, n);
             }
-            catch (Throwable var2_2) {
+            catch (IOException var2_2) {
                 try {
                     bufferedInputStream.close();
                 }

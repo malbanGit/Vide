@@ -194,8 +194,10 @@ public class Asmj {
             }
           );        
     }
+    String mainFile = "";
     public Asmj( String filename, OutputStream errOut, OutputStream listOut, OutputStream symOut, OutputStream infoOut , String defines) 
     {
+        mainFile = filename;
         ps_error_add=errOut;
         ps_info_add=infoOut;
         ps_listing_add=listOut;
@@ -235,7 +237,7 @@ public class Asmj {
         // Keep track of input filenames in the order we hit them,
         // whether as part of a "-f" option or not.
         Vector /* of String */ inputFilenames = new Vector();
-        Vector<String> definitions = new Vector<>();
+        Vector<String> definitions = new Vector<String>();
         String[] defs = defines.split(";");
         for (String d : defs)
             definitions.addElement( d);
@@ -969,7 +971,16 @@ public class Asmj {
                     String f2 = instr.includeFilename();
                     if ( ! f2.startsWith(File.separator) ) 
                     {
-                        String f1 = pline.getFilename();
+                        String f1="";
+                        
+                        if (config.includeRelativeToParent)
+                        {
+                            f1 = pline.getFilename();
+                        }
+                        else // include relative to main
+                        {
+                            f1 = mainFile;
+                        }
                         int p = f1.lastIndexOf(File.separator);
                         String path = (p<0) ? "" : f1.substring(0,p+1);
                         f2 = path + f2; // relative path

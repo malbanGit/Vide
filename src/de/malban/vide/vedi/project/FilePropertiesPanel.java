@@ -903,7 +903,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         FilePropertiesPanel panel = new FilePropertiesPanel();
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         eb.add(panel.jButtonCancel);
         ModalInternalFrame modal = new ModalInternalFrame("New project", frame.getRootPane(), frame, panel,null, null , eb);
@@ -927,7 +927,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         
         
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         eb.add(panel.jButtonCancel);
         ModalInternalFrame modal = new ModalInternalFrame(p.getFileName().toString(), frame.getRootPane(), frame, panel,null, null , eb);

@@ -239,7 +239,7 @@ public class VarJPanel extends javax.swing.JPanel implements
         jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcam.png"))); // NOI18N
         jToggleButton4.setToolTipText("Toggle Update (always or only while debug)");
         jToggleButton4.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jToggleButton4.setSize(new java.awt.Dimension(20, 20));
+        jToggleButton4.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcamSelect.png"))); // NOI18N
         jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton4ActionPerformed(evt);

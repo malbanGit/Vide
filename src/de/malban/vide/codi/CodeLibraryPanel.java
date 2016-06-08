@@ -556,7 +556,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     public boolean pausing = false;
 
     // start a thread for assembler
-    public void startASM(String filenameASM)
+    public void startASM(final String filenameASM)
     {
         if (asmStarted) return;
         asmStarted = true;
@@ -574,7 +574,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                     {
                         Asmj asm = new Asmj(filenameASM, asmErrorOut, asmListOut, asmSymbolOut, asmMessagesOut,"");
                         String info = asm.getInfo();
-                        boolean asmOk = info.indexOf("0 errors detected.") >=0;
+                        final boolean asmOk = info.indexOf("0 errors detected.") >=0;
                         
                         SwingUtilities.invokeLater(new Runnable()
                         {
@@ -584,7 +584,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                             }
                         });                    
                     }
-                    catch (Throwable e)
+                    catch (final Throwable e)
                     {
                         SwingUtilities.invokeLater(new Runnable()
                         {
@@ -864,7 +864,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     }
 
 
-    public void printMessageSU(String s)
+    public void printMessageSU(final String s)
     {
         SwingUtilities.invokeLater(new Runnable()
         {
@@ -874,7 +874,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
             }
         });                    
     }    
-    public void printWarningSU(String s)
+    public void printWarningSU(final String s)
     {
         SwingUtilities.invokeLater(new Runnable()
         {
@@ -884,7 +884,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
             }
         });                    
     }    
-    public void printErrorSU(String s)
+    public void printErrorSU(final String s)
     {
         SwingUtilities.invokeLater(new Runnable()
         {
@@ -1000,7 +1000,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         return true;
     }
     // start a thread for assembler
-    public void startBuild(ProjectProperties project)
+    public void startBuild(final ProjectProperties project)
     {
         if (asmStarted) return;
         asmStarted = true;
@@ -1053,7 +1053,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                         
                     }
                 }
-                catch (Throwable e)
+                catch (final Throwable e)
                 {
                     SwingUtilities.invokeLater(new Runnable()
                     {
@@ -1092,7 +1092,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 
                 ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, project.getProjectName(), "", "CodeLibraryPanel", pp);
                 boolean ok =  ScriptDataPanel.executeScript(postClass, postName, CodeLibraryPanel.this, ed);
-                boolean asmOk2 = asmOk; // effectivly final!
+                final boolean asmOk2 = asmOk; // effectivly final!
                 SwingUtilities.invokeLater(new Runnable()
                 {
                     public void run()

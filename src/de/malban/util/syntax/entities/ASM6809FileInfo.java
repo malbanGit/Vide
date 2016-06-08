@@ -318,7 +318,7 @@ public class ASM6809FileInfo
         // update entity with that
         // change our "reference" text accordingly
         // TODO !!!!!
-        ArrayList<String> ret = new ArrayList<>();
+        ArrayList<String> ret = new ArrayList<String>();
         // the hard way, if adj > 1 do the complete thing!
         if (Math.abs(adjustment)> 1)
         {

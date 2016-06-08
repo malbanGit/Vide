@@ -333,42 +333,46 @@ Done:
         (ABS, positive and negativ!
         -> tested, doesn' seem to to make any difference
 - done: veccy compiled vector lists (into ass code)
-
-
-
-todo:
-- eprom 
-- multi ram
-- vox
-- quick keys and visualaization which mode is current
-- bookmarks
-- hotkeys: jump, run, debug, search
-
-- hot key save /edit config
-- edit themes 
-- edit color for colorer
-- make sure color is working all the time
-- jump to error display on error by assemblling
-
-- examin: cacle /close button on windows?
-
-- dissi not shown on run? -> circumvent with window management, to have dissi iconified
-
-- windows management
+- done: ALWAYS update (Button) more Visual when switched on
+- done: vecci quick keys and visualaization which mode is current
+- done: VEDI bookmarks
+- done: vedi hotkeys: jump, run, debug, search
+- done: edit themes 
+- done: edit color for colorer
+- done: vedi jump to error display on error by assemblling
+- done: dissi not shown on run? -> circumvent with window management, to have dissi iconified
+- done: windows management
   iconify
   uniconify
   windows list
   window to front
-- new project relative paths correct
+- done: vedi new project relative paths correct
+- done: all bar with buttons for all windows which are open
+- done: vedi middle mouse button, jump to function also WHEN already in editor of that function!
 
 
+
+todo:
+todoc:
+- difference in assi to macro
+ ld\1 #(lo (hival))<<8 | (lo (loval))
+brackets are needed if macro parameter hival/loval consists of an expression
+
+- test java version upon start!
+- doc prebuilt/postbuild scripts
+- analog jystick
+- eprom 
+- multi ram
+- vox
+- veccy - list of "POINTS"
+- hot key save /edit config
+- make sure color is working all the time
+- examin: cacle /close button on windows?
 - clip in DRAW clipped
 - vari list of vars are coma seperated - should be :
-- all: bar with buttons for all windows which are open
 - LEX:                     _SCALE   (SCALE_FACTOR_GAME)          ; everything we do with "positioning" is scale SCALE_FACTOR_GAME
   second bracket os red!
-- veccy save dialog shows buttons
-- vedi middle mouse button, jump to function also WHEN already in editor of that function!
+- vecci save dialog shows buttons
 - " end struct " struct is read for more than one space
 - vecci option for 3d rotation to clip the vectors "behind" the front
 - dissi BIOS disasm is allways taken from SYSTEM.IMG

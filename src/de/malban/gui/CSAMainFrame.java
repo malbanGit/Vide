@@ -2196,7 +2196,6 @@ public class CSAMainFrame extends javax.swing.JFrame
     
     // serialize the given object and save it to file
     public static boolean serialize(Object obj, String fileName)
-           
     {
         try
         {
@@ -3239,7 +3238,7 @@ public VeccyPanel getVeccy()
     }
 
 
-    public CSAInternalFrame addAsWindow(Windowable p, int w, int h, String title)
+    public CSAInternalFrame addAsWindow(final Windowable p, int w, int h, String title)
     {
         ((JPanel)p).setVisible(false);
         if (mPanels.contains(p.getPanel()))

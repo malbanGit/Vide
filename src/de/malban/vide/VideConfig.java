@@ -66,7 +66,7 @@ public class VideConfig  implements Serializable{
     public boolean resetBreakpointsOnLoad = true;
     
 
-/// ASSI CONFIG
+    /// ASSI CONFIG
     public boolean expandBranches=true;
     
     // this one is really dangerous, default is OFF!
@@ -83,7 +83,7 @@ public class VideConfig  implements Serializable{
     // lb?? -> b?? if offset is small enough
     public boolean opt = true;
     public boolean outputLST = false;
-    
+    public boolean includeRelativeToParent = false;
     
     
     // VECXPANEL - DISPLAY
@@ -259,7 +259,7 @@ public class VideConfig  implements Serializable{
         to.excludeJumpsToDirect = from.excludeJumpsToDirect;
         to.beLaxWithHashTagAndImmediate = from.beLaxWithHashTagAndImmediate;
         to.treatUndefinedAsZero = from.treatUndefinedAsZero;
-    
+        to.includeRelativeToParent = from.includeRelativeToParent;
         to.opt = from.opt;
         to.outputLST = from.outputLST;
     

@@ -806,7 +806,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
 
     ArrayList<GFXVectorList> generateGFXVectorList_(Features in)
     {
-        ArrayList<GFXVectorList> vList= new ArrayList<>();
+        ArrayList<GFXVectorList> vList= new ArrayList<GFXVectorList>();
         for (Feature feature : in.feature) 
         {
             for(Poly poly: feature.poly) 
@@ -841,15 +841,15 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     }
     class Poly
     {
-        ArrayList<VPoint> coords= new ArrayList<>();
+        ArrayList<VPoint> coords= new ArrayList<VPoint>();
     }
     class Feature
     {
-        ArrayList<Poly> poly = new ArrayList<>();
+        ArrayList<Poly> poly = new ArrayList<Poly>();
     }
     class Features
     {
-        ArrayList<Feature> feature= new ArrayList<>();
+        ArrayList<Feature> feature= new ArrayList<Feature>();
     }
     
     // Point[][][] -> polygons -> coords -> ints
@@ -880,8 +880,8 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                     for (Object c: polyArray)
                     {
                         JSONArray coords = (JSONArray)c;
-                        double val0 = (double) coords.get(0);
-                        double val1 = (double) coords.get(1);
+                        double val0 = (Double) coords.get(0);
+                        double val1 = (Double) coords.get(1);
                         
                         val0 = val0*255; // x
                         val1 = val1*255; // y
@@ -1254,7 +1254,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     //In: array of polys with abs coordinates
     ArrayList<GFXVectorList> generateGFXVectorList(Features in) 
     {
-        ArrayList<GFXVectorList> vListList = new ArrayList<>();
+        ArrayList<GFXVectorList> vListList = new ArrayList<GFXVectorList>();
         for (Feature feature : in.feature) 
         {
             for(Poly poly: feature.poly) 

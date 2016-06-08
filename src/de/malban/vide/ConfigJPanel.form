@@ -1891,8 +1891,9 @@
                           <Component id="jCheckBox15" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jCheckBox16" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jCheckBox25" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBox43" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="218" max="32767" attributes="0"/>
+                      <EmptySpace pref="252" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1907,7 +1908,9 @@
                       <Component id="jCheckBox16" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jCheckBox25" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="859" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jCheckBox43" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="857" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1945,6 +1948,15 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox25ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jCheckBox43">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="includes relative to parent"/>
+                <Property name="toolTipText" type="java.lang.String" value="in opposite to relative to main file"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox43ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

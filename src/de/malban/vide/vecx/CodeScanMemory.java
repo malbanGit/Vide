@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class CodeScanMemory {
     
     public MemInfo[] mem = new MemInfo[65536];
-    ArrayList<MemInfo[]> allBankMem = new ArrayList<>();
+    ArrayList<MemInfo[]> allBankMem = new ArrayList<MemInfo[]>();
     int currentBank =0;
     public static CodeScanMemory getCodeScanMemory()
     {

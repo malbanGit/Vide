@@ -66,7 +66,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     TargetDataLine  targetDataLine = null;
     boolean targetLineOk = false;
     Recorder recorder = null;
-    ArrayList<MyMixer> targetMixers = new ArrayList<>();
+    ArrayList<MyMixer> targetMixers = new ArrayList<MyMixer>();
     class MyMixer
     {
         Mixer.Info info;
@@ -1131,7 +1131,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
             panel.setSample(fileName);
 */        
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         eb.add(panel.jButtonCancel);
         ModalInternalFrame modal = new ModalInternalFrame("Sample", frame.getRootPane(), frame, panel,null, null , eb);
@@ -1350,7 +1350,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     
     
 
-    public void positionChanged(int position)    
+    public void positionChanged(final int position)    
     {
         if (image==null) return;
         if (sound == null) return;

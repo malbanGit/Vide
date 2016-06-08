@@ -69,6 +69,7 @@ import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.sound.tinysound.Stream;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.veccy.VectorListScanner;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_RAM_DS2430A;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_YM;
@@ -83,6 +84,8 @@ import java.nio.charset.StandardCharsets;
  */
 public class VecX extends VecXState implements VecXStatics, E6809Access
 {
+    boolean DS2430Enabled = false;
+    
     VideConfig config = VideConfig.getConfig();
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     // timer is count down in 1/1500000 steps
@@ -186,10 +189,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         e8910 = new E8910();
         e8910.e8910_init_sound();
         for (int i=0; i<Breakpoint.BP_TARGET_COUNT; i++)
-            breakpoints[i] = new ArrayList<>();
+            breakpoints[i] = new ArrayList<Breakpoint>();
         line = TinySound.getOutStream();
         line.start();
-        }
+    }
     void deinitAudio()
     {
         if (line != null)
@@ -203,7 +206,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     }
     // called befor VIA is changed
     // so we have access to old via data
-    void doCheckBankswitch(int tobe_via_orb, int tobe_via_ddrb)
+
+    // returns state of PB6
+    boolean doCheckExternalCartline(int tobe_via_orb, int tobe_via_ddrb, boolean orbInitiated)
     {
         // below we do output to all bits
         // we are only really interested in PB6
@@ -230,36 +235,63 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         
         // get output value of via b NOW
         int viaOutNow = via_orb| (via_ddrb ^ 0xFFFFFFFF) & 0xFF;
+            
+        boolean pb6 = (viaOutNow&0x40) == 0x40;
+        
         if ((tobe_via_orb != viaOutNow) || (tobe_via_ddrb != via_ddrb))
         {
             // get output of changed port b
             int viaOutTobe = tobe_via_orb |((tobe_via_ddrb ^ 0xFFFFFFFF) & 0xFF);
-            // send changed via port b out put to cartridge
-            boolean changed = cart.checkBankswitch(viaOutTobe, cyclesRunning);
-            if (changed)
+            
+            if (!orbInitiated)
             {
-                currentBank = cart.getCurrentBank();
-                dissiMem.setCurrentBank(currentBank);
+                if ((tobe_via_ddrb &0x40) == 0x40)
+                    viaOutTobe = viaOutTobe & (0xff-0x40);
+                else
+                    viaOutTobe = viaOutTobe | 0x40;
+            }
+            
+            
+            
+            pb6 = (viaOutTobe&0x40) == 0x40;
+            
+            if (DS2430Enabled)
+            {
+                cart.lineIn(pb6);
                 
-                if (!config.breakpointsActive) return;
-                synchronized (breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
+                return pb6;
+            }
+            else if (config.enableBankswitch)
+            {
+                // send changed via port b out put to cartridge
+                boolean changed = cart.checkBankswitch(viaOutTobe, cyclesRunning);
+                if (changed)
                 {
+                    currentBank = cart.getCurrentBank();
+                    dissiMem.setCurrentBank(currentBank);
 
-                    for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
+                    if (!config.breakpointsActive) return pb6;
+                    synchronized (breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
                     {
-                        if ((bp.type & Breakpoint.BP_BANK) == Breakpoint.BP_BANK)
+
+                        for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
                         {
-                            if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                            if ((bp.type & Breakpoint.BP_BANK) == Breakpoint.BP_BANK)
                             {
-                                tmp.add(bp);
+                                if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                                {
+                                    tmp.add(bp);
+                                }
+                                activeBreakpoint.add(bp);
+                                if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
                             }
-                            activeBreakpoint.add(bp);
-                            if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
                         }
-                    }
-                }             
+                    }             
+                }
+                return pb6;
             }
         }
+        return pb6;
     }
     
 
@@ -603,6 +635,17 @@ sampleCycle= cyclesRunning;
 
         return data & 0xff; // and return unsigned byte!
     }
+    
+    public void setViaPB6(boolean b)
+    {
+        int data = via_orb;
+        if (b) data = data | 0x40;
+        else data = data & (0xff - 0x40);
+        
+        checkVIABreakpoint(0, via_orb, data);   
+        via_orb = data;
+    }
+
     @Override
     public void e6809_write8(int address, int data)
     {
@@ -626,13 +669,29 @@ sampleCycle= cyclesRunning;
                 switch (address & 0xf) 
                 {
                     case 0x0:
+                        // if pb6 in input mode, don't change pb6
+                        if ((via_ddrb & 0x40) == 0)
+                        {
+                            if ((data & 0x040) == 0x40)
+                            {
+                                data = data | 0x40;
+                            }
+                            else
+                            {
+                                data = data & (0xff - 0x40);
+                            }
+                        }
                         checkVIABreakpoint(0, via_orb, data);                  
-                        doCheckBankswitch(data, via_ddrb);
+
+                        boolean pb6 = doCheckExternalCartline(data, via_ddrb, true);
                         if ((data & 0x7) != (via_orb & 0x07)) // check if state of mux sel changed
                         {
                             addTimerItem(new TimerItem(data, alg_sel, TIMER_MUX_SEL_CHANGE));
                         }
+                        
+                        
                         via_orb = data;
+                        setViaPB6(pb6);
                         snd_update();
                         if ((via_pcr & 0xe0) == 0x80) 
                         {
@@ -671,8 +730,9 @@ sampleCycle= cyclesRunning;
                         snd_update();
                         break;
                     case 0x2:
-                        doCheckBankswitch(via_orb, data);
+                        boolean pb6_2 = doCheckExternalCartline(via_orb, data, false);
                         via_ddrb = data;
+                        setViaPB6(pb6_2);
                         break;
                     case 0x3:
                         via_ddra = data;
@@ -1287,6 +1347,11 @@ sampleCycle= cyclesRunning;
         if (!config.cycleExactEmulation) return;
         for (int c = 0; c < cycles; c++) 
         {
+            if (DS2430Enabled)
+            {
+                if (cart != null)
+                cart.ds2430Step(cyclesRunning);
+            }
             via_sstep0();
             timerStep();
             // timer after via, to make sure befor analog step, that 0 timers are respected!
@@ -1295,6 +1360,7 @@ sampleCycle= cyclesRunning;
             if (lightpen) lightpenStep();
             via_sstep1();
             nonCPUStepsDone++;
+            cyclesRunning++;
         }
     }
     int nonCPUStepsDone = 0;
@@ -1338,10 +1404,14 @@ sampleCycle= cyclesRunning;
                 }
             }
             
-            cyclesRunning += icycles;
+//            cyclesRunning += icycles;
             for (c = 0; c < (icycles-nonCPUStepsDone); c++) 
             {
-                
+                if (DS2430Enabled)
+                {
+                    if (cart != null)
+                    cart.ds2430Step(cyclesRunning);
+                }
                 via_sstep0();
                 timerStep();
                 // timer after via, to make sure befor analog step, that 0 timers are respected!
@@ -1349,6 +1419,7 @@ sampleCycle= cyclesRunning;
                 if (imager) imagerStep();
                 if (lightpen) lightpenStep();
                 via_sstep1();
+                cyclesRunning++;
             }
 
             if (waitRecalActive) checkWaitRecal();
@@ -1556,12 +1627,14 @@ sampleCycle= cyclesRunning;
         
         try
         {
+            cart.setVecx(this);
             // load Cartridge
             if (!cart.init(cartProp)) 
             {
                 log.addLog("Vecx: init() cartridge not loaded!", WARN);
                 return false;
             }
+            DS2430Enabled = (cartProp.getTypeFlags()&FLAG_RAM_DS2430A)!=0;
             e6809.e6809_reset();  
             vecx_reset();
             //initAudioLine();
@@ -1597,6 +1670,7 @@ sampleCycle= cyclesRunning;
         
         try
         {
+            cart.setVecx(this);
             // load Cartridge
             cart.load(filenameRom);
             e6809.e6809_reset();  
@@ -1639,6 +1713,8 @@ sampleCycle= cyclesRunning;
             rom = state.rom;
             cart = state.cart;
             cart.setListener(mListener);
+            cart.setVecx(this);
+            cart.ds2430.cart = cart;
             
             E6809State.deepCopy(state.e6809State, this.e6809);
             E8910State.deepCopy(state.e8910State, this.e8910);
@@ -1707,6 +1783,10 @@ sampleCycle= cyclesRunning;
         E8910State.deepCopy(state.e8910State, this.e8910);
         VecXState.deepCopy(state.eVecXState, this);
         cart.setBank(currentBank); // just in case a bankswitch occurred
+        cart.setVecx(this);
+        cart.ds2430.cart = cart;
+
+        
         displayer.directDraw(directDrawVector);
         return true;
     }
@@ -1740,6 +1820,9 @@ sampleCycle= cyclesRunning;
             ringWalkStep=-1; // wie hit the front!
         }
         cart.setBank(currentBank); // just in case a bankswitch occurred
+        cart.setVecx(this);
+        cart.ds2430.cart = cart;
+
         displayer.directDraw(directDrawVector);
         return true;
     }     
@@ -2633,7 +2716,7 @@ sampleCycle= cyclesRunning;
         recordingType = type;
         recordingIsAddress = isAddress;
         recording = true;
-        recordData = new ArrayList<>();
+        recordData = new ArrayList<byte[]>();
     }
     
     // 32 bit int as byte array in big endian
@@ -2848,5 +2931,6 @@ sampleCycle= cyclesRunning;
             }
         }
     }
+
 }
 

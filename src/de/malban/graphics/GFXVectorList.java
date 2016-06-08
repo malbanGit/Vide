@@ -27,7 +27,7 @@ public class GFXVectorList {
     static long tuid=0; // to build unique labels in code gen!
     
     
-    public ArrayList<GFXVector> list = new ArrayList<>();
+    public ArrayList<GFXVector> list = new ArrayList<GFXVector>();
     
     public GFXVectorList()
     {
@@ -164,7 +164,7 @@ public class GFXVectorList {
     // a xml "list" of an arbitrary number of GFXVectors
     public boolean fromXML(StringBuilder xml, XMLSupport xmlSupport)
     {
-        list = new ArrayList<>();
+        list = new ArrayList<GFXVector>();
         int errorCode = 0;
 //        StringBuilder xmlBuffer = new StringBuilder(xml);
         uid= xmlSupport.getIntElement("id", xml);errorCode|=xmlSupport.errorCode;
@@ -479,7 +479,7 @@ public class GFXVectorList {
     public boolean isOnePath()
     {
         if (list.size() == 0) return true;
-        HashMap<String, String> safetyNet = new HashMap<>();
+        HashMap<String, String> safetyNet = new HashMap<String, String>();
         ArrayList<GFXVector> copy = (ArrayList<GFXVector>)list.clone();
         
         GFXVector v = copy.get(0);
@@ -747,9 +747,9 @@ public class GFXVectorList {
     {
         // there can be actually circles with "startpoint" out of the circle
         // this can happen if more than one vectors are joined at one point!
-        HashMap<String, String> safetyNet = new HashMap<>();
+        HashMap<String, String> safetyNet = new HashMap<String, String>();
         
-        ArrayList<GFXVector> newList = new ArrayList<>();
+        ArrayList<GFXVector> newList = new ArrayList<GFXVector>();
         for (GFXVector v: list) v.order = -1;
         cleanupStartEnd();
         GFXVector start;
@@ -787,7 +787,7 @@ public class GFXVectorList {
             list.remove(v);
             v.order = pos++;
             newList.add(v);
-            safetyNet = new HashMap<>();
+            safetyNet = new HashMap<String, String>();
             uidStart = v.uid;
             safetyNet.put(""+v.uid, "");
             
@@ -828,7 +828,7 @@ public class GFXVectorList {
    
         connectWherePossible(true);
         doOrder();
-        ArrayList<GFXVector> newList = new ArrayList<>();
+        ArrayList<GFXVector> newList = new ArrayList<GFXVector>();
         int pos = 0;
         int pattern = doLine?255:0;
         
@@ -890,7 +890,7 @@ public class GFXVectorList {
         
         
         // 2. do all start connects
-        newList = new ArrayList<>();
+        newList = new ArrayList<GFXVector>();
         pos = 0;
         while (list.size()>0)
         {
@@ -1012,7 +1012,7 @@ public class GFXVectorList {
         
         while (vl.size()>0)
         {
-            HashMap<String, String> safetyNet = new HashMap<>();
+            HashMap<String, String> safetyNet = new HashMap<String, String>();
             GFXVectorList newList = new GFXVectorList();
             int pos = 0;
 
@@ -1049,7 +1049,7 @@ public class GFXVectorList {
             vl.list.remove(v);
             newList.add(v);
             uidStart = v.uid;
-            safetyNet = new HashMap<>();
+            safetyNet = new HashMap<String, String>();
             safetyNet.put(""+v.uid, "");
                         
             // follow the end to end connections till none is availble, than continue with the "natural" order
@@ -1486,7 +1486,7 @@ public class GFXVectorList {
         int pos = aList.indexOf(v);
         aList.add(pos+1, nv);
         
-        HashMap<String, String> saftyNet = new HashMap<>();
+        HashMap<String, String> saftyNet = new HashMap<String, String>();
         saftyNet.put(""+v.uid, "");
         saftyNet.put(""+nv.uid, "");
 

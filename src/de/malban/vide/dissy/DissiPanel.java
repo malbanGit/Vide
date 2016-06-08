@@ -544,7 +544,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel2.add(jCheckBoxVectorSelect);
-        jCheckBoxVectorSelect.setBounds(2, 2, 17, 17);
+        jCheckBoxVectorSelect.setBounds(2, 2, 21, 21);
 
         jButtonShowVars.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/table_refresh.png"))); // NOI18N
         jButtonShowVars.setToolTipText("show variables");
@@ -672,7 +672,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcam.png"))); // NOI18N
         jToggleButton1.setToolTipText("Toggle Update (always or only while debug)");
         jToggleButton1.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jToggleButton1.setSize(new java.awt.Dimension(20, 20));
+        jToggleButton1.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcamSelect.png"))); // NOI18N
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);
@@ -798,7 +798,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jSplitPane1.setTopComponent(jScrollPane2);
 
         jPanel3.setPreferredSize(new java.awt.Dimension(50, 50));
-        jPanel3.setSize(new java.awt.Dimension(50, 50));
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -1307,7 +1306,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
             int end = 0xbfff;
             ArrayList<String> comments;
             ArrayList<String> labels;
-            HashMap<String, String> doneLabels = new HashMap<>();
+            HashMap<String, String> doneLabels = new HashMap<String, String>();
             int dp = 0;
             int brokenLength = 0;
             boolean breakable = false;
@@ -1439,14 +1438,14 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 while (it.hasNext()) 
                 {
                     Map.Entry pair = (Map.Entry)it.next();
-                    int directPageHi = (int) pair.getKey();
+                    int directPageHi = (Integer) pair.getKey();
                     HashMap<Integer, MemoryInformation> entries = (HashMap<Integer, MemoryInformation>) pair.getValue();
 
                     Iterator it2 = entries.entrySet().iterator();
                     while (it2.hasNext()) 
                     {
                         Map.Entry pair2 = (Map.Entry)it2.next();
-                        int directPageLo = (int) pair2.getKey();
+                        int directPageLo = (Integer) pair2.getKey();
                         String directLabel = (String)pair2.getValue();
                         if (doneLabels.get(directLabel) == null)
                         {
@@ -2354,7 +2353,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 }
             }
       });
-      allColumns = new ArrayList<>();
+      allColumns = new ArrayList<TableColumn>();
       for (int i=0; i< jTableSource.getColumnCount(); i++)
       {
           allColumns.add(jTableSource.getColumnModel().getColumn(i));
@@ -3340,14 +3339,14 @@ public class DissiPanel extends javax.swing.JPanel  implements
             while (it.hasNext()) 
             {
                 Map.Entry pair = (Map.Entry)it.next();
-                int directPageHi = (int) pair.getKey();
+                int directPageHi = (Integer) pair.getKey();
                 HashMap<Integer, MemoryInformation> entries = (HashMap<Integer, MemoryInformation>) pair.getValue();
 
                 Iterator it2 = entries.entrySet().iterator();
                 while (it2.hasNext()) 
                 {
                     Map.Entry pair2 = (Map.Entry)it2.next();
-                    int directPageLo = (int) pair2.getKey();
+                    int directPageLo = (Integer) pair2.getKey();
                     String directLabel = (String)pair2.getValue();
 
                     int value = directPageHi*256+directPageLo;
@@ -3393,7 +3392,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         
         return len;
     }
-    public void cartridgeChanged(CartridgeEvent e)
+    public void cartridgeChanged(final CartridgeEvent e)
     {
         // called from emulation thread!
         SwingUtilities.invokeLater(new Runnable()

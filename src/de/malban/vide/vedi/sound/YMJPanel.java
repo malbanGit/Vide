@@ -4195,7 +4195,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         if (three != null) return;
         
         
-        Stream line = TinySound.getOutStream();
+        final Stream line = TinySound.getOutStream();
 
         e8910.e8910_init_sound();
         // setupPSG once with a complete reigster set!

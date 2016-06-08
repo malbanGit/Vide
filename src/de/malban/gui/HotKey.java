@@ -20,6 +20,22 @@ import javax.swing.text.JTextComponent;
  *
  * @author malban
  */
+
+// usage of "HotKey" class
+//        new HotKey("Run", new AbstractAction() { public void actionPerformed(ActionEvent e) {  run(); }}, this);
+// (calling constructor, no need to save the new "hotkey", the constructor initiates all needed stuff)
+// the actual KEYs must be known by the HotKey class (see static {})
+// in static the default keys for each "name" are defined
+// if user redefines them the new defines are serialized and thus remembered
+//
+// so for a new hotkey you need
+// - add a default keyset for a name in the "static" region of this class
+// - add the hotkey constructor (see above) to the class where you want to use the hotkey
+//
+// the actual serialization is done from apart of this class, in the case of vide
+// this is done via "VideConfig"
+
+
 public class HotKey implements Serializable
 {
     public String name="";
@@ -38,8 +54,8 @@ public class HotKey implements Serializable
     {
         if (allMappings == null)
         {
-            allMappings= new HashMap<>();
-            hotkeyList = new ArrayList<>();
+            allMappings= new HashMap<String, HotKey>();
+            hotkeyList = new ArrayList<HotKey>();
 
             HotKey.addMap(KeyEvent.VK_C, Event.META_MASK, javax.swing.text.DefaultEditorKit.copyAction, "Editor");
             HotKey.addMap(KeyEvent.VK_V, Event.META_MASK, javax.swing.text.DefaultEditorKit.pasteAction, "Editor");

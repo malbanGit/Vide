@@ -136,7 +136,7 @@ public class VectorInfoJPanel extends javax.swing.JPanel implements
         dissi = d;
     }
 
-    public void setMouseCoordinates(int x, int y)
+    public void setMouseCoordinates(final int x, final int y)
     {
         SwingUtilities.invokeLater(new Runnable()
          {

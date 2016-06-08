@@ -848,7 +848,7 @@ public class EditorPanel extends EditorPanelFoundation
         }
         catch (Throwable e)
         {
-            e.printStackTrace();
+         ;//   e.printStackTrace();
         }
         
         return true;

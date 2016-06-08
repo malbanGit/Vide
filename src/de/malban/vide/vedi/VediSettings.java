@@ -19,7 +19,7 @@ public class VediSettings implements Serializable
 {
     public int pos1 = 0;
     public int pos2 = 0;
-    public HashMap <Integer, Bookmark> bookmarks = new HashMap<>();
+    public HashMap <Integer, Bookmark> bookmarks = new HashMap<Integer, Bookmark>();
     public static class P implements Serializable
     {
         String mName;
@@ -41,9 +41,9 @@ public class VediSettings implements Serializable
             return other.mClass.equals(mClass) && other.mName.equals(mName) && other.mPath.equals(mPath);
         }
     }
-    ArrayList<String> currentOpenFiles = new ArrayList<>();
-    ArrayList<String> recentOpenFiles = new ArrayList<>();
-    ArrayList<P> recentProject = new ArrayList<>();
+    ArrayList<String> currentOpenFiles = new ArrayList<String>();
+    ArrayList<String> recentOpenFiles = new ArrayList<String>();
+    ArrayList<P> recentProject = new ArrayList<P>();
 
     P currentProject;
     public void addProject(String n, String c, String pp)

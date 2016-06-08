@@ -126,7 +126,7 @@ public class Mod2Vectrex
                     64*000+033,64*000+031,64*000+030,64*000+026,64*000+025,64*000+024,64*000+023,64*000+022,64*000+021,64*000+030,64*000+017,64*000+016
             };
     
-    public static HashMap<Integer, Integer> freq2Index = new HashMap<>();
+    public static HashMap<Integer, Integer> freq2Index = new HashMap<Integer, Integer>();
     static
     {
         for (int i=0; i< 12*7; i++)

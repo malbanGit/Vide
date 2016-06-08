@@ -91,7 +91,7 @@ public class GetJumpValuePanel extends javax.swing.JPanel {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         GetJumpValuePanel panel = new GetJumpValuePanel();
         
-        ArrayList<JButton> eb= new ArrayList<>();
+        ArrayList<JButton> eb= new ArrayList<JButton>();
         ModalInternalFrame modal = new ModalInternalFrame("Junp:", frame.getRootPane(), frame, panel,null, null , null);
         panel.modelDialog = modal;
         modal.setVisible(true);

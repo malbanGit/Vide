@@ -259,7 +259,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) 
             {
                 Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-                int val = (int) ((double) value);
+                int val = (int) ((double)((Double) value));
                 
                 JLabel l = (JLabel)c;
                 l.setText(""+val);
@@ -768,20 +768,20 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldCurrentNo.setToolTipText("Number of the current selected image.");
         applyCurrent.add(jTextFieldCurrentNo);
-        jTextFieldCurrentNo.setBounds(120, 13, 30, 19);
+        jTextFieldCurrentNo.setBounds(120, 13, 30, 20);
 
         jLabelImageNow.setText("now");
         applyCurrent.add(jLabelImageNow);
-        jLabelImageNow.setBounds(90, 16, 30, 15);
+        jLabelImageNow.setBounds(90, 16, 30, 14);
 
         jTextFieldCount.setText("0");
         jTextFieldCount.setToolTipText("Count of images.");
         applyCurrent.add(jTextFieldCount);
-        jTextFieldCount.setBounds(47, 13, 30, 19);
+        jTextFieldCount.setBounds(47, 13, 30, 20);
 
         jLabelImageCount.setText("Count");
         applyCurrent.add(jLabelImageCount);
-        jLabelImageCount.setBounds(10, 16, 40, 15);
+        jLabelImageCount.setBounds(10, 16, 40, 14);
 
         jButtonApplyCurrent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_square_go.png"))); // NOI18N
         jButtonApplyCurrent.setText("apply");
@@ -798,7 +798,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabelSelSize.setText(" ");
         applyCurrent.add(jLabelSelSize);
-        jLabelSelSize.setBounds(320, 40, 50, 15);
+        jLabelSelSize.setBounds(320, 40, 50, 14);
 
         jButtonReverse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_refresh_small.png"))); // NOI18N
         jButtonReverse.setText("Reverse");
@@ -834,7 +834,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonSave2);
-        jButtonSave2.setBounds(40, 40, 20, 20);
+        jButtonSave2.setBounds(40, 40, 21, 21);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -902,7 +902,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonLoad1);
-        jButtonLoad1.setBounds(10, 40, 20, 20);
+        jButtonLoad1.setBounds(10, 40, 21, 21);
 
         buttonGroup2.add(jRadioButton1);
         jRadioButton1.setSelected(true);
@@ -913,7 +913,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jRadioButton1);
-        jRadioButton1.setBounds(160, 10, 73, 19);
+        jRadioButton1.setBounds(160, 10, 71, 23);
 
         buttonGroup2.add(jRadioButton2);
         jRadioButton2.setText("scenario");
@@ -923,7 +923,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jRadioButton2);
-        jRadioButton2.setBounds(160, 30, 65, 19);
+        jRadioButton2.setBounds(160, 30, 65, 23);
 
         jButtonAddCurrent1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
         jButtonAddCurrent1.setText("add view");
@@ -1057,7 +1057,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldRotate2d.setText("90");
 
-        jButtonMirrorVertically.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_flip_vertical.png"))); // NOI18N
+        jButtonMirrorVertically.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_flip_horizontal.png"))); // NOI18N
         jButtonMirrorVertically.setText("mirror vertically");
         jButtonMirrorVertically.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonMirrorVertically.setPreferredSize(new java.awt.Dimension(74, 19));
@@ -1067,7 +1067,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
-        jButtonMirrorHorizontally.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_flip_horizontal.png"))); // NOI18N
+        jButtonMirrorHorizontally.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_flip_vertical.png"))); // NOI18N
         jButtonMirrorHorizontally.setText("mirror horizontally");
         jButtonMirrorHorizontally.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonMirrorHorizontally.setPreferredSize(new java.awt.Dimension(74, 19));
@@ -1078,10 +1078,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jLabel50.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel50.setText("around x-axis");
+        jLabel50.setText("around y-axis");
 
         jLabel53.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel53.setText("around y-axis");
+        jLabel53.setText("around x-axis");
 
         jTextFieldScaleFactor.setText("1.5");
 
@@ -1848,15 +1848,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabelY.setText("<- Y(z) ->");
         jPanel16.add(jLabelY);
-        jLabelY.setBounds(0, 319, 70, 15);
+        jLabelY.setBounds(0, 319, 70, 14);
 
         jLabelZ.setText("<- Z(x) ->");
         jPanel16.add(jLabelZ);
-        jLabelZ.setBounds(550, 320, 70, 15);
+        jLabelZ.setBounds(550, 320, 70, 14);
 
         jTextFieldExpandYZ.setText("1");
         jPanel16.add(jTextFieldExpandYZ);
-        jTextFieldExpandYZ.setBounds(80, 320, 30, 19);
+        jTextFieldExpandYZ.setBounds(80, 320, 30, 20);
 
         jButtonExpandDimensionYZ.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_out.png"))); // NOI18N
         jButtonExpandDimensionYZ.setText("expand dimension");
@@ -1873,7 +1873,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jCheckBoxDragVectors.setText("drag vectors");
         jPanel16.add(jCheckBoxDragVectors);
-        jCheckBoxDragVectors.setBounds(290, 320, 120, 19);
+        jCheckBoxDragVectors.setBounds(290, 320, 120, 23);
 
         jTabbedPane5.addTab("Y/Z", jPanel16);
 
@@ -3067,10 +3067,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                     .addComponent(jTextFieldYMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel28Layout.createSequentialGroup()
                                 .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel42)
-                                    .addComponent(jTextFieldZMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(jPanel28Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel42))
+                                    .addGroup(jPanel28Layout.createSequentialGroup()
+                                        .addGap(2, 2, 2)
+                                        .addComponent(jTextFieldZMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addComponent(jCheckBoxSameIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel28Layout.createSequentialGroup()
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3085,7 +3088,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jLabel39)
                             .addComponent(jLabel41)))
                     .addComponent(jLabel43))
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE))
         );
         jPanel28Layout.setVerticalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3190,43 +3193,43 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabelStartInX.setText("start point:");
         jPanel18.add(jLabelStartInX);
-        jLabelStartInX.setBounds(13, 1, 90, 15);
+        jLabelStartInX.setBounds(13, 1, 90, 14);
 
         jLabelCurrent.setText("current:");
         jPanel18.add(jLabelCurrent);
-        jLabelCurrent.setBounds(173, 1, 80, 15);
+        jLabelCurrent.setBounds(173, 1, 80, 14);
 
         jTextFieldStartX.setText("80");
         jPanel18.add(jTextFieldStartX);
-        jTextFieldStartX.setBounds(10, 20, 40, 19);
+        jTextFieldStartX.setBounds(10, 20, 40, 20);
 
         jTextFieldCurrentZ.setText("80");
         jPanel18.add(jTextFieldCurrentZ);
-        jTextFieldCurrentZ.setBounds(270, 20, 40, 19);
+        jTextFieldCurrentZ.setBounds(270, 20, 40, 20);
 
         jTextFieldCurrentY.setText("80");
         jPanel18.add(jTextFieldCurrentY);
-        jTextFieldCurrentY.setBounds(220, 20, 40, 19);
+        jTextFieldCurrentY.setBounds(220, 20, 40, 20);
 
         jLabelCount.setText("vector count:");
         jPanel18.add(jLabelCount);
-        jLabelCount.setBounds(70, 350, 80, 15);
+        jLabelCount.setBounds(70, 350, 80, 14);
 
         jTextFieldStartZ.setText("80");
         jPanel18.add(jTextFieldStartZ);
-        jTextFieldStartZ.setBounds(110, 20, 40, 19);
+        jTextFieldStartZ.setBounds(110, 20, 40, 20);
 
         jLabelX.setText("<- X(y) ->");
         jPanel18.add(jLabelX);
-        jLabelX.setBounds(10, 350, 70, 15);
+        jLabelX.setBounds(10, 350, 70, 14);
 
         jTextFieldStartY.setText("80");
         jPanel18.add(jTextFieldStartY);
-        jTextFieldStartY.setBounds(60, 20, 40, 19);
+        jTextFieldStartY.setBounds(60, 20, 40, 20);
 
         jTextFieldVectorCount.setText("0");
         jPanel18.add(jTextFieldVectorCount);
-        jTextFieldVectorCount.setBounds(150, 350, 30, 19);
+        jTextFieldVectorCount.setBounds(150, 350, 30, 20);
 
         singleImagePanel1.setMaximumSize(new java.awt.Dimension(300, 300));
         singleImagePanel1.setMinimumSize(new java.awt.Dimension(300, 300));
@@ -3248,7 +3251,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldCurrentX.setText("80");
         jPanel18.add(jTextFieldCurrentX);
-        jTextFieldCurrentX.setBounds(170, 20, 40, 19);
+        jTextFieldCurrentX.setBounds(170, 20, 40, 20);
 
         jCheckBoxGrid.setSelected(true);
         jCheckBoxGrid.setText("grid");
@@ -3259,7 +3262,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         jPanel18.add(jCheckBoxGrid);
-        jCheckBoxGrid.setBounds(230, 350, 50, 19);
+        jCheckBoxGrid.setBounds(230, 350, 50, 23);
 
         jTextFieldGridWidth.setText("1");
         jTextFieldGridWidth.setToolTipText("grid distance");
@@ -3274,7 +3277,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         jPanel18.add(jTextFieldGridWidth);
-        jTextFieldGridWidth.setBounds(280, 350, 30, 19);
+        jTextFieldGridWidth.setBounds(280, 350, 30, 20);
 
         jCheckBoxByteFrame.setSelected(true);
         jCheckBoxByteFrame.setText("byteFrame");
@@ -4524,7 +4527,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         buffer = singleImagePanel1.getForegroundVectorList().clone();
         
         // remove non selected!
-        ArrayList<GFXVector> toRemove = new ArrayList<>();
+        ArrayList<GFXVector> toRemove = new ArrayList<GFXVector>();
         
         // that way all relations are kept intact!
         for (int i=0; i<buffer.size(); i++)
@@ -4544,7 +4547,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         GFXVectorList listNow = singleImagePanel1.getForegroundVectorList();
         
         // remove non selected!
-        ArrayList<GFXVector> toRemove = new ArrayList<>();
+        ArrayList<GFXVector> toRemove = new ArrayList<GFXVector>();
         
         for (int i=0; i<listNow.size(); i++)
         {
@@ -4599,7 +4602,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jButtonConnectWherePossibleActionPerformed
 
     private void jButtonReverseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReverseActionPerformed
-        ArrayList<GFXVectorList> list = new ArrayList<>();
+        ArrayList<GFXVectorList> list = new ArrayList<GFXVectorList>();
         for (int i= currentAnimation.size()-1; i>=0; i--)
         {
             list.add(currentAnimation.get(i));
@@ -4767,7 +4770,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         addHistory();
         double scale = de.malban.util.UtilityString.FloatX(jTextFieldScaleFactor.getText(), 2);
         GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
-        HashMap<Vertex, Boolean> safetyMap = new HashMap<>();
+        HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
         vl.scaleAll(scale, safetyMap);
         singleImagePanel1.sharedRepaint();
         jTable1.tableChanged(null);
@@ -4780,7 +4783,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         double scale = 1.0/de.malban.util.UtilityString.FloatX(jTextFieldScaleFactor.getText(), 2);
         GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
-        HashMap<Vertex, Boolean> safetyMap = new HashMap<>();
+        HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
         vl.scaleAll(scale, safetyMap);
         singleImagePanel1.sharedRepaint();
         jTable1.tableChanged(null);
@@ -6379,7 +6382,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             if (max > 127.0)
             {
                 double mul = 127.0/max;
-                HashMap<Vertex, Boolean> safetyMap = new HashMap<>();
+                HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
                 currentAnimation.scaleAll(mul, safetyMap);
             }
         }
@@ -6394,7 +6397,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     void makeTrueRelative(GFXVectorList vl)
     {
         if (vl.size()==0) return;
-        ArrayList<GFXVector> nl = new ArrayList<>();
+        ArrayList<GFXVector> nl = new ArrayList<GFXVector>();
 
         GFXVector v = new GFXVector();
         v.end.x(vl.get(0).start.x());
@@ -6431,7 +6434,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     void makeFalseRelative(GFXVectorList vl)
     {
         if (vl.size()==0) return;
-        ArrayList<GFXVector> nl = new ArrayList<>();
+        ArrayList<GFXVector> nl = new ArrayList<GFXVector>();
 
         double x = 0;
         double y = 0;
@@ -6497,7 +6500,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         }
         
         // difference of each coordinate of each (relative) vector
-        ArrayList<Vertex> difs = new ArrayList<>();
+        ArrayList<Vertex> difs = new ArrayList<Vertex>();
         for (int i=0; i<morphSize; i++)
         {
             Vertex v = new Vertex();
@@ -6612,7 +6615,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         int translocationY = (int) (maxY-difY/2);
         int translocationZ = (int) (maxZ-difZ/2);
         
-        HashMap<String, Boolean> done = new HashMap<>();
+        HashMap<String, Boolean> done = new HashMap<String, Boolean>();
         for (int i=0; i< vl.size(); i++)
         {
             GFXVector v = vl.get(i);
@@ -6645,7 +6648,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         if (jCheckBoxFraktion.isSelected())
         {
             double mul = 127.0/max;
-            HashMap<Vertex, Boolean> safetyMap = new HashMap<>();
+            HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
             vl.scaleAll(mul, safetyMap);
             return;
         }
@@ -7002,7 +7005,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     public boolean pausing = false;
 
     // start a thread for assembler
-    public void startASM(String filenameASM)
+    public void startASM(final String filenameASM)
     {
         if (asmStarted) return;
         asmStarted = true;
@@ -7021,7 +7024,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     {
                         Asmj asm = new Asmj(filenameASM, null, null, null, null, "");
                         String info = asm.getInfo();
-                        boolean asmOk = info.indexOf("0 errors detected.") >=0;
+                        final boolean asmOk = info.indexOf("0 errors detected.") >=0;
                         
                         SwingUtilities.invokeLater(new Runnable()
                         {
@@ -7031,7 +7034,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             }
                         });                    
                     }
-                    catch (Throwable e)
+                    catch (final Throwable e)
                     {
                         SwingUtilities.invokeLater(new Runnable()
                         {

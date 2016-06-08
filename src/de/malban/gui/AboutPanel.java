@@ -30,7 +30,12 @@ public class AboutPanel extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e) {
                 try {
                     Desktop.getDesktop().browse(new URI("http://vide.malban.de"));
-                } catch (URISyntaxException | IOException ex) {
+                } 
+                catch (URISyntaxException ex) 
+                {
+                    //It looks like there's a problem
+                }
+                catch (IOException ex) {
                     //It looks like there's a problem
                 }
             }
@@ -43,7 +48,12 @@ public class AboutPanel extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e) {
                 try {
                     Desktop.getDesktop().browse(new URI("https://github.com/malbanGit/Vide"));
-                } catch (URISyntaxException | IOException ex) {
+                } 
+                catch (URISyntaxException ex) 
+                {
+                    //It looks like there's a problem
+                }
+                catch (IOException ex) {
                     //It looks like there's a problem
                 }
             }

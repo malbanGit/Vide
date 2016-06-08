@@ -31,7 +31,7 @@ public class VectorListScanner {
         public GFXVectorList list = new GFXVectorList();
     }
     
-    static ArrayList <ScanEntry> listsFound = new ArrayList<>();
+    static ArrayList <ScanEntry> listsFound = new ArrayList<ScanEntry>();
     
     // key = cartname_bank_address
     static HashMap<String, Boolean> scanDone = new HashMap<String, Boolean>();

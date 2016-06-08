@@ -27,10 +27,10 @@ public class Memory {
     
     class OneBank
     {
-        public HashMap<Integer, MemoryInformation> memMap = new HashMap<>();
-        public HashMap<Integer, HashMap<Integer, String>> directLabels = new HashMap<>();   // all labels this adress has
+        public HashMap<Integer, MemoryInformation> memMap = new HashMap<Integer, MemoryInformation>();
+        public HashMap<Integer, HashMap<Integer, String>> directLabels = new HashMap<Integer, HashMap<Integer, String>>();   // all labels this adress has
     }
-    ArrayList<OneBank> allBanks=new ArrayList<>();
+    ArrayList<OneBank> allBanks=new ArrayList<OneBank>();
     
     public Memory()
     {

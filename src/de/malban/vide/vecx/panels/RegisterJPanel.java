@@ -451,6 +451,7 @@ public class RegisterJPanel extends javax.swing.JPanel implements
         jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcam.png"))); // NOI18N
         jToggleButton3.setToolTipText("Toggle Update (always or only while debug)");
         jToggleButton3.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jToggleButton3.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcamSelect.png"))); // NOI18N
         jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton3ActionPerformed(evt);

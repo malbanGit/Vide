@@ -47,7 +47,7 @@ public class TokenStyles
     static 
     {
         styles = new HashMap();
-        styleList = new ArrayList<>();
+        styleList = new ArrayList<MyStyle>();
         Color maroon = new Color(0xB03060);
         Color darkBlue = new Color(0x000080);
         Color darkGreen = Color.GREEN.darker();

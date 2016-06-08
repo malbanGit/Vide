@@ -13,6 +13,6 @@ import java.util.HashMap;
  */
 public class MacroSink {
         // these must be all lower case!
-    public static HashMap<String, EntityDefinition> knownGlobalMacros = new HashMap<>();
+    public static HashMap<String, EntityDefinition> knownGlobalMacros = new HashMap<String, EntityDefinition>();
 
 }

@@ -504,7 +504,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcam.png"))); // NOI18N
         jToggleButton1.setToolTipText("Toggle Update (always or only while debug)");
         jToggleButton1.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jToggleButton1.setSize(new java.awt.Dimension(20, 20));
+        jToggleButton1.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcamSelect.png"))); // NOI18N
         jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButton1ActionPerformed(evt);

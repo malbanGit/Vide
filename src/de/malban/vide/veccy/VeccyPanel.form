@@ -870,7 +870,7 @@
                     <Component class="javax.swing.JButton" name="jButtonMirrorVertically">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/de/malban/vide/images/shape_flip_vertical.png"/>
+                          <Image iconType="3" name="/de/malban/vide/images/shape_flip_horizontal.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="mirror vertically"/>
                         <Property name="horizontalAlignment" type="int" value="2"/>
@@ -885,7 +885,7 @@
                     <Component class="javax.swing.JButton" name="jButtonMirrorHorizontally">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/de/malban/vide/images/shape_flip_horizontal.png"/>
+                          <Image iconType="3" name="/de/malban/vide/images/shape_flip_vertical.png"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="mirror horizontally"/>
                         <Property name="horizontalAlignment" type="int" value="2"/>
@@ -902,7 +902,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Geneva" size="11" style="2"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="around x-axis"/>
+                        <Property name="text" type="java.lang.String" value="around y-axis"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel53">
@@ -910,7 +910,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Geneva" size="11" style="2"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="around y-axis"/>
+                        <Property name="text" type="java.lang.String" value="around x-axis"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jTextFieldScaleFactor">
@@ -3852,10 +3852,15 @@
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jLabel30" min="-2" pref="70" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jLabel42" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jTextFieldZMaxLength" min="-2" pref="49" max="-2" attributes="0"/>
+                                                      <Group type="102" attributes="0">
+                                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                          <Component id="jLabel42" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                                                          <Component id="jTextFieldZMaxLength" min="-2" pref="49" max="-2" attributes="0"/>
+                                                      </Group>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -3878,7 +3883,7 @@
                                       </Group>
                                       <Component id="jLabel43" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="110" max="32767" attributes="0"/>
+                                  <EmptySpace pref="161" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>

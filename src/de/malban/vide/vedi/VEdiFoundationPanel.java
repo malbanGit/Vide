@@ -158,7 +158,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         asmMessages = new PrintStream(asmMessagesOut);
         asmMessagesOut.setCallback(new FlushListener()
         {
-            public void wasFlushed(FlushEvent ev)
+            public void wasFlushed(final FlushEvent ev)
             {
                 SwingUtilities.invokeLater(new Runnable()
                 {
@@ -175,7 +175,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         asmErrorOut.setCallback(new FlushListener()
         {
             int stateType = ASM_MESSAGE_ERROR;
-            public void wasFlushed(FlushEvent ev)
+            public void wasFlushed(final FlushEvent ev)
             {
                 SwingUtilities.invokeLater(new Runnable()
                 {
@@ -198,7 +198,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         asmList = new PrintStream(asmListOut);
         asmListOut.setCallback(new FlushListener()
         {
-            public void wasFlushed(FlushEvent ev)
+            public void wasFlushed(final FlushEvent ev)
             {
                 SwingUtilities.invokeLater(new Runnable()
                 {
@@ -214,7 +214,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         asmSymbol = new PrintStream(asmSymbolOut);
         asmSymbolOut.setCallback(new FlushListener()
         {
-            public void wasFlushed(FlushEvent ev)
+            public void wasFlushed(final FlushEvent ev)
             {
                 SwingUtilities.invokeLater(new Runnable()
                 {

@@ -51,10 +51,10 @@ public class VeccyInterpreter {
     String[] patternLineX= new String[0];
     String[] patternLineLast= new String[0];
     
-    ArrayList<String> removers = new ArrayList<>();
+    ArrayList<String> removers = new ArrayList<String>();
     
     String representation = "";
-    ArrayList<Byte> dataInterpreted = new ArrayList<>();
+    ArrayList<Byte> dataInterpreted = new ArrayList<Byte>();
     String textOrg="";
     
     public VeccyInterpreter()
@@ -167,7 +167,7 @@ public class VeccyInterpreter {
         patternLine1 = removeEmpty(line1Pattern.split("%"));
         patternLineLast = removeEmpty(lastLinePattern.split("%"));
         
-        ArrayList<String> ss = new ArrayList<>();
+        ArrayList<String> ss = new ArrayList<String>();
 
         for (int i=0;i<patternLine1.length; i++)
         {
@@ -200,7 +200,7 @@ public class VeccyInterpreter {
     }
     String[] removeEmpty(String[] s)
     {
-        ArrayList<String> ss = new ArrayList<>();
+        ArrayList<String> ss = new ArrayList<String>();
         for (String _s: s)
         {
             if (_s.trim().length()!=0) ss.add(_s);

@@ -188,6 +188,7 @@ public class DownloaderPanel extends javax.swing.JPanel {
 
             jButtonFileSelect4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
             jButtonFileSelect4.setMargin(new java.awt.Insets(0, 1, 0, -1));
+            final JTextField bla = jTextField5;
             jButtonFileSelect4.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) 
                 {
@@ -201,7 +202,7 @@ public class DownloaderPanel extends javax.swing.JPanel {
                     {
                         String fullPath = fc.getSelectedFile().getAbsolutePath();
                         lastImagePath = fullPath;
-                        jTextField5.setText(de.malban.util.Utility.makeRelative(fullPath));
+                        bla.setText(de.malban.util.Utility.makeRelative(fullPath));
                     }
                 }
             });
@@ -692,6 +693,7 @@ public class DownloaderPanel extends javax.swing.JPanel {
 
         jButtonFileSelect4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
         jButtonFileSelect4.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        final JTextField bla = jTextField5;
         jButtonFileSelect4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                     InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
@@ -704,7 +706,7 @@ public class DownloaderPanel extends javax.swing.JPanel {
                     {
                         String fullPath = fc.getSelectedFile().getAbsolutePath();
                         lastImagePath = fullPath;
-                        jTextField5.setText(de.malban.util.Utility.makeRelative(fullPath));
+                        bla.setText(de.malban.util.Utility.makeRelative(fullPath));
                     }
             }
         });

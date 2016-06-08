@@ -487,18 +487,13 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jCheckBox10" min="-2" pref="131" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                                      <Component id="jCheckBox4" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                          <Component id="jCheckBox1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
+                                  <Component id="jCheckBox1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox3" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jCheckBox5" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jCheckBox6" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jCheckBox8" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -506,6 +501,7 @@
                                       <Component id="jCheckBox9" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jCheckBox7" alignment="0" max="32767" attributes="0"/>
                                   </Group>
+                                  <Component id="jCheckBox4" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="28" max="32767" attributes="0"/>
                           </Group>
@@ -541,16 +537,18 @@
                     <Component class="javax.swing.JCheckBox" name="jCheckBox1">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="VecVoice"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCheckBox2">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="RAM DS2430A"/>
+                        <Property name="text" type="java.lang.String" value="eEprom DS2430A"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCheckBox3">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Lightpen Port 1"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox3ActionPerformed"/>
@@ -567,6 +565,7 @@
                     <Component class="javax.swing.JCheckBox" name="jCheckBox5">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="3d Imager"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox5ActionPerformed"/>
@@ -596,11 +595,13 @@
                     <Component class="javax.swing.JCheckBox" name="jCheckBox9">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="RAM Animaction"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCheckBox10">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="RAM RA Spectrum"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                   </SubComponents>
