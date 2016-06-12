@@ -8,28 +8,13 @@ package de.malban.vide.vecx.panels;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
-import static de.malban.gui.CSAMainFrame.deserialize;
-import static de.malban.gui.CSAMainFrame.serialize;
-import de.malban.gui.SaveItem;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
-import de.malban.gui.components.CSAInternalFrame;
-import de.malban.gui.components.CSATableModel;
 import de.malban.gui.components.CSAView;
-import de.malban.vide.veccy.VeccyPanel;
-import de.malban.vide.assy.AssyPanel;
-import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.Updatable;
 import de.malban.vide.vecx.VecXState;
 import java.awt.Color;
-import java.awt.Point;
-import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
 
 /**
  *
@@ -136,15 +121,25 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField7.setText(""+(((currentDisplayed.via_orb&0x02)==0x02)?"1":"0"));
         jTextField8.setText(""+(((currentDisplayed.via_orb&0x01)==0x01)?"1":"0"));
         
-        jLabel12.setText("$"+String.format("%02X", currentDisplayed.via_ora));
-        jTextField9.setText(""+(((currentDisplayed.via_ora&0x80)==0x80)?"1":"0"));
-        jTextField10.setText(""+(((currentDisplayed.via_ora&0x40)==0x40)?"1":"0"));
-        jTextField11.setText(""+(((currentDisplayed.via_ora&0x20)==0x20)?"1":"0"));
-        jTextField12.setText(""+(((currentDisplayed.via_ora&0x10)==0x10)?"1":"0"));
-        jTextField13.setText(""+(((currentDisplayed.via_ora&0x08)==0x08)?"1":"0"));
-        jTextField14.setText(""+(((currentDisplayed.via_ora&0x04)==0x04)?"1":"0"));
-        jTextField15.setText(""+(((currentDisplayed.via_ora&0x02)==0x02)?"1":"0"));
-        jTextField16.setText(""+(((currentDisplayed.via_ora&0x01)==0x01)?"1":"0"));
+        
+       // int porta
+        int data = currentDisplayed.via_ora;
+        if ((currentDisplayed.via_orb & 0x18) == 0x08) 
+        {
+            /* the snd chip is driving port a */
+            data = vecxPanel.getE8910State().snd_regs[vecxPanel.getVecXState().snd_select];
+        } 
+
+        
+        jLabel12.setText("$"+String.format("%02X", data));
+        jTextField9.setText(""+(((data&0x80)==0x80)?"1":"0"));
+        jTextField10.setText(""+(((data&0x40)==0x40)?"1":"0"));
+        jTextField11.setText(""+(((data&0x20)==0x20)?"1":"0"));
+        jTextField12.setText(""+(((data&0x10)==0x10)?"1":"0"));
+        jTextField13.setText(""+(((data&0x08)==0x08)?"1":"0"));
+        jTextField14.setText(""+(((data&0x04)==0x04)?"1":"0"));
+        jTextField15.setText(""+(((data&0x02)==0x02)?"1":"0"));
+        jTextField16.setText(""+(((data&0x01)==0x01)?"1":"0"));
         
         jLabel32.setText("$"+String.format("%02X", currentDisplayed.via_ddrb));
         jTextField35.setText(""+(((currentDisplayed.via_ddrb&0x80)==0x80)?"1":"0"));
@@ -590,11 +585,11 @@ public class VIAJPanel extends javax.swing.JPanel implements
 
         jTextField4.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jTextField4.setText("0");
-        jTextField4.setToolTipText("Read/Write Signal for the AY-3-8192 Sound Chip");
+        jTextField4.setToolTipText("<html>\nThe above two bits are again \"bundled\" to 4 different possible states of communiction with the PSG chip:\n<UL>\n<LI>0 (binary: 00) PSG Inactive <BR>The PSG/CPU bus is inactive DA7--DA0 are in high impedance state.\n<LI>1 (binary: 01) Read from PSG <BR>This signal causes the contents of the register which is currently addressed to appear on the PSG/CPU bus. DA7--DA0 are in the output mode.\n<LI>2 (binary: 10) Write to PSG <BR>This signal indicates that the bus contains register data which should be latched into the currently addressed register. DA7--DA0 are in the input mode.\n<LI>3 (binary: 11) Latch address <BR>This signal indicates that the bus contains a register address which should be latched in the PSG. DA7--DA0 are in input mode.\n</UL>\n</html>");
 
         jTextField5.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jTextField5.setText("0");
-        jTextField5.setToolTipText("Chip Select Signal for the AY-3-8192 Sound Chip");
+        jTextField5.setToolTipText("<html>\nThe above two bits are again \"bundled\" to 4 different possible states of communiction with the PSG chip:\n<UL>\n<LI>0 (binary: 00) PSG Inactive <BR>The PSG/CPU bus is inactive DA7--DA0 are in high impedance state.\n<LI>1 (binary: 01) Read from PSG <BR>This signal causes the contents of the register which is currently addressed to appear on the PSG/CPU bus. DA7--DA0 are in the output mode.\n<LI>2 (binary: 10) Write to PSG <BR>This signal indicates that the bus contains register data which should be latched into the currently addressed register. DA7--DA0 are in the input mode.\n<LI>3 (binary: 11) Latch address <BR>This signal indicates that the bus contains a register address which should be latched in the PSG. DA7--DA0 are in input mode.\n</UL>\n</html>");
 
         jTextField6.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jTextField6.setText("0");
@@ -661,21 +656,21 @@ public class VIAJPanel extends javax.swing.JPanel implements
                     .addComponent(jLabel8)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)))
-                .addGap(8, 8, 8)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(26, 26, 26)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -707,16 +702,16 @@ public class VIAJPanel extends javax.swing.JPanel implements
                     .addComponent(jLabel56)
                     .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel5)
-                        .addComponent(jLabel6)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel8)
-                        .addComponent(jLabel1))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -2371,7 +2366,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
                         .addComponent(jTextFieldiput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldoutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

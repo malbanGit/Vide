@@ -236,6 +236,11 @@
                                           </Group>
                                       </Group>
                                   </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabel93" min="-2" pref="30" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
@@ -434,10 +439,15 @@
                               </Group>
                           </Group>
                       </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel93" alignment="3" min="-2" pref="12" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <Component id="jPanel1" min="-2" pref="172" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="51" max="32767" attributes="0"/>
+              <EmptySpace pref="40" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -449,7 +459,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="PeriodA"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel12">
@@ -483,7 +493,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="PeriodB"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel36">
@@ -500,7 +510,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="PeriodC"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel38">
@@ -517,7 +527,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="PeriodN"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel40">
@@ -534,7 +544,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="PeriodE"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel42">
@@ -559,7 +569,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="CountA"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel47">
@@ -576,7 +586,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="CountB"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel49">
@@ -593,7 +603,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="CountC"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel51">
@@ -610,7 +620,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="CountN"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel53">
@@ -627,7 +637,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="CountE"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel55">
@@ -636,7 +646,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="VolA"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel56">
@@ -653,7 +663,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="VolB"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel58">
@@ -670,7 +680,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="VolC"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel60">
@@ -687,7 +697,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="VolE"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel62">
@@ -704,7 +714,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="EnvelopeA"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel64">
@@ -729,7 +739,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="EnvelopeB"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel67">
@@ -746,7 +756,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="EnvelopeC"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel69">
@@ -755,7 +765,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="OutputA"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel70">
@@ -780,7 +790,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="OutputB"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel73">
@@ -797,7 +807,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="OutputC"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel75">
@@ -814,7 +824,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="OutputN"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
@@ -823,7 +833,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="CountEnv"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel13">
@@ -848,7 +858,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Hold"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel15">
@@ -865,7 +875,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Alternate"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel16">
@@ -882,7 +892,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Attack"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel17">
@@ -899,7 +909,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Holding"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
@@ -908,7 +918,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="RNG"/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel18">
@@ -934,7 +944,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$00: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel19">
@@ -943,7 +953,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$01: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel20">
@@ -952,7 +962,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$02: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel21">
@@ -961,7 +971,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$03: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel77">
@@ -1034,7 +1044,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$04: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel23">
@@ -1043,7 +1053,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$05: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel24">
@@ -1052,7 +1062,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$06: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel25">
@@ -1061,7 +1071,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$07: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel26">
@@ -1070,7 +1080,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$0f: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel85">
@@ -1143,7 +1153,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$08: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel28">
@@ -1152,7 +1162,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$09: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel29">
@@ -1161,7 +1171,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$0a: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel30">
@@ -1170,7 +1180,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$0b: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel31">
@@ -1179,7 +1189,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$0c: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel32">
@@ -1188,7 +1198,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$0d: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel33">
@@ -1197,7 +1207,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="$0e: "/>
-        <Property name="toolTipText" type="java.lang.String" value="If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
@@ -1440,5 +1450,18 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="latched: "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel93">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Courier" size="10" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="0"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

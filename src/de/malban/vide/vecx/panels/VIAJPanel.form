@@ -142,7 +142,7 @@
                       <Component id="jTextFieldoutput" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="129" max="32767" attributes="0"/>
+              <EmptySpace pref="117" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -195,25 +195,24 @@
                       <Component id="jTextField2" min="-2" pref="14" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <Component id="jTextField3" min="-2" pref="14" max="-2" attributes="0"/>
                           <EmptySpace pref="37" max="32767" attributes="0"/>
                           <Component id="jTextField4" min="-2" pref="14" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jTextField5" min="-2" pref="14" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jTextField5" min="-2" pref="14" max="-2" attributes="0"/>
-                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jTextField6" min="-2" pref="14" max="-2" attributes="0"/>
@@ -253,18 +252,17 @@
                       <Component id="jTextField17" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel4" alignment="3" max="32767" attributes="0"/>
                   </Group>
+                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -319,7 +317,7 @@
               <Font name="Courier" size="12" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="0"/>
-            <Property name="toolTipText" type="java.lang.String" value="Read/Write Signal for the AY-3-8192 Sound Chip"/>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;The above two bits are again &quot;bundled&quot; to 4 different possible states of communiction with the PSG chip:&#xa;&lt;UL&gt;&#xa;&lt;LI&gt;0 (binary: 00) PSG Inactive &lt;BR&gt;The PSG/CPU bus is inactive DA7--DA0 are in high impedance state.&#xa;&lt;LI&gt;1 (binary: 01) Read from PSG &lt;BR&gt;This signal causes the contents of the register which is currently addressed to appear on the PSG/CPU bus. DA7--DA0 are in the output mode.&#xa;&lt;LI&gt;2 (binary: 10) Write to PSG &lt;BR&gt;This signal indicates that the bus contains register data which should be latched into the currently addressed register. DA7--DA0 are in the input mode.&#xa;&lt;LI&gt;3 (binary: 11) Latch address &lt;BR&gt;This signal indicates that the bus contains a register address which should be latched in the PSG. DA7--DA0 are in input mode.&#xa;&lt;/UL&gt;&#xa;&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField5">
@@ -328,7 +326,7 @@
               <Font name="Courier" size="12" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="0"/>
-            <Property name="toolTipText" type="java.lang.String" value="Chip Select Signal for the AY-3-8192 Sound Chip"/>
+            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;The above two bits are again &quot;bundled&quot; to 4 different possible states of communiction with the PSG chip:&#xa;&lt;UL&gt;&#xa;&lt;LI&gt;0 (binary: 00) PSG Inactive &lt;BR&gt;The PSG/CPU bus is inactive DA7--DA0 are in high impedance state.&#xa;&lt;LI&gt;1 (binary: 01) Read from PSG &lt;BR&gt;This signal causes the contents of the register which is currently addressed to appear on the PSG/CPU bus. DA7--DA0 are in the output mode.&#xa;&lt;LI&gt;2 (binary: 10) Write to PSG &lt;BR&gt;This signal indicates that the bus contains register data which should be latched into the currently addressed register. DA7--DA0 are in the input mode.&#xa;&lt;LI&gt;3 (binary: 11) Latch address &lt;BR&gt;This signal indicates that the bus contains a register address which should be latched in the PSG. DA7--DA0 are in input mode.&#xa;&lt;/UL&gt;&#xa;&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextField6">

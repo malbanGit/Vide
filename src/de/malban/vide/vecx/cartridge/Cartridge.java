@@ -78,7 +78,8 @@ public class Cartridge  implements Serializable
 
     int oldBank=-1;    
     int currentBank =0;
-    int previousExternalLine = -1;
+    boolean previousExternalLineB = false;
+    
     long oldCycles = 0;
     public int getBankCount()
     {
@@ -247,7 +248,7 @@ public class Cartridge  implements Serializable
     public boolean init(CartridgeProperties cartProp)
     {
         currentCardProp = cartProp;
-        previousExternalLine = -1;
+        previousExternalLineB = false;
         oldCycles = 0;
         if (cartProp == null) 
         {
@@ -378,7 +379,7 @@ public class Cartridge  implements Serializable
     // (TODO: check for CRC and get additional information from that)
     public boolean load(String filenameRom)
     {
-        previousExternalLine = -1;
+        previousExternalLineB = false;
         oldCycles = 0;
         cartName = filenameRom;
         if (!new File(filenameRom).exists()) return false;
@@ -441,18 +442,17 @@ public class Cartridge  implements Serializable
     }
     
     // returns true if bank was switched
-    public boolean checkBankswitch(int viaOutb , long cycles)
+    public boolean checkBankswitch(boolean externalLine , long cycles)
     {
         // only interesting pin is pb6 external
-        int externalLine = viaOutb & 0x40;
         
         // and even THAT is only interesting if it changed
-        if (previousExternalLine != externalLine)
+        if (previousExternalLineB != externalLine)
         {
-            previousExternalLine = externalLine;
+            previousExternalLineB = externalLine;
             if (getBankCount()<3) // assume vecflash for more than 2 banks
             {
-                setBank(previousExternalLine == 0 ? 0 : 1);
+                setBank(previousExternalLineB ? 1 : 0);
                 return true;
             }
             boolean switched=false;
@@ -474,7 +474,7 @@ public class Cartridge  implements Serializable
             
             // or
             long time = cycles - oldCycles;
-            if (externalLine!=0)
+            if (externalLine)
             {
                 if (time > 1500)
                 {
@@ -483,17 +483,14 @@ public class Cartridge  implements Serializable
                 }
                 
             }
-            else if (externalLine==0)
+            else 
             {
                 setBank(getCurrentBank()+1);
                 oldCycles = cycles;
                 switched = true;
             }
             return switched;
-            
-            
         }        
-
         return false;
         
     }
@@ -503,17 +500,35 @@ public class Cartridge  implements Serializable
         ret = de.malban.util.UtilityString.replace(ret, "\\", File.separator);
         return ret;
     }
-    public void lineIn(boolean b)
+    
+    // line PB6
+    // is set FROM vectrex
+    public void lineIn(boolean pb6)
     {
-        ds2430.lineIn(b);
-    }
-    public void ds2430Step(long cycles)
-    {
-        ds2430.step(cycles);
+        if (vecx.ds2430Enabled)
+        {
+            ds2430.lineIn(pb6);
+        }
+        else if (vecx.config.enableBankswitch)
+        {
+            // send changed via port b out put to cartridge
+            boolean changed = checkBankswitch(pb6, vecx.cyclesRunning);
+            if (changed)
+            {
+                vecx.checkBankswitchBreakpoint();
+            }
+        }
     }
     public void lineOut(boolean b)
     {
         vecx.setViaPB6(b);
+    }
+    public void cartStep(long cycles)
+    {
+        if (vecx.ds2430Enabled)
+        {
+            ds2430.step(cycles);
+        }
     }
 }
 /*

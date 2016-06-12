@@ -318,12 +318,16 @@ public class PSGJPanel extends javax.swing.JPanel implements
         reg++;
         
         
+        jLabel93.setText( ""+vecxPanel.getVecXState().snd_select );
+        if (vecxPanel.getVecXState().snd_select != oldLatch) jLabel93.setForeground(Color.red);
+        else jLabel93.setForeground(Color.black);
         
-        
-        
+        oldLatch = vecxPanel.getVecXState().snd_select;
         E8910State.deepCopy(now, last);
     }
 
+    int oldLatch = -1;
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -438,12 +442,14 @@ public class PSGJPanel extends javax.swing.JPanel implements
         jRadioButton4 = new javax.swing.JRadioButton();
         jRadioButton5 = new javax.swing.JRadioButton();
         jTextField3 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel93 = new javax.swing.JLabel();
 
         setName("regi"); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel2.setText("PeriodA");
-        jLabel2.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel2.setToolTipText("");
 
         jLabel12.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel12.setText("0");
@@ -460,28 +466,28 @@ public class PSGJPanel extends javax.swing.JPanel implements
 
         jLabel35.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel35.setText("PeriodB");
-        jLabel35.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel35.setToolTipText("");
 
         jLabel36.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel36.setText("0");
 
         jLabel37.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel37.setText("PeriodC");
-        jLabel37.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel37.setToolTipText("");
 
         jLabel38.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel38.setText("0");
 
         jLabel39.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel39.setText("PeriodN");
-        jLabel39.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel39.setToolTipText("");
 
         jLabel40.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel40.setText("0");
 
         jLabel41.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel41.setText("PeriodE");
-        jLabel41.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel41.setToolTipText("");
 
         jLabel42.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel42.setText("0");
@@ -491,67 +497,67 @@ public class PSGJPanel extends javax.swing.JPanel implements
 
         jLabel46.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel46.setText("CountA");
-        jLabel46.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel46.setToolTipText("");
 
         jLabel47.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel47.setText("0");
 
         jLabel48.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel48.setText("CountB");
-        jLabel48.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel48.setToolTipText("");
 
         jLabel49.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel49.setText("0");
 
         jLabel50.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel50.setText("CountC");
-        jLabel50.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel50.setToolTipText("");
 
         jLabel51.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel51.setText("0");
 
         jLabel52.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel52.setText("CountN");
-        jLabel52.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel52.setToolTipText("");
 
         jLabel53.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel53.setText("0");
 
         jLabel54.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel54.setText("CountE");
-        jLabel54.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel54.setToolTipText("");
 
         jLabel55.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel55.setText("VolA");
-        jLabel55.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel55.setToolTipText("");
 
         jLabel56.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel56.setText("0");
 
         jLabel57.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel57.setText("VolB");
-        jLabel57.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel57.setToolTipText("");
 
         jLabel58.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel58.setText("0");
 
         jLabel59.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel59.setText("VolC");
-        jLabel59.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel59.setToolTipText("");
 
         jLabel60.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel60.setText("0");
 
         jLabel61.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel61.setText("VolE");
-        jLabel61.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel61.setToolTipText("");
 
         jLabel62.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel62.setText("0");
 
         jLabel63.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel63.setText("EnvelopeA");
-        jLabel63.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel63.setToolTipText("");
 
         jLabel64.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel64.setText("0");
@@ -561,18 +567,18 @@ public class PSGJPanel extends javax.swing.JPanel implements
 
         jLabel66.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel66.setText("EnvelopeB");
-        jLabel66.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel66.setToolTipText("");
 
         jLabel67.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel67.setText("0");
 
         jLabel68.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel68.setText("EnvelopeC");
-        jLabel68.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel68.setToolTipText("");
 
         jLabel69.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel69.setText("OutputA");
-        jLabel69.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel69.setToolTipText("");
 
         jLabel70.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel70.setText("0");
@@ -582,25 +588,25 @@ public class PSGJPanel extends javax.swing.JPanel implements
 
         jLabel72.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel72.setText("OutputB");
-        jLabel72.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel72.setToolTipText("");
 
         jLabel73.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel73.setText("0");
 
         jLabel74.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel74.setText("OutputC");
-        jLabel74.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel74.setToolTipText("");
 
         jLabel75.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel75.setText("0");
 
         jLabel76.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel76.setText("OutputN");
-        jLabel76.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel76.setToolTipText("");
 
         jLabel3.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel3.setText("CountEnv");
-        jLabel3.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel3.setToolTipText("");
 
         jLabel13.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel13.setText("0");
@@ -610,32 +616,32 @@ public class PSGJPanel extends javax.swing.JPanel implements
 
         jLabel4.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel4.setText("Hold");
-        jLabel4.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel4.setToolTipText("");
 
         jLabel15.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel15.setText("0");
 
         jLabel5.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel5.setText("Alternate");
-        jLabel5.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel5.setToolTipText("");
 
         jLabel16.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel16.setText("0");
 
         jLabel6.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel6.setText("Attack");
-        jLabel6.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel6.setToolTipText("");
 
         jLabel17.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel17.setText("0");
 
         jLabel7.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel7.setText("Holding");
-        jLabel7.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel7.setToolTipText("");
 
         jLabel8.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel8.setText("RNG");
-        jLabel8.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel8.setToolTipText("");
 
         jLabel18.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel18.setText("0");
@@ -646,19 +652,19 @@ public class PSGJPanel extends javax.swing.JPanel implements
 
         jLabel10.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel10.setText("$00: ");
-        jLabel10.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel10.setToolTipText("");
 
         jLabel19.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel19.setText("$01: ");
-        jLabel19.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel19.setToolTipText("");
 
         jLabel20.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel20.setText("$02: ");
-        jLabel20.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel20.setToolTipText("");
 
         jLabel21.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel21.setText("$03: ");
-        jLabel21.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel21.setToolTipText("");
 
         jLabel77.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel77.setText("0");
@@ -686,23 +692,23 @@ public class PSGJPanel extends javax.swing.JPanel implements
 
         jLabel22.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel22.setText("$04: ");
-        jLabel22.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel22.setToolTipText("");
 
         jLabel23.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel23.setText("$05: ");
-        jLabel23.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel23.setToolTipText("");
 
         jLabel24.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel24.setText("$06: ");
-        jLabel24.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel24.setToolTipText("");
 
         jLabel25.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel25.setText("$07: ");
-        jLabel25.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel25.setToolTipText("");
 
         jLabel26.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel26.setText("$0f: ");
-        jLabel26.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel26.setToolTipText("");
 
         jLabel85.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
         jLabel85.setText("0");
@@ -730,31 +736,31 @@ public class PSGJPanel extends javax.swing.JPanel implements
 
         jLabel27.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel27.setText("$08: ");
-        jLabel27.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel27.setToolTipText("");
 
         jLabel28.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel28.setText("$09: ");
-        jLabel28.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel28.setToolTipText("");
 
         jLabel29.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel29.setText("$0a: ");
-        jLabel29.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel29.setToolTipText("");
 
         jLabel30.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel30.setText("$0b: ");
-        jLabel30.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel30.setToolTipText("");
 
         jLabel31.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel31.setText("$0c: ");
-        jLabel31.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel31.setToolTipText("");
 
         jLabel32.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel32.setText("$0d: ");
-        jLabel32.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel32.setToolTipText("");
 
         jLabel33.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel33.setText("$0e: ");
-        jLabel33.setToolTipText("If 0 the integrators are grounded and kept to 0, no matter what, if one, integration is possible!");
+        jLabel33.setToolTipText("");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("YM record"));
 
@@ -913,6 +919,11 @@ public class PSGJPanel extends javax.swing.JPanel implements
                 .addComponent(jLabel43)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jLabel1.setText("latched: ");
+
+        jLabel93.setFont(new java.awt.Font("Courier", 0, 10)); // NOI18N
+        jLabel93.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -1090,7 +1101,11 @@ public class PSGJPanel extends javax.swing.JPanel implements
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel26)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel85, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                                .addComponent(jLabel85, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(33, 33, 33)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1247,9 +1262,13 @@ public class PSGJPanel extends javax.swing.JPanel implements
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel26)
-                                    .addComponent(jLabel85, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jLabel85, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1319,6 +1338,7 @@ public class PSGJPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonFileSelect3;
     private javax.swing.JButton jButtonRecord;
     private javax.swing.JButton jButtonStop3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1409,6 +1429,7 @@ public class PSGJPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel90;
     private javax.swing.JLabel jLabel91;
     private javax.swing.JLabel jLabel92;
+    private javax.swing.JLabel jLabel93;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;

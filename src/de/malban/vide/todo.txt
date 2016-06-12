@@ -354,6 +354,18 @@ Done:
 
 todo:
 todoc:
+- vecvox
+  psg output state saving of porta
+  
+- notice preference DS2430 > bankswitch
+- vecvoice > 3d imager
+
+
+-do pb6 as correct line emulation, not all special cases...
+
+
+- BUG Vectopia looks Vectrace look BAD!
+
 - difference in assi to macro
  ld\1 #(lo (hival))<<8 | (lo (loval))
 brackets are needed if macro parameter hival/loval consists of an expression

@@ -1198,6 +1198,10 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         {
             setAudioFormat(fullPathFilename);
         }
+        else
+        {
+            log.addLog("Sample could not be loaded: " + fullPathFilename, WARN);
+        }
         
         paintSamples();
         return false;

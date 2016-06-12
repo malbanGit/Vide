@@ -28,12 +28,52 @@ public class E8910 extends E8910State implements E8910Statics
     transient int MAX_DIGIT_BUFFER = 60000;
     transient int[] digitByte = new int[MAX_DIGIT_BUFFER];
     transient int digitByteCounter =0;       
-//    transient int sampleSum = 0;
+
+    transient PortAdapter portAdapter=null;
+    
+    
+    public void reset()
+    {
+        portAdapter = null;
+    }
+    
+    public void setPortAdapter(PortAdapter a)
+    {
+        portAdapter = a;
+    }
+    
+    // here should go all joystick data
+    // someday when everything is done REALLY right
+    // than joysticks
+    // should also be portAdapters
+    public void updatePortAData(int reg)
+    {
+        if (portAdapter == null) return;
+        if (reg != 14) return;
+        // we let the adapter decide what bits to change in reg 14
+        snd_regs[14] = portAdapter.getWriteDataToPort(snd_regs[14]);
+    }
+    
+    
     public void e8910_write(int r, int v)
     {
         int old;
 
         if (snd_regs == null) return;
+        if (r == 14) // port A activity
+        {
+            // if bit 6 if ENABLE is false,
+            // than writing to snd_reg 14 is allowed
+            // we are in output mode!
+            if  ((snd_regs[AY_ENABLE] & 0x40 ) == 0)
+            {
+                snd_regs[r] = v;
+                if (portAdapter != null)
+                    portAdapter.valueChangedFromPSG();
+            }
+            return;
+        }
+        
         
         // 255 dummy register for "path thru data to sound direct
         if ((r != 255) && (digitByteCounter != 0))
@@ -46,9 +86,9 @@ public class E8910 extends E8910State implements E8910Statics
             if (digitByteCounter>=MAX_DIGIT_BUFFER) return;
             if (digitByteCounter==-1) digitByteCounter =0; // -1 means digitizing active, but buffer was reset
             digitByte[digitByteCounter++] = v;
-//            sampleSum += Math.abs(v);
             return;
         }
+        int oldReg = snd_regs[r];
         snd_regs[r] = v;
 
         /* A note about the period of tones, noise and envelope: for speed reasons,*/
@@ -171,7 +211,14 @@ public class E8910 extends E8910State implements E8910Statics
                 if (PSG.EnvelopeC!=0) PSG.VolC = PSG.VolE;
                 break;
             case AY_ENABLE:
+            {
+                if ((oldReg & 0x40) != (snd_regs[AY_ENABLE] & 0x40 ))
+                {
+                    if (portAdapter != null)    
+                        portAdapter.setInputMode((snd_regs[AY_ENABLE] & 0x40) != 0x40);
+                }
                 break;
+            }
             case AY_PORTA:
                 break;
             case AY_PORTB:
@@ -486,13 +533,10 @@ public class E8910 extends E8910State implements E8910Statics
             if (config.generation==3) volDigital = 0.2;
             while (i<lengthOrg) 
             {
-                int signed8BitSample = digitByte[(int)sampleCounter];
+//                int signed8BitSample = digitByte[(int)sampleCounter];
                 double signed8BitSampleVolumne = digitByte[(int)sampleCounter]*volDigital;
-//                byte sampleValueVolumne8BitUnsigned = (byte)(( ((byte ) signed8BitSampleVolumne)+128) & 0xff); // UNSIGNED
                 byte sampleValueVolumne8BitSigned = (byte)(( ((byte ) signed8BitSampleVolumne)) & 0xff); // UNSIGNED
                 sampleCounter += sampleScale;
-                
-//                stream[i] = (byte)((stream[i] | sampleValueVolumne8BitUnsigned) );
                 
                 // for now a sample just overwrites PSG
                 stream[i] = sampleValueVolumne8BitSigned;

@@ -135,8 +135,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
         @Override
         public boolean isCellEditable(EventObject e) {
-            return super.isCellEditable(e)
-                && ((TreeNode) lastPath.getLastPathComponent()).isLeaf();
+            if (lastPath != null)
+            {
+                if (lastPath.getLastPathComponent() != null)    
+                    return super.isCellEditable(e) && ((TreeNode) lastPath.getLastPathComponent()).isLeaf();
+            }
+            return false;
         }
     }
 

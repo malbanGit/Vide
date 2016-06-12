@@ -68,6 +68,7 @@ public class VecXState implements Serializable
     ArrayList<VecX.TimerItem> timerItemList = new ArrayList<VecX.TimerItem>();
 
     Cartridge cart = new Cartridge();
+    VecVoice vecVoice = null;
     
     /* the sound chip registers */
      public int  snd_select;
@@ -166,6 +167,10 @@ public class VecXState implements Serializable
     public int currentBank = 0;
 
     public long cyclesRunning=0;
+    
+    public boolean ds2430Enabled = false;
+    public boolean vecVoiceEnabled = false;
+    
     // no rom or cart
     public static void deepCopy(VecXState from, VecXState to)
     {
@@ -178,6 +183,16 @@ public class VecXState implements Serializable
             System.arraycopy(from.ram, 0, to.ram, 0, from.ram.length);
         
         Cartridge.deepCopy(from.cart, to.cart, doRam, doTimer);
+        to.ds2430Enabled = from.ds2430Enabled;
+        to.vecVoiceEnabled = from.vecVoiceEnabled;
+
+        if (from.vecVoiceEnabled)
+        {
+            to.vecVoice = from.vecVoice.clone();
+        }
+        
+        
+        
         
        to.lastShiftRegWrite = from.lastShiftRegWrite;
        to.via_stalling = from.via_stalling;

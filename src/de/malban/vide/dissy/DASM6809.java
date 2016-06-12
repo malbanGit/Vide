@@ -1233,7 +1233,7 @@ memInfo.cycles+=2;
         info.disType = MemoryInformation.DIS_TYPE_DATA_WORD_POINTER; // music word pointer
         info = myMemory.memMap.get(a++);
         info.disType = MemoryInformation.DIS_TYPE_DATA_WORD_POINTER; // music word pointer
-        do
+        while (myMemory.memMap.get(a).content != 0)
         {
             info = myMemory.memMap.get(a++);
             info.comments.add("hight, width, rel y, rel x (from 0,0)");
@@ -1258,7 +1258,7 @@ memInfo.cycles+=2;
             } while ((info.content & 0xff) != 0x80);
             info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE; // last of string is a $80 byte
         }
-        while (myMemory.memMap.get(a).content != 0); 
+        
         myMemory.memMap.get(a).disType = MemoryInformation.DIS_TYPE_DATA_BYTE; // end of header
         myMemory.memMap.get(a).comments.add("end of header");
         a++;

@@ -70,6 +70,7 @@ import de.malban.sound.tinysound.Stream;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.veccy.VectorListScanner;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_RAM_DS2430A;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOICE;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_YM;
@@ -84,9 +85,12 @@ import java.nio.charset.StandardCharsets;
  */
 public class VecX extends VecXState implements VecXStatics, E6809Access
 {
-    boolean DS2430Enabled = false;
-    
-    VideConfig config = VideConfig.getConfig();
+    // for easier access from cart
+    // config is here public
+    // other wise we could also duplicate config in cart...
+    // this way it is
+    // easier to keep consistency while load and save/state
+    public VideConfig config = VideConfig.getConfig();
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     // timer is count down in 1/1500000 steps
     // meaning each processor cycle is one step...
@@ -208,6 +212,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     // so we have access to old via data
 
     // returns state of PB6
+    // calls cart on line change
     boolean doCheckExternalCartline(int tobe_via_orb, int tobe_via_ddrb, boolean orbInitiated)
     {
         // below we do output to all bits
@@ -228,14 +233,12 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         
         // so basically there are two methods to control the state of the xternal line
         // below oring and exoring considers that
-        // the actual bankswitching test is than only called
+        // the cart which might be efrected by the line change 
+        // e.g. bankswitching test is than only called
         // if the state of the EXTERNAL LINE has changed
-
-        
         
         // get output value of via b NOW
         int viaOutNow = via_orb| (via_ddrb ^ 0xFFFFFFFF) & 0xFF;
-            
         boolean pb6 = (viaOutNow&0x40) == 0x40;
         
         if ((tobe_via_orb != viaOutNow) || (tobe_via_ddrb != via_ddrb))
@@ -250,46 +253,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 else
                     viaOutTobe = viaOutTobe | 0x40;
             }
-            
-            
-            
             pb6 = (viaOutTobe&0x40) == 0x40;
-            
-            if (DS2430Enabled)
-            {
-                cart.lineIn(pb6);
-                
-                return pb6;
-            }
-            else if (config.enableBankswitch)
-            {
-                // send changed via port b out put to cartridge
-                boolean changed = cart.checkBankswitch(viaOutTobe, cyclesRunning);
-                if (changed)
-                {
-                    currentBank = cart.getCurrentBank();
-                    dissiMem.setCurrentBank(currentBank);
-
-                    if (!config.breakpointsActive) return pb6;
-                    synchronized (breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
-                    {
-
-                        for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
-                        {
-                            if ((bp.type & Breakpoint.BP_BANK) == Breakpoint.BP_BANK)
-                            {
-                                if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
-                                {
-                                    tmp.add(bp);
-                                }
-                                activeBreakpoint.add(bp);
-                                if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
-                            }
-                        }
-                    }             
-                }
-                return pb6;
-            }
+            cart.lineIn(pb6);
         }
         return pb6;
     }
@@ -310,44 +275,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 break;
             case 0x10:
                 /* the sound chip is recieving data */
-                if (snd_select != 14) 
-                {
-                    e8910.e8910_write(snd_select, via_ora);
-                }
-                else
-                {
-                    // DVE implementation
-                    if (imager)
-                    {
-                        if (!PARA)
-                        {
-                            if ((lastImagerData & 0x7f) != 0)
-                            {
-                                if (via_ora != 0xff)
-                                {
-                                    imagerPulse=(int)(e6809.cyclesRunning-lastImagerCycleCount);
-                                }
-                            }
-                            lastImagerCycleCount=e6809.cyclesRunning;
-                            lastImagerData=via_ora;
-                        }
-                    }
-                    else
-                    {
-                        // Para implementaion
-                        if (imager)
-                        {
-                            imagerIn = ((via_ora & 0x40) != 0);
-                            if (!imagerIn)
-                            {
-                              imagerOut = false;
-                              imagerCountDown = 22400;
-                            }
-                            lastImagerData = via_ora;
-                             lastImagerCycleCount=e6809.cyclesRunning;
-                        }
-                    }
-                }
+                e8910.e8910_write(snd_select, via_ora);
                 break;
             case 0x18:
                 /* the sound chip is latching an address */
@@ -365,13 +293,13 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             // dummy register, write directy to audio line buffer in psg emulation!
             e8910.e8910_write(255, alg_ssh.intValue);
 //            System.out.println("Cycl:"+(cyclesRunning-sampleCycle) );
-            if ((cyclesRunning-sampleCycle)==224)
+//            if ((cyclesRunning-sampleCycle)==224)
 //                System.out.println("PC="+e6809.reg_pc);
-sampleCycle= cyclesRunning;
+//sampleCycle= cyclesRunning;
         }
         checkPSGBreakpoint();
     }
-    long sampleCycle = 0;
+   // long sampleCycle = 0;
 
     /* update IRQ and bit-7 of the ifr register after making an adjustment to
      * ifr.
@@ -431,6 +359,7 @@ sampleCycle= cyclesRunning;
                         if ((via_orb & 0x18) == 0x08) 
                         {
                                 /* the snd chip is driving port a */
+                            e8910.updatePortAData(snd_select);
                             data = e8910.snd_regs[snd_select];
                         } 
                         else 
@@ -556,6 +485,7 @@ sampleCycle= cyclesRunning;
                         if ((via_orb & 0x18) == 0x08) 
                         {
                                 /* the snd chip is driving port a */
+                            e8910.updatePortAData(snd_select);
                             data = e8910.snd_regs[snd_select];
                         } 
                         else 
@@ -662,7 +592,6 @@ sampleCycle= cyclesRunning;
             if ((address & 0x800) != 0)
             {
                 ram[address & 0x3ff] = data;
-//                checkMemWriteBreakpoint(address & 0x3ff, data);
             }
             if ((address & 0x1000) != 0)
             {
@@ -693,6 +622,7 @@ sampleCycle= cyclesRunning;
                         via_orb = data;
                         setViaPB6(pb6);
                         snd_update();
+                        
                         if ((via_pcr & 0xe0) == 0x80) 
                         {
                             /* if cb2 is in pulse mode or handshake mode, then it
@@ -701,8 +631,7 @@ sampleCycle= cyclesRunning;
                             via_cb2h = 0;
                             addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
                         }
-                           doCheckRamp();
-//s                        doCheckOrb();
+                        doCheckRamp();
                         break;
                     case 0x1:
                         /* register 1 also performs handshakes if necessary */
@@ -717,16 +646,12 @@ sampleCycle= cyclesRunning;
                         via_ifr = via_ifr & (0xff-0x02); // clear ca1 interrupt
                     /* fall through */
                     case 0xf:
-                        addTimerItem(new TimerItem(getDACDelay((byte)(via_ora&0xff),(byte)( data&0xff)), data, alg_DAC, TIMER_DAC_CHANGE));
-                        via_ora = data;
-                        
                         /* output of port a feeds directly into the dac which then
                          * feeds the x axis sample and hold.
                          */
-                        /*
-                         addTimerItem(new TimerItem(data, alg_xsh, TIMER_XSH_CHANGE));
-                         doCheckMultiplexer();
-                        */
+                        addTimerItem(new TimerItem(getDACDelay((byte)(via_ora&0xff),(byte)( data&0xff)), data, alg_DAC, TIMER_DAC_CHANGE));
+                        via_ora = data;
+                        
                         snd_update();
                         break;
                     case 0x2:
@@ -785,43 +710,25 @@ sampleCycle= cyclesRunning;
                         int_update ();
                         break;
                     case 0xa:
-                        /*
-                        // duno if ignoring is realy alright
-                        if (cyclesRunning - lastShiftRegWrite >= 18)
+                        if (shouldStall((int)(cyclesRunning - lastShiftRegWrite)))
                         {
+                            via_stalling = true;
+                           // via_sr = 0; // DUnno!
+                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                           // via_srb = 0;
+                            via_srclk = 1;
+                            int_update ();
+                            // dunno if "stalling" cycle counter should reset...
+                        }
+                        else
+                        {
+                            // do normal - exactly as above
                             lastShiftRegWrite = cyclesRunning;
                             via_sr = data;
-                            via_ifr &= 0xfb; / * remove shift register interrupt flag * /
+                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
                             via_srb = 0;
                             via_srclk = 1;
                             int_update ();
-                        }                            
-                        else
-*/
-                        {
-                            if (shouldStall((int)(cyclesRunning - lastShiftRegWrite)))
-                            {
-//System.out.println("ToEarly: "+(cyclesRunning - lastShiftRegWrite)+" $"+data);
-                                via_stalling = true;
-                               // via_sr = 0; // DUnno!
-                                via_ifr &= 0xfb; /* remove shift register interrupt flag */
-                               // via_srb = 0;
-                                via_srclk = 1;
-                                int_update ();
-                                // dunno if "stalling" cycle counter should reset...
-                            }
-                            else
-                            {
-                                // do normal - exactly as above
-                                lastShiftRegWrite = cyclesRunning;
-                                via_sr = data;
-                                via_ifr &= 0xfb; /* remove shift register interrupt flag */
-                                via_srb = 0;
-                                via_srclk = 1;
-                                int_update ();
-                            }
-                            
-                            
                         }
                         break;
                     case 0xb:
@@ -903,6 +810,7 @@ sampleCycle= cyclesRunning;
         }
         
         
+        e8910.reset();
         for (r = 0; r < 16; r++) 
         {
             e8910.e8910_write(r, 0);
@@ -910,6 +818,11 @@ sampleCycle= cyclesRunning;
 
         /* input buttons */
         e8910.e8910_write(14, 0xff);
+
+        if (vecVoiceEnabled)
+        {
+            vecVoice = new VecVoice(e8910);
+        }
 
         snd_select = 0;
         lastShiftRegWrite = 0;
@@ -1218,6 +1131,7 @@ sampleCycle= cyclesRunning;
             int_update ();
             
         }
+        /*
         if (imager)
         {
             if (PARA)
@@ -1232,6 +1146,7 @@ sampleCycle= cyclesRunning;
                 int_update ();
             }         
         } 
+        */
     }
     
     // input in vectrex coordinates!
@@ -1347,10 +1262,14 @@ sampleCycle= cyclesRunning;
         if (!config.cycleExactEmulation) return;
         for (int c = 0; c < cycles; c++) 
         {
-            if (DS2430Enabled)
+            if (ds2430Enabled)
             {
                 if (cart != null)
-                cart.ds2430Step(cyclesRunning);
+                cart.cartStep(cyclesRunning);
+            }
+            if (vecVoiceEnabled)
+            {
+                vecVoice.step(cyclesRunning);
             }
             via_sstep0();
             timerStep();
@@ -1404,13 +1323,16 @@ sampleCycle= cyclesRunning;
                 }
             }
             
-//            cyclesRunning += icycles;
             for (c = 0; c < (icycles-nonCPUStepsDone); c++) 
             {
-                if (DS2430Enabled)
+                if (ds2430Enabled)
                 {
                     if (cart != null)
-                    cart.ds2430Step(cyclesRunning);
+                    cart.cartStep(cyclesRunning);
+                }
+                if (vecVoiceEnabled)
+                {
+                    vecVoice.step(cyclesRunning);
                 }
                 via_sstep0();
                 timerStep();
@@ -1546,6 +1468,7 @@ sampleCycle= cyclesRunning;
     
     public void imagerStep()
     {
+        /*
         // Para implementaion
         if (PARA)
         {
@@ -1563,6 +1486,7 @@ sampleCycle= cyclesRunning;
                 }
             }
         }
+        */
     }
 
     public VectrexDisplayVectors getDisplayList()
@@ -1634,10 +1558,10 @@ sampleCycle= cyclesRunning;
                 log.addLog("Vecx: init() cartridge not loaded!", WARN);
                 return false;
             }
-            DS2430Enabled = (cartProp.getTypeFlags()&FLAG_RAM_DS2430A)!=0;
+            ds2430Enabled = (cartProp.getTypeFlags()&FLAG_RAM_DS2430A)!=0;
+            vecVoiceEnabled =(cartProp.getTypeFlags()&FLAG_VEC_VOICE)!=0;
             e6809.e6809_reset();  
             vecx_reset();
-            //initAudioLine();
         }
         catch (Throwable e)
         {
@@ -1786,7 +1710,6 @@ sampleCycle= cyclesRunning;
         cart.setVecx(this);
         cart.ds2430.cart = cart;
 
-        
         displayer.directDraw(directDrawVector);
         return true;
     }
@@ -2023,7 +1946,6 @@ sampleCycle= cyclesRunning;
 
             sig_dx = (ALG_MAX_X / 2 - (int)alg_curr_x);
             sig_dy = (ALG_MAX_Y / 2 - (int)alg_curr_y);
-//            if ((sig_dx>1)||(sig_dy>1)) System.out.println(sig_dx+","+sig_dy);
 
             // this is just fun - not real!
             THRES -= 2;
@@ -2555,9 +2477,33 @@ sampleCycle= cyclesRunning;
             }                 
         }
     }
+    public void checkBankswitchBreakpoint()
+    {
+        currentBank = cart.getCurrentBank();
+        dissiMem.setCurrentBank(currentBank);
+
+        if (!config.breakpointsActive) return;
+        synchronized (breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
+        {
+            for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
+            {
+                if ((bp.type & Breakpoint.BP_BANK) == Breakpoint.BP_BANK)
+                {
+                    if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                    {
+                        tmp.add(bp);
+                    }
+                    activeBreakpoint.add(bp);
+                    if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                }
+            }
+        }             
+    }    
+    
     void checkAnalogBreakpoint()
     {
     }
+    
     void checkPSGBreakpoint()
     {
         
@@ -2688,8 +2634,10 @@ sampleCycle= cyclesRunning;
     
     public boolean shouldStall(int shiftCycleDif)
     {
+        shiftCycleDif-=2; // correction factor due to cycle exact timings
+        
         int generation = config.generation;
-        if (generation == 0) return false; // if generation emulation is off, never stall
+        if (generation == 0) return false; // if generation 0 emulation is off, never stall
         if (generation<3)
         {
             if (shiftCycleDif==15) return true;

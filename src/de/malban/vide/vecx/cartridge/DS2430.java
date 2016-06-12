@@ -70,7 +70,7 @@ DS1W_SEARCHROM  equ     $f0
 
 public class DS2430 implements Serializable
 {
-    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+    transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public static final int LL_UNKOWN = 0;
     public static final int LL_RESET_START = 1;
     public static final int LL_RESETED = 2;
@@ -132,7 +132,7 @@ public class DS2430 implements Serializable
     public DS2430 clone()
     {
         DS2430 c = new DS2430(cart);
-        for (int i=0; i<32;i++)
+        for (int i=0; i<MAX_DATA_LEN;i++)
         {
             c.epromData.data[i] = epromData.data[i];
         }
@@ -149,6 +149,7 @@ public class DS2430 implements Serializable
         c.currentInputAddress = currentInputAddress;
         c.currentByteOutput = currentByteOutput;
         c.bitsOutputDone = bitsOutputDone;
+        c.currentWriteByteComplete = currentWriteByteComplete;
         
         return c;
     }
@@ -231,6 +232,7 @@ public class DS2430 implements Serializable
                     }
                     if (bitsOutputDone == 8)
                     {
+                        log.addLog("DS2430 Write completed: "+String.format("$%02X", currentWriteByteComplete ), LogPanel.INFO);
                         highLevelStep();
                     }
                     else
@@ -329,7 +331,7 @@ public class DS2430 implements Serializable
     
     // High Level commands
     
-    // 1 Wire overall commands
+    // 1 Wire protocoll commands
     public static final int DS1W_SKIPROM = 0xcc;
     public static final int DS1W_MATCHROM = 0x55;
     public static final int DS1W_SEARCHROM = 0xf0;
@@ -373,7 +375,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                     highLevelState = HL_WAIT_FOR_2430_COMMAND;
                     currentByteRead = 0;
                     bitsLoaded = 0;
-                    log.addLog("DS2430 Command DS1W_SKIPROM - ignored (not supported)!", LogPanel.INFO);
+                    log.addLog("DS2430 Command DS1W_SKIPROM - ignored (ROM read not supported anyway)!", LogPanel.INFO);
                     break;
                 }
                 case DS1W_MATCHROM:
@@ -382,7 +384,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                     highLevelState = HL_WAIT_FOR_1W_COMMAND;
                     currentByteRead = 0;
                     bitsLoaded = 0;
-                    log.addLog("DS2430 Command DS1W_MATCHROM - ignored (not supported)!", LogPanel.INFO);
+                    log.addLog("DS2430 Command DS1W_MATCHROM - not supported!", LogPanel.INFO);
                     break;
                 }
                 case DS1W_SEARCHROM:
@@ -391,7 +393,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                     highLevelState = HL_WAIT_FOR_1W_COMMAND;
                     currentByteRead = 0;
                     bitsLoaded = 0;
-                    log.addLog("DS2430 Command DS1W_SEARCHROM - ignored (not supported)!", LogPanel.INFO);
+                    log.addLog("DS2430 Command DS1W_SEARCHROM - not supported!", LogPanel.INFO);
                     break;
                 }
                 case DS1W_READROM:
@@ -400,7 +402,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                     highLevelState = HL_WAIT_FOR_1W_COMMAND;
                     currentByteRead = 0;
                     bitsLoaded = 0;
-                    log.addLog("DS2430 Command DS1W_READROM - ignored (not supported)!", LogPanel.INFO);
+                    log.addLog("DS2430 Command DS1W_READROM - not supported!", LogPanel.INFO);
                     break;
                 }
                 default:
@@ -522,11 +524,13 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         saveData(getSaveName(), epromData);
     }
     
+    int currentWriteByteComplete = 0;
     // output from DS2430 to VIA
     void initOutputNextByte()
     {
         highLevelState = HL_READ_BYTE_FROM_SP;
         currentByteOutput = epromData.data[currentOutputAddress%MAX_DATA_LEN];
+        currentWriteByteComplete = currentByteOutput;
         bitsOutputDone = 0;
         currentOutputAddress++;
         lowLevelState = LL_WAIT_FOR_BITWRITE_PULSE_START;
