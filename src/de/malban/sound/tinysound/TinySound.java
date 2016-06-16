@@ -53,6 +53,8 @@ import de.malban.sound.tinysound.internal.StreamMusic;
 import de.malban.sound.tinysound.internal.StreamSound;
 import de.malban.sound.tinysound.internal.StreamStreamVectrex;
 import de.malban.sound.tinysound.internal.StreamStreamMod;
+import de.malban.sound.tinysound.internal.StreamStreamWav1Channel;
+import de.malban.sound.tinysound.internal.StreamStreamWav2Channel;
 import de.malban.sound.tinysound.internal.UpdateRunner;
 
 /**
@@ -501,13 +503,21 @@ public class TinySound {
             return new MemSound(data[0], data[1], TinySound.mixer, TinySound.soundCount);
         }
 
-        public static Stream getOutStream()        
+        public static Stream getOutStreamVectrex()        
         {
             return new StreamStreamVectrex( TinySound.mixer, TinySound.soundCount++, 0);
         }
         public static Stream getOutStreamMod()        
         {
             return new StreamStreamMod( TinySound.mixer, TinySound.soundCount++, 0);
+        }
+        public static Stream getOutStream()        
+        {
+            return new StreamStreamWav1Channel( TinySound.mixer, TinySound.soundCount++, 0);
+        }
+        public static Stream getOutStream2()        
+        {
+            return new StreamStreamWav2Channel( TinySound.mixer, TinySound.soundCount++, 0);
         }
         
 	/**
@@ -619,6 +629,7 @@ public class TinySound {
         }
 	private static AudioInputStream ensureFormat(AudioInputStream audioStream) 
         {
+            if (audioStream == null) return null;
 		try {
 			AudioFormat streamFormat = audioStream.getFormat();
 			//1-channel can also be treated as stereo

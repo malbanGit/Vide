@@ -5,7 +5,6 @@
  */
 package de.malban.vide.vecx;
 
-import de.malban.vide.vecx.cartridge.DS2430;
 import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import static de.malban.vide.vecx.VecXStatics.TIMER_ACTION_NONE;
@@ -68,7 +67,7 @@ public class VecXState implements Serializable
     ArrayList<VecX.TimerItem> timerItemList = new ArrayList<VecX.TimerItem>();
 
     Cartridge cart = new Cartridge();
-    VecVoice vecVoice = null;
+    VecSpeech vecVoice = null;
     
     /* the sound chip registers */
      public int  snd_select;
@@ -170,6 +169,7 @@ public class VecXState implements Serializable
     
     public boolean ds2430Enabled = false;
     public boolean vecVoiceEnabled = false;
+    public boolean vecVoxEnabled = false;
     
     // no rom or cart
     public static void deepCopy(VecXState from, VecXState to)
@@ -186,6 +186,7 @@ public class VecXState implements Serializable
         to.ds2430Enabled = from.ds2430Enabled;
         to.vecVoiceEnabled = from.vecVoiceEnabled;
 
+        to.vecVoxEnabled = from.vecVoxEnabled;
         if (from.vecVoiceEnabled)
         {
             to.vecVoice = from.vecVoice.clone();

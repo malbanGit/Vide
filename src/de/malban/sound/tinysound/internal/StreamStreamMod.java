@@ -17,6 +17,7 @@ public class StreamStreamMod implements Stream {
 	private final int ID;
         private int inputFormat;
         StreamStreamReference ref;
+        private double volume = 1.0;
 
         /**
 	 * Construct a new StreamSound with the given data and Mixer which will
@@ -31,11 +32,10 @@ public class StreamStreamMod implements Stream {
             this.ID = id;
             this.inputFormat = inputFormat;
 
-            ref = new StreamStreamReference(1.0, 0, this.ID, inputFormat);
+            ref = new StreamStreamReference(volume, 0, this.ID, inputFormat);
         }
         public void start()
         {
-            System.out.println("STARTING");
             this.mixer.registerStreamReference(ref);
         }
 
@@ -69,6 +69,13 @@ public class StreamStreamMod implements Stream {
 		this.mixer.unRegisterStreamReference(this.ID);
 		this.mixer = null;
 	}
+        @Override
+	public void setVolume(double v) {
+		volume = v;
+                if (ref == null) return;
+                ref.setVolume(volume);
+                
+        }
 	
 	/////////////
 	//Reference//
@@ -216,6 +223,9 @@ public class StreamStreamMod implements Stream {
                 {
                     return this.SOUND_ID;
 		}
+                public void setVolume(double v) {
+                    volume = v;
+                }
 
 		/**
 		 * Gets the volume of this StreamSoundReference.

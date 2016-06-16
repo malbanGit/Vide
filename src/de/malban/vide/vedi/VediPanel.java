@@ -39,6 +39,7 @@ import de.malban.vide.vedi.raster.RasterPanel;
 import de.malban.vide.vedi.raster.VectorJPanel;
 import de.malban.vide.vedi.sound.ModJPanel;
 import de.malban.vide.vedi.sound.SampleJPanel;
+import de.malban.vide.vedi.sound.VecSpeechPanel;
 import de.malban.vide.vedi.sound.YMJPanel;
 import java.awt.Component;
 import java.awt.Point;
@@ -520,6 +521,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jMenuItemYM = new javax.swing.JMenuItem();
         jMenuItemASFX = new javax.swing.JMenuItem();
         jMenuItemSample = new javax.swing.JMenuItem();
+        jMenuItemVecSpeech = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItemRaster = new javax.swing.JMenuItem();
         jMenuItemVector = new javax.swing.JMenuItem();
@@ -677,6 +679,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
         jPopupMenuTree.add(jMenuItemSample);
+
+        jMenuItemVecSpeech.setText("VecVoice/VecVox+");
+        jMenuItemVecSpeech.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemVecSpeechActionPerformed(evt);
+            }
+        });
+        jPopupMenuTree.add(jMenuItemVecSpeech);
         jPopupMenuTree.add(jSeparator3);
 
         jMenuItemRaster.setText("convert image to vectrex raster");
@@ -2297,6 +2307,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         debug();
     }//GEN-LAST:event_jButtonDebugActionPerformed
 
+    private void jMenuItemVecSpeechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVecSpeechActionPerformed
+        VecSpeechPanel.showVecSpeechPanelNoModal(this);
+    }//GEN-LAST:event_jMenuItemVecSpeechActionPerformed
+
     public String getLine(JEditorPane comp, int pos)
     {
         try
@@ -2345,11 +2359,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JButton jButtonLoad;
     private javax.swing.JButton jButtonNew;
     private javax.swing.JButton jButtonNew1;
-    private javax.swing.JButton jButtonNew2;
-    private javax.swing.JButton jButtonNew3;
-    private javax.swing.JButton jButtonNew4;
-    private javax.swing.JButton jButtonNew5;
-    private javax.swing.JButton jButtonNew6;
     private javax.swing.JButton jButtonNew7;
     private javax.swing.JButton jButtonPaste;
     private javax.swing.JButton jButtonPrettyPrint;
@@ -2391,6 +2400,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JMenuItem jMenuItemRename;
     private javax.swing.JMenuItem jMenuItemSample;
     private javax.swing.JMenuItem jMenuItemSetMain;
+    private javax.swing.JMenuItem jMenuItemVecSpeech;
     private javax.swing.JMenuItem jMenuItemVector;
     private javax.swing.JMenuItem jMenuItemVectrexFile;
     private javax.swing.JMenuItem jMenuItemYM;

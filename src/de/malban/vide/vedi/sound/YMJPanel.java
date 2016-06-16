@@ -60,13 +60,13 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     String currentYMFile = "";
     String ymSaveName = "";
     String pathOnly = "";
+    Thread two = null;
+    Thread three = null;
+    YmSound ymSound;
     TinyLogInterface tinyLog = null;
     private int mClassSetting=0;
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
-    Thread two = null;
-    Thread three = null;
-    YmSound ymSound;
 
     @Override
     public void closing()
@@ -4195,7 +4195,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         if (three != null) return;
         
         
-        final Stream line = TinySound.getOutStream();
+        final Stream line = TinySound.getOutStreamVectrex();
 
         e8910.e8910_init_sound();
         // setupPSG once with a complete reigster set!

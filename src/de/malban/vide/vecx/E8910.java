@@ -40,6 +40,8 @@ public class E8910 extends E8910State implements E8910Statics
     public void setPortAdapter(PortAdapter a)
     {
         portAdapter = a;
+        if (portAdapter != null)    
+            portAdapter.setInputMode((snd_regs[AY_ENABLE] & 0x40 ) == 0);
     }
     
     // here should go all joystick data
@@ -62,14 +64,25 @@ public class E8910 extends E8910State implements E8910Statics
         if (snd_regs == null) return;
         if (r == 14) // port A activity
         {
-            // if bit 6 if ENABLE is false,
-            // than writing to snd_reg 14 is allowed
-            // we are in output mode!
-            if  ((snd_regs[AY_ENABLE] & 0x40 ) == 0)
+            // if bit 6 (ENABLE PORTA) is 0
+            // than port A is in input mode, 
+            // input mode means pora wnats to RECEIVE data from a connected device
+            //
+            // if bit 6 (ENABLE PORTA) is 1
+            // than port A is in output mode, meaning
+            // the register 14 receives data from via when Reg14 is latched
+            //
+            // thus reg 4 can only be written to when in output mode
+            if  ((snd_regs[AY_ENABLE] & 0x40 ) ==  0x40)
             {
                 snd_regs[r] = v;
+                portAOut = v; 
                 if (portAdapter != null)
                     portAdapter.valueChangedFromPSG();
+            }
+            else
+            {
+                portAOut = v; // portA outData can be written to psg even when in input mode... strange
             }
             return;
         }
@@ -215,7 +228,22 @@ public class E8910 extends E8910State implements E8910Statics
                 if ((oldReg & 0x40) != (snd_regs[AY_ENABLE] & 0x40 ))
                 {
                     if (portAdapter != null)    
-                        portAdapter.setInputMode((snd_regs[AY_ENABLE] & 0x40) != 0x40);
+                        portAdapter.setInputMode((snd_regs[AY_ENABLE] & 0x40 ) == 0);
+
+                    if  ((snd_regs[AY_ENABLE] & 0x40 ) == 0) // input mode
+                    {
+                        portAOut = snd_regs[14];
+                        snd_regs[14] = portAIn;
+                        if (portAdapter != null)
+                            portAdapter.valueChangedFromPSG();
+                    }
+                    else // output mode
+                    {
+                        portAIn = snd_regs[14];
+                        snd_regs[14] = portAOut;
+                        if (portAdapter != null)
+                            portAdapter.valueChangedFromPSG();
+                    }
                 }
                 break;
             }
@@ -506,9 +534,11 @@ public class E8910 extends E8910State implements E8910Statics
             // but allways positive!
             if ((--length & 1) !=0)
             {
-//                int vol8BitUnsigned = ((vol >> 5)+128);
                 int vol8BitSigned = ((vol >> 5))&0xff;
-                stream[memPointer++] = (byte)(vol8BitSigned);
+                if (config.psgSound)
+                    stream[memPointer++] = (byte)(vol8BitSigned);
+                else
+                    stream[memPointer++] = (byte)0;
             }
         }
         
@@ -546,7 +576,7 @@ public class E8910 extends E8910State implements E8910Statics
         digitByteCounter = -1;
     }
     int maxpsg = -1;
-
+    
     void e8910_build_mixer_table()
     {
         int i;

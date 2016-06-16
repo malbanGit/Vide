@@ -71,6 +71,7 @@ import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.veccy.VectorListScanner;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_RAM_DS2430A;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOICE;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOX;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_YM;
@@ -194,14 +195,16 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         e8910.e8910_init_sound();
         for (int i=0; i<Breakpoint.BP_TARGET_COUNT; i++)
             breakpoints[i] = new ArrayList<Breakpoint>();
-        line = TinySound.getOutStream();
+        line = TinySound.getOutStreamVectrex();
         line.start();
+        
     }
     void deinitAudio()
     {
         if (line != null)
             line.unload();
         line = null;
+        if ( vecVoice != null) vecVoice.deinit();
     }
     
     public void setDisplayer(DisplayerInterface d)
@@ -817,11 +820,21 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }
 
         /* input buttons */
-        e8910.e8910_write(14, 0xff);
-
+        // this "write" does not work anymore, since it now
+        // reespects the input enable register
+//        e8910.e8910_write(14, 0xff);
+        e8910.snd_regs[14] = 0xff;
+        
         if (vecVoiceEnabled)
         {
-            vecVoice = new VecVoice(e8910);
+            vecVoice = new VecSpeech(e8910);
+            vecVoice.setVecVoice(true);
+        }
+        else if (vecVoxEnabled)
+        {
+            vecVoiceEnabled = true;
+            vecVoice = new VecSpeech(e8910);
+            vecVoice.setVecVoice(false);
         }
 
         snd_select = 0;
@@ -1422,6 +1435,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     {
                         if (line != null)
                         {
+                            
+                            double v =  ((double) config.psgVolume)/(double)255.0;                            
+                            line.setVolume(v);
                             int soundLength = line.available();
                             e8910.e8910_callback(soundBytes, soundLength);
                             soundLength = soundLength >soundBytes.length ? soundBytes.length : soundLength;
@@ -1543,6 +1559,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
     public boolean init(CartridgeProperties cartProp)
     {
+        if ( vecVoice != null) vecVoice.deinit();
         if (!loadBios()) 
         {
             log.addLog("Vecx: init() BIOS of vectrex not loaded!", WARN);
@@ -1560,6 +1577,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             }
             ds2430Enabled = (cartProp.getTypeFlags()&FLAG_RAM_DS2430A)!=0;
             vecVoiceEnabled =(cartProp.getTypeFlags()&FLAG_VEC_VOICE)!=0;
+            vecVoxEnabled =(cartProp.getTypeFlags()&FLAG_VEC_VOX)!=0;
             e6809.e6809_reset();  
             vecx_reset();
         }
@@ -1577,6 +1595,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     }
     public boolean init(String filenameRom, boolean checkForCartridge)
     {
+        if ( vecVoice != null) vecVoice.deinit();
         romName = filenameRom;
         if (checkForCartridge)
         {
@@ -1629,6 +1648,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     {
         try 
         {
+            if ( vecVoice != null) vecVoice.deinit();
             // this is sort of bad
             // but a shortcut to reinitializing listerners
             ArrayList<CartridgeListener> mListener = cart.getListener();
@@ -1636,17 +1656,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             CompleteState state = (CompleteState) CSAMainFrame.deserialize("serialize"+File.separator+"StateSaveTest.ser");
             rom = state.rom;
             cart = state.cart;
+            initFromState(state);
             cart.setListener(mListener);
-            cart.setVecx(this);
-            cart.ds2430.cart = cart;
-            
-            E6809State.deepCopy(state.e6809State, this.e6809);
-            E8910State.deepCopy(state.e8910State, this.e8910);
-            VecXState.deepCopy(state.eVecXState, this);
-            cart.setBank(currentBank); // just bankswitch occurred
             cart.init();
-            // initAudioLine();
-            
+
             return true;
         } 
         catch (Throwable ex) 
@@ -1654,6 +1667,17 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             log.addLog(ex, ERROR);
         }
         return false;
+    }
+    void initFromState(CompleteState state)
+    {
+        E6809State.deepCopy(state.e6809State, this.e6809);
+        E8910State.deepCopy(state.e8910State, this.e8910);
+        VecXState.deepCopy(state.eVecXState, this);
+        cart.setBank(currentBank); // just in case a bankswitch occurred
+        cart.setVecx(this);
+        cart.ds2430.cart = cart;
+        if (vecVoice != null) vecVoice.initClone(e8910);
+        
     }
     
     // all ringbuffers should 
@@ -1701,15 +1725,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             return false;
         }
             
+        if ( vecVoice != null) vecVoice.deinit();
         CompleteState state = goBackRingBuffer[ringWalkStep];
-
-        E6809State.deepCopy(state.e6809State, this.e6809);
-        E8910State.deepCopy(state.e8910State, this.e8910);
-        VecXState.deepCopy(state.eVecXState, this);
-        cart.setBank(currentBank); // just in case a bankswitch occurred
-        cart.setVecx(this);
-        cart.ds2430.cart = cart;
-
+        initFromState(state);
         displayer.directDraw(directDrawVector);
         return true;
     }
@@ -1733,18 +1751,13 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             return false;
         }
             
+        if ( vecVoice != null) vecVoice.deinit();
         CompleteState state = goBackRingBuffer[ringWalkStep];
-        
-        E6809State.deepCopy(state.e6809State, this.e6809);
-        E8910State.deepCopy(state.e8910State, this.e8910);
-        VecXState.deepCopy(state.eVecXState, this);
         if (ringBufferNext==ringWalkStep+1)
         {
             ringWalkStep=-1; // wie hit the front!
         }
-        cart.setBank(currentBank); // just in case a bankswitch occurred
-        cart.setVecx(this);
-        cart.ds2430.cart = cart;
+        initFromState(state);
 
         displayer.directDraw(directDrawVector);
         return true;

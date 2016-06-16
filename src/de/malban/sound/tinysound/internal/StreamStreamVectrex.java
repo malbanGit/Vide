@@ -16,7 +16,8 @@ public class StreamStreamVectrex implements Stream {
 	private Mixer mixer;
 	private final int ID;
         private int inputFormat;
-        StreamStreamReference ref;
+        StreamStreamReference ref = null;
+        private double volume = 1.0;
 
         /**
 	 * Construct a new StreamSound with the given data and Mixer which will
@@ -31,7 +32,7 @@ public class StreamStreamVectrex implements Stream {
             this.ID = id;
             this.inputFormat = inputFormat;
 
-            ref = new StreamStreamReference(1.0, 0, this.ID, inputFormat);
+            ref = new StreamStreamReference(volume, 0, this.ID, inputFormat);
         }
         synchronized public void start()
         {
@@ -64,8 +65,16 @@ public class StreamStreamVectrex implements Stream {
 	public void unload() {
 		this.mixer.unRegisterStreamReference(this.ID);
 		this.mixer = null;
+                ref = null;
 	}
-	
+
+        @Override
+	public void setVolume(double v) {
+		volume = v;
+                if (ref == null) return;
+                ref.setVolume(volume);
+                
+        }
 	/////////////
 	//Reference//
 	/////////////
@@ -114,6 +123,9 @@ public class StreamStreamVectrex implements Stream {
                     System.arraycopy(soundBytes, offset, inbuffer, inbufferUsed, soundLength-1);
                     inbufferUsed += soundLength;
                     return soundLength;
+                }
+                public void setVolume(double v) {
+                        volume = v;
                 }
                 
                 

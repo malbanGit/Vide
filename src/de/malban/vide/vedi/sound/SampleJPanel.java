@@ -1628,7 +1628,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         
         if (size > 32768)
         {
-            ShowErrorDialog.showErrorDialog("Size of samples exceeds memory limit of vectrex, creating source of that is stupid!<BR>I, <B>'VIDE'</B> refuse to do so!");
+            ShowErrorDialog.showErrorDialog("Size of samples exceeds memory limit of vectrex, creating source of that is stupid!<BR>I, <B>'VIDE'</B> refuses to do so!");
             return;
         }
         

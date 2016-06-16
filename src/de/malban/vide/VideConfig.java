@@ -59,12 +59,13 @@ public class VideConfig  implements Serializable{
     public double efficiency = 20.0;
     public double noisefactor = 1;
     public boolean noise = false;
-    public int soundVolume = 255;
+    public int masterVolume = 255;
+    public int psgVolume = 180;
 
     public double overflowFactor = 150;
     public boolean emulateIntegrationOverflow = false;
     public boolean resetBreakpointsOnLoad = true;
-    
+    public boolean psgSound = true;
 
     /// ASSI CONFIG
     public boolean expandBranches=true;
@@ -168,7 +169,7 @@ public class VideConfig  implements Serializable{
             if (newConfig == null) return false;
             copyAll(newConfig, this);
             loadedConfig = filename;
-            double v =  ((double) soundVolume)/(double)255.0;
+            double v =  ((double) masterVolume)/(double)255.0;
             TinySound.setGlobalVolume(v);
             if (keySupport != null)
             {
@@ -251,7 +252,10 @@ public class VideConfig  implements Serializable{
         to.emulateIntegrationOverflow = from.emulateIntegrationOverflow;
         to.resetBreakpointsOnLoad = from.resetBreakpointsOnLoad;
         to.vectorInformationCollectionActive = from.vectorInformationCollectionActive;
-        to.soundVolume = from.soundVolume;
+        to.masterVolume = from.masterVolume;
+        to.psgSound = from.psgSound;
+        to.psgVolume = from.psgVolume;
+        
 
         /// ASSI CONFIG
         to.expandBranches = from.expandBranches;

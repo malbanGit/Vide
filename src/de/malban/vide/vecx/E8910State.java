@@ -14,12 +14,15 @@ import java.io.Serializable;
 public class E8910State implements Serializable{
     
     public int[] snd_regs = new int[16];
-
+    public int portAOut = 0;
+    public int portAIn = 0;
     public AY8910 PSG = new AY8910();
 
     public static void deepCopy(E8910State from, E8910State to)
     {
         System.arraycopy(from.snd_regs, 0, to.snd_regs, 0, from.snd_regs.length);
+        to.portAOut = from.portAOut;
+        to.portAIn = from.portAIn;
         System.arraycopy(from.PSG.VolTable, 0, to.PSG.VolTable, 0, from.PSG.VolTable.length);
         to.PSG.index =from.PSG.index;
         to.PSG.ready =from.PSG.ready;

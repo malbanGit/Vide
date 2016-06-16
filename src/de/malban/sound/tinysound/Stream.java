@@ -16,6 +16,7 @@ public interface Stream
     public void unload();
     public int available();
     public int write(byte[] soundBytes, int offset, int soundLength);
+    public void setVolume(double v);
 
 }
 

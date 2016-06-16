@@ -119,8 +119,8 @@ public class AnalogJPanel extends javax.swing.JPanel implements
 
     private void update()
     {        
-        VecXState state = vecxPanel.getVecXState();
         if (vecxPanel==null) return;
+        VecXState state = vecxPanel.getVecXState();
         jLabel11.setText( ""+(state.sig_ramp.intValue!=0?"1":"0") );
         if (state.sig_ramp.intValue != ramp) jLabel11.setForeground(Color.red);
         else jLabel11.setForeground(Color.black);

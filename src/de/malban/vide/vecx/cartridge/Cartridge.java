@@ -32,10 +32,11 @@ public class Cartridge  implements Serializable
     public static int FLAG_RAM_ANIMACTION = 8;
     public static int FLAG_RAM_RA_SPECTRUM = 16;
     public static int FLAG_RAM_DS2430A = 32;
-    public static int FLAG_VEC_VOICE = 64;
+    public static int FLAG_VEC_VOICE = 64; //SP0256AL
     public static int FLAG_LIGHTPEN1 = 128;
     public static int FLAG_LIGHTPEN2 = 256;
     public static int FLAG_IMAGER = 512;
+    public static int FLAG_VEC_VOX = 1024; // Speakjet
 
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     // load transient stuff after save state
@@ -505,6 +506,7 @@ public class Cartridge  implements Serializable
     // is set FROM vectrex
     public void lineIn(boolean pb6)
     {
+        if (vecx==null) return;
         if (vecx.ds2430Enabled)
         {
             ds2430.lineIn(pb6);

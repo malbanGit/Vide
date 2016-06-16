@@ -354,6 +354,11 @@ Done:
 
 todo:
 todoc:
+- Verzerk does not start correct!
+- seems like all buttons are allways pressed!
+- evaluate why 1 channel vecvoice does not wrok as expected
+
+- vecci with DOT-Lists
 - vecvox
   psg output state saving of porta
   

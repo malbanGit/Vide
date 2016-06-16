@@ -11,7 +11,7 @@ package de.malban.vide.vecx;
  */
 public interface PortAdapter 
 {
-    public int readDataFromPort();
+//    public int readDataFromPort();
     public int getWriteDataToPort(int portAOrg);
     public void valueChangedFromPSG();
     public void setInputMode(boolean i);
