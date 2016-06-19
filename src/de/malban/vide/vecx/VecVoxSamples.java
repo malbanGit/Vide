@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * http://magnevation.com/
  */
 package de.malban.vide.vecx;
 
@@ -11,7 +9,11 @@ import static de.malban.gui.panels.LogPanel.INFO;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.sound.tinysound.internal.MemSound;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -20,19 +22,145 @@ import java.util.HashMap;
 public class VecVoxSamples {
     
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
-    static SpeakJetMSA[] allSamples;
-    static SpeakJetMSA[] pauseSamples;
-    static HashMap<Integer, MemSound> playList;
+    static final SpeakJetMSA[] allSamples;
+    static final SpeakJetMSA[] pauseSamples;
+    static final ArrayList<SpeakSpecials> allSpecials;
+    static final HashMap<Integer, MemSound> playList;
 
+    static final HashMap<String, String> codeMap;
+    static final HashMap <String, Integer> notes;
+    static final ArrayList <SpeakSpecials> notesList;
+    static boolean init;
+
+    static public class SpeakSpecials
+    {
+        public String mnemonic;
+        public String codes;
+        SpeakSpecials(String m, String c)
+        {
+            mnemonic = m;
+            codes = c;
+            codeMap.put(mnemonic.substring(1), codes);
+            
+        }
+        
+    }
+    
     static
     {
-        allSamples = null;
+        init = false;
+        notes = new HashMap <String, Integer>();
+        notesList = new ArrayList <SpeakSpecials>();
+        codeMap = new HashMap<String, String>();
+        allSamples = new SpeakJetMSA[127];
+        allSpecials = new ArrayList<SpeakSpecials>();
+        pauseSamples = new SpeakJetMSA[7];
+        playList = new HashMap<Integer, MemSound>();
+
+        notes.put("C0"	, 16); // 16.35 Hz 
+        notes.put("C#0"	, 17); // 17.32 Hz
+        notes.put("D0"  , 18); // 18.35 Hz
+        notes.put("D#0"	, 19); // 19.45 Hz
+        notes.put("E0"	, 21); // 20.60 Hz
+        notes.put("F0"	, 22); // 21.83 Hz 
+        notes.put("F#0"	, 23); // 23.12 Hz 
+        notes.put("G0"	, 24); // 24.50 Hz 
+        notes.put("G#0" , 26); // 25.96 Hz 
+        notes.put("A0"	, 28); // 27.50 Hz 
+        notes.put("A#0" , 29); // 29.14 Hz 
+        notes.put("B0"	, 31); // 30.87 Hz 
+        notes.put("C1"	, 33); // 32.70 Hz 
+        notes.put("C#1"	, 35); // 34.65 Hz 
+        notes.put("D1"	, 37); // 36.71 Hz 
+        notes.put("D#1" , 39); // 38.89 Hz 
+        notes.put("E1"	, 41); // 41.20 Hz 
+        notes.put("F1"	, 44); // 43.65 Hz 
+        notes.put("F#1"	, 46); // 46.25 Hz 
+        notes.put("G1"	, 49); // 49.00 Hz 
+        notes.put("G#1"	, 52); // 51.91 Hz 
+        notes.put("A1"  , 55); // 55.00 Hz 
+        notes.put("A#1" , 58); // 58.27 Hz 
+        notes.put("B1"	, 62); // 61.74 Hz 
+        notes.put("C2"	, 65); // 65.41 Hz 
+        notes.put("C#2" , 69); // 69.30 Hz 
+        notes.put("D2"	, 73); // 73.42 Hz 
+        notes.put("D#2" , 78); // 77.78 Hz 
+        notes.put("E2"	, 82); // 82.41 Hz 
+        notes.put("F2"	, 87); // 87.31 Hz 
+        notes.put("F#2" , 93); // 92.50 Hz 
+        notes.put("G2"	, 98); // 98.00 Hz 
+        notes.put("G#2" , 104); // 103.83 Hz
+        notes.put("A2"	, 110); // 110.00 Hz
+        notes.put("A#2" , 117); // 116.54 Hz
+        notes.put("B2"	, 123); // 123.47 Hz
+        notes.put("C3"	, 131); // 130.81 Hz
+        notes.put("C#3" , 139); // 138.59 Hz
+        notes.put("D3"	, 147); // 146.83 Hz
+        notes.put("D#3" , 156); // 155.56 Hz
+        notes.put("E3"	, 165); // 164.81 Hz
+        notes.put("F3"	, 175); // 174.61 Hz
+        notes.put("F#3" , 185); // 185.00 Hz
+        notes.put("G3"	, 196); // 196.00 Hz
+        notes.put("G#3" , 208); // 207.65 Hz
+        notes.put("A3"	, 220); // 220.00 Hz
+        notes.put("A#3" , 233); // 233.08 Hz
+        notes.put("B3"	, 247); // 246.94 Hz    
+        
+        notesList.add(new SpeakSpecials("\\NTC0"	, "22, 16")); // 16.35 Hz 
+        notesList.add(new SpeakSpecials("\\NTC#0"	, "22, 17")); // 17.32 Hz
+        notesList.add(new SpeakSpecials("\\NTD0"        , "22, 18")); // 18.35 Hz
+        notesList.add(new SpeakSpecials("\\NTD#0"	, "22, 19")); // 19.45 Hz
+        notesList.add(new SpeakSpecials("\\NTE0"	, "22, 21")); // 20.60 Hz
+        notesList.add(new SpeakSpecials("\\NTF0"	, "22, 22")); // 21.83 Hz 
+        notesList.add(new SpeakSpecials("\\NTF#0"	, "22, 23")); // 23.12 Hz 
+        notesList.add(new SpeakSpecials("\\NTG0"	, "22, 24")); // 24.50 Hz 
+        notesList.add(new SpeakSpecials("\\NTG#0"       , "22, 26")); // 25.96 Hz 
+        notesList.add(new SpeakSpecials("\\NTA0"	, "22, 28")); // 27.50 Hz 
+        notesList.add(new SpeakSpecials("\\NTA#0"       , "22, 29")); // 29.14 Hz 
+        notesList.add(new SpeakSpecials("\\NTB0"	, "22, 31")); // 30.87 Hz 
+        notesList.add(new SpeakSpecials("\\NTC1"	, "22, 33")); // 32.70 Hz 
+        notesList.add(new SpeakSpecials("\\NTC#1"	, "22, 35")); // 34.65 Hz 
+        notesList.add(new SpeakSpecials("\\NTD1"	, "22, 37")); // 36.71 Hz 
+        notesList.add(new SpeakSpecials("\\NTD#1"       , "22, 39")); // 38.89 Hz 
+        notesList.add(new SpeakSpecials("\\NTE1"	, "22, 41")); // 41.20 Hz 
+        notesList.add(new SpeakSpecials("\\NTF1"	, "22, 44")); // 43.65 Hz 
+        notesList.add(new SpeakSpecials("\\NTF#1"	, "22, 46")); // 46.25 Hz 
+        notesList.add(new SpeakSpecials("\\NTG1"	, "22, 49")); // 49.00 Hz 
+        notesList.add(new SpeakSpecials("\\NTG#1"	, "22, 52")); // 51.91 Hz 
+        notesList.add(new SpeakSpecials("\\NTA1"        , "22, 55")); // 55.00 Hz 
+        notesList.add(new SpeakSpecials("\\NTA#1"       , "22, 58")); // 58.27 Hz 
+        notesList.add(new SpeakSpecials("\\NTB1"	, "22, 62")); // 61.74 Hz 
+        notesList.add(new SpeakSpecials("\\NTC2"	, "22, 65")); // 65.41 Hz 
+        notesList.add(new SpeakSpecials("\\NTC#2"       , "22, 69")); // 69.30 Hz 
+        notesList.add(new SpeakSpecials("\\NTD2"	, "22, 73")); // 73.42 Hz 
+        notesList.add(new SpeakSpecials("\\NTD#2"       , "22, 78")); // 77.78 Hz 
+        notesList.add(new SpeakSpecials("\\NTE2"	, "22, 82")); // 82.41 Hz 
+        notesList.add(new SpeakSpecials("\\NTF2"	, "22, 87")); // 87.31 Hz 
+        notesList.add(new SpeakSpecials("\\NTF#2"       , "22, 93")); // 92.50 Hz 
+        notesList.add(new SpeakSpecials("\\NTG2"	, "22, 98")); // 98.00 Hz 
+        notesList.add(new SpeakSpecials("\\NTG#2"       , "22, 104")); // 103.83 Hz
+        notesList.add(new SpeakSpecials("\\NTA2"	, "22, 110")); // 110.00 Hz
+        notesList.add(new SpeakSpecials("\\NTA#2"       , "22, 117")); // 116.54 Hz
+        notesList.add(new SpeakSpecials("\\NTB2"	, "22, 123")); // 123.47 Hz
+        notesList.add(new SpeakSpecials("\\NTC3"	, "22, 131")); // 130.81 Hz
+        notesList.add(new SpeakSpecials("\\NTC#3"       , "22, 139")); // 138.59 Hz
+        notesList.add(new SpeakSpecials("\\NTD3"	, "22, 147")); // 146.83 Hz
+        notesList.add(new SpeakSpecials("\\NTD#3"       , "22, 156")); // 155.56 Hz
+        notesList.add(new SpeakSpecials("\\NTE3"	, "22, 165")); // 164.81 Hz
+        notesList.add(new SpeakSpecials("\\NTF3"	, "22, 175")); // 174.61 Hz
+        notesList.add(new SpeakSpecials("\\NTF#3"       , "22, 185")); // 185.00 Hz
+        notesList.add(new SpeakSpecials("\\NTG3"	, "22, 196")); // 196.00 Hz
+        notesList.add(new SpeakSpecials("\\NTG#3"       , "22, 208")); // 207.65 Hz
+        notesList.add(new SpeakSpecials("\\NTA3"	, "22, 220")); // 220.00 Hz
+        notesList.add(new SpeakSpecials("\\NTA#3"       , "22, 233")); // 233.08 Hz
+        notesList.add(new SpeakSpecials("\\NTB3"	, "22, 247")); // 246.94 Hz   
+         loadSamples();
     }
-    static class SpeakJetMSA
+    public static class SpeakJetMSA
     {
-        int code = -1;
-        String phoneme="";
-        String sampleWords="";
+        public int code = -1;
+        public String phoneme="";
+        public String sampleWords="";
         int timing=-1;
         String type = "";
         MemSound sample=null;
@@ -42,6 +170,7 @@ public class VecVoxSamples {
         {
             code = c;
             phoneme = p;
+            codeMap.put(phoneme, ""+c);
             sampleWords = sw;
             timing = t;
             type = ty;
@@ -53,31 +182,61 @@ public class VecVoxSamples {
             {
                 playList.put(code, sample);
             }
-/*
-            sample.play();
-            try
-            {
-            while (sample.getPosition()< sample.getLeftData().length-10) 
-                Thread.sleep(10);
-                
-            }
-            catch (Throwable e)
-            {
-                
-            }
-       */
         }
     }
     
-    public static boolean loadSamples()
+    public static ArrayList<SpeakSpecials> getAllSpecials()
     {
-        if (allSamples != null) return true;
-        allSamples = new SpeakJetMSA[128];
-        pauseSamples = new SpeakJetMSA[7];
-        playList = new HashMap<Integer, MemSound>();
+        loadSamples();
+        return allSpecials;
+    }
+    public static SpeakJetMSA[] getAllSamples()
+    {
+        loadSamples();
+        return allSamples;
+    }
+    public static HashMap<String, String> getCodeMap()
+    {
+        loadSamples();
+        return codeMap;
+    }
+    
+    private static boolean loadSamples()
+    {
+        if (init) return true;
+        for (int i=0; i< 256; i++)
+        {
+            codeMap.put(""+i, ""+i);
+        }
+        
+        allSpecials.add(new SpeakSpecials("\\P0", "0"));
+        allSpecials.add(new SpeakSpecials("\\P1", "1"));
+        allSpecials.add(new SpeakSpecials("\\P2", "2"));
+        allSpecials.add(new SpeakSpecials("\\P3", "3"));
+        allSpecials.add(new SpeakSpecials("\\P4", "4"));
+        allSpecials.add(new SpeakSpecials("\\P5", "5"));
+        allSpecials.add(new SpeakSpecials("\\P6", "6"));
+        allSpecials.add(new SpeakSpecials("\\FAST", "7"));
+        allSpecials.add(new SpeakSpecials("\\SLOW", "8"));
+        allSpecials.add(new SpeakSpecials("\\SOFT", "8"));
+        allSpecials.add(new SpeakSpecials("\\STRESS", "14"));
+        allSpecials.add(new SpeakSpecials("\\RELAX", "15"));
+        allSpecials.add(new SpeakSpecials("\\VOLUME", "20, x (96)"));
+        allSpecials.add(new SpeakSpecials("\\SPEED", "21, x (114)"));
+        allSpecials.add(new SpeakSpecials("\\PITCH", "22, x (88)"));
+        allSpecials.add(new SpeakSpecials("\\BEND", "23, x (5)"));
+        allSpecials.add(new SpeakSpecials("\\REPEAT", "26, x (1)"));
+        allSpecials.add(new SpeakSpecials("\\DELAY", "30, x (0)"));
+        allSpecials.add(new SpeakSpecials("\\RESET", "31"));
+        allSpecials.add(new SpeakSpecials("\\VOX_TERM", "255"));
         
         
-
+        for (SpeakSpecials sps: notesList)
+        {
+            allSpecials.add(sps); // pitch command
+        }
+        
+        
         int s=0;
         allSamples[s++] = new SpeakJetMSA(128 , "IY",   "See, Even, Feed", 70, "Voiced Long Vowel");
         allSamples[s++] = new SpeakJetMSA(129 , "IH",   "Sit, Fix, Pin", 70, "Voiced Short Vowel");
@@ -206,7 +365,8 @@ public class VecVoxSamples {
         allSamples[s++] = new SpeakJetMSA(252 , "M0",   "Sonar Ping", 125, "Miscellaneous");
         allSamples[s++] = new SpeakJetMSA(253 , "M1",   "Pistol Shot", 250, "Miscellaneous");
         allSamples[s++] = new SpeakJetMSA(254 , "M2",   "WOW", 530, "Miscellaneous");
-
+        
+        
         pauseSamples[1] = new SpeakJetMSA(1 , "PA1",   "Pause1", 100, "Pause");
         pauseSamples[2] = new SpeakJetMSA(2 , "PA2",   "Pause2", 200, "Pause");
         pauseSamples[3] = new SpeakJetMSA(3 , "PA3",   "Pause3", 700, "Pause");
@@ -215,6 +375,7 @@ public class VecVoxSamples {
         pauseSamples[6] = new SpeakJetMSA(6 , "PA6",   "Pause6", 90, "Pause");
         
         ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("VecVox: samples loaded.", INFO);
+        init = true;
         return true;
     }
 

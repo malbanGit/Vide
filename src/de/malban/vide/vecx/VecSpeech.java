@@ -21,6 +21,7 @@ import de.malban.sound.tinysound.TinySound;
 import de.malban.sound.tinysound.internal.MemSound;
 import static de.malban.vide.vedi.sound.ibxm.IBXM.IBXM_MAXBUFFER;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.sound.sampled.AudioFormat;
 
@@ -122,7 +123,6 @@ public class VecSpeech implements PortAdapter, Serializable
     public VecSpeech(E8910 e)
     {
         VecVoiceSamples.loadSamples();
-        VecVoxSamples.loadSamples();
         commands = new int[C_LEN];
         soundBytes = new byte[IBXM_MAXBUFFER/2];
         e8910 = e;
@@ -149,7 +149,6 @@ public class VecSpeech implements PortAdapter, Serializable
         vv.VECSPEECH_PORT= VECSPEECH_PORT;
         vv.lowLevelState = lowLevelState;
         vv.deviceName = deviceName;
-//        for (int i=0; i<C_LEN; i++) vv.commands[i] = commands[i];
         vv.nextComandPoint = 0;
         vv.currentComandPoint = 0;
         vv.soundCycles = soundCycles;
@@ -166,7 +165,6 @@ public class VecSpeech implements PortAdapter, Serializable
     void initClone(E8910 e)
     {
         VecVoiceSamples.loadSamples();
-        VecVoxSamples.loadSamples();
         commands = new int[C_LEN];
         soundBytes = new byte[IBXM_MAXBUFFER/2];
         e8910 = e;
@@ -480,11 +478,6 @@ public class VecSpeech implements PortAdapter, Serializable
         addCommand(currentByteRead);
     }
 
-    // todo
-    // a) fill buffer with commands
-    // b) build a vecVoice stream
-    // c) execute commands on to be played samples (conversion)
-    // d) add to stream all samples/pauses
     void addCommand(int c)
     {
         commands[nextComandPoint] = c;
@@ -633,8 +626,6 @@ public class VecSpeech implements PortAdapter, Serializable
                         speakJetAcceptCommand(command);
                     continue;
                 }
-                if (command == 189)
-                    System.out.println("s");
                 // other wise load a "simple" sample
                 // preprocessing samples is done "while" the outbound buffer is filled
                 sample = VecVoxSamples.getSample(command);  
@@ -674,35 +665,26 @@ public class VecSpeech implements PortAdapter, Serializable
         if (spBend > 5) // default 5
         {
             // http://philippseifried.com/blog/2011/10/20/dynamic-audio-in-as3-part-3-robot-voice/
-            try
+            int shift = spBend-5;
+            shift = 360/shift;
+
+            double freqShiftPhase = 0; // phase of the sine wave used for frequency shifting 
+            double freqShiftDeltaPhase = shift*2*Math.PI/44100; // phase increase per sample 
+
+            for (int i=0; i< wavData.length; i+=2)
             {
-                int shift = spBend-5;
-                shift = 360/shift;
+                int lo = wavData[i]&0xff;
+                int hi = wavData[i+1]&0xff;
+                int sampleI = lo + (hi<<8);
+                if (sampleI>Short.MAX_VALUE) sampleI -= 65536;
 
-                double freqShiftPhase = 0; // phase of the sine wave used for frequency shifting 
-                double freqShiftDeltaPhase = shift*2*Math.PI/44100; // phase increase per sample 
+                double sampled = ((double)sampleI) / ((double)Short.MAX_VALUE);
+                freqShiftPhase += freqShiftDeltaPhase; 
+                double newSample = sampled *Math.sin(freqShiftPhase);                         
 
-                for (int i=0; i< wavData.length; i+=2)
-                {
-                    int lo = wavData[i]&0xff;
-                    int hi = wavData[i+1]&0xff;
-                    int sampleI = lo + (hi<<8);
-                    if (sampleI>Short.MAX_VALUE) sampleI -= 65536;
-
-                    double sampled = ((double)sampleI) / ((double)Short.MAX_VALUE);
-                    freqShiftPhase += freqShiftDeltaPhase; 
-                    double newSample = sampled *Math.sin(freqShiftPhase);                         
-
-                    sampleI = (int) (newSample*Short.MAX_VALUE);
-                    wavData[i+1] = (byte)((sampleI>>8)&0xff);
-                    wavData[i+0] = (byte)(sampleI & 0xff);
-                }
-
-
-            }
-            catch (Throwable e)
-            {
-                e.printStackTrace();
+                sampleI = (int) (newSample*Short.MAX_VALUE);
+                wavData[i+1] = (byte)((sampleI>>8)&0xff);
+                wavData[i+0] = (byte)(sampleI & 0xff);
             }
         }               
         boolean doTarsos = false;
@@ -711,16 +693,9 @@ public class VecSpeech implements PortAdapter, Serializable
         
         if (spPitch != 88) // default 88
         {
-            try
-            {
-                doTarsos = true;
-                currentFactor *= ((double)spPitch)/88.0;
-                rateTransposer = new RateTransposer(currentFactor);
-            }
-            catch (Throwable e)
-            {
-                e.printStackTrace();
-            }
+            doTarsos = true;
+            currentFactor *= ((double)spPitch)/88.0;
+            rateTransposer = new RateTransposer(currentFactor);
         }
         if (spTempo != 114) // default 114
         {
@@ -736,7 +711,7 @@ public class VecSpeech implements PortAdapter, Serializable
         if (nextFast)
         {
             nextFast = false;
-            currentFactor *= 2;
+            currentFactor *= 1.7;//2;
             doTarsos = true;
         }     
         if (doTarsos)
@@ -998,6 +973,86 @@ public class VecSpeech implements PortAdapter, Serializable
 		// cleanup
 	}
     }
+    
+    static Thread speaker = null;
+    static boolean stop = false;
+    static boolean running = false;
+    public static void speakSpeakJet(final ArrayList<Integer> commands)
+    {
+        if (speaker != null) return;
+        if (running) return;
+        running = true;
+        
+        speaker = new Thread() 
+        {
+            public void run() 
+            {
+                VecSpeech vecSpeech = new VecSpeech();
+                VecVoiceSamples.loadSamples();
+                vecSpeech.commands = new int[C_LEN];
+                vecSpeech.soundBytes = new byte[IBXM_MAXBUFFER/2];
+                for (int i=0; i<C_LEN; i++) vecSpeech.commands[i] = -1;
+                
+                vecSpeech.setVecVoice(false);
+                int commandPointer = 0;
+                long cycles = 0;
+                
+                try 
+                {
+                    Thread.sleep(10);
+                    try
+                    {
+                        while (running)
+                        {
+                            if (commandPointer < commands.size())
+                            {
+                                if (vecSpeech.isReady())
+                                {
+                                    vecSpeech.addCommand(commands.get(commandPointer++));
+                                }
+                            }
+                            vecSpeech.stepSound(cycles);      
+                            
+                            // x cycles = 1 ms
+                            // 1500000 = 1s
+                            // 150000 = 0,1s
+                            // 15000 = 0,01s
+                            // 1500 = 0,001s
+                            
+                            
+                            Thread.sleep(5);
+                            cycles = cycles + (5*1500);
+                            
+                            if (commandPointer == commands.size())
+                            {
+                                if (vecSpeech.nextComandPoint == vecSpeech.currentComandPoint)  // no command
+                                {
+                                    Thread.sleep(500);
+                                    running = false;
+                                }
+                            }
+                        }
+                        
+                                       
+                    }
+                    catch (final Throwable e)
+                    {
+                        e.printStackTrace();
+                    }
+                } 
+                catch(InterruptedException v) 
+                {
+                }
+
+                speaker = null;
+                running = false;
+            }  
+        };
+
+        speaker.setName("SpeakJet speaker...");
+        speaker.start();               
+    }
+    
 }
 
     //https://github.com/JorenSix/TarsosDSP

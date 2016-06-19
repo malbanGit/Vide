@@ -375,6 +375,8 @@ todoc:
  ld\1 #(lo (hival))<<8 | (lo (loval))
 brackets are needed if macro parameter hival/loval consists of an expression
 
+- vecspeech:
+ add new variables to cloning
 - test java version upon start!
 - doc prebuilt/postbuild scripts
 - analog jystick

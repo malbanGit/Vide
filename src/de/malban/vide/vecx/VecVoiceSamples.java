@@ -26,11 +26,11 @@ public class VecVoiceSamples {
     {
         allSamples = null;
     }
-    static class SP0256AL
+    public static class SP0256AL
     {
-        int code = -1;
-        String phoneme="";
-        String sampleWords="";
+        public int code = -1;
+        public String phoneme="";
+        public String sampleWords="";
         int timing=-1;
         MemSound sample=null;
         String filename="";
@@ -51,6 +51,10 @@ public class VecVoiceSamples {
                 playList.put(code, sample);
             }
         }
+    }
+    public static SP0256AL[] getAllSamples()
+    {
+        return allSamples;
     }
     
     public static boolean loadSamples()
@@ -129,6 +133,8 @@ public class VecVoiceSamples {
         allSamples[s++] = new SP0256AL(62,"EL",  "Saddle",190);	
         allSamples[s++] = new SP0256AL(63,"BB2", "Business",50);
 
+        
+        
         ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("VecVoice: samples loaded.", INFO);
         return true;
     }
