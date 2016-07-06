@@ -1991,6 +1991,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         {
             if (root == null) return;
 
+            int rowReal = jTree1.getRowForLocation(evt.getX(), evt.getY());
+            
             int row = jTree1.getClosestRowForLocation(evt.getX(), evt.getY());
             selectedTreePath = jTree1.getPathForLocation(evt.getX(), evt.getY());
             jTree1.setSelectionRow(row);
@@ -1998,6 +2000,18 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             if (jTree1.getSelectionPath() == null) return;
             if (((DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent()) == root)
             {
+                if (rowReal != row)
+                {
+                    jMenuItemModi.setEnabled(false);
+                    jMenuItemYM.setEnabled(false);
+                    jMenuItemASFX.setEnabled(false);
+                    jMenuItemRaster.setEnabled(false);
+                    jMenuItemVector.setEnabled(false);
+                    jPopupMenuTree.show(evt.getComponent(), evt.getX(),evt.getY());
+                    selectedTreeEntry = null;
+
+                    return;
+                }
                 jPopupMenuProjectProperties.show(evt.getComponent(), evt.getX(),evt.getY());
                 return;
             }
@@ -2308,7 +2322,17 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }//GEN-LAST:event_jButtonDebugActionPerformed
 
     private void jMenuItemVecSpeechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVecSpeechActionPerformed
-        VecSpeechPanel.showVecSpeechPanelNoModal(this);
+        String path = "";
+        if (inProject)
+        {
+            if (currentProject != null)
+            {
+                path = currentProject.getPath();
+                if (path.length()!=0)path+=File.separator;
+                path += currentProject.getProjectName()+File.separator;
+            }
+        }
+        VecSpeechPanel.showVecSpeechPanelNoModal(this, path);
     }//GEN-LAST:event_jMenuItemVecSpeechActionPerformed
 
     public String getLine(JEditorPane comp, int pos)
@@ -3193,6 +3217,19 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             
             shouldSave = true;
         }
+        
+        if ((project.getExtras() & Cartridge.FLAG_RAM_DS2430A) == Cartridge.FLAG_RAM_DS2430A)
+        {
+            Path include = Paths.get(".", "template", "VECTREX.I");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "VECTREX.I");
+
+            include = Paths.get(".", "template", "ds2430LowLevel.i");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2430LowLevel.i");
+            include = Paths.get(".", "template", "ds2430HighLevel.i");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2430HighLevel.i");
+            include = Paths.get(".", "template", "ds2430ExampleMain.template");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2430ExampleMain.asm");
+        }
 
 
         // set Tree to location
@@ -3447,6 +3484,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         }
                     }
                     
+                    boolean compiled = false;
                     // compile all
                     for (int b = 0; b<currentProject.getNumberOfBanks(); b++)
                     {
@@ -3485,7 +3523,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         String info = asm.getInfo();
                         asmOk = info.indexOf("0 errors detected.") >=0;
                         if (!asmOk) break;
-                        
+                        compiled = true;
+
                         
                         String filename = currentProject.getBankMainFiles().elementAt(b);
                         filename = path+currentProject.getProjectName()+File.separator+filename;
@@ -3499,8 +3538,22 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         org = filename + ".cnt";
                         banked = filename+"_"+(b) + ".cnt";
                         de.malban.util.UtilityFiles.move(org, banked);
-                        
-                        
+                    }
+                    if (!compiled)
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                printError("Nothing compiled, main not set? ");
+                                buildResult(false);
+                            }
+                        });                    
+                        one = null;
+                        jButtonAssemble.setEnabled(true);
+                        jButtonDebug.setEnabled(true);
+                        asmStarted = false;
+                        return;
                         
                     }
                     
@@ -3792,7 +3845,26 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         String pathOnly ="";
         String filenameOnly ="";
         String filenameBaseOnly ="";
-        Path p = Paths.get(selectedTreeEntry.pathAndName.toString());
+        Path p = null;
+        if (selectedTreeEntry != null)
+        {
+            p = Paths.get(selectedTreeEntry.pathAndName.toString());
+        }
+        else
+        {
+            if (inProject)
+            {
+                if (currentProject != null)
+                {
+                    String path = currentProject.getPath();
+                    if (path.length()!=0)path+=File.separator;
+                    path += currentProject.getProjectName()+File.separator;
+                    p = Paths.get(path);
+                }
+            }
+        }
+        if (p == null) return;
+        
         pathFull = p.toString();
         pathOnly = p.getParent().toString();
         filenameOnly = p.getFileName().toString();
@@ -3820,6 +3892,35 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         pathOnly = p.getParent().toString();
         filenameOnly = p.getFileName().toString();
         ModJPanel.showModPanelNoModal(pathFull, this);
+    }
+    
+    
+    // 0 error, cancle
+    // 1 = vecVox
+    // 2 = vecVoice
+    public void returnFromVecVoxPanel(int type)
+    {
+        if (type == 0) return; // cancel or error
+        if ((currentProject == null) || (!projectLoaded))
+        {
+            printWarning("Voice files were built, but no project is active.");
+            printWarning("Voice emulation in vecxi will not be active if run without a project!");
+        }
+        else
+        {
+            int extras = currentProject.getExtras();
+            if (type == 1)
+                extras = extras | Cartridge.FLAG_VEC_VOX;
+            if (type == 2)
+                extras = extras | Cartridge.FLAG_VEC_VOICE;
+            currentProject.setExtras(extras);
+            
+        }
+
+        refreshTree();
+        
+        scanTreeDirectory(selectedTreeEntry);
+        // reload entries;
     }
     public void returnFromModPanel(boolean d)
     {

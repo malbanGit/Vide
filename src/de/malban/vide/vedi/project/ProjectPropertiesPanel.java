@@ -785,7 +785,12 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jCheckBox1.setText("VecVoice");
 
-        jCheckBox2.setText("RAM DS2430A");
+        jCheckBox2.setText("eEprom DS2430A");
+        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
 
         jCheckBox3.setText("Lightpen Port 1");
         jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
@@ -827,7 +832,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBox3, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                    .addComponent(jCheckBox3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBox4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBox5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBox6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -858,7 +863,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         );
 
         jPanel3.add(jPanel5);
-        jPanel5.setBounds(517, 2, 134, 190);
+        jPanel5.setBounds(517, 2, 150, 190);
 
         jButtonPre.setLabel("configure script");
         jButtonPre.setPreferredSize(new java.awt.Dimension(90, 19));
@@ -1140,6 +1145,10 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             mProjectProperties.mProjectPostScriptClass = "";
         initScripts();
     }//GEN-LAST:event_jComboBoxPostClassActionPerformed
+
+    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     boolean wasMainSetManually = false;
 

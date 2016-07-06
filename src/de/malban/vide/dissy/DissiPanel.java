@@ -260,12 +260,12 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jButtonSearchNext2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableSource = buildTable();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jEditorPane1 = new javax.swing.JEditorPane();
         jTextFieldCommand = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTableSource = buildTable();
         jCheckBox3 = new javax.swing.JCheckBox();
         jButtonShowLabels2 = new javax.swing.JButton();
         jButtonCNTOutput = new javax.swing.JButton();
@@ -544,7 +544,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel2.add(jCheckBoxVectorSelect);
-        jCheckBoxVectorSelect.setBounds(2, 2, 17, 17);
+        jCheckBoxVectorSelect.setBounds(2, 2, 21, 21);
 
         jButtonShowVars.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/table_refresh.png"))); // NOI18N
         jButtonShowVars.setToolTipText("show variables");
@@ -751,7 +751,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 .addComponent(jTextFieldSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSearchNext2)
-                .addGap(0, 370, Short.MAX_VALUE))
+                .addGap(0, 346, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -774,19 +774,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setResizeWeight(1.0);
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(50, 50));
-
-        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        jEditorPane1.setEditable(false);
-        jScrollPane3.setViewportView(jEditorPane1);
-
-        jTextFieldCommand.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldCommandActionPerformed(evt);
-            }
-        });
-
         jTableSource.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -808,24 +795,32 @@ public class DissiPanel extends javax.swing.JPanel  implements
         });
         jScrollPane2.setViewportView(jTableSource);
 
+        jSplitPane1.setTopComponent(jScrollPane2);
+
+        jPanel3.setPreferredSize(new java.awt.Dimension(50, 50));
+
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        jEditorPane1.setEditable(false);
+        jScrollPane3.setViewportView(jEditorPane1);
+
+        jTextFieldCommand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCommandActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 876, Short.MAX_VALUE)
             .addComponent(jTextFieldCommand)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 876, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 6, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addGap(2, 2, 2)
                 .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1))
@@ -925,7 +920,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     .addComponent(jButtonShowLabels2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonVectrorScreenshot, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
                 .addGap(2, 2, 2)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );

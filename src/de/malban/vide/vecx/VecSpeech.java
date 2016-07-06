@@ -8,22 +8,27 @@ package de.malban.vide.vecx;
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.AudioProcessor;
-import be.tarsos.dsp.GainProcessor;
 import be.tarsos.dsp.WaveformSimilarityBasedOverlapAdd;
 import be.tarsos.dsp.WaveformSimilarityBasedOverlapAdd.Parameters;
 import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
 import be.tarsos.dsp.resample.RateTransposer;
 import de.malban.config.Configuration;
-import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
+import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.sound.tinysound.Stream;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.sound.tinysound.internal.MemSound;
+import de.malban.vide.vedi.sound.SampleJPanel;
 import static de.malban.vide.vedi.sound.ibxm.IBXM.IBXM_MAXBUFFER;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 
 /* Examinig the VecVox driver routines from alex herbert following guesses are made:
 
@@ -44,6 +49,7 @@ import javax.sound.sampled.AudioFormat;
 - but all datasheets and schemetics indicate that there is NO direct connection to any joystick port
 - to me, at the moment above guesses are the only explanation....
 
+    //https://github.com/JorenSix/TarsosDSP
 
 */
 
@@ -54,6 +60,37 @@ import javax.sound.sampled.AudioFormat;
  */
 public class VecSpeech implements PortAdapter, Serializable
 {
+    public static boolean DEBUG_WAV_OUT = false;
+
+    public static byte [] output = new byte[0];
+    static int sampleCount = 0;
+    public static boolean saveWave = false;
+    
+    
+    // playground while emulator testing
+    public static boolean enableCommands = true;
+    public static boolean blendEnable = true;
+    
+    
+    public static final int BLEND_DEFAULT = 15;
+    public static int blendLen = BLEND_DEFAULT; // in MilliSeconds
+    public static boolean removeSilence = true;
+    public static int maxNoise = 5; // abs(-32768 - + 32767)
+    public static boolean alignBlendToAmplitude = true;
+
+    public static int amplitudeThreshold = 10;    // determine same phase only, silence is not effected by this!
+    
+    boolean doSampleBlending = false;
+    boolean removeSilenceFromSample = true; // is set by emulation
+    boolean afterPause = true; // if directly after a pause, we do not remove silience!
+    int lastCommand = -1;
+
+    transient static byte[] nullBuffer = new byte[20];
+
+    
+    
+    
+    
     transient E8910 e8910;
     transient private static int UID_C = 0;
     
@@ -81,6 +118,7 @@ public class VecSpeech implements PortAdapter, Serializable
     int currentByteRead = 0;
     int bitsLoaded = 0;
     boolean inputMode = true;
+    boolean isVoiced = false;
     
     boolean midBaudSet = false;
     boolean midBaudValue = false;
@@ -99,10 +137,33 @@ public class VecSpeech implements PortAdapter, Serializable
     long oldCycles =0;
     int currentSamplePos = -1;
     byte[] wavData = null;
+    byte[] wavDataUsage = null;
+    byte[] wavDataLastEnd = null;
     
     public static final int NO_COMMAND = -1;
 
     transient byte[] soundBytes = null;
+    
+    boolean spNextFast = false;
+    boolean spNextSlow = false;
+    boolean spCommandMode = false;
+    double spVolume = ((double)(96)) / 127.0;
+    int spCommand = 0;
+    int spPitch = 88;
+    int spTempo = 114;
+    int spBend = 5;
+    int spRepeat = 0;
+    
+    // tinyAudio Format for one channel only
+    transient static final AudioFormat audioFormat = new AudioFormat(
+                    AudioFormat.Encoding.PCM_SIGNED, //linear signed PCM
+                    44100, //44.1kHz sampling rate
+                    16, //16-bit
+                    1, //1 channels fool
+                    2, //frame size 2 bytes (16-bit, 1 channel)
+                    44100,//44100, //same as sampling rate
+                    false //little-endian
+                    );        
     
     
     public void deinit()
@@ -155,6 +216,16 @@ public class VecSpeech implements PortAdapter, Serializable
         vv.oldCycles = oldCycles;
         vv.wavData = null;
         vv.currentSamplePos = -1;
+        
+        vv.spNextFast = spNextFast;
+        vv.spNextSlow = spNextSlow;
+        vv.spCommandMode = spCommandMode;
+        vv.spVolume = spVolume;
+        vv.spCommand = spCommand;
+        vv.spPitch = spPitch;
+        vv.spTempo = spTempo;
+        vv.spBend = spBend;
+        vv.spRepeat = spRepeat;
         return vv;
     }
     
@@ -525,17 +596,258 @@ public class VecSpeech implements PortAdapter, Serializable
             synchronized (line)
             {
                 int soundLength = line.available();
+                int lineWant = soundLength;
                 soundLength = fillSoundBuffer(soundLength);
                 soundLength = soundLength >soundBytes.length ? soundBytes.length : soundLength;
+
+//System.out.println("Line wants: "+lineWant+", line got: "+soundLength);                
                 if (soundLength>=0)
                 {
+// debug                    output = concat(output, soundBytes, soundLength);
                     line.write(soundBytes, 0, soundLength);
                 }
+                /* all debug
+                if (soundLength==0)
+                {
+                    saveWaveCollector();
+                    resetWaveCollector();
+
+// DEBUG                    ((StreamStreamWav1Channel)line).writeCollection();
+                }
+                */
             }
         }        
     }    
+    public static void resetWaveCollector()
+    {
+         output = new byte[0];
+    }
+
     
-    static byte[] nullBuffer = new byte[20];
+    public static void saveWaveCollector(byte[] out, String n)
+    {
+        if (!DEBUG_WAV_OUT) return;
+        String name = n+(sampleCount++)+".wav";
+        try
+        {
+            byte[] orgData16Bit2Channel  = out;
+            AudioFormat tinyformat = audioFormat;
+            AudioInputStream audioStream = new AudioInputStream( new ByteArrayInputStream(orgData16Bit2Channel) ,tinyformat, orgData16Bit2Channel.length/2 );
+            AudioFileFormat.Type targetType = SampleJPanel.findTargetType("wav");
+            AudioSystem.write(audioStream,  targetType, new File(name));
+        }
+        catch (Throwable e)
+        {
+            Configuration.getConfiguration().getDebugEntity().addLog(e, WARN);
+        }
+    }
+    
+    public static void saveWaveCollector()
+    {
+        if (output.length > 0)
+        saveWaveCollector(output, "Sample"+(sampleCount++));
+    }
+    
+    
+    // returns  back in MS if not found
+    int getLastPreviousNegativeToPositivePass(byte[] data, int ms) // 10 ms backwards
+    {
+        int sampleStartSearch = ms *44; // one millisecond worth of samples = 44,1
+        sampleStartSearch *= 2; //16 bit
+        int backPos = data.length - sampleStartSearch;
+        if (backPos<0) return -1;
+
+        if ((backPos%2) == 1) backPos--; // bit align 16 bit
+        
+        int posFound = backPos;
+        
+        
+        // find the next position, where the samples pass from minus to positive
+        int lastValue = 1;
+        while (posFound < data.length)
+        {
+            int newValue = bit16(data, posFound);
+            if (Math.abs(newValue)<amplitudeThreshold) newValue = 0;
+            
+            if ((lastValue <= 0) && ( newValue>0)) break;
+            lastValue = newValue;
+            posFound+=2;
+        }
+        if (posFound == data.length) 
+        {
+            // blend on ms
+            return backPos;
+//            return -1;
+        }
+        
+        return posFound;
+    }
+    
+    // return position of first byte where the data in data[] steps from -0 to +
+    int getNextPreviousNegativeToPositivePass(byte[] data, int maxSearch) 
+    {
+        int posFound = 0;
+        maxSearch = maxSearch/2;
+        maxSearch *= 2; // allign
+        
+        // find the next position, where the samples pass from zero/minus to positive
+        int lastValue = 1;
+        while (posFound < data.length)
+        {
+            int val = bit16(data, posFound);
+
+            if (Math.abs(val)<amplitudeThreshold) val = 0;
+            
+            if ((lastValue <= 0) && (val >0)) break;
+            lastValue = val;
+            posFound+=2;
+        }
+        if (posFound == data.length) return -1;
+        if (posFound >maxSearch) posFound = maxSearch;
+        
+        return posFound;
+    }
+    
+    // signed
+    int bit16(byte[] loHi, int pos)
+    {
+        int lo= loHi[pos]&0xff;
+        int hi= (loHi[pos+1]&0xff)*256;
+        int val = lo+hi;
+        if (val > Short.MAX_VALUE) val -= 65536;
+        return val;
+    }
+    
+    // the small array is
+    // blend into the beginning of "large" array
+    // in largeArray the first pass from - to + is searched and used for starting location
+    // this also means that
+    // silence is discarded
+    byte[] blendWavStartFrequence(byte[] smallArray, byte[] largeArray, boolean seekStartWave)
+    {
+        int pos = 0;
+
+        
+//saveWaveCollector(smallArray, "smallArray");        
+//saveWaveCollector(largeArray, "largeArray");        
+        
+        if (seekStartWave)
+            pos = getNextPreviousNegativeToPositivePass(largeArray, smallArray.length);
+        if (pos == -1) return concat(smallArray, largeArray);
+    
+        byte[] newArray = Arrays.copyOfRange(largeArray, pos, largeArray.length);
+
+//saveWaveCollector(newArray, "largeArrayAlign");        
+        
+        int i = 0;
+        while ((i+1 < smallArray.length) && (i+1 < newArray.length))
+        {
+            int val1 = bit16(newArray, i);
+            int val2 = bit16(smallArray, i);
+            int val = (val1+val2)/2;
+            newArray[i] = (byte) (val & 0xff);
+            newArray[i+1] = (byte) ((val>>8) & 0xff);
+            i+=2;
+        }
+        return newArray;
+    }
+    
+    // returns an array
+    // truncated on both sides 
+    // if values are |absolut| smaller/equal - maxNoise
+    byte[] removeSilence(byte[] data, int maxNoise)
+    {
+        int start = 0;
+        int end = (data.length-2);
+        
+        if ((end%2) == 1) end--;
+        int value = 0;
+        while (start<end) 
+        {
+            // 16 bit signed
+            value = bit16(data, start);
+
+
+            if (Math.abs(value) > maxNoise) break;
+            start+=2;
+        }
+        // find - to + 
+        if (value <0)
+        {
+            while (start > 0)
+            {
+                value = bit16(data, start);
+                
+                if (value >=0) break;
+                start -=2;
+            }
+        }
+        while (start > 0)
+        {
+            value = bit16(data, start);
+            if (value <0) break;
+            start -=2;
+        }
+        // start is now a wave start going from 0 to positive
+        // with its larged peak going over MaxNoise
+        
+        
+        
+        
+        while (end>start) 
+        {
+            // 16 bit signed
+            value = bit16(data, end);
+
+            if (Math.abs(value) > maxNoise) break;
+            end-=2;
+            
+        }
+        // looking for next - to +
+        if (value > 0)
+        {
+            while (end < data.length)
+            {
+                value = bit16(data, end);
+                if (value <=0) break;
+                end +=2;
+            }
+        }
+        while (end < data.length)
+        {
+            value = bit16(data, end);
+            if (value >0) break;
+            end +=2;
+        }
+        
+        byte[] outArray = Arrays.copyOfRange(data, start, end);
+//saveWaveCollector(outArray, "Cut");
+        
+        return outArray;
+    }
+    
+/*    
+    
+    
+    Not Done:
+    
+Stress can be accomplished in two ways. One is to cause
+vowels to play for a longer period of time. For example, in the
+word "extent" use the "Fast" command in front of the "EH" in the
+first syllable, which is unstressed and a "SLOW" command, or
+and additional "EH" in front of the "EH" in the second syllable
+which is stressed. A second way is to preceded the allophone
+with the "STRESS" and RELAX commands. The STRESS
+command duplicates the affect of slightly contracting the
+muscles of the mouth and the relax command duplicates the
+affects of slightly relaxing the muscles of the mouth. For
+example; "STRESS, IH" sounds more like (but not quite) the
+"IY" sound. Likewise, "RELAX, IY" sounds more like (but not
+quite) an "IH" sound. Note that if you elect to use the
+"STRESS" or "RELAX" command in combination with a
+phoneme that has been doubled, then two command will be
+needed, one in front of each of the phonemes.    
+*/
     int fillSoundBuffer(int maxSoundLength)
     {
         // start new sample
@@ -556,24 +868,93 @@ public class VecSpeech implements PortAdapter, Serializable
         // is fetched and it all starts from anew
         while (true)
         {
-            boolean enableCommands = true;
-            // current samplePos != allways means "wavData" contains still data we can copy
+            // current samplePos != -1 allways means "wavData" contains still data we can copy
             // there is a sample already loaded where we can get data from
             if (currentSamplePos != -1)
             {
+                if (currentSamplePos == 0)
+                {
+                    if (removeSilence)
+                    {
+                        if (!afterPause)
+                            if (removeSilenceFromSample)
+                                wavData = removeSilence(wavData, maxNoise);
+                    }
+                    if (lastCommand>=128)
+                        afterPause = false; // only reset pauseMode after a real sample
+                }
+                
                 if (!SPO256AL2)
                 {
                     if (enableCommands)
                     {
+                        // only done when (currentSamplePos == 0)
                         speakjetPreprocessWavWithCommand();
                     }
                 }
 
+                // first time in this sample...
+                // buffer is filled with preprocessed wave data
+                if (currentSamplePos == 0)
+                {
+                    if (!blendEnable)
+                    {
+                        wavDataUsage = wavData;
+                        wavDataLastEnd = new byte[0];
+                        doSampleBlending = false;
+                    }
+                    else
+                    {
+                        // get a "good" position 
+                        // that we can use for blending
+                        // within the current sample
+                        int pos = getLastPreviousNegativeToPositivePass(wavData, blendLen); // 10 ms backwards
+                        if (lastCommand >= 128)
+                            blendLen = BLEND_DEFAULT;
+                        if (pos == -1)
+                        {
+                            wavDataUsage = wavData;
+                            // if data can not blend, than we must copy it, so we do not lose the data
+                            if (wavDataLastEnd != null)
+                                wavDataUsage = concat(wavDataLastEnd, wavDataUsage);
+                            wavDataLastEnd = null;
+                            doSampleBlending = false;
+                        }
+                        else
+                        {
+                            wavDataUsage = new byte[pos];
+                            System.arraycopy(wavData, 0, wavDataUsage, 0, pos);
+
+                            // last blend is defined 
+                            // a) if a pause or word and was reached than false
+                            // b) if a phoneme ends with a "pause" than is false
+                            // else (if defined at all) true
+
+                            if (doSampleBlending) 
+                            {
+                                wavDataUsage = blendWavStartFrequence(wavDataLastEnd, wavDataUsage, alignBlendToAmplitude);
+                            }
+                            else
+                            {
+                                // if data should not blend, than we must copy it, so we do not lose the data
+                                if (wavDataLastEnd != null)
+                                    wavDataUsage = concat(wavDataLastEnd, wavDataUsage);
+                            }
+                            // remember the current (meaning NEXT) possible blending data
+                            wavDataLastEnd = new byte[wavData.length-pos];
+                            doSampleBlending = true;
+                            System.arraycopy(wavData, pos, wavDataLastEnd, 0, wavData.length-pos);                        
+                        }
+                    }
+                    // default is to remove silence
+                    removeSilenceFromSample = true;
+                }
+
                 // 
-                int rest = wavData.length - currentSamplePos;
+                int rest = wavDataUsage.length - currentSamplePos;
                 if (rest > restBuffer)
                 {
-                    System.arraycopy(wavData, currentSamplePos, soundBytes, outBufferPos, restBuffer);
+                    System.arraycopy(wavDataUsage, currentSamplePos, soundBytes, outBufferPos, restBuffer);
                     currentSamplePos+=restBuffer;
                     size = maxSoundLength;
                     outBufferPos += restBuffer; 
@@ -584,10 +965,10 @@ public class VecSpeech implements PortAdapter, Serializable
                 }
                 else
                 {
-                    System.arraycopy(wavData, currentSamplePos, soundBytes, outBufferPos, rest);
+                    System.arraycopy(wavDataUsage, currentSamplePos, soundBytes, outBufferPos, rest);
                     outBufferPos += rest; 
                     currentSamplePos = -1;
-                    wavData = null;
+                    wavDataUsage = null;
                     restBuffer -= rest;
                     size = size + rest;
                     // wavData Buffer is now "empty"
@@ -599,9 +980,53 @@ public class VecSpeech implements PortAdapter, Serializable
             
             // a new sample must be loaded
             int command = getNextCommand();
-            if (command == NO_COMMAND) break; // no command -> we can do nothing queue is empty
+
+            lastCommand = command;
+            if (command == NO_COMMAND)
+            {
+                // check if there are lose ends from blending
+                if (doSampleBlending)
+                {
+                    doSampleBlending = false;
+                    wavDataUsage = wavDataLastEnd;
+                    
+                    currentSamplePos = 0;
+                    // 
+                    int rest = wavDataUsage.length - currentSamplePos;
+                    if (rest > restBuffer)
+                    {
+                        System.arraycopy(wavDataUsage, currentSamplePos, soundBytes, outBufferPos, restBuffer);
+                        currentSamplePos+=restBuffer;
+                        size = maxSoundLength;
+                        outBufferPos += restBuffer; 
+                        restBuffer = 0;
+                                              
+                        
+                        // out buffer for line ist completely filled
+                        // so we break the loop and go back
+                        break;
+                    }
+                    else
+                    {
+                        System.arraycopy(wavDataUsage, currentSamplePos, soundBytes, outBufferPos, rest);
+                        outBufferPos += rest; 
+                        currentSamplePos = -1;
+                        wavDataUsage = null;
+                        restBuffer -= rest;
+                        size = size + rest;
+                        // wavData Buffer is now "empty"
+                        // we can continue - or do nothing since by doing nothing we would also
+                        // go to the next command fetch ...
+                        continue;
+                    }
+
+                }
+                
+                
+                break; // no command -> we can do nothing queue is empty
+            }
             
-            System.out.println("SpeechCommand: "+command);
+            // System.out.println("SpeechCommand: "+command);
             // now lets get a new sample
             MemSound sample=null;
             if (SPO256AL2) // old chip?
@@ -623,12 +1048,30 @@ public class VecSpeech implements PortAdapter, Serializable
                 else if (command <128) // < 128 are all comands
                 {
                     if (enableCommands)
+                    {
                         speakJetAcceptCommand(command);
+                    }
                     continue;
                 }
                 // other wise load a "simple" sample
                 // preprocessing samples is done "while" the outbound buffer is filled
-                sample = VecVoxSamples.getSample(command);  
+                sample = VecVoxSamples.getSample(command);
+
+                if (command >= 128)
+                {
+                    if (command < 255)
+                    {
+                        VecVoxSamples.SpeakJetMSA sp = VecVoxSamples.allSamples[command-128];
+                        if (!afterPause)
+                            if (sp.stoppedSound)
+                                removeSilenceFromSample = false;
+                        isVoiced = (command<182);
+                    }
+                    else
+                    {
+                        isVoiced = false;
+                    }
+                }
             }
             if (sample == null)
             {
@@ -645,13 +1088,11 @@ public class VecSpeech implements PortAdapter, Serializable
         return size;
     }
     
-    // idea - not done
     // spare the last X byte of sample data
     // and use them to "blend" with next sample data
     // this might lead to smoother transitions between samples
-    // but whta probably must be done is: align to frequency window of
+    // but what should must be done is: align to frequency window of
     // both samples, otherwise the interference might negate data, that is NOT what we want!
-    
     
     // preprocessing
     // changes wav data in "wavData"
@@ -662,6 +1103,9 @@ public class VecSpeech implements PortAdapter, Serializable
         // only preprocess "fresh" data
         if (currentSamplePos != 0) return;
         
+        boolean enabled = false;
+        
+//if (enabled)
         if (spBend > 5) // default 5
         {
             // http://philippseifried.com/blog/2011/10/20/dynamic-audio-in-as3-part-3-robot-voice/
@@ -691,27 +1135,52 @@ public class VecSpeech implements PortAdapter, Serializable
         double currentFactor = 1.0;
         RateTransposer rateTransposer = null;
         
-        if (spPitch != 88) // default 88
+// many cracks        
+//if (enabled)
+        if ((spPitch != 88) && (isVoiced))// default 88
         {
             doTarsos = true;
-            currentFactor *= ((double)spPitch)/88.0;
+            
+            double tmp = 1.0/(((double)spPitch)/88.0);
+            tmp = tmp -1;
+            tmp = tmp/5;
+            tmp = tmp +1;
+
+            currentFactor *=  tmp;
+            doTarsos = true;
+            
+            
+            currentFactor *= tmp;
+            
+            // tarsos hardcoded restrictions
+            if (currentFactor<0.1) currentFactor = 0.1;
+            if (currentFactor>4.0) currentFactor = 4.0;
+            
             rateTransposer = new RateTransposer(currentFactor);
         }
+
+// some cracks
+//if (enabled)
         if (spTempo != 114) // default 114
         {
-            currentFactor *= ((double)spTempo)/114.0;
+            double tmp = (((double)spTempo)/114.0);
+            if (tmp <1.0) tmp *= 0.9;
+            if (tmp >1.0) tmp *= 1.1;
+            currentFactor *=  tmp;
             doTarsos = true;
-        }                
-        if (nextSlow)
+        }       
+// ok
+        if (spNextSlow)
         {
-            nextSlow = false;
-            currentFactor *= 0.5;
+            spNextSlow = false;
+            currentFactor *= 0.8;
             doTarsos = true;
         }
-        if (nextFast)
+// ok
+        if (spNextFast)
         {
-            nextFast = false;
-            currentFactor *= 1.7;//2;
+            spNextFast = false;
+            currentFactor *= 1.2;//2;
             doTarsos = true;
         }     
         if (doTarsos)
@@ -719,17 +1188,38 @@ public class VecSpeech implements PortAdapter, Serializable
             try
             {
                 WaveformSimilarityBasedOverlapAdd wsola;
-                GainProcessor gain;
+//                GainProcessor gain;
                 TarsosReceiver receiver = new TarsosReceiver();
-                gain = new GainProcessor(1.0);
-                Parameters wparam = new Parameters(currentFactor,44100,20, 15,10);
+//                gain = new GainProcessor(1.0);
+
+                int sampleRate = 44100;
+                int sequenceWindowInMS = 20; // slower -> should be bigger, faster -> should be smaller
+                int overlapSeekingWindowsSizeInMS = 15; 
+                int overlapLength = 10;
+                
+                
+                if (currentFactor<1) 
+                {
+                    sequenceWindowInMS = 30;
+                    overlapSeekingWindowsSizeInMS = 15;
+                    overlapLength = 5;
+                    
+                }
+                if (currentFactor>1) 
+                {
+                    sequenceWindowInMS = 15;
+                    overlapSeekingWindowsSizeInMS = 8;
+                    overlapLength = 4;
+                }
+                
+                Parameters wparam = new Parameters(currentFactor,sampleRate,sequenceWindowInMS, overlapSeekingWindowsSizeInMS, overlapLength);
                 wsola = new WaveformSimilarityBasedOverlapAdd(wparam);
                 AudioDispatcher dispatcher = AudioDispatcherFactory.fromByteArray(wavData, audioFormat,wsola.getInputBufferSize(),wsola.getOverlap());
                 wsola.setDispatcher(dispatcher);
                 dispatcher.addAudioProcessor(wsola); 
                 if (rateTransposer != null)
                     dispatcher.addAudioProcessor(rateTransposer); 
-                dispatcher.addAudioProcessor(gain);
+//                dispatcher.addAudioProcessor(gain);
                 dispatcher.addAudioProcessor(receiver);
                 dispatcher.run();
                 wavData = receiver.finalBuffer;
@@ -790,6 +1280,7 @@ public class VecSpeech implements PortAdapter, Serializable
 
             wavData = delayBuffer;
             currentSamplePos = 0;
+            isVoiced = false;
         }                      
     }
     
@@ -802,6 +1293,7 @@ public class VecSpeech implements PortAdapter, Serializable
     {
         if (command == 0) // pause 0ms
         {
+            removeSilenceFromSample = false; // pause should aknowledege silence
         }
         else if (command == 1) // pause 100ms, with ramping after last command
         {
@@ -813,9 +1305,14 @@ public class VecSpeech implements PortAdapter, Serializable
             // we guess 20ms down
             // 20 up
             // the rest silent, so we pause 60 ms :-)
-            MemSound sample = VecVoxSamples.getPauseSample(5);  
+            MemSound sample = VecVoxSamples.getPauseSample(1);  
             wavData = Arrays.copyOf(sample.getLeftData(), sample.getLeftData().length);
             currentSamplePos = 0;
+            removeSilenceFromSample = false; // pause should aknowledege silence
+            afterPause = true;
+            blendEnable = true;
+            blendLen = 30;
+            isVoiced = false;
         }
         else if (command == 2) // pause 200ms, with ramping after last command
         {
@@ -827,9 +1324,14 @@ public class VecSpeech implements PortAdapter, Serializable
             // we guess 50ms down
             // 50 up
             // the rest silent, so we pause 100 ms :-)
-            MemSound sample = VecVoxSamples.getPauseSample(1);  
+            MemSound sample = VecVoxSamples.getPauseSample(2);  
             wavData = Arrays.copyOf(sample.getLeftData(), sample.getLeftData().length);
             currentSamplePos = 0;
+            removeSilenceFromSample = false; // pause should aknowledege silence
+            afterPause = true;
+            blendEnable = true;
+            blendLen = 60;
+            isVoiced = false;
         }
         else if (command == 3) // pause 700ms, with ramping after last command
         {
@@ -842,32 +1344,53 @@ public class VecSpeech implements PortAdapter, Serializable
             MemSound sample = VecVoxSamples.getPauseSample(3);  
             wavData = Arrays.copyOf(sample.getLeftData(), sample.getLeftData().length);
             currentSamplePos = 0;
+            removeSilenceFromSample = false; // pause should aknowledege silence
+            afterPause = true;
+            blendEnable = true;       
+            blendLen = 200;
+            isVoiced = false;
         }
+        
         else if (command == 4) // pause 30ms after last command
         {
             MemSound sample = VecVoxSamples.getPauseSample(4);  
             wavData = Arrays.copyOf(sample.getLeftData(), sample.getLeftData().length);
             currentSamplePos = 0;
+            removeSilenceFromSample = false; // pause should aknowledege silence
+            afterPause = true;
+            blendEnable = true;
+            blendLen = 30/3;
+            isVoiced = false;
         }
         else if (command == 5) // pause 60ms after last command
         {
             MemSound sample = VecVoxSamples.getPauseSample(5);  
             wavData = Arrays.copyOf(sample.getLeftData(), sample.getLeftData().length);
             currentSamplePos = 0;
+            removeSilenceFromSample = false; // pause should aknowledege silence
+            afterPause = true;
+            blendEnable = true;
+            blendLen = 60/3;
+            isVoiced = false;
         }
         else if (command == 6) // pause 90ms after last command
         {
             MemSound sample = VecVoxSamples.getPauseSample(6);  
             wavData = Arrays.copyOf(sample.getLeftData(), sample.getLeftData().length);
             currentSamplePos = 0;
+            removeSilenceFromSample = false; // pause should aknowledege silence
+            afterPause = true;
+            blendEnable = true;
+            blendLen = 90/3;
+            isVoiced = false;
         }
         else if (command == 7) // fast play in double time
         {
-            nextFast = true;
+            spNextFast = true;
         }
         else if (command == 8) // slow play in 1,5 time
         {
-            nextSlow = true;
+            spNextSlow = true;
         }
         else if (command == 20) // master volume
         {
@@ -906,35 +1429,25 @@ public class VecSpeech implements PortAdapter, Serializable
             spTempo = 114;
             spBend = 5;
             line.setVolume(spVolume);
+            blendEnable = true;
+            afterPause = true;
+            blendLen = BLEND_DEFAULT;
+            isVoiced = false;
         }
     }    
-    
-    
-    boolean spCommandMode = false;
-    int spCommand = 0;
-    double spVolume = ((double)(96)) / 127.0;
-    int spPitch = 88;
-    int spTempo = 114;
-    int spBend = 5;
-    boolean nextFast = false;
-    boolean nextSlow = false;
-    int spRepeat = 0;
-    
-    // tinyAudio Format for one channel only
-    static final AudioFormat audioFormat = new AudioFormat(
-                    AudioFormat.Encoding.PCM_SIGNED, //linear signed PCM
-                    44100, //44.1kHz sampling rate
-                    16, //16-bit
-                    1, //2 channels fool
-                    2, //frame size 4 bytes (16-bit, 2 channel)
-                    44100,//44100, //same as sampling rate
-                    false //little-endian
-                    );        
-    
     public static byte[] concat(byte[] a, byte[] b) 
     {
        int aLen = a.length;
        int bLen = b.length;
+       byte[] c= new byte[aLen+bLen];
+       System.arraycopy(a, 0, c, 0, aLen);
+       System.arraycopy(b, 0, c, aLen, bLen);
+       return c;
+    }	
+    public static byte[] concat(byte[] a, byte[] b, int bMax) 
+    {
+       int aLen = a.length;
+       int bLen = bMax;
        byte[] c= new byte[aLen+bLen];
        System.arraycopy(a, 0, c, 0, aLen);
        System.arraycopy(b, 0, c, aLen, bLen);
@@ -973,12 +1486,25 @@ public class VecSpeech implements PortAdapter, Serializable
 		// cleanup
 	}
     }
-    
+
+    public static void stopSpeaking()
+    {
+        if (speaker==null) return;
+        running = false;
+        try
+        {
+            while (speaker!=null) Thread.sleep(10);
+        }
+        catch (Throwable e)
+        {
+        }
+    }
     static Thread speaker = null;
     static boolean stop = false;
     static boolean running = false;
-    public static void speakSpeakJet(final ArrayList<Integer> commands)
+    public static void speak(final ArrayList<Integer> commands, final boolean isVecVoice)
     {
+        stopSpeaking();
         if (speaker != null) return;
         if (running) return;
         running = true;
@@ -988,12 +1514,11 @@ public class VecSpeech implements PortAdapter, Serializable
             public void run() 
             {
                 VecSpeech vecSpeech = new VecSpeech();
-                VecVoiceSamples.loadSamples();
                 vecSpeech.commands = new int[C_LEN];
                 vecSpeech.soundBytes = new byte[IBXM_MAXBUFFER/2];
                 for (int i=0; i<C_LEN; i++) vecSpeech.commands[i] = -1;
                 
-                vecSpeech.setVecVoice(false);
+                vecSpeech.setVecVoice(isVecVoice);
                 int commandPointer = 0;
                 long cycles = 0;
                 
@@ -1002,6 +1527,7 @@ public class VecSpeech implements PortAdapter, Serializable
                     Thread.sleep(10);
                     try
                     {
+                        int overloop =0;
                         while (running)
                         {
                             if (commandPointer < commands.size())
@@ -1027,8 +1553,13 @@ public class VecSpeech implements PortAdapter, Serializable
                             {
                                 if (vecSpeech.nextComandPoint == vecSpeech.currentComandPoint)  // no command
                                 {
-                                    Thread.sleep(500);
-                                    running = false;
+                                    overloop++;
+                                    
+                                    if (overloop == 50)
+                                    {
+                                        Thread.sleep(500);
+                                        running = false;
+                                    }
                                 }
                             }
                         }
@@ -1044,16 +1575,16 @@ public class VecSpeech implements PortAdapter, Serializable
                 {
                 }
 
+                if (saveWave)
+                    VecSpeech.saveWaveCollector();
                 speaker = null;
                 running = false;
             }  
         };
-
         speaker.setName("SpeakJet speaker...");
         speaker.start();               
     }
-    
 }
 
-    //https://github.com/JorenSix/TarsosDSP
+
 

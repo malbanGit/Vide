@@ -492,7 +492,7 @@
             <Container class="javax.swing.JPanel" name="jPanel5">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="517" y="2" width="-1" height="190"/>
+                  <AbsoluteConstraints x="517" y="2" width="150" height="190"/>
                 </Constraint>
               </Constraints>
 
@@ -503,7 +503,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jCheckBox2" max="32767" attributes="0"/>
-                              <Component id="jCheckBox3" pref="114" max="32767" attributes="0"/>
+                              <Component id="jCheckBox3" max="32767" attributes="0"/>
                               <Component id="jCheckBox4" alignment="1" max="32767" attributes="0"/>
                               <Component id="jCheckBox5" max="32767" attributes="0"/>
                               <Component id="jCheckBox6" alignment="0" max="32767" attributes="0"/>
@@ -548,8 +548,11 @@
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox2">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="RAM DS2430A"/>
+                    <Property name="text" type="java.lang.String" value="eEprom DS2430A"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox2ActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="jCheckBox3">
                   <Properties>

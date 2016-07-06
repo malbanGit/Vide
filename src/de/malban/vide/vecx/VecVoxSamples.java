@@ -11,9 +11,6 @@ import de.malban.sound.tinysound.internal.MemSound;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -44,6 +41,50 @@ public class VecVoxSamples {
             
         }
         
+    }
+    public static class SpeakJetMSA
+    {
+        public int code = -1;
+        public String phoneme="";
+        public String sampleWords="";
+        public boolean stoppedSound = false;
+        int timing=-1;
+        String type = "";
+        MemSound sample=null;
+        String filename="";
+        SpeakJetMSA(int c, String p, String sw, int t, String ty)
+        {
+            code = c;
+            phoneme = p;
+            codeMap.put(phoneme, ""+c);
+            stoppedSound = (ty.toUpperCase().contains("STOP"));
+            sampleWords = sw;
+            timing = t;
+            type = ty;
+            String loadname;
+            filename = phoneme;
+            loadname = "samples"+File.separator+"SpeakJet"+File.separator+filename+".wav";
+            sample = (MemSound) TinySound.loadSound(new File(loadname), false);
+            if (sample != null)
+            {
+                playList.put(code, sample);
+                /*
+                if (code > 128)
+                {
+                    MemSound s = playSample(code);
+                    try
+                    {
+                    while (s.getPosition()<s.getLeftData().length-1) Thread.sleep(5);
+                        
+                    }
+                    catch (Throwable e)
+                    {
+                        
+                    }
+                }
+                */
+            }
+        }
     }
     
     static
@@ -154,35 +195,7 @@ public class VecVoxSamples {
         notesList.add(new SpeakSpecials("\\NTA3"	, "22, 220")); // 220.00 Hz
         notesList.add(new SpeakSpecials("\\NTA#3"       , "22, 233")); // 233.08 Hz
         notesList.add(new SpeakSpecials("\\NTB3"	, "22, 247")); // 246.94 Hz   
-         loadSamples();
-    }
-    public static class SpeakJetMSA
-    {
-        public int code = -1;
-        public String phoneme="";
-        public String sampleWords="";
-        int timing=-1;
-        String type = "";
-        MemSound sample=null;
-        String filename="";
-
-        SpeakJetMSA(int c, String p, String sw, int t, String ty)
-        {
-            code = c;
-            phoneme = p;
-            codeMap.put(phoneme, ""+c);
-            sampleWords = sw;
-            timing = t;
-            type = ty;
-            String loadname;
-            filename = phoneme;
-            loadname = "samples"+File.separator+"SpeakJet"+File.separator+filename+".wav";
-            sample = (MemSound) TinySound.loadSound(new File(loadname), false);
-            if (sample != null)
-            {
-                playList.put(code, sample);
-            }
-        }
+        loadSamples();
     }
     
     public static ArrayList<SpeakSpecials> getAllSpecials()
@@ -200,7 +213,6 @@ public class VecVoxSamples {
         loadSamples();
         return codeMap;
     }
-    
     private static boolean loadSamples()
     {
         if (init) return true;
@@ -275,7 +287,7 @@ public class VecVoxSamples {
         allSamples[s++] = new SpeakJetMSA(162 , "IHWW", "Two, New, Zoo", 170, "Voiced Diphthong");
         allSamples[s++] = new SpeakJetMSA(163 , "AYWW", "Our, Ouch, Owl", 200, "Voiced Diphthong");
         allSamples[s++] = new SpeakJetMSA(164 , "OWWW", "Go, Hello, Snow", 131, "Voiced Diphthong");
-        allSamples[s++] = new SpeakJetMSA(165 , "JH",   "Dodge, Jet, Savage", 70, "Voiced Affricate");
+        allSamples[s++] = new SpeakJetMSA(165 , "JH",   "Dodge, Jet, Savage", 70, "Voiced Affricate  STOP");
         allSamples[s++] = new SpeakJetMSA(166 , "VV",   "Vest, Even,", 70, "Voiced Fictive");
         allSamples[s++] = new SpeakJetMSA(167 , "ZZ",   "Zoo, Zap", 70, "Voiced Fictive");
         allSamples[s++] = new SpeakJetMSA(168 , "ZH",   "Azure, Treasure", 70, "Voiced Fictive");
@@ -292,7 +304,7 @@ public class VecVoxSamples {
         allSamples[s++] = new SpeakJetMSA(179 , "GO",   "Got, Glue, Goo", 55, "Voiced Stop");
         allSamples[s++] = new SpeakJetMSA(180 , "EG",   "Peg, Wig", 55, "Voiced Stop");
         allSamples[s++] = new SpeakJetMSA(181 , "OG",   "Dog, Peg", 55, "Voiced Stop");
-        allSamples[s++] = new SpeakJetMSA(182 , "CH",   "Church, Feature, March", 70, "Voiceless Affricate");
+        allSamples[s++] = new SpeakJetMSA(182 , "CH",   "Church, Feature, March", 70, "Voiceless Affricate STOP");
         allSamples[s++] = new SpeakJetMSA(183 , "HE",   "Help, Hand, Hair", 70, "Voiceless Fricative");
         allSamples[s++] = new SpeakJetMSA(184 , "HO",   "Hoe, Hot, Hug", 70, "Voiceless Fricative");
         allSamples[s++] = new SpeakJetMSA(185 , "WH",   "Who, Whale, White", 70, "Voiceless Fricative");
@@ -367,6 +379,7 @@ public class VecVoxSamples {
         allSamples[s++] = new SpeakJetMSA(254 , "M2",   "WOW", 530, "Miscellaneous");
         
         
+//        pauseSamples[0] = new SpeakJetMSA(0 , "PA0",   "Pause0", 0, "Pause");
         pauseSamples[1] = new SpeakJetMSA(1 , "PA1",   "Pause1", 100, "Pause");
         pauseSamples[2] = new SpeakJetMSA(2 , "PA2",   "Pause2", 200, "Pause");
         pauseSamples[3] = new SpeakJetMSA(3 , "PA3",   "Pause3", 700, "Pause");
@@ -378,7 +391,36 @@ public class VecVoxSamples {
         init = true;
         return true;
     }
+    
+    // in "JetPhone.inc" format!
+    public static String getMnemonic(int code)
+    {
+        if (code >= 128)
+        {
+            for (SpeakJetMSA s: allSamples)
+            {
+                if (s.code==code) return s.phoneme;
+            }
+        }
+        if (code <7) return "PAUSE"+code; // pause
+        if (code == 255) return "EOP";
 
+        if (code == 7) return "FAST";
+        if (code == 8) return "SLOW";
+        if (code == 14) return "STRESS";
+        if (code == 15) return "RELAX";
+        if (code == 16) return "WAIT";
+        if (code == 20) return "VOLUME";
+        if (code == 21) return "SPEED";
+        if (code == 22) return "PITCH";
+        if (code == 23) return "BEND";
+        if (code == 26) return "RPT";
+        if (code == 30) return "DELAY";
+        if (code == 31) return "RESET";
+        
+        
+        return ""+code;
+    }
     public static MemSound getPauseSample(int pause)
     {
         return getSample(pause);

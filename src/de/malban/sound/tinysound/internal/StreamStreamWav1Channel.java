@@ -2,8 +2,18 @@
 package de.malban.sound.tinysound.internal;
 
 
+import de.malban.config.Configuration;
+import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.sound.tinysound.Stream;
+import static de.malban.vide.vecx.VecSpeech.DEBUG_WAV_OUT;
+import de.malban.vide.vedi.sound.SampleJPanel;
 import static de.malban.vide.vedi.sound.ibxm.IBXM.IBXM_MAXBUFFER;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 
 /**
  * Thes StreamSound class is an implementation of the Stream interface that
@@ -12,7 +22,58 @@ import static de.malban.vide.vedi.sound.ibxm.IBXM.IBXM_MAXBUFFER;
  * @author 
  */
 public class StreamStreamWav1Channel implements Stream {
-	
+    /*
+    // debug stuff
+    // tinyAudio Format for one channel only
+    transient static final AudioFormat audioFormat = new AudioFormat(
+                    AudioFormat.Encoding.PCM_SIGNED, //linear signed PCM
+                    44100, //44.1kHz sampling rate
+                    16, //16-bit
+                    1, //2 channels fool
+                    2, //frame size 4 bytes (16-bit, 2 channel)
+                    44100,//44100, //same as sampling rate
+                    false //little-endian
+                    );        
+        public static byte [] output = new byte[0];
+    public static byte[] concat(byte[] a, byte[] b) 
+    {
+       int aLen = a.length;
+       int bLen = b.length;
+       byte[] c= new byte[aLen+bLen];
+       System.arraycopy(a, 0, c, 0, aLen);
+       System.arraycopy(b, 0, c, aLen, bLen);
+       return c;
+    }	
+    public static byte[] concat(byte[] a, byte[] b, int bMax) 
+    {
+       int aLen = a.length;
+       int bLen = bMax;
+       byte[] c= new byte[aLen+bLen];
+       System.arraycopy(a, 0, c, 0, aLen);
+       System.arraycopy(b, 0, c, aLen, bLen);
+       return c;
+    }	
+    public void writeCollection()
+    {
+        if (!DEBUG_WAV_OUT) return;
+        String name = "tySampleOut.wav";
+        try
+        {
+            byte[] orgData16Bit1Channel  = output;
+            AudioFormat tinyformat = audioFormat;
+            AudioInputStream audioStream = new AudioInputStream( new ByteArrayInputStream(orgData16Bit1Channel) ,tinyformat, orgData16Bit1Channel.length/2 );
+            AudioFileFormat.Type targetType = SampleJPanel.findTargetType("wav");
+            AudioSystem.write(audioStream,  targetType, new File(name));
+            output = new byte[0];
+        }
+        catch (Throwable e)
+        {
+            Configuration.getConfiguration().getDebugEntity().addLog(e, WARN);
+        }
+        
+    }
+    */
+    
 	private Mixer mixer;
 	private final int ID;
         private int inputFormat;
@@ -119,7 +180,8 @@ public class StreamStreamWav1Channel implements Stream {
                     if (soundLength+inbufferUsed>inbuffer.length)
                         soundLength = inbuffer.length-inbufferUsed;
                     if (soundLength == 0) return 0;
-                    System.arraycopy(soundBytes, offset, inbuffer, inbufferUsed, soundLength-1);
+                    System.arraycopy(soundBytes, offset, inbuffer, inbufferUsed, soundLength);
+//output = concat(output, inbuffer, soundLength);
                     inbufferUsed += soundLength;
                     return soundLength;
                 }
@@ -157,13 +219,17 @@ public class StreamStreamWav1Channel implements Stream {
                     // (and keep the data we have not "used")
                     try
                     {
-                        System.arraycopy(inbuffer, bytesToCopy, inbuffer,0 , inbuffer.length-(bytesToCopy)-1);
+                        System.arraycopy(inbuffer, bytesToCopy, inbuffer,0 , inbuffer.length-(bytesToCopy)/* -1 */);
                     }
                     catch (Throwable e)
                     {
                         System.out.println("Buh");
                     }
                     inbufferUsed-=bytesToCopy;
+                    
+                            
+                            
+                    
                     return bytesToCopy*2;
                     
                 }                      
@@ -242,7 +308,7 @@ public class StreamStreamWav1Channel implements Stream {
                         inbufferUsed = 0;
                         return;
                     }
-                    System.arraycopy(inbuffer, (int)num, inbuffer,0 , inbuffer.length-(int)num-1);
+                    System.arraycopy(inbuffer, (int)num, inbuffer,0 , inbuffer.length-(int)num);
                     inbufferUsed-=num;
                 }
 		
@@ -281,6 +347,7 @@ public class StreamStreamWav1Channel implements Stream {
                             //right
                             data[1] = ((this.buf[3] << 8) |
                                             (this.buf[2] & 0xFF));
+                            
                     }	                            
 		}
 

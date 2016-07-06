@@ -21,11 +21,9 @@ public class VecVoiceSamples {
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     static SP0256AL[] allSamples;
     static HashMap<Integer, MemSound> playList;
+    static final HashMap<String, String> codeMap;
+    static boolean init;
 
-    static
-    {
-        allSamples = null;
-    }
     public static class SP0256AL
     {
         public int code = -1;
@@ -39,6 +37,7 @@ public class VecVoiceSamples {
         {
             code = c;
             phoneme = p;
+            codeMap.put(phoneme, ""+c);
             sampleWords = sw;
             timing = t;
             String loadname;
@@ -52,27 +51,35 @@ public class VecVoiceSamples {
             }
         }
     }
-    public static SP0256AL[] getAllSamples()
+
+    static
     {
-        return allSamples;
-    }
-    
-    public static boolean loadSamples()
-    {
-        if (allSamples != null) return true;
+        init = false;
+        codeMap = new HashMap<String, String>();
         allSamples = new SP0256AL[64];
         playList = new HashMap<Integer, MemSound>();
+        
+        loadSamples();
+    }
+    public static SP0256AL[] getAllSamples()
+    {
+        loadSamples();
+        return allSamples;
+    }
+    public static boolean loadSamples()
+    {
+        if (init) return true;
         
         
 
         int s=0;
 
         
-	allSamples[s++] = new SP0256AL( 0,"PA1", "PAUSE",10);   
-        allSamples[s++] = new SP0256AL( 1,"PA2", "PAUSE",30);   
-        allSamples[s++] = new SP0256AL( 2,"PA3", "PAUSE",50);   
-        allSamples[s++] = new SP0256AL( 3,"PA4", "PAUSE",100);  
-        allSamples[s++] = new SP0256AL( 4,"PA5", "PAUSE",200);  
+	allSamples[s++] = new SP0256AL( 0,"PA1", "PAUSE 10ms",10);   
+        allSamples[s++] = new SP0256AL( 1,"PA2", "PAUSE 30ms",30);   
+        allSamples[s++] = new SP0256AL( 2,"PA3", "PAUSE 50ms",50);   
+        allSamples[s++] = new SP0256AL( 3,"PA4", "PAUSE 100ms",100);  
+        allSamples[s++] = new SP0256AL( 4,"PA5", "PAUSE 200ms",200);  
         allSamples[s++] = new SP0256AL( 5,"OY",  "BOY",420);    
         allSamples[s++] = new SP0256AL( 6,"AY",  "Sky",260);    
         allSamples[s++] = new SP0256AL( 7,"EH",  "End",70);     
@@ -133,13 +140,18 @@ public class VecVoiceSamples {
         allSamples[s++] = new SP0256AL(62,"EL",  "Saddle",190);	
         allSamples[s++] = new SP0256AL(63,"BB2", "Business",50);
 
+        codeMap.put("VOICE_TERM", ""+255);
         
         
         ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("VecVoice: samples loaded.", INFO);
+        init = true;
         return true;
     }
-
-    
+    public static HashMap<String, String> getCodeMap()
+    {
+        loadSamples();
+        return codeMap;
+    }
     public static MemSound getSample(int code)
     {
         if (playList == null) 

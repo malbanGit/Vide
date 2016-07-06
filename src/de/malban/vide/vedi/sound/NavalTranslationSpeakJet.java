@@ -92,7 +92,7 @@ import static de.malban.gui.panels.LogPanel.WARN;
  *
  * @author Malban
  */
-public class NavalTranslation {
+public class NavalTranslationSpeakJet {
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
 
     public static final String Anything = "";
@@ -316,6 +316,7 @@ static String[][] H_rules =
 	{Nothing,	"HERE",		Anything,	"184 128 148 "	},
 	{Nothing,	"HOUR",		Anything,	"163 151 "	},
 	{Anything,	"HOW",		Anything,	"184 163 "	},
+	{Anything,	"HUM",		Anything,	"184 160 140 "	},
 	{Anything,	"H",		"#",		"184 "	},
 	{Anything,	"H",		Anything,	Silent	},
 	{Anything,	null,		Anything,	Silent	},
@@ -395,7 +396,10 @@ static String[][] L_rules =
 static String[][] M_rules =
 	{
 	{Anything,	"MOV",		Anything,	"140 139 166 "	},
+	{Anything,	"MO",		"^",	        "140 137 "	},
 	{Anything,	"M",		Anything,	"140 "	},
+        
+        
 	{Anything,	null,		Anything,	Silent	},
 	};
 
@@ -658,7 +662,7 @@ static String[][] X_rules =
 static String[][] Y_rules =
 	{
 	{Anything,	"YOUNG",	Anything,	"158 134 144 "	},
-	{Nothing,	"YOU",		Anything,	"158 139 "	},
+	{Nothing,	"YOU",		Anything,	"160  "	},
 	{Nothing,	"YES",		Anything,	"158 131 187 "	},
 	{Nothing,	"Y",		Anything,	"158 "	},
 	{"#:^",		"Y",		Nothing,	"128 "	},
@@ -839,7 +843,11 @@ static String[][][] Rules =
         {
             return true;
         }
-        if (contextIndex<0) return false;
+        if (contextIndex<0)
+        {
+            if (pattern.equals(" ")) return true;
+            return false;
+        }
 
         /* point to last character in pattern string */
         count = pattern.length();

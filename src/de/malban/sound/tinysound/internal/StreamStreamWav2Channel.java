@@ -119,7 +119,7 @@ public class StreamStreamWav2Channel implements Stream {
                     if (soundLength+inbufferUsed>inbuffer.length)
                         soundLength = inbuffer.length-inbufferUsed;
                     if (soundLength == 0) return 0;
-                    System.arraycopy(soundBytes, offset, inbuffer, inbufferUsed, soundLength-1);
+                    System.arraycopy(soundBytes, offset, inbuffer, inbufferUsed, soundLength);
                     inbufferUsed += soundLength;
                     return soundLength;
                 }
@@ -170,7 +170,7 @@ public class StreamStreamWav2Channel implements Stream {
                     // (and keep the data we have not "used")
                     try
                     {
-                        System.arraycopy(inbuffer, countInModFrames*MOD_FRAME_LENGTH, inbuffer,0 , inbuffer.length-(countInModFrames*MOD_FRAME_LENGTH)-1);
+                        System.arraycopy(inbuffer, countInModFrames*MOD_FRAME_LENGTH, inbuffer,0 , inbuffer.length-(countInModFrames*MOD_FRAME_LENGTH));
                     }
                     catch (Throwable e)
                     {
@@ -254,7 +254,7 @@ public class StreamStreamWav2Channel implements Stream {
                         inbufferUsed = 0;
                         return;
                     }
-                    System.arraycopy(inbuffer, (int)num, inbuffer,0 , inbuffer.length-(int)num-1);
+                    System.arraycopy(inbuffer, (int)num, inbuffer,0 , inbuffer.length-(int)num);
                     inbufferUsed-=num;
                 }
 		

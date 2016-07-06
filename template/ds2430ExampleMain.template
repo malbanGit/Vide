@@ -1,0 +1,127 @@
+;***************************************************************************
+; DEFINE SECTION
+;***************************************************************************
+; load vectrex bios routine definitions
+                    INCLUDE  "VECTREX.I"          ; vectrex function includes
+
+;***************************************************************************
+; Variable / RAM SECTION
+;***************************************************************************
+; insert your variables (RAM usage) in the BSS section
+; user RAM starts at $c880 
+                    BSS      
+                    ORG      $c880                ; start of our ram space 
+
+; EEPROM constants
+EEPROM_CHECKSUM equ     $87             ; any value other than $00 or $e0
+; Variables 
+eeprom_buffer   ds      32              ; 32 byte buffer
+
+;***************************************************************************
+; HEADER SECTION
+;***************************************************************************
+; The cartridge ROM starts at address 0
+                    CODE     
+                    ORG      0 
+; the first few bytes are mandatory, otherwise the BIOS will not load
+; the ROM file, and will start MineStorm instead
+                    DB       "g GCE 1998", $80    ; 'g' is copyright sign
+                    DW       music1               ; music from the rom 
+                    DB       $F8, $50, $20, -$60  ; hight, width, rel y, rel x (from 0,0) 
+                    DB       "EPROM TEST", $80  ; some game information, ending with $80
+                    DB       0                    ; end of game header 
+
+;***************************************************************************
+; CODE SECTION
+;***************************************************************************
+; here the cartridge program starts off
+start:
+                    JSR      eeprom_load
+                    inc      eeprom_buffer
+                    JSR      eeprom_save
+main_loop: 
+                    JSR      Wait_Recal           ; Vectrex BIOS recalibration 
+                    JSR      Intensity_5F         ; Sets the intensity of the 
+                                                  ; vector beam to $5f 
+                    LDU      #message1            ; address of string 
+                    LDA      #$10                 ; Text position relative Y 
+                    LDB      #-$50                ; Text position relative X 
+                    JSR      Print_Str_d          ; Vectrex BIOS print routine 
+                    LDU      #message2            ; address of string 
+                    LDA      #-$10                ; Text position relative Y 
+                    LDB      #-$50                ; Text position relative X 
+                    JSR      Print_Str_d          ; Vectrex BIOS print routine 
+
+                    LDU      #eeprom_buffer       ; address of string 
+                    LDA      #-$30                ; Text position relative Y 
+                    LDB      #-$10                ; Text position relative X 
+                    JSR      Print_Str_d          ; Vectrex BIOS print routine 
+                    BRA      main_loop            ; and repeat forever 
+
+;***************************************************************************
+; DATA SECTION
+;***************************************************************************
+message1: 
+                    DB       "INCREASE COUNT "    ; only capital letters
+                    DB       $80                  ; $80 is end of string 
+message2: 
+                    DB       "EACH RUN "          ; only capital letters
+                    DB       $80                  ; $80 is end of string 
+;***************************************************************************
+
+
+; Data
+eeprom_defaults
+        ; Put 31 bytes of default data here!
+    db  "0   ", $80 ; Strings must be AT LEAST 3 signs, otherwise Print_Str is bugged!
+    ds  29
+
+
+eeprom_load
+        ldx     #eeprom_buffer          ;
+        jsr     ds2430_load             ; load 32 byte eeprom to ram
+
+
+
+        ldd     #$0020                  ;
+eeload_loop                             ;
+        adda    ,x+                     ; sum the bytes
+        decb                            ;
+        bne     eeload_loop             ;
+
+        cmpa    #EEPROM_CHECKSUM        ; equal to checksum?
+        bne     eeprom_format           ; if not, then format the eeprom
+
+        rts                             ; otherwise, return
+
+
+eeprom_format
+        ldu     #eeprom_defaults        ;
+        ldx     #eeprom_buffer          ;
+        ldb     #$1f                    ;
+eeformat_loop                           ; copy default data (rom) to ram
+        pulu    a                       ;
+        sta     ,x+                     ;
+        decb                            ;
+        bne     eeformat_loop           ;
+
+
+eeprom_save
+        ldx     #eeprom_buffer          ;
+        ldd     #(EEPROM_CHECKSUM<<8)+$1f ;
+eesave_loop                             ;
+        suba    ,x+                     ; create checksum byte
+        decb                            ;
+        bne     eesave_loop             ;
+        sta     ,x                      ;
+
+        ldx     #eeprom_buffer          ;
+        jsr     ds2430_verify           ; compare ram to eeprom
+        tsta                            ;
+        lbne     ds2430_save            ; if different, then update eeprom
+
+        rts
+
+; Include the driver files
+        include "ds2430LowLevel.i"
+        include "ds2430HighLevel.i"

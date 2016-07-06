@@ -354,6 +354,25 @@ Done:
 
 todo:
 todoc:
+
+
+
+    pausen muessen besser
+    sein
+            
+            das blending darf nicht abschneiden/pberlappen
+                    sondern scheint zusaetzlich zu sein!
+                    
+
+
+- option samples
+ -> re,move silence at end ()
+
+- switch on lightpen, if cartridge is configured to use lightpen
+- add copy/paste to speech generation, to 
+ easily insert new speech data per copy and paste to existing programs
+- add stop button
+- add code for eeprom if chosen in project
 - Verzerk does not start correct!
 - seems like all buttons are allways pressed!
 - evaluate why 1 channel vecvoice does not wrok as expected
@@ -377,6 +396,7 @@ brackets are needed if macro parameter hival/loval consists of an expression
 
 - vecspeech:
  add new variables to cloning
+link new pdf files to library
 - test java version upon start!
 - doc prebuilt/postbuild scripts
 - analog jystick
