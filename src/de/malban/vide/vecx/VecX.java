@@ -49,6 +49,8 @@ meaning, processor excat cacle emulation, in between fetch read execute processo
 */
 
 
+import de.malban.vide.vecx.devices.VecSpeechDevice;
+import de.malban.vide.vecx.devices.VectrexJoyport;
 import de.malban.Global;
 import de.malban.vide.VideConfig;
 import de.malban.config.Configuration;
@@ -72,6 +74,7 @@ import de.malban.vide.veccy.VectorListScanner;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_RAM_DS2430A;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOICE;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOX;
+import de.malban.vide.vecx.devices.KeyboardInputDevice;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_YM;
@@ -147,6 +150,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     
     transient boolean directDrawActive = false;
     
+    public transient VectrexJoyport[] joyport= new VectrexJoyport[2];
      
     // dummy displayer, which does nothing!
     transient DisplayerInterface displayer = new DisplayerInterface(){public void switchDisplay(){}public void updateDisplay(){} public void directDraw(vector_t v){}public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved){}};
@@ -189,22 +193,31 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     {
         vectorDisplay[0] = new VectrexDisplayVectors();
         vectorDisplay[1] = new VectrexDisplayVectors();
+        joyport[0]= new VectrexJoyport(0, this);
+        joyport[1]= new VectrexJoyport(1, this);
+        
         e6809 = new E6809();
         e6809.vecx=this;        
         e8910 = new E8910();
+        e8910.setVectrexJoyport(joyport);
         e8910.e8910_init_sound();
         for (int i=0; i<Breakpoint.BP_TARGET_COUNT; i++)
             breakpoints[i] = new ArrayList<Breakpoint>();
         line = TinySound.getOutStreamVectrex();
         line.start();
-        
     }
+    void deinit()
+    {
+        deinitAudio();
+        joyport[0].deinit();
+        joyport[1].deinit();
+    }
+
     void deinitAudio()
     {
         if (line != null)
             line.unload();
         line = null;
-        if ( vecVoice != null) vecVoice.deinit();
     }
     
     public void setDisplayer(DisplayerInterface d)
@@ -361,7 +374,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     case 0xf:
                         if ((via_orb & 0x18) == 0x08) 
                         {
-                                /* the snd chip is driving port a */
+                            /* the snd chip is driving port a */
                             e8910.updatePortAData(snd_select);
                             data = e8910.snd_regs[snd_select];
                         } 
@@ -534,10 +547,26 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         break;
                     case 0xa:
                         data = via_sr;
-                        via_ifr &= 0xfb; /* remove shift register interrupt flag */
-                        via_srb = 0;
-                        via_srclk = 1;
-                        int_update ();
+                        
+                        if (shouldStall((int)(cyclesRunning - lastShiftTriggered)))
+                        {
+                            via_stalling = true;
+                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                            via_srclk = 1;
+                            int_update ();
+//                            // dunno if "stalling" cycle counter should reset...
+                            lastShiftTriggered = cyclesRunning;
+                        }
+                        else
+                        {
+                            via_stalling = false;
+
+                            lastShiftTriggered = cyclesRunning;
+                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                            via_srb = 0;
+                            via_srclk = 1;
+                            int_update ();
+                        }
                         break;
                     case 0xb:
                         data = via_acr;
@@ -713,20 +742,34 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         int_update ();
                         break;
                     case 0xa:
-                        if (shouldStall((int)(cyclesRunning - lastShiftRegWrite)))
+                 
+                        if (via_stalling)
                         {
+                            via_ifr &= 0xfb; // * remove shift register interrupt flag * /
+                           // via_srb = 0;
+                            via_srclk = 1;
+                            int_update ();
+                            
+                        }
+                        else
+/*                        
+                        if (shouldStall((int)(cyclesRunning - lastShiftTriggered)))
+                        {
+                            
                             via_stalling = true;
                            // via_sr = 0; // DUnno!
-                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                            via_ifr &= 0xfb; // * remove shift register interrupt flag * /
                            // via_srb = 0;
                             via_srclk = 1;
                             int_update ();
                             // dunno if "stalling" cycle counter should reset...
                         }
                         else
+*/                            
                         {
                             // do normal - exactly as above
-                            lastShiftRegWrite = cyclesRunning;
+//                            via_stalling = false;
+                            lastShiftTriggered = cyclesRunning;
                             via_sr = data;
                             via_ifr &= 0xfb; /* remove shift register interrupt flag */
                             via_srb = 0;
@@ -812,7 +855,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             ram[r] = r & 0xff;
         }
         
-        
+        joyport[0].plugIn(null);
+        joyport[1].plugIn(null);
         e8910.reset();
         for (r = 0; r < 16; r++) 
         {
@@ -823,22 +867,25 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         // this "write" does not work anymore, since it now
         // reespects the input enable register
 //        e8910.e8910_write(14, 0xff);
-        e8910.snd_regs[14] = 0xff;
+//        e8910.snd_regs[14] = 0xff;
         
         if (vecVoiceEnabled)
         {
-            vecVoice = new VecSpeech(e8910);
+            VecSpeechDevice vecVoice = new VecSpeechDevice(e8910);
             vecVoice.setVecVoice(true);
+            joyport[1].plugIn(vecVoice);
         }
         else if (vecVoxEnabled)
         {
             vecVoiceEnabled = true;
-            vecVoice = new VecSpeech(e8910);
+            VecSpeechDevice vecVoice = new VecSpeechDevice(e8910);
             vecVoice.setVecVoice(false);
+            joyport[1].plugIn(vecVoice);
         }
 
+        e8910.setVectrexJoyport(joyport);
         snd_select = 0;
-        lastShiftRegWrite = 0;
+        lastShiftTriggered = 0;
         via_stalling = false;
         via_ora = 0;
         via_orb = 0;
@@ -867,10 +914,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         via_cb2h = 1;
         via_cb2s = 0;
 
-        alg_jch0 = 128;
-        alg_jch1 = 128;
-        alg_jch2 = 128;
-        alg_jch3 = 128;
         alg_rsh.intValue = 128;
         alg_xsh.intValue = 128;
         alg_ysh.intValue = 128;
@@ -908,8 +951,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         fcycles = FCYCLES_INIT;
         cyclesRunning = 0;
         lightpen = false;
-        lightpenX = LIGHTPEN_OUT_OF_BOUNDS; // must be set from "gui"
-        lightpenY = LIGHTPEN_OUT_OF_BOUNDS;
 
         imager = false;
         lastImagerData =0;
@@ -1137,29 +1178,13 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
         }
         
-        // lightpen
         if (via_ca1!=0) // interrupt flag can be set without its enable flag && ((via_ier&0x02)==0x02))
         {
             via_ifr = via_ifr | 0x02;
             int_update ();
             
         }
-        /*
-        if (imager)
-        {
-            if (PARA)
-            {
-                if (imagerOut) 
-                {
-                    via_ca1=1;
-                    via_ifr = via_ifr | 0x02;
-                }
-                else
-                    via_ca1=0;
-                int_update ();
-            }         
-        } 
-        */
+
     }
     
     // input in vectrex coordinates!
@@ -1222,52 +1247,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }
         vectorDisplay[displayedNext].count++;
     }
-
-    public boolean toggleLightPen()
+    
+    public double getBeamPosX()
     {
-        lightpen = !lightpen;
-        if (!lightpen) via_ca1=0; // ensure it is off!
-        return lightpen;
+        return alg_curr_x;
     }
-    public boolean toggleGoggle()
+    public double getBeamPosY()
     {
-        imager = !imager;
-        if (!imager) via_ca1=0; // ensure it is off!
-        return imager;
-    }
-
-    // expects vectrex coordonates like vector list
-    // transformed to upper left corner. (is 0,0)
-    // values from 0 to ALG_MAX_X and 0 to ALG_MAX_Y
-    public void setLightPen(int x, int y)
-    {
-        lightpenX = x;
-        lightpenY = y;
-        if ((x == LIGHTPEN_OUT_OF_BOUNDS) || (y == LIGHTPEN_OUT_OF_BOUNDS)) 
-        {
-            via_ca1 = 0;
-        }
-    }
-    void lightpenStep()
-    {
-        int my = lightpenY;
-        int mx = lightpenX;
-        if (!((mx == LIGHTPEN_OUT_OF_BOUNDS) || (my == LIGHTPEN_OUT_OF_BOUNDS)))
-        {
-            if ((Math.abs(alg_curr_x-mx)<0x100) && ((Math.abs(alg_curr_y-my)<0x100)))
-            {
-                via_ca1 = 1;
-
-            }
-            else
-            {
-                via_ca1 = 0;
-            }
-        }
-        else
-        {
-            via_ca1 = 0;
-        }
+        return alg_curr_y;
     }
     
     public void vectrexNonCPUStep(int cycles)
@@ -1275,21 +1262,13 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         if (!config.cycleExactEmulation) return;
         for (int c = 0; c < cycles; c++) 
         {
-            if (ds2430Enabled)
-            {
-                if (cart != null)
-                cart.cartStep(cyclesRunning);
-            }
-            if (vecVoiceEnabled)
-            {
-                vecVoice.step(cyclesRunning);
-            }
+            if (cart != null) cart.cartStep(cyclesRunning);
             via_sstep0();
             timerStep();
             // timer after via, to make sure befor analog step, that 0 timers are respected!
             analogStep();
-            if (imager) imagerStep();
-            if (lightpen) lightpenStep();
+            if (joyport[0] != null) joyport[0].step();
+            if (joyport[1] != null) joyport[1].step();
             via_sstep1();
             nonCPUStepsDone++;
             cyclesRunning++;
@@ -1305,6 +1284,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     boolean syncImpulse = false;
     long lastSyncCycles = 0;
     long soundCycles = 0;
+    public long getCycles()
+    {
+        return cyclesRunning;
+    }
     int vecx_emu(long cyclesOrg)
     {
         int c, icycles;
@@ -1327,7 +1310,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             nonCPUStepsDone = 0;
             // see: http://oldies.malban.de/firstvectrex/vectrex/UNSORTED/text/6809/HTML/UP05.HTM
             int pc = e6809.reg_pc%65536;
-            icycles = e6809.e6809_sstep (via_ifr & 0x80, 0);
+            icycles = e6809.e6809_sstep (via_ifr & 0x80, firq);
+            firq = 0;
             if (config.codeScanActive) 
             {
                 for (int i=0; i<icycles; i++)
@@ -1338,21 +1322,13 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             
             for (c = 0; c < (icycles-nonCPUStepsDone); c++) 
             {
-                if (ds2430Enabled)
-                {
-                    if (cart != null)
-                    cart.cartStep(cyclesRunning);
-                }
-                if (vecVoiceEnabled)
-                {
-                    vecVoice.step(cyclesRunning);
-                }
+                if (cart != null) cart.cartStep(cyclesRunning);
                 via_sstep0();
                 timerStep();
                 // timer after via, to make sure befor analog step, that 0 timers are respected!
                 analogStep();
-                if (imager) imagerStep();
-                if (lightpen) lightpenStep();
+                if (joyport[0] != null) joyport[0].step();
+                if (joyport[1] != null) joyport[1].step();
                 via_sstep1();
                 cyclesRunning++;
             }
@@ -1477,34 +1453,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         return reason;
     }
     long lastRecordCycle = 0;
-
     
-    
-    
-    
-    public void imagerStep()
-    {
-        /*
-        // Para implementaion
-        if (PARA)
-        {
-            imagerCountDown--; // one step
-            if (imagerCountDown <= 0)
-            {
-                imagerOut = (!imagerOut);
-                if (imagerOut) 
-                {
-                    imagerCountDown += 37600;
-                } 
-                else 
-                {
-                    imagerCountDown += 22400;
-                }
-            }
-        }
-        */
-    }
-
     public VectrexDisplayVectors getDisplayList()
     {
         return vectorDisplay[displayedNow];
@@ -1559,7 +1508,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
     public boolean init(CartridgeProperties cartProp)
     {
-        if ( vecVoice != null) vecVoice.deinit();
         if (!loadBios()) 
         {
             log.addLog("Vecx: init() BIOS of vectrex not loaded!", WARN);
@@ -1595,7 +1543,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     }
     public boolean init(String filenameRom, boolean checkForCartridge)
     {
-        if ( vecVoice != null) vecVoice.deinit();
+        joyport[0].deinit();
+        joyport[1].deinit();
         romName = filenameRom;
         if (checkForCartridge)
         {
@@ -1618,7 +1567,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             cart.load(filenameRom);
             e6809.e6809_reset();  
             vecx_reset();
-            // initAudioLine();
         }
         catch (Throwable e)
         {
@@ -1648,7 +1596,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     {
         try 
         {
-            if ( vecVoice != null) vecVoice.deinit();
+            joyport[0].deinit();
+            joyport[1].deinit();
             // this is sort of bad
             // but a shortcut to reinitializing listerners
             ArrayList<CartridgeListener> mListener = cart.getListener();
@@ -1660,6 +1609,21 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             cart.setListener(mListener);
             cart.init();
 
+            // todo: sort out state of ports
+            if (vecVoiceEnabled)
+            {
+                VecSpeechDevice vecVoice = new VecSpeechDevice(e8910);
+                vecVoice.setVecVoice(true);
+                joyport[1].plugIn(vecVoice);
+            }
+            else if (vecVoxEnabled)
+            {
+                vecVoiceEnabled = true;
+                VecSpeechDevice vecVoice = new VecSpeechDevice(e8910);
+                vecVoice.setVecVoice(false);
+                joyport[1].plugIn(vecVoice);
+            }
+            
             return true;
         } 
         catch (Throwable ex) 
@@ -1676,7 +1640,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         cart.setBank(currentBank); // just in case a bankswitch occurred
         cart.setVecx(this);
         cart.ds2430.cart = cart;
-        if (vecVoice != null) vecVoice.initClone(e8910);
+        // todo joyport devices not "set from state"
+//        if (vecVoice != null) vecVoice.initClone(e8910);
         
     }
     
@@ -1725,7 +1690,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             return false;
         }
             
-        if ( vecVoice != null) vecVoice.deinit();
         CompleteState state = goBackRingBuffer[ringWalkStep];
         initFromState(state);
         displayer.directDraw(directDrawVector);
@@ -1751,7 +1715,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             return false;
         }
             
-        if ( vecVoice != null) vecVoice.deinit();
         CompleteState state = goBackRingBuffer[ringWalkStep];
         if (ringBufferNext==ringWalkStep+1)
         {
@@ -1899,19 +1862,19 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         switch (via_orb & 0x06) 
         {
             case 0x00:
-                alg_jsh = alg_jch0;
+                if (joyport[0] != null) alg_jsh = joyport[0].getHorizontal(); else alg_jsh = 0x80;
                 break;
             case 0x02:
-                alg_jsh = alg_jch1;
+                if (joyport[0] != null) alg_jsh = joyport[0].getVertical(); else alg_jsh = 0x80;
                 break;
             case 0x04:
-                alg_jsh = alg_jch2;
+                if (joyport[1] != null) alg_jsh = joyport[1].getHorizontal(); else alg_jsh = 0x80;
                 break;
             case 0x06:
-                alg_jsh = alg_jch3;
+                if (joyport[1] != null) alg_jsh = joyport[1].getVertical(); else alg_jsh = 0x80;
                 break;
-        }        
-
+        }                
+        
         /* compare the current joystick direction with a reference */        
         if ((alg_jsh) > (via_ora^0x80)) // current DAC , here ORA, the XSH can't be used, since it will be set by timer
         {
@@ -2647,10 +2610,17 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     
     public boolean shouldStall(int shiftCycleDif)
     {
-        shiftCycleDif-=2; // correction factor due to cycle exact timings
+//        shiftCycleDif-=2; // correction factor due to cycle exact timings
+        
+        // if shift is CLR
+        // then a write occurs 2 cycles after a read
+        // it seems, that the stall from the first read should be taken...
+//        a
         
         int generation = config.generation;
-        if (generation == 0) return false; // if generation 0 emulation is off, never stall
+        if (generation == 0) return false; // if generation emulation is off, never stall
+        if (shiftCycleDif<4) 
+            return via_stalling;
         if (generation<3)
         {
             if (shiftCycleDif==15) return true;
@@ -2892,6 +2862,16 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             }
         }
     }
-
+    
+    // is a "fast" interupt initiated (from device port 0 Button 4)
+    // only == 0 or !=0 is relevant
+    int firq;
+    // accessed from devices in port 0
+    public void setFIRQ(boolean lineState)
+    {
+        // firq line is zero active
+        if (!lineState) firq = 1;
+        firq = 0;
+    }
 }
 

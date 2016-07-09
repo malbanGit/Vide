@@ -43,7 +43,6 @@ public abstract interface VecXStatics
     public static final int ALG_MAX_Y		= 41000;
     public static final int VECTREX_PDECAY	= 30;      /* phosphor decay rate */
     public static final int FCYCLES_INIT        =  VECTREX_MHZ/ VECTREX_PDECAY;/* number of 6809 cycles before a frame redraw */
-    public static final int LIGHTPEN_OUT_OF_BOUNDS = -100000;
             /* max number of possible vectors that maybe on the screen at one time.
              * one only needs VECTREX_MHZ / VECTREX_PDECAY but we need to also store
              * deleted vectors in a single table

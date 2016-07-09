@@ -2,18 +2,8 @@
 package de.malban.sound.tinysound.internal;
 
 
-import de.malban.config.Configuration;
-import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.sound.tinysound.Stream;
-import static de.malban.vide.vecx.VecSpeech.DEBUG_WAV_OUT;
-import de.malban.vide.vedi.sound.SampleJPanel;
 import static de.malban.vide.vedi.sound.ibxm.IBXM.IBXM_MAXBUFFER;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 
 /**
  * Thes StreamSound class is an implementation of the Stream interface that

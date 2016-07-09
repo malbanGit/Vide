@@ -355,7 +355,15 @@ Done:
 todo:
 todoc:
 
+examin, if stalling is really only triggered by a "read" of via (at the moment by a read from clr)
 
+save and load input devices of vecx
+
+step forward and backword -> joyport devices as of now NOT respected!
+
+analog windows, button correct? -> NO
+
+do joystick inputs as interface "in" psg emulation
 
     pausen muessen besser
     sein

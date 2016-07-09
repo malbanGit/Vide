@@ -12,12 +12,12 @@ import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
-import de.malban.vide.vecx.VecSpeech;
-import de.malban.vide.vecx.VecVoiceSamples;
-import de.malban.vide.vecx.VecVoiceSamples.SP0256AL;
-import de.malban.vide.vecx.VecVoxSamples;
-import de.malban.vide.vecx.VecVoxSamples.SpeakJetMSA;
-import de.malban.vide.vecx.VecVoxSamples.SpeakSpecials;
+import de.malban.vide.vecx.devices.VecSpeechDevice;
+import de.malban.vide.vecx.devices.VecVoiceSamples;
+import de.malban.vide.vecx.devices.VecVoiceSamples.SP0256AL;
+import de.malban.vide.vecx.devices.VecVoxSamples;
+import de.malban.vide.vecx.devices.VecVoxSamples.SpeakJetMSA;
+import de.malban.vide.vecx.devices.VecVoxSamples.SpeakSpecials;
 import de.malban.vide.vedi.VediPanel;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -539,14 +539,14 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
     private void jButtonPlayVectrexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayVectrexActionPerformed
 
         doIt();
-        VecSpeech.blendEnable = jCheckBox3.isSelected();
-        VecSpeech.blendLen = de.malban.util.UtilityString.Int0(jTextField1.getText());
-        VecSpeech.removeSilence = jCheckBox4.isSelected();
-        VecSpeech.maxNoise = de.malban.util.UtilityString.Int0(jTextField2.getText());
-        VecSpeech.alignBlendToAmplitude = jCheckBox5.isSelected();
+        VecSpeechDevice.blendEnable = jCheckBox3.isSelected();
+        VecSpeechDevice.blendLen = de.malban.util.UtilityString.Int0(jTextField1.getText());
+        VecSpeechDevice.removeSilence = jCheckBox4.isSelected();
+        VecSpeechDevice.maxNoise = de.malban.util.UtilityString.Int0(jTextField2.getText());
+        VecSpeechDevice.alignBlendToAmplitude = jCheckBox5.isSelected();
         
-        VecSpeech.resetWaveCollector();
-        VecSpeech.saveWave=true;
+        VecSpeechDevice.resetWaveCollector();
+        VecSpeechDevice.saveWave=true;
         playSpeech();
 
     }//GEN-LAST:event_jButtonPlayVectrexActionPerformed
@@ -668,19 +668,19 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
     }//GEN-LAST:event_jRadioButtonVecVoxActionPerformed
 
     private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
-        VecSpeech.removeSilence = jCheckBox4.isSelected();
-        VecSpeech.maxNoise = de.malban.util.UtilityString.Int0(jTextField2.getText());
+        VecSpeechDevice.removeSilence = jCheckBox4.isSelected();
+        VecSpeechDevice.maxNoise = de.malban.util.UtilityString.Int0(jTextField2.getText());
         
     }//GEN-LAST:event_jCheckBox4ActionPerformed
 
     private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
-        VecSpeech.blendEnable = jCheckBox3.isSelected();
-        VecSpeech.blendLen = de.malban.util.UtilityString.Int0(jTextField1.getText());
+        VecSpeechDevice.blendEnable = jCheckBox3.isSelected();
+        VecSpeechDevice.blendLen = de.malban.util.UtilityString.Int0(jTextField1.getText());
         
     }//GEN-LAST:event_jCheckBox3ActionPerformed
 
     private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
-        VecSpeech.alignBlendToAmplitude = jCheckBox5.isSelected();
+        VecSpeechDevice.alignBlendToAmplitude = jCheckBox5.isSelected();
     }//GEN-LAST:event_jCheckBox5ActionPerformed
 
     private void outPutMnemonicsSP0256Al2(ArrayList<String> mnemonics)
@@ -1169,7 +1169,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
             if (one.trim().length() == 0) continue;
             param.add(de.malban.util.UtilityString.Int0(one.trim()) );
         }
-        VecSpeech.speak(param, jRadioButtonVecVoice.isSelected());
+        VecSpeechDevice.speak(param, jRadioButtonVecVoice.isSelected());
     }
     
     String generateVectrexVecVoiceData()

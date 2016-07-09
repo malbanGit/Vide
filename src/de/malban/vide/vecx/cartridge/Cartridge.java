@@ -142,6 +142,7 @@ public class Cartridge  implements Serializable
         // TODO move if away from EVERY CaARTRIDGE ACCESS!!!
         if (cart == null) return 0;
         if (cart.length<=currentBank) return 0;
+        if (cart[currentBank] == null) return 0;
         if ((pos%32768)>=cart[currentBank].length) return 0;
         return cart[currentBank][pos%32768];
     }

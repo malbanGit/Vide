@@ -13,8 +13,10 @@ import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.vide.vecx.E8910State;
 import de.malban.vide.vecx.Updatable;
+import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.VecXState;
 import de.malban.vide.vecx.VecXStatics;
+import de.malban.vide.vecx.devices.VectrexJoyport;
 import java.awt.Color;
 import java.io.Serializable;
 
@@ -185,37 +187,63 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         r_sh = state.alg_rsh.intValue;
         jLabel19.setToolTipText("decimal: "+r_sh);
         
-        jLabel24.setText("$"+String.format("%02X", state.alg_jch0&0x0ff));
-        if (state.alg_jch0 != joy0) jLabel24.setForeground(Color.red);
-        else jLabel24.setForeground(Color.black);
-        joy0 = state.alg_jch0;
-        jLabel24.setToolTipText("decimal: "+state.alg_jch0);
+        if (state instanceof VecX)
+        {
+            VectrexJoyport[] joyport = ((VecX)state).joyport;
+            jLabel24.setText("$"+String.format("%02X", joyport[0].getHorizontal()&0x0ff));
+            if (joyport[0].getHorizontal() != joy0) jLabel24.setForeground(Color.red);
+            else jLabel24.setForeground(Color.black);
+            joy0 = joyport[0].getHorizontal();
+            jLabel24.setToolTipText("decimal: "+joyport[0].getHorizontal());
 
-        jLabel26.setText("$"+String.format("%02X", state.alg_jch1&0x0ff));
-        if (state.alg_jch1 != joy1) jLabel26.setForeground(Color.red);
-        else jLabel26.setForeground(Color.black);
-        joy1 = state.alg_jch1;
-        jLabel26.setToolTipText("decimal: "+state.alg_jch1);
+            jLabel26.setText("$"+String.format("%02X", joyport[0].getVertical()&0x0ff));
+            if (joyport[0].getVertical() != joy1) jLabel26.setForeground(Color.red);
+            else jLabel26.setForeground(Color.black);
+            joy1 = joyport[0].getVertical();
+            jLabel26.setToolTipText("decimal: "+joyport[0].getVertical());
 
-        jLabel29.setText("$"+String.format("%02X", state.alg_jch2&0x0ff));
-        if (state.alg_jch2 != joy2) jLabel29.setForeground(Color.red);
-        else jLabel29.setForeground(Color.black);
-        joy2 = state.alg_jch2;
-        jLabel29.setToolTipText("decimal: "+state.alg_jch2+"(not implemented)");
+            jLabel29.setText("$"+String.format("%02X", joyport[1].getHorizontal()&0x0ff));
+            if (joyport[1].getHorizontal() != joy2) jLabel29.setForeground(Color.red);
+            else jLabel29.setForeground(Color.black);
+            joy2 = joyport[1].getHorizontal();
+            jLabel29.setToolTipText("decimal: "+joyport[1].getHorizontal()+"");
 
-        jLabel30.setText("$"+String.format("%02X", state.alg_jch3&0x0ff));
-        if (state.alg_jch3 != joy3) jLabel30.setForeground(Color.red);
-        else jLabel30.setForeground(Color.black);
-        joy3 = state.alg_jch3;
-        jLabel30.setToolTipText("decimal: "+state.alg_jch3+"(not implemented)");
-        
-        jLabel32.setText("$"+String.format("%02X", state.alg_jsh&0x0ff));
-        if (state.alg_jsh != jsh) jLabel32.setForeground(Color.red);
-        else jLabel32.setForeground(Color.black);
-        jsh = state.alg_jsh;
-        jLabel32.setToolTipText("decimal: "+state.alg_jsh);
-        
-        
+            jLabel30.setText("$"+String.format("%02X", joyport[1].getVertical()&0x0ff));
+            if (joyport[1].getVertical() != joy3) jLabel30.setForeground(Color.red);
+            else jLabel30.setForeground(Color.black);
+            joy3 = joyport[1].getVertical();
+            jLabel30.setToolTipText("decimal: "+joyport[1].getVertical()+"");
+            
+            jTextField110.setText(""+((  (!joyport[0].isButton1(false))?"1":"0")) );
+            jTextField109.setText(""+((  (!joyport[0].isButton2(false))?"1":"0")) );
+            jTextField107.setText(""+((  (!joyport[0].isButton3(false))?"1":"0")) );
+            jTextField108.setText(""+((  (!joyport[0].isButton4(false))?"1":"0")) );
+            
+            jTextField114.setText(""+((  (!joyport[1].isButton1(false))?"1":"0")) );
+            jTextField113.setText(""+((  (!joyport[1].isButton2(false))?"1":"0")) );
+            jTextField112.setText(""+((  (!joyport[1].isButton3(false))?"1":"0")) );
+            jTextField111.setText(""+((  (!joyport[1].isButton4(false))?"1":"0")) );
+            
+            if ((joyport[0].isButton1(false)) != ((buttons&0x01)==0x01)) jTextField110.setForeground(Color.red); else jTextField110.setForeground(Color.black);
+            if ((joyport[0].isButton2(false)) != ((buttons&0x02)==0x02)) jTextField109.setForeground(Color.red); else jTextField109.setForeground(Color.black);
+            if ((joyport[0].isButton3(false)) != ((buttons&0x04)==0x04)) jTextField107.setForeground(Color.red); else jTextField107.setForeground(Color.black);
+            if ((joyport[0].isButton4(false)) != ((buttons&0x08)==0x08)) jTextField108.setForeground(Color.red); else jTextField108.setForeground(Color.black);
+            if ((joyport[1].isButton1(false)) != ((buttons&0x10)==0x10)) jTextField114.setForeground(Color.red); else jTextField114.setForeground(Color.black);
+            if ((joyport[1].isButton2(false)) != ((buttons&0x20)==0x20)) jTextField113.setForeground(Color.red); else jTextField113.setForeground(Color.black);
+            if ((joyport[1].isButton3(false)) != ((buttons&0x40)==0x40)) jTextField112.setForeground(Color.red); else jTextField112.setForeground(Color.black);
+            if ((joyport[1].isButton4(false)) != ((buttons&0x80)==0x80)) jTextField111.setForeground(Color.red); else jTextField111.setForeground(Color.black);
+
+            buttons = 0;
+            buttons += (joyport[0].isButton1(false))?0x01:0;
+            buttons += (joyport[0].isButton2(false))?0x02:0;
+            buttons += (joyport[0].isButton3(false))?0x04:0;
+            buttons += (joyport[0].isButton4(false))?0x08:0;
+            buttons += (joyport[1].isButton1(false))?0x10:0;
+            buttons += (joyport[1].isButton2(false))?0x20:0;
+            buttons += (joyport[1].isButton3(false))?0x40:0;
+            buttons += (joyport[1].isButton4(false))?0x80:0;
+            
+/*        
         E8910State e8910State = vecxPanel.getE8910State();
         jTextField110.setText(""+(((e8910State.snd_regs[14]&0x01)==0)?"1":"0"));
         jTextField109.setText(""+(((e8910State.snd_regs[14]&0x02)==0)?"1":"0"));
@@ -226,6 +254,21 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         if ((e8910State.snd_regs[14]&0x04) != (buttons&0x04)) jTextField107.setForeground(Color.red); else jTextField107.setForeground(Color.black);
         if ((e8910State.snd_regs[14]&0x08) != (buttons&0x08)) jTextField108.setForeground(Color.red); else jTextField108.setForeground(Color.black);
         buttons = e8910State.snd_regs[14];
+*/            
+            
+        }
+        else
+        {
+            
+        }
+        
+        
+        jLabel32.setText("$"+String.format("%02X", state.alg_jsh&0x0ff));
+        if (state.alg_jsh != jsh) jLabel32.setForeground(Color.red);
+        else jLabel32.setForeground(Color.black);
+        jsh = state.alg_jsh;
+        jLabel32.setToolTipText("decimal: "+state.alg_jsh);
+        
         
         
 
@@ -435,22 +478,18 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         jLabel27.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel27.setText("Joy1 Y");
         jLabel27.setToolTipText("if MUX bits = 01");
-        jLabel27.setEnabled(false);
 
         jLabel28.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel28.setText("Joy1 X");
         jLabel28.setToolTipText("if MUX bits = 01");
-        jLabel28.setEnabled(false);
 
         jLabel29.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel29.setText("$ff");
         jLabel29.setToolTipText("positive left, negative right(0x80 middle)");
-        jLabel29.setEnabled(false);
 
         jLabel30.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel30.setText("$ff");
         jLabel30.setToolTipText("positive down, negative up (0x80 middle)");
-        jLabel30.setEnabled(false);
 
         jLabel31.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel31.setText("J-SH");
@@ -479,27 +518,22 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         jTextField111.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField111.setText("0");
         jTextField111.setToolTipText("not implemented");
-        jTextField111.setEnabled(false);
 
         jTextField112.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField112.setText("0");
         jTextField112.setToolTipText("not implemented");
-        jTextField112.setEnabled(false);
 
         jTextField113.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField113.setText("0");
         jTextField113.setToolTipText("not implemented");
-        jTextField113.setEnabled(false);
 
         jTextField114.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField114.setText("0");
         jTextField114.setToolTipText("not implemented");
-        jTextField114.setEnabled(false);
 
         jLabel34.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel34.setText("But1");
         jLabel34.setToolTipText("not implemented");
-        jLabel34.setEnabled(false);
 
         jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcam.png"))); // NOI18N
         jToggleButton1.setToolTipText("Toggle Update (always or only while debug)");

@@ -464,7 +464,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Joy1 Y"/>
         <Property name="toolTipText" type="java.lang.String" value="if MUX bits = 01"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel28">
@@ -474,7 +473,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Joy1 X"/>
         <Property name="toolTipText" type="java.lang.String" value="if MUX bits = 01"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel29">
@@ -484,7 +482,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="$ff"/>
         <Property name="toolTipText" type="java.lang.String" value="positive left, negative right(0x80 middle)"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel30">
@@ -494,7 +491,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="$ff"/>
         <Property name="toolTipText" type="java.lang.String" value="positive down, negative up (0x80 middle)"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel31">
@@ -563,7 +559,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value="not implemented"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField112">
@@ -573,7 +568,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value="not implemented"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField113">
@@ -583,7 +577,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value="not implemented"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField114">
@@ -593,7 +586,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value="not implemented"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel34">
@@ -603,7 +595,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="But1"/>
         <Property name="toolTipText" type="java.lang.String" value="not implemented"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JToggleButton" name="jToggleButton1">

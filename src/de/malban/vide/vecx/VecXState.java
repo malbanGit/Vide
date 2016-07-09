@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx;
 
+import de.malban.vide.vecx.devices.VecSpeechDevice;
 import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import static de.malban.vide.vecx.VecXStatics.TIMER_ACTION_NONE;
@@ -67,7 +68,6 @@ public class VecXState implements Serializable
     ArrayList<VecX.TimerItem> timerItemList = new ArrayList<VecX.TimerItem>();
 
     Cartridge cart = new Cartridge();
-    VecSpeech vecVoice = null;
     
     /* the sound chip registers */
      public int  snd_select;
@@ -100,7 +100,7 @@ public class VecXState implements Serializable
      public int via_cb2h;  /* basic handshake version of cb2 */
      public int via_cb2s;  /* version of cb2 controlled by the shift register */
      
-     public long lastShiftRegWrite = 0;
+     public long lastShiftTriggered = 0;
      public boolean via_stalling = false;
 
      public IntegerPointer alg_sel = new IntegerPointer(); // current mux selection, is exact copy of ORB
@@ -122,10 +122,6 @@ public class VecXState implements Serializable
 
      public int alg_jsh = 0;  /* joystick sample and hold */
      public int alg_compare = 0;
-     public int alg_jch0 = 0;		  /* joystick direction channel 0 */
-     public int alg_jch1 = 0;		  /* joystick direction channel 1 */
-     public int alg_jch2 = 0;		  /* joystick direction channel 2 */
-     public int alg_jch3 = 0;		  /* joystick direction channel 3 */
      public double alg_old_x; /* old x position */
      public double alg_old_y; /* old y position */
      public double alg_curr_x; /* current x position */
@@ -153,8 +149,6 @@ public class VecXState implements Serializable
      
     
     public boolean lightpen=false;
-    public int lightpenX = 0; // must be set from "gui"
-    public int lightpenY = 0;
    
     public boolean imager = false;
     public int lastImagerData =0;
@@ -187,15 +181,7 @@ public class VecXState implements Serializable
         to.vecVoiceEnabled = from.vecVoiceEnabled;
 
         to.vecVoxEnabled = from.vecVoxEnabled;
-        if (from.vecVoiceEnabled)
-        {
-            to.vecVoice = from.vecVoice.clone();
-        }
-        
-        
-        
-        
-       to.lastShiftRegWrite = from.lastShiftRegWrite;
+       to.lastShiftTriggered = from.lastShiftTriggered;
        to.via_stalling = from.via_stalling;
        to.snd_select= from.snd_select;
       /* the via 6522 registers */
@@ -240,10 +226,6 @@ public class VecXState implements Serializable
        to.alg_ssh.intValue= from.alg_ssh.intValue;  
        to.alg_jsh= from.alg_jsh;   
        to.alg_compare= from.alg_compare;   
-       to.alg_jch0= from.alg_jch0;   
-       to.alg_jch1= from.alg_jch1;   
-       to.alg_jch2= from.alg_jch2;   
-       to.alg_jch3= from.alg_jch3;   
        to.alg_curr_x= from.alg_curr_x;   
        to.alg_curr_y= from.alg_curr_y;   
        to.alg_old_x= from.alg_old_x;   
@@ -293,9 +275,6 @@ public class VecXState implements Serializable
        to.cyclesRunning = from.cyclesRunning;// this one is for dissi alone!
 
        to.lightpen = from.lightpen;
-       to.lightpenX = from.lightpenX;
-       to.lightpenY = from.lightpenY;
-
        to.currentBank = from.currentBank;
        
        if (doTimer)

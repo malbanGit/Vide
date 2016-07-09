@@ -1129,6 +1129,9 @@ void inst_exg ()
     exgtfr_write (op >> 4, tmp);
 }
 
+public static final int PRE_CLR_STEPS = 4;
+public static final int POST_CLR_ADDSTEPS = -1;
+
 /* instruction: tfr */
 
 void inst_tfr ()
@@ -1628,10 +1631,10 @@ int e6809_sstep (int irq_i, int irq_f)
             /* clr */
         case 0x0f:
             ea = ea_direct ();
-            vecx.vectrexNonCPUStep(3);
+            vecx.vectrexNonCPUStep(PRE_CLR_STEPS);
             inst_clr ();
             read8(ea); // clear reads! important for shift reg emulation! e.g.
-            vecx.vectrexNonCPUStep(2+1);
+            vecx.vectrexNonCPUStep(2+1+POST_CLR_ADDSTEPS);
             write8 (ea, 0);
             cycles.intValue += 6;
             break;
@@ -1649,20 +1652,20 @@ int e6809_sstep (int irq_i, int irq_f)
             break;
         case 0x6f:
             ea = ea_indexed (cycles);
-            vecx.vectrexNonCPUStep(3);
+            vecx.vectrexNonCPUStep(PRE_CLR_STEPS);
             inst_clr ();
             read8(ea); // clear reads! important for shift reg emulation! e.g.
-            vecx.vectrexNonCPUStep(2+1);
+            vecx.vectrexNonCPUStep(2+1+POST_CLR_ADDSTEPS);
             write8 (ea, 0);
             
             cycles.intValue += 6;
             break;
         case 0x7f:
             ea = ea_extended ();
-            vecx.vectrexNonCPUStep(4);
+            vecx.vectrexNonCPUStep(1+PRE_CLR_STEPS);
             inst_clr ();
             read8(ea); // clear reads! important for shift reg emulation! e.g.
-            vecx.vectrexNonCPUStep(2+1);
+            vecx.vectrexNonCPUStep(2+1+POST_CLR_ADDSTEPS);
             write8 (ea, 0);
             
             cycles.intValue += 7;

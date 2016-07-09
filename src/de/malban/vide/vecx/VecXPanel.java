@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx;
 
+import de.malban.vide.vecx.devices.LightpenDevice;
 import de.malban.vide.VideConfig;
 import de.malban.config.Configuration;
 import de.malban.graphics.GFXVector;
@@ -28,6 +29,7 @@ import de.malban.vide.vecx.VecXState.vector_t;
 import static de.malban.vide.vecx.VecXStatics.EMU_TIMER;
 import static de.malban.vide.vecx.VecXStatics.VECTREX_MHZ;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
+import de.malban.vide.vecx.devices.KeyboardInputDevice;
 import de.malban.vide.vecx.spline.CardinalSpline;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -88,7 +90,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     
     boolean updateAllways = false;
     
-    boolean keyEventsAreSet = false;
+//    boolean keyEventsAreSet = false;
     public boolean stop = false;
     public boolean running = false;
     public boolean pausing = false;
@@ -137,7 +139,9 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     {
         deinit();
         if (vecx!=null)
-            vecx.deinitAudio();
+        {
+            vecx.deinit();
+        }
     }
     @Override
     public void setParentWindow(CSAView jpv)
@@ -187,8 +191,9 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     public VecXPanel() {
         initComponents();
         vecx = new VecX();
+        KeyboardInputDevice keyBoard = new KeyboardInputDevice(this);
+        vecx.joyport[0].plugIn(keyBoard);
         vecx.setDisplayer(this);
-        setupKeyEvents();
         resetGfx();
     }
 
@@ -400,6 +405,8 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             vecx.vecx_reset(!softreset);
             jButtonPauseActionPerformed(null);
         }
+        KeyboardInputDevice keyBoard = new KeyboardInputDevice(this);
+        vecx.joyport[0].plugIn(keyBoard);
     }
     
     private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
@@ -434,6 +441,8 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         setDissi(dissi);
         dissi.setIcon(startTypeRun);
         vecx.init(jTextFieldstart.getText(), cartProp);
+        KeyboardInputDevice keyBoard = new KeyboardInputDevice(this);
+        vecx.joyport[0].plugIn(keyBoard);
         dissi.dis(vecx.cart);
         if (!startTypeRun)
             dissi.setStartbreakpoint();
@@ -549,6 +558,8 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         if (!isRunning())
         {
             vecx.init(jTextFieldstart.getText());
+            KeyboardInputDevice keyBoard = new KeyboardInputDevice(this);
+            vecx.joyport[0].plugIn(keyBoard);
             if (config.overlayEnabled)
                 loadOverlay(vecx.romName);
             stop = true;
@@ -623,6 +634,14 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         stop();
         dissiInit = false;
         if (!vecx.loadStateFromFile("")) return;
+
+        if (vecx.lightpen)
+        {
+            toggleLightPen();
+            toggleLightPen();
+        }
+        
+        
         
         jTextFieldstart.setText(vecx.romName);
         overlayImageOrg = null;
@@ -945,11 +964,11 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     
     
     private void jButtonLightpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLightpenActionPerformed
-        vecx.toggleLightPen();
+        toggleLightPen();
     }//GEN-LAST:event_jButtonLightpenActionPerformed
 
     private void jButtonGoggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoggleActionPerformed
-        vecx.toggleGoggle();
+       // vecx.toggleGoggle();
     }//GEN-LAST:event_jButtonGoggleActionPerformed
 
 
@@ -967,55 +986,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     private javax.swing.JTextField jTextFieldstart;
     // End of variables declaration//GEN-END:variables
 
-    private void setupKeyEvents()
-    {
-        if (keyEventsAreSet) return;
-        keyEventsAreSet = true;
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_A,0, false), "Button1_1_pressed");
-        this.getActionMap().put("Button1_1_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (!running) return; vecx.e8910.snd_regs[14] &= ~0x01; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_S,0, false), "Button1_2_pressed");
-        this.getActionMap().put("Button1_2_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; vecx.e8910.snd_regs[14] &= ~0x02; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_D,0, false), "Button1_3_pressed");
-        this.getActionMap().put("Button1_3_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; vecx.e8910.snd_regs[14] &= ~0x04; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F,0, false), "Button1_4_pressed");
-        this.getActionMap().put("Button1_4_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; vecx.e8910.snd_regs[14] &= ~0x08; }});
 
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0, false),  "Joy1_Left_pressed");
-        this.getActionMap().put("Joy1_Left_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return;  
-        vecx.alg_jch0 = 0x00; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0, false), "Joy1_Right_pressed");
-        this.getActionMap().put("Joy1_Right_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; 
-        vecx.alg_jch0 = 0xff; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,0, false),    "Joy1_Up_pressed");
-        this.getActionMap().put("Joy1_Up_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; 
-        vecx.alg_jch1 = 0xff; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0, false),  "Joy1_Down_pressed");
-        this.getActionMap().put("Joy1_Down_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; 
-        vecx.alg_jch1 = 0x00; }});
-
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_A,0, true), "Button1_1_released");
-        this.getActionMap().put("Button1_1_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; vecx.e8910.snd_regs[14] |= 0x01; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_S,0, true), "Button1_2_released");
-        this.getActionMap().put("Button1_2_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; vecx.e8910.snd_regs[14] |= 0x02; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_D,0, true), "Button1_3_released");
-        this.getActionMap().put("Button1_3_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; vecx.e8910.snd_regs[14] |= 0x04; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F,0, true), "Button1_4_released");
-        this.getActionMap().put("Button1_4_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; vecx.e8910.snd_regs[14] |= 0x08; }});
-
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0, true),  "Joy1_Left_released");
-        this.getActionMap().put("Joy1_Left_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; 
-        vecx.alg_jch0 = 0x80; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0, true), "Joy1_Right_released");
-        this.getActionMap().put("Joy1_Right_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; 
-        vecx.alg_jch0 = 0x80; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,0, true),    "Joy1_Up_released");
-        this.getActionMap().put("Joy1_Up_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; 
-        vecx.alg_jch1 = 0x80; }});
-        this.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0, true),  "Joy1_Down_released");
-        this.getActionMap().put("Joy1_Down_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (!running) return; 
-        vecx.alg_jch1 = 0x80; }});
-        
-    }   
     // start a thread with emulation
     public void start()
     {
@@ -1220,6 +1191,8 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         debuging = false;
         pausing = false;
         vecx.vecx_reset();
+        KeyboardInputDevice keyBoard = new KeyboardInputDevice(this);
+        vecx.joyport[0].plugIn(keyBoard);
         if (image != null)
         {
             Graphics2D g2 = image.createGraphics();
@@ -2101,7 +2074,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     }
     public void unsetLightPen()
     {
-        vecx.setLightPen(LIGHTPEN_OUT_OF_BOUNDS, LIGHTPEN_OUT_OF_BOUNDS);
+        setLightPen(LightpenDevice.LIGHTPEN_OUT_OF_BOUNDS, LightpenDevice.LIGHTPEN_OUT_OF_BOUNDS);
     }
     public void setLightPen()
     {
@@ -2121,7 +2094,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         int ux =Scaler.unscaleDoubleToInt(x, scaleWidth);
         int uy =Scaler.unscaleDoubleToInt(y, scaleHeight);
         
-        vecx.setLightPen(ux, uy);
+        setLightPen(ux, uy);
     }
     
     private void updateAvailableWindows(boolean jumpInDissi, boolean moveDissiToFirst, boolean forceUpdate)
@@ -2526,6 +2499,8 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
                 }
                 else
                 {
+                    KeyboardInputDevice keyBoard = new KeyboardInputDevice(VecXPanel.this);
+                    vecx.joyport[0].plugIn(keyBoard);
                     SwingUtilities.invokeLater(new Runnable()
                     {
                         public void run()
@@ -2627,4 +2602,27 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         }while  (new File(saveName).exists());
         list.saveAsXML(saveName);
     }
+    
+    
+    LightpenDevice lightpenDevice = null;
+    public boolean toggleLightPen()
+    {
+        vecx.lightpen = !vecx.lightpen;
+        lightpenDevice = null;
+        if (vecx.lightpen) lightpenDevice =new LightpenDevice();
+        vecx.joyport[1].plugIn(lightpenDevice);
+        return vecx.lightpen;
+    }
+    // expects vectrex coordionates like vector list
+    // transformed to upper left corner. (is 0,0)
+    // values from 0 to ALG_MAX_X and 0 to ALG_MAX_Y
+    public void setLightPen(int x, int y)
+    {
+        if (lightpenDevice != null)
+        {
+            lightpenDevice.setCoordinates(x,y);
+        }
+    }
+    
+    
 }
