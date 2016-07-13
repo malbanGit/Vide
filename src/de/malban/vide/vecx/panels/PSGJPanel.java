@@ -274,6 +274,20 @@ public class PSGJPanel extends javax.swing.JPanel implements
         jLabel81.setText( ""+(now.snd_regs[reg]) );
         if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel81.setForeground(Color.red);
         else jLabel81.setForeground(Color.black);
+
+        String tt = "<html>\n";
+        tt+= "hex: "+"$"+String.format("%02X", now.snd_regs[reg]&0x0ff);
+        if ((now.snd_regs[reg] & 0x40) == 0x40)
+        {
+            tt+="<BR> bit 6 == 1 -> output enabled";
+        }
+        else
+        {
+            tt+="<BR> bit 6 == 0 -> input enabled";
+        }
+        
+        tt += "</html>\n";
+jLabel81.setToolTipText(tt);
         reg++;
         
         

@@ -1,4 +1,3 @@
-
 NOT done (wont do):
   - LEX Macro syntax where a assembler instruction is concatinated from macros, like:
         ;Set the hi/lo part of a 16-bit register individually
@@ -355,6 +354,8 @@ Done:
 todo:
 todoc:
 
+remove veclink left  if left is plugged in other vectrex (right also)
+
 examin, if stalling is really only triggered by a "read" of via (at the moment by a read from clr)
 
 save and load input devices of vecx
@@ -371,7 +372,16 @@ do joystick inputs as interface "in" psg emulation
             das blending darf nicht abschneiden/pberlappen
                     sondern scheint zusaetzlich zu sein!
                     
+- labyrinth game
+- pitfall
+Warblade
 
+- vecvox - no emulation of: Microchip 24LC256 (see i.rtf)
+- examples for lightpen
+- examples for 3d imager
+- examples for vlink
+
+- berzerk areba display glitches emu faults?
 
 - option samples
  -> re,move silence at end ()

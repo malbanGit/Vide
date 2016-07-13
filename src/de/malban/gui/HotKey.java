@@ -6,10 +6,12 @@
 package de.malban.gui;
 
 import java.awt.Event;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
 import javax.swing.JPanel;
@@ -125,6 +127,46 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_0, Event.CTRL_MASK, "GoBookmark0Win", "Editor");
             HotKey.addMap(KeyEvent.VK_0, Event.META_MASK|Event.SHIFT_MASK, "SetBookmark0Mac", "Editor");
             HotKey.addMap(KeyEvent.VK_0, Event.CTRL_MASK|Event.SHIFT_MASK, "SetBookmark0Win", "Editor");
+            
+            
+            
+            HotKey.addMap(KeyEvent.VK_A, 0, "Button1_1_pressed", false);
+            HotKey.addMap(KeyEvent.VK_A, 0, "Button1_1_released", true);
+            HotKey.addMap(KeyEvent.VK_S, 0, "Button1_2_pressed", false);
+            HotKey.addMap(KeyEvent.VK_S, 0, "Button1_2_released", true);
+            HotKey.addMap(KeyEvent.VK_D, 0, "Button1_3_pressed", false);
+            HotKey.addMap(KeyEvent.VK_D, 0, "Button1_3_released", true);
+            HotKey.addMap(KeyEvent.VK_F, 0, "Button1_4_pressed", false);
+            HotKey.addMap(KeyEvent.VK_F, 0, "Button1_4_released", true);
+
+            HotKey.addMap(KeyEvent.VK_LEFT, 0, "Joy1_Left_pressed", false);
+            HotKey.addMap(KeyEvent.VK_LEFT, 0, "Joy1_Left_released", true);
+            HotKey.addMap(KeyEvent.VK_RIGHT, 0, "Joy1_Right_pressed", false);
+            HotKey.addMap(KeyEvent.VK_RIGHT, 0, "Joy1_Right_released", true);
+            HotKey.addMap(KeyEvent.VK_UP, 0, "Joy1_Up_pressed", false);
+            HotKey.addMap(KeyEvent.VK_UP, 0, "Joy1_Up_released", true);
+            HotKey.addMap(KeyEvent.VK_DOWN, 0, "Joy1_Down_pressed", false);
+            HotKey.addMap(KeyEvent.VK_DOWN, 0, "Joy1_Down_released", true);
+
+            HotKey.addMap(KeyEvent.VK_Q, 0, "Button2_1_pressed", false);
+            HotKey.addMap(KeyEvent.VK_Q, 0, "Button2_1_released", true);
+            HotKey.addMap(KeyEvent.VK_W, 0, "Button2_2_pressed", false);
+            HotKey.addMap(KeyEvent.VK_W, 0, "Button2_2_released", true);
+            HotKey.addMap(KeyEvent.VK_E, 0, "Button2_3_pressed", false);
+            HotKey.addMap(KeyEvent.VK_E, 0, "Button2_3_released", true);
+            HotKey.addMap(KeyEvent.VK_R, 0, "Button2_4_pressed", false);
+            HotKey.addMap(KeyEvent.VK_R, 0, "Button2_4_released", true);
+
+            HotKey.addMap(KeyEvent.VK_J, 0, "Joy2_Left_pressed", false);
+            HotKey.addMap(KeyEvent.VK_J, 0, "Joy2_Left_released", true);
+            HotKey.addMap(KeyEvent.VK_L, 0, "Joy2_Right_pressed", false);
+            HotKey.addMap(KeyEvent.VK_L, 0, "Joy2_Right_released", true);
+            HotKey.addMap(KeyEvent.VK_I, 0, "Joy2_Up_pressed", false);
+            HotKey.addMap(KeyEvent.VK_I, 0, "Joy2_Up_released", true);
+            HotKey.addMap(KeyEvent.VK_M, 0, "Joy2_Down_pressed", false);
+            HotKey.addMap(KeyEvent.VK_M, 0, "Joy2_Down_released", true);
+            
+            
         }
     }
     public String getKeyString() 
@@ -134,6 +176,7 @@ public class HotKey implements Serializable
     public static void addMap(int e, int m, String n, boolean or)
     {
         HotKey hk = new HotKey( e,  m,  n, null,(JTextComponent)null, or);
+        hotkeyList.add(hk);
         allMappings.put(n, hk);
     }
     public static void addMap(int e, int m, String n, String w)

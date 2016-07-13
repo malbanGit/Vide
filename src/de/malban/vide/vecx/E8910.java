@@ -55,13 +55,14 @@ public class E8910 extends E8910State implements E8910Statics
         }
     }
     
+    int reg14In = 0xff;
+    int reg14Out = 0xff;
     // called from vectrex when
     // BCDIR, BC == 11
-    // and a reg is red from PSG
-    public void updatePortAData(int reg)
+    // and a reg=14 is read from PSG
+    private void readDataToPSGFromPortA()
     {
         int val = 0;
-        if (reg != 14) return;
         // we let the adapter decide what bits to change in reg 14
         if (joyport[0] != null) 
         {
@@ -78,6 +79,61 @@ public class E8910 extends E8910State implements E8910Statics
            if (joyport[1].isButton4(false)) val += 0x80;
         }
         snd_regs[14] = val;
+        reg14In = val;
+    }
+
+    private void writeDataFromPSGToPortA()
+    {
+        if (joyport[0] != null)
+        {
+            /*
+            boolean b1 = (snd_regs[14]&0x01)==0x01;
+            boolean b2 = (snd_regs[14]&0x02)==0x02;
+            boolean b3 = (snd_regs[14]&0x04)==0x04;
+            boolean b4 = (snd_regs[14]&0x08)==0x08;
+            */
+            boolean b1 = (reg14Out&0x01)==0x01;
+            boolean b2 = (reg14Out&0x02)==0x02;
+            boolean b3 = (reg14Out&0x04)==0x04;
+            boolean b4 = (reg14Out&0x08)==0x08;
+            joyport[0].setButton1(b1, false);
+            joyport[0].setButton2(b2, false);
+            joyport[0].setButton3(b3, false);
+            joyport[0].setButton4(b4, false);
+        }
+        if (joyport[1] != null)
+        {
+            /*
+            boolean b1 = (snd_regs[14]&0x10)==0x10;
+            boolean b2 = (snd_regs[14]&0x20)==0x20;
+            boolean b3 = (snd_regs[14]&0x40)==0x40;
+            boolean b4 = (snd_regs[14]&0x80)==0x80;
+            */
+            boolean b1 = (reg14Out&0x10)==0x10;
+            boolean b2 = (reg14Out&0x20)==0x20;
+            boolean b3 = (reg14Out&0x40)==0x40;
+            boolean b4 = (reg14Out&0x80)==0x80;
+            joyport[1].setButton1(b1, false);
+            joyport[1].setButton2(b2, false);
+            joyport[1].setButton3(b3, false);
+            joyport[1].setButton4(b4, false);
+        }        
+    }
+    
+    public int read(int reg)
+    {
+        if (reg != 14) return snd_regs[reg];
+        readDataToPSGFromPortA();
+    
+        if  ((snd_regs[AY_ENABLE] & 0x40 ) ==  0x00)
+        {
+            // input mode
+            return reg14In;//snd_regs[14];
+        }
+        // output mode
+// att!
+           return reg14In;//snd_regs[14];
+//        return 0xff;
     }
     
     
@@ -90,44 +146,31 @@ public class E8910 extends E8910State implements E8910Statics
         {
             // if bit 6 (Reg 7 ENABLE PORTA) is 0
             // than port A is in input mode, 
-            // input mode means pora wnats to RECEIVE data from a connected device
+            // input mode means portAa wants to RECEIVE data from a connected device
             //
             // if bit 6 (Reg 7 ENABLE PORTA) is 1
             // than port A is in output mode, meaning
-            // the register 14 receives data from via when Reg14 is latched
+            // the register 14 receives data from vectrex via Reg14 (14 must be latched)
             //
-            // thus reg 4 can only be written to when in output mode
+            // thus reg 14 can only be written to when in output mode
             if  ((snd_regs[AY_ENABLE] & 0x40 ) ==  0x40)
             {
                 // output mode
-                snd_regs[r] = v;
-                portAOut = v; 
-                if (joyport[0] != null)
-                {
-                    boolean b1 = (snd_regs[14]&0x01)==0x01;
-                    boolean b2 = (snd_regs[14]&0x02)==0x02;
-                    boolean b3 = (snd_regs[14]&0x04)==0x04;
-                    boolean b4 = (snd_regs[14]&0x08)==0x08;
-                    joyport[0].setButton1(b1, false);
-                    joyport[0].setButton2(b2, false);
-                    joyport[0].setButton3(b3, false);
-                    joyport[0].setButton4(b4, false);
-                }
-                if (joyport[1] != null)
-                {
-                    boolean b1 = (snd_regs[14]&0x10)==0x10;
-                    boolean b2 = (snd_regs[14]&0x20)==0x20;
-                    boolean b3 = (snd_regs[14]&0x40)==0x40;
-                    boolean b4 = (snd_regs[14]&0x80)==0x80;
-                    joyport[1].setButton1(b1, false);
-                    joyport[1].setButton2(b2, false);
-                    joyport[1].setButton3(b3, false);
-                    joyport[1].setButton4(b4, false);
-                }
+//                snd_regs[r] = v;
+                reg14Out = v;
+                writeDataFromPSGToPortA();
             }
             else
             {
-                portAOut = v; // portA outData can be written to psg even when in input mode... strange
+                // input mode
+                
+                // portA outData can be written to psg even when in input mode... strange
+                // but read SHOULD be 0xff (see above)
+//                snd_regs[r] = v;
+                reg14Out = v;
+                
+                // ATT
+                writeDataFromPSGToPortA();
             }
             return;
         }
@@ -272,63 +315,21 @@ public class E8910 extends E8910State implements E8910Statics
             {
                 if ((oldReg & 0x40) != (snd_regs[AY_ENABLE] & 0x40 ))
                 {
+                    // we are switching IO of port a from one state to the other
                     if (joyport[0] != null) joyport[0].setInputMode((snd_regs[AY_ENABLE] & 0x40 ) == 0);
                     if (joyport[1] != null) joyport[1].setInputMode((snd_regs[AY_ENABLE] & 0x40 ) == 0);
 
                     if  ((snd_regs[AY_ENABLE] & 0x40 ) == 0) // input mode
                     {
-                        portAOut = snd_regs[14];
-                        snd_regs[14] = portAIn;
+//                        portAOut = snd_regs[14]; // remember, in case we need it (we dont)
                         
-                        if (joyport[0] != null)
-                        {
-                            boolean b1 = (snd_regs[14]&0x01)==0x01;
-                            boolean b2 = (snd_regs[14]&0x02)==0x02;
-                            boolean b3 = (snd_regs[14]&0x04)==0x04;
-                            boolean b4 = (snd_regs[14]&0x08)==0x08;
-                            joyport[0].setButton1(b1, true);
-                            joyport[0].setButton2(b2, true);
-                            joyport[0].setButton3(b3, true);
-                            joyport[0].setButton4(b4, true);
-                        }
-                        if (joyport[1] != null)
-                        {
-                            boolean b1 = (snd_regs[14]&0x10)==0x10;
-                            boolean b2 = (snd_regs[14]&0x20)==0x20;
-                            boolean b3 = (snd_regs[14]&0x40)==0x40;
-                            boolean b4 = (snd_regs[14]&0x80)==0x80;
-                            joyport[1].setButton1(b1, true);
-                            joyport[1].setButton2(b2, true);
-                            joyport[1].setButton3(b3, true);
-                            joyport[1].setButton4(b4, true);
-                        }
+                        // ATT
+                        readDataToPSGFromPortA();
                     }
                     else // output mode
                     {
-                        portAIn = snd_regs[14];
-                        snd_regs[14] = portAOut;
-                        if (joyport[0] != null)
-                        {
-                            boolean b1 = (snd_regs[14]&0x01)==0x01;
-                            boolean b2 = (snd_regs[14]&0x02)==0x02;
-                            boolean b3 = (snd_regs[14]&0x04)==0x04;
-                            boolean b4 = (snd_regs[14]&0x08)==0x08;
-                            joyport[0].setButton1(b1, false);
-                            joyport[0].setButton2(b2, false);
-                            joyport[0].setButton3(b3, false);
-                            joyport[0].setButton4(b4, false);
-                        }
-                        if (joyport[1] != null)
-                        {
-                            boolean b1 = (snd_regs[14]&0x10)==0x10;
-                            boolean b2 = (snd_regs[14]&0x20)==0x20;
-                            boolean b3 = (snd_regs[14]&0x40)==0x40;
-                            boolean b4 = (snd_regs[14]&0x80)==0x80;
-                            joyport[1].setButton1(b1, false);
-                            joyport[1].setButton2(b2, false);
-                            joyport[1].setButton3(b3, false);
-                            joyport[1].setButton4(b4, false);
-                        }
+//                        snd_regs[14] = portAOut;
+                        writeDataFromPSGToPortA();
                     }
                 }
                 break;

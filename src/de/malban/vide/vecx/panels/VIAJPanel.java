@@ -124,12 +124,13 @@ public class VIAJPanel extends javax.swing.JPanel implements
         
        // int porta
         int data = currentDisplayed.via_ora;
+/*
         if ((currentDisplayed.via_orb & 0x18) == 0x08) 
         {
-            /* the snd chip is driving port a */
+            / * the snd chip is driving port a * /
             data = vecxPanel.getE8910State().snd_regs[vecxPanel.getVecXState().snd_select];
         } 
-
+*/
         
         jLabel12.setText("$"+String.format("%02X", data));
         jTextField9.setText(""+(((data&0x80)==0x80)?"1":"0"));

@@ -11,84 +11,60 @@ import de.malban.vide.vecx.VecX;
  *
  * @author malban
  */
-public class LightpenDevice implements JoyportDevice
+public class LightpenDevice extends AbstractDevice
 {
     public static final int LIGHTPEN_OUT_OF_BOUNDS = -100000;
-
-    VectrexJoyport joyport;
-
-    public int lightpenX = LIGHTPEN_OUT_OF_BOUNDS; // must be set from "gui"
+    public int lightpenX = LIGHTPEN_OUT_OF_BOUNDS; 
     public int lightpenY = LIGHTPEN_OUT_OF_BOUNDS;
     
     public LightpenDevice()
     {
     }
     
-    public void setJoyport(VectrexJoyport j)
+    @Override
+    public void step()    
     {
-        joyport = j;
-    }
-    
-    public void step(VecX vectrex)    
-    {
-        int my = lightpenY;
-        int mx = lightpenX;
-        if (!((mx == LIGHTPEN_OUT_OF_BOUNDS) || (my == LIGHTPEN_OUT_OF_BOUNDS)))
+        if (joyport == null) return;
+        VecX vectrex = joyport.vecx;
+        
+        // it seems that just having the position is not enough
+        // since checking for only the position
+        // keeps ca1 "on" for to long
+        // (remember each read or write of port A of via resets the interrupt flag)
+        // and setting the interrupt flag (again) requires a going high -> low
+        // so keeping ca1 "on" for to long does not allow enabling the interrupt flag again
+        //
+        // in order for ca1 to be "switched on and off" in accordance to interrupts generated
+        // we also must check if BLANK is 0 or 1
+        if ((Math.abs(vectrex.getBeamPosX()-lightpenX)<0x100) && ((Math.abs(vectrex.getBeamPosY()-lightpenY)<0x100)))
         {
-            if ((Math.abs(vectrex.getBeamPosX()-mx)<0x100) && ((Math.abs(vectrex.getBeamPosY()-my)<0x100)))
+            // we have the right position,
+            // is the beam also switched on?
+            // lightpen only reacts on light switched ON
+            if (vectrex.sig_blank.intValue == 1)
             {
-//                via_ca1 = 1;
-                joyport.setButton4(true, true);
+                // false "active"
+                joyport.setButton4(false, true);
             }
             else
             {
-//                via_ca1 = 0;
-                joyport.setButton4(false, true);
+                // true inactive"
+                joyport.setButton4(true, true);
             }
         }
         else
         {
-//          via_ca1 = 0;
-            joyport.setButton4(false, true);
+            // true inactive"
+            joyport.setButton4(true, true);
         }
-        
-    }
-    
-    public void deinit()
-    {
-        joyport.setButton4(false, true);
-        joyport = null;
     }
     public void setCoordinates(int x, int y)
     {
         lightpenX = x;
         lightpenY = y;
-        if ((x == LIGHTPEN_OUT_OF_BOUNDS) || (y == LIGHTPEN_OUT_OF_BOUNDS)) 
-        {
-            joyport.setButton4(false, true);
-//            via_ca1 = 0;
-        }
-        
     }
-//    public int getWriteDataToPort(int portAOrg)
-//    {
-//        return -1;
-//    }
-//    public void valueChangedFromPSG()
-//    {
-//        
-//    }
-    @Override
-    public void setInputMode(boolean i)
+    public String toString()
     {
-        
-    }
-    @Override
-    public void updateInputDataFromDevice()
-    {
-    }
-    @Override
-    public void updateDeviceWithDataFromVectrex()
-    {
+        return "Lightpen";
     }
 }

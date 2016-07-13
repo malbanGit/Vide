@@ -7,7 +7,6 @@ package de.malban.vide.vecx.devices;
 
 import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.devices.JoyportDevice;
-import java.util.Vector;
 
 /**
  *
@@ -15,11 +14,11 @@ import java.util.Vector;
  */
 public class VectrexJoyport 
 {
+    
     int port = 0;
-    private boolean button1 = true;
-    private boolean button2 = true;
-    private boolean button3 = true;
-    private boolean button4 = true;
+    
+    private boolean outputFromVectrexButton[] = new boolean[4];
+    private boolean outputFromDeviceButton[] = new boolean[4];
     private int horizontal = 0x80; // left = 0, right = 0xff
     private int vertical = 0x80; // down = 0, up = 0xff
 
@@ -28,27 +27,37 @@ public class VectrexJoyport
     // if input == false
     // than values are set FROM vectrex
     boolean inputMode = false;
+    boolean outputMode = !inputMode;
     
     
     VecX vecx = null;
-    JoyportDevice device = null;
+    volatile JoyportDevice device = null;
     public VectrexJoyport(int p, VecX v)
     {
         port = p;
         vecx = v;
+        reset();
     }
     public void deinit()
     {
         if (device != null) device.deinit();
         device = null;
     }
+    public JoyportDevice getDevice()
+    {
+        return device;
+    }
     public void reset()
     {
         // default values for starters
-        button1 = true;
-        button2 = true;
-        button3 = true;
-        button4 = true;
+        outputFromVectrexButton[0] = true;
+        outputFromVectrexButton[1] = true;
+        outputFromVectrexButton[2] = true;
+        outputFromVectrexButton[3] = true;
+        outputFromDeviceButton[0] = true;
+        outputFromDeviceButton[1] = true;
+        outputFromDeviceButton[2] = true;
+        outputFromDeviceButton[3] = true;
         horizontal = 0x80; // left = 0, right = 0xff
         vertical = 0x80; // down = 0, up = 0xff
     }
@@ -59,29 +68,32 @@ public class VectrexJoyport
         if (device != null) device.deinit();
         device = null;
         if (d == null) return; // unplug
+        d.setJoyport(this);
         device = d;
-        device.setJoyport(this);
         setInputMode(inputMode);
     }
     
     public void step()
     {
         if (device == null) return;
-        device.step(vecx);
-        if (inputMode)
+        device.step();
+//        if (inputMode) // veclink1 seems to receive CA1 even in output mode
+// seems the mode does not matter
+// since the hardware is directly connected to VIA not "over" psg
         {
+        if (device != null) device.updateInputDataFromDevice();
             if (port == 1)
             {
-                // via reacts on == 0 or != 0
-                if (button4)
+                // via reacts on == 0 
+                if (outputFromDeviceButton[3])
                     vecx.via_ca1 = 1;
                 else
                     vecx.via_ca1 = 0;
+     //           System.out.printl
             }
             if (port == 0)
             {
-                // via reacts on == 0 or != 0
-                vecx.setFIRQ(button4);
+                vecx.setFIRQ(!outputFromDeviceButton[3]);
             }
         }
     }
@@ -89,84 +101,130 @@ public class VectrexJoyport
     public void setInputMode(boolean b)
     {
         inputMode = b;
-        if (device == null) return;
-        device.setInputMode(b);
+        outputMode = !inputMode;
+        
+        if (device != null) device.setInputMode(b);
+        
     }
+    
+    // read only variant for analog display windows, doesnt change vars
+    public boolean isButtonInRO(int no)
+    {
+        return outputFromDeviceButton[no];  
+    }
+    // read only variant for analog display windows, doesnt change vars
+    public boolean isButtonOutRO(int no)
+    {
+        return outputFromVectrexButton[no];  
+    }
+
+    private boolean isButton(int no, boolean fromDevice)
+    {
+        boolean fromVectrex = !fromDevice;
+        if (device != null) device.updateInputDataFromDevice();
+
+        if ((fromDevice)  && (inputMode)) 
+        {
+            // att!
+//            return outputFromVectrexButton[no];
+            return true; // guessed
+        }  
+        if ((fromVectrex) && (outputMode)) 
+        {
+            // att!
+            // berzerk arena needs input in output???
+            return outputFromDeviceButton[no];  
+//            return true; // verified
+        } 
+        
+        if ((fromDevice)  && (outputMode)) 
+        {
+            return outputFromVectrexButton[no];
+        }  
+
+        if ((fromVectrex) && (inputMode)) 
+        {
+            return outputFromDeviceButton[no];  
+        }
+
+        System.out.println("isButton is fucked");
+        // should never come here
+        return true;        
+    }
+    private void setButton(int no, boolean button, boolean fromDevice)
+    {
+        boolean fromVectrex = !fromDevice;
+        // straight forward
+        // sorting out of allowed, not allowed data is
+        // done upon read of "isButton"
+        // (although - it doesn't make any sense there either)
+        if (fromDevice) 
+        {
+            outputFromDeviceButton[no] = button;
+        }
+        if (fromVectrex) 
+        {
+            outputFromVectrexButton[no] = button;
+        }
+    }
+    
+    
+    
     
     /**
      * @return the button1
      */
     public boolean isButton1(boolean fromDevice) {
-        if (device != null) device.updateInputDataFromDevice();
-        if (fromDevice) if (inputMode) return true;
-        if (!fromDevice) if (!inputMode) return true;
-        return button1;
+        return isButton(0, fromDevice);
     }
 
     /**
      * @param button1 the button1 to set
      */
     public void setButton1(boolean button1, boolean fromDevice) {
-        if (inputMode)  if (fromDevice) this.button1 = button1;
-        if (!inputMode)  if (!fromDevice) this.button1 = button1;
-        if (!inputMode) if (device != null) device.updateDeviceWithDataFromVectrex();
+        setButton(0, button1, fromDevice);
     }
 
     /**
      * @return the button2
      */
     public boolean isButton2(boolean fromDevice) {
-        if (device != null) device.updateInputDataFromDevice();
-        if (fromDevice) if (inputMode) return true;
-        if (!fromDevice) if (!inputMode) return true;
-        return button2;
+        return isButton(1, fromDevice);
     }
 
     /**
      * @param button2 the button2 to set
      */
     public void setButton2(boolean button2, boolean fromDevice) {
-        if (inputMode)  if (fromDevice) this.button2 = button2;
-        if (!inputMode)  if (!fromDevice) this.button2 = button2;
-        if (!inputMode) if (device != null) device.updateDeviceWithDataFromVectrex();
+        setButton(1, button2, fromDevice);
     }
 
     /**
      * @return the button3
      */
     public boolean isButton3(boolean fromDevice) {
-        if (device != null) device.updateInputDataFromDevice();
-        if (fromDevice) if (inputMode) return true;
-        if (!fromDevice) if (!inputMode) return true;
-        return button3;
+        return isButton(2, fromDevice);
     }
 
     /**
      * @param button3 the button3 to set
      */
     public void setButton3(boolean button3, boolean fromDevice) {
-        if (inputMode)  if (fromDevice) this.button3 = button3;
-        if (!inputMode)  if (!fromDevice) this.button3 = button3;
-        if (!inputMode) if (device != null) device.updateDeviceWithDataFromVectrex();
+        setButton(2, button3, fromDevice);
     }
 
     /**
      * @return the button4
      */
     public boolean isButton4(boolean fromDevice) {
-        if (device != null) device.updateInputDataFromDevice();
-        if (fromDevice) if (inputMode) return true;
-        if (!fromDevice) if (!inputMode) return true;
-        return button4;
+        return isButton(3, fromDevice);
     }
 
     /**
      * @param button4 the button4 to set
      */
     public void setButton4(boolean button4, boolean fromDevice) {
-        if (inputMode)  if (fromDevice) this.button4 = button4;
-        if (!inputMode)  if (!fromDevice) this.button4 = button4;
-        if (!inputMode) if (device != null) device.updateDeviceWithDataFromVectrex();
+        setButton(3, button4, fromDevice);
     }
 
     /**

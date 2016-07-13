@@ -800,7 +800,6 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         });
 
         jCheckBox4.setText("Lightpen Port 2");
-        jCheckBox4.setEnabled(false);
         jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox4ActionPerformed(evt);

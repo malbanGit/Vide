@@ -34,7 +34,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
     {
         return orgData;
     }
-    boolean fullDisplay = false;
+    boolean fullDisplay = true;
     public void setFullDisplay(boolean b)
     {
         fullDisplay = b;

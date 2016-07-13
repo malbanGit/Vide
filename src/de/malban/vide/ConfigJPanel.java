@@ -379,6 +379,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jButton5 = new javax.swing.JButton();
         jCheckBoxScanForVectorLists = new javax.swing.JCheckBox();
         jPanel14 = new javax.swing.JPanel();
+        jTabbedPane3 = new javax.swing.JTabbedPane();
         keyBindingsJPanel1 = new de.malban.vide.vedi.project.KeyBindingsJPanel();
         jPanel15 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -1905,15 +1906,17 @@ public class ConfigJPanel extends javax.swing.JPanel implements
 
         jTabbedPane1.addTab("Editor", jPanel8);
 
+        jTabbedPane3.addTab("all keys", keyBindingsJPanel1);
+
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(keyBindingsJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+            .addComponent(jTabbedPane3)
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(keyBindingsJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE)
+            .addComponent(jTabbedPane3)
         );
 
         jTabbedPane1.addTab("Keyboard", jPanel14);
@@ -2617,6 +2620,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JSlider jSliderZero;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;

@@ -304,7 +304,6 @@ public class StarterJPanel extends javax.swing.JPanel implements
         jCheckBox2.setText("eEprom DS2430A");
 
         jCheckBox3.setText("Lightpen Port 1");
-        jCheckBox3.setEnabled(false);
         jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox3ActionPerformed(evt);

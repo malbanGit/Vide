@@ -29,7 +29,13 @@ import de.malban.vide.vecx.VecXState.vector_t;
 import static de.malban.vide.vecx.VecXStatics.EMU_TIMER;
 import static de.malban.vide.vecx.VecXStatics.VECTREX_MHZ;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
+import de.malban.vide.vecx.devices.AbstractDevice;
+import de.malban.vide.vecx.devices.JoyportDevice;
 import de.malban.vide.vecx.devices.KeyboardInputDevice;
+import de.malban.vide.vecx.devices.NullDevice;
+import de.malban.vide.vecx.devices.VecLinkV1Device;
+import de.malban.vide.vecx.devices.VecLinkV2Device;
+import de.malban.vide.vecx.devices.VecSpeechDevice;
 import de.malban.vide.vecx.spline.CardinalSpline;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -67,6 +73,9 @@ import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.event.ListDataListener;
 
 /**
  *
@@ -90,7 +99,6 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     
     boolean updateAllways = false;
     
-//    boolean keyEventsAreSet = false;
     public boolean stop = false;
     public boolean running = false;
     public boolean pausing = false;
@@ -184,16 +192,20 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     {
         jButtonStopActionPerformed(null);                                            
         resetMe();
+        AbstractDevice.exitSync = true;
+
     }
     /**
      * Creates new form DissiPanel
      */
     public VecXPanel() {
+        AbstractDevice.exitSync = false;
         initComponents();
         vecx = new VecX();
-        KeyboardInputDevice keyBoard = new KeyboardInputDevice(this);
-        vecx.joyport[0].plugIn(keyBoard);
+        ensureDevices();
+        initJoyportsFromFlag();
         vecx.setDisplayer(this);
+        updatePorts();
         resetGfx();
     }
 
@@ -215,8 +227,11 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         jButtonStart = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButtonLightpen = new javax.swing.JButton();
-        jButtonGoggle = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jComboBoxJoyport1 = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBoxJoyport0 = new javax.swing.JComboBox();
+        jButtonDebug = new javax.swing.JButton();
 
         setName("vecxy"); // NOI18N
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -288,35 +303,50 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             }
         });
 
-        jButton1.setText("save");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
+        jButton1.setToolTipText("save state");
+        jButton1.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("load");
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
+        jButton2.setToolTipText("load state");
+        jButton2.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButtonLightpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/pencil.png"))); // NOI18N
-        jButtonLightpen.setToolTipText("Lightpen");
-        jButtonLightpen.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonLightpen.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/Port.png"))); // NOI18N
+        jLabel1.setText("1");
+
+        jComboBoxJoyport1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Keyboard Controler", "Lightpen", "VecVox", "VecVoice", "VecLinkV1", "VecLinkV2", "3d-Imager" }));
+        jComboBoxJoyport1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLightpenActionPerformed(evt);
+                jComboBoxJoyport1ActionPerformed(evt);
             }
         });
 
-        jButtonGoggle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/color_wheel.png"))); // NOI18N
-        jButtonGoggle.setToolTipText("Goggle");
-        jButtonGoggle.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonGoggle.addActionListener(new java.awt.event.ActionListener() {
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/Port.png"))); // NOI18N
+        jLabel2.setText("0");
+
+        jComboBoxJoyport0.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Keyboard Controler", "Lightpen" }));
+        jComboBoxJoyport0.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGoggleActionPerformed(evt);
+                jComboBoxJoyport0ActionPerformed(evt);
+            }
+        });
+
+        jButtonDebug.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/bug_go.png"))); // NOI18N
+        jButtonDebug.setToolTipText("Associate dissi with this vecx instance.");
+        jButtonDebug.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonDebug.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDebugActionPerformed(evt);
             }
         });
 
@@ -325,27 +355,36 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(jLabel5)
-                .addGap(17, 17, 17)
-                .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(17, 17, 17)
+                        .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxJoyport1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonFileSelect1)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonStart)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonPause)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonStop)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonGoggle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonLightpen)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonFileSelect1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonStart)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonPause)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonStop)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDebug))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxJoyport0, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -356,28 +395,37 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
                         .addComponent(jButton2)
                         .addComponent(jButton1))
                     .addComponent(jButtonFileSelect1)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5))
                     .addComponent(jButtonPause)
                     .addComponent(jButtonStart)
                     .addComponent(jButtonStop)
-                    .addComponent(jButtonLightpen)
-                    .addComponent(jButtonGoggle))
-                .addGap(4, 4, 4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonDebug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jComboBoxJoyport0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxJoyport1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -405,8 +453,6 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             vecx.vecx_reset(!softreset);
             jButtonPauseActionPerformed(null);
         }
-        KeyboardInputDevice keyBoard = new KeyboardInputDevice(this);
-        vecx.joyport[0].plugIn(keyBoard);
     }
     
     private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
@@ -439,10 +485,10 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             if (dissi == null) return; 
         }
         setDissi(dissi);
-        dissi.setIcon(startTypeRun);
+        
+//        dissi.setIcon(startTypeRun);
         vecx.init(jTextFieldstart.getText(), cartProp);
-        KeyboardInputDevice keyBoard = new KeyboardInputDevice(this);
-        vecx.joyport[0].plugIn(keyBoard);
+
         dissi.dis(vecx.cart);
         if (!startTypeRun)
             dissi.setStartbreakpoint();
@@ -453,6 +499,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         stop = true;
         dissi.processHeyDissis();
         resetGfx();
+        updatePorts();
         start();
     }//GEN-LAST:event_jButtonStartActionPerformed
     boolean cartProp = true;
@@ -524,18 +571,14 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         pause();
     }//GEN-LAST:event_jButtonPauseActionPerformed
 
-    public void setDissi(DissiPanel d)
-    {
-        dissi = d;
-    }
-
     
     private void createDissi()
     {
         CSAMainFrame f = (CSAMainFrame) mParent;
         dissi = f.getDissi();
-        dissi.setVecxy(this);
-        checkWindows();
+//        dissi.setVecxy(this);
+//        checkWindows();
+    
     }
     // stops debugging,
     // if not debugging does nothing
@@ -558,8 +601,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         if (!isRunning())
         {
             vecx.init(jTextFieldstart.getText());
-            KeyboardInputDevice keyBoard = new KeyboardInputDevice(this);
-            vecx.joyport[0].plugIn(keyBoard);
+            initJoyportsFromFlag();
             if (config.overlayEnabled)
                 loadOverlay(vecx.romName);
             stop = true;
@@ -569,8 +611,8 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
                 createDissi();
                 if (dissi == null) return; 
             }
-            dissi.dis(vecx.cart);
             setDissi(dissi);
+            dissi.dis(vecx.cart);
             dissiInit = true;
             checkWindows();
             oneStep();
@@ -587,11 +629,11 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
                     createDissi();
                     if (dissi == null) return; 
                 }
+                setDissi(dissi);
                 if (regi!= null) regi.setDissi(dissi);
                 dissi.dis(vecx.cart);
                 dissiInit = true;
             }
-            setDissi(dissi);
             checkWindows();
             oneStep();
         }        
@@ -634,12 +676,8 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         stop();
         dissiInit = false;
         if (!vecx.loadStateFromFile("")) return;
-
-        if (vecx.lightpen)
-        {
-            toggleLightPen();
-            toggleLightPen();
-        }
+        
+        initJoyportsFromFlag();
         
         
         
@@ -766,11 +804,11 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
                     createDissi();
                     if (dissi == null) return; 
                 }
+                setDissi(dissi);
                 if (regi!= null) regi.setDissi(dissi);
                 dissi.dis(vecx.cart);
                 dissiInit = true;
             }
-            setDissi(dissi);
             oneStep();
         }
         else
@@ -800,7 +838,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         mouseMode = b;
     }
     private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
-        if ((!mouseMode) && (!vecx.lightpen)) return;
+        if ((!mouseMode) && (!deviceList.get(DEVICE_LIGHTPEN).isActive())) return;
         mX=evt.getX();
         mY=evt.getY();
         if (!mouseMode) return;
@@ -818,7 +856,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     }//GEN-LAST:event_formMouseEntered
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        if ((!mouseMode) && (!vecx.lightpen)) return;
+        if ((!mouseMode) && (!deviceList.get(DEVICE_LIGHTPEN).isActive())) return;
         shiftPressed = false;
         if (evt.getButton() == MouseEvent.BUTTON1)
         {
@@ -834,20 +872,20 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
-        if ((!mouseMode) && (!vecx.lightpen)) return;
+        if ((!mouseMode) && (!deviceList.get(DEVICE_LIGHTPEN).isActive())) return;
         if (evt.getButton() == MouseEvent.BUTTON1)
         {
             mousePressed = false;
             shiftPressed = KeyboardListener.isShiftDown();
         }
-        if (vecx.lightpen) unsetLightPen();
+        if (deviceList.get(DEVICE_LIGHTPEN).isActive()) unsetLightPen();
         if (!mouseMode) return;
         crossColor = Color.ORANGE;
         repaint();
     }//GEN-LAST:event_formMouseReleased
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-        if ((!mouseMode) && (!vecx.lightpen)) return;
+        if ((!mouseMode) && (!deviceList.get(DEVICE_LIGHTPEN).isActive())) return;
         mX=evt.getX();
         mY=evt.getY();
         if (!mouseMode) return;
@@ -855,6 +893,25 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         noCross = false;
         repaint();
     }//GEN-LAST:event_formMouseDragged
+
+    private void jComboBoxJoyport1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxJoyport1ActionPerformed
+        if (mClassSetting>0) return;
+        vecx.joyport[1].plugIn((JoyportDevice)jComboBoxJoyport1.getSelectedItem());
+        AbstractDevice.exitSync = false;
+        
+        updatePorts();
+    }//GEN-LAST:event_jComboBoxJoyport1ActionPerformed
+
+    private void jComboBoxJoyport0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxJoyport0ActionPerformed
+        if (mClassSetting>0) return;
+        AbstractDevice.exitSync = false;
+        vecx.joyport[0].plugIn((JoyportDevice)jComboBoxJoyport0.getSelectedItem());
+        updatePorts();
+    }//GEN-LAST:event_jComboBoxJoyport0ActionPerformed
+
+    private void jButtonDebugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDebugActionPerformed
+        ensureMyDissi();
+    }//GEN-LAST:event_jButtonDebugActionPerformed
 
     public void setUpdateAllways(boolean b)
     {
@@ -963,24 +1020,19 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     }
     
     
-    private void jButtonLightpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLightpenActionPerformed
-        toggleLightPen();
-    }//GEN-LAST:event_jButtonLightpenActionPerformed
-
-    private void jButtonGoggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGoggleActionPerformed
-       // vecx.toggleGoggle();
-    }//GEN-LAST:event_jButtonGoggleActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonDebug;
     private javax.swing.JButton jButtonFileSelect1;
-    private javax.swing.JButton jButtonGoggle;
-    private javax.swing.JButton jButtonLightpen;
     private javax.swing.JButton jButtonPause;
     private javax.swing.JButton jButtonStart;
     private javax.swing.JButton jButtonStop;
+    private javax.swing.JComboBox jComboBoxJoyport0;
+    private javax.swing.JComboBox jComboBoxJoyport1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextFieldstart;
@@ -1011,7 +1063,9 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
                             cyclesToRun = 1;
                             vecx.directDrawActive = true;
                         }
+                        
                         setLightPen();
+                        
                         exitReason = vecx.vecx_emu(cyclesToRun);    
                         vecx.directDrawActive = false;
                         if (exitReason == EMU_EXIT_BREAKPOINT_BREAK)
@@ -1021,6 +1075,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
                         }
                         if (exitReason == EMU_EXIT_BREAKPOINT_CONTINUE)
                         {
+                            
                             breakpointHandleContinue(vecx.activeBreakpoint);
                         }
                     }
@@ -1051,8 +1106,10 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
                             {
                                 public void run()
                                 {
+                                    
                                     updateDisplay();
                                     updateAvailableWindows(true, false, true);
+                                    
                                 }
                             });                    
                             if (config.multiStepDelay>0)
@@ -1164,6 +1221,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             try 
             {
                 Thread.sleep(10);
+                vecx.stopEmulation();
             } 
             catch(InterruptedException v) 
             {
@@ -1191,14 +1249,13 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         debuging = false;
         pausing = false;
         vecx.vecx_reset();
-        KeyboardInputDevice keyBoard = new KeyboardInputDevice(this);
-        vecx.joyport[0].plugIn(keyBoard);
         if (image != null)
         {
             Graphics2D g2 = image.createGraphics();
             g2.clearRect(0, 0, image.getWidth(), image.getHeight());
             
         }
+        initJoyportsFromFlag();
         repaint();
     }
     public boolean isRunning()
@@ -1525,7 +1582,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             g2.setFont(this.getFont());
             g2.drawString("Debug", (image.getWidth()/2)-20, image.getHeight()/3);
         }
-        if(vecx.lightpen)
+        if(deviceList.get(DEVICE_LIGHTPEN).isActive())
         {
             Color c = new Color(255,0,0,255 );
             if (mousePressed)
@@ -1535,7 +1592,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             g2.setFont(this.getFont());
             g2.drawString("Lightpen", (image.getWidth()/2)-20, image.getHeight()/3);
         }
-        if(vecx.imager)
+        if(deviceList.get(DEVICE_IMAGER).isActive())
         {
             Color c = new Color(255,0,0,255 );
             g2.setColor(Color.YELLOW);
@@ -2079,7 +2136,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     public void setLightPen()
     {
         if (image == null) return;
-        if (!vecx.lightpen) return;
+        if (!deviceList.get(DEVICE_LIGHTPEN).isActive()) return;
         if (!mousePressed) {unsetLightPen();return;}
 
         // coordinates on image of vectrex
@@ -2099,8 +2156,9 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     
     private void updateAvailableWindows(boolean jumpInDissi, boolean moveDissiToFirst, boolean forceUpdate)
     {
+        if (!dissiActive) return;
         if (dissi != null)
-            if (jumpInDissi)
+            if ((jumpInDissi) && (!pausing))
                 dissi.goAddress(vecx.e6809.reg_pc, moveDissiToFirst, false, forceUpdate);
         if (regi != null)
             regi.updateValues(forceUpdate);
@@ -2499,8 +2557,6 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
                 }
                 else
                 {
-                    KeyboardInputDevice keyBoard = new KeyboardInputDevice(VecXPanel.this);
-                    vecx.joyport[0].plugIn(keyBoard);
                     SwingUtilities.invokeLater(new Runnable()
                     {
                         public void run()
@@ -2536,6 +2592,8 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         stop = true;
         dissi.processHeyDissis();
         resetGfx();
+        initJoyportsFromFlag();
+        updatePorts();
         start();
         
     }
@@ -2603,26 +2661,175 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         list.saveAsXML(saveName);
     }
     
-    
-    LightpenDevice lightpenDevice = null;
-    public boolean toggleLightPen()
-    {
-        vecx.lightpen = !vecx.lightpen;
-        lightpenDevice = null;
-        if (vecx.lightpen) lightpenDevice =new LightpenDevice();
-        vecx.joyport[1].plugIn(lightpenDevice);
-        return vecx.lightpen;
-    }
     // expects vectrex coordionates like vector list
     // transformed to upper left corner. (is 0,0)
     // values from 0 to ALG_MAX_X and 0 to ALG_MAX_Y
     public void setLightPen(int x, int y)
     {
-        if (lightpenDevice != null)
+        if (deviceList.get(DEVICE_LIGHTPEN).isActive())
         {
-            lightpenDevice.setCoordinates(x,y);
+            ((LightpenDevice)deviceList.get(DEVICE_LIGHTPEN)).setCoordinates(x,y);
         }
     }
     
+    void updatePorts()
+    {
+        mClassSetting++;
+        
+        if (vecx.joyport[0].getDevice() == null) vecx.joyport[0].plugIn(deviceList.get(DEVICE_NULL));
+        if (vecx.joyport[1].getDevice() == null) vecx.joyport[1].plugIn(deviceList.get(DEVICE_NULL));
+        
+        jComboBoxJoyport0.setSelectedItem(vecx.joyport[0].getDevice());
+        jComboBoxJoyport1.setSelectedItem(vecx.joyport[1].getDevice());
+        mClassSetting--;
+    }
     
+    
+    ArrayList<JoyportDevice> deviceList = null;
+    
+    
+    private void ensureDevices()
+    {
+        if (deviceList != null) return;
+        deviceList = new ArrayList<JoyportDevice>();
+
+        deviceList.add(new NullDevice()); // 0
+
+        deviceList.add(new KeyboardInputDevice(this, 0)); // 1
+        deviceList.add(new KeyboardInputDevice(this, 1)); // 2
+        
+        deviceList.add(new LightpenDevice()); // 3
+        
+        VecSpeechDevice speech = new VecSpeechDevice(); 
+        speech.setVecVoice(true);
+        deviceList.add(speech); // 4
+        
+        speech = new VecSpeechDevice();
+        speech.setVecVoice(false);
+        deviceList.add(speech);// 5
+
+        deviceList.add(new NullDevice()); // 6 (imager someday
+
+        deviceList.add(VecLinkV1Device.getVecLinkV1(0));// 7
+        deviceList.add(VecLinkV1Device.getVecLinkV1(1));// 8
+        deviceList.add(VecLinkV2Device.getVecLinkV2(0));// 9
+        deviceList.add(VecLinkV2Device.getVecLinkV2(1));// 10
+        
+        
+        
+        jComboBoxJoyport0.setModel((new DefaultComboBoxModel(deviceList.toArray())) );
+        jComboBoxJoyport1.setModel((new DefaultComboBoxModel(deviceList.toArray())) );
+        
+    }
+    
+    public static int DEVICE_NULL = 0;
+    public static int DEVICE_KEYBOARD0 = 1;
+    public static int DEVICE_KEYBOARD1 = 2;
+    public static int DEVICE_LIGHTPEN = 3;
+    public static int DEVICE_VECVOICE = 4;
+    public static int DEVICE_VECVOX = 5;
+
+    public static int DEVICE_IMAGER = 6;
+
+    public static int DEVICE_LINKV1_L = 7;
+    public static int DEVICE_LINKV1_R = 8;
+    public static int DEVICE_LINKV2_L = 9;
+    public static int DEVICE_LINKV2_R = 10;
+    
+    
+    private void initJoyportsFromFlag()
+    {
+        if (vecx == null) return;
+        vecx.joyport[0].plugIn(deviceList.get(DEVICE_KEYBOARD0));
+        vecx.joyport[1].plugIn(deviceList.get(DEVICE_KEYBOARD1));
+
+        if (vecx.cart == null) return;
+        if (vecx.cart.currentCardProp == null) return;
+        
+        int flags = vecx.cart.currentCardProp.getTypeFlags();
+        if ((flags & Cartridge.FLAG_LIGHTPEN1) == Cartridge.FLAG_LIGHTPEN1)
+        {
+            vecx.joyport[0].plugIn(deviceList.get(DEVICE_LIGHTPEN));
+        }
+        if ((flags & Cartridge.FLAG_LIGHTPEN2) == Cartridge.FLAG_LIGHTPEN2)
+        {
+            vecx.joyport[1].plugIn(deviceList.get(DEVICE_LIGHTPEN));
+        }
+        if ((flags & Cartridge.FLAG_VEC_VOICE) == Cartridge.FLAG_VEC_VOICE)
+        {
+            vecx.joyport[1].plugIn(deviceList.get(DEVICE_VECVOICE));
+        }
+        if ((flags & Cartridge.FLAG_VEC_VOX) == Cartridge.FLAG_VEC_VOX)
+        {
+            vecx.joyport[1].plugIn(deviceList.get(DEVICE_VECVOX));
+        }
+    }
+    
+    public void setDissi(DissiPanel d)
+    {
+        dissi = d;
+        dissi.newEnvironment(this);
+        myDissi = dissi.getData();
+        AbstractDevice.exitSync = false;
+    }
+    
+    DissiPanel.DissiSwitchData myDissi;
+    
+    boolean dissiActive = true;
+    public void setDissiAcitve(boolean a)
+    {
+        dissiActive = a;
+    }
+    void ensureMyDissi()
+    {
+        if (dissi == null) return;
+        if (dissi.getUID() == myDissi.uid) return;
+        breakpointClearAll();
+        dissi.changeBaseData(myDissi);
+       
+        findWindows();
+        
+        if (dissi != null) dissi.setVecxy(this);
+        if (dumpi != null) dumpi.setVecxy(this);
+        if (regi != null) regi.setE6809(vecx.e6809);
+        if (regi != null) regi.setVecxy(this);
+        if (vinfi != null) vinfi.setVecxy(this);
+        if (viai != null) viai.setVecxy(this);
+        if (ani != null) ani.setVecxy(this);
+        if (vari != null) vari.setVecxy(this);
+        if (breaki != null) breaki.setVecxy(this);
+        if (labi != null) labi.setVecxy(this);
+        if (tracki != null) tracki.setVecxy(this);
+        if (ayi != null) ayi.setVecxy(this);        
+        
+        if (dumpi != null) dumpi.setDissi(dissi);
+        if (regi != null) regi.setDissi(dissi);
+        if (vinfi != null) vinfi.setDissi(dissi);
+        if (vari != null) vari.setDissi(dissi);
+        if (labi != null) labi.setDissi(dissi);
+        if (ayi != null) ayi.setDissi(dissi);
+        if (breaki != null) breaki.setDissi(dissi);
+
+        
+        updateAvailableWindows(false, false, true);
+    }
+    // if my own "panels" are null and they were opened meanwhile for antother panel - find them
+    // if my own panels are now closed -> null them
+    void findWindows()
+    {
+        CSAMainFrame f = (CSAMainFrame) mParent;
+        dissi = f.checkDissi();
+        dumpi = f.checkDumpy();
+        regi = f.checkRegi();
+        vinfi = f.checkVinfi();
+        viai = f.checkViay();
+        ani = f.checkAni();
+        vari = f.checkVari();
+        breaki = f.checkBreaki();
+        labi = f.checkLabi();
+        tracki = f.checkWRTracker();
+        ayi = f.checkAyi();
+        
+    }
+            
 }

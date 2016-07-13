@@ -3653,7 +3653,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
                 CartridgeProperties cartProp = buildCart(currentProject);
+                
                 vec.startCartridge(cartProp, startTypeRun);
+                
                 printMessage("Assembly successfull, starting emulation...");
             }
             else

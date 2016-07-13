@@ -74,7 +74,6 @@ import de.malban.vide.veccy.VectorListScanner;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_RAM_DS2430A;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOICE;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOX;
-import de.malban.vide.vecx.devices.KeyboardInputDevice;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_YM;
@@ -295,8 +294,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 break;
             case 0x18:
                 /* the sound chip is latching an address */
-                if ((via_ora & 0xf0) == 0x00) {
-                        snd_select = via_ora & 0x0f;
+                if ((via_ora & 0xf0) == 0x00) 
+                {
+                    snd_select = via_ora & 0x0f;
                 }
                 break;
         }
@@ -375,8 +375,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         if ((via_orb & 0x18) == 0x08) 
                         {
                             /* the snd chip is driving port a */
-                            e8910.updatePortAData(snd_select);
-                            data = e8910.snd_regs[snd_select];
+                            data = e8910.read(snd_select);
                         } 
                         else 
                         {
@@ -500,9 +499,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     case 0xf:
                         if ((via_orb & 0x18) == 0x08) 
                         {
-                                /* the snd chip is driving port a */
-                            e8910.updatePortAData(snd_select);
-                            data = e8910.snd_regs[snd_select];
+                            /* the snd chip is driving port a */
+                            data = e8910.read(snd_select);
                         } 
                         else 
                         {
@@ -855,9 +853,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             ram[r] = r & 0xff;
         }
         
-        joyport[0].plugIn(null);
-        joyport[1].plugIn(null);
         e8910.reset();
+        e8910.setVectrexJoyport(joyport);
         for (r = 0; r < 16; r++) 
         {
             e8910.e8910_write(r, 0);
@@ -866,24 +863,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         /* input buttons */
         // this "write" does not work anymore, since it now
         // reespects the input enable register
-//        e8910.e8910_write(14, 0xff);
-//        e8910.snd_regs[14] = 0xff;
-        
-        if (vecVoiceEnabled)
-        {
-            VecSpeechDevice vecVoice = new VecSpeechDevice(e8910);
-            vecVoice.setVecVoice(true);
-            joyport[1].plugIn(vecVoice);
-        }
-        else if (vecVoxEnabled)
-        {
-            vecVoiceEnabled = true;
-            VecSpeechDevice vecVoice = new VecSpeechDevice(e8910);
-            vecVoice.setVecVoice(false);
-            joyport[1].plugIn(vecVoice);
-        }
 
-        e8910.setVectrexJoyport(joyport);
         snd_select = 0;
         lastShiftTriggered = 0;
         via_stalling = false;
@@ -909,7 +889,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         via_pcr = 0;
         via_ifr = 0;
         via_ier = 0;
-        via_ca1 = 0;
+        via_ca1 = 1;
         via_ca2 = 1;
         via_cb2h = 1;
         via_cb2s = 0;
@@ -950,16 +930,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
         fcycles = FCYCLES_INIT;
         cyclesRunning = 0;
-        lightpen = false;
-
-        imager = false;
-        lastImagerData =0;
-        lastImagerCycleCount =0;
-        imagerPulse =0;
-        
-        imagerIn = true;
-        imagerOut = true;
-        imagerCountDown = 0;
 
         if (clearBreakpoints)
         {
@@ -1177,15 +1147,43 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             via_cb2h = 1;
             addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
         }
-        
-        if (via_ca1!=0) // interrupt flag can be set without its enable flag && ((via_ier&0x02)==0x02))
+        /*
+        // VecLink 1 working
+        if (via_ca1==0) // interrupt flag can be set without its enable flag && ((via_ier&0x02)==0x02))
         {
-            via_ifr = via_ifr | 0x02;
-            int_update ();
-            
+            if (old_via_ca1==1) // NEW
+            {
+                via_ifr = via_ifr | 0x02;
+                int_update();
+                
+            }
         }
+        */        
+
+        // documentation of VIA
+        if (via_ca1 !=old_via_ca1)
+        {
+            if ((via_pcr & 0x01) == 0x01) // interrupt flag is set by transition low to high
+            {
+                if (via_ca1 != 0)
+                {
+                    via_ifr = via_ifr | 0x02;
+                    int_update();
+                }
+            }
+            else // ((via_pcr & 0x01) == 0x00) // interrupt flag is set by transition high to low
+            {
+                if (via_ca1 == 0)
+                {
+                    via_ifr = via_ifr | 0x02;
+                    int_update();
+                }
+            }
+        }
+        old_via_ca1 =via_ca1;// NEW
 
     }
+    int old_via_ca1 = 1; 
     
     // input in vectrex coordinates!
     // transformed to upper left corner. (is 0,0)
@@ -1288,13 +1286,24 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     {
         return cyclesRunning;
     }
+    static int UID_ = 1;
+    static int uid = UID_++;    
+    volatile boolean debugging = false;
+    boolean stop = false;
+    void stopEmulation()
+    {
+        debugging = true;
+        stop = true;
+    }
     int vecx_emu(long cyclesOrg)
     {
+        stop = false;
         int c, icycles;
         long cycles = cyclesOrg;
         int reason = EMU_EXIT_CYCLES_DONE;
         breakpointExit=EMU_EXIT_CYCLES_DONE;
         activeBreakpoint.clear();
+        if (cyclesOrg<=1) debugging = true; else debugging = false;
         tmp.clear(); // breakpoint (one time) that must be deleted
 
         // if emulation is run from a "behind" step
@@ -1305,8 +1314,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             ringWalkStep = -1;
         }
         
-        while (cycles > 0) 
+        while ((cycles > 0) && (!stop))
         {
+//System.out.println(uid+": "+cyclesRunning);            
             nonCPUStepsDone = 0;
             // see: http://oldies.malban.de/firstvectrex/vectrex/UNSORTED/text/6809/HTML/UP05.HTM
             int pc = e6809.reg_pc%65536;
@@ -1398,6 +1408,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             
             if (activeBreakpoint.size() != 0)
             {
+                debugging = true;
                 return breakpointExit;
             }
             //Fill buffer and call core to update sound
@@ -1524,8 +1535,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 return false;
             }
             ds2430Enabled = (cartProp.getTypeFlags()&FLAG_RAM_DS2430A)!=0;
-            vecVoiceEnabled =(cartProp.getTypeFlags()&FLAG_VEC_VOICE)!=0;
-            vecVoxEnabled =(cartProp.getTypeFlags()&FLAG_VEC_VOX)!=0;
             e6809.e6809_reset();  
             vecx_reset();
         }
@@ -1609,21 +1618,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             cart.setListener(mListener);
             cart.init();
 
-            // todo: sort out state of ports
-            if (vecVoiceEnabled)
-            {
-                VecSpeechDevice vecVoice = new VecSpeechDevice(e8910);
-                vecVoice.setVecVoice(true);
-                joyport[1].plugIn(vecVoice);
-            }
-            else if (vecVoxEnabled)
-            {
-                vecVoiceEnabled = true;
-                VecSpeechDevice vecVoice = new VecSpeechDevice(e8910);
-                vecVoice.setVecVoice(false);
-                joyport[1].plugIn(vecVoice);
-            }
-            
             return true;
         } 
         catch (Throwable ex) 
@@ -1640,9 +1634,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         cart.setBank(currentBank); // just in case a bankswitch occurred
         cart.setVecx(this);
         cart.ds2430.cart = cart;
-        // todo joyport devices not "set from state"
-//        if (vecVoice != null) vecVoice.initClone(e8910);
-        
     }
     
     // all ringbuffers should 
@@ -1906,7 +1897,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
     /* perform a single cycle worth of analog emulation */
     
-    int THRES = 100;
+    int THRES = 200;
     long noiseCycles = 0;
     void analogStep()
     {
@@ -1922,7 +1913,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
             sig_dx = (ALG_MAX_X / 2 - (int)alg_curr_x);
             sig_dy = (ALG_MAX_Y / 2 - (int)alg_curr_y);
-
+/* Doing the below threshold does not reset zero fast enough
+            // this can be seen most in berzerk arena, labyrinht drawin
+            // zeroing there is very optimized!
+            
             // this is just fun - not real!
             THRES -= 2;
             if (THRES<10) THRES =10;
@@ -1933,7 +1927,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             if ((ALG_MAX_Y / 2 - (int)alg_curr_y)>THRES*THRES ) sig_dy = THRES*THRES;
             else if ((ALG_MAX_Y / 2 - (int)alg_curr_y)<-THRES*THRES ) sig_dy = -THRES*THRES;
             else sig_dy = (ALG_MAX_Y / 2 - (int)alg_curr_y);
-            
+            */
         } 
         else 
         {
@@ -2858,7 +2852,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             recordData.add(psgData);
             for (int i=0; i<16; i++)
             {
-                psgData[i] = (byte) (e8910.snd_regs[i]&0xff);
+                psgData[i] = (byte) (e8910.read(i)&0xff);
             }
         }
     }
@@ -2870,8 +2864,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public void setFIRQ(boolean lineState)
     {
         // firq line is zero active
-        if (!lineState) firq = 1;
-        firq = 0;
+        if (lineState) 
+            firq = 1;
+        else 
+            firq = 0;
+    }
+    public boolean isDebugging()
+    {
+        return debugging;
     }
 }
 

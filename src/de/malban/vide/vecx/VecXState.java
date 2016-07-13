@@ -146,24 +146,9 @@ public class VecXState implements Serializable
     public int alg_vector_dy = 0;
     public int alg_vector_color = 0;
     public int alg_vector_speed = 0;
-     
-    
-    public boolean lightpen=false;
-   
-    public boolean imager = false;
-    public int lastImagerData =0;
-    public long lastImagerCycleCount =0;
-    public int imagerPulse =0;
-    public boolean imagerIn = true;
-    public boolean imagerOut = true;
-    public int imagerCountDown = 0;
     public int currentBank = 0;
-
     public long cyclesRunning=0;
-    
     public boolean ds2430Enabled = false;
-    public boolean vecVoiceEnabled = false;
-    public boolean vecVoxEnabled = false;
     
     // no rom or cart
     public static void deepCopy(VecXState from, VecXState to)
@@ -178,88 +163,85 @@ public class VecXState implements Serializable
         
         Cartridge.deepCopy(from.cart, to.cart, doRam, doTimer);
         to.ds2430Enabled = from.ds2430Enabled;
-        to.vecVoiceEnabled = from.vecVoiceEnabled;
+        to.lastShiftTriggered = from.lastShiftTriggered;
+        to.via_stalling = from.via_stalling;
+        to.snd_select= from.snd_select;
+       /* the via 6522 registers */
+        to.via_ora= from.via_ora;
+        to.via_orb= from.via_orb;
+        to.via_ddra= from.via_ddra;
+        to.via_ddrb= from.via_ddrb;
+        to.via_t1on= from.via_t1on;  /* is timer 1 on? */
+        to.via_t1int= from.via_t1int; /* are timer 1 interrupts allowed? */
+        to.via_t1c= from.via_t1c;
+        to.via_t1ll= from.via_t1ll;
+        to.via_t1lh= from.via_t1lh;
+        to.via_t1pb7= from.via_t1pb7; /* timer 1 controlled version of pb7 */
+        to.via_t2on= from.via_t2on;  /* is timer 2 on? */
+        to.via_t2int= from.via_t2int; /* are timer 2 interrupts allowed? */
+        to.via_t2c= from.via_t2c;
+        to.via_t2ll= from.via_t2ll;
+        to.via_sr= from.via_sr;
+        to.via_srb= from.via_srb;   /* number of bits shifted so far */
+        to.via_src= from.via_src;   /* shift counter */
+        to.via_srclk= from.via_srclk;
+        to.via_acr= from.via_acr;
+        to.via_pcr= from.via_pcr;
+        to.via_ifr= from.via_ifr;
+        to.via_ier= from.via_ier;
+        to.via_ca1= from.via_ca1;
+        to.via_ca2= from.via_ca2;
+        to.via_cb2h= from.via_cb2h; 
+        to.via_cb2s= from.via_cb2s;  
 
-        to.vecVoxEnabled = from.vecVoxEnabled;
-       to.lastShiftTriggered = from.lastShiftTriggered;
-       to.via_stalling = from.via_stalling;
-       to.snd_select= from.snd_select;
-      /* the via 6522 registers */
-       to.via_ora= from.via_ora;
-       to.via_orb= from.via_orb;
-       to.via_ddra= from.via_ddra;
-       to.via_ddrb= from.via_ddrb;
-       to.via_t1on= from.via_t1on;  /* is timer 1 on? */
-       to.via_t1int= from.via_t1int; /* are timer 1 interrupts allowed? */
-       to.via_t1c= from.via_t1c;
-       to.via_t1ll= from.via_t1ll;
-       to.via_t1lh= from.via_t1lh;
-       to.via_t1pb7= from.via_t1pb7; /* timer 1 controlled version of pb7 */
-       to.via_t2on= from.via_t2on;  /* is timer 2 on? */
-       to.via_t2int= from.via_t2int; /* are timer 2 interrupts allowed? */
-       to.via_t2c= from.via_t2c;
-       to.via_t2ll= from.via_t2ll;
-       to.via_sr= from.via_sr;
-       to.via_srb= from.via_srb;   /* number of bits shifted so far */
-       to.via_src= from.via_src;   /* shift counter */
-       to.via_srclk= from.via_srclk;
-       to.via_acr= from.via_acr;
-       to.via_pcr= from.via_pcr;
-       to.via_ifr= from.via_ifr;
-       to.via_ier= from.via_ier;
-       to.via_ca1= from.via_ca1;
-       to.via_ca2= from.via_ca2;
-       to.via_cb2h= from.via_cb2h; 
-       to.via_cb2s= from.via_cb2s;  
+        to.alg_DAC.intValue= from.alg_DAC.intValue;  
+        to.alg_oldDAC= from.alg_oldDAC;  
 
-       to.alg_DAC.intValue= from.alg_DAC.intValue;  
-       to.alg_oldDAC= from.alg_oldDAC;  
-       
-       to.alg_sel.intValue= from.alg_sel.intValue;  
-       to.sig_zero.intValue= from.sig_zero.intValue;  
-       to.sig_ramp.intValue= from.sig_ramp.intValue;  
-       to.sig_blank.intValue= from.sig_blank.intValue;  
-       to.alg_rsh.intValue= from.alg_rsh.intValue;  
-       to.alg_xsh.intValue= from.alg_xsh.intValue;  
-       to.alg_ysh.intValue= from.alg_ysh.intValue;  
-       to.alg_zsh.intValue= from.alg_zsh.intValue;  
-       to.alg_ssh.intValue= from.alg_ssh.intValue;  
-       to.alg_jsh= from.alg_jsh;   
-       to.alg_compare= from.alg_compare;   
-       to.alg_curr_x= from.alg_curr_x;   
-       to.alg_curr_y= from.alg_curr_y;   
-       to.alg_old_x= from.alg_old_x;   
-       to.alg_old_y= from.alg_old_y;   
+        to.alg_sel.intValue= from.alg_sel.intValue;  
+        to.sig_zero.intValue= from.sig_zero.intValue;  
+        to.sig_ramp.intValue= from.sig_ramp.intValue;  
+        to.sig_blank.intValue= from.sig_blank.intValue;  
+        to.alg_rsh.intValue= from.alg_rsh.intValue;  
+        to.alg_xsh.intValue= from.alg_xsh.intValue;  
+        to.alg_ysh.intValue= from.alg_ysh.intValue;  
+        to.alg_zsh.intValue= from.alg_zsh.intValue;  
+        to.alg_ssh.intValue= from.alg_ssh.intValue;  
+        to.alg_jsh= from.alg_jsh;   
+        to.alg_compare= from.alg_compare;   
+        to.alg_curr_x= from.alg_curr_x;   
+        to.alg_curr_y= from.alg_curr_y;   
+        to.alg_old_x= from.alg_old_x;   
+        to.alg_old_y= from.alg_old_y;   
 
-       to.alg_oldRamp= from.alg_oldRamp;   
-       to.alg_oldZero= from.alg_oldZero;   
-       to.alg_oldBlank= from.alg_oldBlank;   
-       to.alg_oldzsh= from.alg_oldzsh;   
-       to.alg_curved = from.alg_curved;
+        to.alg_oldRamp= from.alg_oldRamp;   
+        to.alg_oldZero= from.alg_oldZero;   
+        to.alg_oldBlank= from.alg_oldBlank;   
+        to.alg_oldzsh= from.alg_oldzsh;   
+        to.alg_curved = from.alg_curved;
        
         to.alg_ramping = from.alg_ramping;
         to.alg_spline_compare_dx = from.alg_spline_compare_dx;
         to.alg_spline_compare_dy = from.alg_spline_compare_dy;
        
        
-       if (from.directDrawVector != null)
-       {
-           to.directDrawVector = new vector_t();
-           to.directDrawVector.x0 = from.directDrawVector.x0;
-           to.directDrawVector.x1 = from.directDrawVector.x1;
-           to.directDrawVector.y0 = from.directDrawVector.y0;
-           to.directDrawVector.midChange = from.directDrawVector.midChange;
-           to.directDrawVector.y1 = from.directDrawVector.y1;
-           to.directDrawVector.color = from.directDrawVector.color;
-           to.directDrawVector.speed = from.directDrawVector.speed;
-           to.directDrawVector.callStack = new ArrayList<Integer>();
-           if (from.directDrawVector.callStack != null)
-               for (int cs: from.directDrawVector.callStack)
-                   to.directDrawVector.callStack.add(cs);
-           
-                           
-       }
-       
+        if (from.directDrawVector != null)
+        {
+            to.directDrawVector = new vector_t();
+            to.directDrawVector.x0 = from.directDrawVector.x0;
+            to.directDrawVector.x1 = from.directDrawVector.x1;
+            to.directDrawVector.y0 = from.directDrawVector.y0;
+            to.directDrawVector.midChange = from.directDrawVector.midChange;
+            to.directDrawVector.y1 = from.directDrawVector.y1;
+            to.directDrawVector.color = from.directDrawVector.color;
+            to.directDrawVector.speed = from.directDrawVector.speed;
+            to.directDrawVector.callStack = new ArrayList<Integer>();
+            if (from.directDrawVector.callStack != null)
+                for (int cs: from.directDrawVector.callStack)
+                    to.directDrawVector.callStack.add(cs);
+
+
+        }
+
        to.alg_vectoring= from.alg_vectoring;   
 
        to.alg_vector_x0= from.alg_vector_x0;   
@@ -274,7 +256,6 @@ public class VecXState implements Serializable
        to.ticksRunning= from.ticksRunning;   
        to.cyclesRunning = from.cyclesRunning;// this one is for dissi alone!
 
-       to.lightpen = from.lightpen;
        to.currentBank = from.currentBank;
        
        if (doTimer)

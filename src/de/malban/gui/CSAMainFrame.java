@@ -24,6 +24,7 @@ import de.malban.gui.panels.TipOfDayGUI;
 import de.malban.gui.panels.WindowablePanel;
 import de.malban.jdbc.DBConnectionEdit;
 import de.malban.jdbc.StatementWindow;
+import de.malban.util.KeyboardListener;
 import de.malban.vide.assy.AssyPanel;
 import de.malban.vide.dissy.CompareDissiPanel;
 import de.malban.vide.dissy.DissiFullPanel;
@@ -40,6 +41,7 @@ import de.malban.vide.vecx.panels.VIAJPanel;
 import de.malban.vide.vecx.panels.VarJPanel;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vecx.cartridge.CartridgePropertiesPanel;
+import de.malban.vide.vecx.devices.AbstractDevice;
 import de.malban.vide.vecx.panels.StarterJPanel;
 import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
@@ -831,6 +833,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
+        AbstractDevice.exitSync = true;
         saveStateAll();
         dispose();
         System.exit(0);
@@ -898,17 +901,30 @@ public class CSAMainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_jMenuItemAssiActionPerformed
 
     private void jMenuItemVecxiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVecxiActionPerformed
-        Windowable p = getVecxy();
-        CSAInternalFrame frame = getInternalFrame(p);
-        try
-        {
-            if (frame.isIcon()) frame.setIcon(false);
-        }
-        catch (Throwable ex) { }
         
+            VecXPanel p = createVecxy();
+/*            
+        boolean forced = KeyboardListener.isShiftDown();
+        if (forced)
+        {
+            VecXPanel p = createVecxy();
+        }
+        else
+        {
+            Windowable p = getVecxy();
+
+            CSAInternalFrame frame = getInternalFrame(p);
+            try
+            {
+                if (frame.isIcon()) frame.setIcon(false);
+            }
+            catch (Throwable ex) { }
+        }
+*/        
     }//GEN-LAST:event_jMenuItemVecxiActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        AbstractDevice.exitSync = true;
         saveStateAll();
     }//GEN-LAST:event_formWindowClosing
 

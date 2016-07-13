@@ -5,7 +5,7 @@
  */
 package de.malban.vide.vecx.devices;
 
-import de.malban.vide.vecx.VecX;
+import de.malban.gui.HotKey;
 import de.malban.vide.vecx.VecXPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -17,115 +17,73 @@ import javax.swing.KeyStroke;
  *
  * @author malban
  */
-public class KeyboardInputDevice implements JoyportDevice
+public class KeyboardInputDevice extends AbstractDevice
 {
-    VectrexJoyport joyport;
     VecXPanel panel;
-
     
-    public KeyboardInputDevice(VecXPanel p)
+    int port = 0;
+    public KeyboardInputDevice(VecXPanel p, int po)
     {
         panel = p;
+        port = po;
         setupKeyEvents();
     }
-    public void setJoyport(VectrexJoyport j)
-    {
-        joyport = j;
-    }
-    public void step(VecX vectrex)    
-    {
-    }    
-    public void deinit()
-    {
-        joyport = null;
-        deinitKeyEvents();
-    }
-    public void setInputMode(boolean i)
-    {
-    }
+    
     private void setupKeyEvents()
     {
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_A,0, false), "Button1_1_pressed");
-        panel.getActionMap().put("Button1_1_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton1(false, true); }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_S,0, false), "Button1_2_pressed");
-        panel.getActionMap().put("Button1_2_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setButton2(false, true); }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_D,0, false), "Button1_3_pressed");
-        panel.getActionMap().put("Button1_3_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setButton3(false, true); }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F,0, false), "Button1_4_pressed");
-        panel.getActionMap().put("Button1_4_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setButton4(false, true); }});
+        if (port == 0)
+        {
+            new HotKey("Button1_1_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton1(false, true); }}, panel);
+            new HotKey("Button1_2_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton2(false, true); }}, panel);
+            new HotKey("Button1_3_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton3(false, true); }}, panel);
+            new HotKey("Button1_4_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton4(false, true); }}, panel);
 
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0, false),  "Joy1_Left_pressed");
-        panel.getActionMap().put("Joy1_Left_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setHorizontal(0, true); }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0, false), "Joy1_Right_pressed");
-        panel.getActionMap().put("Joy1_Right_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setHorizontal(0xff, true); }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,0, false),    "Joy1_Up_pressed");
-        panel.getActionMap().put("Joy1_Up_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setVertical(0xff, true);  }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0, false),  "Joy1_Down_pressed");
-        panel.getActionMap().put("Joy1_Down_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setVertical(0, true);  }});
+            new HotKey("Button1_1_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton1(true, true); }}, panel);
+            new HotKey("Button1_2_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton2(true, true); }}, panel);
+            new HotKey("Button1_3_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton3(true, true); }}, panel);
+            new HotKey("Button1_4_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton4(true, true); }}, panel);
 
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_A,0, true), "Button1_1_released");
-        panel.getActionMap().put("Button1_1_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setButton1(true, true); }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_S,0, true), "Button1_2_released");
-        panel.getActionMap().put("Button1_2_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setButton2(true, true); }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_D,0, true), "Button1_3_released");
-        panel.getActionMap().put("Button1_3_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setButton3(true, true); }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F,0, true), "Button1_4_released");
-        panel.getActionMap().put("Button1_4_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setButton4(true, true); }});
+            new HotKey("Joy1_Left_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0, true); }}, panel);
+            new HotKey("Joy1_Right_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0xff, true); }}, panel);
+            new HotKey("Joy1_Up_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0xff, true); }}, panel);
+            new HotKey("Joy1_Down_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0, true); }}, panel);
 
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0, true),  "Joy1_Left_released");
-        panel.getActionMap().put("Joy1_Left_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setHorizontal(0x80, true); }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0, true), "Joy1_Right_released");
-        panel.getActionMap().put("Joy1_Right_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setHorizontal(0x80, true); }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,0, true),    "Joy1_Up_released");
-        panel.getActionMap().put("Joy1_Up_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setVertical(0x80, true); }});
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0, true),  "Joy1_Down_released");
-        panel.getActionMap().put("Joy1_Down_released", new AbstractAction() { public void actionPerformed(ActionEvent e) { if (joyport != null) joyport.setVertical(0x80, true); }});
-        
+            new HotKey("Joy1_Left_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0x80, true); }}, panel);
+            new HotKey("Joy1_Right_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0x80, true); }}, panel);
+            new HotKey("Joy1_Up_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0x80, true); }}, panel);
+            new HotKey("Joy1_Down_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0x80, true); }}, panel);        
+        }
+        else if (port == 1)
+        {
+            new HotKey("Button2_1_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton1(false, true); }}, panel);
+            new HotKey("Button2_2_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton2(false, true); }}, panel);
+            new HotKey("Button2_3_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton3(false, true); }}, panel);
+            new HotKey("Button2_4_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton4(false, true); }}, panel);
+
+            new HotKey("Button2_1_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton1(true, true); }}, panel);
+            new HotKey("Button2_2_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton2(true, true); }}, panel);
+            new HotKey("Button2_3_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton3(true, true); }}, panel);
+            new HotKey("Button2_4_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton4(true, true); }}, panel);
+
+            new HotKey("Joy2_Left_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0, true); }}, panel);
+            new HotKey("Joy2_Right_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0xff, true); }}, panel);
+            new HotKey("Joy2_Up_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0xff, true); }}, panel);
+            new HotKey("Joy2_Down_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0, true); }}, panel);
+
+            new HotKey("Joy2_Left_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0x80, true); }}, panel);
+            new HotKey("Joy2_Right_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0x80, true); }}, panel);
+            new HotKey("Joy2_Up_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0x80, true); }}, panel);
+            new HotKey("Joy2_Down_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0x80, true); }}, panel);        
+        }
     }   
-    private void deinitKeyEvents()
-    {
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_A,0, false), null);
-        panel.getActionMap().put("Button1_1_pressed", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_S,0, false), null);
-        panel.getActionMap().put("Button1_2_pressed", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_D,0, false), null);
-        panel.getActionMap().put("Button1_3_pressed", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F,0, false), null);
-        panel.getActionMap().put("Button1_4_pressed", null);
 
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0, false),  null);
-        panel.getActionMap().put("Joy1_Left_pressed", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0, false), null);
-        panel.getActionMap().put("Joy1_Right_pressed", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,0, false),    null);
-        panel.getActionMap().put("Joy1_Up_pressed", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0, false), null);
-        panel.getActionMap().put("Joy1_Down_pressed", null);
-
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_A,0, true), null);
-        panel.getActionMap().put("Button1_1_released", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_S,0, true), null);
-        panel.getActionMap().put("Button1_2_released", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_D,0, true), null);
-        panel.getActionMap().put("Button1_3_released", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F,0, true), null);
-        panel.getActionMap().put("Button1_4_released", null);
-
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0, true),  null);
-        panel.getActionMap().put("Joy1_Left_released", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0, true), null);
-        panel.getActionMap().put("Joy1_Right_released", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP,0, true),    null);
-        panel.getActionMap().put("Joy1_Up_released", null);
-        panel.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN,0, true),  null);
-        panel.getActionMap().put("Joy1_Down_released", null);        
-    }   
     @Override
-    public void updateInputDataFromDevice()
+    public String toString()
     {
-    }
-    @Override
-    public void updateDeviceWithDataFromVectrex()
-    {
+        if (port == 0)
+            return "Keyboard Input0";
+        else if (port ==1) 
+            return "Keyboard Input1";
+        return "Keyboard Input?";
     }
 }

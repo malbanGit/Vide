@@ -18,7 +18,6 @@ import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.sound.tinysound.Stream;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.sound.tinysound.internal.MemSound;
-import de.malban.vide.vecx.E8910;
 import de.malban.vide.vecx.VecX;
 import de.malban.vide.vedi.sound.SampleJPanel;
 import static de.malban.vide.vedi.sound.ibxm.IBXM.IBXM_MAXBUFFER;
@@ -58,7 +57,7 @@ import javax.sound.sampled.AudioSystem;
  *
  * @author malban
  */
-public class VecSpeechDevice implements JoyportDevice, Serializable
+public class VecSpeechDevice extends AbstractDevice implements Serializable
 {
     // debuggy stuff
     public static boolean DEBUG_WAV_OUT = false;
@@ -70,7 +69,7 @@ public class VecSpeechDevice implements JoyportDevice, Serializable
     public static boolean enableCommands = true;
     public static boolean blendEnable = true;
     
-    // "blending" of samples can occur, epending on pausing and "stopped" sounds
+    // "blending" of samples can be , depending on pausing and "stopped" sounds
     public static final int BLEND_DEFAULT = 15;
     public static int blendLen = BLEND_DEFAULT; // in MilliSeconds
     public static boolean removeSilence = true; // in general, if false silence is never removed, if true - sometimes :-)
@@ -91,7 +90,6 @@ public class VecSpeechDevice implements JoyportDevice, Serializable
     
     
     
-//    transient E8910 e8910;                      // communication to joystick port goes thru PSG
     transient private static int UID_C = 0;     // generate unique ID for instance
     
     // state machine states
@@ -123,10 +121,6 @@ public class VecSpeechDevice implements JoyportDevice, Serializable
     
     boolean midBaudSet = false;
     boolean midBaudValue = false;
-    
-    int VECSPEECH_PORT = 2;
-    public static transient int STATUS_LINE_MASK_PORT2 = 0x20;
-    public static transient int DATA_LINE_MASK_PORT2 = 0x10;
     
     transient Stream line=null;
     transient private static final int C_LEN = 64; // Speakjet command buffer
@@ -168,36 +162,36 @@ public class VecSpeechDevice implements JoyportDevice, Serializable
                     );        
     
     
+    
+    @Override
     public void deinit()
     {
-        if (line != null)
+        super.deinit();
+        if (!inDeinit) 
         {
-            line.stop();
-            line.unload();
-            line = null;
+            if (line != null)
+            {
+                line.stop();
+                line.unload();
+                line = null;
+            }
         }
     }
-    
-    VectrexJoyport joyport;
-
-    public void setJoyport(VectrexJoyport j)
+    @Override
+    public String toString()
     {
-        joyport = j;
+        return deviceName;
     }
-    
-    
     // only for cloning!
-    private VecSpeechDevice()
+    public VecSpeechDevice(boolean clone)
     {
     }
     
-    public VecSpeechDevice(E8910 e)
+    public VecSpeechDevice()
     {
         VecVoiceSamples.loadSamples();
         commands = new int[C_LEN];
         soundBytes = new byte[IBXM_MAXBUFFER/2];
-//        e8910 = e;
-//        e8910.setPortAdapter(this);
         for (int i=0; i<C_LEN; i++) commands[i] = -1;
     }
     // commands
@@ -206,7 +200,7 @@ public class VecSpeechDevice implements JoyportDevice, Serializable
     // are NOT cloned
     public VecSpeechDevice clone()
     {
-        VecSpeechDevice vv = new VecSpeechDevice();
+        VecSpeechDevice vv = new VecSpeechDevice(true);
         vv.currentByteRead = currentByteRead;
         vv.bitsLoaded = bitsLoaded;
         vv.inputMode = inputMode;
@@ -217,7 +211,6 @@ public class VecSpeechDevice implements JoyportDevice, Serializable
         vv.old_dataLineInput = old_dataLineInput;
         vv.receiveCycleStart = receiveCycleStart;
         vv.SPO256AL2= SPO256AL2;
-        vv.VECSPEECH_PORT= VECSPEECH_PORT;
         vv.lowLevelState = lowLevelState;
         vv.deviceName = deviceName;
         vv.nextComandPoint = 0;
@@ -243,13 +236,11 @@ public class VecSpeechDevice implements JoyportDevice, Serializable
     // initialized by cloning
     // it must be initialized if the clone is really "used"
     // (stepping back in emulator)
-    public void initClone(E8910 e)
+    public void initClone()
     {
         VecVoiceSamples.loadSamples();
         commands = new int[C_LEN];
         soundBytes = new byte[IBXM_MAXBUFFER/2];
-//        e8910 = e;
-//        e8910.setPortAdapter(this);
     }
     
     public void setVecVoice(boolean b)
@@ -344,40 +335,23 @@ public class VecSpeechDevice implements JoyportDevice, Serializable
     public void updateInputDataFromDevice()
     {
         if (!inputMode) return;
-        
-        if (VECSPEECH_PORT == 2)
+        // button state is "inverse": 0 = ready
+        if (!isReady())
         {
-            // button state is "inverse": 0 = ready
-            if (!isReady())
-            {
-                joyport.setButton2(true, true);
-                
-//                value = value | STATUS_LINE_MASK_PORT2;
-            }
-            else
-            {
-                joyport.setButton2(false, true);
-//                value = value & (0xff - STATUS_LINE_MASK_PORT2);
-            }
-            if (!dataLineInput)
-            {
-                joyport.setButton1(true, true);
-//                value = value | DATA_LINE_MASK_PORT2;
-            }
-            else
-            {
-                joyport.setButton1(false, true);
-//                value = value & (0xff - DATA_LINE_MASK_PORT2);
-            }
+            joyport.setButton2(true, true);
         }
-    }
-    @Override
-    public void updateDeviceWithDataFromVectrex()
-    {
-        if (inputMode) return;
-        if (VECSPEECH_PORT == 2) 
-            dataLineInput = joyport.isButton1(true);
-//            dataLineInput = (e8910.snd_regs[14] & DATA_LINE_MASK_PORT2) == DATA_LINE_MASK_PORT2;
+        else
+        {
+            joyport.setButton2(false, true);
+        }
+        if (!dataLineInput)
+        {
+            joyport.setButton1(true, true);
+        }
+        else
+        {
+            joyport.setButton1(false, true);
+        }
     }
     
     // if i== true
@@ -396,7 +370,6 @@ public class VecSpeechDevice implements JoyportDevice, Serializable
             // due to only one input mask
             // this should always be false!
             dataLineInput = joyport.isButton1(true);
-//            dataLineInput = (e8910.snd_regs[14] & DATA_LINE_MASK_PORT2) == DATA_LINE_MASK_PORT2;
         }
         else
         {
@@ -410,8 +383,11 @@ public class VecSpeechDevice implements JoyportDevice, Serializable
     // this is triggered with every cycle from the emulator
     // c is the current cylce counter of the vecx emulator, needed for timing
     // (since I don't trust that we are called each cycle :-) )
-    public void step(VecX vectrex)
+    @Override
+    public void step()
     {
+        if (joyport == null) return;
+        VecX vectrex = joyport.vecx;
         long c = vectrex.getCycles();
         // prepare and do output
         stepSound(c);
@@ -1064,7 +1040,7 @@ needed, one in front of each of the phonemes.
                 break; // no command -> we can do nothing queue is empty
             }
             
-            // System.out.println("SpeechCommand: "+command);
+    //         System.out.println("SpeechCommand: "+command);
             // now lets get a new sample
             MemSound sample=null;
             if (SPO256AL2) // old chip
