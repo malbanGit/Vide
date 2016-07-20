@@ -23,13 +23,17 @@ import de.malban.sound.VideAudio;
 import de.malban.util.KeyboardListener;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.dissy.MemoryInformation;
+import static de.malban.vide.vecx.RunnerInterface.SYNC_MASTER;
+import static de.malban.vide.vecx.RunnerInterface.SYNC_SLAVE;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.VecX.VectrexDisplayVectors;
 import de.malban.vide.vecx.VecXState.vector_t;
+import static de.malban.vide.vecx.VecXStatics.EMU_EXIT_BREAKPOINT_BREAK;
 import static de.malban.vide.vecx.VecXStatics.EMU_TIMER;
 import static de.malban.vide.vecx.VecXStatics.VECTREX_MHZ;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import de.malban.vide.vecx.devices.AbstractDevice;
+import de.malban.vide.vecx.devices.HardSyncDevice;
 import de.malban.vide.vecx.devices.JoyportDevice;
 import de.malban.vide.vecx.devices.KeyboardInputDevice;
 import de.malban.vide.vecx.devices.NullDevice;
@@ -81,8 +85,15 @@ import javax.swing.event.ListDataListener;
  *
  * @author malban
  */
-public class VecXPanel extends javax.swing.JPanel  implements Windowable, DisplayerInterface, VecXStatics, Stateable
+public class VecXPanel extends javax.swing.JPanel  
+    implements  Windowable, 
+                DisplayerInterface, 
+                RunnerInterface, 
+                VecXStatics, 
+                Stateable
 {
+    public static boolean ENABLE_HARDSYNC = false;
+    
     public boolean isLoadSettings() { return true; }
     VideConfig config = VideConfig.getConfig();
     private CSAView mParent = null;
@@ -193,7 +204,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         jButtonStopActionPerformed(null);                                            
         resetMe();
         AbstractDevice.exitSync = true;
-
+        deinitHardSync();
     }
     /**
      * Creates new form DissiPanel
@@ -202,6 +213,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         AbstractDevice.exitSync = false;
         initComponents();
         vecx = new VecX();
+        vecx.runner = this;
         ensureDevices();
         initJoyportsFromFlag();
         vecx.setDisplayer(this);
@@ -596,6 +608,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             //            Switch Debug Off
             stepping = false;
             stopDebug(false);
+            vecx.config.syncCables = false;
             return;
         }
         if (!isRunning())
@@ -897,8 +910,9 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     private void jComboBoxJoyport1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxJoyport1ActionPerformed
         if (mClassSetting>0) return;
         vecx.joyport[1].plugIn((JoyportDevice)jComboBoxJoyport1.getSelectedItem());
-        AbstractDevice.exitSync = false;
+        checkHardSync();
         
+        AbstractDevice.exitSync = false;
         updatePorts();
     }//GEN-LAST:event_jComboBoxJoyport1ActionPerformed
 
@@ -1055,6 +1069,23 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
                 while (!stop)
                 {
                     long startTime = System.currentTimeMillis();
+                    
+                    if (hardSyncMode == SYNC_SLAVE)
+                    {
+                        hardSyncWorking = true;
+                        while (hardSyncMode == SYNC_SLAVE)
+                        {
+                            try 
+                            {
+                                Thread.sleep(EMU_TIMER);
+                            } 
+                            catch(InterruptedException v) 
+                            {
+                            }
+                        }
+                        hardSyncWorking = false;
+                    }
+        
                     if (!pausing)
                     {
                         int cyclesToRun = (VECTREX_MHZ / 1000) * EMU_TIMER;
@@ -1063,19 +1094,35 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
                             cyclesToRun = 1;
                             vecx.directDrawActive = true;
                         }
-                        
                         setLightPen();
+
+                        if (hardSyncMode == NO_SYNC)
+                        {
+                            exitReason = vecx.vecx_emu(cyclesToRun);    
+                        }
+                        else if (hardSyncMode == SYNC_MASTER)
+                        {
+                            if (cyclesToRun>1) cyclesToRun = 20;
+                            hardSyncWorking = true;
+                            exitReason = master.vecx_emu(cyclesToRun);    
+                            boolean breaking = slavePanel.oneSlaveEmulation(cyclesToRun);
+                            if (breaking)
+                            {
+                                stepping = false;
+                                break;
+                            }
+                            
+                        }
                         
-                        exitReason = vecx.vecx_emu(cyclesToRun);    
                         vecx.directDrawActive = false;
                         if (exitReason == EMU_EXIT_BREAKPOINT_BREAK)
                         {
+                            vecx.config.syncCables = true;
                             stepping = false;
                             break;
                         }
                         if (exitReason == EMU_EXIT_BREAKPOINT_CONTINUE)
                         {
-                            
                             breakpointHandleContinue(vecx.activeBreakpoint);
                         }
                     }
@@ -1165,6 +1212,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     
     public void startDebug()
     {
+        vecx.config.syncCables = true;
         stopThreading();
         debuging = true;
         if (regi == null)
@@ -1198,6 +1246,7 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
             start();
         directDrawVector = null;
         debuging = false;
+        vecx.config.syncCables = false;
     }
     
     public void oneStep()
@@ -2278,6 +2327,10 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     }
     public void resetMe()
     {
+        // look if dissi is using "me"
+        if (dissi != null)
+            if (dissi.getVecXPanel() != this) return; // dissi is not using "me" as a source, it is associated with another instance of vecx
+        
         if (dissi != null) dissi.setVecxy(null);
         if (dumpi != null) dumpi.setVecxy(null);
         if (regi != null) regi.setE6809(null);
@@ -2780,11 +2833,51 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
     {
         dissiActive = a;
     }
-    void ensureMyDissi()
+    
+    // unsets a dissi connection
+    void removeDissi()
     {
         if (dissi == null) return;
-        if (dissi.getUID() == myDissi.uid) return;
-        breakpointClearAll();
+        vecx.clearAllBreakpoints();
+        if (breaki != null) 
+            breaki.updateValues(true);
+        resetMe();
+        
+        dissi=null;
+        regi = null;
+        vinfi = null;
+        dumpi = null;
+        viai = null;
+        ani = null;
+        vari = null;
+        breaki = null;
+        labi = null;
+        tracki = null;
+        ayi = null;
+        dissiInit = false;
+
+        
+    }
+    void ensureMyDissi()
+    {
+        // check and cleanup (if needed ) other vecx/dissi
+        CSAMainFrame f = (CSAMainFrame) mParent;
+        f.checkDissi();
+        if (dissi != null)
+        {
+            if (dissi.getVecXPanel() == this) return;
+
+            // if the other vecx still exists, clear its breakpoints
+            if (dissi.getVecXPanel() != null)
+            {
+                dissi.getVecXPanel().removeDissi();
+            }
+        }
+        else
+        {
+            createDissi();
+            if (dissi == null) return; 
+        }
         dissi.changeBaseData(myDissi);
        
         findWindows();
@@ -2831,5 +2924,212 @@ public class VecXPanel extends javax.swing.JPanel  implements Windowable, Displa
         ayi = f.checkAyi();
         
     }
-            
+
+    public int getXReg()
+    {
+        return vecx.e6809.reg_x;
+    }
+    public int getYReg()
+    {
+        return vecx.e6809.reg_y;
+    }
+    public int getSReg()
+    {
+        return vecx.e6809.reg_s.intValue;
+    }
+    public int getUReg()
+    {
+        return vecx.e6809.reg_u.intValue;
+    }
+    public void setJoyportDevice(int port, JoyportDevice d)
+    {
+        mClassSetting++;
+        if (port == 0)
+        {
+            if (d == null)
+                jComboBoxJoyport0.setSelectedIndex(-1);
+        }
+        if (port == 1)
+        {
+            if (d == null)
+                jComboBoxJoyport1.setSelectedIndex(-1);
+        }
+        mClassSetting--;
+    }
+    
+    VecXPanel slavePanel = null;
+    VecXPanel masterPanel = null;
+    VecX master = null;
+    VecX slave = null;
+    void checkHardSync()
+    {
+        if (!ENABLE_HARDSYNC) return;
+        if (!(vecx.joyport[1].getDevice() instanceof HardSyncDevice)) 
+        {
+            deinitHardSync();
+            return;
+        }
+        HardSyncDevice hsDevice = (HardSyncDevice) vecx.joyport[1].getDevice();
+        master = hsDevice.getMasterVecX();
+        slave = hsDevice.getSlaveVecX();
+        
+        // savety check!
+        if (master == null) 
+        {
+            deinitHardSync();
+            return;
+        }
+        if (master.runner == null)
+        {
+            deinitHardSync();
+            return;
+        }
+        if (slave == null) 
+        {
+            deinitHardSync();
+            return;
+        }
+        if (slave.runner == null)
+        {
+            deinitHardSync();
+            return;
+        }
+
+        int deviceIdMaster = master.joyport[1].getDevice().getDeviceID();
+        int deviceIdSlave = slave.joyport[1].getDevice().getDeviceID();
+        if (deviceIdMaster != deviceIdSlave)
+        {
+            deinitHardSync();
+            return;
+        }
+        
+        slavePanel = (VecXPanel)slave.runner;
+        masterPanel = (VecXPanel)master.runner;
+        slave.runner.setHardSyncMode(SYNC_SLAVE);
+        master.runner.setHardSyncMode(SYNC_MASTER);
+    }
+    
+    void deinitHardSync()
+    {
+        if (hardSyncMode == NO_SYNC) return;
+        if (master != null)
+        {
+            if (master.runner != null)
+            {
+                master.runner.setHardSyncMode(NO_SYNC);
+            }
+            master = null;
+        }
+        if (slave != null)
+        {
+            if (slave.runner != null)
+            {
+                slave.runner.setHardSyncMode(NO_SYNC);
+            }
+            slave = null;
+        }
+        hardSyncMode = NO_SYNC;
+    }
+    int hardSyncMode = NO_SYNC;
+    
+    // waits for slave to shut down!
+    public boolean setHardSyncMode(int mode)
+    {
+        if (hardSyncMode == mode) return true;
+        if (mode == SYNC_SLAVE)
+        {
+            hardSyncWorking = false;
+            hardSyncMode = SYNC_SLAVE;   
+            try
+            {
+                while (!hardSyncWorking) Thread.sleep(5);
+            }
+            catch (Throwable ex)
+            {
+            }
+        }
+        else if (mode == SYNC_MASTER)
+        {
+            hardSyncMode = SYNC_MASTER;   
+        }
+        else if (mode == NO_SYNC)
+        {
+            hardSyncMode = NO_SYNC;   
+        }
+        
+        jButtonStart.setEnabled(hardSyncMode != SYNC_SLAVE);
+        jButtonPause.setEnabled(hardSyncMode != SYNC_SLAVE);
+        jButtonStop.setEnabled(hardSyncMode != SYNC_SLAVE);
+        jButton1.setEnabled(hardSyncMode != SYNC_SLAVE);
+        jButton2.setEnabled(hardSyncMode != SYNC_SLAVE);
+        jTextFieldstart.setEnabled(hardSyncMode != SYNC_SLAVE);
+        jButtonFileSelect1.setEnabled(hardSyncMode != SYNC_SLAVE);
+        return true;
+    }
+    volatile boolean hardSyncWorking = false;
+    
+    
+    
+    
+    
+    
+    
+    // start a thread with emulation
+    public boolean oneSlaveEmulation(int cycles)
+    {
+        boolean stopEmulation = false;
+        if (cycles == 1)
+        {
+            vecx.directDrawActive = true;
+        }
+        setLightPen();
+
+        exitReason = vecx.vecx_emu(cycles);    
+
+        vecx.directDrawActive = false;
+        if (exitReason == EMU_EXIT_BREAKPOINT_BREAK)
+        {
+            stepping = false;
+            stopEmulation = true;
+            return stopEmulation;
+        }
+        if (exitReason == EMU_EXIT_BREAKPOINT_CONTINUE)
+        {
+            breakpointHandleContinue(vecx.activeBreakpoint);
+        }
+        if (stepping)
+        {
+            try 
+            {
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                    public void run()
+                    {
+                        updateDisplay();
+                        updateAvailableWindows(true, false, true);
+
+                    }
+                });                    
+                if (config.multiStepDelay>0)
+                    Thread.sleep(config.multiStepDelay);
+            } 
+            catch(InterruptedException v) 
+            {
+            }
+        }
+        else
+        {
+            SwingUtilities.invokeLater(new Runnable()
+            {
+                public void run()
+                {
+                    updateAvailableWindows(true, false, false);
+                }
+            });
+        }
+        
+        return stopEmulation;
+    }
+    
+    
 }

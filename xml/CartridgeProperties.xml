@@ -364,7 +364,7 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Author>Alex Nicholson</Author>
 		<Year>2007</Year>
 		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
+		<TypeFlags>1024</TypeFlags>
 		<FullFilenames>
 			<FullFilename>download/cartridges/VVOXXMAS.BIN</FullFilename>
 		</FullFilenames>
@@ -800,6 +800,40 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vector Pilot</Name>
+		<CartName>Vector Pilot</CartName>
+		<Author></Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>1</TypeFlags>
+		<FullFilenames>
+			<FullFilename>Dumped/vectorPilot.bin</FullFilename>
+		</FullFilenames>
+		<Information></Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 	</CartridgeProperties>
 	<CartridgeProperties>
@@ -1848,7 +1882,7 @@ You may give the Vecfu.bin file to your friends, but only together with this rea
 		<Author>John Dondzila</Author>
 		<Year>2006</Year>
 		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
+		<TypeFlags>1024</TypeFlags>
 		<FullFilenames>
 			<FullFilename>download/cartridges/SpaceFrenzy.BIN</FullFilename>
 		</FullFilenames>
@@ -2179,6 +2213,40 @@ You may give the Vecfu.bin file to your friends, but only together with this rea
 		<Demo>true</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>YASI+</Name>
+		<CartName>YASI+</CartName>
+		<Author></Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>96</TypeFlags>
+		<FullFilenames>
+			<FullFilename>Dumped/YASI full.bin.BIN</FullFilename>
+		</FullFilenames>
+		<Information></Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 	</CartridgeProperties>
 	<CartridgeProperties>
@@ -3747,74 +3815,6 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
-		<Name>Ronan&apos;s Game Cart</Name>
-		<CartName>Ronan&apos;s Game Cart</CartName>
-		<Author>Ronan Habot</Author>
-		<Year>2000</Year>
-		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
-		<FullFilenames>
-			<FullFilename>download/cartridges/RonanHabotGame.bin</FullFilename>
-		</FullFilenames>
-		<Information>Ronan Habot</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage></Homepage>
-		<InstructionFile></InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage></InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink>RonanHabot Download BIN</BinaryLink>
-		<Licence></Licence>
-		<CopyrightType>Copyright 2000 Ronan Habot</CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>false</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>true</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
-		<Name>Protector</Name>
-		<CartName>Protector</CartName>
-		<Author>Alex Herbert</Author>
-		<Year>2003</Year>
-		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
-		<FullFilenames>
-			<FullFilename>download/cartridges/protector_yasi.bin</FullFilename>
-		</FullFilenames>
-		<Information>Alex Herbert</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage>http://www.herbs64.plus.com/</Homepage>
-		<InstructionFile></InstructionFile>
-		<FrontImage>./cartridges/images/Protector950306429591191200.png</FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage>./cartridges/images/Protector-1841142011292800797.png</InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink>YASI Protector Download BIN</BinaryLink>
-		<Licence>PROTECTOR and Y*A*S*I is Copyright © Alex Herbert 2003, 2005. It is *not* Public Domain!</Licence>
-		<CopyrightType>© Alex Herbert 2003, 2005</CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>false</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>true</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
 		<Name>Mine Storm</Name>
 		<CartName>Mine Storm</CartName>
 		<Author>GCE - John Hall</Author>
@@ -3842,6 +3842,40 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<PDFFile></PDFFile>
 		<CartridgeImage></CartridgeImage>
 		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Protector</Name>
+		<CartName>Protector</CartName>
+		<Author>Alex Herbert</Author>
+		<Year>2003</Year>
+		<CRC>0</CRC>
+		<TypeFlags>64</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/protector_yasi.bin</FullFilename>
+		</FullFilenames>
+		<Information>Alex Herbert</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.herbs64.plus.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage>./cartridges/images/Protector950306429591191200.png</FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Protector-1841142011292800797.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>YASI Protector Download BIN</BinaryLink>
+		<Licence>PROTECTOR and Y*A*S*I is Copyright © Alex Herbert 2003, 2005. It is *not* Public Domain!</Licence>
+		<CopyrightType>© Alex Herbert 2003, 2005</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>

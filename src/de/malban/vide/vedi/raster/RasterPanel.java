@@ -2,7 +2,9 @@
 
 
 import de.malban.config.Configuration;
+import de.malban.event.EditMouseEvent;
 import de.malban.graphics.GFXVector;
+import de.malban.graphics.MousePressedListener;
 import de.malban.graphics.Vertex;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.ImageCache;
@@ -20,7 +22,8 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
 public class RasterPanel extends javax.swing.JPanel implements 
-         Windowable{
+         Windowable
+{
     
 
     String orgName = "";
@@ -80,6 +83,8 @@ public class RasterPanel extends javax.swing.JPanel implements
     public RasterPanel() {
         mClassSetting++;
         initComponents();
+       
+        
         mClassSetting--;
 
     }
@@ -144,6 +149,11 @@ public class RasterPanel extends javax.swing.JPanel implements
         jCheckBoxGenerateExampleCode = new javax.swing.JCheckBox();
         jCheckBoxIncludeBrightness = new javax.swing.JCheckBox();
         jCheckBoxAssume9Bit = new javax.swing.JCheckBox();
+        jCheckBoxBiDirectionalData = new javax.swing.JCheckBox();
+        jLabel6 = new javax.swing.JLabel();
+        jTextFieldStartX = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jTextFieldStartY = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(700, 600));
 
@@ -235,6 +245,15 @@ public class RasterPanel extends javax.swing.JPanel implements
             }
         });
 
+        singleImagePanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                singleImagePanel1MouseMoved(evt);
+            }
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                singleImagePanel1MouseDragged(evt);
+            }
+        });
+
         javax.swing.GroupLayout singleImagePanel1Layout = new javax.swing.GroupLayout(singleImagePanel1);
         singleImagePanel1.setLayout(singleImagePanel1Layout);
         singleImagePanel1Layout.setHorizontalGroup(
@@ -311,6 +330,24 @@ public class RasterPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBoxBiDirectionalData.setSelected(true);
+        jCheckBoxBiDirectionalData.setText("generate bi directional data");
+        jCheckBoxBiDirectionalData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxBiDirectionalDataActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("start");
+
+        jTextFieldStartX.setEditable(false);
+        jTextFieldStartX.setText("0");
+
+        jLabel7.setText(",");
+
+        jTextFieldStartY.setEditable(false);
+        jTextFieldStartY.setText("0");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -318,19 +355,8 @@ public class RasterPanel extends javax.swing.JPanel implements
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxGenerateExampleCode)
-                    .addComponent(jSliderThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBoxGenerateData)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jRadioButtonHorizontalVectors)
@@ -340,7 +366,23 @@ public class RasterPanel extends javax.swing.JPanel implements
                                     .addComponent(jRadioButtonAlphaAsGrayscale)
                                     .addComponent(jRadioButton3)))
                             .addComponent(jLabel5)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
+                                .addComponent(jTextFieldStartX, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldStartY, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -360,7 +402,13 @@ public class RasterPanel extends javax.swing.JPanel implements
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel4)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldVectorHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jTextFieldVectorHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jSliderThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jCheckBoxGenerateData, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBoxBiDirectionalData, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCheckBoxGenerateExampleCode, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -380,7 +428,12 @@ public class RasterPanel extends javax.swing.JPanel implements
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6)
+                        .addComponent(jTextFieldStartX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldStartY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7)))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -400,7 +453,9 @@ public class RasterPanel extends javax.swing.JPanel implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSliderThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBoxGenerateData)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBoxGenerateData)
+                    .addComponent(jCheckBoxBiDirectionalData))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxGenerateExampleCode)
                 .addContainerGap())
@@ -481,6 +536,66 @@ public class RasterPanel extends javax.swing.JPanel implements
         buildVectors();
     }//GEN-LAST:event_jCheckBoxAssume9BitActionPerformed
 
+    private void jCheckBoxBiDirectionalDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxBiDirectionalDataActionPerformed
+        
+        if (!jCheckBoxBiDirectionalData.isSelected())
+        {
+            jCheckBoxGenerateExampleCode.setSelected(false);
+        }
+        jCheckBoxGenerateExampleCode.setEnabled(jCheckBoxBiDirectionalData.isSelected());
+    }//GEN-LAST:event_jCheckBoxBiDirectionalDataActionPerformed
+
+    private void singleImagePanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_singleImagePanel1MouseDragged
+        BufferedImage orgImage = singleImagePanel1.getImage();
+        int x = ((int)((double)((double)evt.getX())/1));
+        int y = ((int)((double)((double)evt.getY())/1));
+        
+        int sX = singleImagePanel1.getPressedStartX();
+        int sY = singleImagePanel1.getPressedStartY();
+        
+        if (x<0) x = 0;
+        if (sX<0) sX = 0;
+        if (y<0) y = 0;
+        if (sY<0) sY = 0;
+        
+        if (x>orgImage.getWidth()) x = orgImage.getWidth();
+        if (sX>orgImage.getWidth()) sX = orgImage.getWidth();
+        if (y>orgImage.getHeight()) y = orgImage.getHeight();
+        if (sY>orgImage.getHeight()) sY = orgImage.getHeight();
+        
+        if (x < sX)
+        {
+            int tmp = sX;
+            sX = x;
+            x = tmp;
+        }
+        if (y < sY)
+        {
+            int tmp = sY;
+            sY = y;
+            y = tmp;
+        }
+        
+        int w = x-sX;
+        int h = y-sY;
+        
+        jTextFieldStartX.setText(""+sX);
+        jTextFieldStartY.setText(""+sY);
+        jTextFieldWidth.setText(""+w);
+        jTextFieldHeight.setText(""+h);
+        jTextFieldVectorWitdh.setText(""+w);
+        jTextFieldVectorHeight.setText(""+h);
+        
+        
+        
+        buildVectors();
+        
+    }//GEN-LAST:event_singleImagePanel1MouseDragged
+
+    private void singleImagePanel1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_singleImagePanel1MouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_singleImagePanel1MouseMoved
+
     boolean wasMainSetManually = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -489,6 +604,7 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonCreate;
     private javax.swing.JCheckBox jCheckBoxAssume9Bit;
+    private javax.swing.JCheckBox jCheckBoxBiDirectionalData;
     private javax.swing.JCheckBox jCheckBoxGenerateData;
     private javax.swing.JCheckBox jCheckBoxGenerateExampleCode;
     private javax.swing.JCheckBox jCheckBoxIncludeBrightness;
@@ -497,6 +613,8 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton jRadioButton2;
@@ -509,6 +627,8 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.JSlider jSliderThreshold;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextFieldHeight;
+    private javax.swing.JTextField jTextFieldStartX;
+    private javax.swing.JTextField jTextFieldStartY;
     private javax.swing.JTextField jTextFieldVectorHeight;
     private javax.swing.JTextField jTextFieldVectorWitdh;
     private javax.swing.JTextField jTextFieldWidth;
@@ -543,10 +663,17 @@ public class RasterPanel extends javax.swing.JPanel implements
     ArrayList<GFXVector>[] vectorRows= new ArrayList[0];
     void buildVectors()
     {
-        // get orgImage
         BufferedImage orgImage = singleImagePanel1.getImage();
         int targetWidth = de.malban.util.UtilityString.IntX(jTextFieldVectorWitdh.getText(), orgImage.getWidth());
         int targetHeight = de.malban.util.UtilityString.IntX(jTextFieldVectorHeight.getText(), orgImage.getHeight());
+
+        int startX = de.malban.util.UtilityString.IntX(jTextFieldStartX.getText(), 0);
+        int startY = de.malban.util.UtilityString.IntX(jTextFieldStartY.getText(), 0);
+        int width = de.malban.util.UtilityString.IntX(jTextFieldWidth.getText(), orgImage.getWidth()-startX);
+        int height = de.malban.util.UtilityString.IntX(jTextFieldHeight.getText(), orgImage.getHeight()-startY);
+        
+        orgImage = singleImagePanel1.getSelection(startX, startY, width, height).image;
+        
         
         // only bytes in the image above a threshold are
         // counted as pixels
@@ -867,13 +994,47 @@ public class RasterPanel extends javax.swing.JPanel implements
                 out.append("; ....\n");
                 out.append("; shiftreg, ...,  shiftreg\n");
                 out.append("; \n");
-                out.append("; every second row is a 'backward' row\n");
-                out.append("; backward rows have the direction AND the bits reversed!\n");
+                if (jCheckBoxBiDirectionalData.isSelected())
+                {
+                    out.append("; every second row is a 'backward' row\n");
+                    out.append("; backward rows have the direction AND the bits reversed!\n");
+                }
+                
                 out.append(basebaseName+"_data:\n");
                 out.append(" db "+String.format("$%02X", targetHeight)+", "+ String.format("$%02X ", shiftRegRows[0].size()) +"\n");
                 for (int y=0; y<targetHeight; y++)
                 {
-                    if ((y%2) == 0)
+                    if (jCheckBoxBiDirectionalData.isSelected())
+                    {
+                        if ((y%2) == 0)
+                        {
+                            out.append(" db ");
+                            ArrayList<Integer> shiftRegRow = shiftRegRows[y];
+                            for (int x=0; x<shiftRegRow.size(); x++)
+                            {
+                                int shiftreg = shiftRegRow.get(x);
+
+                                if (x!=0) out.append(", ");
+                                out.append("%"+String.format("%8s", Integer.toBinaryString(shiftreg)).replace(" ", "0"));
+                            }
+                            out.append("; forward\n");
+                        }
+                        else
+                        {
+                            out.append(" db ");
+                            ArrayList<Integer> shiftRegRow = shiftRegRows[y];
+                            for (int x=shiftRegRow.size()-1; x>=0; x--)
+                            {
+                                int shiftreg = shiftRegRow.get(x);
+                                shiftreg = bitReverse8(shiftreg);
+                                if (x!=(shiftRegRow.size()-1)) out.append(", ");
+                                out.append("%"+String.format("%8s", Integer.toBinaryString(shiftreg)).replace(" ", "0"));
+
+                            }
+                            out.append("; backward\n");
+                        }
+                    }
+                    else
                     {
                         out.append(" db ");
                         ArrayList<Integer> shiftRegRow = shiftRegRows[y];
@@ -886,20 +1047,7 @@ public class RasterPanel extends javax.swing.JPanel implements
                         }
                         out.append("; forward\n");
                     }
-                    else
-                    {
-                        out.append(" db ");
-                        ArrayList<Integer> shiftRegRow = shiftRegRows[y];
-                        for (int x=shiftRegRow.size()-1; x>=0; x--)
-                        {
-                            int shiftreg = shiftRegRow.get(x);
-                            shiftreg = bitReverse8(shiftreg);
-                            if (x!=(shiftRegRow.size()-1)) out.append(", ");
-                            out.append("%"+String.format("%8s", Integer.toBinaryString(shiftreg)).replace(" ", "0"));
-                            
-                        }
-                        out.append("; backward\n");
-                    }
+
                 }
                 
                 

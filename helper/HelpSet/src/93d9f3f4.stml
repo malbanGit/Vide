@@ -97,7 +97,7 @@ It is not possible to switch only one of the integrators on or off, you do allwa
 
 :h3 mux enable
 As seen in the diagram, the output of the DAC goes as input into the MUX.
-If mux is enabled, than the DAC (analog) value is send to its destination (given by mux select). If mux is disabled, NO output is done to any of the mux lines.
+If mux is enabled, than the DAC (analog) value is sent to its destination (given by mux select). If mux is disabled, NO output is done to any of the mux lines.
 (BUT: as you can see the output of the DAC goes directly to the X-Integrator input (switch). Regardless of the MUX, x-integrator ALWAYS recieves the current DAC output!)
 
 :h3 mux select

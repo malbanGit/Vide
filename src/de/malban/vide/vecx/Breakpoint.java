@@ -30,7 +30,6 @@ public class Breakpoint
     public static int BP_QUIET = 1024;
     public static String[] types={"once", "multi", "read", "write", "info", "compare", "hey","bank", "bitcompare", "cycles", "quiet"};
     
-    public static int BP_TARGET_COUNT = 6;
 
     public static int BP_TARGET_MEMORY = 0;
     public static int BP_TARGET_CPU = 1;
@@ -38,9 +37,13 @@ public class Breakpoint
     public static int BP_TARGET_VIA = 3;
     public static int BP_TARGET_PSG = 4;
     public static int BP_TARGET_CARTRIDGE = 5;
-    public static String[] bp_target={"Memory", "CPU", "Analog", "VIA", "PSG", "CARTRIDGE"};
+    public static int BP_TARGET_PORT = 6;
+    
+    public static int BP_TARGET_COUNT = 7;
 
-    public static String[][] bp_subtarget={{""},{"PC","A", "B", "D","X", "Y","U","S", "CC", "DP", "CYCLES", "SPECIAL" }, {""}, {"ORB"}, {""}, {""}};
+    public static String[] bp_target={"Memory", "CPU", "Analog", "VIA", "PSG", "CARTRIDGE", "PORT"};
+
+    public static String[][] bp_subtarget={{""},{"PC","A", "B", "D","X", "Y","U","S", "CC", "DP", "CYCLES", "SPECIAL" }, {""}, {"ORB"}, {""}, {""}, {"IN", "OUT"}};
     
     
     public static int BP_SUBTARGET_CPU_PC = 0; // only one implemented
@@ -59,6 +62,11 @@ public class Breakpoint
     public static int BP_SUBTARGET_ANALOG_RAMP = 0; // .. not implemented
     public static int BP_SUBTARGET_VIA_ORB = 0; // 
     public static int BP_SUBTARGET_PSG_0 = 0; // .. not implemented
+
+    public static int BP_SUBTARGET_PORT_IN = 0;
+    public static int BP_SUBTARGET_PORT_OUT = 1;
+    
+    
     
     private static int UID_C = 1;
     public final int uid = UID_C++;

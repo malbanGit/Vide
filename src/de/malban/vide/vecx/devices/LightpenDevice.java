@@ -6,6 +6,7 @@
 package de.malban.vide.vecx.devices;
 
 import de.malban.vide.vecx.VecX;
+import static de.malban.vide.vecx.VecXPanel.DEVICE_LIGHTPEN;
 
 /**
  *
@@ -17,6 +18,10 @@ public class LightpenDevice extends AbstractDevice
     public int lightpenX = LIGHTPEN_OUT_OF_BOUNDS; 
     public int lightpenY = LIGHTPEN_OUT_OF_BOUNDS;
     
+    public int getDeviceID()
+    {
+        return DEVICE_LIGHTPEN;
+    }
     public LightpenDevice()
     {
     }

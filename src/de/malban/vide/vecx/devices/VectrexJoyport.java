@@ -5,7 +5,9 @@
  */
 package de.malban.vide.vecx.devices;
 
+import de.malban.vide.vecx.Breakpoint;
 import de.malban.vide.vecx.VecX;
+import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vecx.devices.JoyportDevice;
 
 /**
@@ -67,7 +69,19 @@ public class VectrexJoyport
         reset();
         if (device != null) device.deinit();
         device = null;
-        if (d == null) return; // unplug
+        if (d == null)
+        {
+            if (vecx != null)
+            {
+                if (vecx.displayer != null)
+                {
+                    vecx.displayer.setJoyportDevice(port, null);
+                }
+            }
+            return; // unplug
+        }
+        // if d is a static, than it mus unplug itself too
+        d.deinit();
         d.setJoyport(this);
         device = d;
         setInputMode(inputMode);
@@ -96,7 +110,42 @@ public class VectrexJoyport
                 vecx.setFIRQ(!outputFromDeviceButton[3]);
             }
         }
+        if (vecx.config.breakpointsActive) checkPortBreakpoint();
     }
+    public void checkPortBreakpoint()
+    {
+        synchronized (vecx.breakpoints[Breakpoint.BP_TARGET_PORT])
+        {
+            for (Breakpoint bp: vecx.breakpoints[Breakpoint.BP_TARGET_PORT])
+            {
+                if ((bp.type & Breakpoint.BP_BITCOMPARE) == Breakpoint.BP_BITCOMPARE)
+                {
+                    if ((bp.type & Breakpoint.BP_MULTI) == Breakpoint.BP_MULTI)
+                    {
+                        int bit = bp.getTargetAddress();
+                        boolean compareTo = bp.getCompareValue()==1;
+                        if (port==1) bit -=4;
+                        if (bit <0 ) continue;
+                        if (bit >3 ) continue;
+
+                            
+                            boolean valueBit = false;
+                        if ((bp.targetSubType & Breakpoint.BP_SUBTARGET_PORT_IN) == Breakpoint.BP_SUBTARGET_PORT_IN)
+                           valueBit = outputFromDeviceButton[bit];
+                        else if ((bp.targetSubType & Breakpoint.BP_SUBTARGET_PORT_OUT) == Breakpoint.BP_SUBTARGET_PORT_OUT)
+                           valueBit = outputFromVectrexButton[bit];
+
+                        
+                        if (valueBit == compareTo)
+                        {
+                            vecx.activeBreakpoint.add(bp);
+                            if (vecx.breakpointExit<bp.exitType) vecx.breakpointExit=bp.exitType;
+                        }
+                    }
+                }
+            }
+        }             
+    }    
     
     public void setInputMode(boolean b)
     {

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<AllProjectProperties>
+	<ProjectProperties>
+		<Class>Project</Class>
+		<Name>vecLinkV2</Name>
+		<ProjectName>vecLinkV2</ProjectName>
+		<DirectoryName></DirectoryName>
+		<Path></Path>
+		<MainFile>vecLinkV2.asm</MainFile>
+		<Description></Description>
+		<Version>1.0</Version>
+		<Author></Author>
+		<Bankswitching>none</Bankswitching>
+		<createBankswitchCode>false</createBankswitchCode>
+		<createGameLoopCode>false</createGameLoopCode>
+		<NumberOfBanks>1</NumberOfBanks>
+		<BankMainFiless>
+			<BankMainFiles>vecLinkV2.asm</BankMainFiles>
+		</BankMainFiless>
+		<Extras>0</Extras>
+		<ProjectPreScriptClass></ProjectPreScriptClass>
+		<ProjectPreScriptName></ProjectPreScriptName>
+		<ProjectPostScriptClass></ProjectPostScriptClass>
+		<ProjectPostScriptName></ProjectPostScriptName>
+		<BankDefiness>
+			<BankDefines></BankDefines>
+		</BankDefiness>
+	</ProjectProperties>
+</AllProjectProperties>

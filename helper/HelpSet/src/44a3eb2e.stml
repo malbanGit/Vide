@@ -1,8 +1,15 @@
 :title Sound / PSG Chip
  
+:h2 Programming/accessing PSG
+\- not done yet - 
+~~
+For  a glimpse look at Joysport devices, since they are accessed via PSG.
+
+
+:h2 Non programming stuff
 :h2 Vectrex BIOS
 
-One "update" for the PSG is usualy done once time in a typical vectrex game loop.
+One "update" for the PSG is usualy done once in a typical vectrex game loop.
 
 Thus the update is done every 1/50 seconds (more or less) since vectrex programs //try// do update with 50Hz.
 Each vectrex note can have a "length", the length is simply a counter of "update rounds" that the note stays the same.~~

@@ -260,7 +260,7 @@ public class VecXState implements Serializable
        
        if (doTimer)
        {
-           synchronized (from)
+           synchronized (to)
            {
                 to.timerItemList = new ArrayList<VecX.TimerItem>();
                 for (VecX.TimerItem it: from.timerItemList)

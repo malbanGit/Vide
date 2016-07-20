@@ -202,6 +202,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     public VediPanel(boolean ls) {
         initComponents();
+        jMenuItemVector.setVisible(false); // dsabled, do image conversion from vecci
         loadSettings = ls;
         jEditorLog.setEditable(false);
         jEditorLog.setContentType("text/html");
@@ -2032,6 +2033,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         te.name.toLowerCase().endsWith(".bmp")
                     );
             
+            jMenuItemVector.setEnabled(
+                        te.name.toLowerCase().endsWith(".jpg") ||
+                        te.name.toLowerCase().endsWith(".gif") ||
+                        te.name.toLowerCase().endsWith(".png") ||
+                        te.name.toLowerCase().endsWith(".bmp")
+                    );
             
             jPopupMenuTree.show(evt.getComponent(), evt.getX(),evt.getY());
         }       
@@ -3868,7 +3875,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (p == null) return;
         
         pathFull = p.toString();
-        pathOnly = p.getParent().toString();
+        if (p.toFile().isDirectory())
+        {
+            pathOnly = pathFull;
+        }
+        else
+        {
+            pathOnly = p.getParent().toString();
+        }
         filenameOnly = p.getFileName().toString();
         boolean wav = false;
         if (filenameOnly.endsWith(".wav")) wav = true;
@@ -4064,9 +4078,4 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         VectorJPanel.showModPanelNoModal(pathFull, this);
     }
-
-
-    
-
-
 }

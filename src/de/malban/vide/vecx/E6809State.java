@@ -50,8 +50,11 @@ public class E6809State implements Serializable{
         to.reg_cc = from.reg_cc;
         to.irq_status = from.irq_status;
         to.cyclesRunning = from.cyclesRunning;
-        to.callStack.clear();
-        for (int i: from.callStack) to.callStack.add(i);
+        synchronized (to.callStack)
+        {
+            to.callStack.clear();
+            for (int i: from.callStack) to.callStack.add(i);
+        }
     }
     
 }

@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <NonVisualComponents>
+    <Container class="javax.swing.JPopupMenu" name="jPopupMenu1">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuItemGoLow">
+          <Properties>
+            <Property name="label" type="java.lang.String" value="Add Breakpoint on low"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemGoLowActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuItemGoHigh">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Add Breakpoint on high"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemGoHighActionPerformed"/>
+          </Events>
+        </MenuItem>
+      </SubComponents>
+    </Container>
+  </NonVisualComponents>
   <Properties>
     <Property name="name" type="java.lang.String" value="regi" noResource="true"/>
   </Properties>
@@ -570,7 +596,11 @@
           <Font name="Courier" size="11" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
+        <Property name="name" type="java.lang.String" value="2_in" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField108">
       <Properties>
@@ -578,7 +608,11 @@
           <Font name="Courier" size="11" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
+        <Property name="name" type="java.lang.String" value="3_in" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField109">
       <Properties>
@@ -586,7 +620,11 @@
           <Font name="Courier" size="11" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
+        <Property name="name" type="java.lang.String" value="1_in" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField110">
       <Properties>
@@ -594,7 +632,11 @@
           <Font name="Courier" size="11" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
+        <Property name="name" type="java.lang.String" value="0_in" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField111">
       <Properties>
@@ -603,7 +645,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="name" type="java.lang.String" value="7_in" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField112">
       <Properties>
@@ -612,7 +658,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="name" type="java.lang.String" value="6_in" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField113">
       <Properties>
@@ -621,7 +671,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="name" type="java.lang.String" value="5_in" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField114">
       <Properties>
@@ -630,7 +684,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="name" type="java.lang.String" value="4_in" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel34">
       <Properties>
@@ -664,7 +722,11 @@
           <Font name="Courier" size="11" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
+        <Property name="name" type="java.lang.String" value="0_out" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField116">
       <Properties>
@@ -672,7 +734,11 @@
           <Font name="Courier" size="11" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
+        <Property name="name" type="java.lang.String" value="1_out" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField117">
       <Properties>
@@ -680,7 +746,11 @@
           <Font name="Courier" size="11" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
+        <Property name="name" type="java.lang.String" value="2_out" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField118">
       <Properties>
@@ -688,7 +758,11 @@
           <Font name="Courier" size="11" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
+        <Property name="name" type="java.lang.String" value="3_out" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel35">
       <Properties>
@@ -724,7 +798,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="name" type="java.lang.String" value="4_out" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField120">
       <Properties>
@@ -733,7 +811,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="name" type="java.lang.String" value="5_out" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField121">
       <Properties>
@@ -742,7 +824,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="name" type="java.lang.String" value="6_out" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField122">
       <Properties>
@@ -751,7 +837,11 @@
         </Property>
         <Property name="text" type="java.lang.String" value="0"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
+        <Property name="name" type="java.lang.String" value="7_out" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextField119MousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel38">
       <Properties>

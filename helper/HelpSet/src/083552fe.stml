@@ -1,0 +1,35 @@
+:title Example: VecLink V1
+With the information about the veclink cables I was given a couple of binaries.
+
+One of the binaries ("vl\_test.bin") is a test program for the veclink V1 cable.
+The program was most likely written by Alex Herbert.
+
+I disassembled the program and commented it.
+
+It is by now a very well documented example on how to use veclink V1.
+
+It can be found in the directory:~~
+
+::
+codelib/Snippets/Alex Herbert/VecLinkV1/vlink1.asm~~
+::~~
+The program can be assembled and run in vide.
+
+If you want you can look at it and rip it apart, but keep in mind, that my documentation says that VecLink V2 is much more stable.
+
+For more information look at the source to the example and possibly at the "Emulation: VecLink V1 + V2" section.
+
+Let me remind you, that there is no way to "automatically" configure vide to run two vecx instances, you have to start two instances manually:
+
+Manually meaning:
+- go to the main menu and start a vecx
+- select the veclink binary you would like to play
+- press start
+- select for port 0 the input device you would like to use
+- select for port 1 the veclink cable you would like to use, start with the "left" side (although it does not really matter which side is plugged in first)
+- repeat the above process for a second vecx instance, 
+- for port 1 select the "other side" (right?) of the same veclink cable
+
+
+
+

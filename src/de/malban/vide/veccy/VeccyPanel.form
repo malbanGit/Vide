@@ -2703,27 +2703,30 @@
                                                   <Component id="jLabel24" min="-2" pref="55" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                                   <Component id="single3dDisplayPanel1" min="-2" pref="130" max="-2" attributes="0"/>
-                                                  <EmptySpace pref="67" max="32767" attributes="0"/>
+                                                  <EmptySpace pref="72" max="32767" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                          <Component id="jLabel25" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
-                                                          <Component id="jLabel26" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
-                                                          <Component id="jLabel27" alignment="0" min="-2" pref="55" max="-2" attributes="0"/>
-                                                          <Group type="102" alignment="1" attributes="0">
-                                                              <Component id="jButtonInterprete" min="-2" pref="20" max="-2" attributes="0"/>
-                                                              <EmptySpace max="32767" attributes="0"/>
-                                                              <Component id="jButtonSave3" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                              <Component id="jLabel25" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
+                                                              <Component id="jLabel26" alignment="0" min="-2" pref="42" max="-2" attributes="0"/>
+                                                              <Component id="jLabel27" alignment="0" min="-2" pref="55" max="-2" attributes="0"/>
+                                                              <Group type="102" alignment="1" attributes="0">
+                                                                  <Component id="jButtonInterprete" min="-2" pref="20" max="-2" attributes="0"/>
+                                                                  <EmptySpace max="32767" attributes="0"/>
+                                                                  <Component id="jButtonSave3" min="-2" max="-2" attributes="0"/>
+                                                              </Group>
                                                           </Group>
+                                                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                                                       </Group>
-                                                      <Group type="102" attributes="0">
+                                                      <Group type="102" alignment="0" attributes="0">
                                                           <Component id="jLabel49" min="-2" pref="36" max="-2" attributes="0"/>
-                                                          <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                                                          <EmptySpace max="32767" attributes="0"/>
                                                           <Component id="jCheckBoxMulti" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
-                                                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="1" attributes="0">
                                                       <Component id="jTextField8" alignment="0" min="-2" pref="132" max="-2" attributes="0"/>
                                                       <Component id="jTextField10" alignment="1" min="-2" pref="132" max="-2" attributes="0"/>
@@ -2753,23 +2756,27 @@
                                                   <Component id="jScrollPane4" max="32767" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="1" attributes="0">
-                                                      <Group type="102" attributes="0">
-                                                          <Group type="103" groupAlignment="0" attributes="0">
-                                                              <Component id="jComboBoxPatterns" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="jCheckBoxMulti" min="-2" max="-2" attributes="0"/>
+                                                      <Group type="102" alignment="1" attributes="0">
+                                                          <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace max="-2" attributes="0"/>
+                                                          <Component id="jButtonInterprete" min="-2" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="102" alignment="1" attributes="0">
+                                                          <Group type="103" groupAlignment="1" attributes="0">
+                                                              <Group type="102" attributes="0">
+                                                                  <Component id="jComboBoxPatterns" min="-2" max="-2" attributes="0"/>
+                                                                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                                                              </Group>
+                                                              <Group type="102" alignment="1" attributes="0">
+                                                                  <Component id="jCheckBoxMulti" min="-2" max="-2" attributes="0"/>
+                                                                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                                              </Group>
                                                           </Group>
-                                                          <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                                           <Group type="103" groupAlignment="1" attributes="0">
                                                               <Component id="jTextFieldPatternName" min="-2" max="-2" attributes="0"/>
                                                               <Component id="jButtonSave3" min="-2" max="-2" attributes="0"/>
                                                           </Group>
-                                                      </Group>
-                                                      <Group type="102" attributes="0">
-                                                          <Component id="jLabel49" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace max="-2" attributes="0"/>
-                                                          <Component id="jButtonInterprete" min="-2" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
                                                   <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
@@ -2791,12 +2798,12 @@
                                                           <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
-                                                  <EmptySpace pref="23" max="32767" attributes="0"/>
+                                                  <EmptySpace pref="29" max="32767" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
                                                       <Component id="single3dDisplayPanel1" min="-2" pref="130" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <EmptySpace min="0" pref="14" max="32767" attributes="0"/>
+                                                  <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -3808,11 +3815,9 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jCheckBox2dOnly" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
-                                      <Component id="jCheckBoxOnePath" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
+                                          <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabel29" alignment="0" min="-2" pref="70" max="-2" attributes="0"/>
                                               <Component id="jLabel28" alignment="0" min="-2" pref="70" max="-2" attributes="0"/>
@@ -3839,34 +3844,29 @@
                                           </Group>
                                           <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                                      <Component id="jLabel5" max="32767" attributes="0"/>
-                                                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jTextFieldXMaxLength" min="-2" pref="49" max="-2" attributes="0"/>
-                                                      <Component id="jTextFieldYMaxLength" min="-2" pref="49" max="-2" attributes="0"/>
-                                                  </Group>
+                                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                                  <Component id="jLabel5" max="32767" attributes="0"/>
+                                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                                               </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel30" min="-2" pref="70" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Group type="102" attributes="0">
-                                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                          <Component id="jLabel42" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <Group type="102" alignment="0" attributes="0">
-                                                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                                                          <Component id="jTextFieldZMaxLength" min="-2" pref="49" max="-2" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
-                                              </Group>
+                                              <Component id="jLabel30" alignment="0" min="-2" pref="70" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jTextFieldYMaxLength" alignment="0" pref="49" max="32767" attributes="0"/>
+                                              <Component id="jTextFieldXMaxLength" alignment="0" pref="49" max="32767" attributes="0"/>
+                                              <Component id="jTextFieldZMaxLength" alignment="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <Component id="jCheckBoxSameIntensity" min="-2" pref="170" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="345" pref="345" max="-2" attributes="0"/>
+                                          <Component id="jLabel42" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                       <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                                          <Component id="jLabel43" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jCheckBoxSamePattern" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
                                               <Component id="jCheckBoxHighPattern" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
@@ -3881,7 +3881,18 @@
                                               <Component id="jLabel41" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <Component id="jLabel43" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                                          <Component id="jCheckBoxSameIntensity" min="-2" pref="170" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                                          <Component id="jCheckBoxOnePath" min="-2" pref="170" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox2dOnly" min="-2" pref="170" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <EmptySpace pref="161" max="32767" attributes="0"/>
                               </Group>

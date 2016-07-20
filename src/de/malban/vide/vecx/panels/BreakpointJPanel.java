@@ -228,7 +228,7 @@ public class BreakpointJPanel extends javax.swing.JPanel implements
                 if (bp.wasTriggered())
                 {
                     init();
-                    checksum = -1;
+                    checksum = -2;
                     return;
                 }
                 newChecksum += (newChecksum <<2)+bp.uid;

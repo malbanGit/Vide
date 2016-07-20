@@ -26,19 +26,20 @@ public class MemoryInformation
     public static final int DIS_TYPE_DATA_WORD = 2; 
     public static final int DIS_TYPE_DATA_WORD_POINTER = 3; 
     public static final int DIS_TYPE_DATA_CHAR = 4;
+    public static final int DIS_TYPE_DATA_BINARY = 5;
     
-    public static final int DIS_TYPE_DATA_INSTRUCTION_1_LENGTH = 5; 
-    public static final int DIS_TYPE_DATA_INSTRUCTION_2_LENGTH = 6; 
-    public static final int DIS_TYPE_DATA_INSTRUCTION_3_LENGTH = 7; 
-    public static final int DIS_TYPE_DATA_INSTRUCTION_4_LENGTH = 8; 
-    public static final int DIS_TYPE_DATA_INSTRUCTION_5_LENGTH = 9; 
+    public static final int DIS_TYPE_DATA_INSTRUCTION_1_LENGTH = 6; 
+    public static final int DIS_TYPE_DATA_INSTRUCTION_2_LENGTH = 7; 
+    public static final int DIS_TYPE_DATA_INSTRUCTION_3_LENGTH = 8; 
+    public static final int DIS_TYPE_DATA_INSTRUCTION_4_LENGTH = 9; 
+    public static final int DIS_TYPE_DATA_INSTRUCTION_5_LENGTH = 10; 
     
-    public static final int DIS_TYPE_DATA_BELONGSTO_INSTRUCTION_POS_1 = 10; 
-    public static final int DIS_TYPE_DATA_BELONGSTO_INSTRUCTION_POS_2 = 11; 
-    public static final int DIS_TYPE_DATA_BELONGSTO_INSTRUCTION_POS_3 = 12; 
-    public static final int DIS_TYPE_DATA_BELONGSTO_INSTRUCTION_POS_4 = 13; 
+    public static final int DIS_TYPE_DATA_BELONGSTO_INSTRUCTION_POS_1 = 11; 
+    public static final int DIS_TYPE_DATA_BELONGSTO_INSTRUCTION_POS_2 = 12; 
+    public static final int DIS_TYPE_DATA_BELONGSTO_INSTRUCTION_POS_3 = 13; 
+    public static final int DIS_TYPE_DATA_BELONGSTO_INSTRUCTION_POS_4 = 14; 
     
-    public static final int DIS_TYPE_DATA_INSTRUCTION_GENERAL = 14; 
+    public static final int DIS_TYPE_DATA_INSTRUCTION_GENERAL = 15; 
     
     public static String[] disTypeString = {"UNKOWN", "DB Byte", "DB Word", "DB Ptr", "DB Char",
                                             "INS 1","INS 2","INS 3","INS 4","INS 5",

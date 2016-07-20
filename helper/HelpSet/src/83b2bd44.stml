@@ -1,0 +1,32 @@
+:title Code Generation
+
+Vide, mainly through vedi, supports generating code for various purposes.
+
+Upon creating a project:
+- main game loop
+- bankswitching
+- eEprom support
+
+Using aditional tools available from vedi menus:
+- building and play routines for samples
+- conversion and play routines for mod files
+- building and display of raster images
+- building and play of YM-files
+- building and play of AYFX sound effects
+- building and play of vecVoice/vecVox data
+
+With the help of veccy:
+- building and display of vector images
+- building and play of vectorlists
++ different vectorlist types 
++ animations
++ scences
+
+
+Once planned but not done code generation:
+Veclink cables.~~ ~~
+\- The code generation would have been little more than the provided examples.
+The code can not easily be used in ones own code and be at the same time used as an example. 
+
+For that reason I left these out as code generations. The provided examples are well documented and should give anyone interested in implementing a game or other binary a good starting point and many routines can be just copied and pasted from that base. 
+

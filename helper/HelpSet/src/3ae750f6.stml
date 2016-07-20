@@ -16,3 +16,20 @@ As shown in the image above, you can also set breakpoints to ram locations.
 - read: triggered when the ram location is read
 - write: triggered when ram location is written to
 - value: triggered when ram locations is written to with a certain value
+
+**use label as data**
+You can force a label to be also be recognized as "immediate data". If you force that, dissi is able to use an address in immediate addressing.
+
+That means, if e.g.
+
+::$c880 has a label start\_ram::~~
+
+and an assembler directive like:
+
+::LDU #$c880::~~ 
+
+is encountered, dissi than can recognize the immediate label and output:
+
+::LDU #start\_ram::~~ 
+
+... for better readability.

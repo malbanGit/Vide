@@ -9,7 +9,7 @@ Obviously, now when YM-files are selected for conversion a new panel pops up. He
 
 :image ympanel2.png|YM-Panel
 
-In general the panel is split in different sections (which again can be devided in several clusters).
+In general the panel is split into different sections (which again can be devided in several clusters).
 
 :h2 YM-Data
 :h3 YM-Table
@@ -25,7 +25,7 @@ that is the current "active" row, the data of that row is displayed at the top, 
 these are rows that are selected (by dragging the mouse over rows)
 
 :h3 YM-Edit
-To the top of the table you see different "Editors" for volume, noise, notes etc. With these controls you can manipulate register entries of the YM-Data.
+To the top of the table you see different "Editors" for volume, noise, notes etc. With these controls you can manipulate register entries of the YM-Data.~~
 Note:~~
 With these controls you edit the YM-Data, not the PSG registers!
 

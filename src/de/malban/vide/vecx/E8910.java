@@ -84,6 +84,7 @@ public class E8910 extends E8910State implements E8910Statics
 
     private void writeDataFromPSGToPortA()
     {
+        if (joyport == null) return;
         if (joyport[0] != null)
         {
             /*

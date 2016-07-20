@@ -4,96 +4,96 @@ In the disassembly from Bruce Tomlin there are many "garbled" comments (Ramp on/
 Here a corrected version: 
 
 ::
-;-----------------------------------------------------------------------;~~
-;       F495    Print_Str                                               ;~~
-;                                                                       ;~~
-; This is the routine which does the actual printing of a string.  The  ;~~
-; U register points to the start of the string, while $C82A contains    ;~~
-; the height of the character, cell, and $C82B contains the width of    ;~~
-; the character cell.  The string is terminated with an 0x80.           ;~~
-;                                                                       ;~~
-; The string is displayed by drawing 7 horizontal rows of dots.  The    ;~~
-; first row is drawn for each character, then the second, etc.  The     ;~~
-; character generation table is located at ($F9D4 + $20).  Only         ;~~
-; characters 0x20-0x6F (upper case) are defined; the lower case         ;~~
-; characters a-o produce special icons.                                 ;~~
-;                                                                       ;~~
-; ENTRY DP = $D0                                                        ;~~
-;       U-reg points to the start of the string                         ;~~
-;                                                                       ;~~
-; EXIT: U-reg points to next byte after terminator                      ;~~
-;                                                                       ;~~
-;       D-reg, X-reg trashed                                            ;~~
-;-----------------------------------------------------------------------;~~
+;-----------------------------------------------------------------------~~
+;       F495    Print\_Str                                               ~~
+;                                                                       ~~
+; This is the routine which does the actual printing of a string. The  ~~
+; U register points to the start of the string, while $C82A contains    ~~
+; the height of the character, cell, and $C82B contains the width of    ~~
+; the character cell. The string is terminated with an 0x80.           ~~
+;                                                                       ~~
+; The string is displayed by drawing 7 horizontal rows of dots. The    ~~
+; first row is drawn for each character, then the second, etc. The     ~~
+; character generation table is located at ($F9D4 + $20). Only         ~~
+; characters 0x20-0x6F (upper case) are defined; the lower case         ~~
+; characters a-o produce special icons.                                 ~~
+;                                                                       ~~
+; ENTRY DP = $D0                                                        ~~
+;       U-reg points to the start of the string                         ~~
+;                                                                       ~~
+; EXIT: U-reg points to next byte after terminator                      ~~
+;                                                                       ~~
+;       D-reg, X-reg trashed                                            ~~
+;-----------------------------------------------------------------------~~
 ~~
-Print_Str:      ~~
-____________STU     Vec_Str_Ptr     ;Save string pointer~~
-____________LDX     #Char_Table-$20 ;Point to start of chargen bitmaps~~
-____________LDD     #$1883          ;a->AUX: b->ORB: $8x = Disable RAMP, Disable Mux, mux sel = 01 (int offsets)~~
-____________CLR     <VIA_port_a     ;Clear D/A output~~
-____________STA     <VIA_aux_cntl   ;Shift reg mode = 110 (shift out under system clock), T1 PB7 disabled, one shot mode~~
-____________LDX     #Char_Table-$20 ;Point to start of chargen bitmaps~~
+Print\_Str:      ~~
+____________STU_____Vec\_Str\_Ptr_____;Save string pointer~~
+____________LDX_____#Char\_Table-$20_;Point to start of chargen bitmaps~~
+____________LDD_____#$1883__________;a->AUX: b->ORB: $8x = Disable RAMP, Disable Mux, mux sel = 01 (int offsets)~~
+____________CLR_____<VIA\_port\_a_____;Clear D/A output~~
+____________STA_____<VIA\_aux\_cntl___;Shift reg mode = 110 (shift out under system clock), T1 PB7 disabled, one shot mode~~
+____________LDX_____#Char\_Table-$20_;Point to start of chargen bitmaps~~
 ____________; first entry here, ramp is disabled~~
 ____________; if there was a jump from below~~
 ____________; ramp will be enabled by next line~~
 LF4A5:          ~~
-____________STB     <VIA_port_b     ;ramp off/on set mux to channel 1~~
-____________DEC     <VIA_port_b     ;Enable mux~~
-____________LDD     #$8081          ;both to ORB, both disable ram, mux sel = 0 (y int), a:->enable mux: b:->disable mux~~
-____________NOP                     ;Wait a moment~~
-____________INC     <VIA_port_b     ;Disable mux~~
-____________STB     <VIA_port_b     ;Disable RAMP, set mux to channel 0, disable mux~~
-____________STA     <VIA_port_b     ;Enable mux~~
-____________TST     $C800           ;I think this is a delay only~~
-____________INC     <VIA_port_b     ;disable mux~~
-____________LDA     Vec_Text_Width  ;Get text width~~
-____________STA     <VIA_port_a     ;Send it to the D/A~~
-____________LDD     #$0100			    ;both to ORB, both ENABLE RAMP, a:-> disable mux, b:-> enable mux~~
-____________LDU     Vec_Str_Ptr     ;Point to start of text string~~
-____________STA     <VIA_port_b     ;[4]enable RAMP, disable mux~~
-____________BRA     LF4CB	         ;[3]~~
+____________STB_____<VIA\_port\_b_____;ramp off/on set mux to channel 1~~
+____________DEC_____<VIA\_port\_b_____;Enable mux~~
+____________LDD_____#$8081__________;both to ORB, both disable ram, mux sel = 0 (y int), a:->enable mux: b:->disable mux~~
+____________NOP_____________________;Wait a moment~~
+____________INC_____<VIA\_port\_b_____;Disable mux~~
+____________STB_____<VIA\_port\_b_____;Disable RAMP, set mux to channel 0, disable mux~~
+____________STA_____<VIA\_port\_b_____;Enable mux~~
+____________TST_____$C800___________;I think this is a delay only~~
+____________INC_____<VIA\_port\_b_____;disable mux~~
+____________LDA_____Vec\_Text\_Width__;Get text width~~
+____________STA_____<VIA\_port\_a_____;Send it to the D/A~~
+____________LDD_____#$0100__________;both to ORB, both ENABLE RAMP, a:-> disable mux, b:-> enable mux~~
+____________LDU_____Vec\_Str\_Ptr_____;Point to start of text string~~
+____________STA_____<VIA\_port\_b_____;[4]enable RAMP, disable mux~~
+____________BRA_____LF4CB___________;[3]~~
 ; one letter is drawn (one row that is) in 18 cycles~~
 ; 13 cycles overhead~~
 ; ramp is thus active for #ofLetters*18 + 13 cycles~~
 LF4C7:          ~~
-____________LDA     A,X             ;[+5]Get bitmap from chargen table~~
-____________STA     <VIA_shift_reg  ;[+4]rasterout of char bitmap "row" thru shift out in shift register~~
+____________LDA_____A,X_____________;[+5]Get bitmap from chargen table~~
+____________STA_____<VIA\_shift\_reg__;[+4]rasterout of char bitmap "row" thru shift out in shift register~~
 LF4CB:          ~~
-____________LDA     ,U+             ;[+6]Get next character~~
-____________BPL     LF4C7           ;[+3]Go back if not terminator~~
-____________LDA     #$81	         ;[2]disable mux, disable ramp ~~
-____________STA     <VIA_port_b     ;[4]disable RAMP, disable mux~~
-____________NEG     <VIA_port_a     ;Negate text width to D/A~~
-____________LDA     #$01	         ;enable ramp, disable mux~~
-____________STA     <VIA_port_b     ;enable RAMP, disable mux~~
-____________CMPX    #Char_Table_End-$20;[4]Check for last row~~
-____________BEQ     LF50A           ;[3]Branch if last row~~
-____________LEAX    $50,X           ;[3]Point to next chargen row~~
-____________TFR     U,D             ;[6]Get string length~~
-____________SUBD    Vec_Str_Ptr     ;[7] ~~
-____________SUBB    #$02            ;[2] -  2 ~~
-____________ASLB                    ;[2] *  2 calculate return "way"~~
-____________BRN     LF4EB           ;[3]Delay a moment~~
+____________LDA_____,U+_____________;[+6]Get next character~~
+____________BPL_____LF4C7___________;[+3]Go back if not terminator~~
+____________LDA_____#$81____________;[2]disable mux, disable ramp ~~
+____________STA_____<VIA\_port\_b_____;[4]disable RAMP, disable mux~~
+____________NEG_____<VIA\_port\_a_____;Negate text width to D/A~~
+____________LDA_____#$01____________;enable ramp, disable mux~~
+____________STA_____<VIA\_port\_b_____;enable RAMP, disable mux~~
+____________CMPX____#Char\_Table\_End-$20;[4]Check for last row~~
+____________BEQ_____LF50A___________;[3]Branch if last row~~
+____________LEAX____$50,X___________;[3]Point to next chargen row~~
+____________TFR_____U,D_____________;[6]Get string length~~
+____________SUBD____Vec\_Str\_Ptr_____;[7] ~~
+____________SUBB____#$02____________;[2] -  2 ~~
+____________ASLB____________________;[2] *  2 calculate return "way"~~
+____________BRN_____LF4EB___________;[3]Delay a moment~~
 LF4EB:          ~~
-____________LDA     #$81            ;[2]disable RAMP, disable mux~~
-____________NOP		         ;[2]~~
-                DECB                    ;[2]~~
-____________BNE     LF4EB           ;Delay some more in a loop~~
-____________STA     <VIA_port_b     ;disable RAMP, disable mux~~
-____________LDB     Vec_Text_Height ;Get text height~~
-____________STB     <VIA_port_a     ;Store text height in D/A [go down -> later]~~
-____________DEC     <VIA_port_b     ;Enable mux~~
-____________LDD     #$8101~~
-____________NOP                     ;Wait a moment~~
-____________STA     <VIA_port_b     ;disable RAMP, disable mux~~
-____________CLR     <VIA_port_a     ;Clear D/A~~
-____________STB     <VIA_port_b     ;enable RAMP, disable mux~~
-____________STA     <VIA_port_b     ;disable RAMP, disable mux~~
-____________LDB     #$03            ;$0x = ENABLE RAMP?~~
-____________BRA     LF4A5           ;Go back for next scan line~~
+____________LDA_____#$81____________;[2]disable RAMP, disable mux~~
+____________NOP_____________________;[2]~~
+____________DECB____________________;[2]~~
+____________BNE_____LF4EB___________;Delay some more in a loop~~
+____________STA_____<VIA\_port\_b_____;disable RAMP, disable mux~~
+____________LDB_____Vec\_Text\_Height_;Get text height~~
+____________STB_____<VIA\_port\_a_____;Store text height in D/A [go down -> later]~~
+____________DEC_____<VIA\_port\_b_____;Enable mux~~
+____________LDD_____#$8101~~
+____________NOP_____________________;Wait a moment~~
+____________STA_____<VIA\_port\_b_____;disable RAMP, disable mux~~
+____________CLR_____<VIA\_port\_a_____;Clear D/A~~
+____________STB_____<VIA\_port\_b_____;enable RAMP, disable mux~~
+____________STA_____<VIA\_port\_b_____;disable RAMP, disable mux~~
+____________LDB_____#$03____________;$0x = ENABLE RAMP?~~
+____________BRA_____LF4A5___________;Go back for next scan line~~
 ~~
 LF50A:          ~~
-____________LDA     #$98~~
-____________STA     <VIA_aux_cntl   ;T1->PB7 enabled~~
-____________JMP     Reset0Ref       ;Reset the zero reference~~
+____________LDA_____#$98~~
+____________STA_____<VIA\_aux\_cntl___;T1->PB7 enabled~~
+____________JMP_____Reset0Ref_______;Reset the zero reference~~
 ~~

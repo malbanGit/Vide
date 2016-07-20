@@ -17,7 +17,18 @@ import javax.swing.table.AbstractTableModel;
  */
 public class MemoryInformationTableModel extends AbstractTableModel
 {
-    public static Boolean[] columnVisible = {true, true,true, true,true,true, true,true, true, true,true ,true, true};
+    public void initVisibity()
+    {
+        for (int i=0; i<columnVisibleALL.length; i++ )
+        {
+            columnVisible[i] = columnVisibleALL[i];
+        }
+    }
+        
+    
+    
+    public static Boolean[] columnVisibleALL = {true, true,true, true,true,true, true,true, true, true,true ,true, true};
+    public Boolean[] columnVisible = {true, true,true, true,true,true, true,true, true, true,true ,true, true};
     public static int[] columnWidthSmall =    {20       , 50    , 150      , 30        , 100       ,10       ,20  , 10    };
     public static int[] columnWidth =    {10       , 100     , 150      , 30        , 100   ,  10      ,10      , 50   , 30        , 50    , 10      , 150    , 5};
 
@@ -43,8 +54,10 @@ public class MemoryInformationTableModel extends AbstractTableModel
     {
         MemoryInformationTableModel model = new MemoryInformationTableModel();
         // new models reset visiblilty!
+/*        
         for (int i=0; i< columnVisible.length; i++)
             columnVisible[i] = true;
+*/        
         model.orgData = mem;
         model.showAll();
         return model;
@@ -592,6 +605,10 @@ public class MemoryInformationTableModel extends AbstractTableModel
     {
         int col = convertViewToModel( c);
             
+        
+        
+        
+        
         if (col == 0) return new Color(200,255,200,255);
 
         if ( highLightClick.length()>0)
@@ -613,6 +630,15 @@ public class MemoryInformationTableModel extends AbstractTableModel
             }       
         }
         
+        MemoryInformation memInfo = getValueAt(row);
+        if (memInfo.address>=0xe000)
+        {
+            return new Color(200,200,200);
+        }
+        if (orgData.currentBank != 0)
+        {
+            return new Color(200,255,255);
+        }
         
         return null; // default
     }

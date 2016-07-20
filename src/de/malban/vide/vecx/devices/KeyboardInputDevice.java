@@ -7,11 +7,9 @@ package de.malban.vide.vecx.devices;
 
 import de.malban.gui.HotKey;
 import de.malban.vide.vecx.VecXPanel;
+import static de.malban.vide.vecx.VecXPanel.DEVICE_KEYBOARD0;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
-import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
-import javax.swing.KeyStroke;
 
 /**
  *
@@ -19,6 +17,10 @@ import javax.swing.KeyStroke;
  */
 public class KeyboardInputDevice extends AbstractDevice
 {
+    public int getDeviceID()
+    {
+        return DEVICE_KEYBOARD0;
+    }
     VecXPanel panel;
     
     int port = 0;

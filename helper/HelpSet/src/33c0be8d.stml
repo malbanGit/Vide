@@ -1,0 +1,93 @@
+:title VecVoice/VecVox+
+:image VecSpeech.png|VecSpeeech panel
+
+Accessable via the popup-menu on the tree is a menu entry called: "VecVoice/VecVox+".
+Using the above displayed panel you can add support for speech to your vectrex programs.
+
+Since the VecVoice system is more or less depricated, the support mainly focuses on VecVox, although most of the below stated features also work for VecVoice.
+
+Featured on these panels are following "helpers":
+- support of a "phrasealtor" dictionary (VecVox+ only)
+- support of a translation from text to phonemes using the NRL Report 7948~~
+  "AUTOMATIC TRANSLATION OF ENGLISH TEXT TO PHONETICS~~
+	            BY MEANS OF LETTER-TO-SOUND RULES"~~
+(seperately implemented for SPL0256Al2 and SpeakJet)
+- on the fly switching between the chips
+- switching the above "translations" on/off
+- enter "free" text
+- enter direct commands by "escaping" commands
+- double click on the dictionary table adds commands
+- (right) double click on dictionary table plays the underlying phoneme
+- (thru emulation) on the fly listening to the entered data
+- data and code generation ready to use for your vectrex assembly
+- support of the "jetphones.inc" for better readability of your sources
+
+The panel is devided into 2 main regions, left (mainly input) and right (mainly information/dictionary - tables).
+
+You can enter the text you want to convert to speech commands in the textarea titled
+"Text".
+
+:h3 Phrasealator
+(Only VecVox+) The phrasealator consists of a freely available dictionary file availble from the manifacturer of the SpeakJet (see: [[http://magnevation.com/]]). It consists of rules for building english words using the speakjet commands.
+
+The file: "Phrasealator.Dic" can be found in the directory: "template", the file is a ascii key<->value table, which can be edited and extended.
+~~ ~~
+Noteworthy:~~
+The Manifacturer of the SpeakJet has a tool called "Phase a lator" for free download with which the dictionary can be easily extended, and if you have the right hardware, can be listened to on a real SpeakJet on the fly.~~(The tool is written in visual basic and is only available under windows) 
+
+:h3 Naval: Text to Speech
+What this is -> google is your friend, search for "NRL Report 7948".
+
+This feature can be activated additionally to the Phrasealator, and will be used to convert all text, that the above does not recognize.
+
+
+:h3 Other
+The ##control_play_blue.png## - button can be used to play back (emulated) the current entered text. 
+
+:h3 Technical
+The communication from vectrex to the VecVoXX is done by a serial communication 9600 baud 8n1. The known vectrex speech devices communicate using that protocol via the joystick port. ~~
+The only usable "source" of knowledge came from an old source code of Alex Herbert.
+
+The actual communication as said is done via the joystick port. ~~
+The joystick port on the other hand is not directly connected to an easily accessable vectrex device. The joystick port is connected to the sound chip. And is reachable via register 14 of the soundchip. The soundchip on the other hand also can not be addressed directly, here one has to communicate via VIA.~~ ~~
+
+So the actual communication goes like this:
+- assume you want to tell the VecVoice device to receive the byte value "128" (IY)
+- for that one must transfer 10 bits to VecVoice (8n1): 0 (startbit), 1000 0000 (data), 1(stopbit)
+- the communication with VecVoice is done via bit 4 of PSG Port A (that is the first button of the second joystick)
+- so we one must ensure that the above bit sequence is sent "through" that (PSG Port A-) bit, and each bit is held for about 156 vectrex "cycles", this is roughly 9600 baud
+- the thing that Alex came up with (and I didn't know about, and which thoroughly confused me at first...):~~
+in his code it looks like that the above said bit is set by using the PSG Port A enable bit in Register 7 of the PSG, which at first did not make any sense. ~~
+But probably the following is actually going on:
+1) the output of PSG port A is initialized right in the beginning to "1110 1111", this is a bit mask for bit 4
+2) it seems that the PSG internally remembers that value for eternity if you do not actually CHANGE the output again
+3) what I mean by that is: ~~even when port A receives data (in input mode), once you switch to output mode, the above set "output" data reappears
+4) when port A is in input mode the connected device (here our speech device) can still (sort of) read port A, after all - the cables are still connected - and what they always seem to receive is: "1111 1111" - when port A is in input mode
+5) so ... using the above mask, you can change the status of bit 4 of PSG port A by "simply" changing PSG port A from input to output mode
+6) that again is done by bit 6 of PSG register 7
+7) (actually VecVoice expects the bits inverted, but since the enable register is zero active, which is sort of also inverted, the double invertedness cleverly resolves itself within the communication routine)
+- so with that knowledge...
+- select on VIA Port b to communicate with the sound chip (mux select->soundchip, mux enable, BDIR and BC1 to :latch ])
+- set VIA Port a to the register you want to address (psg register 7, because we must read 7 befor we set anything, so we know what we must set)
+- of the value we got from register 7 we set bit 6 to 0 if we want to send a "0" bit and to 1 if we want to send "1" bit
+- write that value to VIA port A (which with mux select and enable goes to PSG)
+- keep the latch to 7 and set in VIA port B BDIR/BC1 to write
+- wait 156 cycles and repeat for the other 9 bits
+- voila - you just sent 1 byte to VecVoice!
+
+For the SP0256AL I got some pretty good samples, for the SpeakJet the current samples I am using have same crackling noises :-(.
+
+I have not connected any of the speech devices to any of my hardware yet - I will do so as soon as I am able to.
+
+The SP0256AL is pretty straight forward, and can be (in my opinion) emulated quite well using samples. Although in the meanwhile there DOES exist a correct software emulation of that chip, it was done by "Joseph Zbiciak" for his intellivision emulator and is now also used by the Mame/Mess team. But unless something serious happens, I will probably not port that code to java and use it. After all the SP0256AL is pretty old, and won't be used for any future development tasks (and that is what Vide is about...)
+
+The SpeakJet on the other hand is quite up to date, still available and has many more advances features!
+The emulation of SpeakJet is rudimentary at best, especially as long as I am not able to listen to the real thing.
+
+I started emulation of some of the more advances features (different pitches, time stretching, repeat etc), most of them are implemented, and the output DOES sound different than without ... - but that is about it - different...
+
+I used a library called: TarsosDSP which provides methods to do pitch shifting, time stretching etc, it is pretty easy to use, comes with all sources and is licenced under GPL V3.
+
+The thing is - while the library is great -  it works much better with larger samples... The samples used for the phonemes are quite tiny, anything from 40ms to 700ms at most. These small durations are not handled well, since for the DSP processing frequency windows and overlaps must be found, and the search corridors within the library are also in about 20-50 ms. This makes the results somewhat "not quite so nice".
+
+

@@ -568,7 +568,7 @@ public class DASM6809 extends DASMStatics {
                 {   
                     /* 8-bit offset */
                     offset=getbyte();
-memInfo.cycles+=1;
+                    memInfo.cycles+=1;
                     if (endOfFile)
                     {
                         return incorrectDisassembleFoundAt(currentPC, "End of file while reading operands (8bit).");                        
@@ -586,7 +586,7 @@ memInfo.cycles+=1;
 
                     if((pb&0x90)==0x90)
                     {
-memInfo.cycles+=3;
+                        memInfo.cycles+=3;
                          str += DEF.indexedPrefix;
                     }
                     if(pb==0x8c)
@@ -601,7 +601,7 @@ memInfo.cycles+=3;
                 { /* IND 16-bit */
                     int helper;
                     helper=getbyte();
-memInfo.cycles+=4;
+                    memInfo.cycles+=4;
                     if (endOfFile)
                     {
                         return incorrectDisassembleFoundAt(currentPC, "End of file while reading operands (16 byte-1).");                        
@@ -637,18 +637,18 @@ memInfo.cycles+=4;
                     if ((pb&0x90)==0x90)
                     {
                         str+=DEF.indexedPrefix;
-memInfo.cycles+=3;
+                        memInfo.cycles+=3;
                         
                     }
                     if (reg == 4)
                     {
-memInfo.cycles+=1;
+                        memInfo.cycles+=1;
                         
                     }
                     if(pb==0x9f)
                     {
                         out2 = checklabs(offset);
-memInfo.cycles-=2;
+                        memInfo.cycles-=2;
                     }
                     else if(pb==0x8d)
                         out2 = checklabs(offset)+","+regs[reg];
@@ -665,32 +665,32 @@ memInfo.cycles-=2;
                    if((pb&0x90)==0x90)
                    {
                         str+=DEF.indexedPrefix;
-memInfo.cycles+=3;
+                        memInfo.cycles+=3;
                        
                    }
                    if((pb&0x8f)==0x80)
                    {
                         out2=","+regs[reg]+"+";
                         str += out2;
-memInfo.cycles+=2;
+                        memInfo.cycles+=2;
                    }
                    else if((pb&0x8f)==0x81)
                    {
                         out2=","+regs[reg]+"++";
                         str += out2;
-memInfo.cycles+=3;
+                        memInfo.cycles+=3;
                    }
                    else if((pb&0x8f)==0x82)
                    {
                         out2=",-"+regs[reg]+"";
                         str += out2;
-memInfo.cycles+=2;
+                        memInfo.cycles+=2;
                    }
                    else if((pb&0x8f)==0x83)
                    {
                         out2=",--"+regs[reg]+"";
                         str += out2;
-memInfo.cycles+=3;
+                        memInfo.cycles+=3;
                    }
                    else if((pb&0x8f)==0x84)
                    {
@@ -701,19 +701,19 @@ memInfo.cycles+=3;
                    {
                         out2="b,"+regs[reg]+"";
                         str += out2;
-memInfo.cycles+=1;
+                        memInfo.cycles+=1;
                    }
                    else if((pb&0x8f)==0x86)
                    {
                         out2="a,"+regs[reg]+"";
                         str += out2;
-memInfo.cycles+=1;
+                        memInfo.cycles+=1;
                    }
                    else if((pb&0x8f)==0x8b)
                    {
                         out2="d,"+regs[reg]+"";
                         str += out2;
-memInfo.cycles+=4;
+                        memInfo.cycles+=4;
                    }
                 }
                 else
@@ -727,7 +727,7 @@ memInfo.cycles+=4;
                     else
                         out2 = DEF.hexPrefix+String.format("%02X", offset)+","+regs[reg];
                     str += DEF._5bitPrefix + out2;
-memInfo.cycles+=1;
+                    memInfo.cycles+=1;
                 }
                 if((pb&0x90)==0x90)
                     str+=DEF.indexedPostfix;
@@ -746,7 +746,7 @@ memInfo.cycles+=1;
                         str += "pc";
                         comma=true;
                         PC=true;
-memInfo.cycles+=2;
+                        memInfo.cycles+=2;
                     }
                     if ((operandarray[0]&0x40)>0)
                     {
@@ -756,7 +756,7 @@ memInfo.cycles+=2;
                             str+="u";
                         else
                             str+="s";
-memInfo.cycles+=2;
+                        memInfo.cycles+=2;
                         comma=true;
                     }
                     if((operandarray[0]&0x20)>0)
@@ -765,7 +765,7 @@ memInfo.cycles+=2;
                             str+=",";
                          str+="y";
                          comma=true;
-memInfo.cycles+=2;
+                        memInfo.cycles+=2;
                     }
                     if((operandarray[0]&0x10)>0)
                     {
@@ -773,7 +773,7 @@ memInfo.cycles+=2;
                             str+=",";
                          str+="x";
                          comma=true;
-memInfo.cycles+=2;
+                        memInfo.cycles+=2;
                     }
                     if((operandarray[0]&0x8)>0)
                     {
@@ -781,7 +781,7 @@ memInfo.cycles+=2;
                             str+=",";
                         str+="dp";
                         comma=true;
-memInfo.cycles+=1;
+                        memInfo.cycles+=1;
                     }
                     if((operandarray[0]&0x4)>0)
                     {
@@ -789,7 +789,7 @@ memInfo.cycles+=1;
                             str+=",";
                         str+="b";
                         comma=true;
-memInfo.cycles+=1;
+                        memInfo.cycles+=1;
                     }
                     if((operandarray[0]&0x2)>0)
                     {
@@ -797,14 +797,14 @@ memInfo.cycles+=1;
                             str+=",";
                         str+="a";
                         comma=true;
-memInfo.cycles+=1;
+                        memInfo.cycles+=1;
                     }
                     if((operandarray[0]&0x1)>0)
                     {
                         if(comma)
                             str+=",";
                         str+="cc";
-memInfo.cycles+=1;
+                        memInfo.cycles+=1;
                     }
                 }
                 else if((opcode==0x35)||(opcode==0x37))
@@ -814,7 +814,7 @@ memInfo.cycles+=1;
                     {
                         str+="cc";
                         comma=true;
-memInfo.cycles+=1;
+                        memInfo.cycles+=1;
                     }
                     if((operandarray[0]&0x2)>0)
                     {
@@ -822,7 +822,7 @@ memInfo.cycles+=1;
                             str+=",";
                         str+="a";
                         comma=true;
-memInfo.cycles+=1;
+                        memInfo.cycles+=1;
                     }
                     if((operandarray[0]&0x4)>0)
                     {
@@ -830,7 +830,7 @@ memInfo.cycles+=1;
                             str+=",";
                         str+="b";
                         comma=true;
-memInfo.cycles+=1;
+                        memInfo.cycles+=1;
                     }
                     if((operandarray[0]&0x8)>0)
                     {
@@ -838,7 +838,7 @@ memInfo.cycles+=1;
                             str+=",";
                         str+="dp";
                         comma=true;
-memInfo.cycles+=1;
+                        memInfo.cycles+=1;
                     }
                     if((operandarray[0]&0x10)>0)
                     {
@@ -846,7 +846,7 @@ memInfo.cycles+=1;
                             str+=",";
                         str+="x";
                          comma=true;
-memInfo.cycles+=2;
+                        memInfo.cycles+=2;
                     }
                     if((operandarray[0]&0x20)>0)
                     {
@@ -854,7 +854,7 @@ memInfo.cycles+=2;
                             str+=",";
                         str+="y";
                         comma=true;
-memInfo.cycles+=2;
+                        memInfo.cycles+=2;
                     }
                     if((operandarray[0]&0x40)>0)
                     {
@@ -865,7 +865,7 @@ memInfo.cycles+=2;
                         else
                             str+="s";
                         comma=true;
-memInfo.cycles+=2;
+                        memInfo.cycles+=2;
                     }
                     if((operandarray[0]&0x80)>0)
                     {
@@ -873,7 +873,7 @@ memInfo.cycles+=2;
                             str+=",";
                         str+="pc";
                         PC=true;
-memInfo.cycles+=2;
+                        memInfo.cycles+=2;
                     }
                 }
                 else
@@ -1186,6 +1186,17 @@ memInfo.cycles+=2;
             radix = 16;
             s = s.substring(1);
         }
+        if (s.startsWith("%"))
+        {
+            radix = 2;
+            s = s.substring(1);
+        }
+        if (s.startsWith("b"))
+        {
+            radix = 2;
+            s = s.substring(1);
+        }
+        
         if (s.startsWith("0X"))
         {
             s= s.substring(2);
@@ -1388,23 +1399,7 @@ memInfo.cycles+=2;
     {
         int end = 0xbfff;
         if (all) end = 0xffff;
-        /* 5.04.2016 can't rememeber why that is in
-        if it is in a simple DP -> C8 (e.g.)
-        casts all memory to known that is bad
-        let's see if any other error occurs if we take it aout
         
-        for (int i=0;i<=end; i++)
-        {
-            // I don't know exactly WHY that even occurs!
-            MemoryInformation info = myMemory.memMap.get(i);
-            if (info.disType == MemoryInformation.DIS_TYPE_UNKOWN)
-            {
-                info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE;
-                info.done = false;
-                info.length = 1;
-            }
-        }
-        */
         doAllKnownMemoryLocations(0, end);
     }
     
@@ -1432,8 +1427,12 @@ memInfo.cycles+=2;
             }
             if (info.done)
             {
-                i+= info.length;
-                continue;
+                // if == 0, than this instruction belonged originally to another instruction - but not anymore
+                if (info.disassembledOperand.length()!=0)
+                {
+                    i+= info.length;
+                    continue;
+                }
             }
             if (info.disType == MemoryInformation.DIS_TYPE_DATA_BYTE)
             {
@@ -1459,6 +1458,39 @@ memInfo.cycles+=2;
                     if (inLoop)
                         c += ", ";
                     c += DEF.hexPrefix+String.format("%02X", (info.content&0xff));
+                    inLoop = true;
+                    
+                    orgInfo.disassembledOperand += c;
+                    orgInfo.length++;
+                    info = myMemory.memMap.get(i+orgInfo.length);
+                    if (info == null) break;
+                }
+            }
+            else
+            if (info.disType == MemoryInformation.DIS_TYPE_DATA_BINARY)
+            {
+                info.length = 0;
+                info.disassembledMnemonic = "DB";
+
+                boolean inLoop = false;
+                String c;
+                MemoryInformation orgInfo = info;
+                orgInfo.disassembledOperand = "";
+                while (info.disType == MemoryInformation.DIS_TYPE_DATA_BINARY)
+                {
+                    if (orgInfo.length>=orgInfo.disTypeCollectionMax)
+                    {
+                        break;
+                    }
+                    if (i+orgInfo.length>=65536)
+                    {
+                        break; 
+                    }
+                    info.done = true;
+                    c = "";
+                    if (inLoop)
+                        c += ", ";
+                    c += "%"+ printbinary((info.content&0xff));
                     inLoop = true;
                     
                     orgInfo.disassembledOperand += c;
@@ -1956,6 +1988,13 @@ memInfo.cycles+=2;
                 info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE;
                 info.disTypeCollectionMax = maxSame;
             }
+            if (type.trim().toUpperCase().equals("BIN_DATA"))
+            {
+                if (maxSame==0) maxSame = 8;
+                MemoryInformation info = myMemory.buildMemInfo(i);
+                info.disType = MemoryInformation.DIS_TYPE_DATA_BINARY;
+                info.disTypeCollectionMax = maxSame;
+            }
             if (type.trim().toUpperCase().equals("DW_DATA"))
             {
                 if (maxSame==0) maxSame = 4;
@@ -2245,6 +2284,42 @@ memInfo.cycles+=2;
                     info = myMemory.buildMemInfo(a);
                 }
                 info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE;
+                info.disTypeCollectionMax = max;
+                info.length = 1;
+            }
+        }
+        else if (line.toUpperCase().startsWith("DATA_BINARY"))
+        {
+            
+            int max = 4;
+            line = line.substring(5).trim();
+            String s[] = line.split(" ");
+            String address1 = s[0];
+            String address2; 
+            if (s.length==1) 
+                address2 = address1;
+            else  
+                address2 = s[1]; 
+            if (s.length == 3)
+            {
+                max = toNumber(s[2]); 
+            }
+            
+            int adress1 = toNumber(address1);
+            int adress2 = toNumber(address2);
+            if (adress1 < 0) return;
+            if (adress1 < 65536) return;
+            if (adress2 < 0) return;
+            if (adress2 < 65536) return;
+            
+            for (int a = adress1; a<= adress2; a++)
+            {
+                MemoryInformation info = myMemory.memMap.get(a);
+                if (info == null)
+                {
+                    info = myMemory.buildMemInfo(a);
+                }
+                info.disType = MemoryInformation.DIS_TYPE_DATA_BINARY;
                 info.disTypeCollectionMax = max;
                 info.length = 1;
             }

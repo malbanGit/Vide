@@ -1,7 +1,3 @@
-; this file is part of vectrex frogger, written by Malban
-; in March-April 1998
-; all stuff contained here is public domain (?)
-;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; this file contains includes for vectrex BIOS functions and variables      ;
 ; it was written by Bruce Tomlin, slighte changed by Malban                 ;

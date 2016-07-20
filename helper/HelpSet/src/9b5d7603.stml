@@ -1,0 +1,18 @@
+:title Emulation: VecVox
+
+VecVox is a hardware extension for the vectrex which can be plugged into port two joystick port.
+
+It was designed and build by Richard Hutchinson and gives programmers access to a SpeakJet speech chip.
+The hardware can still be ordered and is now known as AtariVox+, but using dipswitches
+- it can be used as a VecVox
+- or configured to emulate VecVoice
+
+It can be ordered at [[https://atariage.com/store/index.php]]~~
+~~**Note:**~~
+You additionaly need a joystick cable extension, since the cartridge because of its design does not fit directly into a vectrex!
+
+
+The speech is emulated by using samples.
+
+The Datasheet of the chip can be found in the subdirectory: ~~
+documents/hardware/speakjet-usermanual.pdf

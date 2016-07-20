@@ -208,21 +208,21 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jRadioButton1.setSelected(config.lstFirst);
         
         
-        for (int i=0;i<MemoryInformationTableModel.columnVisible.length; i++)
+        for (int i=0;i<MemoryInformationTableModel.columnVisibleALL.length; i++)
         {
-            if (i==0)  jCheckBox28.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==1)  jCheckBox29.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==2)  jCheckBox30.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==3)  jCheckBox31.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==4)  jCheckBox32.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==5)  jCheckBox33.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==6)  jCheckBox34.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==7)  jCheckBox35.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==8)  jCheckBox36.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==9)  jCheckBox37.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==10) jCheckBox38.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==11) jCheckBox39.setSelected(MemoryInformationTableModel.columnVisible[i]);
-            if (i==12) jCheckBox40.setSelected(MemoryInformationTableModel.columnVisible[i]);
+            if (i==0)  jCheckBox28.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==1)  jCheckBox29.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==2)  jCheckBox30.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==3)  jCheckBox31.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==4)  jCheckBox32.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==5)  jCheckBox33.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==6)  jCheckBox34.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==7)  jCheckBox35.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==8)  jCheckBox36.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==9)  jCheckBox37.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==10) jCheckBox38.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==11) jCheckBox39.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
+            if (i==12) jCheckBox40.setSelected(MemoryInformationTableModel.columnVisibleALL[i]);
         }
         jCheckBox41.setSelected(config.useRayGun);
         jCheckBoxAutoSync.setSelected(config.autoSync);
@@ -2267,7 +2267,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     {
         String name = cb.getName();
         int index = Integer.parseInt(name);
-        MemoryInformationTableModel.columnVisible[index] = cb.isSelected();
+        MemoryInformationTableModel.columnVisibleALL[index] = cb.isSelected();
         DissiPanel.configChanged();
     }
     

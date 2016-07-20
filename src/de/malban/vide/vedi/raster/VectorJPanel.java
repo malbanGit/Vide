@@ -160,6 +160,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         jLabel15 = new javax.swing.JLabel();
         jSliderBlurThreshold = new javax.swing.JSlider();
         jButton2 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(960, 537));
 
@@ -344,7 +345,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             }
         });
 
-        jButton2.setText("to veccy");
+        jButton2.setText("to vecci");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -514,21 +515,27 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
 
         jTabbedPane1.addTab("image settings", jPanel3);
 
+        jLabel6.setText("load image file");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane1)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonLoad)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jButtonLoad)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonLoad)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -646,6 +653,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

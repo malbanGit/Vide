@@ -3,10 +3,15 @@
 :image vedi.png|vedi window
 
 :h2 Editor
+
+:h3 some "highlights":
 - double click on a  "include" tries to load the denoted file in an editor tab
 - search and replace works
 - tab, shiftab works as "indent"
+- middle mousebutton double click on a label/macro/variable jumps to the definition of that entity
 - there is a "pretty print" button for 6809 sources (only)
+- you can define and use up to 10 bookmarks
+- you can configure you syntax coloring settings
 
 :h2 Assembling
 Pressing the button: ##control_play_blue.png## 
@@ -46,5 +51,17 @@ ___fillregister b, 2 ; set b to 2~~
 
 :image syntax.png|syntax example window
 
-I would like to enhance syntax highlighting further about the knowledge of macros and labels/variables. I will try that when I do "projects" in VIDE.
+:h2 Other features
+:h3 Bookmarks
+Using SHIFT and CTRL (windows/linux) or CMD (apple) "1"-"0" you can define bookmarks.
+Using CTRL (windows/linux) or CMD (apple) "1"-"0" you can jump to defined bookmarks.
 
+Bookmarks can be used "accross" files.
+:h3 Jump
+CTRL (windows/linux) or CMD (apple) "J" jumps to a line number.
+
+:h3 Recolor
+CTRL (windows/linux) or CMD (apple) "R" reapplies syntax highlighting. 
+
+:h3 Run/Debug
+F5 runs the current project/file, F6 debugs the current project/file (same as the buttons).

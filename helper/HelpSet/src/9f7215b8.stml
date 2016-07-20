@@ -19,12 +19,17 @@ If no help is given (in form of information, see below) dissi tries to disassemb
 
 :h2 Debugging using dissi
 
+Using vide there will only be one "instance" of dissi and its children be available - usually that will be "enough". In the seldom cases when it might be usefull [debugging link cable connected vectri] to debug two vecxi instances at the same time (in opposite to the non usefull cases, where the user just wants to play around) you can switch dissi from one vecxi to another vecxi by pressing the ##bug_go.png## button on the **vecxi** instance. Pressing that button ensures that dissi is connected to THAT vecxi instance. Pressing the button also clears all breakpoints (only if dissi realy was connected to a different vecxi instance), after all - where should the debugging be done for a breakpoint - if there is no dissi anymore...
+
+**Buttons**~~
+
 For dissi and its "children" you can often find the following icon in the uper left corner:~~ ~~
-##webcam.png##__**always update**~~ which means the contents of this window will be updated "always". This mainly refers to when not in debug mode. 
+##webcam.png##__**always update**~~ (that is a "switch" button!) which means the contents of this window will be updated "always". This mainly refers to when not in debug mode. 
 The term "always" is a bit misleading. Always here means after each "emulator call". This does not mean "after each emulated instruction".
 The later is only true, when in single step or continuous mode. 
 When the emulator is in "play" mode, each emulator call approximately emulates 30000 cycles worth of instructions.
 ~~
+
 Following buttons are available for dissi:
 
 - ##bug_go.png##__**debug**~~ start debuging (program halts for now), also opens a "regi" window
@@ -37,7 +42,7 @@ Breakpoints are ALWAYS active, even when not in debug mode!
 
 - ##arrow_turn_left.png##__**undo**~~ undo the last emulated instruction. Currently the undo-buffer is set to "2000", after that no undo is possible. This will be configurable at a later point.
 
-- ##arrow_turn_right.png##__**redo**~~ the next "state" in the ringbuffer of undoable state is set. If I did everything correct, this should be exactly the same as performing a single step. Performing a "real" single step "resets" the redo "pointer". ~~ ~~
+- ##arrow_turn_right.png##__**redo**~~ the next "state" in the ringbuffer of undoable state is set. If I did everything correct, this should be exactly the same as performing a single step. Although, performing a "real" single step "resets" the redo "pointer". ~~ ~~
 
 
 - ##chart_curve_edit.png##__**tracki**~~ opens a tracki window
@@ -57,13 +62,15 @@ If the current cartridge has more than one bank, a file is generated for EACH ba
 This writes the current collected or individually gained information of dissi to a cnt file (or more than one if banks are used). This is the only way to persist your comments and insights. Use it!
 ~~
 - ##vectorCam.png##__** save vector screenshot**~~ 
-Saves the current vectrex display as a Vectorlist to use in veccy.
+Saves the current vectrex display as a vectorlist to use in vecci.
 ~~
 ~~
 - ##resultset_previous.png## **history back**~~ Within dissi you can easily "jump" from one address to the next, dissi keeps a history of these "jumps", with these buttons you can navigate your history 
 - ##resultset_next.png## **history forward**~~ ...
 :h2 The table...
 The main part of "dissi" is occupied by a "memory" table. Each line represents one memory location of your vectrex. Per default unkown locations are hidden. Addresses which are "part of other" addresses are also per default hidden (both can be viewed toggling the two checkboxes in the upper right area). 
+
+It is worth mentioning, that if a dumpi window is displayed, and on dumpi the switches "data display" and "active" are activated, that each selection in dissi is also taken as selection in dumpi. This way you can select regions (vectorlists or bitmap data) also in dissi and use dumpi as a "preview" window for the selected data!
 
 The columns of the table are more or less self explainatory, here some more information:~~
 - **Column 1 - Address**~~
@@ -142,8 +149,14 @@ Following options are provided:~~
 - **join** ~~ groups selected rows, ALL selected (if possible, data which are not ascii e.g. can't be char-joined)
 - **join #** ~~ group to selected number (2-6)
 - **DP** ~~ set direct page register (what dissi is led to believe the dp is) to one of $c8, $c9, $d0
-
-
+- **use label as data**
+You can force a label to be also be recognized as "immediate data". If you force that, dissi is able to use an address in immediate addressing. That means, if e.g.~~
+_____::$c880 has a label start\_ram::~~
+and an assembler directive like:~~
+_____::LDU #$c880::~~ 
+is encountered, dissi than can recognize the immediate label and output:~~
+_____::LDU #start\_ram::~~ 
+... for better readability.
 :h3 Keyboard shortcuts
 There are not many yet - dissi is still in development:~~
 - "SPACE", sets or unsets a breakpoint at the current row.
@@ -190,7 +203,7 @@ As of now there are only two commands implemented, but if needs arise I can impr
 
 The comment syntax is quite easy, dissi parses all comments and if it finds the keywords:~~
 ______**hey dissi**~~
-It knows that you are talking to it. Dissi than takes the string it finds after "hey dissi" which is expected to be in parentheses and tries to interprete it as commands.~~
+It knows that you are talking to it. Dissi than takes the string it finds after "hey dissi" which is expected to be in quotes and tries to interprete it as commands.~~
 Dissi as of now only knows two commands:~~
 - **print**~~print some information
 - **break** ~~insert a breakpoint here
@@ -233,7 +246,7 @@ Will output ~~
 (in case the memory location of the label "loop" equals $01 at the time)~~
 
 In short:~~
-- you can output any text after a print provided in parantheses
+- you can output any text after a print provided in quotes
 - you can give the print command a 16bit hex-number which must start with a "$", it than will print that address and the 8bit value stored in that address
 - you can print any known "variable" and its 8bit contents, the label must be proceded by a "$"
 - technically the string in the parantheses is "split("_")" and all resulting words are interpreted with the above syntax, so in one line you can print as much as you like

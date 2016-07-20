@@ -11,6 +11,8 @@ import de.malban.vide.vecx.VecXPanel;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.vide.dissy.DASM6809;
+import de.malban.vide.vecx.Breakpoint;
 import de.malban.vide.vecx.E8910State;
 import de.malban.vide.vecx.Updatable;
 import de.malban.vide.vecx.VecX;
@@ -18,7 +20,11 @@ import de.malban.vide.vecx.VecXState;
 import de.malban.vide.vecx.VecXStatics;
 import de.malban.vide.vecx.devices.VectrexJoyport;
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.io.Serializable;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  *
@@ -364,6 +370,9 @@ public class AnalogJPanel extends javax.swing.JPanel implements
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItemGoLow = new javax.swing.JMenuItem();
+        jMenuItemGoHigh = new javax.swing.JMenuItem();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -419,6 +428,22 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         jTextField121 = new javax.swing.JTextField();
         jTextField122 = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
+
+        jMenuItemGoLow.setLabel("Add Breakpoint on low");
+        jMenuItemGoLow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemGoLowActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItemGoLow);
+
+        jMenuItemGoHigh.setText("Add Breakpoint on high");
+        jMenuItemGoHigh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemGoHighActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItemGoHigh);
 
         setName("regi"); // NOI18N
 
@@ -550,31 +575,79 @@ public class AnalogJPanel extends javax.swing.JPanel implements
 
         jTextField107.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField107.setText("0");
+        jTextField107.setName("2_in"); // NOI18N
+        jTextField107.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField108.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField108.setText("0");
+        jTextField108.setName("3_in"); // NOI18N
+        jTextField108.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField109.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField109.setText("0");
+        jTextField109.setName("1_in"); // NOI18N
+        jTextField109.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField110.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField110.setText("0");
+        jTextField110.setName("0_in"); // NOI18N
+        jTextField110.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField111.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField111.setText("0");
         jTextField111.setToolTipText("");
+        jTextField111.setName("7_in"); // NOI18N
+        jTextField111.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField112.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField112.setText("0");
         jTextField112.setToolTipText("");
+        jTextField112.setName("6_in"); // NOI18N
+        jTextField112.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField113.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField113.setText("0");
         jTextField113.setToolTipText("");
+        jTextField113.setName("5_in"); // NOI18N
+        jTextField113.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField114.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField114.setText("0");
         jTextField114.setToolTipText("");
+        jTextField114.setName("4_in"); // NOI18N
+        jTextField114.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jLabel34.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel34.setText("But1");
@@ -592,15 +665,39 @@ public class AnalogJPanel extends javax.swing.JPanel implements
 
         jTextField115.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField115.setText("0");
+        jTextField115.setName("0_out"); // NOI18N
+        jTextField115.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField116.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField116.setText("0");
+        jTextField116.setName("1_out"); // NOI18N
+        jTextField116.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField117.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField117.setText("0");
+        jTextField117.setName("2_out"); // NOI18N
+        jTextField117.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField118.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField118.setText("0");
+        jTextField118.setName("3_out"); // NOI18N
+        jTextField118.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jLabel35.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel35.setText("In");
@@ -617,18 +714,42 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         jTextField119.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField119.setText("0");
         jTextField119.setToolTipText("");
+        jTextField119.setName("4_out"); // NOI18N
+        jTextField119.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField120.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField120.setText("0");
         jTextField120.setToolTipText("");
+        jTextField120.setName("5_out"); // NOI18N
+        jTextField120.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField121.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField121.setText("0");
         jTextField121.setToolTipText("");
+        jTextField121.setName("6_out"); // NOI18N
+        jTextField121.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jTextField122.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField122.setText("0");
         jTextField122.setToolTipText("");
+        jTextField122.setName("7_out"); // NOI18N
+        jTextField122.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField119MousePressed(evt);
+            }
+        });
 
         jLabel38.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel38.setText("Out");
@@ -696,28 +817,26 @@ public class AnalogJPanel extends javax.swing.JPanel implements
                                 .addComponent(jTextField108, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(5, 5, 5)
                                 .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jTextField114, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField113, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField112, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField111, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(5, 5, 5)
-                                    .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(jTextField115, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField116, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField117, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField118, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(5, 5, 5)
-                                    .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField114, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField113, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField112, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField111, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(5, 5, 5)
+                                .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField115, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField116, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField117, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField118, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(5, 5, 5)
+                                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTextField119, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -743,7 +862,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -852,6 +971,72 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         updateEnabled = jToggleButton1.isSelected();
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
+    String popUpName = "";
+    private void jTextField119MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField119MousePressed
+        if (evt.getButton() == MouseEvent.BUTTON3)
+        {
+            JTextField tf =(JTextField) evt.getSource();
+            popUpName = tf.getName();
+            jPopupMenu1.show(tf, evt.getX()-20,evt.getY()-20);
+        }        
+    }//GEN-LAST:event_jTextField119MousePressed
+
+    private void jMenuItemGoLowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGoLowActionPerformed
+        boolean in = popUpName.contains("in");
+        int bit = de.malban.util.UtilityString.Int0(popUpName.substring(0, 1));
+        
+        Breakpoint bp = new Breakpoint();
+        bp.targetAddress = bit;
+        bp.targetBank = vecxPanel.getCurrentBank();
+        bp.compareValue = 0;
+        
+        if (in)
+        {
+            bp.name = "port bit "+bit+" in low";
+            bp.targetType = Breakpoint.BP_TARGET_PORT;
+            bp.targetSubType = Breakpoint.BP_SUBTARGET_PORT_IN;
+        }
+        else
+        {
+            bp.name = "port bit "+bit+" out low";
+            bp.targetType = Breakpoint.BP_TARGET_PORT;
+            bp.targetSubType = Breakpoint.BP_SUBTARGET_PORT_OUT;
+        }
+        
+        bp.targetSubType = 0;
+        bp.type = Breakpoint.BP_BITCOMPARE | Breakpoint.BP_MULTI ;
+        vecxPanel.breakpointSet(bp);
+        popUpName = "";
+    }//GEN-LAST:event_jMenuItemGoLowActionPerformed
+
+    private void jMenuItemGoHighActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGoHighActionPerformed
+        boolean in = popUpName.contains("in");
+        int bit = de.malban.util.UtilityString.Int0(popUpName.substring(0, 1));
+        
+        Breakpoint bp = new Breakpoint();
+        bp.targetAddress = bit;
+        bp.targetBank = vecxPanel.getCurrentBank();
+        bp.compareValue = 1;
+        
+        if (in)
+        {
+            bp.name = "port bit "+bit+" in high";
+            bp.targetType = Breakpoint.BP_TARGET_PORT;
+            bp.targetSubType = Breakpoint.BP_SUBTARGET_PORT_IN;
+        }
+        else
+        {
+            bp.name = "port bit "+bit+" out high";
+            bp.targetType = Breakpoint.BP_TARGET_PORT;
+            bp.targetSubType = Breakpoint.BP_SUBTARGET_PORT_OUT;
+        }
+        
+        bp.targetSubType = 0;
+        bp.type = Breakpoint.BP_BITCOMPARE | Breakpoint.BP_MULTI ;
+        vecxPanel.breakpointSet(bp);
+        popUpName = "";
+    }//GEN-LAST:event_jMenuItemGoHighActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -892,6 +1077,9 @@ public class AnalogJPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuItem jMenuItemGoHigh;
+    private javax.swing.JMenuItem jMenuItemGoLow;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JTextField jTextField107;
     private javax.swing.JTextField jTextField108;
     private javax.swing.JTextField jTextField109;

@@ -6,6 +6,7 @@
 package de.malban.vide.vecx.devices;
 
 import de.malban.vide.vecx.VecX;
+import static de.malban.vide.vecx.VecXPanel.DEVICE_NULL;
 
 /**
  *
@@ -13,6 +14,10 @@ import de.malban.vide.vecx.VecX;
  */
 public class NullDevice extends AbstractDevice
 {
+    public int getDeviceID()
+    {
+        return DEVICE_NULL;
+    }
     @Override
     public boolean isActive()
     {

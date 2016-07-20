@@ -1,5 +1,5 @@
 :title Import
-There are different ways you can import vectorlists into veccy.
+There are different ways you can import vectorlists into vecci.
 
 :h2 Text import
 :image veccytextImport.png|text import
@@ -10,9 +10,9 @@ As text import I summarize imports that one can do via "copy / paste" of some ki
 
 The first textarea is the place where you must put the "text data" that should be imported. This usually should be done via a copy (from some other place) and paste (to the said textarea).
 
-The next textarea is the "interpretation" area. Here is where veccy shows what is its interpretation of the text data you supplied. This will be filled once you press the "!" button (or another interpretation mode is selected -> combobox).
+The next textarea is the "interpretation" area. Here is where vecci shows what is its interpretation of the text data you supplied. This will be filled once you press the "!" button (or another interpretation mode is selected -> combobox).
 
-To the complete right the black area is the same interpretation shown as a veccy vectorlist-display.
+To the complete right the black area is the same interpretation shown as a vecci vectorlist-display.
 
 :h3 How does this work?
 The text you enter is processed the following way:

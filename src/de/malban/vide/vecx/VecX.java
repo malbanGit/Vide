@@ -74,6 +74,7 @@ import de.malban.vide.veccy.VectorListScanner;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_RAM_DS2430A;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOICE;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOX;
+import de.malban.vide.vecx.devices.JoyportDevice;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_YM;
@@ -98,9 +99,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     // timer is count down in 1/1500000 steps
     // meaning each processor cycle is one step...
     
-    ArrayList<Breakpoint> breakpoints[] = new ArrayList[Breakpoint.BP_TARGET_COUNT];
-    ArrayList<Breakpoint> activeBreakpoint = new ArrayList<Breakpoint>();
     
+    // public because lazy and VectrexJoyport uses them
+    public ArrayList<Breakpoint> breakpoints[] = new ArrayList[Breakpoint.BP_TARGET_COUNT];
+    public ArrayList<Breakpoint> activeBreakpoint = new ArrayList<Breakpoint>();
+    public int breakpointExit=EMU_EXIT_CYCLES_DONE;
+    // returns an "exit reason"
+    // break point e.g.
+   
     boolean rampOffFraction = true;
     boolean rampOnFraction = true;
 
@@ -152,8 +158,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public transient VectrexJoyport[] joyport= new VectrexJoyport[2];
      
     // dummy displayer, which does nothing!
-    transient DisplayerInterface displayer = new DisplayerInterface(){public void switchDisplay(){}public void updateDisplay(){} public void directDraw(vector_t v){}public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved){}};
-
+    public transient DisplayerInterface displayer = new DisplayerInterface(){public void switchDisplay(){}public void updateDisplay(){} public void directDraw(vector_t v){}public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved){}public void setJoyportDevice(int port, JoyportDevice d){}};
+    public transient RunnerInterface runner = null;
+        
     
     transient VectrexDisplayVectors[] vectorDisplay = new VectrexDisplayVectors[2];
     transient int displayedNext = 0;
@@ -210,6 +217,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         deinitAudio();
         joyport[0].deinit();
         joyport[1].deinit();
+        runner = null;
+        displayer = null;
     }
 
     void deinitAudio()
@@ -936,8 +945,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             if (config.resetBreakpointsOnLoad)
                 clearAllBreakpoints();        
         }
-
-        timerItemList.clear();
+        synchronized (timerItemList)
+        {
+            timerItemList.clear();
+        }
         e6809.e6809_reset();
         dissiMem.reset();
     }
@@ -1275,9 +1286,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     int nonCPUStepsDone = 0;
     ArrayList<Breakpoint> tmp = new ArrayList<Breakpoint>();
     
-    int breakpointExit=EMU_EXIT_CYCLES_DONE;
-    // returns an "exit reason"
-    // break point e.g.
     
     boolean syncImpulse = false;
     long lastSyncCycles = 0;
@@ -2531,6 +2539,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     }
     void removeBreakpoint(Breakpoint bp)
     {
+        
         // no doubles!
         synchronized (breakpoints[bp.targetType])
         {

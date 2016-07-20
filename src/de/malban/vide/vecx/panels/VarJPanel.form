@@ -32,6 +32,17 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemBreakpointValueActionPerformed"/>
           </Events>
         </MenuItem>
+        <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
+        </Component>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="use label as data"/>
+            <Property name="toolTipText" type="java.lang.String" value="marking the label as data enables dissi to load that address to a X,Y,U,S,D register as immediate value, also removed previous labels"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+          </Events>
+        </MenuItem>
       </SubComponents>
     </Container>
   </NonVisualComponents>

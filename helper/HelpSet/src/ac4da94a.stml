@@ -48,6 +48,8 @@ only VIA_ORB implemented
 not implemented
 + Cartridge~~
 implemented bank switching breakpoint.
++ Port~~
+breakpoints on going high/low can be placed on the joystick IO "ports" (accessable via the ani window).
 
 type:~~
 A combination of following "types":

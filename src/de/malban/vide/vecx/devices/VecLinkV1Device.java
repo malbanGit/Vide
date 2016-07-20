@@ -6,16 +6,55 @@
 package de.malban.vide.vecx.devices;
 
 import de.malban.config.Configuration;
+import de.malban.vide.vecx.VecX;
+import static de.malban.vide.vecx.VecXPanel.DEVICE_LINKV1_L;
+import static de.malban.vide.vecx.VecXPanel.ENABLE_HARDSYNC;
 
 /**
  *
  * @author malban
  */
-public class VecLinkV1Device extends AbstractDevice
+public class VecLinkV1Device extends AbstractDevice implements HardSyncDevice
 {
+    public int getDeviceID()
+    {
+        return DEVICE_LINKV1_L;
+    }
+    
     private static VecLinkV1Device[] vecLink = null;
     int side = 0;
     int otherSide = 1;
+    
+    @Override
+    public boolean isMaster()
+    {
+        return side == 0;
+    }
+    @Override
+    public VecX getMasterVecX()
+    {
+        if (joyport == null) return null;
+        if (side == 0)
+        {
+            return joyport.vecx;
+        }
+        if (vecLink[otherSide] == null) return null;
+        if (vecLink[otherSide].joyport == null) return null;
+        return vecLink[otherSide].joyport.vecx;
+    }
+    @Override
+    public VecX getSlaveVecX()
+    {
+        if (joyport == null) return null;
+        if (side == 1)
+        {
+            return joyport.vecx;
+        }
+        if (vecLink[otherSide] == null) return null;
+        if (vecLink[otherSide].joyport == null) return null;
+        return vecLink[otherSide].joyport.vecx;
+    }
+    
     
     // ensure only ONE cable is available
     public static VecLinkV1Device getVecLinkV1(int side)
@@ -55,7 +94,12 @@ public class VecLinkV1Device extends AbstractDevice
     @Override
     public void step()
     {
-        syncStep();
+        if (ENABLE_HARDSYNC) 
+            noSyncStep();
+        else
+        {
+            syncStep();
+        }
     }
     public void syncStep()
     {
@@ -130,36 +174,48 @@ public class VecLinkV1Device extends AbstractDevice
         sync[side] = false;
     }
     
-    public void nonSyncStep()
+    public void noSyncStep()
     {
-        if (joyport == null) 
-            return;
-        if (vecLink[otherSide] == null)
-            return;
-        if (vecLink[otherSide].joyport == null)
-            return;
-        if (firstTime)
+        try
         {
-            firstTime = false;
-            vecLink[otherSide].joyport.vecx.cyclesRunning = 0;
-            vecLink[side].joyport.vecx.cyclesRunning = 0;
-        }
+            if (joyport == null) 
+                return;
+            if (vecLink[otherSide] == null)
+                return;
+            if (vecLink[otherSide].joyport == null)
+                return;
+            if (firstTime)
+            {
+                firstTime = false;
+                vecLink[otherSide].joyport.vecx.cyclesRunning = 0;
+                vecLink[side].joyport.vecx.cyclesRunning = 0;
+            }
 
-//        System.out.println(""+side+": "+vecLink[side].joyport.vecx.cyclesRunning);
-        if (side == 0)
-        {
-            joyport.setButton1(vecLink[otherSide].joyport.isButton4(true), true);
-            joyport.setButton2(vecLink[otherSide].joyport.isButton1(true), true); // ok
-            joyport.setButton3(vecLink[otherSide].joyport.isButton2(true), true); // ok
-            joyport.setButton4(vecLink[otherSide].joyport.isButton3(true), true);
+    //        System.out.println(""+side+": "+vecLink[side].joyport.vecx.cyclesRunning);
+            if (side == 0)
+            {
+                joyport.setButton1(vecLink[otherSide].joyport.isButton4(true), true);
+                joyport.setButton2(vecLink[otherSide].joyport.isButton1(true), true); // ok
+                joyport.setButton3(vecLink[otherSide].joyport.isButton2(true), true); // ok
+                joyport.setButton4(vecLink[otherSide].joyport.isButton3(true), true);
 
+            }
+            else
+            {
+                joyport.setButton4(vecLink[otherSide].joyport.isButton1(true), true);
+                joyport.setButton1(vecLink[otherSide].joyport.isButton2(true), true); // ok
+                joyport.setButton2(vecLink[otherSide].joyport.isButton3(true), true); // ok
+                joyport.setButton3(vecLink[otherSide].joyport.isButton4(true), true);
+            }
         }
-        else
+        catch (Throwable e)
         {
-            joyport.setButton4(vecLink[otherSide].joyport.isButton1(true), true);
-            joyport.setButton1(vecLink[otherSide].joyport.isButton2(true), true); // ok
-            joyport.setButton2(vecLink[otherSide].joyport.isButton3(true), true); // ok
-            joyport.setButton3(vecLink[otherSide].joyport.isButton4(true), true);
+            // there still can be null pointers, if a links removed while in the above loop
+            // this can happen since synchronizing is sort of bad at the moment
+            // and does not really consider removing devices on the fly
+            // both vectrex emulators also run in different threads
+            // I think the overhead of doing a REAL sync is just "to much" for the
+            // seldom case that the link cable will be emulated...
         }
 
     }

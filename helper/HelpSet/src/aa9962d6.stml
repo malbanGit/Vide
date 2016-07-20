@@ -19,7 +19,7 @@ Following features are the same for both sections:
 - all export generated is put into the textarea to the right (and into the system clipboard, for immediate access)
 - if the checkbox "runnable" is checked (befor creating an export) a runnable vectrex sourcecode is generated (and also put into the textarea, source is ment as an EXAMPLE not as clever programming!)
 - if a runnable source is generated, the button ##control_play_blue.png## is enabled, and by pressing it you start your generated vectrex binary in the emulator.
-- you can also change the source in the editor an run it than. If "nothing" happened you entered a syntax error (check the log). If that is so, better copy and paste the text into vedi, there you can access error messages of assi directly
+- you can also change the source in the editor an run it afterwards. If "nothing" happened you entered a syntax error (check the log). If that is so, better copy and paste the text into vedi, there you can access error messages of assi directly
 
 Following types of exports are supported (if possible):~~ ~~
 :: **Mov\_Draw\_VLc\_a**     ~~                                     
@@ -145,7 +145,7 @@ The following section is the same for vectorlists/animations/scenarios, I won't 
 
 Code export has the same prerequisites than the text - "Move..." export. Apart from that it differs greatly from text export.
 
-Using the code export options allows you to export your vectors not as DATA statements, but as code, which actually draws vectors directly. If you are old enought to know the concept behind a library called Xlib (from DOS days) than you might recognize this as a //relative// to compiled bitmaps (although obviously these are no bitmaps!).
+Using the code export options allows you to export your vectors not as DATA statements, but as code, which actually draws vectors directly. If you are old enough to know the concept behind a library called Xlib (from DOS days) than you might recognize this as a //relative// to compiled bitmaps (although obviously these are no bitmaps!).
 
 
 The general logic for the codeexport goes like this:
@@ -171,5 +171,5 @@ In order to set apropriate vectorinformation following keys are used for replace
 - %INTENSITY% - intensity taken from the vectorlist (not used in the provided examples)
 - %UID% - each call to a template is done with a unique ID, that way you can insure the use of different branch addresses
  
-
-
+:h2 User export
+Here a user can configure (meaning program) his own export routines. A simple example is given, as of now I will not elaborate these settings.

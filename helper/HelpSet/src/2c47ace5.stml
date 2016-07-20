@@ -1,5 +1,5 @@
 :title In general!
-The application "state" of VIDE is in, is more or less persistent (if development keeps up).
+The application "state" VIDE is in, is more or less persistent (if development keeps up).
 
 As of now, VIDE remembers its open windows their size and their positions.
 
@@ -9,3 +9,9 @@ There are a few "main" windows and quite a few "child windows". Once any window 
 :image menubar.png|menubar
 
 All other (child) windows are opened from the "main" windows.
+
+:h3 Navigation
+- Each window is accessable (uniconify/bring to front), via the window menu
+- Using CTRL/TAB gives access to a “quick” Window switcher
+- Windows can be iconified to the desktop
+- Thru tinylaf, themes are supported

@@ -15,21 +15,30 @@ Vectrex used the Chip: IC LF347
 
 :h3 Multiplexer
 Vectrex has only one DAC chip, but several "client" chips that use analog values which must be "translated" from digital to analog. In order to serve all clients and only using one DAC the inventors of Vectrex designed the circuit such, that the DAC output can be switched to different clients.
-- clients are:
-- Integrator for vector y-position
-- X, Y integrator offset values
-- Z-value of vector hardware (brightness)
-- audio hardware
+The Multiplexer depending on its select lines transfers the (one) DAC value to one of the four output lines:
+- 00: Integrator for vector y-position
+- 01: X, Y integrator offset values
+- 10: Z-value of vector hardware (brightness)
+- 11: audio hardware
 
-Vectrex used the Chip:  CD4052
+If you are wondering where Integrators for vector x-position get there values, there is a trivial answer - x Integrators ALWAY receive the DAC value!
 
-If you are wondering where Integrators for vector x-position get there values, there is a trivial answer - x Integrators ALLWAY receive the DAC value!
+Vectrex used the Chip:  CD4052b
 
-Sample and and Hold~~
+The chip also supports DeMultiplexing, this is chosing 1 of four input lines to output to one specific line. The select lines are the same as for the multiplexing.
+
+Withing vectrex this is used to select one of the four analog joytick potientiometers to access the comparator logic cicuit.
+- 00: port 0 horizontal
+- 01: port 0 vertical
+- 10: port 1 horizontal
+- 11: port 1 vertical
+
+:h3 Sample and and Hold~~
 For y-integration and Brightness~~
 Vectrex used the Chip:   IC LF347~~
 
-Analog switches "in front" of the integrators~~
+:h3 Analog switches 
+\- "in front" of the integrators~~
 Vectrex used the Chip:   4066B
 
 

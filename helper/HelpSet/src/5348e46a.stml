@@ -1,0 +1,14 @@
+:title Other: Further used code...
+::
+"jetphones.inc"~~
+--------------~~
+Found on the internet, a file consisting of assembler definitions for use with the VecVox+ (AtariVox), done by B. Watson.
+::
+
+::
+NRL Report 7948~~
+---------------~~
+AUTOMATIC TRANSLATION OF ENGLISH TEXT TO PHONETICS~~
+BY MEANS OF LETTER-TO-SOUND RULES~~
+~~
+My implementation is based on the code found in the file: "Avox_text2speech2.zip" by a guy called "batari" in the forums of [[http://atariage.com/forums/index.php]], "Speak To Me".

@@ -206,6 +206,8 @@ public class VarJPanel extends javax.swing.JPanel implements
         jMenuItemBreakpointRead = new javax.swing.JMenuItem();
         jMenuItemBreakpointWrite = new javax.swing.JMenuItem();
         jMenuItemBreakpointValue = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jToggleButton4 = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = buildTable();
@@ -235,6 +237,16 @@ public class VarJPanel extends javax.swing.JPanel implements
             }
         });
         jPopupMenu1.add(jMenuItemBreakpointValue);
+        jPopupMenu1.add(jSeparator1);
+
+        jMenuItem1.setText("use label as data");
+        jMenuItem1.setToolTipText("marking the label as data enables dissi to load that address to a X,Y,U,S,D register as immediate value, also removed previous labels");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem1);
 
         jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcam.png"))); // NOI18N
         jToggleButton4.setToolTipText("Toggle Update (always or only while debug)");
@@ -402,6 +414,20 @@ public class VarJPanel extends javax.swing.JPanel implements
         
     }//GEN-LAST:event_jButtonAddVariableActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Memory myMemory = dissi.getMemory();
+        
+        MemoryInformation info = myMemory.get(popUpAddress, dissi.getCurrentBank());
+
+        info.immediateLabels.clear();
+        for (String l: info.labels)
+        {
+            info.immediateLabels.add(l);
+        }
+        initVariables();        
+        dissi.completeUpdate();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     private boolean updateEnabled = false;
     public void updateValues(boolean forceUpdate)
     {
@@ -417,11 +443,13 @@ public class VarJPanel extends javax.swing.JPanel implements
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddVariable;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemBreakpointRead;
     private javax.swing.JMenuItem jMenuItemBreakpointValue;
     private javax.swing.JMenuItem jMenuItemBreakpointWrite;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTable jTable1;
     private javax.swing.JToggleButton jToggleButton4;
     // End of variables declaration//GEN-END:variables

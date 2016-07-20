@@ -1,0 +1,13 @@
+:title Emulation: VecVoice
+
+VecVoice is a hardware extension for the vectrex which can be plugged into port two joystick port.
+
+It was designed and build by Richard Hutchinson and gives programmers access to a SP0256-AL2 speech chip.
+
+VecVoice is not available anymore, since the used speech chip is not fabricated anymore.
+
+The speech is emulated by using samples.
+
+
+The Datasheet of the chip can be found in the subdirectory: ~~
+documents/hardware/Sp0256al2_datasheet.pdf

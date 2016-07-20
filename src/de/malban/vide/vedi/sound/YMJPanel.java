@@ -827,7 +827,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         );
 
         jButtonPlaySample.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_play_blue.png"))); // NOI18N
-        jButtonPlaySample.setToolTipText("Play current sample!");
+        jButtonPlaySample.setToolTipText("Play current YM!");
         jButtonPlaySample.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonPlaySample.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -845,7 +845,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         });
 
         jButtonStop2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_stop_blue.png"))); // NOI18N
-        jButtonStop2.setToolTipText("Stop recording/playing sample!");
+        jButtonStop2.setToolTipText("Stop playing current YM");
         jButtonStop2.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonStop2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -916,7 +916,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         jComboBoxInterleaved.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "interleaved", "non interleaved" }));
         jComboBoxInterleaved.setPreferredSize(new java.awt.Dimension(59, 19));
-        jComboBoxInterleaved.setSize(new java.awt.Dimension(59, 19));
         jComboBoxInterleaved.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxInterleavedActionPerformed(evt);
@@ -1040,7 +1039,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField16a.setToolTipText("double click rites value to PSG emulation");
         jTextField16a.setName("15"); // NOI18N
         jTextField16a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField16a.setSize(new java.awt.Dimension(30, 18));
         jTextField16a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1070,7 +1068,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField1a.setToolTipText("double click rites value to PSG emulation");
         jTextField1a.setName("0"); // NOI18N
         jTextField1a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField1a.setSize(new java.awt.Dimension(30, 18));
         jTextField1a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1100,7 +1097,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField2a.setToolTipText("double click rites value to PSG emulation");
         jTextField2a.setName("1"); // NOI18N
         jTextField2a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField2a.setSize(new java.awt.Dimension(30, 18));
         jTextField2a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1130,7 +1126,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField3a.setToolTipText("double click rites value to PSG emulation");
         jTextField3a.setName("2"); // NOI18N
         jTextField3a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField3a.setSize(new java.awt.Dimension(30, 18));
         jTextField3a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1160,7 +1155,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField4a.setToolTipText("double click rites value to PSG emulation");
         jTextField4a.setName("3"); // NOI18N
         jTextField4a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField4a.setSize(new java.awt.Dimension(30, 18));
         jTextField4a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1190,7 +1184,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField5a.setToolTipText("double click rites value to PSG emulation");
         jTextField5a.setName("4"); // NOI18N
         jTextField5a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField5a.setSize(new java.awt.Dimension(30, 18));
         jTextField5a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1220,7 +1213,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField6a.setToolTipText("double click rites value to PSG emulation");
         jTextField6a.setName("5"); // NOI18N
         jTextField6a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField6a.setSize(new java.awt.Dimension(30, 18));
         jTextField6a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1250,7 +1242,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField7a.setToolTipText("double click rites value to PSG emulation");
         jTextField7a.setName("6"); // NOI18N
         jTextField7a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField7a.setSize(new java.awt.Dimension(30, 18));
         jTextField7a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1279,7 +1270,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField8a.setToolTipText("double click rites value to PSG emulation");
         jTextField8a.setName("7"); // NOI18N
         jTextField8a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField8a.setSize(new java.awt.Dimension(30, 18));
         jTextField8a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1309,7 +1299,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField9a.setToolTipText("double click rites value to PSG emulation");
         jTextField9a.setName("8"); // NOI18N
         jTextField9a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField9a.setSize(new java.awt.Dimension(30, 18));
         jTextField9a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1339,7 +1328,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField10a.setToolTipText("double click rites value to PSG emulation");
         jTextField10a.setName("9"); // NOI18N
         jTextField10a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField10a.setSize(new java.awt.Dimension(30, 18));
         jTextField10a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1369,7 +1357,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField11a.setToolTipText("double click rites value to PSG emulation");
         jTextField11a.setName("10"); // NOI18N
         jTextField11a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField11a.setSize(new java.awt.Dimension(30, 18));
         jTextField11a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1398,7 +1385,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField12a.setToolTipText("double click rites value to PSG emulation");
         jTextField12a.setName("11"); // NOI18N
         jTextField12a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField12a.setSize(new java.awt.Dimension(30, 18));
         jTextField12a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1427,7 +1413,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField13a.setToolTipText("double click rites value to PSG emulation");
         jTextField13a.setName("12"); // NOI18N
         jTextField13a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField13a.setSize(new java.awt.Dimension(30, 18));
         jTextField13a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1456,7 +1441,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField14a.setToolTipText("double click rites value to PSG emulation");
         jTextField14a.setName("13"); // NOI18N
         jTextField14a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField14a.setSize(new java.awt.Dimension(30, 18));
         jTextField14a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1485,7 +1469,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField15a.setToolTipText("double click rites value to PSG emulation");
         jTextField15a.setName("14"); // NOI18N
         jTextField15a.setPreferredSize(new java.awt.Dimension(30, 18));
-        jTextField15a.setSize(new java.awt.Dimension(30, 18));
         jTextField15a.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField1aFocusLost(evt);
@@ -1997,7 +1980,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jComboBoxNotesA.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "C#1" }));
         jComboBoxNotesA.setName("A"); // NOI18N
         jComboBoxNotesA.setPreferredSize(new java.awt.Dimension(59, 19));
-        jComboBoxNotesA.setSize(new java.awt.Dimension(59, 19));
         jComboBoxNotesA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxNotesAActionPerformed(evt);
@@ -2008,7 +1990,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jComboBoxNotesB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "C#1" }));
         jComboBoxNotesB.setName("B"); // NOI18N
         jComboBoxNotesB.setPreferredSize(new java.awt.Dimension(59, 19));
-        jComboBoxNotesB.setSize(new java.awt.Dimension(59, 19));
         jComboBoxNotesB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxNotesBActionPerformed(evt);
@@ -2019,7 +2000,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jComboBoxNotesC.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "C#1" }));
         jComboBoxNotesC.setName("C"); // NOI18N
         jComboBoxNotesC.setPreferredSize(new java.awt.Dimension(59, 19));
-        jComboBoxNotesC.setSize(new java.awt.Dimension(59, 19));
         jComboBoxNotesC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxNotesCActionPerformed(evt);
@@ -2090,7 +2070,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         jComboBoxEnvelope.setModel(new DefaultComboBoxModel(envelopeItems));
         jComboBoxEnvelope.setPreferredSize(new java.awt.Dimension(59, 21));
-        jComboBoxEnvelope.setSize(new java.awt.Dimension(59, 21));
         jComboBoxEnvelope.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxEnvelopeActionPerformed(evt);
@@ -3060,7 +3039,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                                 .addComponent(jButtonSaveSelection)))
                         .addGap(0, 0, 0)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))

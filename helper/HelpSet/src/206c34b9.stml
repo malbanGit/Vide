@@ -2,6 +2,7 @@
 
 :image NewProject.png|new project window
 
+:h3 What are projects?
 Projects regarding VIDE are in the simplest of terms directories which serve as a binding element for a bunch of files.
 
 Projects are not really sophisticated entities.
@@ -11,11 +12,13 @@ As of now a project consists of:
 - a (xml) properties file, which mainly includes information about what file of all files in the directory is the "main" file (or main files in case of multiple banks)
 - if you build a project, the main file is always used as the starting point
 
+:h3 Load
 Projects are represented by a XML-File with the name of the project in the directory of the project.
 
 If you want to load a project - you have to load the corresponding XML file.
 
-Projects can be created using the "New" button in the main vedi window. After selecting new project, the above window is displayed and you can enter your project configuration.
+:h3 New
+Projects can be created using the ##new.png## button in the main vedi window. After selecting new project, the above window is displayed and you can enter your project configuration.
 The name and the directory in which the project resides can not be altered later!
 
 In the directory given, a new directory with the name of the project will be created!
@@ -23,7 +26,8 @@ After the creation process has finished the project files are displayed in a tre
 
 - upon creation of a project you can select if your project should support bankswitching, if so you can chose between "standard" (two banks) or "VecFlash" (up to 64 banks)
 - you can chose to create code for each bank
-- (not completely done!) each "main" - bank file is treated as such, upon project build the general idea is to create each bank seperatly and than join them to create a file vecxy will recognize as "bankswitchable" 
+- each "main" - bank file is treated as such, upon project build the general idea is to create each bank seperatly and than join them to create a file vecxi will recognize as "bankswitchable" 
+- each main file can support a "define" variable, that way you can "reuse" one main file and use assembler pseudo opcode "if" to define different sections for each bank in only one file
 
 
 

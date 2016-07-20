@@ -47,7 +47,7 @@ I made some code changes:~~
 a) move the files to a package in my code structure~~
 b) added some code to stream sound from the emulator.~~
 
-~~::
+::
 In the directory you find a~~
 LICENSE~~
 and a ~~
@@ -93,11 +93,11 @@ The original project website can be accessed under:~~
 **Code done by Valavan Manohararajah**~~
 ----------------------------------~~
 In the directory: de\\malban\\vide\\vecx ~~
-the orginal code for vecxy was done by: ~~Valavan Manohararajah~~
+the orginal code for vecxi was done by: ~~Valavan Manohararajah~~
 ~~
 Apart from others picking like vultures on the orginal code and placing dubious copyright notice like:~~ ~~"hey dude, I added SDL (10 lines of code) I hereby claim copyright of that!"~~
  ~~ (sorry, I am in a foul mood...)~~
-I didn't find any information on copyright of the original code. I can't even find a homepage of Valavan or any notice of what has become of him.
+I didn't find any information on copyright in the original code. I can't even find a homepage of Valavan or any notice of what has become of him.
  
 I hope in using your great vecx-start in vide didn't upset you in any way, thanks for your code!
  ~~
@@ -195,20 +195,26 @@ Homepage: [[http://www.javamex.com/classmexer/]]~~
 ~~
 ~~
 Used to build the documentation:~~
-~~
 **HelpSetMaker**~~
 ------------~~
 Author: Cantamen [Dirk Hillbrecht, Peter Peterburgskyy]~~
 Licence: GNU General Public License (GPL) V2.0 (or later)~~
 Homepage: [[http://www.cantamen.de/helpsetmaker.php]]~~
 ::
-
-~~
-Used build vectorized images:~~
-~~
+~~::
+Used to build vectorized images:~~
 **Potrace**~~
 -------~~
 Author: Peter Selinger~~
 Licence: Copyright (c) 2001-2015 Peter Selinger, GNU General Public License (GPL) V2.0 (or later)~~
 Homepage: [[http://potrace.sourceforge.net/]]~~
+::
+~~::
+Used for digital sound processing:~~
+**TarsosDSP**~~
+---------~~
+Main Maintainer: Joren Six~~
+Tarsos and TarsosDSP are developed at University College Ghent, Faculty of Music~~
+Licence: GNU General Public License (GPL) V3.0 (or later)~~
+Homepage: [[https://github.com/JorenSix/Tarsos]]~~
 ::

@@ -1,0 +1,39 @@
+:title Emulation: eEprom DS2430
+
+Based on the description and vectrex source code from Alex Herbert.
+Emulation is only done in so far, that SP can be read and written,
+this is no FULL emulation of a DS2430!
+
+Known cartridges which use this hardware:
+- Thrust
+- Protector/ YASI
+
+Statefiles for the eEprom are always saved in the same directory and named as the original cartridge (bin) file, with the additional extension of: ".ds2430.ser".
+~~(the save-format is java serialization)
+
+~~**Note:**~~
+Since both, the eEprom emulation and bankswitching communicate with the external cartridge line (VIA PB6), only one can be "active" at a time within Vide.
+If both (bankswitching and eEprom emulation) are switched on, the eEprom emulation has precedence!
+
+:h3 Technical
+In General the emulation are two state machines, 
+- one lowlevel "machine"
+which regulates bit manipulations and waits for timings slots and such.
+
+- and one highlevel machine which emulates the commands
+
+The highlevel uses the lowlevel machine and is "called" back from
+it when it is finished.
+
+Input/output is basically done via the lineIn and lineOut functions.
+Both functions in itself do not trigger any further actions.
+
+All steps of emulation are "triggered" from the "step" function.
+The step function should be called EVERY emulated cycle.
+
+The step function is basically the lowLevel statemachine, which on occassion
+triggers the highlevel.
+
+The Datasheet of the chip can be found in the subdirectory: ~~
+
+documents/hardware/DS2430A.pdf

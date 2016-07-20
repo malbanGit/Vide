@@ -483,6 +483,15 @@ public class SingleImagePanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_formMousePressed
 
+    public int getPressedStartX()
+    {
+        return mXPressStart;
+    }
+    public int getPressedStartY()
+    {
+        return mYPressStart;
+    }
+    
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
         if (noMouseReaction) return;
         if (evt.getButton() == MouseEvent.BUTTON1)

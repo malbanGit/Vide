@@ -102,20 +102,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jCheckBoxGenerateExampleCode" min="-2" max="-2" attributes="0"/>
-                          <Component id="jSliderThreshold" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                          <Component id="jCheckBoxGenerateData" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextFieldWidth" min="-2" pref="44" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextFieldHeight" min="-2" pref="44" max="-2" attributes="0"/>
-                                  </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jRadioButtonHorizontalVectors" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -129,6 +117,23 @@
                                   </Group>
                                   <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jScrollPane1" alignment="0" min="-2" pref="320" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jLabel6" min="-2" pref="35" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                                      <Component id="jTextFieldStartX" min="-2" pref="44" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldStartY" min="-2" pref="44" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldWidth" min="-2" pref="44" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jTextFieldHeight" min="-2" pref="44" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
@@ -157,6 +162,13 @@
                                   </Group>
                               </Group>
                           </Group>
+                          <Component id="jSliderThreshold" min="-2" pref="220" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jCheckBoxGenerateData" min="-2" pref="129" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jCheckBoxBiDirectionalData" min="-2" pref="180" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jCheckBoxGenerateExampleCode" alignment="0" min="-2" pref="129" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -181,6 +193,12 @@
                           <Component id="jTextFieldWidth" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextFieldHeight" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                              <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldStartX" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTextFieldStartY" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -206,7 +224,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jSliderThreshold" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jCheckBoxGenerateData" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jCheckBoxGenerateData" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBoxBiDirectionalData" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jCheckBoxGenerateExampleCode" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -307,6 +328,10 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Container class="de.malban.graphics.SingleImagePanel" name="singleImagePanel1">
+                  <Events>
+                    <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="singleImagePanel1MouseMoved"/>
+                    <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="singleImagePanel1MouseDragged"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -408,6 +433,37 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxAssume9BitActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jCheckBoxBiDirectionalData">
+              <Properties>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="generate bi directional data"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxBiDirectionalDataActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel6">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="start"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextFieldStartX">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="text" type="java.lang.String" value="0"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel7">
+              <Properties>
+                <Property name="text" type="java.lang.String" value=","/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextFieldStartY">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="text" type="java.lang.String" value="0"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

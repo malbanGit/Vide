@@ -1,0 +1,690 @@
+BANK 0
+EQU $01 INCLUDE_I
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $F192 Wait_Recal
+LABEL $F1BA Read_Btns
+LABEL $F2AB Intensity_a
+LABEL $F2FC Moveto_d_7F
+LABEL $F354 Reset0Ref
+EQU $02 S_INTENSITY
+EQU $01 S_XPOS
+LABEL $C826 intensityIndexNibble
+COMMENT_LABEL $C826 low byte of "Vec_Loop_Count", this counter is increased
+LABEL $C880 statusFlag
+COMMENT_LABEL $C880 negative = link not established, 0 = I am primary, 1 = I am secondary
+LABEL $C881 primary_structure
+COMMENT_LABEL $C881 3 bytes
+LABEL $C881 primary_pos
+LABEL $C883 primary_intensity
+LABEL $C884 secondary_structure
+COMMENT_LABEL $C884 3 bytes
+LABEL $C884 secondary_pos
+LABEL $C885 secondary_x
+LABEL $C886 secondary_intensity
+LABEL $C887 joy_y
+COMMENT_LABEL $C887 contains digital joytick position Y, +1 = up, -1 = down, 0 = no move
+LABEL $C888 joy_x
+COMMENT_LABEL $C888 contains digital joytick position X, +1 = right, -1 = left, 0 = no move
+LABEL $C889 jumper
+COMMENT_LABEL $C889 contains indirect jump addresses used in main loop
+LABEL $0011 no_music
+LABEL $0241 start
+LABEL $0017 serial_output_ff
+LABEL $0045 serial_write_A
+EQU $60 writeNextDoubleBit
+LABEL $0068 outputBitMaskToPSG_start
+EQU $73 continueReadTry0
+LABEL $0089 bit0SendSuccess
+LABEL $00D0 linkTimeout
+LABEL $0093 outputBitMaskToPSG_cont
+LABEL $009E continueReadTryX
+LABEL $00B4 bit1SendSuccess
+LABEL $00E2 serial_read_A_withTest
+LABEL $010A serial_read_A
+LABEL $0125 readNextDoubleBit
+LABEL $0127 tryReadingBitOne
+LABEL $013D bitOneComAck
+LABEL $015B tryReadingBitTwo
+LABEL $0172 bitTwoComAck
+LABEL $019D syncVectrex_3bytes
+LABEL $01B3 primarySync
+LABEL $01F9 secondarySync
+LABEL $01B2 linkFailed
+LABEL $025A init_jumper
+LABEL $024A main_loop
+LABEL $0453 queryInputPort0
+LABEL $0261 init_vars_main
+LABEL $0288 no_link
+LABEL $0281 we_are_secondary
+LABEL $02D9 primary_main
+LABEL $030C secondary_main
+LABEL $02C9 secondaryTest
+LABEL $02AD linkFailed_nl
+LABEL $02C5 primarySuccess
+LABEL $0410 no_link_string
+COMMENT_LABEL $0410 text "NO LINK" in format: %Y %X %M
+LABEL $0399 draw_vector_list
+LABEL $04A7 intensity_blink
+LABEL $0341 check_input_port0
+LABEL $03DC you
+COMMENT_LABEL $03DC text "YOU" in format: %Y %X %M
+LABEL $0366 draw_players
+LABEL $0351 increase_intensity
+LABEL $035A check_digital_pos
+LABEL $03BF triangle
+COMMENT_LABEL $03BF triangle list in format: %Y %X %M
+LABEL $03CC diamond
+COMMENT_LABEL $03CC diamond list in format: %Y %X %M
+LABEL $039B display_next_vector
+LABEL $03B2 timerLoop
+LABEL $0464 waitLoopV
+LABEL $047D yReadDone
+LABEL $048A waitLoopH
+LABEL $04A3 xReadDone
+COMMENT_LINE $0000 Note:
+COMMENT_LINE $0000 This file is an example I put together from two different sources.
+COMMENT_LINE $0000 a) the visible part is taken from the vecLink V1 test binary, which I also disassembled
+COMMENT_LINE $0000 binaries/and commented disassemby available
+COMMENT_LINE $0000 b) The serial communication routines were taken from BerzerkArena, I disassembled the
+COMMENT_LINE $0000 relevant parts and but the routines in the example from a)
+COMMENT_LINE $0000 BOTH original files were programmed by Alex Herbert
+COMMENT_LINE $0000 I was assured that Alex had given is consent in making the file available,
+COMMENT_LINE $0000 but sadly I had never the opportunity to get in contact with Alex himself.
+COMMENT_LINE $0000 Alex: if you do not wish to share this file, please contact me and I will remove it.
+COMMENT_LINE $0000 veclink V2 in Port 1
+COMMENT_LINE $0000 The used transfer protocoll:
+COMMENT_LINE $0000 The bits of port A used:
+COMMENT_LINE $0000 - bit 4 (control bit)    [button 1 of port 1]
+COMMENT_LINE $0000 - bit 5 (data bit) [button 2 of port 1]
+COMMENT_LINE $0000 - bit 6 (acknowledge bit) [button 3 of port 1]
+COMMENT_LINE $0000 Control bit
+COMMENT_LINE $0000 Each byte is send in 4 "packages" of 2 bit. The first bit of such a package has the control
+COMMENT_LINE $0000 bit = to 0 (zero), the second bit in such a package has the control bit = to 1 (one).
+COMMENT_LINE $0000 Data bit
+COMMENT_LINE $0000 This bit - as the name implies - carries the one bit of data used in one "transfer" round.
+COMMENT_LINE $0000 Acknowledge bit
+COMMENT_LINE $0000 The receiving vectrex must send an acknowledgement "message" in which the bit 6 must be set.
+COMMENT_LINE $0000 If any of the above is not true while the communication is done (actually there is a timer
+COMMENT_LINE $0000 which waits for the appropriate resonse, one byte must be transfered in $ffff cycles (T1 Timer)),
+COMMENT_LINE $0000 the communication is broken and a message is displayed.
+COMMENT_LINE $0000 Special
+COMMENT_LINE $0000 The complete "game" is played with PSG Port A = to output
+COMMENT_LINE $0000 (on both ends of the serial cable), the serial communication still works in both directions.
+COMMENT_LINE $0000 Protocoll Higher Level
+COMMENT_LINE $0000 One of the two vectrex must be the first, this is always the case :-).
+COMMENT_LINE $0000 Primary vectrex:
+COMMENT_LINE $0000 The first one obviously does not receive any data before.
+COMMENT_LINE $0000 If no data is received, than a "$4d" is sent. (bit 4 cleared, sign that we want to send data!)
+COMMENT_LINE $0000 Secondary vectrex:
+COMMENT_LINE $0000 The secondary vectrex receives the above mentioned "$4d" and responds with sending a "$73".
+COMMENT_LINE $0000 If both above sendings and readings are aknowledged by both vectri,
+COMMENT_LINE $0000 the main routines are = (as in veclink V1 example) to primary and secondary routines.
+COMMENT_LINE $0000 within those routines "syncVectrex_3bytes()" is called, which by a statusflag decides
+COMMENT_LINE $0000 whether it is called from primary or secondary and does the actual 3 byte sync accordingly.
+COMMENT_LINE $0000 cable schematics:
+COMMENT_LINE $0000 Vectrex A                Vectrex B
+COMMENT_LINE $0000 1 |--------------------------| 1
+COMMENT_LINE $0000 2 |--------------------------| 2
+COMMENT_LINE $0000 3 |--------------------------| 3
+COMMENT_LINE $0000 8 |--------------------------| 8
+COMMENT_LINE $0000 All other pins MUST NOT be connected.
+COMMENT_LINE $0000 (or damage to your Vectrexes is quite probable).
+COMMENT_LINE $0000 this file is part of vectrex frogger, written by Malban
+COMMENT_LINE $0000 in March-April 1998
+COMMENT_LINE $0000 all stuff contained here is public domain (?)
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slightly changed by Malban                ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 with every call WaitRecal, it is used below as an
+COMMENT_LINE $0000 offset for intensity levels of the "you" sign
+COMMENT $0000 GCS Copyright
+COMMENT $000B Start music pointer
+COMMENT $000D end of header
+COMMENT $000E start of cartridge code!
+COMMENT_LINE $0017 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0017 called once only, leaves port A of PSG in output mode
+COMMENT_LINE $0017 sets DP to d0
+COMMENT_LINE $0017 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT $0017 write $FF to joystickport, enable output on joystick port
+COMMENT $0019 setup DP
+COMMENT $001B A= $E reg 14 of PSG,
+COMMENT $001D Via Port A = 14
+COMMENT $0022 VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT $0024 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $0026 Write $FF to joystick port(s) / PSG Port A ; -)
+COMMENT $0028 Fill via port A with $ff to be written to PSG port A to be written to Jostick buttons...
+COMMENT $002C VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $002E VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $0032 prepare latch of Reg 7 to PSG
+COMMENT $0036 VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT $0038 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $003A Write $FF to Reg 7 of PSG -> enabled output via port A of PSG ; -)
+COMMENT $003C Fill via port A with $ff to be written to PSG port A to be written to Jostick buttons...
+COMMENT $0040 VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $0042 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $0044 done
+COMMENT_LINE $0045 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0045 sends value in A to joyport serial communication
+COMMENT_LINE $0045 dp is kept in original state
+COMMENT_LINE $0045 if completed correctly:
+COMMENT_LINE $0045 b=0, not 0 otherwise
+COMMENT_LINE $0045 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT $0045 number of "double bits" to send (4*2 = 8 -> complete byte), starting with least significant bit
+COMMENT $0047 remember current DP, "$4" and A (push DP first, than b than a, s is pointing to the pushed copy of A)
+COMMENT $0049 setup DP
+COMMENT_LINE $004D prepare output to joystick, latch 14 to psg...
+COMMENT $004D A= $E (reg 14, port A of PSG), B = $99
+COMMENT $0050 Via Port A = 14
+COMMENT $0052 VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT $0054 B = $81 mask for BDIR/BC inactive, A=$18 0001 1000 ->SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT $0057 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT_LINE $0059 disable ramping, while we use T1 for timeout checking...
+COMMENT $0059 SHIFT mode = 110 - SHIFT out under control of system clock, T1 does not control RAMP
+COMMENT_LINE $005B -), for the complete communication
+COMMENT $005B Realy long timer
+COMMENT $005E to T1
+COMMENT $0060 1110 1111 port A default mask for bit set (bit 5), bit 4 = 0 indicates start of 2bit communication
+COMMENT $0062 test lowest bit of (pushed copy) of A
+COMMENT $0064 if the bit was set -> branch
+COMMENT $0066 1100 1111 port A default mask for bit clear (bit 5), bit 4 = 0 indicates start of 2bit communication
+COMMENT $0068 output current mask to psg 14
+COMMENT $006D VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $006F VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $0071 set via port A to input
+COMMENT $0073 A = $89, B = $81
+COMMENT $0076 VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $0078 delay ; -)
+COMMENT $0079 get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $007B VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $007D check if we received a bit (in bit 6)
+COMMENT $007F waiting to receive a 0 in bit 6 as acknowledgement of communication
+COMMENT $0081 test for T1 timeout interrupt flag
+COMMENT $0083 check
+COMMENT $0089 switch Via port A to output
+COMMENT $008B 1111 1111 port A default mask for bit set (bit 5), bit 4 = 1 indicates continue of 2bit communication
+COMMENT $0091 1101 1111 port A default mask for bit clear (bit 5), bit 4 = 1 indicates continue of 2bit communication
+COMMENT $0093 output current mask to psg 14
+COMMENT $0098 VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $009A VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $009C set via port A to input
+COMMENT $009E A = $89, B = $81
+COMMENT $00A1 VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $00A3 delay ; -)
+COMMENT $00A4 get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $00A6 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $00A8 check if we received a bit (in bit 6)
+COMMENT $00AA waiting to receive a 0 in bit 6 as acknowledgement of communication
+COMMENT $00AC test for T1 timeout interrupt flag
+COMMENT $00AE check
+COMMENT $00B4 switch Via port A to output
+COMMENT $00B6 counter (4) reached 0?
+COMMENT $00B8 if not jump and do next
+COMMENT $00BA A = FF, 1111 1111
+COMMENT $00BC send a "full" byte (bit 4,5,6 set) as end of communication
+COMMENT $00C1 VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $00C3 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $00C5 A= 02, B = 0
+COMMENT $00C8 store a mini T1 timer
+COMMENT $00CA restore T1, ramp on...1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT $00CE remove used values, reset dp and return to caller
+COMMENT $00D0 A = FF, 1111 1111
+COMMENT $00D3 Via port A to output
+COMMENT $00D5 send a "full" byte (bit 4,5,6 set) as end of communication
+COMMENT $00D7 VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $00DC VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $00DE restore T1, ramp on...1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT $00E0 remove used values, reset dp and return to caller
+COMMENT_LINE $00E2 if the other side wants to send data
+COMMENT $00E2 A= $E (reg 14 of PSG)
+COMMENT $00E4 to VIA port A
+COMMENT $00E7 A= $99, B = $81
+COMMENT $00EA VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT $00ED VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $00F0 VIA port A as input
+COMMENT $00F3 A = $89, B = $81
+COMMENT $00F6 VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $00F9 delay ; -)
+COMMENT $00FA get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $00FD VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $0100 B = $FF
+COMMENT $0102 set via port A as output
+COMMENT $0105 test bit 4 of received data
+COMMENT $0107 if bit is 0 than a commnication request is issued from the other side
+COMMENT $0109 if not - return
+COMMENT_LINE $010A ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $010A received value from joyport to A serial communication
+COMMENT_LINE $010A dp is kept in original state
+COMMENT_LINE $010A if completed correctly:
+COMMENT_LINE $010A B=0, not 0 otherwise
+COMMENT_LINE $010A A contains received value on success
+COMMENT_LINE $010A ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT $010A load 4 double bits
+COMMENT $010C remember current DP, "$4" and A (push DP first, than b than a, s is pointing to the pushed copy of A)
+COMMENT $0110 setup DP to d0
+COMMENT $0112 A= $E (reg 14 of PSG), B = $99
+COMMENT $0115 A to via port A, prepare latch of PSG reg 14
+COMMENT $0117 VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT $0119 A= $18 (for Aux), and $81 for psg inactive
+COMMENT $011C VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT_LINE $011E disable ramping, while we use T1 for timeout checking...
+COMMENT $011E SHIFT mode = 110 - SHIFT out under control of system clock, T1 does not control RAMP
+COMMENT $0120 set a huge timer for the complete commuication timeout
+COMMENT $0123 store to timer lo and hi timer 1
+COMMENT $0125 set via port A as input (clear DDRA)
+COMMENT $0127 A= 89, B 81
+COMMENT $012A VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $012C delay ; -)
+COMMENT $012D get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $012F VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $0131 test bit 4, for two bit commication correctness - it must be 0, for the first of the 2 bit commucation
+COMMENT $0133 if that is so - branch
+COMMENT $0135 test bit for T1
+COMMENT $0137 otherwise test for T1 timeout
+COMMENT $0139 if not timeout - read again... perhaps with more luck
+COMMENT $013B otherwise - jump to timeout
+COMMENT $013D A= 89, B =81
+COMMENT $0140 VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $0142 delay ; -)
+COMMENT $0143 get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $0145 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $0147 set port A as output (all $ff now)
+COMMENT $0149 communication "data" bit is bit 5
+COMMENT $014A doing 3 asls puts the data bit to carry
+COMMENT $014C and a ror pushes the bit into the hi bit of our return data, this will be done 8 times so in the end the first received bit will be in place of the least significant bit
+COMMENT $014E A = $BF, 1011 1111, load a with our "acceptance" bit cleared (bit 6)
+COMMENT $0150 store it to Via port A which will send it to port A of PSG -> to joystick port to other veccy
+COMMENT $0152 A = $91, B = 81
+COMMENT $0155 VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $0157 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $0159 prepare next read, and set via port A to input again
+COMMENT $015B A= 89, B =81
+COMMENT $015E VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $0160 delay ; -)
+COMMENT $0161 get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $0163 VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $0165 test bit 4, for two bit commication correctness - this time it must be 1 (second bit of 2 bit communication)
+COMMENT $0167 if that is so - branch
+COMMENT $0169 test bit for T1
+COMMENT $016B otherwise test for T1 timeout
+COMMENT $016D if not timeout - read again... perhaps with more luck
+COMMENT $016F otherwise - jump to timeout
+COMMENT $0172 A= 89, B 81
+COMMENT $0175 VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT $0177 delay ; -)
+COMMENT $0178 get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT $017A VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $017C set port A as output (all $ff now)
+COMMENT $017E doing 3 asls puts the data bit to carry
+COMMENT $0181 and a ror pushes the bit into the hi bit of our return data, and all other bits one to the right
+COMMENT $0183 A = $FF, 1111 1111, load a with our "acceptance" bit set (bit 6)
+COMMENT $0185 store it to Via port A which will send it to port A of PSG -> to joystick port to other veccy
+COMMENT $0187 A = $91, B = 81
+COMMENT $018A VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT $018C VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT $018E do the above 4 times (2bits *2 = 8bit = 1 byte)
+COMMENT $0190 if not done - read next to bits
+COMMENT $0192 A= 02, B = 0
+COMMENT $0195 store a mini T1 timer
+COMMENT $0199 restore T1, ramp on...1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT $019B remove used values, reset dp and return to caller, result is "loaded" to reg A, B = 0!
+COMMENT_LINE $019D ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $019D this routine syncs 3 bytes *2 (both structures)
+COMMENT_LINE $019D while doing the syncing the link is continually tested if it still in working order
+COMMENT_LINE $019D this routine also sets the status flag of the link connection
+COMMENT_LINE $019D negative = link not established, 0 = I am primary, 1 = I am secondary
+COMMENT_LINE $019D ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT $019D setup DP
+COMMENT $01A1 read data to this address [data original from secondary vectrex]
+COMMENT $01A8 default while communication -> link not established
+COMMENT $01AA with this we can exit easily
+COMMENT $01AD check the known status
+COMMENT $01AE 0 = primary
+COMMENT $01B0 1 = secondary
+COMMENT $01B2 -1 = no link -> exit
+COMMENT_LINE $01B3 do syncing from the primary vectrex
+COMMENT_LINE $01B3 first write, than read
+COMMENT_LINE $01B3 didn't do fancy optimized loops here, just a three byte sync for both sides, thats all
+COMMENT $01B3 address of primary data to index register
+COMMENT $01B6 load one byte
+COMMENT $01B8 send it
+COMMENT $01BB test b = 0
+COMMENT $01BC if not -> communication failed
+COMMENT $01C0 repeat ...
+COMMENT $01D4 address of secondary data to index register
+COMMENT $01D7 read one byte
+COMMENT $01DA test for error
+COMMENT $01DB if so -> jump
+COMMENT $01DF otherwise -> store the byte
+COMMENT $01E1 repeat...
+COMMENT $01F5 we are primary -> restore the "ok" flag
+COMMENT_LINE $01F9 do syncing from the secondary vectrex
+COMMENT_LINE $01F9 first read, than write
+COMMENT_LINE $01F9 same as above, no further comments here
+COMMENT $01F9 reading and writing from the view of primary vectrex
+COMMENT $021A read data to this address [data original from secondary vectrex]
+COMMENT_LINE $0241 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT $0241 set up direct page to d0 for the complete "game"
+COMMENT $0245 init PSG port A as output
+COMMENT $0248 init main subroutine to "init"
+COMMENT $024A the last thing done in the mainloop "last round" was a draw
+COMMENT $024B this must be finished here with a mov 0 to SHIFT (switch the beam off)
+COMMENT $024E recalibrate
+COMMENT $0251 query input devices (port 0)
+COMMENT $0254 go to the current main routine (one of: "no link" (or "init"), "primary", "secondary")
+COMMENT $0258 and repeat that forever
+COMMENT_LINE $025A each time the link cable is "faulty" (connection is lost)
+COMMENT_LINE $025A this routine is called (or upon startup)
+COMMENT_LINE $025A this sets the main "subroutine" to "init"
+COMMENT $025A in the first update round (or link is broken), initialize
+COMMENT $025D the "main" subroutine is init the player vars (which also is "no link")
+COMMENT_LINE $0261 this routine sets up player vars (position, intensity...)
+COMMENT_LINE $0261 checks the current link status
+COMMENT_LINE $0261 and sets the main "subroutine" (jumper) according to the link status
+COMMENT_LINE $0261 each player structure consists of 3 bytes
+COMMENT_LINE $0261 ypos, xpos, intensity
+COMMENT_LINE $0261 the first three "word" moves, fill both player structures
+COMMENT $0261 position of primary player (y,x)
+COMMENT $0267 primary intensity and secondary y
+COMMENT $026D secondary x and secondary intensity
+COMMENT_LINE $0273 check current connection state
+COMMENT $0276 if negative no link was found
+COMMENT $0278 if positive (1) jump, we are secondary
+COMMENT $027A we are primary, load our main routine and store it
+COMMENT $027D to the indirect jump table
+COMMENT $0281 we are secondary, load our main routine and store it
+COMMENT $0284 to the indirect jump table
+COMMENT_LINE $0288 "main" loop entry if link is broken,
+COMMENT_LINE $0288 this is accessed "directly" from "init_vars_main"
+COMMENT_LINE $0288 not thru a jumper
+COMMENT_LINE $0288 this is an "endpoint" of the jumper call to init_vars_main and is
+COMMENT_LINE $0288 exited with a jump to a subroutine, which returns correctly to the main loop (saving a few cycles)
+COMMENT $0288 setup DP
+COMMENT $028C default status: link is broken (needed for a "hard" exit in the subroutines)
+COMMENT $028E store the status of the connection
+COMMENT $0291 read one serial byte (with connection test)
+COMMENT $0294 if = $4d -> jump
+COMMENT $0298 if 4d is received, the other vectrex was first, we are now secondary
+COMMENT $029A send 4d as a sign that we are "primary" than we send first! 0100 1101
+COMMENT $029C write it to putput
+COMMENT $029F only if 4 double byte counter is zero, there was a success
+COMMENT $02A0 branch if not successfull
+COMMENT $02A4 Wait for other side to ackowledge our priority
+COMMENT $02A7 A= $73 - 0111 0011 Jup, we are king of the hill! (and B = 00)
+COMMENT $02AD reset vector beam
+COMMENT $02B0 set intensity
+COMMENT $02B2 to $3f
+COMMENT $02B5 move to a position
+COMMENT $02BB set a low scaling factor
+COMMENT $02BD (timer 1 is scaling)
+COMMENT $02BF load the vector representation of "no link" to U
+COMMENT $02C2 and draw that -> and exit subroutine to main
+COMMENT $02C9 acknowledge we are secondary
+COMMENT $02CB send that
+COMMENT_LINE $02D9 drawing the "you" at the right position
+COMMENT_LINE $02D9 players are actually drawn with the "same" routine (no differentiation between primary and secondary)
+COMMENT $02D9 sync 3 bytes TO other player and 3 bytes from other player, also sets link status
+COMMENT $02DC ensure link is still valid
+COMMENT $02DF if not, jump to init (must be 0 for primary)
+COMMENT $02E3 setup DP
+COMMENT $02E7 reset vector beam
+COMMENT $02EA intensity of "you" string offset table
+COMMENT $02ED load waitRecal counter as an offset
+COMMENT $02F0 divide by two
+COMMENT $02F1 and only use the lower nibble
+COMMENT $02F3 as an offset index to the "blink" intensities
+COMMENT $02F5 set intensity
+COMMENT $02F8 x = current used player structure
+COMMENT $02FB get current input readings (joystick and buttons), and set D to POS of player
+COMMENT $02FD move "cursor" to that position
+COMMENT $0300 set a low scaling factor
+COMMENT $0302 (timer 1 is scaling)
+COMMENT $0304 load pointer of vectorlist "you" to U
+COMMENT $0307 and output it at the current position
+COMMENT $030A draw the player "signs"
+COMMENT_LINE $030C drawing the "you" at the right position
+COMMENT_LINE $030C players are actually drawn with the "same" routine (no differentiation between primary and secondary)
+COMMENT $030C sync 3 bytes TO other player and 3 bytes from other player, also sets link status
+COMMENT $030F ensure link is still valid
+COMMENT $0312 must be 1 for secondary
+COMMENT $0314 if not, jump to init
+COMMENT $0318 setup DP
+COMMENT $031C reset vector beam
+COMMENT $031F intensity of "you" string offset table
+COMMENT $0322 load waitRecal counter as an offset
+COMMENT $0325 divide by two
+COMMENT $0326 and only use the lower nibble
+COMMENT $0328 as an offset index to the "blink" intensities
+COMMENT $032A set intensity
+COMMENT $032D x = current used player structure
+COMMENT $0330 get current input readings (joystick and buttons), and set D to POS of player
+COMMENT $0332 move "cursor" to that position
+COMMENT $0335 set a low scaling factor
+COMMENT $0337 (timer 1 is scaling)
+COMMENT $0339 load pointer of vectorlist "you" to U
+COMMENT $033C and output it at the current position
+COMMENT $033F draw the player "signs"
+COMMENT_LINE $0341 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0341 in x is the player structure given
+COMMENT_LINE $0341 apply the current input to the given player structure
+COMMENT_LINE $0341 digital joystick movements (filled before) are represented
+COMMENT_LINE $0341 by +1, 0, -1 (for vertical and horizontal joystick positions)
+COMMENT_LINE $0341 button states are respected and applied (intensity change of pressed or released)
+COMMENT_LINE $0341 exits with D filled with position of player
+COMMENT_LINE $0341 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0341 first
+COMMENT_LINE $0341 check the button state of port 0
+COMMENT_LINE $0341 if any button is pressed, intensity in the player structure is decreased (not below 0)
+COMMENT_LINE $0341 if no button is pressed it is increased (not above intensity $4f)
+COMMENT $0341 load current button state
+COMMENT $0344 test for any button of port 0 (mask: 0000 1111)
+COMMENT_LINE $0348 decrease intensity if no button was pressed
+COMMENT $0348 load current intensity
+COMMENT $034A check if already zero, if yes, just go on
+COMMENT $034C if not - decrease it
+COMMENT $034D and store it in the player structure
+COMMENT $034F go on
+COMMENT $0351 load current intensity
+COMMENT $0353 check if maxed
+COMMENT $0355 if yes - go on
+COMMENT $0357 if not increase
+COMMENT $0358 and store it
+COMMENT $035A load the last got joystick vertical/horizontal values to D[Y,X] (0,-1 or 1))
+COMMENT $035D double Y (contains now -2, 0 or +2)
+COMMENT $035E add to that value the current Y pos from player structure
+COMMENT $0360 do the same with x: double X (contains now -2, 0 or +2)
+COMMENT $0361 add to that value the current X pos from player structure
+COMMENT $0363 and store the result back to the player structure
+COMMENT $0365 leaving with d set to the position Y, X
+COMMENT $0366 reset vector beam
+COMMENT $0369 get intensity of primary
+COMMENT $036C set that intensity
+COMMENT $036F load the primary position
+COMMENT $0372 move there
+COMMENT $0375 load a "medium" scale value
+COMMENT $0377 and set it (timer 1 is scaling)
+COMMENT $0379 for primary load the trianlge vectorlist
+COMMENT $037C and draw it
+COMMENT $037F repeat the above for secondary player, - reset vector beam
+COMMENT $0382 get intensity of secondary
+COMMENT $0385 set that intensity
+COMMENT $0388 load the secondary position
+COMMENT $038B move there
+COMMENT $038E load a "medium" scale value
+COMMENT $0390 and set it (timer 1 is scaling)
+COMMENT $0392 for secondary load the diamond vectorlist
+COMMENT $0395 and draw it
+COMMENT $0398 done
+COMMENT_LINE $0399 expects pointer to a vector list in U
+COMMENT_LINE $0399 format of vector list is: %Y %X %M (delta Y, delta X, mode)
+COMMENT_LINE $0399 mode: $80 = end
+COMMENT_LINE $0399 anything else = pattern
+COMMENT $0399 load Y delta to A
+COMMENT $039B store to DAC
+COMMENT $039D clr port B (mux enabled, mux sel = y) -> thus integrator Y will update with Y delta
+COMMENT $039F get X delta to A and pattern to B
+COMMENT $03A1 disable mux
+COMMENT $03A3 set X delta to A
+COMMENT_LINE $03A6 I think Alex is doing a trick here
+COMMENT_LINE $03A6 to prevent the "dotting" of vectors
+COMMENT_LINE $03A6 when being displayed
+COMMENT_LINE $03A6 usually the light is switched ON too soon, this might prevent that (a little)
+COMMENT $03A6 shorten the pattern by 3 upper bits (6 cycles are still "blank") [1 shift needs 2 cpu cycles]
+COMMENT_LINE $03A8 as long, as bit 0 is 1 at the end of the complete shift cycle, the line will be displayed
+COMMENT_LINE $03A8 correctly, I wonder what appears on screen if bit 0 of the pattern is 0, than probably
+COMMENT_LINE $03A8 only the beginning and the end of the line is shown
+COMMENT $03A8 put that configured pattern to shift, shifting starts
+COMMENT $03AA start the timer (this instruction takes exactly 6 cycles - this is the above done offset!)
+COMMENT $03AC load the un altered pattern to b
+COMMENT $03AE and patch that also (upper 4 bits only)
+COMMENT_LINE $03B0 I don't know what patching the "switch of" shift really accomplishes
+COMMENT_LINE $03B0 since RAMP will be disabled by the timer, and shift will still be on for to long...
+COMMENT $03B0 test bit for timer 1
+COMMENT $03B2 test if timer has run out
+COMMENT $03B4 if timer is still counting down - continue
+COMMENT $03B6 store the "other" side of the patched pattern to shiftreg
+COMMENT $03B8 load net pattern byte
+COMMENT $03BA if == $80 we finished with our vector list
+COMMENT $03BC if not - display next vector
+COMMENT_LINE $0453 query joystick buttons
+COMMENT_LINE $0453 joytick pot readings are also switched by the (de)muliplexer (analog section)
+COMMENT_LINE $0453 with joystick pots the switching is not done in regard of the output (in opposite to "input" switching of integrator logic)
+COMMENT_LINE $0453 but with regard to input
+COMMENT_LINE $0453 thus, the SEL part of the mux now selects which joystick pot is selected and send to the compare logic.
+COMMENT_LINE $0453 mux sel:
+COMMENT_LINE $0453 xxxx x00x: port 0 horizontal
+COMMENT_LINE $0453 xxxx x01x: port 0 vertical
+COMMENT_LINE $0453 xxxx x10x: port 1 horizontal
+COMMENT_LINE $0453 xxxx x11x: port 1 vertical
+COMMENT_LINE $0453 the result of the pot reading is compared to the
+COMMENT_LINE $0453 value present in the dac and according to the comparisson the compare flag of VIA (bit 5 of port b) is set.
+COMMENT_LINE $0453 (compare bit is = if contents of dac was "smaller" (signed) than the "pot" read)
+COMMENT $0453 setup DP
+COMMENT $0457 read joystick buttons and set the result to BIOS RAM location (Vec_Btn_State)
+COMMENT_LINE $045A reset integrator offsets
+COMMENT $045A mux disabled, mux sel = 01 (vertical pot port 0)
+COMMENT $045E dac = 0
+COMMENT $0460 mux enabled, mux sel = 01
+COMMENT $0462 a wait loop 32 times a loop (waiting for the pots to "read" values, and feed to compare logic)
+COMMENT $0464 ...
+COMMENT $0465 wait...
+COMMENT $0467 disable mux
+COMMENT $0469 load b with comparator bit (0010 0000)
+COMMENT $046B load a with test value (positive y)
+COMMENT $046D test value to DAC
+COMMENT $046F default result value y was pushed UP
+COMMENT $0471 test comparator
+COMMENT $0473 if comparator cleared - joystick was moved up
+COMMENT $0475 "load" with negative value
+COMMENT $0477 also switch the possible result in A
+COMMENT $0478 test comparator again
+COMMENT $047A if cleared the joystick was moved down
+COMMENT $047C if still not cleared, we clear a as the final vertical test result (no move at all)
+COMMENT $047D remember the result in "our" joystick data
+COMMENT_LINE $0480 now the same for horizontal
+COMMENT $0480 mux disabled, mux sel = 00 (horizontal pot port 0)
+COMMENT $0484 dac = 0
+COMMENT $0486 mux enabled, mux sel = 01
+COMMENT $0488 a wait loop 32 times a loop (waiting for the pots to "read" values, and feed to compare logic)
+COMMENT $048A ...
+COMMENT $048B wait...
+COMMENT $048D disable mux
+COMMENT $048F load b with comparator bit (0010 0000)
+COMMENT $0491 load a with test value (positive x)
+COMMENT $0493 test value to DAC
+COMMENT $0495 default result value x was pushed right
+COMMENT $0497 test comparator
+COMMENT $0499 if comparator cleared - joystick was moved right
+COMMENT $049B "load" with negative value
+COMMENT $049D also switch the possible result in A
+COMMENT $049E test comparator again
+COMMENT $04A0 if cleared the joystick was moved left
+COMMENT $04A2 if still not cleared, we clear a as the final vertical test result (no move at all)
+COMMENT $04A3 remember the result in "our" joystick data
+COMMENT $04A6 done
+COMMENT_LINE $04A7 the "you" string is shown with different intensity levels
+COMMENT_LINE $04A7 this is an offset table to the intensities used (16) -> blinking
+RANGE $0000-$0190 DP $D0
+RANGE $0190-$01A1 DP $FF
+RANGE $01A1-$04B5 DP $D0
+RANGE $0000-$000B DB_DATA
+RANGE $000B-$000D DW_DATA
+RANGE $000D-$000E DB_DATA
+RANGE $000E-$0011 CODE
+RANGE $0011-$0017 DB_DATA
+RANGE $0017-$03BF CODE
+RANGE $03BF-$0453 DB_DATA
+RANGE $0453-$04A7 CODE
+RANGE $04A7-$04B7 DB_DATA
+

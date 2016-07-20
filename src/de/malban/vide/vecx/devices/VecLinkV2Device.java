@@ -6,13 +6,19 @@
 package de.malban.vide.vecx.devices;
 
 import de.malban.vide.vecx.VecX;
+import static de.malban.vide.vecx.VecXPanel.DEVICE_LINKV2_L;
+import static de.malban.vide.vecx.VecXPanel.ENABLE_HARDSYNC;
 
 /**
  *
  * @author malban
  */
-public class VecLinkV2Device extends AbstractDevice
+public class VecLinkV2Device extends AbstractDevice implements HardSyncDevice
 {
+    public int getDeviceID()
+    {
+        return DEVICE_LINKV2_L;
+    }
     private static VecLinkV2Device[] vecLink = null;
     int side = 0;
     int otherSide = 1;
@@ -36,6 +42,35 @@ public class VecLinkV2Device extends AbstractDevice
         return vecLink[side];
     }
 
+    @Override
+    public boolean isMaster()
+    {
+        return side == 0;
+    }
+    @Override
+    public VecX getMasterVecX()
+    {
+        if (joyport == null) return null;
+        if (side == 0)
+        {
+            return joyport.vecx;
+        }
+        if (vecLink[otherSide] == null) return null;
+        if (vecLink[otherSide].joyport == null) return null;
+        return vecLink[otherSide].joyport.vecx;
+    }
+    @Override
+    public VecX getSlaveVecX()
+    {
+        if (joyport == null) return null;
+        if (side == 1)
+        {
+            return joyport.vecx;
+        }
+        if (vecLink[otherSide] == null) return null;
+        if (vecLink[otherSide].joyport == null) return null;
+        return vecLink[otherSide].joyport.vecx;
+    }
     
     private VecLinkV2Device()
     {
@@ -54,7 +89,15 @@ public class VecLinkV2Device extends AbstractDevice
     @Override
     public void step()
     {
-        syncStep();
+        if (ENABLE_HARDSYNC) 
+            noSyncStep();
+        else
+        {
+            if (vecLink[side].joyport.vecx.config.syncCables)
+                syncStep();
+            else
+                noSyncStep();
+        }
     }
     public void syncStep()
     {
@@ -81,10 +124,14 @@ public class VecLinkV2Device extends AbstractDevice
             {
                 if (vecLink[side].joyport == null) return;
                 if (vecLink[otherSide].joyport == null) return;
-                if (!(vecLink[side].joyport.device instanceof VecLinkV1Device)) return;
-                if (!(vecLink[otherSide].joyport.device instanceof VecLinkV1Device)) return;
-                if (exitSync) return;
-                if ((vecLink[otherSide].joyport.vecx.isDebugging()) && (vecLink[side].joyport.vecx.isDebugging()))  break;
+                if (!(vecLink[side].joyport.device instanceof VecLinkV2Device)) return;
+                if (!(vecLink[otherSide].joyport.device instanceof VecLinkV2Device))
+                    return;
+                if (exitSync) 
+                    return;
+                if ((vecLink[otherSide].joyport.vecx.isDebugging()) && (vecLink[side].joyport.vecx.isDebugging())) 
+                    break;
+                if (!vecLink[side].joyport.vecx.config.syncCables) break;
             }
 
             synchronized (vecLink)
@@ -98,10 +145,13 @@ public class VecLinkV2Device extends AbstractDevice
             {
                 if (vecLink[side].joyport == null) return;
                 if (vecLink[otherSide].joyport == null) return;
-                if (!(vecLink[side].joyport.device instanceof VecLinkV1Device)) return;
-                if (!(vecLink[otherSide].joyport.device instanceof VecLinkV1Device)) return;
-                if (exitSync) return;
-                if ((vecLink[otherSide].joyport.vecx.isDebugging()) && (vecLink[side].joyport.vecx.isDebugging()))  break;
+                if (!(vecLink[side].joyport.device instanceof VecLinkV2Device)) return;
+                if (!(vecLink[otherSide].joyport.device instanceof VecLinkV2Device)) return;
+                if (exitSync) 
+                    return;
+                if ((vecLink[otherSide].joyport.vecx.isDebugging()) && (vecLink[side].joyport.vecx.isDebugging()))  
+                    break;
+                if (!vecLink[side].joyport.vecx.config.syncCables) break;
             }
         }
         catch (Throwable e)
@@ -116,4 +166,35 @@ public class VecLinkV2Device extends AbstractDevice
         }
         sync[side] = false;
     }    
-}
+    public void noSyncStep()
+    {
+        try
+        {
+            if (joyport == null) 
+                return;
+            if (vecLink[otherSide] == null)
+                return;
+            if (vecLink[otherSide].joyport == null)
+                return;
+            if (firstTime)
+            {
+                firstTime = false;
+                vecLink[otherSide].joyport.vecx.cyclesRunning = 0;
+                vecLink[side].joyport.vecx.cyclesRunning = 0;
+            }
+            joyport.setButton1(vecLink[otherSide].joyport.isButton1(true), true);
+            joyport.setButton2(vecLink[otherSide].joyport.isButton2(true), true); 
+            joyport.setButton3(vecLink[otherSide].joyport.isButton3(true), true); 
+        }
+        catch (Throwable e)
+        {
+            // there still can be null pointers, if a links removed while in the above loop
+            // this can happen since synchronizing is sort of bad at the moment
+            // and does not really consider removing devices on the fly
+            // both vectrex emulators also run in different threads
+            // I think the overhead of doing a REAL sync is just "to much" for the
+            // seldom case that the link cable will be emulated...
+        }
+            
+    }    
+  }

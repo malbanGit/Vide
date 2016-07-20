@@ -72,12 +72,14 @@ LF6E3:              lda      <Vec_Music_Chan              ;Go to next music chan
                     lda      #$02 
 LF6EA:              sta      <Vec_Music_Chan 
 LF6EC:              ldb      [Vec_Music_Ptr]              ;Get next byte of music data 
+; !
                     cmpb     #$3F                         ; if it's a 3F, set the ADSR timer to end (silence) 
                     bne      LF6EC3 
                     ldb      #$1F 
                     stb      a,u 
                     ldb      [Vec_Music_Ptr]              ; reload original value 
                     bra      LF6EC2 
+; !
 
 LF6EC3:             ldu      #Vec_ADSR_Timers             ;Clear ADSR timer for this channel 
                     clr      a,u 

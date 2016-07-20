@@ -65,12 +65,12 @@ See two questions above.
 
 
 :h2 Tracki - some programs do not show any tracki information, why is that?
-They do to!
-Most probably you didn't configure tracki correctly. Tracky measure cycles between two memory locations the CPU (pc - program counter) passes.
-The default configuration is set up to measure cycles between the exit and the entry of the BIOS routine "WaitRecal". Many programs use that routine to do vector recalibration at the end of their game loop. Therefor for these programs the given locations measures the cylces of a game loop round.
-For programs which do not use the "WaitRecal" routine for their recalibration, the setup does not show any results. You must figure out what the program you are interested in uses for a game loop and/or recalibration. You can enter the so found addresses into the supplied start/end addreesses of tracki - than you can measure those programs.
+They do to!~~
+Most probably you didn't configure tracki correctly. Tracky measure cycles between two memory locations the CPU (pc - program counter) passes.~~
+The default configuration is set up to measure cycles between the exit and the entry of the BIOS routine "WaitRecal". Many programs use that routine to do vector recalibration at the end of their game loop. Therefor for these programs the given locations measures the cylces of a game loop round.~~
+For programs which do not use the "WaitRecal" routine for their recalibration, the setup does not show any results. You must figure out what the program you are interested in uses for a game loop and/or recalibration. You can enter the so found addresses into the supplied start/end addreesses of tracki - than you can measure those programs.~~
 Also:
-Remember to switch the "allways update" button to "on" - otherwise you won't see anything either :-)
+Remember to switch the "always update" button to "on" - otherwise you won't see anything either :-)
 
 
 

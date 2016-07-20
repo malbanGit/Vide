@@ -67,6 +67,9 @@ public class VideConfig  implements Serializable{
     public boolean resetBreakpointsOnLoad = true;
     public boolean psgSound = true;
 
+    public boolean syncCables = false;
+    
+    
     /// ASSI CONFIG
     public boolean expandBranches=true;
     

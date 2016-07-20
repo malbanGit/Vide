@@ -43,3 +43,21 @@ e) you can save the vectrex samples as "raw" data, the raw data uses 8 bit signe
 The generated "play" routines use sampled data "backwards", therefor you can select to reverse the order of the data statements generated.
 
 The data is output in data-statements, the format of the data is described in the (generated) source. With the sourcecode some example code is also generated.
+
+:h2 Technically
+Samples as implemented now have NOTHING whatsoever to do with PSG.
+
+It might be possible to implement samples as "volume" levels of 
+PSG channels, but as of now nobody has tried that.
+
+The current implementation of playing samples is using 
+a direct DAC -> audio implementation.
+
+Technical meaning:
+
+The sample data is taken directly (as signed 8 bit values), fed into the
+vectrex DAC and converted to analog values.
+Thru the multiplexer the resulting analog values are fed DIRECTLY to the
+vectrex sound hardware (not the PSG).
+
+A MUXSEL value of 11 (and mux select enabled) does that with data in port A of VIA.

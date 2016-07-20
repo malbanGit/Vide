@@ -334,7 +334,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }   
         });        
     
-        fillPatternBox();
+        mClassSetting++;
+        loadPatterns();
+        if (knownPatterns.size() == 0)
+        {
+            fillPatternBox(knownPatterns);
+            jComboBoxPatterns.setModel(new DefaultComboBoxModel(knownPatterns));
+        }
+        
+        
+        mClassSetting--;
+        jComboBoxPatterns.setSelectedIndex(0);
         // use as 2d display
         single3dDisplayPanel1.setAxisAngleX(0);
         single3dDisplayPanel1.setAxisAngleY(0);
@@ -2349,22 +2359,24 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5)
                         .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(67, Short.MAX_VALUE))
+                        .addContainerGap(72, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                    .addComponent(jButtonInterprete, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButtonSave3)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jButtonInterprete, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButtonSave3)))
+                                .addGap(8, 8, 8))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel49, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(1, 1, 1)
-                                .addComponent(jCheckBoxMulti)))
-                        .addGap(5, 5, 5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jCheckBoxMulti)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2387,20 +2399,22 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane4))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBoxPatterns, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBoxMulti))
-                                .addGap(5, 5, 5)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTextFieldPatternName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButtonSave3)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel49)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonInterprete)))
+                                .addComponent(jButtonInterprete))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jComboBoxPatterns, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(7, 7, 7))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jCheckBoxMulti)
+                                        .addGap(6, 6, 6)))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jTextFieldPatternName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonSave3))))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2415,11 +2429,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                     .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel26))
                                 .addGap(25, 25, 25)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel24)
                             .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 14, Short.MAX_VALUE)))
+                        .addGap(0, 21, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -3032,11 +3046,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel28Layout.setHorizontalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel28Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox2dOnly, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBoxOnePath, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3057,25 +3069,23 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addComponent(jTextFieldZMax, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(67, 67, 67)
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel28Layout.createSequentialGroup()
-                                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldXMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldYMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel28Layout.createSequentialGroup()
-                                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel28Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel42))
-                                    .addGroup(jPanel28Layout.createSequentialGroup()
-                                        .addGap(2, 2, 2)
-                                        .addComponent(jTextFieldZMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addComponent(jCheckBoxSameIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel6))
+                            .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(5, 5, 5)
+                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldYMaxLength, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                            .addComponent(jTextFieldXMaxLength, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                            .addComponent(jTextFieldZMaxLength)))
                     .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addGap(345, 345, 345)
+                        .addComponent(jLabel42))
+                    .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel43))
+                    .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCheckBoxSamePattern, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jCheckBoxHighPattern, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3087,7 +3097,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jLabel40)
                             .addComponent(jLabel39)
                             .addComponent(jLabel41)))
-                    .addComponent(jLabel43))
+                    .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jCheckBoxSameIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jCheckBoxOnePath, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jCheckBox2dOnly, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(161, Short.MAX_VALUE))
         );
         jPanel28Layout.setVerticalGroup(
@@ -6685,10 +6703,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     public static class PatternInfo implements Serializable
     {
-        String line1Pattern=""; 
-        String lineXPattern=""; 
-        String lastLinePattern=""; 
-        String name;
+        public String line1Pattern=""; 
+        public String lineXPattern=""; 
+        public String lastLinePattern=""; 
+        public String name;
         public String toString()
         {
             return name;
@@ -6795,11 +6813,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jTable1.tableChanged(null);
         }
     }
-    void fillPatternBox()
+    public static void fillPatternBox(Vector<PatternInfo> kp)
     {
-        mClassSetting++;
-        loadPatterns();
-        if (knownPatterns.size() == 0)
+        if (kp.size() == 0)
         {
             // build default patterns
             PatternInfo pi = new PatternInfo();
@@ -6807,7 +6823,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             pi.line1Pattern = "%C0";
             pi.lineXPattern = "%Y %X";
             pi.lastLinePattern = "";
-            knownPatterns.add(pi);
+            kp.add(pi);
 
 
             pi = new PatternInfo();
@@ -6815,77 +6831,72 @@ public class VeccyPanel extends javax.swing.JPanel implements
             pi.line1Pattern = "";
             pi.lineXPattern = "%Y %X";
             pi.lastLinePattern = "";
-            knownPatterns.add(pi);
+            kp.add(pi);
 
             pi = new PatternInfo();
             pi.name = "Draw_VLcs";
             pi.line1Pattern = "%C0 %I";
             pi.lineXPattern = "%Y %X";
             pi.lastLinePattern = "";
-            knownPatterns.add(pi);
+            kp.add(pi);
 
             pi = new PatternInfo();
             pi.name = "Draw_VLp";
             pi.line1Pattern = "";
             pi.lineXPattern = "%P %Y %X";
             pi.lastLinePattern = "%+";
-            knownPatterns.add(pi);
+            kp.add(pi);
 
             pi = new PatternInfo();
             pi.name = "Draw_VL_mode";
             pi.line1Pattern = "";
             pi.lineXPattern = "%M %Y %X";
             pi.lastLinePattern = "%1";
-            knownPatterns.add(pi);
+            kp.add(pi);
 
             pi = new PatternInfo();
             pi.name = "Mov_Draw_VLc_a";
             pi.line1Pattern = "%C0 %Y %X";
             pi.lineXPattern = "%Y %X";
             pi.lastLinePattern = "";
-            knownPatterns.add(pi);
+            kp.add(pi);
 
             pi = new PatternInfo();
             pi.name = "Mov_Draw_VL_b";
             pi.line1Pattern = "%Y %X";
             pi.lineXPattern = "%Y %X";
             pi.lastLinePattern = "";
-            knownPatterns.add(pi);
+            kp.add(pi);
             
             pi = new PatternInfo();
             pi.name = "Mov_Draw_VL_ab";
             pi.line1Pattern = "%Y %X";
             pi.lineXPattern = "%Y %X";
             pi.lastLinePattern = "";
-            knownPatterns.add(pi);
+            kp.add(pi);
             
             pi = new PatternInfo();
             pi.name = "Mov_Draw_VL_a";
             pi.line1Pattern = "%Y %X";
             pi.lineXPattern = "%Y %X";
             pi.lastLinePattern = "";
-            knownPatterns.add(pi);
+            kp.add(pi);
             
             pi = new PatternInfo();
             pi.name = "Mov_Draw_VL";
             pi.line1Pattern = "%Y %X";
             pi.lineXPattern = "%Y %X";
             pi.lastLinePattern = "";
-            knownPatterns.add(pi);
+            kp.add(pi);
 
             pi = new PatternInfo();
             pi.name = "Mov_Draw_VLcs";
             pi.line1Pattern = "%C0 %I %Y %X";
             pi.lineXPattern = "%Y %X";
             pi.lastLinePattern = "";
-            knownPatterns.add(pi);
-            
-            
-            jComboBoxPatterns.setModel(new DefaultComboBoxModel(knownPatterns));
-            
+            kp.add(pi);
         }
-        mClassSetting--;
-        jComboBoxPatterns.setSelectedIndex(0);
+        
     }
     
     void fillStatus()

@@ -12,6 +12,7 @@ import de.malban.graphics.GFXVectorList;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.vide.dissy.DASM6809;
+import de.malban.vide.veccy.VeccyPanel.PatternInfo;
 import java.util.ArrayList;
 
 /**
@@ -521,6 +522,32 @@ public class VeccyInterpreter {
         s+="$";
         s+=String.format("%02X",idata);
         return s;
+    }
+    
+    
+    //VList 0: 1: %Y %X %M 2:
+    public static VeccyPanel.PatternInfo buildPatternInfo(String comment)
+    {
+        if (!comment.toUpperCase().contains("VLIST")) return null;
+        if (!comment.toUpperCase().contains("0:")) return null;
+        if (!comment.toUpperCase().contains("1:")) return null;
+        if (!comment.toUpperCase().contains("2:")) return null;
+
+        String p0 = comment.substring(comment.indexOf("0:"+2));
+        String p1 = comment.substring(comment.indexOf("1:"+2));
+        String p2 = comment.substring(comment.indexOf("2:"+2));
+        
+        p0 = p0.substring(0,comment.indexOf("1:"+2)).trim();
+        p1 = p1.substring(0,comment.indexOf("2:"+2)).trim();
+        p2 = p2.trim();
+        
+        
+        PatternInfo pattern = new PatternInfo();
+        pattern.name = "noName";
+        pattern.line1Pattern = p0;
+        pattern.lineXPattern = p1;
+        pattern.lastLinePattern = p2;
+        return pattern;
     }
     
 }

@@ -39,7 +39,11 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
 
     GFXVectorAnimation animation = new GFXVectorAnimation();
     boolean axisShown = false;
-    
+    boolean repaint = true;
+    public void setRepaint(boolean rp)
+    {
+        repaint = rp;
+    }
     
     public GFXVectorAnimation getAnimation()
     {
@@ -221,6 +225,10 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
     {
         scale = s;
     }
+    public double getScale()
+    {
+        return scale;
+    }
     public GFXVectorList getDisplayVectorList()
     {
         return lastDisplayList;
@@ -232,6 +240,7 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
         {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
+            if (!repaint) return;
             x0Offset = getWidth()/2;
             y0Offset = getHeight()/2;
 

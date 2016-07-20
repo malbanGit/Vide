@@ -1,0 +1,32 @@
+DRAW_VLC_DIGIT
+and
+DRAW_VLP_DIGIT
+One could load the timer value to U (or so)
+and just ADD #CYCLE TIME to
+the counter
+ LEAU CYCLE_TIME,
+ CMPU next_digit_play_time
+FÅr kleine scales wÅrden dann wahrscheinlich die punkte
+nicht so lange hell, und insgesamt (vielleicht schneller :-))
+
+
+MY_DIV_D_BY_TMP1_TO_B
+
+use of dp
+
+Samples probably played to often during
+Wait Recal (waiting)
+
+Maze as bits! Saves 240 bytes per maze!
+
+Samples allways played upon exit of Draw_Vlp and Draw_Vlc-
+probably not neccessary (waiting)
+
+Labyrinth vectors:
+ - shortend
+ - only draw
+ - only move
+
+Map drawn with shiftreg bits for maze bits?
+than draw 16 vectors, 8 horizontal and 8 vertically...
+perhaps draw whole maze? (32 vectors!)

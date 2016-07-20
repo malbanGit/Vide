@@ -19,4 +19,5 @@ public interface JoyportDevice
     public void updateInputDataFromDevice();        // ask the device kindly to update button states, since vectrex will read the states soon
     public void setInputMode(boolean i);            // if true, the device can output data to vectrex, the PSG port A is in input mode
     public boolean isActive();
+    public int getDeviceID();
 }
