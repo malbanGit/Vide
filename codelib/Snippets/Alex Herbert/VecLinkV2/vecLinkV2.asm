@@ -1,9 +1,9 @@
 ; Note:
 ; This file is an example I put together from two different sources.
 ; a) the visible part is taken from the vecLink V1 test binary, which I also disassembled 
-;    binaries/and commented disassemby available 
+;    binaries/and commented disassembly available 
 ; b) The serial communication routines were taken from BerzerkArena, I disassembled the
-;    relevant parts and but the routines in the example from a)
+;    relevant parts and put the routines in the example from a)
 ;
 ; BOTH original files were programmed by Alex Herbert
 ;

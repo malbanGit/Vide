@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<AllProjectProperties>
+	<ProjectProperties>
+		<Class>Project</Class>
+		<Name>Lightpen</Name>
+		<ProjectName>Lightpen</ProjectName>
+		<DirectoryName></DirectoryName>
+		<Path>codelib/Snippets/Malban</Path>
+		<MainFile>LightpenExample.asm</MainFile>
+		<Description></Description>
+		<Version>1.0</Version>
+		<Author>Malban/Marc Indector</Author>
+		<Bankswitching>none</Bankswitching>
+		<createBankswitchCode>false</createBankswitchCode>
+		<createGameLoopCode>false</createGameLoopCode>
+		<NumberOfBanks>1</NumberOfBanks>
+		<BankMainFiless>
+			<BankMainFiles>LightpenExample.asm</BankMainFiles>
+		</BankMainFiless>
+		<Extras>0</Extras>
+		<ProjectPreScriptClass></ProjectPreScriptClass>
+		<ProjectPreScriptName></ProjectPreScriptName>
+		<ProjectPostScriptClass></ProjectPostScriptClass>
+		<ProjectPostScriptName></ProjectPostScriptName>
+		<BankDefiness>
+			<BankDefines></BankDefines>
+		</BankDefiness>
+	</ProjectProperties>
+</AllProjectProperties>

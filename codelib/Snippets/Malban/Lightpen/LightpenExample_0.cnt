@@ -1,0 +1,1103 @@
+BANK 0
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $CBF8 Vec_IRQ_Vector
+COMMENT_LABEL $CBF8 IRQ interrupt vector (3 bytes)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $D00E VIA_int_enable
+COMMENT_LABEL $D00E VIA interrupt enable register
+LABEL $F192 Wait_Recal
+LABEL $F1BA Read_Btns
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F2C3 Dot_d
+LABEL $F2FC Moveto_d_7F
+LABEL $F354 Reset0Ref
+LABEL $F37A Print_Str_d
+LABEL $FD0D music1
+LABEL $CA00 my_point
+LABEL $CA00 my_point_y
+LABEL $CA01 my_point_x
+LABEL $CA02 my_point_found
+LABEL $C883 scan_picked
+EQU $26 main1
+LABEL $0197 menuitem1
+LABEL $020C print_with_pick_check
+LABEL $C89E lightpen_pick
+COMMENT_LABEL $C89E if pick occured != 0, if not occured = 0, used in print_with_pick_check
+LABEL $004C nopick1
+LABEL $008A print_picked
+LABEL $0096 submenu1
+LABEL $01A7 menuitem2
+LABEL $0069 nopick2
+LABEL $00E8 submenu2_entry
+LABEL $01B6 menuitem3
+LABEL $0088 nopick3
+LABEL $0137 submenu3
+LABEL $01CA pickedCont
+LABEL $01E9 goBack
+LABEL $02A7 draw_vector_with_pick_check
+LABEL $00DD no_vector_pick
+LABEL $01E2 picked
+LABEL $00F1 submenu2
+LABEL $0374 check_point_move
+LABEL $01FB toScan
+LABEL $0177 no_scan_picked
+LABEL $C884 scan_last_coords
+LABEL $0186 doScan
+LABEL $02C5 search_screen_for_lightpen
+LABEL $0195 no_scan_pick_found
+LABEL $C880 scanline_no
+LABEL $C881 scanline_coords
+LABEL $C880 cursor
+LABEL $F9F4 Char_Table
+COMMENT_LABEL $F9F4 BIOS font table locations
+LABEL $FBD4 Char_Table_End
+LABEL $C84F string_length_1
+COMMENT_LABEL $C84F temporary pointer to string length +1 , used in print_with_pick_check
+EQU $00 POS
+EQU $00 Y_POS
+EQU $01 X_POS
+EQU $02 PICK_FOUND_NOW
+COMMENT_LABEL $02 indicator if a pick was found (after the routines finished),
+EQU $03 DELTA
+EQU $03 Y_DELTA
+EQU $04 X_DELTA
+EQU $05 PICK_FOUND_LAST
+EQU $06 Y_MAX
+EQU $07 X_MIN
+EQU $08 Y_MIN
+EQU $09 X_MAX
+EQU $0A WEB_PATTERN
+LABEL $0230 next_font_row
+LABEL $0256 shift_load
+LABEL $0252 next_shift
+LABEL $02A0 string_done
+LABEL $0281 delay_jump
+LABEL $02B8 timerCheck_loop
+LABEL $02D0 draw_next_scanline
+LABEL $02DA draw_scan_line
+LABEL $02F8 scanline_t1_loop
+LABEL $0311 find_point_of_intersection
+LABEL $035B process_ISR
+LABEL $0342 interrupt_wait_loop
+LABEL $034E disable_interrupts
+LABEL $053F whole_search_pattern
+LABEL $03B9 update_cursor_position
+LABEL $043C find_lightpen
+LABEL $03B8 exit_now
+LABEL $03AC P0949_new
+LABEL $043B exit_now2
+LABEL $03E3 y_not_to_large
+LABEL $0549 lower_search_pattern
+LABEL $0401 vertical_done
+LABEL $03F8 y_not_to_low
+LABEL $0553 upper_search_pattern
+LABEL $0422 x_not_to_large
+LABEL $0567 left_search_pattern
+LABEL $043B horizontal_done
+LABEL $0437 x_not_to_low
+LABEL $055D right_search_pattern
+LABEL $053B dot_pattern
+LABEL $04CB draw_with_pick_check
+LABEL $045B search_4_lightpen
+LABEL $0460 continue_lightpen_search
+LABEL $0571 small_search_pattern_vl
+LABEL $046F use_small_pattern
+LABEL $0583 large_search_pattern_vl
+LABEL $05AF search_pattern_scale_factors
+LABEL $0486 draw_search_pattern
+LABEL $0503 display_search_pattern
+LABEL $0494 lightpen_found
+LABEL $0595 cursor_deltas
+LABEL $05A5 delta_multipliers
+LABEL $04BD generate_new_cursor_coordinate
+LABEL $04C3 positiveValue1
+LABEL $04CA positiveValue2
+LABEL $04D3 next_vector_dwpc
+LABEL $04E8 T1_loop_dwpc
+LABEL $04FA no_pick_dwpc
+LABEL $050B next_vector_dsp
+LABEL $0520 T1_loop_dsp
+LABEL $0532 no_pick_dsp
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 DEFINE SECTION
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 load vectrex bios routine definitions
+COMMENT $0000 vectrex function includes
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slightly changed by Malban                ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 Variable / RAM SECTION
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 insert your variables (RAM usage) in the BSS section
+COMMENT_LINE $0000 user RAM starts at $c880
+COMMENT $0000 start of our ram space
+COMMENT_LINE $CA03 ***************************************************************************
+COMMENT_LINE $CA03 HEADER SECTION
+COMMENT_LINE $CA03 ***************************************************************************
+COMMENT_LINE $CA03 The cartridge ROM starts at address 0
+COMMENT_LINE $0000 the first few bytes are mandatory, otherwise the BIOS will not load
+COMMENT_LINE $0000 the ROM file, and will start MineStorm instead
+COMMENT $0000 'g' is copyright sign
+COMMENT $000B music from the rom
+COMMENT $000D hight, width, rel y, rel x (from 0,0)
+COMMENT $0011 some game information, ending with $80
+COMMENT $0022 end of game header
+COMMENT_LINE $0023 ***************************************************************************
+COMMENT_LINE $0023 CODE SECTION
+COMMENT_LINE $0023 ***************************************************************************
+COMMENT_LINE $0023 here the cartridge program starts off
+COMMENT $0023 clear used "tmp" variable
+COMMENT_LINE $0026 ;;;;;;;;;;;;;;
+COMMENT_LINE $0026 main menu, displaying the 3 possible lightpen "picks" (the fourth is the the menu itself)
+COMMENT_LINE $0026 ;;;;;;;;;;;;;;
+COMMENT $0026 get one button status first, for checking later
+COMMENT $0029 Vectrex BIOS recalibration
+COMMENT $002C Sets the intensity of the
+COMMENT_LINE $002F vector beam to $5f
+COMMENT_LINE $002F menu item 1
+COMMENT $002F address of menu string
+COMMENT $0032 print string routine with loghtpen check
+COMMENT $0035 check if this print str triggered a lightpen pick
+COMMENT $0038 if not continue
+COMMENT $003A if yes, reload string structure
+COMMENT $003D go to the coordinates
+COMMENT $003F load the coordinates and reuse y
+COMMENT $0041 add a way to X pos
+COMMENT $0043 and print the "picked" string
+COMMENT $0045 get button status
+COMMENT $0048 is a button pressed?
+COMMENT $004A yes, than go to sub menu 1
+COMMENT_LINE $004C menu item 2
+COMMENT $004C address of string
+COMMENT $004F Vectrex BIOS print routine
+COMMENT $0052 check if this print str triggered a lightpen pick
+COMMENT $0055 if not continue
+COMMENT $0057 if yes, reload string structure
+COMMENT $005A go to the coordinates
+COMMENT $005C load the coordinates and reuse y
+COMMENT $005E add a way to X pos
+COMMENT $0060 and print the "picked" string
+COMMENT $0062 get button status
+COMMENT $0065 is a button pressed?
+COMMENT $0067 yes, than go to sub menu 2
+COMMENT_LINE $0069 menu item 3
+COMMENT $0069 address of string
+COMMENT $006C Vectrex BIOS print routine
+COMMENT $006F check if this print str triggered a lightpen pick
+COMMENT $0072 if not continue
+COMMENT $0074 if yes, reload string structure
+COMMENT $0077 go to the coordinates
+COMMENT $0079 load the coordinates and reuse y
+COMMENT $007B add a way to X pos
+COMMENT $007D and print the "picked" string
+COMMENT $007F get button status
+COMMENT $0082 is a button pressed?
+COMMENT $0084 yes, than go to sub menu 3
+COMMENT $0088 and repeat forever
+COMMENT_LINE $008A ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $008A subroutine to print the "picked" string
+COMMENT_LINE $008A for main menu 1
+COMMENT_LINE $008A d = position on screen
+COMMENT_LINE $008A ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT $008A load vector width and height
+COMMENT $008D different, than for lightpen print str routine!
+COMMENT $0090 load the address of the string
+COMMENT $0093 and print it, the subroutine returns to main, if jumped to
+COMMENT_LINE $0096 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0096 sub menu 1, vector lightpen pick
+COMMENT_LINE $0096 print a vector, which can be "picked" by a lightpen
+COMMENT_LINE $0096 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT $0096 get one status first, for
+COMMENT $0099 Vectrex BIOS recalibration
+COMMENT $009C Sets the intensity of the
+COMMENT_LINE $009F display menu name
+COMMENT $009F load text height/width
+COMMENT $00A2 set these to BIOS location
+COMMENT $00A5 load name structure
+COMMENT $00A8 go to the string in the structure
+COMMENT $00AA load some coordinates (top of screen)
+COMMENT $00AD redisplay submenu name on top
+COMMENT_LINE $00B0 display "go back"
+COMMENT $00B0 load go back string address
+COMMENT $00B3 load some position (bottom of screen)
+COMMENT $00B6 and print it with "normal" BIOS routine
+COMMENT_LINE $00B9 draw "demo vector"
+COMMENT $00B9 zero integrators
+COMMENT $00BC Sets the intensity $5f
+COMMENT $00BF load start position of demo vector
+COMMENT $00C2 go there
+COMMENT $00C5 load y and x delta
+COMMENT $00C8 and cusom draw it with lightpen check routine
+COMMENT $00CB test if pick occured
+COMMENT $00CC if not, just go on
+COMMENT_LINE $00CE display "picked" string
+COMMENT $00CE load position
+COMMENT $00D1 load vector width and height
+COMMENT $00D4 different, than for lightpen print str routine!
+COMMENT $00D7 load the address of the string
+COMMENT $00DA and print it, the subroutine returns to main, if jumped to
+COMMENT $00DD get button status
+COMMENT $00E0 is a button pressed?
+COMMENT $00E2 yes, return to main menu
+COMMENT $00E6 otherwise stay in sub menu
+COMMENT_LINE $00E8 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $00E8 main menu2, point lightpen move
+COMMENT_LINE $00E8 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $00E8 initialize upon start
+COMMENT $00E8 point starts at pos 0,0
+COMMENT $00EB store to my ram position
+COMMENT $00EE also store a "not recently found" flag
+COMMENT $00F1 get one status first, for
+COMMENT $00F4 Vectrex BIOS recalibration
+COMMENT $00F7 Sets the intensity of the
+COMMENT_LINE $00FA display menu name
+COMMENT $00FA load text height/width
+COMMENT $00FD set these to BIOS location
+COMMENT $0100 load name structure
+COMMENT $0103 go to the string in the structure
+COMMENT $0105 load some coordinates (top of screen)
+COMMENT $0108 redisplay submenu name on top
+COMMENT_LINE $010B display "go back"
+COMMENT $010B load go back string address
+COMMENT $010E load some position (bottom of screen)
+COMMENT $0111 and print it with "normal" BIOS routine
+COMMENT_LINE $0114 draw dot
+COMMENT $0114 reset vectors
+COMMENT_LINE $0117 ldd      #0                           ; Move to last known location
+COMMENT_LINE $0117 jsr      Moveto_d_7F                  ;
+COMMENT $0117 reloads coordinates, of that position
+COMMENT $011A and also draw a bright dot there (BIOS function)
+COMMENT_LINE $011D check movement
+COMMENT $011D reloads coordinates, of that position
+COMMENT $012C get button status
+COMMENT $012F is a button pressed?
+COMMENT $0131 yes, return to main menu
+COMMENT_LINE $0137 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0137 sub menu 3, location finder
+COMMENT_LINE $0137 searches the screen for a lightpen "pick"
+COMMENT_LINE $0137 and displayes a "dot" and a "picked" string near the pick
+COMMENT_LINE $0137 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT $0137 get one status first, for
+COMMENT $013A Vectrex BIOS recalibration
+COMMENT $013D Sets the intensity of the
+COMMENT_LINE $0140 display menu name
+COMMENT $0140 load text height/width
+COMMENT $0143 set these to BIOS location
+COMMENT $0146 load name structure
+COMMENT $0149 go to the string in the structure
+COMMENT $014B load some coordinates (top of screen)
+COMMENT $014E redisplay submenu name on top
+COMMENT_LINE $0151 display "go back"
+COMMENT $0151 load go back string address
+COMMENT $0154 load some position (bottom of screen)
+COMMENT $0157 and print it with "normal" BIOS routine
+COMMENT_LINE $015A display "help"
+COMMENT $015A load string address
+COMMENT $015D load some position (bottom (not bottom bottom of screen)
+COMMENT $0160 and print it with "normal" BIOS routine
+COMMENT_LINE $0163 display "picked"
+COMMENT $0163 check if we did a scan with a successfull pick befor
+COMMENT $0166 if not - jump
+COMMENT $0168 if so, load screen position
+COMMENT $016B load address of "picked" string
+COMMENT $016E and display it with BIOS function
+COMMENT $0171 reloads coordinates, of that position
+COMMENT $0174 and also draw a bright dot there (BIOS function)
+COMMENT $0177 get button status
+COMMENT $017A was button 4 of joyport 0 pressed?
+COMMENT $017C if yes, jump to scan routine
+COMMENT $017E is another button pressed?
+COMMENT $0180 yes, than go back to main menu
+COMMENT $0184 otherwise stay in sub menu
+COMMENT_LINE $0186 scan whole screen for a possible pick
+COMMENT $0186 clear last scan status
+COMMENT $0189 execute scan routine
+COMMENT $018C if a == 0, than NOT successfull, otherwise a pick was found
+COMMENT $018D no pick -> jump :-(
+COMMENT $018F otherwise coordinates are in X register, rememeber them in "scan_last_coords"
+COMMENT $0192 also remember in "scan_picked" our success (anything != 0)
+COMMENT $0195 and "return" to sub menu 3
+COMMENT_LINE $0197 ***************************************************************************
+COMMENT_LINE $0197 DATA SECTION
+COMMENT_LINE $0197 ***************************************************************************
+COMMENT $0197 hight
+COMMENT $0198 width
+COMMENT $0199 Y
+COMMENT $019A X
+COMMENT $019B only capital letters
+COMMENT $01A6 $80 is end of string
+COMMENT $01A7 hight
+COMMENT $01A8 width
+COMMENT $01A9 Y
+COMMENT $01AB only capital letters
+COMMENT $01B5 $80 is end of string
+COMMENT $01B6 hight
+COMMENT $01B7 width
+COMMENT $01B8 Y
+COMMENT $01B9 X
+COMMENT $01BA only capital letters
+COMMENT $01C9 $80 is end of string
+COMMENT $01CA only capital letters
+COMMENT $01E1 $80 is end of string
+COMMENT $01E2 only capital letters
+COMMENT $01E8 $80 is end of string
+COMMENT $01E9 only capital letters
+COMMENT $01FA $80 is end of string
+COMMENT $01FB only capital letters
+COMMENT $020B $80 is end of string
+COMMENT_LINE $020C ***************************************************************************
+COMMENT $020C vectrex function includes
+COMMENT $CA03 double used for different sets of routines
+COMMENT_LINE $C880 temp vars for scan line scanning
+COMMENT $C880 number of scanlines to print ($7A is count down to 0)
+COMMENT $C881 current coordinate of scanlines printed (y,x)
+COMMENT $C883 result of scan line search != 0 is success, == 0 is fail
+COMMENT $C884 resulting coordinates of a successfull search
+COMMENT $C886 double used for different sets of routines
+COMMENT $C880 used by lightpen find routines (web search)
+COMMENT_LINE $020C offsets in cursor structure
+COMMENT_LINE $020C while the routine is running and webbing, this is also an index to the "web" scale factor
+COMMENT_LINE $020C ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $020C PUBLIC ROUTINE print_with_pick_check U
+COMMENT_LINE $020C routine taken from Fred Tafts disassembly of Artmaster
+COMMENT_LINE $020C and changed to accomodate the examples
+COMMENT_LINE $020C print_with_pick_check(string_ptr)
+COMMENT_LINE $020C At entry: 'u' must point to the string block.
+COMMENT_LINE $020C The routine is nearly identical to the "usual" print_str routine
+COMMENT_LINE $020C the only difference is the check for the CA1 interrupt during string printing
+COMMENT_LINE $020C to accomodate the cecking (which is timed to be exactly 18 cycles)
+COMMENT_LINE $020C the string length is internally thought of as strlen = strlen + 1
+COMMENT_LINE $020C that way the "usual" calculating of the "return" way can be done.
+COMMENT_LINE $020C Prints a string of character, terminated by $80.
+COMMENT_LINE $020C At entry, the 'u' register must point to a block
+COMMENT_LINE $020C having the following format:
+COMMENT_LINE $020C 1 byte height of string
+COMMENT_LINE $020C 1 byte width of string
+COMMENT_LINE $020C 1 byte rel y location
+COMMENT_LINE $020C 1 byte rel x location
+COMMENT_LINE $020C At exit: lightpen_pick will be = if a pick occurred.
+COMMENT_LINE $020C expected DP = d0
+COMMENT $020C ensure string is positionend at zero
+COMMENT $020F load sizes
+COMMENT $0211 store sizes in BIOS locations
+COMMENT $0214 load position
+COMMENT $0216 and go there
+COMMENT $0219 Save string pointer
+COMMENT $021C pointer to one position befor the string start
+COMMENT $021E needed to calculate string length +1
+COMMENT $0221 clear CA1 interrupt, so we can chaeck for it
+COMMENT $0223 clear last pick
+COMMENT $0226 Point to start of chargen bitmaps
+COMMENT $0229 a->AUX: b->ORB: $8x = Disable RAMP, Disable Mux, mux sel = 01 (int offsets)
+COMMENT $022C Clear D/A output
+COMMENT $022E Shift reg mode = 110 (shift out under system clock), T1 PB7 disabled, one shot mode
+COMMENT $0230 ramp off/on set mux to channel 1             
+COMMENT $0232 Enable mux             
+COMMENT $0234 both to ORB, both disable ram, mux sel = 0 (y int), a:->enable mux: b:->disable mux             
+COMMENT $0237 Wait a moment             
+COMMENT $0238 Disable mux             
+COMMENT $023A Disable RAMP, set mux to channel 0, disable mux             
+COMMENT $023C Enable mux             
+COMMENT $023E a delay only             
+COMMENT $0241 disable mux             
+COMMENT $0243 Get text width             
+COMMENT $0246 Send it to the D/A
+COMMENT $0248 both to ORB, both ENABLE RAMP, a:-> disable mux, b:-> enable mux             
+COMMENT $024B Point to start of text string             
+COMMENT $024E [4]enable RAMP, disable mux
+COMMENT $0250 [3]
+COMMENT_LINE $0252 one letter is drawn (one row that is) in 18 cycles
+COMMENT_LINE $0252 13 cycles overhead
+COMMENT_LINE $0252 ramp is thus active for #ofLetters*18 + 13 cycles P0B5E:
+COMMENT $0252 [+5]Get bitmap from chargen table
+COMMENT $0254 [+4]rasterout of char bitmap "row" thru shift out in shift register
+COMMENT $0256 [+6]Get next character
+COMMENT $0258 [+3]Go back if not terminator
+COMMENT $025A [4] Record any picks.
+COMMENT $025C [2]CA1 - did an interrupt occur (lightpen on the vector of this string)
+COMMENT $025E [5]checking of interreuptbit
+COMMENT $0261 [5]is done so it takes also 18 cycles, this way we compensate the
+COMMENT $0264 [2]checking with an imaginary strlen +1 (see below)
+COMMENT $0265 [2]disable mux, disable ramp
+COMMENT $0267 [2]disable mux, disable ramp
+COMMENT $0269 [6]Negate text width to D/A
+COMMENT $026B [2]enable ramp, disable mux
+COMMENT $026D [4]enable RAMP, disable mux
+COMMENT $026F [4]Check for last row
+COMMENT $0272 [3]Branch if last row
+COMMENT $0274 [3]Point to next chargen row
+COMMENT $0277 [6]Get string length
+COMMENT $0279 [7] delay must be 1 "char" longer, since checking of interrupt bit
+COMMENT $027C [2] - 2
+COMMENT $027E [2] * 2 calculate return "way"
+COMMENT $027F [3]Delay a moment
+COMMENT $0281 [2]disable RAMP, disable mux
+COMMENT $0283 [2]
+COMMENT $0284 [2]
+COMMENT $0285 [3]Delay some more in a loop
+COMMENT $0287 disable RAMP, disable mux
+COMMENT $0289 Get text height
+COMMENT $028C Store text height in D/A [go down -> later]
+COMMENT $028E Enable mux
+COMMENT $0293 Wait a moment
+COMMENT $0294 disable RAMP, disable mux
+COMMENT $0296 Clear D/A
+COMMENT $0298 enable RAMP, disable mux
+COMMENT $029A disable RAMP, disable mux
+COMMENT $029C $8x = disable ramp, disable mux
+COMMENT $02A2 VIA_aux_cntl
+COMMENT $02A4 Reset the zero reference
+COMMENT_LINE $02A7 ;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $02A7 PUBLIC ROUTINE Draw_Line_d_pick_check D -> A
+COMMENT_LINE $02A7 This routine draws a vector, starting at current pen position
+COMMENT_LINE $02A7 to the point specified by the (y,x) pair specified in the D register.
+COMMENT_LINE $02A7 current scale factor is used.
+COMMENT_LINE $02A7 if a pick occured a != 0, if no pick occured a = 0;
+COMMENT_LINE $02A7 At entry:
+COMMENT_LINE $02A7 'b' points to x delta
+COMMENT_LINE $02A7 'a' points to y delta
+COMMENT_LINE $02A7 At exit:
+COMMENT_LINE $02A7 'a' = 0 => no pick
+COMMENT_LINE $02A7 otherwise a pick occurred.
+COMMENT $02A7 Set rel y position.
+COMMENT $02A9 mux sel = integrator Y, mux enabled
+COMMENT $02AB pattern = $ff -> full line
+COMMENT $02AD mux off
+COMMENT $02AF Set rel x position.
+COMMENT $02B1 Set line pattern.
+COMMENT $02B3 start t1 timer (scale)
+COMMENT $02B5 bit 6 = t1 timer interrupt
+COMMENT $02B8 check if scale has run out
+COMMENT $02BA if interrupt not set -> timer still running
+COMMENT $02BC delay
+COMMENT $02BE shiftreg = 0, pattern = 0, light is off
+COMMENT $02C0 Check for a lightpen pick
+COMMENT $02C2 bit 1 = ca1 interrupt
+COMMENT_LINE $02C5 PUBLIC ROUTINE search_screen_for_lightpen -> A, X
+COMMENT_LINE $02C5 This routine attempts to locate the location of the
+COMMENT_LINE $02C5 lightpen, by drawing a series of horizontal scan lines.
+COMMENT_LINE $02C5 Starting from the bottom of the display, a series of
+COMMENT_LINE $02C5 lines are drawn, until either a lightpen pick occurs,
+COMMENT_LINE $02C5 or the last scan line is drawn. If a lightpen pick
+COMMENT_LINE $02C5 occurs, then that particular scan line will again be
+COMMENT_LINE $02C5 drawn, only this time, interrupts will be enabled, so
+COMMENT_LINE $02C5 that the exact location of the pick can be determined.
+COMMENT_LINE $02C5 At exit:
+COMMENT_LINE $02C5 'a' = 0 if lightpen was not located.
+COMMENT_LINE $02C5 'a' = $FF if lightpen was located.
+COMMENT_LINE $02C5 The location
+COMMENT_LINE $02C5 of the 'pick' is returned in the 'x' register.
+COMMENT_LINE $02C5 Work variables:
+COMMENT_LINE $02C5 scanline_no: contains the number of scan lines left to draw.
+COMMENT_LINE $02C5 scanline_coords: contain starting point for next scan line.
+COMMENT $02C5 # of scan lines
+COMMENT $02C7 Init to draw
+COMMENT $02CA bottom left of screen
+COMMENT $02CD Init start pt for first scan line
+COMMENT $02D0 are we finished drawing scanlines (0 left)
+COMMENT $02D3 if not, jump
+COMMENT $02D5 if so, reset beam
+COMMENT $02D8 If we make it to here, then the, result A = 0
+COMMENT $02D9 lightpen was not found.
+COMMENT $02DA reset vector position
+COMMENT $02DD current scanline coordinate
+COMMENT $02E0 Move to start of scan line
+COMMENT $02E3 dac = 0 (y delta = 0)
+COMMENT $02E5 mux enable, mux sel = int 7
+COMMENT $02E7 scale of $ff
+COMMENT $02E9 timer t1 low = scale
+COMMENT $02EB mux disabled
+COMMENT $02ED maximum x delta
+COMMENT $02EF set to dac
+COMMENT $02F1 solid pattern (a = $ff), bitcheck for T1 interrupt b = $40
+COMMENT $02F4 Use solid line pattern.
+COMMENT $02F6 start timer t1
+COMMENT $02F8 check if draw finished
+COMMENT $02FA no - jump
+COMMENT $02FC pattern = 0, light = off
+COMMENT $02FE Check for a lightpen pick
+COMMENT $0300 test intertupt
+COMMENT $0302 if interrupt found, than lightpen was found, branch for further checking
+COMMENT $0304 No lightpen pick, so continue
+COMMENT $0307 to draw the next scan line
+COMMENT $030A (which is 2 "pixels" up)
+COMMENT $030C store it
+COMMENT $030F and draw another
+COMMENT_LINE $0311 INTERNAL ROUTINE
+COMMENT_LINE $0311 find_point_of_intersection()
+COMMENT_LINE $0311 This routine is responsible for locating the exact
+COMMENT_LINE $0311 location of the lightpen, after a pick has occurred
+COMMENT_LINE $0311 while a scan line was being drawn. It does this in
+COMMENT_LINE $0311 the following manner:
+COMMENT_LINE $0311 The pen is moved back to the start of the previous
+COMMENT_LINE $0311 scan line, and lightpen interrupts are enabled.
+COMMENT_LINE $0311 Next, the scan line is redrawn ; while this is going
+COMMENT_LINE $0311 on, a timing (counter) loop is executed. If the
+COMMENT_LINE $0311 timing loop completes, then it implies that the
+COMMENT_LINE $0311 lightpen was not located
+COMMENT_LINE $0311 interrupts will be disabled,
+COMMENT_LINE $0311 and control will return to the procedure which had
+COMMENT_LINE $0311 originally invoked the scan line routine.
+COMMENT_LINE $0311 However, if the lightpen interrupts, then the timing
+COMMENT_LINE $0311 loop is interrupted, and the ISR handling routine is
+COMMENT_LINE $0311 called. This handler will calculate the exact location
+COMMENT_LINE $0311 of the lightpen, using the value in the counter. If
+COMMENT_LINE $0311 an interrupt occurs, control will never return to
+COMMENT_LINE $0311 this routine
+COMMENT_LINE $0311 control returns directly to the routine
+COMMENT_LINE $0311 which had invoked the scan line routine. The location
+COMMENT_LINE $0311 of the 'pick' is returned in the 'x' register.
+COMMENT $0311 reset integrators
+COMMENT $0314 load current scanline coordinates
+COMMENT $0317 Move to start of scan line
+COMMENT $031A Enable IRQ on 6809
+COMMENT $031C bitmask for PIA interrupt CA1 enable
+COMMENT $031E Enable CA1 on PIA
+COMMENT $0320 write: "JMP #process_ISR" (JMP = $7e)
+COMMENT $0322 to irq location in RAM $CBF8 (Vec_IRQ_Vector)
+COMMENT $0325 adress of interrupt handling routine
+COMMENT $0328 store it to the vector
+COMMENT $032B no Y movement (dac = 0)
+COMMENT $032D mux = enabled, select = 0 (y integrators)
+COMMENT $032F T1 timer = 0
+COMMENT $0331 delay
+COMMENT $0332 mux = disabled
+COMMENT $0334 A= $20
+COMMENT $0336 DAC = A ($20), X - delta
+COMMENT $0338 pattern of line $ff full draw
+COMMENT $033A to shiftreg
+COMMENT $033C load a "counter to b
+COMMENT $033E load timer T1 with 5*255
+COMMENT $0340 store to T1 high and start timer
+COMMENT $0342 loop counter to calc position
+COMMENT $0343 delay 3 cycles (branch never)
+COMMENT $0345 loop till interrupt occurs (either T1 or lightpen)
+COMMENT $0347 stop timer 1
+COMMENT $0349 disabled intterrupts
+COMMENT $034C indicate not found
+COMMENT $034D return
+COMMENT_LINE $034E INTERNAL ROUTINE
+COMMENT_LINE $034E disable_interrupts()
+COMMENT_LINE $034E This routine is responsible for disabling lightpen
+COMMENT_LINE $034E interrupts.
+COMMENT $034E A=0
+COMMENT $034F Disable CA1 on PIA
+COMMENT $0351 DAC = 0
+COMMENT $0353 clear interrupts
+COMMENT $0355 Disable IRQ on 6809
+COMMENT $0357 Integrator reset
+COMMENT $035A return
+COMMENT_LINE $035B INTERNAL ROUTINE
+COMMENT_LINE $035B process_ISR()
+COMMENT_LINE $035B This is the entry point called by the OS, whenever the
+COMMENT_LINE $035B lightpen generates an IRQ interrupt. This procedure
+COMMENT_LINE $035B discards the 12 bytes of saved state information
+COMMENT_LINE $035B placed on the stack by the 6809, including the return
+COMMENT_LINE $035B address for the interrupted routine.
+COMMENT_LINE $035B This procedure performs most of the work involved,
+COMMENT_LINE $035B whenever the lightpen generates an interrupt. It
+COMMENT_LINE $035B uses the counter value, in the 'b' register, to
+COMMENT_LINE $035B calculate the x coordinate of the lightpen. The
+COMMENT_LINE $035B intersection point is returned in the 'x' register.
+COMMENT_LINE $035B This routine returns to the routine which invoked
+COMMENT_LINE $035B the scan line search routine.
+COMMENT $035B restore interrupt "corrupted" stack
+COMMENT $035D clear shiftreg
+COMMENT $035F clear T1 timer (hi)
+COMMENT $0361 invert b (start was at $7f, "inverting" it gives "time from start"
+COMMENT $0363 we will "add" this to starting pos ($80) therefor negative (sub -))
+COMMENT $0364 double it
+COMMENT $0365 and sign extend it
+COMMENT $0366 and "add" it to our negative starting pos
+COMMENT $0369 Retrieve y coordinate, and join it
+COMMENT $036C result in X
+COMMENT $0371 A = $FF -> Lightpen found
+COMMENT_LINE $0374 PUBLIC ROUTINE check_point_move X, A -> X, A
+COMMENT_LINE $0374 checks point in x if lightpen moved to a location surrounding it
+COMMENT_LINE $0374 returns in x either the same coordinates (no move)
+COMMENT_LINE $0374 expects in a a value (ff or 0) whether in last "round" a move/pick was found
+COMMENT_LINE $0374 also if a pick/move was found, A returns ff (0 if no pick move was found, ff if pick was found)
+COMMENT_LINE $0374 or returns in x the new coordinates
+COMMENT_LINE $0374 routines use internally a "cursor" structure as defined in artmaster:
+COMMENT_LINE $0374 The cursor struct is 12 bytes long, and is laid out
+COMMENT_LINE $0374 as follows:
+COMMENT_LINE $0374 ************************
+COMMENT_LINE $0374 * 0 cursor rel y pos *
+COMMENT_LINE $0374 ************************
+COMMENT_LINE $0374 * 1 cursor rel x pos *
+COMMENT_LINE $0374 ************************
+COMMENT_LINE $0374 * 2 found this pass flag*
+COMMENT_LINE $0374 ************************
+COMMENT_LINE $0374 * 3 cursor y delta * \
+COMMENT_LINE $0374 ************************ > Used when moving cursor
+COMMENT_LINE $0374 * 4 cursor x delta * / to follow light pen
+COMMENT_LINE $0374 ***********************
+COMMENT_LINE $0374 * 5 found last pass flag*
+COMMENT_LINE $0374 ************************
+COMMENT_LINE $0374 * 6 max y position *
+COMMENT_LINE $0374 ************************
+COMMENT_LINE $0374 * 7 min x position *
+COMMENT_LINE $0374 ************************
+COMMENT_LINE $0374 * 8 min y position *
+COMMENT_LINE $0374 ************************
+COMMENT_LINE $0374 * 9 max x position *
+COMMENT_LINE $0374 ************************
+COMMENT_LINE $0374 * 10+11 ptr to line pattern
+COMMENT_LINE $0374 ** array used when **
+COMMENT_LINE $0374 * drawing search webs *
+COMMENT_LINE $0374 ************************
+COMMENT_LINE $0374 fill the internally used cursor structure
+COMMENT $0374 cursor address (RAM location, 12 bytes)
+COMMENT $0377 save current screen location in cursor struct y,x
+COMMENT $0379 store last pick information in cursor struct
+COMMENT $037B y-max, x-min
+COMMENT $037E store in cursor struct
+COMMENT $0380 y-min, x-max
+COMMENT $0383 store in cursor struct
+COMMENT $0385 default is while search pattern
+COMMENT $0388 store in cursor struct
+COMMENT $038A search for nearby lightpen pos
+COMMENT $038D update the return "vars" (registers) with position
+COMMENT $038F and whether a "pick" was found
+COMMENT $0391 done
+COMMENT_LINE $0392 INTERNAL ROUTINE
+COMMENT_LINE $0392 update_cursor_position_new()
+COMMENT_LINE $0392 Malban:
+COMMENT_LINE $0392 Not used - this is the "non" optimized version of update_cursor_position.
+COMMENT_LINE $0392 Non optimized as in I don't check for min/max and I don't reduce the search pattern
+COMMENT_LINE $0392 in regard of the direction we moved.
+COMMENT_LINE $0392 This routine attempts to move the cursor so that
+COMMENT_LINE $0392 it 'stays' with  the lightpen.  First, it sees if
+COMMENT_LINE $0392 the lightpen is still within 'sight' of the cursor.
+COMMENT_LINE $0392 This is done by draw a series of 'spider web' patterns,
+COMMENT_LINE $0392 until the lightpen is found, or the max web is drawn.
+COMMENT_LINE $0392 Then it takes the deltas calculated by the search routine,
+COMMENT_LINE $0392 adds them to the current cursor position, performs some
+COMMENT_LINE $0392 bounds checks, and updates the line patterns used when
+COMMENT_LINE $0392 drawing the search webs.
+COMMENT $0392 Try to find lightpen.
+COMMENT $0395 Proceed only if the lightpen
+COMMENT $0397 was found somewhere.
+COMMENT $0399 otherwise jump to exit
+COMMENT $039B Get y position,
+COMMENT $039D & extend to 16 bits
+COMMENT $039E tmp storage on stack
+COMMENT $03A0 get new y delta
+COMMENT $03A2 & extend to 16 bits
+COMMENT $03A3 Add together (and cleanup stack)
+COMMENT $03A5 store result cursor structure.
+COMMENT $03A7 place whole search pattern
+COMMENT $03AA in cursor structure
+COMMENT $03AC Load current x coordinate, and
+COMMENT $03AE extend it to 16 bits.
+COMMENT $03AF tmp storage on stack
+COMMENT $03B1 get new x delta
+COMMENT $03B3 & extend to 16 bits
+COMMENT $03B4 Add together (and cleanup stack)
+COMMENT $03B6 tore result cursor structure.
+COMMENT $03B8 done
+COMMENT_LINE $03B9 INTERNAL ROUTINE
+COMMENT_LINE $03B9 update_cursor_position()
+COMMENT_LINE $03B9 This routine attempts to move the cursor so that
+COMMENT_LINE $03B9 it 'stays' with the lightpen. First, it sees if
+COMMENT_LINE $03B9 the lightpen is still within 'sight' of the cursor.
+COMMENT_LINE $03B9 This is done by draw a series of 'spider web' patterns,
+COMMENT_LINE $03B9 until the lightpen is found, or the max web is drawn.
+COMMENT_LINE $03B9 Then it takes the deltas calculated by the search routine,
+COMMENT_LINE $03B9 adds them to the current cursor position, performs some
+COMMENT_LINE $03B9 bounds checks, and updates the line patterns used when
+COMMENT_LINE $03B9 drawing the search webs.
+COMMENT $03B9 Try to find lightpen.
+COMMENT $03BC Proceed only if the lightpen
+COMMENT $03BE was found somewhere.
+COMMENT $03C0 otherwise jump to exit
+COMMENT $03C2 Get y position,
+COMMENT $03C4 & extend to 16 bits
+COMMENT $03C5 store int tmp (stack)
+COMMENT $03C7 Get new y delta
+COMMENT $03C9 & extend to 16 bits
+COMMENT $03CA Add together (and cleanup stack)
+COMMENT $03CC store int tmp (stack)
+COMMENT_LINE $03CE Compare new coordinate to max y value. Use max y value, if new is larger
+COMMENT $03CE load max y form cursor struct
+COMMENT $03D0 sign extend max (8 bit value)
+COMMENT $03D1 compare with "tmp" coordinate if too big.
+COMMENT $03D4 jmp if value is ok
+COMMENT $03D6 correct stack, we don't need tmp value anymore
+COMMENT $03D8 we are at max y, so we don't serach the top anymore
+COMMENT $03DB Use lower search pattern
+COMMENT $03DD use max y as coordinate
+COMMENT $03DF store that in cursor structure
+COMMENT $03E1 and vertical is done
+COMMENT_LINE $03E3 Compare new coordinate to min y value. Use min y value if new cordinate is too small.
+COMMENT $03E3 load min y from cursor struct
+COMMENT $03E5 sign extend
+COMMENT $03E6 compare to our current value
+COMMENT $03E9 jump if value is ok
+COMMENT $03EB correct stack, we don't need tmp value anymore
+COMMENT $03ED we are at min y, so we don't serach the bottom anymore
+COMMENT $03F0 Use upper search pattern
+COMMENT $03F2 use min y as coordinate
+COMMENT $03F4 store that in cursor structure
+COMMENT $03F6 done with y
+COMMENT $03F8 Save new y coordinate in the (and restore stack)
+COMMENT $03FA cursor structure.
+COMMENT $03FC we must use the whole search pattern
+COMMENT $03FF Use whole search pattern.
+COMMENT $0401 Load current x coordinate, and
+COMMENT $0403 extend it to 16 bits.
+COMMENT $0404 store int tmp (stack)
+COMMENT $0406 Get new x delta
+COMMENT $0408 & extend to 16 bits
+COMMENT $0409 Add together (and cleanup stack)
+COMMENT $040B store int tmp (stack)
+COMMENT_LINE $040D Compare new x coordinate to max x value. Use max value if new coord is too big.
+COMMENT $040D load max x form cursor struct
+COMMENT $040F sign extend max (8 bit value)
+COMMENT $0410 compare with "tmp" coordinate if too big.
+COMMENT $0413 jmp if value is ok
+COMMENT $0415 correct stack, we don't need tmp value anymore
+COMMENT $0417 we are at max x, so we don't serach the right anymore
+COMMENT $041A Use left search pattern
+COMMENT $041C use max x as coordinate
+COMMENT $041E store that in cursor structure
+COMMENT $0420 and horizontal is done
+COMMENT_LINE $0422 Compare new coordinate to min x value. Use min value, if new coordinate is too small.
+COMMENT $0422 load min x from cursor struct
+COMMENT $0424 sign extend
+COMMENT $0425 compare to our current value
+COMMENT $0428 jump if value is ok
+COMMENT $042A correct stack, we don't need tmp value anymore
+COMMENT $042C we are at min x, so we don't serach the left anymore
+COMMENT $042F Use right search pattern
+COMMENT $0431 use min x as coordinate
+COMMENT $0433 store that in cursor structure
+COMMENT $0435 done with x
+COMMENT $0437 Save new y coordinate in the (and restore stack)
+COMMENT $0439 cursor structure.
+COMMENT $043B done
+COMMENT_LINE $043C INTERNAL ROUTINE
+COMMENT_LINE $043C find_lightpen()
+COMMENT_LINE $043C It does this in the following manner:
+COMMENT_LINE $043C Firstly, it moves to the last known location of
+COMMENT_LINE $043C the cursor, and draws a dot. If a lightpen pick
+COMMENT_LINE $043C occurs, then no further searching is needed,
+COMMENT_LINE $043C the lightpen has not moved. However, if the lightpen
+COMMENT_LINE $043C has moved, then we must perform a more extensive
+COMMENT_LINE $043C search. However, if the lightpen was not found
+COMMENT_LINE $043C the last time we searched for it, then we won't
+COMMENT_LINE $043C bother searching for it now ; we don't want to
+COMMENT_LINE $043C continually clutter the screen with our search
+COMMENT_LINE $043C patterns!
+COMMENT_LINE $043C Secondly, we will draw a series of ever increasing
+COMMENT_LINE $043C 8 sided spider webs. If, while drawing one of these
+COMMENT_LINE $043C search patterns, a lightpen pick is detected, then
+COMMENT_LINE $043C we will determine which vector of the pattern was
+COMMENT_LINE $043C picked, and we will calculate a cursor movement
+COMMENT_LINE $043C delta dependent upon the scale factor used and the
+COMMENT_LINE $043C vector picked.
+COMMENT_LINE $043C Depending upon the vector picked, the base delta
+COMMENT_LINE $043C value will be either -1, <<0, or +1. This will then
+COMMENT_LINE $043C be multiplied by a scale value, which is obtained
+COMMENT_LINE $043C by using the scale factor index to index into a
+COMMENT_LINE $043C multiplier array. The new deltas are saved in the
+COMMENT_LINE $043C cursor structure.
+COMMENT $043C Clear "found this pass" flag (meaning, if nohting changed, we found nothing)
+COMMENT $043E set intensity to max
+COMMENT $0441 and reset the integrators to 0
+COMMENT $0444 load last known position from cursor structure
+COMMENT $0446 and move there
+COMMENT $0449 load dot "structure"
+COMMENT $044C scale factor for draw
+COMMENT $044E Draw a dot; check for pick
+COMMENT $0451 if a pick occured, than a is 0 (otherwise not)
+COMMENT $0452 jump if lightpen was not found
+COMMENT $0454 Lightpen was found - remember that!
+COMMENT $0456 value to indicate we found something (last time)
+COMMENT $0458 also remember, for the next time, that last time (now) we found something!
+COMMENT $045A done
+COMMENT $045B Don't bother searching if lightpen
+COMMENT $045D wasn't found
+COMMENT $045F last pass.
+COMMENT_LINE $0460 Draw the spider web, with an increasing scale
+COMMENT_LINE $0460 factor, until either the light pen is found, or the last scale
+COMMENT_LINE $0460 factor is reached.
+COMMENT $0460 reset the integrators
+COMMENT $0463 default search pattern is "small"
+COMMENT $0466 load current scale factor index
+COMMENT $0468 half way thru?
+COMMENT $046A if not halfway done, jump we use the small pattern
+COMMENT $046C nope, second half of possible scanning, we use the large pattern
+COMMENT $046F load current position from cursor
+COMMENT $0471 move there
+COMMENT $0474 load the table of scalefactor
+COMMENT $0478 get the index we currently use (reuse of PICK_FOUND_NOW in cursor)
+COMMENT $047A and load the current scalefactor to b
+COMMENT $047C if we have not reached the end of the table (scale == 0) go on drawing the pattern
+COMMENT $047E otherwise exit
+COMMENT $0481 Flag that cursor is 'lost'
+COMMENT $0483 to the lightpen.
+COMMENT $0485 out
+COMMENT_LINE $0486 INTERNAL ROUTINE
+COMMENT_LINE $0486 scale factor in b
+COMMENT_LINE $0486 search vectorlist in X
+COMMENT $0486 get the "pattern" of the search vectorlist
+COMMENT $0489 display vlist with pattern information and
+COMMENT $048C Check for a pick.
+COMMENT $048E if pick was found, jump
+COMMENT $0490 if not iIncrement the scale factor.
+COMMENT $0492 and try again
+COMMENT_LINE $0494 now we must calculate the delta to the current position
+COMMENT_LINE $0494 we can do that because we know:
+COMMENT_LINE $0494 a) the current scale,
+COMMENT_LINE $0494 b) the current used delta values of the webbing
+COMMENT_LINE $0494 delta values are = to cursor sturcture
+COMMENT_LINE $0494 entry: A has the index of the vector that was picked ($ff if none was picked - shouldn't come here)
+COMMENT $0494 load table of cursor deltas
+COMMENT $0497 Decrement the index of the picked
+COMMENT $0498 point, & convert to word index.
+COMMENT $0499 Load x & y delta values, and save
+COMMENT $049B in the cursor structure.
+COMMENT $049D load table of delta multiplyers
+COMMENT $04A0 Use the scale factor index to get
+COMMENT $04A2 the correct delta multiplier (scale)
+COMMENT $04A4 use stack as tmp, we resuse the multiplyer in X calculation
+COMMENT $04A6 old delta
+COMMENT $04A8 sign correct MUL
+COMMENT $04AB store in structure
+COMMENT $04AD reload scale value
+COMMENT $04AF Generate new x delta.
+COMMENT $04B1 sign correct MUL
+COMMENT $04B4 store in structure
+COMMENT $04B6 Flag that the cursor is picked
+COMMENT $04BC done
+COMMENT_LINE $04BD INTERNAL ROUTINE
+COMMENT_LINE $04BD generate_new_cursor_coordinate() [sign correct!]
+COMMENT_LINE $04BD This routine calulates the new cursor delta,
+COMMENT_LINE $04BD by multiplying a delta value (-1, <<0, +1) by
+COMMENT_LINE $04BD a scale multiplier.
+COMMENT_LINE $04BD At entry:
+COMMENT_LINE $04BD 'b' = coordinate delta. (can be negative)
+COMMENT_LINE $04BD 'a' = scale multiplier (allways positive)
+COMMENT $04BD save b on stack for later use
+COMMENT $04BF if b negative
+COMMENT $04C2 make it positive for mul
+COMMENT $04C3 multiply, result in b
+COMMENT $04C4 get old "b" back
+COMMENT $04C6 was it negative ?
+COMMENT $04C9 if so, neg the resulting b
+COMMENT $04CA return
+COMMENT_LINE $04CB INTERNAL ROUTINE
+COMMENT_LINE $04CB draw_with_pick_check(vector_list, scale)
+COMMENT_LINE $04CB This procedure will perform a series of move and
+COMMENT_LINE $04CB draw requests, as specified in the passed in vector
+COMMENT_LINE $04CB list. The vector list must have the following format:
+COMMENT_LINE $04CB mode, rel y, rel x
+COMMENT_LINE $04CB | | |
+COMMENT_LINE $04CB | | relative x position
+COMMENT_LINE $04CB | relative y positon
+COMMENT_LINE $04CB FF - draw
+COMMENT_LINE $04CB 0 - move
+COMMENT_LINE $04CB 1 - end o list
+COMMENT_LINE $04CB NOTE: the mode also acts as the line pattern.
+COMMENT_LINE $04CB At entry: 'x' contains pointer to the vector list.
+COMMENT_LINE $04CB 'b' contains the scale factor to be used.
+COMMENT_LINE $04CB At exit: 'a' contains the index of the point being
+COMMENT_LINE $04CB drawn when the lightpen detected a pick.
+COMMENT_LINE $04CB $FF if no pick occurred.
+COMMENT $04CB Temporary storage of current pt #
+COMMENT $04CF Temporary storage of last pt picked
+COMMENT $04D1 store scale factor to T1 low
+COMMENT $04D3 load delta y,x values to D
+COMMENT $04D5 Set rel y position to DAC
+COMMENT $04D7 mux sel = 0 (integrator Y) mux enabled
+COMMENT $04D9 Get the mode. (pattern)
+COMMENT $04DB Increment ptr to next entry.
+COMMENT $04DD mux disabled
+COMMENT $04DF Set rel x position.
+COMMENT $04E1 Set line pattern.
+COMMENT $04E3 start T1 timer
+COMMENT $04E5 load shift reg 0 value and bit test for T1 timer
+COMMENT $04E8 check if T1 interrupt flag was set
+COMMENT $04EA if not, loop
+COMMENT $04EC delay
+COMMENT $04EE clear shiftreg
+COMMENT $04F0 Check for a lightpen pick
+COMMENT $04F2 bit 2 is ca1
+COMMENT $04F4 if not - jump
+COMMENT $04F6 load this vector index
+COMMENT $04F8 Save the "current" vector to previous vector (for next round)
+COMMENT $04FA Increment the current pt #
+COMMENT $04FC check if vector list is finished (anything <= 0 will continue the list, 1 will end list)
+COMMENT $04FE jump if not finished
+COMMENT $0500 Return index if any pt picked.
+COMMENT $0502 done
+COMMENT_LINE $0503 INTERNAL ROUTINE
+COMMENT_LINE $0503 display_search_pattern()
+COMMENT_LINE $0503 This routine draws the series of vectors, specified in
+COMMENT_LINE $0503 the structure pointed to by they 'x' register. The 'y'
+COMMENT_LINE $0503 'y' register points to an array of line patterns
+COMMENT_LINE $0503 associated with each vector. The scale factor to be used
+COMMENT_LINE $0503 is specified in 'b'. A pattern of '1' terminates this
+COMMENT_LINE $0503 routine. If a pick is detected, then the index of the
+COMMENT_LINE $0503 vector being drawn is returned in the 'a' register ;
+COMMENT_LINE $0503 if no pick occurred, then $FF is returned. This is used
+COMMENT_LINE $0503 when drawing the spider web search patterns.
+COMMENT_LINE $0503 At entry:
+COMMENT_LINE $0503 'b' = scale factor
+COMMENT_LINE $0503 'x' = vector list ptr (rel y, rel x)
+COMMENT_LINE $0503 'y' = line pattern array ptr
+COMMENT_LINE $0503 At exit:
+COMMENT_LINE $0503 'a' = $FF => no pick occurred.
+COMMENT_LINE $0503 otherwise, indicates which vector was picked.
+COMMENT $0503 Temporary storage of current pt #
+COMMENT $0507 Temporary storage of last pt picked
+COMMENT $0509 store scale factor to T1 low
+COMMENT $050B load delta y,x values to D
+COMMENT $050D Set rel y position to DAC
+COMMENT $050F mux sel = 0 (integrator Y) mux enabled
+COMMENT $0511 Increment ptr to next entry.
+COMMENT $0513 mux disabled
+COMMENT $0515 Set rel x position.
+COMMENT $0517 load pattern from current pattern table
+COMMENT $0519 and stroe to shiftreg
+COMMENT $051B start T1 timer
+COMMENT $051D load shift reg 0 value and bit test for T1 timer
+COMMENT $0520 check if T1 interrupt flag was =
+COMMENT $0522 if not, loop
+COMMENT $0524 delay
+COMMENT $0526 clear shiftreg
+COMMENT $0528 Check for a lightpen pick
+COMMENT $052A bit 2 is ca1
+COMMENT $052C if not - jump
+COMMENT $052E load this vector index
+COMMENT $0530 Save the "current" vector to previous vector (for next round)
+COMMENT $0532 Increment the current pt #
+COMMENT $0534 check pattern list, if list is finished
+COMMENT $0536 jump if not
+COMMENT $0538 Return index of picked vector.
+COMMENT_LINE $053B vector - "list"
+COMMENT_LINE $053B pattern, y,x
+COMMENT_LINE $053B pattern = 1 -> end
+COMMENT $053B pattern full line
+COMMENT $053C y,x
+COMMENT $053E draw finished
+COMMENT_LINE $053F The following 5 arrays contain the line patterns
+COMMENT_LINE $053F used when drawing the spider web search pattern.
+COMMENT_LINE $053F Depending upon which = of line patterns are used,
+COMMENT_LINE $053F either the whole pattern, the left side, or right side,
+COMMENT_LINE $053F or upper portion, or lower portion will be drawn.
+COMMENT_LINE $053F $ff = full line
+COMMENT_LINE $053F $00 = "move" - no line
+COMMENT $053F not displayed
+COMMENT $0540 displayed
+COMMENT $0548 list terminator
+COMMENT $0552 list terminator
+COMMENT $055C list terminator
+COMMENT $0566 list terminator
+COMMENT $0570 list terminator
+COMMENT_LINE $0571 eight corner vectorlist (small stop sign)
+COMMENT_LINE $0571 in format Mov_Draw_VL
+COMMENT_LINE $0571 move y,x
+COMMENT_LINE $0571 draw y,x
+COMMENT_LINE $0583 eight corner vectorlist (large stop sign)
+COMMENT_LINE $0583 in format Mov_Draw_VL
+COMMENT_LINE $0583 move y,x
+COMMENT_LINE $0583 draw y,x
+COMMENT_LINE $0595 These are (y,x) delta pairs, which are added
+COMMENT_LINE $0595 to the cursor position, to line the cursor up
+COMMENT_LINE $0595 with the lightpen. The pair used depends upon
+COMMENT_LINE $0595 which vector of the search pattern was picked.
+COMMENT_LINE $05A5 This is an array of multiplier values, used when
+COMMENT_LINE $05A5 updating the cursors position so that is tracks
+COMMENT_LINE $05A5 the lightpen. The scale factor index used to
+COMMENT_LINE $05A5 draw the search pattern is also used to index into
+COMMENT_LINE $05A5 this byte array. As the scale factor increases, so
+COMMENT_LINE $05A5 does the multiplier value.
+COMMENT_LINE $05AF This array contains the scale factors to be used
+COMMENT_LINE $05AF when drawing the search patterns.
+COMMENT $05B9 end of list marker (0)
+RANGE $020C-$05B9 DP $D0
+RANGE $0000-$000B DB_DATA
+RANGE $000B-$000D DW_DATA
+RANGE $000D-$0023 DB_DATA
+RANGE $0023-$0197 CODE
+RANGE $0197-$020C DB_DATA
+RANGE $020C-$053B CODE
+RANGE $053B-$05BA DB_DATA
+
