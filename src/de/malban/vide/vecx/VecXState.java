@@ -100,6 +100,8 @@ public class VecXState implements Serializable
      public int via_ca2;
      public int via_cb2h;  /* basic handshake version of cb2 */
      public int via_cb2s;  /* version of cb2 controlled by the shift register */
+     public int pb6_in = 0; // 0 or 0x40 in from external
+     public int pb6_out = 0; // out from vectrex
      public boolean old_pb6 = false;
      
      
@@ -201,7 +203,11 @@ public class VecXState implements Serializable
         to.via_ca2= from.via_ca2;
         to.via_cb2h= from.via_cb2h; 
         to.via_cb2s= from.via_cb2s;  
+        to.pb6_in= from.pb6_in;  
+        to.pb6_out= from.pb6_out;  
 
+        
+        
         to.alg_DAC.intValue= from.alg_DAC.intValue;  
         to.alg_oldDAC= from.alg_oldDAC;  
 

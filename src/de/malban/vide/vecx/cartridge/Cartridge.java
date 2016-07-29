@@ -538,7 +538,7 @@ public class Cartridge  implements Serializable
     // is set from device
     public void lineOut(boolean b)
     {
-        vecx.setViaPB6(b);
+        vecx.setPB6FromExternal(b);
     }
     public void cartStep(long cycles)
     {
@@ -550,6 +550,18 @@ public class Cartridge  implements Serializable
         {
             microchip.step(cycles);
         }
+    }
+    public void reset()
+    {
+        if (vecx.ds2430Enabled)
+        {
+            ds2430.reset();
+        }
+        if (vecx.microchipEnabled)
+        {
+            microchip.reset();
+        }
+        
     }
 }
 /*

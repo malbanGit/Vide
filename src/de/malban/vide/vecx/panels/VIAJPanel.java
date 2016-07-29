@@ -116,7 +116,12 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField17.setText(""+(((currentDisplayed.via_t1pb7&0x80)==0x80)?"1":"0"));
         jTextField1.setText(""+(((currentDisplayed.via_orb&0x80)==0x80)?"1":"0"));
         
-        jTextField2.setText(""+(((currentDisplayed.via_orb&0x40)==0x40)?"1":"0"));
+    //    from vec out
+        jTextField2.setText(""+(((currentDisplayed.pb6_out&0x40)==0x40)?"1":"0"));
+
+//        from ext in
+        jTextField18.setText(""+(((currentDisplayed.pb6_in&0x40)==0x40)?"1":"0"));
+
         jTextField3.setText(""+(((currentDisplayed.alg_compare&0x20)==0x20)?"1":"0"));
         jTextField4.setText(""+(((currentDisplayed.via_orb&0x10)==0x10)?"1":"0"));
         jTextField5.setText(""+(((currentDisplayed.via_orb&0x08)==0x08)?"1":"0"));
@@ -157,6 +162,11 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField1.setBackground((((currentDisplayed.via_ddrb&0x80)==0x80)?(output):(input)));
         jTextField17.setBackground((((currentDisplayed.via_ddrb&0x80)==0x80)?(output):(input)));
         jTextField2.setBackground((((currentDisplayed.via_ddrb&0x40)==0x40)?(output):(input)));
+        jTextField18.setBackground((((currentDisplayed.via_ddrb&0x40)==0x40)?(output):(input)));
+        
+        jTextField2.setEnabled((((currentDisplayed.via_ddrb&0x40)==0x40)));
+        jTextField18.setEnabled(!(((currentDisplayed.via_ddrb&0x40)==0x40)));
+        
         jTextField3.setBackground((((currentDisplayed.via_ddrb&0x20)==0x20)?(output):(input)));
         jTextField4.setBackground((((currentDisplayed.via_ddrb&0x10)==0x10)?(output):(input)));
         jTextField5.setBackground((((currentDisplayed.via_ddrb&0x08)==0x08)?(output):(input)));
@@ -358,6 +368,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jLabel8 = new javax.swing.JLabel();
         jLabel56 = new javax.swing.JLabel();
         jTextField17 = new javax.swing.JTextField();
+        jTextField18 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -638,6 +649,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
 
         jTextField2.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jTextField2.setText("0");
+        jTextField2.setToolTipText("from vectrex -> out");
         jTextField2.setName("pb6"); // NOI18N
         jTextField2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -696,6 +708,16 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField17.setToolTipText("This line controls part of the vector drawing. It is an active LOW signal.\nTimer One Controlled Bit!\n");
         jTextField17.setEnabled(false);
 
+        jTextField18.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jTextField18.setText("0");
+        jTextField18.setToolTipText("from extern ->in");
+        jTextField18.setName("pb6"); // NOI18N
+        jTextField18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField18MousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -720,7 +742,10 @@ public class VIAJPanel extends javax.swing.JPanel implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -766,7 +791,8 @@ public class VIAJPanel extends javax.swing.JPanel implements
                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel56)
-                    .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -2543,6 +2569,10 @@ public class VIAJPanel extends javax.swing.JPanel implements
         vecxPanel.breakpointSet(bp);
         popUpName = "";
     }//GEN-LAST:event_jMenuItemCA1ChangeActionPerformed
+
+    private void jTextField18MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField18MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField18MousePressed
     String popUpName = "";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2695,6 +2725,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
+    private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField20;

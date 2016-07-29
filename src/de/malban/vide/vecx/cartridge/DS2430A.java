@@ -258,9 +258,36 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     int current1WCommand = DS1W_NONE;
     int current2430Command = DS2430_NONE;
     long dif = 0;
+    int currentWriteByteComplete = 0;
     
     boolean isReadFromDS = false;
 
+    public void reset()
+    {
+        cycles = 0;
+        line = false; // false is 0, true is 1
+        old_line = false;
+        lineIn = false; // false is 0, true is 1
+        lineOut = false; // false is 0, true is 1
+
+        lowLevelState = LL_UNKOWN;
+        highLevelState = HL_WAIT_FOR_1W_COMMAND;
+
+        currentByteRead = 0;
+        bitsLoaded = 0;
+
+        currentOutputAddress = 0;
+        currentInputAddress = 0;
+        currentByteOutput = 0;
+        bitsOutputDone = 0;
+
+        current1WCommand = DS1W_NONE;
+        current2430Command = DS2430_NONE;
+        dif = 0;
+        currentWriteByteComplete = 0;
+        isReadFromDS = false;
+
+    }
     public DS2430A(Cartridge c)
     {
         cart = c;
@@ -648,7 +675,6 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         saveData(getSaveName(), epromData);
     }
     
-    int currentWriteByteComplete = 0;
     // output from DS2430 to VIA
     void initOutputNextByte()
     {

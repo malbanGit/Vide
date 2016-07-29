@@ -392,6 +392,14 @@ Done:
 todo:
 todoc:
 
+do a stack frame window (for U, S X Y) with definable vars (byte word, named)
+which can be saved to cnt
+
+also a saveable "notes" window
+
+correct pb6 breakpoints fo in and out
+
+
 add a bank mode, where all breakpoints are set/erased in all banks
 
 Next:

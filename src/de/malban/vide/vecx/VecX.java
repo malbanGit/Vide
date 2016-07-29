@@ -236,7 +236,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
     // returns state of PB6
     // calls cart on line change
-    boolean doCheckExternalCartline(int tobe_via_orb, int tobe_via_ddrb, boolean orbInitiated)
+    private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean orbInitiated)
     {
         // below we do output to all bits
         // we are only really interested in PB6
@@ -271,14 +271,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         // if we don't test this, in the example pb6 would go high!
         if ((via_orb == tobe_via_orb) && (via_ddrb == tobe_via_ddrb))
         {
-            return (via_orb & 0x40) == 0x40;
+            return pb6_out != 0;
         }
 
         // get output value of via b NOW
-        int viaOutNow = via_orb| (via_ddrb ^ 0xFFFFFFFF) & 0xFF;
+        int viaOutNow = ((via_orb&(0xff-0x40))|pb6_out) | (via_ddrb ^ 0xFFFFFFFF) & 0xFF;
 
         
-        boolean pb6 = (viaOutNow&0x40) == 0x40;
+        boolean pb6 = pb6_out != 0;
         
         if ((tobe_via_orb != viaOutNow) || (tobe_via_ddrb != via_ddrb))
         {
@@ -297,14 +297,30 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             checkExternalLineBreakpoint(pb6);
             old_pb6 = pb6;
         }
+        if (pb6)
+        {
+            pb6_out = 0x40;
+          
+            if (orbInitiated)
+                if ((via_ddrb & 0x40) == 0x40)
+                    pb6_in = pb6_out; // pull up?
+            if (!orbInitiated)
+                if ((tobe_via_ddrb & 0x40) == 0x40)
+                    pb6_in = pb6_out; // pull up?
+            pb6_in = pb6_out; // pull up?
+        }
+        else
+        {
+            pb6_out = 00;
+        }
         return pb6;
     }
     
     
-    public void setViaPB6(boolean b)
+    public void setPB6FromExternal(boolean b)
     {
        // if ((via_ddrb & 0x40) != 0) return; // if via is in output - don't change line from cart!
-        
+        /*
         int data = via_orb;
         if (b) data = data | 0x40;
         else data = data & (0xff - 0x40);
@@ -317,6 +333,16 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             checkExternalLineBreakpoint(b);
     //    old_pb6 = b;
         via_orb = data;
+        */
+        boolean changed = ((pb6_in & 0x40) ==0x40) != b;
+
+        if (changed) 
+            checkExternalLineBreakpoint(b);
+        if (b)
+            pb6_in = 0x40;
+        else
+            pb6_in = 0x00;
+
     }
     /* update the snd chips internal registers when via_ora/via_orb changes */
     // here ORA is taken, not DAC
@@ -406,6 +432,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         {
                             /* bit 7 is being driven by via_orb */
                             data = ((via_orb & 0xdf) | alg_compare);
+                        }
+                        if ((via_ddrb & 0x40) == 0) // pb6 is input
+                        {
+                            data = data & (0xff-0x40); // ensure pb6 =0
+                            data = data | (pb6_in); // ensure pb6 in value
                         }
                         break;
                     case 0x1:
@@ -522,6 +553,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             /* bit 7 is being driven by via_orb */
                             data = ((via_orb & 0xdf) | alg_compare);
                         }
+                        if ((via_ddrb & 0x40) == 0) // pb6 is input
+                        {
+                            data = data & (0xff-0x40); // ensure pb6 =0
+                            data = data | (pb6_in); // ensure pb6 in value
+                        }
+                        
+                        
+                        
                         break;
                     case 0x1:
                         /* register 1 also performs handshakes if necessary */
@@ -657,6 +696,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 switch (address & 0xf) 
                 {
                     case 0x0:
+                        /*
                         // if pb6 in input mode, don't change pb6
                         if ((via_ddrb & 0x40) == 0)
                         {
@@ -669,17 +709,18 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                                 data = data & (0xff - 0x40);
                             }
                         }
+                        */
                         checkVIABreakpoint(0, via_orb, data);                  
 
-                        boolean pb6 = doCheckExternalCartline(data, via_ddrb, true);
+                        boolean pb6 = setPB6FromVectrex(data, via_ddrb, true);
                         if ((data & 0x7) != (via_orb & 0x07)) // check if state of mux sel changed
                         {
                             addTimerItem(new TimerItem(data, alg_sel, TIMER_MUX_SEL_CHANGE));
                         }
                         
-                        
+                        // for old times sake, variable via_orb allways carries the vectrex "out" state of pb6
                         via_orb = data;
-                        setViaPB6(pb6);
+//                        setViaPB6(pb6);
                         snd_update();
                         
                         if ((via_pcr & 0xe0) == 0x80) 
@@ -714,9 +755,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         snd_update();
                         break;
                     case 0x2:
-                        boolean pb6_2 = doCheckExternalCartline(via_orb, data, false);
+                        boolean pb6_2 = setPB6FromVectrex(via_orb, data, false);
                         via_ddrb = data;
-                        setViaPB6(pb6_2);
+                       // setViaPB6(pb6_2);
                         break;
                     case 0x3:
                         via_ddra = data;
@@ -898,6 +939,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         via_stalling = false;
         via_ora = 0;
         via_orb = 0;
+        pb6_in = 0;
+        pb6_out = 0;
         via_ddra = 0;
         via_ddrb = 0;
         via_t1on = 0;
@@ -973,6 +1016,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }
         e6809.e6809_reset();
         dissiMem.reset();
+        if (cart!= null) cart.reset();
     }
 
     /* perform a single cycle worth of via emulation.
