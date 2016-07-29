@@ -11,10 +11,13 @@ import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.vide.vecx.Breakpoint;
 import de.malban.vide.vecx.Updatable;
 import de.malban.vide.vecx.VecXState;
 import java.awt.Color;
+import java.awt.event.MouseEvent;
 import java.io.Serializable;
+import javax.swing.JTextField;
 
 /**
  *
@@ -326,6 +329,14 @@ public class VIAJPanel extends javax.swing.JPanel implements
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenuPB6 = new javax.swing.JPopupMenu();
+        jMenuItemPB6GoLow = new javax.swing.JMenuItem();
+        jMenuItemPB6GoHigh = new javax.swing.JMenuItem();
+        jMenuItemPB6Change = new javax.swing.JMenuItem();
+        jPopupMenuCA1 = new javax.swing.JPopupMenu();
+        jMenuItemCA1GoLow = new javax.swing.JMenuItem();
+        jMenuItemCA1GoHigh = new javax.swing.JMenuItem();
+        jMenuItemCA1Change = new javax.swing.JMenuItem();
         jLabel21 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -560,6 +571,54 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField135 = new javax.swing.JTextField();
         jToggleButton3 = new javax.swing.JToggleButton();
 
+        jMenuItemPB6GoLow.setLabel("Add Breakpoint on low");
+        jMenuItemPB6GoLow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPB6GoLowActionPerformed(evt);
+            }
+        });
+        jPopupMenuPB6.add(jMenuItemPB6GoLow);
+
+        jMenuItemPB6GoHigh.setText("Add Breakpoint on high");
+        jMenuItemPB6GoHigh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPB6GoHighActionPerformed(evt);
+            }
+        });
+        jPopupMenuPB6.add(jMenuItemPB6GoHigh);
+
+        jMenuItemPB6Change.setText("Add Breakpoint on change");
+        jMenuItemPB6Change.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPB6ChangeActionPerformed(evt);
+            }
+        });
+        jPopupMenuPB6.add(jMenuItemPB6Change);
+
+        jMenuItemCA1GoLow.setLabel("Add Breakpoint on low");
+        jMenuItemCA1GoLow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCA1GoLowActionPerformed(evt);
+            }
+        });
+        jPopupMenuCA1.add(jMenuItemCA1GoLow);
+
+        jMenuItemCA1GoHigh.setText("Add Breakpoint on high");
+        jMenuItemCA1GoHigh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCA1GoHighActionPerformed(evt);
+            }
+        });
+        jPopupMenuCA1.add(jMenuItemCA1GoHigh);
+
+        jMenuItemCA1Change.setText("Add Breakpoint on change");
+        jMenuItemCA1Change.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCA1ChangeActionPerformed(evt);
+            }
+        });
+        jPopupMenuCA1.add(jMenuItemCA1Change);
+
         setName("regi"); // NOI18N
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/VIAklein.png"))); // NOI18N
@@ -579,6 +638,12 @@ public class VIAJPanel extends javax.swing.JPanel implements
 
         jTextField2.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jTextField2.setText("0");
+        jTextField2.setName("pb6"); // NOI18N
+        jTextField2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField2MousePressed(evt);
+            }
+        });
 
         jTextField3.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jTextField3.setText("0");
@@ -2089,6 +2154,11 @@ public class VIAJPanel extends javax.swing.JPanel implements
 
         jTextField131.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jTextField131.setText("0");
+        jTextField131.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextField131MousePressed(evt);
+            }
+        });
 
         jLabel81.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel81.setText("->PSG IO7");
@@ -2375,6 +2445,105 @@ public class VIAJPanel extends javax.swing.JPanel implements
         updateEnabled = jToggleButton3.isSelected();
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
+    private void jMenuItemPB6GoLowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPB6GoLowActionPerformed
+        Breakpoint bp = new Breakpoint();
+        bp.targetAddress = 0;
+        bp.targetBank = 0;
+        bp.targetType = Breakpoint.BP_TARGET_CARTRIDGE;
+        bp.targetSubType = Breakpoint.BP_SUBTARGET_CARTRIDGE_PB6;
+        bp.type = Breakpoint.BP_BITCOMPARE | Breakpoint.BP_MULTI ;
+        bp.name = "pb6 go low";
+        bp.compareValue = 0;
+        vecxPanel.breakpointSet(bp);
+        popUpName = "";
+    }//GEN-LAST:event_jMenuItemPB6GoLowActionPerformed
+
+    private void jMenuItemPB6GoHighActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPB6GoHighActionPerformed
+//        if (popUpName.contains("pb6"))
+
+        Breakpoint bp = new Breakpoint();
+        bp.targetAddress = 0;
+        bp.targetBank = 0;
+        bp.targetType = Breakpoint.BP_TARGET_CARTRIDGE;
+        bp.targetSubType = Breakpoint.BP_SUBTARGET_CARTRIDGE_PB6;
+        bp.type = Breakpoint.BP_BITCOMPARE | Breakpoint.BP_MULTI ;
+        bp.name = "pb6 go high";
+        bp.compareValue = 1;
+        vecxPanel.breakpointSet(bp);
+        popUpName = "";
+    }//GEN-LAST:event_jMenuItemPB6GoHighActionPerformed
+
+    private void jTextField2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField2MousePressed
+        if (evt.getButton() == MouseEvent.BUTTON3)
+        {
+            JTextField tf =(JTextField) evt.getSource();
+            popUpName = tf.getName();
+            jPopupMenuPB6.show(tf, evt.getX()-20,evt.getY()-20);
+        }        
+    }//GEN-LAST:event_jTextField2MousePressed
+
+    private void jMenuItemPB6ChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPB6ChangeActionPerformed
+
+        Breakpoint bp = new Breakpoint();
+        bp.targetAddress = 0;
+        bp.targetBank = 0;
+        bp.targetType = Breakpoint.BP_TARGET_CARTRIDGE;
+        bp.targetSubType = Breakpoint.BP_SUBTARGET_CARTRIDGE_PB6;
+        bp.type = Breakpoint.BP_WRITE | Breakpoint.BP_MULTI ;
+        bp.name = "pb6 changed";
+        bp.compareValue = 1;
+        vecxPanel.breakpointSet(bp);
+        popUpName = "";
+    }//GEN-LAST:event_jMenuItemPB6ChangeActionPerformed
+
+    private void jTextField131MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField131MousePressed
+        if (evt.getButton() == MouseEvent.BUTTON3)
+        {
+            JTextField tf =(JTextField) evt.getSource();
+            popUpName = tf.getName();
+            jPopupMenuCA1.show(tf, evt.getX()-20,evt.getY()-20);
+        }        
+    }//GEN-LAST:event_jTextField131MousePressed
+
+    private void jMenuItemCA1GoLowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCA1GoLowActionPerformed
+        Breakpoint bp = new Breakpoint();
+        bp.targetAddress = 0;
+        bp.targetBank = 0;
+        bp.targetType = Breakpoint.BP_TARGET_VIA;
+        bp.targetSubType = Breakpoint.BP_SUBTARGET_VIA_CA1;
+        bp.type = Breakpoint.BP_BITCOMPARE | Breakpoint.BP_MULTI ;
+        bp.name = "ca1 go low";
+        bp.compareValue = 0;
+        vecxPanel.breakpointSet(bp);
+        popUpName = "";
+    }//GEN-LAST:event_jMenuItemCA1GoLowActionPerformed
+
+    private void jMenuItemCA1GoHighActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCA1GoHighActionPerformed
+        Breakpoint bp = new Breakpoint();
+        bp.targetAddress = 0;
+        bp.targetBank = 0;
+        bp.targetType = Breakpoint.BP_TARGET_VIA;
+        bp.targetSubType = Breakpoint.BP_SUBTARGET_VIA_CA1;
+        bp.type = Breakpoint.BP_BITCOMPARE | Breakpoint.BP_MULTI ;
+        bp.name = "ca1 go high";
+        bp.compareValue = 1;
+        vecxPanel.breakpointSet(bp);
+        popUpName = "";
+    }//GEN-LAST:event_jMenuItemCA1GoHighActionPerformed
+
+    private void jMenuItemCA1ChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCA1ChangeActionPerformed
+        Breakpoint bp = new Breakpoint();
+        bp.targetAddress = 0;
+        bp.targetBank = 0;
+        bp.targetType = Breakpoint.BP_TARGET_VIA;
+        bp.targetSubType = Breakpoint.BP_SUBTARGET_VIA_CA1;
+        bp.type = Breakpoint.BP_WRITE | Breakpoint.BP_MULTI ;
+        bp.name = "ca1 change";
+        bp.compareValue = 0;
+        vecxPanel.breakpointSet(bp);
+        popUpName = "";
+    }//GEN-LAST:event_jMenuItemCA1ChangeActionPerformed
+    String popUpName = "";
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -2452,6 +2621,12 @@ public class VIAJPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel80;
     private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuItem jMenuItemCA1Change;
+    private javax.swing.JMenuItem jMenuItemCA1GoHigh;
+    private javax.swing.JMenuItem jMenuItemCA1GoLow;
+    private javax.swing.JMenuItem jMenuItemPB6Change;
+    private javax.swing.JMenuItem jMenuItemPB6GoHigh;
+    private javax.swing.JMenuItem jMenuItemPB6GoLow;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -2473,6 +2648,8 @@ public class VIAJPanel extends javax.swing.JPanel implements
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JPopupMenu jPopupMenuCA1;
+    private javax.swing.JPopupMenu jPopupMenuPB6;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField100;

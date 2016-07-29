@@ -131,7 +131,7 @@ public class DASM6809 extends DASMStatics {
     }
 
     /* bittest() - test on a single bit, 1-8 */
-    boolean bittest(int c, int bitnumber)
+    static boolean bittest(int c, int bitnumber)
     {
         while (--bitnumber>0)
         {
@@ -161,7 +161,7 @@ public class DASM6809 extends DASMStatics {
     }
     
     /* printbinary() - 8 bit ... */
-    public String printbinary(int c)
+    public static String printbinary(int c)
     {
         String ret = "";
         int i=8;

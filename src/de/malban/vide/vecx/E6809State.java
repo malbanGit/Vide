@@ -52,8 +52,9 @@ public class E6809State implements Serializable{
         to.cyclesRunning = from.cyclesRunning;
         synchronized (to.callStack)
         {
+            ArrayList<Integer> fromCS =  from.callStack;
             to.callStack.clear();
-            for (int i: from.callStack) to.callStack.add(i);
+            for (int i: fromCS) to.callStack.add(i);
         }
     }
     

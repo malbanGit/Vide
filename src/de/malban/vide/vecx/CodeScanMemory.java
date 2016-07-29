@@ -54,25 +54,30 @@ public class CodeScanMemory {
         // codeScan 
         public static final int MEMORY_UNKOWN = 0;
         public static final int MEMORY_CODE = 1;  // pc was here
-        public static final int MEMORY_READ = 2;  // memory was read, this will also be set, if mem is code, since code is allways read!
+        public static final int MEMORY_READ = 2;  // memory was read, this will also be set, if mem is code, since code is always read!
         public static final int MEMORY_WRITE = 4; // memory (tried) write
         public ArrayList<Integer> readAccess; 
         public ArrayList<Integer> writeAccess; 
         public int codeScanType = MEMORY_UNKOWN;
-        public void addAccess(int address, int type)
+        public int dp = 0xff;
+        public void addAccess(int address, int dp, int type)
         {
             codeScanType = codeScanType | type;
-            if ((type & 3) != 0)
+            this.dp = dp;
+            if ((type & MEMORY_CODE) == MEMORY_CODE)
             {
                 if (readAccess==null) readAccess = new ArrayList<Integer>();
-                if (!readAccess.contains(address))
-                    readAccess.add(address);
+                if (!readAccess.contains(address)) readAccess.add(address);
             }
-            if ((type & 1) != 0)
+            if ((type & MEMORY_READ) == MEMORY_READ)
+            {
+                if (readAccess==null) readAccess = new ArrayList<Integer>();
+                if (!readAccess.contains(address)) readAccess.add(address);
+            }
+            if ((type & MEMORY_WRITE) == MEMORY_WRITE)
             {
                 if (writeAccess==null) writeAccess = new ArrayList<Integer>();
-                if (!writeAccess.contains(address))
-                    writeAccess.add(address);
+                if (!writeAccess.contains(address)) writeAccess.add(address);
             }
         }
     }

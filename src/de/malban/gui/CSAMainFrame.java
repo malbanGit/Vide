@@ -42,6 +42,8 @@ import de.malban.vide.vecx.panels.VarJPanel;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vecx.cartridge.CartridgePropertiesPanel;
 import de.malban.vide.vecx.devices.AbstractDevice;
+import de.malban.vide.vecx.panels.CartridgePanel;
+import de.malban.vide.vecx.panels.JoyportPanel;
 import de.malban.vide.vecx.panels.StarterJPanel;
 import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
@@ -2735,7 +2737,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         return p;
     }
     
-public VeccyPanel getVeccy()
+    public VeccyPanel getVeccy()
     {
         VeccyPanel v =checkVeccy();
         if (v == null) v = createVeccy();
@@ -3494,5 +3496,72 @@ public VeccyPanel getVeccy()
     {
         wm.doTab();
     }
+    
+    
+
+    public CartridgePanel getCartridge()
+    {
+        CartridgePanel v =checkCartridge();
+        if (v == null) v = createCartridge();
+        return v;
+    }
+    public CartridgePanel checkCartridge()
+    {
+        for (JPanel p: mPanels )
+        {
+            if (p instanceof Stateable)
+            {
+                if (((Stateable)p).getID().equals(CartridgePanel.SID))
+                    return (CartridgePanel)p;
+            }
+        }
+        for(JInternalFrame frame: mFrames)
+        {
+            CSAInternalFrame f = (CSAInternalFrame)frame;
+            if (!(f.getPanel() instanceof Stateable)) continue;
+            if (((Stateable)f.getPanel()).getID().equals(CartridgePanel.SID))
+                return (CartridgePanel)f.getPanel();
+        }
+        return null;
+    }    
+    public CartridgePanel createCartridge()
+    {
+        CartridgePanel p = new CartridgePanel();        
+        addAsWindow(p, 320, 200, p.SID);
+        return p;
+    }
+    
+
+    public JoyportPanel getJoyportDevice()
+    {
+        JoyportPanel v =checkJoyportDevice();
+        if (v == null) v = createJoyportDevice();
+        return v;
+    }
+    public JoyportPanel checkJoyportDevice()
+    {
+        for (JPanel p: mPanels )
+        {
+            if (p instanceof Stateable)
+            {
+                if (((Stateable)p).getID().equals(JoyportPanel.SID))
+                    return (JoyportPanel)p;
+            }
+        }
+        for(JInternalFrame frame: mFrames)
+        {
+            CSAInternalFrame f = (CSAInternalFrame)frame;
+            if (!(f.getPanel() instanceof Stateable)) continue;
+            if (((Stateable)f.getPanel()).getID().equals(JoyportPanel.SID))
+                return (JoyportPanel)f.getPanel();
+        }
+        return null;
+    }    
+    public JoyportPanel createJoyportDevice()
+    {
+        JoyportPanel p = new JoyportPanel();        
+        addAsWindow(p, 320, 200, p.SID);
+        return p;
+    }    
 }
 

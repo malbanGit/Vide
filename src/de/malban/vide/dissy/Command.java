@@ -29,6 +29,10 @@ public class Command
     public static final int D_CMD_CYCLES_MEASURE = 15;
     public static final int D_CMD_POKE = 16;
     public static final int D_CMD_SOFTRESET = 17;
+    public static final int D_CMD_SYNC_BANK_COMMENTS = 18;
+    public static final int D_CMD_CARTRIDGE = 19;
+    public static final int D_CMD_JOYPORT_DEVICE = 20;
+    public static final int D_CMD_BANKSWITCH_DEBUG = 21;
     
     
 
@@ -52,6 +56,10 @@ public class Command
         new Command(D_CMD_BANKSWITCH_INFO, "BankswitchInfo", "bi", 0,0,"\"BankswitchInfo\"\t\tDisplay a textmessage upon bankswitch (toggle)",""),
         new Command(D_CMD_CLEAR_SCREEN, "CLS", "", 0,0,"\"CLS\"\t\t\tClear messages",""),
         new Command(D_CMD_POKE, "POKE", "", 0,0,"\"POKE\"\t\t\t$xxxx $yy write value to address",""),
+        new Command(D_CMD_SYNC_BANK_COMMENTS, "SyncBankComments", "sbc", 0,0,"\"SyncBankComments\"\t\tSynchronizes comments in different banks, if code/data is equal.",""),
+        new Command(D_CMD_CARTRIDGE, "carti", "", 0,0,"\"carti\"\t\t\tOpens a cartridge device debug window.",""),
+        new Command(D_CMD_JOYPORT_DEVICE, "joyi", "", 0,0,"\"joyi\"\t\t\tOpens a joyport device debug window.",""),
+        new Command(D_CMD_BANKSWITCH_DEBUG, "BankswitchDebug", "bsd", 0,0,"\"BankswitchDebug\"\t\tAll memory brakpoints are set/deleted in all banks.",""),
     };
     
     public String fullname ="";

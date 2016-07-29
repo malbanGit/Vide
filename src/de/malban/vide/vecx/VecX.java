@@ -71,9 +71,8 @@ import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.sound.tinysound.Stream;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.veccy.VectorListScanner;
-import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_RAM_DS2430A;
-import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOICE;
-import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOX;
+import de.malban.vide.vecx.cartridge.Cartridge;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2430A;
 import de.malban.vide.vecx.devices.JoyportDevice;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
@@ -158,7 +157,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public transient VectrexJoyport[] joyport= new VectrexJoyport[2];
      
     // dummy displayer, which does nothing!
-    public transient DisplayerInterface displayer = new DisplayerInterface(){public void switchDisplay(){}public void updateDisplay(){} public void directDraw(vector_t v){}public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved){}public void setJoyportDevice(int port, JoyportDevice d){}};
+    public transient DisplayerInterface displayer = new DisplayerInterface(){public void breakpointRemove(Breakpoint bp){}public void switchDisplay(){}public void updateDisplay(){} public void directDraw(vector_t v){}public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved){}public void setJoyportDevice(int port, JoyportDevice d){}};
     public transient RunnerInterface runner = null;
         
     
@@ -261,8 +260,24 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         // e.g. bankswitching test is than only called
         // if the state of the EXTERNAL LINE has changed
         
+        
+        // it can happen, that "nothing" changes 
+        // if that is the case pb6 should ALSO not change
+        // this is not obvious,
+        // if ddrb is set as input
+        // input changed pb6 to low
+        // and than ddrb is AGAIN set as input, pb6 should NOT change to high, since 
+        // really nothing changed!
+        // if we don't test this, in the example pb6 would go high!
+        if ((via_orb == tobe_via_orb) && (via_ddrb == tobe_via_ddrb))
+        {
+            return (via_orb & 0x40) == 0x40;
+        }
+
         // get output value of via b NOW
         int viaOutNow = via_orb| (via_ddrb ^ 0xFFFFFFFF) & 0xFF;
+
+        
         boolean pb6 = (viaOutNow&0x40) == 0x40;
         
         if ((tobe_via_orb != viaOutNow) || (tobe_via_ddrb != via_ddrb))
@@ -279,14 +294,33 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             }
             pb6 = (viaOutTobe&0x40) == 0x40;
             cart.lineIn(pb6);
+            checkExternalLineBreakpoint(pb6);
+            old_pb6 = pb6;
         }
         return pb6;
     }
     
+    
+    public void setViaPB6(boolean b)
+    {
+       // if ((via_ddrb & 0x40) != 0) return; // if via is in output - don't change line from cart!
+        
+        int data = via_orb;
+        if (b) data = data | 0x40;
+        else data = data & (0xff - 0x40);
+        
+        checkVIABreakpoint(0, via_orb, data); 
 
+        boolean changed = ((via_orb & 0x40) >0) == b;
+
+        if (changed) 
+            checkExternalLineBreakpoint(b);
+    //    old_pb6 = b;
+        via_orb = data;
+    }
     /* update the snd chips internal registers when via_ora/via_orb changes */
     // here ORA is taken, not DAC
-    // for PSG this should not make realy a difference!
+    // for PSG this should not make really a difference!
     void snd_update ()
     {
         switch (via_orb & 0x18) 
@@ -313,18 +347,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         // Malban
         if ((via_orb & 0x07) == 0x06) // SEL == 11 -> Sound, Mux ==0 meaning ON
         {
-            // dac is sending data to PSG
+            // dac is sending data to audio hardware
+            // since we are used to do audio in PSG anyway, we send the sampled data there to a "dummy" register
             // data is via_ora
             // dummy register, write directy to audio line buffer in psg emulation!
             e8910.e8910_write(255, alg_ssh.intValue);
-//            System.out.println("Cycl:"+(cyclesRunning-sampleCycle) );
-//            if ((cyclesRunning-sampleCycle)==224)
-//                System.out.println("PC="+e6809.reg_pc);
-//sampleCycle= cyclesRunning;
         }
         checkPSGBreakpoint();
     }
-   // long sampleCycle = 0;
 
     /* update IRQ and bit-7 of the ifr register after making an adjustment to
      * ifr.
@@ -458,7 +488,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public int e6809_read8(int address)
     {
         int data = 0;
-        if (config.codeScanActive) dissiMem.mem[address].addAccess(e6809.reg_pc, MEMORY_READ);
+        if (config.codeScanActive) dissiMem.mem[address].addAccess(e6809.reg_pc, e6809.reg_dp, MEMORY_READ);
         checkMemReadBreakpoint(address);
 
         if ((address & 0xe000) == 0xe000) 
@@ -604,21 +634,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
         return data & 0xff; // and return unsigned byte!
     }
-    
-    public void setViaPB6(boolean b)
-    {
-        int data = via_orb;
-        if (b) data = data | 0x40;
-        else data = data & (0xff - 0x40);
-        
-        checkVIABreakpoint(0, via_orb, data);   
-        via_orb = data;
-    }
 
     @Override
     public void e6809_write8(int address, int data)
     {
-        if (config.codeScanActive) dissiMem.mem[address].addAccess(e6809.reg_pc, MEMORY_WRITE);
+        if (config.codeScanActive) dissiMem.mem[address].addAccess(e6809.reg_pc, e6809.reg_dp, MEMORY_WRITE);
         checkMemWriteBreakpoint(address, data);
         data = data & 0xff;
         if ((address & 0xe000) == 0xe000) 
@@ -899,9 +919,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         via_ifr = 0;
         via_ier = 0;
         via_ca1 = 1;
+        old_via_ca1 = 1;
         via_ca2 = 1;
         via_cb2h = 1;
         via_cb2s = 0;
+        old_pb6 = false;
 
         alg_rsh.intValue = 128;
         alg_xsh.intValue = 128;
@@ -1174,6 +1196,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         // documentation of VIA
         if (via_ca1 !=old_via_ca1)
         {
+            checkVIABreakpoint(16, old_via_ca1, via_ca1);
             if ((via_pcr & 0x01) == 0x01) // interrupt flag is set by transition low to high
             {
                 if (via_ca1 != 0)
@@ -1194,7 +1217,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         old_via_ca1 =via_ca1;// NEW
 
     }
-    int old_via_ca1 = 1; 
     
     // input in vectrex coordinates!
     // transformed to upper left corner. (is 0,0)
@@ -1334,7 +1356,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             {
                 for (int i=0; i<icycles; i++)
                 {
-                    dissiMem.mem[(pc+i)%65536].addAccess(e6809.reg_pc%65536, MEMORY_CODE);
+                    dissiMem.mem[(pc+i)%65536].addAccess(e6809.reg_pc%65536, e6809.reg_dp, MEMORY_CODE);
                 }
             }
             
@@ -1410,7 +1432,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             checkCPUBreakpoints(icycles);
             checkAnalogBreakpoint();
             
-            for (Breakpoint bp: tmp) removeBreakpoint(bp); // circumvent concurrent modification
+            for (Breakpoint bp: tmp) 
+                displayer.breakpointRemove(bp); // circumvent concurrent modification
 
 
             
@@ -1542,7 +1565,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 log.addLog("Vecx: init() cartridge not loaded!", WARN);
                 return false;
             }
-            ds2430Enabled = (cartProp.getTypeFlags()&FLAG_RAM_DS2430A)!=0;
+            ds2430Enabled = (cartProp.getTypeFlags()&FLAG_DS2430A)!=0;
+            microchipEnabled = (cartProp.getTypeFlags()&Cartridge.FLAG_MICROCHIP)!=0;
             e6809.e6809_reset();  
             vecx_reset();
         }
@@ -1642,6 +1666,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         cart.setBank(currentBank); // just in case a bankswitch occurred
         cart.setVecx(this);
         cart.ds2430.cart = cart;
+        cart.microchip.cart = cart;
     }
     
     // all ringbuffers should 
@@ -2374,7 +2399,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             {
                 if ((bp.type & Breakpoint.BP_WRITE) == Breakpoint.BP_WRITE)
                 {
-                    if (((address&0xffff) == bp.targetAddress) && (cart.getCurrentBank() == bp.targetBank))
+                    if (((address&0xffff) == bp.targetAddress) && (cart.getCurrentBank() == bp.targetBank) )
                     {
                         if ((bp.type & Breakpoint.BP_COMPARE) == Breakpoint.BP_COMPARE)
                         {
@@ -2404,7 +2429,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             {
                 if ((bp.type & Breakpoint.BP_READ) == Breakpoint.BP_READ)
                 {
-                    if (((address&0xffff) == bp.targetAddress) && (cart.getCurrentBank() == bp.targetBank))
+                     if (((address&0xffff) == bp.targetAddress) && (cart.getCurrentBank() == bp.targetBank) )
                     {
                         if ((bp.type & Breakpoint.BP_COMPARE) == Breakpoint.BP_COMPARE)
                         {
@@ -2430,6 +2455,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         for (;bit>0;bit--) b=b<<1;
         return (o&b) == (n&b);
     }
+    
+    // register 16 = CA1
     void checkVIABreakpoint(int register, int oldValue, int newValue)
     {
         if (!config.breakpointsActive) return;
@@ -2452,6 +2479,42 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         }
                     }
                 }
+                if ((bp.targetSubType  == Breakpoint.BP_SUBTARGET_VIA_CA1) && (register == 16))
+                {
+                    if ((bp.type & Breakpoint.BP_BITCOMPARE) == Breakpoint.BP_BITCOMPARE)
+                    {
+                        if ((newValue >0) && (bp.compareValue==1))
+                        {
+                            if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                            {
+                                tmp.add(bp);
+                            }
+                            activeBreakpoint.add(bp);
+                            if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                        }
+                    }
+                    if ((bp.type & Breakpoint.BP_BITCOMPARE) == Breakpoint.BP_BITCOMPARE)
+                    {
+                        if ((newValue ==0) && (bp.compareValue==0))
+                        {
+                            if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                            {
+                                tmp.add(bp);
+                            }
+                            activeBreakpoint.add(bp);
+                            if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                        }
+                    }
+                    if ((bp.type & Breakpoint.BP_WRITE) == Breakpoint.BP_WRITE)
+                    {
+                        if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                        {
+                            tmp.add(bp);
+                        }
+                        activeBreakpoint.add(bp);
+                        if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                    }
+                }
             }                 
         }
     }
@@ -2465,19 +2528,60 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         {
             for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
             {
-                if ((bp.type & Breakpoint.BP_BANK) == Breakpoint.BP_BANK)
+                if ((bp.targetSubType & Breakpoint.BP_SUBTARGET_CARTRIDGE_BANKSWITCH) == Breakpoint.BP_SUBTARGET_CARTRIDGE_BANKSWITCH)
                 {
-                    if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                    if ((bp.type & Breakpoint.BP_BANK) == Breakpoint.BP_BANK)
                     {
-                        tmp.add(bp);
+                        if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                        {
+                            tmp.add(bp);
+                        }
+                        activeBreakpoint.add(bp);
+                        if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
                     }
-                    activeBreakpoint.add(bp);
-                    if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
                 }
             }
         }             
     }    
-    
+    void checkExternalLineBreakpoint(boolean externalLine)
+    {
+        if (!config.breakpointsActive) return;
+        synchronized (breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
+        {
+            for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_CARTRIDGE])
+            {
+                if ((bp.targetSubType & Breakpoint.BP_SUBTARGET_CARTRIDGE_PB6) == Breakpoint.BP_SUBTARGET_CARTRIDGE_PB6)
+                {
+                    if ((bp.type & Breakpoint.BP_BITCOMPARE) == Breakpoint.BP_BITCOMPARE)
+                    {
+                        if (((bp.compareValue == 1) && (externalLine)) || ((bp.compareValue == 0) && (!externalLine)))
+                        {
+                            if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                            {
+                                tmp.add(bp);
+                            }
+                            activeBreakpoint.add(bp);
+                            if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                        }
+                    }
+                    else if ((bp.type & Breakpoint.BP_WRITE) == Breakpoint.BP_WRITE)
+                    {
+                        // only on a change
+                        if (old_pb6 != externalLine)
+                        {
+                            if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                            {
+                                tmp.add(bp);
+                            }
+                            activeBreakpoint.add(bp);
+                            if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                        }
+                    }
+                    
+                }
+            }
+        }             
+    }
     void checkAnalogBreakpoint()
     {
     }
@@ -2539,19 +2643,29 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     }
     void removeBreakpoint(Breakpoint bp)
     {
-        
         // no doubles!
+        Breakpoint done = bp;
         synchronized (breakpoints[bp.targetType])
         {
             boolean removed = breakpoints[bp.targetType].remove(bp);
             if (!removed)
             {
+                for (int i=0; i<breakpoints[bp.targetType].size(); i++ )
+                {
+                    Breakpoint realBP = breakpoints[bp.targetType].get(i);
+                    if (realBP.equals(bp))
+                    {
+                        removed = breakpoints[bp.targetType].remove(realBP);
+                        done = realBP;
+                        break;
+                    }
+                }
                 // try finding the SAME
             }
         }        
-        if (bp.memInfo != null)
+        if (done.memInfo != null)
         {
-            bp.memInfo.removeBreakpoint(bp);
+            done.memInfo.removeBreakpoint(done);
         }
     }
     public void clearAllBreakpoints()
@@ -2566,7 +2680,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }
         for (Breakpoint bp: tmp)
         {
-            removeBreakpoint(bp);
+            displayer.breakpointRemove(bp);
         }
         
     }

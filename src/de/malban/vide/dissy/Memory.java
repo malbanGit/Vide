@@ -60,6 +60,7 @@ public class Memory {
     {
         setBank(b, false);
     }
+    
     public void setBank(int b, boolean addBank)
     {
         if ((b > maxBank-1) && (addBank))

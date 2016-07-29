@@ -41,8 +41,12 @@ public class LightpenDevice extends AbstractDevice
         //
         // in order for ca1 to be "switched on and off" in accordance to interrupts generated
         // we also must check if BLANK is 0 or 1
+        
+//        double dx = vectrex.getBeamPosX()-lightpenX;
+//        double dy = vectrex.getBeamPosY()-lightpenY;
         if ((Math.abs(vectrex.getBeamPosX()-lightpenX)<0x100) && ((Math.abs(vectrex.getBeamPosY()-lightpenY)<0x100)))
         {
+//            System.out.println(""+dx+", "+dy);
             // we have the right position,
             // is the beam also switched on?
             // lightpen only reacts on light switched ON
@@ -63,6 +67,8 @@ public class LightpenDevice extends AbstractDevice
             joyport.setButton4(true, true);
         }
     }
+    
+    
     public void setCoordinates(int x, int y)
     {
         lightpenX = x;

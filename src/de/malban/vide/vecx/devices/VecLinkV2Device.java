@@ -93,7 +93,7 @@ public class VecLinkV2Device extends AbstractDevice implements HardSyncDevice
             noSyncStep();
         else
         {
-            if (vecLink[side].joyport.vecx.config.syncCables)
+            if (vecLink[side].joyport.vecx.config.syncCables) // when debugging, if non synced debug, than link is broken immediately
                 syncStep();
             else
                 noSyncStep();

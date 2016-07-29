@@ -152,6 +152,17 @@ public class VecVoiceSamples {
         loadSamples();
         return codeMap;
     }
+    public static String getMnemonic(int code)
+    {
+        if (code == -1)return "EOP";
+        if (code == 255) return "EOP";
+        if (code > 63) return "n/a ("+code+")";
+        if (code < 0) return "n/a ("+code+")";
+        SP0256AL sample = allSamples[code];
+        if (sample==null) return "error ("+code+")";
+        
+        return sample.phoneme;
+    }
     public static MemSound getSample(int code)
     {
         if (playList == null) 

@@ -11,10 +11,11 @@ package de.malban.config;
  */
 public interface Logable
 {
+    /*
     public static int LOG_ERROR = 0; // allways!
     public static int LOG_WARNING = 1;
     public static int LOG_VERBOSE = 2;
-
+*/
     public void setInterestedClasses(String c);
     public void setInterestedMethods(String m);
     public void setInterestedFiles(String f);

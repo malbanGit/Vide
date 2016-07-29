@@ -6,6 +6,7 @@ package de.malban.config.theme;
 
 import de.malban.config.Configuration;
 import de.malban.config.Logable;
+import de.malban.gui.panels.LogPanel;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import javax.swing.AbstractButton;
@@ -69,7 +70,7 @@ public class ProxyPanel extends javax.swing.JPanel {
             }
             catch(Exception e)
             {
-                Configuration.getConfiguration().getDebugEntity().addLog(e,Logable.LOG_ERROR);
+                Configuration.getConfiguration().getDebugEntity().addLog(e,LogPanel.ERROR);
                 return Proxy.NO_PROXY;
             }
         }

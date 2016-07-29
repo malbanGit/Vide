@@ -31,12 +31,13 @@ public class Cartridge  implements Serializable
     public static int FLAG_EXTREM_MULTI = 4;
     public static int FLAG_RAM_ANIMACTION = 8;
     public static int FLAG_RAM_RA_SPECTRUM = 16;
-    public static int FLAG_RAM_DS2430A = 32;
+    public static int FLAG_DS2430A = 32; // Herbert one wire eEprom
     public static int FLAG_VEC_VOICE = 64; //SP0256AL
     public static int FLAG_LIGHTPEN1 = 128;
     public static int FLAG_LIGHTPEN2 = 256;
     public static int FLAG_IMAGER = 512;
     public static int FLAG_VEC_VOX = 1024; // Speakjet
+    public static int FLAG_MICROCHIP = 2048; // Tuts one wire eEprom
 
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     // load transient stuff after save state
@@ -45,7 +46,8 @@ public class Cartridge  implements Serializable
         log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     }
     
-    public DS2430 ds2430 = new DS2430(this);
+    public DS2430A ds2430 = new DS2430A(this);
+    public Microchip11AA010 microchip = new Microchip11AA010(this);
     transient VecX vecx;
     public void setVecx(VecX v)
     {
@@ -440,6 +442,10 @@ public class Cartridge  implements Serializable
     {
         to.ds2430 = from.ds2430.clone();
         to.ds2430.cart = to;
+
+        to.microchip = from.microchip.clone();
+        to.microchip.cart = to;
+        
         to.vecx = from.vecx;
     }
     
@@ -505,6 +511,7 @@ public class Cartridge  implements Serializable
     
     // line PB6
     // is set FROM vectrex
+    // can be used by any "device" on line PB6, not XOR
     public void lineIn(boolean pb6)
     {
         if (vecx==null) return;
@@ -512,7 +519,12 @@ public class Cartridge  implements Serializable
         {
             ds2430.lineIn(pb6);
         }
-        else if (vecx.config.enableBankswitch)
+        if (vecx.microchipEnabled)
+        {
+            microchip.lineIn(pb6);
+        }
+        
+        if (vecx.config.enableBankswitch)
         {
             // send changed via port b out put to cartridge
             boolean changed = checkBankswitch(pb6, vecx.cyclesRunning);
@@ -521,7 +533,9 @@ public class Cartridge  implements Serializable
                 vecx.checkBankswitchBreakpoint();
             }
         }
+        
     }
+    // is set from device
     public void lineOut(boolean b)
     {
         vecx.setViaPB6(b);
@@ -531,6 +545,10 @@ public class Cartridge  implements Serializable
         if (vecx.ds2430Enabled)
         {
             ds2430.step(cycles);
+        }
+        if (vecx.microchipEnabled)
+        {
+            microchip.step(cycles);
         }
     }
 }

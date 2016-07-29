@@ -8,7 +8,6 @@ package de.malban.vide.vecx;
 import de.malban.vide.dissy.MemoryInformation;
 import static de.malban.vide.vecx.VecXStatics.EMU_EXIT_BREAKPOINT_BREAK;
 import java.util.ArrayList;
-import javax.swing.JTable;
 
 /**
  *
@@ -28,7 +27,8 @@ public class Breakpoint
     public static int BP_BITCOMPARE = 256;
     public static int BP_CYCLES = 512;
     public static int BP_QUIET = 1024;
-    public static String[] types={"once", "multi", "read", "write", "info", "compare", "hey","bank", "bitcompare", "cycles", "quiet"};
+    public static int BP_ALLBANK = 2048;
+    public static String[] types={"once", "multi", "read", "write", "info", "compare", "hey","bank", "bitcompare", "cycles", "quiet", "allbanks"};
     
 
     public static int BP_TARGET_MEMORY = 0;
@@ -43,7 +43,15 @@ public class Breakpoint
 
     public static String[] bp_target={"Memory", "CPU", "Analog", "VIA", "PSG", "CARTRIDGE", "PORT"};
 
-    public static String[][] bp_subtarget={{""},{"PC","A", "B", "D","X", "Y","U","S", "CC", "DP", "CYCLES", "SPECIAL" }, {""}, {"ORB"}, {""}, {""}, {"IN", "OUT"}};
+    public static String[][] bp_subtarget={
+        /* Memory*/     {""}, 
+        /* CPU*/        {"PC","A", "B", "D","X", "Y","U","S", "CC", "DP", "CYCLES", "SPECIAL" }, 
+        /* Analog*/     {""}, 
+        /* VIA*/        {"ORB","CA1"}, 
+        /* PSG*/        {""}, 
+        /* CARTRIDGE*/  {"BANKSWITCH", "PB6"}, 
+        /* PORT*/       {"IN", "OUT"}
+    };
     
     
     public static int BP_SUBTARGET_CPU_PC = 0; // only one implemented
@@ -61,8 +69,12 @@ public class Breakpoint
     
     public static int BP_SUBTARGET_ANALOG_RAMP = 0; // .. not implemented
     public static int BP_SUBTARGET_VIA_ORB = 0; // 
+    public static int BP_SUBTARGET_VIA_CA1 = 1; // 
     public static int BP_SUBTARGET_PSG_0 = 0; // .. not implemented
 
+    public static int BP_SUBTARGET_CARTRIDGE_BANKSWITCH = 0;
+    public static int BP_SUBTARGET_CARTRIDGE_PB6 = 1;
+    
     public static int BP_SUBTARGET_PORT_IN = 0;
     public static int BP_SUBTARGET_PORT_OUT = 1;
     
@@ -85,6 +97,29 @@ public class Breakpoint
     
     public MemoryInformation memInfo = null;
     
+    
+    // meminfo is not cloned, but taken directly!
+    public Breakpoint duplicate()
+    {
+        Breakpoint nbp = new Breakpoint();
+        nbp.targetType = targetType;
+        nbp.targetSubType = targetSubType;
+        nbp.type = type;
+        nbp.targetAddress = targetAddress;
+        nbp.targetBank = targetBank;
+        nbp.compareValue = compareValue;
+        nbp.counter = counter;
+        nbp.name = name;
+        nbp.exitType = exitType;
+        nbp.wasTriggered = wasTriggered;
+        if (printInfo != null)
+            nbp.printInfo = (ArrayList<String>) printInfo.clone();
+        else
+            nbp.printInfo = null;
+        nbp.memInfo = memInfo;
+        return nbp;
+    }
+    
     // are the two breakpoints "adress similar"
     public boolean addressEquals(Breakpoint bp)
     {
@@ -95,6 +130,9 @@ public class Breakpoint
         if (type != bp.type) return false;
         return true;
     }
+    
+    
+    
     public boolean equals(Breakpoint bp)
     {
         if (targetType != bp.targetType) return false;
@@ -146,7 +184,7 @@ public class Breakpoint
     {
         String ret ="";
         int t=type;
-        for (int i=0;i<8;i++)
+        for (int i=0;i<types.length;i++) 
         {
             if ((t&1)==1) 
                 ret+=types[i]+" ";

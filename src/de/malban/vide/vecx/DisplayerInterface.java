@@ -18,6 +18,7 @@ public interface DisplayerInterface {
     public void directDraw(vector_t v);
     public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved);
     public void setJoyportDevice(int port, JoyportDevice d);
+    public void breakpointRemove(Breakpoint bp);
     
     
 }

@@ -381,7 +381,8 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             jComboBoxBankswitchNumber.setSelectedIndex(-1);
 
         jCheckBox1.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_VEC_VOICE) == Cartridge.FLAG_VEC_VOICE);
-        jCheckBox2.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_RAM_DS2430A) == Cartridge.FLAG_RAM_DS2430A);
+        jCheckBox2.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_DS2430A) == Cartridge.FLAG_DS2430A);
+        jCheckBox16.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_MICROCHIP) == Cartridge.FLAG_MICROCHIP);
         jCheckBox3.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_LIGHTPEN1) == Cartridge.FLAG_LIGHTPEN1);
         jCheckBox4.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_LIGHTPEN2) == Cartridge.FLAG_LIGHTPEN2);
         jCheckBox5.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_IMAGER) == Cartridge.FLAG_IMAGER);
@@ -435,7 +436,8 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         int extra = 0;
         if (jCheckBox1.isSelected()) extra+= Cartridge.FLAG_VEC_VOICE;
-        if (jCheckBox2.isSelected()) extra+= Cartridge.FLAG_RAM_DS2430A;
+        if (jCheckBox2.isSelected()) extra+= Cartridge.FLAG_DS2430A;
+        if (jCheckBox16.isSelected()) extra+= Cartridge.FLAG_MICROCHIP;
         if (jCheckBox3.isSelected()) extra+= Cartridge.FLAG_LIGHTPEN1;
         if (jCheckBox4.isSelected()) extra+= Cartridge.FLAG_LIGHTPEN2;
         if (jCheckBox5.isSelected()) extra+= Cartridge.FLAG_IMAGER;
@@ -503,6 +505,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBox5 = new javax.swing.JCheckBox();
         jCheckBox6 = new javax.swing.JCheckBox();
         jCheckBox7 = new javax.swing.JCheckBox();
+        jCheckBox16 = new javax.swing.JCheckBox();
         jButtonPre = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jComboBoxPostName = new javax.swing.JComboBox();
@@ -545,11 +548,11 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jPanel3.setLayout(null);
         jPanel3.add(jTextFieldPath);
-        jTextFieldPath.setBounds(135, 30, 330, 19);
+        jTextFieldPath.setBounds(135, 30, 330, 20);
 
         jTextFieldVersion.setText("1.0");
         jPanel3.add(jTextFieldVersion);
-        jTextFieldVersion.setBounds(437, 80, 58, 19);
+        jTextFieldVersion.setBounds(437, 80, 58, 20);
 
         jTextAreaDescription.setColumns(20);
         jTextAreaDescription.setRows(5);
@@ -560,9 +563,9 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jLabel2.setText("Version");
         jPanel3.add(jLabel2);
-        jLabel2.setBounds(371, 82, 54, 15);
+        jLabel2.setBounds(371, 82, 54, 14);
         jPanel3.add(jTextFieldAuthor);
-        jTextFieldAuthor.setBounds(135, 80, 169, 19);
+        jTextFieldAuthor.setBounds(135, 80, 169, 20);
 
         jButtonFileSelect1.setText("...");
         jButtonFileSelect1.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -572,11 +575,11 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
         jPanel3.add(jButtonFileSelect1);
-        jButtonFileSelect1.setBounds(471, 30, 13, 19);
+        jButtonFileSelect1.setBounds(471, 30, 17, 19);
 
         jLabel7.setText("Path");
         jPanel3.add(jLabel7);
-        jLabel7.setBounds(17, 30, 50, 15);
+        jLabel7.setBounds(17, 30, 50, 14);
 
         jTextFieldProjectName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -594,25 +597,25 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
         jPanel3.add(jTextFieldProjectName);
-        jTextFieldProjectName.setBounds(135, 5, 169, 19);
+        jTextFieldProjectName.setBounds(135, 5, 169, 20);
         jPanel3.add(jTextFieldMainFile);
-        jTextFieldMainFile.setBounds(135, 55, 169, 19);
+        jTextFieldMainFile.setBounds(135, 55, 169, 20);
 
         jLabel5.setText("Name");
         jPanel3.add(jLabel5);
-        jLabel5.setBounds(17, 7, 50, 15);
+        jLabel5.setBounds(17, 7, 50, 14);
 
         jLabel8.setText("Main file");
         jPanel3.add(jLabel8);
-        jLabel8.setBounds(17, 57, 80, 15);
+        jLabel8.setBounds(17, 57, 80, 14);
 
         jLabel9.setText("Author");
         jPanel3.add(jLabel9);
-        jLabel9.setBounds(17, 82, 70, 15);
+        jLabel9.setBounds(17, 82, 70, 14);
 
         jLabel1.setText("Description");
         jPanel3.add(jLabel1);
-        jLabel1.setBounds(17, 111, 90, 15);
+        jLabel1.setBounds(17, 111, 90, 14);
 
         jComboBoxBankswitch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none", "2 bank standard", "VecFlash (up to 64 banks)" }));
         jComboBoxBankswitch.addActionListener(new java.awt.event.ActionListener() {
@@ -621,15 +624,15 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
         jPanel3.add(jComboBoxBankswitch);
-        jComboBoxBankswitch.setBounds(351, 278, 144, 21);
+        jComboBoxBankswitch.setBounds(351, 278, 144, 20);
 
         jCheckBoxCreateSupportCode.setText("create bankswitch code");
         jPanel3.add(jCheckBoxCreateSupportCode);
-        jCheckBoxCreateSupportCode.setBounds(135, 280, 170, 19);
+        jCheckBoxCreateSupportCode.setBounds(135, 280, 170, 23);
 
         jCheckBoxCreateGameLoop.setText("create standard game loop");
         jPanel3.add(jCheckBoxCreateGameLoop);
-        jCheckBoxCreateGameLoop.setBounds(135, 252, 180, 19);
+        jCheckBoxCreateGameLoop.setBounds(135, 252, 180, 23);
 
         jComboBoxBankswitchNumber.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1" }));
         jComboBoxBankswitchNumber.setEnabled(false);
@@ -639,7 +642,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
         jPanel3.add(jComboBoxBankswitchNumber);
-        jComboBoxBankswitchNumber.setBounds(517, 278, 46, 21);
+        jComboBoxBankswitchNumber.setBounds(517, 278, 46, 20);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -743,7 +746,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         );
 
         jPanel3.add(jPanel1);
-        jPanel1.setBounds(135, 516, 313, 9);
+        jPanel1.setBounds(135, 516, 309, 9);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -781,11 +784,11 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         );
 
         jPanel3.add(jPanel4);
-        jPanel4.setBounds(135, 307, 372, 203);
+        jPanel4.setBounds(135, 307, 370, 203);
 
         jCheckBox1.setText("VecVoice");
 
-        jCheckBox2.setText("eEprom DS2430A");
+        jCheckBox2.setText("DS2430A");
         jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox2ActionPerformed(evt);
@@ -823,6 +826,13 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jCheckBox7.setText("VecVox");
 
+        jCheckBox16.setText("Microchip 11AA010");
+        jCheckBox16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox16ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -838,27 +848,30 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jCheckBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox16))
+                        .addGap(0, 21, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jCheckBox1)
+                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox7)
+                .addComponent(jCheckBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jCheckBox2)
+                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox16, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox3)
+                .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox4)
+                .addComponent(jCheckBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox6)
-                .addGap(0, 52, Short.MAX_VALUE))
+                .addComponent(jCheckBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 62, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel5);
@@ -876,7 +889,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jLabel6.setText("Pre build commands");
         jPanel3.add(jLabel6);
-        jLabel6.setBounds(17, 200, 120, 15);
+        jLabel6.setBounds(17, 200, 120, 14);
 
         jComboBoxPostName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxPostName.setPreferredSize(new java.awt.Dimension(59, 19));
@@ -885,7 +898,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jLabel10.setText("Post build commands");
         jPanel3.add(jLabel10);
-        jLabel10.setBounds(17, 225, 130, 15);
+        jLabel10.setBounds(17, 225, 130, 14);
 
         jComboBoxPostClass.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxPostClass.setPreferredSize(new java.awt.Dimension(59, 19));
@@ -1149,6 +1162,10 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
+    private void jCheckBox16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox16ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox16ActionPerformed
+
     boolean wasMainSetManually = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1162,6 +1179,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonSave;
     private javax.swing.JButton jButtonSaveAsNew;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox16;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;

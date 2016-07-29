@@ -96,9 +96,12 @@ public class VecXState implements Serializable
      public int via_ifr;
      public int via_ier;
      public int via_ca1;
+     public int old_via_ca1; 
      public int via_ca2;
      public int via_cb2h;  /* basic handshake version of cb2 */
      public int via_cb2s;  /* version of cb2 controlled by the shift register */
+     public boolean old_pb6 = false;
+     
      
      public long lastShiftTriggered = 0;
      public boolean via_stalling = false;
@@ -149,6 +152,8 @@ public class VecXState implements Serializable
     public int currentBank = 0;
     public long cyclesRunning=0;
     public boolean ds2430Enabled = false;
+    public boolean microchipEnabled = false;
+    
     
     // no rom or cart
     public static void deepCopy(VecXState from, VecXState to)
@@ -163,6 +168,8 @@ public class VecXState implements Serializable
         
         Cartridge.deepCopy(from.cart, to.cart, doRam, doTimer);
         to.ds2430Enabled = from.ds2430Enabled;
+        to.microchipEnabled = from.microchipEnabled;
+        
         to.lastShiftTriggered = from.lastShiftTriggered;
         to.via_stalling = from.via_stalling;
         to.snd_select= from.snd_select;
@@ -190,6 +197,7 @@ public class VecXState implements Serializable
         to.via_ifr= from.via_ifr;
         to.via_ier= from.via_ier;
         to.via_ca1= from.via_ca1;
+        to.old_via_ca1= from.old_via_ca1;
         to.via_ca2= from.via_ca2;
         to.via_cb2h= from.via_cb2h; 
         to.via_cb2s= from.via_cb2s;  

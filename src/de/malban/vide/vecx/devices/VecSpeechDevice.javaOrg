@@ -190,7 +190,7 @@ public class VecSpeechDevice extends AbstractDevice implements Serializable
     boolean midBaudValue = false;
     
     transient Stream line=null;
-    private int C_LEN = BUFFER_LEN_VECVOX; // Speakjet command buffer
+    private int C_LEN = BUFFER_LEN_VECVOICE; // Speakjet command buffer
     transient private static final int BUFFER_LEN_VECVOX = 64; // Speakjet command buffer
     transient private static final int BUFFER_LEN_VECVOICE = 32; // SP256AL command buffer
 
@@ -249,7 +249,6 @@ public class VecSpeechDevice extends AbstractDevice implements Serializable
                 line.unload();
                 line = null;
             }
-            reset();
         }
     }
     @Override
@@ -260,65 +259,6 @@ public class VecSpeechDevice extends AbstractDevice implements Serializable
     // only for cloning!
     public VecSpeechDevice(boolean clone)
     {
-    }
-    
-    void reset()
-    {
-        doSampleBlending = false;           // per sample "decision" to do blending
-        removeSilenceFromSample = true;     // per sample "decicion" to remove silence is set by emulation
-        afterPause = true;                  // if directly after a pause, we do not remove silience!
-        lastCommand = -1;                       // last command that was "executed"
-        isVoiced = false;                   // VecVox, was the last sample "voiced", if not pitch change should not be done
-
-
-        lowLevelState = LINE_OFFLINE;
-        cycles = 0;
-        receiveCycleStart = 0;
-        dataLineInput = true; // false is 0, true is 1; bit 4 of snd_reg[14]
-        old_dataLineInput = true;
-
-        currentByteRead = 0;
-        bitsLoaded = 0;
-        inputMode = true;
-
-        midBaudSet = false;
-        midBaudValue = false;
-        
-
-        nextComandPoint = 0;
-        currentComandPoint = 0;
-        soundCycles = 0;
-        oldCycles =0;
-        currentSamplePos = -1;  // current position in in between buffer (sample -> wavData -> (wavDataLastEnd+) wavDataUsage -> soundbuffer -> line)
-        wavData = null;      // buffer where samples go
-        wavDataUsage = null; // buffer where sample, + lastEnd (blended or not) is combined, th 
-        wavDataLastEnd = null; // buffer where the "end" of the last sample goes, needed for blending
-    
-
-        soundBytes = null; // buffer for input to TinySound line
-
-        spNextFast = false;
-        spNextSlow = false;
-        spNextStress = false; // not implemented
-        spNextRelax = false; // not implemented
-        spCommandMode = false;
-        spVolume = ((double)(96)) / 127.0;
-        spCommand = 0;
-        spPitch = 88;
-        spTempo = 114;
-        spBend = 5;
-        spRepeat = 0;
-        spDelay = 0;
-        difi = 0;        
-        commands = new int[C_LEN];
-        soundBytes = new byte[IBXM_MAXBUFFER/2];
-    
-        if (line != null)
-        {
-            line.stop();
-            line.unload();
-            line = null;
-        }   
     }
     
     public VecSpeechDevice()
@@ -357,17 +297,17 @@ public class VecSpeechDevice extends AbstractDevice implements Serializable
         
         vv.C_LEN = C_LEN;
         vv.spDelay = spDelay;
-        vv.spNextRelax = (isSpNextRelax());
-        vv.spNextStress = (isSpNextStress());
-        vv.spNextFast = (isSpNextFast());
-        vv.spNextSlow = (isSpNextSlow());
-        vv.spCommandMode = (isSpCommandMode());
-        vv.spVolume = (getSpVolume());
-        vv.spCommand = (getSpCommand());
-        vv.spPitch = (getSpPitch());
-        vv.spTempo = (getSpTempo());
-        vv.spBend = (getSpBend());
-        vv.spRepeat = (getSpRepeat());
+        vv.setSpNextRelax(isSpNextRelax());
+        vv.setSpNextStress(isSpNextStress());
+        vv.setSpNextFast(isSpNextFast());
+        vv.setSpNextSlow(isSpNextSlow());
+        vv.setSpCommandMode(isSpCommandMode());
+        vv.setSpVolume(getSpVolume());
+        vv.setSpCommand(getSpCommand());
+        vv.setSpPitch(getSpPitch());
+        vv.setSpTempo(getSpTempo());
+        vv.setSpBend(getSpBend());
+        vv.setSpRepeat(getSpRepeat());
         return vv;
     }
     
@@ -1348,7 +1288,7 @@ needed, one in front of each of the phonemes.
         if (isSpNextSlow())
         {
             // doc says half, but half seems much
-            spNextSlow=(false);
+            setSpNextSlow(false);
             currentFactor *= 0.8;
             doTarsos = true;
         }
@@ -1356,7 +1296,7 @@ needed, one in front of each of the phonemes.
         if (isSpNextFast())
         {
             // doc says 2, but that seems much
-            spNextFast=(false);
+            setSpNextFast(false);
             currentFactor *= 1.2;//2;
             doTarsos = true;
         }     
@@ -1418,32 +1358,32 @@ needed, one in front of each of the phonemes.
                 dummy = concat(dummy, wavData);
             }
             wavData = dummy;
-            spRepeat=(0);
+            setSpRepeat(0);
         }
     }
     void speakJetdoCommandWithParameter (int param)
     {
-        spCommandMode= (false);
+        setSpCommandMode(false);
         if (getSpCommand() == 20) // master volume
         {
-            spVolume = (((double)(param & 0x7f)) / 127.0);
+            setSpVolume(((double)(param & 0x7f)) / 127.0);
             line.setVolume(getSpVolume());
         }
         else if (getSpCommand() == 21) // tempo 
         {
-            spTempo = (param);
+            setSpTempo(param);
         }                        
         else if (getSpCommand() == 22) // master volume
         {
-            spPitch = (param);
+            setSpPitch(param);
         }
         else if (getSpCommand() == 23) // bend
         {
-            spBend = (param);
+            setSpBend(param);
         }
         else if (getSpCommand() == 26) // repeat
         {
-            spRepeat = (param);
+            setSpRepeat(param);
         }
         else if (getSpCommand() == 30) // delay
         {
@@ -1469,7 +1409,7 @@ needed, one in front of each of the phonemes.
     // that parameter must be fetched
     void speakJetAcceptCommand(int command)
     {
-        spCommand = (command);
+        setSpCommand(command);
         if (command == 0) // pause 0ms
         {
             removeSilenceFromSample = false; // pause should aknowledege silence
@@ -1573,66 +1513,60 @@ needed, one in front of each of the phonemes.
         }
         else if (command == 7) // fast play in double time
         {
-            spNextFast = (true);
+            setSpNextFast(true);
         }
         else if (command == 8) // slow play in 1,5 time
         {
-            spNextSlow = (true);
+            setSpNextSlow(true);
         }
         else if (command == 14) // not implemented
         {
-            spNextStress = (true);
+            setSpNextStress(true);
         }
         else if (command == 15) // not implemented
         {
-            spNextRelax = (true);
+            setSpNextRelax(true);
         }
         else if (command == 20) // master volume
         {
-            spCommandMode = true;
-            spCommand = (command);
+            setSpCommandMode(true);
         }
         else if (command == 21) // tempo
         {
-            spCommandMode = true;
-            spCommand = (command);
+            setSpCommandMode(true);
         }
         else if (command == 22) // pitch
         {
-            spCommandMode = true;
-            spCommand = (command);
+            setSpCommandMode(true);
         }
         else if (command == 23) // bend
         {
-            spCommandMode = true;
-            spCommand = (command);
+            setSpCommandMode(true);
         }
         else if (command == 26) // repeat x
         {
-            spCommandMode = true;
-            spCommand = (command);
+            setSpCommandMode(true);
         }
         else if (command == 30) // delay x
         {
-            spCommandMode = true;
-            spCommand = (command);
+            setSpCommandMode(true);
         }
         else if (command == 31) // reset
         {
-            spVolume = (((double)(96)) / 127.0);
-            spPitch = 88;
-            spTempo = 114;
-            spBend = 5;
+            setSpVolume(((double)(96)) / 127.0);
+            setSpPitch(88);
+            setSpTempo(114);
+            setSpBend(5);
             line.setVolume(getSpVolume());
             blendEnable = true;
             afterPause = true;
             blendLen = BLEND_DEFAULT;
             isVoiced = false;
             spDelay = 0;
-            spNextStress = false;
-            spNextRelax = false;
-            spNextSlow = false;
-            spNextFast = false;
+            setSpNextStress(false);
+            setSpNextRelax(false);
+            setSpNextSlow(false);
+            setSpNextFast(false);
         }
     }    
     public static byte[] concat(byte[] a, byte[] b) 
@@ -1661,7 +1595,13 @@ needed, one in front of each of the phonemes.
         return spNextFast;
     }
 
-    
+    /**
+     * @param spNextFast the spNextFast to set
+     */
+    public void setSpNextFast(boolean spNextFast) {
+        this.spNextFast = spNextFast;
+    }
+
     /**
      * @return the spNextSlow
      */
@@ -1669,7 +1609,13 @@ needed, one in front of each of the phonemes.
         return spNextSlow;
     }
 
-  
+    /**
+     * @param spNextSlow the spNextSlow to set
+     */
+    public void setSpNextSlow(boolean spNextSlow) {
+        this.spNextSlow = spNextSlow;
+    }
+
     /**
      * @return the spNextStress
      */
@@ -1677,12 +1623,25 @@ needed, one in front of each of the phonemes.
         return spNextStress;
     }
 
-    
+    /**
+     * @param spNextStress the spNextStress to set
+     */
+    public void setSpNextStress(boolean spNextStress) {
+        this.spNextStress = spNextStress;
+    }
+
     /**
      * @return the spNextRelax
      */
     public boolean isSpNextRelax() {
         return spNextRelax;
+    }
+
+    /**
+     * @param spNextRelax the spNextRelax to set
+     */
+    public void setSpNextRelax(boolean spNextRelax) {
+        this.spNextRelax = spNextRelax;
     }
 
     /**
@@ -1692,12 +1651,25 @@ needed, one in front of each of the phonemes.
         return spCommandMode;
     }
 
+    /**
+     * @param spCommandMode the spCommandMode to set
+     */
+    public void setSpCommandMode(boolean spCommandMode) {
+        this.spCommandMode = spCommandMode;
+    }
 
     /**
      * @return the spVolume
      */
     public double getSpVolume() {
         return spVolume;
+    }
+
+    /**
+     * @param spVolume the spVolume to set
+     */
+    public void setSpVolume(double spVolume) {
+        this.spVolume = spVolume;
     }
 
     /**
@@ -1708,18 +1680,38 @@ needed, one in front of each of the phonemes.
     }
 
     /**
+     * @param spCommand the spCommand to set
+     */
+    public void setSpCommand(int spCommand) {
+        this.spCommand = spCommand;
+    }
+
+    /**
      * @return the spPitch
      */
     public int getSpPitch() {
         return spPitch;
     }
 
+    /**
+     * @param spPitch the spPitch to set
+     */
+    public void setSpPitch(int spPitch) {
+        this.spPitch = spPitch;
+    }
 
     /**
      * @return the spTempo
      */
     public int getSpTempo() {
         return spTempo;
+    }
+
+    /**
+     * @param spTempo the spTempo to set
+     */
+    public void setSpTempo(int spTempo) {
+        this.spTempo = spTempo;
     }
 
     /**
@@ -1730,10 +1722,24 @@ needed, one in front of each of the phonemes.
     }
 
     /**
+     * @param spBend the spBend to set
+     */
+    public void setSpBend(int spBend) {
+        this.spBend = spBend;
+    }
+
+    /**
      * @return the spRepeat
      */
     public int getSpRepeat() {
         return spRepeat;
+    }
+
+    /**
+     * @param spRepeat the spRepeat to set
+     */
+    public void setSpRepeat(int spRepeat) {
+        this.spRepeat = spRepeat;
     }
 
     /**

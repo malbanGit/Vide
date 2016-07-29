@@ -14,6 +14,7 @@ import de.malban.config.Configuration;
 import de.malban.config.Logable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.components.ModalInternalFrame;
+import de.malban.gui.panels.LogPanel;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -472,7 +473,7 @@ public class INetPictureImportPanel extends javax.swing.JPanel implements INetTh
         } catch(Exception e)
         {
             currentImage = null;
-            Configuration.getConfiguration().getDebugEntity().addLog(e,Logable.LOG_ERROR);
+            Configuration.getConfiguration().getDebugEntity().addLog(e,LogPanel.ERROR);
         }
         inEvent--;
         doCurrentCropPreview();
@@ -527,7 +528,7 @@ public class INetPictureImportPanel extends javax.swing.JPanel implements INetTh
             javax.imageio.ImageIO.write( bimageCropped2, "png", f );
         } catch(Exception e)
         {
-            Configuration.getConfiguration().getDebugEntity().addLog(e,Logable.LOG_ERROR);
+            Configuration.getConfiguration().getDebugEntity().addLog(e,LogPanel.ERROR);
         }
     
     }//GEN-LAST:event_jButtonSaveActionPerformed

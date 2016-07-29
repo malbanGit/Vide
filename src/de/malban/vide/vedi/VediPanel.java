@@ -3225,7 +3225,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             shouldSave = true;
         }
         
-        if ((project.getExtras() & Cartridge.FLAG_RAM_DS2430A) == Cartridge.FLAG_RAM_DS2430A)
+        if ((project.getExtras() & Cartridge.FLAG_DS2430A) == Cartridge.FLAG_DS2430A)
         {
             Path include = Paths.get(".", "template", "VECTREX.I");
             de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "VECTREX.I");

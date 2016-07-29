@@ -378,6 +378,12 @@ Done:
         a "real" hardlink (emulators running in same thread with cacle sync) was implemendet (see: ENABLE_HARDSYNC) but it 
         runs slow as hell, so I disabled it again
 
+- done: vecx add breakpoint for external line state change
+- done: codi example code lightpen
+- done: cartridge add emulation for BOTH bankswitch and 1 wire devices
+- done: vecci for raster generation add the ability to NOT reverse every second row!
+- done: veccy to save state "old_via_ca1"
+- done: vecxi lightPen port 1
 
 
 
@@ -386,6 +392,15 @@ Done:
 todo:
 todoc:
 
+add a bank mode, where all breakpoints are set/erased in all banks
+
+Next:
+- emulaiton MICROCHIP 11AA010
+- emulation 3d imager
+
+: bug
+assi  dec b -> gives exception
+
 remove from memory stuff when vedi windows are clsed
 
 do a veccy comment like
@@ -393,7 +408,6 @@ do a veccy comment like
 ; and upon finding that string do a tooltip of the vectorlist!
 
 
-- for raster generation add the ability to NOT reverse every second row!
 
 - thread syntax color in vedi still somtimes lost
 
@@ -412,17 +426,12 @@ possible future games:
 tooltip in vedi with vectrex bios functions?
 
 - vecvox - no emulation of: Microchip 24LC256 (see i.rtf)
-- examples for lightpen
 - examples for 3d imager
-- examples for vlink
 - vecMulti
 
 
-- add copy/paste to speech generation, to 
- easily insert new speech data per copy and paste to existing programs
 
 - vecci with DOT-Lists
-- vecvoice > 3d imager
 
 
 -do pb6 as correct line emulation, not all special cases...
@@ -442,10 +451,7 @@ link new pdf files to library
 - analog jystick
 - eprom 
 - multi ram
-- vox
-- veccy - list of "POINTS"
 - hot key save /edit config
-- make sure color is working all the time
 - examin: cacle /close button on windows?
 - clip in DRAW clipped
 - vari list of vars are coma seperated - should be :
@@ -492,7 +498,6 @@ link new pdf files to library
   bug? works under windows...
 - ASM: lda   #$-8                      ;Get y ($2FBE)
 - vecxi alg_rsh not emulated at all!
-- vecxi lightPen port 1
 - vecxi input devices & 
 - vecxi imager
 - vecxi sync vector drawing to wait recal
@@ -501,9 +506,6 @@ link new pdf files to library
 - vecxi vectrex animaction extra ram
 - vecxi vecram
 - vecxi support Spektrum
-- vecxi vecvox 
-  SPUDSTER test with vecVoice
-  VecVox: http://www.herbs64.plus.com, https://github.com/gauze/spudster, 
 - vecxi look at bug mentioned in mame vectrex RND Minestorm
 - vecxi look at bugs mentions by para
 - vedi output to real vectrex from here
@@ -513,12 +515,3 @@ link new pdf files to library
   mClearFlag (InactiveFlag | RefuelFlag | ShieldFlag | PullFlag)
   macro call parameters should be 1memops additionally comma seperated!
 - lex bra TileW TileW TileW TileW TileW 
-- vecxi:
-  Parabellum: Lightpen in Port 1
-  The Engine Analyzer ROM is not really a game per se (and not entertaining in anyway), 
-  but is nonetheless interesting as it is the only binary I know of that makes use of a lightpen plugged in the first game port.
-  When plugged in the second gameport, the lightpen's pin 4 is connected to the 6522's CA1 input pin, so the application 
-  just polls the state of the 6522's CA1 interrupt flag to know if the pen detects the line that is just being drawn. 
-  Also, the application will sometime setup the 6522 interrupt enable register so that it propagates a real IRQ to the CPU when CA1 is set.
-  When connected in the first gameport, the lightpen may be used through the CPU's FIRQ (rather than IRQ), as the pin 4 
-  of the first gameport is connected to the CPU's FIRQ line. This is how the Engine Analyzer program reads the lightpen inputs.

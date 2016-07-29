@@ -19,7 +19,6 @@ import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.ShowErrorDialog;
-import de.malban.sound.VideAudio;
 import de.malban.util.KeyboardListener;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.dissy.MemoryInformation;
@@ -32,6 +31,8 @@ import static de.malban.vide.vecx.VecXStatics.EMU_EXIT_BREAKPOINT_BREAK;
 import static de.malban.vide.vecx.VecXStatics.EMU_TIMER;
 import static de.malban.vide.vecx.VecXStatics.VECTREX_MHZ;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
+import de.malban.vide.vecx.cartridge.DS2430A;
+import de.malban.vide.vecx.cartridge.Microchip11AA010;
 import de.malban.vide.vecx.devices.AbstractDevice;
 import de.malban.vide.vecx.devices.HardSyncDevice;
 import de.malban.vide.vecx.devices.JoyportDevice;
@@ -40,6 +41,7 @@ import de.malban.vide.vecx.devices.NullDevice;
 import de.malban.vide.vecx.devices.VecLinkV1Device;
 import de.malban.vide.vecx.devices.VecLinkV2Device;
 import de.malban.vide.vecx.devices.VecSpeechDevice;
+import de.malban.vide.vecx.devices.VectrexJoyport;
 import de.malban.vide.vecx.spline.CardinalSpline;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -47,8 +49,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
@@ -61,12 +61,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import de.malban.vide.vecx.spline.Pt;
 import de.malban.vide.vecx.panels.AnalogJPanel;
 import de.malban.vide.vecx.panels.BreakpointJPanel;
+import de.malban.vide.vecx.panels.CartridgePanel;
+import de.malban.vide.vecx.panels.JoyportPanel;
 import de.malban.vide.vecx.panels.LabelJPanel;
 import de.malban.vide.vecx.panels.MemoryDumpPanel;
 import de.malban.vide.vecx.panels.PSGJPanel;
@@ -77,9 +77,7 @@ import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.event.ListDataListener;
 
 /**
  *
@@ -106,6 +104,7 @@ public class VecXPanel extends javax.swing.JPanel
     BufferedImage[] phosphor = new BufferedImage[2];
     int phosphorDraw = 0;
     int phosphorDisplay = 1;
+    boolean cartProp = true;
     
     
     boolean updateAllways = false;
@@ -149,6 +148,8 @@ public class VecXPanel extends javax.swing.JPanel
     LabelJPanel labi = null;
     WRTrackerJPanel tracki = null;
     PSGJPanel ayi = null;
+    JoyportPanel joyi = null;
+    CartridgePanel carti = null;
     
     BufferedImage image;
     boolean startTypeRun = true;
@@ -498,7 +499,6 @@ public class VecXPanel extends javax.swing.JPanel
         }
         setDissi(dissi);
         
-//        dissi.setIcon(startTypeRun);
         vecx.init(jTextFieldstart.getText(), cartProp);
 
         dissi.dis(vecx.cart);
@@ -514,7 +514,6 @@ public class VecXPanel extends javax.swing.JPanel
         updatePorts();
         start();
     }//GEN-LAST:event_jButtonStartActionPerformed
-    boolean cartProp = true;
     public void startUp(String path)
     {
         startUp(path, true);
@@ -588,9 +587,6 @@ public class VecXPanel extends javax.swing.JPanel
     {
         CSAMainFrame f = (CSAMainFrame) mParent;
         dissi = f.getDissi();
-//        dissi.setVecxy(this);
-//        checkWindows();
-    
     }
     // stops debugging,
     // if not debugging does nothing
@@ -784,6 +780,8 @@ public class VecXPanel extends javax.swing.JPanel
         vecx.directDrawActive = true;
         stopDebug(false);
     }
+    
+    
     public void debugBreakpointAction()
     {
         if (stepping) return;
@@ -796,6 +794,7 @@ public class VecXPanel extends javax.swing.JPanel
         bp.targetType = Breakpoint.BP_TARGET_CPU;
         bp.targetSubType = Breakpoint.BP_SUBTARGET_CPU_PC;
         bp.type = Breakpoint.BP_COMPARE | Breakpoint.BP_MULTI;
+            
         breakpointAddressToggle(bp);
     }   
 
@@ -1031,6 +1030,34 @@ public class VecXPanel extends javax.swing.JPanel
         
         breaki.setDissi(dissi);
         breaki.updateValues(true);
+    }
+    public void showJoyportDevices()
+    {
+        if (dissi == null) return;
+        if (joyi == null)
+        {
+            joyi = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).getJoyportDevice();
+        }
+        if (joyi == null) return;
+        joyi.setIcon(false);
+        joyi.setVecxy(this);
+        
+        joyi.setDissi(dissi);
+        joyi.updateValues(true);
+    }
+    public void showCartridges()
+    {
+        if (dissi == null) return;
+        if (carti == null)
+        {
+            carti = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).getCartridge();
+        }
+        if (carti == null) return;
+        carti.setIcon(false);
+        carti.setVecxy(this);
+        
+        carti.setDissi(dissi);
+        carti.updateValues(true);
     }
     
     
@@ -1322,7 +1349,6 @@ public class VecXPanel extends javax.swing.JPanel
         pausing = true;
         // emulation thread is still runnning but not
         // emulating!
-        
     }
     public boolean isPausing()
     {
@@ -1614,7 +1640,6 @@ public class VecXPanel extends javax.swing.JPanel
         
         Color cc = new Color(0,0,0,config.persistenceAlpha );
         g2.setColor(cc);
-//        g2.clearRect(0, 0, vectrexDisplayWidth, vectrexDisplayheight);
         g2.fillRect(0, 0, vectrexDisplayWidth, vectrexDisplayheight);
         
         if (pausing)
@@ -2193,7 +2218,13 @@ public class VecXPanel extends javax.swing.JPanel
         int x = mX;
         int y = mY -jPanel1.getHeight();
         
+        // try correct some rounding mistakes
+        y-=4;
+        x-=4;
+
         if (y<0) {unsetLightPen();return;} // mouse not pressed on vectrex panel
+
+        
         
         // in vectrex coordinates,
         // though 0,0 is as of yet not "center", but upper left corner
@@ -2227,6 +2258,10 @@ public class VecXPanel extends javax.swing.JPanel
             tracki.updateValues(forceUpdate);
         if (ayi != null)
             ayi.updateValues(forceUpdate);
+        if (carti != null)
+            carti.updateValues(forceUpdate);
+        if (joyi != null)
+            joyi.updateValues(forceUpdate);
     }
     void checkWindows()
     {
@@ -2242,6 +2277,8 @@ public class VecXPanel extends javax.swing.JPanel
         if (labi == null) labi = f.checkLabi(); // stays null or is set!
         if (tracki == null) tracki = f.checkWRTracker(); // stays null or is set!
         if (ayi == null) ayi = f.checkAyi(); // stays null or is set!
+        if (joyi == null) joyi = f.checkJoyportDevice(); // stays null or is set!
+        if (carti == null) carti = f.checkCartridge(); // stays null or is set!
 
         if (dissi != null)
         {
@@ -2252,6 +2289,8 @@ public class VecXPanel extends javax.swing.JPanel
             if (labi != null) labi.setDissi(dissi);
             if (ayi != null) ayi.setDissi(dissi);
             if (breaki != null) breaki.setDissi(dissi);
+            if (joyi != null) joyi.setDissi(dissi);
+            if (carti != null) carti.setDissi(dissi);
             dissi.setVecxy(this);
         }
         if (dumpi != null) dumpi.setVecxy(this);
@@ -2265,6 +2304,16 @@ public class VecXPanel extends javax.swing.JPanel
         if (labi != null) labi.setVecxy(this);
         if (tracki != null) tracki.setVecxy(this);
         if (ayi != null) ayi.setVecxy(this);
+        if (joyi != null) joyi.setVecxy(this);
+        if (carti != null) carti.setVecxy(this);
+    }
+    public void resetCartridge()
+    {
+        joyi = null;
+    }
+    public void resetDevice()
+    {
+        carti = null;
     }
     public void resetAyi()
     {
@@ -2324,6 +2373,10 @@ public class VecXPanel extends javax.swing.JPanel
             ayi.setDissi(null);
         if (breaki != null)
             breaki.setDissi(null);
+        if (carti != null)
+            carti.setDissi(null);
+        if (joyi != null)
+            joyi.setDissi(null);
     }
     public void resetMe()
     {
@@ -2343,6 +2396,8 @@ public class VecXPanel extends javax.swing.JPanel
         if (labi != null) labi.setVecxy(null);
         if (tracki != null) tracki.setVecxy(null);
         if (ayi != null) ayi.setVecxy(null);
+        if (joyi != null) joyi.setVecxy(null);
+        if (carti != null) carti.setVecxy(null);
     }
     // re setting dissi updates all!
     
@@ -2415,19 +2470,6 @@ public class VecXPanel extends javax.swing.JPanel
         if (breaki != null) breaki.updateValues(true);
     }
     
-    // single systemwide entry point fpr Breakpoints!
-    // not checked if "same" breakpoint already exists!
-    public void breakpointMemorySet(Breakpoint bp)
-    {
-        if (dissi == null) return;
-        dissi.getMemory();
-        MemoryInformation memInfo = dissi.getMemory().get(bp.targetAddress, bp.targetBank);
-        if (memInfo == null) return;
-        bp.memInfo = memInfo;
-        vecx.addBreakpoint(bp);
-        dissi.updateTableOnly();
-        if (breaki != null) breaki.updateValues(true);
-    }
     // RAM access// read//write// value
     public void breakpointVarSet(Breakpoint bp)
     {
@@ -2455,7 +2497,23 @@ public class VecXPanel extends javax.swing.JPanel
     public boolean breakpointAddressToggle(Breakpoint bp)
     {
         if (dissi == null) return false;
-        dissi.getMemory();
+        
+        if (dissi.isBankDebug())
+        {
+            for (int b=0;b<vecx.cart.getBankCount(); b++)
+            {
+                Breakpoint nbp = bp.duplicate();
+                nbp.targetBank = b;
+                breakpointAddressToggleImpl(nbp);
+            }
+            
+            return true;
+        }
+        return breakpointAddressToggleImpl(bp);
+    }
+
+    public boolean breakpointAddressToggleImpl(Breakpoint bp)
+    {
         MemoryInformation memInfo = dissi.getMemory().get(bp.targetAddress, bp.targetBank);
         if (memInfo == null) return false;
         bp.memInfo = memInfo;
@@ -2473,6 +2531,39 @@ public class VecXPanel extends javax.swing.JPanel
         if (breaki != null) breaki.updateValues(true);
         return false;
     }
+    
+    // single systemwide entry point fpr Breakpoints!
+    // not checked if "same" breakpoint already exists!
+    public void breakpointMemorySet(Breakpoint bp)
+    {
+        if (dissi == null) return;
+        if (dissi.isBankDebug())
+        {
+            for (int b=0;b<vecx.cart.getBankCount(); b++)
+            {
+                Breakpoint nbp = bp.duplicate();
+                nbp.targetBank = b;
+                breakpointAddressToggleImpl(nbp);
+            }
+            
+            return;
+        }
+        breakpointAddressToggleImpl(bp);
+        return ;
+    }
+    public void breakpointMemorySetImpl(Breakpoint bp)
+    {
+        if (dissi == null) return;
+        dissi.getMemory();
+        MemoryInformation memInfo = dissi.getMemory().get(bp.targetAddress, bp.targetBank);
+        if (memInfo == null) return;
+        bp.memInfo = memInfo;
+        vecx.addBreakpoint(bp);
+        dissi.updateTableOnly();
+        if (breaki != null) breaki.updateValues(true);
+    }
+
+
     // true on add
     public boolean breakpointBankToggle(Breakpoint bp)
     {
@@ -2495,10 +2586,33 @@ public class VecXPanel extends javax.swing.JPanel
 
     public void breakpointRemove(Breakpoint bp)
     {
+        if (dissi == null) return;
+        if (dissi.isBankDebug())
+        {
+            for (int b=0;b<vecx.cart.getBankCount(); b++)
+            {
+                Breakpoint nbp = bp.duplicate();
+                nbp.targetBank = b;
+                breakpointRemoveImpl(nbp);
+            }
+            
+            return;
+        }
+        breakpointRemoveImpl(bp);
+        return ;
+    }
+    void breakpointRemoveImpl(Breakpoint bp)
+    {
         vecx.removeBreakpoint(bp);        
         dissi.updateTableOnly();
         if (breaki != null) breaki.updateValues(true);
     }
+    
+    
+    
+    
+    
+    
     public long getCyclesRunning()
     {
         return vecx.cyclesRunning;
@@ -2854,6 +2968,8 @@ public class VecXPanel extends javax.swing.JPanel
         labi = null;
         tracki = null;
         ayi = null;
+        carti = null;
+        joyi = null;
         dissiInit = false;
 
         
@@ -2894,6 +3010,8 @@ public class VecXPanel extends javax.swing.JPanel
         if (labi != null) labi.setVecxy(this);
         if (tracki != null) tracki.setVecxy(this);
         if (ayi != null) ayi.setVecxy(this);        
+        if (carti != null) carti.setVecxy(this);        
+        if (joyi != null) joyi.setVecxy(this);        
         
         if (dumpi != null) dumpi.setDissi(dissi);
         if (regi != null) regi.setDissi(dissi);
@@ -2902,6 +3020,8 @@ public class VecXPanel extends javax.swing.JPanel
         if (labi != null) labi.setDissi(dissi);
         if (ayi != null) ayi.setDissi(dissi);
         if (breaki != null) breaki.setDissi(dissi);
+        if (carti != null) carti.setDissi(dissi);
+        if (joyi != null) joyi.setDissi(dissi);
 
         
         updateAvailableWindows(false, false, true);
@@ -2922,6 +3042,8 @@ public class VecXPanel extends javax.swing.JPanel
         labi = f.checkLabi();
         tracki = f.checkWRTracker();
         ayi = f.checkAyi();
+        carti = f.checkCartridge();
+        joyi = f.checkJoyportDevice();
         
     }
 
@@ -3130,6 +3252,19 @@ public class VecXPanel extends javax.swing.JPanel
         
         return stopEmulation;
     }
-    
+    public Microchip11AA010 getMicrochip()
+    {
+        if (vecx.microchipEnabled == false) return null;
+        return vecx.cart.microchip;
+    }
+    public DS2430A getDS2430A()
+    {
+        if (vecx.ds2430Enabled == false) return null;
+        return vecx.cart.ds2430;
+    }
+    public VectrexJoyport[] getJoyportDevices()
+    {
+        return vecx.joyport;
+    }
     
 }

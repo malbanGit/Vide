@@ -256,7 +256,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jButtonVectrorScreenshot" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="jButtonShowLabels2" min="-2" max="-2" attributes="0"/>
+              <Component id="jButtonApplyCodeScan" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jCheckBox3" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
@@ -283,7 +283,7 @@
                   </Group>
                   <Component id="jButtonDASMOutput" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonCNTOutput" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonShowLabels2" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonApplyCodeScan" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonVectrorScreenshot" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -927,7 +927,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox3ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonShowLabels2">
+    <Component class="javax.swing.JButton" name="jButtonApplyCodeScan">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/de/malban/vide/images/exclamation.png"/>
@@ -938,7 +938,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonShowLabels2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonApplyCodeScanActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonCNTOutput">

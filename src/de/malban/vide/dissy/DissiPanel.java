@@ -15,6 +15,9 @@ import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.util.KeyboardListener;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.vide.VideConfig;
+import static de.malban.vide.dissy.Command.D_CMD_BANKSWITCH_DEBUG;
+import static de.malban.vide.dissy.Command.D_CMD_CARTRIDGE;
+import static de.malban.vide.dissy.Command.D_CMD_JOYPORT_DEVICE;
 import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_INSTRUCTION_1_LENGTH;
 import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_INSTRUCTION_GENERAL;
 import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_WORD;
@@ -300,7 +303,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jEditorPane1 = new javax.swing.JEditorPane();
         jTextFieldCommand = new javax.swing.JTextField();
         jCheckBox3 = new javax.swing.JCheckBox();
-        jButtonShowLabels2 = new javax.swing.JButton();
+        jButtonApplyCodeScan = new javax.swing.JButton();
         jButtonCNTOutput = new javax.swing.JButton();
         jButtonDASMOutput = new javax.swing.JButton();
         jButtonVectrorScreenshot = new javax.swing.JButton();
@@ -944,12 +947,12 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         });
 
-        jButtonShowLabels2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/exclamation.png"))); // NOI18N
-        jButtonShowLabels2.setToolTipText("Reset dissi, do everything from start. This mainly makes sense in combination with\n \"codescan\".");
-        jButtonShowLabels2.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonShowLabels2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonApplyCodeScan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/exclamation.png"))); // NOI18N
+        jButtonApplyCodeScan.setToolTipText("Reset dissi, do everything from start. This mainly makes sense in combination with\n \"codescan\".");
+        jButtonApplyCodeScan.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonApplyCodeScan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonShowLabels2ActionPerformed(evt);
+                jButtonApplyCodeScanActionPerformed(evt);
             }
         });
 
@@ -1000,7 +1003,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonVectrorScreenshot)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonShowLabels2)
+                .addComponent(jButtonApplyCodeScan)
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox3)
                 .addGap(6, 6, 6)
@@ -1024,7 +1027,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                         .addComponent(jCheckBox3))
                     .addComponent(jButtonDASMOutput, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonCNTOutput, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonShowLabels2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonApplyCodeScan, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonVectrorScreenshot, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
@@ -1800,9 +1803,9 @@ public class DissiPanel extends javax.swing.JPanel  implements
         updateTableOnly();
     }//GEN-LAST:event_jButtonSearchNext2ActionPerformed
 
-    private void jButtonShowLabels2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonShowLabels2ActionPerformed
+    private void jButtonApplyCodeScanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyCodeScanActionPerformed
         reset();
-    }//GEN-LAST:event_jButtonShowLabels2ActionPerformed
+    }//GEN-LAST:event_jButtonApplyCodeScanActionPerformed
 
     private void jButtonCNTOutputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCNTOutputActionPerformed
         outputCNT();
@@ -1980,9 +1983,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 if (memInfo.disTypeCollectionMax>len)
                     len = memInfo.disTypeCollectionMax;
             }
-            
-            
-            
+
             for (int a=memInfo.address; a<memInfo.address+len; a++)
             {
                 if (start == -1) start = memInfo.address;
@@ -2065,12 +2066,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
                         memInfo.familyBytes.clear();
                     }
                 }
-
-
-
-
-
-
             }
         }
         
@@ -2215,6 +2210,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdressBack;
     private javax.swing.JButton jButtonAdressForward;
+    private javax.swing.JButton jButtonApplyCodeScan;
     private javax.swing.JButton jButtonCNTOutput;
     private javax.swing.JButton jButtonDASMOutput;
     private javax.swing.JButton jButtonDebug;
@@ -2229,7 +2225,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
     private javax.swing.JButton jButtonSearchPrevious;
     private javax.swing.JButton jButtonShowBreakpoints;
     private javax.swing.JButton jButtonShowLabels;
-    private javax.swing.JButton jButtonShowLabels2;
     private javax.swing.JButton jButtonShowPSG;
     private javax.swing.JButton jButtonShowVars;
     private javax.swing.JButton jButtonStepOut;
@@ -2306,8 +2301,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 if ((codeScanMemInfo.codeScanType & CodeScanMemory.MemInfo.MEMORY_CODE ) == CodeScanMemory.MemInfo.MEMORY_CODE)
                 {
                     getMemoryInformation(i, b).disType = MemoryInformation.DIS_TYPE_DATA_INSTRUCTION_GENERAL;
+                    getMemoryInformation(i, b).directPageAddress = codeScanMemInfo.dp;
                     code++;
-                            
                     continue;
                 }
                 if ((codeScanMemInfo.codeScanType & CodeScanMemory.MemInfo.MEMORY_READ ) == CodeScanMemory.MemInfo.MEMORY_READ)
@@ -2367,24 +2362,23 @@ public class DissiPanel extends javax.swing.JPanel  implements
         currentDissi.init = true;
         return ret;
     }
-    public String dis(Cartridge card)
+    public String dis(Cartridge cart)
     {
         currentDissi.init = false;
         currentDissi.dasm.reset();
+        handleCodeScan();
         
         panels.remove(this);
         panels.add(this);
         
-        currentDissi.loadedName = card.cartName;
+        currentDissi.loadedName = cart.cartName;
      
-        card.addCartridgeListener(this);
+        cart.addCartridgeListener(this);
         
-        handleCodeScan();
-
-        String lastName = card.getBankeRomName(0);
+        String lastName = cart.getBankeRomName(0);
 
         String ret = "";
-        if ((lastName == null) || (card.getBankCount()==0))
+        if ((lastName == null) || (cart.getBankCount()==0))
         {
             // no rom file loadable
             // at least load system rom info!
@@ -2400,7 +2394,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     if (!currentDissi.dasm.tryLoadCNT(lastName))
                     currentDissi.dasm.tryLoadList(lastName);
                 }
-                ret = currentDissi.dasm.disassemble(card.getByteData(0),0, 0, config.assumeVectrex, 0);
+                ret = currentDissi.dasm.disassemble(cart.getByteData(0),0, 0, config.assumeVectrex, 0);
             }
             catch (Throwable e)
             {
@@ -2415,16 +2409,16 @@ public class DissiPanel extends javax.swing.JPanel  implements
         currentDissi.dasm.setCreateLabels(config.createUnkownLabels);
         try
         {
-            for (int b=0;b<card.getBankCount(); b++)
+            for (int b=0;b<cart.getBankCount(); b++)
             {
-                if (card.getBankeRomName(b) != null)
+                if (cart.getBankeRomName(b) != null)
                 {
                     if ((lastName != null)&&(lastName.length()!=0))
                     {
-                        if (!lastName.equals(card.getBankeRomName(b)))
+                        if (!lastName.equals(cart.getBankeRomName(b)))
                         {
-                            currentDissi.dasm.resetInfo();
-                            lastName = card.getBankeRomName(b);
+                            lastName = cart.getBankeRomName(b);
+//                            currentDissi.dasm.resetInfo();
                             if (config.lstFirst)
                             {
                                 if (!currentDissi.dasm.tryLoadList(lastName))
@@ -2438,7 +2432,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                         }
                     }
                 }
-                ret = currentDissi.dasm.disassemble(card.getByteData(b),0, 0, config.assumeVectrex, b);
+                ret = currentDissi.dasm.disassemble(cart.getByteData(b),0, 0, config.assumeVectrex, b);
             }
         }
         catch (Throwable e)
@@ -3224,7 +3218,13 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
         executeCommand(com, parts);
     }
-    // executes given command with given parameters, param[0] is string of command invocation!
+    boolean bsDebug = false;
+    public boolean isBankDebug()
+    {
+        return bsDebug;
+    }
+    
+// executes given command with given parameters, param[0] is string of command invocation!
     public void executeCommand(Command command, String[] param)
     {
         if (currentDissi.vecxPanel==null) 
@@ -3234,6 +3234,33 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
         switch (command.ID)
         {
+            
+            case Command.D_CMD_BANKSWITCH_DEBUG:
+            {
+                bsDebug = !bsDebug;
+                if (bsDebug)
+                {
+                    printMessage("Debug for bankswitching enabled.", MESSAGE_INFO);
+                }
+                else
+                {
+                    printMessage("Debug for bankswitching disabled.", MESSAGE_INFO);
+                }
+                
+                break;
+            }
+            case Command.D_CMD_CARTRIDGE:
+            {
+                if (currentDissi.vecxPanel!=null) 
+                    currentDissi.vecxPanel.showCartridges();
+                break;
+            }
+            case Command.D_CMD_JOYPORT_DEVICE:
+            {
+                if (currentDissi.vecxPanel!=null) 
+                    currentDissi.vecxPanel.showJoyportDevices();
+                break;
+            }
             case Command.D_CMD_HELP:
             {
                 printMessage(Command.getHelp(), MESSAGE_INFO);
@@ -3260,6 +3287,11 @@ public class DissiPanel extends javax.swing.JPanel  implements
             case Command.D_CMD_RESET:
             {
                 currentDissi.vecxPanel.resetCurrent();
+                break;
+            }
+            case Command.D_CMD_SYNC_BANK_COMMENTS:
+            {
+                synchronizeComments();
                 break;
             }
             case Command.D_CMD_CYCLES:
@@ -3365,6 +3397,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     Breakpoint bp = new Breakpoint();
                     bp.targetBank = getCurrentBank();
                     bp.targetType = Breakpoint.BP_TARGET_CARTRIDGE;
+                    bp.targetSubType = Breakpoint.BP_SUBTARGET_CARTRIDGE_BANKSWITCH;
                     bp.name = "Bankswitch";
                     bp.type = /*Breakpoint.BP_COMPARE |*/ Breakpoint.BP_MULTI|Breakpoint.BP_BANK;
                     boolean added = currentDissi.vecxPanel.breakpointBankToggle(bp);
@@ -3957,9 +3990,178 @@ public class DissiPanel extends javax.swing.JPanel  implements
             end = memInfo.address+len;
         }
         dumpi.setStartEndAddress(start, end);
-         
+    }
+    
+    void synchronizeComment(int adr)
+    {
+        boolean e = isBankEqual(adr);
+        if (!e) return;
         
+        // find a "single" comment
+        ArrayList<String> comments = null;
+        boolean doComments = true;
+        
+        
+        for (int b = 0; b<getMemory().maxBank; b++)
+        {
+            MemoryInformation memInfo = getMemory().get(adr, b);
+            if (memInfo.comments.size() > 0)
+            {
+                ArrayList<String> newComments = null;
+                String c="";
+                for (int i=0; i< memInfo.comments.size();i++)
+                {
+                    c+=memInfo.comments.get(i).trim();
+                }
+                c = de.malban.util.UtilityString.replace(c, ":", "");
+                if (c.length()>0)
+                {
+                    newComments = (ArrayList<String>) memInfo.comments.clone();
+                }
+                if (newComments == null) 
+                    continue;
+                if (comments != null) 
+                {
+                    doComments = false; // different comments -> no synchronize
+                    continue;
+                }
+                comments = newComments;
+            }
+        }
+        
+        if (doComments)
+        {
+            // set that to all others
+            if (comments != null)
+            {
+                for (int b = 0; b<getMemory().maxBank; b++)
+                {
+                    MemoryInformation memInfo = getMemory().get(adr, b);
+                    memInfo.comments = (ArrayList<String>) comments.clone();
+                }
+            }
+        }
+    }
     
     
+    void synchronizeLabels(int adr)
+    {
+        boolean e = isBankEqual(adr);
+        if (!e) return;
+        
+        ArrayList<String> labels = null;
+        boolean doLabels = true;
+        
+        
+        for (int b = 0; b<getMemory().maxBank; b++)
+        {
+            MemoryInformation memInfo = getMemory().get(adr, b);
+            if (memInfo.labels.size() > 0)
+            {
+                ArrayList<String> newLabels = null;
+                boolean validLabels = false;
+                for (int i=0; i<memInfo.labels.size(); i++)
+                {
+                    String l = memInfo.labels.get(i);
+                    if ((l.startsWith("_")) && (l.length() == 5)) continue;
+                    validLabels = true;
+                }
+                if (validLabels)
+                {
+                     newLabels = (ArrayList<String>) memInfo.labels.clone();
+                    if (labels == null) labels = newLabels;
+                    else  doLabels = false;
+                }
+            }
+        }
+        if (doLabels)
+        {
+            // set that to all others
+            if (labels != null)
+            {
+                for (int b = 0; b<getMemory().maxBank; b++)
+                {
+                    MemoryInformation memInfo = getMemory().get(adr, b);
+                    memInfo.labels = (ArrayList<String>) labels.clone();
+                }
+            }
+        }
+    }    
+    
+    boolean isBankEqual(int adr)
+    {
+        boolean ret = true;
+        MemoryInformation lastMemInfo = null;
+        String lastContents = "";
+        for (int b = 0; b<getMemory().maxBank; b++)
+        {
+            MemoryInformation memInfo = getMemory().get(adr, b);
+
+            String content1 ="";
+            for (int i = 0;i< memInfo.length; i++)
+            {
+                MemoryInformation next = getMemory().memMap.get(memInfo.address+i);
+                if (next != null)
+                {
+                    content1 += String.format("%02X ", next.content&0xff);
+                }
+            }
+            if (lastMemInfo != null)
+            {
+                if (!memInfo.disassembledMnemonic.equals(lastMemInfo.disassembledMnemonic)) return false;
+                if (!content1.equals(lastContents)) return false;
+                if (memInfo.length != lastMemInfo.length) return false;
+            }
+            lastContents = content1;
+            lastMemInfo = memInfo;
+        }
+        return ret;
+    }
+    
+    void synchronizeComments()
+    {
+        if (getMemory().maxBank<=1)
+        {
+            printMessage("Hm, how exactly do you want to synchronize "+getMemory().maxBank+" banks?", MESSAGE_INFO);
+            return;
+        }
+        
+        int start = 0;
+        int end = 0x7fff;
+        for (int m = start; m<end; )
+        {
+            synchronizeComment(m);
+            synchronizeLabels(m);
+            MemoryInformation memInfo = getMemory().get(m, 0);
+
+            int length = memInfo.length;
+            m+=length;
+            if (length==0) m++;
+        }
+        start = 0xc800;
+        end = 0xcbff;
+        for (int m = start; m<end; )
+        {
+            synchronizeComment(m);
+            synchronizeLabels(m);
+            MemoryInformation memInfo = getMemory().get(m, 0);
+
+            int length = memInfo.length;
+            m+=length;
+            if (length==0) m++;
+        }
+        
+        int currentBank = getMemory().currentBank;
+
+        for (int b = 0; b<getMemory().maxBank; b++)
+        {
+            getMemory().setBank(b);
+            currentDissi.dasm.reDisassemble(false);
+            updateTable();
+        }        
+        getMemory().setBank(currentBank);
+        updateTable();
+        jTableSource.repaint();
+        printMessage("Synchronize of comments/labels in banks... done.", MESSAGE_INFO);
     }
 }

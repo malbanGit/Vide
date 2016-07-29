@@ -987,7 +987,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         
         Breakpoint bp = new Breakpoint();
         bp.targetAddress = bit;
-        bp.targetBank = vecxPanel.getCurrentBank();
+        bp.targetBank = 0;
         bp.compareValue = 0;
         
         if (in)
@@ -1015,7 +1015,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         
         Breakpoint bp = new Breakpoint();
         bp.targetAddress = bit;
-        bp.targetBank = vecxPanel.getCurrentBank();
+        bp.targetBank = 0;
         bp.compareValue = 1;
         
         if (in)

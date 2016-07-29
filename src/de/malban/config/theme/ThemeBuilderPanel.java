@@ -15,6 +15,7 @@ import de.malban.config.Configuration;
 import de.malban.config.Logable;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
+import de.malban.gui.panels.LogPanel;
 import java.io.File;
 import java.net.Proxy;
 import java.util.Collection;
@@ -406,7 +407,7 @@ public class ThemeBuilderPanel extends javax.swing.JPanel implements Windowable,
             catch (Throwable e)
             {
                 e.printStackTrace();
-                Configuration.getConfiguration().getDebugEntity().addLog(e,Logable.LOG_ERROR);
+                Configuration.getConfiguration().getDebugEntity().addLog(e,LogPanel.ERROR);
             }
         }
         else

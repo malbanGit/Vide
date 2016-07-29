@@ -400,6 +400,7 @@ public class VecVoxSamples {
                 if (s.code==code) return s.phoneme;
             }
         }
+        if (code == -1)return "EOP";
         if (code <7) return "PAUSE"+code; // pause
         if (code == 255) return "EOP";
 

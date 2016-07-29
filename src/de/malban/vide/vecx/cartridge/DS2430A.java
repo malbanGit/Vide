@@ -68,7 +68,7 @@ DS1W_SEARCHROM  equ     $f0
 
 */
 
-public class DS2430 implements Serializable
+public class DS2430A implements Serializable
 {
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public static final int LL_UNKOWN = 0;
@@ -82,6 +82,22 @@ public class DS2430 implements Serializable
     public static final int LL_WAIT_FOR_BITWRITE_PULSE_START = 8;
     public static final int LL_WAIT_FOR_BITWRITE_PULSE_END = 9;
     public static final int LL_WAIT_FOR_BITWRITE_FINISH = 10;
+    
+    String[] ll_names = {
+        "UNKOWN",
+        "RESET_START",
+        "RESETED",
+        "PULSE_GENERATION",
+        "PULSE_GENERATION_DONE",
+        "READY_FOR_BITREAD",
+        "BITREAD_STARTED",
+        "READY_FOR_BITREAD_CONTINUE",
+        "WAIT_FOR_BITWRITE_PULSE_START",
+        "WAIT_FOR_BITWRITE_PULSE_END",
+        "WAIT_FOR_BITWRITE_FINISH"
+    };
+    
+    
     
     // Timings for low level communication (in 6809 cycles)
     public static int RESET_CYCLE_DURATION = 720;
@@ -98,7 +114,119 @@ public class DS2430 implements Serializable
     public static final int HL_READ_BYTE_FROM_SP = 3;
     public static final int HL_WAIT_FOR_WRITE_ADDRESS = 4;
     public static final int HL_WRITE_BYTE_TO_SP = 5;
+    String[] hl_names = {
+        "WAIT_FOR_1W_COMMAND",
+        "WAIT_FOR_2430_COMMAND",
+        "WAIT_FOR_READ_ADDRESS",
+        "READ_BYTE_FROM_SP",
+        "WAIT_FOR_WRITE_ADDRESS",
+        "WRITE_BYTE_TO_SP"
+    };
     
+    // 1 Wire protocoll commands
+    public static final int DS1W_NONE = 0x00;
+    public static final int DS1W_SKIPROM = 0xcc;
+    public static final int DS1W_MATCHROM = 0x55;
+    public static final int DS1W_SEARCHROM = 0xf0;
+    public static final int DS1W_READROM = 0x33;
+    public static final int DS1W_NOT_SUPPORTED = -1;
+    
+    // DS2430 commands
+    public static final int DS2430_NONE = 0x00;
+    public static final int DS2430_READMEM = 0xf0;
+    public static final int DS2430_WRITESP = 0x0f;
+    public static final int DS2430_READSP = 0xaa;
+    public static final int DS2430_COPYSP = 0x55;
+    public static final int DS2430_VALKEY = 0xa5;
+    public static final int DS2430_NOT_SUPPORTED = -1;
+    
+    
+    
+/*
+
+
+; DS2430 Commands
+
+DS2430_WRITESP  equ     $0f     ; Write bytes to Scratch Pad
+DS2430_COPYSP   equ     $55     ; Copy entire Scratch Pad to EEPROM
+DS2430_READSP   equ     $aa     ; Read bytes from Scratch Pad
+DS2430_READMEM  equ     $f0     ; As READSP, but copies EEPROM to SP first
+
+DS2430_LOCKAR   equ     $5a     ; Lock Application Register
+DS2430_READSR   equ     $66     ; Read Status Register
+DS2430_WRITEAR  equ     $99     ; Write bytes to Application Register
+DS2430_READAR   equ     $c3     ; Read bytes from Application Register
+
+DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
+
+    
+    */       
+    public String getLowLevelName()
+    {
+        return ll_names[lowLevelState];
+    }
+    public String getHighLevelName()
+    {
+        return hl_names[highLevelState];
+    }
+    public String get1WCommandName()
+    {
+        if (current1WCommand == DS1W_NONE) return "NONE";
+        if (current1WCommand == DS1W_SKIPROM) return "SKIPROM";
+        if (current1WCommand == DS1W_MATCHROM) return "MATCHROM";
+        if (current1WCommand == DS1W_SEARCHROM) return "SEARCHROM";
+        if (current1WCommand == DS1W_READROM) return "READROM";
+        return "NOT SUPPORTED ($"+String.format("$%02X", (current1WCommand&0xff) )+")";
+    }
+
+    public String get2430CommandName()
+    {
+        if (current2430Command == DS2430_NONE) return "NONE";
+        if (current2430Command == DS2430_READMEM) return "READMEM";
+        if (current2430Command == DS2430_WRITESP) return "WRITESP";
+        if (current2430Command == DS2430_READSP) return "READSP";
+        if (current2430Command == DS2430_COPYSP) return "COPYSP";
+        if (current2430Command == DS2430_VALKEY) return "VALKEY";
+        return "NOT SUPPORTED ($"+String.format("$%02X", (current2430Command&0xff) )+")";
+    }
+
+    public boolean isInputToDS()
+    {
+        return isReadFromDS;
+    }
+    public String getSyncCycles()
+    {
+        return ""+dif;
+    }
+    public String getLineIn()
+    {
+        if (lineIn) return "1";
+        return "0";
+    }
+    public String getLineOut()
+    {
+        if (lineOut) return "1";
+        return "0";
+    }
+    public String getBitCounterFromVectrex()
+    {
+        return ""+bitsLoaded;
+    }
+    public String getBitCounterFromDS()
+    {
+        return ""+bitsOutputDone;
+    }
+    public String getBitFromDS()
+    {
+        return ""+(currentByteOutput & 0x01);
+    }
+    public String getBitFromVectrex()
+    {
+        return ""+(currentByteRead & 0x01);
+    }
+
+    
+        
     
     public static final int MAX_DATA_LEN = 32;
     
@@ -111,8 +239,11 @@ public class DS2430 implements Serializable
     EpromData epromData = new EpromData();
     
     long cycles = 0;
-    boolean lineIO = false; // false is 0, true is 1
-    boolean old_lineIO = false;
+    boolean line = false; // false is 0, true is 1
+    boolean old_line = false;
+    boolean lineIn = false; // false is 0, true is 1
+    boolean lineOut = false; // false is 0, true is 1
+
     int lowLevelState = LL_UNKOWN;
     int highLevelState = HL_WAIT_FOR_1W_COMMAND;
 
@@ -124,23 +255,31 @@ public class DS2430 implements Serializable
     int currentByteOutput = 0;
     int bitsOutputDone = 0;
     
+    int current1WCommand = DS1W_NONE;
+    int current2430Command = DS2430_NONE;
+    long dif = 0;
     
-    public DS2430(Cartridge c)
+    boolean isReadFromDS = false;
+
+    public DS2430A(Cartridge c)
     {
         cart = c;
     }
-    public DS2430 clone()
+    public DS2430A clone()
     {
-        DS2430 c = new DS2430(cart);
+        DS2430A c = new DS2430A(cart);
         for (int i=0; i<MAX_DATA_LEN;i++)
         {
             c.epromData.data[i] = epromData.data[i];
         }
         c.cycles = cycles;
-        c.lineIO = lineIO; 
-        c.old_lineIO = old_lineIO;
+        c.lineOut = lineOut; 
+        c.line = line; 
+        c.old_line = old_line;
         c.lowLevelState = lowLevelState;
         c.highLevelState = highLevelState;
+        c.isReadFromDS = isReadFromDS;
+        c.dif = dif;
 
         c.currentByteRead = currentByteRead;
         c.bitsLoaded = bitsLoaded;
@@ -150,6 +289,8 @@ public class DS2430 implements Serializable
         c.currentByteOutput = currentByteOutput;
         c.bitsOutputDone = bitsOutputDone;
         c.currentWriteByteComplete = currentWriteByteComplete;
+        c.current1WCommand = current1WCommand;
+        c.current2430Command = current2430Command;
         
         return c;
     }
@@ -157,14 +298,16 @@ public class DS2430 implements Serializable
     // receiving line information from the emulator (VIA)
     public void lineIn(boolean l)
     {
-        lineIO = l;
+        line = l;
+        lineIn = l;
     }
 
     // sending line information to the emulator (VIA)
     public void lineOut(boolean l)
     {
-        lineIO = l;
-        cart.lineOut(lineIO);
+        line = l;
+        lineOut = l;
+        cart.lineOut(line);
     }
 
     // low level step
@@ -173,13 +316,13 @@ public class DS2430 implements Serializable
     // (since I don't trust that we are called each cycle :-) )
     public void step(long c)
     {
-        long dif = c - cycles;
-        if (lineIO != old_lineIO)
+        dif = c - cycles;
+        if (line != old_line)
         {
             // reset cycle count on line changes (which are triggered from the outside)
             cycles = c;
         }
-        if ((!lineIO) && (!old_lineIO))
+        if ((!line) && (!old_line))
         {
             if (lowLevelState == LL_RESET_START) return;
             // if line low longer than 480u
@@ -195,7 +338,7 @@ public class DS2430 implements Serializable
         {
             case LL_WAIT_FOR_BITWRITE_PULSE_START:
             {
-                if (!lineIO)
+                if (!line)
                 {
                     lowLevelState = LL_WAIT_FOR_BITWRITE_PULSE_END;
                     log.addLog("DS2430 write byte pulse started!", LogPanel.INFO);
@@ -204,7 +347,7 @@ public class DS2430 implements Serializable
             }
             case LL_WAIT_FOR_BITWRITE_PULSE_END:
             {
-                if (lineIO)
+                if (line)
                 {
                     lowLevelState = LL_WAIT_FOR_BITWRITE_FINISH;
                     log.addLog("DS2430 write bit pulse ended, starting bit out...!", LogPanel.INFO);
@@ -222,7 +365,7 @@ public class DS2430 implements Serializable
                 if (dif >= BIT_TIMESLOT)
                 {
                     lineOut(true);
-                    if (old_lineIO)
+                    if (old_line)
                     {
                         log.addLog("DS2430 Write bit timeslot done (1)!", LogPanel.INFO);
                     }
@@ -246,7 +389,7 @@ public class DS2430 implements Serializable
             
             case LL_READY_FOR_BITREAD:
             {
-                if (!lineIO)
+                if (!line)
                 {
                     lowLevelState = LL_BITREAD_STARTED;
                     log.addLog("DS2430 Read command 1) - bit start!", LogPanel.INFO);
@@ -255,7 +398,7 @@ public class DS2430 implements Serializable
             }
             case LL_READY_FOR_BITREAD_CONTINUE:
             {
-                if (!lineIO)
+                if (!line)
                 {
                     lowLevelState = LL_BITREAD_STARTED;
                     log.addLog("DS2430 Read command 1b) - bit start!", LogPanel.INFO);
@@ -264,7 +407,7 @@ public class DS2430 implements Serializable
             }
             case LL_BITREAD_STARTED:
             {
-                if (lineIO)
+                if (line)
                 {
                     // LSB first
                     currentByteRead = currentByteRead>>1;
@@ -290,7 +433,7 @@ public class DS2430 implements Serializable
             }
             case LL_RESET_START:
             {
-                if (lineIO)
+                if (line)
                 {
                     lowLevelState = LL_RESETED;
                     log.addLog("DS2430 Reset sequence 2) - reset!", LogPanel.INFO);
@@ -325,54 +468,24 @@ public class DS2430 implements Serializable
                 break;
             }
         }
-        old_lineIO = lineIO;
+        old_line = line;
     }
     
     
     // High Level commands
-    
-    // 1 Wire protocoll commands
-    public static final int DS1W_SKIPROM = 0xcc;
-    public static final int DS1W_MATCHROM = 0x55;
-    public static final int DS1W_SEARCHROM = 0xf0;
-    public static final int DS1W_READROM = 0x33;
-
-    // DS2430 commands
-    public static final int DS2430_READMEM = 0xf0;
-    public static final int DS2430_WRITESP = 0x0f;
-    public static final int DS2430_READSP = 0xaa;
-    public static final int DS2430_COPYSP = 0x55;
-    public static final int DS2430_VALKEY = 0xa5;
-/*
-
-
-; DS2430 Commands
-
-DS2430_WRITESP  equ     $0f     ; Write bytes to Scratch Pad
-DS2430_COPYSP   equ     $55     ; Copy entire Scratch Pad to EEPROM
-DS2430_READSP   equ     $aa     ; Read bytes from Scratch Pad
-DS2430_READMEM  equ     $f0     ; As READSP, but copies EEPROM to SP first
-
-DS2430_LOCKAR   equ     $5a     ; Lock Application Register
-DS2430_READSR   equ     $66     ; Read Status Register
-DS2430_WRITEAR  equ     $99     ; Write bytes to Application Register
-DS2430_READAR   equ     $c3     ; Read bytes from Application Register
-
-DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
-
-    
-    */    
-    
     void highLevelStep()
     {
+        isReadFromDS = true;
         if (highLevelState == HL_WAIT_FOR_1W_COMMAND)
         {
             switch (currentByteRead)
             {
                 case DS1W_SKIPROM:
                 {
+                    current1WCommand = DS1W_SKIPROM;
                     lowLevelState = LL_READY_FOR_BITREAD;
                     highLevelState = HL_WAIT_FOR_2430_COMMAND;
+                    current2430Command = DS2430_NONE;
                     currentByteRead = 0;
                     bitsLoaded = 0;
                     log.addLog("DS2430 Command DS1W_SKIPROM - ignored (ROM read not supported anyway)!", LogPanel.INFO);
@@ -380,6 +493,8 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                 }
                 case DS1W_MATCHROM:
                 {
+                    current1WCommand = DS1W_MATCHROM;
+                    current2430Command = DS2430_NONE;
                     lowLevelState = LL_READY_FOR_BITREAD;
                     highLevelState = HL_WAIT_FOR_1W_COMMAND;
                     currentByteRead = 0;
@@ -389,6 +504,8 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                 }
                 case DS1W_SEARCHROM:
                 {
+                    current1WCommand = DS1W_SEARCHROM;
+                    current2430Command = DS2430_NONE;
                     lowLevelState = LL_READY_FOR_BITREAD;
                     highLevelState = HL_WAIT_FOR_1W_COMMAND;
                     currentByteRead = 0;
@@ -398,6 +515,8 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                 }
                 case DS1W_READROM:
                 {
+                    current1WCommand = DS1W_READROM;
+                    current2430Command = DS2430_NONE;
                     lowLevelState = LL_READY_FOR_BITREAD;
                     highLevelState = HL_WAIT_FOR_1W_COMMAND;
                     currentByteRead = 0;
@@ -407,6 +526,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                 }
                 default:
                 {
+                    current1WCommand = DS1W_NOT_SUPPORTED;
                     break;
                 }
             }
@@ -418,6 +538,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
             {
                 case DS2430_READMEM:
                 {
+                    current2430Command = DS2430_READMEM;
                     loadBytesFromDisk();
                     lowLevelState = LL_READY_FOR_BITREAD;
                     highLevelState = HL_WAIT_FOR_READ_ADDRESS;
@@ -429,6 +550,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                 // read bytes from ds
                 case DS2430_READSP:
                 {
+                    current2430Command = DS2430_READSP;
                     lowLevelState = LL_READY_FOR_BITREAD;
                     highLevelState = HL_WAIT_FOR_READ_ADDRESS;
                     currentByteRead = 0;
@@ -439,6 +561,8 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                 // write bytes to ds
                 case DS2430_WRITESP:
                 {
+                    isReadFromDS = true;
+                    current2430Command = DS2430_WRITESP;
                     lowLevelState = LL_READY_FOR_BITREAD;
                     highLevelState = HL_WAIT_FOR_WRITE_ADDRESS;
                     currentByteRead = 0;
@@ -449,6 +573,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
 
                 case DS2430_COPYSP:
                 {
+                    current2430Command = DS2430_COPYSP;
                     saveBytestoDisk();
                     lowLevelState = LL_READY_FOR_BITREAD;
                     highLevelState = HL_WAIT_FOR_2430_COMMAND;
@@ -459,6 +584,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                 }
                 case DS2430_VALKEY:
                 {
+                    current2430Command = DS2430_VALKEY;
                     // do nothing, what is there to verify?
                     lowLevelState = LL_READY_FOR_BITREAD;
                     highLevelState = HL_WAIT_FOR_2430_COMMAND;
@@ -469,6 +595,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                 }
                 default:
                 {
+                    current2430Command = DS2430_NOT_SUPPORTED;
                     break;
                 }
             }
@@ -499,9 +626,6 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                     
             initInputNextByte();
         }        
-    
-    
-    
     }
     public static EpromData loadData(String serialname)
     {
@@ -534,6 +658,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         bitsOutputDone = 0;
         currentOutputAddress++;
         lowLevelState = LL_WAIT_FOR_BITWRITE_PULSE_START;
+        isReadFromDS = false;
     }
         
 
@@ -543,8 +668,8 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         highLevelState = HL_WRITE_BYTE_TO_SP;
         bitsLoaded = 0;
         currentByteRead = 0;
-
         lowLevelState = LL_READY_FOR_BITREAD;
+        isReadFromDS = true;
     }
 
     public String getSaveName()

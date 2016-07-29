@@ -181,6 +181,7 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
         jLabel8.setText("Debug level");
         jLabel8.setName("jLabel8"); // NOI18N
 
+        jTextFieldDebugLevel.setToolTipText("0 - only errors\n1 - errors and warning\n2 - error and warning and info\n3 - error and warning and info an verbose\n");
         jTextFieldDebugLevel.setName("jTextFieldDebugLevel"); // NOI18N
 
         jCheckBoxDebugWindow.setText("Debug Window in Frame");
