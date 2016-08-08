@@ -41,6 +41,7 @@ import de.malban.vide.vecx.panels.VIAJPanel;
 import de.malban.vide.vecx.panels.VarJPanel;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vecx.cartridge.CartridgePropertiesPanel;
+import de.malban.vide.vecx.cartridge.DualVec;
 import de.malban.vide.vecx.devices.AbstractDevice;
 import de.malban.vide.vecx.panels.CartridgePanel;
 import de.malban.vide.vecx.panels.JoyportPanel;
@@ -836,6 +837,7 @@ public class CSAMainFrame extends javax.swing.JFrame
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         AbstractDevice.exitSync = true;
+        DualVec.exitSync = true;
         saveStateAll();
         dispose();
         System.exit(0);
@@ -927,6 +929,7 @@ public class CSAMainFrame extends javax.swing.JFrame
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         AbstractDevice.exitSync = true;
+        DualVec.exitSync = true;
         saveStateAll();
     }//GEN-LAST:event_formWindowClosing
 

@@ -386,7 +386,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBox3.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_LIGHTPEN1) == Cartridge.FLAG_LIGHTPEN1);
         jCheckBox4.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_LIGHTPEN2) == Cartridge.FLAG_LIGHTPEN2);
         jCheckBox5.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_IMAGER) == Cartridge.FLAG_IMAGER);
-        jCheckBox6.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_EXTREM_MULTI) == Cartridge.FLAG_EXTREM_MULTI);
+        jCheckBox6.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_EXTREME_MULTI) == Cartridge.FLAG_EXTREME_MULTI);
         jCheckBox7.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_VEC_VOX) == Cartridge.FLAG_VEC_VOX);
         
         
@@ -441,7 +441,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         if (jCheckBox3.isSelected()) extra+= Cartridge.FLAG_LIGHTPEN1;
         if (jCheckBox4.isSelected()) extra+= Cartridge.FLAG_LIGHTPEN2;
         if (jCheckBox5.isSelected()) extra+= Cartridge.FLAG_IMAGER;
-        if (jCheckBox6.isSelected()) extra+= Cartridge.FLAG_EXTREM_MULTI;
+        if (jCheckBox6.isSelected()) extra+= Cartridge.FLAG_EXTREME_MULTI;
         if (jCheckBox7.isSelected()) extra+= Cartridge.FLAG_VEC_VOX;
 
         mProjectProperties.mExtras = extra;
@@ -548,11 +548,11 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jPanel3.setLayout(null);
         jPanel3.add(jTextFieldPath);
-        jTextFieldPath.setBounds(135, 30, 330, 20);
+        jTextFieldPath.setBounds(135, 30, 330, 19);
 
         jTextFieldVersion.setText("1.0");
         jPanel3.add(jTextFieldVersion);
-        jTextFieldVersion.setBounds(437, 80, 58, 20);
+        jTextFieldVersion.setBounds(437, 80, 58, 19);
 
         jTextAreaDescription.setColumns(20);
         jTextAreaDescription.setRows(5);
@@ -563,9 +563,9 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jLabel2.setText("Version");
         jPanel3.add(jLabel2);
-        jLabel2.setBounds(371, 82, 54, 14);
+        jLabel2.setBounds(371, 82, 54, 15);
         jPanel3.add(jTextFieldAuthor);
-        jTextFieldAuthor.setBounds(135, 80, 169, 20);
+        jTextFieldAuthor.setBounds(135, 80, 169, 19);
 
         jButtonFileSelect1.setText("...");
         jButtonFileSelect1.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -575,11 +575,11 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
         jPanel3.add(jButtonFileSelect1);
-        jButtonFileSelect1.setBounds(471, 30, 17, 19);
+        jButtonFileSelect1.setBounds(471, 30, 13, 19);
 
         jLabel7.setText("Path");
         jPanel3.add(jLabel7);
-        jLabel7.setBounds(17, 30, 50, 14);
+        jLabel7.setBounds(17, 30, 50, 15);
 
         jTextFieldProjectName.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -597,42 +597,42 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
         jPanel3.add(jTextFieldProjectName);
-        jTextFieldProjectName.setBounds(135, 5, 169, 20);
+        jTextFieldProjectName.setBounds(135, 5, 169, 19);
         jPanel3.add(jTextFieldMainFile);
-        jTextFieldMainFile.setBounds(135, 55, 169, 20);
+        jTextFieldMainFile.setBounds(135, 55, 169, 19);
 
         jLabel5.setText("Name");
         jPanel3.add(jLabel5);
-        jLabel5.setBounds(17, 7, 50, 14);
+        jLabel5.setBounds(17, 7, 50, 15);
 
         jLabel8.setText("Main file");
         jPanel3.add(jLabel8);
-        jLabel8.setBounds(17, 57, 80, 14);
+        jLabel8.setBounds(17, 57, 80, 15);
 
         jLabel9.setText("Author");
         jPanel3.add(jLabel9);
-        jLabel9.setBounds(17, 82, 70, 14);
+        jLabel9.setBounds(17, 82, 70, 15);
 
         jLabel1.setText("Description");
         jPanel3.add(jLabel1);
-        jLabel1.setBounds(17, 111, 90, 14);
+        jLabel1.setBounds(17, 111, 90, 15);
 
-        jComboBoxBankswitch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none", "2 bank standard", "VecFlash (up to 64 banks)" }));
+        jComboBoxBankswitch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "none", "2 bank standard", "VecFlash (up to 32 banks)" }));
         jComboBoxBankswitch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxBankswitchActionPerformed(evt);
             }
         });
         jPanel3.add(jComboBoxBankswitch);
-        jComboBoxBankswitch.setBounds(351, 278, 144, 20);
+        jComboBoxBankswitch.setBounds(351, 278, 144, 21);
 
         jCheckBoxCreateSupportCode.setText("create bankswitch code");
         jPanel3.add(jCheckBoxCreateSupportCode);
-        jCheckBoxCreateSupportCode.setBounds(135, 280, 170, 23);
+        jCheckBoxCreateSupportCode.setBounds(135, 280, 170, 19);
 
         jCheckBoxCreateGameLoop.setText("create standard game loop");
         jPanel3.add(jCheckBoxCreateGameLoop);
-        jCheckBoxCreateGameLoop.setBounds(135, 252, 180, 23);
+        jCheckBoxCreateGameLoop.setBounds(135, 252, 180, 19);
 
         jComboBoxBankswitchNumber.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1" }));
         jComboBoxBankswitchNumber.setEnabled(false);
@@ -642,7 +642,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
         jPanel3.add(jComboBoxBankswitchNumber);
-        jComboBoxBankswitchNumber.setBounds(517, 278, 46, 20);
+        jComboBoxBankswitchNumber.setBounds(517, 278, 46, 21);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -746,7 +746,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         );
 
         jPanel3.add(jPanel1);
-        jPanel1.setBounds(135, 516, 309, 9);
+        jPanel1.setBounds(135, 516, 313, 9);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -784,7 +784,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         );
 
         jPanel3.add(jPanel4);
-        jPanel4.setBounds(135, 307, 370, 203);
+        jPanel4.setBounds(135, 307, 372, 203);
 
         jCheckBox1.setText("VecVoice");
 
@@ -889,7 +889,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jLabel6.setText("Pre build commands");
         jPanel3.add(jLabel6);
-        jLabel6.setBounds(17, 200, 120, 14);
+        jLabel6.setBounds(17, 200, 120, 15);
 
         jComboBoxPostName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxPostName.setPreferredSize(new java.awt.Dimension(59, 19));
@@ -898,7 +898,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
         jLabel10.setText("Post build commands");
         jPanel3.add(jLabel10);
-        jLabel10.setBounds(17, 225, 130, 14);
+        jLabel10.setBounds(17, 225, 130, 15);
 
         jComboBoxPostClass.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxPostClass.setPreferredSize(new java.awt.Dimension(59, 19));
@@ -1079,8 +1079,8 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         }
         if (jComboBoxBankswitch.getSelectedIndex()==2)
         {
-            String[] s = new String[64];
-            for (int i=0;i<=63; i++)
+            String[] s = new String[32];
+            for (int i=0;i<=31; i++)
                 s[i]=""+(i+1);
             jComboBoxBankswitchNumber.setModel(new javax.swing.DefaultComboBoxModel(s));
             jComboBoxBankswitchNumber.setEnabled(true);

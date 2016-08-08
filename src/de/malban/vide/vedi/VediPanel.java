@@ -24,6 +24,9 @@ import de.malban.vide.VideConfig;
 import de.malban.vide.assy.Asmj;
 import static de.malban.vide.script.ExecutionDescriptor.*;
 import de.malban.vide.script.*;
+import static de.malban.vide.vecx.VecX.START_TYPE_DEBUG;
+import static de.malban.vide.vecx.VecX.START_TYPE_INJECT;
+import static de.malban.vide.vecx.VecX.START_TYPE_RUN;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
@@ -112,7 +115,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     DefaultMutableTreeNode root = null;
     static ArrayList<VediPanel> listVedi = new ArrayList<VediPanel>();
     Path currentStartPath = Paths.get(".");
-    boolean startTypeRun = true;
+
+    
+    int startTypeRun = START_TYPE_RUN;
 
     // see: http://stackoverflow.com/questions/11107984/get-edited-treenode-from-a-celleditorlistener
     private DefaultTreeCellEditor editor;
@@ -588,6 +593,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jButtonClearMessages = new javax.swing.JButton();
         jButtonRefresh = new javax.swing.JButton();
         jButtonDebug = new javax.swing.JButton();
+        jButtonInjectBin = new javax.swing.JButton();
 
         jPopupMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -1225,6 +1231,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
 
+        jButtonInjectBin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/server_go.png"))); // NOI18N
+        jButtonInjectBin.setToolTipText("Assemble and \"inject\" built binary to currently running vecx");
+        jButtonInjectBin.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonInjectBin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInjectBinActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1255,6 +1270,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 .addComponent(jButtonAssemble)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonDebug)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonInjectBin)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1278,7 +1295,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     .addComponent(jButtonNew)
                     .addComponent(jButtonPrettyPrint)
                     .addComponent(jButtonRefresh)
-                    .addComponent(jButtonDebug))
+                    .addComponent(jButtonDebug)
+                    .addComponent(jButtonInjectBin))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
@@ -1469,6 +1487,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 }
                 fname = fname + ".bin";
                 vec.startUp(fname, true, startTypeRun);
+                
                 printMessage("Assembly successfull, starting emulation...");
             }
             else
@@ -1492,12 +1511,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
     public void debug()
     {
-        startTypeRun = false;
+        startTypeRun = START_TYPE_DEBUG;
         runInternal();
     }
     public void run()
     {
-        startTypeRun = true;
+        startTypeRun = START_TYPE_RUN;
         runInternal();
     }
     public void runInternal()
@@ -2342,6 +2361,19 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         VecSpeechPanel.showVecSpeechPanelNoModal(this, path);
     }//GEN-LAST:event_jMenuItemVecSpeechActionPerformed
 
+    private void jButtonInjectBinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInjectBinActionPerformed
+        VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
+        if (vec == null) return;
+        if ((!vec.isRunning()) && (!vec.isDebuging())) 
+        {
+            printError("Vecxi not running!");
+            return;
+        }
+        
+        startTypeRun = START_TYPE_INJECT;
+        runInternal();
+    }//GEN-LAST:event_jButtonInjectBinActionPerformed
+
     public String getLine(JEditorPane comp, int pos)
     {
         try
@@ -2387,6 +2419,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JButton jButtonCut;
     private javax.swing.JButton jButtonDebug;
     private javax.swing.JButton jButtonIgnoreCase;
+    private javax.swing.JButton jButtonInjectBin;
     private javax.swing.JButton jButtonLoad;
     private javax.swing.JButton jButtonNew;
     private javax.swing.JButton jButtonNew1;

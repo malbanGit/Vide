@@ -1,0 +1,115 @@
+BANK 0
+LABEL $0000 D0000
+LABEL $0024 L0024
+LABEL $003B L003B
+LABEL $0187 D0187
+LABEL $015C L015C
+LABEL $0163 L0163
+LABEL $0059 L0059
+LABEL $005B L005B
+LABEL $0065 L0065
+LABEL $016B L016B
+LABEL $006A L006A
+LABEL $0170 L0170
+LABEL $0074 L0074
+LABEL $0079 L0079
+LABEL $0083 L0083
+LABEL $0088 L0088
+LABEL $0092 L0092
+LABEL $0097 L0097
+LABEL $0180 D0180
+LABEL $00A0 L00A0
+LABEL $00B8 L00B8
+LABEL $0179 L0179
+LABEL $017D L017D
+LABEL $00F7 L00F7
+LABEL $018F D018F
+LABEL $0105 L0105
+LABEL $0113 L0113
+LABEL $0121 L0121
+LABEL $012F L012F
+LABEL $013D L013D
+LABEL $014B L014B
+LABEL $0159 L0159
+LABEL $0175 L0175
+COMMENT $0024 Get VIA port B data I/O register
+COMMENT $0026 Bit 6 - external device (slot pin 35) initialized to input
+COMMENT $002A Waitrecal
+COMMENT $002D intensity_to_7F
+COMMENT $0030 '"Waiting"
+COMMENT $0036 print_at_d
+COMMENT $003B Waitrecal
+COMMENT $003E intensity_to_7F
+COMMENT $0042 read_switches
+COMMENT $0048 VIA port B data direction register (0=input 1=output)
+COMMENT $004A Turn on bit 6
+COMMENT $004C VIA port B data direction register (0=input 1=output)
+COMMENT $0053 VIA port B data I/O register
+COMMENT $0057 Timing pause?
+COMMENT $0059 Timing pause?
+COMMENT $005B Current toggle state of stick 1 button 1
+COMMENT $006A Current toggle state of stick 1 button 2
+COMMENT $0079 Current toggle state of stick 1 button 3
+COMMENT $0088 $C815   Current toggle state of stick 1 button 4
+COMMENT $0097 "ACTIVE"
+COMMENT $009D print_at_d
+COMMENT $00A0 VIA port B data direction register (0=input 1=output)
+COMMENT $00A2 Turn off bit 6
+COMMENT $00A4 VIA port B data direction register (0=input 1=output)
+COMMENT $00A6 VIA port B data I/O register
+COMMENT $00A8 Test bit 6
+COMMENT $00AC VIA port B data direction register (0=input 1=output)
+COMMENT $00AE Turn on bit 6
+COMMENT $00B0 VIA port B data direction register (0=input 1=output)
+COMMENT $00B4 VIA port B data I/O register
+COMMENT $00B8 VIA port B data I/O register
+COMMENT $00BA Test bit 6
+COMMENT $00C4 VIA port B data I/O register
+COMMENT $00C8 Store current state of bit 6 of VIA port B data I/O register
+COMMENT $00CE VIA port B data I/O register
+COMMENT $00D2 Store current state of bit 6 of VIA port B data I/O register
+COMMENT $00D8 VIA port B data I/O register
+COMMENT $00DC Store current state of bit 6 of VIA port B data I/O register
+COMMENT $00E2 VIA port B data I/O register
+COMMENT $00E6 Store current state of bit 6 of VIA port B data I/O register
+COMMENT $00E9 Current toggle state of stick 1 button 1
+COMMENT $00F1 " n "
+COMMENT $00F4 print_at_d
+COMMENT $00F7 Current toggle state of stick 1 button 2
+COMMENT $00FF " n "
+COMMENT $0102 print_at_d
+COMMENT $0105 Current toggle state of stick 1 button 3
+COMMENT $010D " n "
+COMMENT $0110 print_at_d
+COMMENT $0113 Current toggle state of stick 1 button 4
+COMMENT $011B " n "
+COMMENT $011E print_at_d
+COMMENT $0121 Previously stored state of bit 6 of VIA port B data I/O register
+COMMENT $0129 " n "
+COMMENT $012C print_at_d
+COMMENT $012F Previously stored state of bit 6 of VIA port B data I/O register
+COMMENT $0137 " n "
+COMMENT $013A print_at_d
+COMMENT $013D Previously stored state of bit 6 of VIA port B data I/O register
+COMMENT $0145 " n "
+COMMENT $0148 print_at_d
+COMMENT $014B Previously stored state of bit 6 of VIA port B data I/O register
+COMMENT $0153 " n "
+COMMENT $0156 print_at_d
+COMMENT $015C Get VIA port B data I/O register
+COMMENT $015E Bit 6 - external device (slot pin 35) initialized to input
+COMMENT $016D VIA port B data I/O register
+COMMENT $0172 VIA port B data I/O register
+RANGE $0000-$000A CHAR_DATA
+RANGE $000A-$000B DB_DATA
+RANGE $000B-$0011 DW_DATA
+RANGE $0011-$0022 CHAR_DATA
+RANGE $0022-$0024 DB_DATA
+RANGE $0024-$0180 CODE
+RANGE $0180-$0186 CHAR_DATA
+RANGE $0186-$0187 DB_DATA
+RANGE $0187-$018E CHAR_DATA
+RANGE $018E-$018F DB_DATA
+RANGE $018F-$0192 CHAR_DATA
+RANGE $0192-$0193 DB_DATA
+

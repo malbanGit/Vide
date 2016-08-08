@@ -68,6 +68,7 @@ public class VideConfig  implements Serializable{
     public boolean psgSound = true;
 
     public boolean syncCables = false;
+    public boolean speedLimit = true;
     
     
     /// ASSI CONFIG
@@ -258,6 +259,8 @@ public class VideConfig  implements Serializable{
         to.masterVolume = from.masterVolume;
         to.psgSound = from.psgSound;
         to.psgVolume = from.psgVolume;
+        to.speedLimit = from.speedLimit;
+        
         
 
         /// ASSI CONFIG

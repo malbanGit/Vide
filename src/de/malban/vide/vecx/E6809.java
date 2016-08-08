@@ -3117,7 +3117,7 @@ reg_cc &= tmp;
             break;
             
         default:
-            System.out.println ("unknown page-0 op code: "+op+"\n");
+            System.out.println ("unknown page-0 op code: "+op+"PC: "+reg_pc+"\n");
             break;
 	}
         cyclesRunning += cycles.intValue;

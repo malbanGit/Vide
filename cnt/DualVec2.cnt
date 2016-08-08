@@ -1,0 +1,111 @@
+BANK 0
+LABEL $0000 D0000
+LABEL $0024 L0024
+LABEL $003C L003C
+LABEL $0151 L0151
+LABEL $016E L016E
+LABEL $0172 L0172
+LABEL $0175 D0175
+LABEL $016A L016A
+LABEL $0158 L0158
+LABEL $008D L008D
+LABEL $008F L008F
+LABEL $0099 L0099
+LABEL $0160 L0160
+LABEL $009E L009E
+LABEL $0165 L0165
+LABEL $00A8 L00A8
+LABEL $00AD L00AD
+LABEL $00B7 L00B7
+LABEL $00BC L00BC
+LABEL $00C6 L00C6
+LABEL $00CB L00CB
+LABEL $00E2 L00E2
+LABEL $0184 D0184
+LABEL $00F0 L00F0
+LABEL $00FE L00FE
+LABEL $010C L010C
+LABEL $011A L011A
+LABEL $0128 L0128
+LABEL $0136 L0136
+LABEL $0144 L0144
+COMMENT $0024 VIA port B data direction register (0=input 1=output)
+COMMENT $0026 Turn off bit 6
+COMMENT $0028 VIA port B data direction register (0=input 1=output)
+COMMENT $002A VIA port B data I/O register
+COMMENT $002C Test bit 6
+COMMENT $0030 VIA port B data direction register (0=input 1=output)
+COMMENT $0032 Turn on bit 6
+COMMENT $0034 VIA port B data direction register (0=input 1=output)
+COMMENT $0038 VIA port B data I/O register
+COMMENT $003C VIA port B data I/O register
+COMMENT $003E Test bit 6
+COMMENT $0048 VIA port B data I/O register
+COMMENT $004A Test bit 6
+COMMENT $004C Store current state of bit 6 of VIA port B data I/O register
+COMMENT $0052 VIA port B data I/O register
+COMMENT $0054 Test bit 6
+COMMENT $0056 Store current state of bit 6 of VIA port B data I/O register
+COMMENT $005C VIA port B data I/O register
+COMMENT $005E Test bit 6
+COMMENT $0060 Store current state of bit 6 of VIA port B data I/O register
+COMMENT $0066 VIA port B data I/O register
+COMMENT $0068 Test bit 6
+COMMENT $006A Store current state of bit 6 of VIA port B data I/O register
+COMMENT $006D "ACTIVE"
+COMMENT $0073 print_at_d
+COMMENT $007C VIA port B data direction register (0=input 1=output)
+COMMENT $007E Turn on bit 6
+COMMENT $0080 VIA port B data direction register (0=input 1=output)
+COMMENT $0087 VIA port B data I/O register
+COMMENT $008F Current toggle state of stick 1 button 1
+COMMENT $009E Current toggle state of stick 1 button 2
+COMMENT $00AD Current toggle state of stick 1 button 3
+COMMENT $00BC Current toggle state of stick 1 button 4
+COMMENT $00CE VIA port B data direction register (0=input 1=output)
+COMMENT $00D0 Turn off bit 6
+COMMENT $00D2 VIA port B data direction register (0=input 1=output)
+COMMENT $00D4 Current toggle state of stick 1 button 1
+COMMENT $00DC " n "
+COMMENT $00DF print_at_d
+COMMENT $00E2 Current toggle state of stick 1 button 2
+COMMENT $00EA " n "
+COMMENT $00ED print_at_d
+COMMENT $00F0 Current toggle state of stick 1 button 3
+COMMENT $00F8 " n "
+COMMENT $00FB print_at_d
+COMMENT $00FE Current toggle state of stick 1 button 4
+COMMENT $0106 " n "
+COMMENT $0109 print_at_d
+COMMENT $010C Previously stored state of bit 6 of VIA port B data I/O register
+COMMENT $0114 " n "
+COMMENT $0117 print_at_d
+COMMENT $011A Previously stored state of bit 6 of VIA port B data I/O register
+COMMENT $0122 " n "
+COMMENT $0125 print_at_d
+COMMENT $0128 Previously stored state of bit 6 of VIA port B data I/O register
+COMMENT $0130 " n "
+COMMENT $0133 print_at_d
+COMMENT $0136 Previously stored state of bit 6 of VIA port B data I/O register
+COMMENT $013E " n "
+COMMENT $0141 print_at_d
+COMMENT $0144 Waitrecal
+COMMENT $0147 Intensity_7F
+COMMENT $014B read_switches
+RANGE $0000-$000A CHAR_DATA
+RANGE $000A-$000B DB_DATA
+RANGE $000B-$0011 DW_DATA
+RANGE $0011-$0022 CHAR_DATA
+RANGE $0022-$0024 DB_DATA
+RANGE $0024-$0175 CODE
+RANGE $0175-$017B CHAR_DATA
+RANGE $017B-$017C DB_DATA
+RANGE $017C-$0183 CHAR_DATA
+RANGE $0183-$0184 DB_DATA
+RANGE $0184-$0187 CHAR_DATA
+RANGE $0187-$0188 DB_DATA
+RANGE $0188-$018E CHAR_DATA
+RANGE $018E-$018F DB_DATA
+RANGE $018F-$0192 CHAR_DATA
+RANGE $0192-$0193 DB_DATA
+

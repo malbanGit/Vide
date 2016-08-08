@@ -1702,11 +1702,31 @@ public class DASM6809 extends DASMStatics {
         if (name == null) return false;
         int li = name.lastIndexOf(".");
         if (li<0) return false;
+        
+        // first look in current dir
         name = name.substring(0,li)+".cnt";
         File f = new File(name);
-        if (!f.exists()) return false;
-        readCNTFile( name);
-        return true;
+        if (f.exists()) 
+        {
+            readCNTFile( name);
+            return true;
+        }
+        // than try cnt dir
+        String nameOnly = name;
+        if (nameOnly.contains(File.separator))
+        {
+            nameOnly = nameOnly.substring(nameOnly.lastIndexOf(File.separator)+1);
+        }
+        name = "cnt"+File.separator+nameOnly;
+        f = new File(name);
+        if (f.exists()) 
+        {
+            readCNTFile( name);
+            return true;
+        }
+        
+        
+        return false;
     }
     public boolean readLSTFile(String name, boolean allowBios)
     {

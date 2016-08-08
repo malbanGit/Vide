@@ -67,6 +67,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.INFO;
+import static de.malban.gui.panels.LogPanel.VERBOSE;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.sound.tinysound.Stream;
 import de.malban.sound.tinysound.TinySound;
@@ -88,6 +89,10 @@ import java.nio.charset.StandardCharsets;
  */
 public class VecX extends VecXState implements VecXStatics, E6809Access
 {
+    public static final int START_TYPE_DEBUG = 1;
+    public static final int START_TYPE_RUN = 2;
+    public static final int START_TYPE_INJECT = 3;
+
     // for easier access from cart
     // config is here public
     // other wise we could also duplicate config in cart...
@@ -231,91 +236,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     {
         displayer = d;
     }
-    // called befor VIA is changed
-    // so we have access to old via data
-
-    // returns state of PB6
-    // calls cart on line change
-    private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean orbInitiated)
-    {
-        // below we do output to all bits
-        // we are only really interested in PB6
-        // and rather interested in the LINE EXTERNAL
-        
-        // LINE EXTERNAL has some odd behavior, it
-        // automatically switches to a state when the corresponding DDRB register is set to out/in
-        
-        // when the bit 6 of DDRB is cleared (INPUT mode) 
-        // LINE EXTERNAL GOES HIGH
-        
-        // when the bit 6 of DDRB is set (OUTPUT mode) 
-        // LINE EXTERNAL GOES LOW
-        
-        // once set to output, PB6 can be "controlled", by setting it 
-        // in (through) ORB
-        
-        // so basically there are two methods to control the state of the xternal line
-        // below oring and exoring considers that
-        // the cart which might be efrected by the line change 
-        // e.g. bankswitching test is than only called
-        // if the state of the EXTERNAL LINE has changed
-        
-        
-        // it can happen, that "nothing" changes 
-        // if that is the case pb6 should ALSO not change
-        // this is not obvious,
-        // if ddrb is set as input
-        // input changed pb6 to low
-        // and than ddrb is AGAIN set as input, pb6 should NOT change to high, since 
-        // really nothing changed!
-        // if we don't test this, in the example pb6 would go high!
-        if ((via_orb == tobe_via_orb) && (via_ddrb == tobe_via_ddrb))
-        {
-            return pb6_out != 0;
-        }
-
-        // get output value of via b NOW
-        int viaOutNow = ((via_orb&(0xff-0x40))|pb6_out) | (via_ddrb ^ 0xFFFFFFFF) & 0xFF;
-
-        
-        boolean pb6 = pb6_out != 0;
-        
-        if ((tobe_via_orb != viaOutNow) || (tobe_via_ddrb != via_ddrb))
-        {
-            // get output of changed port b
-            int viaOutTobe = tobe_via_orb |((tobe_via_ddrb ^ 0xFFFFFFFF) & 0xFF);
-            
-            if (!orbInitiated)
-            {
-                if ((tobe_via_ddrb &0x40) == 0x40)
-                    viaOutTobe = viaOutTobe & (0xff-0x40);
-                else
-                    viaOutTobe = viaOutTobe | 0x40;
-            }
-            pb6 = (viaOutTobe&0x40) == 0x40;
-            cart.lineIn(pb6);
-            checkExternalLineBreakpoint(pb6);
-            old_pb6 = pb6;
-        }
-        if (pb6)
-        {
-            pb6_out = 0x40;
-          
-            if (orbInitiated)
-                if ((via_ddrb & 0x40) == 0x40)
-                    pb6_in = pb6_out; // pull up?
-            if (!orbInitiated)
-                if ((tobe_via_ddrb & 0x40) == 0x40)
-                    pb6_in = pb6_out; // pull up?
-            pb6_in = pb6_out; // pull up?
-        }
-        else
-        {
-            pb6_out = 00;
-        }
-        return pb6;
-    }
-    
     
     public void setPB6FromExternal(boolean b)
     {
@@ -507,6 +427,16 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             /* cartridge */
             data = cart.get_cart(address);
         } 
+        else if ((address >= 0x8000) && (address < 0x8800) && (extraRam8000_8800Enabled))  
+        {
+            /* cartridge */
+            data = cart.get_cart(address);
+        } 
+        else if ((address == 0xa000) && (extraRam8000_8800Enabled))  
+        {
+            /* cartridge */
+            data = cart.get_cart(address);
+        } 
         else 
         {
             data = 0xff;
@@ -558,9 +488,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             data = data & (0xff-0x40); // ensure pb6 =0
                             data = data | (pb6_in); // ensure pb6 in value
                         }
-                        
-                        
-                        
                         break;
                     case 0x1:
                         /* register 1 also performs handshakes if necessary */
@@ -663,6 +590,15 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         } 
         else if (address < 0x8000) 
         {
+            data = cart.get_cart(address);
+        } 
+        else if ((address >= 0x8000) && (address < 0x8800) && (extraRam8000_8800Enabled))  
+        {
+            /* cartridge */
+            data = cart.get_cart(address);
+        } 
+        else if ((address == 0xa000) && (extraRam8000_8800Enabled))  
+        {
             /* cartridge */
             data = cart.get_cart(address);
         } 
@@ -720,7 +656,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         
                         // for old times sake, variable via_orb allways carries the vectrex "out" state of pb6
                         via_orb = data;
-//                        setViaPB6(pb6);
                         snd_update();
                         
                         if ((via_pcr & 0xe0) == 0x80) 
@@ -757,7 +692,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     case 0x2:
                         boolean pb6_2 = setPB6FromVectrex(via_orb, data, false);
                         via_ddrb = data;
-                       // setViaPB6(pb6_2);
+                        if (cart != null)
+                        {
+                            cart.setPB6InputEnabledFromExternal(!((data&0x40)==0x40));
+                        }
                         break;
                     case 0x3:
                         via_ddra = data;
@@ -900,12 +838,29 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 }
             }
         } 
-        else if (address < 0x8000) 
+        else if ((address < 0x8000) &&(cart.isExtremeMulti()))
         {
-            // spektrum has to go here!
-            /* cartridge */
-            // for now only bad apple!
             cart.write(address,(byte) data);
+        }
+        else if ((address >= 0x2000) && (address < 0x2800) && (extraRam2000_2800Enabled))
+        {
+            cart.write(address,(byte) data);
+        }
+        else if ((address >= 0x8000) && (address < 0x8800) && (extraRam8000_8800Enabled))  
+        {
+            cart.write(address,(byte) data);
+        }
+        else if ((address == 0xa000) && (extraRam8000_8800Enabled))  
+        {
+            cart.write(address,(byte) data);
+        }
+        else if ((address >= 0x6000) && (address < 0x6000+8192) && (extraRam6000_7fff_8k_Enabled))  
+        {
+            cart.write(address,(byte) data);
+        } 
+        else
+        {
+            log.addLog("RAM access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", e6809.reg_pc), VERBOSE);
         }
     }
 
@@ -939,8 +894,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         via_stalling = false;
         via_ora = 0;
         via_orb = 0;
-        pb6_in = 0;
-        pb6_out = 0;
+        pb6_in = 0x40;
+        pb6_out = 0x40;
         via_ddra = 0;
         via_ddrb = 0;
         via_t1on = 0;
@@ -1019,11 +974,132 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         if (cart!= null) cart.reset();
     }
 
-    /* perform a single cycle worth of via emulation.
+// called befor VIA is changed
+    // so we have access to old via data
+
+    // returns state of PB6
+    // calls cart on line change
+    private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean orbInitiated)
+    {
+        // below we do output to all bits
+        // we are only really interested in PB6
+        // and rather interested in the LINE EXTERNAL
+        
+        // LINE EXTERNAL has some odd behavior, it
+        // automatically switches to a state when the corresponding DDRB register is set to out/in
+        
+        // when the bit 6 of DDRB is cleared (INPUT mode) 
+        // LINE EXTERNAL GOES HIGH
+        
+        // when the bit 6 of DDRB is set (OUTPUT mode) 
+        // LINE EXTERNAL GOES LOW
+        
+        // once set to output, PB6 can be "controlled", by setting it 
+        // in (through) ORB
+        
+        // so basically there are two methods to control the state of the xternal line
+        // below oring and exoring considers that
+        // the cart which might be efrected by the line change 
+        // e.g. bankswitching test is than only called
+        // if the state of the EXTERNAL LINE has changed
+        
+        
+        // it can happen, that "nothing" changes 
+        // if that is the case pb6 should ALSO not change
+        // this is not obvious,
+        // if ddrb is set as input
+        // input changed pb6 to low
+        // and than ddrb is AGAIN set as input, pb6 should NOT change to high, since 
+        // really nothing changed!
+        // if we don't test this, in the example pb6 would go high!
+        if ((via_orb == tobe_via_orb) && (via_ddrb == tobe_via_ddrb))
+        {
+            return pb6_out != 0;
+        }
+
+        // get output value of via b NOW
+        int viaOutNow = ((via_orb&(0xff-0x40))|pb6_out) | (via_ddrb ^ 0xFFFFFFFF) & 0xFF;
+
+        
+        boolean pb6 = pb6_out != 0;
+        
+        if ((tobe_via_orb != viaOutNow) || (tobe_via_ddrb != via_ddrb))
+        {
+            // get output of changed port b
+            int viaOutTobe = tobe_via_orb |((tobe_via_ddrb ^ 0xFFFFFFFF) & 0xFF);
+            
+            if (!orbInitiated)
+            {
+                if ((tobe_via_ddrb &0x40) == 0x40)
+                    viaOutTobe = viaOutTobe & (0xff-0x40);
+                else
+                    viaOutTobe = viaOutTobe | 0x40;
+            }
+            pb6 = (viaOutTobe&0x40) == 0x40;
+            cart.setPB6FromVectrex(pb6);
+            checkExternalLineBreakpoint(pb6);
+            old_pb6 = pb6;
+        }
+        if (pb6)
+        {
+            pb6_out = 0x40;
+          
+            if (!isDualVec)
+            {
+                if (!extraRam8000_8800Enabled)
+                {
+                    if (orbInitiated)
+                        if ((via_ddrb & 0x40) == 0x40)
+                            pb6_in = pb6_out; // pull up?
+                    if (!orbInitiated)
+                        if ((tobe_via_ddrb & 0x40) == 0x40)
+                            pb6_in = pb6_out; // pull up?
+                    pb6_in = pb6_out; // pull up?
+                }
+            }
+        }
+        else
+        {
+            pb6_out = 00;
+        }
+        /*
+        // MALBAN
+        if (orbInitiated)
+        {
+            if (pb6_out == 0x40)
+            {
+                if ((via_ddrb & 0x40) == 0x40) // output mode
+                    pb6_pulseCounter = 50;
+            }
+            
+        }
+        */
+        return pb6;
+    }
+    int pb6_pulseCounter = 0;
+        /* perform a single cycle worth of via emulation.
      * via_sstep0 is the first postion of the emulation.
      */
     void via_sstep0 ()
     {
+        /*
+        if (pb6_pulseCounter>0)
+        {
+            pb6_pulseCounter--;
+            if (pb6_pulseCounter == 0)
+            if (pb6_out == 0x40)
+            {
+                if ((via_ddrb & 0x40) == 0x40) // output mode
+                {
+                    pb6_out = 0;
+                    cart.setPB6FromVectrex(false);
+                }
+
+            }
+            
+        }
+        */
+        
         int t2shift;
         if (via_t1on!=0) 
         {
@@ -1289,6 +1365,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         v.y1 = y1;
         v.midChange = midChange;
         v.color = color;
+        
+        if (color < 0x7f) color = color/3;
+        
 
         if (config.vectorInformationCollectionActive)
         {
@@ -1364,16 +1443,23 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     static int uid = UID_++;    
     volatile boolean debugging = false;
     boolean stop = false;
+    public boolean isDebugging()
+    {
+        return debugging;
+    }
     void stopEmulation()
     {
         debugging = true;
         stop = true;
     }
+    // for speed measurement    
+    long cyclesDone=0;
     int vecx_emu(long cyclesOrg)
     {
         stop = false;
         int c, icycles;
         long cycles = cyclesOrg;
+        long cyclesStart = cyclesRunning;
         int reason = EMU_EXIT_CYCLES_DONE;
         breakpointExit=EMU_EXIT_CYCLES_DONE;
         activeBreakpoint.clear();
@@ -1484,6 +1570,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             if (activeBreakpoint.size() != 0)
             {
                 debugging = true;
+                cyclesDone=cyclesRunning-cyclesStart;
                 return breakpointExit;
             }
             //Fill buffer and call core to update sound
@@ -1536,6 +1623,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             }
         }
         e6809.callstackSanityCheck();
+        
+        cyclesDone=cyclesRunning-cyclesStart;
+        
         return reason;
     }
     long lastRecordCycle = 0;
@@ -1611,6 +1701,13 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             }
             ds2430Enabled = (cartProp.getTypeFlags()&FLAG_DS2430A)!=0;
             microchipEnabled = (cartProp.getTypeFlags()&Cartridge.FLAG_MICROCHIP)!=0;
+            extraRam2000_2800Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0;
+            extraRam8000_8800Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0;
+            extraRam6000_7fff_8k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0;
+            
+            isDualVec = (cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0;
+            isDualVec = isDualVec || ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0);
+            
             e6809.e6809_reset();  
             vecx_reset();
         }
@@ -1626,6 +1723,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     {
         return init(filenameRom, true);
     }
+    
     public boolean init(String filenameRom, boolean checkForCartridge)
     {
         joyport[0].deinit();
@@ -1660,7 +1758,41 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }
         return true;
     }
-     
+    
+    public boolean inject(String filenameRom, boolean checkForCartridge)
+    {
+        romName = filenameRom;
+        
+        try
+        {
+            cart.load(filenameRom);
+        }
+        catch (Throwable e)
+        {
+            log.addLog(e, ERROR);
+            return false;
+        }
+        return true;
+    }    
+    public boolean inject(CartridgeProperties cartProp)
+    {
+        
+        try
+        {
+            // load Cartridge
+            if (!cart.inject(cartProp)) 
+            {
+                log.addLog("Vecx: init() cartridge not loaded!", WARN);
+                return false;
+            }
+        }
+        catch (Throwable e)
+        {
+            log.addLog(e, ERROR);
+            return false;
+        }
+        return true;    
+    }        
     // caller must ensure, that no
     // concurrent modification is done on the data
     // otherwise an exception will occur!
@@ -3035,10 +3167,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             firq = 1;
         else 
             firq = 0;
-    }
-    public boolean isDebugging()
-    {
-        return debugging;
     }
 }
 

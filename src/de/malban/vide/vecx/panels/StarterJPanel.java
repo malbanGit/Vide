@@ -22,15 +22,19 @@ import de.malban.gui.dialogs.ShowErrorDialog;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.util.DownloaderPanel;
+import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_BANKSWITCH_DONDZILA;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_BANKSWITCH_VECFLASH;
-import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_EXTREM_MULTI;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_EXTREME_MULTI;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_IMAGER;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_LIGHTPEN1;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_LIGHTPEN2;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_RAM_ANIMACTION;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2430A;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DUALVEC1;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DUALVEC2;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_LOGO;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_RAM_RA_SPECTRUM;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOICE;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOX;
@@ -245,6 +249,9 @@ public class StarterJPanel extends javax.swing.JPanel implements
         jCheckBox15 = new javax.swing.JCheckBox();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox16 = new javax.swing.JCheckBox();
+        jCheckBox17 = new javax.swing.JCheckBox();
+        jCheckBox18 = new javax.swing.JCheckBox();
+        jCheckBox19 = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextPane2 = new javax.swing.JTextPane();
@@ -330,7 +337,6 @@ public class StarterJPanel extends javax.swing.JPanel implements
         jScrollPane1.setViewportView(jTextPane1);
 
         jCheckBox10.setText("RAM RA Spectrum");
-        jCheckBox10.setEnabled(false);
 
         jCheckBox3.setText("Lightpen Port 1");
         jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
@@ -366,9 +372,8 @@ public class StarterJPanel extends javax.swing.JPanel implements
         jCheckBox2.setText("eEprom DS2430A");
 
         jCheckBox9.setText("RAM Animaction");
-        jCheckBox9.setEnabled(false);
 
-        jCheckBox8.setText("Bankswitch VecFlesh");
+        jCheckBox8.setText("Bankswitch VecFlash");
         jCheckBox8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox8ActionPerformed(evt);
@@ -385,6 +390,12 @@ public class StarterJPanel extends javax.swing.JPanel implements
                 jCheckBox16ActionPerformed(evt);
             }
         });
+
+        jCheckBox17.setText("DualVec1");
+
+        jCheckBox18.setText("DualVec2");
+
+        jCheckBox19.setText("RAM Logo");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -437,36 +448,38 @@ public class StarterJPanel extends javax.swing.JPanel implements
                         .addComponent(jCheckBox14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jCheckBox8)
-                        .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jCheckBox3)
-                        .addComponent(jCheckBox5)
-                        .addComponent(jCheckBox6)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jCheckBox9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCheckBox7, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addComponent(jCheckBox4))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox3)
+                            .addComponent(jCheckBox4)
+                            .addComponent(jCheckBox5)
+                            .addComponent(jCheckBox6)
+                            .addComponent(jCheckBox7)
+                            .addComponent(jCheckBox8)
                             .addComponent(jCheckBox16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(10, 10, 10))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jCheckBox2)
-                                .addComponent(jCheckBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jCheckBox1))
-                            .addGap(22, 22, 22))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(singleImagePanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jCheckBox2)
+                            .addComponent(jCheckBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox1))
+                        .addGap(14, 14, 14)
+                        .addComponent(singleImagePanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox18, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox17, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jCheckBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(14, Short.MAX_VALUE)
+                        .addContainerGap(13, Short.MAX_VALUE)
                         .addComponent(singleImagePanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 176, Short.MAX_VALUE)
                         .addGap(143, 143, 143))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -495,7 +508,13 @@ public class StarterJPanel extends javax.swing.JPanel implements
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jCheckBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jCheckBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox17, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox18, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel2)
@@ -592,17 +611,17 @@ public class StarterJPanel extends javax.swing.JPanel implements
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 625, Short.MAX_VALUE)
+            .addGap(0, 646, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(18, 18, 18)
                     .addComponent(singleImagePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(360, Short.MAX_VALUE)))
+                    .addContainerGap(381, Short.MAX_VALUE)))
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel3Layout.createSequentialGroup()
                     .addGap(291, 291, 291)
                     .addComponent(singleImagePanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(88, Short.MAX_VALUE)))
+                    .addContainerGap(109, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -705,7 +724,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
                             .addComponent(singleImagePanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(singleImagePanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(90, Short.MAX_VALUE))))
+                        .addContainerGap(103, Short.MAX_VALUE))))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -865,6 +884,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
         {
             public void run()
             {
+                if (mCartridgeProperties==null) return;
                 if (!DownloaderPanel.ensureLocalFile("PDF", mCartridgeProperties.getPDFLink(), mCartridgeProperties.getPDFFile()))
                 {
                     SwingUtilities.invokeLater(new Runnable()
@@ -945,6 +965,9 @@ public class StarterJPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox14;
     private javax.swing.JCheckBox jCheckBox15;
     private javax.swing.JCheckBox jCheckBox16;
+    private javax.swing.JCheckBox jCheckBox17;
+    private javax.swing.JCheckBox jCheckBox18;
+    private javax.swing.JCheckBox jCheckBox19;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
@@ -1056,12 +1079,15 @@ public class StarterJPanel extends javax.swing.JPanel implements
         jCheckBox3.setSelected((flag&FLAG_LIGHTPEN1)!=0);
         jCheckBox4.setSelected((flag&FLAG_LIGHTPEN2)!=0);
         jCheckBox5.setSelected((flag&FLAG_IMAGER)!=0);
-        jCheckBox6.setSelected((flag&FLAG_EXTREM_MULTI)!=0);
+        jCheckBox6.setSelected((flag&FLAG_EXTREME_MULTI)!=0);
         jCheckBox7.setSelected((flag&FLAG_BANKSWITCH_DONDZILA)!=0);
         jCheckBox8.setSelected((flag&FLAG_BANKSWITCH_VECFLASH)!=0);
         jCheckBox15.setSelected((flag&FLAG_VEC_VOX)!=0);
         
-        
+        jCheckBox17.setSelected((flag&FLAG_DUALVEC1)!=0);
+        jCheckBox18.setSelected((flag&FLAG_DUALVEC2)!=0);
+        jCheckBox19.setSelected((flag&FLAG_LOGO)!=0);
+
         
         // load images
         singleImagePanel3.unsetImage();
@@ -1133,7 +1159,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
         CSAMainFrame p = (CSAMainFrame)mParent;
         VecXPanel vecxy  = p.getVecxy();
         if (vecxy ==null) return;
-        vecxy.startCartridge(allCartridges.get(no), true);
+        vecxy.startCartridge(allCartridges.get(no), VecX.START_TYPE_RUN);
     }
     public static String convertSeperator(String filename)
     {

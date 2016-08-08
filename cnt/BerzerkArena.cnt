@@ -1,0 +1,1701 @@
+START_BANK                    $00
+LABEL                    $0000                              line
+LABEL                    $0000                              assembler
+LABEL                    $0000                              at
+COMMENT                    $0000                              *                       $C839   ;Pointer to copyright string during startup
+COMMENT                    $0000                              *                       $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT                    $0000                              *                       $C83C   ;temp byte
+COMMENT                    $0000                              *                       $C843   ;        register 9
+COMMENT                    $0000                              *                       $C844   ;        register 8
+COMMENT                    $0000                              *                       $C848   ;        register 4
+COMMENT                    $0000                              *                       $C849   ;        register 3
+COMMENT                    $0000                              *                       $C84A   ;        register 2
+COMMENT                    $0000                              *                       $C84C   ;        register 0
+COMMENT                    $0000                              *                       $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT                    $0000                              *               $C868...$C876   ;Unused?
+COMMENT                    $0000                              *                       $C878   ;Unused?
+COMMENT                    $0000                              *    $C880 - $CBEA is user RAM  ;
+COMMENT                    $0000                              *       0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT                    $0000                              *       1 mux sel 0
+COMMENT                    $0000                              *       2 mux sel 1
+COMMENT                    $0000                              *       3 sound BC1
+COMMENT                    $0000                              *       4 sound BDIR
+COMMENT                    $0000                              *       5 comparator input
+COMMENT                    $0000                              *       6 external device (slot pin 35) initialized to input
+COMMENT                    $0000                              *       7 /RAMP
+COMMENT                    $0000                              *       0 PA latch enable
+COMMENT                    $0000                              *       1 PB latch enable
+COMMENT                    $0000                              *       2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT                    $0000                              *       3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT                    $0000                              *       4 /
+COMMENT                    $0000                              *       5 0=t2 one shot                 1=t2 free running
+COMMENT                    $0000                              *       6 0=t1 one shot                 1=t1 free running
+COMMENT                    $0000                              *       7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT                    $0000                              *       0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT                    $0000                              *       1 \
+COMMENT                    $0000                              *       2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT                    $0000                              *       3 /
+COMMENT                    $0000                              *       4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT                    $0000                              *       5 \
+COMMENT                    $0000                              *       6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT                    $0000                              *       7 /
+COMMENT                    $0000                              *               bit                             cleared by
+COMMENT                    $0000                              *       0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT                    $0000                              *       1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT                    $0000                              *       2 shift register interrupt flag reading or writing shift register
+COMMENT                    $0000                              *       3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT                    $0000                              *       4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT                    $0000                              *       5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT                    $0000                              *       6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT                    $0000                              *       7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT                    $0000                              *       0 CA2 interrupt enable
+COMMENT                    $0000                              *       1 CA1 interrupt enable
+COMMENT                    $0000                              *       2 shift register interrupt enable
+COMMENT                    $0000                              *       3 CB2 interrupt enable
+COMMENT                    $0000                              *       4 CB1 interrupt enable
+COMMENT                    $0000                              *       5 timer 2 interrupt enable
+COMMENT                    $0000                              *       6 timer 1 interrupt enable
+COMMENT                    $0000                              *       7 IER set/clear control
+COMMENT                    $0000                              GCS Copyright
+COMMENT                    $0000                              *                       $C839   ;Pointer to copyright string during startup
+COMMENT                    $0000                              *                       $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT                    $0000                              *                       $C83C   ;temp byte
+COMMENT                    $0000                              *                       $C843   ;        register 9
+COMMENT                    $0000                              *                       $C844   ;        register 8
+COMMENT                    $0000                              *                       $C848   ;        register 4
+COMMENT                    $0000                              *                       $C849   ;        register 3
+COMMENT                    $0000                              *                       $C84A   ;        register 2
+COMMENT                    $0000                              *                       $C84C   ;        register 0
+COMMENT                    $0000                              *                       $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT                    $0000                              *               $C868...$C876   ;Unused?
+COMMENT                    $0000                              *                       $C878   ;Unused?
+COMMENT                    $0000                              *    $C880 - $CBEA is user RAM  ;
+COMMENT                    $0000                              *       0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT                    $0000                              *       1 mux sel 0
+COMMENT                    $0000                              *       2 mux sel 1
+COMMENT                    $0000                              *       3 sound BC1
+COMMENT                    $0000                              *       4 sound BDIR
+COMMENT                    $0000                              *       5 comparator input
+COMMENT                    $0000                              *       6 external device (slot pin 35) initialized to input
+COMMENT                    $0000                              *       7 /RAMP
+COMMENT                    $0000                              *       0 PA latch enable
+COMMENT                    $0000                              *       1 PB latch enable
+COMMENT                    $0000                              *       2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT                    $0000                              *       3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT                    $0000                              *       4 /
+COMMENT                    $0000                              *       5 0=t2 one shot                 1=t2 free running
+COMMENT                    $0000                              *       6 0=t1 one shot                 1=t1 free running
+COMMENT                    $0000                              *       7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT                    $0000                              *       0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT                    $0000                              *       1 \
+COMMENT                    $0000                              *       2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT                    $0000                              *       3 /
+COMMENT                    $0000                              *       4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT                    $0000                              *       5 \
+COMMENT                    $0000                              *       6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT                    $0000                              *       7 /
+COMMENT                    $0000                              *               bit                             cleared by
+COMMENT                    $0000                              *       0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT                    $0000                              *       1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT                    $0000                              *       2 shift register interrupt flag reading or writing shift register
+COMMENT                    $0000                              *       3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT                    $0000                              *       4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT                    $0000                              *       5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT                    $0000                              *       6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT                    $0000                              *       7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT                    $0000                              *       0 CA2 interrupt enable
+COMMENT                    $0000                              *       1 CA1 interrupt enable
+COMMENT                    $0000                              *       2 shift register interrupt enable
+COMMENT                    $0000                              *       3 CB2 interrupt enable
+COMMENT                    $0000                              *       4 CB1 interrupt enable
+COMMENT                    $0000                              *       5 timer 2 interrupt enable
+COMMENT                    $0000                              *       6 timer 1 interrupt enable
+COMMENT                    $0000                              *       7 IER set/clear control
+COMMENT                    $0000                              GCS Copyright
+LABEL                    $0001                              INCLUDE_I
+LABEL                    $0001                              __6809__
+LABEL                    $0004                              _0004
+LABEL                    $0008                              _0008
+LABEL                    $000B                              Copyright_Len
+COMMENT                    $000B                              Start music pointer
+COMMENT                    $000B                              Start music pointer
+COMMENT                    $000D                              end of header
+COMMENT                    $000D                              end of header
+LABEL                    $000E                              start
+LABEL                    $000E                              start
+COMMENT                    $000E                              start of cartridge code!
+COMMENT                    $000E                              start of cartridge code!
+LABEL                    $0010                              _0010
+LABEL                    $0019                              ResetIntegrators
+COMMENT                    $0019                              $cc means ZERO enabled, and BLANK enabled
+COMMENT                    $001B                              VIA control register
+LABEL                    $0020                              _0020
+COMMENT                    $0020                              mux sel = integrator offsets, mux disabled
+COMMENT                    $0022                              enable mux
+COMMENT                    $0024                              delay
+COMMENT                    $0025                              delay
+COMMENT                    $0026                              disable mux
+LABEL                    $0028                              _0028
+LABEL                    $0029                              AlexWaitRecal
+COMMENT                    $0029                              Recal Counter... probably used for blinking
+COMMENT                    $0029                              -)
+COMMENT                    $0032                              setup DP
+COMMENT                    $0036                              load timer 2 bit mask
+COMMENT                    $0038                              check if timeout happend
+COMMENT                    $003A                              if yes -> branch
+COMMENT                    $003C                              check for t2 to be "reset" (latched to $30 if timeout happened)
+LABEL                    $003E                              timer2ReloadWait
+COMMENT                    $003E                              was t2 reloaded?
+LABEL                    $0040                              _0040
+COMMENT                    $0040                              no - than wait for it
+COMMENT                    $0044                              Below is the "typical" back and forth of a recalibration diagonal+$40 and -$40 for a certain time...
+COMMENT                    $0044                              A = 0; B = $40
+COMMENT                    $0047                              dac = $40
+COMMENT                    $0049                              mux enabled, mux sel = 0
+COMMENT                    $0049                              x/y integrators = +$40
+COMMENT                    $004B                              B = $18 T1 OneSHotMode WITHOUT Ramp control, Shift out under System clock, A = $ce means ZERO disabled, and BLANK enabled
+COMMENT                    $004E                              set T1 to no ramp control (ORB bit 7 is manually controlled)
+COMMENT                    $0050                              zero off, blank on
+LABEL                    $0051                              _0051
+COMMENT                    $0052                              T1 = $00BF (A= lowT1 BF, B = highT1 $00)
+LABEL                    $0057                              timer1WaitLoop
+COMMENT                    $0057                              interrupt bit 6 = T1
+COMMENT                    $0059                              check T1
+COMMENT                    $005B                              if not timed out -> jump
+COMMENT                    $005D                              dac = -$40
+COMMENT                    $005F                              T1 = $001F (A= lowT1 1F, B = highT1 $00)
+LABEL                    $0060                              _0060
+LABEL                    $0064                              T1Running
+COMMENT                    $0064                              interrupt bit 5 = T2
+COMMENT                    $0066                              check T2
+COMMENT                    $0068                              if also not set, check T1 again
+LABEL                    $006A                              waitRecal50HzReached
+COMMENT                    $006A                              reload T2 with 50Hz value; (A=$30, B=$75 -> T2 = 7530 = 30000 cycles
+COMMENT                    $006D                              set T2
+COMMENT                    $006F                              T1 = $0002 (A= lowT1 02, B = highT1 $00)
+LABEL                    $0070                              _0070
+COMMENT                    $0072                              set T1
+COMMENT                    $0074                              A= 1; B = $98
+COMMENT                    $0077                              mux off
+COMMENT                    $0079                              T1 OneSHotMode WITH Ramp control, Shift out under System clock
+COMMENT                    $007B                              done recalibrating
+LABEL                    $007C                              _007C
+LABEL                    $007D                              AlexMoveToD
+COMMENT                    $007D                              D filled with rowCounter, A = y, B = x, put Y value to DAC
+COMMENT                    $007F                              muxel sel = 00 (y) enable Mux
+LABEL                    $0080                              _0080
+LABEL                    $0082                              _0082
+COMMENT                    $0083                              $ce means ZERO disabled, and BLANK enabled
+COMMENT                    $0085                              
+LABEL                    $0086                              _0086
+COMMENT                    $0087                              A -> disable mux ($1), b to via port A = B (DAC filled with X delta)
+COMMENT                    $0089                              start Timer T1
+COMMENT                    $008B                              flag for T1 interrupt
+LABEL                    $008D                              AlexMoveToDT1Loop
+COMMENT                    $008D                              testflag
+COMMENT                    $008F                              if not set, wait for it
+COMMENT                    $0091                              back
+LABEL                    $00A0                              _00A0
+LABEL                    $00A5                              _00A5
+LABEL                    $00AA                              AlexIntensity_A
+COMMENT                    $00AA                              put A to via porta
+COMMENT                    $00AC                              mux enabled, mux sel = 10 (intensity)
+COMMENT                    $00AE                              to port B
+COMMENT                    $00B0                              delay
+COMMENT                    $00B2                              mux disable
+COMMENT                    $00B4                              to port B
+COMMENT                    $00B6                              done
+LABEL                    $00B7                              init_C838_ff
+LABEL                    $00C0                              _00C0
+LABEL                    $00C3                              _00C3
+LABEL                    $00D6                              init_c83b_ff
+LABEL                    $00D8                              _00D8
+LABEL                    $00E0                              _00E0
+LABEL                    $00E2                              _00E2
+EQU                    $00F5                              draw_vector
+LABEL                    $00F5                              draw_vector
+COMMENT                    $00F5                              
+COMMENT                    $00F5                              the following draw/move routines are part of the vectorlists...
+LABEL                    $00FA                              _00FA
+LABEL                    $00FE                              _00FE
+LABEL                    $0109                              _0109
+LABEL                    $0111                              draw_vector_final
+LABEL                    $0125                              _0125
+EQU                    $012C                              move_vector
+LABEL                    $012C                              move_vector
+LABEL                    $013B                              _013B
+LABEL                    $014D                              _014D
+LABEL                    $0165                              _0165
+LABEL                    $0185                              _0185
+LABEL                    $018C                              printString_isyx
+COMMENT                    $018C                              U pointer to structure, intensity, scale, ypos,xpos
+COMMENT                    $0199                              text endmarker = $ff
+COMMENT                    $019B                              end reached? no branch
+COMMENT                    $019D                              done
+LABEL                    $019E                              printString_yx
+LABEL                    $01A6                              printString
+COMMENT                    $01A6                              setup DP
+COMMENT                    $01AA                              A= intensity, B = scale
+COMMENT                    $01AD                              double scale?
+COMMENT                    $01AE                              to counter 1
+LABEL                    $01E6                              printFontOneRow
+COMMENT                    $01E6                              Font Pointer in X, rowCounter -> pos
+COMMENT                    $01F0                              DAC = 0
+COMMENT                    $01F2                              mux sel = Y int, mux enabled
+COMMENT                    $01F8                              disable mux, set via port A = b
+COMMENT                    $01FA                              T1 without ramp control
+COMMENT                    $01FD                              $18
+COMMENT                    $01FD                              T1 OneSHotMode WITHOUT Ramp control, Shift out under System clock
+LABEL                    $01FF                              _01FF
+LABEL                    $0203                              continue_shiftout
+COMMENT                    $0203                              use char as offset in font tab
+COMMENT                    $0205                              and shift the current "row" of the font out
+LABEL                    $0207                              start_shiftout
+COMMENT                    $0209                              if positive, shift out next bitmap
+COMMENT                    $020B                              otherwise "reset T1 ramp control"
+COMMENT                    $020D                              $98
+COMMENT                    $020D                              T1 OneSHotMode WITH Ramp control, Shift out under System clock
+COMMENT                    $020F                              and out
+EQU                    $0210                              FontRow1
+LABEL                    $0210                              FontRow1
+COMMENT                    $0210                              ; font length = 108x7
+LABEL                    $0239                              _0239
+EQU                    $027C                              FontRow2
+LABEL                    $027C                              FontRow2
+EQU                    $02E8                              FontRow3
+LABEL                    $02E8                              FontRow3
+EQU                    $0354                              FontRow4
+LABEL                    $0354                              FontRow4
+EQU                    $03C0                              FontRow5
+LABEL                    $03C0                              FontRow5
+LABEL                    $03C8                              _03C8
+LABEL                    $0407                              _0407
+LABEL                    $0408                              _0408
+LABEL                    $040B                              _040B
+EQU                    $042C                              FontRow6
+LABEL                    $042C                              FontRow6
+EQU                    $0498                              FontRow7
+LABEL                    $0498                              FontRow7
+LABEL                    $0504                              printBerzerkArenaBitmap
+COMMENT                    $0504                              setup DP
+COMMENT                    $0508                              A= $48
+COMMENT                    $050A                              Set timer 1 to that
+COMMENT                    $050F                              Bitmap Rows
+LABEL                    $052B                              _052B
+COMMENT                    $052B                              bitmap Columns +1
+LABEL                    $0530                              _0530
+LABEL                    $0551                              _0551
+LABEL                    $0553                              _0553
+EQU                    $0567                              bitMapIntensityCycle
+LABEL                    $0567                              bitMapIntensityCycle
+EQU                    $0589                              bitmapBerzerkArena
+LABEL                    $0589                              bitmapBerzerkArena
+LABEL                    $0607                              _0607
+LABEL                    $0608                              _0608
+LABEL                    $061F                              _061F
+LABEL                    $0670                              _0670
+LABEL                    $06C6                              _06C6
+LABEL                    $06F0                              _06F0
+LABEL                    $0769                              _0769
+LABEL                    $0779                              _0779
+LABEL                    $077A                              writeYMRegListToPSG
+COMMENT                    $0784                              setup DP
+LABEL                    $0796                              write_next_PSG
+COMMENT                    $0796                              B to DAC
+COMMENT                    $0798                              A= $19, B = 01
+COMMENT                    $079B                              mux disabled PSG latch
+COMMENT                    $079D                              mux disabled, PSG inactive
+COMMENT                    $079F                              A = data
+COMMENT                    $07A1                              to Via port A -> to PSG reg
+COMMENT                    $07A3                              A = $11
+COMMENT                    $07A5                              mux disabled PSG write
+COMMENT                    $07A7                              mux disabled, PSG inactive
+LABEL                    $07B5                              exit_ymWrite
+COMMENT                    $07B6                              I think the following are YM, register change lists
+LABEL                    $0800                              _0800
+LABEL                    $0801                              _0801
+LABEL                    $0808                              _0808
+LABEL                    $0818                              _0818
+LABEL                    $08E8                              _08E8
+LABEL                    $08F0                              _08F0
+LABEL                    $0A02                              _0A02
+LABEL                    $0C37                              _0C37
+LABEL                    $0C7B                              _0C7B
+LABEL                    $0C88                              _0C88
+LABEL                    $0C8C                              _0C8C
+LABEL                    $0C9C                              _0C9C
+LABEL                    $0CBD                              _0CBD
+LABEL                    $0CC7                              _0CC7
+LABEL                    $0CE2                              _0CE2
+LABEL                    $0CF9                              _0CF9
+LABEL                    $0CFC                              _0CFC
+LABEL                    $0D19                              _0D19
+LABEL                    $0D23                              _0D23
+LABEL                    $0D3E                              _0D3E
+LABEL                    $0D53                              _0D53
+LABEL                    $0D5C                              _0D5C
+LABEL                    $0D5F                              _0D5F
+LABEL                    $0D68                              _0D68
+LABEL                    $0D6B                              _0D6B
+LABEL                    $0D6E                              _0D6E
+LABEL                    $0D7F                              _0D7F
+LABEL                    $0D8E                              _0D8E
+LABEL                    $0D9A                              _0D9A
+LABEL                    $0DCD                              _0DCD
+LABEL                    $0DEE                              _0DEE
+LABEL                    $0E0F                              _0E0F
+LABEL                    $0E19                              _0E19
+LABEL                    $0E34                              _0E34
+LABEL                    $0E38                              _0E38
+LABEL                    $0E3F                              _0E3F
+LABEL                    $0E4B                              _0E4B
+LABEL                    $0E6B                              _0E6B
+LABEL                    $0E75                              _0E75
+LABEL                    $0E90                              _0E90
+LABEL                    $0EA3                              _0EA3
+LABEL                    $0EAD                              _0EAD
+LABEL                    $0EB0                              _0EB0
+LABEL                    $0EBA                              _0EBA
+LABEL                    $0EBD                              _0EBD
+LABEL                    $0EC0                              _0EC0
+LABEL                    $0ED1                              _0ED1
+LABEL                    $0EE1                              _0EE1
+LABEL                    $0EED                              _0EED
+LABEL                    $0EFF                              _0EFF
+LABEL                    $0F1F                              _0F1F
+LABEL                    $0F40                              _0F40
+LABEL                    $0F61                              _0F61
+LABEL                    $0F6B                              _0F6B
+LABEL                    $0F80                              _0F80
+LABEL                    $0F86                              _0F86
+LABEL                    $0F9D                              _0F9D
+LABEL                    $0FBD                              _0FBD
+LABEL                    $0FC7                              _0FC7
+LABEL                    $0FE2                              _0FE2
+LABEL                    $0FF7                              _0FF7
+LABEL                    $1000                              _1000
+LABEL                    $1003                              _1003
+LABEL                    $100C                              _100C
+LABEL                    $100F                              _100F
+LABEL                    $1010                              _1010
+LABEL                    $1012                              _1012
+LABEL                    $1023                              _1023
+LABEL                    $1032                              _1032
+LABEL                    $103E                              _103E
+LABEL                    $1040                              _1040
+LABEL                    $104F                              _104F
+LABEL                    $106F                              _106F
+LABEL                    $1090                              _1090
+LABEL                    $10A0                              _10A0
+LABEL                    $10B1                              _10B1
+LABEL                    $10BB                              _10BB
+LABEL                    $10D6                              _10D6
+LABEL                    $10ED                              _10ED
+LABEL                    $10F0                              _10F0
+LABEL                    $10FC                              _10FC
+LABEL                    $110D                              _110D
+LABEL                    $1117                              _1117
+LABEL                    $1132                              _1132
+LABEL                    $1145                              _1145
+LABEL                    $114F                              _114F
+LABEL                    $1152                              _1152
+LABEL                    $115C                              _115C
+LABEL                    $115F                              _115F
+LABEL                    $1162                              _1162
+LABEL                    $1173                              _1173
+LABEL                    $1183                              _1183
+LABEL                    $118F                              _118F
+LABEL                    $1190                              _1190
+LABEL                    $11AB                              _11AB
+LABEL                    $11BB                              _11BB
+LABEL                    $11DC                              _11DC
+LABEL                    $11EC                              _11EC
+LABEL                    $11F3                              _11F3
+LABEL                    $120E                              _120E
+LABEL                    $121E                              _121E
+LABEL                    $123F                              _123F
+LABEL                    $124F                              _124F
+LABEL                    $1256                              _1256
+LABEL                    $1271                              _1271
+LABEL                    $128F                              _128F
+LABEL                    $12B0                              _12B0
+LABEL                    $12CE                              _12CE
+LABEL                    $12D5                              _12D5
+LABEL                    $12F0                              _12F0
+LABEL                    $130E                              _130E
+LABEL                    $132F                              _132F
+LABEL                    $134D                              _134D
+LABEL                    $1354                              _1354
+LABEL                    $1372                              _1372
+LABEL                    $138D                              _138D
+LABEL                    $1394                              _1394
+LABEL                    $13B2                              _13B2
+LABEL                    $13CD                              _13CD
+LABEL                    $13D4                              _13D4
+LABEL                    $13EF                              _13EF
+LABEL                    $1409                              _1409
+LABEL                    $142A                              _142A
+LABEL                    $1444                              _1444
+LABEL                    $144B                              _144B
+LABEL                    $1466                              _1466
+LABEL                    $1480                              _1480
+LABEL                    $14A1                              _14A1
+LABEL                    $14BB                              _14BB
+LABEL                    $14C2                              _14C2
+LABEL                    $14DD                              _14DD
+LABEL                    $14F7                              _14F7
+LABEL                    $1518                              _1518
+LABEL                    $1532                              _1532
+LABEL                    $1539                              init_c8f8_to_ca58
+LABEL                    $1546                              _1546
+LABEL                    $1557                              _1557
+LABEL                    $1579                              _1579
+LABEL                    $159A                              _159A
+LABEL                    $159C                              _159C
+LABEL                    $15B0                              _15B0
+LABEL                    $15E1                              _15E1
+LABEL                    $15EA                              _15EA
+LABEL                    $1601                              _1601
+LABEL                    $1608                              _1608
+LABEL                    $160E                              _160E
+LABEL                    $1617                              _1617
+LABEL                    $161B                              _161B
+LABEL                    $1621                              _1621
+LABEL                    $1625                              _1625
+LABEL                    $1630                              _1630
+LABEL                    $1638                              _1638
+LABEL                    $164F                              _164F
+LABEL                    $1656                              _1656
+LABEL                    $165C                              _165C
+LABEL                    $1674                              _1674
+EQU                    $16BD                              some_table
+LABEL                    $16BD                              some_table
+LABEL                    $1808                              _1808
+LABEL                    $1810                              _1810
+LABEL                    $1830                              _1830
+LABEL                    $187F                              _187F
+LABEL                    $18F0                              _18F0
+LABEL                    $18FC                              _18FC
+LABEL                    $18FF                              _18FF
+LABEL                    $1C02                              _1C02
+LABEL                    $1C70                              _1C70
+LABEL                    $1E00                              _1E00
+LABEL                    $2000                              _2000
+LABEL                    $2018                              _2018
+LABEL                    $207F                              _207F
+LABEL                    $20F0                              _20F0
+LABEL                    $218E                              _218E
+LABEL                    $2203                              _2203
+LABEL                    $224C                              serial_output_ff
+COMMENT                    $224C                              write $FF to joystickport, enable output on joystick port
+COMMENT                    $224E                              setup DP
+COMMENT                    $2250                              A= $E reg 14 of PSG,
+COMMENT                    $2252                              Via Port A = 14
+COMMENT                    $2257                              VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT                    $2259                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $225B                              Write $FF to joystick port(s) / PSG Port A
+COMMENT                    $225D                              Fill via port A with $ff to be written to PSG port A to be written to Jostick buttons...
+COMMENT                    $225D                              -)
+COMMENT                    $2261                              VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT                    $2263                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $2265                              
+COMMENT                    $2267                              prepare latch of Reg 7 to PSG
+COMMENT                    $226B                              VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT                    $226D                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $226F                              Write $FF to Reg 7 of PSG -> enabled output via port A of PSG
+COMMENT                    $2271                              Fill via port A with $ff to be written to PSG port A to be written to Jostick buttons...
+COMMENT                    $2271                              -)
+COMMENT                    $2275                              VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT                    $2277                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $2279                              done
+LABEL                    $227A                              serial_write_A
+COMMENT                    $227A                              number of "double bits" to send (4*2 = 8 -> complete byte), starting with least significant bit
+COMMENT                    $227A                              send value in A to joyport serial communication
+COMMENT                    $227C                              remember current DP, "$4" and A (push DP first, than b than a, s is pointing to the pushed copy of A)
+COMMENT                    $227E                              setup DP
+COMMENT                    $2282                              A= $E (reg 14, port A of PSG), B = $99
+COMMENT                    $2282                              prepare output to joystic, latch 14 to psg...
+COMMENT                    $2285                              Via Port A = 14
+COMMENT                    $2287                              VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT                    $2289                              B = $81 mask for BDIR/BC inactive, A=$18 0001 1000 ->SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT                    $228C                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $228E                              SHIFT mode = 110 - SHIFT out under control of system clock, T1 does not control RAMP
+COMMENT                    $228E                              disable ramping, while we use T1 for timeout checking...
+COMMENT                    $2290                              Realy long timer
+COMMENT                    $2290                              -), for the complete communication
+COMMENT                    $2293                              to T1
+LABEL                    $2295                              writeNextDoubleBit
+COMMENT                    $2295                              1110 1111 port A default mask for bit set (bit 5), bit 4 = 0 indicates start of 2bit communication
+COMMENT                    $2297                              test lowest bit of (pushed copy) of A
+COMMENT                    $2299                              if the bit was set -> branch
+COMMENT                    $229B                              1100 1111 port A default mask for bit clear (bit 5), bit 4 = 0 indicates start of 2bit communication
+LABEL                    $229D                              outputBitMaskToPSG_start
+COMMENT                    $229D                              output current mask to psg 14
+COMMENT                    $22A2                              VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT                    $22A4                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $22A6                              set via port A to input
+LABEL                    $22A8                              continueReadTry0
+COMMENT                    $22A8                              A = $89, B = $81
+COMMENT                    $22AB                              VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT                    $22AD                              delay
+COMMENT                    $22AE                              get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT                    $22AE                              -)
+COMMENT                    $22B0                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $22B2                              check if we received a bit (in bit 6)
+COMMENT                    $22B4                              waiting to receive a 0 in bit 6 as acknowledgement of communication
+COMMENT                    $22B6                              test for T1 timeout interrupt flag
+COMMENT                    $22B8                              check
+LABEL                    $22BE                              bit0SendSuccess
+COMMENT                    $22BE                              switch Via port A to output
+COMMENT                    $22C0                              1111 1111 port A default mask for bit set (bit 5), bit 4 = 1 indicates continue of 2bit communication
+COMMENT                    $22C6                              1101 1111 port A default mask for bit clear (bit 5), bit 4 = 1 indicates continue of 2bit communication
+LABEL                    $22C8                              outputBitMaskToPSG_cont
+COMMENT                    $22C8                              output current mask to psg 14
+COMMENT                    $22CD                              VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT                    $22CF                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $22D1                              set via port A to input
+LABEL                    $22D3                              continueReadTryX
+COMMENT                    $22D3                              A = $89, B = $81
+COMMENT                    $22D6                              VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT                    $22D8                              delay
+COMMENT                    $22D9                              get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT                    $22D9                              -)
+COMMENT                    $22DB                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $22DD                              check if we received a bit (in bit 6)
+COMMENT                    $22DF                              waiting to receive a 0 in bit 6 as acknowledgement of communication
+COMMENT                    $22E1                              test for T1 timeout interrupt flag
+COMMENT                    $22E3                              check
+LABEL                    $22E9                              bitXSendSuccess
+COMMENT                    $22E9                              switch Via port A to output
+COMMENT                    $22EB                              counter (4) reached 0?
+COMMENT                    $22ED                              if not jump and do next
+COMMENT                    $22EF                              A = FF, 1111 1111
+COMMENT                    $22F1                              send a "full" byte (bit 4,5,6 set) as end of communication
+COMMENT                    $22F6                              VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT                    $22F8                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $22FA                              A= 02, B = 0
+COMMENT                    $22FD                              store a mini T1 timer
+COMMENT                    $22FF                              restore T1, ramp on...1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT                    $2303                              remove used values, reset dp and return to caller
+LABEL                    $2305                              linkTimeout
+COMMENT                    $2305                              A = FF, 1111 1111
+COMMENT                    $2308                              Via port A to output
+COMMENT                    $230A                              send a "full" byte (bit 4,5,6 set) as end of communication
+COMMENT                    $230C                              VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT                    $2311                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $2313                              restore T1, ramp on...1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT                    $2315                              remove used values, reset dp and return to caller
+LABEL                    $2317                              serial_read_A_withTest
+COMMENT                    $2317                              A= $E (reg 14 of PSG)
+COMMENT                    $2319                              to VIA port A
+COMMENT                    $231C                              A= $99, B = $81
+COMMENT                    $231F                              VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT                    $2322                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $2325                              port A as input
+COMMENT                    $2328                              A = $89, B = $81
+COMMENT                    $232B                              VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT                    $232E                              delay
+COMMENT                    $232F                              get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT                    $232F                              -)
+COMMENT                    $2332                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $2335                              B = $FF
+COMMENT                    $2337                              set via port A as output
+COMMENT                    $233A                              test bit 4 of received data
+COMMENT                    $233C                              if bit is 0 than a commnication request is issued from the other side
+COMMENT                    $233E                              if not - return
+LABEL                    $233F                              serial_read_A
+COMMENT                    $233F                              load 4 double bits
+COMMENT                    $2341                              remember current DP, "$4" and A (push DP first, than b than a, s is pointing to the pushed copy of A)
+COMMENT                    $2343                              
+COMMENT                    $2345                              setup DP to d0
+COMMENT                    $2347                              A= $E (reg 14 of PSG), B = $99
+COMMENT                    $234A                              A to via port A, prepare latch of PSG reg 14
+COMMENT                    $234C                              VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+COMMENT                    $234E                              A= $18 (for Aux), and $81 for psg inactive
+COMMENT                    $2351                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $2353                              SHIFT mode = 110 - SHIFT out under control of system clock, T1 does not control RAMP
+COMMENT                    $2353                              disable ramping, while we use T1 for timeout checking...
+COMMENT                    $2355                              set a huge timer for the complete commuication timeout
+COMMENT                    $2358                              store to timer lo and hi timer 1
+LABEL                    $235A                              readNextDoubleBit
+COMMENT                    $235A                              set via port A as input (clear DDRA)
+LABEL                    $235C                              tryReadingBitOne
+COMMENT                    $235C                              A= 89, B 81
+COMMENT                    $235F                              VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT                    $2361                              delay
+COMMENT                    $2362                              get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT                    $2362                              -)
+COMMENT                    $2364                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $2366                              test bit 4, for two bit commication correctness - it must be 0, for the first of the 2 bit commucation
+COMMENT                    $2368                              if that is so - branch
+COMMENT                    $236A                              test bit for T1
+COMMENT                    $236C                              otherwise test for T1 timeout
+COMMENT                    $236E                              if not timeout - read again... perhaps with more luck
+COMMENT                    $2370                              otherwise - jump to timeout
+LABEL                    $2372                              bitOneComAck
+COMMENT                    $2372                              A= 89, B =81
+COMMENT                    $2375                              VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT                    $2377                              delay
+COMMENT                    $2378                              get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT                    $2378                              -)
+COMMENT                    $237A                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $237C                              set port A as output (all $ff now)
+COMMENT                    $237E                              communication "data" bit is bit 5
+COMMENT                    $237F                              doing 3 asls puts the data bit to carry
+COMMENT                    $2381                              and a ror pushes the bit into the hi bit of our return data, this will be done 8 times so in the end the first received bit will be in place of the least significant bit
+COMMENT                    $2383                              A = $BF, 1011 1111, load a with our "acceptance" bit cleared (bit 6)
+COMMENT                    $2385                              store it to Via port A which will send it to port A of PSG -> to joystick port to other veccy
+COMMENT                    $2387                              A = $91, B = 81
+COMMENT                    $238A                              VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT                    $238C                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $238E                              prepare next read, and set via port A to input again
+LABEL                    $2390                              tryReadingBitTwo
+COMMENT                    $2390                              A= 89, B =81
+COMMENT                    $2393                              VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT                    $2395                              delay
+COMMENT                    $2396                              get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT                    $2396                              -)
+COMMENT                    $2398                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $239A                              test bit 4, for two bit commication correctness - this time it must be 1 (second bit of 2 bit communication)
+COMMENT                    $239C                              if that is so - branch
+COMMENT                    $239E                              test bit for T1
+COMMENT                    $23A0                              otherwise test for T1 timeout
+COMMENT                    $23A2                              if not timeout - read again... perhaps with more luck
+COMMENT                    $23A4                              otherwise - jump to timeout
+LABEL                    $23A7                              bitTwoComAck
+COMMENT                    $23A7                              A= 89, B 81
+COMMENT                    $23AA                              VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+COMMENT                    $23AC                              delay
+COMMENT                    $23AD                              get value from buttons -> PSG port A -> Via port A -> to register A
+COMMENT                    $23AD                              -)
+COMMENT                    $23AF                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $23B1                              set port A as output (all $ff now)
+COMMENT                    $23B3                              doing 3 asls puts the data bit to carry
+COMMENT                    $23B6                              and a ror pushes the bit into the hi bit of our return data, and all other bits one to the right
+COMMENT                    $23B8                              A = $FF, 1111 1111, load a with our "acceptance" bit set (bit 6)
+COMMENT                    $23BA                              store it to Via port A which will send it to port A of PSG -> to joystick port to other veccy
+COMMENT                    $23BC                              A = $91, B = 81
+COMMENT                    $23BF                              VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+COMMENT                    $23C1                              VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $23C3                              do the above 4 times (2bits *2 = 8bit = 1 byte)
+COMMENT                    $23C5                              if not done - read next to bits
+COMMENT                    $23C7                              A= 02, B = 0
+COMMENT                    $23CA                              store a mini T1 timer
+COMMENT                    $23CC                              
+COMMENT                    $23CE                              restore T1, ramp on...1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+COMMENT                    $23D0                              remove used values, reset dp and return to caller, result is "loaded" to reg A, B = 0!
+LABEL                    $23D2                              _23D2
+LABEL                    $23EB                              _23EB
+LABEL                    $23EE                              _23EE
+LABEL                    $23F7                              _23F7
+LABEL                    $2432                              _2432
+LABEL                    $2454                              _2454
+LABEL                    $2466                              _2466
+LABEL                    $2470                              _2470
+LABEL                    $2471                              _2471
+LABEL                    $248F                              _248F
+LABEL                    $249C                              _249C
+LABEL                    $24A4                              _24A4
+LABEL                    $24B0                              _24B0
+LABEL                    $24BA                              _24BA
+LABEL                    $24C0                              _24C0
+LABEL                    $24C8                              _24C8
+LABEL                    $24E8                              _24E8
+LABEL                    $24EA                              _24EA
+LABEL                    $24EF                              _24EF
+LABEL                    $24FB                              _24FB
+LABEL                    $2504                              _2504
+LABEL                    $250C                              _250C
+LABEL                    $2515                              _2515
+LABEL                    $2533                              _2533
+LABEL                    $253A                              _253A
+LABEL                    $2545                              _2545
+LABEL                    $254E                              _254E
+LABEL                    $2556                              _2556
+LABEL                    $255F                              _255F
+LABEL                    $257E                              _257E
+LABEL                    $2585                              _2585
+LABEL                    $2591                              _2591
+LABEL                    $259A                              _259A
+LABEL                    $25A2                              _25A2
+LABEL                    $25AB                              _25AB
+LABEL                    $25C9                              _25C9
+LABEL                    $25D0                              _25D0
+LABEL                    $25DB                              _25DB
+LABEL                    $25E4                              _25E4
+LABEL                    $25EC                              _25EC
+LABEL                    $25F5                              _25F5
+LABEL                    $2604                              _2604
+LABEL                    $2613                              _2613
+LABEL                    $2628                              _2628
+LABEL                    $263D                              _263D
+LABEL                    $2652                              _2652
+LABEL                    $2671                              _2671
+LABEL                    $2682                              _2682
+LABEL                    $2693                              _2693
+LABEL                    $26A4                              _26A4
+LABEL                    $26A5                              _26A5
+LABEL                    $26B1                              _26B1
+LABEL                    $26B8                              cartrigde_start
+COMMENT                    $26BA                              a=0, dp = $c8
+LABEL                    $26BC                              _26BC
+COMMENT                    $26BC                              b=3
+LABEL                    $26CF                              _26CF
+LABEL                    $26D5                              main_loop
+LABEL                    $26F0                              m
+LABEL                    $26F6                              init_jumper_and_co
+COMMENT                    $26FA                              285c is a dummy jumper (only a RTS)
+COMMENT                    $26FF                              jumper2_A
+EQU                    $271F                              jumper2_A
+LABEL                    $271F                              jumper2_A
+COMMENT                    $271F                              read one serial byte (with connection test)
+COMMENT                    $2722                              if = $4d -> jump
+COMMENT                    $2736                              do the intensity cycle for game selection type
+LABEL                    $273B                              noReverseIntensity
+COMMENT                    $273F                              tex site of menu text
+COMMENT                    $2744                              U is still setup from copyright
+COMMENT                    $2747                              U keeps going to be set up right
+COMMENT                    $2747                              -)
+COMMENT                    $274C                              setup DP
+LABEL                    $275B                              linkGame
+COMMENT                    $275D                              dp = c8
+COMMENT                    $275F                              send 4d as a sign that we are "primary" than we send first! 0100 1101
+COMMENT                    $2761                              write it to putput
+COMMENT                    $2764                              only if 4 double byte counter is zero, there was a success
+COMMENT                    $2765                              branch if not successfull
+COMMENT                    $2769                              Wait for other side to ackowledge our priority
+COMMENT                    $276C                              A= $73 - 0111 0011 Jup, we areking of the hill (and B = 00)
+COMMENT                    $2774                              
+COMMENT                    $2776                              Sync WR Timer Hi
+COMMENT                    $2780                              Sync WR Timer Lo
+LABEL                    $27E1                              sync7ByteSerialRead
+COMMENT                    $27E3                              setup DP
+COMMENT                    $27E5                              acknowledge we are secondary
+COMMENT                    $27E7                              send that
+COMMENT                    $27F7                              Sync WR Timer Hi
+COMMENT                    $2801                              Sync WR Timer Lo
+EQU                    $285C                              dummyJumper
+LABEL                    $285C                              dummyJumper
+EQU                    $285D                              linkPort0ExchangePrimary
+LABEL                    $285D                              linkPort0ExchangePrimary
+EQU                    $2870                              linkPort0ExchangeSecondary
+LABEL                    $2870                              linkPort0ExchangeSecondary
+LABEL                    $287F                              _287F
+LABEL                    $2883                              linkFailed_InitJumper
+EQU                    $2890                              printNoLinkJumper
+LABEL                    $2890                              printNoLinkJumper
+LABEL                    $28A5                              soloGame
+LABEL                    $28CA                              guessing_playerStartPos
+LABEL                    $28CC                              _28CC
+EQU                    $28D6                              game_jumper2
+LABEL                    $28D6                              game_jumper2
+LABEL                    $28D8                              _28D8
+LABEL                    $28F2                              _28F2
+LABEL                    $28FA                              _28FA
+LABEL                    $2908                              _2908
+LABEL                    $2910                              _2910
+LABEL                    $2924                              _2924
+LABEL                    $2938                              _2938
+LABEL                    $2939                              _2939
+LABEL                    $2941                              _2941
+LABEL                    $296E                              _296E
+LABEL                    $2974                              _2974
+LABEL                    $29A0                              _29A0
+LABEL                    $29AD                              _29AD
+LABEL                    $29EA                              _29EA
+LABEL                    $2A01                              _2A01
+LABEL                    $2A31                              _2A31
+LABEL                    $2A37                              _2A37
+LABEL                    $2A46                              _2A46
+LABEL                    $2A48                              _2A48
+LABEL                    $2A5A                              _2A5A
+LABEL                    $2A61                              _2A61
+LABEL                    $2A6E                              _2A6E
+LABEL                    $2A8A                              _2A8A
+LABEL                    $2A8D                              _2A8D
+LABEL                    $2A93                              _2A93
+LABEL                    $2A97                              _2A97
+LABEL                    $2AAB                              _2AAB
+LABEL                    $2AB4                              _2AB4
+LABEL                    $2AB5                              _2AB5
+LABEL                    $2AD3                              _2AD3
+LABEL                    $2ADB                              _2ADB
+LABEL                    $2AE2                              _2AE2
+LABEL                    $2AE4                              _2AE4
+LABEL                    $2AEA                              _2AEA
+LABEL                    $2B00                              _2B00
+LABEL                    $2B2E                              _2B2E
+LABEL                    $2B3F                              _2B3F
+LABEL                    $2B69                              _2B69
+LABEL                    $2B91                              _2B91
+LABEL                    $2BA0                              _2BA0
+LABEL                    $2BD9                              _2BD9
+LABEL                    $2BE9                              _2BE9
+LABEL                    $2BF5                              _2BF5
+LABEL                    $2C08                              _2C08
+LABEL                    $2C16                              _2C16
+LABEL                    $2C19                              _2C19
+LABEL                    $2C29                              _2C29
+LABEL                    $2C32                              _2C32
+LABEL                    $2C40                              _2C40
+LABEL                    $2C43                              _2C43
+LABEL                    $2C54                              _2C54
+LABEL                    $2C62                              _2C62
+LABEL                    $2C63                              _2C63
+LABEL                    $2C67                              _2C67
+LABEL                    $2C71                              _2C71
+LABEL                    $2C7A                              _2C7A
+LABEL                    $2C8F                              _2C8F
+LABEL                    $2CAC                              _2CAC
+LABEL                    $2CD7                              _2CD7
+LABEL                    $2CE5                              _2CE5
+LABEL                    $2CED                              _2CED
+LABEL                    $2CF9                              _2CF9
+LABEL                    $2D01                              _2D01
+LABEL                    $2D0E                              _2D0E
+LABEL                    $2D16                              _2D16
+LABEL                    $2D22                              _2D22
+LABEL                    $2D2A                              _2D2A
+LABEL                    $2D37                              _2D37
+LABEL                    $2D3F                              _2D3F
+LABEL                    $2D4B                              _2D4B
+LABEL                    $2D53                              _2D53
+LABEL                    $2D60                              _2D60
+LABEL                    $2D68                              _2D68
+LABEL                    $2D74                              _2D74
+LABEL                    $2D7C                              _2D7C
+LABEL                    $2D9B                              _2D9B
+LABEL                    $2D9D                              _2D9D
+LABEL                    $2DBB                              _2DBB
+LABEL                    $2DBC                              _2DBC
+LABEL                    $2DBE                              _2DBE
+LABEL                    $2DC7                              _2DC7
+LABEL                    $2DF2                              _2DF2
+LABEL                    $2E2B                              _2E2B
+LABEL                    $2E2D                              _2E2D
+LABEL                    $2E3C                              _2E3C
+LABEL                    $2E60                              _2E60
+LABEL                    $2E9B                              _2E9B
+LABEL                    $2EAA                              _2EAA
+LABEL                    $2ECE                              _2ECE
+LABEL                    $2F09                              _2F09
+LABEL                    $2F18                              _2F18
+LABEL                    $2F3C                              _2F3C
+LABEL                    $2F5E                              _2F5E
+LABEL                    $2F6A                              _2F6A
+LABEL                    $2F76                              _2F76
+LABEL                    $2F77                              _2F77
+LABEL                    $2F86                              _2F86
+LABEL                    $2F9A                              _2F9A
+LABEL                    $2F9E                              _2F9E
+LABEL                    $3003                              _3003
+LABEL                    $300C                              _300C
+LABEL                    $303F                              _303F
+LABEL                    $3050                              _3050
+LABEL                    $306C                              _306C
+LABEL                    $3072                              _3072
+LABEL                    $307C                              _307C
+LABEL                    $3098                              _3098
+LABEL                    $30C5                              _30C5
+LABEL                    $30F1                              _30F1
+LABEL                    $30FC                              _30FC
+LABEL                    $311D                              _311D
+LABEL                    $3148                              _3148
+LABEL                    $3151                              _3151
+LABEL                    $315A                              _315A
+LABEL                    $31AD                              _31AD
+LABEL                    $31BC                              _31BC
+LABEL                    $31C6                              _31C6
+LABEL                    $31D6                              _31D6
+LABEL                    $31F1                              _31F1
+LABEL                    $31FC                              _31FC
+LABEL                    $31FE                              _31FE
+LABEL                    $3207                              _3207
+LABEL                    $320C                              _320C
+LABEL                    $3252                              _3252
+LABEL                    $326B                              _326B
+LABEL                    $327B                              _327B
+LABEL                    $3297                              _3297
+LABEL                    $32A5                              _32A5
+LABEL                    $32AE                              _32AE
+LABEL                    $32B3                              _32B3
+LABEL                    $32F9                              _32F9
+LABEL                    $3315                              _3315
+LABEL                    $3367                              _3367
+LABEL                    $3383                              _3383
+LABEL                    $33A9                              _33A9
+LABEL                    $33C0                              _33C0
+LABEL                    $33C1                              _33C1
+LABEL                    $33FB                              _33FB
+LABEL                    $3400                              _3400
+LABEL                    $342D                              _342D
+LABEL                    $3457                              _3457
+LABEL                    $345F                              _345F
+LABEL                    $3465                              _3465
+LABEL                    $3485                              _3485
+LABEL                    $348D                              _348D
+LABEL                    $3493                              _3493
+LABEL                    $34B3                              _34B3
+LABEL                    $34BB                              _34BB
+LABEL                    $34C1                              _34C1
+LABEL                    $34E1                              _34E1
+LABEL                    $34E9                              _34E9
+LABEL                    $34EF                              _34EF
+LABEL                    $34F4                              _34F4
+LABEL                    $3515                              _3515
+LABEL                    $352B                              _352B
+LABEL                    $3536                              _3536
+LABEL                    $353B                              _353B
+LABEL                    $354B                              _354B
+LABEL                    $3581                              _3581
+LABEL                    $3598                              _3598
+LABEL                    $35D4                              _35D4
+LABEL                    $35DB                              _35DB
+LABEL                    $35E4                              _35E4
+LABEL                    $3607                              _3607
+LABEL                    $3616                              _3616
+LABEL                    $3637                              _3637
+LABEL                    $3645                              _3645
+LABEL                    $3681                              _3681
+LABEL                    $3688                              _3688
+LABEL                    $3691                              _3691
+LABEL                    $36B4                              _36B4
+LABEL                    $36C3                              _36C3
+LABEL                    $36E4                              _36E4
+LABEL                    $36F2                              _36F2
+LABEL                    $372E                              _372E
+LABEL                    $3735                              _3735
+LABEL                    $373E                              _373E
+LABEL                    $3761                              _3761
+LABEL                    $3770                              _3770
+LABEL                    $3791                              _3791
+LABEL                    $379F                              _379F
+LABEL                    $37DB                              _37DB
+LABEL                    $37E2                              _37E2
+LABEL                    $37EB                              _37EB
+LABEL                    $3800                              _3800
+LABEL                    $3803                              _3803
+LABEL                    $380E                              _380E
+LABEL                    $381D                              _381D
+LABEL                    $383C                              _383C
+LABEL                    $383E                              _383E
+LABEL                    $384C                              _384C
+LABEL                    $3850                              _3850
+EQU                    $3853                              jumpTable
+LABEL                    $3853                              jumpTable
+LABEL                    $3870                              _3870
+LABEL                    $3877                              _3877
+LABEL                    $3880                              _3880
+LABEL                    $3898                              _3898
+COMMENT                    $38B6                              vlist looking back
+COMMENT                    $38B8                              vlist looking right
+COMMENT                    $38BA                              vlist looking straight
+COMMENT                    $38BC                              vlist looking left
+LABEL                    $38BE                              player_non_looking_vlist
+COMMENT                    $38BE                              vectorlist in form of a jump table, y,x, vectorDrawRoutine
+EQU                    $38DA                              player_lookingRight_vlist
+LABEL                    $38DA                              player_lookingRight_vlist
+COMMENT                    $38DA                              vectorlist in form of a jump table, y,x, vectorDrawRoutine
+LABEL                    $38E0                              _38E0
+EQU                    $3906                              player_lookingStraight_vlist
+LABEL                    $3906                              player_lookingStraight_vlist
+COMMENT                    $3906                              vectorlist in form of a jump table, y,x, vectorDrawRoutine
+EQU                    $3936                              player_lookingLeft_vlist
+LABEL                    $3936                              player_lookingLeft_vlist
+COMMENT                    $3936                              vectorlist in form of a jump table, y,x, vectorDrawRoutine
+LABEL                    $396D                              _396D
+LABEL                    $3990                              diamond_vlist
+COMMENT                    $3990                              vectorlist in form of a jump table, y,x, vectorDrawRoutine
+LABEL                    $39A5                              _39A5
+LABEL                    $39CE                              _39CE
+LABEL                    $39DA                              _39DA
+LABEL                    $39E1                              Shot_vlist
+COMMENT                    $39E1                              vectorlist in form of a jump table, y,x, vectorDrawRoutine
+LABEL                    $39F0                              _39F0
+EQU                    $3A64                              vectorONE_list
+LABEL                    $3A64                              vectorONE_list
+COMMENT                    $3A64                              
+COMMENT                    $3A64                              following are 32 vectorlists just one vector "clock"
+LABEL                    $3B86                              _3B86
+LABEL                    $3B97                              healthPack_vlist
+COMMENT                    $3B97                              y,x,wordPointer_draw
+LABEL                    $3B9C                              _3B9C
+COMMENT                    $3BC9                              end of healthpack
+LABEL                    $3C03                              _3C03
+LABEL                    $3C08                              _3C08
+LABEL                    $3C10                              _3C10
+LABEL                    $3C13                              _3C13
+EQU                    $3C1E                              someVectorOutput
+LABEL                    $3C1E                              someVectorOutput
+LABEL                    $3C2C                              _3C2C
+LABEL                    $3C3C                              _3C3C
+LABEL                    $3C51                              missile_vlist
+COMMENT                    $3C51                              y,x,wordPointer_draw
+LABEL                    $3C5E                              _3C5E
+LABEL                    $3C63                              _3C63
+LABEL                    $3C66                              _3C66
+LABEL                    $3C72                              _3C72
+LABEL                    $3C76                              _3C76
+LABEL                    $3C80                              _3C80
+COMMENT                    $3C85                              end of missile
+LABEL                    $3CC1                              _3CC1
+LABEL                    $3CC8                              missile_flying_behind_vlist
+COMMENT                    $3CC8                              y,x,wordPointer_draw
+LABEL                    $3CD5                              _3CD5
+LABEL                    $3CDD                              _3CDD
+LABEL                    $3CE1                              _3CE1
+LABEL                    $3CE9                              _3CE9
+LABEL                    $3CF1                              _3CF1
+LABEL                    $3CF8                              missile_flying_right_vlist
+COMMENT                    $3CF8                              y,x,wordPointer_draw
+LABEL                    $3D09                              _3D09
+LABEL                    $3D25                              _3D25
+EQU                    $3D2C                              missile_flying_left_vlist
+LABEL                    $3D2C                              missile_flying_left_vlist
+COMMENT                    $3D2C                              y,x,wordPointer_draw
+COMMENT                    $3D30                              
+LABEL                    $3D35                              _3D35
+LABEL                    $3D3D                              _3D3D
+LABEL                    $3D69                              _3D69
+LABEL                    $3D9A                              _3D9A
+LABEL                    $3DC7                              _3DC7
+LABEL                    $3DF0                              _3DF0
+LABEL                    $3E3B                              _3E3B
+LABEL                    $3E4D                              _3E4D
+LABEL                    $3E5F                              _3E5F
+LABEL                    $3E6D                              _3E6D
+LABEL                    $3E83                              _3E83
+LABEL                    $3E87                              _3E87
+LABEL                    $3E93                              _3E93
+LABEL                    $3EB7                              _3EB7
+LABEL                    $3EBB                              _3EBB
+LABEL                    $3ECB                              _3ECB
+LABEL                    $3ECF                              _3ECF
+LABEL                    $3ED2                              _3ED2
+LABEL                    $3EF3                              _3EF3
+LABEL                    $3EF7                              _3EF7
+LABEL                    $3F11                              _3F11
+LABEL                    $3F1D                              _3F1D
+LABEL                    $3F49                              _3F49
+LABEL                    $3F61                              _3F61
+LABEL                    $3F6B                              _3F6B
+LABEL                    $3F71                              _3F71
+LABEL                    $3FBF                              _3FBF
+LABEL                    $3FCF                              _3FCF
+LABEL                    $3FD0                              _3FD0
+LABEL                    $3FDF                              _3FDF
+LABEL                    $3FFF                              _3FFF
+LABEL                    $4010                              _4010
+LABEL                    $4015                              _4015
+LABEL                    $4017                              _4017
+LABEL                    $4018                              _4018
+LABEL                    $4019                              _4019
+LABEL                    $401F                              _401F
+LABEL                    $4025                              _4025
+LABEL                    $4040                              _4040
+LABEL                    $40C0                              _40C0
+LABEL                    $40F0                              _40F0
+LABEL                    $4130                              _4130
+LABEL                    $4144                              _4144
+LABEL                    $415B                              _415B
+LABEL                    $4174                              _4174
+LABEL                    $4181                              _4181
+LABEL                    $4188                              _4188
+LABEL                    $419A                              _419A
+LABEL                    $419B                              _419B
+LABEL                    $41AE                              _41AE
+LABEL                    $43CF                              readJoyPort0
+COMMENT                    $43CF                              upper nibble (D=down, U = Up, L=Left, R = Right)
+COMMENT                    $43CF                              RLDU
+COMMENT                    $43CF                              reads buttons and joystick, result in $c805, lower nibble contains buttons stae, upper nibble reads y and x +-+- values (if bit is set, than + or netaive, if not set, than 0
+COMMENT                    $43D1                              setup DP
+COMMENT                    $43D3                              A= $19, B = $0e
+COMMENT                    $43D6                              va port A = 14 (PSG reg 14)
+COMMENT                    $43D8                              VIA Port B = 19, mux disabled, RAMP enabled(no), BC1/BDIR = 11 (Latch address)
+COMMENT                    $43DA                              A=0, B=1
+COMMENT                    $43DD                              VIA Port B = 01, mux disabled, RAMP enabled(no), BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $43DF                              Via port A = input
+COMMENT                    $43E1                              A=09
+COMMENT                    $43E3                              VIA Port B = 09, mux disabled, RAMP enabled(no), BC1/BDIR = 01 (Read from PSG)
+COMMENT                    $43E5                              delay
+COMMENT                    $43E6                              get value from via A <- PSG A <- Joystick port
+COMMENT                    $43E8                              VIA Port B = 01, mux disabled, RAMP enabled(no), BC1/BDIR = 00 (PSG inactive)
+COMMENT                    $43EA                              B=ff
+COMMENT                    $43EC                              Via port A as output
+COMMENT                    $43EE                              whatever we got from A is inverted
+COMMENT                    $43EF                              and only the lower nibble used
+COMMENT                    $43F1                              save the button state
+COMMENT                    $43F4                              A= 03, B = 0
+COMMENT                    $43F7                              mux sel = 01, port 0 vertical joystick
+COMMENT                    $43F9                              enable mux
+COMMENT                    $43FB                              wait for pos to gather for 16 loops
+LABEL                    $43FD                              readVerticalPort0Loop
+COMMENT                    $4400                              disable mux
+COMMENT                    $4402                              A=$40, B = $20
+COMMENT                    $4405                              Store compare value $40 to DAC (test for Up)
+COMMENT                    $4407                              delay
+COMMENT                    $4409                              check compare bit
+COMMENT                    $440B                              value in DAC was smaller than pot _> compare bit is set, that means joystick was moved up ->
+COMMENT                    $440D                              A=-$40, test for down
+COMMENT                    $440F                              delay
+COMMENT                    $4411                              check compare bit
+COMMENT                    $4413                              value in DAC was greater than pot -> compare bit is not set, that means joystick was moved down ->
+LABEL                    $4415                              testHorizontal
+COMMENT                    $4415                              A= 01, B = 0
+COMMENT                    $4418                              Via port B mux sel = 00, mux disabled, port 0 horizontal joystick, Via port A = 0
+COMMENT                    $441A                              enable mux
+COMMENT                    $441C                              wait for pos to gather for 16 loops
+LABEL                    $441E                              readHorizontalPort0Loop
+COMMENT                    $4421                              disable mux
+COMMENT                    $4423                              A=$40, B = $20
+COMMENT                    $4426                              Store compare value $40 to DAC (test for Right)
+COMMENT                    $4428                              delay
+COMMENT                    $442A                              check compare bit
+COMMENT                    $442C                              value in DAC was greater than pot -> compare bit is not set, that means joystick was moved right ->
+COMMENT                    $442E                              A=-$40, test for left
+COMMENT                    $4430                              delay
+COMMENT                    $4432                              check compare bit
+COMMENT                    $4434                              value in DAC was greater than pot -> compare bit is not set, that means joystick was moved left ->
+COMMENT                    $4436                              done
+LABEL                    $4437                              JoyUp
+LABEL                    $4441                              JoyDown
+LABEL                    $444B                              JoyLeft
+COMMENT                    $4453                              done
+LABEL                    $4454                              JoyRight
+COMMENT                    $445C                              done
+LABEL                    $445D                              _445D
+LABEL                    $447E                              init_c82b_ff
+LABEL                    $4491                              _4491
+LABEL                    $449D                              _449D
+LABEL                    $44AD                              _44AD
+LABEL                    $44BB                              _44BB
+LABEL                    $44CD                              _44CD
+LABEL                    $44DA                              _44DA
+LABEL                    $44EB                              _44EB
+LABEL                    $4503                              _4503
+LABEL                    $4513                              _4513
+LABEL                    $4529                              _4529
+LABEL                    $4536                              _4536
+LABEL                    $4547                              _4547
+COMMENT                    $4577                              
+EQU                    $457B                              copyrightString_isyx
+LABEL                    $457B                              copyrightString_isyx
+COMMENT                    $457B                              intensity, scale, ypos, xpos
+COMMENT                    $457F                              $1f is copyright, $ is space
+EQU                    $4595                              sologame_yx
+LABEL                    $4595                              sologame_yx
+EQU                    $45A4                              linkgame_yx
+LABEL                    $45A4                              linkgame_yx
+LABEL                    $462C                              _462C
+LABEL                    $4634                              _4634
+LABEL                    $463A                              _463A
+LABEL                    $4640                              _4640
+LABEL                    $464F                              _464F
+LABEL                    $4651                              _4651
+LABEL                    $4655                              _4655
+LABEL                    $4663                              _4663
+LABEL                    $467C                              _467C
+LABEL                    $468A                              _468A
+LABEL                    $4690                              _4690
+LABEL                    $4692                              _4692
+LABEL                    $4693                              _4693
+LABEL                    $4696                              _4696
+EQU                    $4699                              linkFailedStringStruct
+LABEL                    $4699                              linkFailedStringStruct
+LABEL                    $46A7                              _46A7
+LABEL                    $46A8                              _46A8
+LABEL                    $46AD                              _46AD
+LABEL                    $46B1                              _46B1
+LABEL                    $46BE                              _46BE
+LABEL                    $46BF                              _46BF
+LABEL                    $46CF                              _46CF
+LABEL                    $46D2                              _46D2
+LABEL                    $46DE                              _46DE
+LABEL                    $46DF                              _46DF
+LABEL                    $46E0                              _46E0
+LABEL                    $46F8                              _46F8
+LABEL                    $46FF                              _46FF
+LABEL                    $4705                              _4705
+LABEL                    $470B                              _470B
+LABEL                    $4714                              _4714
+LABEL                    $4723                              _4723
+LABEL                    $4728                              _4728
+LABEL                    $4742                              _4742
+LABEL                    $4751                              _4751
+LABEL                    $4754                              _4754
+COMMENT                    $478E                              Stack a,b, dp, x, y, s, pc
+COMMENT                    $4796                              
+COMMENT                    $4796                              Thus, game start at $26B8
+LABEL                    $4F30                              _4F30
+LABEL                    $5030                              _5030
+LABEL                    $5050                              _5050
+LABEL                    $50D0                              _50D0
+LABEL                    $5639                              _5639
+LABEL                    $5730                              _5730
+LABEL                    $64C5                              _64C5
+LABEL                    $7020                              _7020
+LABEL                    $72FF                              _72FF
+LABEL                    $7777                              _7777
+LABEL                    $77C8                              _77C8
+LABEL                    $783F                              _783F
+LABEL                    $78F8                              _78F8
+LABEL                    $7C00                              _7C00
+LABEL                    $7E00                              _7E00
+LABEL                    $7EFC                              _7EFC
+LABEL                    $7F20                              _7F20
+LABEL                    $8000                              _8000
+LABEL                    $8080                              _8080
+LABEL                    $8181                              _8181
+LABEL                    $819C                              _819C
+LABEL                    $8280                              _8280
+LABEL                    $8292                              _8292
+LABEL                    $82AA                              _82AA
+LABEL                    $83D8                              _83D8
+LABEL                    $86D0                              _86D0
+LABEL                    $8F87                              _8F87
+LABEL                    $9020                              _9020
+LABEL                    $A000                              _A000
+LABEL                    $A07F                              _A07F
+LABEL                    $A500                              _A500
+LABEL                    $B0D0                              _B0D0
+LABEL                    $B600                              _B600
+LABEL                    $BC62                              _BC62
+LABEL                    $BF00                              _BF00
+LABEL                    $BFC0                              _BFC0
+LABEL                    $C000                              _C000
+LABEL                    $C00C                              _C00C
+LABEL                    $C00E                              _C00E
+LABEL                    $C00F                              _C00F
+LABEL                    $C040                              _C040
+LABEL                    $C088                              _C088
+LABEL                    $C0C0                              _C0C0
+LABEL                    $C0C4                              _C0C4
+LABEL                    $C0D0                              _C0D0
+LABEL                    $C0F0                              _C0F0
+LABEL                    $C3BF                              _C3BF
+LABEL                    $C3E0                              _C3E0
+LABEL                    $C780                              _C780
+LABEL                    $C800                              AlexRCCounterHi
+LABEL                    $C800                              Vec_Snd_Shadow
+LABEL                    $C801                              AlexRCCounterLo
+LABEL                    $C802                              _C802
+LABEL                    $C804                              CounterVar
+LABEL                    $C805                              JoyStatePort0ThisSide
+COMMENT                    $C805                              lower nibble Buttons, upper nibble RLDU digits
+LABEL                    $C806                              JoyStatePort0OtherSide
+COMMENT                    $C806                              lower nibble Buttons, upper nibble RLDU digits
+LABEL                    $C807                              jumper1
+LABEL                    $C809                              jumper2
+LABEL                    $C80B                              _C80B
+LABEL                    $C80C                              SyncData5
+LABEL                    $C80D                              SyncData4
+LABEL                    $C80F                              _C80F
+LABEL                    $C80F                              Vec_Btn_State
+LABEL                    $C810                              _C810
+LABEL                    $C810                              Vec_Prev_Btns
+LABEL                    $C811                              Vec_Buttons
+LABEL                    $C812                              Vec_Button_1_1
+LABEL                    $C813                              Vec_Button_1_2
+LABEL                    $C814                              Vec_Button_1_3
+LABEL                    $C815                              Vec_Button_1_4
+LABEL                    $C816                              _C816
+LABEL                    $C816                              Vec_Button_2_1
+LABEL                    $C817                              Vec_Button_2_2
+LABEL                    $C818                              _C818
+LABEL                    $C818                              Vec_Button_2_3
+LABEL                    $C819                              Vec_Button_2_4
+LABEL                    $C81A                              _C81A
+LABEL                    $C81A                              Vec_Joy_Resltn
+LABEL                    $C81B                              Vec_Joy_1_X
+LABEL                    $C81C                              _C81C
+LABEL                    $C81C                              Vec_Joy_1_Y
+LABEL                    $C81D                              Vec_Joy_2_X
+LABEL                    $C81E                              Vec_Joy_2_Y
+LABEL                    $C81F                              _C81F
+LABEL                    $C81F                              Vec_Joy_Mux
+LABEL                    $C81F                              Vec_Joy_Mux_1_X
+LABEL                    $C820                              Vec_Joy_Mux_1_Y
+LABEL                    $C821                              _C821
+LABEL                    $C821                              Vec_Joy_Mux_2_X
+LABEL                    $C822                              _C822
+LABEL                    $C822                              Vec_Joy_Mux_2_Y
+LABEL                    $C823                              Vec_Misc_Count
+LABEL                    $C824                              Vec_0Ref_Enable
+LABEL                    $C825                              Vec_Loop_Count
+LABEL                    $C826                              _C826
+LABEL                    $C827                              Vec_Brightness
+LABEL                    $C828                              Vec_Dot_Dwell
+LABEL                    $C829                              Vec_Pattern
+LABEL                    $C82A                              Vec_Text_Height
+LABEL                    $C82A                              Vec_Text_HW
+LABEL                    $C82B                              Vec_Text_Width
+LABEL                    $C82C                              _C82C
+LABEL                    $C82C                              Vec_Str_Ptr
+LABEL                    $C82E                              _C82E
+LABEL                    $C82E                              Vec_Counters
+LABEL                    $C82E                              Vec_Counter_1
+LABEL                    $C82F                              Vec_Counter_2
+LABEL                    $C830                              _C830
+LABEL                    $C830                              Vec_Counter_3
+LABEL                    $C831                              _C831
+LABEL                    $C831                              Vec_Counter_4
+LABEL                    $C832                              _C832
+LABEL                    $C832                              Vec_Counter_5
+LABEL                    $C833                              Vec_Counter_6
+LABEL                    $C834                              _C834
+LABEL                    $C834                              Vec_RiseRun_Tmp
+LABEL                    $C836                              _C836
+LABEL                    $C836                              Vec_Angle
+LABEL                    $C837                              _C837
+LABEL                    $C837                              Vec_Run_Index
+LABEL                    $C838                              SyncData1
+LABEL                    $C839                              SyncData2
+LABEL                    $C839                              Vec_Rise_Index
+LABEL                    $C83A                              SyncData3
+LABEL                    $C83B                              _C83B
+LABEL                    $C83B                              Vec_RiseRun_Len
+LABEL                    $C83D                              _C83D
+LABEL                    $C83D                              Vec_Rfrsh
+LABEL                    $C83D                              Vec_Rfrsh_lo
+LABEL                    $C83E                              rowPos_YX
+LABEL                    $C83E                              Vec_Rfrsh_hi
+LABEL                    $C83F                              Vec_Music_Work
+LABEL                    $C840                              textIntensity
+LABEL                    $C841                              textXSize
+LABEL                    $C842                              currentStringStartStruct
+LABEL                    $C842                              Vec_Music_Wk_A
+LABEL                    $C844                              YM_MainStatus
+LABEL                    $C845                              YM_ListStatus
+LABEL                    $C845                              Vec_Music_Wk_7
+LABEL                    $C846                              YM_Pointer
+LABEL                    $C846                              Vec_Music_Wk_6
+LABEL                    $C847                              Vec_Music_Wk_5
+LABEL                    $C848                              _C848
+LABEL                    $C849                              _C849
+LABEL                    $C84B                              _C84B
+LABEL                    $C84B                              Vec_Music_Wk_1
+LABEL                    $C84D                              _C84D
+LABEL                    $C84D                              Vec_Freq_Table
+LABEL                    $C84E                              _C84E
+LABEL                    $C84F                              _C84F
+LABEL                    $C84F                              Vec_ADSR_Table
+LABEL                    $C84F                              Vec_Max_Players
+LABEL                    $C850                              _C850
+LABEL                    $C850                              Vec_Max_Games
+LABEL                    $C851                              _C851
+LABEL                    $C851                              Vec_Twang_Table
+LABEL                    $C853                              Vec_Expl_ChanA
+LABEL                    $C853                              Vec_Music_Ptr
+LABEL                    $C854                              Vec_Expl_Chans
+LABEL                    $C855                              Vec_Music_Chan
+LABEL                    $C856                              Vec_Music_Flag
+LABEL                    $C857                              Vec_Duration
+LABEL                    $C858                              Vec_Expl_1
+LABEL                    $C858                              Vec_Music_Twang
+LABEL                    $C859                              Vec_Expl_2
+LABEL                    $C85A                              Vec_Expl_3
+LABEL                    $C85B                              Vec_Expl_4
+LABEL                    $C85C                              Vec_Expl_Chan
+LABEL                    $C85D                              Vec_Expl_ChanB
+LABEL                    $C85E                              Vec_ADSR_Timers
+LABEL                    $C861                              Vec_Music_Freq
+LABEL                    $C867                              Vec_Expl_Flag
+LABEL                    $C870                              _C870
+LABEL                    $C877                              Vec_Expl_Timer
+LABEL                    $C879                              Vec_Num_Players
+LABEL                    $C87A                              Vec_Num_Game
+LABEL                    $C87B                              Vec_Seed_Ptr
+LABEL                    $C87D                              Vec_Random_Seed
+LABEL                    $C880                              _C880
+LABEL                    $C881                              _C881
+LABEL                    $C882                              _C882
+LABEL                    $C886                              _C886
+LABEL                    $C888                              _C888
+LABEL                    $C88A                              _C88A
+LABEL                    $C88D                              _C88D
+LABEL                    $C88E                              _C88E
+LABEL                    $C88F                              _C88F
+LABEL                    $C890                              _C890
+LABEL                    $C891                              _C891
+LABEL                    $C892                              _C892
+LABEL                    $C89B                              _C89B
+LABEL                    $C8A2                              _C8A2
+LABEL                    $C8B6                              _C8B6
+LABEL                    $C8B7                              _C8B7
+LABEL                    $C8BD                              _C8BD
+LABEL                    $C8BE                              _C8BE
+LABEL                    $C8C0                              _C8C0
+LABEL                    $C8C8                              _C8C8
+LABEL                    $C8CA                              _C8CA
+LABEL                    $C8D9                              _C8D9
+LABEL                    $C8DA                              _C8DA
+LABEL                    $C8DB                              _C8DB
+LABEL                    $C8DC                              _C8DC
+LABEL                    $C8E7                              _C8E7
+LABEL                    $C8EA                              _C8EA
+LABEL                    $C8EB                              _C8EB
+LABEL                    $C8EC                              _C8EC
+LABEL                    $C8ED                              _C8ED
+LABEL                    $C8EE                              _C8EE
+LABEL                    $C8F2                              _C8F2
+LABEL                    $C8F3                              _C8F3
+LABEL                    $C8F4                              _C8F4
+LABEL                    $C8F5                              _C8F5
+LABEL                    $C8F6                              _C8F6
+LABEL                    $C8F7                              _C8F7
+LABEL                    $C8F8                              _C8F8
+LABEL                    $C907                              _C907
+LABEL                    $C909                              _C909
+LABEL                    $CA58                              _CA58
+LABEL                    $CA5A                              _CA5A
+LABEL                    $CA5C                              _CA5C
+LABEL                    $CBEA                              Vec_Default_Stk
+LABEL                    $CBEB                              Vec_High_Score
+LABEL                    $CBF2                              Vec_SWI2_Vector
+LABEL                    $CBF2                              Vec_SWI3_Vector
+LABEL                    $CBF5                              Vec_FIRQ_Vector
+LABEL                    $CBF8                              Vec_IRQ_Vector
+LABEL                    $CBFB                              Vec_NMI_Vector
+LABEL                    $CBFB                              Vec_SWI_Vector
+LABEL                    $CBFE                              Vec_Cold_Flag
+LABEL                    $CCCC                              _CCCC
+LABEL                    $CCD8                              _CCD8
+LABEL                    $CE7C                              _CE7C
+LABEL                    $CEFE                              _CEFE
+LABEL                    $D000                              VIA_port_b
+LABEL                    $D001                              VIA_port_a
+LABEL                    $D002                              VIA_DDR_b
+LABEL                    $D003                              VIA_DDR_a
+LABEL                    $D004                              VIA_t1_cnt_lo
+LABEL                    $D005                              VIA_t1_cnt_hi
+LABEL                    $D006                              VIA_t1_lch_lo
+LABEL                    $D007                              VIA_t1_lch_hi
+LABEL                    $D008                              VIA_t2_lo
+LABEL                    $D009                              VIA_t2_hi
+LABEL                    $D00A                              VIA_shift_reg
+LABEL                    $D00B                              VIA_aux_cntl
+LABEL                    $D00C                              VIA_cntl
+LABEL                    $D00D                              VIA_int_flags
+LABEL                    $D00E                              VIA_int_enable
+LABEL                    $D00F                              VIA_port_a_nohs
+LABEL                    $D018                              _D018
+LABEL                    $D050                              _D050
+LABEL                    $D058                              _D058
+LABEL                    $D090                              _D090
+LABEL                    $D0A8                              _D0A8
+LABEL                    $D0B0                              _D0B0
+LABEL                    $D8AF                              _D8AF
+LABEL                    $D8D8                              _D8D8
+LABEL                    $DF9C                              _DF9C
+RANGE $0019-$00AD DP $D0
+RANGE $00B7-$00D3 DP $C8
+RANGE $00F5-$013F DP $D0
+RANGE $01A6-$0206 DP $D0
+RANGE $0504-$0552 DP $D0
+RANGE $0769-$076B DP $C8
+RANGE $0784-$07A7 DP $D0
+RANGE $1354-$137E DP $D0
+RANGE $1394-$1524 DP $D0
+RANGE $1539-$1548 DP $C8
+RANGE $1557-$15A0 DP $D0
+RANGE $15B5-$1666 DP $C8
+RANGE $224C-$2307 DP $D0
+RANGE $233F-$23C3 DP $D0
+RANGE $23E0-$245C DP $C8
+RANGE $26BA-$26C4 DP $C8
+RANGE $26F6-$2710 DP $C8
+RANGE $274E-$2752 DP $C8
+RANGE $275B-$2851 DP $C8
+RANGE $2896-$28CE DP $C8
+RANGE $3877-$38A1 DP $D0
+RANGE $3962-$397B DP $D0
+RANGE $39AD-$39CC DP $D0
+RANGE $3A25-$3A3F DP $D0
+RANGE $3B64-$3B82 DP $D0
+RANGE $3C1E-$3C4E DP $D0
+RANGE $3D60-$3DF8 DP $D0
+RANGE $43CF-$4422 DP $D0
+RANGE $445D-$4482 DP $C8
+RANGE $0000-$000A CHAR_DATA 30
+RANGE $000A-$000B DB_DATA 8
+RANGE $000B-$000D DW_DATA 4
+RANGE $000D-$000E DB_DATA 8
+RANGE $000E-$0210 CODE
+RANGE $0210-$0504 DB_DATA 6
+RANGE $0504-$0567 CODE
+RANGE $0567-$0589 DB_DATA 8
+RANGE $0589-$0769 BIN_DATA 12
+RANGE $0769-$07B6 CODE
+RANGE $07B6-$0C37 DB_DATA 8
+RANGE $0C37-$0C48 CODE
+RANGE $0C48-$0C4A DB_DATA 8
+RANGE $0C4A-$167B CODE
+RANGE $167B-$224C DB_DATA 10
+RANGE $224C-$24C9 CODE
+RANGE $24C9-$24D1 DB_DATA 8
+RANGE $24D1-$25FF CODE
+RANGE $25FF-$2605 DB_DATA 8
+RANGE $2605-$265D CODE
+RANGE $265D-$2661 DB_DATA 8
+RANGE $2661-$2AC5 CODE
+RANGE $2AC5-$2AC6 DB_DATA 8
+RANGE $2AC6-$2AC8 CODE
+RANGE $2AC8-$2ACC DB_DATA 8
+RANGE $2ACC-$2AD0 CODE
+RANGE $2AD0-$2AD2 DB_DATA 8
+RANGE $2AD2-$2AF1 CODE
+RANGE $2AF1-$2AF3 DB_DATA 8
+RANGE $2AF3-$2AF5 CODE
+RANGE $2AF5-$2AF9 DB_DATA 8
+RANGE $2AF9-$2AFB CODE
+RANGE $2AFB-$2AFD DB_DATA 8
+RANGE $2AFD-$2AFF CODE
+RANGE $2AFF-$2B0F DB_DATA 8
+RANGE $2B0F-$2CD5 CODE
+RANGE $2CD5-$2CD9 DB_DATA 8
+RANGE $2CD9-$2DD4 CODE
+RANGE $2DD4-$2DDE DB_DATA 8
+RANGE $2DDE-$2FB0 CODE
+RANGE $2FB0-$2FB2 DB_DATA 8
+RANGE $2FB2-$3596 CODE
+RANGE $3596-$3598 DB_DATA 8
+RANGE $3598-$3853 CODE
+RANGE $3853-$3877 DW_DATA 8
+RANGE $3877-$38B6 CODE
+RANGE $38B6-$38BE DW_DATA 1
+RANGE $38BE-$3962 DB_DATA 4
+RANGE $3962-$3990 CODE
+RANGE $3990-$39A4 DB_DATA 4
+RANGE $39A4-$39E1 CODE
+RANGE $39E1-$3A25 DB_DATA 4
+RANGE $3A25-$3A54 CODE
+RANGE $3A54-$3B64 DB_DATA 8
+RANGE $3B64-$3B97 CODE
+RANGE $3B97-$3B99 DB_DATA 2
+RANGE $3B99-$3B9B DW_DATA 2
+RANGE $3B9B-$3B9D DB_DATA 2
+RANGE $3B9D-$3B9F DW_DATA 2
+RANGE $3B9F-$3BA1 DB_DATA 2
+RANGE $3BA1-$3BA3 DW_DATA 2
+RANGE $3BA3-$3BA5 DB_DATA 2
+RANGE $3BA5-$3BA7 DW_DATA 2
+RANGE $3BA7-$3BA9 DB_DATA 2
+RANGE $3BA9-$3BAB DW_DATA 2
+RANGE $3BAB-$3BAD DB_DATA 2
+RANGE $3BAD-$3BAF DW_DATA 2
+RANGE $3BAF-$3BB1 DB_DATA 2
+RANGE $3BB1-$3BB3 DW_DATA 2
+RANGE $3BB3-$3BB5 DB_DATA 2
+RANGE $3BB5-$3BB7 DW_DATA 2
+RANGE $3BB7-$3BB9 DB_DATA 2
+RANGE $3BB9-$3BBB DW_DATA 2
+RANGE $3BBB-$3BBD DB_DATA 2
+RANGE $3BBD-$3BBF DW_DATA 2
+RANGE $3BBF-$3BC1 DB_DATA 2
+RANGE $3BC1-$3BC3 DW_DATA 2
+RANGE $3BC3-$3BC5 DB_DATA 2
+RANGE $3BC5-$3BC7 DW_DATA 2
+RANGE $3BC7-$3BC9 DB_DATA 2
+RANGE $3BC9-$3BCB DW_DATA 2
+RANGE $3BCB-$3C00 CODE
+RANGE $3C00-$3C01 DB_DATA 8
+RANGE $3C01-$3C10 CODE
+RANGE $3C10-$3C11 DB_DATA 8
+RANGE $3C11-$3C1C CODE
+RANGE $3C1C-$3C1E DB_DATA 8
+RANGE $3C1E-$3C51 CODE
+RANGE $3C51-$3D60 DB_DATA 4
+RANGE $3D60-$3E0D CODE
+RANGE $3E0D-$3EF9 DB_DATA 8
+RANGE $3EF9-$4051 CODE
+RANGE $4051-$4130 DB_DATA 8
+RANGE $4130-$4149 CODE
+RANGE $4149-$4159 DB_DATA 8
+RANGE $4159-$41AF CODE
+RANGE $41AF-$43CF DB_DATA 8
+RANGE $43CF-$455F CODE
+RANGE $455F-$4581 DB_DATA 4
+RANGE $4581-$4594 CHAR_DATA 20
+RANGE $4594-$4595 DB_DATA 8
+RANGE $4595-$45A1 CHAR_DATA 20
+RANGE $45A1-$45A4 DB_DATA 8
+RANGE $45A4-$45B0 CHAR_DATA 20
+RANGE $45B0-$45B3 DB_DATA 8
+RANGE $45B3-$45C5 CHAR_DATA 20
+RANGE $45C5-$45C6 DB_DATA 8
+RANGE $45C6-$45DA CHAR_DATA 20
+RANGE $45DA-$45DB DB_DATA 8
+RANGE $45DB-$45EF CHAR_DATA 20
+RANGE $45EF-$45F0 DB_DATA 8
+RANGE $45F0-$4604 CHAR_DATA 20
+RANGE $4604-$4605 DB_DATA 8
+RANGE $4605-$4609 CHAR_DATA 20
+RANGE $4609-$460B DB_DATA 8
+RANGE $460B-$4616 CHAR_DATA 20
+RANGE $4616-$4617 DB_DATA 8
+RANGE $4617-$4627 CHAR_DATA 20
+RANGE $4627-$4629 DB_DATA 8
+RANGE $4629-$4639 CHAR_DATA 20
+RANGE $4639-$463B DB_DATA 8
+RANGE $463B-$464B CHAR_DATA 20
+RANGE $464B-$464D DB_DATA 8
+RANGE $464D-$465D CHAR_DATA 20
+RANGE $465D-$465E DB_DATA 8
+RANGE $465E-$466E CHAR_DATA 20
+RANGE $466E-$466F DB_DATA 8
+RANGE $466F-$468A CHAR_DATA 20
+RANGE $468A-$468B DB_DATA 8
+RANGE $468B-$468D CHAR_DATA 20
+RANGE $468D-$468F DB_DATA 8
+RANGE $468F-$4699 CHAR_DATA 20
+RANGE $4699-$469D DB_DATA 4
+RANGE $469D-$46A8 CHAR_DATA 12
+RANGE $46A8-$46AD DB_DATA 12
+RANGE $46AD-$46B3 CHAR_DATA 7
+RANGE $46B3-$46B4 DB_DATA 7
+RANGE $46B4-$46B7 CHAR_DATA 20
+RANGE $46B7-$46B8 DB_DATA 8
+RANGE $46B8-$470A CHAR_DATA 20
+RANGE $470A-$470C DB_DATA 8
+RANGE $470C-$478E CODE
+RANGE $478E-$4799 DB_DATA 8
+DIRECT_LABEL $D0 $00 VIA_port_b
+DIRECT_LABEL $D0 $01 VIA_port_a
+DIRECT_LABEL $D0 $03 VIA_DDR_a
+DIRECT_LABEL $D0 $04 VIA_t1_cnt_lo
+DIRECT_LABEL $D0 $05 VIA_t1_cnt_hi
+DIRECT_LABEL $D0 $08 VIA_t2_lo
+DIRECT_LABEL $D0 $09 VIA_t2_hi
+DIRECT_LABEL $D0 $0A VIA_shift_reg
+DIRECT_LABEL $D0 $0B VIA_aux_cntl
+DIRECT_LABEL $D0 $0C VIA_cntl
+DIRECT_LABEL $D0 $0D VIA_int_flags
+DIRECT_LABEL $C8 $00 AlexRCCounterHi
+DIRECT_LABEL $C8 $01 AlexRCCounterLo
+DIRECT_LABEL $C8 $82 _C882
+DIRECT_LABEL $C8 $44 YM_MainStatus
+DIRECT_LABEL $C8 $45 YM_ListStatus
+DIRECT_LABEL $C8 $05 JoyStatePort0ThisSide
+DIRECT_LABEL $C8 $06 JoyStatePort0OtherSide
+DIRECT_LABEL $C8 $46 YM_Pointer
+DIRECT_LABEL $C8 $07 jumper1
+DIRECT_LABEL $C8 $48 _C848
+DIRECT_LABEL $C8 $09 jumper2
+DIRECT_LABEL $C8 $0C SyncData5
+DIRECT_LABEL $C8 $0D SyncData4
+DIRECT_LABEL $C8 $10 _C810
+DIRECT_LABEL $C8 $12 Vec_Button_1_1
+DIRECT_LABEL $C8 $14 Vec_Button_1_3
+DIRECT_LABEL $C8 $16 _C816
+DIRECT_LABEL $C8 $18 _C818
+DIRECT_LABEL $C8 $1A _C81A
+DIRECT_LABEL $C8 $1C _C81C
+DIRECT_LABEL $C8 $2B Vec_Text_Width
+DIRECT_LABEL $C8 $2F Vec_Counter_2
+DIRECT_LABEL $C8 $30 _C830
+DIRECT_LABEL $C8 $36 _C836
+DIRECT_LABEL $C8 $38 SyncData1
+DIRECT_LABEL $C8 $39 SyncData2
+DIRECT_LABEL $C8 $3A SyncData3
+END_BANK                    $00
+

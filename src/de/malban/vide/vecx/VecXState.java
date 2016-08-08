@@ -11,6 +11,7 @@ import de.malban.vide.vecx.cartridge.Cartridge;
 import static de.malban.vide.vecx.VecXStatics.TIMER_ACTION_NONE;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 /**
  *
@@ -100,8 +101,8 @@ public class VecXState implements Serializable
      public int via_ca2;
      public int via_cb2h;  /* basic handshake version of cb2 */
      public int via_cb2s;  /* version of cb2 controlled by the shift register */
-     public int pb6_in = 0; // 0 or 0x40 in from external
-     public int pb6_out = 0; // out from vectrex
+     public int pb6_in = 0x40; // 0 or 0x40 in from external
+     public int pb6_out = 0x40; // out from vectrex
      public boolean old_pb6 = false;
      
      
@@ -155,6 +156,11 @@ public class VecXState implements Serializable
     public long cyclesRunning=0;
     public boolean ds2430Enabled = false;
     public boolean microchipEnabled = false;
+    public boolean extraRam2000_2800Enabled = false; // animaction
+    public boolean extraRam8000_8800Enabled = false; // spectrum RA
+    public boolean extraRam6000_7fff_8k_Enabled = false; // Logo
+    
+    public boolean isDualVec = false;
     
     
     // no rom or cart
@@ -171,6 +177,12 @@ public class VecXState implements Serializable
         Cartridge.deepCopy(from.cart, to.cart, doRam, doTimer);
         to.ds2430Enabled = from.ds2430Enabled;
         to.microchipEnabled = from.microchipEnabled;
+        to.extraRam2000_2800Enabled = from.extraRam2000_2800Enabled;
+        to.extraRam8000_8800Enabled = from.extraRam8000_8800Enabled;
+        to.extraRam6000_7fff_8k_Enabled = from.extraRam6000_7fff_8k_Enabled;
+        
+        to.isDualVec = from.isDualVec;
+        
         
         to.lastShiftTriggered = from.lastShiftTriggered;
         to.via_stalling = from.via_stalling;
@@ -276,10 +288,22 @@ public class VecXState implements Serializable
        {
            synchronized (to)
            {
-                to.timerItemList = new ArrayList<VecX.TimerItem>();
-                for (VecX.TimerItem it: from.timerItemList)
+                boolean done = false;
+                try
                 {
-                    to.timerItemList.add(new VecX.TimerItem(it));
+                    while (!done)
+                    {
+                        to.timerItemList = new ArrayList<VecX.TimerItem>();
+                        for (VecX.TimerItem it: from.timerItemList)
+                        {
+                            to.timerItemList.add(new VecX.TimerItem(it));
+                        }
+                        done = true;
+                    }
+                }
+                catch (ConcurrentModificationException ex) // I seem to not be capable to ALLWAYS ensure this is not happending!
+                {
+                    
                 }
            }
        }

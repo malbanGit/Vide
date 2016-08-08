@@ -22,6 +22,18 @@ import java.io.Serializable;
  *
  * @author malban
 
+* Emulated at the moment are only features which are used by VectorPilot
+* This means the commands:
+* CRRD
+* ERAL
+* SETAL
+* 
+* Are not emulated, since to my knowledge they are not used, and I have no example
+* or test programs for them.
+* If in the future they are needed - I will implement them, if I still can figure out how
+* the below emulation works - it will be easy :-)
+*
+* 
 All instructions,
 addresses, and data are transferred MSb first, LSb
 last.
@@ -100,12 +112,15 @@ public class Microchip11AA010  implements Serializable{
     
     public transient Cartridge cart;
     
-    static class EpromData implements Serializable
+    public static class EpromData implements Serializable
     {
         byte[] data = new byte[MAX_DATA_LEN];
     }
     EpromData epromData = new EpromData();
-    
+    public byte[] getData()
+    {
+        return epromData.data;
+    }
     
     
     // low level states
@@ -261,6 +276,8 @@ public class Microchip11AA010  implements Serializable{
     boolean lineOut = false; // false is 0, true is 1
     int bitSequenceTimer = 0;
     
+    boolean commandStart = true; // indicator for MAK/NOMAK commands, that the command just started and nothing should be repeated
+    
     int lowLevelState = LL_STANDBY;
     int mediumLevelState = ML_NONE;
     int highLevelState = HL_NONE;
@@ -314,6 +331,8 @@ public class Microchip11AA010  implements Serializable{
 
         c.mc_status_register = mc_status_register;
         c.mc_address_register = mc_address_register;
+        c.mc_writeEnable = mc_writeEnable;
+        c.mc_writeTimer = mc_writeTimer;
         c.bitSequenceTimer = bitSequenceTimer;
         c.currentCommand = currentCommand;
         c.lowLevelState = lowLevelState;
@@ -333,7 +352,7 @@ public class Microchip11AA010  implements Serializable{
         c.manchester0 = manchester0; 
         c.manchester1 = manchester1; 
         c.lastMasterAk = lastMasterAk; 
-        c.mc_writeEnable = mc_writeEnable;
+        c.commandStart = commandStart;
         
         
         
@@ -343,14 +362,23 @@ public class Microchip11AA010  implements Serializable{
     void doError()
     {
         // go standby mode
-        reset();
+        resetStandby();
         log.addLog("Microchip11AA010: ERROR - Standby entered!", LogPanel.ERROR);
     }
     public void reset()
     {
+        loadBytesFromDisk();
+        resetStandby();
+        mc_writeEnable = false;
+        mc_writeTimer = 0;
+    }
+    
+    // switching to standby does NOT influence write enable!
+    public void resetStandby()
+    {
         manchester0 = MANCHESTER_SWITCH_NONE; // only for debuging
-        
         manchester1 = MANCHESTER_SWITCH_NONE;
+
         lowLevelState = LL_STANDBY;
         highLevelState = HL_NONE;
         currentCommand = COMMAND_NONE;
@@ -358,9 +386,9 @@ public class Microchip11AA010  implements Serializable{
         lowLevelSwitch = MANCHESTER_SWITCH_NONE;
         syncCounter = 0;
         bitSequenceTimer = 0; 
-        mc_writeEnable = false;
     }
 
+    // check if current command byte is valid
     boolean checkCommand()
     {
         boolean ok = false;
@@ -543,7 +571,7 @@ public class Microchip11AA010  implements Serializable{
     public void lineOut(boolean l)
     {
         lineOut = l;
-        cart.lineOut(lineOut);
+        cart.setPB6FromCarrtridge(lineOut);
     }    
     public static EpromData loadData(String serialname)
     {
@@ -602,7 +630,7 @@ public class Microchip11AA010  implements Serializable{
         if ((lineIn) && (difLastChange >standByPulseTimerCycles))
         {
             if (lowLevelState == LL_STANDBY) return;
-            reset();
+            resetStandby();
             log.addLog("Microchip11AA010: Standby entered!", LogPanel.INFO);
             return;
         }
@@ -645,7 +673,7 @@ public class Microchip11AA010  implements Serializable{
         
         
         // if we come here, the communication sync has been established
-        // we know the cycles for one seqeunce
+        // we know the cycles for one sequence
         // from now on our thinking in lowlevel only is in regard to one "sequence"
         
         int mediumCycles = bitSequenceTimer/2; // middle of one sequence
@@ -808,7 +836,7 @@ public class Microchip11AA010  implements Serializable{
     // these are low level steps only!
     // the header consists of 8 bits
     // timing for these 8 bits is measured
-    // and divided by 8, thus the sequence length for future refference is derived
+    // and divided by 8, thus the sequence length for future reference is derived
     void checkHeaderSteps(long c, boolean change)    
     {
         bitSequenceTimer = 0;
@@ -837,8 +865,8 @@ public class Microchip11AA010  implements Serializable{
             log.addLog("Microchip11AA010: Activation impulse ended, reading bit 0 of header!", LogPanel.VERBOSE);
             lowLevelState = LL_IN_HEADER_0; 
             headerSyncCounter = cycles;
-manchester0 = MANCHESTER_SWITCH_TRUE;
-manchester1 = MANCHESTER_SWITCH_NONE;
+            manchester0 = MANCHESTER_SWITCH_TRUE;
+            manchester1 = MANCHESTER_SWITCH_NONE;
             bitCounter = 0;
             dataByte = 0;
             return;
@@ -850,8 +878,8 @@ manchester1 = MANCHESTER_SWITCH_NONE;
             lowLevelState = LL_IN_HEADER_1;
             dataByte = dataByte <<1;
             dataByte+=0;
-manchester0 = MANCHESTER_SWITCH_TRUE;
-manchester1 = MANCHESTER_SWITCH_FALSE;
+            manchester0 = MANCHESTER_SWITCH_TRUE;
+            manchester1 = MANCHESTER_SWITCH_FALSE;
             bitCounter++;
             return;
         }
@@ -861,8 +889,8 @@ manchester1 = MANCHESTER_SWITCH_FALSE;
         {
             lowLevelState = LL_IN_HEADER_0;
             log.addLog("Microchip11AA010: Receive header bit ("+bitCounter+") =  1!", LogPanel.VERBOSE);
-manchester0 = MANCHESTER_SWITCH_FALSE;
-manchester1 = MANCHESTER_SWITCH_TRUE;
+            manchester0 = MANCHESTER_SWITCH_FALSE;
+            manchester1 = MANCHESTER_SWITCH_TRUE;
             dataByte = dataByte <<1;
             dataByte+=1;
             bitCounter++;
@@ -925,7 +953,6 @@ manchester1 = MANCHESTER_SWITCH_TRUE;
         if (mediumLevelState == ML_BYTE_TO_MC) isInputToMicrochip = true;
 
         
-        
         switch (mediumLevelState)
         {
             case ML_BYTE_FROM_MC:
@@ -936,7 +963,7 @@ manchester1 = MANCHESTER_SWITCH_TRUE;
                     if (mc_writeEnable) reg = reg | 0x02;
                     if (mc_writeTimer>0) reg = reg | 0x01;
                     dataByte = reg;
-                    log.addLog("Microchip11AA010: initMediumLevel() byte write initiated "+mediumLevelState+", from status register $"+ String.format("%02X", reg), LogPanel.VERBOSE);
+                    log.addLog("Microchip11AA010: initMediumLevel() byte write initiated "+mediumLevelState+", from status register, value: $"+ String.format("%02X", reg), LogPanel.VERBOSE);
                 }
                 if (currentCommand == COMMAND_READ)
                 {
@@ -1060,6 +1087,31 @@ manchester1 = MANCHESTER_SWITCH_TRUE;
         {
             case ML_MAK_OR_NO_MAK:
             {
+                if (commandStart)
+                {
+                    if (lowLevelSwitch == MANCHESTER_SWITCH_FALSE)
+                    {
+                        // success
+                        ok = true;
+                        log.addLog("Microchip11AA010: NOMAK received!", LogPanel.INFO);
+                        lastMasterAk = NOMAK;
+                    }
+                    else if (lowLevelSwitch == MANCHESTER_SWITCH_TRUE)
+                    {
+                        ok = true;
+                        log.addLog("Microchip11AA010: MAK received!", LogPanel.INFO);
+                        lastMasterAk = MAK;
+                    }
+                    else 
+                    {
+                        // error
+                        // what now?
+                        log.addLog("Microchip11AA010: no (MAK or NOMAK) received!", LogPanel.INFO);
+                    }                 
+                    commandStart = false;
+                    break;
+                }
+                
                 if (currentCommand == COMMAND_WRITE)
                 {
                     log.addLog("Microchip11AA010: WRITE data ($"+String.format("%02X", dataByte)+") to MC address: $"+String.format("%04X", mc_address_register)+"!", LogPanel.INFO);
@@ -1073,6 +1125,11 @@ manchester1 = MANCHESTER_SWITCH_TRUE;
                     {
                         epromData.data[mc_address_register] = (byte)dataByte;
                     }
+                    else
+                    {
+                        log.addLog("Microchip11AA010: WRITE error, address is write protected!", LogPanel.INFO);
+                    }
+                        
                 }
 
                 
@@ -1203,6 +1260,10 @@ manchester1 = MANCHESTER_SWITCH_TRUE;
                     ok = checkCommand();
                     if (!ok)
                         log.addLog("Microchip11AA010: Command unkown ($"+String.format("%02X", dataByte)+")!", LogPanel.WARN);
+                    else
+                    {
+                        commandStart = true;
+                    }
                 }            
                 else
                 {
@@ -1327,6 +1388,7 @@ manchester1 = MANCHESTER_SWITCH_TRUE;
                         mc_writeTimer = writeCycleTimeByteCycles;
                         log.addLog("Microchip11AA010: Status register set to: $"+String.format("%02X", dataByte), LogPanel.INFO);
                         initHighLevel(HL_BYTE_DELAY); // enters standby
+                        mc_writeEnable = false; // write disables write latch
                         break;
                     }
                     default:
@@ -1356,6 +1418,8 @@ manchester1 = MANCHESTER_SWITCH_TRUE;
                         {
                             // write is initiated by a nomak
                             mc_writeTimer = writeCycleTimeByteCycles;
+                            mc_writeEnable = false; // write disables write latch
+                            saveBytestoDisk();
                             initHighLevel(HL_WAIT_FOR_HEADER); 
                         }
                         break;
@@ -1419,7 +1483,7 @@ manchester1 = MANCHESTER_SWITCH_TRUE;
                     case COMMAND_READ:
                     {
                         mc_address_register = mc_address_register % MAX_DATA_LEN;
-                        log.addLog("Microchip11AA010: Adress register set to: $"+String.format("%04X", mc_address_register), LogPanel.INFO);
+                        log.addLog("Microchip11AA010: Address register set to: $"+String.format("%04X", mc_address_register), LogPanel.INFO);
                         log.addLog("Microchip11AA010: HL_ADDRESS->READ done", LogPanel.VERBOSE);
                         initHighLevel(HL_BYTE_FROM_MC); 
                         break;
@@ -1427,7 +1491,7 @@ manchester1 = MANCHESTER_SWITCH_TRUE;
                     case COMMAND_WRITE:
                     {
                         mc_address_register = mc_address_register % MAX_DATA_LEN;
-                        log.addLog("Microchip11AA010: Adress register set to: $"+String.format("%04X", mc_address_register), LogPanel.INFO);
+                        log.addLog("Microchip11AA010: Address register set to: $"+String.format("%04X", mc_address_register), LogPanel.INFO);
                         log.addLog("Microchip11AA010: HL_ADDRESS->WRITE done", LogPanel.VERBOSE);
 
                         initHighLevel(HL_BYTE_TO_MC); 
@@ -1470,6 +1534,7 @@ manchester1 = MANCHESTER_SWITCH_TRUE;
                     case COMMAND_WREN:
                     {
                         log.addLog("Microchip11AA010: HL_COMMAND->WREN done", LogPanel.VERBOSE);
+                        
                         if (lastMasterAk == NOMAK)
                         {
                             initHighLevel(HL_WAIT_FOR_HEADER); 
@@ -1528,23 +1593,24 @@ manchester1 = MANCHESTER_SWITCH_TRUE;
     }
     boolean isProtected(int block)
     {
-        if ((mc_status_register&0x02) == 0x00) return true;
-        int protBloc = mc_status_register>>2;
+        int reg = mc_status_register&0xc;
+        if (mc_writeEnable) reg = reg | 0x02;
+        if (mc_writeTimer>0) reg = reg | 0x01;
+
+        if ((reg&0x02) == 0x00) return true; // write enable is disabled
+        if ((reg&0x01) == 0x01) return true; // another write is still active
+        
+        
+        int protBloc = reg>>2;
         if ((block == 3) && (protBloc>0)) return true;
         if ((block == 2) && (protBloc>1)) return true;
         if ((block == 1) && (protBloc>2)) return true;
         if ((block == 0) && (protBloc>2)) return true;
         return false;
     }
+    public boolean isActive()
+    {
+        return highLevelState != HL_NONE;
+    }
 }
- 
-                VERBOSE: Microchip11AA010: bit(6) received: 0
-                VERBOSE: Microchip11AA010: bit(7) received: 0
-                INFO: Microchip11AA010: Command got: WRITE!
-                VERBOSE: Microchip11AA010: initMediumLevel() MAK OR NOMAK initiated 16
-looks false                INFO: Microchip11AA010: WRITE data ($6C) to MC address: $0020!
-                INFO: Microchip11AA010: MAK received - high level command repeated!
-                VERBOSE: Microchip11AA010: initMediumLevel() SAK initiated 2
-                INFO: Microchip11AA010: SAK sent!
-                VERBOSE: Microchip11AA010: HL_COMMAND->WRITE done
-                VERBOSE: Microchip11AA010: initMediumLevel() byte read initiated 9
+

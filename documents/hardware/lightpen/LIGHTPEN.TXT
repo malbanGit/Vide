@@ -1,0 +1,31 @@
+Here is a schematic of a lightpen that is reported to work reasonably
+well with the vectrex. This is NOT the official vectrex lightpen.
+Provided by Tony Duell <ard@p850ug1.demon.co.uk> April 1995
+
+
+     +--------------------------+--------------------------+----- +5v (7)
+     |                          |                          |
+     /                          /                         === 4u7
+     \  10k                     \ 2k2        4            --- (Tant)
+     /                     10k  /          +---|\   6      |
+     \                   +-/\/- +----------+   |#)o---+   -+-
+     |                   |      /          +---|/     |   ///
+     |        | |        |   |/              5        |
+     +------- | | -------+---|    2N3904     74LS132  +-------- SW7 (4)
+     |        | |            |\             (+5v=14, Gnd=7)     Output
+     /        10nF             >\
+  |/   MEL12                     |
+  |\>  Photodarlington           |                       +------- Gnd (8)
+    >\                          -+-                      |
+     |                          ///                     -+-
+    -+-                                                 ///
+    ///
+
+Notes
+------
+0) Not the official Vectrex lightpen.
+1) Pin connections to vectrex left joystick port shown in brackets
+2) For some reason, 74LS14 does _not work_ in this circuit. 74LS13 should be OK
+3) MEL12 available from Maplin. Do not know of any equivlents
+4) Use Seqa extension cable (with plug cut off) to make connection to vectrex.
+

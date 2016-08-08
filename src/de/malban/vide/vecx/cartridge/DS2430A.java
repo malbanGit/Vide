@@ -237,6 +237,10 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         byte[] data = new byte[MAX_DATA_LEN];
     }
     EpromData epromData = new EpromData();
+    public byte[] getData()
+    {
+        return epromData.data;
+    }
     
     long cycles = 0;
     boolean line = false; // false is 0, true is 1
@@ -334,7 +338,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     {
         line = l;
         lineOut = l;
-        cart.lineOut(line);
+        cart.setPB6FromCarrtridge(line);
     }
 
     // low level step
@@ -703,6 +707,10 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         return cart.cartName+".ds2430.ser";
     }
 
+    public boolean isActive()
+    {
+        return highLevelState != HL_WAIT_FOR_1W_COMMAND;
+    }
 
 }
 

@@ -269,6 +269,18 @@
 		<DestinationDirAll>download/documents/games/Dark_Tower_Manual.pdf</DestinationDirAll>
 	</Downloader>
 	<Downloader>
+		<Class>PDF</Class>
+		<Name>Logo Manual</Name>
+		<URL>http://www.vectorzoa.com/logo/logoman.pdf</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download/documents/games/logoman.pdf</DestinationDirAll>
+	</Downloader>
+	<Downloader>
 		<Class>Cartridge</Class>
 		<Name>All good things Download BIN</Name>
 		<URL>https://dl.dropboxusercontent.com/u/109462691/vectrex/Homebrew/All%20Good%20Things%20by%20John%20Dondzila%20%282000%29%20%28PD%29.bin</URL>

@@ -392,6 +392,10 @@ Done:
 todo:
 todoc:
 
+VecMulti
+
+
+
 do a stack frame window (for U, S X Y) with definable vars (byte word, named)
 which can be saved to cnt
 
@@ -523,3 +527,54 @@ link new pdf files to library
   mClearFlag (InactiveFlag | RefuelFlag | ShieldFlag | PullFlag)
   macro call parameters should be 1memops additionally comma seperated!
 - lex bra TileW TileW TileW TileW TileW 
+
+- SPEED COUNTER DONE
+- CODE INJECTION DONE
+- VInfi with vector count
+
+- cnt
+- animaction
+- spectrum (+cart)
+- dualVec
+- info
+- speed increase in Microchip
+- logo
+
+brightness adjust!
+
+
+The sound emulation does not work correctly for the game VectorPilot (by Kristof Tuts). This is especially obvious for the player's shoot, that sounds quite different on the emulator and on a real vectrex.
+
+Unlike most of the vectrex games, VectorPilot does not update the PSG register only once per frame (about every 20ms). Instead, it does modify the sound registers about every 5ms (roughly 4 times per frame) to output a high-quality sound.
+
+By design, ParaJVE is only updating the sound wave at the end of every frame ; thus the "intermediate" writes to the PSG registers done by VectorPilot are ignored, plain and simple. To achieve a perfect rendering, the sound emulation sub-system must be refactored to update the waveform data whenever a PSG register is accessed (filling a temporary buffer, that will be consumed at the end of the frame, when the sound waveform is to be output).
+Von meinem iPhone gesendet
+
+Am 05.08.2016 um 16:57 schrieb Christopher Salomon <chrissalo@posteo.de>:
+
+
+In combination with this, you can also reload external modifications made to the ROM directly from within ParaJVE, 
+without having to restart it : just select the "Rebuild / Reload ROM" menu item and you're done (no matter what kind 
+of ROM you're running - binary or source).
+This latter feature was added in an attempt to make ParaJVE more homebrew developers friendly. This great idea was suggested 
+by Alex of Vectorzoa, who has started an effort to involve more people into vectrex creation... If you're interested, run and 
+
+
+
+Von meinem iPhone gesendet
+
+Am 01.08.2016 um 23:07 schrieb Christopher Salomon <chrissalo@posteo.de>:
+
+http://atariage.com/forums/topic/14837-atari-2600-vectrex-video-game-release-party-in-ottawa/
+
+veclink 0 hw
+
+serial usb to vectrex
+
+Von meinem iPhone gesendet
+
+
+
+Controller:
+Vectrosis
+Driving Controller

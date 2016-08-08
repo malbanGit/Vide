@@ -2,6 +2,58 @@
 <AllCartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>DualVec</Name>
+		<CartName>DualVec</CartName>
+		<Author>William Hawkins</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>4096</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/other/DualVec.bin</FullFilename>
+		</FullFilenames>
+		<Information>William Hawkins</Information>
+		<Cheats></Cheats>
+		<Eastereggs>I wrote those programs years ago at Western Tech to demonstrate the
+possibility of
+making a game that would play on two systems (Like you can do with
+gameboy now...)
+
+This program did nothing more than display the buttons from one
+Vectrex on the other&apos;s
+display (and vice-versa).  
+
+I have no idea how these programs made it into the archive - I only
+showed this software
+to a few people...   You may safely discard them.   It communicates
+between the system
+by using PB6 on the cartridge.  If you really want to see it work,
+you must connect PB6
+and GND between the two systems, then run DUALVEC on 1 system and
+DUALVEC2 on the other.
+
+Bill Hawkins</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Vector 21</Name>
 		<CartName>Vector 21</CartName>
 		<Author>George Pelonis</Author>
@@ -353,6 +405,39 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CartridgeImage></CartridgeImage>
 		<Homebrew>true</Homebrew>
 		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Logo lite</Name>
+		<CartName>Logo lite</CartName>
+		<Author>Alex Nicholson</Author>
+		<Year>2006</Year>
+		<CRC>0</CRC>
+		<TypeFlags>16384</TypeFlags>
+		<FullFilenames>
+		</FullFilenames>
+		<Information>Alex Nicholson</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2006 Alex Nicholson</CopyrightType>
+		<PDFLink>Logo Manual</PDFLink>
+		<PDFFile>download/documents/games/logoman.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
@@ -806,14 +891,14 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Class>Cartridge</Class>
 		<Name>Vector Pilot</Name>
 		<CartName>Vector Pilot</CartName>
-		<Author></Author>
+		<Author>Kristof Tuts</Author>
 		<Year></Year>
 		<CRC>0</CRC>
-		<TypeFlags>1</TypeFlags>
+		<TypeFlags>2049</TypeFlags>
 		<FullFilenames>
 			<FullFilename>Dumped/vectorPilot.bin</FullFilename>
 		</FullFilenames>
-		<Information></Information>
+		<Information>Kristof Tuts</Information>
 		<Cheats></Cheats>
 		<Eastereggs></Eastereggs>
 		<Homepage></Homepage>
@@ -1496,6 +1581,40 @@ VECRACE is my first Vectrex game. I developed it in order to learn and understan
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Warrior</Name>
+		<CartName>Warrior</CartName>
+		<Author></Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>32</TypeFlags>
+		<FullFilenames>
+			<FullFilename>Dumped/Warrior.BIN</FullFilename>
+		</FullFilenames>
+		<Information></Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Random Access Vector</Name>
 		<CartName>Random Access Vector</CartName>
 		<Author>Fit</Author>
@@ -1672,6 +1791,69 @@ You may give the Vecfu.bin file to your friends, but only together with this rea
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Spectrum RA</Name>
+		<CartName>Spectrum RA</CartName>
+		<Author>Roy Abel &amp; Associates</Author>
+		<Year>1984</Year>
+		<CRC>0</CRC>
+		<TypeFlags>16</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/other/SPECTRUM.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Roy Abel &amp; Associates</Information>
+		<Cheats>Emulation is supported by Vide,
+To access the &quot;coin&quot; button and see the LEDs go to dissi and type &quot;carti&quot;.
+There on the tab &quot;extra RAM&quot; you get access to above mentioned entities.</Cheats>
+		<Eastereggs>&amp;#x20; RA+A Spectrum I+
+
+  The Spectrum I+ was a modified Vectrex. It had a 32K ROM cart
+  and 2K additional battery backed RAM (0x8000 - 0x87ff). PB6
+  was used to signal inserted coins to the VIA. The unit was
+  controlled by 8 buttons (2x4 buttons of controller 1 and 2).
+  Each button had a LED which were controlled through writes to
+  0xa000. The srvice mode can be accessed by pressing button
+  8 during startup. As soon as all LEDs light up,
+  press 2 and 3 without releasing 8. Then release 8 and
+  after that 2 and 3. You can leave the screen where you enter
+  ads by pressing 8 several times.
+
+A company called Roy Abel &amp; Associates also commercially exploited the
+Vectrex by using it as a text terminal (which is about the worst thing
+it can do) to perform the &quot;Luscher Color Test&quot; after you put a quarter
+into a coin device which activated the unit.  You would pick colors in
+the order that they appealed to you (again, why did they use a black and
+white display for this job?), and it would tell you about your
+personality.  Actually, no matter what you picked it would tell you
+something that you could identify with; all of the statements were
+pretty vague.  The guy that programmed it did not understand the
+hardware; the text scrolled up the screen, but lines popped on at the
+bottom and disappeared near the top instead of scrolling on and off from
+offscreen.  Roy had GCE&apos;s permission and blessing to do the project.  In
+fact, some former WT personnel (Sidleys and others) as well as Lee
+Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
+</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile>documents/games/Spectrum RA_instructions.txt</InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Get into vectrex</Name>
 		<CartName>Get into vectrex</CartName>
 		<Author>Binary Star</Author>
@@ -1771,6 +1953,58 @@ You may give the Vecfu.bin file to your friends, but only together with this rea
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>DualVec2</Name>
+		<CartName>DualVec2</CartName>
+		<Author>William Hawkins</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>8192</TypeFlags>
+		<FullFilenames>
+			<FullFilename>cartridges/other/DualVec2.bin</FullFilename>
+		</FullFilenames>
+		<Information>William Hawkins</Information>
+		<Cheats></Cheats>
+		<Eastereggs>I wrote those programs years ago at Western Tech to demonstrate the
+possibility of
+making a game that would play on two systems (Like you can do with
+gameboy now...)
+
+This program did nothing more than display the buttons from one
+Vectrex on the other&apos;s
+display (and vice-versa).  
+
+I have no idea how these programs made it into the archive - I only
+showed this software
+to a few people...   You may safely discard them.   It communicates
+between the system
+by using PB6 on the cartridge.  If you really want to see it work,
+you must connect PB6
+and GND between the two systems, then run DUALVEC on 1 system and
+DUALVEC2 on the other.
+
+Bill Hawkins</Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 	</CartridgeProperties>
 	<CartridgeProperties>
@@ -3146,6 +3380,40 @@ The above copyright notice and this permission notice shall be included in all c
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Galaxian</Name>
+		<CartName>Galaxian</CartName>
+		<Author>Kristof Tuts</Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>2049</TypeFlags>
+		<FullFilenames>
+			<FullFilename>Vectrexians 2007 #069.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Kristof Tuts</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 	</CartridgeProperties>
 	<CartridgeProperties>

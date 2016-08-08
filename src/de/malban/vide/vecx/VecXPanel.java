@@ -24,6 +24,8 @@ import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.dissy.MemoryInformation;
 import static de.malban.vide.vecx.RunnerInterface.SYNC_MASTER;
 import static de.malban.vide.vecx.RunnerInterface.SYNC_SLAVE;
+import static de.malban.vide.vecx.VecX.START_TYPE_INJECT;
+import static de.malban.vide.vecx.VecX.START_TYPE_RUN;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.VecX.VectrexDisplayVectors;
 import de.malban.vide.vecx.VecXState.vector_t;
@@ -32,6 +34,7 @@ import static de.malban.vide.vecx.VecXStatics.EMU_TIMER;
 import static de.malban.vide.vecx.VecXStatics.VECTREX_MHZ;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import de.malban.vide.vecx.cartridge.DS2430A;
+import de.malban.vide.vecx.cartridge.DualVec;
 import de.malban.vide.vecx.cartridge.Microchip11AA010;
 import de.malban.vide.vecx.devices.AbstractDevice;
 import de.malban.vide.vecx.devices.HardSyncDevice;
@@ -75,6 +78,7 @@ import de.malban.vide.vecx.panels.VIAJPanel;
 import de.malban.vide.vecx.panels.VarJPanel;
 import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
+import de.malban.vide.vedi.VediPanel;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import javax.swing.DefaultComboBoxModel;
@@ -110,7 +114,7 @@ public class VecXPanel extends javax.swing.JPanel
     boolean updateAllways = false;
     
     public boolean stop = false;
-    public boolean running = false;
+    public volatile boolean running = false;
     public boolean pausing = false;
     private boolean pauseMode = false;
     public boolean debuging = false;
@@ -152,7 +156,7 @@ public class VecXPanel extends javax.swing.JPanel
     CartridgePanel carti = null;
     
     BufferedImage image;
-    boolean startTypeRun = true;
+    int startTypeRun = START_TYPE_RUN;
 
     @Override
     public void closing()
@@ -205,6 +209,7 @@ public class VecXPanel extends javax.swing.JPanel
         jButtonStopActionPerformed(null);                                            
         resetMe();
         AbstractDevice.exitSync = true;
+        DualVec.exitSync = true;
         deinitHardSync();
     }
     /**
@@ -212,6 +217,7 @@ public class VecXPanel extends javax.swing.JPanel
      */
     public VecXPanel() {
         AbstractDevice.exitSync = false;
+        DualVec.exitSync = false;
         initComponents();
         vecx = new VecX();
         vecx.runner = this;
@@ -245,6 +251,7 @@ public class VecXPanel extends javax.swing.JPanel
         jLabel2 = new javax.swing.JLabel();
         jComboBoxJoyport0 = new javax.swing.JComboBox();
         jButtonDebug = new javax.swing.JButton();
+        jLabelFPS = new javax.swing.JLabel();
 
         setName("vecxy"); // NOI18N
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -363,6 +370,9 @@ public class VecXPanel extends javax.swing.JPanel
             }
         });
 
+        jLabelFPS.setFont(new java.awt.Font("Geneva", 0, 8)); // NOI18N
+        jLabelFPS.setText("0");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -371,18 +381,23 @@ public class VecXPanel extends javax.swing.JPanel
                 .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(17, 17, 17)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
                         .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxJoyport1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jComboBoxJoyport1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButtonFileSelect1)
-                        .addGap(18, 18, 18)
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabelFPS, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2))
+                .addGap(4, 4, 4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButtonStart)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonPause)
@@ -394,19 +409,34 @@ public class VecXPanel extends javax.swing.JPanel
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonDebug))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxJoyport0, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jComboBoxJoyport0, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(3, 3, 3))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2)
-                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonDebug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButton2)
+                                    .addComponent(jButton1)))
+                            .addComponent(jLabelFPS, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBoxJoyport1)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jComboBoxJoyport0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jButtonFileSelect1)
                     .addComponent(jButtonPause)
                     .addComponent(jButtonStart)
@@ -416,16 +446,7 @@ public class VecXPanel extends javax.swing.JPanel
                             .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addGap(4, 4, 4)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButtonDebug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jComboBoxJoyport0, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jComboBoxJoyport1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -438,7 +459,7 @@ public class VecXPanel extends javax.swing.JPanel
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -476,21 +497,29 @@ public class VecXPanel extends javax.swing.JPanel
             // ... and run :-)... meaning go on...
         }
 
-        if (stepping) 
+        if (startTypeRun != START_TYPE_INJECT)
         {
-            debugMultistepAction();
+            if (stepping) 
+            {
+                debugMultistepAction();
+            }
+            if (isDebuging())
+            {
+                oneStep();
+                return;
+            }
+            if (isPausing())
+            {
+                cont();
+                return;
+            }
+            if (isRunning()) return;
         }
-        if (isDebuging())
+        else
         {
-            oneStep();
-            return;
+            stop = true;
+            while (running);
         }
-        if (isPausing())
-        {
-            cont();
-            return;
-        }
-        if (isRunning()) return;
         
         if (dissi == null)
         {
@@ -499,20 +528,45 @@ public class VecXPanel extends javax.swing.JPanel
         }
         setDissi(dissi);
         
-        vecx.init(jTextFieldstart.getText(), cartProp);
 
-        dissi.dis(vecx.cart);
-        if (!startTypeRun)
-            dissi.setStartbreakpoint();
+        
+        if (startTypeRun != START_TYPE_INJECT)
+        {
+            vecx.init(jTextFieldstart.getText(), cartProp);
+            dissi.dis(vecx.cart);
+            if (startTypeRun == VecX.START_TYPE_DEBUG)
+                dissi.setStartbreakpoint();
+            if (config.overlayEnabled)
+                loadOverlay(jTextFieldstart.getText()); // ensure overlay in scaled form is available
+            checkWindows();
+            
+        }
+        else
+        {
+            vecx.inject(jTextFieldstart.getText(), cartProp);
+            dissi.dis(vecx.cart);
+        }
+        
+        
+        
         dissiInit = true;
-        if (config.overlayEnabled)
-            loadOverlay(jTextFieldstart.getText()); // ensure overlay in scaled form is available
-        checkWindows();
         stop = true;
         dissi.processHeyDissis();
         resetGfx();
         updatePorts();
-        start();
+        if (startTypeRun != START_TYPE_INJECT)
+        {
+            start();            
+        }
+        else
+        {
+            if (!isDebuging())
+            {
+                if (!stepping)
+                    start();            
+            }
+        }
+
     }//GEN-LAST:event_jButtonStartActionPerformed
     public void startUp(String path)
     {
@@ -520,18 +574,20 @@ public class VecXPanel extends javax.swing.JPanel
     }
     public void startUp(String path, boolean checkCartridge)
     {
-        startUp( path,  checkCartridge, true);
+        startUp( path,  checkCartridge, START_TYPE_RUN);
     }
-    public void startUp(String path, boolean checkCartridge, boolean runType)
+    public void startUp(String path, boolean checkCartridge, int runType)
     {
         startTypeRun = runType;
         if (image == null)
             resetGfx();
-        jButtonStopActionPerformed(null);
+        if (runType != START_TYPE_INJECT) 
+            jButtonStopActionPerformed(null);
         jTextFieldstart.setText(path);
         cartProp = false;
         jButtonStartActionPerformed(null);
         cartProp = true;
+        
         jTextFieldstart.setText("");
     }
 
@@ -1075,6 +1131,7 @@ public class VecXPanel extends javax.swing.JPanel
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabelFPS;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextFieldstart;
     // End of variables declaration//GEN-END:variables
@@ -1093,6 +1150,8 @@ public class VecXPanel extends javax.swing.JPanel
                 stop = false;
                 running = true;
 
+                long measureTime = System.currentTimeMillis();
+                long measureCycles = 0;
                 while (!stop)
                 {
                     long startTime = System.currentTimeMillis();
@@ -1140,7 +1199,7 @@ public class VecXPanel extends javax.swing.JPanel
                             }
                             
                         }
-                        
+                        measureCycles += vecx.cyclesDone;
                         vecx.directDrawActive = false;
                         if (exitReason == EMU_EXIT_BREAKPOINT_BREAK)
                         {
@@ -1203,16 +1262,28 @@ public class VecXPanel extends javax.swing.JPanel
                                 updateAvailableWindows(true, false, false);
                             }
                         });                    
-                        long duration = System.currentTimeMillis() - startTime;
-                        if (duration < EMU_TIMER)
+                        if (config.speedLimit) 
                         {
-                            try 
+                            long duration = System.currentTimeMillis() - startTime;
+
+                            if (duration < EMU_TIMER-1)
                             {
-                                Thread.sleep(EMU_TIMER-duration);
-                            } 
-                            catch(InterruptedException v) 
-                            {
-                            }
+                                try 
+                                {
+                                    Thread.sleep(EMU_TIMER-1-duration);
+                                } 
+                                catch(InterruptedException v) 
+                                {
+                                }
+                            }                        
+                        }
+                        long startTime2 = System.currentTimeMillis();
+                        if (startTime2-measureTime >= 1000)
+                        {
+                            measureTime = startTime2;
+                            double percent= ((double)measureCycles)/((double)VECTREX_MHZ)*100.0;
+                            measureCycles = 0;
+                            jLabelFPS.setText(""+((int)percent));
                         }
                     }
                 }
@@ -1365,7 +1436,10 @@ public class VecXPanel extends javax.swing.JPanel
             paint(vecx.getDisplayList());
         repaint();
     }
-
+    public int getVectorCount()
+    {
+        return vecx.getDisplayList().count;
+    }
 
     
     void drawCatmullRom(ArrayList<Point> spline, Graphics2D g2, int color, int speed)
@@ -1820,7 +1894,7 @@ public class VecXPanel extends javax.swing.JPanel
             {
                 if (config.useGlow)
                 {
-                    int color = v.color <<2; // 7f is max color
+                    int color = v.color;// <<2; // 7f is max color
                     double speedFactor; 
                     if (v.speed>128) // dot dwell
                     {
@@ -1835,7 +1909,7 @@ public class VecXPanel extends javax.swing.JPanel
                     double brightness = getBrightness();
                     color= (int) ((double)color *(brightness));
                     color = color/3;
-                    int halo = color/BASE_GLOW_OFFSET;
+                    int halo = color*2/BASE_GLOW_OFFSET;
                     halo*=2;
 
                     for (int i=0; i< halo; i++)
@@ -1860,7 +1934,7 @@ public class VecXPanel extends javax.swing.JPanel
                     if ( (config.lineWidth!=1))
                     {
                         g2.setStroke(new BasicStroke(config.lineWidth/2));
-                        int col = color*2;
+                        int col = color/2;//*2;
                         if (col > 255) col = 255;
                         c = new Color(255,255,255,col );
                         c = new Color(210,210,255,col );
@@ -2262,6 +2336,8 @@ public class VecXPanel extends javax.swing.JPanel
             carti.updateValues(forceUpdate);
         if (joyi != null)
             joyi.updateValues(forceUpdate);
+        if (vinfi != null)
+            vinfi.updateValues(forceUpdate);
     }
     void checkWindows()
     {
@@ -2309,11 +2385,11 @@ public class VecXPanel extends javax.swing.JPanel
     }
     public void resetCartridge()
     {
-        joyi = null;
+        carti = null;
     }
     public void resetDevice()
     {
-        carti = null;
+        joyi = null;
     }
     public void resetAyi()
     {
@@ -2701,18 +2777,25 @@ public class VecXPanel extends javax.swing.JPanel
     {
         vecx.setTrackingAddress( start, end);
     }
-    public void startCartridge(final CartridgeProperties cartProp, boolean runType)
+    public void startCartridge(final CartridgeProperties cartProp, int runType)
     {
         startTypeRun = runType;        
         // stop everything
-        jButtonStopActionPerformed(null);                                            
+        if (startTypeRun != START_TYPE_INJECT)
+            jButtonStopActionPerformed(null);                                            
         
         
         Thread cartLoaderThread = new Thread()
         {
             public void run()
             {
-                if (!vecx.init(cartProp))
+                boolean loaded = false;
+                if (startTypeRun != START_TYPE_INJECT)
+                    loaded = vecx.init(cartProp);
+                else
+                    loaded = vecx.inject(cartProp);
+                
+                if (!loaded)
                 {
                     SwingUtilities.invokeLater(new Runnable()
                     {
@@ -2746,22 +2829,47 @@ public class VecXPanel extends javax.swing.JPanel
         {
             createDissi();
             if (dissi == null) return; 
+            if (startTypeRun == START_TYPE_INJECT)
+            {
+                setDissi(dissi);
+                dissi.dis(vecx.cart); // to dissi
+            }
         }
-        setDissi(dissi);
-        dissi.dis(vecx.cart); // to dissi
-        if (!startTypeRun)
+        if (startTypeRun != START_TYPE_INJECT)
+        {
+            setDissi(dissi);
+            dissi.dis(vecx.cart); // to dissi
+        }
+        else
+        {
+            dissi.dis(vecx.cart); // to dissi
+        }
+        if (startTypeRun == VecX.START_TYPE_DEBUG)
             dissi.setStartbreakpoint();
-        dissi.setIcon(startTypeRun);
+        dissi.setIcon(startTypeRun == VecX.START_TYPE_RUN);
         dissiInit = true;
         if (config.overlayEnabled)
             loadOverlay(vecx.cart.currentCardProp.getOverlay()); // ensure overlay in scaled form is available
         checkWindows();
         stop = true;
+        
+        while (running);
         dissi.processHeyDissis();
         resetGfx();
         initJoyportsFromFlag();
         updatePorts();
-        start();
+        if (startTypeRun != VecX.START_TYPE_INJECT)
+        {
+            start();
+        }
+        else
+        {
+            if (!debuging)
+            {
+                if (!stepping)
+                    start();
+            }
+        }
         
     }
     
@@ -2938,6 +3046,7 @@ public class VecXPanel extends javax.swing.JPanel
         dissi.newEnvironment(this);
         myDissi = dissi.getData();
         AbstractDevice.exitSync = false;
+        DualVec.exitSync = false;
     }
     
     DissiPanel.DissiSwitchData myDissi;

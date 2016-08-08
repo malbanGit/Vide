@@ -239,7 +239,7 @@
                   <StringArray count="3">
                     <StringItem index="0" value="none"/>
                     <StringItem index="1" value="2 bank standard"/>
-                    <StringItem index="2" value="VecFlash (up to 64 banks)"/>
+                    <StringItem index="2" value="VecFlash (up to 32 banks)"/>
                   </StringArray>
                 </Property>
               </Properties>

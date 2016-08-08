@@ -24,11 +24,11 @@ import java.util.zip.CRC32;
  *
  * @author malban
  */
-public class Cartridge  implements Serializable
+public class Cartridge implements Serializable
 {
     public static int FLAG_BANKSWITCH_DONDZILA = 1;
     public static int FLAG_BANKSWITCH_VECFLASH = 2;
-    public static int FLAG_EXTREM_MULTI = 4;
+    public static int FLAG_EXTREME_MULTI = 4;
     public static int FLAG_RAM_ANIMACTION = 8;
     public static int FLAG_RAM_RA_SPECTRUM = 16;
     public static int FLAG_DS2430A = 32; // Herbert one wire eEprom
@@ -38,6 +38,9 @@ public class Cartridge  implements Serializable
     public static int FLAG_IMAGER = 512;
     public static int FLAG_VEC_VOX = 1024; // Speakjet
     public static int FLAG_MICROCHIP = 2048; // Tuts one wire eEprom
+    public static int FLAG_DUALVEC1 = 4096; // 
+    public static int FLAG_DUALVEC2 = 8192; // 
+    public static int FLAG_LOGO = 16384; // 
 
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     // load transient stuff after save state
@@ -45,7 +48,29 @@ public class Cartridge  implements Serializable
     {
         log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     }
-    
+    public String getTypInfoString()
+    {
+        String ret = "";
+        if (currentCardProp == null) return ret;
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_BANKSWITCH_DONDZILA)!=0) ret+="Dondzila Bankswitch  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_BANKSWITCH_VECFLASH)!=0) ret+="VecFlash Bankswitch  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_EXTREME_MULTI)!=0) ret+="Extreme Multi  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0) ret+="$2000 2k extra RAM  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0) ret+="$8000 2k extra RAM + LED at $A000  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DS2430A)!=0) ret+="eEprom DS2430A  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_VEC_VOICE)!=0) ret+="VecVoice  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_LIGHTPEN1)!=0) ret+="Lightpen Port 0  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_LIGHTPEN2)!=0) ret+="Lightpen Port 1  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_IMAGER)!=0) ret+="3d Imager  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_VEC_VOX)!=0) ret+="VecVox  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_MICROCHIP)!=0) ret+="eEprom MICROCHIP  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0) ret+="DualVec1  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0) ret+="DualVec2  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0) ret+="$8000 8k extra RAM  ";
+        ret = ret.trim();
+        ret = de.malban.util.UtilityString.replace(ret, "  ", ", ");
+        return ret;
+    }
     public DS2430A ds2430 = new DS2430A(this);
     public Microchip11AA010 microchip = new Microchip11AA010(this);
     transient VecX vecx;
@@ -65,15 +90,37 @@ public class Cartridge  implements Serializable
 
     public CartridgeProperties currentCardProp = null;
     
+    boolean extraRam2000_2800_2k_Enabled = false;
+    boolean extraRam8000_8800_2k_Enabled = false;
+    boolean extraRam6000_7fff_8k_Enabled = false;
+    boolean isDualVec = false;
+    DualVec dualvec = null;
+    boolean extremeMulti = false;
+    byte spectrumByte = 0;
     
-    public ArrayList<CartridgeListener> getListener()
+    public byte getSpectrumByte()
     {
-        return mListener;
+        return spectrumByte;
     }
-    public void setListener(ArrayList<CartridgeListener> l)
+    
+    public boolean isExtra2000Ram2k()
     {
-        mListener = l;
+        return extraRam2000_2800_2k_Enabled;
     }
+    public boolean isExtra8000Ram2k()
+    {
+        return extraRam8000_8800_2k_Enabled;
+    }
+    public boolean isExtra6000Ram8k()
+    {
+        return extraRam6000_7fff_8k_Enabled;
+    }
+    public byte[]  getExtraRam()
+    {
+        return extraRam;
+    }
+    
+    byte[]  extraRam = null;
     
     int bankMax = 1;
     
@@ -84,6 +131,14 @@ public class Cartridge  implements Serializable
     boolean previousExternalLineB = false;
     
     long oldCycles = 0;
+    public ArrayList<CartridgeListener> getListener()
+    {
+        return mListener;
+    }
+    public void setListener(ArrayList<CartridgeListener> l)
+    {
+        mListener = l;
+    }
     public int getBankCount()
     {
         return bankMax;
@@ -136,6 +191,26 @@ public class Cartridge  implements Serializable
         oldBank = newBank%bankMax;
         currentBank = newBank%bankMax;
         
+        if (vecx != null)
+        {
+            if (!vecx.isDebugging())
+            {
+                if (vecx.microchipEnabled)
+                {
+                    // do no cartridge event we are in an active serial communication
+                    if (microchip.isActive()) // otherwise the emulation may slow down dramatically!
+                        return;
+                }
+                if (vecx.ds2430Enabled)
+                {
+                    // do no cartridge event we are in an active serial communication
+                    if (ds2430.isActive()) // otherwise the emulation may slow down dramatically!
+                        return;
+                }
+            }
+        }
+
+        
         fireCartridgeChanged(e );
     }
     // get one byte of card memory
@@ -143,6 +218,23 @@ public class Cartridge  implements Serializable
     {
         // TODO move if away from EVERY CaARTRIDGE ACCESS!!!
         if (cart == null) return 0;
+        if (extraRam2000_2800_2k_Enabled)
+        {
+            if ((pos>=0x2000) && (pos <0x2800))
+                return extraRam[pos-0x2000];
+        }
+        if (extraRam8000_8800_2k_Enabled)
+        {
+            if ((pos>=0x8000) && (pos <0x8800))
+                return extraRam[pos-0x8000];
+            if (pos==0xa000) 
+                return spectrumByte;
+        }
+        if (extraRam6000_7fff_8k_Enabled)
+        {
+            if ((pos>=0x6000) && (pos <0x6000+8192))
+                return extraRam[pos-0x6000];
+        }
         if (cart.length<=currentBank) return 0;
         if (cart[currentBank] == null) return 0;
         if ((pos%32768)>=cart[currentBank].length) return 0;
@@ -156,12 +248,44 @@ public class Cartridge  implements Serializable
         if ((address%32768)>=cart[currentBank].length) return;
         cart[currentBank][address%32768] = value;
     }
+    public boolean isExtremeMulti()
+    {
+        return extremeMulti;
+    }
     // as a  test only bad apple now!
+    public void write(int address, byte data)
+    {
+        if (extremeMulti)
+        {
+            writeExtreme(address, data);
+            return;
+        }
+        if ((address >= 0x2000) && (address < 0x2800) && (extraRam2000_2800_2k_Enabled))
+        {
+            extraRam[address-0x2000] = data;
+        }
+        
+        else if ((address >= 0x8000) && (address < 0x8800) && (extraRam8000_8800_2k_Enabled))  
+        {
+            extraRam[address-0x8000] = data;
+        }
+        else if ((address == 0xa000) && (extraRam8000_8800_2k_Enabled))  
+        {
+            spectrumByte = data;
+        }
+        else if ((address >= 0x6000) && (address < 0x6000+8192) && (extraRam6000_7fff_8k_Enabled))  
+        {
+            extraRam[address-0x6000] = data;
+        }
+        
+    }
+
+    
     int cHi;
     int parm;
     byte[] allData= null;
     int pos;
-    public void write(int addr, byte data)
+    private void writeExtreme(int addr, byte data)
     {
 	int i;
 	if (addr==1) cHi=data<<8;
@@ -329,9 +453,103 @@ public class Cartridge  implements Serializable
         }
         
         // todo: Set and use type flag information!
-        
+        extraRam2000_2800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0;
+        extraRam8000_8800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0;
+        extraRam6000_7fff_8k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0;
+
+        isDualVec = (  ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0) || ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0));
+        extremeMulti = (cartProp.getTypeFlags()&Cartridge.FLAG_EXTREME_MULTI)!=0;
+        if (extraRam2000_2800_2k_Enabled)
+        {
+            extraRam = new byte[2048];
+        }
+        if (extraRam8000_8800_2k_Enabled)
+        {
+            extraRam = new byte[2048];
+            setPB6FromCarrtridge(false);
+        }
+        if (extraRam6000_7fff_8k_Enabled)
+        {
+            extraRam = new byte[8192];
+        }
+        if (isDualVec)
+        {
+            int side = 0;
+            if ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0) side=1;
+            dualvec = DualVec.getDualVec(side, this);
+        }
+        else
+        {
+            if (dualvec != null) dualvec.setCartridge(null);
+            dualvec = null;
+        }
         return true;
     }    
+    public boolean inject(CartridgeProperties cartProp)
+    {
+        if (cartProp == null) 
+        {
+            log.addLog("Cart: init() cartProp = null", WARN);
+            return false;
+        }
+        if (cartProp.mFullFilename == null) 
+        {
+            log.addLog("Cart: init() mFullFilename = null", WARN);
+            return false;
+        }
+        cartName = cartProp.mCartName;
+        
+        bankMax = cartProp.mFullFilename.size();
+        if (bankMax == 0) 
+        {
+            log.addLog("Cart: init() bankMax = 0", WARN);
+            return false;
+        }
+        if (bankMax == 1)
+        {
+            // if cartridge consists of only one file
+            // than load it "normally"
+            // this enables us to load
+            // multibanks with one file only
+            // if number of roms is > 1, than each file must not be greater than 32768!
+            if (!load(convertSeperator(cartProp.mFullFilename.elementAt(0)))) 
+            {
+                log.addLog("Cart: init() single bank not loaded: "+cartProp.mFullFilename, WARN);
+                return false;
+            }
+        }
+        else
+        {
+            // load multi part cartridge
+            cart = new int[bankMax][];     // and so many banks as memory data
+            bankLength = new int[bankMax]; // so many bank length we need
+            bankFileNames = new String[bankMax];
+            for (int bank=0; bank< bankMax; bank++)
+            {
+                bankFileNames[bank] = "";
+                String romName = convertSeperator(cartProp.mFullFilename.elementAt(bank));
+                bankFileNames[bank] = "";
+                // only load available files
+                // skipping unavailable might seems strange,
+                // but vecflash can have "empty" slots - so thus does not have to be an error
+                if (romName.trim().length() == 0) continue;
+                File f = new File(romName);
+                if (!f.exists()) 
+                {
+                    log.addLog("Cart: init() multi bank file does not exist: "+romName, WARN);
+                    return false;
+                }
+                if (!load(romName, bank)) 
+                {
+                    log.addLog("Cart: init() multi bank file not loaded: "+romName, WARN);
+                    return false;
+                }
+                bankFileNames[bank] = romName;
+            }
+        }
+        return true;
+    }    
+    
     // load routine for "ROM" files
     // roms are loaded to a maximum of 32768 bytes
     // the rest is cut of!
@@ -446,6 +664,16 @@ public class Cartridge  implements Serializable
         to.microchip = from.microchip.clone();
         to.microchip.cart = to;
         
+        if (from.dualvec == null) 
+        {
+            to.dualvec = null;
+        }
+        else
+        {
+            to.dualvec = from.dualvec.clone();
+            to.dualvec.cart = to;
+        }
+        
         to.vecx = from.vecx;
     }
     
@@ -512,7 +740,7 @@ public class Cartridge  implements Serializable
     // line PB6
     // is set FROM vectrex
     // can be used by any "device" on line PB6, not XOR
-    public void lineIn(boolean pb6)
+    public void setPB6FromVectrex(boolean pb6)
     {
         if (vecx==null) return;
         if (vecx.ds2430Enabled)
@@ -533,12 +761,30 @@ public class Cartridge  implements Serializable
                 vecx.checkBankswitchBreakpoint();
             }
         }
+        if (extraRam8000_8800_2k_Enabled) // specturm
+        {
+            
+        }
+        if (isDualVec)
+        {
+            dualvec.setLine(pb6);
+        }
         
     }
     // is set from device
-    public void lineOut(boolean b)
+    public void setPB6FromCarrtridge(boolean b)
     {
-        vecx.setPB6FromExternal(b);
+        if (vecx != null)
+            vecx.setPB6FromExternal(b);
+    }
+    // ?B6 of via in input mode
+    // if true, data can be input from external
+    public void setPB6InputEnabledFromExternal(boolean b)
+    {
+        if (isDualVec)
+        {
+            dualvec.setPB6InputEnabledFromExternal(b);
+        }
     }
     public void cartStep(long cycles)
     {
@@ -550,9 +796,14 @@ public class Cartridge  implements Serializable
         {
             microchip.step(cycles);
         }
+        if (isDualVec)
+        {
+            dualvec.step(cycles);
+        }
     }
     public void reset()
     {
+        if (vecx==null) return;
         if (vecx.ds2430Enabled)
         {
             ds2430.reset();
@@ -563,6 +814,7 @@ public class Cartridge  implements Serializable
         }
         
     }
+
 }
 /*
 
@@ -608,3 +860,4 @@ fastboot:
 		jsr waitrecal
 		jmp flashstart  
 */
+

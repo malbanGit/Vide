@@ -16,6 +16,7 @@ import de.malban.vide.script.ExecutionDescriptor;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_PROJECT_POST;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_PROJECT_PRE;
 import de.malban.vide.script.ScriptDataPanel;
+import static de.malban.vide.vecx.VecX.START_TYPE_RUN;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
@@ -1120,7 +1121,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
                 CartridgeProperties cartProp = buildCart(project);
-                vec.startCartridge(cartProp, true);
+                vec.startCartridge(cartProp, START_TYPE_RUN);
                 printMessage("Assembly successfull, starting emulation...");
             }
             else

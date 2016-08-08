@@ -4,10 +4,6 @@ of this 'game'.
 
 Thanks go to him and to Bruce Tomlin.
 
-MALBAN:
-WHo ever wrote the above text - he is wrong, DVE hat Spectrum  emulation
-befor MESS!
-
 ******************************************************************
 
   RA+A Spectrum I+
@@ -42,7 +38,7 @@ hardware; the text scrolled up the screen, but lines popped on at the
 bottom and disappeared near the top instead of scrolling on and off from
 offscreen.  Roy had GCE's permission and blessing to do the project.  In
 fact, some former WT personnel (Sidleys and others) as well as Lee
-Chaden (big guy at GCE) were at Abel & Associates at the time.
+Chaden (big sasaguy at GCE) were at Abel & Associates at the time.
 
 ******************************************************************
 

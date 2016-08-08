@@ -3543,6 +3543,9 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 }
                 printMessage("Cartridge CRC32: "+cart.getCRC()+" (over all banks)", MESSAGE_INFO);
                 printMessage("Current bank (emulation): "+currentDissi.vecxPanel.getCurrentBank()+" (dissi: "+getMemory().currentBank+")", MESSAGE_INFO);
+                printMessage("Typ info: "+cart.getTypInfoString(), MESSAGE_INFO);
+
+                
                 break;
             }
             case Command.D_CMD_BANKSWITCH:
