@@ -3608,6 +3608,26 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 printMessage("I poked "+String.format("%02X", (value))+" to location: "+String.format("%04X", (address ))+" (current bank)", MESSAGE_INFO);
                 break;
             }            
+            case Command.D_CMD_SET:
+            {
+                if (param.length!=3)
+                {
+                    printMessage("Not enough parameters.", MESSAGE_WARN);
+                    return;
+                }
+                int value  = DASM6809.toNumber(param[2]);
+                boolean ok = currentDissi.vecxPanel.setRegister(param[1], value);
+                
+                if (!ok)
+                {
+                    printMessage("Register can not be set.", MESSAGE_WARN);
+                }
+                else
+                {
+                    printMessage("done", MESSAGE_INFO);
+                }
+                break;
+            }
             default:
             {
                 printMessage("Command not implemented yet.", MESSAGE_WARN);

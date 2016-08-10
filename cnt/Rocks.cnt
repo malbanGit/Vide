@@ -1,0 +1,950 @@
+BANK 0
+EQU $08 SHOT_SPEED
+EQU $20 SHOT_RANGE
+LABEL $0120 MAX_ROCKS
+LABEL $F1AF dptoC8
+LABEL $F1AA dptoD0
+LABEL $F40E drawl1b
+LABEL $F192 waitrecal
+LABEL $F2A1 intensity_to_3f
+LABEL $F2A5 intensity_to_5f
+LABEL $F2AB intensity_to_A
+LABEL $F545 clear_256_bytes
+LABEL $F84F set_dft_score
+LABEL $F610 rot_vec_list2
+LABEL $F2FC move_pen7f_to_d
+LABEL $F1B4 read_switches
+LABEL $F3B7 move_draw_VL4
+LABEL $F354 reset0ref
+LABEL $F601 conv_ang_rr
+LABEL $F584 get_abs_val_ab
+LABEL $F373 print_1_string
+LABEL $F683 move_block2
+LABEL $F2C1 dot_ix
+LABEL $F61F rot_vec_list1
+LABEL $F1F5 joy_analog
+LABEL $F2C3 dot_d
+LABEL $F517 random
+LABEL $F84F clear_score
+LABEL $F85E add_score_a
+LABEL $F8D8 new_high_score
+LABEL $F8FF obj_hit
+LABEL $C81F _stick1_mask
+LABEL $C820 _stick2_mask
+LABEL $C821 _stick3_mask
+LABEL $C822 _stick4_mask
+LABEL $C81A _stick_res
+LABEL $C81C _pot_y
+LABEL $C856 _music_ready
+LABEL $C83D _refresh_time
+LABEL $C890 user_RAM
+LABEL $C890 player1
+LABEL $C891 p1_bright
+COMMENT_LABEL $C891 1 byte    +1
+LABEL $C891 lander_bright
+LABEL $C892 p1_alive
+COMMENT_LABEL $C892 1 byte    +2
+LABEL $C892 dead
+LABEL $C893 p1_run
+COMMENT_LABEL $C893 1 byte    +3
+LABEL $C894 p1_rise
+COMMENT_LABEL $C894 1 byte    +4
+LABEL $C895 p1_rotation
+COMMENT_LABEL $C895 1 byte    +5
+LABEL $C896 p1_shipcount
+COMMENT_LABEL $C896 1 byte    +6
+LABEL $C897 p1_x
+COMMENT_LABEL $C897 2 bytes   +7
+LABEL $C899 p1_y
+COMMENT_LABEL $C899 2 bytes   +9
+LABEL $C89B p1_xvel
+COMMENT_LABEL $C89B 2 bytes   +b
+LABEL $C89D p1_yvel
+COMMENT_LABEL $C89D 2 bytes   +d
+LABEL $C89F p1_score_header
+COMMENT_LABEL $C89F 4 bytes   +f
+LABEL $C89F score_header
+LABEL $C8A3 p1_score
+COMMENT_LABEL $C8A3 7 bytes   +13
+LABEL $C8A3 score
+EQU $00 __buttons
+EQU $0B __xvel
+EQU $0D __yvel
+EQU $07 __x
+EQU $09 __y
+EQU $05 __rotation
+EQU $01 __bright
+EQU $04 __rise
+EQU $03 __run
+LABEL $C8AA hscore_header
+COMMENT_LABEL $C8AA 4 bytes
+LABEL $C8AE hscore
+COMMENT_LABEL $C8AE 7 bytes
+LABEL $C8B6 title_
+COMMENT_LABEL $C8B6 1 byte
+LABEL $C8B7 lights
+COMMENT_LABEL $C8B7 1 byte
+LABEL $C8B8 game_state
+COMMENT_LABEL $C8B8 1 byte
+LABEL $C8B9 pause
+COMMENT_LABEL $C8B9 1 byte
+LABEL $C8BA screen_saver
+COMMENT_LABEL $C8BA 1 byte
+LABEL $C8BB level
+COMMENT_LABEL $C8BB 1 byte
+LABEL $C8BC thrust_flag
+COMMENT_LABEL $C8BC 2 byte
+LABEL $C8BD turn_speed
+COMMENT_LABEL $C8BD 1 byte
+LABEL $C8BE thrust_power
+COMMENT_LABEL $C8BE 1 byte
+LABEL $C8BF status
+COMMENT_LABEL $C8BF 1 byte
+LABEL $C8C0 temp1
+LABEL $C8C1 temp2
+LABEL $C8C2 temp3
+LABEL $C8C3 temp4
+LABEL $C8C4 bullets
+LABEL $C8E8 junk
+LABEL $C8E9 multa
+LABEL $C8EA work
+LABEL $C8EB hity
+COMMENT_LABEL $C8EB 2 bytes
+LABEL $C8ED hitx
+COMMENT_LABEL $C8ED 2 bytes
+LABEL $C8EF loop
+COMMENT_LABEL $C8EF 1
+LABEL $C8F0 stable
+COMMENT_LABEL $C8F0 1
+LABEL $C8F1 landed
+COMMENT_LABEL $C8F1 1
+LABEL $C8F2 land_ok
+COMMENT_LABEL $C8F2 0 is ok to land
+LABEL $C8F3 burn_rate
+COMMENT_LABEL $C8F3 2 bytes thrust rate
+LABEL $C8F5 kaput
+COMMENT_LABEL $C8F5 is explosion done?
+LABEL $C8F6 stick
+COMMENT_LABEL $C8F6 1
+LABEL $C8F7 animate
+COMMENT_LABEL $C8F7 1
+LABEL $C8F8 explosion_type
+COMMENT_LABEL $C8F8 1
+LABEL $C8F9 bang_block
+COMMENT_LABEL $C8F9 4 bytes
+LABEL $C8FD the_music
+COMMENT_LABEL $C8FD 2 bytes
+LABEL $C8FF thrust_sound
+COMMENT_LABEL $C8FF 1
+LABEL $C900 music_map
+COMMENT_LABEL $C900 2 bytes
+LABEL $C902 end_round_cnt
+COMMENT_LABEL $C902 1
+LABEL $C903 end_position
+COMMENT_LABEL $C903 1
+LABEL $C904 end_scale
+COMMENT_LABEL $C904 1
+LABEL $C905 zoom
+COMMENT_LABEL $C905 1
+LABEL $C906 size
+COMMENT_LABEL $C906 1
+LABEL $C907 state_1_timer
+COMMENT_LABEL $C907 1
+LABEL $C908 throttle
+COMMENT_LABEL $C908 1
+LABEL $C909 state_timer
+LABEL $C90A hit_count
+LABEL $C90B rock_size
+LABEL $C90D num_rocks
+LABEL $C90E missile_start
+LABEL $C910 missile_end
+LABEL $C912 object_count
+LABEL $C913 rocks
+LABEL $CA33 buffer
+COMMENT_LABEL $CA33 transform buffer
+LABEL $CA53 buffer2
+LABEL $CA73 message
+COMMENT_LABEL $CA73 32 bytes
+LABEL $CA93 temp_x
+LABEL $09F1 music
+LABEL $001D init
+LABEL $0060 warmstart
+LABEL $0955 m1
+LABEL $095C m2
+LABEL $0963 m3
+LABEL $096A m4
+LABEL $00DC read_input
+LABEL $00DC main
+LABEL $06D7 read_buttons
+LABEL $00F8 no_read_analog
+LABEL $0127 check_title
+LABEL $0124 s1
+LABEL $0121 s2
+LABEL $011E s3
+LABEL $011B s50
+LABEL $0118 s52
+LABEL $0115 s54
+LABEL $05FE state_54
+LABEL $05FB state_52
+LABEL $05F8 state_50
+LABEL $05F5 state_3
+LABEL $05F2 state_2
+LABEL $05EF state_1
+LABEL $0175 playing
+LABEL $0146 no_saver
+LABEL $015D skip_start
+LABEL $0971 press_start
+LABEL $016F no_start
+LABEL $06E3 start_game
+LABEL $0586 rotate_rock
+LABEL $0515 update_rocks
+LABEL $04D1 update_missiles
+LABEL $019F fast_hits
+LABEL $03CF missile_hits
+LABEL $01C9 resume_main
+LABEL $01BA check_set2
+LABEL $05BE draw_lander
+LABEL $0A4A level_lookup
+LABEL $01E5 still_playing
+LABEL $0867 load_level
+LABEL $0204 right
+LABEL $0202 left_turn
+LABEL $0221 fire
+LABEL $021F right_turn
+LABEL $0288 pause_game
+LABEL $029D thrust
+LABEL $022C next_bullet
+LABEL $0239 fire_ok
+LABEL $074C mult_riserun_A
+LABEL $0712 new_game
+LABEL $0298 pause_on
+LABEL $02AE not_paused
+LABEL $02B9 chk_fuel
+LABEL $02FD exit
+LABEL $02C6 no_button
+LABEL $02E2 store_burn
+LABEL $02D9 adjust_thruster
+LABEL $02DB no_adjuster
+LABEL $02E7 thrust_good
+LABEL $0553 draw_thrust
+LABEL $0347 no_wind
+LABEL $0327 drag_x_neg
+LABEL $032E drag_x_pos
+LABEL $0333 check_y_drag
+LABEL $033B drag_y_neg
+LABEL $0342 drag_y_pos
+LABEL $035F no_7f
+LABEL $037C text_stuff
+LABEL $0374 next_check
+LABEL $03A6 never_mind
+LABEL $0395 outta_guys
+LABEL $03D2 check_for_hits
+LABEL $0450 no_miss_hits_all
+LABEL $03DF active_ok
+LABEL $03EB rock_check
+LABEL $03F9 rock_test
+LABEL $044A no_miss_hits
+LABEL $0408 small_test
+LABEL $040D big_test
+LABEL $0410 hit_check
+LABEL $0436 check_next_rock
+LABEL $0451 make_medium
+LABEL $046A make_small
+LABEL $0442 miss_hit
+LABEL $0483 spawn
+LABEL $0486 look_for_rock
+LABEL $0493 empty_rock
+LABEL $04A0 rand1
+LABEL $04B8 rand2
+LABEL $04D0 done_rand2
+LABEL $04E0 check_bullet
+LABEL $04ED update_ok
+LABEL $0514 no_update_miss
+LABEL $051B check_rock
+LABEL $0528 update_rock
+LABEL $0552 no_update_rock
+LABEL $0595 draw_rock
+LABEL $0585 no_flame_here
+LABEL $08FD flame
+LABEL $08D4 rock1
+LABEL $05AC big_rock
+LABEL $05B0 med_rock
+LABEL $05B2 draw_rock_size
+LABEL $08F3 lander
+LABEL $0608 other_sounds
+LABEL $0642 snd_rts
+LABEL $0612 skip
+LABEL $0A2A sound2
+LABEL $0639 no_engine
+LABEL $0642 outta_snd
+LABEL $0A3D sound_clr
+LABEL $0686 done_bang
+LABEL $068D particles
+LABEL $093B stars
+LABEL $06A8 part_l1
+COMMENT_LABEL $06A8 plot 14 stars in background
+LABEL $06C2 dots_l1
+COMMENT_LABEL $06C2 plot 14 stars in background
+LABEL $0755 pos_mult
+LABEL $0769 exit_mult
+LABEL $0776 b_pos
+LABEL $077C a_pos
+LABEL $0790 check_a
+LABEL $079D exit_mult_ab
+LABEL $07AE p_stat1
+LABEL $07B1 p_stat2
+LABEL $07B4 p_stat3
+LABEL $07B7 p_stat4
+LABEL $083D p1_doit
+LABEL $0813 p2_doit
+LABEL $07E9 p3_doit
+LABEL $07BA p4_doit
+LABEL $07C6 out4
+LABEL $07D7 out24
+LABEL $07F5 out3
+LABEL $0806 out23
+LABEL $081F out2
+LABEL $0830 out22
+LABEL $0849 out1
+LABEL $085A out21
+LABEL $0872 level_good
+LABEL $087B gen_rocks
+LABEL $0886 rand1_lp
+LABEL $0898 new_rand2
+LABEL $089F rand2_lp
+LABEL $08B1 done_rr
+LABEL $08D3 done_gen
+LABEL $09C3 attack
+COMMENT_LINE $0000 can be assembled correctly now
+COMMENT_LINE $0000 compatibilty added by Malban
+COMMENT_LINE $0000 (removed a small scoring display bug)
+COMMENT_LINE $0000 assenmble with comand line:
+COMMENT_LINE $0000 .\ass\as09.exe -w200 -h0 -l -mcti rocks.asm >error
+COMMENT_LINE $0000 used the 6809 assembler:
+COMMENT_LINE $0000 as09 [1.11].
+COMMENT_LINE $0000 Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Software.
+COMMENT_LINE $0000 Available at:
+COMMENT_LINE $0000 http://www.falstaff.demon.co.uk/cross.html
+COMMENT_LINE $0000 Asteroids
+COMMENT_LINE $0000 Vectrex Version by Clay Cowgill
+COMMENT_LINE $0000 Start:  4/11/97
+COMMENT_LINE $0000 Current: 4/13/97
+COMMENT_LINE $0000 System Executive Entry Points
+COMMENT_LINE $0000 constants
+COMMENT_LINE $0000 NUM_ROCKS               EQU     45     ; rocks * 9
+COMMENT_LINE $0000 System RAM locations
+COMMENT_LINE $0000 User Code Storage locations
+COMMENT_LINE $0000 $c880
+COMMENT_LINE $0000 $c880
+COMMENT_LINE $0000 $c8a4
+COMMENT_LINE $0000 $c8b2
+COMMENT_LINE $0000 0 state
+COMMENT_LINE $0000 1 rise
+COMMENT_LINE $0000 2 rise
+COMMENT_LINE $0000 3 run
+COMMENT_LINE $0000 4 run
+COMMENT_LINE $0000 5 y
+COMMENT_LINE $0000 6 y
+COMMENT_LINE $0000 7 x
+COMMENT_LINE $0000 8 x
+COMMENT_LINE $0000 0 state
+COMMENT_LINE $0000 1 rise
+COMMENT_LINE $0000 2 rise
+COMMENT_LINE $0000 3 run
+COMMENT_LINE $0000 4 run
+COMMENT_LINE $0000 5 ypos
+COMMENT_LINE $0000 6 ypos
+COMMENT_LINE $0000 7 xpos
+COMMENT_LINE $0000 8 xpos
+COMMENT_LINE $0000 $cbea  SP = here by boot, grows down...
+COMMENT_LINE $0000 Magic Init Block
+COMMENT $001B branch always to init code
+COMMENT $001D get address of free RAM
+COMMENT $0020 clear it
+COMMENT $0039 set direct mode ptr
+COMMENT $003C zero high score
+COMMENT $0048 size
+COMMENT $004E position
+COMMENT $0054 size
+COMMENT $005A position
+COMMENT_LINE $0060 ************************
+COMMENT_LINE $0060 Initialize
+COMMENT_LINE $0060 ************************
+COMMENT $0067 copy text message
+COMMENT $006A into message array
+COMMENT $0072 copy text message
+COMMENT $0075 into message array
+COMMENT $007D copy text message
+COMMENT $0080 into message array
+COMMENT $0088 copy text message
+COMMENT $008B into message array
+COMMENT $0093 display title message
+COMMENT $0099 clear button values
+COMMENT $009B not dead
+COMMENT $009E not paused
+COMMENT $00A1 brightness to draw lander at
+COMMENT_LINE $00A9 clr     level                   ; clear level
+COMMENT_LINE $00A9 jsr     load_level              ; load ground data
+COMMENT_LINE $00A9 jsr     clear_sound
+COMMENT_LINE $00A9 ldu     #sound1
+COMMENT_LINE $00A9 jsr     sound_bytes
+COMMENT_LINE $00A9 ldu     #music
+COMMENT_LINE $00A9 stu     the_music
+COMMENT_LINE $00AF clr     thrust_sound
+COMMENT $00BD high res read
+COMMENT_LINE $00DC *****************************
+COMMENT_LINE $00DC This is the entry point for
+COMMENT_LINE $00DC the main loop
+COMMENT_LINE $00DC *****************************
+COMMENT_LINE $00DC lda     #$50
+COMMENT_LINE $00DC sta     game_state
+COMMENT_LINE $00DF ldu     #music
+COMMENT_LINE $00DF jsr     init_sound_chk
+COMMENT_LINE $00E5 jsr     do_sound
+COMMENT_LINE $00E5 jsr     sound_effects
+COMMENT_LINE $00E5 08= pause
+COMMENT_LINE $00E5 04= skip/thrust
+COMMENT_LINE $00E5 02= rotate right
+COMMENT_LINE $00E5 01= rotate left
+COMMENT $00E5 report absolute values
+COMMENT $00EA interpret what you just read
+COMMENT $00F5 fix title screen bug
+COMMENT $0127 should we display the title?
+COMMENT_LINE $012A jmp     playing
+COMMENT $012A no, we're playing...
+COMMENT $012C yes, draw title screen
+COMMENT $0136 every once in a while,
+COMMENT $0140 restart to keep the screen from burning
+COMMENT $0146 main loop counter
+COMMENT $0149 count up
+COMMENT $014D every 64 cycles
+COMMENT $014F blink the message
+COMMENT $0151 zero integrators
+COMMENT $015A print a message
+COMMENT $0160 read button values
+COMMENT $0163 get player record
+COMMENT $0166 get buttons
+COMMENT $0168 test for button 4
+COMMENT $016A read_input
+COMMENT $01A7 beq
+COMMENT $01C0 +45
+COMMENT $01E5 increment main loop counter
+COMMENT $01EB button status
+COMMENT $01ED button 1= left
+COMMENT $01F1 no rotate when paused
+COMMENT $0208 ##################### was level_skip
+COMMENT $020A no rotate when paused
+COMMENT_LINE $0221 jmp     pause_game
+COMMENT $0223 fire button
+COMMENT $0225 if not pressed
+COMMENT $0229 get address of bulletstates
+COMMENT $0230 advance to next bullet
+COMMENT $0235 no bullets, skip
+COMMENT $0237 still checking
+COMMENT $023B range of missile
+COMMENT $023F rotation
+COMMENT $0244 store the thrust vector...
+COMMENT $026D pause_game              ; ##################### was thrust
+COMMENT $026F clear velocity
+COMMENT $0271 "
+COMMENT $0273 "
+COMMENT $0275 "
+COMMENT $0277 get the current level
+COMMENT $027A increment level
+COMMENT $027B mask for 32 levels
+COMMENT $027D store new level
+COMMENT $0280 load level
+COMMENT_LINE $02AB ldu     #pause_string
+COMMENT_LINE $02AB jsr     print_1_string
+COMMENT_LINE $02AB jsr     draw_satellite
+COMMENT $02B1 get button states
+COMMENT_LINE $02B9 lda     _pot_y                  ; get stick y location
+COMMENT_LINE $02B9 lbmi    exit                    ; is it up? No? Outta here...
+COMMENT $02B9 thrust button?
+COMMENT $02C1 button is max thrust
+COMMENT $02C6 get value of stick
+COMMENT $02C9 mask for top 3 bits only
+COMMENT $02CE divide by 16
+COMMENT $02DE copy a into b
+COMMENT $02E0 clear a
+COMMENT $02E2 thrust value from 1-8
+COMMENT $02E5 go draw thrust
+COMMENT_LINE $02EA ^^^^^^^^^^^^^^^^^^^^^^^^
+COMMENT_LINE $02EA inc     thrust_sound            ; flag sound to play
+COMMENT $02ED player data
+COMMENT_LINE $02F3 ldd     burn_rate               ; how much fuel we burning?
+COMMENT_LINE $02F3 tfr     b,a                     ; (only low byte counts here)
+COMMENT $02F6 rotation
+COMMENT $02FB store the thrust vector...
+COMMENT_LINE $02FD calculate ship physics
+COMMENT $0300 get velocity
+COMMENT $0303 rise
+COMMENT $0308 get shipy velocity
+COMMENT $030A store new shipy velocity
+COMMENT $030C get velocity
+COMMENT $030F run
+COMMENT $0311 returns copy in $80
+COMMENT $0314 shipx velocity
+COMMENT_LINE $0318 drag on ship
+COMMENT $0347 add y vel to fixed point position
+COMMENT $034D add x vel to fixed point position
+COMMENT $0353 ship Y position
+COMMENT $0355 store y position
+COMMENT $0358 ship X position
+COMMENT $035A at screen boundary?
+COMMENT $035C no...
+COMMENT $035E yes, wrap around
+COMMENT $035F store x position
+COMMENT $0362 you dead?
+COMMENT $0367 next_check
+COMMENT_LINE $036A jsr     hit_mountain           ; go check for collisions
+COMMENT $036A dead yet?
+COMMENT $036E dead counter on
+COMMENT $0385 have you died this timeslice?
+COMMENT $0388 no, never mind...
+COMMENT $038A yes decrement ship count
+COMMENT $0390 is ship count 0?
+COMMENT $0392 nope, try again
+COMMENT $0395 yep, set display title flag
+COMMENT $03A3 bail
+COMMENT_LINE $03A6 ldu     #player1                ; DEBUG PRINT
+COMMENT_LINE $03A6 ldx     #bullets
+COMMENT $03A6 0,x
+COMMENT_LINE $03AB ******************        jsr     print_stat
+COMMENT_LINE $03AB ldx     #bullets
+COMMENT_LINE $03AB leax    7,x
+COMMENT_LINE $03B0 ******************        jsr     print_stat
+COMMENT_LINE $03B0 ldu     #player1
+COMMENT_LINE $03B0 ldb     __rotation,u
+COMMENT_LINE $03B0 andb    #$3e
+COMMENT_LINE $03B0 clra
+COMMENT_LINE $03B0 addd    #cos
+COMMENT_LINE $03B0 tfr     d,x
+COMMENT_LINE $03B5 ******************        jsr     print_stat
+COMMENT_LINE $03B5 ldx     #bullet_state+3
+COMMENT_LINE $03B5 lda     ,x
+COMMENT_LINE $03B5 ldu     #player1
+COMMENT_LINE $03B5 lda     __rotation,u
+COMMENT_LINE $03B5 anda    #$3f
+COMMENT_LINE $03B5 asra
+COMMENT_LINE $03B5 ldb     #$04
+COMMENT_LINE $03B5 jsr     print_stat
+COMMENT_LINE $03B5 scores, ships remaining, message by lander
+COMMENT_LINE $03B5 ****************
+COMMENT $03B5 move pen to score area
+COMMENT $03BB print the score (zoom)
+COMMENT_LINE $03CF +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+COMMENT_LINE $03CF subroutines
+COMMENT_LINE $03CF +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+COMMENT_LINE $03CF **********************
+COMMENT_LINE $03CF Missile hits
+COMMENT_LINE $03CF **********************
+COMMENT $03CF #bullets           ; get address of bulletstates
+COMMENT_LINE $03DF dec     0,x                     ; range of missile
+COMMENT $03DF y pos
+COMMENT $03E1 x pos
+COMMENT $03E3 x is index to missile struct, save it
+COMMENT $03E5 x is now current missile x/y pair
+COMMENT $03E7 get address of rock structure
+COMMENT $0403 was 0505
+COMMENT $0408 was 0808
+COMMENT $040D was 0606
+COMMENT $0413 y pos
+COMMENT $0415 x pos
+COMMENT $0417 save rock number
+COMMENT $041B height/width
+COMMENT $0425 hit an asteroid
+COMMENT $0429 big one-- spawn
+COMMENT $042D medium one-- spawn
+COMMENT $042F hit! small asteroid, it's gone
+COMMENT_LINE $0434 lda     #50
+COMMENT_LINE $0434 ldx     #score
+COMMENT_LINE $0434 jsr     add_score_a
+COMMENT $0436 get back y
+COMMENT $044A get back x
+COMMENT_LINE $0483 ********************
+COMMENT_LINE $0483 Spawn new rocks
+COMMENT_LINE $0483 ********************
+COMMENT $0483 get address of rock structure
+COMMENT $0498 y pos
+COMMENT $049C x pos
+COMMENT $049E store new x pos
+COMMENT_LINE $04D1 **********************
+COMMENT_LINE $04D1 Update missiles
+COMMENT_LINE $04D1 **********************
+COMMENT $04DD get address of bulletstates
+COMMENT $04ED range of missile
+COMMENT $04EF y pos
+COMMENT $04F1 high and low bytes swapped on y
+COMMENT $04F3 add rise
+COMMENT $04F7 store new y pos
+COMMENT $04F9 x pos
+COMMENT $04FB add run
+COMMENT $04FD store new x pos
+COMMENT $04FF save x value
+COMMENT $0501 y pos (a=x+6) x pos (b=x+7)
+COMMENT $0503 zoom factor
+COMMENT $0508 plot dot
+COMMENT $050E get back x
+COMMENT_LINE $0514 jsr     reset0ref
+COMMENT_LINE $0515 **********************
+COMMENT_LINE $0515 Update rocks
+COMMENT_LINE $0515 **********************
+COMMENT_LINE $0515 jsr     intensity_to_7f
+COMMENT $0518 get address of rock structure
+COMMENT_LINE $0528 dec     0,x                     ; range of missile
+COMMENT $052E y pos
+COMMENT $0530 high and low bytes swapped on y
+COMMENT $0532 add rise
+COMMENT $0536 store new y pos
+COMMENT $0538 x pos
+COMMENT $053A add run
+COMMENT $053C store new x pos
+COMMENT $053E save x value
+COMMENT_LINE $0540 leax    6,x                     ; y pos (a=x+6) x pos (b=x+7)
+COMMENT_LINE $0540 lda     #$7f                    ; zoom factor
+COMMENT_LINE $0540 sta     $d004
+COMMENT $0544 plot dot
+COMMENT_LINE $0547 jsr     reset0ref
+COMMENT $0547 get back x
+COMMENT_LINE $0553 **********************
+COMMENT_LINE $0553 Draw Thrust
+COMMENT_LINE $0553 clobbers x, u, a, b
+COMMENT_LINE $0553 **********************
+COMMENT $055B get rotation
+COMMENT $055D number of points
+COMMENT_LINE $055F ldb     #$0b                    ; number of points
+COMMENT $055F address of vector list
+COMMENT $0562 transform buffer
+COMMENT $0565 rotate it
+COMMENT $0572 y
+COMMENT $0574 x
+COMMENT $0576 go to location
+COMMENT $057D #pts
+COMMENT $057F transformed points
+COMMENT_LINE $0586 **********************
+COMMENT_LINE $0586 rotate rock
+COMMENT_LINE $0586 **********************
+COMMENT_LINE $0586 lda     loop                    ; get rotation
+COMMENT_LINE $0586 anda    #$03
+COMMENT_LINE $0586 cmpa    #$03
+COMMENT_LINE $0586 bne     no_rot_rock
+COMMENT $0589 number of points
+COMMENT $058B address of vector list
+COMMENT $058E transform buffer
+COMMENT $0591 rotate it
+COMMENT_LINE $0595 **********************
+COMMENT_LINE $0595 Draw rock
+COMMENT_LINE $0595 clobbers x, u, a, b
+COMMENT_LINE $0595 d = location to draw at
+COMMENT_LINE $0595 size= size to draw
+COMMENT_LINE $0595 **********************
+COMMENT $0595 go to location
+COMMENT $05B2 #pts
+COMMENT $05B4 transformed points
+COMMENT_LINE $05BE *************************
+COMMENT_LINE $05BE Draw Lander
+COMMENT_LINE $05BE clobbers y,a,b,x
+COMMENT_LINE $05BE DP = $D0 on exit
+COMMENT_LINE $05BE *************************
+COMMENT $05C1 player 1
+COMMENT $05C5 get rotation
+COMMENT $05C7 number of points
+COMMENT $05C9 address of vector list
+COMMENT $05CC transform buffer
+COMMENT $05CF rotate it
+COMMENT $05D2 y
+COMMENT $05D4 x
+COMMENT $05D6 go to location
+COMMENT $05DF #pts, scale
+COMMENT $05E5 transformed points
+COMMENT_LINE $05EF **********************
+COMMENT_LINE $05EF State 1
+COMMENT_LINE $05EF **********************
+COMMENT_LINE $05F2 **********************
+COMMENT_LINE $05F2 State 2
+COMMENT_LINE $05F2 **********************
+COMMENT_LINE $05F5 **********************
+COMMENT_LINE $05F5 State 3
+COMMENT_LINE $05F5 **********************
+COMMENT_LINE $05F8 **********************
+COMMENT_LINE $05F8 State 50
+COMMENT_LINE $05F8 **********************
+COMMENT_LINE $05FB **********************
+COMMENT_LINE $05FB State 52
+COMMENT_LINE $05FB **********************
+COMMENT_LINE $05FB jsr     intensity_to_5f         ; State 52 is heading down to planet
+COMMENT_LINE $05FB jsr     draw_lander
+COMMENT_LINE $05FB ;      jsr     draw_thrust_fan
+COMMENT_LINE $05FB ;     jsr     draw_home
+COMMENT_LINE $05FB jsr     reset0ref
+COMMENT_LINE $05FB lda     #$10                    ; setup location of lower starfield
+COMMENT_LINE $05FB ldb     #$17
+COMMENT_LINE $05FB jsr     move_pen7f_to_d
+COMMENT_LINE $05FB lda     #$6f ;dead; #$50        ; direct write to zoom register
+COMMENT_LINE $05FB sta     $d004
+COMMENT_LINE $05FB jsr     intensity_to_3f
+COMMENT_LINE $05FB jsr     dots_only
+COMMENT_LINE $05FB jsr     reset0ref
+COMMENT_LINE $05FB lda     #$80                    ; setup location of lower starfield
+COMMENT_LINE $05FB ldb     #$00
+COMMENT_LINE $05FB jsr     move_pen7f_to_d
+COMMENT_LINE $05FB lda     #$5f ;dead; #$50        ; direct write to zoom register
+COMMENT_LINE $05FB sta     $d004
+COMMENT_LINE $05FB jsr     intensity_to_3f
+COMMENT_LINE $05FB jsr     dots_only
+COMMENT_LINE $05FB lda     loop                    ; main loop counter
+COMMENT_LINE $05FB inca                            ; count up
+COMMENT_LINE $05FB sta     loop
+COMMENT_LINE $05FB lda     loop                    ; need a timebase
+COMMENT_LINE $05FB anda    #$01
+COMMENT_LINE $05FB beq     loop_odd52
+COMMENT_LINE $05FB ldu     #player1                ; move lander up screen
+COMMENT_LINE $05FB inc     -14,u
+COMMENT_LINE $05FB inc     -12,u
+COMMENT_LINE $05FB inc     junk
+COMMENT_LINE $05FB dec     zoom
+COMMENT_LINE $05FB loop_odd52:
+COMMENT_LINE $05FB lda     loop                    ; slowly fade out the planet
+COMMENT_LINE $05FB anda    #$03
+COMMENT_LINE $05FB cmpa    #$03
+COMMENT_LINE $05FB bne     loop_quad52
+COMMENT_LINE $05FB ;        inc     planet_z
+COMMENT_LINE $05FB loop_quad52:
+COMMENT_LINE $05FB lda     state_timer
+COMMENT_LINE $05FB deca
+COMMENT_LINE $05FB sta     state_timer
+COMMENT_LINE $05FB bne     exit_scoring52
+COMMENT_LINE $05FB ;        clr     game_state
+COMMENT_LINE $05FB lda     #$54
+COMMENT_LINE $05FB sta     game_state
+COMMENT_LINE $05FB lda     #$ff
+COMMENT_LINE $05FB sta     state_timer
+COMMENT_LINE $05FB clr     temp1
+COMMENT_LINE $05FB clr     temp2
+COMMENT_LINE $05FB ;        lda     level                   ; count up a level
+COMMENT_LINE $05FB ;        inca
+COMMENT_LINE $05FB ;        anda    #$1f                    ; mask for max # of levels
+COMMENT_LINE $05FB ;        sta     level
+COMMENT_LINE $05FB ;        jmp     new_game
+COMMENT_LINE $05FE **********************
+COMMENT_LINE $05FE State 54
+COMMENT_LINE $05FE **********************
+COMMENT_LINE $0601 ************************
+COMMENT_LINE $0601 sound routine
+COMMENT_LINE $0601 ************************
+COMMENT_LINE $0612 jsr     sound_bytes
+COMMENT_LINE $0624 jsr     sound_bytes
+COMMENT_LINE $062F jsr     sound_byte
+COMMENT_LINE $0637 jsr     sound_byte
+COMMENT_LINE $063D jsr     sound_byte
+COMMENT_LINE $0640 jsr     sound_bytes
+COMMENT_LINE $0642 lda     music_map
+COMMENT_LINE $0642 asla
+COMMENT_LINE $0642 bcs     tune1
+COMMENT_LINE $0642 asla
+COMMENT_LINE $0642 bcs     tune2
+COMMENT_LINE $0642 asla
+COMMENT_LINE $0642 bcs     tune3
+COMMENT_LINE $0642 tune1:  ldu     #sat_music
+COMMENT_LINE $0642 jsr     init_sound_chk
+COMMENT_LINE $0642 bra     do_it
+COMMENT_LINE $0642 tune2:  ldu     #pause_music
+COMMENT_LINE $0642 jsr     init_sound_chk
+COMMENT_LINE $0642 bra     do_it
+COMMENT_LINE $0642 tune3:  ldu     #ok_music
+COMMENT_LINE $0642 jsr     init_sound_chk
+COMMENT_LINE $0642 bra     do_it
+COMMENT_LINE $0642 jsr     do_sound
+COMMENT_LINE $0643 *****************************
+COMMENT_LINE $0643 Draw the title
+COMMENT_LINE $0643 *****************************
+COMMENT_LINE $0644 **********************
+COMMENT_LINE $0644 Draw Explosion
+COMMENT_LINE $0644 **********************
+COMMENT_LINE $0647 jsr     explosion_snd
+COMMENT $064D player 1 data area
+COMMENT $0650 y position
+COMMENT $0652 x position
+COMMENT $0654 zero all momentum
+COMMENT $065C move pen
+COMMENT $065F death duration counter
+COMMENT $0662 subtract a bunch
+COMMENT $0664 less than zero?
+COMMENT $0666 no, store remainder
+COMMENT $0669 the brightness drops off...
+COMMENT_LINE $066C ldx     #bang
+COMMENT_LINE $066C lda     explosion_type
+COMMENT_LINE $066C beq     land_explosion
+COMMENT_LINE $066C ldx     #air_bang
+COMMENT $066C out decreasing counter
+COMMENT $066F 1:1 zoom
+COMMENT $0671 zoom in a bit
+COMMENT $0674 draw explosion
+COMMENT $0677 lander brightness
+COMMENT $067A dimmer
+COMMENT $067C apply to lander
+COMMENT $067F and lights
+COMMENT $0686 clear dying counter
+COMMENT_LINE $068D *************************
+COMMENT_LINE $068D Particles
+COMMENT_LINE $068D *************************
+COMMENT $0694 setup location of landscape
+COMMENT $069B dead; #$50                    ; direct write to zoom register
+COMMENT $06A0 (reset zoom to 0x50
+COMMENT $06AF make them "twinkle"
+COMMENT_LINE $06BD *************************
+COMMENT_LINE $06BD Dots only
+COMMENT_LINE $06BD *************************
+COMMENT_LINE $06D7 **********************
+COMMENT_LINE $06D7 read buttons
+COMMENT_LINE $06D7 DP= $C8 on exit
+COMMENT_LINE $06D7 clobbers u,a,b
+COMMENT_LINE $06D7 returns buttons states in A
+COMMENT_LINE $06D7 **********************
+COMMENT $06DD get buttons
+COMMENT_LINE $06E3 **********************
+COMMENT_LINE $06E3 Setup a new moon
+COMMENT_LINE $06E3 **********************
+COMMENT $06E3 This is player one
+COMMENT $06E6 Start at level 0!
+COMMENT $06E9 3 ships
+COMMENT $06EB store it
+COMMENT $06EE address of score buffer
+COMMENT $06F1 prep score buffer
+COMMENT_LINE $0712 **********************
+COMMENT_LINE $0712 Setup a new moon
+COMMENT_LINE $0712 **********************
+COMMENT $0712 beginning of player structure
+COMMENT $0715 y=70h
+COMMENT $0718 p1 y location
+COMMENT $071A x=00
+COMMENT $071D p1 x location
+COMMENT $071F rotation value
+COMMENT $0721 p1 rotation
+COMMENT $0723 zero out velocity numbers
+COMMENT $0728 starting drop speed
+COMMENT $072D get the next moon
+COMMENT $0733 not dead
+COMMENT $0736 and clear dead animation over flag
+COMMENT $0739 lander brightness
+COMMENT_LINE $0744 sta     planet_z
+COMMENT $0746 default explosion is on the ground
+COMMENT_LINE $074C **********************
+COMMENT_LINE $074C multiply rise and run
+COMMENT_LINE $074C clobbers u,a,b, $80
+COMMENT_LINE $074C DP= $C8 on exit
+COMMENT_LINE $074C result in $80
+COMMENT_LINE $074C multiply a * b
+COMMENT_LINE $074C **********************
+COMMENT $0752 track if negative
+COMMENT $0755 get absolute value
+COMMENT $0761 2's complement if negative
+COMMENT_LINE $076A **********************
+COMMENT_LINE $076A signed multiply
+COMMENT_LINE $076A clobbers u,a,b, $80
+COMMENT_LINE $076A DP= $C8 on exit
+COMMENT_LINE $076A result in $80
+COMMENT_LINE $076A **********************
+COMMENT $0770 is b negative
+COMMENT $0771 no
+COMMENT $0773 yes, flag $83 (track if negative)
+COMMENT $0776 is a negative
+COMMENT $0777 no
+COMMENT $0779 yes, flag $84
+COMMENT $077C get absolute value
+COMMENT $077F multiply together
+COMMENT $0780 store result in $80-81
+COMMENT $0783 check sign of b
+COMMENT $0786 positive, check a sign
+COMMENT $0795 2's complement if negative
+COMMENT_LINE $079E *************************
+COMMENT_LINE $079E print player attribute
+COMMENT_LINE $079E a= value, b=height
+COMMENT_LINE $079E *************************
+COMMENT_LINE $0867 *************************
+COMMENT_LINE $0867 Load Level
+COMMENT_LINE $0867 clobbers a,b,x
+COMMENT_LINE $0867 *************************
+COMMENT $0867 get the level number
+COMMENT $087D rock size (big= 3, med= 2, sml= 1)
+COMMENT $0895 #$80
+COMMENT $08AE #$80
+COMMENT $08B6 x pos (whole)
+COMMENT $08BD y pos (whole)
+COMMENT_LINE $08D4 **********************************
+COMMENT_LINE $08D4 Shape tables and data follow
+COMMENT_LINE $08D4 **********************************
+COMMENT $098F (c)
+COMMENT_LINE $09A3 ************************
+COMMENT_LINE $09A3 Lander collision points
+COMMENT_LINE $09A3 ************************
+COMMENT_LINE $09C3 ************************
+COMMENT_LINE $09C3 Music Block
+COMMENT_LINE $09C3 ************************
+COMMENT_LINE $09DC music:
+COMMENT $09DC fe28 fe28
+COMMENT $09DE fee8 fe28
+COMMENT_LINE $09F1 ok_music:
+COMMENT_LINE $0A01 music:
+COMMENT_LINE $0A0B ************************
+COMMENT_LINE $0A0B Level Indexes
+COMMENT_LINE $0A0B ************************
+COMMENT $0A19 mixer
+COMMENT $0A1B ch A volume
+COMMENT $0A1D ch B volume
+COMMENT $0A1F ch C volume
+COMMENT $0A25 env
+COMMENT $0A2C mixer
+COMMENT $0A2E ch A volume
+COMMENT $0A30 ch B volume
+COMMENT $0A32 ch C volume
+COMMENT $0A38 env
+COMMENT $0A4A 4+8+16
+COMMENT $0A4B 5+10+20
+COMMENT $0A4C 6+12+24
+COMMENT $0A4D 7+14+28
+COMMENT $0A4E 8+16+32
+RANGE $0000-$0002 DB_DATA
+RANGE $0002-$000A CHAR_DATA
+RANGE $000A-$000B DB_DATA
+RANGE $000B-$0011 DW_DATA
+RANGE $0011-$0019 CHAR_DATA
+RANGE $0019-$001B DB_DATA
+RANGE $001B-$0369 CODE
+RANGE $036A-$0373 CODE
+RANGE $0374-$07B3 CODE
+RANGE $07B4-$07B6 CODE
+RANGE $07B7-$07B9 CODE
+RANGE $07BA-$08D4 CODE
+RANGE $08D4-$0955 DB_DATA
+RANGE $0955-$0959 DW_DATA
+RANGE $0959-$095B CHAR_DATA
+RANGE $095B-$095C DB_DATA
+RANGE $095C-$0960 DW_DATA
+RANGE $0960-$0962 CHAR_DATA
+RANGE $0962-$0963 DB_DATA
+RANGE $0963-$0967 DW_DATA
+RANGE $0967-$0969 CHAR_DATA
+RANGE $0969-$096A DB_DATA
+RANGE $096A-$096E DW_DATA
+RANGE $096E-$0970 CHAR_DATA
+RANGE $0970-$0971 DB_DATA
+RANGE $0971-$0975 DW_DATA
+RANGE $0975-$098A CHAR_DATA
+RANGE $098A-$098B DB_DATA
+RANGE $098B-$098F DW_DATA
+RANGE $098F-$0990 DB_DATA
+RANGE $0990-$09A2 CHAR_DATA
+RANGE $09A2-$09C3 DB_DATA
+RANGE $09C3-$09D7 DW_DATA
+RANGE $09D7-$09DC DB_DATA
+RANGE $09DC-$09E0 DW_DATA
+RANGE $09E0-$09F1 DB_DATA
+RANGE $09F1-$09F5 DW_DATA
+RANGE $09F5-$09F9 DB_DATA
+RANGE $09F9-$09FD DW_DATA
+RANGE $09FD-$0A01 DB_DATA
+RANGE $0A01-$0A05 DW_DATA
+RANGE $0A05-$0A4F DB_DATA
+

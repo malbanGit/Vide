@@ -169,7 +169,7 @@
                   </Group>
                   <Component id="jToggleButton1" alignment="0" min="-2" pref="20" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="91" max="32767" attributes="0"/>
+              <EmptySpace pref="24" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -770,7 +770,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="In"/>
-        <Property name="toolTipText" type="java.lang.String" value="if MUX bits = 01"/>
+        <Property name="toolTipText" type="java.lang.String" value="input from device to vectrex"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel36">
@@ -779,7 +779,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Out"/>
-        <Property name="toolTipText" type="java.lang.String" value="if MUX bits = 01"/>
+        <Property name="toolTipText" type="java.lang.String" value="from vectrex to device"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel37">
@@ -788,7 +788,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="In"/>
-        <Property name="toolTipText" type="java.lang.String" value="if MUX bits = 01"/>
+        <Property name="toolTipText" type="java.lang.String" value="input from device to vectrex"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField119">
@@ -849,7 +849,7 @@
           <Font name="Courier" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Out"/>
-        <Property name="toolTipText" type="java.lang.String" value="if MUX bits = 01"/>
+        <Property name="toolTipText" type="java.lang.String" value="from vectrex to device"/>
       </Properties>
     </Component>
   </SubComponents>

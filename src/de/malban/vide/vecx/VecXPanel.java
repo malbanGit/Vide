@@ -38,6 +38,7 @@ import de.malban.vide.vecx.cartridge.DualVec;
 import de.malban.vide.vecx.cartridge.Microchip11AA010;
 import de.malban.vide.vecx.devices.AbstractDevice;
 import de.malban.vide.vecx.devices.HardSyncDevice;
+import de.malban.vide.vecx.devices.Imager3dDevice;
 import de.malban.vide.vecx.devices.JoyportDevice;
 import de.malban.vide.vecx.devices.KeyboardInputDevice;
 import de.malban.vide.vecx.devices.NullDevice;
@@ -539,7 +540,7 @@ public class VecXPanel extends javax.swing.JPanel
             if (config.overlayEnabled)
                 loadOverlay(jTextFieldstart.getText()); // ensure overlay in scaled form is available
             checkWindows();
-            
+            initJoyportsFromFlag();
         }
         else
         {
@@ -1442,22 +1443,23 @@ public class VecXPanel extends javax.swing.JPanel
     }
 
     
-    void drawCatmullRom(ArrayList<Point> spline, Graphics2D g2, int color, int speed)
+    void drawCatmullRom(ArrayList<Point> spline, Graphics2D g2, int color, int speed, int left, int right)
     {
         synchronized (spline)
         {
             if (config.useQuads)
             {
-                drawAsQuads(spline, g2,  color, speed);
+                drawAsQuads(spline, g2,  color, speed, left, right);
                 return;
             }
 
             Color c = new Color(210,210,255,color/*>>3*/ );
+            c = getColor(color, left, right);
             g2.setColor(c);
             
             if (spline.size() == 2)
             {
-                drawAsQuads(spline, g2,  color, speed);
+                drawAsQuads(spline, g2,  color, speed, left, right);
                 return;
             }
             CardinalSpline cs = new CardinalSpline();
@@ -1475,53 +1477,13 @@ public class VecXPanel extends javax.swing.JPanel
                 nP.add(new Point(pts.get(i).ix(), pts.get(i).iy()));
             }
             if (nP.size()>0)
-                drawAsQuads(nP, g2,  color, speed);
+                drawAsQuads(nP, g2,  color, speed, left, right);
 
-            
-            
-            
-/*org
-            Pt old = null;
-            boolean isFirst = true;
-            for (Pt point: pts)
-            {
-                if (Double.isNaN(point.x)) 
-                    continue;
-                if (Double.isNaN(point.y)) 
-                    continue;
-                if (old != null)
-                {
-                    int SHORTEN = config.lineWidth;
-                    int startx = (int)(old.x);
-                    int starty = (int)(old.y);
-                    if (!isFirst)
-                    {
-                        double dx = old.x - point.x;
-                        double dy = old.y - point.y;
-                        double length = Math.sqrt(dx * dx + dy * dy);
-                        if (length > 0)
-                        {
-                            dx /= length;
-                            dy /= length;
-                        }
-                        dx *= length - SHORTEN;
-                        dy *= length - SHORTEN;
-
-                        // shortened by tw2
-                        startx = (int)(point.x + dx);
-                        starty = (int)(point.y + dy);
-                        
-                    }
-                    isFirst = false;
-                    g2.drawLine(((int) startx), ((int) starty), ((int) point.x),((int) point.y));
-                }
-                old = point;
-            }
-*/            
+             
         }
       }
 
-    void drawAsQuads(ArrayList<Point> spline, Graphics2D g2, int color, int speed)
+    void drawAsQuads(ArrayList<Point> spline, Graphics2D g2, int color, int speed, int left, int right)
     {
         synchronized (spline)
         {
@@ -1529,6 +1491,7 @@ public class VecXPanel extends javax.swing.JPanel
             GeneralPath path = new GeneralPath(GeneralPath.WIND_NON_ZERO);
         //    Color c = new Color(100,255,100,color );
             Color c = new Color(210,210,255,color );
+            c = getColor(color, left, right);
             g2.setColor(c);
             path.moveTo(Scaler.scaleDoubleToInt(spline.get(counter).x, scaleWidth), Scaler.scaleDoubleToInt(spline.get(counter).y, scaleHeight));
             counter++;
@@ -1609,6 +1572,7 @@ public class VecXPanel extends javax.swing.JPanel
                     if (alpha == 0) continue;
                     g2.setStroke(new BasicStroke(width,  CAP_ROUND, JOIN_ROUND)) ;
                     Color cc = new Color(210,210,255,alpha );
+                    cc = getColor(alpha, left, right);
                     g2.setColor(cc);
                     if ((circleX != 0) || (circleY != 0))
                     {
@@ -1623,6 +1587,7 @@ public class VecXPanel extends javax.swing.JPanel
                 if (color>BASE_GLOW_OFFSET)
                     color=BASE_GLOW_OFFSET;
                 Color cc = new Color(210,210,255,color );
+                cc = getColor(color, left, right);
                 g2.setColor(cc);
                 if ((circleX != 0) || (circleY != 0))
                 {
@@ -1637,6 +1602,7 @@ public class VecXPanel extends javax.swing.JPanel
                     int col = color*2;
                     if (col > 255) col = 255;
                     cc = new Color(210,210,255,col );
+                    cc = getColor(col, left, right);
                     g2.setColor(cc);
                     if ((circleX != 0) || (circleY != 0))
                         g2.drawLine(((int) circleX), ((int) circleY), ((int) circleX),((int) circleY));
@@ -1650,7 +1616,29 @@ public class VecXPanel extends javax.swing.JPanel
             }
         }
     }
+    
+    // this is a quick hack to get imager colors
+    Color getColor(int alpha, int left, int right)
+    {
+        Color color = new Color(210,210,255,alpha);
+        if (!vecx.imagerMode)
+            return color;
+        if ((left == -2) ||(right == -2)) // draw bw
+        {
+            return color;
+        }
 
+        Imager3dDevice i3d = (Imager3dDevice) vecx.joyport[1].getDevice();
+        if (left > 0)
+            color =  i3d.getWheel().colors[left];
+        else if (right > 0)
+            color =  i3d.getWheel().colors[right];
+        
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+    }
+
+   
+    
     public void switchDisplay()
     {
         phosphorDraw = (phosphorDraw+1)%2;
@@ -1813,7 +1801,7 @@ public class VecXPanel extends javax.swing.JPanel
                             {
                                 // start Spline
                                 spline.add(new Point(vList.vectrexVectors[v].x1,vList.vectrexVectors[v].y1 ));
-                                drawCatmullRom(spline, g2, splineColor, vList.vectrexVectors[v].speed);
+                                drawCatmullRom(spline, g2, splineColor, vList.vectrexVectors[v].speed, vList.vectrexVectors[v].imagerColorLeft, vList.vectrexVectors[v].imagerColorRight);
                                 inSpline = false;
                                 continue;
                             }
@@ -1823,7 +1811,8 @@ public class VecXPanel extends javax.swing.JPanel
                         {
                            // 0 -> 1 von -1 und aktuell als line
                             spline.add(new Point(vList.vectrexVectors[v-1].x1,vList.vectrexVectors[v-1].y1 ));
-                            drawCatmullRom(spline, g2, splineColor, vList.vectrexVectors[v-1].speed);
+                            
+                            drawCatmullRom(spline, g2, splineColor, vList.vectrexVectors[v-1].speed, vList.vectrexVectors[v-1].imagerColorLeft, vList.vectrexVectors[v-1].imagerColorRight);
                             inSpline = false;
                             // check if next vector is again the beginning of a spline
                             if (v != vList.count-1)
@@ -1852,6 +1841,7 @@ public class VecXPanel extends javax.swing.JPanel
     }
     private void drawOneLine(Graphics2D g2, vector_t v)
     {
+        
         double x0 =Scaler.scaleDoubleToInt(v.x0, scaleWidth);
         double y0 =Scaler.scaleDoubleToInt(v.y0, scaleHeight);
         double x1 =Scaler.scaleDoubleToInt(v.x1, scaleWidth);
@@ -1919,7 +1909,9 @@ public class VecXPanel extends javax.swing.JPanel
                         int width = (halo-i)*config.lineWidth;
                         g2.setStroke(new BasicStroke(width,  CAP_ROUND, JOIN_ROUND));
                         Color c = new Color(255,255,255,alpha );
-                    c = new Color(210,210,255,alpha );
+                        c = new Color(210,210,255,alpha );
+                        c = getColor(alpha, v.imagerColorLeft, v.imagerColorRight);
+                        
                         g2.setColor(c);
                         g2.drawLine(((int) x0), ((int) y0), ((int) x1),((int) y1));
                     }
@@ -1928,6 +1920,7 @@ public class VecXPanel extends javax.swing.JPanel
                         color=BASE_GLOW_OFFSET;
                     Color c = new Color(255,255,255,color );
                     c = new Color(210,210,255,color);
+                    c = getColor(color, v.imagerColorLeft, v.imagerColorRight);
                     g2.setColor(c);
                     g2.drawLine(((int) x0), ((int) y0), ((int) x1),((int) y1));
                     //&if ((config.lineWidth%2!=0) && (config.lineWidth!=1))
@@ -1938,6 +1931,7 @@ public class VecXPanel extends javax.swing.JPanel
                         if (col > 255) col = 255;
                         c = new Color(255,255,255,col );
                         c = new Color(210,210,255,col );
+                        c = getColor(col, v.imagerColorLeft, v.imagerColorRight);
                         g2.setColor(c);
                         g2.drawLine(((int) x0), ((int) y0), ((int) x1),((int) y1));
                     }
@@ -1946,6 +1940,7 @@ public class VecXPanel extends javax.swing.JPanel
                 {
                     Color c = new Color(255,255,255,v.color );
                     c = new Color(210,210,255,v.color );
+                    c = getColor(v.color, v.imagerColorLeft, v.imagerColorRight);
                     g2.setColor(c);
                     g2.drawLine(((int) x0), ((int) y0), ((int) x1),((int) y1));
                 }
@@ -1954,6 +1949,7 @@ public class VecXPanel extends javax.swing.JPanel
             {
                 Color c = new Color(255,255,255,v.color );
                     c = new Color(210,210,255,v.color );
+                c = getColor(v.color, v.imagerColorLeft, v.imagerColorRight);
                 g2.setColor(c);
                 drawArrow(g2, ((int) x0), ((int) y0), ((int) x1),((int) y1));
             }            
@@ -2983,7 +2979,7 @@ public class VecXPanel extends javax.swing.JPanel
         speech.setVecVoice(false);
         deviceList.add(speech);// 5
 
-        deviceList.add(new NullDevice()); // 6 (imager someday
+        deviceList.add(new Imager3dDevice()); // 6 (imager someday)
 
         deviceList.add(VecLinkV1Device.getVecLinkV1(0));// 7
         deviceList.add(VecLinkV1Device.getVecLinkV1(1));// 8
@@ -3037,6 +3033,10 @@ public class VecXPanel extends javax.swing.JPanel
         if ((flags & Cartridge.FLAG_VEC_VOX) == Cartridge.FLAG_VEC_VOX)
         {
             vecx.joyport[1].plugIn(deviceList.get(DEVICE_VECVOX));
+        }
+        if ((flags & Cartridge.FLAG_IMAGER) == Cartridge.FLAG_IMAGER)
+        {
+            vecx.joyport[1].plugIn(deviceList.get(DEVICE_IMAGER));
         }
     }
     
@@ -3374,6 +3374,12 @@ public class VecXPanel extends javax.swing.JPanel
     public VectrexJoyport[] getJoyportDevices()
     {
         return vecx.joyport;
+    }
+    public boolean setRegister(String register, int value)
+    {
+        boolean ok = vecx.setRegister(register, value);
+        updateAvailableWindows(true, false, true);
+        return ok;
     }
     
 }

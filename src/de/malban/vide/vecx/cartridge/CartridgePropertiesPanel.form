@@ -572,7 +572,6 @@
                     <Component class="javax.swing.JCheckBox" name="jCheckBox5">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="3d Imager"/>
-                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="jCheckBox6">

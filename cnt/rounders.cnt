@@ -1,0 +1,4056 @@
+BANK 0
+LABEL $F192 Wait_Recal
+LABEL $D004 VIA_t1_cnt_lo
+LABEL $F2A5 Intensity_5F
+LABEL $F2A9 Intensity_7F
+LABEL $F312 Moveto_d
+LABEL $F30C Moveto_d_7F
+LABEL $F3DD Draw_VL
+LABEL $F3CE Draw_VLc
+LABEL $F56D Delay_3
+LABEL $F584 Abs_a_b
+LABEL $F1BA Read_Btns
+LABEL $F37A Print_Str_d
+LABEL $F354 Reset0Ref
+LABEL $F2C5 Dot_here
+LABEL $F517 Random_3
+LABEL $F8FF Obj_Hit
+LABEL $C82A Vec_Text_HW
+LABEL $F84F Clear_Score
+LABEL $F85E Add_Score_a
+LABEL $C81F JOYENS
+COMMENT_LABEL $C81F JOYSTICK ENABLES (4 BYTES)
+LABEL $F1F8 Joy_Digital
+LABEL $C81B Vec_Joy_1_X
+LABEL $F8D8 New_High_Score
+LABEL $CBEB Vec_High_Score
+LABEL $F393 Print_Ships
+LABEL $FEC6 Music7
+LABEL $F000 Cold_Start
+LABEL $F256 Sound_Byte
+LABEL $F610 Rot_VL_ab
+LABEL $C880 Vec_Text_Width_neg
+LABEL $C881 PointsNr
+LABEL $C882 RealTimeCounter
+LABEL $C884 OpeningString
+COMMENT_LABEL $C884 Reserve 13 locations
+LABEL $C890 Plyr1BallYpos
+LABEL $C891 Plyr1BallXpos
+LABEL $C892 Plyr1BallFlag
+LABEL $C893 Plyr1LocationIndex
+LABEL $C894 Plyr1Ypos
+LABEL $C896 Plyr1BallDirection
+LABEL $C997 Plyr1PaddleMem
+COMMENT_LABEL $C997 Reserve 10 locations
+LABEL $C9A1 Plyr1BallMoveY
+LABEL $C9A2 Plyr1BallMoveX
+LABEL $C9A3 Plyr1BallIndex
+LABEL $C9A5 Plyr1TurnsNr
+LABEL $C9A6 Plyr1MissedFlag
+LABEL $C9A7 Plyr1ScoreTable
+COMMENT_LABEL $C9A7 Reseve 8 locations
+LABEL $C9B0 Plyr1LevelDelay
+LABEL $C9B1 Plyr1LevelFlag
+LABEL $C9B2 Plyr1CurrentScore
+LABEL $C9B3 Plyr1Level
+LABEL $C9B4 DrawPlyr1Flag
+LABEL $C8A2 Plyr2BallFlag
+LABEL $C8A6 Plyr2BallDirection
+LABEL $C8A7 OrigRandom
+LABEL $C8A8 PosRandom
+LABEL $C8A0 PlyrNum
+LABEL $C8A2 RndHiScoreTable
+COMMENT_LABEL $C8A2 Reserve 8 locations
+LABEL $C8B0 MissedSoundFlag
+LABEL $C8B1 HitSoundFlag
+LABEL $C8B2 LevelSoundFlag
+LABEL $C8B3 TempRadius
+LABEL $C8B4 TempIndex
+LABEL $C8B5 TempBtns
+LABEL $C8B6 CtrlType
+LABEL $C908 dbg2_tbl
+LABEL $C910 dbg3_tbl
+LABEL $C918 TempValue1
+LABEL $C919 TempValue2
+EQU $00 VEC_CTRL
+COMMENT_LABEL $00 Regular Vectrex controller
+EQU $01 DRV_CTRL
+COMMENT_LABEL $01 Atari Driving controller (Vectrex Ctrlr is on Port#2)
+EQU $04 OPENING_CIR_DISTANCE
+COMMENT_LABEL $04 64 (256/4) points for the opeining circle
+EQU $03 PADDLE_VL
+COMMENT_LABEL $03 Vector Length -1 of paddle
+EQU $02 SCALE1
+COMMENT_LABEL $02 Scale factor for paddle1
+EQU $01 SCALE2
+COMMENT_LABEL $01 Scale factor for Box
+EQU $57 PADDLE_RADIUS
+COMMENT_LABEL $57 was 90
+EQU $03 HIT_SOUND_NOTES_NUM
+COMMENT_LABEL $03 Number of notes to play
+EQU $09 MAX_TURNS
+COMMENT_LABEL $09 Number of turns per player
+LABEL $7F90 PLYR1_INFO_YX
+COMMENT_LABEL $7F90 Location for plyr1 info
+LABEL $7083 PLYR1_SCORE_YX
+COMMENT_LABEL $7083 Location for plyr1 score
+LABEL $4AE9 HSCORE_POS
+COMMENT_LABEL $4AE9 Location of HiScore @ the end
+EQU $05 NOVICE
+EQU $04 INTERMIDIATE
+EQU $03 EXPERT
+EQU $32 SWITCH_TO_INTERMIDIATE
+EQU $4B SWITCH_TO_EXPERT
+EQU $64 SWITCH_TO_BLINK
+LABEL $05E5 l_RndStart
+LABEL $F9F4 Char_Table
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+EQU $1E _my_Char_Tableb1
+EQU $6E _my_Char_Tableb2
+LABEL $00BE _my_Char_Tableb3
+LABEL $F9D4 Char_Tablef1
+LABEL $FA74 Char_Tablef2
+LABEL $FB14 Char_Tablef3
+LABEL $FBB4 Char_Tablef4
+EQU -$02 Char_Tableb1
+EQU $4E Char_Tableb2
+LABEL $009E Char_Tableb3
+LABEL $0135 LF33D2
+LABEL $0163 LF4C7_14
+LABEL $0197 LF4C7_26
+LABEL $01C9 LF4C7_18
+LABEL $01FD LF4C7_210
+LABEL $022F LF4C7_112
+LABEL $0263 LF4C7_214
+LABEL $0295 LF4C7_116
+LABEL $02AC my_Print_Str
+LABEL $02D2 LF4C7_119
+LABEL $0306 LF4C7_221
+LABEL $0338 LF4C7_123
+LABEL $036C LF4C7_225
+LABEL $039E LF4C7_127
+LABEL $03D2 LF4C7_229
+LABEL $0404 LF4C7_131
+LABEL $041B Print_List133
+LABEL $043D LF33D35
+LABEL $046B LF4C7_137
+LABEL $049F LF4C7_239
+LABEL $04D1 LF4C7_141
+LABEL $0505 LF4C7_243
+LABEL $0537 LF4C7_145
+LABEL $056B LF4C7_247
+LABEL $059D LF4C7_149
+LABEL $05D1 LF3A3_
+LABEL $09EC s_RndInit
+LABEL $0608 s_RndOpening
+LABEL $19E8 s_RndSetJoystick
+LABEL $05EE l_RndMainLoop
+LABEL $09E0 s_RndRefreshScreen
+LABEL $12F2 s_RndDrawBackground
+LABEL $19F7 s_RndCheckJoystick
+LABEL $12B0 s_RndDrawPlyr1
+LABEL $110D s_RndDrawPlyr1Ball
+LABEL $1A90 s_RndCheckSound
+LABEL $1312 s_RndPrintInfo
+LABEL $1B71 s_RndCheckGameStatus
+LABEL $1F9F l_RoundersString
+LABEL $1A84 s_CopyMem
+LABEL $0622 l_RndOpening_loop
+LABEL $1A75 s_RealTimeClock
+LABEL $2036 paddle1
+LABEL $0694 LF33D52
+LABEL $06C2 LF4C7_154
+LABEL $06F6 LF4C7_256
+LABEL $0728 LF4C7_158
+LABEL $075C LF4C7_260
+LABEL $078E LF4C7_162
+LABEL $07C2 LF4C7_264
+LABEL $07F4 LF4C7_166
+LABEL $1F4B l_RndOpenString1
+LABEL $0835 LF33D69
+LABEL $0863 LF4C7_171
+LABEL $0897 LF4C7_273
+LABEL $08C9 LF4C7_175
+LABEL $08FD LF4C7_277
+LABEL $092F LF4C7_179
+LABEL $0963 LF4C7_281
+LABEL $0995 LF4C7_183
+LABEL $20CA sin_entry_0
+LABEL $21CA cos_entry_0
+LABEL $09B9 l_CircleLoop
+LABEL $0A34 s_RndSelectGameType
+LABEL $0A34 s_RndSelGameType_loop
+LABEL $1FAB l_RndGameTypeMsg1
+LABEL $0A5C LF33D88
+LABEL $0A8A LF4C7_190
+LABEL $0ABE LF4C7_292
+LABEL $0AF0 LF4C7_194
+LABEL $0B24 LF4C7_296
+LABEL $0B56 LF4C7_198
+LABEL $0B8A LF4C7_2100
+LABEL $0BBC LF4C7_1102
+LABEL $1FBC l_RndGameTypeMsg2
+LABEL $0BF7 LF33D105
+LABEL $0C25 LF4C7_1107
+LABEL $0C59 LF4C7_2109
+LABEL $0C8B LF4C7_1111
+LABEL $0CBF LF4C7_2113
+LABEL $0CF1 LF4C7_1115
+LABEL $0D25 LF4C7_2117
+LABEL $0D57 LF4C7_1119
+LABEL $1FCA l_RndGameTypeMsg3
+LABEL $0D92 LF33D122
+LABEL $0DC0 LF4C7_1124
+LABEL $0DF4 LF4C7_2126
+LABEL $0E26 LF4C7_1128
+LABEL $0E5A LF4C7_2130
+LABEL $0E8C LF4C7_1132
+LABEL $0EC0 LF4C7_2134
+LABEL $0EF2 LF4C7_1136
+LABEL $1FDE l_RndGameTypeMsg4
+LABEL $0F32 LF33D140
+LABEL $0F60 LF4C7_1142
+LABEL $0F94 LF4C7_2144
+LABEL $0FC6 LF4C7_1146
+LABEL $0FFA LF4C7_2148
+LABEL $102C LF4C7_1150
+LABEL $1060 LF4C7_2152
+LABEL $1092 LF4C7_1154
+LABEL $10BB l_CheckCntrl1Btn2
+LABEL $10CA l_CheckCntrl1Btn3
+LABEL $10D6 l_CheckCntrl2Btn1
+LABEL $10E5 l_CheckCntrl2Btn2
+LABEL $10F9 l_CheckCntrl2Btn3
+LABEL $1125 l_ExitDrawPlyr1Ball
+LABEL $203E l_Ball
+LABEL $1126 s_PlyrBallMove
+LABEL $1132 l_BallHasToMove
+LABEL $228C l_BallMoveEntry
+LABEL $1156 l_BallMovesIn
+LABEL $115C l_StoreBallPos
+LABEL $11CE l_CheckBallHitCenter
+LABEL $1271 s_CalcRadius
+LABEL $11DD l_NoHitThisTime
+LABEL $11B2 l_CheckBallMissedPlyr
+LABEL $244C l_PaddleHitEntry
+LABEL $1194 l_SpecialHitCheck
+LABEL $11DE l_Plyr1ChangeDirection
+LABEL $11C3 l_PlyrMissed
+LABEL $11E2 s_ChangeBallDirection
+LABEL $125D l_Plyr1UpdateDirectionFlag
+LABEL $255E l_RndTbl
+LABEL $1203 l_CalcNewIndex
+LABEL $1217 l_NegativeIndex
+LABEL $121D l_CheckNewIndexRange1
+LABEL $1227 l_CheckNewIndexRange2
+LABEL $122D l_StoreNewIndex
+LABEL $250E l_HitCenterPos
+LABEL $1B88 s_UpdateLevels
+LABEL $127B l_CalcX
+LABEL $234C l_RadiusEntry0
+LABEL $128C s_RndDrawCircle
+LABEL $1293 l_BckgndCircleLoop
+LABEL $12BF l_NoBlinkMode
+LABEL $12F1 l_ExitRndDrawPlyr1
+LABEL $2047 l_Box
+LABEL $14D0 l_NotNovice
+LABEL $2008 l_RndLevelNOVICE
+LABEL $1357 LF33D157
+LABEL $1385 LF4C7_1159
+LABEL $13B9 LF4C7_2161
+LABEL $13EB LF4C7_1163
+LABEL $141F LF4C7_2165
+LABEL $1451 LF4C7_1167
+LABEL $1485 LF4C7_2169
+LABEL $14B7 LF4C7_1171
+LABEL $19B3 l_EndOfLevelInfo
+LABEL $1674 l_NotIntermidiate
+LABEL $2012 l_RndLevelINTER
+LABEL $14FB LF33D174
+LABEL $1529 LF4C7_1176
+LABEL $155D LF4C7_2178
+LABEL $158F LF4C7_1180
+LABEL $15C3 LF4C7_2182
+LABEL $15F5 LF4C7_1184
+LABEL $1629 LF4C7_2186
+LABEL $165B LF4C7_1188
+LABEL $1818 l_NotExpert
+LABEL $2022 l_RndLevelEXPERT
+LABEL $169F LF33D191
+LABEL $16CD LF4C7_1193
+LABEL $1701 LF4C7_2195
+LABEL $1733 LF4C7_1197
+LABEL $1767 LF4C7_2199
+LABEL $1799 LF4C7_1201
+LABEL $17CD LF4C7_2203
+LABEL $17FF LF4C7_1205
+LABEL $202C l_RndLevelBLINK
+LABEL $183D LF33D208
+LABEL $186B LF4C7_1210
+LABEL $189F LF4C7_2212
+LABEL $18D1 LF4C7_1214
+LABEL $1905 LF4C7_2216
+LABEL $1937 LF4C7_1218
+LABEL $196B LF4C7_2220
+LABEL $199D LF4C7_1222
+LABEL $1A13 l_AtariDrvCtrl
+LABEL $1A1C l_RndXDone
+LABEL $1A0E l_RndLeftMove
+LABEL $256E s_DrvCtrlr
+LABEL $1A20 s_RndCheckBtns
+LABEL $1A39 l_RndCheckBtnsRTS
+LABEL $1A32 check_btn2_4
+LABEL $1A3A s_StartSession
+LABEL $1A80 l_ExitUpdateRealTimeClock
+LABEL $1A99 l_MakeMissedSound
+LABEL $1AC9 l_CheckHitFlag
+LABEL $1AAB l_PlayMissedSound
+LABEL $1B47 l_CheckSoundExit
+LABEL $1B4A l_MissedVolume
+LABEL $1AD0 l_MakeHitSound
+LABEL $1B08 l_CheckLevelFlag
+COMMENT_LABEL $1B08 using channel 3
+LABEL $1AE1 l_PlayHitSound
+LABEL $1B55 l_HitSound
+LABEL $1B0F l_CheckLevelSound
+LABEL $1B47 l_Check4FallSound
+LABEL $1B20 l_PlayLevelSound
+LABEL $1B5A l_GoodSound
+LABEL $1B87 l_RndCheckGameStatusExit
+LABEL $1BD4 s_RndGameOver
+LABEL $1BD0 l_SetUpdateFlag
+LABEL $1BA6 l_CheckExpert
+LABEL $1BC0 l_CheckBlinkLevel
+LABEL $1BCF l_ExitUpdateLevels
+LABEL $1BDD l_RndGameOver_loop
+LABEL $1FEC l_RndHighScoreMsg
+LABEL $1C18 LF33D226
+LABEL $1C46 LF4C7_1228
+LABEL $1C7A LF4C7_2230
+LABEL $1CAC LF4C7_1232
+LABEL $1CE0 LF4C7_2234
+LABEL $1D12 LF4C7_1236
+LABEL $1D46 LF4C7_2238
+LABEL $1D78 LF4C7_1240
+LABEL $1FFA l_RndGameOverMsg
+LABEL $1DC9 LF33D245
+LABEL $1DF7 LF4C7_1247
+LABEL $1E2B LF4C7_2249
+LABEL $1E5D LF4C7_1251
+LABEL $1E91 LF4C7_2253
+LABEL $1EC3 LF4C7_1255
+LABEL $1EF7 LF4C7_2257
+LABEL $1F29 LF4C7_1259
+LABEL $2589 l_DirTbl
+COMMENT_LINE $0000 +=====================================================================+
+COMMENT_LINE $0000 |                                                                     |
+COMMENT_LINE $0000 |   ROUNDERS.ASM                                                      |
+COMMENT_LINE $0000 |                                                                     |
+COMMENT_LINE $0000 |   Copyright 2001, Ronen Habot                                       |
+COMMENT_LINE $0000 |                                                                     |
+COMMENT_LINE $0000 +=====================================================================+
+COMMENT_LINE $0000 file created 01-Jun-99
+COMMENT_LINE $0000 +=====================================================================+
+COMMENT_LINE $0000 |                                                                     |
+COMMENT_LINE $0000 |   VECTREX.INC                                                       |
+COMMENT_LINE $0000 |                                                                     |
+COMMENT_LINE $0000 |   Copyright 1999, Ronen Habot                                       |
+COMMENT_LINE $0000 |                                                                     |
+COMMENT_LINE $0000 +=====================================================================+
+COMMENT_LINE $0000 file created 01-Dec-99
+COMMENT_LINE $0000 Explosion_Snd		EQU	$F92E
+COMMENT_LINE $0000 Do_Sound		EQU     $F289
+COMMENT_LINE $0000 Clear_Sound		EQU	$F272
+COMMENT_LINE $0000 Player 1 variables
+COMMENT_LINE $0000 ;;Plyr1BallEndIndex	EQU	$C9A4
+COMMENT_LINE $0000 Player 2 variables
+COMMENT_LINE $0000 General purpose variables
+COMMENT_LINE $0000 Sound related variables
+COMMENT_LINE $0000 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $0000 Begining of the main program
+COMMENT_LINE $0000 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $0000 magic init block
+COMMENT $001E replecement for bios print func
+COMMENT_LINE $001E VIA_t1_cnt_lo   EQU     $D004   ;VIA timer 1 count register lo (scale factor)
+COMMENT_LINE $001E **************************************************************************
+COMMENT $0000 /BLANK low and /ZERO low
+COMMENT_LINE $0000 expects
+COMMENT_LINE $0000 b = speed
+COMMENT_LINE $0000 first char
+COMMENT_LINE $0000 u pointer to string
+COMMENT_LINE $0000 X pointer to character display table
+COMMENT_LINE $0000 Y speed = to zero
+COMMENT_LINE $0000 ...
+COMMENT $0000 Send it to the D/A
+COMMENT $0000 enable RAMP, disable mux
+COMMENT $0000 delay needed for drawing
+COMMENT $0000 Get bitmap from chargen table
+COMMENT $0000 Save in shift register
+COMMENT $0000 Get next character
+COMMENT $0000 Go back if not terminator
+COMMENT_LINE $0000 A=$81
+COMMENT $0000 disable RAMP, disable mux
+COMMENT $0000 Get text height
+COMMENT $0000 Send it to the D/A
+COMMENT $0000 enable RAMP, disable mux
+COMMENT $0000 delay needed for drawing
+COMMENT $0000 Get bitmap from chargen table
+COMMENT $0000 Save in shift register
+COMMENT $0000 Get next character
+COMMENT $0000 Go back if not terminator
+COMMENT_LINE $0000 A=$81
+COMMENT $0000 disable RAMP, disable mux
+COMMENT_LINE $0000 **************************************************************************
+COMMENT_LINE $0000 expects
+COMMENT_LINE $0000 b = speed
+COMMENT_LINE $0000 first char
+COMMENT_LINE $0000 u pointer to string
+COMMENT_LINE $0000 X pointer to inverted character display table
+COMMENT_LINE $0000 Y speed = to zero
+COMMENT_LINE $0000 ...
+COMMENT $0000 negative x speed
+COMMENT $0000 enable RAMP, disable mux
+COMMENT $0000 delay needed for drawing
+COMMENT $0000 Get bitmap from chargen table
+COMMENT $0000 Save in shift register
+COMMENT $0000 Get next character
+COMMENT $0000 Go back if not terminator
+COMMENT_LINE $0000 A=$81
+COMMENT $0000 disable RAMP, disable mux
+COMMENT $0000 Get text height
+COMMENT_LINE $0000 **************************************************************************
+COMMENT_LINE $0000 now move down
+COMMENT $0000 store 'height' to dac (y)
+COMMENT $0000 disable RAMP, enable mux
+COMMENT $0000 disable RAMP, disable mux
+COMMENT $0000 zero dac
+COMMENT_LINE $0000 now only y set, x to zero
+COMMENT $0000 enable RAMP, disable mux
+COMMENT_LINE $0000 here we move down
+COMMENT $0000 enable RAMP, enable mux
+COMMENT_LINE $0000 tricky, cutting y off while
+COMMENT_LINE $0000 integrating, saves one switch of mux
+COMMENT_LINE $0000 still b=$81
+COMMENT $0000 disable RAMP, disable mux
+COMMENT_LINE $0000 now finnished moving down
+COMMENT_LINE $0000 **************************************************************************
+COMMENT_LINE $0000 now move down
+COMMENT $0000 store 'height' to dac (y)
+COMMENT $0000 disable RAMP, enable mux
+COMMENT $0000 disable RAMP, disable mux
+COMMENT $0000 zero dac
+COMMENT_LINE $0000 now only y set, x to zero
+COMMENT $0000 enable RAMP, disable mux
+COMMENT $0000 Get first character
+COMMENT $0000 enable RAMP, enable mux
+COMMENT_LINE $0000 tricky, cutting y off while
+COMMENT_LINE $0000 integrating, saves one switch of mux
+COMMENT_LINE $0000 still B=$81
+COMMENT $0000 disable RAMP, disable mux
+COMMENT_LINE $0000 now finnished moving down
+COMMENT_LINE $0000 **************************************************************************
+COMMENT_LINE $0000 U=String pointer to first $81
+COMMENT $0000 Clear D/A output
+COMMENT $0000 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $0000 enable mux, set y to 0 disable ramp
+COMMENT $0000 disable RAMP, disable mux
+COMMENT $0000 Get text width
+COMMENT $0000 T1->PB7 enabled
+COMMENT_LINE $0000 **************************************************************************
+COMMENT_LINE $0000 this is mainly taken from move to d makro...
+COMMENT_LINE $0000 for a describtion look at that or the rom dissassembly...
+COMMENT_LINE $0000 Moveto_d_7F start
+COMMENT_LINE $0000 **************************************************************************
+COMMENT_LINE $0000 **************************************************************************
+COMMENT_LINE $0000 **************************************************************************
+COMMENT $0000 text size
+COMMENT $0000 position
+COMMENT_LINE $0000 **************************************************************************
+COMMENT_LINE $0000 special printstr routines
+COMMENT_LINE $0000 expect
+COMMENT_LINE $0000 strings termitated on both ends with $81
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $010E text size
+COMMENT $0113 position
+COMMENT_LINE $0115 Moveto_d_7F start
+COMMENT_LINE $013D U=String pointer to first $81
+COMMENT $013F Clear D/A output
+COMMENT $0141 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $0148 enable mux, set y to 0 disable ramp
+COMMENT $014A disable RAMP, disable mux
+COMMENT $014E Get text width
+COMMENT $0158 Send it to the D/A
+COMMENT $015C enable RAMP, disable mux
+COMMENT $015E delay needed for drawing
+COMMENT $0163 Get bitmap from chargen table
+COMMENT $0165 Save in shift register
+COMMENT $0167 Get next character
+COMMENT $0169 Go back if not terminator
+COMMENT_LINE $016B A=$81
+COMMENT $016B disable RAMP, disable mux
+COMMENT $0170 Get text height
+COMMENT_LINE $0173 now move down
+COMMENT $0173 store 'height' to dac (y)
+COMMENT $0175 disable RAMP, enable mux
+COMMENT $0177 disable RAMP, disable mux
+COMMENT $0179 zero dac
+COMMENT_LINE $017B now only y set, x to zero
+COMMENT $017D enable RAMP, disable mux
+COMMENT $0181 Get first character
+COMMENT $0183 enable RAMP, enable mux
+COMMENT_LINE $0185 tricky, cutting y off while
+COMMENT_LINE $0185 integrating, saves one switch of mux
+COMMENT_LINE $0185 still B=$81
+COMMENT $0185 disable RAMP, disable mux
+COMMENT_LINE $018A now finnished moving down
+COMMENT $018A negative x speed
+COMMENT $018F enable RAMP, disable mux
+COMMENT $0192 delay needed for drawing
+COMMENT $0197 Get bitmap from chargen table
+COMMENT $0199 Save in shift register
+COMMENT $019B Get next character
+COMMENT $019D Go back if not terminator
+COMMENT_LINE $019F A=$81
+COMMENT $019F disable RAMP, disable mux
+COMMENT $01A4 Get text height
+COMMENT_LINE $01A7 now move down
+COMMENT $01A7 store 'height' to dac (y)
+COMMENT $01A9 disable RAMP, enable mux
+COMMENT $01AB disable RAMP, disable mux
+COMMENT $01AD zero dac
+COMMENT_LINE $01AF now only y set, x to zero
+COMMENT $01B1 enable RAMP, disable mux
+COMMENT_LINE $01B3 here we move down
+COMMENT $01B7 enable RAMP, enable mux
+COMMENT_LINE $01B9 tricky, cutting y off while
+COMMENT_LINE $01B9 integrating, saves one switch of mux
+COMMENT_LINE $01B9 still b=$81
+COMMENT $01B9 disable RAMP, disable mux
+COMMENT_LINE $01BE now finnished moving down
+COMMENT $01BE Send it to the D/A
+COMMENT $01C2 enable RAMP, disable mux
+COMMENT $01C4 delay needed for drawing
+COMMENT $01C9 Get bitmap from chargen table
+COMMENT $01CB Save in shift register
+COMMENT $01CD Get next character
+COMMENT $01CF Go back if not terminator
+COMMENT_LINE $01D1 A=$81
+COMMENT $01D1 disable RAMP, disable mux
+COMMENT $01D6 Get text height
+COMMENT_LINE $01D9 now move down
+COMMENT $01D9 store 'height' to dac (y)
+COMMENT $01DB disable RAMP, enable mux
+COMMENT $01DD disable RAMP, disable mux
+COMMENT $01DF zero dac
+COMMENT_LINE $01E1 now only y set, x to zero
+COMMENT $01E3 enable RAMP, disable mux
+COMMENT $01E7 Get first character
+COMMENT $01E9 enable RAMP, enable mux
+COMMENT_LINE $01EB tricky, cutting y off while
+COMMENT_LINE $01EB integrating, saves one switch of mux
+COMMENT_LINE $01EB still B=$81
+COMMENT $01EB disable RAMP, disable mux
+COMMENT_LINE $01F0 now finnished moving down
+COMMENT $01F0 negative x speed
+COMMENT $01F5 enable RAMP, disable mux
+COMMENT $01F8 delay needed for drawing
+COMMENT $01FD Get bitmap from chargen table
+COMMENT $01FF Save in shift register
+COMMENT $0201 Get next character
+COMMENT $0203 Go back if not terminator
+COMMENT_LINE $0205 A=$81
+COMMENT $0205 disable RAMP, disable mux
+COMMENT $020A Get text height
+COMMENT_LINE $020D now move down
+COMMENT $020D store 'height' to dac (y)
+COMMENT $020F disable RAMP, enable mux
+COMMENT $0211 disable RAMP, disable mux
+COMMENT $0213 zero dac
+COMMENT_LINE $0215 now only y set, x to zero
+COMMENT $0217 enable RAMP, disable mux
+COMMENT_LINE $0219 here we move down
+COMMENT $021D enable RAMP, enable mux
+COMMENT_LINE $021F tricky, cutting y off while
+COMMENT_LINE $021F integrating, saves one switch of mux
+COMMENT_LINE $021F still b=$81
+COMMENT $021F disable RAMP, disable mux
+COMMENT_LINE $0224 now finnished moving down
+COMMENT $0224 Send it to the D/A
+COMMENT $0228 enable RAMP, disable mux
+COMMENT $022A delay needed for drawing
+COMMENT $022F Get bitmap from chargen table
+COMMENT $0231 Save in shift register
+COMMENT $0233 Get next character
+COMMENT $0235 Go back if not terminator
+COMMENT_LINE $0237 A=$81
+COMMENT $0237 disable RAMP, disable mux
+COMMENT $023C Get text height
+COMMENT_LINE $023F now move down
+COMMENT $023F store 'height' to dac (y)
+COMMENT $0241 disable RAMP, enable mux
+COMMENT $0243 disable RAMP, disable mux
+COMMENT $0245 zero dac
+COMMENT_LINE $0247 now only y set, x to zero
+COMMENT $0249 enable RAMP, disable mux
+COMMENT $024D Get first character
+COMMENT $024F enable RAMP, enable mux
+COMMENT_LINE $0251 tricky, cutting y off while
+COMMENT_LINE $0251 integrating, saves one switch of mux
+COMMENT_LINE $0251 still B=$81
+COMMENT $0251 disable RAMP, disable mux
+COMMENT_LINE $0256 now finnished moving down
+COMMENT $0256 negative x speed
+COMMENT $025B enable RAMP, disable mux
+COMMENT $025E delay needed for drawing
+COMMENT $0263 Get bitmap from chargen table
+COMMENT $0265 Save in shift register
+COMMENT $0267 Get next character
+COMMENT $0269 Go back if not terminator
+COMMENT_LINE $026B A=$81
+COMMENT $026B disable RAMP, disable mux
+COMMENT $0270 Get text height
+COMMENT_LINE $0273 now move down
+COMMENT $0273 store 'height' to dac (y)
+COMMENT $0275 disable RAMP, enable mux
+COMMENT $0277 disable RAMP, disable mux
+COMMENT $0279 zero dac
+COMMENT_LINE $027B now only y set, x to zero
+COMMENT $027D enable RAMP, disable mux
+COMMENT_LINE $027F here we move down
+COMMENT $0283 enable RAMP, enable mux
+COMMENT_LINE $0285 tricky, cutting y off while
+COMMENT_LINE $0285 integrating, saves one switch of mux
+COMMENT_LINE $0285 still b=$81
+COMMENT $0285 disable RAMP, disable mux
+COMMENT_LINE $028A now finnished moving down
+COMMENT $028A Send it to the D/A
+COMMENT $028E enable RAMP, disable mux
+COMMENT $0290 delay needed for drawing
+COMMENT $0295 Get bitmap from chargen table
+COMMENT $0297 Save in shift register
+COMMENT $0299 Get next character
+COMMENT $029B Go back if not terminator
+COMMENT_LINE $029D A=$81
+COMMENT $029D disable RAMP, disable mux
+COMMENT $02A1 T1->PB7 enabled
+COMMENT $02A8 /BLANK low and /ZERO low
+COMMENT_LINE $02AC ***************************************************************************
+COMMENT_LINE $02AC my_print_str_d
+COMMENT_LINE $02AC PRINT_STR_D
+COMMENT_LINE $02AC RTS
+COMMENT_LINE $02AC ***************************************************************************
+COMMENT_LINE $02AC U=String pointer to first $81
+COMMENT $02AE Clear D/A output
+COMMENT $02B0 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $02B7 enable mux, set y to 0 disable ramp
+COMMENT $02B9 disable RAMP, disable mux
+COMMENT $02BD Get text width
+COMMENT $02C7 Send it to the D/A
+COMMENT $02CB enable RAMP, disable mux
+COMMENT $02CD delay needed for drawing
+COMMENT $02D2 Get bitmap from chargen table
+COMMENT $02D4 Save in shift register
+COMMENT $02D6 Get next character
+COMMENT $02D8 Go back if not terminator
+COMMENT_LINE $02DA A=$81
+COMMENT $02DA disable RAMP, disable mux
+COMMENT $02DF Get text height
+COMMENT_LINE $02E2 now move down
+COMMENT $02E2 store 'height' to dac (y)
+COMMENT $02E4 disable RAMP, enable mux
+COMMENT $02E6 disable RAMP, disable mux
+COMMENT $02E8 zero dac
+COMMENT_LINE $02EA now only y set, x to zero
+COMMENT $02EC enable RAMP, disable mux
+COMMENT $02F0 Get first character
+COMMENT $02F2 enable RAMP, enable mux
+COMMENT_LINE $02F4 tricky, cutting y off while
+COMMENT_LINE $02F4 integrating, saves one switch of mux
+COMMENT_LINE $02F4 still B=$81
+COMMENT $02F4 disable RAMP, disable mux
+COMMENT_LINE $02F9 now finnished moving down
+COMMENT $02F9 negative x speed
+COMMENT $02FE enable RAMP, disable mux
+COMMENT $0301 delay needed for drawing
+COMMENT $0306 Get bitmap from chargen table
+COMMENT $0308 Save in shift register
+COMMENT $030A Get next character
+COMMENT $030C Go back if not terminator
+COMMENT_LINE $030E A=$81
+COMMENT $030E disable RAMP, disable mux
+COMMENT $0313 Get text height
+COMMENT_LINE $0316 now move down
+COMMENT $0316 store 'height' to dac (y)
+COMMENT $0318 disable RAMP, enable mux
+COMMENT $031A disable RAMP, disable mux
+COMMENT $031C zero dac
+COMMENT_LINE $031E now only y set, x to zero
+COMMENT $0320 enable RAMP, disable mux
+COMMENT_LINE $0322 here we move down
+COMMENT $0326 enable RAMP, enable mux
+COMMENT_LINE $0328 tricky, cutting y off while
+COMMENT_LINE $0328 integrating, saves one switch of mux
+COMMENT_LINE $0328 still b=$81
+COMMENT $0328 disable RAMP, disable mux
+COMMENT_LINE $032D now finnished moving down
+COMMENT $032D Send it to the D/A
+COMMENT $0331 enable RAMP, disable mux
+COMMENT $0333 delay needed for drawing
+COMMENT $0338 Get bitmap from chargen table
+COMMENT $033A Save in shift register
+COMMENT $033C Get next character
+COMMENT $033E Go back if not terminator
+COMMENT_LINE $0340 A=$81
+COMMENT $0340 disable RAMP, disable mux
+COMMENT $0345 Get text height
+COMMENT_LINE $0348 now move down
+COMMENT $0348 store 'height' to dac (y)
+COMMENT $034A disable RAMP, enable mux
+COMMENT $034C disable RAMP, disable mux
+COMMENT $034E zero dac
+COMMENT_LINE $0350 now only y set, x to zero
+COMMENT $0352 enable RAMP, disable mux
+COMMENT $0356 Get first character
+COMMENT $0358 enable RAMP, enable mux
+COMMENT_LINE $035A tricky, cutting y off while
+COMMENT_LINE $035A integrating, saves one switch of mux
+COMMENT_LINE $035A still B=$81
+COMMENT $035A disable RAMP, disable mux
+COMMENT_LINE $035F now finnished moving down
+COMMENT $035F negative x speed
+COMMENT $0364 enable RAMP, disable mux
+COMMENT $0367 delay needed for drawing
+COMMENT $036C Get bitmap from chargen table
+COMMENT $036E Save in shift register
+COMMENT $0370 Get next character
+COMMENT $0372 Go back if not terminator
+COMMENT_LINE $0374 A=$81
+COMMENT $0374 disable RAMP, disable mux
+COMMENT $0379 Get text height
+COMMENT_LINE $037C now move down
+COMMENT $037C store 'height' to dac (y)
+COMMENT $037E disable RAMP, enable mux
+COMMENT $0380 disable RAMP, disable mux
+COMMENT $0382 zero dac
+COMMENT_LINE $0384 now only y set, x to zero
+COMMENT $0386 enable RAMP, disable mux
+COMMENT_LINE $0388 here we move down
+COMMENT $038C enable RAMP, enable mux
+COMMENT_LINE $038E tricky, cutting y off while
+COMMENT_LINE $038E integrating, saves one switch of mux
+COMMENT_LINE $038E still b=$81
+COMMENT $038E disable RAMP, disable mux
+COMMENT_LINE $0393 now finnished moving down
+COMMENT $0393 Send it to the D/A
+COMMENT $0397 enable RAMP, disable mux
+COMMENT $0399 delay needed for drawing
+COMMENT $039E Get bitmap from chargen table
+COMMENT $03A0 Save in shift register
+COMMENT $03A2 Get next character
+COMMENT $03A4 Go back if not terminator
+COMMENT_LINE $03A6 A=$81
+COMMENT $03A6 disable RAMP, disable mux
+COMMENT $03AB Get text height
+COMMENT_LINE $03AE now move down
+COMMENT $03AE store 'height' to dac (y)
+COMMENT $03B0 disable RAMP, enable mux
+COMMENT $03B2 disable RAMP, disable mux
+COMMENT $03B4 zero dac
+COMMENT_LINE $03B6 now only y set, x to zero
+COMMENT $03B8 enable RAMP, disable mux
+COMMENT $03BC Get first character
+COMMENT $03BE enable RAMP, enable mux
+COMMENT_LINE $03C0 tricky, cutting y off while
+COMMENT_LINE $03C0 integrating, saves one switch of mux
+COMMENT_LINE $03C0 still B=$81
+COMMENT $03C0 disable RAMP, disable mux
+COMMENT_LINE $03C5 now finnished moving down
+COMMENT $03C5 negative x speed
+COMMENT $03CA enable RAMP, disable mux
+COMMENT $03CD delay needed for drawing
+COMMENT $03D2 Get bitmap from chargen table
+COMMENT $03D4 Save in shift register
+COMMENT $03D6 Get next character
+COMMENT $03D8 Go back if not terminator
+COMMENT_LINE $03DA A=$81
+COMMENT $03DA disable RAMP, disable mux
+COMMENT $03DF Get text height
+COMMENT_LINE $03E2 now move down
+COMMENT $03E2 store 'height' to dac (y)
+COMMENT $03E4 disable RAMP, enable mux
+COMMENT $03E6 disable RAMP, disable mux
+COMMENT $03E8 zero dac
+COMMENT_LINE $03EA now only y set, x to zero
+COMMENT $03EC enable RAMP, disable mux
+COMMENT_LINE $03EE here we move down
+COMMENT $03F2 enable RAMP, enable mux
+COMMENT_LINE $03F4 tricky, cutting y off while
+COMMENT_LINE $03F4 integrating, saves one switch of mux
+COMMENT_LINE $03F4 still b=$81
+COMMENT $03F4 disable RAMP, disable mux
+COMMENT_LINE $03F9 now finnished moving down
+COMMENT $03F9 Send it to the D/A
+COMMENT $03FD enable RAMP, disable mux
+COMMENT $03FF delay needed for drawing
+COMMENT $0404 Get bitmap from chargen table
+COMMENT $0406 Save in shift register
+COMMENT $0408 Get next character
+COMMENT $040A Go back if not terminator
+COMMENT_LINE $040C A=$81
+COMMENT $040C disable RAMP, disable mux
+COMMENT $0410 T1->PB7 enabled
+COMMENT $0417 /BLANK low and /ZERO low
+COMMENT_LINE $041B ***************************************************************************
+COMMENT_LINE $041D Moveto_d_7F start
+COMMENT_LINE $0445 U=String pointer to first $81
+COMMENT $0447 Clear D/A output
+COMMENT $0449 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $0450 enable mux, set y to 0 disable ramp
+COMMENT $0452 disable RAMP, disable mux
+COMMENT $0456 Get text width
+COMMENT $0460 Send it to the D/A
+COMMENT $0464 enable RAMP, disable mux
+COMMENT $0466 delay needed for drawing
+COMMENT $046B Get bitmap from chargen table
+COMMENT $046D Save in shift register
+COMMENT $046F Get next character
+COMMENT $0471 Go back if not terminator
+COMMENT_LINE $0473 A=$81
+COMMENT $0473 disable RAMP, disable mux
+COMMENT $0478 Get text height
+COMMENT_LINE $047B now move down
+COMMENT $047B store 'height' to dac (y)
+COMMENT $047D disable RAMP, enable mux
+COMMENT $047F disable RAMP, disable mux
+COMMENT $0481 zero dac
+COMMENT_LINE $0483 now only y set, x to zero
+COMMENT $0485 enable RAMP, disable mux
+COMMENT $0489 Get first character
+COMMENT $048B enable RAMP, enable mux
+COMMENT_LINE $048D tricky, cutting y off while
+COMMENT_LINE $048D integrating, saves one switch of mux
+COMMENT_LINE $048D still B=$81
+COMMENT $048D disable RAMP, disable mux
+COMMENT_LINE $0492 now finnished moving down
+COMMENT $0492 negative x speed
+COMMENT $0497 enable RAMP, disable mux
+COMMENT $049A delay needed for drawing
+COMMENT $049F Get bitmap from chargen table
+COMMENT $04A1 Save in shift register
+COMMENT $04A3 Get next character
+COMMENT $04A5 Go back if not terminator
+COMMENT_LINE $04A7 A=$81
+COMMENT $04A7 disable RAMP, disable mux
+COMMENT $04AC Get text height
+COMMENT_LINE $04AF now move down
+COMMENT $04AF store 'height' to dac (y)
+COMMENT $04B1 disable RAMP, enable mux
+COMMENT $04B3 disable RAMP, disable mux
+COMMENT $04B5 zero dac
+COMMENT_LINE $04B7 now only y set, x to zero
+COMMENT $04B9 enable RAMP, disable mux
+COMMENT_LINE $04BB here we move down
+COMMENT $04BF enable RAMP, enable mux
+COMMENT_LINE $04C1 tricky, cutting y off while
+COMMENT_LINE $04C1 integrating, saves one switch of mux
+COMMENT_LINE $04C1 still b=$81
+COMMENT $04C1 disable RAMP, disable mux
+COMMENT_LINE $04C6 now finnished moving down
+COMMENT $04C6 Send it to the D/A
+COMMENT $04CA enable RAMP, disable mux
+COMMENT $04CC delay needed for drawing
+COMMENT $04D1 Get bitmap from chargen table
+COMMENT $04D3 Save in shift register
+COMMENT $04D5 Get next character
+COMMENT $04D7 Go back if not terminator
+COMMENT_LINE $04D9 A=$81
+COMMENT $04D9 disable RAMP, disable mux
+COMMENT $04DE Get text height
+COMMENT_LINE $04E1 now move down
+COMMENT $04E1 store 'height' to dac (y)
+COMMENT $04E3 disable RAMP, enable mux
+COMMENT $04E5 disable RAMP, disable mux
+COMMENT $04E7 zero dac
+COMMENT_LINE $04E9 now only y set, x to zero
+COMMENT $04EB enable RAMP, disable mux
+COMMENT $04EF Get first character
+COMMENT $04F1 enable RAMP, enable mux
+COMMENT_LINE $04F3 tricky, cutting y off while
+COMMENT_LINE $04F3 integrating, saves one switch of mux
+COMMENT_LINE $04F3 still B=$81
+COMMENT $04F3 disable RAMP, disable mux
+COMMENT_LINE $04F8 now finnished moving down
+COMMENT $04F8 negative x speed
+COMMENT $04FD enable RAMP, disable mux
+COMMENT $0500 delay needed for drawing
+COMMENT $0505 Get bitmap from chargen table
+COMMENT $0507 Save in shift register
+COMMENT $0509 Get next character
+COMMENT $050B Go back if not terminator
+COMMENT_LINE $050D A=$81
+COMMENT $050D disable RAMP, disable mux
+COMMENT $0512 Get text height
+COMMENT_LINE $0515 now move down
+COMMENT $0515 store 'height' to dac (y)
+COMMENT $0517 disable RAMP, enable mux
+COMMENT $0519 disable RAMP, disable mux
+COMMENT $051B zero dac
+COMMENT_LINE $051D now only y set, x to zero
+COMMENT $051F enable RAMP, disable mux
+COMMENT_LINE $0521 here we move down
+COMMENT $0525 enable RAMP, enable mux
+COMMENT_LINE $0527 tricky, cutting y off while
+COMMENT_LINE $0527 integrating, saves one switch of mux
+COMMENT_LINE $0527 still b=$81
+COMMENT $0527 disable RAMP, disable mux
+COMMENT_LINE $052C now finnished moving down
+COMMENT $052C Send it to the D/A
+COMMENT $0530 enable RAMP, disable mux
+COMMENT $0532 delay needed for drawing
+COMMENT $0537 Get bitmap from chargen table
+COMMENT $0539 Save in shift register
+COMMENT $053B Get next character
+COMMENT $053D Go back if not terminator
+COMMENT_LINE $053F A=$81
+COMMENT $053F disable RAMP, disable mux
+COMMENT $0544 Get text height
+COMMENT_LINE $0547 now move down
+COMMENT $0547 store 'height' to dac (y)
+COMMENT $0549 disable RAMP, enable mux
+COMMENT $054B disable RAMP, disable mux
+COMMENT $054D zero dac
+COMMENT_LINE $054F now only y set, x to zero
+COMMENT $0551 enable RAMP, disable mux
+COMMENT $0555 Get first character
+COMMENT $0557 enable RAMP, enable mux
+COMMENT_LINE $0559 tricky, cutting y off while
+COMMENT_LINE $0559 integrating, saves one switch of mux
+COMMENT_LINE $0559 still B=$81
+COMMENT $0559 disable RAMP, disable mux
+COMMENT_LINE $055E now finnished moving down
+COMMENT $055E negative x speed
+COMMENT $0563 enable RAMP, disable mux
+COMMENT $0566 delay needed for drawing
+COMMENT $056B Get bitmap from chargen table
+COMMENT $056D Save in shift register
+COMMENT $056F Get next character
+COMMENT $0571 Go back if not terminator
+COMMENT_LINE $0573 A=$81
+COMMENT $0573 disable RAMP, disable mux
+COMMENT $0578 Get text height
+COMMENT_LINE $057B now move down
+COMMENT $057B store 'height' to dac (y)
+COMMENT $057D disable RAMP, enable mux
+COMMENT $057F disable RAMP, disable mux
+COMMENT $0581 zero dac
+COMMENT_LINE $0583 now only y set, x to zero
+COMMENT $0585 enable RAMP, disable mux
+COMMENT_LINE $0587 here we move down
+COMMENT $058B enable RAMP, enable mux
+COMMENT_LINE $058D tricky, cutting y off while
+COMMENT_LINE $058D integrating, saves one switch of mux
+COMMENT_LINE $058D still b=$81
+COMMENT $058D disable RAMP, disable mux
+COMMENT_LINE $0592 now finnished moving down
+COMMENT $0592 Send it to the D/A
+COMMENT $0596 enable RAMP, disable mux
+COMMENT $0598 delay needed for drawing
+COMMENT $059D Get bitmap from chargen table
+COMMENT $059F Save in shift register
+COMMENT $05A1 Get next character
+COMMENT $05A3 Go back if not terminator
+COMMENT_LINE $05A5 A=$81
+COMMENT $05A5 disable RAMP, disable mux
+COMMENT $05A9 T1->PB7 enabled
+COMMENT $05B0 /BLANK low and /ZERO low
+COMMENT_LINE $05BB ***************************************************************************
+COMMENT $05BB Save B-reg
+COMMENT $05BD build print struct... with $81 header ... on the stack
+COMMENT $05BF Point U into the stack
+COMMENT $05C1 push $81
+COMMENT $05C3 load  space
+COMMENT $05C5 push space
+COMMENT $05C7 Save A-reg = ship symbol
+COMMENT $05C9 Get back B-reg (no of ships)
+COMMENT $05CB If B-reg >9 then
+COMMENT $05CF load $6C = infinty symbol
+COMMENT $05D1 otherwise make an ascii number
+COMMENT $05D3 load minus
+COMMENT $05D5 Push digit and minus sign
+COMMENT $05D7 end of string...
+COMMENT $05D9 push end of string
+COMMENT $05DB Push (y,x) coordinates
+COMMENT $05DD move to position
+COMMENT $05DF and print it (u points to constructed string structure)
+COMMENT $05E2 print it
+COMMENT_LINE $05E5 ***************************************************************************
+COMMENT $05E5 replecement for bios print func
+COMMENT_LINE $05E5 make sure there is enough time from calling this
+COMMENT_LINE $05E5 to do the next move/draw
+COMMENT $0000 Replacing Reset0Ref subroutine
+COMMENT_LINE $0000 STB   <VIA_cntl         ;0x0C;
+COMMENT_LINE $0000 STA   <VIA_shift_reg    ;0x0A;
+COMMENT_LINE $0000 LDD   #0x0302;
+COMMENT_LINE $0000 CLR   <VIA_port_a       ;0x01;
+COMMENT_LINE $0000 STA   <VIA_port_b       ;0x00;
+COMMENT_LINE $0000 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $0000 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $0000 LDB   #0x01;
+COMMENT_LINE $0000 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $0000 LDB    #0x00CC;
+COMMENT $0000 0x0C;
+COMMENT $0000 end of macro
+COMMENT $0000 pretty for optimizing to use a makro :-)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 pretty for optimizing to use a makro :-)
+COMMENT_LINE $0000 STB     <VIA_port_a     ;Send Y to A/D
+COMMENT_LINE $0000 STA     <VIA_port_b
+COMMENT $0000 Disable mux
+COMMENT $0000 Send X to A/D
+COMMENT $0000 Put pattern in shift register
+COMMENT $0000 enable timer 1
+COMMENT $0000 6
+COMMENT $0000 7
+COMMENT $0000 3 Go back for more points
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Wait for T1 to time out
+COMMENT $0000 Wait a moment more
+COMMENT $0000 Clear shift register (blank output)
+COMMENT $0000 3
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Wait for T1 to time out
+COMMENT $0000 Wait a moment more
+COMMENT_LINE $0000 one more round
+COMMENT $0000 Disable mux
+COMMENT $0000 Send X to A/D
+COMMENT $0000 Put pattern in shift register
+COMMENT $0000 enable timer 1
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Wait for T1 to time out
+COMMENT $0000 Clear shift register (blank output)
+COMMENT $0000 Replacing Draw_VLc subrutine
+COMMENT $0000 0x01
+COMMENT $0000 0x00
+COMMENT $0000 0x00
+COMMENT $0000 0x01
+COMMENT $0000 0x0a
+COMMENT $0000 0x05
+COMMENT $0000 0x0D
+COMMENT $0000 0x0a
+COMMENT $0000 Store Y in D/A register
+COMMENT $0000 Blank low, zero high?
+COMMENT $0000 Enable mux
+COMMENT $0000 Clear shift regigster
+COMMENT $0000 Disable mux
+COMMENT $0000 Store X in D/A register
+COMMENT $0000 enable timer
+COMMENT $05E5 general initialization
+COMMENT $05E8 Opening music and graphics
+COMMENT_LINE $05EE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $05EE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $05EE Wait_recal etc.
+COMMENT $05F1 Refresh background
+COMMENT $05F4 Check controller movement
+COMMENT $05F7 Draw Player1's paddle
+COMMENT $05FA Draw Player1's ball
+COMMENT $05FD Play sounds when needed
+COMMENT $0600 Print the score
+COMMENT $0603 Check next level/game over
+COMMENT $0606 Return to main loop
+COMMENT_LINE $0608 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $0608 opeining - This procedure call the YM music routines, displays the opening
+COMMENT_LINE $0608 letters and, waits for a button to be pressed to start the game.
+COMMENT_LINE $0608 This is a program by itself...
+COMMENT_LINE $0608 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $0608 Get Buttons status
+COMMENT_LINE $060B Set/Clear required variables
+COMMENT $0610 PointsNr updates every ~1 sec
+COMMENT_LINE $0616 Copy opening string from ROM to RAM
+COMMENT $0622 reset the crt
+COMMENT $062A Check if 1 sec passed and update points Nr
+COMMENT $0630 Set the intensity to $7F
+COMMENT $0635 Set scaling factor to be 7f
+COMMENT_LINE $0638 Rotate box...
+COMMENT $063B A<- Ypos of ROUNDERS text
+COMMENT $063D Divide by 2
+COMMENT $063E Divide by 2 once more,
+COMMENT $063F Length of vector list of the Paddle -1
+COMMENT $0641 X<- Address of paddle vector list
+COMMENT_LINE $0644 LDX   #l_Box                    ;X<- Address of paddle vector list
+COMMENT_LINE $0644 LEAX  1,X
+COMMENT_LINE $0644 needed to be drawn.
+COMMENT $0644 U points to the rotated vector list result
+COMMENT $0647 Execute rotation based on previous information.
+COMMENT_LINE $0653 Draw the rotated paddle
+COMMENT $0653 X<- Address of paddle vector list
+COMMENT $0656 Number of vectors -1 to draw
+COMMENT $0658 Store for Draw_VL bios subroutine
+COMMENT $065B Draw Player 1's paddle
+COMMENT_LINE $065E Update ROUNDERS text location
+COMMENT $0661 A<- Ypos of ROUNDERS text
+COMMENT_LINE $0663 ;;;CMPA  #-40
+COMMENT_LINE $0663 ;;;BEQ   l_PrintRounders
+COMMENT $0663 A<-A+1
+COMMENT $0664 Store A back to the memory
+COMMENT $0666 Set the Text size to LARGE
+COMMENT_LINE $066F LDU   #OpeningString
+COMMENT $0672 Call enhenced print routine
+COMMENT_LINE $0674 Moveto_d_7F start
+COMMENT_LINE $069C U=String pointer to first $81
+COMMENT $069E Clear D/A output
+COMMENT $06A0 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $06A7 enable mux, set y to 0 disable ramp
+COMMENT $06A9 disable RAMP, disable mux
+COMMENT $06AD Get text width
+COMMENT $06B7 Send it to the D/A
+COMMENT $06BB enable RAMP, disable mux
+COMMENT $06BD delay needed for drawing
+COMMENT $06C2 Get bitmap from chargen table
+COMMENT $06C4 Save in shift register
+COMMENT $06C6 Get next character
+COMMENT $06C8 Go back if not terminator
+COMMENT_LINE $06CA A=$81
+COMMENT $06CA disable RAMP, disable mux
+COMMENT $06CF Get text height
+COMMENT_LINE $06D2 now move down
+COMMENT $06D2 store 'height' to dac (y)
+COMMENT $06D4 disable RAMP, enable mux
+COMMENT $06D6 disable RAMP, disable mux
+COMMENT $06D8 zero dac
+COMMENT_LINE $06DA now only y set, x to zero
+COMMENT $06DC enable RAMP, disable mux
+COMMENT $06E0 Get first character
+COMMENT $06E2 enable RAMP, enable mux
+COMMENT_LINE $06E4 tricky, cutting y off while
+COMMENT_LINE $06E4 integrating, saves one switch of mux
+COMMENT_LINE $06E4 still B=$81
+COMMENT $06E4 disable RAMP, disable mux
+COMMENT_LINE $06E9 now finnished moving down
+COMMENT $06E9 negative x speed
+COMMENT $06EE enable RAMP, disable mux
+COMMENT $06F1 delay needed for drawing
+COMMENT $06F6 Get bitmap from chargen table
+COMMENT $06F8 Save in shift register
+COMMENT $06FA Get next character
+COMMENT $06FC Go back if not terminator
+COMMENT_LINE $06FE A=$81
+COMMENT $06FE disable RAMP, disable mux
+COMMENT $0703 Get text height
+COMMENT_LINE $0706 now move down
+COMMENT $0706 store 'height' to dac (y)
+COMMENT $0708 disable RAMP, enable mux
+COMMENT $070A disable RAMP, disable mux
+COMMENT $070C zero dac
+COMMENT_LINE $070E now only y set, x to zero
+COMMENT $0710 enable RAMP, disable mux
+COMMENT_LINE $0712 here we move down
+COMMENT $0716 enable RAMP, enable mux
+COMMENT_LINE $0718 tricky, cutting y off while
+COMMENT_LINE $0718 integrating, saves one switch of mux
+COMMENT_LINE $0718 still b=$81
+COMMENT $0718 disable RAMP, disable mux
+COMMENT_LINE $071D now finnished moving down
+COMMENT $071D Send it to the D/A
+COMMENT $0721 enable RAMP, disable mux
+COMMENT $0723 delay needed for drawing
+COMMENT $0728 Get bitmap from chargen table
+COMMENT $072A Save in shift register
+COMMENT $072C Get next character
+COMMENT $072E Go back if not terminator
+COMMENT_LINE $0730 A=$81
+COMMENT $0730 disable RAMP, disable mux
+COMMENT $0735 Get text height
+COMMENT_LINE $0738 now move down
+COMMENT $0738 store 'height' to dac (y)
+COMMENT $073A disable RAMP, enable mux
+COMMENT $073C disable RAMP, disable mux
+COMMENT $073E zero dac
+COMMENT_LINE $0740 now only y set, x to zero
+COMMENT $0742 enable RAMP, disable mux
+COMMENT $0746 Get first character
+COMMENT $0748 enable RAMP, enable mux
+COMMENT_LINE $074A tricky, cutting y off while
+COMMENT_LINE $074A integrating, saves one switch of mux
+COMMENT_LINE $074A still B=$81
+COMMENT $074A disable RAMP, disable mux
+COMMENT_LINE $074F now finnished moving down
+COMMENT $074F negative x speed
+COMMENT $0754 enable RAMP, disable mux
+COMMENT $0757 delay needed for drawing
+COMMENT $075C Get bitmap from chargen table
+COMMENT $075E Save in shift register
+COMMENT $0760 Get next character
+COMMENT $0762 Go back if not terminator
+COMMENT_LINE $0764 A=$81
+COMMENT $0764 disable RAMP, disable mux
+COMMENT $0769 Get text height
+COMMENT_LINE $076C now move down
+COMMENT $076C store 'height' to dac (y)
+COMMENT $076E disable RAMP, enable mux
+COMMENT $0770 disable RAMP, disable mux
+COMMENT $0772 zero dac
+COMMENT_LINE $0774 now only y set, x to zero
+COMMENT $0776 enable RAMP, disable mux
+COMMENT_LINE $0778 here we move down
+COMMENT $077C enable RAMP, enable mux
+COMMENT_LINE $077E tricky, cutting y off while
+COMMENT_LINE $077E integrating, saves one switch of mux
+COMMENT_LINE $077E still b=$81
+COMMENT $077E disable RAMP, disable mux
+COMMENT_LINE $0783 now finnished moving down
+COMMENT $0783 Send it to the D/A
+COMMENT $0787 enable RAMP, disable mux
+COMMENT $0789 delay needed for drawing
+COMMENT $078E Get bitmap from chargen table
+COMMENT $0790 Save in shift register
+COMMENT $0792 Get next character
+COMMENT $0794 Go back if not terminator
+COMMENT_LINE $0796 A=$81
+COMMENT $0796 disable RAMP, disable mux
+COMMENT $079B Get text height
+COMMENT_LINE $079E now move down
+COMMENT $079E store 'height' to dac (y)
+COMMENT $07A0 disable RAMP, enable mux
+COMMENT $07A2 disable RAMP, disable mux
+COMMENT $07A4 zero dac
+COMMENT_LINE $07A6 now only y set, x to zero
+COMMENT $07A8 enable RAMP, disable mux
+COMMENT $07AC Get first character
+COMMENT $07AE enable RAMP, enable mux
+COMMENT_LINE $07B0 tricky, cutting y off while
+COMMENT_LINE $07B0 integrating, saves one switch of mux
+COMMENT_LINE $07B0 still B=$81
+COMMENT $07B0 disable RAMP, disable mux
+COMMENT_LINE $07B5 now finnished moving down
+COMMENT $07B5 negative x speed
+COMMENT $07BA enable RAMP, disable mux
+COMMENT $07BD delay needed for drawing
+COMMENT $07C2 Get bitmap from chargen table
+COMMENT $07C4 Save in shift register
+COMMENT $07C6 Get next character
+COMMENT $07C8 Go back if not terminator
+COMMENT_LINE $07CA A=$81
+COMMENT $07CA disable RAMP, disable mux
+COMMENT $07CF Get text height
+COMMENT_LINE $07D2 now move down
+COMMENT $07D2 store 'height' to dac (y)
+COMMENT $07D4 disable RAMP, enable mux
+COMMENT $07D6 disable RAMP, disable mux
+COMMENT $07D8 zero dac
+COMMENT_LINE $07DA now only y set, x to zero
+COMMENT $07DC enable RAMP, disable mux
+COMMENT_LINE $07DE here we move down
+COMMENT $07E2 enable RAMP, enable mux
+COMMENT_LINE $07E4 tricky, cutting y off while
+COMMENT_LINE $07E4 integrating, saves one switch of mux
+COMMENT_LINE $07E4 still b=$81
+COMMENT $07E4 disable RAMP, disable mux
+COMMENT_LINE $07E9 now finnished moving down
+COMMENT $07E9 Send it to the D/A
+COMMENT $07ED enable RAMP, disable mux
+COMMENT $07EF delay needed for drawing
+COMMENT $07F4 Get bitmap from chargen table
+COMMENT $07F6 Save in shift register
+COMMENT $07F8 Get next character
+COMMENT $07FA Go back if not terminator
+COMMENT_LINE $07FC A=$81
+COMMENT $07FC disable RAMP, disable mux
+COMMENT $0800 T1->PB7 enabled
+COMMENT $0807 /BLANK low and /ZERO low
+COMMENT $080A Set the Text size
+COMMENT $0810 Print (c) Ronen Habot message
+COMMENT $0813 Call enhenced print routine
+COMMENT_LINE $0815 Moveto_d_7F start
+COMMENT_LINE $083D U=String pointer to first $81
+COMMENT $083F Clear D/A output
+COMMENT $0841 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $0848 enable mux, set y to 0 disable ramp
+COMMENT $084A disable RAMP, disable mux
+COMMENT $084E Get text width
+COMMENT $0858 Send it to the D/A
+COMMENT $085C enable RAMP, disable mux
+COMMENT $085E delay needed for drawing
+COMMENT $0863 Get bitmap from chargen table
+COMMENT $0865 Save in shift register
+COMMENT $0867 Get next character
+COMMENT $0869 Go back if not terminator
+COMMENT_LINE $086B A=$81
+COMMENT $086B disable RAMP, disable mux
+COMMENT $0870 Get text height
+COMMENT_LINE $0873 now move down
+COMMENT $0873 store 'height' to dac (y)
+COMMENT $0875 disable RAMP, enable mux
+COMMENT $0877 disable RAMP, disable mux
+COMMENT $0879 zero dac
+COMMENT_LINE $087B now only y set, x to zero
+COMMENT $087D enable RAMP, disable mux
+COMMENT $0881 Get first character
+COMMENT $0883 enable RAMP, enable mux
+COMMENT_LINE $0885 tricky, cutting y off while
+COMMENT_LINE $0885 integrating, saves one switch of mux
+COMMENT_LINE $0885 still B=$81
+COMMENT $0885 disable RAMP, disable mux
+COMMENT_LINE $088A now finnished moving down
+COMMENT $088A negative x speed
+COMMENT $088F enable RAMP, disable mux
+COMMENT $0892 delay needed for drawing
+COMMENT $0897 Get bitmap from chargen table
+COMMENT $0899 Save in shift register
+COMMENT $089B Get next character
+COMMENT $089D Go back if not terminator
+COMMENT_LINE $089F A=$81
+COMMENT $089F disable RAMP, disable mux
+COMMENT $08A4 Get text height
+COMMENT_LINE $08A7 now move down
+COMMENT $08A7 store 'height' to dac (y)
+COMMENT $08A9 disable RAMP, enable mux
+COMMENT $08AB disable RAMP, disable mux
+COMMENT $08AD zero dac
+COMMENT_LINE $08AF now only y set, x to zero
+COMMENT $08B1 enable RAMP, disable mux
+COMMENT_LINE $08B3 here we move down
+COMMENT $08B7 enable RAMP, enable mux
+COMMENT_LINE $08B9 tricky, cutting y off while
+COMMENT_LINE $08B9 integrating, saves one switch of mux
+COMMENT_LINE $08B9 still b=$81
+COMMENT $08B9 disable RAMP, disable mux
+COMMENT_LINE $08BE now finnished moving down
+COMMENT $08BE Send it to the D/A
+COMMENT $08C2 enable RAMP, disable mux
+COMMENT $08C4 delay needed for drawing
+COMMENT $08C9 Get bitmap from chargen table
+COMMENT $08CB Save in shift register
+COMMENT $08CD Get next character
+COMMENT $08CF Go back if not terminator
+COMMENT_LINE $08D1 A=$81
+COMMENT $08D1 disable RAMP, disable mux
+COMMENT $08D6 Get text height
+COMMENT_LINE $08D9 now move down
+COMMENT $08D9 store 'height' to dac (y)
+COMMENT $08DB disable RAMP, enable mux
+COMMENT $08DD disable RAMP, disable mux
+COMMENT $08DF zero dac
+COMMENT_LINE $08E1 now only y set, x to zero
+COMMENT $08E3 enable RAMP, disable mux
+COMMENT $08E7 Get first character
+COMMENT $08E9 enable RAMP, enable mux
+COMMENT_LINE $08EB tricky, cutting y off while
+COMMENT_LINE $08EB integrating, saves one switch of mux
+COMMENT_LINE $08EB still B=$81
+COMMENT $08EB disable RAMP, disable mux
+COMMENT_LINE $08F0 now finnished moving down
+COMMENT $08F0 negative x speed
+COMMENT $08F5 enable RAMP, disable mux
+COMMENT $08F8 delay needed for drawing
+COMMENT $08FD Get bitmap from chargen table
+COMMENT $08FF Save in shift register
+COMMENT $0901 Get next character
+COMMENT $0903 Go back if not terminator
+COMMENT_LINE $0905 A=$81
+COMMENT $0905 disable RAMP, disable mux
+COMMENT $090A Get text height
+COMMENT_LINE $090D now move down
+COMMENT $090D store 'height' to dac (y)
+COMMENT $090F disable RAMP, enable mux
+COMMENT $0911 disable RAMP, disable mux
+COMMENT $0913 zero dac
+COMMENT_LINE $0915 now only y set, x to zero
+COMMENT $0917 enable RAMP, disable mux
+COMMENT_LINE $0919 here we move down
+COMMENT $091D enable RAMP, enable mux
+COMMENT_LINE $091F tricky, cutting y off while
+COMMENT_LINE $091F integrating, saves one switch of mux
+COMMENT_LINE $091F still b=$81
+COMMENT $091F disable RAMP, disable mux
+COMMENT_LINE $0924 now finnished moving down
+COMMENT $0924 Send it to the D/A
+COMMENT $0928 enable RAMP, disable mux
+COMMENT $092A delay needed for drawing
+COMMENT $092F Get bitmap from chargen table
+COMMENT $0931 Save in shift register
+COMMENT $0933 Get next character
+COMMENT $0935 Go back if not terminator
+COMMENT_LINE $0937 A=$81
+COMMENT $0937 disable RAMP, disable mux
+COMMENT $093C Get text height
+COMMENT_LINE $093F now move down
+COMMENT $093F store 'height' to dac (y)
+COMMENT $0941 disable RAMP, enable mux
+COMMENT $0943 disable RAMP, disable mux
+COMMENT $0945 zero dac
+COMMENT_LINE $0947 now only y set, x to zero
+COMMENT $0949 enable RAMP, disable mux
+COMMENT $094D Get first character
+COMMENT $094F enable RAMP, enable mux
+COMMENT_LINE $0951 tricky, cutting y off while
+COMMENT_LINE $0951 integrating, saves one switch of mux
+COMMENT_LINE $0951 still B=$81
+COMMENT $0951 disable RAMP, disable mux
+COMMENT_LINE $0956 now finnished moving down
+COMMENT $0956 negative x speed
+COMMENT $095B enable RAMP, disable mux
+COMMENT $095E delay needed for drawing
+COMMENT $0963 Get bitmap from chargen table
+COMMENT $0965 Save in shift register
+COMMENT $0967 Get next character
+COMMENT $0969 Go back if not terminator
+COMMENT_LINE $096B A=$81
+COMMENT $096B disable RAMP, disable mux
+COMMENT $0970 Get text height
+COMMENT_LINE $0973 now move down
+COMMENT $0973 store 'height' to dac (y)
+COMMENT $0975 disable RAMP, enable mux
+COMMENT $0977 disable RAMP, disable mux
+COMMENT $0979 zero dac
+COMMENT_LINE $097B now only y set, x to zero
+COMMENT $097D enable RAMP, disable mux
+COMMENT_LINE $097F here we move down
+COMMENT $0983 enable RAMP, enable mux
+COMMENT_LINE $0985 tricky, cutting y off while
+COMMENT_LINE $0985 integrating, saves one switch of mux
+COMMENT_LINE $0985 still b=$81
+COMMENT $0985 disable RAMP, disable mux
+COMMENT_LINE $098A now finnished moving down
+COMMENT $098A Send it to the D/A
+COMMENT $098E enable RAMP, disable mux
+COMMENT $0990 delay needed for drawing
+COMMENT $0995 Get bitmap from chargen table
+COMMENT $0997 Save in shift register
+COMMENT $0999 Get next character
+COMMENT $099B Go back if not terminator
+COMMENT_LINE $099D A=$81
+COMMENT $099D disable RAMP, disable mux
+COMMENT $09A1 T1->PB7 enabled
+COMMENT $09A8 /BLANK low and /ZERO low
+COMMENT_LINE $09AB LDU   #l_RndOpenString2		;Print 1 - Vectrex controller, or,
+COMMENT_LINE $09AB PRINT_STR_YX                    ;Call enhenced print routine
+COMMENT_LINE $09AB LDU   #l_RndOpenString3		;Print 4 - Modified 2600 Paddle
+COMMENT_LINE $09AB PRINT_STR_YX                    ;Call enhenced print routine
+COMMENT_LINE $09AB Start plotting the dots for the circle
+COMMENT $09AB Must be here since it changes A
+COMMENT_LINE $09AE STB   <VIA_cntl         ;0x0C;
+COMMENT_LINE $09AE STA   <VIA_shift_reg    ;0x0A;
+COMMENT_LINE $09AE LDD   #0x0302;
+COMMENT_LINE $09AE CLR   <VIA_port_a       ;0x01;
+COMMENT_LINE $09AE STA   <VIA_port_b       ;0x00;
+COMMENT_LINE $09AE STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $09AE STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $09AE LDB   #0x01;
+COMMENT_LINE $09AE STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $09AE LDB    #0x00CC;
+COMMENT $09AE 0x0C;
+COMMENT $09B0 Initialize index for next plot
+COMMENT $09B2 Initialize the X dimention pointer
+COMMENT $09B5 Initialize the Y dimention pointer
+COMMENT $09B9 Store A in the stack
+COMMENT $09BB B <- Ypos of current dot
+COMMENT $09BD A <- Xpos of current dot
+COMMENT $09BF Move screen ptr according to the circle
+COMMENT $09C5 Must be here since it changes A
+COMMENT_LINE $09C8 STB   <VIA_cntl         ;0x0C;
+COMMENT_LINE $09C8 STA   <VIA_shift_reg    ;0x0A;
+COMMENT_LINE $09C8 LDD   #0x0302;
+COMMENT_LINE $09C8 CLR   <VIA_port_a       ;0x01;
+COMMENT_LINE $09C8 STA   <VIA_port_b       ;0x00;
+COMMENT_LINE $09C8 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $09C8 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $09C8 LDB   #0x01;
+COMMENT_LINE $09C8 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $09C8 LDB    #0x00CC;
+COMMENT $09C8 0x0C;
+COMMENT $09CA Restore A from stack
+COMMENT $09CC Change A to point to next point on circle
+COMMENT $09CE PointsNr updates every ~1 sec
+COMMENT $09D3 Get Buttons status
+COMMENT $09D6 If no button pressed,
+COMMENT $09D8 goto opening_loop...
+COMMENT_LINE $09DC l_CheckIfNormalPlay:
+COMMENT_LINE $09DC BITA  #$01
+COMMENT_LINE $09DC BEQ   l_CheckCntrl1Btn4                ;
+COMMENT_LINE $09DC CLR   RndJoyType                   ;ORIGINAL CONTROLLER selected...
+COMMENT_LINE $09DC JMP   l_RndSelectPlyrNum
+COMMENT_LINE $09DC l_CheckCntrl1Btn4:
+COMMENT_LINE $09DC BITA  #$08
+COMMENT_LINE $09DC BEQ   l_RndOpening_loop              ;
+COMMENT_LINE $09DC ;JSR   Joy_Analog                ;ATARI 2600 PADDLE selected...
+COMMENT_LINE $09DC ;LDA   Vec_Joy_1_X               ;A <- Xpos of joystick 1
+COMMENT_LINE $09DC ;;STA   rnd_LastAnalogVal
+COMMENT_LINE $09DC ;LDA   #$04
+COMMENT_LINE $09DC ;STA   RndJoyType
+COMMENT_LINE $09DC ;ADDA  #$30                      ;prepare the digit 4 for the menu
+COMMENT_LINE $09DC ;LDU   #menu_ram_str
+COMMENT_LINE $09DC ;STA   27,u                      ;store the digit 4 in the menu line
+COMMENT_LINE $09DC ;;;;;; TEMPORARY CODE ;;;;;
+COMMENT_LINE $09DC CLR   RndJoyType                ;ORIGINAL CONTROLLER selected...
+COMMENT_LINE $09DC ;;;;;; END OF TEMPORARY CODE;;;;;
+COMMENT_LINE $09DC l_RndSelectPlyrNum:
+COMMENT_LINE $09DC ;JSR   s_RndStopMusic            ;Turn intro music off...
+COMMENT_LINE $09DF LDA   Plyr1LevelDelay
+COMMENT $09DF Return to main program
+COMMENT_LINE $09E0 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $09E0 refresh_scrn - Responsible for the reset of the crt, settings of the scale
+COMMENT_LINE $09E0 factor and the real-time clock.
+COMMENT_LINE $09E0 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $09E0 Refresh the CRT
+COMMENT $09E3 Delay 30 cycles...
+COMMENT $09E8 Set scaling factor to 7f
+COMMENT $09EB Return to the caller
+COMMENT_LINE $09EC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $09EC INIT - Initialize all variables and data structures.
+COMMENT_LINE $09EC <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $09EE Vectrex controller on Port#1 default
+COMMENT $09F1 Clear real-clock counter
+COMMENT $09F4 Clear sound flag
+COMMENT $09F7 Clear sound flag
+COMMENT $09FA Clear Level sound flag
+COMMENT $09FD Clear Level
+COMMENT $0A00 Update level - NOVICE
+COMMENT $0A05 Make sure Plyr1 is displayed...
+COMMENT $0A08 Center position of Plyr1's paddle
+COMMENT $0A10 No Ball to display for plyr1
+COMMENT $0A13 Move in...
+COMMENT $0A2A No Ball to display for plyr2
+COMMENT $0A2D TEMP- move in...
+COMMENT $0A30 Set # of players to 1
+COMMENT $0A33 Return to the caller
+COMMENT_LINE $0A34 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $0A34 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $0A34 reset the crt
+COMMENT_LINE $0A37 RESET_0_REF;                    ;Call Reset0Ref macro
+COMMENT $0A3A Call enhenced print routine
+COMMENT_LINE $0A3C Moveto_d_7F start
+COMMENT_LINE $0A64 U=String pointer to first $81
+COMMENT $0A66 Clear D/A output
+COMMENT $0A68 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $0A6F enable mux, set y to 0 disable ramp
+COMMENT $0A71 disable RAMP, disable mux
+COMMENT $0A75 Get text width
+COMMENT $0A7F Send it to the D/A
+COMMENT $0A83 enable RAMP, disable mux
+COMMENT $0A85 delay needed for drawing
+COMMENT $0A8A Get bitmap from chargen table
+COMMENT $0A8C Save in shift register
+COMMENT $0A8E Get next character
+COMMENT $0A90 Go back if not terminator
+COMMENT_LINE $0A92 A=$81
+COMMENT $0A92 disable RAMP, disable mux
+COMMENT $0A97 Get text height
+COMMENT_LINE $0A9A now move down
+COMMENT $0A9A store 'height' to dac (y)
+COMMENT $0A9C disable RAMP, enable mux
+COMMENT $0A9E disable RAMP, disable mux
+COMMENT $0AA0 zero dac
+COMMENT_LINE $0AA2 now only y set, x to zero
+COMMENT $0AA4 enable RAMP, disable mux
+COMMENT $0AA8 Get first character
+COMMENT $0AAA enable RAMP, enable mux
+COMMENT_LINE $0AAC tricky, cutting y off while
+COMMENT_LINE $0AAC integrating, saves one switch of mux
+COMMENT_LINE $0AAC still B=$81
+COMMENT $0AAC disable RAMP, disable mux
+COMMENT_LINE $0AB1 now finnished moving down
+COMMENT $0AB1 negative x speed
+COMMENT $0AB6 enable RAMP, disable mux
+COMMENT $0AB9 delay needed for drawing
+COMMENT $0ABE Get bitmap from chargen table
+COMMENT $0AC0 Save in shift register
+COMMENT $0AC2 Get next character
+COMMENT $0AC4 Go back if not terminator
+COMMENT_LINE $0AC6 A=$81
+COMMENT $0AC6 disable RAMP, disable mux
+COMMENT $0ACB Get text height
+COMMENT_LINE $0ACE now move down
+COMMENT $0ACE store 'height' to dac (y)
+COMMENT $0AD0 disable RAMP, enable mux
+COMMENT $0AD2 disable RAMP, disable mux
+COMMENT $0AD4 zero dac
+COMMENT_LINE $0AD6 now only y set, x to zero
+COMMENT $0AD8 enable RAMP, disable mux
+COMMENT_LINE $0ADA here we move down
+COMMENT $0ADE enable RAMP, enable mux
+COMMENT_LINE $0AE0 tricky, cutting y off while
+COMMENT_LINE $0AE0 integrating, saves one switch of mux
+COMMENT_LINE $0AE0 still b=$81
+COMMENT $0AE0 disable RAMP, disable mux
+COMMENT_LINE $0AE5 now finnished moving down
+COMMENT $0AE5 Send it to the D/A
+COMMENT $0AE9 enable RAMP, disable mux
+COMMENT $0AEB delay needed for drawing
+COMMENT $0AF0 Get bitmap from chargen table
+COMMENT $0AF2 Save in shift register
+COMMENT $0AF4 Get next character
+COMMENT $0AF6 Go back if not terminator
+COMMENT_LINE $0AF8 A=$81
+COMMENT $0AF8 disable RAMP, disable mux
+COMMENT $0AFD Get text height
+COMMENT_LINE $0B00 now move down
+COMMENT $0B00 store 'height' to dac (y)
+COMMENT $0B02 disable RAMP, enable mux
+COMMENT $0B04 disable RAMP, disable mux
+COMMENT $0B06 zero dac
+COMMENT_LINE $0B08 now only y set, x to zero
+COMMENT $0B0A enable RAMP, disable mux
+COMMENT $0B0E Get first character
+COMMENT $0B10 enable RAMP, enable mux
+COMMENT_LINE $0B12 tricky, cutting y off while
+COMMENT_LINE $0B12 integrating, saves one switch of mux
+COMMENT_LINE $0B12 still B=$81
+COMMENT $0B12 disable RAMP, disable mux
+COMMENT_LINE $0B17 now finnished moving down
+COMMENT $0B17 negative x speed
+COMMENT $0B1C enable RAMP, disable mux
+COMMENT $0B1F delay needed for drawing
+COMMENT $0B24 Get bitmap from chargen table
+COMMENT $0B26 Save in shift register
+COMMENT $0B28 Get next character
+COMMENT $0B2A Go back if not terminator
+COMMENT_LINE $0B2C A=$81
+COMMENT $0B2C disable RAMP, disable mux
+COMMENT $0B31 Get text height
+COMMENT_LINE $0B34 now move down
+COMMENT $0B34 store 'height' to dac (y)
+COMMENT $0B36 disable RAMP, enable mux
+COMMENT $0B38 disable RAMP, disable mux
+COMMENT $0B3A zero dac
+COMMENT_LINE $0B3C now only y set, x to zero
+COMMENT $0B3E enable RAMP, disable mux
+COMMENT_LINE $0B40 here we move down
+COMMENT $0B44 enable RAMP, enable mux
+COMMENT_LINE $0B46 tricky, cutting y off while
+COMMENT_LINE $0B46 integrating, saves one switch of mux
+COMMENT_LINE $0B46 still b=$81
+COMMENT $0B46 disable RAMP, disable mux
+COMMENT_LINE $0B4B now finnished moving down
+COMMENT $0B4B Send it to the D/A
+COMMENT $0B4F enable RAMP, disable mux
+COMMENT $0B51 delay needed for drawing
+COMMENT $0B56 Get bitmap from chargen table
+COMMENT $0B58 Save in shift register
+COMMENT $0B5A Get next character
+COMMENT $0B5C Go back if not terminator
+COMMENT_LINE $0B5E A=$81
+COMMENT $0B5E disable RAMP, disable mux
+COMMENT $0B63 Get text height
+COMMENT_LINE $0B66 now move down
+COMMENT $0B66 store 'height' to dac (y)
+COMMENT $0B68 disable RAMP, enable mux
+COMMENT $0B6A disable RAMP, disable mux
+COMMENT $0B6C zero dac
+COMMENT_LINE $0B6E now only y set, x to zero
+COMMENT $0B70 enable RAMP, disable mux
+COMMENT $0B74 Get first character
+COMMENT $0B76 enable RAMP, enable mux
+COMMENT_LINE $0B78 tricky, cutting y off while
+COMMENT_LINE $0B78 integrating, saves one switch of mux
+COMMENT_LINE $0B78 still B=$81
+COMMENT $0B78 disable RAMP, disable mux
+COMMENT_LINE $0B7D now finnished moving down
+COMMENT $0B7D negative x speed
+COMMENT $0B82 enable RAMP, disable mux
+COMMENT $0B85 delay needed for drawing
+COMMENT $0B8A Get bitmap from chargen table
+COMMENT $0B8C Save in shift register
+COMMENT $0B8E Get next character
+COMMENT $0B90 Go back if not terminator
+COMMENT_LINE $0B92 A=$81
+COMMENT $0B92 disable RAMP, disable mux
+COMMENT $0B97 Get text height
+COMMENT_LINE $0B9A now move down
+COMMENT $0B9A store 'height' to dac (y)
+COMMENT $0B9C disable RAMP, enable mux
+COMMENT $0B9E disable RAMP, disable mux
+COMMENT $0BA0 zero dac
+COMMENT_LINE $0BA2 now only y set, x to zero
+COMMENT $0BA4 enable RAMP, disable mux
+COMMENT_LINE $0BA6 here we move down
+COMMENT $0BAA enable RAMP, enable mux
+COMMENT_LINE $0BAC tricky, cutting y off while
+COMMENT_LINE $0BAC integrating, saves one switch of mux
+COMMENT_LINE $0BAC still b=$81
+COMMENT $0BAC disable RAMP, disable mux
+COMMENT_LINE $0BB1 now finnished moving down
+COMMENT $0BB1 Send it to the D/A
+COMMENT $0BB5 enable RAMP, disable mux
+COMMENT $0BB7 delay needed for drawing
+COMMENT $0BBC Get bitmap from chargen table
+COMMENT $0BBE Save in shift register
+COMMENT $0BC0 Get next character
+COMMENT $0BC2 Go back if not terminator
+COMMENT_LINE $0BC4 A=$81
+COMMENT $0BC4 disable RAMP, disable mux
+COMMENT $0BC8 T1->PB7 enabled
+COMMENT $0BCF /BLANK low and /ZERO low
+COMMENT_LINE $0BD2 RESET_0_REF;                    ;Call Reset0Ref macro
+COMMENT $0BD5 Call enhenced print routine
+COMMENT_LINE $0BD7 Moveto_d_7F start
+COMMENT_LINE $0BFF U=String pointer to first $81
+COMMENT $0C01 Clear D/A output
+COMMENT $0C03 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $0C0A enable mux, set y to 0 disable ramp
+COMMENT $0C0C disable RAMP, disable mux
+COMMENT $0C10 Get text width
+COMMENT $0C1A Send it to the D/A
+COMMENT $0C1E enable RAMP, disable mux
+COMMENT $0C20 delay needed for drawing
+COMMENT $0C25 Get bitmap from chargen table
+COMMENT $0C27 Save in shift register
+COMMENT $0C29 Get next character
+COMMENT $0C2B Go back if not terminator
+COMMENT_LINE $0C2D A=$81
+COMMENT $0C2D disable RAMP, disable mux
+COMMENT $0C32 Get text height
+COMMENT_LINE $0C35 now move down
+COMMENT $0C35 store 'height' to dac (y)
+COMMENT $0C37 disable RAMP, enable mux
+COMMENT $0C39 disable RAMP, disable mux
+COMMENT $0C3B zero dac
+COMMENT_LINE $0C3D now only y set, x to zero
+COMMENT $0C3F enable RAMP, disable mux
+COMMENT $0C43 Get first character
+COMMENT $0C45 enable RAMP, enable mux
+COMMENT_LINE $0C47 tricky, cutting y off while
+COMMENT_LINE $0C47 integrating, saves one switch of mux
+COMMENT_LINE $0C47 still B=$81
+COMMENT $0C47 disable RAMP, disable mux
+COMMENT_LINE $0C4C now finnished moving down
+COMMENT $0C4C negative x speed
+COMMENT $0C51 enable RAMP, disable mux
+COMMENT $0C54 delay needed for drawing
+COMMENT $0C59 Get bitmap from chargen table
+COMMENT $0C5B Save in shift register
+COMMENT $0C5D Get next character
+COMMENT $0C5F Go back if not terminator
+COMMENT_LINE $0C61 A=$81
+COMMENT $0C61 disable RAMP, disable mux
+COMMENT $0C66 Get text height
+COMMENT_LINE $0C69 now move down
+COMMENT $0C69 store 'height' to dac (y)
+COMMENT $0C6B disable RAMP, enable mux
+COMMENT $0C6D disable RAMP, disable mux
+COMMENT $0C6F zero dac
+COMMENT_LINE $0C71 now only y set, x to zero
+COMMENT $0C73 enable RAMP, disable mux
+COMMENT_LINE $0C75 here we move down
+COMMENT $0C79 enable RAMP, enable mux
+COMMENT_LINE $0C7B tricky, cutting y off while
+COMMENT_LINE $0C7B integrating, saves one switch of mux
+COMMENT_LINE $0C7B still b=$81
+COMMENT $0C7B disable RAMP, disable mux
+COMMENT_LINE $0C80 now finnished moving down
+COMMENT $0C80 Send it to the D/A
+COMMENT $0C84 enable RAMP, disable mux
+COMMENT $0C86 delay needed for drawing
+COMMENT $0C8B Get bitmap from chargen table
+COMMENT $0C8D Save in shift register
+COMMENT $0C8F Get next character
+COMMENT $0C91 Go back if not terminator
+COMMENT_LINE $0C93 A=$81
+COMMENT $0C93 disable RAMP, disable mux
+COMMENT $0C98 Get text height
+COMMENT_LINE $0C9B now move down
+COMMENT $0C9B store 'height' to dac (y)
+COMMENT $0C9D disable RAMP, enable mux
+COMMENT $0C9F disable RAMP, disable mux
+COMMENT $0CA1 zero dac
+COMMENT_LINE $0CA3 now only y set, x to zero
+COMMENT $0CA5 enable RAMP, disable mux
+COMMENT $0CA9 Get first character
+COMMENT $0CAB enable RAMP, enable mux
+COMMENT_LINE $0CAD tricky, cutting y off while
+COMMENT_LINE $0CAD integrating, saves one switch of mux
+COMMENT_LINE $0CAD still B=$81
+COMMENT $0CAD disable RAMP, disable mux
+COMMENT_LINE $0CB2 now finnished moving down
+COMMENT $0CB2 negative x speed
+COMMENT $0CB7 enable RAMP, disable mux
+COMMENT $0CBA delay needed for drawing
+COMMENT $0CBF Get bitmap from chargen table
+COMMENT $0CC1 Save in shift register
+COMMENT $0CC3 Get next character
+COMMENT $0CC5 Go back if not terminator
+COMMENT_LINE $0CC7 A=$81
+COMMENT $0CC7 disable RAMP, disable mux
+COMMENT $0CCC Get text height
+COMMENT_LINE $0CCF now move down
+COMMENT $0CCF store 'height' to dac (y)
+COMMENT $0CD1 disable RAMP, enable mux
+COMMENT $0CD3 disable RAMP, disable mux
+COMMENT $0CD5 zero dac
+COMMENT_LINE $0CD7 now only y set, x to zero
+COMMENT $0CD9 enable RAMP, disable mux
+COMMENT_LINE $0CDB here we move down
+COMMENT $0CDF enable RAMP, enable mux
+COMMENT_LINE $0CE1 tricky, cutting y off while
+COMMENT_LINE $0CE1 integrating, saves one switch of mux
+COMMENT_LINE $0CE1 still b=$81
+COMMENT $0CE1 disable RAMP, disable mux
+COMMENT_LINE $0CE6 now finnished moving down
+COMMENT $0CE6 Send it to the D/A
+COMMENT $0CEA enable RAMP, disable mux
+COMMENT $0CEC delay needed for drawing
+COMMENT $0CF1 Get bitmap from chargen table
+COMMENT $0CF3 Save in shift register
+COMMENT $0CF5 Get next character
+COMMENT $0CF7 Go back if not terminator
+COMMENT_LINE $0CF9 A=$81
+COMMENT $0CF9 disable RAMP, disable mux
+COMMENT $0CFE Get text height
+COMMENT_LINE $0D01 now move down
+COMMENT $0D01 store 'height' to dac (y)
+COMMENT $0D03 disable RAMP, enable mux
+COMMENT $0D05 disable RAMP, disable mux
+COMMENT $0D07 zero dac
+COMMENT_LINE $0D09 now only y set, x to zero
+COMMENT $0D0B enable RAMP, disable mux
+COMMENT $0D0F Get first character
+COMMENT $0D11 enable RAMP, enable mux
+COMMENT_LINE $0D13 tricky, cutting y off while
+COMMENT_LINE $0D13 integrating, saves one switch of mux
+COMMENT_LINE $0D13 still B=$81
+COMMENT $0D13 disable RAMP, disable mux
+COMMENT_LINE $0D18 now finnished moving down
+COMMENT $0D18 negative x speed
+COMMENT $0D1D enable RAMP, disable mux
+COMMENT $0D20 delay needed for drawing
+COMMENT $0D25 Get bitmap from chargen table
+COMMENT $0D27 Save in shift register
+COMMENT $0D29 Get next character
+COMMENT $0D2B Go back if not terminator
+COMMENT_LINE $0D2D A=$81
+COMMENT $0D2D disable RAMP, disable mux
+COMMENT $0D32 Get text height
+COMMENT_LINE $0D35 now move down
+COMMENT $0D35 store 'height' to dac (y)
+COMMENT $0D37 disable RAMP, enable mux
+COMMENT $0D39 disable RAMP, disable mux
+COMMENT $0D3B zero dac
+COMMENT_LINE $0D3D now only y set, x to zero
+COMMENT $0D3F enable RAMP, disable mux
+COMMENT_LINE $0D41 here we move down
+COMMENT $0D45 enable RAMP, enable mux
+COMMENT_LINE $0D47 tricky, cutting y off while
+COMMENT_LINE $0D47 integrating, saves one switch of mux
+COMMENT_LINE $0D47 still b=$81
+COMMENT $0D47 disable RAMP, disable mux
+COMMENT_LINE $0D4C now finnished moving down
+COMMENT $0D4C Send it to the D/A
+COMMENT $0D50 enable RAMP, disable mux
+COMMENT $0D52 delay needed for drawing
+COMMENT $0D57 Get bitmap from chargen table
+COMMENT $0D59 Save in shift register
+COMMENT $0D5B Get next character
+COMMENT $0D5D Go back if not terminator
+COMMENT_LINE $0D5F A=$81
+COMMENT $0D5F disable RAMP, disable mux
+COMMENT $0D63 T1->PB7 enabled
+COMMENT $0D6A /BLANK low and /ZERO low
+COMMENT_LINE $0D6D RESET_0_REF;                    ;Call Reset0Ref macro
+COMMENT $0D70 Call enhenced print routine
+COMMENT_LINE $0D72 Moveto_d_7F start
+COMMENT_LINE $0D9A U=String pointer to first $81
+COMMENT $0D9C Clear D/A output
+COMMENT $0D9E Shift reg mode = 110, T1 PB7 enabled
+COMMENT $0DA5 enable mux, set y to 0 disable ramp
+COMMENT $0DA7 disable RAMP, disable mux
+COMMENT $0DAB Get text width
+COMMENT $0DB5 Send it to the D/A
+COMMENT $0DB9 enable RAMP, disable mux
+COMMENT $0DBB delay needed for drawing
+COMMENT $0DC0 Get bitmap from chargen table
+COMMENT $0DC2 Save in shift register
+COMMENT $0DC4 Get next character
+COMMENT $0DC6 Go back if not terminator
+COMMENT_LINE $0DC8 A=$81
+COMMENT $0DC8 disable RAMP, disable mux
+COMMENT $0DCD Get text height
+COMMENT_LINE $0DD0 now move down
+COMMENT $0DD0 store 'height' to dac (y)
+COMMENT $0DD2 disable RAMP, enable mux
+COMMENT $0DD4 disable RAMP, disable mux
+COMMENT $0DD6 zero dac
+COMMENT_LINE $0DD8 now only y set, x to zero
+COMMENT $0DDA enable RAMP, disable mux
+COMMENT $0DDE Get first character
+COMMENT $0DE0 enable RAMP, enable mux
+COMMENT_LINE $0DE2 tricky, cutting y off while
+COMMENT_LINE $0DE2 integrating, saves one switch of mux
+COMMENT_LINE $0DE2 still B=$81
+COMMENT $0DE2 disable RAMP, disable mux
+COMMENT_LINE $0DE7 now finnished moving down
+COMMENT $0DE7 negative x speed
+COMMENT $0DEC enable RAMP, disable mux
+COMMENT $0DEF delay needed for drawing
+COMMENT $0DF4 Get bitmap from chargen table
+COMMENT $0DF6 Save in shift register
+COMMENT $0DF8 Get next character
+COMMENT $0DFA Go back if not terminator
+COMMENT_LINE $0DFC A=$81
+COMMENT $0DFC disable RAMP, disable mux
+COMMENT $0E01 Get text height
+COMMENT_LINE $0E04 now move down
+COMMENT $0E04 store 'height' to dac (y)
+COMMENT $0E06 disable RAMP, enable mux
+COMMENT $0E08 disable RAMP, disable mux
+COMMENT $0E0A zero dac
+COMMENT_LINE $0E0C now only y set, x to zero
+COMMENT $0E0E enable RAMP, disable mux
+COMMENT_LINE $0E10 here we move down
+COMMENT $0E14 enable RAMP, enable mux
+COMMENT_LINE $0E16 tricky, cutting y off while
+COMMENT_LINE $0E16 integrating, saves one switch of mux
+COMMENT_LINE $0E16 still b=$81
+COMMENT $0E16 disable RAMP, disable mux
+COMMENT_LINE $0E1B now finnished moving down
+COMMENT $0E1B Send it to the D/A
+COMMENT $0E1F enable RAMP, disable mux
+COMMENT $0E21 delay needed for drawing
+COMMENT $0E26 Get bitmap from chargen table
+COMMENT $0E28 Save in shift register
+COMMENT $0E2A Get next character
+COMMENT $0E2C Go back if not terminator
+COMMENT_LINE $0E2E A=$81
+COMMENT $0E2E disable RAMP, disable mux
+COMMENT $0E33 Get text height
+COMMENT_LINE $0E36 now move down
+COMMENT $0E36 store 'height' to dac (y)
+COMMENT $0E38 disable RAMP, enable mux
+COMMENT $0E3A disable RAMP, disable mux
+COMMENT $0E3C zero dac
+COMMENT_LINE $0E3E now only y set, x to zero
+COMMENT $0E40 enable RAMP, disable mux
+COMMENT $0E44 Get first character
+COMMENT $0E46 enable RAMP, enable mux
+COMMENT_LINE $0E48 tricky, cutting y off while
+COMMENT_LINE $0E48 integrating, saves one switch of mux
+COMMENT_LINE $0E48 still B=$81
+COMMENT $0E48 disable RAMP, disable mux
+COMMENT_LINE $0E4D now finnished moving down
+COMMENT $0E4D negative x speed
+COMMENT $0E52 enable RAMP, disable mux
+COMMENT $0E55 delay needed for drawing
+COMMENT $0E5A Get bitmap from chargen table
+COMMENT $0E5C Save in shift register
+COMMENT $0E5E Get next character
+COMMENT $0E60 Go back if not terminator
+COMMENT_LINE $0E62 A=$81
+COMMENT $0E62 disable RAMP, disable mux
+COMMENT $0E67 Get text height
+COMMENT_LINE $0E6A now move down
+COMMENT $0E6A store 'height' to dac (y)
+COMMENT $0E6C disable RAMP, enable mux
+COMMENT $0E6E disable RAMP, disable mux
+COMMENT $0E70 zero dac
+COMMENT_LINE $0E72 now only y set, x to zero
+COMMENT $0E74 enable RAMP, disable mux
+COMMENT_LINE $0E76 here we move down
+COMMENT $0E7A enable RAMP, enable mux
+COMMENT_LINE $0E7C tricky, cutting y off while
+COMMENT_LINE $0E7C integrating, saves one switch of mux
+COMMENT_LINE $0E7C still b=$81
+COMMENT $0E7C disable RAMP, disable mux
+COMMENT_LINE $0E81 now finnished moving down
+COMMENT $0E81 Send it to the D/A
+COMMENT $0E85 enable RAMP, disable mux
+COMMENT $0E87 delay needed for drawing
+COMMENT $0E8C Get bitmap from chargen table
+COMMENT $0E8E Save in shift register
+COMMENT $0E90 Get next character
+COMMENT $0E92 Go back if not terminator
+COMMENT_LINE $0E94 A=$81
+COMMENT $0E94 disable RAMP, disable mux
+COMMENT $0E99 Get text height
+COMMENT_LINE $0E9C now move down
+COMMENT $0E9C store 'height' to dac (y)
+COMMENT $0E9E disable RAMP, enable mux
+COMMENT $0EA0 disable RAMP, disable mux
+COMMENT $0EA2 zero dac
+COMMENT_LINE $0EA4 now only y set, x to zero
+COMMENT $0EA6 enable RAMP, disable mux
+COMMENT $0EAA Get first character
+COMMENT $0EAC enable RAMP, enable mux
+COMMENT_LINE $0EAE tricky, cutting y off while
+COMMENT_LINE $0EAE integrating, saves one switch of mux
+COMMENT_LINE $0EAE still B=$81
+COMMENT $0EAE disable RAMP, disable mux
+COMMENT_LINE $0EB3 now finnished moving down
+COMMENT $0EB3 negative x speed
+COMMENT $0EB8 enable RAMP, disable mux
+COMMENT $0EBB delay needed for drawing
+COMMENT $0EC0 Get bitmap from chargen table
+COMMENT $0EC2 Save in shift register
+COMMENT $0EC4 Get next character
+COMMENT $0EC6 Go back if not terminator
+COMMENT_LINE $0EC8 A=$81
+COMMENT $0EC8 disable RAMP, disable mux
+COMMENT $0ECD Get text height
+COMMENT_LINE $0ED0 now move down
+COMMENT $0ED0 store 'height' to dac (y)
+COMMENT $0ED2 disable RAMP, enable mux
+COMMENT $0ED4 disable RAMP, disable mux
+COMMENT $0ED6 zero dac
+COMMENT_LINE $0ED8 now only y set, x to zero
+COMMENT $0EDA enable RAMP, disable mux
+COMMENT_LINE $0EDC here we move down
+COMMENT $0EE0 enable RAMP, enable mux
+COMMENT_LINE $0EE2 tricky, cutting y off while
+COMMENT_LINE $0EE2 integrating, saves one switch of mux
+COMMENT_LINE $0EE2 still b=$81
+COMMENT $0EE2 disable RAMP, disable mux
+COMMENT_LINE $0EE7 now finnished moving down
+COMMENT $0EE7 Send it to the D/A
+COMMENT $0EEB enable RAMP, disable mux
+COMMENT $0EED delay needed for drawing
+COMMENT $0EF2 Get bitmap from chargen table
+COMMENT $0EF4 Save in shift register
+COMMENT $0EF6 Get next character
+COMMENT $0EF8 Go back if not terminator
+COMMENT_LINE $0EFA A=$81
+COMMENT $0EFA disable RAMP, disable mux
+COMMENT $0EFE T1->PB7 enabled
+COMMENT $0F05 /BLANK low and /ZERO low
+COMMENT $0F08 ;Call Reset0Ref macro
+COMMENT_LINE $0F0B STB   <VIA_cntl         ;0x0C;
+COMMENT_LINE $0F0B STA   <VIA_shift_reg    ;0x0A;
+COMMENT_LINE $0F0B LDD   #0x0302;
+COMMENT_LINE $0F0B CLR   <VIA_port_a       ;0x01;
+COMMENT_LINE $0F0B STA   <VIA_port_b       ;0x00;
+COMMENT_LINE $0F0B STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $0F0B STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $0F0B LDB   #0x01;
+COMMENT_LINE $0F0B STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $0F0B LDB    #0x00CC;
+COMMENT $0F0B 0x0C;
+COMMENT $0F10 Call enhenced print routine
+COMMENT_LINE $0F12 Moveto_d_7F start
+COMMENT_LINE $0F3A U=String pointer to first $81
+COMMENT $0F3C Clear D/A output
+COMMENT $0F3E Shift reg mode = 110, T1 PB7 enabled
+COMMENT $0F45 enable mux, set y to 0 disable ramp
+COMMENT $0F47 disable RAMP, disable mux
+COMMENT $0F4B Get text width
+COMMENT $0F55 Send it to the D/A
+COMMENT $0F59 enable RAMP, disable mux
+COMMENT $0F5B delay needed for drawing
+COMMENT $0F60 Get bitmap from chargen table
+COMMENT $0F62 Save in shift register
+COMMENT $0F64 Get next character
+COMMENT $0F66 Go back if not terminator
+COMMENT_LINE $0F68 A=$81
+COMMENT $0F68 disable RAMP, disable mux
+COMMENT $0F6D Get text height
+COMMENT_LINE $0F70 now move down
+COMMENT $0F70 store 'height' to dac (y)
+COMMENT $0F72 disable RAMP, enable mux
+COMMENT $0F74 disable RAMP, disable mux
+COMMENT $0F76 zero dac
+COMMENT_LINE $0F78 now only y set, x to zero
+COMMENT $0F7A enable RAMP, disable mux
+COMMENT $0F7E Get first character
+COMMENT $0F80 enable RAMP, enable mux
+COMMENT_LINE $0F82 tricky, cutting y off while
+COMMENT_LINE $0F82 integrating, saves one switch of mux
+COMMENT_LINE $0F82 still B=$81
+COMMENT $0F82 disable RAMP, disable mux
+COMMENT_LINE $0F87 now finnished moving down
+COMMENT $0F87 negative x speed
+COMMENT $0F8C enable RAMP, disable mux
+COMMENT $0F8F delay needed for drawing
+COMMENT $0F94 Get bitmap from chargen table
+COMMENT $0F96 Save in shift register
+COMMENT $0F98 Get next character
+COMMENT $0F9A Go back if not terminator
+COMMENT_LINE $0F9C A=$81
+COMMENT $0F9C disable RAMP, disable mux
+COMMENT $0FA1 Get text height
+COMMENT_LINE $0FA4 now move down
+COMMENT $0FA4 store 'height' to dac (y)
+COMMENT $0FA6 disable RAMP, enable mux
+COMMENT $0FA8 disable RAMP, disable mux
+COMMENT $0FAA zero dac
+COMMENT_LINE $0FAC now only y set, x to zero
+COMMENT $0FAE enable RAMP, disable mux
+COMMENT_LINE $0FB0 here we move down
+COMMENT $0FB4 enable RAMP, enable mux
+COMMENT_LINE $0FB6 tricky, cutting y off while
+COMMENT_LINE $0FB6 integrating, saves one switch of mux
+COMMENT_LINE $0FB6 still b=$81
+COMMENT $0FB6 disable RAMP, disable mux
+COMMENT_LINE $0FBB now finnished moving down
+COMMENT $0FBB Send it to the D/A
+COMMENT $0FBF enable RAMP, disable mux
+COMMENT $0FC1 delay needed for drawing
+COMMENT $0FC6 Get bitmap from chargen table
+COMMENT $0FC8 Save in shift register
+COMMENT $0FCA Get next character
+COMMENT $0FCC Go back if not terminator
+COMMENT_LINE $0FCE A=$81
+COMMENT $0FCE disable RAMP, disable mux
+COMMENT $0FD3 Get text height
+COMMENT_LINE $0FD6 now move down
+COMMENT $0FD6 store 'height' to dac (y)
+COMMENT $0FD8 disable RAMP, enable mux
+COMMENT $0FDA disable RAMP, disable mux
+COMMENT $0FDC zero dac
+COMMENT_LINE $0FDE now only y set, x to zero
+COMMENT $0FE0 enable RAMP, disable mux
+COMMENT $0FE4 Get first character
+COMMENT $0FE6 enable RAMP, enable mux
+COMMENT_LINE $0FE8 tricky, cutting y off while
+COMMENT_LINE $0FE8 integrating, saves one switch of mux
+COMMENT_LINE $0FE8 still B=$81
+COMMENT $0FE8 disable RAMP, disable mux
+COMMENT_LINE $0FED now finnished moving down
+COMMENT $0FED negative x speed
+COMMENT $0FF2 enable RAMP, disable mux
+COMMENT $0FF5 delay needed for drawing
+COMMENT $0FFA Get bitmap from chargen table
+COMMENT $0FFC Save in shift register
+COMMENT $0FFE Get next character
+COMMENT $1000 Go back if not terminator
+COMMENT_LINE $1002 A=$81
+COMMENT $1002 disable RAMP, disable mux
+COMMENT $1007 Get text height
+COMMENT_LINE $100A now move down
+COMMENT $100A store 'height' to dac (y)
+COMMENT $100C disable RAMP, enable mux
+COMMENT $100E disable RAMP, disable mux
+COMMENT $1010 zero dac
+COMMENT_LINE $1012 now only y set, x to zero
+COMMENT $1014 enable RAMP, disable mux
+COMMENT_LINE $1016 here we move down
+COMMENT $101A enable RAMP, enable mux
+COMMENT_LINE $101C tricky, cutting y off while
+COMMENT_LINE $101C integrating, saves one switch of mux
+COMMENT_LINE $101C still b=$81
+COMMENT $101C disable RAMP, disable mux
+COMMENT_LINE $1021 now finnished moving down
+COMMENT $1021 Send it to the D/A
+COMMENT $1025 enable RAMP, disable mux
+COMMENT $1027 delay needed for drawing
+COMMENT $102C Get bitmap from chargen table
+COMMENT $102E Save in shift register
+COMMENT $1030 Get next character
+COMMENT $1032 Go back if not terminator
+COMMENT_LINE $1034 A=$81
+COMMENT $1034 disable RAMP, disable mux
+COMMENT $1039 Get text height
+COMMENT_LINE $103C now move down
+COMMENT $103C store 'height' to dac (y)
+COMMENT $103E disable RAMP, enable mux
+COMMENT $1040 disable RAMP, disable mux
+COMMENT $1042 zero dac
+COMMENT_LINE $1044 now only y set, x to zero
+COMMENT $1046 enable RAMP, disable mux
+COMMENT $104A Get first character
+COMMENT $104C enable RAMP, enable mux
+COMMENT_LINE $104E tricky, cutting y off while
+COMMENT_LINE $104E integrating, saves one switch of mux
+COMMENT_LINE $104E still B=$81
+COMMENT $104E disable RAMP, disable mux
+COMMENT_LINE $1053 now finnished moving down
+COMMENT $1053 negative x speed
+COMMENT $1058 enable RAMP, disable mux
+COMMENT $105B delay needed for drawing
+COMMENT $1060 Get bitmap from chargen table
+COMMENT $1062 Save in shift register
+COMMENT $1064 Get next character
+COMMENT $1066 Go back if not terminator
+COMMENT_LINE $1068 A=$81
+COMMENT $1068 disable RAMP, disable mux
+COMMENT $106D Get text height
+COMMENT_LINE $1070 now move down
+COMMENT $1070 store 'height' to dac (y)
+COMMENT $1072 disable RAMP, enable mux
+COMMENT $1074 disable RAMP, disable mux
+COMMENT $1076 zero dac
+COMMENT_LINE $1078 now only y set, x to zero
+COMMENT $107A enable RAMP, disable mux
+COMMENT_LINE $107C here we move down
+COMMENT $1080 enable RAMP, enable mux
+COMMENT_LINE $1082 tricky, cutting y off while
+COMMENT_LINE $1082 integrating, saves one switch of mux
+COMMENT_LINE $1082 still b=$81
+COMMENT $1082 disable RAMP, disable mux
+COMMENT_LINE $1087 now finnished moving down
+COMMENT $1087 Send it to the D/A
+COMMENT $108B enable RAMP, disable mux
+COMMENT $108D delay needed for drawing
+COMMENT $1092 Get bitmap from chargen table
+COMMENT $1094 Save in shift register
+COMMENT $1096 Get next character
+COMMENT $1098 Go back if not terminator
+COMMENT_LINE $109A A=$81
+COMMENT $109A disable RAMP, disable mux
+COMMENT $109E T1->PB7 enabled
+COMMENT $10A5 /BLANK low and /ZERO low
+COMMENT $10A8 Get Buttons status
+COMMENT $10AB If no button pressed,
+COMMENT $10AD goto opening_loop...
+COMMENT $10B5 Delay of Novice level...
+COMMENT $10BF Delay of intermidiate level...
+COMMENT $10C4 So - it is level 2...
+COMMENT_LINE $10CC BEQ   s_RndSelGameType_loop	;Nothing else to check, keep looping
+COMMENT $10CE Delay of Novice level...
+COMMENT_LINE $10D6 ; At this point check for Controller #2 buttons. If pressed, Atari
+COMMENT_LINE $10D6 ; Driving controller is connected at Port #1...
+COMMENT $10DC Vectrex controller on Port#1 default
+COMMENT $10DF Delay of Novice level...
+COMMENT $10EB Vectrex controller on Port#1 default
+COMMENT $10EE Delay of intermidiate level...
+COMMENT $10F3 So - it is level 2...
+COMMENT $10FB Nothing else to check, keep looping
+COMMENT $1101 Vectrex controller on Port#1 default
+COMMENT $1104 Delay of Novice level...
+COMMENT_LINE $110D >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $110D s_RndDrawPlyr1Ball -
+COMMENT_LINE $110D <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $110D Check whether Ball should be displayed
+COMMENT $1112 Center the beam
+COMMENT $1115 D <- ball coordinates
+COMMENT $1118 Move beam to D
+COMMENT $111B X<- Address of ball vector list
+COMMENT $111E Draw the ball
+COMMENT $1121 Indicate Plyr1
+COMMENT_LINE $1122 LDB   #$02			;Indicate ball speed
+COMMENT $1122 Calculate next coordinates of ball
+COMMENT $1125 return to caller
+COMMENT_LINE $1126 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $1126 s_PlyrBallMove - Moves (the pointers of) the Ball asociated with each player.
+COMMENT_LINE $1126 A -> Plyr Nr.
+COMMENT_LINE $1126 B -> Plyr Ball speed.
+COMMENT_LINE $1126 Plyr1BallStart(Y,X)
+COMMENT_LINE $1126 Plyr1BallEnd(Y,X)
+COMMENT_LINE $1126 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $1126 TIKS for delay (# of refresh cycles)
+COMMENT $113E Now, D contains the values for ball movement
+COMMENT_LINE $1143 Calculate next Ypos and Xpos of the ball
+COMMENT_LINE $1162 Check if hit a destination
+COMMENT $1167 D gets current ball position
+COMMENT $116A A contains the actual R (distance from [0,0])
+COMMENT $116F If A < PADDLE_RADIUS there is no hit...
+COMMENT $1171 If A > PADDLE_RADIUS+13 the player missed for sure!
+COMMENT_LINE $1175 Now, the ball crosses the (invisible) circle that the paddle moves accross.
+COMMENT_LINE $1175 At this point in time, check if the paddle is near by... If it is, change
+COMMENT_LINE $1175 direction and keep playing, else, let the ball get out of the screen and have
+COMMENT_LINE $1175 a new round started.
+COMMENT $1178 ADjust index (signed way...)
+COMMENT $1182 Point to next entry in the table
+COMMENT $1183 Get left corner index of the paddle
+COMMENT $1185 Check if the current crossing point is within
+COMMENT_LINE $1188 the paddle's range (as specified by the l_PaddleHit
+COMMENT_LINE $1188 table)
+COMMENT $118A Point to next entry in the table
+COMMENT $118B Get right corner index of the paddle
+COMMENT $119C Point to next entry in the table
+COMMENT $119D Get left corner index of the paddle
+COMMENT $11A1 Check if the current crossing point is within
+COMMENT_LINE $11A4 the paddle's range (as specified by the l_PaddleHit
+COMMENT_LINE $11A4 table)
+COMMENT $11A6 Point to next entry in the table
+COMMENT $11A7 Get right corner index of the paddle
+COMMENT_LINE $11B2 ;Check if ball passed player's line first on Y and then on X
+COMMENT $11B2 Get current Ypos of the ball
+COMMENT $11B5 since ball moves outwards, check if next
+COMMENT $11B8 BallYpos would overflow. If so - player missed!
+COMMENT $11BA Get current Xpos of the ball
+COMMENT $11BD since ball moves outwards, check if next
+COMMENT $11C0 BallXpos would overflow. If so - player missed!
+COMMENT $11C2 Return to caller
+COMMENT $11C3 A <- Number of notes to play explosion sound
+COMMENT $11C5 Reload the explosion notes counter
+COMMENT $11CA Indicate main loop that Plyr1 missed!
+COMMENT $11CD Return to caller
+COMMENT $11CE Position of central Box/Circle
+COMMENT_LINE $11D5 LDD   #$2020			;Size of central Box
+COMMENT $11D5 Size of central Box
+COMMENT $11D8 Check if ball hit central Box/Circle
+COMMENT $11DB If Carry set, change ball direction
+COMMENT_LINE $11E2 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $11E2 s_ChangeBallDirection
+COMMENT_LINE $11E2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $11E2 If ball hit center, calculate the return path (make sure meets the paddle...) and,
+COMMENT_LINE $11E2 update (don't show yet)  score
+COMMENT $11E2 Check direction Flag
+COMMENT $11E5 If the ball moves outwards just change direction...
+COMMENT_LINE $11EA STB   TempValue1		;------ DEBUG -----
+COMMENT_LINE $11EA STA   TempValue2		;------ DEBUG -----
+COMMENT_LINE $11EA BRA   l_Plyr1UpdateDirectionFlag
+COMMENT $11EA X points to the randomize table
+COMMENT $11ED Calculate a new EndIndex...
+COMMENT $11F6 A Gets a random (valid offset) number
+COMMENT $1208 Get the original value and check out the sign
+COMMENT $1227 Mask numbers bigger than 63...
+COMMENT $1244 Now, D contains the values for ball movement
+COMMENT $1249 A Score increase
+COMMENT_LINE $124C LDA   #$01			;A Score increase
+COMMENT $124C X Pointer to Score Array in the RAM
+COMMENT $124F BIOS function to take care of the rest...
+COMMENT $1252 Free running counter for level monitoring
+COMMENT $1255 Check if still need to check level
+COMMENT $125D Read current value
+COMMENT $1260 Add +1
+COMMENT $1261 Mask bits 7 downto 1 (A could be 0 or 1)
+COMMENT $1263 Store back into memory
+COMMENT_LINE $1266 Prepare sound Flag
+COMMENT $1266 A is number of notes to play
+COMMENT $1268 Store it to the RAM
+COMMENT_LINE $126B Update persistance value (just in case where we are in Blink mode!...)
+COMMENT $1270 Return to caller
+COMMENT_LINE $1271 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1271 D contains YX pair of a given point, the result is the distance from (0,0) in
+COMMENT_LINE $1271 ACC A.
+COMMENT_LINE $1271 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $1271 Must use absolute values!
+COMMENT $1274 Mask irelevant bits
+COMMENT $1276 High Nibble of A contains MSB value of index
+COMMENT $1277 If not Zero calculte X
+COMMENT $1279 If Zero, turn to 0x10 to avoid too big jumps in R
+COMMENT $127B Mask irelevant bits
+COMMENT $127F High Nibble of A contains MSB value of index
+COMMENT $1283 A now is the index to the RadiusTbl
+COMMENT $1289 A now gets the radius value
+COMMENT_LINE $128C >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $128C A is begining index
+COMMENT_LINE $128C s_RndDrawCircle -
+COMMENT_LINE $128C <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $128C Initialize the X dimention pointer
+COMMENT $128F Initialize the Y dimention pointer
+COMMENT $1293 Store A in the stack
+COMMENT $1295 B <- Ypos of current dot
+COMMENT $1299 A <- Xpos of current dot
+COMMENT $129D Move screen ptr according to the circle
+COMMENT $12A3 Must be here since it changes A
+COMMENT_LINE $12A6 JSR   Intensity_5F              ;Set the intensity to $5F
+COMMENT $12A6 Restore A from stack
+COMMENT $12A8 Change A to point to next point on circle
+COMMENT $12AF Return to the caller
+COMMENT_LINE $12B0 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $12B0 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $12B3 Check if Blink mode...
+COMMENT $12B7 If Blink mode, check the drawing flag,
+COMMENT $12BA when cleared, don't draw paddle in this round...
+COMMENT $12BC Update the persistance of the paddle...
+COMMENT $12BF Must be here since it changes A,B...
+COMMENT $12CE Now, D contains the Y,X coordinates
+COMMENT_LINE $12D0 of the paddle
+COMMENT $12D3 Moving the pointer is done with 7F
+COMMENT_LINE $12D6 scaling factor.
+COMMENT_LINE $12D6 JSR   Dot_here			;This is for debug only!
+COMMENT $12D6 This is the rotation angle (x4)
+COMMENT $12D9 Divide by 2
+COMMENT $12DA Divide by 2 once more,
+COMMENT $12DB Length of vector list of the Paddle -1
+COMMENT $12DD X<- Address of paddle vector list
+COMMENT_LINE $12E0 needed to be drawn.
+COMMENT $12E0 U points to the rotated vector list result
+COMMENT $12E3 Execute rotation based on previous information.
+COMMENT_LINE $12E6 Draw the rotated paddle
+COMMENT $12E6 X<- Address of paddle vector list
+COMMENT $12E9 Number of vectors -1 to draw
+COMMENT $12EB Store for Draw_VL bios subroutine
+COMMENT $12EE Draw Player 1's paddle
+COMMENT_LINE $12F2 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $12F2 draw_background - This procedure draws the screen background based on a
+COMMENT_LINE $12F2 vector table defined at #bckgnd. This procedure is called
+COMMENT_LINE $12F2 every refresh cycle in order to keep the background always
+COMMENT_LINE $12F2 visible. The scaling factor here is = to $7F.
+COMMENT_LINE $12F2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $12F2 Set the intensity to $5F
+COMMENT $12F5 ;Must be here since it changes A
+COMMENT $12FC Make sure that PointsNr is a multiplication
+COMMENT_LINE $12FF of OPENING_CIR_DISTANCE, otherwise, only
+COMMENT_LINE $12FF this circle will be displayed!
+COMMENT_LINE $1302 DEBUG
+COMMENT $1302 ;Must be here since it changes A
+COMMENT $1308 Move pointer to the center
+COMMENT $130E This is for debug only!
+COMMENT $1311 Return to caller
+COMMENT_LINE $1312 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1312 print_info: This procedure is responsible for prinitng game info such as:
+COMMENT_LINE $1312 Score, High score, car speed, cars left etc.
+COMMENT_LINE $1312 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1315 Print "(n) - I" at the upper left corner
+COMMENT $1315 The hex value of "I"
+COMMENT $1317 Number of turns available to player 1
+COMMENT $131A XY position of the printout
+COMMENT $131D BIOS subroutine that take care of the rest...
+COMMENT_LINE $1320 Print Player1 current score
+COMMENT $1335 Call enhenced print routine
+COMMENT_LINE $1337 Moveto_d_7F start
+COMMENT_LINE $135F U=String pointer to first $81
+COMMENT $1361 Clear D/A output
+COMMENT $1363 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $136A enable mux, set y to 0 disable ramp
+COMMENT $136C disable RAMP, disable mux
+COMMENT $1370 Get text width
+COMMENT $137A Send it to the D/A
+COMMENT $137E enable RAMP, disable mux
+COMMENT $1380 delay needed for drawing
+COMMENT $1385 Get bitmap from chargen table
+COMMENT $1387 Save in shift register
+COMMENT $1389 Get next character
+COMMENT $138B Go back if not terminator
+COMMENT_LINE $138D A=$81
+COMMENT $138D disable RAMP, disable mux
+COMMENT $1392 Get text height
+COMMENT_LINE $1395 now move down
+COMMENT $1395 store 'height' to dac (y)
+COMMENT $1397 disable RAMP, enable mux
+COMMENT $1399 disable RAMP, disable mux
+COMMENT $139B zero dac
+COMMENT_LINE $139D now only y set, x to zero
+COMMENT $139F enable RAMP, disable mux
+COMMENT $13A3 Get first character
+COMMENT $13A5 enable RAMP, enable mux
+COMMENT_LINE $13A7 tricky, cutting y off while
+COMMENT_LINE $13A7 integrating, saves one switch of mux
+COMMENT_LINE $13A7 still B=$81
+COMMENT $13A7 disable RAMP, disable mux
+COMMENT_LINE $13AC now finnished moving down
+COMMENT $13AC negative x speed
+COMMENT $13B1 enable RAMP, disable mux
+COMMENT $13B4 delay needed for drawing
+COMMENT $13B9 Get bitmap from chargen table
+COMMENT $13BB Save in shift register
+COMMENT $13BD Get next character
+COMMENT $13BF Go back if not terminator
+COMMENT_LINE $13C1 A=$81
+COMMENT $13C1 disable RAMP, disable mux
+COMMENT $13C6 Get text height
+COMMENT_LINE $13C9 now move down
+COMMENT $13C9 store 'height' to dac (y)
+COMMENT $13CB disable RAMP, enable mux
+COMMENT $13CD disable RAMP, disable mux
+COMMENT $13CF zero dac
+COMMENT_LINE $13D1 now only y set, x to zero
+COMMENT $13D3 enable RAMP, disable mux
+COMMENT_LINE $13D5 here we move down
+COMMENT $13D9 enable RAMP, enable mux
+COMMENT_LINE $13DB tricky, cutting y off while
+COMMENT_LINE $13DB integrating, saves one switch of mux
+COMMENT_LINE $13DB still b=$81
+COMMENT $13DB disable RAMP, disable mux
+COMMENT_LINE $13E0 now finnished moving down
+COMMENT $13E0 Send it to the D/A
+COMMENT $13E4 enable RAMP, disable mux
+COMMENT $13E6 delay needed for drawing
+COMMENT $13EB Get bitmap from chargen table
+COMMENT $13ED Save in shift register
+COMMENT $13EF Get next character
+COMMENT $13F1 Go back if not terminator
+COMMENT_LINE $13F3 A=$81
+COMMENT $13F3 disable RAMP, disable mux
+COMMENT $13F8 Get text height
+COMMENT_LINE $13FB now move down
+COMMENT $13FB store 'height' to dac (y)
+COMMENT $13FD disable RAMP, enable mux
+COMMENT $13FF disable RAMP, disable mux
+COMMENT $1401 zero dac
+COMMENT_LINE $1403 now only y set, x to zero
+COMMENT $1405 enable RAMP, disable mux
+COMMENT $1409 Get first character
+COMMENT $140B enable RAMP, enable mux
+COMMENT_LINE $140D tricky, cutting y off while
+COMMENT_LINE $140D integrating, saves one switch of mux
+COMMENT_LINE $140D still B=$81
+COMMENT $140D disable RAMP, disable mux
+COMMENT_LINE $1412 now finnished moving down
+COMMENT $1412 negative x speed
+COMMENT $1417 enable RAMP, disable mux
+COMMENT $141A delay needed for drawing
+COMMENT $141F Get bitmap from chargen table
+COMMENT $1421 Save in shift register
+COMMENT $1423 Get next character
+COMMENT $1425 Go back if not terminator
+COMMENT_LINE $1427 A=$81
+COMMENT $1427 disable RAMP, disable mux
+COMMENT $142C Get text height
+COMMENT_LINE $142F now move down
+COMMENT $142F store 'height' to dac (y)
+COMMENT $1431 disable RAMP, enable mux
+COMMENT $1433 disable RAMP, disable mux
+COMMENT $1435 zero dac
+COMMENT_LINE $1437 now only y set, x to zero
+COMMENT $1439 enable RAMP, disable mux
+COMMENT_LINE $143B here we move down
+COMMENT $143F enable RAMP, enable mux
+COMMENT_LINE $1441 tricky, cutting y off while
+COMMENT_LINE $1441 integrating, saves one switch of mux
+COMMENT_LINE $1441 still b=$81
+COMMENT $1441 disable RAMP, disable mux
+COMMENT_LINE $1446 now finnished moving down
+COMMENT $1446 Send it to the D/A
+COMMENT $144A enable RAMP, disable mux
+COMMENT $144C delay needed for drawing
+COMMENT $1451 Get bitmap from chargen table
+COMMENT $1453 Save in shift register
+COMMENT $1455 Get next character
+COMMENT $1457 Go back if not terminator
+COMMENT_LINE $1459 A=$81
+COMMENT $1459 disable RAMP, disable mux
+COMMENT $145E Get text height
+COMMENT_LINE $1461 now move down
+COMMENT $1461 store 'height' to dac (y)
+COMMENT $1463 disable RAMP, enable mux
+COMMENT $1465 disable RAMP, disable mux
+COMMENT $1467 zero dac
+COMMENT_LINE $1469 now only y set, x to zero
+COMMENT $146B enable RAMP, disable mux
+COMMENT $146F Get first character
+COMMENT $1471 enable RAMP, enable mux
+COMMENT_LINE $1473 tricky, cutting y off while
+COMMENT_LINE $1473 integrating, saves one switch of mux
+COMMENT_LINE $1473 still B=$81
+COMMENT $1473 disable RAMP, disable mux
+COMMENT_LINE $1478 now finnished moving down
+COMMENT $1478 negative x speed
+COMMENT $147D enable RAMP, disable mux
+COMMENT $1480 delay needed for drawing
+COMMENT $1485 Get bitmap from chargen table
+COMMENT $1487 Save in shift register
+COMMENT $1489 Get next character
+COMMENT $148B Go back if not terminator
+COMMENT_LINE $148D A=$81
+COMMENT $148D disable RAMP, disable mux
+COMMENT $1492 Get text height
+COMMENT_LINE $1495 now move down
+COMMENT $1495 store 'height' to dac (y)
+COMMENT $1497 disable RAMP, enable mux
+COMMENT $1499 disable RAMP, disable mux
+COMMENT $149B zero dac
+COMMENT_LINE $149D now only y set, x to zero
+COMMENT $149F enable RAMP, disable mux
+COMMENT_LINE $14A1 here we move down
+COMMENT $14A5 enable RAMP, enable mux
+COMMENT_LINE $14A7 tricky, cutting y off while
+COMMENT_LINE $14A7 integrating, saves one switch of mux
+COMMENT_LINE $14A7 still b=$81
+COMMENT $14A7 disable RAMP, disable mux
+COMMENT_LINE $14AC now finnished moving down
+COMMENT $14AC Send it to the D/A
+COMMENT $14B0 enable RAMP, disable mux
+COMMENT $14B2 delay needed for drawing
+COMMENT $14B7 Get bitmap from chargen table
+COMMENT $14B9 Save in shift register
+COMMENT $14BB Get next character
+COMMENT $14BD Go back if not terminator
+COMMENT_LINE $14BF A=$81
+COMMENT $14BF disable RAMP, disable mux
+COMMENT $14C3 T1->PB7 enabled
+COMMENT $14CA /BLANK low and /ZERO low
+COMMENT $14D9 Call enhenced print routine
+COMMENT_LINE $14DB Moveto_d_7F start
+COMMENT_LINE $1503 U=String pointer to first $81
+COMMENT $1505 Clear D/A output
+COMMENT $1507 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $150E enable mux, set y to 0 disable ramp
+COMMENT $1510 disable RAMP, disable mux
+COMMENT $1514 Get text width
+COMMENT $151E Send it to the D/A
+COMMENT $1522 enable RAMP, disable mux
+COMMENT $1524 delay needed for drawing
+COMMENT $1529 Get bitmap from chargen table
+COMMENT $152B Save in shift register
+COMMENT $152D Get next character
+COMMENT $152F Go back if not terminator
+COMMENT_LINE $1531 A=$81
+COMMENT $1531 disable RAMP, disable mux
+COMMENT $1536 Get text height
+COMMENT_LINE $1539 now move down
+COMMENT $1539 store 'height' to dac (y)
+COMMENT $153B disable RAMP, enable mux
+COMMENT $153D disable RAMP, disable mux
+COMMENT $153F zero dac
+COMMENT_LINE $1541 now only y set, x to zero
+COMMENT $1543 enable RAMP, disable mux
+COMMENT $1547 Get first character
+COMMENT $1549 enable RAMP, enable mux
+COMMENT_LINE $154B tricky, cutting y off while
+COMMENT_LINE $154B integrating, saves one switch of mux
+COMMENT_LINE $154B still B=$81
+COMMENT $154B disable RAMP, disable mux
+COMMENT_LINE $1550 now finnished moving down
+COMMENT $1550 negative x speed
+COMMENT $1555 enable RAMP, disable mux
+COMMENT $1558 delay needed for drawing
+COMMENT $155D Get bitmap from chargen table
+COMMENT $155F Save in shift register
+COMMENT $1561 Get next character
+COMMENT $1563 Go back if not terminator
+COMMENT_LINE $1565 A=$81
+COMMENT $1565 disable RAMP, disable mux
+COMMENT $156A Get text height
+COMMENT_LINE $156D now move down
+COMMENT $156D store 'height' to dac (y)
+COMMENT $156F disable RAMP, enable mux
+COMMENT $1571 disable RAMP, disable mux
+COMMENT $1573 zero dac
+COMMENT_LINE $1575 now only y set, x to zero
+COMMENT $1577 enable RAMP, disable mux
+COMMENT_LINE $1579 here we move down
+COMMENT $157D enable RAMP, enable mux
+COMMENT_LINE $157F tricky, cutting y off while
+COMMENT_LINE $157F integrating, saves one switch of mux
+COMMENT_LINE $157F still b=$81
+COMMENT $157F disable RAMP, disable mux
+COMMENT_LINE $1584 now finnished moving down
+COMMENT $1584 Send it to the D/A
+COMMENT $1588 enable RAMP, disable mux
+COMMENT $158A delay needed for drawing
+COMMENT $158F Get bitmap from chargen table
+COMMENT $1591 Save in shift register
+COMMENT $1593 Get next character
+COMMENT $1595 Go back if not terminator
+COMMENT_LINE $1597 A=$81
+COMMENT $1597 disable RAMP, disable mux
+COMMENT $159C Get text height
+COMMENT_LINE $159F now move down
+COMMENT $159F store 'height' to dac (y)
+COMMENT $15A1 disable RAMP, enable mux
+COMMENT $15A3 disable RAMP, disable mux
+COMMENT $15A5 zero dac
+COMMENT_LINE $15A7 now only y set, x to zero
+COMMENT $15A9 enable RAMP, disable mux
+COMMENT $15AD Get first character
+COMMENT $15AF enable RAMP, enable mux
+COMMENT_LINE $15B1 tricky, cutting y off while
+COMMENT_LINE $15B1 integrating, saves one switch of mux
+COMMENT_LINE $15B1 still B=$81
+COMMENT $15B1 disable RAMP, disable mux
+COMMENT_LINE $15B6 now finnished moving down
+COMMENT $15B6 negative x speed
+COMMENT $15BB enable RAMP, disable mux
+COMMENT $15BE delay needed for drawing
+COMMENT $15C3 Get bitmap from chargen table
+COMMENT $15C5 Save in shift register
+COMMENT $15C7 Get next character
+COMMENT $15C9 Go back if not terminator
+COMMENT_LINE $15CB A=$81
+COMMENT $15CB disable RAMP, disable mux
+COMMENT $15D0 Get text height
+COMMENT_LINE $15D3 now move down
+COMMENT $15D3 store 'height' to dac (y)
+COMMENT $15D5 disable RAMP, enable mux
+COMMENT $15D7 disable RAMP, disable mux
+COMMENT $15D9 zero dac
+COMMENT_LINE $15DB now only y set, x to zero
+COMMENT $15DD enable RAMP, disable mux
+COMMENT_LINE $15DF here we move down
+COMMENT $15E3 enable RAMP, enable mux
+COMMENT_LINE $15E5 tricky, cutting y off while
+COMMENT_LINE $15E5 integrating, saves one switch of mux
+COMMENT_LINE $15E5 still b=$81
+COMMENT $15E5 disable RAMP, disable mux
+COMMENT_LINE $15EA now finnished moving down
+COMMENT $15EA Send it to the D/A
+COMMENT $15EE enable RAMP, disable mux
+COMMENT $15F0 delay needed for drawing
+COMMENT $15F5 Get bitmap from chargen table
+COMMENT $15F7 Save in shift register
+COMMENT $15F9 Get next character
+COMMENT $15FB Go back if not terminator
+COMMENT_LINE $15FD A=$81
+COMMENT $15FD disable RAMP, disable mux
+COMMENT $1602 Get text height
+COMMENT_LINE $1605 now move down
+COMMENT $1605 store 'height' to dac (y)
+COMMENT $1607 disable RAMP, enable mux
+COMMENT $1609 disable RAMP, disable mux
+COMMENT $160B zero dac
+COMMENT_LINE $160D now only y set, x to zero
+COMMENT $160F enable RAMP, disable mux
+COMMENT $1613 Get first character
+COMMENT $1615 enable RAMP, enable mux
+COMMENT_LINE $1617 tricky, cutting y off while
+COMMENT_LINE $1617 integrating, saves one switch of mux
+COMMENT_LINE $1617 still B=$81
+COMMENT $1617 disable RAMP, disable mux
+COMMENT_LINE $161C now finnished moving down
+COMMENT $161C negative x speed
+COMMENT $1621 enable RAMP, disable mux
+COMMENT $1624 delay needed for drawing
+COMMENT $1629 Get bitmap from chargen table
+COMMENT $162B Save in shift register
+COMMENT $162D Get next character
+COMMENT $162F Go back if not terminator
+COMMENT_LINE $1631 A=$81
+COMMENT $1631 disable RAMP, disable mux
+COMMENT $1636 Get text height
+COMMENT_LINE $1639 now move down
+COMMENT $1639 store 'height' to dac (y)
+COMMENT $163B disable RAMP, enable mux
+COMMENT $163D disable RAMP, disable mux
+COMMENT $163F zero dac
+COMMENT_LINE $1641 now only y set, x to zero
+COMMENT $1643 enable RAMP, disable mux
+COMMENT_LINE $1645 here we move down
+COMMENT $1649 enable RAMP, enable mux
+COMMENT_LINE $164B tricky, cutting y off while
+COMMENT_LINE $164B integrating, saves one switch of mux
+COMMENT_LINE $164B still b=$81
+COMMENT $164B disable RAMP, disable mux
+COMMENT_LINE $1650 now finnished moving down
+COMMENT $1650 Send it to the D/A
+COMMENT $1654 enable RAMP, disable mux
+COMMENT $1656 delay needed for drawing
+COMMENT $165B Get bitmap from chargen table
+COMMENT $165D Save in shift register
+COMMENT $165F Get next character
+COMMENT $1661 Go back if not terminator
+COMMENT_LINE $1663 A=$81
+COMMENT $1663 disable RAMP, disable mux
+COMMENT $1667 T1->PB7 enabled
+COMMENT $166E /BLANK low and /ZERO low
+COMMENT $167D Call enhenced print routine
+COMMENT_LINE $167F Moveto_d_7F start
+COMMENT_LINE $16A7 U=String pointer to first $81
+COMMENT $16A9 Clear D/A output
+COMMENT $16AB Shift reg mode = 110, T1 PB7 enabled
+COMMENT $16B2 enable mux, set y to 0 disable ramp
+COMMENT $16B4 disable RAMP, disable mux
+COMMENT $16B8 Get text width
+COMMENT $16C2 Send it to the D/A
+COMMENT $16C6 enable RAMP, disable mux
+COMMENT $16C8 delay needed for drawing
+COMMENT $16CD Get bitmap from chargen table
+COMMENT $16CF Save in shift register
+COMMENT $16D1 Get next character
+COMMENT $16D3 Go back if not terminator
+COMMENT_LINE $16D5 A=$81
+COMMENT $16D5 disable RAMP, disable mux
+COMMENT $16DA Get text height
+COMMENT_LINE $16DD now move down
+COMMENT $16DD store 'height' to dac (y)
+COMMENT $16DF disable RAMP, enable mux
+COMMENT $16E1 disable RAMP, disable mux
+COMMENT $16E3 zero dac
+COMMENT_LINE $16E5 now only y set, x to zero
+COMMENT $16E7 enable RAMP, disable mux
+COMMENT $16EB Get first character
+COMMENT $16ED enable RAMP, enable mux
+COMMENT_LINE $16EF tricky, cutting y off while
+COMMENT_LINE $16EF integrating, saves one switch of mux
+COMMENT_LINE $16EF still B=$81
+COMMENT $16EF disable RAMP, disable mux
+COMMENT_LINE $16F4 now finnished moving down
+COMMENT $16F4 negative x speed
+COMMENT $16F9 enable RAMP, disable mux
+COMMENT $16FC delay needed for drawing
+COMMENT $1701 Get bitmap from chargen table
+COMMENT $1703 Save in shift register
+COMMENT $1705 Get next character
+COMMENT $1707 Go back if not terminator
+COMMENT_LINE $1709 A=$81
+COMMENT $1709 disable RAMP, disable mux
+COMMENT $170E Get text height
+COMMENT_LINE $1711 now move down
+COMMENT $1711 store 'height' to dac (y)
+COMMENT $1713 disable RAMP, enable mux
+COMMENT $1715 disable RAMP, disable mux
+COMMENT $1717 zero dac
+COMMENT_LINE $1719 now only y set, x to zero
+COMMENT $171B enable RAMP, disable mux
+COMMENT_LINE $171D here we move down
+COMMENT $1721 enable RAMP, enable mux
+COMMENT_LINE $1723 tricky, cutting y off while
+COMMENT_LINE $1723 integrating, saves one switch of mux
+COMMENT_LINE $1723 still b=$81
+COMMENT $1723 disable RAMP, disable mux
+COMMENT_LINE $1728 now finnished moving down
+COMMENT $1728 Send it to the D/A
+COMMENT $172C enable RAMP, disable mux
+COMMENT $172E delay needed for drawing
+COMMENT $1733 Get bitmap from chargen table
+COMMENT $1735 Save in shift register
+COMMENT $1737 Get next character
+COMMENT $1739 Go back if not terminator
+COMMENT_LINE $173B A=$81
+COMMENT $173B disable RAMP, disable mux
+COMMENT $1740 Get text height
+COMMENT_LINE $1743 now move down
+COMMENT $1743 store 'height' to dac (y)
+COMMENT $1745 disable RAMP, enable mux
+COMMENT $1747 disable RAMP, disable mux
+COMMENT $1749 zero dac
+COMMENT_LINE $174B now only y set, x to zero
+COMMENT $174D enable RAMP, disable mux
+COMMENT $1751 Get first character
+COMMENT $1753 enable RAMP, enable mux
+COMMENT_LINE $1755 tricky, cutting y off while
+COMMENT_LINE $1755 integrating, saves one switch of mux
+COMMENT_LINE $1755 still B=$81
+COMMENT $1755 disable RAMP, disable mux
+COMMENT_LINE $175A now finnished moving down
+COMMENT $175A negative x speed
+COMMENT $175F enable RAMP, disable mux
+COMMENT $1762 delay needed for drawing
+COMMENT $1767 Get bitmap from chargen table
+COMMENT $1769 Save in shift register
+COMMENT $176B Get next character
+COMMENT $176D Go back if not terminator
+COMMENT_LINE $176F A=$81
+COMMENT $176F disable RAMP, disable mux
+COMMENT $1774 Get text height
+COMMENT_LINE $1777 now move down
+COMMENT $1777 store 'height' to dac (y)
+COMMENT $1779 disable RAMP, enable mux
+COMMENT $177B disable RAMP, disable mux
+COMMENT $177D zero dac
+COMMENT_LINE $177F now only y set, x to zero
+COMMENT $1781 enable RAMP, disable mux
+COMMENT_LINE $1783 here we move down
+COMMENT $1787 enable RAMP, enable mux
+COMMENT_LINE $1789 tricky, cutting y off while
+COMMENT_LINE $1789 integrating, saves one switch of mux
+COMMENT_LINE $1789 still b=$81
+COMMENT $1789 disable RAMP, disable mux
+COMMENT_LINE $178E now finnished moving down
+COMMENT $178E Send it to the D/A
+COMMENT $1792 enable RAMP, disable mux
+COMMENT $1794 delay needed for drawing
+COMMENT $1799 Get bitmap from chargen table
+COMMENT $179B Save in shift register
+COMMENT $179D Get next character
+COMMENT $179F Go back if not terminator
+COMMENT_LINE $17A1 A=$81
+COMMENT $17A1 disable RAMP, disable mux
+COMMENT $17A6 Get text height
+COMMENT_LINE $17A9 now move down
+COMMENT $17A9 store 'height' to dac (y)
+COMMENT $17AB disable RAMP, enable mux
+COMMENT $17AD disable RAMP, disable mux
+COMMENT $17AF zero dac
+COMMENT_LINE $17B1 now only y set, x to zero
+COMMENT $17B3 enable RAMP, disable mux
+COMMENT $17B7 Get first character
+COMMENT $17B9 enable RAMP, enable mux
+COMMENT_LINE $17BB tricky, cutting y off while
+COMMENT_LINE $17BB integrating, saves one switch of mux
+COMMENT_LINE $17BB still B=$81
+COMMENT $17BB disable RAMP, disable mux
+COMMENT_LINE $17C0 now finnished moving down
+COMMENT $17C0 negative x speed
+COMMENT $17C5 enable RAMP, disable mux
+COMMENT $17C8 delay needed for drawing
+COMMENT $17CD Get bitmap from chargen table
+COMMENT $17CF Save in shift register
+COMMENT $17D1 Get next character
+COMMENT $17D3 Go back if not terminator
+COMMENT_LINE $17D5 A=$81
+COMMENT $17D5 disable RAMP, disable mux
+COMMENT $17DA Get text height
+COMMENT_LINE $17DD now move down
+COMMENT $17DD store 'height' to dac (y)
+COMMENT $17DF disable RAMP, enable mux
+COMMENT $17E1 disable RAMP, disable mux
+COMMENT $17E3 zero dac
+COMMENT_LINE $17E5 now only y set, x to zero
+COMMENT $17E7 enable RAMP, disable mux
+COMMENT_LINE $17E9 here we move down
+COMMENT $17ED enable RAMP, enable mux
+COMMENT_LINE $17EF tricky, cutting y off while
+COMMENT_LINE $17EF integrating, saves one switch of mux
+COMMENT_LINE $17EF still b=$81
+COMMENT $17EF disable RAMP, disable mux
+COMMENT_LINE $17F4 now finnished moving down
+COMMENT $17F4 Send it to the D/A
+COMMENT $17F8 enable RAMP, disable mux
+COMMENT $17FA delay needed for drawing
+COMMENT $17FF Get bitmap from chargen table
+COMMENT $1801 Save in shift register
+COMMENT $1803 Get next character
+COMMENT $1805 Go back if not terminator
+COMMENT_LINE $1807 A=$81
+COMMENT $1807 disable RAMP, disable mux
+COMMENT $180B T1->PB7 enabled
+COMMENT $1812 /BLANK low and /ZERO low
+COMMENT $181B Call enhenced print routine
+COMMENT_LINE $181D Moveto_d_7F start
+COMMENT_LINE $1845 U=String pointer to first $81
+COMMENT $1847 Clear D/A output
+COMMENT $1849 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $1850 enable mux, set y to 0 disable ramp
+COMMENT $1852 disable RAMP, disable mux
+COMMENT $1856 Get text width
+COMMENT $1860 Send it to the D/A
+COMMENT $1864 enable RAMP, disable mux
+COMMENT $1866 delay needed for drawing
+COMMENT $186B Get bitmap from chargen table
+COMMENT $186D Save in shift register
+COMMENT $186F Get next character
+COMMENT $1871 Go back if not terminator
+COMMENT_LINE $1873 A=$81
+COMMENT $1873 disable RAMP, disable mux
+COMMENT $1878 Get text height
+COMMENT_LINE $187B now move down
+COMMENT $187B store 'height' to dac (y)
+COMMENT $187D disable RAMP, enable mux
+COMMENT $187F disable RAMP, disable mux
+COMMENT $1881 zero dac
+COMMENT_LINE $1883 now only y set, x to zero
+COMMENT $1885 enable RAMP, disable mux
+COMMENT $1889 Get first character
+COMMENT $188B enable RAMP, enable mux
+COMMENT_LINE $188D tricky, cutting y off while
+COMMENT_LINE $188D integrating, saves one switch of mux
+COMMENT_LINE $188D still B=$81
+COMMENT $188D disable RAMP, disable mux
+COMMENT_LINE $1892 now finnished moving down
+COMMENT $1892 negative x speed
+COMMENT $1897 enable RAMP, disable mux
+COMMENT $189A delay needed for drawing
+COMMENT $189F Get bitmap from chargen table
+COMMENT $18A1 Save in shift register
+COMMENT $18A3 Get next character
+COMMENT $18A5 Go back if not terminator
+COMMENT_LINE $18A7 A=$81
+COMMENT $18A7 disable RAMP, disable mux
+COMMENT $18AC Get text height
+COMMENT_LINE $18AF now move down
+COMMENT $18AF store 'height' to dac (y)
+COMMENT $18B1 disable RAMP, enable mux
+COMMENT $18B3 disable RAMP, disable mux
+COMMENT $18B5 zero dac
+COMMENT_LINE $18B7 now only y set, x to zero
+COMMENT $18B9 enable RAMP, disable mux
+COMMENT_LINE $18BB here we move down
+COMMENT $18BF enable RAMP, enable mux
+COMMENT_LINE $18C1 tricky, cutting y off while
+COMMENT_LINE $18C1 integrating, saves one switch of mux
+COMMENT_LINE $18C1 still b=$81
+COMMENT $18C1 disable RAMP, disable mux
+COMMENT_LINE $18C6 now finnished moving down
+COMMENT $18C6 Send it to the D/A
+COMMENT $18CA enable RAMP, disable mux
+COMMENT $18CC delay needed for drawing
+COMMENT $18D1 Get bitmap from chargen table
+COMMENT $18D3 Save in shift register
+COMMENT $18D5 Get next character
+COMMENT $18D7 Go back if not terminator
+COMMENT_LINE $18D9 A=$81
+COMMENT $18D9 disable RAMP, disable mux
+COMMENT $18DE Get text height
+COMMENT_LINE $18E1 now move down
+COMMENT $18E1 store 'height' to dac (y)
+COMMENT $18E3 disable RAMP, enable mux
+COMMENT $18E5 disable RAMP, disable mux
+COMMENT $18E7 zero dac
+COMMENT_LINE $18E9 now only y set, x to zero
+COMMENT $18EB enable RAMP, disable mux
+COMMENT $18EF Get first character
+COMMENT $18F1 enable RAMP, enable mux
+COMMENT_LINE $18F3 tricky, cutting y off while
+COMMENT_LINE $18F3 integrating, saves one switch of mux
+COMMENT_LINE $18F3 still B=$81
+COMMENT $18F3 disable RAMP, disable mux
+COMMENT_LINE $18F8 now finnished moving down
+COMMENT $18F8 negative x speed
+COMMENT $18FD enable RAMP, disable mux
+COMMENT $1900 delay needed for drawing
+COMMENT $1905 Get bitmap from chargen table
+COMMENT $1907 Save in shift register
+COMMENT $1909 Get next character
+COMMENT $190B Go back if not terminator
+COMMENT_LINE $190D A=$81
+COMMENT $190D disable RAMP, disable mux
+COMMENT $1912 Get text height
+COMMENT_LINE $1915 now move down
+COMMENT $1915 store 'height' to dac (y)
+COMMENT $1917 disable RAMP, enable mux
+COMMENT $1919 disable RAMP, disable mux
+COMMENT $191B zero dac
+COMMENT_LINE $191D now only y set, x to zero
+COMMENT $191F enable RAMP, disable mux
+COMMENT_LINE $1921 here we move down
+COMMENT $1925 enable RAMP, enable mux
+COMMENT_LINE $1927 tricky, cutting y off while
+COMMENT_LINE $1927 integrating, saves one switch of mux
+COMMENT_LINE $1927 still b=$81
+COMMENT $1927 disable RAMP, disable mux
+COMMENT_LINE $192C now finnished moving down
+COMMENT $192C Send it to the D/A
+COMMENT $1930 enable RAMP, disable mux
+COMMENT $1932 delay needed for drawing
+COMMENT $1937 Get bitmap from chargen table
+COMMENT $1939 Save in shift register
+COMMENT $193B Get next character
+COMMENT $193D Go back if not terminator
+COMMENT_LINE $193F A=$81
+COMMENT $193F disable RAMP, disable mux
+COMMENT $1944 Get text height
+COMMENT_LINE $1947 now move down
+COMMENT $1947 store 'height' to dac (y)
+COMMENT $1949 disable RAMP, enable mux
+COMMENT $194B disable RAMP, disable mux
+COMMENT $194D zero dac
+COMMENT_LINE $194F now only y set, x to zero
+COMMENT $1951 enable RAMP, disable mux
+COMMENT $1955 Get first character
+COMMENT $1957 enable RAMP, enable mux
+COMMENT_LINE $1959 tricky, cutting y off while
+COMMENT_LINE $1959 integrating, saves one switch of mux
+COMMENT_LINE $1959 still B=$81
+COMMENT $1959 disable RAMP, disable mux
+COMMENT_LINE $195E now finnished moving down
+COMMENT $195E negative x speed
+COMMENT $1963 enable RAMP, disable mux
+COMMENT $1966 delay needed for drawing
+COMMENT $196B Get bitmap from chargen table
+COMMENT $196D Save in shift register
+COMMENT $196F Get next character
+COMMENT $1971 Go back if not terminator
+COMMENT_LINE $1973 A=$81
+COMMENT $1973 disable RAMP, disable mux
+COMMENT $1978 Get text height
+COMMENT_LINE $197B now move down
+COMMENT $197B store 'height' to dac (y)
+COMMENT $197D disable RAMP, enable mux
+COMMENT $197F disable RAMP, disable mux
+COMMENT $1981 zero dac
+COMMENT_LINE $1983 now only y set, x to zero
+COMMENT $1985 enable RAMP, disable mux
+COMMENT_LINE $1987 here we move down
+COMMENT $198B enable RAMP, enable mux
+COMMENT_LINE $198D tricky, cutting y off while
+COMMENT_LINE $198D integrating, saves one switch of mux
+COMMENT_LINE $198D still b=$81
+COMMENT $198D disable RAMP, disable mux
+COMMENT_LINE $1992 now finnished moving down
+COMMENT $1992 Send it to the D/A
+COMMENT $1996 enable RAMP, disable mux
+COMMENT $1998 delay needed for drawing
+COMMENT $199D Get bitmap from chargen table
+COMMENT $199F Save in shift register
+COMMENT $19A1 Get next character
+COMMENT $19A3 Go back if not terminator
+COMMENT_LINE $19A5 A=$81
+COMMENT $19A5 disable RAMP, disable mux
+COMMENT $19A9 T1->PB7 enabled
+COMMENT $19B0 /BLANK low and /ZERO low
+COMMENT $19B4 ------ DEBUG -----
+COMMENT_LINE $19B7 LDA   #$7F                      ;
+COMMENT_LINE $19B7 STA   VIA_t1_cnt_lo             ;Set scaling factor to be 7f
+COMMENT_LINE $19B7 LDD   #$8080                    ;YX position of the score
+COMMENT_LINE $19B7 LDU   #rnd_Score_tbl                ;u points to the score string
+COMMENT_LINE $19B7 JSR   Print_Str_d               ;Print the score!
+COMMENT_LINE $19B7 ;      *** DEBUG ***
+COMMENT_LINE $19B7 ;*******************
+COMMENT_LINE $19B7 ;*** Left value ***
+COMMENT_LINE $19B7 ;*******************
+COMMENT_LINE $19B7 LDX   #dbg1_tbl
+COMMENT_LINE $19B7 JSR   Clear_Score
+COMMENT_LINE $19B7 LDA   Plyr1LocationIndex
+COMMENT_LINE $19B7 LDX   #dbg1_tbl
+COMMENT_LINE $19B7 JSR   Add_Score_a
+COMMENT_LINE $19B7 LDD   #$8090
+COMMENT_LINE $19B7 LDU   #dbg1_tbl
+COMMENT_LINE $19B7 JSR   Print_Str_d
+COMMENT_LINE $19B7 ;*******************
+COMMENT_LINE $19B7 ;*** Center value ***
+COMMENT_LINE $19B7 ;*******************
+COMMENT_LINE $19CF ;*******************
+COMMENT_LINE $19CF ;*** Right value ***
+COMMENT_LINE $19CF ;*******************
+COMMENT_LINE $19E7 ;      *** DEBUG END ***
+COMMENT $19E7 Return to caller
+COMMENT_LINE $19E8 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $19E8 setjoystick - Enables the Joysticks controllers. In this case, Joystick #2
+COMMENT_LINE $19E8 is disabled.
+COMMENT_LINE $19E8 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $19EB Enable Joystick1 X doamin1
+COMMENT $19F0 Disable Joystick1 Y domain
+COMMENT $19F2 Disable Joystick2 X domain
+COMMENT $19F4 Disable Joystick2 Y doamin
+COMMENT $19F6 Return to the caller
+COMMENT_LINE $19F7 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $19F7 checkjoystick - Monitors Joystic1 movement and = the player's car postion
+COMMENT_LINE $19F7 and speed accordingly.
+COMMENT_LINE $19F7 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $19FC Read joystick position
+COMMENT $1A02 A <- Xpos of joystick 1
+COMMENT $1A13 Call Driving Controller Routine, A will identify direction
+COMMENT $1A1F Return to the caller
+COMMENT_LINE $1A20 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1A20 check_btns: Responsible for checking if a button was pressed. If so, checks
+COMMENT_LINE $1A20 which button. Since only one button is used in the game and only
+COMMENT_LINE $1A20 to exit a displayed menu, once button1 is pressed, the flag
+COMMENT_LINE $1A20 (indicating end of the menu) is cleared.
+COMMENT_LINE $1A20 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $1A20 Get Buttons status
+COMMENT_LINE $1A26 STA   TempValue1		;------ DEBUG -----
+COMMENT $1A2A Check for button 4 (controller 1)
+COMMENT $1A2E Display the ball...
+COMMENT $1A32 Check for button 4 (controller 2)
+COMMENT $1A36 Display the ball...
+COMMENT $1A39 Return to the caller
+COMMENT $1A3A Skip this part is ball is already present
+COMMENT_LINE $1A3D BNE   s_StartSession
+COMMENT $1A41 Set Player1 ball flag
+COMMENT $1A44 Initialize the X dimention pointer
+COMMENT $1A47 Initialize the Y dimention pointer
+COMMENT_LINE $1A4E SUBA  #$04			;Adjust the origin of the ball to paddle's center
+COMMENT $1A50 Now, D contains the Y,X coordinates
+COMMENT_LINE $1A52 of the paddle
+COMMENT $1A5C A is the offset within the BallMove table
+COMMENT_LINE $1A5F SUBA  #$04			;Adjust the origin of the ball to paddle's center
+COMMENT $1A5F Since each Entry takes 2 locations,divide
+COMMENT $1A60 only by 2 (instead of 4), make sure A is even
+COMMENT $1A67 Now, D contains the values for ball movement
+COMMENT $1A71 Make sure Plyr1 is displayed...
+COMMENT_LINE $1A75 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1A75 ; A <- TIKS_PER_SECOND
+COMMENT_LINE $1A75 ; B <- current counter value, increamneted by 1 if a second passed.
+COMMENT_LINE $1A75 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $1A7A Here about 1 Sec passed since last match, update B
+COMMENT_LINE $1A84 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1A84 X -> ptr to Source
+COMMENT_LINE $1A84 Y -> ptr to Destination
+COMMENT_LINE $1A84 A -> Length
+COMMENT_LINE $1A84 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $1A84 B <- Source Data
+COMMENT $1A86 [Destination] <- B
+COMMENT $1A8B Don't forget entry (0)
+COMMENT $1A8F Return to caller
+COMMENT_LINE $1A90 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1A90 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $1A92 ------------------------------------
+COMMENT_LINE $1A92 --- Missed ball sound generation ---
+COMMENT_LINE $1A92 ------------------------------------
+COMMENT $1A9E B=current channel activity
+COMMENT $1AA1 Deactivate Tone+Noise1 (set)
+COMMENT $1AA3 Sound reg. 0x07
+COMMENT $1AAB Noise value
+COMMENT $1AAD Sound reg, 0x06
+COMMENT $1AB2 A<- current index to volume
+COMMENT $1AB5 X<- *ptr to explosion volume
+COMMENT $1AB8 B<- current explosion volume
+COMMENT $1ABA Sound reg. Volume 1
+COMMENT $1ABF B=current channel activity
+COMMENT $1AC2 Activate Noise1 (reset)
+COMMENT $1AC4 Sound reg. 0x07
+COMMENT_LINE $1AC9 -----------------------------------------------
+COMMENT_LINE $1AC9 --- Hit (center or paddle) sound generation ---
+COMMENT_LINE $1AC9 -----------------------------------------------
+COMMENT $1AD5 B=current channel activity
+COMMENT $1AD8 Deactivate Tone+Noise2 (set)
+COMMENT $1ADA Sound reg. 0x07
+COMMENT $1AE7 Tone 2 LSB value
+COMMENT $1AE9 Sound reg, 0x00
+COMMENT $1AEE Tone 2 MSB value
+COMMENT $1AF0 Sound reg. 0x01
+COMMENT $1AF5 Channel 2 Max. volume
+COMMENT $1AF7 Sound reg. Volume 2
+COMMENT $1AFC B=current channel activity
+COMMENT $1AFF Activate Tone2 (reset)
+COMMENT $1B01 Deactivate Noise2 (set)
+COMMENT $1B03 Sound reg. 0x07
+COMMENT_LINE $1B08 -------------------------------------
+COMMENT_LINE $1B08 --- Level change sound generation ---
+COMMENT_LINE $1B08 -------------------------------------
+COMMENT $1B14 B=current channel activity
+COMMENT $1B17 Deactivate Tone+Noise3 (set)
+COMMENT $1B19 Sound reg. 0x07
+COMMENT $1B26 Tone 3 LSB value
+COMMENT $1B28 Sound reg, 0x00
+COMMENT $1B2D Tone 3 MSB value
+COMMENT $1B2F Sound reg. 0x01
+COMMENT $1B34 Channel 3 Max. volume
+COMMENT $1B36 Sound reg. Volume 3
+COMMENT $1B3B B=current channel activity
+COMMENT $1B3E Activate Tone3 (reset)
+COMMENT $1B40 Deactivate Noise3 (set)
+COMMENT $1B42 Sound reg. 0x07
+COMMENT_LINE $1B47 LDA   fallSndFlag
+COMMENT_LINE $1B47 BNE   l_FallSound
+COMMENT_LINE $1B47 BRA   l_Check4BadSound
+COMMENT_LINE $1B47 l_FallSound:
+COMMENT_LINE $1B47 DEC   fallSndFlag
+COMMENT_LINE $1B47 BNE   l_PlayFallSound
+COMMENT_LINE $1B47 LDB   $C807                     ;B=current channel activity
+COMMENT_LINE $1B47 ORB   #$24                      ;Deactivate Tone+Noise3 (set)
+COMMENT_LINE $1B47 LDA   #$07                      ;Sound reg. 0x07
+COMMENT_LINE $1B47 JSR   Sound_Byte
+COMMENT_LINE $1B47 BRA   l_Check4BadSound
+COMMENT_LINE $1B47 l_PlayFallSound:
+COMMENT_LINE $1B47 LDB   fallSndFlag
+COMMENT_LINE $1B47 ADDB  #$64
+COMMENT_LINE $1B47 LDA   #$04                      ;Sound reg, 0x00
+COMMENT_LINE $1B47 JSR   Sound_Byte
+COMMENT_LINE $1B47 LDB   #$00                      ;Tone 3 MSB value
+COMMENT_LINE $1B47 LDA   #$05                      ;Sound reg. 0x01
+COMMENT_LINE $1B47 JSR   Sound_Byte
+COMMENT_LINE $1B47 LDB   #$0F                      ;Channel 3 Max. volume
+COMMENT_LINE $1B47 LDA   #$0A                      ;Sound reg. Volume 3
+COMMENT_LINE $1B47 JSR   Sound_Byte
+COMMENT_LINE $1B47 LDB   $C807                     ;B=current channel activity
+COMMENT_LINE $1B47 ANDB  #$FB                      ;Activate Tone3 (reset)
+COMMENT_LINE $1B47 ORB   #$20                      ;Deactivate Noise3 (set)
+COMMENT_LINE $1B47 LDA   #$07                      ;Sound reg. 0x07
+COMMENT_LINE $1B47 JSR   Sound_Byte
+COMMENT_LINE $1B47 l_Check4BadSound:
+COMMENT_LINE $1B47 LDA   badSndFlag
+COMMENT_LINE $1B47 BNE   l_BadSound
+COMMENT_LINE $1B47 BRA   l_CheckSoundExit
+COMMENT_LINE $1B47 l_BadSound:
+COMMENT_LINE $1B47 DEC   badSndFlag
+COMMENT_LINE $1B47 BNE   l_PlayBadSound
+COMMENT_LINE $1B47 LDB   $C807                     ;B=current channel activity
+COMMENT_LINE $1B47 ORB   #$24                      ;Deactivate Tone+Noise3 (set)
+COMMENT_LINE $1B47 LDA   #$07                      ;Sound reg. 0x07
+COMMENT_LINE $1B47 JSR   Sound_Byte
+COMMENT_LINE $1B47 BRA   l_CheckSoundExit
+COMMENT_LINE $1B47 l_PlayBadSound:
+COMMENT_LINE $1B47 LDB   #$FF                      ;Channel 3 constant tone
+COMMENT_LINE $1B47 LDA   #$04                      ;Sound reg, 0x00
+COMMENT_LINE $1B47 JSR   Sound_Byte
+COMMENT_LINE $1B47 LDB   #$00                      ;Tone 3 MSB value
+COMMENT_LINE $1B47 LDA   #$05                      ;Sound reg. 0x01
+COMMENT_LINE $1B47 JSR   Sound_Byte
+COMMENT_LINE $1B47 LDA   badSndFlag
+COMMENT_LINE $1B47 LDX   #l_Bad_Volume
+COMMENT_LINE $1B47 LDB   a,x                       ;Tone 3 LSB value
+COMMENT_LINE $1B47 LDA   #$0A                      ;Sound reg. Volume 3
+COMMENT_LINE $1B47 JSR   Sound_Byte
+COMMENT_LINE $1B47 LDB   $C807                     ;B=current channel activity
+COMMENT_LINE $1B47 ANDB  #$FB                      ;Activate Tone3 (reset)
+COMMENT_LINE $1B47 ORB   #$20                      ;Deactivate Noise3 (set)
+COMMENT_LINE $1B47 LDA   #$07                      ;Sound reg. 0x07
+COMMENT_LINE $1B47 JSR   Sound_Byte
+COMMENT_LINE $1B4A >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1B4A <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $1B71 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1B71 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $1B76 Clear the Missed flag
+COMMENT $1B79 Clear the Ball flag (no ball anymore)
+COMMENT $1B7C Make sure next ball goes inwards
+COMMENT_LINE $1B88 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1B88 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $1B98 Don't change if not intermidiate...
+COMMENT $1BB2 Don't change if not expert...
+COMMENT $1BD0 No more level checks
+COMMENT_LINE $1BD4 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1BD4 s_RndGameOver - End of game screen
+COMMENT_LINE $1BD4 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $1BD4 X points to current score table
+COMMENT $1BD7 U points to Vectrex HiScore table
+COMMENT $1BDA Compare and update HiScore table
+COMMENT $1BDD reset the crt
+COMMENT $1BE2 Set scaling factor to be 7f
+COMMENT $1BEE ;Call Reset0Ref macro
+COMMENT_LINE $1BF1 STB   <VIA_cntl         ;0x0C;
+COMMENT_LINE $1BF1 STA   <VIA_shift_reg    ;0x0A;
+COMMENT_LINE $1BF1 LDD   #0x0302;
+COMMENT_LINE $1BF1 CLR   <VIA_port_a       ;0x01;
+COMMENT_LINE $1BF1 STA   <VIA_port_b       ;0x00;
+COMMENT_LINE $1BF1 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $1BF1 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $1BF1 LDB   #0x01;
+COMMENT_LINE $1BF1 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $1BF1 LDB    #0x00CC;
+COMMENT $1BF1 0x0C;
+COMMENT_LINE $1BF8 Moveto_d_7F start
+COMMENT_LINE $1C20 U=String pointer to first $81
+COMMENT $1C22 Clear D/A output
+COMMENT $1C24 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $1C2B enable mux, set y to 0 disable ramp
+COMMENT $1C2D disable RAMP, disable mux
+COMMENT $1C31 Get text width
+COMMENT $1C3B Send it to the D/A
+COMMENT $1C3F enable RAMP, disable mux
+COMMENT $1C41 delay needed for drawing
+COMMENT $1C46 Get bitmap from chargen table
+COMMENT $1C48 Save in shift register
+COMMENT $1C4A Get next character
+COMMENT $1C4C Go back if not terminator
+COMMENT_LINE $1C4E A=$81
+COMMENT $1C4E disable RAMP, disable mux
+COMMENT $1C53 Get text height
+COMMENT_LINE $1C56 now move down
+COMMENT $1C56 store 'height' to dac (y)
+COMMENT $1C58 disable RAMP, enable mux
+COMMENT $1C5A disable RAMP, disable mux
+COMMENT $1C5C zero dac
+COMMENT_LINE $1C5E now only y set, x to zero
+COMMENT $1C60 enable RAMP, disable mux
+COMMENT $1C64 Get first character
+COMMENT $1C66 enable RAMP, enable mux
+COMMENT_LINE $1C68 tricky, cutting y off while
+COMMENT_LINE $1C68 integrating, saves one switch of mux
+COMMENT_LINE $1C68 still B=$81
+COMMENT $1C68 disable RAMP, disable mux
+COMMENT_LINE $1C6D now finnished moving down
+COMMENT $1C6D negative x speed
+COMMENT $1C72 enable RAMP, disable mux
+COMMENT $1C75 delay needed for drawing
+COMMENT $1C7A Get bitmap from chargen table
+COMMENT $1C7C Save in shift register
+COMMENT $1C7E Get next character
+COMMENT $1C80 Go back if not terminator
+COMMENT_LINE $1C82 A=$81
+COMMENT $1C82 disable RAMP, disable mux
+COMMENT $1C87 Get text height
+COMMENT_LINE $1C8A now move down
+COMMENT $1C8A store 'height' to dac (y)
+COMMENT $1C8C disable RAMP, enable mux
+COMMENT $1C8E disable RAMP, disable mux
+COMMENT $1C90 zero dac
+COMMENT_LINE $1C92 now only y set, x to zero
+COMMENT $1C94 enable RAMP, disable mux
+COMMENT_LINE $1C96 here we move down
+COMMENT $1C9A enable RAMP, enable mux
+COMMENT_LINE $1C9C tricky, cutting y off while
+COMMENT_LINE $1C9C integrating, saves one switch of mux
+COMMENT_LINE $1C9C still b=$81
+COMMENT $1C9C disable RAMP, disable mux
+COMMENT_LINE $1CA1 now finnished moving down
+COMMENT $1CA1 Send it to the D/A
+COMMENT $1CA5 enable RAMP, disable mux
+COMMENT $1CA7 delay needed for drawing
+COMMENT $1CAC Get bitmap from chargen table
+COMMENT $1CAE Save in shift register
+COMMENT $1CB0 Get next character
+COMMENT $1CB2 Go back if not terminator
+COMMENT_LINE $1CB4 A=$81
+COMMENT $1CB4 disable RAMP, disable mux
+COMMENT $1CB9 Get text height
+COMMENT_LINE $1CBC now move down
+COMMENT $1CBC store 'height' to dac (y)
+COMMENT $1CBE disable RAMP, enable mux
+COMMENT $1CC0 disable RAMP, disable mux
+COMMENT $1CC2 zero dac
+COMMENT_LINE $1CC4 now only y set, x to zero
+COMMENT $1CC6 enable RAMP, disable mux
+COMMENT $1CCA Get first character
+COMMENT $1CCC enable RAMP, enable mux
+COMMENT_LINE $1CCE tricky, cutting y off while
+COMMENT_LINE $1CCE integrating, saves one switch of mux
+COMMENT_LINE $1CCE still B=$81
+COMMENT $1CCE disable RAMP, disable mux
+COMMENT_LINE $1CD3 now finnished moving down
+COMMENT $1CD3 negative x speed
+COMMENT $1CD8 enable RAMP, disable mux
+COMMENT $1CDB delay needed for drawing
+COMMENT $1CE0 Get bitmap from chargen table
+COMMENT $1CE2 Save in shift register
+COMMENT $1CE4 Get next character
+COMMENT $1CE6 Go back if not terminator
+COMMENT_LINE $1CE8 A=$81
+COMMENT $1CE8 disable RAMP, disable mux
+COMMENT $1CED Get text height
+COMMENT_LINE $1CF0 now move down
+COMMENT $1CF0 store 'height' to dac (y)
+COMMENT $1CF2 disable RAMP, enable mux
+COMMENT $1CF4 disable RAMP, disable mux
+COMMENT $1CF6 zero dac
+COMMENT_LINE $1CF8 now only y set, x to zero
+COMMENT $1CFA enable RAMP, disable mux
+COMMENT_LINE $1CFC here we move down
+COMMENT $1D00 enable RAMP, enable mux
+COMMENT_LINE $1D02 tricky, cutting y off while
+COMMENT_LINE $1D02 integrating, saves one switch of mux
+COMMENT_LINE $1D02 still b=$81
+COMMENT $1D02 disable RAMP, disable mux
+COMMENT_LINE $1D07 now finnished moving down
+COMMENT $1D07 Send it to the D/A
+COMMENT $1D0B enable RAMP, disable mux
+COMMENT $1D0D delay needed for drawing
+COMMENT $1D12 Get bitmap from chargen table
+COMMENT $1D14 Save in shift register
+COMMENT $1D16 Get next character
+COMMENT $1D18 Go back if not terminator
+COMMENT_LINE $1D1A A=$81
+COMMENT $1D1A disable RAMP, disable mux
+COMMENT $1D1F Get text height
+COMMENT_LINE $1D22 now move down
+COMMENT $1D22 store 'height' to dac (y)
+COMMENT $1D24 disable RAMP, enable mux
+COMMENT $1D26 disable RAMP, disable mux
+COMMENT $1D28 zero dac
+COMMENT_LINE $1D2A now only y set, x to zero
+COMMENT $1D2C enable RAMP, disable mux
+COMMENT $1D30 Get first character
+COMMENT $1D32 enable RAMP, enable mux
+COMMENT_LINE $1D34 tricky, cutting y off while
+COMMENT_LINE $1D34 integrating, saves one switch of mux
+COMMENT_LINE $1D34 still B=$81
+COMMENT $1D34 disable RAMP, disable mux
+COMMENT_LINE $1D39 now finnished moving down
+COMMENT $1D39 negative x speed
+COMMENT $1D3E enable RAMP, disable mux
+COMMENT $1D41 delay needed for drawing
+COMMENT $1D46 Get bitmap from chargen table
+COMMENT $1D48 Save in shift register
+COMMENT $1D4A Get next character
+COMMENT $1D4C Go back if not terminator
+COMMENT_LINE $1D4E A=$81
+COMMENT $1D4E disable RAMP, disable mux
+COMMENT $1D53 Get text height
+COMMENT_LINE $1D56 now move down
+COMMENT $1D56 store 'height' to dac (y)
+COMMENT $1D58 disable RAMP, enable mux
+COMMENT $1D5A disable RAMP, disable mux
+COMMENT $1D5C zero dac
+COMMENT_LINE $1D5E now only y set, x to zero
+COMMENT $1D60 enable RAMP, disable mux
+COMMENT_LINE $1D62 here we move down
+COMMENT $1D66 enable RAMP, enable mux
+COMMENT_LINE $1D68 tricky, cutting y off while
+COMMENT_LINE $1D68 integrating, saves one switch of mux
+COMMENT_LINE $1D68 still b=$81
+COMMENT $1D68 disable RAMP, disable mux
+COMMENT_LINE $1D6D now finnished moving down
+COMMENT $1D6D Send it to the D/A
+COMMENT $1D71 enable RAMP, disable mux
+COMMENT $1D73 delay needed for drawing
+COMMENT $1D78 Get bitmap from chargen table
+COMMENT $1D7A Save in shift register
+COMMENT $1D7C Get next character
+COMMENT $1D7E Go back if not terminator
+COMMENT_LINE $1D80 A=$81
+COMMENT $1D80 disable RAMP, disable mux
+COMMENT $1D84 T1->PB7 enabled
+COMMENT $1D8B /BLANK low and /ZERO low
+COMMENT $1D8E ;Call Reset0Ref macro
+COMMENT_LINE $1D91 STB   <VIA_cntl         ;0x0C;
+COMMENT_LINE $1D91 STA   <VIA_shift_reg    ;0x0A;
+COMMENT_LINE $1D91 LDD   #0x0302;
+COMMENT_LINE $1D91 CLR   <VIA_port_a       ;0x01;
+COMMENT_LINE $1D91 STA   <VIA_port_b       ;0x00;
+COMMENT_LINE $1D91 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $1D91 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $1D91 LDB   #0x01;
+COMMENT_LINE $1D91 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $1D91 LDB    #0x00CC;
+COMMENT $1D91 0x0C;
+COMMENT $1D93 Set D to the (Y,X) of the HiScore
+COMMENT $1D96 U Points to the HiScore table
+COMMENT $1D99 U Points to the HiScore table
+COMMENT_LINE $1D9C LDU   #Plyr1ScoreTable          ;X points to current score table
+COMMENT $1D9C Print the HighScore on the screen
+COMMENT_LINE $1D9F JSR   Reset0Ref
+COMMENT $1D9F ;Call Reset0Ref macro
+COMMENT_LINE $1DA2 STB   <VIA_cntl         ;0x0C;
+COMMENT_LINE $1DA2 STA   <VIA_shift_reg    ;0x0A;
+COMMENT_LINE $1DA2 LDD   #0x0302;
+COMMENT_LINE $1DA2 CLR   <VIA_port_a       ;0x01;
+COMMENT_LINE $1DA2 STA   <VIA_port_b       ;0x00;
+COMMENT_LINE $1DA2 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $1DA2 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $1DA2 LDB   #0x01;
+COMMENT_LINE $1DA2 STB   <VIA_port_b       ;0x00;
+COMMENT_LINE $1DA2 LDB    #0x00CC;
+COMMENT $1DA2 0x0C;
+COMMENT_LINE $1DA9 Moveto_d_7F start
+COMMENT_LINE $1DD1 U=String pointer to first $81
+COMMENT $1DD3 Clear D/A output
+COMMENT $1DD5 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $1DDC enable mux, set y to 0 disable ramp
+COMMENT $1DDE disable RAMP, disable mux
+COMMENT $1DE2 Get text width
+COMMENT $1DEC Send it to the D/A
+COMMENT $1DF0 enable RAMP, disable mux
+COMMENT $1DF2 delay needed for drawing
+COMMENT $1DF7 Get bitmap from chargen table
+COMMENT $1DF9 Save in shift register
+COMMENT $1DFB Get next character
+COMMENT $1DFD Go back if not terminator
+COMMENT_LINE $1DFF A=$81
+COMMENT $1DFF disable RAMP, disable mux
+COMMENT $1E04 Get text height
+COMMENT_LINE $1E07 now move down
+COMMENT $1E07 store 'height' to dac (y)
+COMMENT $1E09 disable RAMP, enable mux
+COMMENT $1E0B disable RAMP, disable mux
+COMMENT $1E0D zero dac
+COMMENT_LINE $1E0F now only y set, x to zero
+COMMENT $1E11 enable RAMP, disable mux
+COMMENT $1E15 Get first character
+COMMENT $1E17 enable RAMP, enable mux
+COMMENT_LINE $1E19 tricky, cutting y off while
+COMMENT_LINE $1E19 integrating, saves one switch of mux
+COMMENT_LINE $1E19 still B=$81
+COMMENT $1E19 disable RAMP, disable mux
+COMMENT_LINE $1E1E now finnished moving down
+COMMENT $1E1E negative x speed
+COMMENT $1E23 enable RAMP, disable mux
+COMMENT $1E26 delay needed for drawing
+COMMENT $1E2B Get bitmap from chargen table
+COMMENT $1E2D Save in shift register
+COMMENT $1E2F Get next character
+COMMENT $1E31 Go back if not terminator
+COMMENT_LINE $1E33 A=$81
+COMMENT $1E33 disable RAMP, disable mux
+COMMENT $1E38 Get text height
+COMMENT_LINE $1E3B now move down
+COMMENT $1E3B store 'height' to dac (y)
+COMMENT $1E3D disable RAMP, enable mux
+COMMENT $1E3F disable RAMP, disable mux
+COMMENT $1E41 zero dac
+COMMENT_LINE $1E43 now only y set, x to zero
+COMMENT $1E45 enable RAMP, disable mux
+COMMENT_LINE $1E47 here we move down
+COMMENT $1E4B enable RAMP, enable mux
+COMMENT_LINE $1E4D tricky, cutting y off while
+COMMENT_LINE $1E4D integrating, saves one switch of mux
+COMMENT_LINE $1E4D still b=$81
+COMMENT $1E4D disable RAMP, disable mux
+COMMENT_LINE $1E52 now finnished moving down
+COMMENT $1E52 Send it to the D/A
+COMMENT $1E56 enable RAMP, disable mux
+COMMENT $1E58 delay needed for drawing
+COMMENT $1E5D Get bitmap from chargen table
+COMMENT $1E5F Save in shift register
+COMMENT $1E61 Get next character
+COMMENT $1E63 Go back if not terminator
+COMMENT_LINE $1E65 A=$81
+COMMENT $1E65 disable RAMP, disable mux
+COMMENT $1E6A Get text height
+COMMENT_LINE $1E6D now move down
+COMMENT $1E6D store 'height' to dac (y)
+COMMENT $1E6F disable RAMP, enable mux
+COMMENT $1E71 disable RAMP, disable mux
+COMMENT $1E73 zero dac
+COMMENT_LINE $1E75 now only y set, x to zero
+COMMENT $1E77 enable RAMP, disable mux
+COMMENT $1E7B Get first character
+COMMENT $1E7D enable RAMP, enable mux
+COMMENT_LINE $1E7F tricky, cutting y off while
+COMMENT_LINE $1E7F integrating, saves one switch of mux
+COMMENT_LINE $1E7F still B=$81
+COMMENT $1E7F disable RAMP, disable mux
+COMMENT_LINE $1E84 now finnished moving down
+COMMENT $1E84 negative x speed
+COMMENT $1E89 enable RAMP, disable mux
+COMMENT $1E8C delay needed for drawing
+COMMENT $1E91 Get bitmap from chargen table
+COMMENT $1E93 Save in shift register
+COMMENT $1E95 Get next character
+COMMENT $1E97 Go back if not terminator
+COMMENT_LINE $1E99 A=$81
+COMMENT $1E99 disable RAMP, disable mux
+COMMENT $1E9E Get text height
+COMMENT_LINE $1EA1 now move down
+COMMENT $1EA1 store 'height' to dac (y)
+COMMENT $1EA3 disable RAMP, enable mux
+COMMENT $1EA5 disable RAMP, disable mux
+COMMENT $1EA7 zero dac
+COMMENT_LINE $1EA9 now only y set, x to zero
+COMMENT $1EAB enable RAMP, disable mux
+COMMENT_LINE $1EAD here we move down
+COMMENT $1EB1 enable RAMP, enable mux
+COMMENT_LINE $1EB3 tricky, cutting y off while
+COMMENT_LINE $1EB3 integrating, saves one switch of mux
+COMMENT_LINE $1EB3 still b=$81
+COMMENT $1EB3 disable RAMP, disable mux
+COMMENT_LINE $1EB8 now finnished moving down
+COMMENT $1EB8 Send it to the D/A
+COMMENT $1EBC enable RAMP, disable mux
+COMMENT $1EBE delay needed for drawing
+COMMENT $1EC3 Get bitmap from chargen table
+COMMENT $1EC5 Save in shift register
+COMMENT $1EC7 Get next character
+COMMENT $1EC9 Go back if not terminator
+COMMENT_LINE $1ECB A=$81
+COMMENT $1ECB disable RAMP, disable mux
+COMMENT $1ED0 Get text height
+COMMENT_LINE $1ED3 now move down
+COMMENT $1ED3 store 'height' to dac (y)
+COMMENT $1ED5 disable RAMP, enable mux
+COMMENT $1ED7 disable RAMP, disable mux
+COMMENT $1ED9 zero dac
+COMMENT_LINE $1EDB now only y set, x to zero
+COMMENT $1EDD enable RAMP, disable mux
+COMMENT $1EE1 Get first character
+COMMENT $1EE3 enable RAMP, enable mux
+COMMENT_LINE $1EE5 tricky, cutting y off while
+COMMENT_LINE $1EE5 integrating, saves one switch of mux
+COMMENT_LINE $1EE5 still B=$81
+COMMENT $1EE5 disable RAMP, disable mux
+COMMENT_LINE $1EEA now finnished moving down
+COMMENT $1EEA negative x speed
+COMMENT $1EEF enable RAMP, disable mux
+COMMENT $1EF2 delay needed for drawing
+COMMENT $1EF7 Get bitmap from chargen table
+COMMENT $1EF9 Save in shift register
+COMMENT $1EFB Get next character
+COMMENT $1EFD Go back if not terminator
+COMMENT_LINE $1EFF A=$81
+COMMENT $1EFF disable RAMP, disable mux
+COMMENT $1F04 Get text height
+COMMENT_LINE $1F07 now move down
+COMMENT $1F07 store 'height' to dac (y)
+COMMENT $1F09 disable RAMP, enable mux
+COMMENT $1F0B disable RAMP, disable mux
+COMMENT $1F0D zero dac
+COMMENT_LINE $1F0F now only y set, x to zero
+COMMENT $1F11 enable RAMP, disable mux
+COMMENT_LINE $1F13 here we move down
+COMMENT $1F17 enable RAMP, enable mux
+COMMENT_LINE $1F19 tricky, cutting y off while
+COMMENT_LINE $1F19 integrating, saves one switch of mux
+COMMENT_LINE $1F19 still b=$81
+COMMENT $1F19 disable RAMP, disable mux
+COMMENT_LINE $1F1E now finnished moving down
+COMMENT $1F1E Send it to the D/A
+COMMENT $1F22 enable RAMP, disable mux
+COMMENT $1F24 delay needed for drawing
+COMMENT $1F29 Get bitmap from chargen table
+COMMENT $1F2B Save in shift register
+COMMENT $1F2D Get next character
+COMMENT $1F2F Go back if not terminator
+COMMENT_LINE $1F31 A=$81
+COMMENT $1F31 disable RAMP, disable mux
+COMMENT $1F35 T1->PB7 enabled
+COMMENT $1F3C /BLANK low and /ZERO low
+COMMENT $1F3F Get Buttons status
+COMMENT $1F42 If no button pressed,
+COMMENT $1F44 Goto GameOver_loop...
+COMMENT $1F48 SoftReset to the system
+COMMENT_LINE $1F4B >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $1F4B The following are tables of text to be displayed while the game is ongoing
+COMMENT_LINE $1F4B <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $2050 Sine table - offset 128 of the table is the actual begining of the table
+COMMENT_LINE $2050 and it is labled as sin_entry_0
+COMMENT_LINE $214A Cosine table - offset 128 of the table is the actual begining of the table
+COMMENT_LINE $214A and it is labled as cos_entry_0
+COMMENT_LINE $224A ; This file is a table that contains the ball movement per index.
+COMMENT_LINE $224A ; There are 64 pairs only.
+COMMENT_LINE $224A Upper-Left quarter
+COMMENT $224A #-128
+COMMENT $224C #-128
+COMMENT $224E #-124
+COMMENT $2250 #-120
+COMMENT $2252 #-116
+COMMENT $2254 #-112
+COMMENT $2256 #-108
+COMMENT $2258 #-104
+COMMENT $225A #-100
+COMMENT $225C #-096
+COMMENT $225E #-092
+COMMENT $2260 #-088
+COMMENT $2262 #-084
+COMMENT $2264 #-080
+COMMENT $2266 #-076
+COMMENT $2268 #-072
+COMMENT $226A #-068
+COMMENT_LINE $226C Bottom-Left quarter
+COMMENT $226C #-064
+COMMENT $226E #-060
+COMMENT $2270 #-056
+COMMENT $2272 #-052
+COMMENT $2274 #-048
+COMMENT $2276 #-044
+COMMENT $2278 #-040
+COMMENT $227A #-036
+COMMENT $227C #-032
+COMMENT $227E #-028
+COMMENT $2280 #-024
+COMMENT $2282 #-020
+COMMENT $2284 #-016
+COMMENT $2286 #-012
+COMMENT $2288 #-008
+COMMENT $228A #-004
+COMMENT_LINE $228C Bottom-Right quarter
+COMMENT $228C # 000
+COMMENT $228E # 004
+COMMENT $2290 # 008
+COMMENT $2292 # 012
+COMMENT $2294 # 016
+COMMENT $2296 # 020
+COMMENT $2298 # 024
+COMMENT $229A # 028
+COMMENT $229C # 032
+COMMENT $229E # 036
+COMMENT $22A0 # 040
+COMMENT $22A2 # 044
+COMMENT $22A4 # 048
+COMMENT $22A6 # 052
+COMMENT $22A8 # 056
+COMMENT $22AA # 060
+COMMENT_LINE $22AC Upper-Right quarter
+COMMENT $22AC # 064
+COMMENT $22AE # 068
+COMMENT $22B0 # 072
+COMMENT $22B2 # 076
+COMMENT $22B4 # 080
+COMMENT $22B6 # 084
+COMMENT $22B8 # 088
+COMMENT $22BA # 092
+COMMENT $22BC # 096
+COMMENT $22BE # 100
+COMMENT $22C0 # 104
+COMMENT $22C2 # 108
+COMMENT $22C4 # 112
+COMMENT $22C6 # 116
+COMMENT $22C8 # 120
+COMMENT $22CA # 124
+COMMENT_LINE $22CC ; This table returns the radius of a given X and pair. To find a radius,
+COMMENT_LINE $22CC ; the index has to be "prepared" in the following way: Index = X(6:3)&Y(6:3).
+COMMENT_LINE $22CC ; This means that the sign is being ignored and the accuracy is not 100%,
+COMMENT_LINE $22CC ; but, it should be close enough...
+COMMENT_LINE $23CC ; This table defines the possible hit location of the ball on the paddle.
+COMMENT_LINE $23CC ; The insed is one of 64 possible angles (which correspond to the Ball
+COMMENT_LINE $23CC ; movement possibilities).
+COMMENT $23CC #032
+COMMENT $23D0 #033
+COMMENT $23D4 #034
+COMMENT $23D8 #035
+COMMENT $23DC #036
+COMMENT $23E0 #037
+COMMENT $23E4 #038
+COMMENT $23E8 #039
+COMMENT $23EC #040
+COMMENT $23F0 #041
+COMMENT $23F4 #042
+COMMENT $23F8 #043
+COMMENT $23FC #044
+COMMENT $2400 #045
+COMMENT $2404 #046
+COMMENT $2408 #047
+COMMENT $240C #048
+COMMENT $2410 #049
+COMMENT $2414 #050
+COMMENT $2418 #051
+COMMENT $241C #052
+COMMENT $2420 #053
+COMMENT $2424 #054
+COMMENT $2428 #055
+COMMENT $242C #056
+COMMENT $2430 #057
+COMMENT $2434 #058
+COMMENT $2438 #059
+COMMENT $243C #060
+COMMENT $2440 #061
+COMMENT $2444 #062
+COMMENT $2448 #063
+COMMENT $244C #000
+COMMENT $2450 #001
+COMMENT $2454 #002
+COMMENT $2458 #003
+COMMENT $245C #004
+COMMENT $2460 #005
+COMMENT $2464 #006
+COMMENT $2468 #007
+COMMENT $246C #008
+COMMENT $2470 #009
+COMMENT $2474 #010
+COMMENT $2478 #011
+COMMENT $247C #012
+COMMENT $2480 #013
+COMMENT $2484 #014
+COMMENT $2488 #015
+COMMENT $248C #016
+COMMENT $2490 #017
+COMMENT $2494 #018
+COMMENT $2498 #019
+COMMENT $249C #020
+COMMENT $24A0 #021
+COMMENT $24A4 #022
+COMMENT $24A8 #023
+COMMENT $24AC #024
+COMMENT $24B0 #025
+COMMENT $24B4 #026
+COMMENT $24B8 #027
+COMMENT $24BC #028
+COMMENT $24C0 #029
+COMMENT $24C4 #030
+COMMENT $24C8 #031
+COMMENT $24CC #-32
+COMMENT $24CE #-32
+COMMENT $24D0 #
+COMMENT $24D2 #
+COMMENT $24D4 #
+COMMENT $24D6 #
+COMMENT $24D8 #
+COMMENT $24DA #
+COMMENT $24DC #
+COMMENT $24DE #
+COMMENT $24E0 #
+COMMENT $24E2 #
+COMMENT $24E4 #
+COMMENT $24E6 #
+COMMENT $24E8 #
+COMMENT $24EA #
+COMMENT $24EC #
+COMMENT $24EE #
+COMMENT $24F0 #
+COMMENT $24F2 #
+COMMENT $24F4 #
+COMMENT $24F6 #
+COMMENT $24F8 #
+COMMENT $24FA #
+COMMENT $24FC #
+COMMENT $24FE #
+COMMENT $2500 #
+COMMENT $2502 #
+COMMENT $2504 #
+COMMENT $2506 #
+COMMENT $2508 #
+COMMENT $250A #
+COMMENT $250C #
+COMMENT $250E #00
+COMMENT $2510 #01
+COMMENT $2512 #02
+COMMENT $2514 #03
+COMMENT $2516 #04
+COMMENT $2518 #05
+COMMENT $251A #06
+COMMENT $251C #07
+COMMENT $251E #
+COMMENT $2520 #
+COMMENT $2522 #10
+COMMENT $2524 #11
+COMMENT $2526 #12
+COMMENT $2528 #13
+COMMENT $252A #14
+COMMENT $252C #
+COMMENT $252E #
+COMMENT $2530 #
+COMMENT $2532 #
+COMMENT $2534 #
+COMMENT $2536 #
+COMMENT $2538 #
+COMMENT $253A #
+COMMENT $253C #
+COMMENT $253E #24
+COMMENT $2540 #
+COMMENT $2542 #
+COMMENT $2544 #
+COMMENT $2546 #
+COMMENT $2548 #
+COMMENT $254A #
+COMMENT $254C #32 -> LocIndex is 124
+COMMENT_LINE $254E MSNibble : low level random offset
+COMMENT_LINE $254E LSNibble : High level random offset
+COMMENT_LINE $256E >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $256E Assumes Atari Driving Controller connected to Port #1
+COMMENT_LINE $256E When done, A contains the direction of the rotation
+COMMENT_LINE $256E <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT $256E Get Buttons status
+COMMENT $2571 Current buttons value
+COMMENT $2574 Mask non-relevant bits
+COMMENT $2576 Previous buttons value
+COMMENT $2579 Mask non-relevant bits
+COMMENT $257B Shift left 1st time
+COMMENT $257C Shift left 2nd time
+COMMENT $257D Store in temp RAM location
+COMMENT $2580 A - offset to l_DirTbl
+COMMENT $2583 X - Pointer to l_DirTbl start
+COMMENT $2586 A = value to add to position index:
+COMMENT_LINE $2588 -2 => Move right
+COMMENT_LINE $2588 0 => No change
+COMMENT_LINE $2588 +2 => Move left
+COMMENT $2589 Loc#0 - no change
+COMMENT $258A Loc#1
+COMMENT $258B Loc#2
+COMMENT $258C Loc#3
+COMMENT $258D Loc#4
+COMMENT $258E Loc#5
+COMMENT $258F Loc#6
+COMMENT $2590 Loc#7
+COMMENT $2591 Loc#8
+COMMENT $2592 Loc#9
+COMMENT $2593 Loc#10
+COMMENT $2594 Loc#11
+COMMENT $2595 Loc#12
+COMMENT $2596 Loc#13
+COMMENT $2597 Loc#14
+COMMENT $2598 Loc#15
+COMMENT_LINE $2599 ;;;;;;;;;;;;
+COMMENT_LINE $2599 ;;;;;;;;;;;;
+COMMENT_LINE $2599 ;; MISC STUFF
+COMMENT_LINE $2599 ;;;;;;;;;;;;
+COMMENT_LINE $2599 ;;;;;;;;;;;;
+COMMENT_LINE $2599 ;>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $2599 ; do_menu: This procedure is responsible to write the menus of the game. It
+COMMENT_LINE $2599 displays different lines based on the game's mode. At the end, it
+COMMENT_LINE $2599 deletes all the menu lines...
+COMMENT_LINE $2599 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $2599 s_RndPrintMenu:
+COMMENT_LINE $2599 RTS                             ;return to caller
+COMMENT_LINE $2599 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $2599 s_PrintLevelMenu - Responsible to print the level menus
+COMMENT_LINE $2599 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $2599 s_PrintLevelMenu:
+COMMENT_LINE $2599 LDA   CurrentLvl
+COMMENT_LINE $2599 CMPA  #LVL1                     ;Check if CurrentLvl == LVL1,
+COMMENT_LINE $2599 BNE   l_CheckLevel2                  ;If not, check if LVL2...
+COMMENT_LINE $2599 LDU   #menu_lvl1_line1_str      ;U <- Point to menu_lvl1_line1_str
+COMMENT_LINE $2599 JSR   Print_Str_xy              ;Print the string pointed by U
+COMMENT_LINE $2599 LDU   #lvl1_str
+COMMENT_LINE $2599 BRA   l_PrintLevel                 ;Proceed to end of the procedure
+COMMENT_LINE $2599 l_CheckLevel2:
+COMMENT_LINE $2599 CMPA  #LVL2                     ;Check if CurrentLvl == LVL2,
+COMMENT_LINE $2599 BNE   l_CheckLevel3                  ;If not, check if LVL3...
+COMMENT_LINE $2599 LDU   #menu_lvl2_line1_str      ;U <- Point to menu_lvl2_line1_str
+COMMENT_LINE $2599 JSR   Print_Str_xy              ;Print the string pointed by U
+COMMENT_LINE $2599 LDU   #lvl2_str
+COMMENT_LINE $2599 BRA   l_PrintLevel                 ;Proceed to end of the procedure
+COMMENT_LINE $2599 l_CheckLevel3:
+COMMENT_LINE $2599 LDU   #menu_lvl3_line1_str      ;U <- Point to menu_lvl3_line1_str
+COMMENT_LINE $2599 JSR   Print_Str_xy              ;Print the string pointed by U
+COMMENT_LINE $2599 LDU   #lvl3_str
+COMMENT_LINE $2599 l_PrintLevel:
+COMMENT_LINE $2599 JSR   Print_Str_xy              ;Print the string pointed by U
+COMMENT_LINE $2599 LDU   #menu_line2_str           ;Always print menu_line2_str
+COMMENT_LINE $2599 JSR   Print_Str_xy              ;Print the string pointed by U
+COMMENT_LINE $2599 RTS
+COMMENT_LINE $2599 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $2599 s_PrintMissedMenu -
+COMMENT_LINE $2599 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $2599 s_PrintMissedMenu:
+COMMENT_LINE $2599 LDU   #menu_explsn_line1_str    ;U <- Point to menu_explsn_line1_str
+COMMENT_LINE $2599 JSR   Print_Str_xy              ;Print the string pointed by U
+COMMENT_LINE $2599 LDU   #menu_explsn_line2_str    ;U <- Point to menu_explsn_line1_str
+COMMENT_LINE $2599 JSR   Print_Str_xy              ;Print the string pointed by U
+COMMENT_LINE $2599 LDU   #menu_line2_str           ;U <- Point to menu_line2_str
+COMMENT_LINE $2599 JSR   Print_Str_xy              ;Print the string pointed by U
+COMMENT_LINE $2599 RTS                                             ;Return to the caller
+COMMENT_LINE $2599 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $2599 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $2599 ******************************************************************************
+COMMENT_LINE $2599 convert a to ASCII, assumes u -> *start of string, 42,u: MSB, 43,u: LSB
+COMMENT_LINE $2599 ******************************************************************************
+COMMENT_LINE $2599 s_AToHex:
+COMMENT_LINE $2599 PSHS  A
+COMMENT_LINE $2599 PSHS  A
+COMMENT_LINE $2599 ;Calculate ASCII for MSB
+COMMENT_LINE $2599 LSRA
+COMMENT_LINE $2599 LSRA
+COMMENT_LINE $2599 LSRA
+COMMENT_LINE $2599 LSRA
+COMMENT_LINE $2599 CMPA #$09
+COMMENT_LINE $2599 BLS  l_AddMsb0x30
+COMMENT_LINE $2599 ADDA #$07
+COMMENT_LINE $2599 l_AddMsb0x30:
+COMMENT_LINE $2599 ADDA #$30
+COMMENT_LINE $2599 ;STA  42,U                      ;Store the MS nibble in location8 of the                                        ;current line
+COMMENT_LINE $2599 STA  43,U                       ;Store the MS nibble in location8 of the                                        ;current line
+COMMENT_LINE $2599 PULS  A                         ;Calculate ASCII for LSB
+COMMENT_LINE $2599 ANDA  #$0F
+COMMENT_LINE $2599 CMPA #$09
+COMMENT_LINE $2599 BLS  l_AddLsb0x30
+COMMENT_LINE $2599 ADDA #$07
+COMMENT_LINE $2599 l_AddLsb0x30:
+COMMENT_LINE $2599 ADDA  #$30
+COMMENT_LINE $2599 ;STA   43,U                     ;Store the LS nibble in location9 of the
+COMMENT_LINE $2599 STA   44,U                      ;Store the LS nibble in location9 of the
+COMMENT_LINE $2599 ;current line
+COMMENT_LINE $2599 PULS  A
+COMMENT_LINE $2599 RTS                             ;Return to the caller
+COMMENT_LINE $2599 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $2599 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $2599 *****************************************************************************
+COMMENT_LINE $2599 s_RndDToBcd:
+COMMENT_LINE $2599 LDU   #$0000
+COMMENT_LINE $2599 l_RndCheck1000:
+COMMENT_LINE $2599 CMPD  #$3E7                     ;More than 1,000?
+COMMENT_LINE $2599 BLS   l_RndCheck100
+COMMENT_LINE $2599 SUBD  #$3E8                     ;Sub 1,000 from D,
+COMMENT_LINE $2599 LEAU  $1000,u                   ;Add 1,000 to u
+COMMENT_LINE $2599 BRA   l_RndCheck1000                ;Proceed, till D < 1000
+COMMENT_LINE $2599 l_RndCheck100:
+COMMENT_LINE $2599 CMPD  #$63                      ;More than 100?
+COMMENT_LINE $2599 BLS   l_RndCheck10
+COMMENT_LINE $2599 SUBD  #$64                      ;Sub 100 from D,
+COMMENT_LINE $2599 LEAU  $100,u                    ;Add 100 to u
+COMMENT_LINE $2599 BRA   l_RndCheck100                 ;Proceed, till d < 100
+COMMENT_LINE $2599 l_RndCheck10:
+COMMENT_LINE $2599 CMPD  #$09                      ;More than 9?
+COMMENT_LINE $2599 BLS   l_RndCompleteBcd
+COMMENT_LINE $2599 SUBD  #$0A                      ;Sub 10 from d,
+COMMENT_LINE $2599 LEAU  $10,u                     ;Add 10 to u
+COMMENT_LINE $2599 BRA   l_RndCheck10                  ;Proceed, till d < 10
+COMMENT_LINE $2599 l_RndCompleteBcd:
+COMMENT_LINE $2599 LEAU  d,u                       ;Add the remain to u
+COMMENT_LINE $2599 TFR   u,d
+COMMENT_LINE $2599 RTS                             ;Return to the caller
+COMMENT_LINE $2599 ;
+COMMENT_LINE $2599 ;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $2599 ; s_DivideAtX: Divides two numbers:
+COMMENT_LINE $2599 ;           *x = a div b, *x+ = reminder, @ exit, b=remian, a=0
+COMMENT_LINE $2599 ;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $2599 s_DivideAtX:
+COMMENT_LINE $2599 CLR   ,x                        ;clear the result field
+COMMENT_LINE $2599 STB   1,x                       ;*x+ <- b
+COMMENT_LINE $2599 repeat_div:
+COMMENT_LINE $2599 CMPA  1,x                       ; check if b>a, if so, that's the end
+COMMENT_LINE $2599 BLO   a_smaller_then_b
+COMMENT_LINE $2599 SUBA  1,x                       ;a = a-b
+COMMENT_LINE $2599 INC   ,x                        ;result <- result + 1
+COMMENT_LINE $2599 BRA   repeat_div
+COMMENT_LINE $2599 a_smaller_then_b:
+COMMENT_LINE $2599 STA   1,x
+COMMENT_LINE $2599 RTS                             ;Return to the caller
+COMMENT_LINE $2599 ;>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $2599 ; s_CheckPaddleHit - Checks whether the paddle are catching either the bombs,heart,
+COMMENT_LINE $2599 ;             diamond or, ex.
+COMMENT_LINE $2599 ;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $2599 s_CheckPaddleHit:
+COMMENT_LINE $2599 RTS                             ;Return to the caller
+COMMENT_LINE $2599 ;>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+COMMENT_LINE $2599 ;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+COMMENT_LINE $2599 s_RndSelectPlyrNum:
+COMMENT_LINE $2599 s_RndSelPlyrNum_loop:
+COMMENT_LINE $2599 JSR   Wait_Recal                ;reset the crt
+COMMENT_LINE $2599 RESET_0_REF;                    ;Call Reset0Ref macro
+COMMENT_LINE $2599 LDU   #l_RndSelectPlyrMsg1
+COMMENT_LINE $2599 PRINT_STR_YX                    ;Call enhenced print routine
+COMMENT_LINE $2599 RESET_0_REF;                    ;Call Reset0Ref macro
+COMMENT_LINE $2599 LDU   #l_RndSelectPlyrMsg2
+COMMENT_LINE $2599 PRINT_STR_YX                    ;Call enhenced print routine
+COMMENT_LINE $2599 l_PlyrNumWaitForBtns:
+COMMENT_LINE $2599 JSR   Read_Btns   	        ; Get Buttons status
+COMMENT_LINE $2599 CMPA  #$00                      ; If no button pressed,
+COMMENT_LINE $2599 BEQ   s_RndSelPlyrNum_loop      ; goto opening_loop...
+COMMENT_LINE $2599 l_PlyrNumCheckCntrl1Btn1:
+COMMENT_LINE $2599 BITA  #$01
+COMMENT_LINE $2599 BEQ   l_PlyrNumCheckCntrl1Btn2         ;
+COMMENT_LINE $2599 l_PlyrNumButton1Pressed:
+COMMENT_LINE $2599 CLR   PlyrNum			;Set # of players to 1
+COMMENT_LINE $2599 RTS
+COMMENT_LINE $2599 l_PlyrNumCheckCntrl1Btn2:
+COMMENT_LINE $2599 BITA  #$02
+COMMENT_LINE $2599 BEQ   s_RndSelPlyrNum_loop	;Nothing else to check, keep looping
+COMMENT_LINE $2599 l_PlyrNumButton2Pressed:
+COMMENT_LINE $2599 LDA   #$01
+COMMENT_LINE $2599 STA   PlyrNum			;Set # of players to 2
+COMMENT_LINE $2599 RTS
+COMMENT_LINE $2599 l_RndSelectPlyrMsg1:
+COMMENT_LINE $2599 DB      30,-60,$81, "PRESS 1 FOR SINGLE PLAYER GAME, OR,", $81
+COMMENT_LINE $2599 l_RndSelectPlyrMsg2:
+COMMENT_LINE $2599 DB      -30,-50,$81, "PRESS 2 FOR TWO PLAYERS GAME.", $81
+COMMENT_LINE $2599 ;
+RANGE $0000-$0002 DB_DATA
+RANGE $0002-$000A CHAR_DATA
+RANGE $000A-$000B DB_DATA
+RANGE $000B-$0011 DW_DATA
+RANGE $0011-$0019 CHAR_DATA
+RANGE $0019-$001B DB_DATA
+RANGE $001B-$001E CODE
+RANGE $001E-$010E DB_DATA
+RANGE $010E-$1B4A CODE
+RANGE $1B4A-$1B71 DB_DATA
+RANGE $1B71-$1B86 CODE
+RANGE $1B87-$1F4B CODE
+RANGE $1F4B-$256E DB_DATA
+RANGE $256E-$2589 CODE
+RANGE $2589-$2599 DB_DATA
+

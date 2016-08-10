@@ -1,0 +1,1045 @@
+BANK 0
+LABEL $F000 start_of_OS_ROM
+LABEL $F192 waitrecal
+LABEL $F1AA dptoD0
+LABEL $F1AF dptoC8
+LABEL $F1B4 read_switches
+LABEL $F1BA read_switches2
+LABEL $F1F8 read_jstick
+LABEL $F289 do_sound
+LABEL $F2A1 intensity_to_3F
+LABEL $F2A5 intensity_to_5F
+LABEL $F2A9 intensity_to_7F
+LABEL $F2C1 dotix
+LABEL $F2D5 dot_list
+LABEL $F2FC move_pen7F_to_d
+LABEL $F34F check0ref
+LABEL $F354 reset0ref
+LABEL $F378 print_with_dft_hw
+LABEL $F37A print_at_d
+LABEL $F38A printu2
+LABEL $F3B7 move_then_draw_VL_with_count4
+LABEL $F40E drawl1b
+LABEL $F46E drawl2
+LABEL $F495 display_string
+LABEL $F517 get_random_a
+LABEL $F533 init_music_buf
+LABEL $F53F clear_blockxb
+LABEL $F545 clear_256_bytes
+LABEL $F550 clear_block_to_0x80
+LABEL $F552 clear_block_to_a
+LABEL $F584 get_absolute_value_of_ab
+LABEL $F593 convert_rise_run_to_angle
+LABEL $F5FF convert_abs_angle_to_rise_run
+LABEL $F601 convert_angle_to_rise_run
+LABEL $F610 rotate_vector_list2
+LABEL $F683 move_block2
+LABEL $F7A9 get_players_game
+LABEL $F84F set_dft_score
+LABEL $F87C add_d_to_x_in_bcd
+LABEL $F8D8 check_4_new_hi_score
+LABEL $F8FF check_bullet_for_hit
+LABEL $F92E generate_explosion_sound
+LABEL $F3BC move_to_pt
+LABEL $0DFC star_castle_music
+LABEL $0047 restart_game
+LABEL $0036 P0036
+LABEL $0FA4 author
+LABEL $0093 P0093
+LABEL $0090 P0090
+LABEL $00AE P00AE
+LABEL $0BD1 change_player
+LABEL $00D3 P00D3
+LABEL $00E1 P00E1
+LABEL $0488 P0488
+LABEL $0114 P0114
+LABEL $0E1F star_cruiser1
+LABEL $0137 P0137
+LABEL $0E31 star_cruiser2
+LABEL $013D P013D
+LABEL $0190 P0190
+LABEL $0169 P0169
+LABEL $018E P018E
+LABEL $018B P018B
+LABEL $0179 P0179
+LABEL $0F55 explosion_star
+LABEL $01C4 P01C4
+LABEL $0257 P0257
+LABEL $0E47 energy_cannon
+LABEL $01EC P01EC
+LABEL $01E3 P01E3
+LABEL $01D9 P01D9
+LABEL $01F2 P01F2
+LABEL $0212 P0212
+LABEL $0219 P0219
+LABEL $0234 P0234
+LABEL $0251 P0251
+LABEL $0F86 explosion_dots
+LABEL $02D7 P02D7
+LABEL $029C P029C
+LABEL $02D4 P02D4
+LABEL $0E61 fireball
+LABEL $02BE P02BE
+LABEL $02D1 P02D1
+LABEL $0382 P0382
+LABEL $0F33 ring
+LABEL $0C4C draw_1_ring
+LABEL $031F P031F
+LABEL $0E73 energy_bomb_VL_table
+LABEL $0346 P0346
+LABEL $040A P040A
+LABEL $0397 P0397
+LABEL $0366 P0366
+LABEL $037D P037D
+LABEL $0394 P0394
+LABEL $0380 P0380
+LABEL $0393 P0393
+LABEL $03AE P03AE
+LABEL $03B8 P03B8
+LABEL $03C9 P03C9
+LABEL $03EB P03EB
+LABEL $03F2 P03F2
+LABEL $03FA P03FA
+LABEL $0404 P0404
+LABEL $0447 P0447
+LABEL $0421 P0421
+LABEL $0FD4 game_over
+LABEL $0FE0 player1
+LABEL $043A P043A
+LABEL $0FEB player2
+LABEL $04C7 display_scores
+LABEL $046A P046A
+LABEL $0463 P0463
+LABEL $047B P047B
+LABEL $0FD6 game_over2
+LABEL $04A7 P04A7
+LABEL $04B9 P04B9
+LABEL $0507 display_player1_score
+LABEL $04DD display_player2_score
+LABEL $0C0F init_ship_count_buffer
+LABEL $0C20 fill_ship_count_buffer
+LABEL $0531 P0531
+LABEL $0C88 make_game_sounds
+LABEL $054E P054E
+LABEL $054C P054C
+LABEL $055E P055E
+LABEL $0569 P0569
+LABEL $0567 P0567
+LABEL $056C P056C
+LABEL $05A7 P05A7
+LABEL $0682 P0682
+LABEL $058F P058F
+LABEL $05A1 P05A1
+LABEL $05B3 P05B3
+LABEL $05B9 P05B9
+LABEL $05FE P05FE
+LABEL $05C5 P05C5
+LABEL $05D1 P05D1
+LABEL $0C31 mult_rise_run_by_9
+LABEL $0621 P0621
+LABEL $0618 P0618
+LABEL $0629 P0629
+LABEL $0680 P0680
+LABEL $0C33 mult_rise_run_by_a
+LABEL $06F8 P06F8
+LABEL $069A P069A
+LABEL $06C5 P06C5
+LABEL $069F P069F
+LABEL $06B0 P06B0
+LABEL $06BD P06BD
+LABEL $06C7 P06C7
+LABEL $06F1 P06F1
+LABEL $070F P070F
+LABEL $0722 P0722
+LABEL $071E P071E
+LABEL $072E P072E
+LABEL $0912 P0912
+LABEL $08C2 P08C2
+LABEL $08E2 P08E2
+LABEL $0762 P0762
+LABEL $079A P079A
+LABEL $0796 P0796
+LABEL $07BB P07BB
+LABEL $07C8 P07C8
+LABEL $07E2 P07E2
+LABEL $07D8 P07D8
+LABEL $07E0 P07E0
+LABEL $084C P084C
+LABEL $0848 P0848
+LABEL $0843 P0843
+LABEL $0908 P0908
+LABEL $0855 P0855
+LABEL $08B0 P08B0
+LABEL $08E8 P08E8
+LABEL $08EF P08EF
+LABEL $0902 P0902
+LABEL $0A40 P0A40
+LABEL $0929 P0929
+LABEL $093D P093D
+LABEL $0A2B P0A2B
+LABEL $0983 P0983
+LABEL $0976 P0976
+LABEL $0C77 update_players_score
+LABEL $0A85 P0A85
+LABEL $0989 P0989
+LABEL $09A0 P09A0
+LABEL $09AD P09AD
+LABEL $09C1 P09C1
+LABEL $0A29 P0A29
+LABEL $0A02 P0A02
+LABEL $0A08 P0A08
+LABEL $0A0D P0A0D
+LABEL $0A4B P0A4B
+LABEL $0BA6 init_ring_scale_factors
+LABEL $0A60 P0A60
+LABEL $0A67 P0A67
+LABEL $0A6F P0A6F
+LABEL $0AD1 P0AD1
+LABEL $0AB7 P0AB7
+LABEL $0AC4 P0AC4
+LABEL $0AE0 P0AE0
+LABEL $0B0C P0B0C
+LABEL $0B1F P0B1F
+LABEL $0B17 P0B17
+LABEL $0B1D P0B1D
+LABEL $0B35 P0B35
+LABEL $0B8F P0B8F
+LABEL $0B48 P0B48
+LABEL $0BA3 P0BA3
+LABEL $0B9C P0B9C
+LABEL $0BA1 P0BA1
+LABEL $0BE3 P0BE3
+LABEL $0BFD prepare_for_backup
+LABEL $0C0D P0C0D
+LABEL $0C0E P0C0E
+LABEL $0C1F P0C1F
+LABEL $0C2A P0C2A
+LABEL $0C3A P0C3A
+LABEL $0C4B P0C4B
+LABEL $0C54 P0C54
+LABEL $0C69 P0C69
+LABEL $0C83 P0C83
+LABEL $0CD9 P0CD9
+LABEL $0CAB P0CAB
+LABEL $0CD1 P0CD1
+LABEL $0CBF P0CBF
+LABEL $0CC7 P0CC7
+LABEL $0CE0 S0CE0
+LABEL $0D18 P0D18
+LABEL $0D33 P0D33
+LABEL $0D4C P0D4C
+LABEL $0D46 P0D46
+LABEL $0D42 P0D42
+LABEL $0D93 P0D93
+LABEL $0D54 P0D54
+LABEL $0D60 P0D60
+LABEL $0D6C P0D6C
+LABEL $0DB7 P0DB7
+LABEL $0D81 P0D81
+LABEL $0D7F P0D7F
+LABEL $0D85 P0D85
+LABEL $0DB6 P0DB6
+LABEL $0DBF P0DBF
+LABEL $0DC7 P0DC7
+LABEL $0DEE S0DEE
+LABEL $0DF6 S0DF6
+LABEL $0E83 S0E83
+LABEL $0E99 E99
+LABEL $0EAF EAF
+LABEL $0EC5 EC5
+LABEL $0EDB EDB
+LABEL $0EF1 EF1
+LABEL $0F07 F07
+LABEL $0F1D F1D
+LABEL $0F45 S0F45
+COMMENT_LINE $0000 can be assembled correctly now
+COMMENT_LINE $0000 compatibilty added by Malban
+COMMENT_LINE $0000 assenmble with comand line:
+COMMENT_LINE $0000 .\ass\as09.exe -w200 -h0 -l -mcti starcast.asm >error
+COMMENT_LINE $0000 used the 6809 assembler:
+COMMENT_LINE $0000 as09 [1.11].
+COMMENT_LINE $0000 Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Software.
+COMMENT_LINE $0000 Available at:
+COMMENT_LINE $0000 http://www.falstaff.demon.co.uk/cross.html
+COMMENT_LINE $0000 a bug in starcastle? search for: "malban <BUG?>"
+COMMENT_LINE $0000 This work was originally done by Fred Taft (fred@hp-pcd.cv.hp.com).
+COMMENT_LINE $0000 Please forward any comments, corrections or additions back to Fred.
+COMMENT_LINE $0000 Star Castle
+COMMENT_LINE $0000 bios routines
+COMMENT_LINE $0000 bios data
+COMMENT $000D * height
+COMMENT $000E * width
+COMMENT $000F * rel y
+COMMENT $0010 * rel x
+COMMENT $001E * The following block of code is
+COMMENT $0021 * called only the first time the
+COMMENT $0023 * game is powered up, and only if
+COMMENT $0026 * buttons 1,2 & 4 are all
+COMMENT $0029 * simultaneously pressed.  This
+COMMENT $002C * code will display the name of the
+COMMENT $002E * programmer, until either the
+COMMENT $0030 * counter at C88A decrements to 0
+COMMENT $0033 * or the buttons are no longer
+COMMENT $0036 * pressed.
+COMMENT_LINE $0047 Initialize variables, and = the users score string
+COMMENT_LINE $0047 to its default values.
+COMMENT $0047 * Initialize RAM area. /
+COMMENT $0050 * Set player 1's ship count.
+COMMENT $0054 * Init player 1's score string.
+COMMENT $005A * Init player 2's score string.
+COMMENT_LINE $0060 Fill in the user's data area to its initial values.
+COMMENT $0060 * Address of user 2's data area.
+COMMENT $0065 * Set player 2 state to "inactive".
+COMMENT $006A * Set initial (y,x) location.
+COMMENT $006E * Set initial cruiser rotation.
+COMMENT $0070 * Address of user 1's data area.
+COMMENT $0076 * Set initial (y,x) location.
+COMMENT $007A * Set initial cruiser rotation.
+COMMENT_LINE $007C Ask user for the game #, and number of players.
+COMMENT $007C * Set initial ring rotation deltas.
+COMMENT $0082 *At first, allow 2 games & 2 players.
+COMMENT $008C * Check which game was selected.
+COMMENT $0090 * Game 2;use slower rotation deltas.
+COMMENT $0095 * If 2 players were selected, then
+COMMENT $0097 * allow the user to select one of 3
+COMMENT $0099 * 2 person games.
+COMMENT $009B * Init ship count for player 2.
+COMMENT $009D * Allow 3 games.
+COMMENT $00A5 * Determine if 2 person, simultaneous
+COMMENT $00A7 * play was chosen; i.e. if game 3 was
+COMMENT $00A9 * selected.
+COMMENT $00AC * Flag simultaneous play.
+COMMENT $00B0 * Address of player 1 bullet buffer.
+COMMENT $00B5 * Address of player 2 bullet buffer.
+COMMENT $00C1 * Backup both players info data areas.
+COMMENT $00D9 * Set the button mask required
+COMMENT $00DB * by the read_switches routine.
+COMMENT $00EA * Check if the game is over.
+COMMENT_LINE $00F1 If player 1 is still alive, then transform his star
+COMMENT_LINE $00F1 cruiser, and draw it.
+COMMENT $00F5 * Check if player 1 is alive.
+COMMENT $00F9 * Get cruiser's rotation value.
+COMMENT $00FB * Load the number of points (9).
+COMMENT $00FD * Addr of cruiser 1's V list.
+COMMENT $0100 * Addr of transformation buffer.
+COMMENT $0106 * Location of player 1's cruiser.
+COMMENT $010B * (number of pts, scale factor).
+COMMENT_LINE $0114 If player 2 is still alive, then transform his star
+COMMENT_LINE $0114 cruiser, and draw it.
+COMMENT $0118 * Check if player 2 is alive.
+COMMENT $011C * Get cruiser's rotation value.
+COMMENT $011E * Load the number of points (11).
+COMMENT $0120 * Addr of cruiser 2's V list.
+COMMENT $0123 * Addr of transformation buffer.
+COMMENT $0129 * Location of player 2's cruiser.
+COMMENT $012E * (number of pts, scale factor).
+COMMENT_LINE $0137 Update the position of all active bullets.
+COMMENT $013A * Address of bullet buffer.
+COMMENT $013D * Check if bullet is active.
+COMMENT $013F * Bullet is inactive, so skip.
+COMMENT $0141 * Bullet is exploding.
+COMMENT $0143 * Decrement life span, and continue
+COMMENT $0145 * only if bullet is still 'alive'.
+COMMENT $0147 * Get original y position.
+COMMENT $014B * Add the delta to it.
+COMMENT $014F * Update bullet's y position.
+COMMENT $0151 * Get original x position.
+COMMENT $0153 * Add the delta to it.
+COMMENT $0155 * Update bullet's x position.
+COMMENT $0159 * Draw a dot at the bullet's new
+COMMENT $015B * position.
+COMMENT_LINE $0169 Bullet is exploding; so draw an explosion pattern
+COMMENT $0169 * Move to bullets position.
+COMMENT $0170 * Increment the explosion scale
+COMMENT $0172 * factor.
+COMMENT $0179 * Use the upper nibble of this
+COMMENT $017A * value as the scale factor.
+COMMENT $0184 * Draw the explosion pattern.
+COMMENT $018E * Flag that bullet is now inactive.
+COMMENT $0190 * Advance ptr to next bullet, and
+COMMENT $0192 * continue, if not at end of buffer.
+COMMENT_LINE $0197 Transform and draw the energy cannon
+COMMENT $0197 * Skip next block if energy cannon
+COMMENT $019A * has exploded, or a new screen is
+COMMENT $019C * being set up.
+COMMENT $01A6 * Transform the energy cannon's
+COMMENT $01A9 * vector list.
+COMMENT $01B8 * Move to the origin, and then draw
+COMMENT $01BB * the transformed energy cannon.
+COMMENT_LINE $01C4 Draw the energy cannon exploding
+COMMENT $01CC * Increment the scale factor used
+COMMENT $01CF * when drawing the explosion pattern.
+COMMENT $01DE * Draw the explosion pattern.
+COMMENT_LINE $01E3 Flag that the explosion is over
+COMMENT_LINE $01EC Collapse the 3 walls inward
+COMMENT $01F2 * When a rings scale factor reaches
+COMMENT $01F4 * 4, flag that the ring has completely
+COMMENT $01F6 * collapsed, by incrementing C882.
+COMMENT $01FF * Now clear all the patterns for this
+COMMENT $0201 * ring, so it will disappear.
+COMMENT $0212 * Decrement the scale factor used
+COMMENT $0215 * to draw this ring.
+COMMENT $0219 * Go onto the next ring.
+COMMENT_LINE $0220 See if all 3 rings have finally collapsed inward
+COMMENT $0220 * If all 3 rings have collapsed,
+COMMENT $0223 * then force an explosion sound,
+COMMENT $0225 * and have another explosion
+COMMENT $0227 * pattern displayed.
+COMMENT $0234 * Calculate the scale factor to use
+COMMENT $0237 * when drawing the explosion pattern.
+COMMENT $024C * Draw the explosion pattern.
+COMMENT_LINE $0251 Flag that the level was cleared
+COMMENT_LINE $0257 Process the fireball, if active
+COMMENT $025D * Fireball not active.
+COMMENT $0261 * Fireball exploding.
+COMMENT $0263 * Fireball moving.
+COMMENT $0268 * Force a fireball sound.
+COMMENT $026E * Update y position of fireball,
+COMMENT $0270 * and check to see if it went off
+COMMENT $0273 * the screen.
+COMMENT $027A * Update x position of fireball,
+COMMENT $027D * and check to see if it went off
+COMMENT $0280 * the screen.
+COMMENT $0285 * Move to fireball's position.
+COMMENT $028D * Draw the fireball.
+COMMENT $0297 * Increment the scale factor.
+COMMENT_LINE $029C Process the exploding firebal
+COMMENT $029C * Move to fireball's position.
+COMMENT $02A5 * Increment explosion's scale factor.
+COMMENT $02AF * Set scale factor.
+COMMENT $02B9 * Draw the explostion pattern.
+COMMENT_LINE $02BE Clean up after the fireball explosion has finished
+COMMENT $02C1 * Clear explosion scale factor.
+COMMENT $02C4 * If both player 1 & 2 are out
+COMMENT $02C7 * of cruisers, then set the
+COMMENT $02CA * 'game over' flag (C88D).
+COMMENT_LINE $02D1 Get ready for the next player
+COMMENT $02D4 * Disable the fireball.
+COMMENT_LINE $02D7 Transform the 3 rotating rings
+COMMENT $02D7 * Number of vectors (9).
+COMMENT $02D9 * Ring 1's rotation value.
+COMMENT $02DC * Ptr to ring vector list.
+COMMENT $02DF * Ptr to xformation buffer.
+COMMENT $02E5 * Number of vectors (9).
+COMMENT $02E7 * Ring 2's rotation value.
+COMMENT $02EA * Ptr to ring vector list.
+COMMENT $02F0 * Number of vectors (9).
+COMMENT $02F2 * Ring 3's rotation value.
+COMMENT $02F5 * Ptr to ring vector list.
+COMMENT_LINE $02FB Draw the 3 rotating rings
+COMMENT $02FB * Ptr to scales & line patterns.
+COMMENT $02FE * Ptr to transformation buffer.
+COMMENT $0301 * Draw ring 1.
+COMMENT $0304 * Draw ring 2.
+COMMENT $0307 * Draw ring 3.
+COMMENT $030D * Hi-lite rings hit with 1 bullet.
+COMMENT $0310 * Draw ring 1.
+COMMENT $0313 * Draw ring 2.
+COMMENT $0316 * Draw ring 3.
+COMMENT_LINE $031C START OF ENERGY BOMB PROCESSING LOOP
+COMMENT_LINE $031C Process energy bombs
+COMMENT $031C * Addr of energy bomb buffer.
+COMMENT $0322 * Randomly select 1 of 8 vector
+COMMENT $0327 * lists to be used when drawing
+COMMENT $0328 * this energy bomb.
+COMMENT $032A * See if we should draw energy bomb
+COMMENT $032C * or an explosion pattern.
+COMMENT $0331 * Energy bomb is not in use.
+COMMENT $0337 * Energy bomb is still on a ring.
+COMMENT_LINE $0339 Energy bomb is moving; draw its vector list
+COMMENT $0339 * Move to position of energy bomb.
+COMMENT $0340 * Draw the energy bomb.
+COMMENT_LINE $0346 Draw an explosion pattern at position of energy bomb
+COMMENT $0346 * Move to position of energy bomb.
+COMMENT $034D * Increment explosion scale factor
+COMMENT $034F * and stop when it overflows.
+COMMENT $0356 * Set the scale factor.
+COMMENT $035A * Number of dots to draw.
+COMMENT $0360 * Draw the explosion dots.
+COMMENT_LINE $0366 Clean up after an energy bomb explosion
+COMMENT $036B * Flag that this slot is no longer
+COMMENT $036D * in use.
+COMMENT $0372 * See if either player has any
+COMMENT $0375 * cruisers left.
+COMMENT $037A * Flag that game is over.
+COMMENT_LINE $037D See if "PLAYER X" string needs to be displayed
+COMMENT $0382 * If a 2 person, non-simultaneous
+COMMENT $0385 * game is being played, then force
+COMMENT $0387 * the "PLAYER X" string to be shown by
+COMMENT $038A * setting the 'change player' counter
+COMMENT $038D * Set 'change player' loop counter.
+COMMENT_LINE $0397 Draw the energy bomb on one of the rings
+COMMENT $0397 * Temporarily disable reset of 0ref.
+COMMENT $039A * Save pointer to vector list.
+COMMENT $03A1 * Addr of ring line patterns.
+COMMENT $03A5 * Addr of xformed ring vectors.
+COMMENT $03A9 * Use lower 4 bits of the bomb state
+COMMENT $03AA * to determine which ring the bomb
+COMMENT $03AB * is on, & then point 'y' to the
+COMMENT $03AE * patterns for the ring, and 'x'
+COMMENT $03B0 * to the vector list for the ring.
+COMMENT $03B8 * Use the ring's scale factor.
+COMMENT $03BF * Determine which ring section to
+COMMENT $03C1 * put the energy bomb on.
+COMMENT $03CC * Move to starting point for section.
+COMMENT $03D5 * Now, move to center of section.
+COMMENT $03DD * Draw the energy bomb here.
+COMMENT $03EB * Now, determine what the (y,x)
+COMMENT $03EC * position is of this energy bomb.
+COMMENT $0404 * Save the calculated position.
+COMMENT $040A * Process the next energy bomb
+COMMENT $040D * entry, until no more left.
+COMMENT_LINE $0415 END OF THE ENERGY BOMB PROCESSING LOOP
+COMMENT_LINE $0421 Display "GAME OVER PLAYER 1/2"
+COMMENT $0421 * Set height & width of string.
+COMMENT $0430 * Determine if player 1 or 2.
+COMMENT_LINE $0447 Prepare for the next player to start playing
+COMMENT $0447 * Skip if energy cannon exploding.
+COMMENT $044C * Display "PLAYER X" only if (while)
+COMMENT $044F * loop counter != 0.
+COMMENT $0455 * Backup dead players info.
+COMMENT $045B * Get pointer to data area for
+COMMENT $045E * the next player.
+COMMENT $0463 * If new player has no ships, then go
+COMMENT $0465 * back to the user who just died.
+COMMENT $046D * Display "PLAYER X" string.
+COMMENT $0481 * Decr the 'change player'
+COMMENT $0483 * counter.  Stop displaying "PLAYER X"
+COMMENT $0486 * string when it decrs to 0.
+COMMENT_LINE $0488 Display "GAME OVER" & see if user wants a new game
+COMMENT $048B * Set height & width of string.
+COMMENT $0494 * Position for displaying string.
+COMMENT $049D * Force both players scores to
+COMMENT $04A0 * be displayed.
+COMMENT $04AF * Restart new game if either button
+COMMENT $04B2 * 1, 2 or 3 is pressed on either
+COMMENT $04B4 * console.
+COMMENT_LINE $04B9 If a new game is not eventually started, go to OS ROM
+COMMENT $04BC * Everyother pass thru loop
+COMMENT $04BD * decr counter; if it goes
+COMMENT $04BF * to 0, then pass control
+COMMENT $04C2 * back to OS ROM.
+COMMENT_LINE $04C7 Display the individual or simultaneous player scores
+COMMENT $04C7 * Set height & width of string.
+COMMENT $04CD * Determine if both player's scores
+COMMENT $04D0 * are to be displayed
+COMMENT $04D2 * (simul play) or if only a single
+COMMENT $04D5 * players score is to be displayed.
+COMMENT $04D8 * C8DC says who's turn it is.
+COMMENT_LINE $04DD Display player 2's score
+COMMENT $04DD * Position of score string.
+COMMENT $04E3 * Addr of player 2's score string.
+COMMENT_LINE $04E9 Display player 2's ship count
+COMMENT $04EC * Get the ship count.
+COMMENT $04F2 * Addr of ship count buffer.
+COMMENT $04F5 * Height & width to use.
+COMMENT $04FB * Position for displaying.
+COMMENT $0501 * Display player 1's score only if
+COMMENT $0504 * game is over, or simultaneous play.
+COMMENT_LINE $0507 Display player 1's score
+COMMENT $0507 * Position for displaying.
+COMMENT $050D * Addr of player 1's score string.
+COMMENT $0510 * Height & width to use.
+COMMENT_LINE $0519 Display player 1's ship count
+COMMENT $051C * Get the ship count.
+COMMENT $0522 * Addr of ship count buffer.
+COMMENT $0525 * Height & width to use.
+COMMENT $052B * Position for displaying.
+COMMENT_LINE $0531 Make game sounds
+COMMENT_LINE $0537 Don't process joystick or buttons if game is over
+COMMENT_LINE $053D Read joystick and buttons, for player 1
+COMMENT $0540 * Get console 1 button states.
+COMMENT $0542 * Get joystick 1 state.
+COMMENT $0548 * Convert joystick movements
+COMMENT $054A * into button presses, to make
+COMMENT $054C * processing easier.
+COMMENT $054E * Save user 1's button states.
+COMMENT_LINE $0550 Read joystick and buttons, for player 2
+COMMENT $0550 * Get console 1 button states.
+COMMENT $0552 * Get joystick 1 state.
+COMMENT $0556 * If simultaneous play, then use
+COMMENT $0558 * the buttons on console 2 and
+COMMENT $0559 * and read the joystick state on
+COMMENT $055A * console 2 also.
+COMMENT $0561 * Convert joystick movements to
+COMMENT $0563 * button presses, to help make
+COMMENT $0565 * processing easier.
+COMMENT $0569 * Save player 2's button states.
+COMMENT_LINE $056C Once a player is dead, delay awhile before restarting him
+COMMENT $0570 * Check the user's ship count.
+COMMENT $0576 * Reset player's data area once
+COMMENT $0578 * the restart counter goes to 0.
+COMMENT_LINE $058F Reset the data area for this user
+COMMENT $0591 * Player 1 initial position.
+COMMENT $0594 * Player 1 rotation value.
+COMMENT $0596 * Is this player 2?
+COMMENT $059C * Player 2 initial position.
+COMMENT $059F * Player 2 rotation value.
+COMMENT $05A1 * Set cruiser's position.
+COMMENT $05A3 * Set cruiser's rotation.
+COMMENT_LINE $05AB Process the button states now
+COMMENT_LINE $05AB Check for rotate left command
+COMMENT $05AD * If button 1 was pressed, then
+COMMENT $05AF * rotate the cruiser to the left.
+COMMENT_LINE $05B3 Check for rotate right command
+COMMENT $05B3 * If button 2 was pressed, then
+COMMENT $05B5 * rotate the cruiser to the right.
+COMMENT_LINE $05B9 Check for a bullet fire request
+COMMENT $05B9 * If button 4 was pressed, then
+COMMENT $05BB * search the bullet buffer for an
+COMMENT $05BD * available spot.
+COMMENT $05C1 * Ignore, if energy cannon destroyed.
+COMMENT $05C5 * Find an available spot in buffer.
+COMMENT $05D7 * Use ship's y position as bullet's
+COMMENT $05D9 * initial y position.
+COMMENT $05DB * Use ship's x position as bullet's
+COMMENT $05DD * initial x position.
+COMMENT $05DF * Calculate rise & run for the bullet.
+COMMENT $05ED * Save the rise.
+COMMENT $05F4 * Save the run.
+COMMENT $05F8 * Set bullet's life span value.
+COMMENT $05FA * Flag that buffer spot is in use.
+COMMENT_LINE $05FC Check for a thrust request
+COMMENT $05FE * If button 3 was pressed, then
+COMMENT $0600 * update the cruiser's velocity, and
+COMMENT $0602 * update the cruiser's position.
+COMMENT $0606 * Force a ship movement sound.
+COMMENT $060E * Increment cruisers velocity.
+COMMENT $0618 * Calulate new rise & run values.
+COMMENT $0621 * Decrement velocity every so ofter.
+COMMENT_LINE $0629 Modify cruiser position, if velocity > 0
+COMMENT $0629 * Calculate new y position.
+COMMENT $0633 * Multiply velocity* rise, and
+COMMENT $0635 * add it to old y position.
+COMMENT $063B * Save new y position.
+COMMENT $063D * Calculate new x position.
+COMMENT $0645 * Multiply velocity* run, and
+COMMENT $0647 * add it to old x position.
+COMMENT $0649 * Save new x position.
+COMMENT_LINE $064B See if the cruiser is trying to enter the ring area
+COMMENT $0652 * Calculate x*x + y*y.
+COMMENT $065C * Compare absolute ship position
+COMMENT $065E * to the outer ring dimensions.
+COMMENT_LINE $0664 Cruise has attempted to enter ring area; turn it around
+COMMENT $0664 * Calc angle of cruiser from origin.
+COMMENT $0669 * Convert angle to Vectrex reference.
+COMMENT $066B * Set new angle for cruiser.
+COMMENT $0672 * Save rise & run deltas.
+COMMENT $0676 * Force velocity to 6.
+COMMENT $067A * Force a sound.
+COMMENT_LINE $0680 Force ships velocity to 0
+COMMENT_LINE $0682 See if the fireball has hit a star cruiser
+COMMENT $068C * Fireball position.
+COMMENT $068F * Use scale* 2 as the size
+COMMENT $0691 * of the fireball.
+COMMENT_LINE $069A Check to see if an energy bomb has hit a star cruiser
+COMMENT $069C * Addr of energy bomb buffer.
+COMMENT $06A5 * Position of energy bomb.
+COMMENT $06AE * Branch, if a hit.
+COMMENT $06B0 * Check next energy bomb.
+COMMENT $06B3 * Stop, when last bomb checked.
+COMMENT_LINE $06BD Star cruiser was hit by an energy bomb
+COMMENT $06C5 * Force explosion at fireball (y,x).
+COMMENT $06C7 * Flag player as dead.
+COMMENT $06CB * Force an explosion sound.
+COMMENT $06D3 * Set the restart timer.
+COMMENT $06D5 * Decrement players cruiser count.
+COMMENT $06D9 * Game over for this player, so see
+COMMENT $06DB * if his score is a new hi score.
+COMMENT $06E7 * If neither player has any cruisers
+COMMENT $06E9 * left, then flag that the game is
+COMMENT $06EB * over.
+COMMENT $06F1 * Clear out users bullet buffer.
+COMMENT $06F8 * Process next player.
+COMMENT_LINE $0703 START OF ENERGY BOMB STATE AND POSITION PROCESSING LOOP
+COMMENT_LINE $0703 Update the position and states of all energy bombs
+COMMENT $0705 * Determine which player has the
+COMMENT $0707 * slower ring rotation delta.
+COMMENT $0709 * Save it in C895.
+COMMENT $070F * If not simultaneous play, then
+COMMENT $0711 * determine who the next player is
+COMMENT $0712 * and set up his restart counter.
+COMMENT $071E * Restart counter is = here.
+COMMENT $0725 * Make sure the game is not in
+COMMENT $0727 * the middle of setting up a
+COMMENT $0729 * new level.
+COMMENT_LINE $072E Determine state of energy bomb, and handle accordingly
+COMMENT $0730 * Bomb is not in use.
+COMMENT $0736 * Bomb is still on a ring.
+COMMENT_LINE $073A Energy bomb is moving; so draw it towards a cruiser
+COMMENT $0740 * Determine the delta between player
+COMMENT $0742 * 1's cruiser, and the energy bomb.
+COMMENT $074A * Determine the delta between player
+COMMENT $074C * 2's cruiser, and the energy bomb.
+COMMENT $0754 * If both players are dead, then
+COMMENT $0756 * draw the energy bomb back towards
+COMMENT $0758 * the rings.
+COMMENT_LINE $0762 The following block is for simultaneous play only
+COMMENT_LINE $0762 Determine which cruiser is closer to the energy bomb
+COMMENT $0763 * See if player 1 is alive.
+COMMENT $0767 * See if player 2 is alive.
+COMMENT $0796 * Use player 2's position.
+COMMENT_LINE $079A Determine the angle between energy bomb & cruiser
+COMMENT_LINE $07BB If small delta, then aim bomb at cruiser
+COMMENT $07BE * If delta is < ring rotation,
+COMMENT $07C0 * set energy bombs angle of travel
+COMMENT $07C2 * equal to delta angle.
+COMMENT_LINE $07C8 If large delta, then gradually draw bomb towards cruiser
+COMMENT $07CA * If delta is > ring rotation,
+COMMENT $07CC * draw the energy bomb towards
+COMMENT $07CE * the cruiser, by modifying its
+COMMENT $07D0 * angle of travel by +- the ring
+COMMENT $07D3 * rotation delta.
+COMMENT_LINE $07E2 Now, update position, and position delta for the bomb
+COMMENT $07EA * Calculate rise & run.
+COMMENT $07F1 * Scale rise & run by ring rotation
+COMMENT $07F4 * value; as ring rotates faster, the
+COMMENT $07F5 * energy bombs will also travel
+COMMENT $07F6 * faster.
+COMMENT $07FD * Update the x position, and check
+COMMENT $07FF * for screen wrap.
+COMMENT $080E * Update the y position, and check
+COMMENT $0810 * for screen wrap.
+COMMENT_LINE $081C If bomb is back in ring area, then reattach it
+COMMENT $0831 * See if the bomb is within the
+COMMENT $0835 * confines of the center ring area.
+COMMENT $0839 * If bomb is still moving, then make
+COMMENT $083B * a sound, and decrement it's life
+COMMENT $083D * span counter.
+COMMENT $0841 * Flag that bomb is still moving.
+COMMENT_LINE $0848 Flag that bomb is no longer in use; lifespan expired
+COMMENT_LINE $084C Determine which ring to attach energy bomb to
+COMMENT $0855 * Determine if the energy bomb is
+COMMENT $0857 * within the confines of the ring
+COMMENT $0858 * being checked.
+COMMENT_LINE $086C Determine which ring section to energy attach bomb to
+COMMENT_LINE $087E Determine if this section still exists.
+COMMENT_LINE $0889 See if any other bomb is already on this section
+COMMENT $088F * Check bomb 1.
+COMMENT $0898 * Check bomb 2.
+COMMENT $08A1 * Check bomb 3.
+COMMENT $08AA * Available; place bomb here.
+COMMENT_LINE $08B0 Section not available or occupied, so check next ring
+COMMENT_LINE $08C2 See if we need to start up another energy bomb
+COMMENT $08C8 * Decrement reseed counter.
+COMMENT $08CA * Restart new bomb when it goes to 0.
+COMMENT $08D0 * Reset the reseed counter.
+COMMENT $08D4 * Flag bomb state as 'moving'.
+COMMENT $08D8 * Use energy cannons angle.
+COMMENT $08DC * Start bomb from origin.
+COMMENT $08DE * Clear lifespan.
+COMMENT_LINE $08E2 See if time to force energy bomb off a ring
+COMMENT $08E5 * Use state/8 to determine which
+COMMENT $08E6 * ring energy bomb is attached to.
+COMMENT $08EF * If the ring no longer exists, or if
+COMMENT $08F1 * the 'time to move' counter has gone
+COMMENT $08F4 * to 0, then force the energy bomb to
+COMMENT $08F6 * start moving outwards, until it
+COMMENT $08F8 * hits a cruiser, or comes within the
+COMMENT $08FA * confines of another ring.
+COMMENT $08FE * Update 'time to move' counter.
+COMMENT $0904 * Force energy bomb to start moving.
+COMMENT $0908 * Advance pointer to next energy
+COMMENT $090B * bomb.  Stop when last on processed.
+COMMENT_LINE $0912 END OF ENERGY BOMB STATE & POSITION PROCESSING LOOP
+COMMENT_LINE $0912 Determin the confines of a given ring
+COMMENT $0912 * Ptr to ring line patterns.
+COMMENT $0916 * Addr of ring 1 rotation value.
+COMMENT_LINE $093A Check each bullet for a hit on the energy cannon
+COMMENT $093A * Addr of player 1's bullet buffer.
+COMMENT $093D * See if bullet is active.
+COMMENT $0945 * Bullet's position.
+COMMENT $0947 * Energy cannon's position.
+COMMENT $094B * Size of energy cannon.
+COMMENT_LINE $0955 Energy cannon destroyed by a bullet
+COMMENT $0955 * Energy cannon destroyed.
+COMMENT $0957 * Disable energy bomb 1.
+COMMENT $095A * Disable energy bomb 2.
+COMMENT $095D * Disable energy bomb 3.
+COMMENT $0962 * Force an explosion sound.
+COMMENT $0968 * Flag energy cannon is exploding.
+COMMENT $096A * Flag that bullet no longer in use.
+COMMENT $096C * Slightly increase ring rotation
+COMMENT $096F * value.
+COMMENT $0976 * Score a cannon hit for the player.
+COMMENT $097E * Give the player another cruiser.
+COMMENT_LINE $0983 See if the bullet hit one of the energy bombs
+COMMENT $0985 * Addr of energy bomb buffer.
+COMMENT $0991 * Position of bullet.
+COMMENT $0993 * Position of energy bomb.
+COMMENT $0996 * Size of energy bomb.
+COMMENT $09A0 * Check next energy bomb.
+COMMENT_LINE $09AD Energy bomb was destroyed by a bullet
+COMMENT $09AF * Flag bullet no longer in use.
+COMMENT $09B3 * Force an explosion sound.
+COMMENT $09B9 * Force an explosion pattern to be
+COMMENT $09BB * displayed at bullet's position.
+COMMENT_LINE $09C1 See if the bullet hit a wall section
+COMMENT $09C8 * See if the bullet is within the
+COMMENT $09CA * confines of a ring.
+COMMENT_LINE $09DE Determine which section of the wall we are at
+COMMENT $09DE * Bullet position.
+COMMENT_LINE $09F0 Determine if this section exists or is already destroyed
+COMMENT_LINE $09F9 Add value of wall section to players score
+COMMENT $09FB * Addr of ring pattern arrays.
+COMMENT $09FE * Value of outer wall section.
+COMMENT $0A02 * This loop calculates the value
+COMMENT $0A04 * of the wall section hit.
+COMMENT $0A15 * Flag bullet no longer in use.
+COMMENT $0A17 * Clear pattern for section hit(0 hit).
+COMMENT $0A19 * Clr/set pattern 4 section hit(1 hit).
+COMMENT $0A1F * Section destroyed, so force an
+COMMENT $0A21 * explosion sound. (hit 2 times)
+COMMENT $0A2B * Advance ptr to next bullet.
+COMMENT $0A2D * Stop when last bullet processed.
+COMMENT $0A35 * Get ptr to next ring's patterns.
+COMMENT $0A37 * Get ptr to next ring's rotation.
+COMMENT $0A39 * Stop when last ring processed.
+COMMENT_LINE $0A40 A certain amount of time after the energy cannon was
+COMMENT_LINE $0A40 destroyed, reset the ring scale/pattern structure
+COMMENT_LINE $0A4B See if we need to expand the inner walls
+COMMENT $0A4B * Search the scale/pattern array,
+COMMENT $0A4E * and find out which entry is for
+COMMENT $0A50 * the outermost wall; it will have
+COMMENT $0A52 * a scale factor of $1E.  The 'x'
+COMMENT $0A54 * register will point to the entry
+COMMENT $0A56 * once it is found.
+COMMENT $0A60 * Skip over the scale factor and the
+COMMENT $0A62 * first line pattern for this ring.
+COMMENT $0A67 * This loop counts the number of
+COMMENT $0A69 * visible sections still left on
+COMMENT $0A6B * the outermost ring.  The number
+COMMENT $0A6D * of visible sections is saved in
+COMMENT $0A6F * C891.
+COMMENT $0A72 * See if any sections were left.
+COMMENT $0A74 * Branch, if sections are still left.
+COMMENT $0A76 * Set up a new scale factor for this
+COMMENT $0A78 * ring (6), and make it the inner
+COMMENT $0A7A * most ring.
+COMMENT $0A7C * Reset all the line patterns for
+COMMENT $0A7E * this ring to $FF.
+COMMENT $0A83 * Set the 'wall expanding' flag.
+COMMENT_LINE $0A85 Update rotation value, so each ring rotates faster
+COMMENT $0A88 * Update rotation for ring 1.
+COMMENT $0A91 * Update rotation for ring 2.
+COMMENT $0A9A * Update rotation for ring 3.
+COMMENT $0A9E * Expand rings everyother pass.
+COMMENT_LINE $0AA3 Continue expanding rings, if necessary
+COMMENT $0AA3 * If the 'expanding wall' flag
+COMMENT $0AA5 * (C8EC) is set, then increment the
+COMMENT $0AA7 * scale factor for each of the 3
+COMMENT $0AA9 * rings, until the outermost one
+COMMENT $0AAC * has a scale actor of $1E; at
+COMMENT $0AAE * that point, clear the 'expanding
+COMMENT $0AB1 * wall' flag.
+COMMENT $0AB7 * Increment the scale for the
+COMMENT $0AB9 * next ring.
+COMMENT $0AC2 * Clear the 'expanding walls' flag.
+COMMENT $0AC4 * Increment the scale for the
+COMMENT $0AC6 * next ring.
+COMMENT $0ACF * Clear the 'expanding walls' flag.
+COMMENT $0AD1 * Don't continue, if the energy cannon
+COMMENT $0AD3 * is being destroyed, or a new screen
+COMMENT $0AD7 * is being displayed.
+COMMENT_LINE $0AE0 Have the energy cannon track one of the cruiser
+COMMENT $0AE0 * Player 1 cruiser position.
+COMMENT $0AE7 * Player 2 cruiser position.
+COMMENT $0AEE * Determine angle delta between
+COMMENT $0AF0 * cannon and cruiser 1.
+COMMENT $0AF8 * Determine angle delta between
+COMMENT $0AFA * cannon and cruiser 2.
+COMMENT $0B00 * If game is over, then just rotate
+COMMENT $0B02 * cannon around.
+COMMENT_LINE $0B0C Determine which cruiser to track
+COMMENT $0B0C * One player is dead, so determine
+COMMENT $0B0D * which one is still alive, so we
+COMMENT $0B0F * can track him.
+COMMENT_LINE $0B1F Determine how to track one of the cruiser
+COMMENT_LINE $0B35 Determine speed at which to track the cruiser
+COMMENT $0B35 * Ring rotation delta.
+COMMENT $0B3E * Small delta; so track quickly.
+COMMENT_LINE $0B42 See if opening exists in the 3 rings in front of cannon
+COMMENT $0B42 * Addr of ring pattern array.
+COMMENT $0B45 * Addr of ring 1 rotation value.
+COMMENT $0B4E * Determine which segment of the
+COMMENT $0B50 * ring is faced by the cannon.
+COMMENT $0B56 * If both patterns are 0, then the
+COMMENT $0B59 * segment is open.
+COMMENT $0B5D * No opening exists.
+COMMENT $0B5F * Opening exists in this ring; go
+COMMENT $0B61 * check the next one also.
+COMMENT_LINE $0B66 Fire a fireball at one of the star cruisers
+COMMENT $0B68 * See if fireball is already in use.
+COMMENT $0B6E * Set initial y position to 0.
+COMMENT $0B70 * Set initial x position to 0.
+COMMENT $0B80 * Save rise value.
+COMMENT $0B87 * Save run value.
+COMMENT $0B8B * Set initial scale factor.
+COMMENT_LINE $0B8F Slowly turn energy cannon, to track a cruiser
+COMMENT $0B91 * If the delta between the cannon
+COMMENT $0B93 * and the cruiser is > the ring
+COMMENT $0B95 * rotation delta, then update the
+COMMENT $0B97 * cannons angle by the ring rotation
+COMMENT $0B9A * delta only; as this increases, so
+COMMENT $0B9C * will the tracking speed of the
+COMMENT $0B9E * energy cannon.
+COMMENT_LINE $0BA6 init_ring_scale_factors()
+COMMENT_LINE $0BA6 This routine clears the scale/pattern buffer used
+COMMENT_LINE $0BA6 to describe the 3 rings, and then sets the initial
+COMMENT_LINE $0BA6 scale factors ($0E, $16, $1E) for each of the rings.
+COMMENT_LINE $0BA6 The pattern buffer is 60 bytes long (6 x 10 bytes),
+COMMENT_LINE $0BA6 and uses RAM locations C8F3-C92F.  The first 3 entries
+COMMENT_LINE $0BA6 describe those ring sections which have no hits on them,
+COMMENT_LINE $0BA6 while the second 3 entries describe those ring sections
+COMMENT_LINE $0BA6 which have 1 hit on them (and are thus hi-lited).
+COMMENT_LINE $0BA6 The format of the pattern buffer is as follows:
+COMMENT_LINE $0BA6 scale, < 9 line patterns>,     [Ring 1, no hits]
+COMMENT_LINE $0BA6 scale, < 9 line patterns>,     [Ring 2, no hits]
+COMMENT_LINE $0BA6 scale, < 9 line patterns>,     [Ring 3, no hits]
+COMMENT_LINE $0BA6 scale, < 9 line patterns>,     [Ring 1, 1 hit]
+COMMENT_LINE $0BA6 scale, < 9 line patterns>,     [Ring 2, 1 hit]
+COMMENT_LINE $0BA6 scale, < 9 line patterns>      [Ring 3, 1 hit]
+COMMENT $0BA6 * Clear the pattern buffer.
+COMMENT $0BB1 * Set ring 1's scale factor.
+COMMENT $0BBB * Set ring 2's scale factor.
+COMMENT $0BC5 * Set ring 3's scale factor.
+COMMENT_LINE $0BD1 change_player()
+COMMENT_LINE $0BD1 This routine is called after a players cruiser has
+COMMENT_LINE $0BD1 been destroyed.  It will disable of of the energy
+COMMENT_LINE $0BD1 bombs and bullets.  It will also save a copy of the
+COMMENT_LINE $0BD1 dead players game information in his backup area.
+COMMENT_LINE $0BD1 Lastly, it will switch the active player indicator
+COMMENT_LINE $0BD1 (C8DC), and copy the other players game info out
+COMMENT_LINE $0BD1 of his backup area and into the active player area.
+COMMENT_LINE $0BD1 The info backed up and restored is the ring patterns
+COMMENT_LINE $0BD1 and rotation values.
+COMMENT $0BD3 * Disable energy bomb 1
+COMMENT $0BD6 * Disable energy bomb 2
+COMMENT $0BD9 * Disable energy bomb 3
+COMMENT $0BDC * Re-init ring patterns, if energy
+COMMENT $0BDF * cannon was destroyed.
+COMMENT $0BE6 * Clear the bullet buffer.
+COMMENT $0BF0 * Save next player indicator.
+COMMENT_LINE $0BFD prepare_for_backup()
+COMMENT_LINE $0BFD This procedure initializes the 'a' register with the
+COMMENT_LINE $0BFD count of the number of bytes to backup, the 'u' register
+COMMENT_LINE $0BFD with the address of the active players ring pattern array,
+COMMENT_LINE $0BFD and the 'x' register with the address of the backup area
+COMMENT_LINE $0BFD associated with the player being backed up; C8DC indicates
+COMMENT_LINE $0BFD which player is being backed up.
+COMMENT $0BFD * Load 'u' w/ ptr to ring patterns.
+COMMENT $0C0D * Switch flag to show other user
+COMMENT $0C0E * is now active.
+COMMENT_LINE $0C0F init_ship_count_buffer()
+COMMENT_LINE $0C0F Initialize the buffer used to display the number of
+COMMENT_LINE $0C0F ships left for a user to the following:
+COMMENT_LINE $0C0F "   ",$80,$80,$80,$80,$80,$80,$80
+COMMENT_LINE $0C0F The buffer starts at C932
+COMMENT_LINE $0C20 fill_ship_count_buffer()
+COMMENT_LINE $0C20 Fill the ship count buffer with a little spaceship
+COMMENT_LINE $0C20 figure, one for each ship the user has left.  If he
+COMMENT_LINE $0C20 has more than 9 ships left, then display "X" instead
+COMMENT_LINE $0C20 of the spaceship.
+COMMENT_LINE $0C20 At entry:
+COMMENT_LINE $0C20 'a' = number of ships.
+COMMENT $0C20 * Code for small spaceship figure.
+COMMENT $0C28 * Use "X" instead.
+COMMENT $0C2D * Fill the buffer.
+COMMENT_LINE $0C31 mult_rise_run_by_9()
+COMMENT_LINE $0C31 mult_rise_run_by_a()
+COMMENT_LINE $0C31 This routine takes a rise or run value (in 'b')
+COMMENT_LINE $0C31 and either multiples it by 9 or by the value in
+COMMENT_LINE $0C31 the 'a' register.
+COMMENT_LINE $0C31 At entry:
+COMMENT_LINE $0C31 'b' = rise or run value.
+COMMENT_LINE $0C31 'a' = multiplier (for mult_rise_run_by_a only).
+COMMENT_LINE $0C31 At exit:
+COMMENT_LINE $0C31 'd' contains the result of the multiplication,
+COMMENT_LINE $0C31 and so does C880.
+COMMENT $0C38 * Keep track if value is negative.
+COMMENT $0C44 * If the rise/run value was negative
+COMMENT $0C45 * then take twos complement, to make
+COMMENT $0C46 * the result negative also.
+COMMENT_LINE $0C4C draw_1_ring()
+COMMENT_LINE $0C4C This routine will draw one of the 3 rings (castle walls).
+COMMENT_LINE $0C4C At entry:
+COMMENT_LINE $0C4C 'x' points to (y,x) vector list for this ring.
+COMMENT_LINE $0C4C 'u' points to scale/pattern buffer for this ring.
+COMMENT_LINE $0C4C Drawing will cease when a pattern > 0 is encountered.
+COMMENT $0C50 * Grab the scale factor.
+COMMENT $0C54 * Grab the vector endpoint.
+COMMENT $0C5A * Grab the line pattern to use.
+COMMENT $0C70 * Stop, when end of pattern list is
+COMMENT $0C72 * reached (pattern > 0).
+COMMENT_LINE $0C77 update_players_score()
+COMMENT_LINE $0C77 This routine takes a value, and adds it to the
+COMMENT_LINE $0C77 appropriate user's score string.
+COMMENT_LINE $0C77 At entry:
+COMMENT_LINE $0C77 'd' contains the BCD value to be added to a score.
+COMMENT_LINE $0C77 'u' points to bullet entry which scored a hit.
+COMMENT_LINE $0C77 The address of the bullet entry is used to determine
+COMMENT_LINE $0C77 whether to add the BCD value to player 1 or 2's score.
+COMMENT $0C7A * Determine which player to credit
+COMMENT $0C7E * with the hit.
+COMMENT $0C83 * Get addr of player's score string.
+COMMENT_LINE $0C88 make_game_sounds()
+COMMENT_LINE $0C88 This routine is responsible for making all of the
+COMMENT_LINE $0C88 sound associated with the game.  It uses a bit mask
+COMMENT_LINE $0C88 in C890 to decide which sounds to make at any given
+COMMENT_LINE $0C88 moment.
+COMMENT $0CC7 * (UNKNOWN JUMP)
+COMMENT_LINE $0CE0 Table of sound routine addresses, and data
+COMMENT_LINE $0CE0 2 byte subroutine address.
+COMMENT_LINE $0CE0 5 bytes of data.
+COMMENT $0DCF <--I original $0dde
+COMMENT_LINE $0DD2 ldu   #explosion_sound_data;$0DDE;             <--I original $0dde
+COMMENT $0DD2 I seems to be wrong,
+COMMENT $0DD3 I a bug in starcastle?
+COMMENT $0DD4 I
+COMMENT $0DD6 I
+COMMENT $0DD9 I
+COMMENT $0DDB I
+COMMENT $0DDD between this instruction is $0dde  <--I   malban <BUG?>
+COMMENT_LINE $0DE2 Data describing the explosion sounds
+COMMENT_LINE $0DE2 malban: here is $0de2
+COMMENT_LINE $0E1F Vector list for player 1's star cruiser
+COMMENT_LINE $0E31 Vector list for player 2's star cruiser
+COMMENT_LINE $0E47 Vector list for the energy cannon
+COMMENT_LINE $0E73 Table of pointers to vector lists, having the
+COMMENT_LINE $0E73 following format:
+COMMENT_LINE $0E73 line pattern, rel y, rel x,
+COMMENT_LINE $0E73 line pattern, rel y, rel x,
+COMMENT_LINE $0E73 .
+COMMENT_LINE $0E73 .
+COMMENT_LINE $0E73 $01
+COMMENT_LINE $0E73 These look like they are vector lists for the energy
+COMMENT_LINE $0E73 bombs.  By displaying these various patterns, you
+COMMENT_LINE $0E73 get the impression that the bomb is twinkling.
+COMMENT_LINE $0F33 Vector list for a ring (castle wall)
+RANGE $0000-$000B DB_DATA
+RANGE $000B-$000D DW_DATA
+RANGE $000D-$001E DB_DATA
+RANGE $001E-$0CE0 CODE
+RANGE $0CE0-$0CE2 DW_DATA
+RANGE $0CE2-$0CE7 DB_DATA
+RANGE $0CE7-$0CE9 DW_DATA
+RANGE $0CE9-$0CEE DB_DATA
+RANGE $0CEE-$0CF0 DW_DATA
+RANGE $0CF0-$0CF5 DB_DATA
+RANGE $0CF5-$0CF7 DW_DATA
+RANGE $0CF7-$0CFC DB_DATA
+RANGE $0CFC-$0CFE DW_DATA
+RANGE $0CFE-$0D03 DB_DATA
+RANGE $0D03-$0D05 DW_DATA
+RANGE $0D05-$0D0A DB_DATA
+RANGE $0D0A-$0D0C DW_DATA
+RANGE $0D0C-$0D11 DB_DATA
+RANGE $0D11-$0D13 DW_DATA
+RANGE $0D13-$0D18 DB_DATA
+RANGE $0D18-$0DE2 CODE
+RANGE $0DE2-$0DFC DB_DATA
+RANGE $0DFC-$0E00 DW_DATA
+RANGE $0E00-$0E73 DB_DATA
+RANGE $0E73-$0E83 DW_DATA
+RANGE $0E83-$1000 DB_DATA
+

@@ -147,13 +147,21 @@ public class VectrexJoyport
         }             
     }    
     
+    // if b== true
+    // than input enabled
+    // input mode enabled means
+    // device can WRITE to the port
+    // and vectrex (over PSG) can read port
     public void setInputMode(boolean b)
     {
         inputMode = b;
         outputMode = !inputMode;
-        
         if (device != null) device.setInputMode(b);
         
+    }
+    public boolean isInpuMode()
+    {
+        return inputMode;
     }
     
     // read only variant for analog display windows, doesnt change vars

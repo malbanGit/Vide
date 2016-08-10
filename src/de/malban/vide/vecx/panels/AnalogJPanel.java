@@ -225,11 +225,20 @@ public class AnalogJPanel extends javax.swing.JPanel implements
             jTextField109.setText(""+((  (joyport[0].isButtonInRO(1))?"1":"0")) );
             jTextField107.setText(""+((  (joyport[0].isButtonInRO(2))?"1":"0")) );
             jTextField108.setText(""+((  (joyport[0].isButtonInRO(3))?"1":"0")) );
-            
+                
             jTextField114.setText(""+((  (joyport[1].isButtonInRO(0))?"1":"0")) );
             jTextField113.setText(""+((  (joyport[1].isButtonInRO(1))?"1":"0")) );
             jTextField112.setText(""+((  (joyport[1].isButtonInRO(2))?"1":"0")) );
             jTextField111.setText(""+((  (joyport[1].isButtonInRO(3))?"1":"0")) );
+            
+            jTextField107.setEnabled(joyport[0].isInpuMode());
+            jTextField108.setEnabled(joyport[0].isInpuMode());
+            jTextField109.setEnabled(joyport[0].isInpuMode());
+            jTextField110.setEnabled(joyport[0].isInpuMode());
+            jTextField111.setEnabled(joyport[1].isInpuMode());
+            jTextField112.setEnabled(joyport[1].isInpuMode());
+            jTextField113.setEnabled(joyport[1].isInpuMode());
+            jTextField114.setEnabled(joyport[1].isInpuMode());
             
             if ((joyport[0].isButtonInRO(0)) != ((buttonIn&0x01)==0x01)) jTextField110.setForeground(Color.red); else jTextField110.setForeground(Color.black);
             if ((joyport[0].isButtonInRO(1)) != ((buttonIn&0x02)==0x02)) jTextField109.setForeground(Color.red); else jTextField109.setForeground(Color.black);
@@ -250,6 +259,14 @@ public class AnalogJPanel extends javax.swing.JPanel implements
             buttonIn += (joyport[1].isButtonInRO(2))?0x40:0;
             buttonIn += (joyport[1].isButtonInRO(3))?0x80:0;
             
+            jTextField115.setEnabled(!joyport[0].isInpuMode());
+            jTextField116.setEnabled(!joyport[0].isInpuMode());
+            jTextField117.setEnabled(!joyport[0].isInpuMode());
+            jTextField118.setEnabled(!joyport[0].isInpuMode());
+            jTextField119.setEnabled(!joyport[1].isInpuMode());
+            jTextField120.setEnabled(!joyport[1].isInpuMode());
+            jTextField121.setEnabled(!joyport[1].isInpuMode());
+            jTextField122.setEnabled(!joyport[1].isInpuMode());
 
             jTextField115.setText(""+((  (joyport[0].isButtonOutRO(0))?"1":"0")) );
             jTextField116.setText(""+((  (joyport[0].isButtonOutRO(1))?"1":"0")) );
@@ -701,15 +718,15 @@ public class AnalogJPanel extends javax.swing.JPanel implements
 
         jLabel35.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel35.setText("In");
-        jLabel35.setToolTipText("if MUX bits = 01");
+        jLabel35.setToolTipText("input from device to vectrex");
 
         jLabel36.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel36.setText("Out");
-        jLabel36.setToolTipText("if MUX bits = 01");
+        jLabel36.setToolTipText("from vectrex to device");
 
         jLabel37.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel37.setText("In");
-        jLabel37.setToolTipText("if MUX bits = 01");
+        jLabel37.setToolTipText("input from device to vectrex");
 
         jTextField119.setFont(new java.awt.Font("Courier", 0, 11)); // NOI18N
         jTextField119.setText("0");
@@ -753,7 +770,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
 
         jLabel38.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel38.setText("Out");
-        jLabel38.setToolTipText("if MUX bits = 01");
+        jLabel38.setToolTipText("from vectrex to device");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -862,7 +879,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

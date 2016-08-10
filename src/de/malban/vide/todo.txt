@@ -392,8 +392,19 @@ Done:
 todo:
 todoc:
 
+if S is written to - reset call stack! (or redetermine)
+
+
 VecMulti
 
+veccy
+3d vectors "real" (with z disortion) and option to remove "back" vectors
+
+
+order documents
+
+add example programs just for "programming"
+(String, Scroll, Clip, ... codi)
 
 
 do a stack frame window (for U, S X Y) with definable vars (byte word, named)

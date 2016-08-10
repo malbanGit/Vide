@@ -753,7 +753,6 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jCheckBox4.setText("Lightpen Port 2");
 
         jCheckBox5.setText("3d Imager");
-        jCheckBox5.setEnabled(false);
 
         jCheckBox6.setText("extreme multi");
 

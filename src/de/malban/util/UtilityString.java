@@ -679,6 +679,16 @@ public class UtilityString
         }catch (Throwable e){System.out.println(e);}
         return ret;
     }
+    public static double DoubleX(String t, double x)
+    {
+        double ret = x;
+        t = replace(t, ",", "."); 
+        try
+        {
+            ret = Double.parseDouble(t);
+        }catch (Throwable e){System.out.println(e);}
+        return ret;
+    }
     public static Vector<Integer> intVector(String s)
     {
         return intVector(s,",");

@@ -74,6 +74,7 @@ import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.veccy.VectorListScanner;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2430A;
+import de.malban.vide.vecx.devices.Imager3dDevice;
 import de.malban.vide.vecx.devices.JoyportDevice;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
@@ -276,6 +277,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 break;
             case 0x08:
                 /* the sound chip is sending data */
+                // via_ora must be set!
+                via_ora = e8910.read(snd_select);
                 break;
             case 0x10:
                 /* the sound chip is recieving data */
@@ -1341,14 +1344,19 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     // input in vectrex coordinates!
     // transformed to upper left corner. (is 0,0)
     // values from 0 to ALG_MAX_X and 0 to ALG_MAX_Y
-    void alg_addline (int x0, int y0, int x1, int y1, int color, int speed)
+    void alg_addline (int x0, int y0, int x1, int y1, int color, int speed, int left, int right)
     {
-        alg_addline ( x0,  y0,  x1,  y1,  color, false, speed);
+        alg_addline ( x0,  y0,  x1,  y1,  color, false, speed,  left,  right);
     }
-    void alg_addline (int x0, int y0, int x1, int y1, int color, boolean midChange, int speed)
+    void alg_addline (int x0, int y0, int x1, int y1, int color, boolean midChange, int speed, int left, int right)
     {
         if (config.useRayGun) return;
         int index;
+        
+        if (imagerMode)
+        {
+            if (((left == -1)||(left == 0)) && ((right==-1)||(right == 0))) return;
+        }
 
         // possibly add some brightness!
         if (vectorDisplay[displayedNext].count >=vectorDisplay[displayedNext].vectrexVectors.length)
@@ -1365,6 +1373,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         v.y1 = y1;
         v.midChange = midChange;
         v.color = color;
+        v.imagerColorLeft = left;
+        v.imagerColorRight = right;
         
         if (color < 0x7f) color = color/3;
         
@@ -1397,6 +1407,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             directDrawVector.midChange = midChange;
 
             directDrawVector.color = 255;
+            directDrawVector.imagerColorLeft = left;
+            directDrawVector.imagerColorRight = right;
             displayer.directDraw(directDrawVector);
         }
         vectorDisplay[displayedNext].count++;
@@ -2192,6 +2204,13 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     alg_curr_y >= 0 && alg_curr_y < ALG_MAX_Y &&
                     ((alg_zsh.intValue &0x80) ==0) &&  ((alg_zsh.intValue &0x7f) !=0)) 
             {
+                if (imagerMode)
+                {
+                    Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
+                    leftEyeColor = i3d.getLeftColor();
+                    rightEyeColor = i3d.getRightColor();
+                }
+                
                 /* start a new vector */
                 alg_vectoring = 1;
                 alg_vector_x0 = (int)alg_curr_x;
@@ -2201,7 +2220,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 alg_vector_dx = alg_xsh.intValue;
                 alg_vector_dy = -alg_ysh.intValue;
                 alg_vector_speed = Math.max(Math.abs(alg_xsh.intValue), Math.abs(alg_ysh.intValue));
-                
+                alg_leftEye = leftEyeColor;
+                alg_rightEye = rightEyeColor;
+        
                 alg_vector_color = alg_zsh.intValue;
                 alg_ramping = (sig_ramp.intValue== 0);
                 if ((alg_ramping) || (sig_zero.intValue == 0))
@@ -2218,8 +2239,15 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         } 
         else 
         {
+            if (imagerMode)
+            {
+                Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
+                leftEyeColor = i3d.getLeftColor();
+                rightEyeColor = i3d.getRightColor();
+            }
             boolean yChanged = (-alg_ysh.intValue != alg_vector_dy) && (sig_ramp.intValue== 0);
             boolean xChanged = (alg_xsh.intValue != alg_vector_dx) && (sig_ramp.intValue== 0);
+            boolean imagerColorChanged = (imagerMode) && ((leftEyeColor!=alg_leftEye)||(rightEyeColor!=alg_rightEye));
             
             /* already drawing a vector ... check if we need to turn it off */
             if ((sig_blank.intValue == 0) || ((alg_zsh.intValue &0x80) !=0) || ((alg_zsh.intValue &0x7f) ==0))
@@ -2233,7 +2261,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     // ramping and blank just went enabled
                     // do a blank off delay
                     // make the vector a tiny bit longer!(sig_blank.intValue == 0)
-                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1+(int)(config.blankOnDelay*alg_vector_dx), alg_vector_y1+(int)(config.blankOnDelay*alg_vector_dy), alg_zsh.intValue, alg_curved, alg_vector_speed);
+                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1+(int)(config.blankOnDelay*alg_vector_dx), alg_vector_y1+(int)(config.blankOnDelay*alg_vector_dy), alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
                 }
                 else
                 {
@@ -2260,14 +2288,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     }
                     if (doLine)
                         */
-                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_zsh.intValue, alg_curved, alg_vector_speed);
+                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
                     
                 }
                 alg_vectoring = 0;
             } 
             
             
-            else if (xChanged || yChanged || alg_zsh.intValue != alg_vector_color ||  (sig_zero.intValue == 0) || ((sig_ramp.intValue== 0) != alg_ramping) ) 
+            else if (imagerColorChanged || xChanged || yChanged || alg_zsh.intValue != alg_vector_color ||  (sig_zero.intValue == 0) || ((sig_ramp.intValue== 0) != alg_ramping) ) 
             {
                 /* the parameters of the vectoring processing has changed.
                  * so end the current line.
@@ -2286,7 +2314,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 // discard the first 0 vector if so
                 boolean rampStartCheck =  ((!alg_ramping) && (sig_ramp.intValue== 0));
                 if (!rampStartCheck)
-                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_vector_color, alg_curved, alg_vector_speed);
+                    alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_vector_color, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
 
                 /* we continue vectoring with a new set of parameters if the
                  * current point is not out of limits.
@@ -2310,6 +2338,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         alg_curved = false;
                     }
                     alg_vector_color = alg_zsh.intValue;
+                    alg_leftEye = leftEyeColor;
+                    alg_rightEye = rightEyeColor;
                     alg_vector_speed = Math.max(Math.abs(alg_xsh.intValue), Math.abs(alg_ysh.intValue));
 
                     alg_ramping = (sig_ramp.intValue== 0);
@@ -3168,5 +3198,70 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         else 
             firq = 0;
     }
+    public boolean setRegister(String register, int value)
+    {
+        register = register.trim().toLowerCase();
+        if (register.equals("dp"))
+        {
+            e6809.reg_dp = value&0xff;
+            return true;
+        }
+        if (register.equals("cc"))
+        {
+            e6809.reg_cc = value&0xff;
+            return true;
+        }
+        if (register.equals("a"))
+        {
+            e6809.reg_a = value&0xff;
+            return true;
+        }
+        if (register.equals("b"))
+        {
+            e6809.reg_b = value&0xff;
+            return true;
+        }
+        if (register.equals("d"))
+        {
+            e6809.reg_a = value&0xff;
+            e6809.reg_b = (value>>8)&0xff;
+            return true;
+        }
+        if (register.equals("x"))
+        {
+            e6809.reg_x = value&0xffff;
+            return true;
+        }
+        if (register.equals("y"))
+        {
+            e6809.reg_y = value&0xffff;
+            return true;
+        }
+        if (register.equals("pc"))
+        {
+            e6809.reg_pc = value&0xffff;
+            return true;
+        }
+        if (register.equals("u"))
+        {
+            e6809.reg_u.intValue = value&0xffff;
+            return true;
+        }
+        if (register.equals("s"))
+        {
+            e6809.reg_s.intValue = value&0xffff;
+            return true;
+        }
+        return false;
+    }
+    public boolean isImager()
+    {
+        return imagerMode;
+    }
+    public void setImager(boolean im)
+    {
+        imagerMode = im;
+    }
+    
 }
 

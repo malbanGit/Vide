@@ -1,0 +1,2599 @@
+BANK 0
+EQU $06 MAX_MINES
+EQU $04 MAX_ALIEN_SHOTS
+LABEL $F55A dec_counters
+LABEL $F794 player_string
+LABEL $F835 dis_opt_string
+LABEL $F79F game_string
+LABEL $FC8D BIOS_music_data
+LABEL $F687 Init_Music_chk
+LABEL $F289 Do_Sound
+LABEL $C856 Vec_Music_Flag
+LABEL $F256 byte2sndchip
+LABEL $D004 VIA_t1_cnt_lo
+LABEL $F3DF draw_to_d
+LABEL $C823 Vec_Misc_Count
+LABEL $F8C7 compare_scores
+LABEL $F85E covert_add_bcd
+LABEL $F1AF dptoC8
+LABEL $F192 waitrecal
+LABEL $F2A9 intensity_to_7f
+LABEL $F2AB intensity_to_A
+LABEL $F545 clear_256_bytes
+LABEL $F84F set_dft_score
+LABEL $F2FC move_pen7f_to_d
+LABEL $F1B4 read_switches
+LABEL $F1F8 read_joystick
+LABEL $F495 display_string
+LABEL $F3B7 move_draw_VL4
+LABEL $F354 reset0ref
+LABEL $F601 conv_ang_rr
+LABEL $F584 get_abs_val_ab
+LABEL $F312 move_pen_d
+LABEL $F511 random
+LABEL $F87C add_score_d
+LABEL $F8D8 new_high_score
+LABEL $F2C5 dot_here
+LABEL $C880 user_RAM
+LABEL $C880 level
+COMMENT_LABEL $C880 buffer+32            ;Current level
+LABEL $C881 players
+COMMENT_LABEL $C881 Numer of players
+LABEL $C882 game
+LABEL $C883 drag
+LABEL $C885 ships_left_1
+COMMENT_LABEL $C885 Ships remaining player 1
+LABEL $C886 ships_left_2
+COMMENT_LABEL $C886 Ships remaining player 2
+LABEL $C887 accel
+COMMENT_LABEL $C887 Acceleration, player 1
+LABEL $C888 accel_2
+COMMENT_LABEL $C888 Acceleration, player 2
+LABEL $C889 pos_max_vel
+COMMENT_LABEL $C889 Max velocity, player 1
+LABEL $C88B neg_max_vel
+LABEL $C88D pos_max_vel_2
+COMMENT_LABEL $C88D Max velocity, player 2
+LABEL $C88F neg_max_vel_2
+LABEL $C891 no_shots_1
+COMMENT_LABEL $C891 Max number of shots, player 1
+LABEL $C892 no_shots_2
+COMMENT_LABEL $C892 Max number of shots, player 2
+LABEL $C893 shot_speed_1
+COMMENT_LABEL $C893 Speed of player 1's shots
+LABEL $C895 shot_speed_2
+COMMENT_LABEL $C895 Speed of player 2's shots
+LABEL $C897 shot_range_1
+COMMENT_LABEL $C897 Range of player 1's shots
+LABEL $C898 shot_range_2
+COMMENT_LABEL $C898 Range of player 2's shots
+LABEL $C899 shot_counter
+LABEL $C89A tmp
+LABEL $C89C tmp2
+LABEL $C89E tmp3
+LABEL $C8A0 salien_posv
+LABEL $C8A2 salien_negv
+LABEL $C8A4 falien_posv
+LABEL $C8A6 falien_negv
+LABEL $C8A8 posv
+LABEL $C8AA negv
+LABEL $C8AD score_1
+COMMENT_LABEL $C8AD negv+2
+LABEL $C8B4 score_2
+LABEL $C8BB bonus_score_1
+LABEL $C8C2 bonus_score_2
+LABEL $C8C9 high_score
+LABEL $C8D0 in_blk_1x
+COMMENT_LABEL $C8D0 Causes a horizontal bounce
+LABEL $C8D1 in_blk_1y
+LABEL $C8D2 in_blk_2x
+COMMENT_LABEL $C8D2 Causes a vertical bounce
+LABEL $C8D3 in_blk_2y
+LABEL $C8D4 out_blk_1x
+COMMENT_LABEL $C8D4 Outer wall co-ords
+LABEL $C8D5 out_blk_1y
+LABEL $C8D6 in_diag_1
+COMMENT_LABEL $C8D6 Inner wall diag co-ords
+LABEL $C8D7 in_diag_2
+LABEL $C8D8 out_diag_1
+LABEL $C8D9 out_diag_2
+LABEL $C8DA quad_flag1
+LABEL $C8DB quad_flag2
+LABEL $C910 no_sprites
+COMMENT_LABEL $C910 Total number of sprites to display
+LABEL $C911 sprites_left
+COMMENT_LABEL $C911 Counter for displaying sprites
+LABEL $C912 sprite_1
+COMMENT_LABEL $C912 Start of structure of Sprite #1
+EQU $00 state
+EQU $01 posx
+COMMENT_LABEL $01 X coordinate of Sprite
+EQU $03 posy
+COMMENT_LABEL $03 Y coordinate of Sprite
+EQU $05 rotation
+COMMENT_LABEL $05 Rotation of Sprite
+EQU $06 intensity
+COMMENT_LABEL $06 Intensity of Sprite
+EQU $07 scale
+COMMENT_LABEL $07 Scale of Sprite
+EQU $08 no_vectors
+COMMENT_LABEL $08 Number of Vectors in vector list for Sprite
+EQU $09 vector_list
+COMMENT_LABEL $09 Address of Vector list for Sprite
+EQU $0B deltax
+COMMENT_LABEL $0B X velocity of Sprite
+EQU $0D deltay
+COMMENT_LABEL $0D Y velocity of Sprite
+LABEL $C921 sprite_2
+COMMENT_LABEL $C921 $c921 ;sprite_1+#15       ;Start of structure for Sprite #2
+LABEL $C930 sprite_3
+COMMENT_LABEL $C930 $c930 ;Start of structure for Sprite #3
+LABEL $C93F sprite_4
+COMMENT_LABEL $C93F $c93f
+LABEL $C94E sprite_5
+COMMENT_LABEL $C94E $c94e
+LABEL $C95D sprite_6
+COMMENT_LABEL $C95D $c95d
+LABEL $C96C sprite_7
+COMMENT_LABEL $C96C $c96c
+LABEL $C97B sprite_8
+COMMENT_LABEL $C97B $c97b
+LABEL $C98A sprite_9
+COMMENT_LABEL $C98A $c98a
+LABEL $C999 sprite_10
+COMMENT_LABEL $C999 $c999
+LABEL $C9A8 sprite_11
+COMMENT_LABEL $C9A8 $c9a8
+LABEL $C9B7 sprite_12
+COMMENT_LABEL $C9B7 $c9b7
+LABEL $C9C6 sprite_13
+COMMENT_LABEL $C9C6 $c9c6
+LABEL $C9D5 sprite_14
+COMMENT_LABEL $C9D5 $c9d5
+LABEL $C9E4 sprite_15
+COMMENT_LABEL $C9E4 $c9e4
+LABEL $C9F3 sprite_16
+COMMENT_LABEL $C9F3 $c9f3
+LABEL $CA02 sprite_17
+COMMENT_LABEL $CA02 $ca02
+LABEL $CA11 sprite_18
+COMMENT_LABEL $CA11 $ca11
+LABEL $CA20 sprite_19
+COMMENT_LABEL $CA20 $ca20
+LABEL $CA2F sprite_20
+COMMENT_LABEL $CA2F $ca3f
+LABEL $CA3E sprite_21
+COMMENT_LABEL $CA3E $ca4e
+LABEL $CA4D sprite_22
+COMMENT_LABEL $CA4D $ca5d
+LABEL $CA5C sprite_23
+COMMENT_LABEL $CA5C $ca6c
+LABEL $CA6B sprite_24
+COMMENT_LABEL $CA6B $ca7b
+LABEL $CA7A sprite_25
+COMMENT_LABEL $CA7A $ca8a
+LABEL $CA89 sprite_26
+COMMENT_LABEL $CA89 $ca99
+LABEL $CA98 sprite_27
+COMMENT_LABEL $CA98 $caa8
+LABEL $CAA7 sprite_28
+COMMENT_LABEL $CAA7 $cab7
+LABEL $CAB6 sprite_29
+COMMENT_LABEL $CAB6 $cac6
+LABEL $CAC5 sprite_30
+COMMENT_LABEL $CAC5 $cad5
+LABEL $CA5D alien_turn
+LABEL $CA5E type3_counter
+LABEL $CA5F alientype1
+LABEL $CA60 alientype2
+LABEL $CA61 alientype3
+LABEL $CA62 alientype4
+LABEL $CA63 alientype5
+LABEL $CA64 alientype6
+LABEL $CA65 alientype7
+LABEL $CA66 alientype8
+LABEL $CA67 alientype9
+LABEL $CA68 alientype10
+LABEL $CA69 alientype11
+LABEL $CA6A alientype12
+LABEL $CA6B no_aliens
+LABEL $CA6C remain_aliens
+LABEL $CA6D mine_chance
+LABEL $CA6E p1_dead
+LABEL $CA6F p2_dead
+LABEL $CA70 bounce_flag
+LABEL $CA71 bounce_snd_flag
+LABEL $CA72 alien_snd_flag
+LABEL $CA73 exp_snd_flag
+LABEL $CA74 exp_snd_flag2
+LABEL $CA75 shot_snd_flag
+LABEL $CA76 woo_snd_flag
+LABEL $CA77 tht_snd_flag
+LABEL $CA78 tht2_snd_flag
+LABEL $CA79 thud_count
+LABEL $CA7A thud_flag
+LABEL $CA7B thud_vol
+LABEL $CA7C old_snd
+LABEL $CA7E wall_switch
+LABEL $CA7F wall_status1
+LABEL $CA80 wall_status2
+LABEL $CA81 wall_status3
+LABEL $CA82 wall_status4
+LABEL $CA83 wall_status5
+LABEL $CA84 wall_status6
+LABEL $CA85 wall_status7
+LABEL $CA86 wall_status8
+LABEL $CA87 wall_status9
+LABEL $CA88 wall_status10
+LABEL $CA89 wall_status11
+LABEL $CA8A wall_status12
+LABEL $CA8B wall_status13
+LABEL $CA8C wall_status14
+LABEL $CA8D wall_status15
+LABEL $CA8E wall_status16
+LABEL $CA8F p1_invince
+LABEL $CA90 p1_invin_count
+LABEL $CA91 p2_invince
+LABEL $CA92 p2_invin_count
+LABEL $CA93 restart_count
+LABEL $CA94 shootp1
+LABEL $CA95 shootp2
+LABEL $CA95 bonus_snd_flag
+LABEL $CAA8 whole_dur
+LABEL $CAA9 half_dur
+LABEL $CAAA quarter_dur
+LABEL $CAAB eighth_dur
+LABEL $CAAC sixteenth_dur
+LABEL $CAAD V1_notes
+LABEL $CAAF V1_pos
+LABEL $CAB1 V1_count
+LABEL $CAB2 V1_dur
+LABEL $CAB3 V1_whole
+LABEL $CAB5 V1_half
+LABEL $CAB7 V1_quarter
+LABEL $CAB9 V1_eighth
+LABEL $CABB V1_sixteenth
+LABEL $CABC V2_notes
+LABEL $CABE V2_pos
+LABEL $CAC0 V2_count
+LABEL $CAC1 V2_dur
+LABEL $CAC2 V2_whole
+LABEL $CAC4 V2_half
+LABEL $CAC6 V2_quarter
+LABEL $CAC8 V2_eighth
+LABEL $CACA V2_sixteenth
+LABEL $CACB V3_notes
+LABEL $CACD V3_pos
+LABEL $CACF V3_count
+LABEL $CAD0 V3_dur
+LABEL $CAD1 V3_whole
+LABEL $CAD3 V3_half
+LABEL $CAD5 V3_quarter
+LABEL $CAD7 V3_eighth
+LABEL $CAD9 V3_sixteenth
+LABEL $CAA7 ashot_data_1
+LABEL $CAD4 outer
+LABEL $CAD6 inner
+LABEL $CAD8 move_tmp
+LABEL $CADA mine_data_1
+LABEL $0744 music
+LABEL $0020 init
+EQU $29 warmstart
+LABEL $1ACD start_game
+EQU $30 main2
+LABEL $1273 new_level
+EQU $37 main
+LABEL $0F75 snd_check
+LABEL $2477 read_joysticks
+LABEL $2F49 draw_aliens
+LABEL $2E86 draw_shots
+LABEL $2ECC draw_ships
+LABEL $401C draw_mines
+LABEL $251D draw_alien_shots
+LABEL $0E57 dead_chk
+LABEL $27AB update_ship
+LABEL $2E4D move_everything
+LABEL $2577 update_ashots
+LABEL $20AD update_shots
+LABEL $230B update_alien_2
+LABEL $2701 drop_mine
+LABEL $25EF aliens_shoot
+LABEL $1E4D check_ship_death
+LABEL $0F21 end_lvl_music
+LABEL $0099 not_lvl_99
+LABEL $009B end_lvl_theme
+LABEL $00C6 vert_wall
+LABEL $00CC horiz_wall
+LABEL $00DA exp_dots
+LABEL $00EA letter_a
+LABEL $00F6 letter_b
+LABEL $0104 letter_c
+LABEL $010C letter_d
+LABEL $0116 letter_e
+LABEL $0124 letter_f
+LABEL $0130 letter_g
+LABEL $013C letter_h
+LABEL $0146 letter_h2
+LABEL $014A letter_i
+LABEL $014E letter_j
+LABEL $0156 letter_j2
+LABEL $015A letter_k
+LABEL $0160 letter_k2
+LABEL $0164 letter_l
+LABEL $016A letter_m
+LABEL $0174 letter_n
+LABEL $017C letter_o
+LABEL $0186 letter_p
+LABEL $0190 letter_q
+LABEL $019C letter_r
+LABEL $01A8 letter_s
+LABEL $01B4 letter_t
+LABEL $01B8 letter_t2
+LABEL $01BC letter_u
+LABEL $01C4 letter_v
+LABEL $01CA letter_w
+LABEL $01D4 letter_x
+LABEL $01D8 letter_x2
+LABEL $01DC letter_y
+LABEL $01E0 letter_y2
+LABEL $01E4 letter_z
+LABEL $01EC big_c
+LABEL $01FE big_h
+LABEL $0218 big_a
+LABEL $0228 big_s
+LABEL $0242 big_e
+LABEL $025C big_o
+LABEL $0266 big_o2
+LABEL $0270 big_m
+LABEL $028A big_g
+LABEL $02A4 number0
+LABEL $02AE number1
+LABEL $02B2 number2
+LABEL $02BE number3
+LABEL $02CC number4
+LABEL $02D6 number5
+LABEL $02E2 number6
+LABEL $02EE number7
+LABEL $02F4 number8
+LABEL $0302 number9
+LABEL $030C Shape_000
+LABEL $031C Shape_001
+LABEL $032C Shape_002
+LABEL $033C Shape_003
+LABEL $034C Shape_004
+LABEL $035C Shape_005
+LABEL $036C Shape_006
+LABEL $037C Shape_007
+LABEL $038C Shape_008
+LABEL $039C Shape_009
+LABEL $03AC Shape_010
+LABEL $03BC Shape_011
+LABEL $03CC Shape_012
+LABEL $03DC Shape_013
+LABEL $03EC Shape_014
+LABEL $03FC Shape_015
+LABEL $040C Shape_016
+LABEL $041C Shape_017
+LABEL $042C Shape_018
+LABEL $043C Shape_019
+LABEL $044C Shape_020
+LABEL $045C Shape_021
+LABEL $046C Shape_022
+LABEL $047C Shape_023
+LABEL $048C Shape_024
+LABEL $049C Shape_025
+LABEL $04AC Shape_026
+LABEL $04BC Shape_027
+LABEL $04CC Shape_028
+LABEL $04DC Shape_029
+LABEL $04EC Shape_030
+LABEL $04FC Shape_031
+LABEL $050C Shape_032
+LABEL $051C Shape_033
+LABEL $052C Shape_034
+LABEL $053C Shape_035
+LABEL $054C Shape_036
+LABEL $055C Shape_037
+LABEL $056C Shape_038
+LABEL $057C Shape_039
+LABEL $058C Shape_040
+LABEL $059C Shape_041
+LABEL $05AC Shape_042
+LABEL $05BC Shape_043
+LABEL $05CC Shape_044
+LABEL $05DC Shape_045
+LABEL $05EC Shape_046
+LABEL $05FC Shape_047
+LABEL $060C Shape_048
+LABEL $061C Shape_049
+LABEL $062C Shape_050
+LABEL $063C Shape_051
+LABEL $064C Shape_052
+LABEL $065C Shape_053
+LABEL $066C Shape_054
+LABEL $067C Shape_055
+LABEL $068C Shape_056
+LABEL $069C Shape_057
+LABEL $06AC Shape_058
+LABEL $06BC Shape_059
+LABEL $06CC Shape_060
+LABEL $06DC Shape_061
+LABEL $06EC Shape_062
+LABEL $06FC Shape_063
+LABEL $070C hex_enemy
+LABEL $071A n_new_enemy3a
+LABEL $0728 mine1
+LABEL $0730 mine2
+LABEL $0738 mine3
+LABEL $074A enemy_start
+COMMENT_LABEL $074A 6 Aliens, counter-clockwise
+LABEL $0756 enemy_start2
+COMMENT_LABEL $0756 6 Aliens, clockwise
+LABEL $0762 enemy_start3
+COMMENT_LABEL $0762 7 Aliens, counter-clockwise
+LABEL $0770 enemy_start4
+COMMENT_LABEL $0770 7 Aliens, clockwise
+LABEL $077E enemy_start5
+COMMENT_LABEL $077E 8 Aliens, counter-clockwise
+LABEL $078E enemy_start6
+COMMENT_LABEL $078E 8 Aliens, clockwise
+LABEL $07D6 enemy_start10
+COMMENT_LABEL $07D6 10 Aliens, clockwise
+LABEL $07EA enemy_start11
+COMMENT_LABEL $07EA 11 Aliens, counter-clockwise
+LABEL $0816 enemy_start13
+COMMENT_LABEL $0816 12 Aliens, counter-clockwise
+LABEL $082E enemy_start14
+COMMENT_LABEL $082E 12 Aliens, clockwise
+LABEL $0846 en_st_diag1
+COMMENT_LABEL $0846 12 Aliens, counter
+LABEL $085E en_st_diag2
+COMMENT_LABEL $085E 12 Aliens, clockwise
+LABEL $0876 en_st_diag3
+COMMENT_LABEL $0876 12 Aliens, counter
+LABEL $088E en_st_diag4
+COMMENT_LABEL $088E 12 Aliens, clockwise
+LABEL $08A6 setup_fade_mus
+LABEL $0E1D fade_song1
+LABEL $0DA1 fade1_w_ADSR
+LABEL $0DC1 fade1_h_ADSR
+LABEL $0E01 fade1_q_ADSR
+LABEL $0E09 fade1_e_ADSR
+LABEL $0E0D fade1_s_ADSR
+LABEL $0E40 fade_song2
+LABEL $0DD1 fade2_w_ADSR
+LABEL $0DF1 fade2_h_ADSR
+LABEL $0E0F fade2_q_ADSR
+LABEL $0E17 fade2_e_ADSR
+LABEL $0E1B fade2_s_ADSR
+LABEL $0922 setup_intro_mus
+LABEL $0D94 intro_song1
+LABEL $0C12 ins1_w_ADSR
+LABEL $0C52 ins1_h_ADSR
+LABEL $0D32 ins1_q_ADSR
+LABEL $0D3A ins1_e_ADSR
+LABEL $0D3E ins1_s_ADSR
+LABEL $0D75 intro_song2
+LABEL $0C72 ins2_w_ADSR
+LABEL $0CB2 ins2_h_ADSR
+LABEL $0D40 ins2_q_ADSR
+LABEL $0D48 ins2_e_ADSR
+LABEL $0D4C ins2_s_ADSR
+LABEL $0D5C intro_song3
+LABEL $0CD2 ins3_w_ADSR
+LABEL $0D12 ins3_h_ADSR
+LABEL $0D4E ins3_q_ADSR
+LABEL $0D56 ins3_e_ADSR
+LABEL $0D5A ins3_s_ADSR
+LABEL $09CF play_voice1
+LABEL $0A58 hold_voice1
+LABEL $09E9 not_restartV1
+LABEL $09FB not_rest1
+LABEL $0A40 cont_v1
+LABEL $0A16 tone1
+LABEL $0A67 not_whole1
+LABEL $0A85 do_volume1
+LABEL $0A70 not_half1
+LABEL $0A79 not_quarter1
+LABEL $0A82 not_eighth1
+LABEL $0A90 play_voice2
+LABEL $0B19 hold_voice2
+LABEL $0AAA not_restartV2
+LABEL $0ABC not_rest2
+LABEL $0B01 cont_v2
+LABEL $0AD7 tone2
+LABEL $0B28 not_whole2
+LABEL $0B46 do_volume2
+LABEL $0B31 not_half2
+LABEL $0B3A not_quarter2
+LABEL $0B43 not_eighth2
+LABEL $0B51 play_voice3
+LABEL $0BDA hold_voice3
+LABEL $0B6B not_restartV3
+LABEL $0B7D not_rest3
+LABEL $0BC2 cont_v3
+LABEL $0B98 tone3
+LABEL $0BE9 not_whole3
+LABEL $0C07 do_volume3
+LABEL $0BF2 not_half3
+LABEL $0BFB not_quarter3
+LABEL $0C04 not_eighth3
+LABEL $0E61 dont_show_p1
+LABEL $3FAB draw_pl1_score
+LABEL $0E6B dont_show_p2
+LABEL $3FBB draw_pl2_score
+LABEL $0E9E not_both_dead
+LABEL $0E81 dnt_chk_p2_res
+LABEL $0E9F chk_buttons
+LABEL $0E9B restart
+LABEL $0ED3 clear_sound
+LABEL $0F26 end_level_pause
+LABEL $0F74 e_end_level
+LABEL $3FD0 draw_scores2
+LABEL $2F73 draw_ships_left
+LABEL $0FD0 no_bonus_snd
+LABEL $0FA3 do_bonus_snd
+LABEL $11EE bonus_freq
+LABEL $11C7 bonus_ADSR
+LABEL $1014 no_shot
+LABEL $0FE9 do_shot_snd
+LABEL $11BE shot_freq
+LABEL $11A6 shot_ADSR
+LABEL $104E no_expl2
+LABEL $102D do_exp_snd2
+LABEL $1183 explosion2_ADSR
+LABEL $10C5 skip_thrust
+LABEL $1085 no_expl
+LABEL $1064 do_exp_snd
+LABEL $1179 explosion_ADSR
+LABEL $109B do_thrust_snd
+LABEL $10C5 end_thrust_snd
+LABEL $10B6 not_too_loud
+LABEL $1100 no_bounce
+LABEL $10DB do_bounce_snd
+LABEL $1197 bounce_ADSR
+LABEL $113E no_woo
+LABEL $1116 do_woo_snd
+LABEL $11AF woo_ADSR
+LABEL $1178 skip_thud
+LABEL $1158 do_thud
+LABEL $1155 not_0_vol
+LABEL $1215 new_level_pause
+LABEL $2FE3 draw_level
+COMMENT_LABEL $2FE3 tmp=y
+LABEL $1272 end_nlpause
+LABEL $405F init_sprites
+LABEL $26E8 clear_ashots
+LABEL $2E71 clear_shots
+LABEL $1328 skip_p2
+LABEL $133E not_lvl18
+LABEL $1332 redo_rnd
+LABEL $1365 not_layout0
+LABEL $407B set_sq_out_wall
+LABEL $4135 set_oct_sm_wall
+LABEL $15BC done_layout
+LABEL $138B not_layout1
+LABEL $4094 set_sq_in_wall
+LABEL $13B1 not_layout2
+LABEL $415A set_diam_wall
+LABEL $13D7 not_layout3
+LABEL $40DA set_oct_out_wall
+LABEL $13FD not_layout4
+LABEL $1423 not_layout5
+LABEL $1449 not_layout6
+LABEL $40F5 set_d_o_wall
+LABEL $146F not_layout7
+LABEL $1495 not_layout8
+LABEL $14BB not_layout9
+LABEL $4110 set_oct_in_wall
+LABEL $14E1 not_layout10
+LABEL $40B7 set_sq_lg_wall
+LABEL $1507 not_layout11
+LABEL $417F set_lg_d_wall
+LABEL $152D not_layout12
+LABEL $1553 not_layout13
+LABEL $1578 not_layout14
+LABEL $159D not_layout15
+LABEL $15FB not_lvl0
+LABEL $2047 setup_enemy
+LABEL $1ABA done_lvl
+LABEL $1639 not_lvl1
+LABEL $1677 not_lvl2
+LABEL $16B8 not_lvl3
+LABEL $16F9 not_lvl4
+LABEL $173A not_lvl5
+LABEL $177B not_lvl6
+LABEL $17BC not_lvl7
+LABEL $17FD not_lvl8
+LABEL $183E not_lvl9
+LABEL $187F not_lvl10
+LABEL $18C0 not_lvl11
+LABEL $1901 not_lvl12
+LABEL $1942 not_lvl13
+LABEL $1983 not_lvl14
+LABEL $19C4 not_lvl15
+LABEL $1A05 not_lvl16
+LABEL $1A5F not_reverse1
+LABEL $1A80 diag_type1
+LABEL $1A9D diag_type2
+LABEL $1A9B not_reverse2
+LABEL $1AB8 not_reverse3
+LABEL $1AF0 intro
+LABEL $3368 draw_omegrce
+LABEL $382B draw_big_a
+COMMENT_LABEL $382B a=y b=x
+LABEL $1B26 draw_2pl
+LABEL $33A1 draw_1_player
+LABEL $1B29 not_draw_2pl
+LABEL $33D8 draw_2_players
+LABEL $1B36 check_joy_pl
+LABEL $1B5C no_joy_update
+LABEL $1B4F no_pl_update1
+LABEL $1B5C pl_update_done
+LABEL $1B69 dont_clear_flag
+LABEL $1B74 ch_intro
+LABEL $1B84 end_intro
+LABEL $1BA1 reset_mines
+LABEL $1BAC end_reset_mines
+LABEL $1BE6 omeg_fade
+LABEL $1BFC nl1
+LABEL $1C35 draw_2pl_2
+LABEL $1C38 not_draw_2pl_2
+LABEL $1C44 not_fade
+LABEL $1C5A not_fade2
+LABEL $1C69 ship_anim
+LABEL $1C7B nl2
+LABEL $1CB8 not_shrink2
+LABEL $3416 draw_copyright
+LABEL $1D27 ship_anim2
+LABEL $1D3D nl3
+LABEL $1D9E ship_anim3
+LABEL $1DB0 nl4
+LABEL $1E55 not_t1_off
+LABEL $1E5D not_t2_off
+LABEL $1E6A not_p1_invin
+LABEL $1E77 not_p2_invin
+LABEL $1F5B done_sh3_2
+LABEL $1E90 upd_aliens
+LABEL $1EC4 done_sh4
+LABEL $1ED5 chk_ashot_hit_2
+LABEL $1F0B next_ashot_hit_2
+LABEL $1F14 done_ashot_hit_2
+LABEL $1F1C check_mine_hit_2
+LABEL $1F52 next_mine_hit_2
+LABEL $1F5B done_mine_hit_2
+LABEL $2046 done_sh3_3
+LABEL $1F7B upd_aliens_2
+LABEL $1FAF done_sh5
+LABEL $1FC0 chk_ashot_hit_3
+LABEL $1FF6 next_ashot_hit_3
+LABEL $1FFF done_ashot_hit_3
+LABEL $2007 check_mine_hit_3
+LABEL $203D next_mine_hit_3
+LABEL $2046 done_mine_hit_3
+LABEL $2050 set_enemy
+LABEL $2096 set_enemy2
+LABEL $20A3 not_type2
+LABEL $20B6 update_shots2
+LABEL $21F6 done_sh3
+LABEL $2CDC check_bounce2
+LABEL $20D5 check_mines
+LABEL $20DD check_mine_hit
+LABEL $2107 next_mine_hit
+LABEL $2110 done_mine_hit
+LABEL $211B update_shots3
+LABEL $21EB done_sh2
+LABEL $2190 not_fast
+LABEL $2163 next_upgrade
+LABEL $2178 not_upgrade
+LABEL $217F done_upgrade
+LABEL $21BD add_score2
+LABEL $21E1 done_score
+LABEL $2200 get_new_dir
+LABEL $2213 not_2pl
+LABEL $2226 player_higher
+LABEL $2222 ok_3
+LABEL $2230 do_y_move
+LABEL $222E ok_4
+LABEL $2242 player_right
+LABEL $223F ok_1
+LABEL $224A ok_2
+LABEL $2265 a3not_up
+LABEL $2274 a3not_up_right
+LABEL $2287 a3not_right
+LABEL $2296 a3not_down_right
+LABEL $22A9 a3not_down
+LABEL $22B8 a3not_down_left
+LABEL $22CB a3not_left
+LABEL $22D6 new_alien_type3
+LABEL $246A next_alien
+LABEL $22EB is_alien_type3
+LABEL $22F5 woo_ok
+LABEL $2A56 check_bounce
+LABEL $2308 done_alien3
+LABEL $2315 not_type3_res
+LABEL $2322 alien_v_loop
+LABEL $2365 not_flash
+LABEL $2349 not_type3_update
+LABEL $2361 flash1
+LABEL $2365 flash2
+LABEL $23E8 left_half
+COMMENT_LABEL $23E8 Sprite is in left half of screen
+LABEL $23AA lr_quadrant
+COMMENT_LABEL $23AA Sprite is in lower right corner
+LABEL $2385 ur2
+LABEL $239D ur3
+LABEL $23C3 lr1
+LABEL $23DB lr2
+LABEL $242C ll_quadrant
+COMMENT_LABEL $242C Sprite is in lower left corner
+LABEL $2406 ul1
+LABEL $2420 ul2
+LABEL $2444 ll1
+LABEL $245E ll2
+LABEL $2476 end_alien
+LABEL $2490 shoot
+LABEL $2496 shoot2
+LABEL $2513 next_shot
+LABEL $24ED not_neg2
+LABEL $24D8 not_neg1
+LABEL $24DE no_carry1
+LABEL $24E4 no_carry2
+LABEL $2512 not_neg4
+LABEL $24FD not_neg3
+LABEL $2503 no_carry3
+LABEL $2509 no_carry4
+LABEL $2526 ashots_loop
+LABEL $256D end_ashots
+LABEL $255F up_down
+LABEL $255A right_left
+LABEL $2555 ang_up
+LABEL $2564 draw_ash
+LABEL $2576 end_draw_ashots
+LABEL $257F move_ashot
+LABEL $25E5 move_next_ashot
+LABEL $2599 do_ash_move
+LABEL $25A5 not_up
+LABEL $25AF not_down
+LABEL $25B9 not_right
+LABEL $25C3 not_left
+LABEL $25CD not_up_right
+LABEL $25D7 not_down_left
+LABEL $25E1 not_up_left
+LABEL $25EE done_moving
+LABEL $25FB next2shoot
+LABEL $263F next_shooter
+LABEL $260D not_type3_shoot
+LABEL $2623 find_ashot
+LABEL $2636 next_ashot
+LABEL $264B get_shot_dir
+LABEL $263F no_ashots
+LABEL $264A done_shooting
+LABEL $2673 not_2p
+LABEL $2670 shoot_p2
+LABEL $2681 not_sh1_d
+LABEL $268A sh1_d
+LABEL $2698 not_sh2_d
+LABEL $26A1 sh2_d
+LABEL $26DD lower_third
+LABEL $26D2 upper_third
+LABEL $26C7 bottom_half
+LABEL $26C4 ul_diag_shot
+LABEL $26CF ll_diag_shot
+LABEL $26DA sh_down
+LABEL $26E5 sh_right
+LABEL $26F1 clear_loop
+LABEL $2700 end_clear_ashots
+LABEL $270E check_alien
+LABEL $279E done_drop_mines
+LABEL $2724 not_type3_mine
+LABEL $27AA done_dropping
+LABEL $2746 find_close_mine
+LABEL $276A not_close
+LABEL $2773 done_close_mines
+LABEL $277C find_empty_mine
+LABEL $2795 find_next_mine
+LABEL $27F1 move_p1
+LABEL $2901 check_p2_alive
+LABEL $2944 exit
+LABEL $27FF no_clear_shot1
+LABEL $281A no_shot1
+LABEL $2809 do_sho1
+LABEL $283B done_rot1
+LABEL $282F rot_left1
+LABEL $282B not_rot_under
+LABEL $2839 not_rot_over
+LABEL $2846 acc1
+LABEL $28C8 done_acc1
+LABEL $2850 no_thrust_inc
+LABEL $2875 a_neg
+LABEL $2871 y_not_faster
+LABEL $2890 do_b
+LABEL $288E y_not_faster2
+LABEL $28AD b_neg
+LABEL $28A9 x_not_faster
+LABEL $28C6 x_not_faster2
+LABEL $28E3 apply_drag_y
+COMMENT_LABEL $28E3 Adjust deltax for drag
+LABEL $28DE neg_deltax
+COMMENT_LABEL $28DE Deltax is negative
+LABEL $28DA not_cleared1
+LABEL $28FE done_drag
+LABEL $28F9 neg_deltay
+COMMENT_LABEL $28F9 Deltay is negative
+LABEL $28F5 not_cleared2
+LABEL $2907 do_p2
+LABEL $2945 move_p2
+LABEL $2953 no_clear_shot2
+LABEL $296E no_shot2
+LABEL $295D do_sho2
+LABEL $298F done_rot1_2
+LABEL $2983 rot_left1_2
+LABEL $297F not_rot_under2
+LABEL $298D not_rot_over2
+LABEL $299A acc1_2
+LABEL $2A1C done_acc1_2
+LABEL $29A4 no_thrust2_inc
+LABEL $29C9 a_neg_2
+LABEL $29C5 y_not_faster_2
+LABEL $29E4 do_b_2
+LABEL $29E2 y_not_faster2_2
+LABEL $2A01 b_neg_2
+LABEL $29FD x_not_faster_2
+LABEL $2A1A x_not_faster2_2
+LABEL $2A37 apply_drag_y_2
+COMMENT_LABEL $2A37 Adjust deltax for drag
+LABEL $2A32 neg_deltax_2
+COMMENT_LABEL $2A32 Deltax is negative
+LABEL $2A2E not_cleared1_2
+LABEL $2A52 done_drag_2
+LABEL $2A4D neg_deltay_2
+COMMENT_LABEL $2A4D Deltay is negative
+LABEL $2A49 not_cleared2_2
+LABEL $2CDB done_bounce
+LABEL $2A71 end_neg_x1
+LABEL $2A7D end_neg_y1
+LABEL $2AC7 done_bounce1
+LABEL $2AB6 not_quad1
+LABEL $2ABB not_quad1a
+LABEL $2B09 done_bounce2
+LABEL $2AF8 not_quad2
+LABEL $2AFD not_quad2a
+LABEL $2B46 done_bounce3
+LABEL $2B35 not_quad3
+LABEL $2B3A not_quad3a
+LABEL $2B83 done_bounce4
+LABEL $2B72 not_quad4
+LABEL $2B77 not_quad4a
+LABEL $2C1F done_bounce5
+LABEL $2BC2 move_12
+LABEL $2BC8 move_y2
+LABEL $2BD5 move_32
+LABEL $2BDB done_move_y2
+LABEL $2BE7 not_1
+LABEL $2C0F done_bounce_n1
+LABEL $2BEE not_2_1
+LABEL $2BF5 not_2_2
+LABEL $2C17 done_bounce_n2
+LABEL $2BFA not_2
+LABEL $2CDB done_bounce6
+LABEL $2C6C done_1c
+LABEL $2C81 move_1
+LABEL $2C87 move_y
+LABEL $2C94 move_3
+LABEL $2C9A done_move_y
+LABEL $2CA6 not_1a
+LABEL $2CCD done_bounce_n1z
+LABEL $2CAD not_2a_1
+LABEL $2CB4 not_2a_2
+LABEL $2CD4 done_bounce_n2z
+LABEL $2CB9 not_2a
+LABEL $2CF2 end_neg_x12
+LABEL $2CFF end_neg_y12
+LABEL $2D2E done_bounce12
+LABEL $2D26 not_quad1_a
+LABEL $2E4C done_bounce222
+LABEL $2D55 done_bounce22
+LABEL $2D4D not_quad2_a
+LABEL $2D77 done_bounce32
+LABEL $2D6F not_quad23
+LABEL $2D99 done_bounce42
+LABEL $2D91 not_quad24
+LABEL $2DEE done_bounce52
+LABEL $2DCB not_1_a
+LABEL $2DE0 done_bounce_n1_a
+LABEL $2DD2 not_2_1_a
+LABEL $2DD9 not_2_2_a
+LABEL $2DE7 done_bounce_n2_a
+LABEL $2E29 not_1ab
+LABEL $2E3E done_bounce_n1zb
+LABEL $2E30 not_2a_1b
+LABEL $2E37 not_2a_2b
+LABEL $2E45 done_bounce_n2zb
+LABEL $2E57 st_loop
+LABEL $2E67 en_loop
+LABEL $2E70 en_routine
+COMMENT_LABEL $2E70 We're done
+LABEL $2E7A start_cloop
+LABEL $2E85 end_croutine
+COMMENT_LABEL $2E85 We're done
+LABEL $2E8F start_sloop
+LABEL $2EA0 end_sloop
+LABEL $2EA9 end_sroutine
+COMMENT_LABEL $2EA9 We're done
+LABEL $2EAA get_x_for_rot
+LABEL $2EC8 use_first
+LABEL $2EBC fix_address
+LABEL $2EE3 draw_p1
+LABEL $2F08 tst_p2
+LABEL $3E77 draw_explosion
+LABEL $2EEF no_blink1
+LABEL $2F48 no_pl2ship
+LABEL $2F23 draw_p2
+LABEL $2F2F no_blink2
+LABEL $2F52 start_aloop
+LABEL $2F69 end_aloop
+LABEL $2F72 end_aroutine
+COMMENT_LABEL $2F72 We're done
+LABEL $2FA8 p2_ships_lft
+LABEL $2F83 do1
+LABEL $2F86 next_ship_left
+LABEL $2FE2 no_2nd_ships_lft
+LABEL $2FBD do2
+LABEL $2FC0 next_ship_left2
+LABEL $3600 draw_letter_l
+LABEL $353D draw_letter_e
+LABEL $36CB draw_letter_v
+LABEL $30C9 draw90
+LABEL $30BA draw80
+LABEL $30AB draw70
+LABEL $309C draw60
+LABEL $308D draw50
+LABEL $307E draw40
+LABEL $306F draw30
+LABEL $3060 draw20
+LABEL $3051 draw10
+LABEL $3753 draw_number0
+COMMENT_LABEL $3753 a=y b=x
+LABEL $30D8 digit_2
+LABEL $3765 draw_number1
+COMMENT_LABEL $3765 a=y b=x
+LABEL $3777 draw_number2
+COMMENT_LABEL $3777 a=y b=x
+LABEL $3789 draw_number3
+COMMENT_LABEL $3789 a=y b=x
+LABEL $379B draw_number4
+COMMENT_LABEL $379B a=y b=x
+LABEL $37AD draw_number5
+COMMENT_LABEL $37AD a=y b=x
+LABEL $37BF draw_number6
+COMMENT_LABEL $37BF a=y b=x
+LABEL $37D1 draw_number7
+COMMENT_LABEL $37D1 a=y b=x
+LABEL $37E3 draw_number8
+COMMENT_LABEL $37E3 a=y b=x
+LABEL $37F5 draw_number9
+COMMENT_LABEL $37F5 a=y b=x
+LABEL $314D draw9
+LABEL $3144 draw8
+LABEL $313B draw7
+LABEL $3132 draw6
+LABEL $3129 draw5
+LABEL $3120 draw4
+LABEL $3117 draw3
+LABEL $310E draw2
+LABEL $3105 draw1
+LABEL $3156 draw_string
+LABEL $315C string_loop
+LABEL $3367 done_string
+LABEL $3355 next_letter
+LABEL $317E not_str_0
+LABEL $318B not_str_1
+LABEL $3198 not_str_2
+LABEL $31A5 not_str_3
+LABEL $31B2 not_str_4
+LABEL $31BF not_str_5
+LABEL $31CC not_str_6
+LABEL $31D9 not_str_7
+LABEL $31E6 not_str_8
+LABEL $31F3 not_str_9
+LABEL $3201 not_str_a
+LABEL $34F5 draw_letter_a
+LABEL $320F not_str_b
+LABEL $3507 draw_letter_b
+LABEL $321D not_str_c
+LABEL $3519 draw_letter_c
+LABEL $322B not_str_d
+LABEL $352B draw_letter_d
+LABEL $3239 not_str_e
+LABEL $3247 not_str_f
+LABEL $354F draw_letter_f
+LABEL $3255 not_str_g
+LABEL $3561 draw_letter_g
+LABEL $3263 not_str_h
+LABEL $3573 draw_letter_h
+LABEL $3271 not_str_i
+LABEL $359C draw_letter_i
+LABEL $327F not_str_j
+LABEL $35AE draw_letter_j
+LABEL $328D not_str_k
+LABEL $35D7 draw_letter_k
+LABEL $329B not_str_l
+LABEL $32A9 not_str_m
+LABEL $3612 draw_letter_m
+LABEL $32B7 not_str_n
+LABEL $3624 draw_letter_n
+LABEL $32C5 not_str_o
+LABEL $3636 draw_letter_o
+LABEL $32D3 not_str_p
+LABEL $3648 draw_letter_p
+LABEL $32E0 not_str_q
+LABEL $365A draw_letter_q
+LABEL $32ED not_str_r
+LABEL $366C draw_letter_r
+LABEL $32FA not_str_s
+LABEL $367E draw_letter_s
+LABEL $3307 not_str_t
+LABEL $3690 draw_letter_t
+LABEL $3314 not_str_u
+LABEL $36B9 draw_letter_u
+LABEL $3321 not_str_v
+LABEL $332E not_str_w
+LABEL $36DD draw_letter_w
+LABEL $333B not_str_x
+LABEL $36EF draw_letter_x
+LABEL $3348 not_str_y
+LABEL $3718 draw_letter_y
+LABEL $3355 not_str_z
+LABEL $3741 draw_letter_z
+LABEL $3885 draw_big_o
+COMMENT_LABEL $3885 a=y b=x
+LABEL $3861 draw_big_m
+COMMENT_LABEL $3861 a=y b=x
+LABEL $384F draw_big_e
+COMMENT_LABEL $384F a=y b=x
+LABEL $3873 draw_big_g
+COMMENT_LABEL $3873 a=y b=x
+LABEL $3807 draw_big_c
+COMMENT_LABEL $3807 a=y b=x
+LABEL $3819 draw_big_h
+COMMENT_LABEL $3819 a=y b=x
+LABEL $383D draw_big_s
+COMMENT_LABEL $383D a=y b=x
+LABEL $38AE draw_sq_out
+LABEL $38C9 not_sq_out1
+LABEL $38E4 not_sq_out2
+LABEL $38FF not_sq_out3
+LABEL $391A not_sq_out4
+LABEL $391B draw_oct_out
+LABEL $393A not_oct_out1
+LABEL $3959 not_oct_out2
+LABEL $3978 not_oct_out3
+LABEL $3997 not_oct_out4
+LABEL $39B6 not_oct_out5
+LABEL $39D5 not_oct_out6
+LABEL $39F4 not_oct_out7
+LABEL $3A13 not_oct_out8
+LABEL $3A14 draw_d_out
+LABEL $3A33 not_d_out5
+LABEL $3A52 not_d_out6
+LABEL $3A71 not_d_out7
+LABEL $3A90 not_d_out8
+LABEL $3A91 draw_lg_oct_in
+LABEL $3AB0 not_lg_oct9
+LABEL $3ACF not_lg_oct10
+LABEL $3AEE not_lg_oct11
+LABEL $3B0D not_lg_oct12
+LABEL $3B2C not_lg_oct13
+LABEL $3B4B not_lg_oct14
+LABEL $3B6A not_lg_oct15
+LABEL $3B89 not_lg_oct16
+LABEL $3B8A draw_sm_oct_in
+LABEL $3BA9 not_sm_oct9
+LABEL $3BC8 not_sm_oct10
+LABEL $3BE7 not_sm_oct11
+LABEL $3C06 not_sm_oct12
+LABEL $3C25 not_sm_oct13
+LABEL $3C44 not_sm_oct14
+LABEL $3C63 not_sm_oct15
+LABEL $3C82 not_sm_oct16
+LABEL $3C83 draw_diam_in
+LABEL $3CA2 not_diag13
+LABEL $3CC1 not_diag14
+LABEL $3CE0 not_diag16
+LABEL $3CFF not_diag15
+LABEL $3D00 draw_lg_d_in
+LABEL $3D1F not_lg_diag13
+LABEL $3D3E not_lg_diag14
+LABEL $3D5D not_lg_diag16
+LABEL $3D7C not_lg_diag15
+LABEL $3D7D draw_sq_in
+LABEL $3D9C not_sq_in9
+LABEL $3DBB not_sq_in10
+LABEL $3DDA not_sq_in11
+LABEL $3DF9 not_sq_in12
+LABEL $3DFA draw_lg_sq_in
+LABEL $3E19 not_lg_sq_in9
+LABEL $3E38 not_lg_sq_in10
+LABEL $3E57 not_lg_sq_in11
+LABEL $3E76 not_lg_sq_in12
+LABEL $3FCF no_pl2_score
+LABEL $3FEE no_2nd_score2
+LABEL $401B no_2nd_score
+LABEL $4025 mines_loop
+LABEL $4055 end_mines
+LABEL $403D not_mine_3
+LABEL $404D do_mine
+LABEL $4048 not_mine_2
+LABEL $405E end_draw_mines
+LABEL $406D reset_sprites
+LABEL $41A4 PF793
+LABEL $41AD PF7B1
+LABEL $41B2 PF7B6
+LABEL $423C handle_buttons
+LABEL $41C3 button_h_loop
+LABEL $41F4 check_l_counter
+LABEL $421A PF810
+LABEL $4215 PF80C
+LABEL $422E PF821
+LABEL $4239 PF82A
+COMMENT_LINE $0000 Omega Chase
+COMMENT_LINE $0000 by Christopher L. Tumber
+COMMENT_LINE $0000 Last update: Sept 22, 1998
+COMMENT_LINE $0000 System Executive Entry Points
+COMMENT_LINE $0000 get_pl_game             EQU     $f7a9
+COMMENT_LINE $0000 explosion_snd           EQU     $f92e
+COMMENT_LINE $0000 do_sound                EQU     $f289
+COMMENT_LINE $0000 clear_sound             EQU     $f272
+COMMENT_LINE $0000 System RAM locations
+COMMENT_LINE $0000 User Code Storage locations
+COMMENT_LINE $0000 $c880
+COMMENT_LINE $0000 $c880
+COMMENT_LINE $0000 buffer             EQU $c880
+COMMENT_LINE $0000 *******************
+COMMENT_LINE $0000 Sprite Definitions
+COMMENT_LINE $0000 Sprite 21    Player 1 Ship
+COMMENT_LINE $0000 Sprite 22    Player 2 Ship
+COMMENT_LINE $0000 Sprite 25-36 Aliens
+COMMENT_LINE $0000 Sprite 37-40 Player 1 Bullets
+COMMENT_LINE $0000 Sprite 41-44 Player 2 Bullets
+COMMENT_LINE $0000 *******************
+COMMENT_LINE $0000 $cbea  SP = here by boot, grows down...
+COMMENT_LINE $0000 Magic Init Block
+COMMENT $001E branch always to init code
+COMMENT_LINE $0020 ldd #$0000
+COMMENT_LINE $0020 jsr get_pl_game
+COMMENT $0020 get address of free RAM
+COMMENT $0023 clear it
+COMMENT $0029 This is equivalent to jsr dptoC8
+COMMENT $002B But inlined
+COMMENT $0030 This is equivalent to jsr dptoC8
+COMMENT $0032 But inlined
+COMMENT $0037 This is equivalent to jsr dptoD0
+COMMENT $0039 But inlined
+COMMENT $003B Reset the CRT
+COMMENT $0066 This is equivalent to jsr dptoC8
+COMMENT $0068 But inlined
+COMMENT_LINE $009B ***************
+COMMENT $009B ADSR and twang address tables, in Vectrex ROM
+COMMENT_LINE $00BF **********************************
+COMMENT_LINE $00BF Shape tables and data follow
+COMMENT_LINE $00BF **********************************
+COMMENT_LINE $08A6 intro_1: fcc "IN THE YEAR 2003 THE OMEGA SYSTEM"
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_2: fcc "DEVELOPED A METHOD OF TRAINING ITS"
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_3: fcc "WARRIORS TO PROTECT THEIR STAR COLONIES."
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_4: fcc "OVER THE CITY OF KOMAL, ANDROID CONTROLLED"
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_5: fcc "FIGHTERS RACED TO ENGAGE AND DESTROY THESE"
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_6: fcc "OMEGAN WARRIORS"
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_7: fcc "THE OMEGAN METHOD IS SO SUCCESSFUL"
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_8: fcc "IT COMMANDS FEAR AND RESPECT FROM ALL"
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_9: fcc "THROUGHOUT THE GALAXIES."
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_10: fcc "BUT THAT WAS 2003"
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_11: fcc "NOW A NEW BREED OF WARRIOR IS NEEDED."
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_12: fcc "TO TRAIN THESE MIGHTY SOLDIERS COMES"
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 intro_13: fcc "OMEGA CHASE"
+COMMENT_LINE $08A6 fcb $80
+COMMENT_LINE $08A6 ADSR1:    fdb $feee,$7000,$0000,$0000,$0000,$0000,$0000,$0000
+COMMENT_LINE $08A6 ADSR2:    fdb $fedc,$ba98,$7654,$3210,$0000,$0000,$0000,$0000
+COMMENT_LINE $08A6 ADSR3:    fdb $0000,$0000,$0000,$0000,$0000,$0000,$0000,$00f0
+COMMENT_LINE $08A6 explosion_snd:
+COMMENT_LINE $08A6 fdb ADSR1,#$fd79
+COMMENT_LINE $08A6 fcb 128+64+4,128+64+4,64+4,#$05
+COMMENT_LINE $08A6 fcb #$00,#$80
+COMMENT_LINE $08A6 shot_snd:
+COMMENT_LINE $08A6 fdb ADSR2,#$feb6
+COMMENT_LINE $08A6 fcb #$20,#$0f
+COMMENT_LINE $08A6 fcb #$00,#$80
+COMMENT_LINE $08A6 bounce_snd:
+COMMENT_LINE $08A6 fdb #$fdc3
+COMMENT_LINE $08A6 fdb #$feb6
+COMMENT_LINE $08A6 fcb #$0a,#$16
+COMMENT_LINE $08A6 fcb #$00,#$80
+COMMENT_LINE $08A6 no_snd:
+COMMENT_LINE $08A6 fdb #$fd69,#$fd79
+COMMENT_LINE $08A6 fcb #$00,#$80
+COMMENT_LINE $08A6 fcb #$00,#$80
+COMMENT $09F0 Turn off bit 0 - Pulse on Voice 1
+COMMENT $09F2 Turn on  bit 4 - No noise on Voice 1
+COMMENT $0A0B Turn on bit 0 - No Pulse on Voice 1
+COMMENT $0A0D Turn off bit 4 - Noise on Voice 1
+COMMENT $0A37 Turn off bit 0 - Pulse on Voice 1
+COMMENT $0A39 Turn on  bit 4 - No noise on Voice 1
+COMMENT $0A45 Added This!
+COMMENT $0AB1 Turn on bit 1 - No Pulse on Voice 2
+COMMENT $0AB3 Turn on bit 5 - No noise on Voice 2
+COMMENT $0ACC Turn on bit 0 - No Pulse on Voice 2
+COMMENT $0ACE Turn off bit 4 - Noise on Voice 2
+COMMENT $0AF8 Turn off bit 1 - Pulse on Voice 2
+COMMENT $0AFA Turn on bit 5 - No noise on Voice 2
+COMMENT $0B06 Added This!
+COMMENT $0B72 Turn on bit 2 - No Pulse on Voice 3
+COMMENT $0B74 Turn on bit 6 - No noise on Voice 3
+COMMENT $0B8D Turn on bit 0 - No Pulse on Voice 3
+COMMENT $0B8F Turn off bit 4 - Noise on Voice 3
+COMMENT $0BB9 Turn off bit 1 - Pulse on Voice 3
+COMMENT $0BBB Turn on bit 5 - No noise on Voice 3
+COMMENT $0BC7 Added This!
+COMMENT_LINE $0C12 ins1_w_ADSR: fcb 15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15
+COMMENT_LINE $0C12 ins1_h_ADSR: fcb 15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15
+COMMENT_LINE $0E57 handle_sound:
+COMMENT_LINE $0E57 lda Vec_Music_Flag
+COMMENT_LINE $0E57 beq ok_sound
+COMMENT_LINE $0E57 ldd old_snd
+COMMENT_LINE $0E57 cmpd #explosion_snd
+COMMENT_LINE $0E57 bne ok_sound
+COMMENT_LINE $0E57 bra no_shot_sound
+COMMENT_LINE $0E57 ok_sound:
+COMMENT_LINE $0E57 lda exp_snd_flag
+COMMENT_LINE $0E57 beq no_exp_sound
+COMMENT_LINE $0E57 lda #1
+COMMENT_LINE $0E57 sta Vec_Music_Flag
+COMMENT_LINE $0E57 ldu #explosion_snd
+COMMENT_LINE $0E57 stu old_snd
+COMMENT_LINE $0E57 bra done_snd
+COMMENT_LINE $0E57 no_exp_sound:
+COMMENT_LINE $0E57 lda bounce_snd_flag
+COMMENT_LINE $0E57 beq no_bounce_sound
+COMMENT_LINE $0E57 lda #1
+COMMENT_LINE $0E57 sta Vec_Music_Flag
+COMMENT_LINE $0E57 ldu #bounce_snd
+COMMENT_LINE $0E57 stu old_snd
+COMMENT_LINE $0E57 bra done_snd
+COMMENT_LINE $0E57 no_bounce_sound:
+COMMENT_LINE $0E57 lda shot_snd_flag
+COMMENT_LINE $0E57 beq no_shot_sound
+COMMENT_LINE $0E57 lda #1
+COMMENT_LINE $0E57 sta Vec_Music_Flag
+COMMENT_LINE $0E57 ldu #shot_snd
+COMMENT_LINE $0E57 stu old_snd
+COMMENT_LINE $0E57 bra done_snd
+COMMENT_LINE $0E57 no_shot_sound:
+COMMENT_LINE $0E57 ldu old_snd
+COMMENT_LINE $0E57 done_snd:
+COMMENT_LINE $0E57 jsr  Init_Music_chk          ; and init new notes
+COMMENT_LINE $0E57 clr bounce_snd_flag
+COMMENT_LINE $0E57 clr alien_snd_flag
+COMMENT_LINE $0E57 clr exp_snd_flag
+COMMENT_LINE $0E57 clr exp_snd_flag2
+COMMENT_LINE $0E57 clr shot_snd_flag
+COMMENT_LINE $0E57 clr woo_snd_flag
+COMMENT_LINE $0E57 clr tht_snd_flag
+COMMENT_LINE $0E57 clr tht2_snd_flag
+COMMENT_LINE $0E57 rts
+COMMENT $0EA9 Get fire button
+COMMENT $0EAE Get fire button
+COMMENT $0EB3 Get fire button
+COMMENT $0EB8 Get fire button
+COMMENT $0EBD Get fire button
+COMMENT $0EC2 Get fire button
+COMMENT $0EC7 Get fire button
+COMMENT $0ECC Get fire button
+COMMENT $0F04 (Leave bit 6 on for joystick)
+COMMENT $0F26 This is equivalent to jsr dptoc8
+COMMENT $0F28 But inlined
+COMMENT $0F32 and init new notes
+COMMENT $0F35 Reset the CRT
+COMMENT $0F38 ROM function that does the
+COMMENT $0F3B This is equivalent to jsr dptoD0
+COMMENT $0F3D But inlined
+COMMENT $0F5F This is equivalent to jsr dptoC8
+COMMENT $0F61 But inlined
+COMMENT $0F9A Turn on bit 1 - No pulse on Voice 1
+COMMENT $0FC9 Turn off bit 0 - Pulse on Voice 1
+COMMENT $0FE0 Turn on bit 1 - No pulse on Voice 1
+COMMENT $100D Turn off bit 0 - Pulse on Voice 1
+COMMENT $1024 Turn on bit 5 - No noise on Voice 2
+COMMENT $1044 Turn off bit 5 - Noise on Voice 2
+COMMENT $105B Turn on bit 5 - No noise on Voice 2
+COMMENT $107B Turn off bit 5 - Noise on Voice 2
+COMMENT $1092 Turn on bit 3 - No Noise on Voice 2
+COMMENT $10BE Turn off bit 3 - Noise on Voice 1
+COMMENT $10D2 Turn on bit 1 - No pulse on Voice 1
+COMMENT $10F9 Turn off bit 0 - Pulse on Voice 2
+COMMENT $110D Turn on bit 1 - No pulse on Voice 3
+COMMENT $1134 Turn off bit 0 - Pulse on Voice 2
+COMMENT $1171 Turn off bit 0 - Pulse on Voice 2
+COMMENT $1215 Reset the CRT
+COMMENT_LINE $128E ldd #no_snd
+COMMENT_LINE $128E std old_snd
+COMMENT $1AC8 This is equivalent to jsr dptoD0
+COMMENT $1ACA But inlined
+COMMENT $1AF0 This is equivalent to jsr dptoc8
+COMMENT $1AF2 But inlined
+COMMENT $1AF4 Reset the CRT
+COMMENT $1BB4 This is equivalent to jsr dptod0
+COMMENT $1BB6 But inlined
+COMMENT $1BE6 This is equivalent to jsr dptoc8
+COMMENT $1BE8 But inlined
+COMMENT $1BEA Reset the CRT
+COMMENT $1C69 Reset the CRT
+COMMENT $1D27 This is equivalent to jsr dptoD0
+COMMENT $1D29 But inlined
+COMMENT_LINE $1D2B std sprites_left
+COMMENT $1D2B Reset the CRT
+COMMENT $1D6D This is equivalent to jsr dptoD0
+COMMENT $1D6F But inlined
+COMMENT_LINE $1D9E std sprites_left
+COMMENT $1D9E Reset the CRT
+COMMENT_LINE $2069 jsr random
+COMMENT_LINE $2069 anda #$7f
+COMMENT_LINE $2069 lsra
+COMMENT_LINE $2069 lsra
+COMMENT_LINE $2069 lsra
+COMMENT_LINE $2069 lsra
+COMMENT_LINE $206F jsr random
+COMMENT_LINE $206F anda #$7f
+COMMENT_LINE $206F lsra
+COMMENT_LINE $206F lsra
+COMMENT_LINE $206F lsra
+COMMENT_LINE $206F lsra
+COMMENT_LINE $20AD **************
+COMMENT_LINE $20AD update_shots
+COMMENT_LINE $20AD **************
+COMMENT_LINE $20D2 lda #$00
+COMMENT_LINE $20D2 sta posx,y
+COMMENT_LINE $20D2 sta posy,y
+COMMENT $214D Add 10 to Score
+COMMENT $2153 Upgrade an Alien
+COMMENT $2186 Add 50 to Score
+COMMENT_LINE $2190 dec 0,u                  ;Mark Alien Type as non-zero
+COMMENT_LINE $2200 **************
+COMMENT_LINE $2200 update_alien_v
+COMMENT_LINE $2200 Updates alien velocity (deltax and deltay) based upon position on screen.
+COMMENT_LINE $2200 **************
+COMMENT_LINE $2200 update_alien_v:
+COMMENT_LINE $2200 ldx #alientype1
+COMMENT_LINE $2200 ldy #sprite_3               ;First sprite to update
+COMMENT_LINE $2200 lda no_aliens                ;sprite_left is the counter
+COMMENT_LINE $2200 sta sprites_left             ;Create loop variable
+COMMENT_LINE $2200 alien_v_loop:
+COMMENT_LINE $2200 ldd salien_posv
+COMMENT_LINE $2200 std posv
+COMMENT_LINE $2200 ldd salien_negv
+COMMENT_LINE $2200 std negv
+COMMENT_LINE $2200 lda 0,x
+COMMENT_LINE $2200 beq not_flash
+COMMENT_LINE $2200 ldd falien_posv
+COMMENT_LINE $2200 std posv
+COMMENT_LINE $2200 ldd falien_negv
+COMMENT_LINE $2200 std negv
+COMMENT_LINE $2200 lda scale,y
+COMMENT_LINE $2200 cmpa #8
+COMMENT_LINE $2200 bne flash1
+COMMENT_LINE $2200 lda #6
+COMMENT_LINE $2200 sta scale,y
+COMMENT_LINE $2200 bra flash2
+COMMENT_LINE $2200 flash1:
+COMMENT_LINE $2200 lda #8
+COMMENT_LINE $2200 sta scale,y
+COMMENT_LINE $2200 flash2:
+COMMENT_LINE $2200 not_flash:
+COMMENT_LINE $2200 ldd posx,y                   ;Get sprite's posx
+COMMENT_LINE $2200 bmi left_half                ;If negative, it's in left half of screen
+COMMENT_LINE $2200 right_half:
+COMMENT_LINE $2200 ldd posy,y                   ;Get sprite's posy
+COMMENT_LINE $2200 bmi lr_quadrant              ;If negative, it's in lower right corner
+COMMENT_LINE $2200 ur_quadrant:                         ;Sprite is in upper right corner
+COMMENT_LINE $2200 cmpd posx,y                  ;Compare posx and posy
+COMMENT_LINE $2200 bgt ur_2
+COMMENT_LINE $2200 ur_1:                                ;Sprite is in right half of ur corner
+COMMENT_LINE $2200 ldd posv
+COMMENT_LINE $2200 std deltay,y                 ;Set deltay to positive velocity
+COMMENT_LINE $2200 ldd #$00
+COMMENT_LINE $2200 std deltax,y                 ;Set deltax to 0
+COMMENT_LINE $2200 bra next_alien
+COMMENT_LINE $2200 ur_2:                                ;Sprite us in left half of ur corner
+COMMENT_LINE $2200 ldd #$00
+COMMENT_LINE $2200 std deltay,y                 ;Set deltay to 0
+COMMENT_LINE $2200 ldd negv
+COMMENT_LINE $2200 std deltax,y                 ;Set deltax to negative velocity
+COMMENT_LINE $2200 bra next_alien
+COMMENT_LINE $2200 lr_quadrant:                         ;Sprite is in lower right corner
+COMMENT_LINE $2200 jsr get_abs_val_ab           ;Get absolute value of posy
+COMMENT_LINE $2200 cmpa posx,y                  ;Compare with posx
+COMMENT_LINE $2200 bgt lr_2
+COMMENT_LINE $2200 lr_1:                                ;Sprite is in right half of lr corner
+COMMENT_LINE $2200 ldd posv
+COMMENT_LINE $2200 std deltay,y                 ;Set deltay to positive velocity
+COMMENT_LINE $2200 ldd #$00
+COMMENT_LINE $2200 std deltax,y                 ;Set deltax to 0
+COMMENT_LINE $2200 bra next_alien
+COMMENT_LINE $2200 lr_2:                                ;Sprite is in left half of lr corner
+COMMENT_LINE $2200 ldd #$00
+COMMENT_LINE $2200 std deltay,y                 ;Set deltay to 0
+COMMENT_LINE $2200 ldd posv
+COMMENT_LINE $2200 std deltax,y                 ;Set deltax to positive velocity
+COMMENT_LINE $2200 bra next_alien
+COMMENT_LINE $2200 left_half:                           ;Sprite is in left half of screen
+COMMENT_LINE $2200 ldd posy,y                   ;Get posy
+COMMENT_LINE $2200 bmi ll_quadrant              ;If posy is negative Sprite is in lower left corner
+COMMENT_LINE $2200 ul_quadrant:                         ;Sprite is in upper left corner
+COMMENT_LINE $2200 ldd posx,y                   ;Get posx
+COMMENT_LINE $2200 jsr get_abs_val_ab           ;Get absolute value of posx
+COMMENT_LINE $2200 cmpa posy,y                  ;Compare to posy
+COMMENT_LINE $2200 bgt ul_2
+COMMENT_LINE $2200 ul_1:                                ;Sprite is in right half of ul corner
+COMMENT_LINE $2200 ldd #$00
+COMMENT_LINE $2200 std deltay,y                 ;Set deltay to 0
+COMMENT_LINE $2200 ldd negv
+COMMENT_LINE $2200 std deltax,y                 ;Set deltax to negative velocity
+COMMENT_LINE $2200 bra next_alien
+COMMENT_LINE $2200 ul_2:                                ;Sprite is in left half of ul corner
+COMMENT_LINE $2200 ldd negv
+COMMENT_LINE $2200 std deltay,y                 ;Set deltay to negative velocity
+COMMENT_LINE $2200 ldd #$00
+COMMENT_LINE $2200 std deltax,y                 ;Set deltax to 0
+COMMENT_LINE $2200 bra next_alien
+COMMENT_LINE $2200 ll_quadrant:                         ;Sprite is in lower left corner
+COMMENT_LINE $2200 cmpd posx,y
+COMMENT_LINE $2200 bgt ll_2
+COMMENT_LINE $2200 ll_1:                                ;Sprite is in right half of ll corner
+COMMENT_LINE $2200 ldd #$00
+COMMENT_LINE $2200 std deltay,y                 ;Set deltay to 0
+COMMENT_LINE $2200 ldd posv
+COMMENT_LINE $2200 std deltax,y                 ;Set delta x to positive velocity
+COMMENT_LINE $2200 bra next_alien
+COMMENT_LINE $2200 ll_2:                                ;Sprite is in left half of ll corner
+COMMENT_LINE $2200 ldd negv
+COMMENT_LINE $2200 std deltay,y                 ;Set deltay to negative velocity
+COMMENT_LINE $2200 ldd #$00
+COMMENT_LINE $2200 std deltax,y                 ;Set deltax to 0
+COMMENT_LINE $2200 bra next_alien
+COMMENT_LINE $2200 next_alien:
+COMMENT_LINE $2200 leay 15,y                    ;Get next Sprite structure
+COMMENT_LINE $2200 leax 1,x
+COMMENT_LINE $2200 dec sprites_left             ;Are we done?
+COMMENT_LINE $2200 beq end_alien                ;Yes, go to end
+COMMENT_LINE $2200 jmp alien_v_loop             ;No, loop back
+COMMENT_LINE $2200 end_alien:
+COMMENT_LINE $2200 rts
+COMMENT_LINE $2200 jsr random
+COMMENT_LINE $2200 anda #$03
+COMMENT_LINE $2200 tsta
+COMMENT_LINE $2200 beq get_random_dir
+COMMENT_LINE $230B **************
+COMMENT_LINE $230B update_alien_2
+COMMENT_LINE $230B Updates alien velocity (deltax and deltay) based upon position on screen.
+COMMENT_LINE $230B **************
+COMMENT $2318 First sprite to update
+COMMENT $231C sprite_left is the counter
+COMMENT $231F Create loop variable
+COMMENT $2365 Get sprite's posx
+COMMENT $2367 If negative, it's in left half of screen
+COMMENT $2369 Get sprite's posy
+COMMENT $236B If negative, it's in lower right corner
+COMMENT $2377 Set deltay to 0
+COMMENT $237C Set deltax to negative velocity
+COMMENT $238F Set deltay to 0
+COMMENT $2398 Set deltax to negative velocity
+COMMENT $23A0 Set deltay to 0
+COMMENT $23A5 Set deltax to negative velocity
+COMMENT $23AA Get absolute value of posy
+COMMENT $23B5 Set deltay to 0
+COMMENT $23BE Set deltax to positive velocity
+COMMENT $23CD Set deltay to 0
+COMMENT $23D2 Set deltax to positive velocity
+COMMENT $23DE Set deltay to 0
+COMMENT $23E3 Set deltax to positive velocity
+COMMENT $23E8 Get posy
+COMMENT $23EA If posy is negative Sprite is in lower left corner
+COMMENT $23EC Get posx
+COMMENT $23EE Get absolute value of posx
+COMMENT $23F9 Set deltay to negative velocity
+COMMENT $2402 Set deltax to 0
+COMMENT $2406 Get posx
+COMMENT $2408 Get absolute value of posx
+COMMENT $2413 Set deltay to negative velocity
+COMMENT $2418 Set deltax to 0
+COMMENT $2423 Set deltay to negative velocity
+COMMENT $2428 Set deltax to 0
+COMMENT $2437 Set deltay to negative velocity
+COMMENT $2440 Set deltax to 0
+COMMENT $2444 Get posx
+COMMENT $2446 Get absolute value of posx
+COMMENT $2451 Set deltay to negative velocity
+COMMENT $2456 Set deltax to 0
+COMMENT $2461 Set deltay to negative velocity
+COMMENT $2466 Set deltax to 0
+COMMENT $246A Get next Sprite structure
+COMMENT $246E Are we done?
+COMMENT $2471 Yes, go to end
+COMMENT $2473 No, loop back
+COMMENT_LINE $2477 **************
+COMMENT_LINE $2477 read_joysticks
+COMMENT_LINE $2477 Simply calls the BIOS read_joystick() routine.
+COMMENT_LINE $2477 Results are left is $c81b-$c81e
+COMMENT_LINE $2477 As follows $c81b - Joystick 1 Left/Right state
+COMMENT_LINE $2477 $c81c - Joystick 1 Up/Down state
+COMMENT_LINE $2477 $c81d - Joystick 2 Left/Right state
+COMMENT_LINE $2477 $c81e - Joystick 2 Up/Down state
+COMMENT_LINE $2477 $c812 - Joystick 1, button 1
+COMMENT_LINE $2477 $c813 - Joystick 1, button 2
+COMMENT_LINE $2477 $c814 - Joystick 1, button 3
+COMMENT_LINE $2477 $c815 - Joystick 1, button 4
+COMMENT_LINE $2477 $c816 - Joystick 2, button 1
+COMMENT_LINE $2477 $c817 - Joystick 2, button 2
+COMMENT_LINE $2477 $c818 - Joystick 2, button 3
+COMMENT_LINE $2477 $c819 - Joystick 2, button 4
+COMMENT_LINE $2477 ****************
+COMMENT $2477 Set-up for joystick poll
+COMMENT_LINE $248C lda #136
+COMMENT_LINE $2490 ************
+COMMENT_LINE $2490 shoot
+COMMENT_LINE $2490 At entry, a=# possible shots
+COMMENT_LINE $2490 b=Shot speed
+COMMENT_LINE $2490 y=Player ship structure
+COMMENT_LINE $2490 x=Shots structure
+COMMENT_LINE $2490 ************
+COMMENT $24B6 Get rotation
+COMMENT $24B8 Get Shot Speed
+COMMENT $24BB Get rise and run based on rotation and Shot Speed
+COMMENT $251D sprites_left is the counter
+COMMENT $251F Create loop variable
+COMMENT $2526 load status byte
+COMMENT $2528 If status is 0, don't draw object ("dead")
+COMMENT $252A Get y
+COMMENT $252C Get x
+COMMENT $252E go to (PosX,PosY)
+COMMENT $2531 load 1
+COMMENT $2533 1 as scaling
+COMMENT $256A Move pen to (0,0)
+COMMENT $256D Next object structure
+COMMENT $256F Decrement the counter
+COMMENT $2574 Not done, back to start of loop
+COMMENT $259F move shot up
+COMMENT $25A1 move shot up
+COMMENT $25A9 move shot down
+COMMENT $25AB move shot down
+COMMENT $25B3 move shot right
+COMMENT $25B5 move shot right
+COMMENT $25BD move shot left
+COMMENT $25BF move shot left
+COMMENT $25C7 move shot right
+COMMENT $25C9 move shot up
+COMMENT $25D1 move shot left
+COMMENT $25D3 move shot down
+COMMENT $25DB move shot up
+COMMENT $25DD move shot left
+COMMENT $25E1 move shot down
+COMMENT $25E3 move shot right
+COMMENT $25E5 Next object structure
+COMMENT $25E7 Decrement the counter
+COMMENT $25EC Not done, back to start of loop
+COMMENT_LINE $25EF *************
+COMMENT_LINE $25EF aliens_shoot
+COMMENT_LINE $25EF *************
+COMMENT_LINE $2606 lsla
+COMMENT_LINE $2606 lsla
+COMMENT_LINE $260C lsla
+COMMENT $2636 Next object structure
+COMMENT $2638 Decrement the counter
+COMMENT $263D Not done, back to start of loop
+COMMENT $26A1 get x
+COMMENT $26A4 add x
+COMMENT $26A7 subtract y
+COMMENT_LINE $26AA bcs  lower_third
+COMMENT $26AC get y
+COMMENT $26AF add y
+COMMENT $26B2 subtract x
+COMMENT_LINE $26B5 bcs  lower_third
+COMMENT $26E8 sprites_left is the counter
+COMMENT $26EA Create loop variable
+COMMENT_LINE $26F7 lda #$01
+COMMENT_LINE $26F7 sta 0,y
+COMMENT_LINE $26F7 jsr random
+COMMENT_LINE $26F7 sta 1,y
+COMMENT_LINE $26F7 jsr random
+COMMENT_LINE $26F7 sta 2,y
+COMMENT $26F7 Next object structure
+COMMENT $26F9 Decrement the counter
+COMMENT $26FE Not done, back to start of loop
+COMMENT_LINE $2701 *************
+COMMENT_LINE $2701 drop_mine
+COMMENT_LINE $2701 *************
+COMMENT_LINE $2723 lsla
+COMMENT_LINE $27AB **********
+COMMENT_LINE $27AB update_ship
+COMMENT_LINE $27AB Rotates ship, updates ship velocity (deltax and deltay) using joystick
+COMMENT_LINE $27AB state and rotation. Applies effect of drag on velocity.
+COMMENT_LINE $27AB ************
+COMMENT $281A Get left/right joystick state
+COMMENT $281D If 0, no rotation
+COMMENT $281F If negative rotate clockwise
+COMMENT $282B Rotate counter-clockwise
+COMMENT_LINE $282D dec rotation,y      ;Rotate counter-clockwise
+COMMENT_LINE $282D dec rotation,y      ;Rotate counter-clockwise
+COMMENT_LINE $282D dec rotation,y      ;Rotate counter-clockwise
+COMMENT $2839 Rotate clockwise
+COMMENT_LINE $283B inc rotation,y      ;Rotate clockwise
+COMMENT_LINE $283B inc rotation,y      ;Rotate clockwise
+COMMENT_LINE $283B inc rotation,y      ;Rotate clockwise
+COMMENT_LINE $283B lda $c81c           ;Get up/down joystick state
+COMMENT_LINE $283B bgt acc1            ;If up, accelerate
+COMMENT $283B Get button
+COMMENT $283E If pressed, accelerate
+COMMENT $2850 Get rotation
+COMMENT $2852 Get acceleration
+COMMENT $2855 Get rise and run based on rotation and acceleration
+COMMENT $2858 Store results in tmp
+COMMENT $285C Is A rise negative?
+COMMENT $285E Get deltay
+COMMENT $2860 Add rise
+COMMENT $2866 If deltay is negative, don't test for maximum velocity
+COMMENT $2868 Compare deltay with maximum velocity
+COMMENT $286E If faster than max velocity, make deltay=max velocity
+COMMENT $2871 Store deltay back
+COMMENT $2875 Get absolute value of A
+COMMENT $287B Get deltay
+COMMENT $287D Subtract rise
+COMMENT $2883 If deltay is positive, don't test for maximum velocity
+COMMENT $2885 Compare deltay with maximum velocity
+COMMENT $288B If faster than max velocity, make deltay=max velocity
+COMMENT $288E store deltay back
+COMMENT $2890 Get run
+COMMENT $2894 Check if run is negative
+COMMENT $2896 Get deltax
+COMMENT $2898 Add run
+COMMENT $289E If deltax is negative, don't test for maximum velocity
+COMMENT $28A0 Compare deltax with maximum velocity
+COMMENT $28A6 If faster than max velocity, make deltax=max velocity
+COMMENT $28A9 Store back deltax
+COMMENT $28AD Get absolute value of run
+COMMENT $28B3 Get deltax
+COMMENT $28B5 Subtract run
+COMMENT $28BB If deltax is positive, don't test for maximum velocity
+COMMENT $28BD Compare deltax with maximum velocity
+COMMENT $28C3 If faster than max velocity, make deltax=max velocity
+COMMENT $28C6 Store back deltax
+COMMENT $28C8 Get deltax
+COMMENT $28CA If it's 0, don't apply drag
+COMMENT $28CC If negative, go apply positive drag
+COMMENT $28CE Subtract drag
+COMMENT $28D1 If deltax<drag...
+COMMENT $28D7 ...Clear deltax to 0
+COMMENT $28DA Store adjusted deltax
+COMMENT $28DE Add drag
+COMMENT $28E3 Get deltay
+COMMENT $28E5 If deltay=0 don't apply drag
+COMMENT $28E7 If negative apply positive drag
+COMMENT $28E9 Subtract drag
+COMMENT $28EC If deltay<drag...
+COMMENT $28F2 ...Clear deltay to 0
+COMMENT $28F5 Store adjusted deltay
+COMMENT $28F9 Add drag
+COMMENT $2949 Get fire button
+COMMENT $294C Try to shoot
+COMMENT $296E Get left/right joystick state
+COMMENT $2971 If 0, no rotation
+COMMENT $2973 If negative rotate clockwise
+COMMENT $297F Rotate counter-clockwise
+COMMENT_LINE $2981 dec rotation,y      ;Rotate counter-clockwise
+COMMENT_LINE $2981 dec rotation,y      ;Rotate counter-clockwise
+COMMENT_LINE $2981 dec rotation,y      ;Rotate counter-clockwise
+COMMENT $298D Rotate clockwise
+COMMENT_LINE $298F inc rotation,y      ;Rotate clockwise
+COMMENT_LINE $298F inc rotation,y      ;Rotate clockwise
+COMMENT_LINE $298F inc rotation,y      ;Rotate clockwise
+COMMENT_LINE $298F lda $c81e           ;Get up/down joystick state
+COMMENT_LINE $298F bgt acc1_2          ;If up, accelerate
+COMMENT $298F Get button
+COMMENT $2992 If pressed, accelerate
+COMMENT $29A4 Get rotation
+COMMENT $29A6 Get accelration
+COMMENT $29A9 Get rise and run based on rotation and acceleration
+COMMENT $29AC Store results in tmp
+COMMENT $29B0 Is A rise negative?
+COMMENT $29B2 Get deltay
+COMMENT $29B4 Add rise
+COMMENT $29BA If deltay is negative, don't test for maximum velocity
+COMMENT $29BC Compare deltay with maximum velocity
+COMMENT $29C2 If faster than max velocity, make deltay=max velocity
+COMMENT $29C5 Store deltay back
+COMMENT $29C9 Get absolute value of A
+COMMENT $29CF Get deltay
+COMMENT $29D1 Subtract rise
+COMMENT $29D7 If deltay is positive, don't test for maximum velocity
+COMMENT $29D9 Compare deltay with maximum velocity
+COMMENT $29DF If faster than max velocity, make deltay=max velocity
+COMMENT $29E2 store deltay back
+COMMENT $29E4 Get run
+COMMENT $29E8 Check if run is negative
+COMMENT $29EA Get deltax
+COMMENT $29EC Add run
+COMMENT $29F2 If deltax is negative, don't test for maximum velocity
+COMMENT $29F4 Compare deltax with maximum velocity
+COMMENT $29FA If faster than max velocity, make deltax=max velocity
+COMMENT $29FD Store back deltax
+COMMENT $2A01 Get absolute value of run
+COMMENT $2A07 Get deltax
+COMMENT $2A09 Subtract run
+COMMENT $2A0F If deltax is positive, don't test for maximum velocity
+COMMENT $2A11 Compare deltax with maximum velocity
+COMMENT $2A17 If faster than max velocity, make deltax=max velocity
+COMMENT $2A1A Store back deltax
+COMMENT $2A1C Get deltax
+COMMENT $2A1E If it's 0, don't apply drag
+COMMENT $2A20 If negative, go apply positive drag
+COMMENT $2A22 Subtract drag
+COMMENT $2A25 If deltax<drag...
+COMMENT $2A2B ...Clear deltax to 0
+COMMENT $2A2E Store adjusted deltax
+COMMENT $2A32 Add drag
+COMMENT $2A37 Get deltay
+COMMENT $2A39 If deltay=0 don't apply drag
+COMMENT $2A3B If negative apply positive drag
+COMMENT $2A3D Subtract drag
+COMMENT $2A40 If deltay<drag...
+COMMENT $2A46 ...Clear deltay to 0
+COMMENT $2A49 Store adjusted deltay
+COMMENT $2A4D Add drag
+COMMENT_LINE $2A56 ************
+COMMENT_LINE $2A56 check_bounce  Checks to see if an object hits a wall and bounces
+COMMENT_LINE $2A56 ************
+COMMENT $2A59 Clear quadrant flags
+COMMENT $2A65 Get X position
+COMMENT $2A67 Get abs(x) - Move x into pos quadrant
+COMMENT $2A6A Set quarant flag
+COMMENT $2A73 Get abs(y) - Move y into pos quadrant
+COMMENT $2A76 Set quadrant flag
+COMMENT $2A7D Compare with inner boundary
+COMMENT $2A80 If bigger, don't bounce
+COMMENT $2A82 Compare with inner boundary
+COMMENT $2A85 If bigger, don't bounce
+COMMENT $2AA6 wall change
+COMMENT $2AB6 wall change
+COMMENT $2AC2 Negafy velocity in y direction only
+COMMENT $2AC7 Compare with inner boundary
+COMMENT $2ACA If bigger, don't bounce
+COMMENT $2ACC Compare with inner boundary
+COMMENT $2ACF If bigger, don't bounce
+COMMENT $2AE8 wall change
+COMMENT $2AF8 wall change
+COMMENT $2B04 Negafy velocity in x direction only
+COMMENT $2B09 Compare with outer boundary
+COMMENT $2B0C If smaller, don't bounce
+COMMENT $2B25 wall change
+COMMENT $2B35 wall change
+COMMENT $2B41 Negafy velocity in y direction only
+COMMENT $2B46 Compare with outer boundary
+COMMENT $2B49 If smaller, don't bounce
+COMMENT $2B62 wall change
+COMMENT $2B72 wall change
+COMMENT $2B7E Negafy velocity in x direction only
+COMMENT $2BEE wall change
+COMMENT $2BF0 - here
+COMMENT $2BF5 wall change
+COMMENT $2BF7 - here
+COMMENT $2C01 Negafy velocity in y direction only
+COMMENT $2C0A Negafy velocity in y direction only
+COMMENT $2C0F wall change
+COMMENT $2C11 - here
+COMMENT $2C17 wall change
+COMMENT $2C19 - here
+COMMENT $2CAD wall change
+COMMENT $2CAF - here
+COMMENT $2CB4 wall change
+COMMENT $2CB6 - here
+COMMENT $2CC0 Negafy velocity in y direction only
+COMMENT $2CC9 Negafy velocity in y direction only
+COMMENT $2CCD wall change
+COMMENT $2CCF - here
+COMMENT $2CD4 wall change
+COMMENT $2CD6 - here
+COMMENT_LINE $2CDB lda tmp
+COMMENT_LINE $2CDB ldb tmp2
+COMMENT_LINE $2CDC ************
+COMMENT_LINE $2CDC check_bounce2  Checks to see if an object hits
+COMMENT_LINE $2CDC x = tmp2
+COMMENT_LINE $2CDC y = tmp2+1
+COMMENT_LINE $2CDC ************
+COMMENT $2CDF Clear quadrant flags
+COMMENT $2CE5 Get X position
+COMMENT $2CE8 Get abs(x) - Move x into pos quadrant
+COMMENT $2CEB Set quarant flag
+COMMENT $2CF5 Get abs(y) - Move y into pos quadrant
+COMMENT $2CF8 Set quadrant flag
+COMMENT $2CFF Compare with inner boundary
+COMMENT $2D02 If bigger, don't bounce
+COMMENT $2D04 Compare with inner boundary
+COMMENT $2D07 If bigger, don't bounce
+COMMENT $2D1E wall change
+COMMENT $2D26 wall change
+COMMENT $2D2E Compare with inner boundary
+COMMENT $2D31 If bigger, don't bounce
+COMMENT $2D33 Compare with inner boundary
+COMMENT $2D36 If bigger, don't bounce
+COMMENT $2D45 wall change
+COMMENT $2D4D wall change
+COMMENT $2D55 Compare with outer boundary
+COMMENT $2D58 If smaller, don't bounce
+COMMENT $2D67 wall change
+COMMENT $2D6F wall change
+COMMENT $2D77 Compare with outer boundary
+COMMENT $2D7A If smaller, don't bounce
+COMMENT $2D89 wall change
+COMMENT $2D91 wall change
+COMMENT $2DD2 wall change
+COMMENT $2DD4 - here
+COMMENT $2DD9 wall change
+COMMENT $2DDB - here
+COMMENT $2DE0 wall change
+COMMENT $2DE2 - here
+COMMENT $2DE7 wall change
+COMMENT $2DE9 - here
+COMMENT $2E30 wall change
+COMMENT $2E32 - here
+COMMENT $2E37 wall change
+COMMENT $2E39 - here
+COMMENT $2E3E wall change
+COMMENT $2E40 - here
+COMMENT $2E45 wall change
+COMMENT $2E47 - here
+COMMENT_LINE $2E4D ***************
+COMMENT_LINE $2E4D move_everything
+COMMENT_LINE $2E4D ***************
+COMMENT $2E4D sprite_left is the counter
+COMMENT $2E50 Create loop variable
+COMMENT $2E53 First sprite to move
+COMMENT $2E57 load status byte
+COMMENT $2E59 If status is 0, don't move object ("dead")
+COMMENT_LINE $2E5B cmpa  #$ff                      ;If status is FF, exit routine
+COMMENT_LINE $2E5B beq   en_routine
+COMMENT $2E5B Get posx
+COMMENT $2E5D Add deltax (velocity)
+COMMENT $2E5F Store adjusted posx
+COMMENT $2E61 Get posy
+COMMENT $2E63 Add deltay (velocity)
+COMMENT $2E65 Store adjusted posy
+COMMENT $2E67 Decrement the counter
+COMMENT $2E6A Are we done?
+COMMENT $2E6C Next object structure
+COMMENT $2E6E Not done, back to start of loop
+COMMENT $2E71 no_sprites                ;sprite_left is the counter
+COMMENT $2E73 Create loop variable
+COMMENT $2E7A load status byte
+COMMENT_LINE $2E7C clr   posy,y                    ;Get y
+COMMENT_LINE $2E7C clr   posx,y                    ;Get x
+COMMENT $2E7C Decrement the counter
+COMMENT $2E7F Are we done?
+COMMENT $2E81 Next object structure
+COMMENT $2E83 Not done, back to start of loop
+COMMENT $2E86 no_sprites                ;sprite_left is the counter
+COMMENT $2E88 Create loop variable
+COMMENT $2E8F load status byte
+COMMENT $2E91 If status is 0, don't draw object ("dead")
+COMMENT $2E93 Get y
+COMMENT $2E95 Get x
+COMMENT $2E97 go to (PosX,PosY)
+COMMENT $2E9A Draw dot
+COMMENT $2E9D Move pen to (0,0)
+COMMENT $2EA0 Decrement the counter
+COMMENT $2EA3 Are we done?
+COMMENT $2EA5 Next object structure
+COMMENT $2EA7 Not done, back to start of loop
+COMMENT $2EDB Get x
+COMMENT $2EF2 Get x
+COMMENT $2EF5 go to (PosX,PosY)
+COMMENT $2EFE Get number of vectors
+COMMENT $2F00 Get the scale
+COMMENT $2F02 Draw it
+COMMENT $2F1C Get x
+COMMENT $2F32 Get x
+COMMENT $2F35 go to (PosX,PosY)
+COMMENT $2F3E Get number of vectors
+COMMENT $2F40 Get the scale
+COMMENT $2F42 Draw it
+COMMENT $2F45 Move pen to (0,0)
+COMMENT $2F49 sprite_left is the counter
+COMMENT $2F4B Create loop variable
+COMMENT $2F52 load status byte
+COMMENT $2F54 If status is 0, don't draw object ("dead")
+COMMENT $2F56 Get y
+COMMENT $2F58 Get x
+COMMENT $2F5A go to (PosX,PosY)
+COMMENT $2F5F Get number of vectors
+COMMENT $2F61 Get the scale
+COMMENT $2F63 Draw it
+COMMENT $2F66 Move pen to (0,0)
+COMMENT $2F69 Decrement the counter
+COMMENT $2F6C Are we done?
+COMMENT $2F6E Next object structure
+COMMENT $2F70 Not done, back to start of loop
+COMMENT $2F75 x Pos
+COMMENT $2F83 counter
+COMMENT $2F86 Get y
+COMMENT $2F88 Get x
+COMMENT $2F8B go to (PosX,PosY)
+COMMENT $2F91 Get number of vectors
+COMMENT $2F93 Get the scale
+COMMENT $2F95 Draw it
+COMMENT $2F98 Move pen to (0,0)
+COMMENT $2FAF x Pos
+COMMENT $2FBD counter
+COMMENT $2FC0 Get y
+COMMENT $2FC2 Get x
+COMMENT $2FC5 go to (PosX,PosY)
+COMMENT $2FCB Get number of vectors
+COMMENT $2FCD Get the scale
+COMMENT $2FCF Draw it
+COMMENT $2FD2 Move pen to (0,0)
+COMMENT_LINE $3156 x= string loc
+COMMENT_LINE $3156 a= y
+COMMENT_LINE $3156 b= x
+COMMENT_LINE $3156 tmp+1 = scale
+COMMENT_LINE $315C jsr draw_number0
+COMMENT_LINE $315C lda #$08
+COMMENT_LINE $315C sta wall_switch
+COMMENT_LINE $3161 leax 1,x
+COMMENT_LINE $3355 ldd tmp3
+COMMENT_LINE $3355 jsr draw_number0
+COMMENT_LINE $3368 move_pen7f_to_d:
+COMMENT_LINE $3368 std move_tmp
+COMMENT_LINE $3368 ldb #63
+COMMENT_LINE $3368 stb $04
+COMMENT_LINE $3368 ldd move_tmp
+COMMENT_LINE $3368 jsr move_pen_d
+COMMENT_LINE $3368 ldd move_tmp
+COMMENT_LINE $3368 jsr move_pen_d
+COMMENT_LINE $3368 rts
+COMMENT $34F5 go to (PosX,PosY)
+COMMENT $3500 Draw it
+COMMENT $3503 Move pen to (0,0)
+COMMENT $3507 go to (PosX,PosY)
+COMMENT $3512 Draw it
+COMMENT $3515 Move pen to (0,0)
+COMMENT $3519 go to (PosX,PosY)
+COMMENT $3524 Draw it
+COMMENT $3527 Move pen to (0,0)
+COMMENT $352B go to (PosX,PosY)
+COMMENT $3536 Draw it
+COMMENT $3539 Move pen to (0,0)
+COMMENT $353D go to (PosX,PosY)
+COMMENT $3548 Draw it
+COMMENT $354B Move pen to (0,0)
+COMMENT $354F go to (PosX,PosY)
+COMMENT $355A Draw it
+COMMENT $355D Move pen to (0,0)
+COMMENT $3561 go to (PosX,PosY)
+COMMENT $356C Draw it
+COMMENT $356F Move pen to (0,0)
+COMMENT $3576 go to (PosX,PosY)
+COMMENT $3581 Draw it
+COMMENT $3584 Move pen to (0,0)
+COMMENT $358A go to (PosX,PosY)
+COMMENT $3595 Draw it
+COMMENT $3598 Move pen to (0,0)
+COMMENT $359C go to (PosX,PosY)
+COMMENT $35A7 Draw it
+COMMENT $35AA Move pen to (0,0)
+COMMENT $35B1 go to (PosX,PosY)
+COMMENT $35BC Draw it
+COMMENT $35BF Move pen to (0,0)
+COMMENT $35C5 go to (PosX,PosY)
+COMMENT $35D0 Draw it
+COMMENT $35D3 Move pen to (0,0)
+COMMENT $35DA go to (PosX,PosY)
+COMMENT $35E5 Draw it
+COMMENT $35E8 Move pen to (0,0)
+COMMENT $35EE go to (PosX,PosY)
+COMMENT $35F9 Draw it
+COMMENT $35FC Move pen to (0,0)
+COMMENT $3600 go to (PosX,PosY)
+COMMENT $360B Draw it
+COMMENT $360E Move pen to (0,0)
+COMMENT $3612 go to (PosX,PosY)
+COMMENT $361D Draw it
+COMMENT $3620 Move pen to (0,0)
+COMMENT $3624 go to (PosX,PosY)
+COMMENT $362F Draw it
+COMMENT $3632 Move pen to (0,0)
+COMMENT $3636 go to (PosX,PosY)
+COMMENT $3641 Draw it
+COMMENT $3644 Move pen to (0,0)
+COMMENT $3648 go to (PosX,PosY)
+COMMENT $3653 Draw it
+COMMENT $3656 Move pen to (0,0)
+COMMENT $365A go to (PosX,PosY)
+COMMENT $3665 Draw it
+COMMENT $3668 Move pen to (0,0)
+COMMENT $366C go to (PosX,PosY)
+COMMENT $3677 Draw it
+COMMENT $367A Move pen to (0,0)
+COMMENT $367E go to (PosX,PosY)
+COMMENT $3689 Draw it
+COMMENT $368C Move pen to (0,0)
+COMMENT $3693 go to (PosX,PosY)
+COMMENT $369E Draw it
+COMMENT $36A1 Move pen to (0,0)
+COMMENT $36A7 go to (PosX,PosY)
+COMMENT $36B2 Draw it
+COMMENT $36B5 Move pen to (0,0)
+COMMENT $36B9 go to (PosX,PosY)
+COMMENT $36C4 Draw it
+COMMENT $36C7 Move pen to (0,0)
+COMMENT $36CB go to (PosX,PosY)
+COMMENT $36D6 Draw it
+COMMENT $36D9 Move pen to (0,0)
+COMMENT $36DD go to (PosX,PosY)
+COMMENT $36E8 Draw it
+COMMENT $36EB Move pen to (0,0)
+COMMENT $36F2 go to (PosX,PosY)
+COMMENT $36FD Draw it
+COMMENT $3700 Move pen to (0,0)
+COMMENT $3706 go to (PosX,PosY)
+COMMENT $3711 Draw it
+COMMENT $3714 Move pen to (0,0)
+COMMENT $371B go to (PosX,PosY)
+COMMENT $3726 Draw it
+COMMENT $3729 Move pen to (0,0)
+COMMENT $372F go to (PosX,PosY)
+COMMENT $373A Draw it
+COMMENT $373D Move pen to (0,0)
+COMMENT $3741 go to (PosX,PosY)
+COMMENT $374C Draw it
+COMMENT $374F Move pen to (0,0)
+COMMENT $3753 go to (PosX,PosY)
+COMMENT $375E Draw it
+COMMENT $3761 Move pen to (0,0)
+COMMENT $3765 go to (PosX,PosY)
+COMMENT $3770 Draw it
+COMMENT $3773 Move pen to (0,0)
+COMMENT $3777 go to (PosX,PosY)
+COMMENT $3782 Draw it
+COMMENT $3785 Move pen to (0,0)
+COMMENT $3789 go to (PosX,PosY)
+COMMENT $3794 Draw it
+COMMENT $3797 Move pen to (0,0)
+COMMENT $379B go to (PosX,PosY)
+COMMENT $37A6 Draw it
+COMMENT $37A9 Move pen to (0,0)
+COMMENT $37AD go to (PosX,PosY)
+COMMENT $37B8 Draw it
+COMMENT $37BB Move pen to (0,0)
+COMMENT $37BF go to (PosX,PosY)
+COMMENT $37CA Draw it
+COMMENT $37CD Move pen to (0,0)
+COMMENT $37D1 go to (PosX,PosY)
+COMMENT $37DC Draw it
+COMMENT $37DF Move pen to (0,0)
+COMMENT $37E3 go to (PosX,PosY)
+COMMENT $37EE Draw it
+COMMENT $37F1 Move pen to (0,0)
+COMMENT $37F5 go to (PosX,PosY)
+COMMENT $3800 Draw it
+COMMENT $3803 Move pen to (0,0)
+COMMENT $3807 go to (PosX,PosY)
+COMMENT $3812 Draw it
+COMMENT $3815 Move pen to (0,0)
+COMMENT $3819 go to (PosX,PosY)
+COMMENT $3824 Draw it
+COMMENT $3827 Move pen to (0,0)
+COMMENT $382B go to (PosX,PosY)
+COMMENT $3836 Draw it
+COMMENT $3839 Move pen to (0,0)
+COMMENT $383D go to (PosX,PosY)
+COMMENT $3848 Draw it
+COMMENT $384B Move pen to (0,0)
+COMMENT $384F go to (PosX,PosY)
+COMMENT $385A Draw it
+COMMENT $385D Move pen to (0,0)
+COMMENT $3861 go to (PosX,PosY)
+COMMENT $386C Draw it
+COMMENT $386F Move pen to (0,0)
+COMMENT $3873 go to (PosX,PosY)
+COMMENT $387E Draw it
+COMMENT $3881 Move pen to (0,0)
+COMMENT $3888 go to (PosX,PosY)
+COMMENT $3893 Draw it
+COMMENT $3896 Move pen to (0,0)
+COMMENT $389C go to (PosX,PosY)
+COMMENT $38A7 Draw it
+COMMENT $38AA Move pen to (0,0)
+COMMENT $38B6 Get y
+COMMENT $38B9 go to (PosX,PosY)
+COMMENT $38C3 Draw it
+COMMENT $38C6 Move pen to (0,0)
+COMMENT $38D1 Get y
+COMMENT $38D4 go to (PosX,PosY)
+COMMENT $38DE Draw it
+COMMENT $38E1 Move pen to (0,0)
+COMMENT $38EC Get y
+COMMENT $38EF go to (PosX,PosY)
+COMMENT $38F9 Draw it
+COMMENT $38FC Move pen to (0,0)
+COMMENT $3907 Get y
+COMMENT $390A go to (PosX,PosY)
+COMMENT $3914 Draw it
+COMMENT $3917 Move pen to (0,0)
+COMMENT $3923 Get yx
+COMMENT $3926 go to (PosX,PosY)
+COMMENT_LINE $3937 ldx   #horiz_wall
+COMMENT_LINE $3937 lda   #$01
+COMMENT_LINE $3937 ldb   #$7f
+COMMENT_LINE $3937 jsr   move_draw_VL4             ;Draw it
+COMMENT $3937 Move pen to (0,0)
+COMMENT $3942 Get yx
+COMMENT $3945 go to (PosX,PosY)
+COMMENT_LINE $3956 ldx   #horiz_wall
+COMMENT_LINE $3956 lda   #$01
+COMMENT_LINE $3956 ldb   #$7f
+COMMENT_LINE $3956 jsr   move_draw_VL4             ;Draw it
+COMMENT $3956 Move pen to (0,0)
+COMMENT $3961 Get yx
+COMMENT $3964 go to (PosX,PosY)
+COMMENT_LINE $3975 ldx   #vert_wall
+COMMENT_LINE $3975 lda   #$01
+COMMENT_LINE $3975 ldb   #$7f
+COMMENT_LINE $3975 jsr   move_draw_VL4             ;Draw it
+COMMENT $3975 Move pen to (0,0)
+COMMENT $3980 Get yx
+COMMENT $3983 go to (PosX,PosY)
+COMMENT_LINE $3994 ldx   #vert_wall
+COMMENT_LINE $3994 lda   #$01
+COMMENT_LINE $3994 ldb   #$7f
+COMMENT_LINE $3994 jsr   move_draw_VL4             ;Draw it
+COMMENT $3994 Move pen to (0,0)
+COMMENT $399F Get yx
+COMMENT $39A2 go to (PosX,PosY)
+COMMENT_LINE $39B3 ldx   #dia_up_wall
+COMMENT_LINE $39B3 lda   #$01
+COMMENT_LINE $39B3 ldb   #$3f
+COMMENT_LINE $39B3 jsr   move_draw_VL4             ;Draw it
+COMMENT $39B3 Move pen to (0,0)
+COMMENT $39BE Get yx
+COMMENT $39C1 go to (PosX,PosY)
+COMMENT_LINE $39D2 ldx   #dia_up_wall
+COMMENT_LINE $39D2 lda   #$01
+COMMENT_LINE $39D2 ldb   #$3f
+COMMENT_LINE $39D2 jsr   move_draw_VL4             ;Draw it
+COMMENT $39D2 Move pen to (0,0)
+COMMENT $39DD Get yx
+COMMENT $39E0 go to (PosX,PosY)
+COMMENT_LINE $39F1 ldx   #dia_down_wall
+COMMENT_LINE $39F1 lda   #$01
+COMMENT_LINE $39F1 ldb   #$3f
+COMMENT_LINE $39F1 jsr   move_draw_VL4             ;Draw it
+COMMENT $39F1 Move pen to (0,0)
+COMMENT $39FC Get yx
+COMMENT $39FF go to (PosX,PosY)
+COMMENT_LINE $3A10 ldx   #dia_down_wall
+COMMENT_LINE $3A10 lda   #$01
+COMMENT_LINE $3A10 ldb   #$3f
+COMMENT_LINE $3A10 jsr   move_draw_VL4             ;Draw it
+COMMENT $3A10 Move pen to (0,0)
+COMMENT $3A1C Get yx
+COMMENT $3A1F go to (PosX,PosY)
+COMMENT_LINE $3A30 ldx   #dia_up_wall
+COMMENT_LINE $3A30 lda   #$01
+COMMENT_LINE $3A30 ldb   #$3f
+COMMENT_LINE $3A30 jsr   move_draw_VL4             ;Draw it
+COMMENT $3A30 Move pen to (0,0)
+COMMENT $3A3B Get yx
+COMMENT $3A3E go to (PosX,PosY)
+COMMENT_LINE $3A4F ldx   #dia_up_wall
+COMMENT_LINE $3A4F lda   #$01
+COMMENT_LINE $3A4F ldb   #$3f
+COMMENT_LINE $3A4F jsr   move_draw_VL4             ;Draw it
+COMMENT $3A4F Move pen to (0,0)
+COMMENT $3A5A Get yx
+COMMENT $3A5D go to (PosX,PosY)
+COMMENT_LINE $3A6E ldx   #dia_down_wall
+COMMENT_LINE $3A6E lda   #$01
+COMMENT_LINE $3A6E ldb   #$3f
+COMMENT_LINE $3A6E jsr   move_draw_VL4             ;Draw it
+COMMENT $3A6E Move pen to (0,0)
+COMMENT $3A79 Get yx
+COMMENT $3A7C go to (PosX,PosY)
+COMMENT_LINE $3A8D ldx   #dia_down_wall
+COMMENT_LINE $3A8D lda   #$01
+COMMENT_LINE $3A8D ldb   #$3f
+COMMENT_LINE $3A8D jsr   move_draw_VL4             ;Draw it
+COMMENT $3A8D Move pen to (0,0)
+COMMENT $3A99 Get yx
+COMMENT $3A9C go to (PosX,PosY)
+COMMENT_LINE $3AAD ldx   #horiz_wall
+COMMENT_LINE $3AAD lda   #$01
+COMMENT_LINE $3AAD ldb   #$40
+COMMENT_LINE $3AAD jsr   move_draw_VL4             ;Draw it
+COMMENT $3AAD Move pen to (0,0)
+COMMENT $3AB8 Get yx
+COMMENT $3ABB go to (PosX,PosY)
+COMMENT_LINE $3ACC ldx   #horiz_wall
+COMMENT_LINE $3ACC lda   #$01
+COMMENT_LINE $3ACC ldb   #$40
+COMMENT_LINE $3ACC jsr   move_draw_VL4             ;Draw it
+COMMENT $3ACC Move pen to (0,0)
+COMMENT $3AD7 Get yx
+COMMENT $3ADA go to (PosX,PosY)
+COMMENT_LINE $3AEB ldx   #vert_wall
+COMMENT_LINE $3AEB lda   #$01
+COMMENT_LINE $3AEB ldb   #$40
+COMMENT_LINE $3AEB jsr   move_draw_VL4             ;Draw it
+COMMENT $3AEB Move pen to (0,0)
+COMMENT $3AF6 Get yx
+COMMENT $3AF9 go to (PosX,PosY)
+COMMENT_LINE $3B0A ldx   #vert_wall
+COMMENT_LINE $3B0A lda   #$01
+COMMENT_LINE $3B0A ldb   #$40
+COMMENT_LINE $3B0A jsr   move_draw_VL4             ;Draw it
+COMMENT $3B0A Move pen to (0,0)
+COMMENT $3B15 Get yx
+COMMENT $3B18 go to (PosX,PosY)
+COMMENT_LINE $3B29 ldx   #dia_up_wall
+COMMENT_LINE $3B29 lda   #$01
+COMMENT_LINE $3B29 ldb   #$1f
+COMMENT_LINE $3B29 jsr   move_draw_VL4             ;Draw it
+COMMENT $3B29 Move pen to (0,0)
+COMMENT $3B34 Get yx
+COMMENT $3B37 go to (PosX,PosY)
+COMMENT_LINE $3B48 ldx   #dia_up_wall
+COMMENT_LINE $3B48 lda   #$01
+COMMENT_LINE $3B48 ldb   #$1f
+COMMENT_LINE $3B48 jsr   move_draw_VL4             ;Draw it
+COMMENT $3B48 Move pen to (0,0)
+COMMENT $3B53 Get yx
+COMMENT $3B56 go to (PosX,PosY)
+COMMENT_LINE $3B67 ldx   #dia_down_wall
+COMMENT_LINE $3B67 lda   #$01
+COMMENT_LINE $3B67 ldb   #$1f
+COMMENT_LINE $3B67 jsr   move_draw_VL4             ;Draw it
+COMMENT $3B67 Move pen to (0,0)
+COMMENT $3B72 Get yx
+COMMENT $3B75 go to (PosX,PosY)
+COMMENT_LINE $3B86 ldx   #dia_down_wall
+COMMENT_LINE $3B86 lda   #$01
+COMMENT_LINE $3B86 ldb   #$1f
+COMMENT_LINE $3B86 jsr   move_draw_VL4             ;Draw it
+COMMENT $3B86 Move pen to (0,0)
+COMMENT $3B92 Get yx
+COMMENT $3B95 go to (PosX,PosY)
+COMMENT_LINE $3BA6 ldx   #horiz_wall
+COMMENT_LINE $3BA6 lda   #$01
+COMMENT_LINE $3BA6 ldb   #$20
+COMMENT_LINE $3BA6 jsr   move_draw_VL4             ;Draw it
+COMMENT $3BA6 Move pen to (0,0)
+COMMENT $3BB1 Get yx
+COMMENT $3BB4 go to (PosX,PosY)
+COMMENT_LINE $3BC5 ldx   #horiz_wall
+COMMENT_LINE $3BC5 lda   #$01
+COMMENT_LINE $3BC5 ldb   #$20
+COMMENT_LINE $3BC5 jsr   move_draw_VL4             ;Draw it
+COMMENT $3BC5 Move pen to (0,0)
+COMMENT $3BD0 Get yx
+COMMENT $3BD3 go to (PosX,PosY)
+COMMENT_LINE $3BE4 ldx   #vert_wall
+COMMENT_LINE $3BE4 lda   #$01
+COMMENT_LINE $3BE4 ldb   #$20
+COMMENT_LINE $3BE4 jsr   move_draw_VL4             ;Draw it
+COMMENT $3BE4 Move pen to (0,0)
+COMMENT $3BEF Get yx
+COMMENT $3BF2 go to (PosX,PosY)
+COMMENT_LINE $3C03 ldx   #vert_wall
+COMMENT_LINE $3C03 lda   #$01
+COMMENT_LINE $3C03 ldb   #$20
+COMMENT_LINE $3C03 jsr   move_draw_VL4             ;Draw it
+COMMENT $3C03 Move pen to (0,0)
+COMMENT $3C0E Get yx
+COMMENT $3C11 go to (PosX,PosY)
+COMMENT_LINE $3C22 ldx   #dia_up_wall
+COMMENT_LINE $3C22 lda   #$01
+COMMENT_LINE $3C22 ldb   #$10
+COMMENT_LINE $3C22 jsr   move_draw_VL4             ;Draw it
+COMMENT $3C22 Move pen to (0,0)
+COMMENT $3C2D Get yx
+COMMENT $3C30 go to (PosX,PosY)
+COMMENT_LINE $3C41 ldx   #dia_up_wall
+COMMENT_LINE $3C41 lda   #$01
+COMMENT_LINE $3C41 ldb   #$10
+COMMENT_LINE $3C41 jsr   move_draw_VL4             ;Draw it
+COMMENT $3C41 Move pen to (0,0)
+COMMENT $3C4C Get yx
+COMMENT $3C4F go to (PosX,PosY)
+COMMENT_LINE $3C60 ldx   #dia_down_wall
+COMMENT_LINE $3C60 lda   #$01
+COMMENT_LINE $3C60 ldb   #$10
+COMMENT_LINE $3C60 jsr   move_draw_VL4             ;Draw it
+COMMENT $3C60 Move pen to (0,0)
+COMMENT $3C6B Get yx
+COMMENT $3C6E go to (PosX,PosY)
+COMMENT_LINE $3C7F ldx   #dia_down_wall
+COMMENT_LINE $3C7F lda   #$01
+COMMENT_LINE $3C7F ldb   #$10
+COMMENT_LINE $3C7F jsr   move_draw_VL4             ;Draw it
+COMMENT $3C7F Move pen to (0,0)
+COMMENT $3C8B Get yx
+COMMENT $3C8E go to (PosX,PosY)
+COMMENT_LINE $3C9F ldx   #dia_up_wall
+COMMENT_LINE $3C9F lda   #$01
+COMMENT_LINE $3C9F ldb   #$10
+COMMENT_LINE $3C9F jsr   move_draw_VL4             ;Draw it
+COMMENT $3C9F Move pen to (0,0)
+COMMENT $3CAA Get yx
+COMMENT $3CAD go to (PosX,PosY)
+COMMENT_LINE $3CBE ldx   #dia_up_wall
+COMMENT_LINE $3CBE lda   #$01
+COMMENT_LINE $3CBE ldb   #$10
+COMMENT_LINE $3CBE jsr   move_draw_VL4             ;Draw it
+COMMENT $3CBE Move pen to (0,0)
+COMMENT $3CC9 Get yx
+COMMENT $3CCC go to (PosX,PosY)
+COMMENT_LINE $3CDD ldx   #dia_down_wall
+COMMENT_LINE $3CDD lda   #$01
+COMMENT_LINE $3CDD ldb   #$10
+COMMENT_LINE $3CDD jsr   move_draw_VL4             ;Draw it
+COMMENT $3CDD Move pen to (0,0)
+COMMENT $3CE8 Get yx
+COMMENT $3CEB go to (PosX,PosY)
+COMMENT_LINE $3CFC ldx   #dia_down_wall
+COMMENT_LINE $3CFC lda   #$01
+COMMENT_LINE $3CFC ldb   #$10
+COMMENT_LINE $3CFC jsr   move_draw_VL4             ;Draw it
+COMMENT $3CFC Move pen to (0,0)
+COMMENT $3D08 Get yx
+COMMENT $3D0B go to (PosX,PosY)
+COMMENT_LINE $3D1C ldx   #dia_up_wall
+COMMENT_LINE $3D1C lda   #$01
+COMMENT_LINE $3D1C ldb   #$10
+COMMENT_LINE $3D1C jsr   move_draw_VL4             ;Draw it
+COMMENT $3D1C Move pen to (0,0)
+COMMENT $3D27 Get yx
+COMMENT $3D2A go to (PosX,PosY)
+COMMENT_LINE $3D3B ldx   #dia_up_wall
+COMMENT_LINE $3D3B lda   #$01
+COMMENT_LINE $3D3B ldb   #$10
+COMMENT_LINE $3D3B jsr   move_draw_VL4             ;Draw it
+COMMENT $3D3B Move pen to (0,0)
+COMMENT $3D46 Get yx
+COMMENT $3D49 go to (PosX,PosY)
+COMMENT_LINE $3D5A ldx   #dia_down_wall
+COMMENT_LINE $3D5A lda   #$01
+COMMENT_LINE $3D5A ldb   #$10
+COMMENT_LINE $3D5A jsr   move_draw_VL4             ;Draw it
+COMMENT $3D5A Move pen to (0,0)
+COMMENT $3D65 Get yx
+COMMENT $3D68 go to (PosX,PosY)
+COMMENT_LINE $3D79 ldx   #dia_down_wall
+COMMENT_LINE $3D79 lda   #$01
+COMMENT_LINE $3D79 ldb   #$10
+COMMENT_LINE $3D79 jsr   move_draw_VL4             ;Draw it
+COMMENT $3D79 Move pen to (0,0)
+COMMENT $3D85 Get yx
+COMMENT $3D88 go to (PosX,PosY)
+COMMENT_LINE $3D99 ldx   #horiz_wall
+COMMENT_LINE $3D99 lda   #$01
+COMMENT_LINE $3D99 ldb   #$3f
+COMMENT_LINE $3D99 jsr   move_draw_VL4             ;Draw it
+COMMENT $3D99 Move pen to (0,0)
+COMMENT $3DA4 Get yx
+COMMENT $3DA7 go to (PosX,PosY)
+COMMENT_LINE $3DB8 ldx   #horiz_wall
+COMMENT_LINE $3DB8 lda   #$01
+COMMENT_LINE $3DB8 ldb   #$3f
+COMMENT_LINE $3DB8 jsr   move_draw_VL4             ;Draw it
+COMMENT $3DB8 Move pen to (0,0)
+COMMENT $3DC3 Get yx
+COMMENT $3DC6 go to (PosX,PosY)
+COMMENT_LINE $3DD7 ldx   #vert_wall
+COMMENT_LINE $3DD7 lda   #$01
+COMMENT_LINE $3DD7 ldb   #$3f
+COMMENT_LINE $3DD7 jsr   move_draw_VL4             ;Draw it
+COMMENT $3DD7 Move pen to (0,0)
+COMMENT $3DE2 Get yx
+COMMENT $3DE5 go to (PosX,PosY)
+COMMENT_LINE $3DF6 ldx   #vert_wall
+COMMENT_LINE $3DF6 lda   #$01
+COMMENT_LINE $3DF6 ldb   #$3f
+COMMENT_LINE $3DF6 jsr   move_draw_VL4             ;Draw it
+COMMENT $3DF6 Move pen to (0,0)
+COMMENT $3E02 Get yx
+COMMENT $3E05 go to (PosX,PosY)
+COMMENT_LINE $3E16 ldx   #horiz_wall
+COMMENT_LINE $3E16 lda   #$01
+COMMENT_LINE $3E16 ldb   #$7f
+COMMENT_LINE $3E16 jsr   move_draw_VL4             ;Draw it
+COMMENT $3E16 Move pen to (0,0)
+COMMENT $3E21 Get yx
+COMMENT $3E24 go to (PosX,PosY)
+COMMENT_LINE $3E35 ldx   #horiz_wall
+COMMENT_LINE $3E35 lda   #$01
+COMMENT_LINE $3E35 ldb   #$7f
+COMMENT_LINE $3E35 jsr   move_draw_VL4             ;Draw it
+COMMENT $3E35 Move pen to (0,0)
+COMMENT $3E40 Get yx
+COMMENT $3E43 go to (PosX,PosY)
+COMMENT_LINE $3E54 ldx   #vert_wall
+COMMENT_LINE $3E54 lda   #$01
+COMMENT_LINE $3E54 ldb   #$7f
+COMMENT_LINE $3E54 jsr   move_draw_VL4             ;Draw it
+COMMENT $3E54 Move pen to (0,0)
+COMMENT $3E5F Get yx
+COMMENT $3E62 go to (PosX,PosY)
+COMMENT_LINE $3E73 ldx   #vert_wall
+COMMENT_LINE $3E73 lda   #$01
+COMMENT_LINE $3E73 ldb   #$7f
+COMMENT_LINE $3E73 jsr   move_draw_VL4             ;Draw it
+COMMENT $3E73 Move pen to (0,0)
+COMMENT_LINE $3E77 a = y
+COMMENT_LINE $3E77 b = x
+COMMENT_LINE $3E77 scale =  tmp
+COMMENT_LINE $3E80 lsla
+COMMENT_LINE $3E98 lsla
+COMMENT_LINE $3EB0 lsla
+COMMENT_LINE $3EC8 lsla
+COMMENT_LINE $3EE0 lsla
+COMMENT_LINE $3EF8 lsla
+COMMENT_LINE $3F10 lsla
+COMMENT_LINE $3F28 lsla
+COMMENT $3F38 go to (PosX,PosY)
+COMMENT $3FB0 Get y
+COMMENT $3FB2 Get x
+COMMENT $3FC5 Get y
+COMMENT $3FC7 Get x
+COMMENT $3FD5 Get y
+COMMENT $3FD7 Get x
+COMMENT $3FE4 Get y
+COMMENT $3FE6 Get x
+COMMENT_LINE $3FEF ******************
+COMMENT_LINE $3FEF draw_scores
+COMMENT_LINE $3FEF ******************
+COMMENT $3FEF Get string Height
+COMMENT $3FF1 Get string Width
+COMMENT $3FF3 Store Height/Width in BIOS
+COMMENT $3FF6 Get y
+COMMENT $3FF8 Get x
+COMMENT $3FFA go to (PosX,PosY)
+COMMENT $3FFD Get address of string
+COMMENT $4000 Print the string
+COMMENT $4003 Move pen to (0,0)
+COMMENT $400B Get y
+COMMENT $400D Get x
+COMMENT $400F go to (PosX,PosY)
+COMMENT $4012 Get address of string
+COMMENT $4015 Print the string
+COMMENT $4018 Move pen to (0,0)
+COMMENT $401C sprites_left is the counter
+COMMENT $401E Create loop variable
+COMMENT $4025 load status byte
+COMMENT $4027 If status is 0, don't draw object ("dead")
+COMMENT $4029 Get y
+COMMENT $402B Get x
+COMMENT $402D go to (PosX,PosY)
+COMMENT $404B Get number of vectors
+COMMENT $404D scale
+COMMENT $404F Draw it
+COMMENT $4052 Move pen to (0,0)
+COMMENT $4055 Next object structure
+COMMENT $4057 Decrement the counter
+COMMENT $405C Not done, back to start of loop
+COMMENT_LINE $405F **************
+COMMENT_LINE $405F init_sprites
+COMMENT_LINE $405F Turns all sprites off
+COMMENT_LINE $405F **************
+COMMENT_LINE $4067 Turn all sprites off
+COMMENT $4067 Get address of first sprite
+COMMENT $406D Store 0 in state
+COMMENT $406F Store 0 in Delta X
+COMMENT $4071 Store 0 in Delta Y
+COMMENT $4073 Get next sprite
+COMMENT $4078 Loop back
+COMMENT_LINE $407B *******************
+COMMENT_LINE $407B set_sq_out_wall
+COMMENT_LINE $407B Sets up sprites for square outer wall
+COMMENT_LINE $407B Uses sprites 1-8
+COMMENT_LINE $407B *******************
+COMMENT $407B Set up bounce boundaries
+COMMENT_LINE $4094 *******************
+COMMENT_LINE $4094 set_sq_in_wall
+COMMENT_LINE $4094 Sets up sprites for small square inner wall
+COMMENT_LINE $4094 Uses sprites 9-15
+COMMENT_LINE $4094 *******************
+COMMENT $4094 Set up bounce boundaries
+COMMENT_LINE $40B7 *******************
+COMMENT_LINE $40B7 set_sq_lg_wall
+COMMENT_LINE $40B7 Sets up sprites for large square inner wall
+COMMENT_LINE $40B7 Uses sprites 9-15
+COMMENT_LINE $40B7 *******************
+COMMENT $40B7 Set up bounce boundaries
+COMMENT_LINE $40DA ***************
+COMMENT_LINE $40DA set_oct_out_wall
+COMMENT_LINE $40DA Sets up sprites for octagonal outer wall
+COMMENT_LINE $40DA Uses sprites 1-8
+COMMENT_LINE $40DA ***************
+COMMENT $40DA Set up bounce boundaries
+COMMENT_LINE $40F5 ***************
+COMMENT_LINE $40F5 set_d_o_wall
+COMMENT_LINE $40F5 Sets up sprites for diamond outer wall
+COMMENT_LINE $40F5 Uses sprites 1-8
+COMMENT_LINE $40F5 ***************
+COMMENT $40F5 Set up bounce boundaries
+COMMENT_LINE $4110 ***************
+COMMENT_LINE $4110 set_oct_in_wall
+COMMENT_LINE $4110 Sets up sprites for large octagonal inner wall
+COMMENT_LINE $4110 Uses sprites 9-16
+COMMENT_LINE $4110 ***************
+COMMENT $4110 Set up bounce boundaries
+COMMENT_LINE $4135 ***************
+COMMENT_LINE $4135 set_oct_sm_wall
+COMMENT_LINE $4135 Sets up sprites for small octagonal inner wall
+COMMENT_LINE $4135 Uses sprites 9-16
+COMMENT_LINE $4135 ***************
+COMMENT $4135 Set up bounce boundaries
+COMMENT_LINE $415A ***************
+COMMENT_LINE $415A set_diam_wall
+COMMENT_LINE $415A Sets up sprites for small diamond inner wall
+COMMENT_LINE $415A Uses sprites 9-16
+COMMENT_LINE $415A ***************
+COMMENT $415A Set up bounce boundaries
+COMMENT_LINE $417F ***************
+COMMENT_LINE $417F set_lg_d_wall
+COMMENT_LINE $417F Sets up sprites for small diamond inner wall
+COMMENT_LINE $417F Uses sprites 9-16
+COMMENT_LINE $417F ***************
+COMMENT $417F Set up bounce boundaries
+COMMENT $41FE /* Start game if button 4 pressed. */
+COMMENT $4203 /* Check button 1. */
+COMMENT $420D /* Increment player count. */
+COMMENT $421F /* Check button 2. */
+COMMENT $4224 /* Increment game number. */
+COMMENT $422E /* Check button 3. */
+COMMENT $4233 /* Decrement game number. */
+RANGE $0000-$0002 DB_DATA
+RANGE $0002-$000A CHAR_DATA
+RANGE $000A-$000B DB_DATA
+RANGE $000B-$0011 DW_DATA
+RANGE $0011-$001C CHAR_DATA
+RANGE $001C-$001E DB_DATA
+RANGE $001E-$009B CODE
+RANGE $009B-$009F DW_DATA
+RANGE $009F-$00BF DB_DATA
+RANGE $00BF-$00C5 CHAR_DATA
+RANGE $00C5-$0744 DB_DATA
+RANGE $0744-$0748 DW_DATA
+RANGE $0748-$08A6 DB_DATA
+RANGE $08A6-$0C12 CODE
+RANGE $0C12-$0E57 DB_DATA
+RANGE $0E57-$104D CODE
+RANGE $104E-$1084 CODE
+RANGE $1085-$113D CODE
+RANGE $113E-$1179 CODE
+RANGE $1179-$1215 DB_DATA
+RANGE $1215-$1552 CODE
+RANGE $1553-$1F0A CODE
+RANGE $1F0B-$1F51 CODE
+RANGE $1F52-$1FF5 CODE
+RANGE $1FF6-$203C CODE
+RANGE $203D-$2794 CODE
+RANGE $2795-$4248 CODE
+

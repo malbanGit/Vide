@@ -1,0 +1,1618 @@
+BANK 0
+LABEL $F000 start_of_OS_ROM
+LABEL $F192 waitrecal
+LABEL $F1AA dptoD0
+LABEL $F1AF dptoC8
+LABEL $F1BA read_switches2
+LABEL $F1F8 read_jstick
+LABEL $F289 do_sound
+LABEL $F2A5 intensity_to_5F
+LABEL $F2C3 dot_at_d
+LABEL $F2FC move_pen7F_to_d
+LABEL $F354 reset0ref
+LABEL $F373 print_1_string
+LABEL $F378 print_with_dft_hw
+LABEL $F37A print_at_d
+LABEL $F3AD move_then_draw_VL_with_count1
+LABEL $F3BC move_then_draw_VL_with_count5
+LABEL $F3DA draw_VL_with_count5
+LABEL $F3DD draw_VL_with_count1
+LABEL $F410 next_pt
+LABEL $F517 get_random_a
+LABEL $F533 init_music_buf
+LABEL $F53F clear_blockxb
+LABEL $F545 clear_256_bytes
+LABEL $F683 move_block2
+LABEL $F687 init_sound
+LABEL $F68D init_sound2
+LABEL $F7A9 get_players_game
+LABEL $F84F set_dft_score
+LABEL $F87C add_d_to_x_in_bcd
+LABEL $F8D8 check_4_new_hi_score
+LABEL $FD1D berzerk_music_block
+LABEL $001A start
+EQU $2E RestartBerzerk
+LABEL $003A P003A
+LABEL $0040 P0040
+LABEL $0060 P0060
+LABEL $0066 StartNewTurn
+LABEL $0EF6 DetermineMazeWalls
+LABEL $0315 DisplayLives
+LABEL $0086 LoopWhileDisplayingMaze
+LABEL $0D41 DoUnknownSoundMucking
+LABEL $0096 P0096
+LABEL $0486 DrawMaze
+LABEL $00B5 P00B5
+LABEL $00AF EnterNextMaze
+LABEL $00D7 P00D7
+LABEL $0A2D SkillLevelCutoffs
+LABEL $00DC P00DC
+LABEL $00E7 P00E7
+LABEL $00F5 P00F5
+LABEL $00FC P00FC
+LABEL $0104 P0104
+LABEL $0CE6 RobotStartingPositionTable
+LABEL $010E P010E
+LABEL $014C P014C
+LABEL $0120 P0120
+LABEL $0146 P0146
+LABEL $017B P017B
+LABEL $017F P017F
+LABEL $0198 MainJumpTable
+LABEL $01B4 PlayerIsAlive
+LABEL $0976 PlayerHasLeftMaze
+LABEL $036B PlayerHasDied
+LABEL $019E MakeSoundThenGotoMainLoop
+LABEL $01A4 P01A4
+LABEL $01B0 P01B0
+LABEL $01BF ProcessJoystickAndButtons
+LABEL $0212 DoNotUpdatePlayerMovement
+LABEL $01C8 P01C8
+LABEL $01CC P01CC
+LABEL $01D4 P01D4
+LABEL $01D8 P01D8
+LABEL $0203 NoBtnsPressed
+LABEL $0939 CalculateUpdatedPosition
+LABEL $0333 FireBullet
+LABEL $021C CheckIfFiring
+LABEL $0243 CheckForPlayerLeavingQuadrant
+LABEL $022D NotFiringButMoving
+LABEL $0A3C ArmsShootingIndicesTable
+LABEL $0F98 MapPointToQnMakeRel
+COMMENT_LABEL $0F98 MapPointToQuadrantAndMakeRelative
+LABEL $0EEA PlayerThresholds
+LABEL $0EC7 CheckForQuadrantEdgeCrossing
+LABEL $02A8 NoContactWithWalls
+LABEL $0264 P0264
+LABEL $029B PlayerHitWall
+LABEL $0292 ExitMaze
+LABEL $0274 P0274
+LABEL $0284 P0284
+LABEL $0825 ProcessAndUpdateBullets
+LABEL $064A ProcessAndUpdateRobots
+LABEL $02CC CheckForExtraLifeBonus
+LABEL $02BA P02BA
+LABEL $02C4 P02C4
+LABEL $02E6 CheckForClearedLevelBonus
+LABEL $0312 P0312
+LABEL $02FD P02FD
+LABEL $0300 P0300
+LABEL $0326 P0326
+LABEL $031F P031F
+LABEL $0EEE BulletThresholds
+LABEL $0369 P0369
+LABEL $0D0B PlayerFriedIntensities
+LABEL $039A P039A
+LABEL $0774 CheckForOttoStart
+LABEL $03D9 P03D9
+LABEL $03D0 P03D0
+LABEL $03E6 LoopWaitingForRestart
+LABEL $03FF DisplayHighScore
+LABEL $0CDE AuthorsInitials
+LABEL $046D HighScoreString
+LABEL $0632 DisplayBothPlayersScore
+LABEL $047C HumanoidStringPositions
+LABEL $045C HumanoidString
+LABEL $0453 P0453
+LABEL $044D P044D
+LABEL $0B0B OutsideMazeWallData
+LABEL $049E P049E
+LABEL $08C7 DrawWithPossibleScrolling
+LABEL $0B1B InnerWallPositionTable
+LABEL $04BC P04BC
+LABEL $0B3B InnerWallVectorTable
+LABEL $0AE9 BlockedDoorVectorTable
+LABEL $04DB DisplayBonusString
+LABEL $04F7 DrawActivePieces
+LABEL $0AE1 BonusString
+LABEL $0510 P0510
+LABEL $0516 DrawActiveBullets
+LABEL $051C P051C
+LABEL $0532 DrawAliveRobots
+LABEL $052B P052B
+LABEL $05E7 DrawThePlayer
+LABEL $053E P053E
+LABEL $0544 P0544
+LABEL $05BE P05BE
+LABEL $0599 DrawRobotDisappearing
+LABEL $0A67 RobotExtremitiesVectorTable
+LABEL $0619 DrawRobotRightHalf
+LABEL $0614 DrawRobotLeftHalf
+LABEL $058F P058F
+LABEL $05C6 P05C6
+LABEL $05A5 P05A5
+LABEL $0B99 OttoVectors
+LABEL $0613 P0613
+LABEL $09EF DrawPlayerFunction
+LABEL $0B5E RobotLeftHalf
+LABEL $061C P061C
+LABEL $0B43 RobotRightHalf
+LABEL $0649 P0649
+LABEL $0654 P0654
+LABEL $0669 P0669
+LABEL $0666 P0666
+LABEL $067F P067F
+LABEL $0F65 DetermineDirectionToMove
+LABEL $0695 PrepareToFire
+LABEL $06C6 RobotMoving
+LABEL $06A7 RobotFiring
+LABEL $070C CheckForRobotContactWithWall
+LABEL $06FF MoveInCurrentDirection
+LABEL $06F4 AttemptToAvoidWalls
+LABEL $0724 CheckForRobotCollision
+LABEL $0EE6 RobotThresholds
+LABEL $080F CreditPlayerWithDeadRobot
+LABEL $072B P072B
+LABEL $074D GetNextRobotPtr
+LABEL $0D35 RobotContactBounds
+LABEL $0D1B CheckForContact
+LABEL $0D39 PlayerContactBounds
+LABEL $07ED P07ED
+LABEL $079B P079B
+LABEL $0799 P0799
+LABEL $07A7 P07A7
+LABEL $07EE OttoBounceOffsets
+LABEL $07CE CheckForRobotHitByOtto
+LABEL $07D9 P07D9
+LABEL $07E7 P07E7
+LABEL $08C6 P08C6
+LABEL $0830 P0830
+LABEL $08B6 P08B6
+LABEL $083E P083E
+LABEL $0863 P0863
+LABEL $0EF2 BulletToWallThresholds
+LABEL $086D P086D
+LABEL $0874 P0874
+LABEL $088C P088C
+LABEL $0D3D PlayerContactBounds2
+LABEL $08B2 P08B2
+LABEL $08E6 P08E6
+LABEL $0936 DoNoDrawing
+LABEL $08F7 P08F7
+LABEL $0913 P0913
+LABEL $0924 P0924
+LABEL $0952 AddVelocityToEndpoints
+LABEL $094A P094A
+LABEL $094E P094E
+LABEL $095B P095B
+LABEL $0960 P0960
+LABEL $096D P096D
+LABEL $0972 P0972
+LABEL $0986 P0986
+LABEL $09B2 P09B2
+LABEL $098E P098E
+LABEL $09A0 P09A0
+LABEL $0996 P0996
+LABEL $09DE SaveScrollingDeltas
+LABEL $09AC P09AC
+LABEL $09C2 P09C2
+LABEL $09BE P09BE
+LABEL $09D9 P09D9
+LABEL $0BCD PlayersBody
+LABEL $0A15 PlayerStandingStill
+LABEL $0A47 PlayerLegsVectorTable
+LABEL $0A51 PlayerMovingArmsVectorTable
+LABEL $0C5B StationaryLegs
+LABEL $0A55 PlayerArmsVectorTable
+LABEL $0A28 PlayerNotShooting
+LABEL $0BE4 LegsRunningRight1
+LABEL $0BFD LegsRunningRight2
+LABEL $0C16 LegsRunningLeft1
+LABEL $0C2F LegsRunningLeft2
+LABEL $0CB8 MovingArms1
+LABEL $0CCB MovingArms2
+LABEL $0C48 NeutralArms
+LABEL $0C71 ShootingLeft
+LABEL $0C68 ShootingRight
+LABEL $0C7A ShootingUp
+LABEL $0C90 ShootingUpperLeft
+LABEL $0CA4 ShootingUpperRight
+LABEL $0C85 ShootingDown
+LABEL $0C9B ShootingLowerLeft
+LABEL $0CAF ShootingLowerRight
+LABEL $0A7D RobotStandingStill
+LABEL $0AA5 RobotMovingLeft
+LABEL $0A91 RobotMovingRight
+LABEL $0AB9 RobotMovingUp
+LABEL $0ACD RobotMovingDown
+LABEL $0B50 RobotRightLeg1
+LABEL $0B5C RobotRightFoot
+LABEL $0B6B RobotLeftLeg1
+LABEL $0B77 RobotLeftFoot
+LABEL $0B79 RobotEyeBoxCentered
+LABEL $0B83 RobotEyeBoxRight
+LABEL $0B97 RobotEyeBoxInvisible
+LABEL $0B8D RobotEyeBoxLeft
+LABEL $0B54 RobotRightLeg2
+LABEL $0B6F RobotLeftLeg2
+LABEL $0B58 RobotRightLeg3
+LABEL $0B73 RobotLeftLeg3
+LABEL $0AFB RightDoorVectors
+LABEL $0AFF LeftDoorVectors
+LABEL $0B07 BottomDoorVectors
+LABEL $0B03 TopDoorVectors
+LABEL $0B2B UpperLeftWall
+LABEL $0B2F LowerLeftWall
+LABEL $0B33 LowerRightWall
+LABEL $0B37 UpperRightWall
+LABEL $0CFC DefaultMazeWallsPerQuadrant
+LABEL $0D32 P0D32
+LABEL $0D54 P0D54
+LABEL $0DF2 P0DF2
+LABEL $0D56 P0D56
+LABEL $0D62 P0D62
+LABEL $0DEB P0DEB
+LABEL $0D69 P0D69
+LABEL $0E32 P0E32
+LABEL $0D77 P0D77
+LABEL $0E22 P0E22
+LABEL $0D85 P0D85
+LABEL $0DB2 P0DB2
+LABEL $0D8C P0D8C
+LABEL $0DC3 P0DC3
+LABEL $0D9A P0D9A
+LABEL $0E56 DoUnknownSoundMucking3
+LABEL $0DA1 P0DA1
+LABEL $0E6A DoUnknownSoundMucking4
+LABEL $0DAA P0DAA
+LABEL $0EAB P0EAB
+LABEL $0DB1 P0DB1
+LABEL $0E99 P0E99
+LABEL $0DD8 P0DD8
+LABEL $0DDA P0DDA
+LABEL $0DE2 P0DE2
+LABEL $0DE8 P0DE8
+LABEL $0DFF P0DFF
+LABEL $0E04 P0E04
+LABEL $0E0F P0E0F
+LABEL $0E41 DoUnknownSoundMucking2
+LABEL $0E4E P0E4E
+LABEL $0E53 P0E53
+LABEL $0E7F P0E7F
+LABEL $0E86 P0E86
+LABEL $0EBC P0EBC
+LABEL $0ED0 P0ED0
+LABEL $0ED6 P0ED6
+LABEL $0EDF P0EDF
+LABEL $0EE5 P0EE5
+LABEL $0F0C P0F0C
+LABEL $0F23 P0F23
+LABEL $0F53 P0F53
+LABEL $0F35 P0F35
+LABEL $0F47 P0F47
+LABEL $0F5E P0F5E
+LABEL $0F7A P0F7A
+LABEL $0F7E P0F7E
+LABEL $0F80 P0F80
+LABEL $0F92 P0F92
+LABEL $0F95 P0F95
+LABEL $0FA3 P0FA3
+LABEL $0FA9 P0FA9
+LABEL $0FBF P0FBF
+LABEL $0FD3 RelativeOffsetConversionTable
+COMMENT_LINE $0000 can be assembled correctly now
+COMMENT_LINE $0000 compatibilty added by Malban
+COMMENT_LINE $0000 assenmble with comand line:
+COMMENT_LINE $0000 .\ass\as09.exe -w200 -h0 -l -mcti berzerk.asm >error
+COMMENT_LINE $0000 used the 6809 assembler:
+COMMENT_LINE $0000 as09 [1.11].
+COMMENT_LINE $0000 Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Software.
+COMMENT_LINE $0000 Available at:
+COMMENT_LINE $0000 http://www.falstaff.demon.co.uk/cross.html
+COMMENT_LINE $0000 This work was originally done by Fred Taft (fred@hp-pcd.cv.hp.com).
+COMMENT_LINE $0000 Please forward any comments, corrections or additions back to Fred.
+COMMENT_LINE $0000 Berzerk
+COMMENT_LINE $0000 *****************************************************************************
+COMMENT_LINE $0000 The following are possible bugs discovered in this code:
+COMMENT_LINE $0000 DisplayBonusString
+COMMENT_LINE $0000 When checking to see if the bonus strings should be displayed,
+COMMENT_LINE $0000 the 'ble' command really should be a 'blt'!!  This explains why
+COMMENT_LINE $0000 when a player clears a maze containing 10 robots, the bonus
+COMMENT_LINE $0000 string was not displayed.  In this case the bonus string is
+COMMENT_LINE $0000 "   100", and this fails the above check!
+COMMENT_LINE $0000 DisplayLives
+COMMENT_LINE $0000 There is no check to see if the C8D8 buffer is overrun (this
+COMMENT_LINE $0000 is the buffer used to display the number of lives a player has);
+COMMENT_LINE $0000 what is the intended size of this buffer?
+COMMENT_LINE $0000 FireBullet
+COMMENT_LINE $0000 There seems to be the potential to overwrite the stack when
+COMMENT_LINE $0000 firing bullets.  The array of bullet entries can grow very
+COMMENT_LINE $0000 quickly as a player gets better, since robots can fire more
+COMMENT_LINE $0000 bullets (and fire them more quickly).  The end of the array
+COMMENT_LINE $0000 only gets moved back when the last bullet hits something and
+COMMENT_LINE $0000 becomes inactive.  It would be better to modify FireBullet()
+COMMENT_LINE $0000 to only allow a certain number of bullets (or to do a better
+COMMENT_LINE $0000 job of compacting the array).
+COMMENT_LINE $0000 *****************************************************************************
+COMMENT_LINE $0000 The following is the memory map for Berzerk RAM usage:
+COMMENT_LINE $0000 C880-C881     Points to player structure for the current player.
+COMMENT_LINE $0000 C882          Number of players: 0 = 1 player, 1 = 2 players
+COMMENT_LINE $0000 C883          Controls maximum number of bullets a robot can fire in a
+COMMENT_LINE $0000 burst; takes a big jump when user's score surpasses 10,000
+COMMENT_LINE $0000 points.
+COMMENT_LINE $0000 C884          Velocity factor used when firing robot's bullets.
+COMMENT_LINE $0000 C885          Work memory and loop counter.
+COMMENT_LINE $0000 C886          Flag; don't draw player if = < 0
+COMMENT_LINE $0000 C88F-C890     Player's position
+COMMENT_LINE $0000 C891          Work memory
+COMMENT_LINE $0000 C892          Work memory
+COMMENT_LINE $0000 C893-C894     Otto's position (y,x)
+COMMENT_LINE $0000 C895-C896     Player's position (starting position); used to seed Otto's
+COMMENT_LINE $0000 initial position.
+COMMENT_LINE $0000 C897          Counter; controls bouncing offset for Otto's 'y' position
+COMMENT_LINE $0000 C898          Otto's movement velocity
+COMMENT_LINE $0000 C899          After a point is mapped into a quadrant number, this contains
+COMMENT_LINE $0000 the bitmask describing which walls are present in that
+COMMENT_LINE $0000 quadrant:
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 | 0 | 0 | 0 | 0 | B | T | R | L |
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 Quadrant has Bottom Wall-----^
+COMMENT_LINE $0000 Quadrant has Top Wall------------^
+COMMENT_LINE $0000 Quadrant has Right Wall--------------^
+COMMENT_LINE $0000 Quadrant has Left Wall-------------------^
+COMMENT_LINE $0000 C89A          Quadrant into which a point falls:
+COMMENT_LINE $0000 -100 -60 -20 +20 +60 +100
+COMMENT_LINE $0000 +---+---+---+---+---+ +96
+COMMENT_LINE $0000 | 0 | 1 | 2 | 3 | 4 |
+COMMENT_LINE $0000 +---o---o---o---o---+ +32
+COMMENT_LINE $0000 | 5 | 6 | 7 | 8 | 9 |
+COMMENT_LINE $0000 +---o---o---o---o---+ -32
+COMMENT_LINE $0000 |10 |11 |12 |13 |14 |
+COMMENT_LINE $0000 +---+---+---+---+---+ -96
+COMMENT_LINE $0000 C89B-C89C     After a point is mapped into a quadrant number, this contains
+COMMENT_LINE $0000 the point as a relative offset from the lower left corner
+COMMENT_LINE $0000 of the quadrant.
+COMMENT_LINE $0000 C89D          Work memory/counter
+COMMENT_LINE $0000 C89E-C89F     During game, work memory; usually contains a position (y,x).
+COMMENT_LINE $0000 After a game, C89F is a semaphore causing author's initials
+COMMENT_LINE $0000 to be displayed;also used as a counter
+COMMENT_LINE $0000 C8A1          Work memory and loop counter.
+COMMENT_LINE $0000 C8A2          Work memory and loop counter.
+COMMENT_LINE $0000 C8A7          Delay (placed in the robot's structure) between how often
+COMMENT_LINE $0000 a robot is updated (moved, fire, etc); 0 = no delay.
+COMMENT_LINE $0000 C8A8          Used while populating a level with robots; if the random
+COMMENT_LINE $0000 number is < C8A8, then a robot is placed in the maze.
+COMMENT_LINE $0000 C8A9          Used during robot processing.
+COMMENT_LINE $0000 C8AA          Used during robot processing.
+COMMENT_LINE $0000 C8AB-C8B2     Array of byte-long offsets, telling which walls are to be
+COMMENT_LINE $0000 drawn from each of the 8 possible starting points within
+COMMENT_LINE $0000 the maze (0=up, 2=down, 4=to right, 6=to left).  The 8
+COMMENT_LINE $0000 possible starting points are shown below:
+COMMENT_LINE $0000 -100 -60 -20 +20 +60 +100
+COMMENT_LINE $0000 +---+---+---+---+---+ +96
+COMMENT_LINE $0000 |                   |
+COMMENT_LINE $0000 +   o   o   o   o   + +32
+COMMENT_LINE $0000 |                   |
+COMMENT_LINE $0000 +   o   o   o   o   + -32
+COMMENT_LINE $0000 |                   |
+COMMENT_LINE $0000 +---+---+---+---+---+ -96
+COMMENT_LINE $0000 C8B5-C8C3     Array of masks (1 per quadrant) indicating which walls are
+COMMENT_LINE $0000 present in the quadrant.  The mask values are:
+COMMENT_LINE $0000 $01 = left wall
+COMMENT_LINE $0000 $02 = right wall
+COMMENT_LINE $0000 $04 = top wall
+COMMENT_LINE $0000 $08 = bottom wall
+COMMENT_LINE $0000 C8B5 refers to quadrant 0, C8B6 to quadrant 1, etc.
+COMMENT_LINE $0000 C8C5          Jump table index based on the player's current state:
+COMMENT_LINE $0000 0 = player is alive
+COMMENT_LINE $0000 2 = player has left the maze
+COMMENT_LINE $0000 4 = player has died
+COMMENT_LINE $0000 C8C6          Indicates if one of the maze doors should be closed off:
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 | 0 | 0 | 0 | T | B | L | R | 0 |
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 Block Top Door--^
+COMMENT_LINE $0000 Block Bottom Door---^
+COMMENT_LINE $0000 Block Left Door---------^
+COMMENT_LINE $0000 Block Right Door------------^
+COMMENT_LINE $0000 C8C7          Number of robots initially seeded into the maze
+COMMENT_LINE $0000 C8C8          Number of robots still alive
+COMMENT_LINE $0000 C8C9-C8CA     Indirect jump pointer
+COMMENT_LINE $0000 C8CB          Intensity value used by DrawWithPossibleScrolling()
+COMMENT_LINE $0000 C8CC          Index of the last bullet in use
+COMMENT_LINE $0000 C8CD          Cleared in one place, then never again used.
+COMMENT_LINE $0000 C8CE          Indicates state of player's legs:
+COMMENT_LINE $0000 0 = player is standing still
+COMMENT_LINE $0000 2 = player is running right (wide legs)
+COMMENT_LINE $0000 4 = player is running right (close legs)
+COMMENT_LINE $0000 6 = player is running left (close legs)
+COMMENT_LINE $0000 8 = player is running left (wide legs)
+COMMENT_LINE $0000 C8CF          Indicates the state of the player's arms:
+COMMENT_LINE $0000 When player is running:
+COMMENT_LINE $0000 $00 = arms moving to the right
+COMMENT_LINE $0000 $02 = arms moving to the left
+COMMENT_LINE $0000 When player is standing still:
+COMMENT_LINE $0000 $00 = arms neutral
+COMMENT_LINE $0000 $02 = arms shooting left
+COMMENT_LINE $0000 $04 = arms shooting right
+COMMENT_LINE $0000 $06 = arms shooting up
+COMMENT_LINE $0000 $08 = arms shooting 45 degrees upper left
+COMMENT_LINE $0000 $0A = arms shooting 45 degrees upper right
+COMMENT_LINE $0000 $0C = arms shooting down
+COMMENT_LINE $0000 $0E = arms shooting 45 degrees lower left
+COMMENT_LINE $0000 $10 = arms shooting 45 degrees lower right
+COMMENT_LINE $0000 C8D0          Intensity used when drawing a 'fried' player
+COMMENT_LINE $0000 C8D1-C8D7     Bonus score string buffer
+COMMENT_LINE $0000 C8D8-????     Buffer used when displaying number of lives a player has.
+COMMENT_LINE $0000 C8DE          'y' delta between 2 points, as determined by
+COMMENT_LINE $0000 DetermineDirectionToMove()
+COMMENT_LINE $0000 C8DF          'x' delta between 2 points, as determined by
+COMMENT_LINE $0000 DetermineDirectionToMove()
+COMMENT_LINE $0000 C8E0          Used during scrolling; used to calculate 'y' delta
+COMMENT_LINE $0000 C8E1          Used during scrolling; used to calculate 'x' delta
+COMMENT_LINE $0000 C8E2-C8E3     Used during scrolling; delta added to 'y' drawing point
+COMMENT_LINE $0000 C8E4-C8E5     Used during scrolling; delta added to 'x' drawing point
+COMMENT_LINE $0000 C8E6          Used during scrolling; 0 if scrolling in a + direction (right
+COMMENT_LINE $0000 or up), $80 if scrolling in a - direction (down or left)
+COMMENT_LINE $0000 C8E7-C8E8     Work memory (used by DetermineDirectionToMove)
+COMMENT_LINE $0000 C8E9          Loop counter
+COMMENT_LINE $0000 C8EA          Mask showing joystick position and fire button state:
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 | 0 | 0 | B | L | D | U | R | L |
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 Button Pressed--^
+COMMENT_LINE $0000 Joystick Left-------^---------------^
+COMMENT_LINE $0000 Joystick Down-----------^
+COMMENT_LINE $0000 Joystick Up-----------------^
+COMMENT_LINE $0000 Joystick Right------------------^
+COMMENT_LINE $0000 C8EB          Direction current object is traveling (work memory):
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 | 0 | 0 | 0 | L | D | U | R | L |
+COMMENT_LINE $0000 ---------------------------------
+COMMENT_LINE $0000 Joystick Left-------^---------------^
+COMMENT_LINE $0000 Joystick Down-----------^
+COMMENT_LINE $0000 Joystick Up-----------------^
+COMMENT_LINE $0000 Joystick Right------------------^
+COMMENT_LINE $0000 C900-C90D     Player 1 structure
+COMMENT_LINE $0000 C90E-C91B     Player 2 structure
+COMMENT_LINE $0000 byte    meaning
+COMMENT_LINE $0000 ----    -------
+COMMENT_LINE $0000 0-6     player's score
+COMMENT_LINE $0000 7       unused
+COMMENT_LINE $0000 8       number of lives
+COMMENT_LINE $0000 9       Flag specifying if 5000 point bonus was given
+COMMENT_LINE $0000 10      player's y position
+COMMENT_LINE $0000 11      player's x position
+COMMENT_LINE $0000 12-13   unused
+COMMENT_LINE $0000 C91C-C973     Array of robot structures (11 entries)
+COMMENT_LINE $0000 byte    meaning
+COMMENT_LINE $0000 ----    -------
+COMMENT_LINE $0000 0       robot's y position.
+COMMENT_LINE $0000 1       robot's x position.
+COMMENT_LINE $0000 2       flag: $80 = alive, 0 = gone, $0F = just killed
+COMMENT_LINE $0000 3       direction of travel(0-10); indexes into extremities tbl
+COMMENT_LINE $0000 4       Eye box to draw (0, 2, 4, 6)
+COMMENT_LINE $0000 5       Delay before robot starts shooting (0-7)
+COMMENT_LINE $0000 6       # of bullets robot can fire in a burst
+COMMENT_LINE $0000 7       Delay between processing a robot (moving, firing, etc)
+COMMENT_LINE $0000 C974-????     Array of bullet structures
+COMMENT_LINE $0000 byte    meaning
+COMMENT_LINE $0000 ----    -------
+COMMENT_LINE $0000 0       y position of bullet's tail
+COMMENT_LINE $0000 1       x position of bullet's tail
+COMMENT_LINE $0000 2       y delta between bullet's head and tail
+COMMENT_LINE $0000 3       x delta between bullet's head and tail
+COMMENT_LINE $0000 4       y position of bullet's head
+COMMENT_LINE $0000 5       x position of bullet's head
+COMMENT_LINE $0000 6       velocity factor
+COMMENT_LINE $0000 7       direction of travel; anded w/ $F0 when hits something
+COMMENT_LINE $0000 *****************************************************************************
+COMMENT_LINE $0000 bios routines
+COMMENT_LINE $0000 bios data
+COMMENT $000D * height
+COMMENT $000E * width
+COMMENT $000F * rel y
+COMMENT $0010 * rel x
+COMMENT_LINE $001A Get the number of players: 1 or 2.
+COMMENT_LINE $001A C882 will be = to 0 for 1 player, and 1 for 2 players.
+COMMENT_LINE $0025 Disable 2 of the 4 joystick mask registers; the other
+COMMENT_LINE $0025 2 are enabled automatically by the ExecRom.
+COMMENT_LINE $002E Initialize the 2 player's structures.
+COMMENT_LINE $002E Player 1 is C900-C90D, player 2 is C90E-C91B.
+COMMENT_LINE $002E The player's scores will be initialized, their
+COMMENT_LINE $002E number of lives = (3), and their initial positions
+COMMENT_LINE $002E set.
+COMMENT $003C * Set number of lives
+COMMENT $003E * Clear 'bonus given' flag
+COMMENT $0040 * Set default score
+COMMENT $0050 * Set starting position
+COMMENT $0058 * Set starting position
+COMMENT_LINE $005A Set initial robot attributes
+COMMENT $005C * Robot seeding threshold
+COMMENT $0060 * Set robot processing delay
+COMMENT $0062 * Start robot bullets with
+COMMENT $0064 * a low velocity factor
+COMMENT_LINE $0066 This block takes care of setting up for the next turn,
+COMMENT_LINE $0066 after a player has died.  It determines how the maze
+COMMENT_LINE $0066 will look, displays the maze, the scores and the number
+COMMENT_LINE $0066 of lives, and then does some music mucking.
+COMMENT $0066 * Set loop counter
+COMMENT $006A * Initialize game RAM
+COMMENT $0075 * Initialize the bonus string
+COMMENT $007B * Save the player's position
+COMMENT $0081 * Display # of lives left
+COMMENT_LINE $0086 Display the maze, but not the player or the robots,
+COMMENT_LINE $0086 and do some sound mucking; loop here for a while,
+COMMENT_LINE $0086 before proceeding.
+COMMENT_LINE $00A6 Remove one of the player's lives, to take into account
+COMMENT_LINE $00A6 the life he is using now.
+COMMENT $00A6 * Points to active player struct
+COMMENT $00BD * Save the player's position
+COMMENT_LINE $00CD Based on the player's score, = the level of difficulty.
+COMMENT_LINE $00CD If the score >= 10,000, then bump the difficulty by alot.
+COMMENT_LINE $00CD After that, compare the 'thousands' portion of the score
+COMMENT_LINE $00CD against the cutoff values in the table, and further bump
+COMMENT_LINE $00CD for each cutoff value surpassed.
+COMMENT $00CD * Check if score >= 10,000
+COMMENT $00D3 * It is, so increase difficulty
+COMMENT $00D7 * Check the cutoff values
+COMMENT_LINE $00E7 Initialize the bonus score string.
+COMMENT_LINE $00ED Do some processing based on the difficulty value calculated
+COMMENT_LINE $00ED earlier (set the robot's bullet velocity and the robot
+COMMENT_LINE $00ED processing delay).  Lastly, clear out the bullet structure.
+COMMENT $00ED * Max # of robot bullets
+COMMENT $00F3 * Robot bullet velocity factor
+COMMENT $00FC * Robot processing delay
+COMMENT $00FE * Init the bullet structure
+COMMENT_LINE $0104 This seeds the robot structure array.  It attempts to
+COMMENT_LINE $0104 'activate' a random number of robots.  If it fails to
+COMMENT_LINE $0104 seed any robots, then it tries over again.
+COMMENT_LINE $0104 The robot array is an array of structures, located
+COMMENT_LINE $0104 at C91C-C973; there are 11 entries, each 8 bytes long.
+COMMENT_LINE $0104 C8C7 keeps track of the number of robots initially
+COMMENT_LINE $0104 seeded; C8C8 keeps track of the number of robots still
+COMMENT_LINE $0104 alive.  A robot is seeded only if the generated random
+COMMENT_LINE $0104 number is less than a pre-calculated threshold value.
+COMMENT $0111 * Should we seed this robot?
+COMMENT $0115 * Bump the robot count
+COMMENT $0119 * Flag the robot as alive
+COMMENT $0126 * Set the y starting position
+COMMENT $0131 * Set the x starting position
+COMMENT $014A * Change ptr to the next robot
+COMMENT_LINE $0157 Set value used during robot seeding
+COMMENT_LINE $015E Initialize Otto information
+COMMENT $0160 * Set Otto's initial position
+COMMENT $0162 * Set Otto's initial position
+COMMENT $016A * Set Otto's sound loop counter
+COMMENT $016E * Set Otto's initial velocity
+COMMENT_LINE $0170 Set up some counters
+COMMENT_LINE $017D Main processing loop
+COMMENT $017D * Set jump idx to 'player is alive'
+COMMENT $0196 * (UNKNOWN JUMP)
+COMMENT_LINE $01B4 This is one of the 'indirect jump' functions.  It is the
+COMMENT_LINE $01B4 active jump function while the player is alive.  It uses
+COMMENT_LINE $01B4 the state of the buttons and the joystick to decide how
+COMMENT_LINE $01B4 to draw the player.  It also attempts to detect whenever
+COMMENT_LINE $01B4 the player leaves a quadrant, to determine if the player
+COMMENT_LINE $01B4 has left the maze, or run into a wall.
+COMMENT_LINE $01BF Based on the joystick and button values, the 'b' register
+COMMENT_LINE $01BF is = to the following mask:
+COMMENT_LINE $01BF ---------------------------------
+COMMENT_LINE $01BF | 0 | 0 | B | L | D | U | R | L |
+COMMENT_LINE $01BF ---------------------------------
+COMMENT_LINE $01BF Button Pressed--^
+COMMENT_LINE $01BF Joystick Left-------^---------------^
+COMMENT_LINE $01BF Joystick Down-----------^
+COMMENT_LINE $01BF Joystick Up-----------------^
+COMMENT_LINE $01BF Joystick Right------------------^
+COMMENT $01C0 * Get joystick up/down setting
+COMMENT $01C2 * 0=u/d neutral, -=down, +=up
+COMMENT $01C4 * Down
+COMMENT $01CA * Up
+COMMENT $01CC * Get joystick left/right setting
+COMMENT $01CE * 0=l/r neutral, -=left, +=right)
+COMMENT $01D0 * Left
+COMMENT $01D6 * Right
+COMMENT $01D8 * Load button states
+COMMENT $01DC * Button pressed, but if joystick is
+COMMENT $01DE * neutral, then do nothing.
+COMMENT_LINE $01E2 The joystick is not in the neutral position, and a button
+COMMENT_LINE $01E2 is pressed, so the player is firing.
+COMMENT $01E2 * Save the joystick/button mask
+COMMENT $01EA * Save just the joystick mask
+COMMENT $0203 * Save the joystick/button mask
+COMMENT_LINE $0212 If none of the buttons are pressed, and if the joystick
+COMMENT_LINE $0212 is in neutral, then reset the players arms and legs to
+COMMENT_LINE $0212 the 'neutral' position.
+COMMENT_LINE $021C If a button was pressed, then we know the player was
+COMMENT_LINE $021C firing, so we can force his legs to the neutral position,
+COMMENT_LINE $021C and can = his arms to be shooting in the appropriate
+COMMENT_LINE $021C direction.
+COMMENT $0220 * Force player to stand still
+COMMENT $0229 * Set player's arms accordingly
+COMMENT_LINE $022D We know that the player is on the move.  We will therefore
+COMMENT_LINE $022D make his arms swing left and right, and we will draw his
+COMMENT_LINE $022D legs so it appears he is running in the desired direction.
+COMMENT_LINE $022D The timing for changing the arms and legs is controlled by
+COMMENT_LINE $022D bit $08 of C826, which is a counter controlled by the
+COMMENT_LINE $022D Exec Rom.
+COMMENT_LINE $022D For the arms:
+COMMENT_LINE $022D 0 = 'arms to the right'
+COMMENT_LINE $022D 2 = 'arms to the left'
+COMMENT_LINE $022D For the legs:
+COMMENT_LINE $022D 2 = 'running right with wide legs'
+COMMENT_LINE $022D 4 = 'running right with close legs'
+COMMENT_LINE $022D 6 = 'running left with wide legs'
+COMMENT_LINE $022D 8 = 'running left with close legs'
+COMMENT $022D * a = joystick/button mask
+COMMENT $0235 * Get a value of 0 or 2, to control
+COMMENT $0237 * which arms get drawn.
+COMMENT $023B * Get a value of 2, 4, 6 or 8, to
+COMMENT $023D * control which legs get drawn.
+COMMENT_LINE $0243 Take the player's position, and map it into:
+COMMENT_LINE $0243 1) the quadrant the player is in (C89A),
+COMMENT_LINE $0243 2) the relative position within that quadrant (C89B-C89C)
+COMMENT_LINE $0243 3) the bitmask indicating which walls are present for
+COMMENT_LINE $0243 the quadrant (C899).
+COMMENT_LINE $0243 If it is determined that there was contact with a wall,
+COMMENT_LINE $0243 then do some special checks to see if the wall was really
+COMMENT_LINE $0243 a door; if it was a door, and the door was not blocked off,
+COMMENT_LINE $0243 then exit to the next maze.
+COMMENT $0245 MapPointToQuadrantAndMakeRelative;
+COMMENT_LINE $0252 Check for passing out the top door
+COMMENT $0254 * If quad 2, check for up door
+COMMENT $0258 * Check if door is blocked
+COMMENT $025E * Top wall (door) passed thru?
+COMMENT_LINE $0264 Check for passing out the left door
+COMMENT $0264 * If quad 5, check for left door
+COMMENT $026A * Check if door is blocked
+COMMENT $026E * Left wall (door) passed thru ?
+COMMENT_LINE $0274 Check for passing out the right door
+COMMENT $0274 * If quad 9, check for right door
+COMMENT $027A * Check if door is blocked
+COMMENT $027E * Right wall (door) passed thru ?
+COMMENT_LINE $0284 Check for passing out the bottom door
+COMMENT $0284 * If quad 12, check for bottom door
+COMMENT $028A * Check if door is blocked
+COMMENT $028E * Bottom wall (door) passed thru ?
+COMMENT_LINE $0292 The player has successfully exited from the maze; change
+COMMENT_LINE $0292 the jump index so that the code is called which scrolls
+COMMENT_LINE $0292 the maze off the display.
+COMMENT_LINE $029B The player died by walking into a wall; change the
+COMMENT_LINE $029B jump index so that the code which shows the player being
+COMMENT_LINE $029B fried, is called.
+COMMENT_LINE $02A8 The player did not make contact with any walls, so all
+COMMENT_LINE $02A8 is well.  Starting at the end of the bullet array, work
+COMMENT_LINE $02A8 back until we find an active bullet, then update the
+COMMENT_LINE $02A8 bullet counter in C8CC.
+COMMENT $02B6 * Start at the end of the bullet
+COMMENT $02B9 * array.
+COMMENT_LINE $02CC Display the number lives the player has, and then check
+COMMENT_LINE $02CC to see if the player has earned an extra life (awarded
+COMMENT_LINE $02CC for each 5000 points); if so, then award the extra life,
+COMMENT_LINE $02CC and play a little tune.  The bonus check happens by
+COMMENT_LINE $02CC comparing the thousands digit of the score to ascii '5'.
+COMMENT $02D2 * Semaphore; only do once
+COMMENT $02D6 * "5"
+COMMENT $02DC * Award the extra life
+COMMENT $02DE * Set the semaphore
+COMMENT $02E0 * Play a tune
+COMMENT_LINE $02E6 Check to see if the player has cleared out all of
+COMMENT_LINE $02E6 the robots; if so, then award a bonus, and display
+COMMENT_LINE $02E6 the bonus string.  Some fancy manipulation is done
+COMMENT_LINE $02E6 to convert the integer into a BCD string value.
+COMMENT $02E6 * Any robots left?
+COMMENT $02EA * All robots have been cleared out
+COMMENT $02F0 * Increment Otto's velocity
+COMMENT $02F3 * Get the starting count of robots
+COMMENT $02F9 * Handle counts >= 10 specially
+COMMENT $02FD * Convert to BCD string value
+COMMENT $0305 * Add bonus to player's score
+COMMENT $030C * Place value into the bonus string
+COMMENT_LINE $0315 DisplayLives()
+COMMENT_LINE $0315 Entry:
+COMMENT_LINE $0315 a = number of lives
+COMMENT_LINE $0315 Displays a string of 'little men', one for each live
+COMMENT_LINE $0315 the user has.  The buffer into which the string is
+COMMENT_LINE $0315 placed starts at C8D8.
+COMMENT_LINE $0315 BUG ALERT: there is no check to see if the C8D8 buffer
+COMMENT_LINE $0315 is overrun; what is the intended size of this
+COMMENT_LINE $0315 buffer?
+COMMENT $0316 * String buffer
+COMMENT $031D * 'little man' icon
+COMMENT $0328 * Terminate string with 2 spaces
+COMMENT $032A * and $80.
+COMMENT_LINE $0333 FireBullet()
+COMMENT_LINE $0333 This function attempts to fire a bullet from the indicated
+COMMENT_LINE $0333 position, using the specified velocity.  However, if the
+COMMENT_LINE $0333 bullet would immediately hit a wall, then it is not fired.
+COMMENT_LINE $0333 Entry:
+COMMENT_LINE $0333 b = bullet's velocity factor (a value indicating how
+COMMENT_LINE $0333 often the bullet's position is updated for each
+COMMENT_LINE $0333 pass).
+COMMENT_LINE $0333 x = Bullet's starting position.
+COMMENT_LINE $0333 C8EB = direction of travel for the bullet.
+COMMENT $0339 MapPointToQuadrantAndMakeRelative;
+COMMENT $0342 * Don't fire if bullet will
+COMMENT $0344 * immediately hit a wall.
+COMMENT $0348 * Point to the next available bullet
+COMMENT $0354 * Store bullet's direction
+COMMENT $0358 * Store velocity factor
+COMMENT $035C * Set bullet's tail position
+COMMENT $0365 * Set bullet's head position
+COMMENT $0367 * Increment the bullet count
+COMMENT_LINE $036B This is one of the 'indirect jump' functions.  It is the
+COMMENT_LINE $036B active jump function when the player gets killed.  It
+COMMENT_LINE $036B will cause the player to be drawn with a variety of
+COMMENT_LINE $036B intensities (simulating electrocution), and will update
+COMMENT_LINE $036B the current high score, if necessary.  It then resets
+COMMENT_LINE $036B the starting positions for the players, and tries to
+COMMENT_LINE $036B determine whose turn it is next.  If there are two
+COMMENT_LINE $036B players, then it tries to switch to the other player,
+COMMENT_LINE $036B unless that player has 0 lives left; in that case, it
+COMMENT_LINE $036B will stick with the current player, unless he, too, has
+COMMENT_LINE $036B 0 lives left, at which point the game ends, and it
+COMMENT_LINE $036B waits for either the user to press a button to restart
+COMMENT_LINE $036B the game, or a timeout to elapse (to cold start the
+COMMENT_LINE $036B system).
+COMMENT $037E * Save off next intensity value
+COMMENT $038A * Check for new high score
+COMMENT_LINE $0392 Loop, doing some music mucking
+COMMENT_LINE $03B0 Reset player's starting positions
+COMMENT $03B0 * Player 1
+COMMENT $03B8 * Player 2
+COMMENT_LINE $03C0 Determine whose turn it is
+COMMENT $03C0 * Start with no door blocked
+COMMENT $03C2 * Two player game?
+COMMENT $03C6 * Yes
+COMMENT $03C9 * Is player 2 the active player?
+COMMENT $03CD * No, so change to player 2
+COMMENT $03D0 * Does this player have any lives?
+COMMENT $03D4 * Yep; so let this player play
+COMMENT $03D9 * Nope; so see if original player
+COMMENT $03DB * had any lives left.
+COMMENT_LINE $03E1 The game is over; loop waiting for next game
+COMMENT $03E1 * Clear the Easter Egg semaphore
+COMMENT $03E3 * How long to wait for restart
+COMMENT_LINE $03F9 Display the Easter Egg
+COMMENT_LINE $03FF Display the current high score, along with the scores
+COMMENT_LINE $03FF for players 1 and 2.
+COMMENT $0405 * height & width
+COMMENT $0408 * rel y & rel x
+COMMENT_LINE $0411 Display "Got You Humanoid" 4 times.
+COMMENT_LINE $0439 If only buttons 1, 3 and 4 are pressed, toggle the
+COMMENT_LINE $0439 flag (C89F) which will cause the author's initials
+COMMENT_LINE $0439 to be displayed (Easter Egg).  Otherwise, if any buttons
+COMMENT_LINE $0439 are pressed, then restart the game.  If no buttons are
+COMMENT_LINE $0439 pressed, then eventually (after a predetermined
+COMMENT_LINE $0439 amount of time), jump back to the start of the
+COMMENT_LINE $0439 Exec Rom.  Note that if the Easter Egg gets enabled,
+COMMENT_LINE $0439 then pressing buttons will not restart a new game;
+COMMENT_LINE $0439 you must wait for the timeout to expire.
+COMMENT $043F * Bypass if Easter Egg active
+COMMENT $0443 * Button states
+COMMENT $0445 * Mask for buttons 1, 3 and 4
+COMMENT $0449 * Turn on the Easter egg
+COMMENT $044D * Button states
+COMMENT $0453 * Decrement timer
+COMMENT $046D * height
+COMMENT $046E * width
+COMMENT $046F * rel y
+COMMENT $0470 * rel x
+COMMENT $047C * rel y
+COMMENT $047D * rel x
+COMMENT $047E * rel y
+COMMENT $047F * rel x
+COMMENT $0480 * rel y
+COMMENT $0481 * rel x
+COMMENT $0482 * rel y
+COMMENT $0483 * rel x
+COMMENT $0484 * rel y
+COMMENT $0485 * rel x
+COMMENT_LINE $0486 Draw the outer and inner maze walls, and if necessary,
+COMMENT_LINE $0486 block off one of the maze doors.
+COMMENT $048F * Indirect jump pointer
+COMMENT $0494 * Drawing intensity
+COMMENT_LINE $0497 Draw 4 sets of vectors making up outer maze walls
+COMMENT $0499 * Loop counter
+COMMENT $049E * Vector count - 1
+COMMENT $04A3 * Pointer to vector table
+COMMENT $04A8 * Process to next wall
+COMMENT_LINE $04AE Draw the 8 inner walls
+COMMENT $04B3 * Loop counter
+COMMENT $04B5 * Array of wall indicies
+COMMENT $04C5 * Process next segment
+COMMENT_LINE $04CB Block off one door, if signaled to do so
+COMMENT $04CE * Door to block, if any
+COMMENT_LINE $04DB If the player killed all of the robots, then display
+COMMENT_LINE $04DB a message telling them they got a bonus.  We can tell
+COMMENT_LINE $04DB if we need to display the bonus string, by checking to
+COMMENT_LINE $04DB to see if the second digit in the bonus string is not '0'
+COMMENT_LINE $04DB ("    x0" is the default, where 'x' is initially = to
+COMMENT_LINE $04DB a space, but will be a digit when the bonus string has
+COMMENT_LINE $04DB been assigned a value).
+COMMENT_LINE $04DB BUG ALERT: when the above check occurs, the 'ble' command
+COMMENT_LINE $04DB really should be a 'blt'!!  This explains why
+COMMENT_LINE $04DB when a player clears a maze containing 10
+COMMENT_LINE $04DB robots, the bonus string was not displayed.
+COMMENT_LINE $04DB In this case the bonus string is "   100",
+COMMENT_LINE $04DB and this fails the above check!
+COMMENT $04DE * Set height & width
+COMMENT $04EE * rel y & rel x
+COMMENT $04F1 * Bonus score buffer
+COMMENT_LINE $04F7 Display both player's scores, and depending upon the
+COMMENT_LINE $04F7 active player, display the number of lives for that
+COMMENT_LINE $04F7 player.
+COMMENT $04FA * Set height & width
+COMMENT $0500 * Display # of lives
+COMMENT $0508 * Player 2 rel y & rel x
+COMMENT $0510 * Player 1 rel y & rel x
+COMMENT_LINE $0516 Draw all active bullets
+COMMENT $0516 * Bullet array
+COMMENT $0519 * Bullet count
+COMMENT $0526 * Ptr to vector list
+COMMENT_LINE $0532 Draw All robots.  When drawing the robot, it is drawn
+COMMENT_LINE $0532 in two halves; first the right half, and then the left
+COMMENT_LINE $0532 half.  When each half is drawn, that half of the body
+COMMENT_LINE $0532 outline is drawn, and then the extremities are drawn
+COMMENT_LINE $0532 (legs and feet).  The extremities are dependent upon
+COMMENT_LINE $0532 whether the robot is moving or standing still (searching
+COMMENT_LINE $0532 for the player).  The last thing drawn is the robot's
+COMMENT_LINE $0532 eye box; this, too, is dependent upon whether the robot
+COMMENT_LINE $0532 moving or standing still.  When moving, the eye box is
+COMMENT_LINE $0532 aimed in the direction of movement (exception is down,
+COMMENT_LINE $0532 in which case no eye box is displayed).  When the robot
+COMMENT_LINE $0532 is searching for the player, the eye box will shuffle
+COMMENT_LINE $0532 through all of the available positions.
+COMMENT $0532 * Number of robots
+COMMENT $053B * Robot structure
+COMMENT $0551 * Set drawing intensity
+COMMENT $055B * Get correct robot extremities
+COMMENT $0561 * Set drawing function
+COMMENT $0567 * Get correct robot extremities
+COMMENT $056C * Set drawing function
+COMMENT $057A * Set drawing function
+COMMENT $057D * Vector count - 1
+COMMENT $0582 * Get correct eye box to draw
+COMMENT $058C * Draw eye box
+COMMENT_LINE $0599 When a robot is killed, it is replaced by a cloud of
+COMMENT_LINE $0599 random dots.
+COMMENT $05A5 * Get the robot's position
+COMMENT $05B2 * Draw random dot
+COMMENT $05BC * Prepare for next pass
+COMMENT_LINE $05BE Process next robot structure
+COMMENT_LINE $05C6 If the player has been in the maze for a certain amount
+COMMENT_LINE $05C6 of time, then it's time to bring out 'Otto'!
+COMMENT $05D5 * Drawing intensity
+COMMENT $05DB * Drawing function
+COMMENT $05E1 * Otto's position
+COMMENT_LINE $05E7 Unless C886 < 0, draw the player.  If the player is in
+COMMENT_LINE $05E7 the middle of getting fried, then redraw the player again,
+COMMENT_LINE $05E7 using a higher intensity.
+COMMENT $05E7 * Should player be drawn?
+COMMENT $05EF * Drawing function
+COMMENT $05F4 * Drawin intensity
+COMMENT $05F7 * Player's position
+COMMENT $05FA * Draw the player
+COMMENT $0600 * See if player is being fried
+COMMENT $0607 * Being fried
+COMMENT $060A * Set higher drawing intensity
+COMMENT $060D * Draw player again
+COMMENT_LINE $0614 DrawRobotLeftHalf()
+COMMENT_LINE $0614 DrawRobotRightHalf()
+COMMENT_LINE $0614 These functions draw the indicated half of a robot.
+COMMENT_LINE $0614 Entry:
+COMMENT_LINE $0614 y = Ptr to robot extremity table
+COMMENT_LINE $0614 u = Ptr to robot structure
+COMMENT $0623 * Robot legs
+COMMENT $0625 * Vector count - 1
+COMMENT $062A * Robot foot
+COMMENT_LINE $0632 DisplayBothPlayersScore()
+COMMENT_LINE $0632 This displays player 1's score, and if 2 players are
+COMMENT_LINE $0632 playing, then player 2's score also.
+COMMENT $0632 * rel y & rel x
+COMMENT $0635 * player 1 structure
+COMMENT $063B * 2 players?
+COMMENT $0640 * rel y & rel x
+COMMENT $0643 * player 2 structue
+COMMENT_LINE $064A ProcessAndUpdateRobots()
+COMMENT_LINE $064A This function loops through each of the robots, and
+COMMENT_LINE $064A determines where the robot is relative to the player,
+COMMENT_LINE $064A and will alter the robot's position (based on some
+COMMENT_LINE $064A criteria), and will determine if it is safe to fire
+COMMENT_LINE $064A at the player.  It also checks to see if the robot has
+COMMENT_LINE $064A hit a wall, collided with another robot or collided with
+COMMENT_LINE $064A the player.  Lastly, it updates Otto's position, if
+COMMENT_LINE $064A necessary, and checks to see if Otto has collided with
+COMMENT_LINE $064A the player.
+COMMENT_LINE $064A The robot will only fire if either it is 90 degrees or
+COMMENT_LINE $064A 45 degrees from the player; 45 degrees occurs when
+COMMENT_LINE $064A |x delta| == |y delta|.
+COMMENT_LINE $064A As the robot is moving, if it is in a different quad
+COMMENT_LINE $064A from the player, then it will only update it's position
+COMMENT_LINE $064A (in an attempt to avoid running into walls) when it is
+COMMENT_LINE $064A not in the center of the quadrant.
+COMMENT $064A * Check if any robots are left
+COMMENT $0654 * Ptr to robot array
+COMMENT $066B * Skip this robot if he is dead or
+COMMENT $066D * not displayed.
+COMMENT $0671 * Check processing delay
+COMMENT $0677 * Reset the processing delay value
+COMMENT $0679 * See if the robot can now start
+COMMENT $067B * shooting.
+COMMENT $067F * Update to display next eye box
+COMMENT $0681 * Where is robot relative to player?
+COMMENT $0686 * Do they line up in at least 1 dim?
+COMMENT $0688 * Yes
+COMMENT $068A * No, so see if the x and y deltas
+COMMENT $068C * are the same; i.e. 45 degrees.
+COMMENT_LINE $0695 Only fire if the robot's delay counter has decremented
+COMMENT_LINE $0695 to 0.  Once all bullets have been spent, reset the counter
+COMMENT_LINE $0695 and the bullet count.  Robots have a delay, which controls
+COMMENT_LINE $0695 how often they can fire, along with a bullet counter, which
+COMMENT_LINE $0695 controls how many bullets they can fire in a burst.
+COMMENT $0695 * Check if shooting delay expired
+COMMENT $0697 * Nope
+COMMENT $0699 * Dec robot's bullet burst counter
+COMMENT $069D * Fired all we can for now.
+COMMENT $069F * Reset bullet burst counter
+COMMENT $06A3 * Reset shooting delay
+COMMENT_LINE $06A7 The robot is firing.  Determine the starting position for
+COMMENT_LINE $06A7 the bullet, the direction and the velocity.  Lastly, make
+COMMENT_LINE $06A7 a sound.
+COMMENT $06AB * Save direction to fire bullet
+COMMENT $06AD * Determine starting position for
+COMMENT $06AF * bullet; a little away from robot
+COMMENT $06B6 * Starting position
+COMMENT $06B9 * Velocity factor
+COMMENT $06BE * Make a sound
+COMMENT_LINE $06C6 The robot is moving, and not firing.  Update the robot's
+COMMENT_LINE $06C6 extremities, based upon the direction of movement.  If
+COMMENT_LINE $06C6 the robot is in a different quadrant than the player,
+COMMENT_LINE $06C6 then attempt to avoid walls in the quadrant, only if the
+COMMENT_LINE $06C6 robot is not in the center of the quadrant.  Usually, the
+COMMENT_LINE $06C6 robot's direction of travel is determined by trying to
+COMMENT_LINE $06C6 avoid walls in the quadrant.
+COMMENT $06C8 * Set robot's extremities
+COMMENT $06CA * Get player's quadrant
+COMMENT $06CC MapPointToQuadrantAndMakeRelative;
+COMMENT $06D3 * Get robot's quadrant
+COMMENT $06D5 MapPointToQuadrantAndMakeRelative;
+COMMENT $06DA * In same quadrant?
+COMMENT $06DC * yes
+COMMENT $06DE * In different quadrants
+COMMENT $06E0 * Avoid walls, if not in quad center
+COMMENT_LINE $06F4 Take the mask indicating which walls are present in this
+COMMENT_LINE $06F4 quadrant, and complement it, to determine the direction
+COMMENT_LINE $06F4 to move to avoid the walls.  If the resulting direction
+COMMENT_LINE $06F4 is 0, then the robot is completely enclosed.
+COMMENT $06F4 * Wall mask for quadrant
+COMMENT $06F9 * Update robot's direction of travel
+COMMENT $06FD * Enclosed room
+COMMENT_LINE $06FF Don't update the robot's direction of travel, but
+COMMENT_LINE $06FF instead, just keep moving it in its current direction.
+COMMENT $06FF * Get current position
+COMMENT $0701 * Set velocity factor
+COMMENT $0703 * Get current direction
+COMMENT $0708 * Update robot's position
+COMMENT $070A * Update eye box index
+COMMENT_LINE $070C See if the robot has run into a wall
+COMMENT $070C * Skip if the robot is already dead
+COMMENT $0710 * Robot's position
+COMMENT $0712 MapPointToQuadrantAndMakeRelative;
+COMMENT $071B * Contact?
+COMMENT_LINE $0724 See if the robot has run into another robot.
+COMMENT $072D * Don't compare against yourself
+COMMENT $0732 * Skip if next robot is dead
+COMMENT $0736 * Skip if current robot is now dead
+COMMENT $0741 * Contact?
+COMMENT $074D * Get pointer to next robot
+COMMENT_LINE $0753 See if robot collided with the player
+COMMENT $0755 * Skip if robot is dead
+COMMENT $076A * Tag player as dead
+COMMENT $0772 * Make some sound
+COMMENT_LINE $0774 Wait for counters to expire, before starting Otto
+COMMENT_LINE $0782 Determine Otto's position and direction, do some
+COMMENT_LINE $0782 occassional sound mucking, and then see if Otto collided
+COMMENT_LINE $0782 with the player.
+COMMENT $0782 * Determine Otto's travel direction
+COMMENT $0787 * Otto's position
+COMMENT $078A * Otto's velocity
+COMMENT $078F * Update Otto's position
+COMMENT $0791 * Since Otto bounces up and down,
+COMMENT $0793 * determine how to offset his 'y'
+COMMENT $0795 * position.
+COMMENT $07A3 * Make some sound
+COMMENT $07A7 * Make Otto bounce up and down
+COMMENT $07B0 * Update Otto's position
+COMMENT $07B2 * Is player still alive?
+COMMENT $07B6 * Otto and player collide?
+COMMENT $07C2 * Increment Otto's velocity
+COMMENT $07C8 * Make a sound
+COMMENT $07CC * Tag player as dead
+COMMENT_LINE $07CE Kill off any robots which collide with Otto
+COMMENT $07CE * Addr of robot array
+COMMENT $07D1 * Number of array entries
+COMMENT $07D3 * Loop counter
+COMMENT $07D5 * 'Accuracy' table
+COMMENT $07D9 * Make sure robot is alive
+COMMENT $07DD * Get Otto's position
+COMMENT_LINE $080F CreditPlayerWithDeadRobot()
+COMMENT_LINE $080F This function decrements the number of active robots
+COMMENT_LINE $080F (C8C8), marks the robot as dead, and credits the player
+COMMENT_LINE $080F with 50 points.
+COMMENT_LINE $080F Entry:
+COMMENT_LINE $080F x = pointer to dead robot structure.
+COMMENT_LINE $0825 ProcessAndUpdateBullets()
+COMMENT_LINE $0825 This function updates the head and tail of each bullet,
+COMMENT_LINE $0825 and checks to see if a bullet has run into a wall,
+COMMENT_LINE $0825 hit a robot, or hit the player.  A bullet's position
+COMMENT_LINE $0825 is updated multiple times, based on its velocity setting;
+COMMENT_LINE $0825 a higher velocity setting causes a bullet to be updated
+COMMENT_LINE $0825 more often.  A bullet is a short vector made up of a
+COMMENT_LINE $0825 head and a tail.
+COMMENT $0825 * Number of bullets
+COMMENT $082B * Set loop counter
+COMMENT $0832 * Skip if bullet is not active
+COMMENT $0838 * Get the direction of travel
+COMMENT $083C * Use velocity as loop counter
+COMMENT $083E * Direction of travel
+COMMENT $0840 * Velocity
+COMMENT $0842 * Current tail position
+COMMENT $0847 * Update bullet's tail position
+COMMENT $0849 * Direction of travel
+COMMENT $084B * Velocity
+COMMENT $084D * Current head position
+COMMENT $0852 * Update bullet's head position
+COMMENT_LINE $0854 See if bullet collided with a wall
+COMMENT $0854 * Bullet's head position
+COMMENT $0856 MapPointToQuadrantAndMakeRelative;
+COMMENT $0863 * Contact with wall?
+COMMENT $086B * Flag bullet as hitting something
+COMMENT_LINE $086D See if bullet hit any of the robots
+COMMENT $0874 * Skip robot if already dead
+COMMENT $087C * Position of bullet's head
+COMMENT $0886 * Flag bullet as hitting something
+COMMENT_LINE $0892 See if bullet hit the player
+COMMENT $0892 * Position of bullet's head
+COMMENT $0894 * Check for contact with player ?
+COMMENT $08A0 * Do nothing if player is already
+COMMENT $08A2 * dead or has left the maze.
+COMMENT $08A6 * Make a sound
+COMMENT $08AA * Flag player as dead
+COMMENT $08AE * Flag bullet as hitting something
+COMMENT_LINE $08B2 Keep processing this bullet, based on its velocity
+COMMENT_LINE $08B6 Update the delta between the head and tail of bullet
+COMMENT_LINE $08BE Loop until all bullets have been processed
+COMMENT_LINE $08C7 DrawWithPossibleScrolling()
+COMMENT_LINE $08C7 This function draws an object at its scrolled position,
+COMMENT_LINE $08C7 until the starting point for the object being drawn
+COMMENT_LINE $08C7 scrolls off, at which point, the object is no longer
+COMMENT_LINE $08C7 drawn.  The scrolling offsets are incremented each time
+COMMENT_LINE $08C7 PlayerHasLeftMaze() is called.  Most of the code below
+COMMENT_LINE $08C7 is trying to determine if the starting point has
+COMMENT_LINE $08C7 scrolled off in the expected direction.
+COMMENT_LINE $08C7 Entry:
+COMMENT_LINE $08C7 x = ptr to vector list (for generic draw functions)
+COMMENT_LINE $08C7 u = ptr to drawing position
+COMMENT_LINE $08C7 C8C9 = drawing function to call
+COMMENT $08CF * starting y pos + scrolling offset
+COMMENT $08FC * starting x pos + scrolling offset
+COMMENT $0927 * Goto modified drawing origin
+COMMENT $092D * Set drawing intensity
+COMMENT $0932 * Jump to drawing function
+COMMENT_LINE $0939 CalculateUpdatedPosition()
+COMMENT_LINE $0939 This function updates a position, based upon a direction
+COMMENT_LINE $0939 of travel, and a velocity setting.  The velocity is
+COMMENT_LINE $0939 broken up into a rise and a run value, and added to the
+COMMENT_LINE $0939 incoming position.
+COMMENT_LINE $0939 Entry:
+COMMENT_LINE $0939 b = direction of travel
+COMMENT_LINE $0939 a = velocity setting
+COMMENT_LINE $0939 x = pointer to a position
+COMMENT_LINE $0939 Exit:
+COMMENT_LINE $0939 d = updated position (y,x)
+COMMENT_LINE $0941 Break up velocity into rise and run components
+COMMENT $0952 * Save adjusted velocity
+COMMENT $0958 * Going left; - velocity
+COMMENT $095D * Going right; + velocity
+COMMENT $095F * No movement in x direction
+COMMENT $0960 * Update the x position
+COMMENT $0964 * Reload adjusted velocity
+COMMENT $096A * Going down; - velocity
+COMMENT $096F * Going up; + velocity
+COMMENT $0971 * No movement in y direction
+COMMENT $0972 * Update the y position
+COMMENT_LINE $0976 This is one of the 'indirect jump' functions.  It is the
+COMMENT_LINE $0976 active jump function when the player successfully leaves
+COMMENT_LINE $0976 a maze.  When the player exits from a door in the maze,
+COMMENT_LINE $0976 the maze will then scroll off in the opposite direction;
+COMMENT_LINE $0976 i.e. If the player exits through the left door, the maze
+COMMENT_LINE $0976 will scroll off to the right.  Each time this function
+COMMENT_LINE $0976 is called, it will bump the scrolling deltas; this
+COMMENT_LINE $0976 continues until scrolling is complete.  It also sets
+COMMENT_LINE $0976 the player's starting position in the next maze; if the
+COMMENT_LINE $0976 player exited from the left, then he will start at the
+COMMENT_LINE $0976 right edge of the next maze, and the door through which
+COMMENT_LINE $0976 he exited will be blocked.
+COMMENT $097A * Determine door player exited thru
+COMMENT $0980 * Left door, so scroll right
+COMMENT $098A * Right door, so scroll left
+COMMENT $0992 * Top door, so scroll down
+COMMENT $099A * Bottom door, so scroll up
+COMMENT_LINE $09A0 This block checks to see if we have finished scrolling,
+COMMENT_LINE $09A0 and if so, prepares us for entering the next maze.
+COMMENT_LINE $09A0 It will also = the player's starting position in the
+COMMENT_LINE $09A0 next maze.
+COMMENT $09A4 * Exited thru right door?
+COMMENT $09A8 * Yes; start at left edge
+COMMENT $09AC * Exited thru top door
+COMMENT $09AE * Start at bottom
+COMMENT $09B4 * Exited thru bottom door?
+COMMENT $09B8 * Yes; start at top edge
+COMMENT $09BE * Exited thru left door
+COMMENT $09C0 * Start at right edge
+COMMENT $09C4 * Update player's position
+COMMENT $09C6 * This tells the exit door
+COMMENT $09CB * Block door player exited thru
+COMMENT $09CF * Set a loop counter
+COMMENT $09D1 * Reset the threshold used to
+COMMENT $09D3 * determine if a robot is placed in
+COMMENT $09D5 * the maze.
+COMMENT_LINE $09DE This block saves the x and y delta values, which are
+COMMENT_LINE $09DE then used by the drawing function, to offset all
+COMMENT_LINE $09DE drawing origins.
+COMMENT $09E3 * Save 16-bit y delta
+COMMENT $09EA * Save 16-bit x delta
+COMMENT_LINE $09EF DrawPlayerFunction()
+COMMENT_LINE $09EF This function draws the player's body, and then the
+COMMENT_LINE $09EF arms and legs; the types of arms and legs is dependent
+COMMENT_LINE $09EF upon whether the player is standing still, running
+COMMENT_LINE $09EF or shooting.  (C8CE) is the index indicating movement,
+COMMENT_LINE $09EF while (C8CF) is the index indicating arm position
+COMMENT_LINE $09EF (running, standing still or shooting).
+COMMENT $09F2 * Draw the player's body
+COMMENT $09FA * Running or standing still?
+COMMENT $0A15 * Draw legs standing still
+COMMENT $0A23 * Player is shooting
+COMMENT $0A28 * Draw arms at side
+COMMENT_LINE $0A2D Whenever the player's score passes certain cutoff level,
+COMMENT_LINE $0A2D the game becomes more challenging.  The cutoff levels are:
+COMMENT_LINE $0A2D 3000, 15000, 30000, 45000, 50000, 60000 and 75000
+COMMENT $0A2D * " 3"
+COMMENT $0A2F * "15"
+COMMENT $0A31 * "30"
+COMMENT $0A33 * "45"
+COMMENT $0A35 * "50"
+COMMENT $0A37 * "60"
+COMMENT $0A39 * "75"
+COMMENT_LINE $0A3C This table is used to fill in the player's arm
+COMMENT_LINE $0A3C movement value (C8CF), when standing still.  The
+COMMENT_LINE $0A3C value is obtained from this array, by indexing into
+COMMENT_LINE $0A3C it using the joystick state:
+COMMENT_LINE $0A3C ---------------------------------
+COMMENT_LINE $0A3C | 0 | 0 | B | L | D | U | R | L |
+COMMENT_LINE $0A3C ---------------------------------
+COMMENT_LINE $0A3C Button Pressed--^
+COMMENT_LINE $0A3C Joystick Left-------^---------------^
+COMMENT_LINE $0A3C Joystick Down-----------^
+COMMENT_LINE $0A3C Joystick Up-----------------^
+COMMENT_LINE $0A3C Joystick Right------------------^
+COMMENT $0A3C * idx = $00; Invalid setting
+COMMENT $0A3D * idx = $01; shooting left
+COMMENT $0A3E * idx = $02; shooting right
+COMMENT $0A3F * idx = $03; Invalid setting
+COMMENT $0A40 * idx = $04; shooting up
+COMMENT $0A41 * idx = $05; shooting upper left
+COMMENT $0A42 * idx = $06; shooting upper right
+COMMENT $0A43 * idx = $07; Invalid setting
+COMMENT $0A44 * idx = $08; shooting down
+COMMENT $0A45 * idx = $09; shooting lower left
+COMMENT $0A46 * idx = $0A; shooting lower right
+COMMENT_LINE $0A47 As the player runs, the legs either move in a left or
+COMMENT_LINE $0A47 right direction.  The value in C8CE is used to index
+COMMENT_LINE $0A47 into this table.
+COMMENT_LINE $0A51 As the player moves, his arms swing back and forth.
+COMMENT_LINE $0A51 The value in C8CF is used to index into this table.
+COMMENT_LINE $0A55 When a player is standing still, they are either shooting
+COMMENT_LINE $0A55 or not shooting.  The value in C8CF is used to index into
+COMMENT_LINE $0A55 this table.
+COMMENT_LINE $0A67 Depending upon what a robot is doing, his extremities
+COMMENT_LINE $0A67 (legs and eye boxes) may be drawn differently.  Each
+COMMENT_LINE $0A67 entry in this table points to another structure, which
+COMMENT_LINE $0A67 defines how the extremities should be drawn.  Each robot
+COMMENT_LINE $0A67 structure has a field which is used to index into this
+COMMENT_LINE $0A67 table.
+COMMENT_LINE $0A7D Each of the following 5 structures describe how the
+COMMENT_LINE $0A7D extremities should be drawn for a robot, while in a
+COMMENT_LINE $0A7D particular state.  The structure is defined as follows:
+COMMENT_LINE $0A7D {
+COMMENT_LINE $0A7D ptr to first right leg vector list
+COMMENT_LINE $0A7D ptr to second right leg vector list
+COMMENT_LINE $0A7D ptr to right foot vector list
+COMMENT_LINE $0A7D ptr to first left leg vector list
+COMMENT_LINE $0A7D ptr to second left leg vector list
+COMMENT_LINE $0A7D ptr to left foot vector list
+COMMENT_LINE $0A7D ptr to eye box 1 vector list
+COMMENT_LINE $0A7D ptr to eye box 2 vector list
+COMMENT_LINE $0A7D ptr to eye box 3 vector list
+COMMENT_LINE $0A7D ptr to eye box 4 vector list
+COMMENT_LINE $0A7D }
+COMMENT_LINE $0A7D As the robot is drawn, it will cycle through the 2
+COMMENT_LINE $0A7D right leg and 2 left leg vector list; it will also
+COMMENT_LINE $0A7D cycle through the 4 eye box vector lists.  In some
+COMMENT_LINE $0A7D cases, values will be the same; this implies that no
+COMMENT_LINE $0A7D motion is occurring (i.e. if the robot is not moving,
+COMMENT_LINE $0A7D then the legs shouldn't be moving either).
+COMMENT_LINE $0A7D When a robot is moving left, the eye box and both feet
+COMMENT_LINE $0A7D point to the left.  When the robot is moving right, then
+COMMENT_LINE $0A7D the eye box and both feed point right.  When the robot
+COMMENT_LINE $0A7D is moving up, then the eye box points up.  When the robot
+COMMENT_LINE $0A7D moves down, no eye box is displayed.  When the robot is
+COMMENT_LINE $0A7D standing still, the eye box will appear to rotate.
+COMMENT $0AE1 * rel y
+COMMENT $0AE2 * rel x
+COMMENT_LINE $0AE9 As the player gets better, the game will start to
+COMMENT_LINE $0AE9 block off one of the maze doors.  The value in C8C6
+COMMENT_LINE $0AE9 is used to index into this array, when the value > 0.
+COMMENT_LINE $0AE9 The value in C8C6 has the following format:
+COMMENT_LINE $0AE9 ---------------------------------
+COMMENT_LINE $0AE9 | 0 | 0 | 0 | T | B | L | R | 0 |
+COMMENT_LINE $0AE9 ---------------------------------
+COMMENT_LINE $0AE9 Block Top Door------^
+COMMENT_LINE $0AE9 Block Bottom Door-------^
+COMMENT_LINE $0AE9 Block Left Door-------------^
+COMMENT_LINE $0AE9 Block Right Door----------------^
+COMMENT $0AE9 * idx = 0; Invalid
+COMMENT $0AEB * idx = 2
+COMMENT $0AED * idx = 4
+COMMENT $0AEF * idx = 6; Invalid
+COMMENT $0AF1 * idx = 8
+COMMENT $0AF3 * idx = 10; Invalid
+COMMENT $0AF5 * idx = 12; Invalid
+COMMENT $0AF7 * idx = 14; Invalid
+COMMENT $0AF9 * idx = 16
+COMMENT_LINE $0AFB Each of the following tables contain the relative (y,x)
+COMMENT_LINE $0AFB point to move to, followed by the (y,x) point to draw to.
+COMMENT $0AFB * move to absolute y
+COMMENT $0AFC * move to absolute x
+COMMENT $0AFD * vector rel y
+COMMENT $0AFE * vector rel x
+COMMENT $0AFF * move to absolute y
+COMMENT $0B00 * move to absolute x
+COMMENT $0B01 * vector rel y
+COMMENT $0B02 * vector rel x
+COMMENT $0B03 * move to absolute y
+COMMENT $0B04 * move to absolute x
+COMMENT $0B05 * vector rel y
+COMMENT $0B06 * vector rel x
+COMMENT $0B07 * move to absolute y
+COMMENT $0B08 * move to absolute x
+COMMENT $0B09 * vector rel y
+COMMENT $0B0A * vector rel x
+COMMENT_LINE $0B0B This structure contains 4 entries; 1 for each of the
+COMMENT_LINE $0B0B sections of outer wall which must be drawn.  Each
+COMMENT_LINE $0B0B entry contains an absolute (y,x) position, to which
+COMMENT_LINE $0B0B the pen should be moved before doing any drawing, and
+COMMENT_LINE $0B0B a pointer to the appropriate vector list.
+COMMENT $0B0B * absolute y
+COMMENT $0B0C * absolute x
+COMMENT $0B0F * absolute y
+COMMENT $0B10 * absolute x
+COMMENT $0B13 * absolute y
+COMMENT $0B14 * absolute x
+COMMENT $0B17 * absolute y
+COMMENT $0B18 * absolute x
+COMMENT_LINE $0B1B The following is a table of 8 (y,x) points, which
+COMMENT_LINE $0B1B represent the starting points for all interior maze
+COMMENT_LINE $0B1B walls.  The maze is divided into 15 quadrants, and
+COMMENT_LINE $0B1B these points represent the points where 4 quadrants
+COMMENT_LINE $0B1B meet (as indicated by the '+' character:
+COMMENT_LINE $0B1B -100 -60 -20 +20 +60 +100
+COMMENT_LINE $0B1B --------------------- +96
+COMMENT_LINE $0B1B | 0 | 1 | 2 | 3 | 4 |
+COMMENT_LINE $0B1B ----+---+---+---+---- +32
+COMMENT_LINE $0B1B | 5 | 6 | 7 | 8 | 9 |
+COMMENT_LINE $0B1B ----+---+---+---+---- -32
+COMMENT_LINE $0B1B |10 |11 |12 |13 |14 |
+COMMENT_LINE $0B1B --------------------- -96
+COMMENT_LINE $0B2B The following 4 structures contain the (y,x) points
+COMMENT_LINE $0B2B needed to draw 2 of the outer maze walls.
+COMMENT_LINE $0B3B The following is a table of 4 single vectors, each
+COMMENT_LINE $0B3B representing a posible vector which might be drawn
+COMMENT_LINE $0B3B as an inner wall.  From any one of the inner points,
+COMMENT_LINE $0B3B a wall could be drawn:
+COMMENT_LINE $0B3B 1) upward
+COMMENT_LINE $0B3B 2) downward
+COMMENT_LINE $0B3B 3) to the right
+COMMENT_LINE $0B3B 4) to the left
+COMMENT_LINE $0B3B When drawing the maze, the 8 byte array C8AB-C8B2
+COMMENT_LINE $0B3B (which contains one entry for each of the 8 possible
+COMMENT_LINE $0B3B inner wall positions) indicates which of the segments
+COMMENT_LINE $0B3B should be drawn; the index is either 0, 2, 4 or 6.
+COMMENT $0B3B * Draw upward from point
+COMMENT $0B3D * Draw downward from point
+COMMENT $0B3F * Draw right from point
+COMMENT $0B41 * Draw left from point
+COMMENT_LINE $0B43 Vector list comprising right half of the robot's body.
+COMMENT $0B43 * vector count - 1
+COMMENT $0B44 * rel y
+COMMENT $0B45 * rel x
+COMMENT_LINE $0B5E Vector list comprising left half of the robot's body.
+COMMENT $0B5E * vector count - 1
+COMMENT $0B5F * rel y
+COMMENT $0B60 * rel x
+COMMENT $0CDE * height
+COMMENT $0CDF * width
+COMMENT $0CE0 * y
+COMMENT $0CE1 * x
+COMMENT_LINE $0CE6 This contains the starting positions for
+COMMENT_LINE $0CE6 robots; a random number is used to index into this
+COMMENT_LINE $0CE6 table.  It is formated as (y, x) pairs.
+COMMENT_LINE $0CFC By default, certain quadrants within the maze*always*
+COMMENT_LINE $0CFC have certain walls present; i.e. any of the outside
+COMMENT_LINE $0CFC quadrants.  This maze contains the default 'wall mask'
+COMMENT_LINE $0CFC values, which are used to seed the array C8B5-C8C3.
+COMMENT_LINE $0CFC That array is then further modified as the interior
+COMMENT_LINE $0CFC walls are added.  The mask values have the following
+COMMENT_LINE $0CFC meaning:
+COMMENT_LINE $0CFC ---------------------------------
+COMMENT_LINE $0CFC | 0 | 0 | 0 | 0 | B | T | R | L |
+COMMENT_LINE $0CFC ---------------------------------
+COMMENT_LINE $0CFC Quadrant has Bottom Wall-----^
+COMMENT_LINE $0CFC Quadrant has Top Wall------------^
+COMMENT_LINE $0CFC Quadrant has Right Wall--------------^
+COMMENT_LINE $0CFC Quadrant has Left Wall-------------------^
+COMMENT_LINE $0CFC The quadrants are defined as follows:
+COMMENT_LINE $0CFC ---------------------
+COMMENT_LINE $0CFC | 0 | 1 | 2 | 3 | 4 |
+COMMENT_LINE $0CFC ----+---+---+---+----
+COMMENT_LINE $0CFC | 5 | 6 | 7 | 8 | 9 |
+COMMENT_LINE $0CFC ----+---+---+---+----
+COMMENT_LINE $0CFC |10 |11 |12 |13 |14 |
+COMMENT_LINE $0CFC ---------------------
+COMMENT $0CFC * left and top walls
+COMMENT $0CFD * top wall
+COMMENT $0CFE * top wall
+COMMENT $0CFF * top wall
+COMMENT $0D00 * top and right walls
+COMMENT $0D01 * left wall
+COMMENT $0D02 * no walls
+COMMENT $0D03 * no walls
+COMMENT $0D04 * no walls
+COMMENT $0D05 * right wall
+COMMENT $0D06 * bottom and left wall
+COMMENT $0D07 * bottom wall
+COMMENT $0D08 * bottom wall
+COMMENT $0D09 * bottom wall
+COMMENT $0D0A * bottom and right walls
+COMMENT_LINE $0D1B CheckForContact()
+COMMENT_LINE $0D1B This function checks to see if two objects have come
+COMMENT_LINE $0D1B into contact (such as a bullet and a robot, a bullet
+COMMENT_LINE $0D1B and the player, or a robot and the player.  The 2
+COMMENT_LINE $0D1B objects do not need to come into exact contact, but
+COMMENT_LINE $0D1B rather, they only need to come within a prespecified
+COMMENT_LINE $0D1B distance.
+COMMENT_LINE $0D1B Entry:
+COMMENT_LINE $0D1B x = ptr to object to which contact is being checked.
+COMMENT_LINE $0D1B a = y position to check for contact with object.
+COMMENT_LINE $0D1B b = x position to check for contact with object.
+COMMENT_LINE $0D1B y = ptr to table telling how close contact must be.
+COMMENT_LINE $0D1B Exit:
+COMMENT_LINE $0D1B The carry bit will be = if contact was made.
+COMMENT_LINE $0D35 The following 3 tables define the bounding box around
+COMMENT_LINE $0D35 some figure (robot, player).  It is used to determine
+COMMENT_LINE $0D35 when something has hit the figure.  Each table contains
+COMMENT_LINE $0D35 the following values:
+COMMENT_LINE $0D35 + y delta
+COMMENT_LINE $0D35 - y delta
+COMMENT_LINE $0D35 + x delta
+COMMENT_LINE $0D35 - x delta
+COMMENT_LINE $0D41 This function appears to do some random mucking relating
+COMMENT_LINE $0D41 to sound.
+COMMENT_LINE $0E41 This function appears to do some random mucking relating
+COMMENT_LINE $0E41 to sound.
+COMMENT_LINE $0E56 This function appears to do some random mucking relating
+COMMENT_LINE $0E56 to sound.
+COMMENT_LINE $0E6A This function appears to do some random mucking relating
+COMMENT_LINE $0E6A to sound.
+COMMENT_LINE $0EC7 CheckForQuadrantEdgeCrossing()
+COMMENT_LINE $0EC7 This function determines whether an object has crossed
+COMMENT_LINE $0EC7 over the edge of a quadrant; this helps to determine
+COMMENT_LINE $0EC7 when a player runs into a wall, or exits through an
+COMMENT_LINE $0EC7 open door.  It returns a mask, which indicates which
+COMMENT_LINE $0EC7 edge (or edges) have been crossed.
+COMMENT_LINE $0EC7 Entry:
+COMMENT_LINE $0EC7 d = a point in the quadrant, relative to the lower left
+COMMENT_LINE $0EC7 corner of the quadrant.
+COMMENT_LINE $0EC7 x = pointer to a table of boundary conditions, which
+COMMENT_LINE $0EC7 tell how close the point must be to the actual
+COMMENT_LINE $0EC7 edge, to consider an edge crossing as having
+COMMENT_LINE $0EC7 occurred (these offsets are relative to the lower
+COMMENT_LINE $0EC7 left corner of the quadrant).  The values in this
+COMMENT_LINE $0EC7 table are:
+COMMENT_LINE $0EC7 yLeft, yRight, xLeft, xRight
+COMMENT_LINE $0EC7 Exit:
+COMMENT_LINE $0EC7 b = mask (having the following meaning):
+COMMENT_LINE $0EC7 ---------------------------------
+COMMENT_LINE $0EC7 | 0 | 0 | 0 | 0 | B | T | R | L |
+COMMENT_LINE $0EC7 ---------------------------------
+COMMENT_LINE $0EC7 Bottom Edge Crossing----^
+COMMENT_LINE $0EC7 Top Edge Crossing-----------^
+COMMENT_LINE $0EC7 Right Edge Crossing-------------^
+COMMENT_LINE $0EC7 Left Edge Crossing------------------^
+COMMENT_LINE $0EE6 The following are all threshold tables, used when
+COMMENT_LINE $0EE6 calling CheckForQuadrantEdgeContact(); a different
+COMMENT_LINE $0EE6 table is used, depending upon what object is represented
+COMMENT_LINE $0EE6 by the point (a robot, the player, a bullet, etc).
+COMMENT_LINE $0EE6 Quadrants are all 40 wide x 64 high.
+COMMENT_LINE $0EE6 Each of the tables is composed of the following values:
+COMMENT_LINE $0EE6 y left threshold
+COMMENT_LINE $0EE6 y right threshold
+COMMENT_LINE $0EE6 x left threshold
+COMMENT_LINE $0EE6 x right threshold
+COMMENT_LINE $0EF6 DetermineMazeWalls()
+COMMENT_LINE $0EF6 This function calculates the 8 walls (and the optional
+COMMENT_LINE $0EF6 door) which are present in a maze.  The maze has 8
+COMMENT_LINE $0EF6 internal points from which a wall can start, and fromright
+COMMENT_LINE $0EF6 each point, the wall can go either upwards, downwards,
+COMMENT_LINE $0EF6 to the right or to the left.  The array at C8AB will be
+COMMENT_LINE $0EF6 filled with an integer index telling which walls are to
+COMMENT_LINE $0EF6 be drawn (0=up, 2=down, 4=to right, 6=to left).  The
+COMMENT_LINE $0EF6 array at C8B5 is a collection of bitmasks, indicating
+COMMENT_LINE $0EF6 which walls are present for each quadrant (there is one
+COMMENT_LINE $0EF6 entry in the array per quadrant).  The mask has the
+COMMENT_LINE $0EF6 following format:
+COMMENT_LINE $0EF6 ---------------------------------
+COMMENT_LINE $0EF6 | 0 | 0 | 0 | 0 | B | T | R | L |
+COMMENT_LINE $0EF6 ---------------------------------
+COMMENT_LINE $0EF6 Quadrant has Bottom Wall-----^
+COMMENT_LINE $0EF6 Quadrant has Top Wall------------^
+COMMENT_LINE $0EF6 Quadrant has Right Wall--------------^
+COMMENT_LINE $0EF6 Quadrant has Left Wall-------------------^
+COMMENT $0F15 * Draw to the left from point
+COMMENT $0F17 * This quad has a bottom wall, and
+COMMENT $0F1D * the quad below it has a top wall
+COMMENT $0F27 * Draw to the right from point
+COMMENT $0F29 * Next quad has a bottom wall, and
+COMMENT $0F2F * Quad below it has a top wall
+COMMENT $0F39 * Draw downwards from point
+COMMENT $0F3B * Quad below has a right wall, and
+COMMENT $0F41 * quad next to it has a left wall
+COMMENT $0F47 * Draw upwards from point
+COMMENT $0F49 * This quad has a right wall, and
+COMMENT $0F4F * quad next to it has a left wall
+COMMENT $0F54 * Save the wall index
+COMMENT_LINE $0F65 DetermineDirectionToMove()
+COMMENT_LINE $0F65 This function takes a point, and returns a mask
+COMMENT_LINE $0F65 indicating the direction the point must travel, in
+COMMENT_LINE $0F65 in order to reach the player.  It also returns the
+COMMENT_LINE $0F65 distance (rise and run) describing how far away the
+COMMENT_LINE $0F65 point is from the player.
+COMMENT_LINE $0F65 Entry:
+COMMENT_LINE $0F65 a = y position
+COMMENT_LINE $0F65 b = x position
+COMMENT_LINE $0F65 Exit:
+COMMENT_LINE $0F65 C8DE: y distance between point and player.
+COMMENT_LINE $0F65 C8DF: x distance between point and player.
+COMMENT_LINE $0F65 b = mask, indicating desired direction of travel
+COMMENT_LINE $0F65 ---------------------------------
+COMMENT_LINE $0F65 | 0 | 0 | x | 0 | x | x | x | x |
+COMMENT_LINE $0F65 ---------------------------------
+COMMENT_LINE $0F65 x and/or y is same --^
+COMMENT_LINE $0F65 Down ------------------------^
+COMMENT_LINE $0F65 Up ------------------------------^
+COMMENT_LINE $0F65 Right -------------------------------^
+COMMENT_LINE $0F65 Left ------------------------------------^
+COMMENT_LINE $0F98 MapPointToQnMakeRel ;MapPointToQuadrantAndMakeRelative()
+COMMENT_LINE $0F98 This function takes a point, and determines which of
+COMMENT_LINE $0F98 15 quadrants it falls into.  It also maps the point
+COMMENT_LINE $0F98 so that it is relative to the lower left corner of the
+COMMENT_LINE $0F98 quadrant, and returns the bitmask indicating which walls
+COMMENT_LINE $0F98 are defined for this quadrant.
+COMMENT_LINE $0F98 Entry:
+COMMENT_LINE $0F98 d = (y,x) position
+COMMENT_LINE $0F98 Exit:
+COMMENT_LINE $0F98 C89A = quadrant (0 - 15)
+COMMENT_LINE $0F98 C899 = wall bitmask
+COMMENT_LINE $0F98 C89B-C89C = point, relative to lower left quad corner
+COMMENT_LINE $0F98 d = point, relative to lower left quad corner
+COMMENT_LINE $0F98 where the bitmask has the following format:
+COMMENT_LINE $0F98 ---------------------------------
+COMMENT_LINE $0F98 | 0 | 0 | 0 | 0 | B | T | R | L |
+COMMENT_LINE $0F98 ---------------------------------
+COMMENT_LINE $0F98 Quadrant has Bottom Wall-----^
+COMMENT_LINE $0F98 Quadrant has Top Wall------------^
+COMMENT_LINE $0F98 Quadrant has Right Wall--------------^
+COMMENT_LINE $0F98 Quadrant has Left Wall-------------------^
+COMMENT_LINE $0F98 and the quadrants are defined as follows:
+COMMENT_LINE $0F98 -100 -60 -20 +20 +60 +100
+COMMENT_LINE $0F98 --------------------- +96
+COMMENT_LINE $0F98 | 0 | 1 | 2 | 3 | 4 |
+COMMENT_LINE $0F98 ----+---+---+---+---- +32
+COMMENT_LINE $0F98 | 5 | 6 | 7 | 8 | 9 |
+COMMENT_LINE $0F98 ----+---+---+---+---- -32
+COMMENT_LINE $0F98 |10 |11 |12 |13 |14 |
+COMMENT_LINE $0F98 --------------------- -96
+COMMENT $0F9B * -32
+COMMENT $0FA3 * 32
+COMMENT $0FAB * -60
+COMMENT $0FB0 * -20
+COMMENT $0FB5 * 20
+COMMENT $0FBA * 60
+COMMENT $0FBF * Save the quadrant number
+COMMENT $0FC6 * Save the wall bitmask
+COMMENT $0FD0 * Make into a relative point
+COMMENT $0FD3 * Quad 0 y
+COMMENT $0FD4 * Quad 0 x
+COMMENT $0FD5 * Quad 1 y
+COMMENT $0FD6 * Quad 1 x
+COMMENT $0FD7 * Quad 2 y
+COMMENT $0FD8 * Quad 2 x
+COMMENT $0FD9 * Quad 3 y
+COMMENT $0FDA * Quad 3 x
+COMMENT $0FDB * Quad 4 y
+COMMENT $0FDC * Quad 4 x
+COMMENT $0FDD * Quad 5 y
+COMMENT $0FDE * Quad 5 x
+COMMENT $0FDF * Quad 6 y
+COMMENT $0FE0 * Quad 6 x
+COMMENT $0FE1 * Quad 7 y
+COMMENT $0FE2 * Quad 7 x
+COMMENT $0FE3 * Quad 8 y
+COMMENT $0FE4 * Quad 8 x
+COMMENT $0FE5 * Quad 9 y
+COMMENT $0FE6 * Quad 9 x
+COMMENT $0FE7 * Quad 10 y
+COMMENT $0FE8 * Quad 10 x
+COMMENT $0FE9 * Quad 11 y
+COMMENT $0FEA * Quad 11 x
+COMMENT $0FEB * Quad 12 y
+COMMENT $0FEC * Quad 12 x
+COMMENT $0FED * Quad 13 y
+COMMENT $0FEE * Quad 13 x
+COMMENT $0FEF * Quad 14 y
+COMMENT $0FF0 * Quad 14 x
+COMMENT_LINE $0FF1 These appear to be unused bytes
+RANGE $0000-$000B DB_DATA
+RANGE $000B-$000D DW_DATA
+RANGE $000D-$001A DB_DATA
+RANGE $001A-$0198 CODE
+RANGE $0198-$019E DW_DATA
+RANGE $019E-$045C CODE
+RANGE $045C-$0486 DB_DATA
+RANGE $0486-$07EE CODE
+RANGE $07EE-$080F DB_DATA
+RANGE $080F-$0A2D CODE
+RANGE $0A2D-$0A3B DW_DATA
+RANGE $0A3B-$0A47 DB_DATA
+RANGE $0A47-$0AE1 DW_DATA
+RANGE $0AE1-$0AE9 DB_DATA
+RANGE $0AE9-$0AFB DW_DATA
+RANGE $0AFB-$0B0D DB_DATA
+RANGE $0B0D-$0B0F DW_DATA
+RANGE $0B0F-$0B11 DB_DATA
+RANGE $0B11-$0B13 DW_DATA
+RANGE $0B13-$0B15 DB_DATA
+RANGE $0B15-$0B17 DW_DATA
+RANGE $0B17-$0B19 DB_DATA
+RANGE $0B19-$0B1B DW_DATA
+RANGE $0B1B-$0D1B DB_DATA
+RANGE $0D1B-$0D35 CODE
+RANGE $0D35-$0D41 DB_DATA
+RANGE $0D41-$0EE6 CODE
+RANGE $0EE6-$0EF6 DB_DATA
+RANGE $0EF6-$0FD3 CODE
+RANGE $0FD3-$1000 DB_DATA
+

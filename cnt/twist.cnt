@@ -1,0 +1,153 @@
+BANK 0
+EQU $10 height
+EQU $0D barcount
+EQU -$6C starty
+EQU $5C off1
+EQU $69 off2
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $D009 VIA_t2_hi
+COMMENT_LABEL $D009 VIA timer 2 count/latch register hi
+LABEL $F192 Wait_Recal
+LABEL $F1AF DP_to_C8
+LABEL $F289 Do_Sound
+LABEL $F2AB Intensity_a
+LABEL $F312 Moveto_d
+LABEL $F3D8 Draw_VL_ab
+COMMENT_LABEL $F3D8 y x y x ...
+LABEL $F3DF Draw_Line_d
+COMMENT_LABEL $F3DF y x y x ...
+LABEL $F610 Rot_VL_ab
+LABEL $F687 Init_Music_chk
+LABEL $FEF8 music8
+LABEL $C880 oldx
+LABEL $C881 tab
+LABEL $C886 dummy
+LABEL $C888 dummy2
+LABEL $C88A bars
+LABEL $C88C barsb
+LABEL $C88E sintab2
+LABEL $C98E rotdat
+EQU $17 singen
+LABEL $0010 orblinecount
+EQU $30 doorb
+LABEL $0069 domusic
+LABEL $00D6 o_dat
+LABEL $0057 main
+LABEL $0085 drawdoubletripleshitfuckfuck
+LABEL $0074 norestart
+LABEL $0095 drawbarsloop
+LABEL $00AF nooff
+EQU $19 size
+EQU $19 size1
+EQU $32 size2
+EQU $64 size4
+EQU $7D size5
+COMMENT_LINE $0000 ****************************************************************************
+COMMENT_LINE $0000 twistex
+COMMENT_LINE $0000 256 byte twister for vectrex
+COMMENT_LINE $0000 assembles fine with as09
+COMMENT_LINE $0000 ultra^orb 20090306
+COMMENT_LINE $0000 (c) 2009 orb
+COMMENT_LINE $0000 ****************************************************************************
+COMMENT_LINE $0000 some defines
+COMMENT_LINE $0000 ****************************************************************************
+COMMENT_LINE $0000 ****************************************************************************
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 ****************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 header section
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 'g' is copyright sign
+COMMENT $000B music from the rom
+COMMENT $000D end of game header
+COMMENT_LINE $000E ***************************************************************************
+COMMENT_LINE $000E here we go
+COMMENT_LINE $000E ***************************************************************************
+COMMENT_LINE $000E sin fake gen
+COMMENT $001D 1
+COMMENT $0022 3
+COMMENT_LINE $002C ***************************************************************************
+COMMENT_LINE $0030 jsr	debugmode
+COMMENT_LINE $0057 ***************************************************************************
+COMMENT $0067 loop da fuck ;)
+COMMENT_LINE $0069 ***************************************************************************
+COMMENT $0072 get ready to face the music
+COMMENT $0079 initialize the music
+COMMENT $007C vectrex bios recalibration
+COMMENT $007F play the sound
+COMMENT_LINE $0085 ***************************************************************************
+COMMENT_LINE $00D6 ***************************************************************************
+COMMENT_LINE $00D6 r part
+COMMENT_LINE $00DC 3
+COMMENT_LINE $00DC o
+COMMENT $00DC space
+COMMENT_LINE $00E6 8
+COMMENT $00E6 space
+COMMENT_LINE $00E8 r part 2
+COMMENT_LINE $00E8 10
+COMMENT $00EC space
+COMMENT_LINE $00EE 13
+COMMENT_LINE $00EE b
+COMMENT_LINE $0100 ***************************************************************************
+COMMENT_LINE $0100 include	"debug.asm"
+COMMENT_LINE $0100 ***************************************************************************
+RANGE $0000-$000B DB_DATA
+RANGE $000B-$000D DW_DATA
+RANGE $000D-$000E DB_DATA
+RANGE $000E-$00D6 CODE
+RANGE $00D6-$0100 DB_DATA
+

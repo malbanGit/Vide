@@ -33,6 +33,7 @@ public class Command
     public static final int D_CMD_CARTRIDGE = 19;
     public static final int D_CMD_JOYPORT_DEVICE = 20;
     public static final int D_CMD_BANKSWITCH_DEBUG = 21;
+    public static final int D_CMD_SET = 22;
     
     
 
@@ -60,6 +61,7 @@ public class Command
         new Command(D_CMD_CARTRIDGE, "carti", "", 0,0,"\"carti\"\t\t\tOpens a cartridge device debug window.",""),
         new Command(D_CMD_JOYPORT_DEVICE, "joyi", "", 0,0,"\"joyi\"\t\t\tOpens a joyport device debug window.",""),
         new Command(D_CMD_BANKSWITCH_DEBUG, "BankswitchDebug", "bsd", 0,0,"\"BankswitchDebug\"\t\tAll memory brakpoints are set/deleted in all banks.",""),
+        new Command(D_CMD_SET, "set", "", 0,0,"\"set XX YY\"\t\tSet a 6809 register to a value (e.g. 'set d $1000').",""),
     };
     
     public String fullname ="";

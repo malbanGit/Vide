@@ -353,7 +353,6 @@ public class StarterJPanel extends javax.swing.JPanel implements
         });
 
         jCheckBox5.setText("3d Imager");
-        jCheckBox5.setEnabled(false);
         jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox5ActionPerformed(evt);

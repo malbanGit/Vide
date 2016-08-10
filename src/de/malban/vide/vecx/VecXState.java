@@ -25,6 +25,8 @@ public class VecXState implements Serializable
         public int x1, y1; /* end coordinate */
         public int speed;
         public int color;    // Brightness only!
+        public int imagerColorLeft;
+        public int imagerColorRight;
         public boolean midChange = false;
         public ArrayList<Integer> callStack;
     };
@@ -137,6 +139,9 @@ public class VecXState implements Serializable
      public boolean alg_ramping = false;
      public int alg_spline_compare_dx = Integer.MAX_VALUE;
      public int alg_spline_compare_dy = Integer.MAX_VALUE;
+
+     public int alg_leftEye = -1;// index of color of wheel
+     public int alg_rightEye = -1;
      
      public int ticksRunning = 0; // cycles of run instructions since last reset!
      public vector_t directDrawVector=null;
@@ -160,6 +165,10 @@ public class VecXState implements Serializable
     public boolean extraRam8000_8800Enabled = false; // spectrum RA
     public boolean extraRam6000_7fff_8k_Enabled = false; // Logo
     
+    public boolean imagerMode = false;
+    public int leftEyeColor = -1; // index of color of wheel
+    public int rightEyeColor = -1;
+    
     public boolean isDualVec = false;
     
     
@@ -182,7 +191,12 @@ public class VecXState implements Serializable
         to.extraRam6000_7fff_8k_Enabled = from.extraRam6000_7fff_8k_Enabled;
         
         to.isDualVec = from.isDualVec;
-        
+        to.imagerMode = from.imagerMode;
+        to.leftEyeColor = from.leftEyeColor;
+        to.rightEyeColor = from.rightEyeColor;
+
+        to.alg_leftEye = from.alg_leftEye;
+        to.alg_rightEye = from.alg_rightEye;
         
         to.lastShiftTriggered = from.lastShiftTriggered;
         to.via_stalling = from.via_stalling;
