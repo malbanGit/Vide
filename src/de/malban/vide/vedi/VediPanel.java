@@ -22,6 +22,7 @@ import de.malban.util.syntax.entities.LabelSink;
 import de.malban.util.syntax.entities.MacroSink;
 import de.malban.vide.VideConfig;
 import de.malban.vide.assy.Asmj;
+import de.malban.vide.codi.CodeLibraryPanel;
 import static de.malban.vide.script.ExecutionDescriptor.*;
 import de.malban.vide.script.*;
 import static de.malban.vide.vecx.VecX.START_TYPE_DEBUG;
@@ -56,6 +57,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.EventObject;
+import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
@@ -109,7 +111,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     {
         return loadSettings;
     }
+    String possibleProject = null;
 
+    
     TreeEntry selectedTreeEntry = null;
     TreePath selectedTreePath = null;
     DefaultMutableTreeNode root = null;
@@ -513,7 +517,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jPopupMenuNew = new javax.swing.JPopupMenu();
         jMenuNewFileMenu = new javax.swing.JMenu();
         jMenuItemVectrexFile = new javax.swing.JMenuItem();
         jMenuItemNewFile = new javax.swing.JMenuItem();
@@ -595,9 +599,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jButtonDebug = new javax.swing.JButton();
         jButtonInjectBin = new javax.swing.JButton();
 
-        jPopupMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jPopupMenuNew.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPopupMenu1MouseExited(evt);
+                jPopupMenuNewMouseExited(evt);
             }
         });
 
@@ -619,7 +623,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
         jMenuNewFileMenu.add(jMenuItemNewFile);
 
-        jPopupMenu1.add(jMenuNewFileMenu);
+        jPopupMenuNew.add(jMenuNewFileMenu);
 
         jMenuItemNewProject.setText("new Project");
         jMenuItemNewProject.addActionListener(new java.awt.event.ActionListener() {
@@ -627,7 +631,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 jMenuItemNewProjectActionPerformed(evt);
             }
         });
-        jPopupMenu1.add(jMenuItemNewProject);
+        jPopupMenuNew.add(jMenuItemNewProject);
 
         jMenuItemFileProperties.setText("Properties");
         jMenuItemFileProperties.addActionListener(new java.awt.event.ActionListener() {
@@ -850,7 +854,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
 
         jButtonAssemble.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_play_blue.png"))); // NOI18N
-        jButtonAssemble.setToolTipText("Assemble current file, if if project is loaded, build project and run it (if so defined in config).");
+        jButtonAssemble.setToolTipText("Assemble current file, if project is loaded, build project and run it (if so defined in config).");
         jButtonAssemble.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonAssemble.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -973,7 +977,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addComponent(jButtonNew7)
                 .addGap(2, 2, 2)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("last projects", jPanel5);
@@ -1223,7 +1227,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
 
         jButtonDebug.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/bug_go.png"))); // NOI18N
-        jButtonDebug.setToolTipText("Assemble current file, if if project is loaded, build project and start debugging it (if so defined in config).");
+        jButtonDebug.setToolTipText("Assemble current file, if project is loaded, build project and start debugging it (if so defined in config).");
         jButtonDebug.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonDebug.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1598,7 +1602,90 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }//GEN-LAST:event_jTextFieldSearchKeyPressed
 
     private void jButtonNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewActionPerformed
-       
+        if (KeyboardListener.isShiftDown())
+        {
+            if (possibleProject == null) return;
+            if (possibleProject.endsWith(File.separator)) return;
+            inProject = false;
+            closeAllEditors();
+            settings.currentProject = null;
+            currentProject = null;
+
+            // build empty project with data from current file
+            // inf possibleProject name and path of a valid asm file
+            // build a project from that
+            ProjectProperties project = new ProjectProperties();
+            String nameFull="";
+            String nameOnly="";
+            String path="";
+            String projectName="";
+            
+            String work = possibleProject;
+            int tmp = work.lastIndexOf(File.separator);
+            if (tmp <0)
+            {
+                nameFull = work;
+            }
+            else
+            {
+                nameFull=work.substring(tmp+1);
+            }
+            tmp = nameFull.lastIndexOf(".");
+            nameOnly=nameFull.substring(0, tmp);
+
+            work = work.substring(0, work.length()-nameFull.length());
+            if (work.endsWith(File.separator))
+                work = work.substring(0, work.length()-1);
+            if (work.contains(File.separator))
+            {
+                // then path and project
+                tmp = work.lastIndexOf(File.separator);
+                projectName=work.substring(tmp+1);
+                work = work.substring(0, work.length()-projectName.length());
+            }
+            else
+            {
+                // path = ""
+                // project = work
+                projectName=work;
+            }
+            if (work.endsWith(File.separator))
+                work = work.substring(0, work.length()-1);
+            path = work;
+            
+            project.setCClass("Project");
+            project.setName(nameOnly);
+
+//            project.mAuthor = "";
+//            project.mDescription = "";
+//            project.mDirectoryName = "";
+            project.setPath(path);
+
+            project.setProjectName(projectName);
+            project.setMainFile(nameFull);
+            
+            Vector<String> bankMainFiles = new Vector<String>();
+            bankMainFiles.add(nameFull);
+            project.setBankMainFiles(bankMainFiles);
+            Vector<String> bankDefines = new Vector<String>();
+            bankDefines.add("");
+            project.setBankDefines(bankDefines);
+            
+            project.setVersion("1.0");
+            project.setBankswitching("none");
+            project.setNumberOfBanks(1);
+//            project.mcreateBankswitchCode = jCheckBoxCreateSupportCode.isSelected();
+//            project.mcreateGameLoopCode = jCheckBoxCreateGameLoop.isSelected();
+//            project.mProjectPreScriptClass = "";
+//            project.mProjectPreScriptName = "";
+//            project.mProjectPostScriptClass = "";
+//            project.mProjectPostScriptName = "";
+//            project.mWheelName ="";
+            project.setExtras(0);
+            doNewProject(project, false);
+            fileView = false;
+            fillTree(Paths.get(currentProject.getPath(), currentProject.getProjectName()));
+        }
     }//GEN-LAST:event_jButtonNewActionPerformed
 
     private void jEditorASMMessagesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jEditorASMMessagesMousePressed
@@ -1892,13 +1979,13 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
     }//GEN-LAST:event_jMenuItemNewProjectActionPerformed
 
-    private void jPopupMenu1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPopupMenu1MouseExited
-        jPopupMenu1.setVisible(false);
-    }//GEN-LAST:event_jPopupMenu1MouseExited
+    private void jPopupMenuNewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPopupMenuNewMouseExited
+        jPopupMenuNew.setVisible(false);
+    }//GEN-LAST:event_jPopupMenuNewMouseExited
 
     private void jButtonNewMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNewMousePressed
-        
-        jPopupMenu1.show(jButtonNew, evt.getX()-20,evt.getY()-20);
+        if (KeyboardListener.isShiftDown()) return;
+        jPopupMenuNew.show(jButtonNew, evt.getX()-20,evt.getY()-20);
     }//GEN-LAST:event_jButtonNewMousePressed
 
     private void jMenuItemVectrexFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVectrexFileActionPerformed
@@ -1947,11 +2034,21 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTree1ValueChanged
         if (!(((DefaultMutableTreeNode)evt.getPath().getLastPathComponent()).getUserObject() instanceof TreeEntry)) return;
         closeOneTimeTab();
+        possibleProject = null;
         TreeEntry entry = (TreeEntry) ((DefaultMutableTreeNode)evt.getPath().getLastPathComponent()).getUserObject();
         if (entry.type == DIR) return;
         
         if (tabExistsSwitch(entry))
         {
+            if ( (entry.name.toLowerCase().endsWith(".asm")) ||
+                 (entry.name.toLowerCase().endsWith(".s")) ||
+                 (entry.name.toLowerCase().endsWith(".as9")) ||
+                 (entry.name.toLowerCase().endsWith(".a69")) 
+               
+               )
+            {
+                possibleProject = entry.pathAndName.toString();
+            }
             return;
         }
 
@@ -1966,6 +2063,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         {
             addEditor(entry.pathAndName.toString(), true);
             oneTimeTab = null;
+            possibleProject = entry.pathAndName.toString();
         }
         else if ( (entry.name.toLowerCase().endsWith(".txt")) ||
              (entry.name.toLowerCase().endsWith(".diz")) ||
@@ -2176,7 +2274,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 addFileToProject(f);
         }        
         fillTree(Paths.get(currentProject.getPath(), currentProject.getProjectName()));
-        
     }//GEN-LAST:event_jMenuItemAddToProjectActionPerformed
 
     private void jMenuItemCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseActionPerformed
@@ -2316,8 +2413,16 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private void jMenuItemASFXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemASFXActionPerformed
         doAYFX();
     }//GEN-LAST:event_jMenuItemASFXActionPerformed
-
+    boolean fileView = false;
     private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
+        if (KeyboardListener.isShiftDown()) 
+        {
+            fileView = true;
+        }
+        else
+        {
+            fileView = false;
+        }
         refreshTree();
     }//GEN-LAST:event_jButtonRefreshActionPerformed
 
@@ -2474,7 +2579,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenuNew;
     private javax.swing.JPopupMenu jPopupMenuProjectProperties;
     private javax.swing.JPopupMenu jPopupMenuTree;
     private javax.swing.JScrollPane jScrollPane1;
@@ -2860,6 +2965,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     void fillTree(Path startpath)
     {
+        if (fileView)
+        {
+            fillTreeFiles();
+            return;
+        }
         if (!inProject) 
         {
             jTree1.setModel(new DefaultTreeModel(null));
@@ -2873,7 +2983,32 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         addChildren(root);
         jTree1.setModel(new DefaultTreeModel(root));
     }
-    boolean addChildren(DefaultMutableTreeNode node)
+    void fillTreeFiles()
+    {
+        Path startpath = Paths.get(".","");
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeEntry(startpath));
+        addChildrenFile(root);
+        jTree1.setModel(new DefaultTreeModel(root));
+    }
+    boolean addChildrenFile(DefaultMutableTreeNode node)
+    {
+        TreeEntry entry = (TreeEntry) node.getUserObject();
+        if (entry.type == FILE) return false;
+        Path basePath = entry.pathAndName;
+        
+        File directory = basePath.toFile();
+
+        // get all the files from a directory
+        File[] fList = directory.listFiles();
+        for (File file : fList) 
+        {
+            TreeEntry newEntry = new TreeEntry(Paths.get(basePath.toString(), file.getName()));
+            DefaultMutableTreeNode child = new DefaultMutableTreeNode(newEntry);
+            node.add(child);
+            addChildrenFile(child);
+        }
+        return true;
+    }    boolean addChildren(DefaultMutableTreeNode node)
     {
         TreeEntry entry = (TreeEntry) node.getUserObject();
         if (entry.type == FILE) return false;
@@ -3113,7 +3248,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     private void doNewProject()
     {
-        ProjectProperties project = ProjectPropertiesPanel.showNewProjectProperties();
+        doNewProject(ProjectPropertiesPanel.showNewProjectProperties(), true);
+    }
+    private void doNewProject(ProjectProperties project, boolean askForDirDouble)
+    {
         if (project == null) return; // cancel or error
         
         // try to create dir and save project properties
@@ -3122,7 +3260,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         Path p = Paths.get(p1,p2);
         
         
-        if ((p.toAbsolutePath().toFile().exists()))
+        if (((p.toAbsolutePath().toFile().exists()) ) && (askForDirDouble))
         {
             JOptionPane pane = new JOptionPane("A directory \""+project.getProjectName()+"\"already exists, do you really want\nto use an existing diretcory for a new project?", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
             int answer = JOptionPaneDialog.show(pane);
@@ -3137,14 +3275,17 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         }
         else
         {
-            // create dir
-            File file = p.toAbsolutePath().toFile();
-            boolean b = file.mkdir();
-            if (!b)
+            if (askForDirDouble)
             {
-                JOptionPane pane = new JOptionPane("Failed to create directory!", JOptionPane.ERROR_MESSAGE, JOptionPane.CLOSED_OPTION);
-                JOptionPaneDialog.show(pane);
-                return;
+                // create dir
+                File file = p.toAbsolutePath().toFile();
+                boolean b = file.mkdir();
+                if (!b)
+                {
+                    JOptionPane pane = new JOptionPane("Failed to create directory!", JOptionPane.ERROR_MESSAGE, JOptionPane.CLOSED_OPTION);
+                    JOptionPaneDialog.show(pane);
+                    return;
+                }
             }
         }
         // dir created!
@@ -3577,7 +3718,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         
                         org = filename + ".cnt";
                         banked = filename+"_"+(b) + ".cnt";
-                        de.malban.util.UtilityFiles.move(org, banked);
+//                        de.malban.util.UtilityFiles.move(org, banked);
+                        
+                        Vector<String> what = new Vector<String>();
+                        Vector<String> with = new Vector<String>();
+                        what.add("BANK 0");
+                        with.add("BANK "+(b));
+                        de.malban.util.UtilityString.replaceToNewFile(new File(org), new File(banked), what,with);
+                        de.malban.util.UtilityFiles.deleteFile(org);
+                        
                     }
                     if (!compiled)
                     {
@@ -3776,6 +3925,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         {
             typeFlags += Cartridge.FLAG_BANKSWITCH_VECFLASH;
         }
+        if ((typeFlags &Cartridge.FLAG_IMAGER )==  Cartridge.FLAG_IMAGER)
+            cart.setWheelName(project.getWheelName());
         
         cart.setTypeFlags(typeFlags);
 
@@ -4111,4 +4262,5 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         VectorJPanel.showModPanelNoModal(pathFull, this);
     }
+    
 }
