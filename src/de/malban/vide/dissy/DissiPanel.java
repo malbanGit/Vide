@@ -1386,7 +1386,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
     }
     
     private void jTextFieldCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCommandActionPerformed
-       
+       if (currentDissi == null) return;
         currentDissi.commandHistoryPosition = -1;
         currentDissi.commandHistory.add(jTextFieldCommand.getText());
         String command = jTextFieldCommand.getText();
@@ -2413,7 +2413,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
             {
                 if (cart.getBankeRomName(b) != null)
                 {
-                    if ((lastName != null)&&(lastName.length()!=0))
+                    if ((lastName != null)/*&&(lastName.length()!=0)*/)
                     {
                         if (!lastName.equals(cart.getBankeRomName(b)))
                         {
