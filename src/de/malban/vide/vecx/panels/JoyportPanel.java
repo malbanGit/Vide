@@ -11,6 +11,9 @@ import de.malban.vide.vecx.VecXPanel;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.INFO;
+import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.Updatable;
 import de.malban.vide.vecx.VecXStatics;
@@ -22,7 +25,10 @@ import de.malban.vide.vecx.devices.VecSpeechDevice;
 import de.malban.vide.vecx.devices.VectrexJoyport;
 import de.malban.vide.vecx.devices.WheelData;
 import java.awt.Color;
+import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+import javax.swing.JLabel;
 
 /**
  *
@@ -30,8 +36,11 @@ import java.io.Serializable;
  */
 public class JoyportPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{
+    transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public boolean isLoadSettings() { return true; }
 
+    
+    
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
     private int mClassSetting=0;
@@ -109,6 +118,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
      */
     public JoyportPanel() {
         initComponents();
+        initWheelList();
     }
 
 
@@ -307,11 +317,13 @@ public class JoyportPanel extends javax.swing.JPanel implements
         if (currentWheel==null)
         {
             currentWheel = d;
+            setCurrentWheelAsSelection();
             initWheel();
         }
         else if (currentWheel.id != d.id)
         {
             currentWheel = d;
+            setCurrentWheelAsSelection();
             initWheel();
         }
         
@@ -319,7 +331,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
         jCheckBox3.setSelected(true);
         
         if (jRadioButton2.isSelected())
-            jTextField11.setText(""+String.format("%.2f", imager.getSpinPerSecond()));
+            jTextField11.setText(""+String.format("%.4f", imager.getSpinPerSecond()));
         jTextField14.setText(""+String.format("%.2f", 360.0-imager.getAngle()));
         
         double spinTime = 1.0/imager.getSpinPerSecond();
@@ -330,13 +342,13 @@ public class JoyportPanel extends javax.swing.JPanel implements
         jTextField39.setText(""+String.format("%.6f", imager.getAnglePerCycle()));   
         
 
-        long low = imager.getLowPulse();
-        long high = imager.getHighPulse();
+        long low = imager.getPulseLen();
+        long wlen = imager.getWaveLen();
         jTextField12.setText(""+low);
-        jTextField13.setText(""+high);
+        jTextField13.setText(""+wlen);
 
         double lowMS = ((double)low)* (1.0/1500000.0);
-        double highMS = ((double)high)* (1.0/1500000.0);
+        double highMS = ((double)wlen)* (1.0/1500000.0);
         jTextField41.setText(""+String.format("%.6f", lowMS));
         jTextField40.setText(""+String.format("%.6f", highMS));
         
@@ -355,9 +367,15 @@ public class JoyportPanel extends javax.swing.JPanel implements
             jCheckBox2.setBackground(imager.getWheel().colors[colorIndexRight]);
         else jCheckBox2.setBackground(Color.white);
         
-        jLabel55.setText("("+imager.getLastPulseChanges()/2+")");
-                
+        if (jRadioButton2.isSelected())
+        {
+            jSlider1.setValue((int)imager.getSpinPerSecond());
+        }
         
+        double percent = ((double)low)/((double)wlen);
+        jTextField51.setText(""+String.format("%.2f", percent));
+        
+        setTimerValues();
         return true;
     }
     
@@ -485,7 +503,18 @@ public class JoyportPanel extends javax.swing.JPanel implements
         jLabel54 = new javax.swing.JLabel();
         jTextField50 = new javax.swing.JTextField();
         jSlider6 = new javax.swing.JSlider();
+        jLabel56 = new javax.swing.JLabel();
+        jLabel57 = new javax.swing.JLabel();
+        jLabel58 = new javax.swing.JLabel();
+        jLabel59 = new javax.swing.JLabel();
+        jLabel60 = new javax.swing.JLabel();
+        jLabel61 = new javax.swing.JLabel();
+        jLabel62 = new javax.swing.JLabel();
+        jLabel63 = new javax.swing.JLabel();
+        jTextField51 = new javax.swing.JTextField();
         jLabel55 = new javax.swing.JLabel();
+        jComboBoxWheelList = new javax.swing.JComboBox();
+        jButtonWRTracker = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -539,7 +568,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(496, Short.MAX_VALUE))
+                .addContainerGap(495, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -553,7 +582,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(449, Short.MAX_VALUE))
+                .addContainerGap(486, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Lightpen", jPanel4);
@@ -709,7 +738,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(jTextField25)
                                         .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -782,7 +811,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(237, Short.MAX_VALUE))
+                .addContainerGap(274, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("VecVox", jPanel1);
@@ -847,7 +876,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jTextField38)
                                 .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(248, Short.MAX_VALUE))
+                .addContainerGap(247, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -913,19 +942,21 @@ public class JoyportPanel extends javax.swing.JPanel implements
             imagerWheel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(imagerWheel1Layout.createSequentialGroup()
                 .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
-                .addComponent(jCheckBox4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 281, Short.MAX_VALUE)
                 .addComponent(jCheckBox2))
+            .addGroup(imagerWheel1Layout.createSequentialGroup()
+                .addComponent(jCheckBox4)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         imagerWheel1Layout.setVerticalGroup(
             imagerWheel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(imagerWheel1Layout.createSequentialGroup()
                 .addGroup(imagerWheel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox4))
-                .addGap(0, 459, Short.MAX_VALUE))
+                    .addComponent(jCheckBox2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox4)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jSlider1.setMajorTickSpacing(10);
@@ -958,7 +989,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
 
         jLabel37.setText("low");
 
-        jLabel38.setText("high");
+        jLabel38.setText("len");
 
         buttonGroup3.add(jRadioButton1);
         jRadioButton1.setSelected(true);
@@ -1089,6 +1120,30 @@ public class JoyportPanel extends javax.swing.JPanel implements
             }
         });
 
+        jLabel56.setText("0x0000");
+        jLabel56.setToolTipText("start at cycles [relation to index whole]");
+
+        jLabel57.setText("right");
+        jLabel57.setToolTipText("start at cycles [relation to index whole]");
+
+        jLabel58.setText("left");
+        jLabel58.setToolTipText("start at cycles [relation to index whole]");
+
+        jLabel59.setText("0x0000");
+        jLabel59.setToolTipText("start at cycles [relation to index whole]");
+
+        jLabel60.setText("0x0000");
+        jLabel60.setToolTipText("start at cycles [relation to index whole]");
+
+        jLabel61.setText("0x0000");
+        jLabel61.setToolTipText("start at cycles [relation to index whole]");
+
+        jLabel62.setText("0x0000");
+        jLabel62.setToolTipText("start at cycles [relation to index whole]");
+
+        jLabel63.setText("0x0000");
+        jLabel63.setToolTipText("start at cycles [relation to index whole]");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -1104,25 +1159,41 @@ public class JoyportPanel extends javax.swing.JPanel implements
                     .addComponent(jLabel51)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jSlider3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField46, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)))
-                .addGap(32, 32, 32)
+                        .addComponent(jTextField46, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                    .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel52)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jSlider4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField47, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel53)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jSlider5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField48, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel54)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jSlider6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField50, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel52)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jSlider4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField47, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel53)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jSlider5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField48, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel54)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jSlider6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField50, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel59, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel62, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -1160,11 +1231,43 @@ public class JoyportPanel extends javax.swing.JPanel implements
                             .addComponent(jTextField47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jSlider4, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel57)
+                                .addComponent(jLabel56))
+                            .addGap(4, 4, 4)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel58)
+                                .addComponent(jLabel59)))
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(jLabel61)
+                            .addGap(4, 4, 4)
+                            .addComponent(jLabel60)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel63)
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel62))))
         );
 
-        jLabel55.setText("(0)");
-        jLabel55.setToolTipText("ho often the pulse changed in obe index round");
+        jLabel55.setText("%");
+
+        jComboBoxWheelList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxWheelListActionPerformed(evt);
+            }
+        });
+
+        jButtonWRTracker.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_edit.png"))); // NOI18N
+        jButtonWRTracker.setToolTipText("show tracker");
+        jButtonWRTracker.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonWRTracker.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonWRTrackerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1199,33 +1302,42 @@ public class JoyportPanel extends javax.swing.JPanel implements
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(5, 5, 5)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField40, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(4, 4, 4)
-                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                                .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel5Layout.createSequentialGroup()
-                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                    .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(5, 5, 5)
+                                .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel38, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField40, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(9, 9, 9)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
                                 .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(45, 45, 45))
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jTextField51, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(76, 76, 76))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jButtonWRTracker)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jComboBoxWheelList, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(24, Short.MAX_VALUE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jCheckBox3)
                 .addGap(18, 18, 18)
@@ -1242,10 +1354,13 @@ public class JoyportPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(imagerWheel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel39)
-                            .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel39)
+                                .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxWheelList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonWRTracker))
+                        .addGap(4, 4, 4)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel40)
                             .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1256,14 +1371,15 @@ public class JoyportPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel37)
-                            .addComponent(jLabel38))
+                            .addComponent(jLabel38)
+                            .addComponent(jTextField51, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel55))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel18)
                             .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel42)
-                            .addComponent(jLabel55))
+                            .addComponent(jLabel42))
                         .addGap(8, 8, 8)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1296,7 +1412,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
                             .addComponent(jTextField43, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel48))
                         .addGap(5, 5, 5)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
 
@@ -1367,15 +1483,14 @@ public class JoyportPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1388,6 +1503,16 @@ public class JoyportPanel extends javax.swing.JPanel implements
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -1403,17 +1528,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane2))
         );
@@ -1430,17 +1545,46 @@ public class JoyportPanel extends javax.swing.JPanel implements
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
         if (jRadioButton1.isSelected())
         {
-            jTextField11.setText(""+String.format("%.2f", (double)jSlider1.getValue()));
+            jTextField11.setText(""+String.format("%.4f", (double)jSlider1.getValue()));
             jTextField11ActionPerformed(null);
         }
     }//GEN-LAST:event_jSlider1StateChanged
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         jSlider1.setEnabled(jRadioButton1.isSelected());
+        if (jRadioButton1.isSelected())
+        {
+            int port = jComboBox1.getSelectedIndex();
+            if ((port <0) || (port >1)) return;
+            VectrexJoyport[] portDevices =  vecxPanel.getJoyportDevices();
+            if (portDevices == null) return;
+            VectrexJoyport portDevice = portDevices[port];
+            if (portDevice == null) return;
+            JoyportDevice device = portDevice.getDevice();
+            if (device == null) return;
+            if (!(device instanceof Imager3dDevice)) return;
+            Imager3dDevice imager = (Imager3dDevice)device;
+            imager.setAuto(false);
+        }
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         jSlider1.setEnabled(jRadioButton1.isSelected());
+        if (jRadioButton2.isSelected())
+        {
+            int port = jComboBox1.getSelectedIndex();
+            if ((port <0) || (port >1)) return;
+            VectrexJoyport[] portDevices =  vecxPanel.getJoyportDevices();
+            if (portDevices == null) return;
+            VectrexJoyport portDevice = portDevices[port];
+            if (portDevice == null) return;
+            JoyportDevice device = portDevice.getDevice();
+            if (device == null) return;
+            if (!(device instanceof Imager3dDevice)) return;
+            Imager3dDevice imager = (Imager3dDevice)device;
+            imager.setAuto(true);
+        }
+            
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
@@ -1476,34 +1620,66 @@ public class JoyportPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jSlider2StateChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jSlider1.setValue(27);
-        jTextField11.setText(""+String.format("%.4f", (double)26.1579));
+        int port = jComboBox1.getSelectedIndex();
+        if ((port <0) || (port >1)) return;
+        VectrexJoyport[] portDevices =  vecxPanel.getJoyportDevices();
+        if (portDevices == null) return;
+        VectrexJoyport portDevice = portDevices[port];
+        if (portDevice == null) return;
+        JoyportDevice device = portDevice.getDevice();
+        if (device == null) return;
+        if (!(device instanceof Imager3dDevice)) return;
+        Imager3dDevice imager = (Imager3dDevice)device;
+        double v = imager.getWheel().defaultFrequency;
+        jSlider1.setValue((int) v);
+        jTextField11.setText(""+String.format("%.4f", (double)v));
         jRadioButton1.setSelected(true);
         jSlider1.setEnabled(jRadioButton1.isSelected());
         jTextField11ActionPerformed(null);
         imagerWheel1.repaintWheel();
+        if (jRadioButton1.isSelected())
+        {
+            imager.setAuto(false);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jSlider3StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider3StateChanged
-        currentWheel.indexAngle = jSlider3.getValue();
+        if (currentWheel==null) return;
+        if (mClassSetting == 0)
+            currentWheel.indexAngle = jSlider3.getValue();
         jTextField46.setText(""+jSlider3.getValue());
         imagerWheel1.repaintWheel();
     }//GEN-LAST:event_jSlider3StateChanged
 
     private void jSlider4StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider4StateChanged
-        currentWheel.startAngle[1] = jSlider4.getValue();
+        if (currentWheel==null) return;
+        if (currentWheel.startAngle.length<1) return;
+        if (mClassSetting == 0)
+            currentWheel.startAngle[1] = jSlider4.getValue();
         jTextField47.setText(""+(int)currentWheel.startAngle[1]);
         imagerWheel1.repaintWheel();
+        int t = jSlider5.getValue();
+        jSlider5.setMinimum(jSlider4.getValue());
+        jSlider5.setValue(t);
     }//GEN-LAST:event_jSlider4StateChanged
 
     private void jSlider5StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider5StateChanged
-        currentWheel.startAngle[2] = jSlider5.getValue();
+        if (currentWheel==null) return;
+        if (currentWheel.startAngle.length<2) return;
+        if (mClassSetting == 0)
+            currentWheel.startAngle[2] = jSlider5.getValue();
         jTextField48.setText(""+(int)currentWheel.startAngle[2]);
         imagerWheel1.repaintWheel();
+        int t = jSlider6.getValue();
+        jSlider6.setMinimum(jSlider5.getValue());
+        jSlider6.setValue(t);
     }//GEN-LAST:event_jSlider5StateChanged
 
     private void jSlider6StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider6StateChanged
-        currentWheel.startAngle[3] = jSlider6.getValue();
+        if (currentWheel==null) return;
+        if (currentWheel.startAngle.length<3) return;
+        if (mClassSetting == 0)
+            currentWheel.startAngle[3] = jSlider6.getValue();
         jTextField50.setText(""+(int)currentWheel.startAngle[3]);
         imagerWheel1.repaintWheel();
     }//GEN-LAST:event_jSlider6StateChanged
@@ -1548,8 +1724,17 @@ public class JoyportPanel extends javax.swing.JPanel implements
         if (!(device instanceof Imager3dDevice)) return;
         Imager3dDevice imager = (Imager3dDevice)device;
         imager.setBwEnabled(jCheckBox4.isSelected());
-        // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox4ActionPerformed
+
+    private void jButtonWRTrackerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonWRTrackerActionPerformed
+        WheelEdit.showWheelEdit();
+        correctWheelAfterEditor();
+    }//GEN-LAST:event_jButtonWRTrackerActionPerformed
+
+    private void jComboBoxWheelListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxWheelListActionPerformed
+        if (mClassSetting>0) return;
+        loadSelectedWheel();
+    }//GEN-LAST:event_jComboBoxWheelListActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1558,11 +1743,13 @@ public class JoyportPanel extends javax.swing.JPanel implements
     private javax.swing.ButtonGroup buttonGroup3;
     private de.malban.vide.vecx.devices.ImagerWheel imagerWheel1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonWRTracker;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBoxWheelList;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1614,7 +1801,15 @@ public class JoyportPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -1679,6 +1874,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextField49;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField50;
+    private javax.swing.JTextField jTextField51;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
@@ -1699,6 +1895,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
     }
     void initWheel()
     {
+        mClassSetting++;
         int port = jComboBox1.getSelectedIndex();
         if ((port <0) || (port >1)) return;
         VectrexJoyport[] portDevices =  vecxPanel.getJoyportDevices();
@@ -1709,8 +1906,11 @@ public class JoyportPanel extends javax.swing.JPanel implements
         if (device == null) return;
         if (!(device instanceof Imager3dDevice)) return;
         Imager3dDevice imager = (Imager3dDevice)device;
-        imager.setBwEnabled(jCheckBox1.isSelected());
+        imager.setBwEnabled(jCheckBox4.isSelected());
 
+        jRadioButton2.setSelected(imager.isAuto());
+        jRadioButton1.setSelected(!imager.isAuto());
+        jSlider1.setEnabled(!imager.isAuto());
         imagerWheel1.setWheel(currentWheel);
         
         jSlider2.setValue((int)Imager3dDevice.DEFAULT_TRANSISTOR_ANGLE);
@@ -1731,8 +1931,164 @@ public class JoyportPanel extends javax.swing.JPanel implements
         jCheckBox1.setSelected(imager.isLeftEnabled());
         jCheckBox2.setSelected(imager.isRightEnabled());
         jCheckBox4.setSelected(imager.isBwEnabled());
+        
+        if (!jRadioButton2.isSelected())
+        {
+            jButton1ActionPerformed(null);
+        }
+        mClassSetting--;
         repaint();
     }
+    void initWheelList()
+    {
+        mClassSetting++;
+        String path = "xml"+File.separator+"wheels";
+        ArrayList<String> files = de.malban.util.UtilityFiles.getXMLFileList(path);
+        jComboBoxWheelList.removeAllItems();
+        for (String name: files)
+        {
+            jComboBoxWheelList.addItem(de.malban.util.UtilityString.replace(name.toLowerCase(), ".xml", ""));
+        }
+        mClassSetting--;
+    }
+    void loadSelectedWheel()
+    {
+        int i = jComboBoxWheelList.getSelectedIndex();
+        if (i<0) 
+        {
+            log.addLog("No entry selected - can't load.", WARN);
+            return;
+        }
+        String fname = jComboBoxWheelList.getSelectedItem().toString()+".xml";
+        String path = "xml"+File.separator+"wheels"+File.separator+fname;
+        WheelData loadedWheel = WheelData.loadWheel(path);
+        if (loadedWheel==null) 
+        {
+            log.addLog("Wheel not loaded.", WARN);
+            return;
+        }
+        currentWheel = loadedWheel;
 
+        int port = jComboBox1.getSelectedIndex();
+        if ((port <0) || (port >1)) return;
+        VectrexJoyport[] portDevices =  vecxPanel.getJoyportDevices();
+        if (portDevices == null) return;
+        VectrexJoyport portDevice = portDevices[port];
+        if (portDevice == null) return;
+        JoyportDevice device = portDevice.getDevice();
+        if (device == null) return;
+        if (!(device instanceof Imager3dDevice)) return;
+        Imager3dDevice imager = (Imager3dDevice)device;
+        
+        imager.setWheel(currentWheel);
+        initWheel();
+        log.addLog("Wheel "+currentWheel.name+" loaded.", INFO);
+    }
 
+    void correctWheelAfterEditor()
+    {
+        if (currentWheel==null) return;
+        String currentName = de.malban.util.UtilityString.replace(currentWheel.name.toLowerCase(), ".xml", "");
+        mClassSetting++;
+        initWheelList();
+        int index = -1;
+        for (int i=0; i<jComboBoxWheelList.getItemCount(); i++)
+        {
+            if (currentName.equals(jComboBoxWheelList.getItemAt(i).toString()))
+            {
+                index = i;
+                break;
+            }
+        }
+        if (index >=0)
+        {
+            jComboBoxWheelList.setSelectedIndex(index);
+        }
+        
+        initWheel();
+        
+        mClassSetting--;
+    }
+    void setCurrentWheelAsSelection()
+    {
+        if (currentWheel==null) return;
+        String currentName = de.malban.util.UtilityString.replace(currentWheel.name.toLowerCase(), ".xml", "");
+        mClassSetting++;
+        int index = -1;
+        for (int i=0; i<jComboBoxWheelList.getItemCount(); i++)
+        {
+            if (currentName.equals(jComboBoxWheelList.getItemAt(i).toString()))
+            {
+                index = i;
+                break;
+            }
+        }
+        if (index >=0)
+        {
+            jComboBoxWheelList.setSelectedIndex(index);
+        }
+        initWheel();
+        mClassSetting--;
+    }
+    
+    
+    
+    void setTimerValues()
+    {
+        int port = jComboBox1.getSelectedIndex();
+        if ((port <0) || (port >1)) return;
+        VectrexJoyport[] portDevices =  vecxPanel.getJoyportDevices();
+        if (portDevices == null) return;
+        VectrexJoyport portDevice = portDevices[port];
+        if (portDevice == null) return;
+        JoyportDevice device = portDevice.getDevice();
+        if (device == null) return;
+        if (!(device instanceof Imager3dDevice)) return;
+        Imager3dDevice imager = (Imager3dDevice)device;
+        
+        
+        double frequency =  imager.getSpinPerSecond();
+        double angleRight1 = 0;
+        double angleRight2 = 0;
+        double angleRight3 = 0;
+        double angleLeft1 = 0;
+        double angleLeft2 = 0;
+        double angleLeft3 = 0;
+        
+        
+        if (currentWheel.startAngle.length>=1)
+        {
+            angleRight1 = currentWheel.startAngle[1]+90; // after black complete +90 degrees for right eye
+            angleLeft1 = currentWheel.startAngle[1] + 90+180; // left is 180 degrees from right
+        }
+        if (currentWheel.startAngle.length>=2)
+        {
+            angleRight2 = currentWheel.startAngle[2]+90; // after black complete +90 degrees for right eye
+            angleLeft2 = currentWheel.startAngle[2] + 90+180; // left is 180 degrees from right
+        }
+        if (currentWheel.startAngle.length>=3)
+        {
+            angleRight3 = currentWheel.startAngle[3]+90; // after black complete +90 degrees for right eye
+            angleLeft3 = currentWheel.startAngle[3] + 90+180; // left is 180 degrees from right
+        }
+        
+        setCycle(angleRight1, jLabel56, imager, currentWheel);
+        setCycle(angleRight2, jLabel61, imager, currentWheel);
+        setCycle(angleRight3, jLabel63, imager, currentWheel);
+        setCycle(angleLeft1, jLabel59, imager, currentWheel);
+        setCycle(angleLeft2, jLabel60, imager, currentWheel);
+        setCycle(angleLeft3, jLabel62, imager, currentWheel);
+    }
+    public static void setCycle(double angle, JLabel label, Imager3dDevice imager, WheelData wheel)
+    {
+        
+        double angleOffset = ((Imager3dDevice.indexAngleWidth+Imager3dDevice.photoReceiverAngleStart+(360-wheel.indexAngle))%360);
+        angle += angleOffset;
+        
+        angle = angle %360;
+        double anglePerCycle = imager.getAnglePerCycle();
+
+        double cycles = angle / anglePerCycle;
+        label.setText("0x"+String.format("%04X", ((int)cycles)));
+    }
 }

@@ -7,13 +7,12 @@ package de.malban.vide.vecx.devices;
 
 import de.malban.vide.vecx.VecX;
 import static de.malban.vide.vecx.VecXPanel.DEVICE_LINKV2_L;
-import static de.malban.vide.vecx.VecXPanel.ENABLE_HARDSYNC;
 
 /**
  *
  * @author malban
  */
-public class VecLinkV2Device extends AbstractDevice implements HardSyncDevice
+public class VecLinkV2Device extends AbstractDevice 
 {
     public int getDeviceID()
     {
@@ -42,35 +41,7 @@ public class VecLinkV2Device extends AbstractDevice implements HardSyncDevice
         return vecLink[side];
     }
 
-    @Override
-    public boolean isMaster()
-    {
-        return side == 0;
-    }
-    @Override
-    public VecX getMasterVecX()
-    {
-        if (joyport == null) return null;
-        if (side == 0)
-        {
-            return joyport.vecx;
-        }
-        if (vecLink[otherSide] == null) return null;
-        if (vecLink[otherSide].joyport == null) return null;
-        return vecLink[otherSide].joyport.vecx;
-    }
-    @Override
-    public VecX getSlaveVecX()
-    {
-        if (joyport == null) return null;
-        if (side == 1)
-        {
-            return joyport.vecx;
-        }
-        if (vecLink[otherSide] == null) return null;
-        if (vecLink[otherSide].joyport == null) return null;
-        return vecLink[otherSide].joyport.vecx;
-    }
+
     
     private VecLinkV2Device()
     {
@@ -89,15 +60,10 @@ public class VecLinkV2Device extends AbstractDevice implements HardSyncDevice
     @Override
     public void step()
     {
-        if (ENABLE_HARDSYNC) 
-            noSyncStep();
-        else
-        {
-            if (vecLink[side].joyport.vecx.config.syncCables) // when debugging, if non synced debug, than link is broken immediately
-                syncStep();
-            else
-                noSyncStep();
-        }
+//        if (vecLink[side].joyport.vecx.config.syncCables) // when debugging, if non synced debug, than link is broken immediately
+            syncStep();
+//        else
+//            noSyncStep();
     }
     public void syncStep()
     {

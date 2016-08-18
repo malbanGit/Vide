@@ -1,0 +1,22 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Abs_a_b ($F584)</title>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+
+<h3>Register $02 DDRB (Data Direction Register port B)</h3>
+
+<p>Port B can be used as an output register (referred to as ORB) or as an input register (referred to as IRB). The configuration for input and output can be set for each bit of the port. Usually all bits except bit 5 and 6 are configured as output. Bit 5 and 6 are configured as input.</p>
+
+<p>Bit 6 is connected to the "external line" of the cartridge interface of the vectrex. Because of this bit 6 can be used to "communicate" with hardware "inside" cartridges. </p>
+
+<p>Many multicards and other hardware use bit 6 for this purpose (see bankswitching). </p>
+
+<p>The "tricky" thing with vectrex is, if PB6 is configured as input, bit 6 goes automatically high. If set to output it goes to low automatically. Even if in output mode and a "ONE" is written to pb6, it only goes high for a short period of time and than switches back to low automatically.   </p>
+</body>
+</html>

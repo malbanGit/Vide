@@ -1130,6 +1130,18 @@
 	</Downloader>
 	<Downloader>
 		<Class>Cartridge</Class>
+		<Name>Block Download</Name>
+		<URL>http://www.borrmann.in/block.bin</URL>
+		<isZip>false</isZip>
+		<FileInZips>
+		</FileInZips>
+		<FileUnpackeds>
+		</FileUnpackeds>
+		<UnpackAll>false</UnpackAll>
+		<DestinationDirAll>download/cartridges/block.bin</DestinationDirAll>
+	</Downloader>
+	<Downloader>
+		<Class>Cartridge</Class>
 		<Name>XMAS 2015 Download BIN</Name>
 		<URL>http://binarystarsoftware.com/bin/XMAS_2015_FREE.BIN</URL>
 		<isZip>false</isZip>

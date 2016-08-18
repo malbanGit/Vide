@@ -1,0 +1,36 @@
+This directory contains information pertaining to the Vectrex 3-D
+color goggles.
+
+3dminestorm.gif
+3dnarrow.gif
+  GIF-format graphics detailing the color wheels used for the respective
+  games. The color wheels pop into the 3-D goggles to provide both the
+  3-D effect (by alternating blocking each eye from seeing the Vectrex
+  screen) and color (by being composed of distinct red, green, and blue
+  regions). The wheel for each 3-D game has unique amounts of red, green,
+  and blue depending on how much of each color the specific game uses (if
+  a game is designed to display mainly red lines, then the red portion of
+  the wheel is larger).
+
+  NOTE: CrazyCoaster and NarrowEscape use identical color wheels. The
+  wheel for MineStorm is unique, however.
+
+3dgoggle.txt
+  Provided by Zack Ethridge (zacketh@ibm.net) in December 1995.
+  Electrical description of how the Vectrex 3-D goggles work, including
+  connector pinouts and operating I/O signals. See '3dgoggle.gif' for
+  actual schematic diagram.
+
+3dgoggle.gif
+  Provided by Zack Ethridge (zacketh@ibm.net) in December 1995.
+  This GIF-format file contains the schematic of the motor control circuit
+  found within the goggles.
+
+3dwheel.txt
+3dwheel.gif
+3dplacement.gif
+  Provided by Zack Ethridge (zacketh@ibm.net) in December 1995.
+  Questions and answers about the goggles and color wheel. The GIF-format
+  files detail the construction of a wheel, and the placement of the
+  components within the goggles.
+

@@ -1,0 +1,42 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+
+<h3>Via Interrupt enable Reg $e</h3>
+
+<p>if bit 7 is 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 interrupt disabled<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 interrupt enabled<br>
+<br>
+if bit 7 is 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 interrupt disabled<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 interrupt enabled<br>
+</p>
+
+<ul><li>
+<p>0x01 : bit 0 CA2 interrupt</p>
+</li><li>
+<p>0x02 : bit 1 CA1 interrupt</p>
+</li><li>
+<p>0x04 : bit 2 Shiftreg interrupt</p>
+</li><li>
+<p>0x08 : bit 3 CB2 interrupt</p>
+</li><li>
+<p>0x10 : bit 4 CB1 interrupt</p>
+</li><li>
+<p>0x20 : bit 5 Timer2 interrupt</p>
+</li><li>
+<p>0x40 : bit 6 Timer1 interrupt</p>
+</li><li>
+<p>0x80 : bit 7 indicates whether ANY interrupt happened</p>
+</li></ul>
+
+</body>
+</html>

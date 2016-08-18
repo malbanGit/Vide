@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<AllProjectProperties>
+	<ProjectProperties>
+		<Class>Project</Class>
+		<Name>Ville Krumlinde</Name>
+		<ProjectName>Ville Krumlinde</ProjectName>
+		<DirectoryName></DirectoryName>
+		<Path>./codelib/CompleteReleases</Path>
+		<MainFile>Thrust.asm</MainFile>
+		<Description></Description>
+		<Version>1.0</Version>
+		<Author>Ville Krumdline</Author>
+		<Bankswitching>none</Bankswitching>
+		<createBankswitchCode>false</createBankswitchCode>
+		<createGameLoopCode>false</createGameLoopCode>
+		<NumberOfBanks>1</NumberOfBanks>
+		<BankMainFiless>
+			<BankMainFiles>Thrust.asm</BankMainFiles>
+		</BankMainFiless>
+		<Extras>0</Extras>
+		<ProjectPreScriptClass></ProjectPreScriptClass>
+		<ProjectPreScriptName></ProjectPreScriptName>
+		<ProjectPostScriptClass></ProjectPostScriptClass>
+		<ProjectPostScriptName></ProjectPostScriptName>
+		<BankDefiness>
+			<BankDefines></BankDefines>
+		</BankDefiness>
+		<WheelName></WheelName>
+	</ProjectProperties>
+	<ProjectProperties>
+		<Class>Project</Class>
+		<Name>Thrust</Name>
+		<ProjectName>Ville Krumlinde</ProjectName>
+		<DirectoryName></DirectoryName>
+		<Path>./codelib/CompleteReleases</Path>
+		<MainFile>Thrust.asm</MainFile>
+		<Description></Description>
+		<Version>1.0</Version>
+		<Author></Author>
+		<Bankswitching>none</Bankswitching>
+		<createBankswitchCode>false</createBankswitchCode>
+		<createGameLoopCode>false</createGameLoopCode>
+		<NumberOfBanks>1</NumberOfBanks>
+		<BankMainFiless>
+			<BankMainFiles>Thrust.asm</BankMainFiles>
+		</BankMainFiless>
+		<Extras>0</Extras>
+		<ProjectPreScriptClass></ProjectPreScriptClass>
+		<ProjectPreScriptName></ProjectPreScriptName>
+		<ProjectPostScriptClass></ProjectPostScriptClass>
+		<ProjectPostScriptName></ProjectPostScriptName>
+		<BankDefiness>
+			<BankDefines></BankDefines>
+		</BankDefiness>
+		<WheelName></WheelName>
+	</ProjectProperties>
+</AllProjectProperties>

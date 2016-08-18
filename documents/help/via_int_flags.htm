@@ -1,0 +1,35 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+
+<h3>Via Interrupt Flag Reg $d</h3>
+
+<p>Write one to a bit resets the interrupt flag.</p>
+
+<ul><li>
+<p>0x01 : bit 0 CA2 interrupt (cleared by read/write port A depeneding on "independed" interrupt)</p>
+</li><li>
+<p>0x02 : bit 1 CA1 interrupt (edge is determined by PCR bit 0, cleared by read/write of Port A)</p>
+</li><li>
+<p>0x04 : bit 2 Shiftreg interrupt (complete 8 shifts)</p>
+</li><li>
+<p>0x08 : bit 3 CB2 interrupt</p>
+</li><li>
+<p>0x10 : bit 4 CB1 interrupt</p>
+</li><li>
+<p>0x20 : bit 5 Timer2 interrupt </p>
+</li><li>
+<p>0x40 : bit 6 Timer1 interrupt</p>
+</li><li>
+<p>0x80 : bit 7 indicates whether ANY interrupt happened</p>
+</li></ul>
+
+</body>
+</html>

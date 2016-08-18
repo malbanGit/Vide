@@ -5845,7 +5845,7 @@ D7FE5   FCB     $00
         FCB     $DE
 
         FCB     $FF
-        FDB     $FFFF,$FFFF,$FFFF,$FFFF,$FFFF,$FFFF,$FFFF,$FFFF
+        FDB     $FFFF,$FFFF,$FFFF,$FFFF,$FFFF,$FFFF,$FFFF,$FFff
 
 ;D8000   END
-        END
+      ;  END

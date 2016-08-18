@@ -13,7 +13,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 
 /**
  *
@@ -30,32 +29,8 @@ public class ImagerWheel extends javax.swing.JPanel
     static
     {
         
-        NARROW_ESCAPE = new WheelData();
-        NARROW_ESCAPE.id = 1;
-        NARROW_ESCAPE.name="Narrow Escape";
-        NARROW_ESCAPE.startAngle = new double[4];
-        NARROW_ESCAPE.colors = new Color[4];
+        NARROW_ESCAPE = WheelData.createNewWheel();
 
-        // black
-        NARROW_ESCAPE.startAngle[0] = 0;
-        NARROW_ESCAPE.colors[0] = new Color(0,0,0,255);
-
-        // red
-        NARROW_ESCAPE.startAngle[1] = 180;
-        NARROW_ESCAPE.colors[1] = new Color(0,0,255,100);
-
-        // green
-        NARROW_ESCAPE.startAngle[2] = 240;
-        NARROW_ESCAPE.colors[2] = new Color(0,255,0,100);
-
-        // blue
-        NARROW_ESCAPE.startAngle[3] = 304;
-        NARROW_ESCAPE.colors[3] = new Color(255,0,0,100);
-        
-        
-        
-        
-        NARROW_ESCAPE.indexAngle = 254; // guessing
     }
     
     double one_millimenter = 0;             // conversion factor in relation to panel size
@@ -139,9 +114,15 @@ public class ImagerWheel extends javax.swing.JPanel
         zeroAngleImage1 = de.malban.util.UtilityImage.getNewImage(outerRadius*2,outerRadius*2);
         zeroAngleImage2 = de.malban.util.UtilityImage.getNewImage(outerRadius*2,outerRadius*2);
         
+        if (zeroAngleImage1 == null)
+        {
+            return;
+        }
         // create wheel color image
         Graphics2D g2 = zeroAngleImage1.createGraphics();
+        
         g2.setBackground(new Color(0,0,0,0));
+//        g2.setBackground(getBackground());
         g2.clearRect(0,0, outerRadius*2,outerRadius*2);
         // arc starts at 15:00
         // positive values rotate anti clockwise
@@ -178,6 +159,7 @@ public class ImagerWheel extends javax.swing.JPanel
 
     @Override public void paintComponent(Graphics g)
     {
+        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
         // rember 0 rotation transformation

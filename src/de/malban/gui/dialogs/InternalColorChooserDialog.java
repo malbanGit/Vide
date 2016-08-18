@@ -16,7 +16,7 @@ import javax.swing.JInternalFrame;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class InternalColorChooserDialog extends javax.swing.JPanel {
 

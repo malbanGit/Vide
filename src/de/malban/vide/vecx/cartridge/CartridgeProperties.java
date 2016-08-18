@@ -39,6 +39,7 @@ public class  CartridgeProperties implements Serializable
 	protected boolean mSnippet=false;
 	protected boolean mCompleteGame=false;
 	protected String mextremeVecFileImage="";
+	protected String mWheelName="";
 	public String getName()
 	{
 		return mName;
@@ -279,6 +280,14 @@ public class  CartridgeProperties implements Serializable
 	{
 		mextremeVecFileImage=extremeVecFileImage;
 	}
+	public String getWheelName()
+	{
+		return mWheelName;
+	}
+	public void setWheelName(String WheelName)
+	{
+		mWheelName=WheelName;
+	}
 	private String exportXML()
 	{
 		StringBuffer s = new StringBuffer();
@@ -318,6 +327,7 @@ public class  CartridgeProperties implements Serializable
 		s.append( "\t\t<Snippet>"+mSnippet+"</Snippet>\n");
 		s.append( "\t\t<CompleteGame>"+mCompleteGame+"</CompleteGame>\n");
 		s.append( "\t\t<extremeVecFileImage>"+UtilityString.toXML(mextremeVecFileImage)+"</extremeVecFileImage>\n");
+		s.append( "\t\t<WheelName>"+UtilityString.toXML(mWheelName)+"</WheelName>\n");
 		s.append( "\t</CartridgeProperties>\n");
 		return s.toString();
 	}

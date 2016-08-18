@@ -42,6 +42,3 @@ JD~~
 Emulator:
 - if a bin file is 32k < Size <= 64K, Vide assumes this bankswitch scheme
 
-~~**Note:**~~
-Since both, the eEprom emulation and bankswitching communicate with the external cartridge line (VIA PB6), only one can be "active" at a time within Vide.
-If both (bankswitching and eEprom emulation) are switched on, the eEprom emulation has precedence!

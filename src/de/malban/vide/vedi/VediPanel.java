@@ -11,6 +11,8 @@ import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.JOptionPaneDialog;
+import de.malban.gui.dialogs.QuickHelpModal;
+import de.malban.gui.dialogs.QuickHelpTopFrame;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.util.KeyboardListener;
@@ -22,7 +24,9 @@ import de.malban.util.syntax.entities.LabelSink;
 import de.malban.util.syntax.entities.MacroSink;
 import de.malban.vide.VideConfig;
 import de.malban.vide.assy.Asmj;
-import de.malban.vide.codi.CodeLibraryPanel;
+import de.malban.vide.dissy.DASM6809;
+import static de.malban.vide.dissy.DissiPanel.MESSAGE_INFO;
+import static de.malban.vide.dissy.DissiPanel.eval;
 import static de.malban.vide.script.ExecutionDescriptor.*;
 import de.malban.vide.script.*;
 import static de.malban.vide.vecx.VecX.START_TYPE_DEBUG;
@@ -517,7 +521,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenuNew = new javax.swing.JPopupMenu();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuNewFileMenu = new javax.swing.JMenu();
         jMenuItemVectrexFile = new javax.swing.JMenuItem();
         jMenuItemNewFile = new javax.swing.JMenuItem();
@@ -598,10 +602,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jButtonRefresh = new javax.swing.JButton();
         jButtonDebug = new javax.swing.JButton();
         jButtonInjectBin = new javax.swing.JButton();
+        jTextFieldCommand = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
-        jPopupMenuNew.addMouseListener(new java.awt.event.MouseAdapter() {
+        jPopupMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPopupMenuNewMouseExited(evt);
+                jPopupMenu1MouseExited(evt);
             }
         });
 
@@ -623,7 +629,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
         jMenuNewFileMenu.add(jMenuItemNewFile);
 
-        jPopupMenuNew.add(jMenuNewFileMenu);
+        jPopupMenu1.add(jMenuNewFileMenu);
 
         jMenuItemNewProject.setText("new Project");
         jMenuItemNewProject.addActionListener(new java.awt.event.ActionListener() {
@@ -631,7 +637,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 jMenuItemNewProjectActionPerformed(evt);
             }
         });
-        jPopupMenuNew.add(jMenuItemNewProject);
+        jPopupMenu1.add(jMenuItemNewProject);
 
         jMenuItemFileProperties.setText("Properties");
         jMenuItemFileProperties.addActionListener(new java.awt.event.ActionListener() {
@@ -932,7 +938,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addComponent(jButtonNew1)
                 .addGap(2, 2, 2)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("last files", jPanel4);
@@ -977,7 +983,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addComponent(jButtonNew7)
                 .addGap(2, 2, 2)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jTabbedPane2.addTab("last projects", jPanel5);
@@ -1244,6 +1250,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
 
+        jTextFieldCommand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCommandActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("ask:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1276,6 +1290,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 .addComponent(jButtonDebug)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonInjectBin)
+                .addGap(45, 45, 45)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1300,9 +1318,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     .addComponent(jButtonPrettyPrint)
                     .addComponent(jButtonRefresh)
                     .addComponent(jButtonDebug)
-                    .addComponent(jButtonInjectBin))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
+                    .addComponent(jButtonInjectBin)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7)))
+                .addGap(2, 2, 2)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -1602,7 +1623,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }//GEN-LAST:event_jTextFieldSearchKeyPressed
 
     private void jButtonNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewActionPerformed
-        if (KeyboardListener.isShiftDown())
+       if (KeyboardListener.isShiftDown())
         {
             if (possibleProject == null) return;
             if (possibleProject.endsWith(File.separator)) return;
@@ -1979,13 +2000,13 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
     }//GEN-LAST:event_jMenuItemNewProjectActionPerformed
 
-    private void jPopupMenuNewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPopupMenuNewMouseExited
-        jPopupMenuNew.setVisible(false);
-    }//GEN-LAST:event_jPopupMenuNewMouseExited
+    private void jPopupMenu1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPopupMenu1MouseExited
+        jPopupMenu1.setVisible(false);
+    }//GEN-LAST:event_jPopupMenu1MouseExited
 
     private void jButtonNewMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNewMousePressed
         if (KeyboardListener.isShiftDown()) return;
-        jPopupMenuNew.show(jButtonNew, evt.getX()-20,evt.getY()-20);
+        jPopupMenu1.show(jButtonNew, evt.getX()-20,evt.getY()-20);
     }//GEN-LAST:event_jButtonNewMousePressed
 
     private void jMenuItemVectrexFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVectrexFileActionPerformed
@@ -2479,6 +2500,37 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         runInternal();
     }//GEN-LAST:event_jButtonInjectBinActionPerformed
 
+    private void jTextFieldCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCommandActionPerformed
+        String command = jTextFieldCommand.getText();
+        jTextFieldCommand.setText("");
+        doQuickHelp(command, command);
+    }//GEN-LAST:event_jTextFieldCommandActionPerformed
+    
+    void doQuickHelp(String word, String integer)
+    {
+        if (!displayHelp(word))
+            doCalculator(integer);
+    }
+
+    // receives the contents of the textfield after a return
+    public boolean doCalculator(String command)
+    {
+        try
+        {
+            Double d = eval(command) ;
+            int i = (int) d.intValue();
+            if ((i<256) && (i>-128))
+                printMessage("Result: "+i+", $"+String.format("%02X", i & 0xFF)+", "+DASM6809.printbinary(i));
+            else
+                printMessage("Result: "+i+", $"+String.format("%X", i)+", "+DASM6809.printbinary16(i));
+        }
+        catch (Throwable x)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public String getLine(JEditorPane comp, int pos)
     {
         try
@@ -2551,6 +2603,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JList jListFiles;
     private javax.swing.JList jListProjects;
     private javax.swing.JMenuItem jMenuItemASFX;
@@ -2579,7 +2632,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPopupMenu jPopupMenuNew;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenuProjectProperties;
     private javax.swing.JPopupMenu jPopupMenuTree;
     private javax.swing.JScrollPane jScrollPane1;
@@ -2596,6 +2649,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTextField jTextFieldCommand;
     private javax.swing.JTextField jTextFieldReplace;
     private javax.swing.JTextField jTextFieldSearch;
     private javax.swing.JTree jTree1;
@@ -3008,7 +3062,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             addChildrenFile(child);
         }
         return true;
-    }    boolean addChildren(DefaultMutableTreeNode node)
+    }    
+    boolean addChildren(DefaultMutableTreeNode node)
     {
         TreeEntry entry = (TreeEntry) node.getUserObject();
         if (entry.type == FILE) return false;
@@ -4262,5 +4317,28 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         VectorJPanel.showModPanelNoModal(pathFull, this);
     }
-    
+    public static boolean displayHelp(String h)
+    {
+        h = h.toLowerCase();
+        String path = "documents"+File.separator+"help"+File.separator;
+        
+        String full = path+h+".html";
+        File f = new File(full);
+        if (!f.exists())
+            full = path+h+".htm";
+        f = new File(full);
+        if (f.exists())
+        {
+            QuickHelpTopFrame.showHelpHtmlFile(full);
+            return true;
+        }
+        full = path+h+".png";
+        f = new File(full);
+        if (f.exists())
+        {
+            QuickHelpTopFrame.showHelpPNGFile(full);
+            return true;
+        }
+        return false;
+    }
 }

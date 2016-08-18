@@ -235,6 +235,7 @@ public class EditorPanel extends EditorPanelFoundation
         new HotKey("JumpMac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jump();}}, jTextPane1);
         new HotKey("JumpWin", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jump();}}, jTextPane1);
         
+        new HotKey("QuickHelp", new AbstractAction() { public void actionPerformed(ActionEvent e) {  help();}}, this);
         
         
 
@@ -424,11 +425,14 @@ public class EditorPanel extends EditorPanelFoundation
         Point pt = new Point(evt.getX(), evt.getY());
         int pos = jTextPane1.viewToModel(pt);
 
+        boolean shift = KeyboardListener.isShiftDown();
+
         if (evt.getClickCount() == 2) 
         {
             jTextPane1.setSelectionStart(pos);
             jTextPane1.setSelectionEnd(pos); // -1 look shiity, but enables another previous search
-            if (SwingUtilities.isMiddleMouseButton(evt))
+
+            if ((SwingUtilities.isMiddleMouseButton(evt)) || (shift))
             {
                 String word = getWordOfPos(jTextPane1, pos);
                 if (parent != null)
@@ -584,6 +588,36 @@ public class EditorPanel extends EditorPanelFoundation
             pos++;
             c = text.charAt(pos);
             while (!de.malban.util.UtilityString.isWordBoundry(c))
+            {
+                word += c;
+                pos++;
+                c = text.charAt(pos);
+            }
+        }
+        catch (Throwable e)
+        {
+        }
+        return word;
+    }    
+    String getIntOfPos(JTextPane comp, int pos)
+    {
+        String word ="";
+        try
+        {
+            String text = comp.getDocument().getText(0, comp.getDocument().getLength());
+            char c = text.charAt(pos);
+            while (!de.malban.util.UtilityString.isIntBoundry(c)) 
+            {
+                pos--;
+                if (pos <0)
+                {
+                    break;
+                }
+                c = text.charAt(pos);
+            }
+            pos++;
+            c = text.charAt(pos);
+            while (!de.malban.util.UtilityString.isIntBoundry(c))
             {
                 word += c;
                 pos++;
@@ -1152,4 +1186,12 @@ public class EditorPanel extends EditorPanelFoundation
             goLine(line);
         }
         jTextPane1.grabFocus();
-    } }
+    } 
+    public void help()
+    {
+        int pos = jTextPane1.getCaretPosition();
+        String word = getWordOfPos(jTextPane1, pos);
+        String integer = getIntOfPos(jTextPane1, pos);
+        parent.doQuickHelp(word, integer);
+    }
+}

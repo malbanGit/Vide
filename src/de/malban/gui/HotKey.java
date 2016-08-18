@@ -73,6 +73,10 @@ public class HotKey implements Serializable
 
             HotKey.addMap(KeyEvent.VK_F5, 0, "Run", "Editor");
             HotKey.addMap(KeyEvent.VK_F6, 0, "Debug", "Editor");
+            HotKey.addMap(KeyEvent.VK_F1, 0, "QuickHelp", "Editor");
+            
+            
+            
             HotKey.addMap(KeyEvent.VK_R, Event.META_MASK, "RecolorMac", "Editor");
             HotKey.addMap(KeyEvent.VK_R, Event.CTRL_MASK, "RecolorWin", "Editor");
             HotKey.addMap(KeyEvent.VK_J, Event.META_MASK, "JumpMac", "Editor");

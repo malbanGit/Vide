@@ -22,6 +22,7 @@ import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.gui.panels.TipOfDayGUI;
 import de.malban.gui.panels.WindowablePanel;
+import de.malban.input.JoystickTest;
 import de.malban.jdbc.DBConnectionEdit;
 import de.malban.jdbc.StatementWindow;
 import de.malban.util.KeyboardListener;
@@ -68,6 +69,7 @@ import javax.help.HelpSet;
 import javax.help.JHelpContentViewer;
 import javax.help.WindowPresentation;
 import javax.swing.*;
+import javax.swing.event.InternalFrameEvent;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
@@ -285,6 +287,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItemCartridgeEdit = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         jMenuItemStarter = new javax.swing.JMenuItem();
@@ -416,6 +419,14 @@ public class CSAMainFrame extends javax.swing.JFrame
             }
         });
         jMenu2.add(jMenuItemCartridgeEdit);
+
+        jMenuItem2.setText("Input Devices");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
 
         fileMenu.add(jMenu2);
 
@@ -643,7 +654,6 @@ public class CSAMainFrame extends javax.swing.JFrame
         });
         jMenu1.add(jMenuItem23);
 
-        jMenuItem37.setIcon(new javax.swing.ImageIcon("/Users/malban/NetBeansProjects/Veccy/src/de/malban/vide/images/text_dropcaps.png")); // NOI18N
         jMenuItem37.setText("Lightpen FAQ");
         jMenu1.add(jMenuItem37);
 
@@ -1161,7 +1171,34 @@ public class CSAMainFrame extends javax.swing.JFrame
                 @Override
                 public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
                     mDebugDisplayed = false;
+                    doZOrder();
                 }
+
+
+                public void internalFrameOpened(InternalFrameEvent ife) {
+                    doZOrder();
+                }
+
+                public void internalFrameClosing(InternalFrameEvent ife) {
+                    doZOrder();
+                }
+
+                public void internalFrameIconified(InternalFrameEvent ife) {
+                    doZOrder();
+                }
+
+                public void internalFrameDeiconified(InternalFrameEvent ife) {
+                    doZOrder();
+                }
+
+                public void internalFrameActivated(InternalFrameEvent ife) {
+                    doZOrder();
+                }
+
+                public void internalFrameDeactivated(InternalFrameEvent ife) {
+                    doZOrder();
+                }                
+                
             });
         mDebugDisplayed = true;
         /*
@@ -1200,6 +1237,10 @@ public class CSAMainFrame extends javax.swing.JFrame
         ConfigurationPanel c = new ConfigurationPanel();
         addAsWindow(c, 1018, 680, "Application onfiguration");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+new JoystickTest();        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     boolean gameMode = false;
     de.malban.event.MasterEventListener keyListener = null;    
@@ -1314,6 +1355,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem22;
@@ -1385,6 +1427,8 @@ public class CSAMainFrame extends javax.swing.JFrame
         mFrames.add(frame);
         getMainPanel().add(frame);
         getMainPanel().setComponentZOrder(frame, 0);
+        
+        
         final javax.swing.event.InternalFrameAdapter l = new javax.swing.event.InternalFrameAdapter()
         {
             javax.swing.event.InternalFrameAdapter ll=this;
@@ -1392,7 +1436,31 @@ public class CSAMainFrame extends javax.swing.JFrame
             {
                 removeInternalFrame(frame);
                 frame.removeInternalFrameListener(fl.get(frame));
+                    doZOrder();
             }
+                public void internalFrameOpened(InternalFrameEvent ife) {
+                    doZOrder();
+                }
+
+                public void internalFrameClosing(InternalFrameEvent ife) {
+                    doZOrder();
+                }
+
+                public void internalFrameIconified(InternalFrameEvent ife) {
+                    doZOrder();
+                }
+
+                public void internalFrameDeiconified(InternalFrameEvent ife) {
+                    doZOrder();
+                }
+
+                public void internalFrameActivated(InternalFrameEvent ife) {
+                    doZOrder();
+                }
+
+                public void internalFrameDeactivated(InternalFrameEvent ife) {
+                    doZOrder();
+                }                
         };
         frame.addInternalFrameListener(l);
         fl.put(frame, l);
@@ -3565,6 +3633,20 @@ public class CSAMainFrame extends javax.swing.JFrame
         JoyportPanel p = new JoyportPanel();        
         addAsWindow(p, 320, 200, p.SID);
         return p;
-    }    
+    }   
+    
+    CSAInternalFrame topElement = null;
+    public void setTopElement(CSAInternalFrame f)
+    {
+        topElement = f;
+    }
+    void doZOrder()
+    {
+        if (topElement != null)
+        {
+            setComponentZOrder(topElement, 0);
+            topElement.repaint();
+        }
+    }
 }
 

@@ -1,4 +1,4 @@
-:title eEprom
+:title eEprom DS2430A
 When creating a new project one can also create projects that support eEprom reading and writing.
 
 For this example disable the "create standard game loop" creation

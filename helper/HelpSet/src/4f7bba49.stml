@@ -1,0 +1,13 @@
+:title VecLink V2
+
+The new cable (V2) just avoids this by not using pin 4. It means we have 1 less pin for data which should in theory reduce the maximum bandwidth, but I was able to optimise it quite well and didn't loose much performance. 
+
+::~~
+Newer style VecLink Cable ~~
+Vectrex A                Vectrex B~~
+1 |--------------------------| 1~~
+2 |--------------------------| 2~~
+3 |--------------------------| 3~~
+8 |--------------------------| 8~~
+All other pins MUST NOT be connected.~~
+(or damage to your Vectrexes is quite probable).~~

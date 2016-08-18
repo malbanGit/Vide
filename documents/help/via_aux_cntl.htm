@@ -1,0 +1,58 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+
+<h3>Register $b VIA Auxiliary control register</h3>
+
+<p>With the auxilary control register the behaviors of the timers and the shift register can be configured (also latching for ORA and ORB, but I am not aware that this makes any since for vectrex).</p>
+
+<p>SHIFT Mode is contolled by bit 2-4 with these 3 bits 8 SHIFT mode can be configured<br>
+The first mode is DISABLE. The next 3 modes are SHIFT IN modes, which is not used by vectrex.</p>
+
+<p>The other four modes:
+<ul><li>
+<p>100 SHIFT out free running at T2 rate</p>
+</li><li>
+<p>101 SHIFT out under control of T2</p>
+</li><li>
+<p>110 SHIFT out under control of system clock</p>
+</li><li>
+<p>111 SHIFT out under control of ext clock</p>
+</li></ul>
+</p>
+
+<p>Usually shift mode is allways set to 110 - shift out under control of system clock.</p>
+
+<p>Timer 1 modes (bit 7 and bit 6):
+<ul><li>
+<p>bit 7: 1x if set, on timer start ORB bit 7 goes LOW (RAMP = active), on timer stop, ORB bit 7 goes high (RAMP = not active)</p>
+</li><li>
+<p>10 One shot mode (timer runs till zero than stops)</p>
+</li><li>
+<p>11 continues mode (timer runs till zero than "reloads" latch and starts anew)</p>
+</li><li>
+<p>01  &amp; 00 same as above without ORB bit 7</p>
+</li></ul>
+</p>
+
+<p>On normal vector draw bit 7 is usually set.<br>
+On normal "raster" draw bit 7 is often not set.<br>
+</p>
+
+<p>So you may see:
+<ul><li>
+<p>$18: T1 OneSHotMode WITHOUT Ramp control, Shift out under System clock</p>
+</li><li>
+<p>$98: T1 OneSHotMode WITH Ramp control, Shift out under System clock</p>
+</li></ul>
+</p>
+
+</body>
+</html>

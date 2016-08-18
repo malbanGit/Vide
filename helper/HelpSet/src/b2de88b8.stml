@@ -206,6 +206,22 @@ Note:~~
 BC1/BDIR = 00 is used at the end of each command. This is ok, if this is followed strictly,
 since before each setting BC1/BDIR must be 00, which is still "honoured".
 
+Note:~~
+The vectrex BIOS also supports PSG "operations". If you only use BIOS functions to access PSG, than all registers of the PSG are shadows at the RAM locations:~~
+~~
+$c83f (register 14)~~
+...~~
+$c84c (register 0)~~
+~~
+Yes - in reverse order!~~
+You can read those values and use them as you would do "directly".
+To poke a value at register 7 you would do:~~
+
+::________ldb #$00_______________; value to set~~
+________lda #$07_______________; Register 7 of PSG~~
+________jsr Sound_Byte_________; write byte to soundchip and to shadow registers ~~
+::
+
 :h2 Part two - Joystick!
 Reading values of the joystick is not as easy as one might think.~~
 (Or - you just use the available BIOS functions - THAT makes it quite easy, but that is explained elsewhere).

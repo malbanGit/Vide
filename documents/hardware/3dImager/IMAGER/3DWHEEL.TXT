@@ -1,0 +1,80 @@
+(Information provided by Zack Ethridge (zacketh@ibm.net) in December 1995)
+
+                 SOME VECTREX 3D GOGGLE QUESTIONS AND ANSWERS
+
+The accompanying files 3dplacement.gif and 3dwheel.gif show details of
+the positioning of the wheel in the goggles and a generic wheel. Actual
+wheels have varying amounts of red, green, and blue areas that correspond
+to the relative amounts of each of these colors in the associated game.
+
+> In what direction the motor (and the wheel) should rotate?
+> Clockwise or conterclockwise, in the user view?
+
+As seen from the viewpoint of the wearer, the wheel turns counter-
+clockwise.
+ 
+> Also, on the goggles pictures there seem to be some
+> mirrors inside of it.  What are their purpose?
+
+There aren't any mirrors in the goggles.  There is a clear plexiglass
+viewport for each eye, and the front of the goggles is clear plexiglass
+also.  No mirrors.
+
+> Is there a particular type of 5V motor that work best?
+> Does it need to have a specific RPM.  Could a little walkman 3V motor
+> work as well? 
+
+I don't think it is very critical what kind of motor you use.  I think the
+Vectrex will compensate for individual variances.  Probably.  I think...
+
+ 
+> How does the color wheel attach to the motor ?  Do we have to use some
+> kind of strap or is it directly fixed to the motor shaft ?  Does the
+> wheel have a special kind of support ?
+
+The color wheel has a rather wide thick-plastic center section.  This has a
+square hollow-wall receptacle into which a matching square protrusion on
+the motor axle fits.  On the other side of the color wheel is a round boss
+which fits into a non-turning receptacle which acts as a pivot point,
+allowing the color wheel to be turned by the motor.  See the 3DCOLORW.GIF
+to illustrate this.  Probably.  I think... :]
+ 
+> In an early article in the Vectrex newsgroup, someone talked about the
+> plans of the goggles themselves that could be done on autocad (or drawn
+> in any other way).  I don't really have problems with the electronic.
+> But with the design, it's something else.  Do you know if there is a way
+> to get plans of the body of the goggles and the layout of all the
+> components ?  Particularly, I have difficulties with the photo transistor
+> and the led.  Where do you place them ?  How far one from each other ? 
+> The same problem with the motor (and the color wheel).
+
+I don't know of any plans available for the goggles, nor a layout.  As for
+the LED/phototransistor, see the GIF for placement.  In the goggles, they
+are separated by about 3/4" (2 cm).  
+
+> Do you know if it will be possible to efficiently reproduce the color
+> wheels ?  I have a multicart that has all the 3d games but no wheel. 
+> Could you give me a physical description of one ?  I have the diagrams
+> available at the ftp site but no idea on the material which they are made
+> of, neither the thickness or the weight (if these details are important).
+
+The wheels are fairly simple: the transparent part is about 1/64" (.5 mm). 
+The thicker opaque center section is about 3/32" (3 mm). 
+
+I was told by a fellow that it should not be so hard to manufacture the
+wheel yourself. Look at the drawings of the wheels in the archive at the
+vectrex site. Then go to a photo shop and order "KODAK GELATIN FILTER"
+
+Blue =#47    CAT 149-5787
+Green=#58    CAT 149-5860
+Red  =#25    CAT 149-5605
+
+These are the right colors but very thin. Then buy some thin plexiglass and
+glue them on the plexiglass.  
+
+> Also, I wondered if I could use 1/4 watt resistors instead of 1/8 watt. 
+> Do you think it may work as well ?
+
+I think the wattage is not critical here; the 1/8 watt parts were probably
+used for size and cost.  Probably.  I think...
+

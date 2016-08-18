@@ -4,9 +4,7 @@ With the information about the veclink cables I was given a couple of binaries.
 One of the binaries ("BerzerkArena") is fantastic prototype game made by Alex Herbert
 
 I partly disassembled the program and commented it.
-
 I combined the disassembled serial communication routines with the example I had for VecLink V1.
-
 I guess by now it can also be seen as a well documented example on how to use veclink V2.
 
 It can be found in the directory:~~
@@ -28,6 +26,8 @@ Manually meaning:
 - select for port 1 the veclink cable you would like to use, start with the "left" side (although it does not really matter which side is plugged in first)
 - repeat the above process for a second vecx instance, 
 - for port 1 select the "other side" (right?) of the same veclink cable
+
+:image VecLink.png|VecLink example
 
 
 

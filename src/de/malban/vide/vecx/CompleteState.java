@@ -6,6 +6,7 @@
 package de.malban.vide.vecx;
 
 import de.malban.vide.vecx.cartridge.Cartridge;
+import de.malban.vide.vecx.devices.Imager3dDevice;
 import java.io.Serializable;
 
 /**
@@ -20,7 +21,12 @@ public class CompleteState implements Serializable
     E6809State e6809State = new E6809State();
     E8910State e8910State = new E8910State();
     VecXState eVecXState = new VecXState();
-
+    Imager3dDevice imager = null;
+    
+    public void putState(Imager3dDevice i)
+    {
+        imager = i;
+    }
     public void putState(E6809State s)
     {
         E6809State.deepCopy(s, e6809State);

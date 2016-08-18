@@ -27,7 +27,6 @@ package de.malban.vide.dissy;
 import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
-import static de.malban.gui.panels.LogPanel.VERBOSE;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.vide.VideConfig;
 import static de.malban.vide.dissy.MemoryInformation.MEM_TYPE_BAD;
@@ -166,6 +165,21 @@ public class DASM6809 extends DASMStatics {
     {
         String ret = "";
         int i=8;
+        while (i>0)
+        {
+            if (bittest(c,i))
+                ret += "1";
+            else
+                ret += "0";
+            i--;
+        }
+        return ret;
+    }
+    /* printbinary() - 16 bit ... */
+    public static String printbinary16(int c)
+    {
+        String ret = "";
+        int i=16;
         while (i>0)
         {
             if (bittest(c,i))

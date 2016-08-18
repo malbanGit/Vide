@@ -37,6 +37,7 @@ public class  CartridgePropertiesXMLHandler extends DefaultHandler
 	private String mSnippet = "";
 	private String mCompleteGame = "";
 	private String mextremeVecFileImage = "";
+	private String mWheelName = "";
 	public HashMap<String, CartridgeProperties> getLastHashMap()
 	{
 		return mCartridgeProperties;
@@ -84,6 +85,7 @@ public class  CartridgePropertiesXMLHandler extends DefaultHandler
 			mSnippet = "";
 			mCompleteGame = "";
 			mextremeVecFileImage = "";
+			mWheelName = "";
 		}
 	}
 	@Override public void characters(char[] ch, int start, int length)
@@ -120,6 +122,7 @@ public class  CartridgePropertiesXMLHandler extends DefaultHandler
 		if (mCurrentElement.equalsIgnoreCase("Snippet")) mSnippet += s;
 		if (mCurrentElement.equalsIgnoreCase("CompleteGame")) mCompleteGame += s;
 		if (mCurrentElement.equalsIgnoreCase("extremeVecFileImage")) mextremeVecFileImage += s;
+		if (mCurrentElement.equalsIgnoreCase("WheelName")) mWheelName += s;
 	}
 	@Override public void endElement(String uri, String localName, String qName) throws SAXException
 	{
@@ -200,6 +203,8 @@ public class  CartridgePropertiesXMLHandler extends DefaultHandler
 				mCompleteGame = "";
 				mCurrentData.mextremeVecFileImage = mextremeVecFileImage;
 				mextremeVecFileImage = "";
+				mCurrentData.mWheelName = mWheelName;
+				mWheelName = "";
 				mCartridgeProperties.put(mCurrentData.mName, mCurrentData);
 				mCurrentData = null;
 			}

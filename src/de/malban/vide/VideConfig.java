@@ -69,7 +69,7 @@ public class VideConfig  implements Serializable{
 
     public boolean syncCables = false;
     public boolean speedLimit = true;
-    
+    public boolean imagerAutoOnDefault = false;
     
     /// ASSI CONFIG
     public boolean expandBranches=true;
@@ -260,7 +260,7 @@ public class VideConfig  implements Serializable{
         to.psgSound = from.psgSound;
         to.psgVolume = from.psgVolume;
         to.speedLimit = from.speedLimit;
-        
+        to.imagerAutoOnDefault = from.imagerAutoOnDefault;
         
 
         /// ASSI CONFIG

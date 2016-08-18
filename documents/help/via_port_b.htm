@@ -1,0 +1,67 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title>Abs_a_b ($F584)</title>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+
+<h3>Register $0 VIA Port B Input/Output</h3>
+<h4>Bit 0 MUX Enable</h4>
+
+<p>This bit is responsible for enabling the multiplexer which selects where the Sample/Hold values the DAC at this time "produces" are switched to.</p>
+
+<p>if set to 0 the multiplexer is ENABLED  if set to 1 the multiplexer is DISABLED </p>
+<h4>Bit 1 and bit 2 Mux Select</h4>
+
+<p>These two bits are used together to build a 2 bit value. This two bit value ranges from 0 to 3. According to the resulting number, the multiplexer switches the output of the DAC to the respective recieving hardware:<br>
+0 (binary: 00) Integrator for vector y-position<br>
+1 (binary: 01) X, Y integrator offset values<br>
+2 (binary: 10) Z-value of vector hardware (brightness)<br>
+3 (binary: 11) audio hardware<br>
+</p>
+
+<p>Note:<br>
+The only known use of state 3 is the playing of samples, since this is a direct connection of the DAC value to the audio hardware... "Eek", "Help", "Spike"...</p>
+
+<p>Note:<br>
+The same select lines are used to demultiplex the joystick analog potentiometers:<br>
+0 (binary: 00) port 0 horizontal<br>
+1 (binary: 01) port 0 vertical<br>
+2 (binary: 01) port 1 horizontal<br>
+3 (binary: 11) port 1 vertical<br>
+ <br>
+For more information regarding joystick input, see Joyport devices.</p>
+<h4>Bit 3 sound BC1  + Bit 4 sound BDIR</h4>
+
+<p>The above two bits are again "bundled" to 4 different possible states of communiction with the PSG chip:</p>
+
+<ol><li>
+<p>0 (binary: 00) PSG Inactive<br>
+The PSG/CPU bus is inactive DA7--DA0                             are in high impedance state.</p>
+</li><li>
+<p>1 (binary: 01) Read from PSG<br>
+This signal causes the contents                             of the register which is currently addressed to                             appear on the PSG/CPU bus. DA7--DA0 are in the                             output mode.</p>
+</li><li>
+<p>2 (binary: 10) Write to PSG<br>
+This signal indicates that the bus                             contains register data which should be latched into                             the currently addressed register. DA7--DA0 are in                             the input mode.</p>
+</li><li>
+<p>3 (binary: 11) Latch address<br>
+This signal indicates that the bus                             contains a register address which should be latched                             in the PSG. DA7--DA0 are in input mode.</p>
+</li></ol>
+
+<p>Communication to any devices connected to the joyport is done via PSG. See ALSO Joyport devices for more information about accessing PSG chip.</p>
+<h4>Bit 5 comparator input</h4>
+
+<p>See Joyport devices ...</p>
+<h4>Bit 6 external device (slot pin 35) initialized to input</h4>
+
+<p>Communication with cartridge, -&gt; Bankswitching, RAM, eEprom etc</p>
+<h4>Bit 7 /RAMP</h4>
+
+<p>The ramp bit controls the activity of the integrators. If RAMP is zero, the integrators are active. If RAMP is one the integrators are not active. Depending on the settings of the VIA auxiliary register this bit can be set by accessing bit 7 of port B - or is controlled by Timer T1.</p>
+</body>
+</html>

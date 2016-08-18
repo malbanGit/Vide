@@ -402,7 +402,6 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         jTable1 = buildTable();
         jPanel2 = new javax.swing.JPanel();
         single3dDisplayPanel1 = new de.malban.graphics.Single3dDisplayPanel();
-        jTextFieldRasterWidth = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jRadioButton2 = new javax.swing.JRadioButton();
         jComboBoxPatterns = new javax.swing.JComboBox();
@@ -423,6 +422,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         jTextField9 = new javax.swing.JTextField();
         jTextField10 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
+        jSpinnerRasterWidth = new javax.swing.JSpinner();
 
         jSplitPane1.setDividerLocation(250);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
@@ -628,25 +628,6 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
             .addGap(0, 186, Short.MAX_VALUE)
         );
 
-        jTextFieldRasterWidth.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextFieldRasterWidthFocusLost(evt);
-            }
-        });
-        jTextFieldRasterWidth.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldRasterWidthActionPerformed(evt);
-            }
-        });
-        jTextFieldRasterWidth.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextFieldRasterWidthKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldRasterWidthKeyTyped(evt);
-            }
-        });
-
         jLabel2.setText("width");
 
         buttonGroup1.add(jRadioButton2);
@@ -755,6 +736,13 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
 
         jTextField8.setText("%C");
 
+        jSpinnerRasterWidth.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        jSpinnerRasterWidth.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinnerRasterWidthStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -788,8 +776,8 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldRasterWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
+                        .addComponent(jSpinnerRasterWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -799,11 +787,10 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addComponent(jCheckBoxActive)
-                        .addGap(100, 100, 100))
+                        .addContainerGap(145, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
-                        .addGap(0, 0, 0))))
+                        .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -817,13 +804,13 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton2)
                     .addComponent(jLabel2)
-                    .addComponent(jTextFieldRasterWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jRadioButton1)
-                    .addComponent(jCheckBoxActive))
+                    .addComponent(jCheckBoxActive)
+                    .addComponent(jSpinnerRasterWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -1027,14 +1014,6 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         selectionChanged();
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
-    private void jTextFieldRasterWidthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldRasterWidthActionPerformed
-        selectionChanged();
-    }//GEN-LAST:event_jTextFieldRasterWidthActionPerformed
-
-    private void jTextFieldRasterWidthKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldRasterWidthKeyTyped
-        selectionChanged();
-    }//GEN-LAST:event_jTextFieldRasterWidthKeyTyped
-
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
         startAddress = de.malban.util.UtilityString.IntX(jTextField2.getText(), startAddress);
         selectionChanged();
@@ -1046,14 +1025,6 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         selectionChanged();
         jTable1.repaint();
     }//GEN-LAST:event_jTextField3KeyTyped
-
-    private void jTextFieldRasterWidthFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldRasterWidthFocusLost
-        selectionChanged();
-    }//GEN-LAST:event_jTextFieldRasterWidthFocusLost
-
-    private void jTextFieldRasterWidthKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldRasterWidthKeyReleased
-        selectionChanged();
-    }//GEN-LAST:event_jTextFieldRasterWidthKeyReleased
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         single3dDisplayPanel1.setRepaint(jCheckBoxActive.isSelected() && jCheckBox1.isSelected());
@@ -1090,6 +1061,10 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     private void jCheckBoxActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxActiveActionPerformed
         single3dDisplayPanel1.setRepaint(jCheckBoxActive.isSelected() && jCheckBox1.isSelected());
     }//GEN-LAST:event_jCheckBoxActiveActionPerformed
+
+    private void jSpinnerRasterWidthStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinnerRasterWidthStateChanged
+        selectionChanged();
+    }//GEN-LAST:event_jSpinnerRasterWidthStateChanged
     public void updateTable()
     {
         jTable1.repaint();
@@ -1126,6 +1101,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSlider jSliderSourceScale1;
+    private javax.swing.JSpinner jSpinnerRasterWidth;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField10;
@@ -1134,7 +1110,6 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JTextField jTextFieldPatternName;
-    private javax.swing.JTextField jTextFieldRasterWidth;
     private javax.swing.JToggleButton jToggleButton4;
     private de.malban.graphics.Single3dDisplayPanel single3dDisplayPanel1;
     // End of variables declaration//GEN-END:variables
@@ -1224,7 +1199,12 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         if (endAddress<startAddress) return;
 
 
-        int targetWidth = de.malban.util.UtilityString.IntX(jTextFieldRasterWidth.getText(), 1);
+//        int targetWidth = de.malban.util.UtilityString.IntX(jTextFieldRasterWidth.getText(), 1);
+        
+        String wi = jSpinnerRasterWidth.getValue().toString();
+       
+        
+        int targetWidth =  de.malban.util.UtilityString.Int0(wi);
         int targetHeight = (endAddress-startAddress)/targetWidth;
 
         

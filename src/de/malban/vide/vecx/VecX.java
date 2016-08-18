@@ -164,7 +164,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
      
     // dummy displayer, which does nothing!
     public transient DisplayerInterface displayer = new DisplayerInterface(){public void breakpointRemove(Breakpoint bp){}public void switchDisplay(){}public void updateDisplay(){} public void directDraw(vector_t v){}public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved){}public void setJoyportDevice(int port, JoyportDevice d){}};
-    public transient RunnerInterface runner = null;
         
     
     transient VectrexDisplayVectors[] vectorDisplay = new VectrexDisplayVectors[2];
@@ -222,7 +221,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         deinitAudio();
         joyport[0].deinit();
         joyport[1].deinit();
-        runner = null;
         displayer = null;
     }
 
@@ -268,7 +266,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     /* update the snd chips internal registers when via_ora/via_orb changes */
     // here ORA is taken, not DAC
     // for PSG this should not make really a difference!
-    void snd_update ()
+    void snd_update(boolean command)
     {
         switch (via_orb & 0x18) 
         {
@@ -276,20 +274,21 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 /* the sound chip is disabled */
                 break;
             case 0x08:
+                
                 /* the sound chip is sending data */
                 // via_ora must be set!
-                via_ora = e8910.read(snd_select);
+                if (command)
+                    via_ora = e8910.read(snd_select);
                 break;
             case 0x10:
                 /* the sound chip is recieving data */
-                e8910.e8910_write(snd_select, via_ora);
+                if (command)
+                    e8910.e8910_write(snd_select, via_ora);
                 break;
             case 0x18:
                 /* the sound chip is latching an address */
                 if ((via_ora & 0xf0) == 0x00) 
-                {
                     snd_select = via_ora & 0x0f;
-                }
                 break;
         }
         
@@ -659,7 +658,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         
                         // for old times sake, variable via_orb allways carries the vectrex "out" state of pb6
                         via_orb = data;
-                        snd_update();
+                        snd_update(true);
                         
                         if ((via_pcr & 0xe0) == 0x80) 
                         {
@@ -690,7 +689,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         addTimerItem(new TimerItem(getDACDelay((byte)(via_ora&0xff),(byte)( data&0xff)), data, alg_DAC, TIMER_DAC_CHANGE));
                         via_ora = data;
                         
-                        snd_update();
+                        snd_update(false);
                         break;
                     case 0x2:
                         boolean pb6_2 = setPB6FromVectrex(via_orb, data, false);
@@ -1303,18 +1302,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             via_cb2h = 1;
             addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
         }
-        /*
-        // VecLink 1 working
-        if (via_ca1==0) // interrupt flag can be set without its enable flag && ((via_ier&0x02)==0x02))
-        {
-            if (old_via_ca1==1) // NEW
-            {
-                via_ifr = via_ifr | 0x02;
-                int_update();
-                
-            }
-        }
-        */        
 
         // documentation of VIA
         if (via_ca1 !=old_via_ca1)
@@ -1523,24 +1510,37 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             boolean doSync = false;
             if (config.autoSync)
             {
-                if (syncImpulse)
+                // imager games can be synced to there generated interrupt!
+                if ((imagerMode)&& ((via_ier &0x02) == 0x02))
                 {
-                    // some carts use T2 for other timing (like digital output), these timers are "relly" small compared to 50 Hz
-                    if (cyclesRunning - lastSyncCycles < 20000) // do not trust T2 timers which are to lo!
+                    if (((via_ifr &0x02) == 0x02) && ((via_ier &0x02) == 0x02) && (e6809.get_cc(E6809.FLAG_I) == 0))
+                    {
+                        doSync = true;
+                        lastSyncCycles = cyclesRunning;
+                    }
+                        
+                }
+                else
+                {
+                    if (syncImpulse)
+                    {
+                        // some carts use T2 for other timing (like digital output), these timers are "relly" small compared to 50 Hz
+                        if (cyclesRunning - lastSyncCycles < 20000) // do not trust T2 timers which are to lo!
+                        {
+                            lastSyncCycles = cyclesRunning;
+                            syncImpulse = false;
+                        }
+                    }
+
+                    if (syncImpulse)
                     {
                         lastSyncCycles = cyclesRunning;
-                        syncImpulse = false;
+                        doSync = true;
                     }
-                }
-                
-                if (syncImpulse)
-                {
-                    lastSyncCycles = cyclesRunning;
-                    doSync = true;
-                }
-                else if (fcycles < 0) 
-                {
-                    doSync = true;
+                    else if (fcycles < 0) 
+                    {
+                        doSync = true;
+                    }
                 }
             }
             else
@@ -1719,7 +1719,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             
             isDualVec = (cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0;
             isDualVec = isDualVec || ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0);
-            
+
             e6809.e6809_reset();  
             vecx_reset();
         }
@@ -1818,6 +1818,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         state.putState(this.e6809);
         state.putState(this.e8910);
         
+        if (imagerMode)
+            state.putState((Imager3dDevice)joyport[1].getDevice());
+        
         CSAMainFrame.serialize(state, "serialize"+File.separator+"StateSaveTest.ser");
         return true;
     }
@@ -1837,7 +1840,12 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             initFromState(state);
             cart.setListener(mListener);
             cart.init();
-
+            if (imagerMode)
+            {
+                state.imager.setIgnoreReset(true);
+                joyport[1].plugIn(state.imager);
+                state.imager.setIgnoreReset(false);
+            }
             return true;
         } 
         catch (Throwable ex) 

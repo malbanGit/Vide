@@ -705,7 +705,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
 
         jTextField17.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jTextField17.setText("0");
-        jTextField17.setToolTipText("This line controls part of the vector drawing. It is an active LOW signal.\nTimer One Controlled Bit!\n");
+        jTextField17.setToolTipText("This line controls part of the vector drawing (RAMP). It is an active LOW signal.\nTimer One Controlled Bit!\n");
         jTextField17.setEnabled(false);
 
         jTextField18.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N

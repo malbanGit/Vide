@@ -226,7 +226,7 @@
 </DocumentNode>
 <DocumentNode>
 <Filename>74800ffe</Filename>
-<Title>eEprom</Title>
+<Title>eEprom DS2430A</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
@@ -306,7 +306,12 @@
 <FullTextSearch>true</FullTextSearch>
 <DocumentNode>
 <Filename>2a6412de</Filename>
-<Title>Emulation: eEprom DS2430</Title>
+<Title>Emulation: eEprom DS2430A</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>1a69dabf</Filename>
+<Title>Emulation: eEprom Microchip 11AA010</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
@@ -340,9 +345,39 @@
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
+<Filename>3fc7d2bd</Filename>
+<Title>Emulation: extra RAM / Spectrum RA</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
 <Filename>80b48b48</Filename>
 <Title>Emulation: VecLink V1 + V2</Title>
 <FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>cff42374</Filename>
+<Title>VecLink V1</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>4f7bba49</Filename>
+<Title>VecLink V2</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+</DocumentNode>
+<DocumentNode>
+<Filename>94a59805</Filename>
+<Title>Emulation: Dual Vec</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>932a0405</Filename>
+<Title>Emulation: Imager 3d (Goggles)</Title>
+<FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>8c8fdbdf</Filename>
+<Title>What is PWM.</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
 </DocumentNode>
 </DocumentNode>
 <DocumentNode>
@@ -573,6 +608,30 @@
 <Width>402</Width>
 <Height>502</Height>
 </Image>
+<Image Name="ImagerExample.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1471348847000</Timestamp>
+<Width>379</Width>
+<Height>484</Height>
+</Image>
+<Image Name="LightPenExample1.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1471348989000</Timestamp>
+<Width>559</Width>
+<Height>695</Height>
+</Image>
+<Image Name="LightPenExample2.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1471348929000</Timestamp>
+<Width>559</Width>
+<Height>694</Height>
+</Image>
+<Image Name="LightPenExample3.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1471348820000</Timestamp>
+<Width>558</Width>
+<Height>693</Height>
+</Image>
 <Image Name="ModCodeGen0.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1468963512000</Timestamp>
@@ -741,6 +800,12 @@
 <Width>1232</Width>
 <Height>385</Height>
 </Image>
+<Image Name="VecLink.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1471351504000</Timestamp>
+<Width>802</Width>
+<Height>460</Height>
+</Image>
 <Image Name="VecSpeech.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1466440114000</Timestamp>
@@ -854,6 +919,12 @@
 <Timestamp>1463000622000</Timestamp>
 <Width>1070</Width>
 <Height>747</Height>
+</Image>
+<Image Name="WheelEdit1.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1471212295000</Timestamp>
+<Width>479</Width>
+<Height>584</Height>
 </Image>
 <Image Name="YMCodeGen0.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1149,6 +1220,12 @@
 <Width>16</Width>
 <Height>16</Height>
 </Image>
+<Image Name="device_imager.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1471212431000</Timestamp>
+<Width>742</Width>
+<Height>744</Height>
+</Image>
 <Image Name="disscommands.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1455471268000</Timestamp>
@@ -1172,6 +1249,12 @@
 <Timestamp>1455034198000</Timestamp>
 <Width>195</Width>
 <Height>100</Height>
+</Image>
+<Image Name="ds2430a.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1470671879000</Timestamp>
+<Width>658</Width>
+<Height>508</Height>
 </Image>
 <Image Name="dumpi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1256,6 +1339,12 @@
 <Timestamp>1455037496000</Timestamp>
 <Width>234</Width>
 <Height>189</Height>
+</Image>
+<Image Name="microchip.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1470671536000</Timestamp>
+<Width>661</Width>
+<Height>508</Height>
 </Image>
 <Image Name="mod2vectrex1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1371,6 +1460,12 @@
 <Width>316</Width>
 <Height>259</Height>
 </Image>
+<Image Name="pwm1.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1471007820000</Timestamp>
+<Width>427</Width>
+<Height>108</Height>
+</Image>
 <Image Name="raster1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1460100808000</Timestamp>
@@ -1407,6 +1502,12 @@
 <Width>633</Width>
 <Height>647</Height>
 </Image>
+<Image Name="server_go.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1463482716000</Timestamp>
+<Width>16</Width>
+<Height>16</Height>
+</Image>
 <Image Name="shortcuts.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1462916642000</Timestamp>
@@ -1418,6 +1519,12 @@
 <Timestamp>1454400884000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
+</Image>
+<Image Name="spectrumWin.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1470672654000</Timestamp>
+<Width>707</Width>
+<Height>417</Height>
 </Image>
 <Image Name="splitExample1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1469,6 +1576,12 @@
 </Image>
 <Image Name="test.gif">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+</Image>
+<Image Name="text_columns.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1463482724000</Timestamp>
+<Width>16</Width>
+<Height>16</Height>
 </Image>
 <Image Name="tracki.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1526,9 +1639,9 @@
 </Image>
 <Image Name="vedi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455034392000</Timestamp>
-<Width>1007</Width>
-<Height>739</Height>
+<Timestamp>1471552902000</Timestamp>
+<Width>963</Width>
+<Height>801</Height>
 </Image>
 <Image Name="vediAss.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1550,9 +1663,9 @@
 </Image>
 <Image Name="vinfi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1453803092000</Timestamp>
-<Width>90</Width>
-<Height>352</Height>
+<Timestamp>1470676874000</Timestamp>
+<Width>117</Width>
+<Height>390</Height>
 </Image>
 <Image Name="webcam.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1594,6 +1707,10 @@
 <ThumbName Image="GameLoop1.png">fab342cd</ThumbName>
 <ThumbName Image="GameLoop2.png">71e85416</ThumbName>
 <ThumbName Image="GameLoop3.png">91645759</ThumbName>
+<ThumbName Image="ImagerExample.png">93cc77f7</ThumbName>
+<ThumbName Image="LightPenExample1.png">9a1d6c56</ThumbName>
+<ThumbName Image="LightPenExample2.png">d4632bed</ThumbName>
+<ThumbName Image="LightPenExample3.png">a9a4612d</ThumbName>
 <ThumbName Image="ModCodeGen0.png">6f11ade5</ThumbName>
 <ThumbName Image="ModCodeGen1.png">fe3d2482</ThumbName>
 <ThumbName Image="ModCodeGen2.png">8eea0fde</ThumbName>
@@ -1622,6 +1739,7 @@
 <ThumbName Image="SpudsterExample.png">bdc09cf9</ThumbName>
 <ThumbName Image="ThrustShipExample.png">02672c43</ThumbName>
 <ThumbName Image="VaboomExample.png">5289f79b</ThumbName>
+<ThumbName Image="VecLink.png">c65a1f10</ThumbName>
 <ThumbName Image="VecSpeech.png">2448b746</ThumbName>
 <ThumbName Image="VecVoxCodeGen0.png">7cca829c</ThumbName>
 <ThumbName Image="VecVoxCodeGen1.png">80e034ed</ThumbName>
@@ -1641,6 +1759,7 @@
 <ThumbName Image="VectorImageCodeGen4.png">006398a9</ThumbName>
 <ThumbName Image="VectorImageCodeGen5.png">0d309497</ThumbName>
 <ThumbName Image="VectorPanel.png">2744932f</ThumbName>
+<ThumbName Image="WheelEdit1.png">5592027c</ThumbName>
 <ThumbName Image="YMCodeGen0.png">15242f11</ThumbName>
 <ThumbName Image="YMCodeGen1.png">9aefb652</ThumbName>
 <ThumbName Image="YMCodeGen2.png">a418fda8</ThumbName>
@@ -1690,10 +1809,12 @@
 <ThumbName Image="control_stop_blue.png">f05def98</ThumbName>
 <ThumbName Image="cut.png">aad0c142</ThumbName>
 <ThumbName Image="delete.png">cee57f03</ThumbName>
+<ThumbName Image="device_imager.png">1e1168e9</ThumbName>
 <ThumbName Image="disscommands.png">dcb3631e</ThumbName>
 <ThumbName Image="dissi.png">d39ec2d1</ThumbName>
 <ThumbName Image="dissi2.png">724f6b67</ThumbName>
 <ThumbName Image="dissi3.png">7f383826</ThumbName>
+<ThumbName Image="ds2430a.png">492e69de</ThumbName>
 <ThumbName Image="dumpi.png">77ff7379</ThumbName>
 <ThumbName Image="dumpi2.png">a1bf717a</ThumbName>
 <ThumbName Image="eEprom1.png">eff801f4</ThumbName>
@@ -1709,6 +1830,7 @@
 <ThumbName Image="library.png">4e8c5dae</ThumbName>
 <ThumbName Image="line.png">d5ef4ba4</ThumbName>
 <ThumbName Image="menubar.png">abf217b1</ThumbName>
+<ThumbName Image="microchip.png">48b462f8</ThumbName>
 <ThumbName Image="mod2vectrex1.png">bffd03df</ThumbName>
 <ThumbName Image="mod2vectrex2.png">52b26e38</ThumbName>
 <ThumbName Image="monitor_add.png">f50bc745</ThumbName>
@@ -1728,14 +1850,17 @@
 <ThumbName Image="pencil.png">f8da7f7a</ThumbName>
 <ThumbName Image="polygonError.png">1666d919</ThumbName>
 <ThumbName Image="projectPopUp.png">825fbaf5</ThumbName>
+<ThumbName Image="pwm1.png">2fc7985d</ThumbName>
 <ThumbName Image="raster1.png">1a7dfe0a</ThumbName>
 <ThumbName Image="regi.png">600136a6</ThumbName>
 <ThumbName Image="resultset_next.png">545c85dc</ThumbName>
 <ThumbName Image="resultset_previous.png">2f938d64</ThumbName>
 <ThumbName Image="rotation.png">5a924a1e</ThumbName>
 <ThumbName Image="sample1.png">7578925e</ThumbName>
+<ThumbName Image="server_go.png">607f4a71</ThumbName>
 <ThumbName Image="shortcuts.png">8f0320b6</ThumbName>
 <ThumbName Image="sound_add.png">4b0f4cdd</ThumbName>
+<ThumbName Image="spectrumWin.png">ac7e9b95</ThumbName>
 <ThumbName Image="splitExample1.png">96950c85</ThumbName>
 <ThumbName Image="splitExample2.png">33746b34</ThumbName>
 <ThumbName Image="starter.png">8f7980b3</ThumbName>
@@ -1745,6 +1870,7 @@
 <ThumbName Image="table_refresh.png">b3a4003f</ThumbName>
 <ThumbName Image="table_relationship.png">f47b40b2</ThumbName>
 <ThumbName Image="test.gif">5227444a</ThumbName>
+<ThumbName Image="text_columns.png">7d05a789</ThumbName>
 <ThumbName Image="tracki.png">d00c8b35</ThumbName>
 <ThumbName Image="trackyNew.png">7dec3b3b</ThumbName>
 <ThumbName Image="vari.png">3972f60c</ThumbName>

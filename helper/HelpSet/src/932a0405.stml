@@ -1,0 +1,118 @@
+:title Emulation: Imager 3d (Goggles)
+
+Emulation of the 3d imager can be enabled with the cartridge settings. Required is also that a "wheel" is chosen for the imager.
+
+The wheel has important information which are needed to display the game correctly:
+
+- the colors
+- the angle of the colors
+- the position of the index hole~~
+- (the default speed of the wheel,~~ this information is not required, but emulating the pulse width modulation slows down the startup of a game, using the default speed is a quicker way. The default speed is game related, not wheel-related though. It makes sense to create own wheels (even if the layout is identical) for each game, since the default speeds vary between games)
+
+The emulation has two different "modes", namely
+- manual
+- automatic
+
+:h3 Manual "Imager" emulation
+In this mode the speed of the wheel is "fixed", the user (or the settings) can set (or change) the speed of the wheel. The vectrex program has no influence on the speed.
+
+If a game is "known" this setting is the "better" looking version. All known games use during its livecycle only one rotation speed, so the value can be pre-set.
+
+:h3 Automatic "Imager" emulation
+In this mode the speed of the wheel is calculated by obtaining and calculating the pulses the vectrex sends to the imager hardware (see PWM). 
+At the beginning of an imager programm the vectrex sends heavy duty pulses to get the wheel up to speed (which takes a few seconds to emulate), and than regulates the speed continuously while the game is runnning.
+The wavelength of one sequence is always the time between two sync (hole) passes.
+
+**Note!**~~
+Switching from automatic to manual emulation mode is no problem. Switching from manual emulation to automatic gives sometimes unexpected results.
+This is caused by the algorythms the vectrex games use to control the motor (pwm) with.
+The algorythm tries to achieve a "fixed" relation between timeout and non-timeouts. The manual emulation knows only one fixed frequency. That frequency either times out or does not timeout. One way or the other, the count of these events is min and max, the game algorythms still try to adept to the received values. Even to the EXTREME. Thus switching from manual to automatic, the startup values for automatic mode (of the current running game) are all wrong and the game probably goes completely out of sync.
+
+:h2 Emulation Imager in general
+The emulation of the imager hardware consists of different entities:
+- the wheel
+- phototransistor
+- the motor
+- eye areas
+
+:h3 Reference points
+Following points of reference are assumed in emulation and in the following descriptions:
+- all "directions" are from the view of the person wearing the imager, looking through the imager
+- on the wheel the degree 0° is the start of the black area, degrees are increased clock wise, thus the first color starts at 180°
+- the 0° on the hardware side is the 6 o'clock position (right above the nose of the wearer)
+
+:h3 The wheel
+The wheel characteristcs are:
+- black area~~ 
+it is assumed every imager wheel has a 180° black area, for reference sake the start of the black area is regarded as 0° (zero) degree point for wheel definition.
+- color areas~~
+all known games feature three colors, but actually the number of colors is arbitrary, emulation allows to build wheels with different numbers of colors. The first color always starts at degree 180° and the last color always ends at degree 360°.
+- index hole~~
+Placement of the index hole on the wheel. This is the reference point the vectrex programs use for internal calculation of when to draw vectors (left/right eye in relation to color). ~~
+In "real live" a phototransistor and a led are placed opposite of each other, and only when the index whole is in the right position the light of the led reaches the phototransistor. The transistor switches "button 4" to the state "pressed" and thus sends a signal to the vectrex (button 4 is also connected to CA1 of VIA - and can thus be configured to trigger an interrupt).~~ ~~
+The index hole is not in the same position (in relation to the above defined 0°) for the two known official wheels. 
+
+:h3 Phototransistor
+Experiments and measures indicate a good value for the phototransistor location at 339°. The index hole has a size of about 3.3274 millimeters :-) - but experiments also show, that the transistor does not react on the led for the whole size of the hole, the actual reaction size is (guessing) only 1/3 of that.
+
+:h3 Motor
+The motor is emulated as a "frequency" of rotation. The frequency can be either set manually or can be determined by a calculation of the pulses got from the vectrex (see pwm). Emulation-internally an angle is increased every emulated cycle - in relation to the current frequency.
+
+:h3 Eye areas
+The holes where the wearer sees the vectrex image through. In relation to the reference the eyes are located at 90° and 270° respectively.
+
+:h2 Inspecting the emulation
+You can view current emulation status by opening a "device" window (in dissi type "joyi").
+:image device_imager.png|emulation view
+
+Using the button ##page_edit.png## you can start editing your own wheels:
+:image WheelEdit1.png|wheel editor
+
+
+:h2 Additional Notes
+:h3 Startup / Interrupt usage
+Each official game runs the game loop in a time reference frame. The frequency of the wheel is set in accordance to that timing frame (different games can have different timing parameters).
+
+The official imager games have a startup phase. During this phase the imager is "powered" up with heavy duty cycles (pwm) until the speed of the wheel matches the above mentioned time frame (many "pulses" per sync round). During that powerup button 4 is polled to see if the sync hole of the wheel is triggered (button 4) - no usage of interrupts in the startup phase. ~~
+
+The measurement taken is thus that one 360° spin of the wheel (one sync cycle) must be done completely within the wanted time frame - if that is achieved three times, the program assumes that the wheel is up to speed.
+
+Once the game runs, the PWM is realized differently. Vectrex "assumes" that the wheel is spinning about "right" and sends exactly one pulse (of a calculated length, which is adjusted all the time) per sync cylces.
+
+The game "loop" is realized by using the interrupt the sync triggers.
+Here the difference:~~
+The normal game loop:~~
+::main: ~~
+_______ JSR WaitRecal~~
+_______ JSR DoSound~~
+_______ JSR DisplaySomething~~
+_______ JSR DoGameStuff~~
+...~~
+_____BRA main::~~
+
+and imager game loop looks like:
+
+::main: ~~
+_______ JSR DoOwnRecal~~
+_______ JSR DoSound~~
+_______ JSR DisplaySomething~~
+_______ JSR DoGameStuff~~
+...~~
+________CWAI #$ef~~
+...~~
+InterruptHandler: ~~
+_______ ... do imager stuff~~
+_______ LDS #$CBEA ; or any other kind of stack correction because of interrupt~~
+...~~
+________JMP main::~~
+
+
+There are two dangers if not handled carefully:
+a) the wheel spinning to fast~~
+If for any reason, the wheel spins to fast, the interrupt can be triggered to soon, while still in some important other routine. If this happens two things can go awfully wrong.
+- the routine is not completed and the game does not run correctly
+- the assumptions of the interrupt routine are not met (e.g. correct setting of the DP register)
+b) the wheel is spinning to slow~~
+Here also a "tricky" thing can happen. The imager (in opposite to the default) triggers the interrupt CA1 on "active high" (state of the line going form low to high) (which is set by storing the right bits into VIA control register $c). Within the Interrupt handler the BIOS routine ::"Reset0Ref":: is called, which resets that setting to the default value (trigger interrupt on active low, going from high to low).~~
+If the wheel spins to slowly, the index whole has not yet reached its end, and another interrupt is triggered when the sync is shut down again - since the expected interrupt settings were not yet in place (trigger on active high). This second trigger while in itself not a catastrophy can also happen at exactly the wrong time (e.g. dp not correctly set) - so that the program also is not working anymore.
+

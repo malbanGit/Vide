@@ -22,8 +22,6 @@ import de.malban.gui.dialogs.ShowErrorDialog;
 import de.malban.util.KeyboardListener;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.dissy.MemoryInformation;
-import static de.malban.vide.vecx.RunnerInterface.SYNC_MASTER;
-import static de.malban.vide.vecx.RunnerInterface.SYNC_SLAVE;
 import static de.malban.vide.vecx.VecX.START_TYPE_INJECT;
 import static de.malban.vide.vecx.VecX.START_TYPE_RUN;
 import de.malban.vide.vecx.cartridge.Cartridge;
@@ -37,7 +35,6 @@ import de.malban.vide.vecx.cartridge.DS2430A;
 import de.malban.vide.vecx.cartridge.DualVec;
 import de.malban.vide.vecx.cartridge.Microchip11AA010;
 import de.malban.vide.vecx.devices.AbstractDevice;
-import de.malban.vide.vecx.devices.HardSyncDevice;
 import de.malban.vide.vecx.devices.Imager3dDevice;
 import de.malban.vide.vecx.devices.JoyportDevice;
 import de.malban.vide.vecx.devices.KeyboardInputDevice;
@@ -91,12 +88,9 @@ import javax.swing.DefaultComboBoxModel;
 public class VecXPanel extends javax.swing.JPanel  
     implements  Windowable, 
                 DisplayerInterface, 
-                RunnerInterface, 
                 VecXStatics, 
                 Stateable
 {
-    public static boolean ENABLE_HARDSYNC = false;
-    
     public boolean isLoadSettings() { return true; }
     VideConfig config = VideConfig.getConfig();
     private CSAView mParent = null;
@@ -211,7 +205,6 @@ public class VecXPanel extends javax.swing.JPanel
         resetMe();
         AbstractDevice.exitSync = true;
         DualVec.exitSync = true;
-        deinitHardSync();
     }
     /**
      * Creates new form DissiPanel
@@ -221,7 +214,6 @@ public class VecXPanel extends javax.swing.JPanel
         DualVec.exitSync = false;
         initComponents();
         vecx = new VecX();
-        vecx.runner = this;
         ensureDevices();
         initJoyportsFromFlag();
         vecx.setDisplayer(this);
@@ -743,7 +735,7 @@ public class VecXPanel extends javax.swing.JPanel
         dissiInit = false;
         if (!vecx.loadStateFromFile("")) return;
         
-        initJoyportsFromFlag();
+        initJoyportsFromEmulation();
         
         
         
@@ -966,8 +958,6 @@ public class VecXPanel extends javax.swing.JPanel
     private void jComboBoxJoyport1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxJoyport1ActionPerformed
         if (mClassSetting>0) return;
         vecx.joyport[1].plugIn((JoyportDevice)jComboBoxJoyport1.getSelectedItem());
-        checkHardSync();
-        
         AbstractDevice.exitSync = false;
         updatePorts();
     }//GEN-LAST:event_jComboBoxJoyport1ActionPerformed
@@ -1157,22 +1147,6 @@ public class VecXPanel extends javax.swing.JPanel
                 {
                     long startTime = System.currentTimeMillis();
                     
-                    if (hardSyncMode == SYNC_SLAVE)
-                    {
-                        hardSyncWorking = true;
-                        while (hardSyncMode == SYNC_SLAVE)
-                        {
-                            try 
-                            {
-                                Thread.sleep(EMU_TIMER);
-                            } 
-                            catch(InterruptedException v) 
-                            {
-                            }
-                        }
-                        hardSyncWorking = false;
-                    }
-        
                     if (!pausing)
                     {
                         int cyclesToRun = (VECTREX_MHZ / 1000) * EMU_TIMER;
@@ -1183,23 +1157,7 @@ public class VecXPanel extends javax.swing.JPanel
                         }
                         setLightPen();
 
-                        if (hardSyncMode == NO_SYNC)
-                        {
-                            exitReason = vecx.vecx_emu(cyclesToRun);    
-                        }
-                        else if (hardSyncMode == SYNC_MASTER)
-                        {
-                            if (cyclesToRun>1) cyclesToRun = 20;
-                            hardSyncWorking = true;
-                            exitReason = master.vecx_emu(cyclesToRun);    
-                            boolean breaking = slavePanel.oneSlaveEmulation(cyclesToRun);
-                            if (breaking)
-                            {
-                                stepping = false;
-                                break;
-                            }
-                            
-                        }
+                        exitReason = vecx.vecx_emu(cyclesToRun);    
                         measureCycles += vecx.cyclesDone;
                         vecx.directDrawActive = false;
                         if (exitReason == EMU_EXIT_BREAKPOINT_BREAK)
@@ -3037,9 +2995,107 @@ public class VecXPanel extends javax.swing.JPanel
         if ((flags & Cartridge.FLAG_IMAGER) == Cartridge.FLAG_IMAGER)
         {
             vecx.joyport[1].plugIn(deviceList.get(DEVICE_IMAGER));
+            String wheelName = vecx.cart.currentCardProp.getWheelName();
+            ((Imager3dDevice)deviceList.get(DEVICE_IMAGER)).setWheel(wheelName);
         }
     }
     
+    private void replaceDeviceInList(JoyportDevice d)
+    {
+        int sel0 = jComboBoxJoyport0.getSelectedIndex();
+        int sel1 = jComboBoxJoyport1.getSelectedIndex();
+        int index = 0;
+        for (JoyportDevice dOrg: deviceList)
+        {
+            if (dOrg.getDeviceID() == d.getDeviceID())
+            {
+                deviceList.remove(index);
+                deviceList.add(index,d);
+                break;
+            }
+            index++;
+        }
+        mClassSetting++;
+        jComboBoxJoyport0.setModel((new DefaultComboBoxModel(deviceList.toArray())) );
+        jComboBoxJoyport1.setModel((new DefaultComboBoxModel(deviceList.toArray())) );
+        jComboBoxJoyport0.setSelectedIndex(sel0);
+        jComboBoxJoyport1.setSelectedIndex(sel1);
+        mClassSetting--;
+    }
+    private void initJoyportsFromEmulation()
+    {
+        if (vecx == null) return;
+        if (vecx.joyport == null) return;
+        JoyportDevice device1 = vecx.joyport[1].getDevice();
+        
+        mClassSetting++;
+
+/*
+        JoyportDevice device0 = vecx.joyport[0].getDevice();
+        if (device0 != null)
+        {
+            replaceDeviceInList(device0);
+            jComboBoxJoyport0.setSelectedItem(device0);
+        }
+        else
+        {
+            jComboBoxJoyport0.setSelectedIndex(-1);
+        }
+*/        
+        vecx.joyport[0].plugIn(deviceList.get(DEVICE_KEYBOARD0));
+        if (!(device1 instanceof Imager3dDevice))
+            vecx.joyport[1].plugIn(deviceList.get(DEVICE_KEYBOARD1));
+
+        if (vecx.cart == null) return;
+        if (vecx.cart.currentCardProp == null) return;
+        
+        int flags = vecx.cart.currentCardProp.getTypeFlags();
+        if ((flags & Cartridge.FLAG_LIGHTPEN1) == Cartridge.FLAG_LIGHTPEN1)
+        {
+            vecx.joyport[0].plugIn(deviceList.get(DEVICE_LIGHTPEN));
+        }
+        if ((flags & Cartridge.FLAG_LIGHTPEN2) == Cartridge.FLAG_LIGHTPEN2)
+        {
+            vecx.joyport[1].plugIn(deviceList.get(DEVICE_LIGHTPEN));
+        }
+        if ((flags & Cartridge.FLAG_VEC_VOICE) == Cartridge.FLAG_VEC_VOICE)
+        {
+            vecx.joyport[1].plugIn(deviceList.get(DEVICE_VECVOICE));
+        }
+        if ((flags & Cartridge.FLAG_VEC_VOX) == Cartridge.FLAG_VEC_VOX)
+        {
+            vecx.joyport[1].plugIn(deviceList.get(DEVICE_VECVOX));
+        }
+/*        
+        if ((flags & Cartridge.FLAG_IMAGER) == Cartridge.FLAG_IMAGER)
+        {
+            vecx.joyport[1].plugIn(deviceList.get(DEVICE_IMAGER));
+            String wheelName = vecx.cart.currentCardProp.getWheelName();
+            ((Imager3dDevice)deviceList.get(DEVICE_IMAGER)).setWheel(wheelName);
+        }
+*/        
+        if (vecx.joyport[0] != null)
+        {
+            jComboBoxJoyport0.setSelectedItem(vecx.joyport[0].getDevice());
+        }
+        else
+        {
+            jComboBoxJoyport0.setSelectedIndex(-1);
+        }
+        if (device1 != null)
+        {
+            if (device1 instanceof Imager3dDevice)
+            {
+                replaceDeviceInList(device1);
+                jComboBoxJoyport1.setSelectedItem(vecx.joyport[1].getDevice());
+            }
+        }
+        mClassSetting--;
+        
+
+        
+    }
+
     public void setDissi(DissiPanel d)
     {
         dissi = d;
@@ -3187,123 +3243,6 @@ public class VecXPanel extends javax.swing.JPanel
         }
         mClassSetting--;
     }
-    
-    VecXPanel slavePanel = null;
-    VecXPanel masterPanel = null;
-    VecX master = null;
-    VecX slave = null;
-    void checkHardSync()
-    {
-        if (!ENABLE_HARDSYNC) return;
-        if (!(vecx.joyport[1].getDevice() instanceof HardSyncDevice)) 
-        {
-            deinitHardSync();
-            return;
-        }
-        HardSyncDevice hsDevice = (HardSyncDevice) vecx.joyport[1].getDevice();
-        master = hsDevice.getMasterVecX();
-        slave = hsDevice.getSlaveVecX();
-        
-        // savety check!
-        if (master == null) 
-        {
-            deinitHardSync();
-            return;
-        }
-        if (master.runner == null)
-        {
-            deinitHardSync();
-            return;
-        }
-        if (slave == null) 
-        {
-            deinitHardSync();
-            return;
-        }
-        if (slave.runner == null)
-        {
-            deinitHardSync();
-            return;
-        }
-
-        int deviceIdMaster = master.joyport[1].getDevice().getDeviceID();
-        int deviceIdSlave = slave.joyport[1].getDevice().getDeviceID();
-        if (deviceIdMaster != deviceIdSlave)
-        {
-            deinitHardSync();
-            return;
-        }
-        
-        slavePanel = (VecXPanel)slave.runner;
-        masterPanel = (VecXPanel)master.runner;
-        slave.runner.setHardSyncMode(SYNC_SLAVE);
-        master.runner.setHardSyncMode(SYNC_MASTER);
-    }
-    
-    void deinitHardSync()
-    {
-        if (hardSyncMode == NO_SYNC) return;
-        if (master != null)
-        {
-            if (master.runner != null)
-            {
-                master.runner.setHardSyncMode(NO_SYNC);
-            }
-            master = null;
-        }
-        if (slave != null)
-        {
-            if (slave.runner != null)
-            {
-                slave.runner.setHardSyncMode(NO_SYNC);
-            }
-            slave = null;
-        }
-        hardSyncMode = NO_SYNC;
-    }
-    int hardSyncMode = NO_SYNC;
-    
-    // waits for slave to shut down!
-    public boolean setHardSyncMode(int mode)
-    {
-        if (hardSyncMode == mode) return true;
-        if (mode == SYNC_SLAVE)
-        {
-            hardSyncWorking = false;
-            hardSyncMode = SYNC_SLAVE;   
-            try
-            {
-                while (!hardSyncWorking) Thread.sleep(5);
-            }
-            catch (Throwable ex)
-            {
-            }
-        }
-        else if (mode == SYNC_MASTER)
-        {
-            hardSyncMode = SYNC_MASTER;   
-        }
-        else if (mode == NO_SYNC)
-        {
-            hardSyncMode = NO_SYNC;   
-        }
-        
-        jButtonStart.setEnabled(hardSyncMode != SYNC_SLAVE);
-        jButtonPause.setEnabled(hardSyncMode != SYNC_SLAVE);
-        jButtonStop.setEnabled(hardSyncMode != SYNC_SLAVE);
-        jButton1.setEnabled(hardSyncMode != SYNC_SLAVE);
-        jButton2.setEnabled(hardSyncMode != SYNC_SLAVE);
-        jTextFieldstart.setEnabled(hardSyncMode != SYNC_SLAVE);
-        jButtonFileSelect1.setEnabled(hardSyncMode != SYNC_SLAVE);
-        return true;
-    }
-    volatile boolean hardSyncWorking = false;
-    
-    
-    
-    
-    
-    
     
     // start a thread with emulation
     public boolean oneSlaveEmulation(int cycles)

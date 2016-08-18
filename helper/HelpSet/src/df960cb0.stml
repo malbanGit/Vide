@@ -3,7 +3,9 @@
 
 Vector information window.~~
 Here you can see some data of a selected vector. The data shown are:
-- the coordinates
+- on the first line you see the currently drawn count of vectors~~
+The count is related to the display routine though – which means patterned vectors are not counted as one vector, but are counted by how many times the light is switched on or off – this will NOT be fixed – this is a feature not a bug :-)!
+- the coordinates 
 - a tooltip displays the distance
 - intensity of the vector
 - the PC where the ~BLANK signal became 1 (when the vector was finished drawing)

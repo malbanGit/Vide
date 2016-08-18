@@ -8,13 +8,12 @@ package de.malban.vide.vecx.devices;
 import de.malban.config.Configuration;
 import de.malban.vide.vecx.VecX;
 import static de.malban.vide.vecx.VecXPanel.DEVICE_LINKV1_L;
-import static de.malban.vide.vecx.VecXPanel.ENABLE_HARDSYNC;
 
 /**
  *
  * @author malban
  */
-public class VecLinkV1Device extends AbstractDevice implements HardSyncDevice
+public class VecLinkV1Device extends AbstractDevice 
 {
     public int getDeviceID()
     {
@@ -24,37 +23,6 @@ public class VecLinkV1Device extends AbstractDevice implements HardSyncDevice
     private static VecLinkV1Device[] vecLink = null;
     int side = 0;
     int otherSide = 1;
-    
-    @Override
-    public boolean isMaster()
-    {
-        return side == 0;
-    }
-    @Override
-    public VecX getMasterVecX()
-    {
-        if (joyport == null) return null;
-        if (side == 0)
-        {
-            return joyport.vecx;
-        }
-        if (vecLink[otherSide] == null) return null;
-        if (vecLink[otherSide].joyport == null) return null;
-        return vecLink[otherSide].joyport.vecx;
-    }
-    @Override
-    public VecX getSlaveVecX()
-    {
-        if (joyport == null) return null;
-        if (side == 1)
-        {
-            return joyport.vecx;
-        }
-        if (vecLink[otherSide] == null) return null;
-        if (vecLink[otherSide].joyport == null) return null;
-        return vecLink[otherSide].joyport.vecx;
-    }
-    
     
     // ensure only ONE cable is available
     public static VecLinkV1Device getVecLinkV1(int side)
@@ -94,12 +62,7 @@ public class VecLinkV1Device extends AbstractDevice implements HardSyncDevice
     @Override
     public void step()
     {
-        if (ENABLE_HARDSYNC) 
-            noSyncStep();
-        else
-        {
-            syncStep();
-        }
+        syncStep();
     }
     public void syncStep()
     {

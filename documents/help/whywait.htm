@@ -1,0 +1,45 @@
+<html>
+
+<head>
+<title>Why wait a moment?</title>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+
+<p><a href="toc.htm">Vectrex Programming TOC</a></p>
+
+<p><font size="5"><strong>Why wait a moment?</strong></font>
+(Optimization warning)</p>
+
+<p>I'm not really sure. But I suspect the hardware not to react
+immediately to changes in VIA registers/bits. VIA itself needs 1-2
+cycles to initiate shifting and/or timing. Some things go through
+the MUX and others are negated along the way to their final
+destination (~RAMP/~ZERO). I experienced some timing problems
+optimizing Vectrex Frogger. I changed the above line routine to
+be a bit faster for my purposes. Since in Vectrex Frogger all
+'sprites' are drawn using a scale factor of 6, which is the timer
+low counter, I thought that after 6 cycles from switching the
+timer on I could switch the light off, without a request loop,
+and the line would be drawn all right. This is not so. I think
+somewhere in the vectrex hardware there is a delay of a couple of
+cycles before the signals reach their final destination (the
+integration hardware, in opposite to their first destination, the
+VIA registers/flags). And furthermore, that these delays are not
+the same for all operations, since everything would again be
+alright. I guess, for example, the ~RAMP enabling somehow takes
+more time than ~BLANK enabling. I have not done really many tests
+on that, perhaps some day I will. When optimizing vectrex
+programs keep this in mind and test timing critical routines
+carefully. There are some situations where you can easily change
+some registers to early, theoretically the results would be ok,
+but in reality vectrex will draw something weirdly different. The
+vector drawing and positioning routines have great potential for
+optimization, but be careful! </p>
+
+<p align="center"><a href="vectoroptimization.htm">Next page</a> <a
+href="vectordisplay.htm">Last Page</a></p>
+
+<p align="center"><a href="toc.htm">Vectrex Programming TOC</a></p>
+</body>
+</html>

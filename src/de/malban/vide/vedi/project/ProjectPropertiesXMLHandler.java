@@ -28,6 +28,7 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 	private String mProjectPostScriptName = "";
 	private String mBankDefines = "";
 	private Vector<String> mBankDefiness = null;
+	private String mWheelName = "";
 	public HashMap<String, ProjectProperties> getLastHashMap()
 	{
 		return mProjectProperties;
@@ -66,6 +67,7 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 			mProjectPostScriptName = "";
 			mBankDefines = "";
 			mBankDefiness = new Vector<String>();
+			mWheelName = "";
 		}
 	}
 	@Override public void characters(char[] ch, int start, int length)
@@ -92,6 +94,7 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 		if (mCurrentElement.equalsIgnoreCase("ProjectPostScriptClass")) mProjectPostScriptClass += s;
 		if (mCurrentElement.equalsIgnoreCase("ProjectPostScriptName")) mProjectPostScriptName += s;
 		if (mCurrentElement.equalsIgnoreCase("BankDefines")) mBankDefines += s;
+		if (mCurrentElement.equalsIgnoreCase("WheelName")) mWheelName += s;
 	}
 	@Override public void endElement(String uri, String localName, String qName) throws SAXException
 	{
@@ -153,6 +156,8 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 				mProjectPostScriptName = "";
 				mBankDefines = "";
 				mCurrentData.mBankDefines = mBankDefiness;
+				mCurrentData.mWheelName = mWheelName;
+				mWheelName = "";
 				mProjectProperties.put(mCurrentData.mName, mCurrentData);
 				mCurrentData = null;
 			}

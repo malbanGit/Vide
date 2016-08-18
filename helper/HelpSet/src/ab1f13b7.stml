@@ -118,6 +118,7 @@ ____________________\'\\\'\'____________________________39______________________
 ____________________\'\\"\'___________________________34_________________________double quote~~
 ____________________\'\\\\\'___________________________92_________________________backslash~~
  _
+
 :/div
 
                 In situations where a limited number of bytes are expected, such as when loading a number into a register, the same rules are followed as for any other number: the least significant byte(s) of the number are used, and the rest are discarded. This produces an odd effect: when a string of two or more characters is used as the data to load into a one-byte register, the second byte of the string is the one that is used. Here is why. Whenever a string is treated as a number, its first two characters are taken. But when a number is put into a one-byte register, its least significant byte is used. The least significant byte of the first two bytes of a string is the second byte.

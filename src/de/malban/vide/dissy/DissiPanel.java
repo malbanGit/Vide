@@ -15,9 +15,7 @@ import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.util.KeyboardListener;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.vide.VideConfig;
-import static de.malban.vide.dissy.Command.D_CMD_BANKSWITCH_DEBUG;
-import static de.malban.vide.dissy.Command.D_CMD_CARTRIDGE;
-import static de.malban.vide.dissy.Command.D_CMD_JOYPORT_DEVICE;
+import de.malban.vide.vedi.VediPanel;
 import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_INSTRUCTION_1_LENGTH;
 import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_INSTRUCTION_GENERAL;
 import static de.malban.vide.dissy.MemoryInformation.DIS_TYPE_DATA_WORD;
@@ -283,6 +281,10 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jButtonShowLabels = new javax.swing.JButton();
         jButtonShowPSG = new javax.swing.JButton();
         jButtonShowBreakpoints = new javax.swing.JButton();
+        jButtonApplyCodeScan = new javax.swing.JButton();
+        jButtonVectrorScreenshot = new javax.swing.JButton();
+        jButtonCNTOutput = new javax.swing.JButton();
+        jButtonDASMOutput = new javax.swing.JButton();
         jButtonAdressBack = new javax.swing.JButton();
         jButtonAdressForward = new javax.swing.JButton();
         jToggleButton1 = new javax.swing.JToggleButton();
@@ -303,10 +305,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jEditorPane1 = new javax.swing.JEditorPane();
         jTextFieldCommand = new javax.swing.JTextField();
         jCheckBox3 = new javax.swing.JCheckBox();
-        jButtonApplyCodeScan = new javax.swing.JButton();
-        jButtonCNTOutput = new javax.swing.JButton();
-        jButtonDASMOutput = new javax.swing.JButton();
-        jButtonVectrorScreenshot = new javax.swing.JButton();
 
         jPopupMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -693,6 +691,42 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         });
 
+        jButtonApplyCodeScan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/exclamation.png"))); // NOI18N
+        jButtonApplyCodeScan.setToolTipText("Reset dissi, do everything from start. This mainly makes sense in combination with\n \"codescan\".");
+        jButtonApplyCodeScan.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonApplyCodeScan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApplyCodeScanActionPerformed(evt);
+            }
+        });
+
+        jButtonVectrorScreenshot.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/vectorCam.png"))); // NOI18N
+        jButtonVectrorScreenshot.setToolTipText("vector-screenshot");
+        jButtonVectrorScreenshot.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonVectrorScreenshot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVectrorScreenshotActionPerformed(evt);
+            }
+        });
+
+        jButtonCNTOutput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_code.png"))); // NOI18N
+        jButtonCNTOutput.setToolTipText("save gathered information to CNT-file");
+        jButtonCNTOutput.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonCNTOutput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCNTOutputActionPerformed(evt);
+            }
+        });
+
+        jButtonDASMOutput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
+        jButtonDASMOutput.setToolTipText("save dissi as asm file");
+        jButtonDASMOutput.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonDASMOutput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDASMOutputActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelDebugLayout = new javax.swing.GroupLayout(jPanelDebug);
         jPanelDebug.setLayout(jPanelDebugLayout);
         jPanelDebugLayout.setHorizontalGroup(
@@ -727,28 +761,43 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 .addComponent(jButtonShowPSG)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonShowBreakpoints)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(jButtonDASMOutput)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonCNTOutput)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonVectrorScreenshot)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonApplyCodeScan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanelDebugLayout.setVerticalGroup(
             jPanelDebugLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(jPanelDebugLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(jButtonViai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonDump1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonDebug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonStepOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonOverstep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonsetBreakpoint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonMultiStep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonDebugStep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonRingbufferRedo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonRinbufferUndo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonWRTracker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonShowVars, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonShowLabels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonShowPSG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonShowBreakpoints, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanelDebugLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelDebugLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonDASMOutput, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonCNTOutput, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonApplyCodeScan, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonVectrorScreenshot, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(jPanelDebugLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonViai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDump1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDebug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonStepOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonOverstep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonsetBreakpoint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonMultiStep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDebugStep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonRingbufferRedo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonRinbufferUndo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonWRTracker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonShowVars, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonShowLabels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonShowPSG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonShowBreakpoints, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jButtonAdressBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/resultset_previous.png"))); // NOI18N
@@ -947,42 +996,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         });
 
-        jButtonApplyCodeScan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/exclamation.png"))); // NOI18N
-        jButtonApplyCodeScan.setToolTipText("Reset dissi, do everything from start. This mainly makes sense in combination with\n \"codescan\".");
-        jButtonApplyCodeScan.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonApplyCodeScan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonApplyCodeScanActionPerformed(evt);
-            }
-        });
-
-        jButtonCNTOutput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_code.png"))); // NOI18N
-        jButtonCNTOutput.setToolTipText("save gathered information to CNT-file");
-        jButtonCNTOutput.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonCNTOutput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCNTOutputActionPerformed(evt);
-            }
-        });
-
-        jButtonDASMOutput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
-        jButtonDASMOutput.setToolTipText("save dissi as asm file");
-        jButtonDASMOutput.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonDASMOutput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDASMOutputActionPerformed(evt);
-            }
-        });
-
-        jButtonVectrorScreenshot.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/vectorCam.png"))); // NOI18N
-        jButtonVectrorScreenshot.setToolTipText("vector-screenshot");
-        jButtonVectrorScreenshot.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonVectrorScreenshot.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonVectrorScreenshotActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -996,15 +1009,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 .addComponent(jButtonAdressForward)
                 .addGap(33, 33, 33)
                 .addComponent(jPanelDebug, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonDASMOutput)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonCNTOutput)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonVectrorScreenshot)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonApplyCodeScan)
-                .addGap(18, 18, 18)
                 .addComponent(jCheckBox3)
                 .addGap(6, 6, 6)
                 .addComponent(jCheckBox1)
@@ -1024,11 +1029,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jCheckBox1)
                         .addComponent(jCheckBox2)
-                        .addComponent(jCheckBox3))
-                    .addComponent(jButtonDASMOutput, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonCNTOutput, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonApplyCodeScan, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonVectrorScreenshot, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addComponent(jCheckBox3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
                 .addGap(2, 2, 2)
@@ -1090,6 +1091,29 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 if (KeyboardListener.isShiftDown())
                     currentDissi.vecxPanel.setDumpToAddress(memInfo.address);
             }
+            if (currentDissi.model.convertViewToModel(col) == 3) // zeiger auf mnemonic
+            {
+                
+                MemoryInformation memInfo = currentDissi.model.getValueAt(row);
+                VediPanel.displayHelp(memInfo.disassembledMnemonic);
+            }
+            if (currentDissi.model.convertViewToModel(col) == 4) // zeiger auf operand
+            {
+                
+                MemoryInformation memInfo = currentDissi.model.getValueAt(row);
+                
+                String op = memInfo.disassembledOperand;
+                if (op == null) return;
+                op = op.toLowerCase();
+                op = de.malban.util.UtilityString.replace(op, "<", "");
+                op = de.malban.util.UtilityString.replace(op, ">", "");
+                if (op.length()==0) return;
+
+                        
+                VediPanel.displayHelp(op);
+            }
+            
+            
         }
         else if (evt.getClickCount() == 1) 
         {
@@ -1386,9 +1410,11 @@ public class DissiPanel extends javax.swing.JPanel  implements
     }
     
     private void jTextFieldCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCommandActionPerformed
-       if (currentDissi == null) return;
-        currentDissi.commandHistoryPosition = -1;
-        currentDissi.commandHistory.add(jTextFieldCommand.getText());
+        if (currentDissi != null)
+        {
+            currentDissi.commandHistoryPosition = -1;
+            currentDissi.commandHistory.add(jTextFieldCommand.getText());
+        }
         String command = jTextFieldCommand.getText();
         jTextFieldCommand.setText("");
         executeCommand(command);
@@ -3213,10 +3239,20 @@ public class DissiPanel extends javax.swing.JPanel  implements
         Command com = Command.getCommand(parts[0]);
         if (com == null)
         {
-            printMessage("Syntax Error!", MESSAGE_ERR);
+            if (!doCalculator(command))
+            {
+                printMessage("Syntax Error!", MESSAGE_ERR);
+            }
             return;
         }
-        executeCommand(com, parts);
+        try
+        {
+            executeCommand(com, parts);
+        }
+        catch (Throwable e)
+        {
+            
+        }
     }
     boolean bsDebug = false;
     public boolean isBankDebug()
@@ -4187,4 +4223,145 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jTableSource.repaint();
         printMessage("Synchronize of comments/labels in banks... done.", MESSAGE_INFO);
     }
+    
+
+    // receives the contents of the textfield after a return
+    public boolean doCalculator(String command)
+    {
+        try
+        {
+            Double d = eval(command) ;
+            int i = (int) d.intValue();
+            if ((i<256) && (i>-128))
+                printMessage("Result: "+i+", $"+String.format("%02X", i & 0xFF)+", "+DASM6809.printbinary(i), MESSAGE_INFO);
+            else
+                printMessage("Result: "+i+", $"+String.format("%X", i)+", "+DASM6809.printbinary16(i), MESSAGE_INFO);
+        }
+        catch (Throwable x)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    // see: http://stackoverflow.com/questions/3422673/evaluating-a-math-expression-given-in-string-form
+    // changed to integer only!
+    // and support of 0x/$/ %
+    public static double eval( String s) 
+    {
+        s = s.toLowerCase();
+        s=de.malban.util.UtilityString.replace(s, "0x", "$");
+        
+        final String str = s.toLowerCase();
+        Object o = new Object() 
+        {
+            int pos = -1, ch;
+
+            void nextChar() 
+            {
+                ch = (++pos < str.length()) ? str.charAt(pos) : -1;
+            }
+
+            boolean eat(int charToEat) 
+            {
+                while (ch == ' ') nextChar();
+                if (ch == charToEat) 
+                {
+                    nextChar();
+                    return true;
+                }
+                return false;
+            }
+
+            double parse() 
+            {
+                nextChar();
+                double x = parseExpression();
+                if (pos < str.length()) throw new RuntimeException("Unexpected: " + (char)ch);
+                return x;
+            }
+
+            // Grammar:
+            // expression = term | expression `+` term | expression `-` term
+            // term = factor | term `*` factor | term `/` factor
+            // factor = `+` factor | `-` factor | `(` expression `)`
+            //        | number | functionName factor | factor `^` factor
+
+            double parseExpression() 
+            {
+                double x = parseTerm();
+                for (;;) 
+                {
+                    if      (eat('+')) x += parseTerm(); // addition
+                    else if (eat('-')) x -= parseTerm(); // subtraction
+                    else return x;
+                }
+            }
+
+            double parseTerm() 
+            {
+                double x = parseFactor();
+                for (;;) 
+                {
+                    if      (eat('*')) x *= parseFactor(); // multiplication
+                    else if (eat('/')) x /= parseFactor(); // division
+                    else return x;
+                }
+            }
+
+            double parseFactor() 
+            {
+                if (eat('+')) return parseFactor(); // unary plus
+                if (eat('-')) return -parseFactor(); // unary minus
+
+                double x;
+                int startPos = this.pos;
+                if (eat('(')) 
+                { // parentheses
+                    x = parseExpression();
+                    eat(')');
+                } 
+                else if ((ch >= '0' && ch <= '9') ) 
+                { // numbers
+                    while ((ch >= '0' && ch <= '9') ) nextChar();
+                    x = Double.parseDouble(str.substring(startPos, this.pos));
+                } 
+                else if (((ch >= '0' && ch <= '9') || ((ch >= 'a' && ch <= 'f')) ) || (ch == '$'))
+                { // numbers
+                    while ((ch >= '0' && ch <= '9') || ((ch >= 'a' && ch <= 'f')) || (ch == '$')) nextChar();
+                    x =DASM6809.toNumber(str.substring(startPos, this.pos), true);
+//                    x = Double.parseDouble(str.substring(startPos, this.pos));
+                } 
+                else if (((ch >= '0' && ch <= '1') ) || (ch == '%'))
+                { // numbers
+                    while ((ch >= '0' && ch <= '1') || (ch == '%')) nextChar();
+                    x =DASM6809.toNumber(str.substring(startPos, this.pos), true);
+//                    x = Double.parseDouble(str.substring(startPos, this.pos));
+                } 
+/*                
+                else if (ch >= 'a' && ch <= 'z') 
+                { // functions
+                    while (ch >= 'a' && ch <= 'z') nextChar();
+                    String func = str.substring(startPos, this.pos);
+                    x = parseFactor();
+                    if (func.equals("sqrt")) x = Math.sqrt(x);
+                    else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
+                    else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
+                    else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
+                    else throw new RuntimeException("Unknown function: " + func);
+                } 
+*/        
+                else 
+                {
+                    throw new RuntimeException("Unexpected: " + (char)ch);
+                }
+
+                if (eat('^')) x = Math.pow(x, parseFactor()); // exponentiation
+
+                return x;
+            }
+        }.parse();
+        return (Double)o;
+    }
+    
 }

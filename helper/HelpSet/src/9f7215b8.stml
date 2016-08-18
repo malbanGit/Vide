@@ -90,9 +90,10 @@ Single click on a label cell, will hightlight the first label in the operand ent
 - **Column 3 - Content**~~
 This is a hex-byte representation of this memory location (group)
 - **Column 4 - Mnemonic**~~
-A Mnemonic representation of the underlying manchine language instruction - or a pseudo opcode for data (DB, DW).
+A Mnemonic representation of the underlying manchine language instruction - or a pseudo opcode for data (DB, DW). Double click on an instruction will open a small help for the mnemonic (stay on top window).
 - **Column 5 - Operand**~~
 Underlying operand of the machine language instruction or a representation of data.
+~~If the operand represents a BIOS (Bruce Tomlin style) routine, you can double click the operand, and a small help (stay on top window) will be displayed.
 - **Column 6 - Page**~~
 one of four possible states:~~
 ____0____- page 0 opcode~~
@@ -171,9 +172,11 @@ b) a commandline where you can enter dissi commands without getting dizzy from a
 :image disscommands.png|dissi commands
 - h shows a help of the current available commands, ...
 - these will be expanded as I need them, as of now following "written" commands are available:
-+ reset
++ hardreset
++ softreset
 + go
 + cycles (set or read)
++ run cycles
 + count cycles (between two addresses)
 + print (memory location)
 + breakpoint address, upon bankswitch, or any bit of VIA ORB
@@ -185,8 +188,15 @@ b) a commandline where you can enter dissi commands without getting dizzy from a
 + toggle display about when a bankswitch occurred
 + cls
 + poke $xxxx $yy [change any memory location]
++ sync bank comments
++ carti
++ joyi
++ bankswitch debug
++ set xx yy
 
 (as you see, these were commands that I at some stage needed while hacking VIDE together :-\))
+
+You can enter simple "expression" and use the cli as a small calculator. Conversion between decimal, binary and hex is also supported.
 
 :h3 Searching
 On the bottom of dissi is a search field. Searches covers all kinds of labels and commentary
@@ -269,7 +279,15 @@ You can use the "LST" files that this assembler generates. If the "LST" file is 
 3) edit dissi (not implemented yet, and this is actually the "plus one")
 4) Supply a "CNT" file, if the "CNT" file is in the same directory as the rom, it will be loaded automatically.
 :h3 CNT-Files
-A CNT file is a description file for a rom. There are a handfull of entries you can provide. If done with enough endurance and research you can supply a wealth of information.
+You can create CNT files manually, but you will usually do is either:
+a) assemble a source code with assi - than an cnt file is generated automatically
+b) comment a "bin" cartridge in dissi - and save your comments - saving "knowledge" in dissi alays saves to a cnt file
+
+Saving is always done to the same directory the binary file was loaded from. In opposition to that cnt files are loaded in the following manner:
+- first dissi tries to load a cnt file in the directory the binary file as loaded from
+- after that a directory "cnt" is looked for and if found, a cnt file for the binary file is looked for there 
+
+A CNT file is a description file for a rom. There are a handfull of entries you can provide. If done with enough endurance and research you can supply a whealth of information.
 Following entries are possible:~~
 
 **START_BANK x / END_BANK x**~~
@@ -334,6 +352,7 @@ Example:
 :div code
  ________RANGE________$17 - ____$28 ____CHAR\_DATA~~
 ________RANGE____$1917 - $1943 ____DB\_DATA~~
+________RANGE____$1913 - $1917 ____BIN\_DATA~~
 ________RANGE____$1913 - $1917 ____DW\_DATA~~
 ________RANGE____$2913 - $2917 ____DWP\_DATA~~
 ________RANGE____$1943 - $3499 ____CODE~~
@@ -345,6 +364,8 @@ Essentially tell dissi what kind of data/code it has to expect. The example show
 Are Vectrex "ASCII" chars, usually terminated by a $80. ~~ ~~
 //DB\_DATA~~//
 Byte data. ~~ ~~
+//BIN\_DATA~~//
+Byte data as binary. ~~ ~~
 //DW\_DATA~~//
 Word data. ~~ ~~
 //DWP\_DATA~~//

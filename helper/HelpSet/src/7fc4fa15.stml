@@ -17,7 +17,7 @@ b) extracted a couple of subroutines, which can be used "out of the box" without
 Anyone interested in programming lighpen stuff should find it (I hope) to be quite easy to get going.
 
 I didn't bother to provide examples for lightpen usage in port 0, I can't really seem to find much use for it, although the routines in general should be nearly the same.
-Further writings about lightpen in this documentaion always assumes lightpen in port 1.
+Further writings about lightpen in this documentation always assumes lightpen in port 1.
 
 :h2 In general
 The main (and actually - ONLY) communication that is going on between the lightpen and a vectrex is by whether "button 4" of joyport 1 is pressed or not.
@@ -111,3 +111,7 @@ This routine expects as input parameters in register X the "point" that might be
 The return of the method is the same as the input:
 
 After a call register A will be $ff if a lightpen pick was found or 0 if not. If a pick was found register X contains the location (scale factor $ff) as y, x. 
+
+:image LightPenExample1.png|Lightpen example 1
+:image LightPenExample2.png|Lightpen example 2
+:image LightPenExample3.png|Lightpen example 3

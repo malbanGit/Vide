@@ -475,7 +475,7 @@ COMMENT                    $011D                              * Enable goggle in
 COMMENT                    $0122                              * For each pass, increment the
 COMMENT                    $0125                              * 'refresh timer expired' counter.
 COMMENT                    $012B                              * Disable joystick approximation
-LABEL                    $0139                              P0139
+LABEL                    $0139                              resetPenWaitLoop
 COMMENT                    $0139                              * Timing loop
 COMMENT                    $013F                              * Enable IRQ & wait for goggle index
 LABEL                    $0141                              P0141
@@ -605,9 +605,10 @@ COMMENT                    $01E5                              * Set goggle index
 COMMENT                    $01E7                              * of positive edge; also zero
 COMMENT                    $01E9                              * the integrators.
 LABEL                    $01EA                              Draw4ByteVectorLists
-COMMENT                    $01EA                              Entry:
+COMMENT                    $01EA                              Entry
+COMMENT                    $01EA                              
 COMMENT                    $01EA                              CA81 = frame's scale factor
-COMMENT                    $01EA                              x = ptr to vector list, of the form:
+COMMENT                    $01EA                              x = ptr to vector list, of the form
 COMMENT                    $01EA                              mode, y, x, counter
 COMMENT                    $01EA                              .
 COMMENT                    $01EA                              $01
@@ -640,16 +641,22 @@ COMMENT                    $0223                              * Wait for timer i
 COMMENT                    $0227                              * Advance to next endpoint
 COMMENT                    $022B                              * Clear the drawing pattern
 COMMENT                    $022D                              * Unmask (reenable) IRQ
-LABEL                    $0238                              P0238
+LABEL                    $0238                              PWMCheckNotNeccessary_1
 LABEL                    $0239                              _0239
-LABEL                    $023D                              P023D
+LABEL                    $023D                              SwitchImagerPulseOff_2
 COMMENT                    $0240                              * Write $FF to Port A
 COMMENT                    $024A                              * Config Port A as input
-LABEL                    $0252                              P0252
-LABEL                    $0258                              P0258
-LABEL                    $025D                              P025D
-COMMENT                    $0260                              * Write $FF to Port A
-COMMENT                    $026A                              * Config Port A as input
+LABEL                    $0252                              checkPWMOutput
+COMMENT                    $0255                              if not 0, PWM must still be adjusted this round
+COMMENT                    $0257                              if 0, than PWM is done for this round
+LABEL                    $0258                              PWMCheckStillRelevant
+COMMENT                    $0258                              compare PWM value with timer
+COMMENT                    $025A                              if PWM higher, jump (speak
+COMMENT                    $025A                              if T2 is lower jump, speak, if T2 countdown has reached the value of PWM, Jump)
+LABEL                    $025D                              SwitchImagerPulseOff_1
+COMMENT                    $025D                              Write ff to Register14 PSG, (output Joystick Port HIGH -> Pulse Off)
+COMMENT                    $0260                              Write $FF to Port A
+COMMENT                    $026A                              Config Port A as input
 EQU                    $0271                              IRQ_Handler
 LABEL                    $0271                              IRQ_Handler
 COMMENT                    $0271                              This code appears to try to detect if the goggle's
@@ -675,12 +682,37 @@ LABEL                    $0294                              ProcessSamples
 COMMENT                    $0296                              * Reset IRQ sample counter
 COMMENT                    $0299                              * Sum the # of failures for this
 COMMENT                    $029C                              * pass and the previous pass.
-LABEL                    $02B4                              P02B4
-LABEL                    $02BC                              P02BC
+COMMENT                    $029F                              duplicate b to a
+COMMENT                    $02A1                              transform a to adjustment value
+COMMENT                    $02A3                              if to many misses (>13) (wheel to slow) A will be negative, if to "few" misses (<13) (wheel to fast) A will be positive
+COMMENT                    $02A6                              jmp if last 2 failure counts == 13, no adjustment
+COMMENT                    $02A8                              jmp if last 2 failure counts > 13
+COMMENT                    $02AA                              here if last 2 failure counts < 13, add positive Value to velocity adjustment
+COMMENT                    $02AD                              if we are above maximum, jump
+COMMENT                    $02AF                              otherwise store the adjustment
+LABEL                    $02B4                              wheelToSlowAdjustment
+COMMENT                    $02B4                              "subtract" a from adjustment
+COMMENT                    $02B7                              if underflow - jump
+COMMENT                    $02B9                              otherwise store the adjustment
+LABEL                    $02BC                              velocityAdjustmentDone
 COMMENT                    $02BC                              * Failures for (pass - 2)
 COMMENT                    $02BF                              * Failures for (pass - 3)
-LABEL                    $02D9                              P02D9
-LABEL                    $02E1                              P02E1
+COMMENT                    $02C2                              b contains sum of 4 passes of failure counts (32 values), subtract 3/4
+COMMENT                    $02C4                              if exactly 24 - jump (?)
+COMMENT                    $02C6                              double b to a
+COMMENT                    $02C8                              "extend" a to d, failure dif times 256!
+COMMENT                    $02CA                              sign correct division by 2, bit one to C
+COMMENT                    $02CB                              put that C bit into b
+COMMENT                    $02CD                              if a negative, than more than 24 failures did occur
+COMMENT                    $02CF                              wheel to fast, add large adjustment
+COMMENT                    $02D2                              if overflow jump
+COMMENT                    $02D4                              otherwise store the new value
+LABEL                    $02D9                              major_wheel_to_slow
+COMMENT                    $02D9                              "subtract" major adjustment
+COMMENT                    $02DC                              if underflow - jump
+COMMENT                    $02DE                              otherwise store the new value
+LABEL                    $02E1                              majorAdjustmentDone
+COMMENT                    $02E1                              
 LABEL                    $02F3                              ShuffleFailureInfo
 COMMENT                    $02F3                              * Shuffle down the failure results
 COMMENT                    $02F6                              * information for the last 3 passes
@@ -712,7 +744,7 @@ COMMENT                    $0342                              * Save scale facto
 COMMENT                    $0345                              * Calculate intensity = scale+$40
 COMMENT                    $0349                              * If rollover, use $7F (max).
 LABEL                    $034B                              P034B
-LABEL                    $0353                              P0353
+LABEL                    $0353                              ResetPenAndDelay
 COMMENT                    $0353                              * Zero integrators, and trigger IRQ
 COMMENT                    $0355                              * on positive edge.
 EQU                    $035E                              DrawFuelWall
@@ -980,13 +1012,17 @@ COMMENT                    $0651                              drawing, it will w
 COMMENT                    $0651                              decremented to match a predefined checkpoint value.
 COMMENT                    $0651                              * Call main processing function
 COMMENT                    $0651                              DoDrawing()
-LABEL                    $065C                              P065C
-COMMENT                    $065C                              * Load next checkpoint value
-LABEL                    $0661                              P0661
+COMMENT                    $0655                              load jump table for correct eye/color draw routine
+COMMENT                    $0659                              load T2 compare value for exe/color value
+LABEL                    $065C                              checkDrawNextSection
+COMMENT                    $065C                              Load next checkpoint value, if not 0, than we still have stuff todo -> jump
+LABEL                    $0661                              waitForNextWheelPosition
 COMMENT                    $0664                              * Wait until the correct part of the
 COMMENT                    $0666                              * color wheel is visible, before
 COMMENT                    $0668                              * starting to draw.
-COMMENT                    $066E                              * Call drawing function
+COMMENT                    $066A                              load current draw function and increase draw table pointer
+COMMENT                    $066C                              and remember values for later
+COMMENT                    $066E                              Call drawing function
 LABEL                    $0670                              _0670
 COMMENT                    $0672                              * Get next checkpoint
 LABEL                    $0676                              P0676
@@ -2327,6 +2363,10 @@ COMMENT                    $146F                              * Decrement loop c
 COMMENT                    $1472                              * Done processing the frames?
 COMMENT                    $1476                              * Tag the end of the frame stack
 COMMENT                    $1479                              Vector list, 4 bytes per endpoint
+EQU                    $14D1                              ImagerTimingValues
+LABEL                    $14D1                              ImagerTimingValues
+EQU                    $14DF                              JumpTableColorEyeDraw
+LABEL                    $14DF                              JumpTableColorEyeDraw
 COMMENT                    $14DF                              EP_DrawAllBlueFramesAndWalls_RightEye;
 COMMENT                    $14E1                              EP_DrawAllGreenFramesAndWalls_RightEye;
 COMMENT                    $14E5                              EP_DrawAllBlueFramesAndWalls_LeftEye;
@@ -2843,15 +2883,18 @@ LABEL                    $CA7F                              flagImgerSyncReceive
 LABEL                    $CA81                              someScaleFactor1
 LABEL                    $CA82                              loopCounterDraw1
 LABEL                    $CA83                              someScaleFactor2
-LABEL                    $CA86                              countIRQAfterRefreshFor8Samples
-LABEL                    $CA87                              countIRQAfterRefreshFor8Samples_1
-LABEL                    $CA88                              countIRQAfterRefreshFor8Samples_2
-LABEL                    $CA89                              countIRQAfterRefreshFor8Samples_3
+LABEL                    $CA86                              countIRQFailureAfterRefreshFor8Samples
+LABEL                    $CA87                              countIRQFailureAfterRefreshFor8Samples_1
+LABEL                    $CA88                              countIRQFailureAfterRefreshFor8Samples_2
+LABEL                    $CA89                              countIRQFailureAfterRefreshFor8Samples_3
 LABEL                    $CA8A                              loopCounterIRQ1
-LABEL                    $CA8B                              _CA8B
-LABEL                    $CA8C                              irqHandlerVelocityStuffA
-LABEL                    $CA8D                              irqHandlerVelocityStuffB
-LABEL                    $CA8E                              irqHandlerStuff
+LABEL                    $CA8B                              imagerState
+COMMENT                    $CA8B                              start of loop = -1, when drawing done = 0
+LABEL                    $CA8C                              PWM_T2_Compare_faster
+COMMENT                    $CA8C                              increases when wheel to fast, decreases when wheel to slow
+LABEL                    $CA8D                              PWM_T2_Compare_current
+COMMENT                    $CA8D                              compare value to T2 Hi counter, if 0 than compare is done for the round
+LABEL                    $CA8E                              PWM_T2_Compare_slower
 LABEL                    $CBEA                              Vec_Default_Stk
 LABEL                    $CBEB                              Vec_High_Score
 LABEL                    $CBF2                              Vec_SWI2_Vector
@@ -2885,19 +2928,21 @@ LABEL                    $D0A8                              _D0A8
 LABEL                    $D0B0                              _D0B0
 LABEL                    $D800                              _D800
 LABEL                    $D8D8                              _D8D8
-RANGE $0000-$002C DP $FF
-RANGE $002D-$0127 DP $D0
-RANGE $0128-$0149 DP $FF
-RANGE $014A-$014C DP $C8
-RANGE $014D-$014F DP $FF
-RANGE $0150-$023C DP $D0
-RANGE $023D-$0270 DP $FF
-RANGE $0271-$0494 DP $D0
-RANGE $0495-$0595 DP $FF
-RANGE $0596-$060A DP $D0
-RANGE $060B-$14EA DP $FF
-RANGE $14EB-$153E DP $C8
-RANGE $153F-$1FFE DP $FF
+RANGE $0000-$0027 DP $FF
+RANGE $002D-$0122 DP $D0
+RANGE $0128-$0144 DP $FF
+RANGE $0150-$0237 DP $D0
+RANGE $023D-$024E DP $FF
+RANGE $0252-$0259 DP $D0
+RANGE $025D-$026B DP $FF
+RANGE $0271-$048F DP $D0
+RANGE $0495-$0590 DP $FF
+RANGE $0596-$0605 DP $D0
+RANGE $060B-$064D DP $FF
+RANGE $0651-$0664 DP $D0
+RANGE $0668-$14E5 DP $FF
+RANGE $14EB-$1539 DP $C8
+RANGE $153F-$1FF9 DP $FF
 RANGE $0000-$000A CHAR_DATA 30
 RANGE $000A-$000B DB_DATA 8
 RANGE $000B-$000D DW_DATA 4

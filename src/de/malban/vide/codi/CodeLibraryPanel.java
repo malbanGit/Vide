@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Vector;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -88,6 +89,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         } catch (Throwable e) { }
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
     }
+    String treeName = null;
     String fileName = null;
     boolean init = false;
 
@@ -487,6 +489,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         if (entry.type == DIR) return;
         jLayeredPane1.getComponentsInLayer(3);
         fileName = null;
+        treeName = entry.path.toString();
         resetLayers();
         if ( (entry.name.toLowerCase().endsWith(".asm")) ||
              (entry.name.toLowerCase().endsWith(".s")) ||
@@ -985,8 +988,8 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     }
     private boolean isProject()
     {
-        if (fileName == null) return false;
-        Path p = Paths.get(fileName);
+        if (treeName == null) return false;
+        Path p = Paths.get(treeName);
         String dir = p.getParent().toString();
         ProjectProperties project = getProjectFile(dir);
         if (project == null) return false;
@@ -1051,6 +1054,16 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                         String banked = filename+"_"+(b) + ".bin";
                         de.malban.util.UtilityFiles.move(org, banked);
                         
+                        org = filename + ".cnt";
+                        banked = filename+"_"+(b) + ".cnt";
+//                        de.malban.util.UtilityFiles.move(org, banked);
+                        
+                        Vector<String> what = new Vector<String>();
+                        Vector<String> with = new Vector<String>();
+                        what.add("BANK 0");
+                        with.add("BANK "+(b));
+                        de.malban.util.UtilityString.replaceToNewFile(new File(org), new File(banked), what,with);
+                        de.malban.util.UtilityFiles.deleteFile(org);
                         
                     }
                 }
@@ -1172,6 +1185,8 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         {
             typeFlags += Cartridge.FLAG_BANKSWITCH_VECFLASH;
         }
+        if ((typeFlags &Cartridge.FLAG_IMAGER )==  Cartridge.FLAG_IMAGER)
+            cart.setWheelName(project.getWheelName());
         
         cart.setTypeFlags(typeFlags);
 

@@ -8,11 +8,11 @@ package de.malban;
 import de.malban.event.EventSupport;
 import de.malban.gui.CSAMainFrame;
 import de.malban.sound.tinysound.TinySound;
-import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+
 
 /**
  *
@@ -24,9 +24,14 @@ public class VideMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        
-        
+/*        
+        System.out.println("JInput version: " + Version.getVersion());
+        ControllerEnvironment ce = ControllerEnvironment.getDefaultEnvironment();
+        Controller[] cs = ce.getControllers();
+        for (int i = 0; i < cs.length; i++)
+            System.out.println(i + ". " + cs[i].getName() + ", " + cs[i].getType() );
+*/
+                
         Toolkit.getDefaultToolkit().setDynamicLayout(true);
         System.setProperty("sun.awt.noerasebackground", "true");
         JFrame.setDefaultLookAndFeelDecorated(true);

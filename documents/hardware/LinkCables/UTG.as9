@@ -1,0 +1,3217 @@
+; it seems communication VLinkCable is done via
+; Joystick in Port two.
+; button 4 (bit 7) is also triggering  a VIA interrupt (CA1)
+; which is used to synchronize the communication
+; with button 4 connected one vectrex can trigger an interrupt on the other
+; the actual data seems to be transported
+; via bit 5 and 6 (on what I guess is a primary vectrex) (Port 2: Button 2 and 3)
+; via bit 4 and 5 (on what I guess is a secondary vectrex) (Port 2: Button 1 and 2)
+; a quarter of a parallel connection :-)
+
+; the communication seems to be "bi" directional
+; sending and data sets CA1, the other side waits for CA1
+; and immediatly sorts out the data of the 2 bits
+; and with acknowledgment sends its own data back... and so forth
+
+                INCLUDE 'all.i' 
+
+VIA_port_b      EQU     $D000   ;VIA port B data I/O register
+VIA_port_a      EQU     $D001   ;VIA port A data I/O register (handshaking)
+VIA_shift_reg   EQU     $D00A   ;VIA shift register
+VIA_aux_cntl    EQU     $D00B   ;VIA auxiliary control register
+
+
+
+VIA_t1_cnt_lo           EQU     $d004
+
+Vec_Misc_Count          EQU     $c823
+
+intensity_to_A          EQU     $f2ab
+random                  EQU     $f511
+read_joystick           EQU     $f1f8
+
+init_PIA_chip                       EQU $F14C
+initialize_OS_RAM                   EQU $F164
+reinit                              EQU $F18B
+waitrecal                           EQU $F192
+set_refresh                         EQU $F1A2
+dptoD0                              EQU $F1AA
+dptoC8                              EQU $F1AF
+read_switches                       EQU $F1B4
+read_switches2                      EQU $F1BA
+read_jstick_analog                  EQU $F1F5
+read_jstick_digital                 EQU $F1F8
+byte_2_sound_chip                   EQU $F256
+byte_2_sound_chip2                  EQU $F259
+clear_sound_chip                    EQU $F272
+copy_bytes_2_sound_chip             EQU $F27D
+do_sound                            EQU $F289
+intensity_to_1F                     EQU $F29D
+intensity_to_3F                     EQU $F2A1
+intensity_to_5F                     EQU $F2A5
+intensity_to_7F                     EQU $F2A9
+intensity_to_a                      EQU $F2AB
+dotixb                              EQU $F2BE
+dotix                               EQU $F2C1
+dot_at_d                            EQU $F2C3
+dot_at_current_position             EQU $F2C5
+dot_list                            EQU $F2D5
+dotix_then_reset                    EQU $F2DE
+move_pen7F_no_inc                   EQU $F2F2
+move_pen7F_to_d                     EQU $F2FC
+move_penFF                          EQU $F308
+move_pen7F                          EQU $F30C
+move_pen                            EQU $F310
+move_pen_d                          EQU $F312
+set_dp_and_reset0ref                EQU $F34A
+check0ref                           EQU $F34F
+reset0ref                           EQU $F354
+print_1_string                      EQU $F373
+print_with_dft_hw                   EQU $F378
+print_at_d                          EQU $F37A
+printu                              EQU $F385
+printu2                             EQU $F38A
+printu3                             EQU $F38C
+print_b_minus_a                     EQU $F391
+print_b_minus_a2                    EQU $F393
+move_then_draw_VL_with_count1       EQU $F3AD
+move_then_draw_VL_with_count2       EQU $F3B1
+move_then_draw_VL_with_count3       EQU $F3B5
+move_then_draw_VL_with_count4       EQU $F3B7
+move_then_draw_VL_with_count6       EQU $F3B9
+move_then_draw_VL_with_count5       EQU $F3BC
+draw_VL_with_count4                 EQU $F3CE
+draw_VL_with_count3                 EQU $F3D2
+draw_VL_with_count2                 EQU $F3D6
+draw_VL_with_count6                 EQU $F3D8
+draw_VL_with_count5                 EQU $F3DA
+draw_VL_with_count1                 EQU $F3DD
+draw_to_d                           EQU $F3DF
+drawl1_scale_FF                     EQU $F404
+drawl1_scale_7F                     EQU $F408
+drawl1                              EQU $F40C
+drawl1b                             EQU $F40E
+next_pt                             EQU $F410
+dwp_with_count                      EQU $F434
+draw_with_pattern                   EQU $F437
+drawl2                              EQU $F46E
+display_string                      EQU $F495
+get_random_a2                       EQU $F511
+get_random_a                        EQU $F517
+init_music_buf                      EQU $F533
+clear_blockxb                       EQU $F53F
+clear_C8_ram                        EQU $F542
+clear_256_bytes                     EQU $F545
+clear_block_to_0x80                 EQU $F550
+clear_block_to_a                    EQU $F552
+decrement_counters_C82E_C830        EQU $F55A
+decrement_counters_C82E_C833        EQU $F55E
+delay_b_3                           EQU $F56D
+delay_b_2                           EQU $F571
+delay_b_1                           EQU $F575
+delay_b_0                           EQU $F579
+get_bit_mask                        EQU $F57E
+get_absolute_value_of_ab            EQU $F584
+convert_rise_run_to_angle           EQU $F593
+get_2nd_index_pair                  EQU $F5D9
+get_1st_index_pair                  EQU $F5DB
+get_rotation_index_pairs            EQU $F5EF
+convert_abs_angle_to_rise_run       EQU $F5FF
+convert_angle_to_rise_run           EQU $F601
+rotate_vector_list2                 EQU $F610
+rotate_vector_list1                 EQU $F61F
+transform_next_point                EQU $F637
+xform_1                             EQU $F65B
+xform_1a                            EQU $F65D
+xform_2                             EQU $F661
+xform_2a                            EQU $F663
+move_block                          EQU $F67F
+move_block2                         EQU $F683
+init_sound                          EQU $F687
+init_sound2                         EQU $F68D
+get_players_game                    EQU $F7A9
+handle_buttons                      EQU $F82C
+display_option_string               EQU $F835
+set_dft_score                       EQU $F84F
+convert_a_to_bcd_and_add            EQU $F85E
+add_d_to_x_in_bcd                   EQU $F87C
+compare_scores                      EQU $F8C7
+check_4_new_hi_score                EQU $F8D8
+modify_target_and_check_4_hit1      EQU $F8E5
+modify_target_and_check_4_hit2      EQU $F8F3
+check_bullet_for_hit                EQU $F8FF
+check_bullet_for_hit2               EQU $F903
+generate_explosion_sound            EQU $F92E
+character_table                     EQU $F9F4
+
+
+tank1_structure  EQU $c980
+posY             EQU 0
+posX             EQU 2
+posZ             EQU 4
+Direction        EQU 6
+moving           EQU 7
+pause            EQU 8
+
+tank2_structure  EQU $c989
+
+temp             EQU $ca00
+temp2            EQU $ca02
+temp3            EQU $ca04
+temp4            EQU $ca06
+radar_pos        EQU $ca08
+radar_pause      EQU $ca0a
+move_pause       EQU $ca0b
+
+
+            org $0000
+
+vl_test0000: fcb $67
+vl_test0001: fcb $20
+vl_test0002: fcc "GCE     "
+vl_test000A: fcb $80
+vl_test000B: fcb $00
+vl_test000C: fcb $11
+vl_test000D: fcb $00
+
+vl_test000E: jmp start_UTG
+
+vl_test0011: fcb $00
+vl_test0012: fcb $00
+vl_test0013: fcb $00
+vl_test0014: fcb $00
+vl_test0015: fcb $00
+vl_test0016: fcb $80
+
+
+syncVectrex_3bytes: 
+             lda #$D0        ; setup DP to D0
+vl_test0019: tfr a,dp
+
+; reading and writing from the view of primary vectrex
+; secondary vectrex is the other way around!
+vl_test001B: ldx #$C881      ; send data from this address [data original from primary vectrex]
+vl_test001E: ldy #$C884      ; read data to this address [data original from secondary vectrex]
+
+vl_test0022: lda #$FF
+vl_test0024: sta $C880
+vl_test0027: jsr JoytickFFCommunication_A
+
+vl_test002A: pshs a     ; remember value got from joystick port 2
+vl_test002C: lda #$BF
+vl_test002E: jsr write_A_toJoy2
+vl_test0031: lda #$18     ; 0001 1000 ; SHIFT mode = 110 - SHIFT out under control of system clock
+                          ; (bit 6+7 = 00) timer one shot mode ramp not controlled by bit 7 of VIA B
+vl_test0033: sta <$0B     ; VIA auxiliary control register 
+
+vl_test0035: puls a       ; get last read value from joystick port
+vl_test0037: bita #$80    ; (equal to CA1 interrupt)
+vl_test0039: beq vl_test0041 ; if bit 7 is set, branch [other vectrex was already found]
+vl_test003B: ldd #$FFFF   ; wait a "long time" for other vectrex
+vl_test003E: jsr wait_CA1_Timer_D ; if return happens we found a vectrex, 
+                            ; if vectrex is not found, the subroutine returns directly
+                            ; to "our" caller and the next instruction is never reached!
+
+vl_test0041: jsr JoytickFFCommunication_A ; send ff and read one "byte"
+vl_test0044: anda #$F0    ; only bits of port 2
+vl_test0046: cmpa #$70    ; upper halfbyte ($f0) without CA1 ($80) ?
+vl_test0048: lbne vl_test00CF
+
+; 
+primaryVectrexCommunication:
+vl_test004C: lda #$8F    ; $1000 1111, triger CA1 on other vectrex, 000 data, 1111 "buttons" of joy 1 (ignore)
+                         ; the other vectrex receives  a 000 as data, which is not 7
+                         ; which put the other vectrex as secondary
+                         ; (I guess)
+; receive bit 7 and 6 [rr00 0000]
+vl_test004E: jsr write_A_toJoy2
+
+next_byte_communication: 
+             jsr wait_CA1_Timer_01ff
+vl_test0054: jsr JoytickFFCommunication_A
+; from data
+vl_test0057: anda #$60   ; only bit 5 and 6 contain data
+vl_test0059: asla   ; 0xx0 0000 -> xx00 0000, correct bit position
+vl_test005A: sta ,y ; store received upper two bits in y
+
+; to data
+vl_test005C: lda ,x ; load data to transport
+vl_test005E: lsra   ; put bits to 5 and 6 xx00 0000 -> 0xx0 0000
+vl_test005F: anda #$60 ; only bit 5 and 6 contain data
+vl_test0061: ora #$80 ; set bit 7 (CA1 of other vectrex)
+
+; send bit 7 and 6 [ww00 0000]
+; receive bit 5 and 4 [00rr 0000]
+vl_test0063: jsr write_A_toJoy2
+vl_test0066: jsr wait_CA1_Timer_01ff
+vl_test0069: jsr JoytickFFCommunication_A
+vl_test006C: anda #$60 ; only bit 5 and 6 contain data
+vl_test006E: lsra ; 0xx0 0000 -> 00xx 0000, correct bit position
+vl_test006F: ora ,y ; and combine the two bits with already received data
+vl_test0071: sta ,y ; write data
+
+vl_test0073: lda ,x; get next data to be sent
+vl_test0075: asla ; put bits to 5 and 6 00xx 0000 -> 0xx0 0000
+vl_test0076: anda #$60 ; only bit 5 and 6 contain data
+vl_test0078: ora #$80 ; set bit 7 (CA1 of other vectrex)
+
+; send bit 5 and 4 [00ww 0000]
+; receive bit 3 and 2 [0000 rr00]
+vl_test007A: jsr write_A_toJoy2
+vl_test007D: jsr wait_CA1_Timer_01ff
+vl_test0080: jsr JoytickFFCommunication_A
+vl_test0083: anda #$60 ; only bit 5 and 6 contain data
+vl_test0085: lsra
+vl_test0086: lsra
+vl_test0087: lsra ; 0xx0 0000 -> 0000 xx00, correct bit position
+vl_test0088: ora ,y; and combine the two bits with already received data
+vl_test008A: sta ,y; write data
+
+vl_test008C: lda ,x; get next data to be sent
+vl_test008E: asla
+vl_test008F: asla
+vl_test0090: asla ; put bits to 5 and 6 0000 xx00 -> 0xx0 0000
+vl_test0091: anda #$60 ; only bit 5 and 6 contain data
+vl_test0093: ora #$80 ; set bit 7 (CA1 of other vectrex)
+
+; send bit 3 and 2 [0000 ww00]
+; receive bit 1 and 0 [0000 00rr]
+vl_test0095: jsr write_A_toJoy2
+vl_test0098: jsr wait_CA1_Timer_01ff
+vl_test009B: jsr JoytickFFCommunication_A
+vl_test009E: anda #$60 ; only bit 5 and 6 contain data
+vl_test00A0: lsra
+vl_test00A1: lsra
+vl_test00A2: lsra
+vl_test00A3: lsra
+vl_test00A4: lsra ; 0xx0 0000 -> 0000 00xx, correct bit position
+vl_test00A5: ora ,y; and combine the two bits with already received data
+vl_test00A7: sta ,y+; write data, inc y
+vl_test00A9: lda ,x+; get next data to be sent, inc x
+vl_test00AB: asla
+vl_test00AC: asla
+vl_test00AD: asla
+vl_test00AE: asla
+vl_test00AF: asla ; put bits to 5 and 6 0000 00xx -> 0xx0 0000
+vl_test00B0: anda #$60 ; only bit 5 and 6 contain data
+vl_test00B2: ora #$80 ; set bit 7 (CA1 of other vectrex)
+
+; send bit 1 and 0 [0000 00ww]
+; (also receive bit 7 and 6 [rr00 0000] - if any avalable)
+vl_test00B4: jsr write_A_toJoy2
+
+; did we finish sending all data?
+vl_test00B7: cmpx #$C884 ; (3 bytes)
+
+; no, than go on sending
+vl_test00BA: bne next_byte_communication
+
+;
+vl_test00BC: inc $C880 ; dont know, indicator second primary?
+
+; one last sync for good will?
+vl_test00BF: jsr wait_CA1_Timer_01ff
+vl_test00C2: jsr JoytickFFCommunication_A
+
+; restore some sensible timer settings?
+vl_test00C5: ldd #$0200
+vl_test00C8: std <$04 ; VIA timer lo -> hi
+
+vl_test00CA: lda #$98 ; clean up aux VIA register
+; 1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+                      ; (bit 6+7 = 10) timer one shot mode ramp controlled by bit 7 of VIA B
+vl_test00CC: sta <$0B
+vl_test00CE: rts ; done
+
+
+; secondary communication has two quirks
+; a) read and write addresses are switched
+; b) for data transport bit 4 and 5 are used instead of 5 and 6
+secondaryVectrexCommunication: 
+
+; send bit 7 and 6 [ww00 0000]
+; receive bit 7 and 6 [rr00 0000]
+             lda ,y    ; load data to transport
+vl_test00D1: lsra ; put bits to 4 and 5 xx00 0000 -> 00xx 0000
+vl_test00D2: lsra
+vl_test00D3: anda #$30 ; only bit 4 and 5 contain data
+vl_test00D5: ora #$80 ; set bit 7 (CA1 of other vectrex)
+vl_test00D7: jsr write_A_toJoy2
+vl_test00DA: jsr wait_CA1_Timer_01ff
+vl_test00DD: jsr JoytickFFCommunication_A
+vl_test00E0: anda #$30 ; only bit 4 and 5 contain data
+vl_test00E2: asla
+vl_test00E3: asla ; 00xx 0000 -> xx00 0000, correct bit position
+vl_test00E4: sta ,x ; store received upper two bits in x
+
+; send bit 5 and 4 [00ww 0000]
+; receive bit 5 and 4 [00rr 0000]
+vl_test00E6: lda ,y ; get next data to be sent
+vl_test00E8: anda #$30 ; only bit 4 and 5 contain data
+vl_test00EA: ora #$80 ; set bit 7 (CA1 of other vectrex)
+vl_test00EC: jsr write_A_toJoy2
+vl_test00EF: jsr wait_CA1_Timer_01ff
+vl_test00F2: jsr JoytickFFCommunication_A
+vl_test00F5: anda #$30 ; only bit 4 and 5 contain data
+vl_test00F7: ora ,x ; and combine the two bits with already received data
+vl_test00F9: sta ,x ; write data
+
+; send bit 3 and 2 [0000 ww00]
+; receive bit 3 and 2 [0000 rr00]
+vl_test00FB: lda ,y ; get next data to be sent
+vl_test00FD: asla
+vl_test00FE: asla ; put bits to 4 and 5 0000 xx00 -> 00xx 0000
+vl_test00FF: anda #$30 ; only bit 4 and 5 contain data
+vl_test0101: ora #$80 ; set bit 7 (CA1 of other vectrex)
+vl_test0103: jsr write_A_toJoy2
+vl_test0106: jsr wait_CA1_Timer_01ff
+vl_test0109: jsr JoytickFFCommunication_A
+vl_test010C: anda #$30 ; only bit 4 and 5 contain data
+vl_test010E: lsra
+vl_test010F: lsra ; 00xx 0000 -> 0000 xx00, correct bit position
+vl_test0110: ora ,x ; and combine the two bits with already received data
+vl_test0112: sta ,x ; write data
+
+; send bit 1 and 0 [0000 00ww]
+; receive bit 1 and 0 [0000 00rr]
+vl_test0114: lda ,y+ ; get next data to be sent, and inc y
+vl_test0116: asla
+vl_test0117: asla
+vl_test0118: asla
+vl_test0119: asla ; put bits to 4 and 5 0000 00xx -> 00xx 0000
+vl_test011A: anda #$30 ; only bit 4 and 5 contain data
+vl_test011C: ora #$80 ; set bit 7 (CA1 of other vectrex)
+vl_test011E: jsr write_A_toJoy2
+vl_test0121: jsr wait_CA1_Timer_01ff
+vl_test0124: jsr JoytickFFCommunication_A
+vl_test0127: anda #$30 ; only bit 4 and 5 contain data
+vl_test0129: lsra
+vl_test012A: lsra
+vl_test012B: lsra
+vl_test012C: lsra ; 0000 00xx -> 0000 xx00, correct bit position
+vl_test012D: ora ,x ; and combine the two bits with already received data
+vl_test012F: sta ,x+ ; write data, inc x
+
+; did we finish sending all data?
+vl_test0131: cmpx #$C884 ; (3 bytes)
+vl_test0134: bne secondaryVectrexCommunication
+
+vl_test0136: lda #$80 ; set bit 7 (CA1 of other vectrex)
+
+; one last sync for good will?
+vl_test0138: jsr write_A_toJoy2
+vl_test013B: jsr JoytickFFCommunication_A
+
+vl_test013E: neg $C880 ; dont know, indicator second primary?
+
+; restore some sensible timer settings?
+vl_test0141: ldd #$0200
+vl_test0144: std <$04 ; VIA timer1 lo -> hi
+
+; what is that for?
+vl_test0146: std <$08 ; VIA timer 2 lo -> hi ???
+
+; 1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+                  ; (bit 6+7 = 10) timer one shot mode ramp controlled by bit 7 of VIA B
+vl_test0148: lda #$98 ; clean up aux VIA register
+vl_test014A: sta <$0B
+vl_test014C: rts
+
+
+; wait for interrupt CA1
+; with timeout after 0x01ff cylces
+wait_CA1_Timer_01ff: ldd #$FF01
+
+; wait for interrupt CA1
+; with timeout given in D (Timer 16 bit)
+wait_CA1_Timer_D:
+; init timer
+; store given parameter to A to timer 1 low [latch (reg 6 is written]
+; B to timer 1 high [latch reg 6 is transfered to reg 4]
+; B is also transfere3d to reg 7 high latch
+; resets interrupt flag
+             std <$04 ; store timer values
+
+vl_test0152: ldd #$0240 ; interrupt test flags
+vl_test0155: bitb <$0D ; test interrupt flag register ($d) for #$40 (Timer 1)
+vl_test0157: bne vl_test0160 ; if set -> branch, timeout was reached
+
+vl_test0159: bita <$0D ; test interrupt flag register ($d) for #$02 (CA1)
+    ; CA1 is connected to Joystick Port 2 Button 4
+    ; connecting another vectrex one can thus
+    ; generate an interupt from that other vectrex via joystick port
+vl_test015B: beq vl_test0155 ; if CA1 interrupt not detected  - go on trying
+
+; CA1 interrupt was detected
+vl_test015D: sta <$0D ; clear 0x02 to VIA interrupt flag register by writing 1
+vl_test015F: rts      ; go back
+
+; timeout happened
+vl_test0160: lda #$98 ; clean up aux VIA register
+; 1001 1000 SHIFT mode = 110 - SHIFT out under control of system clock
+                      ; (bit 6+7 = 10) timer one shot mode ramp controlled by bit 7 of VIA B
+vl_test0162: sta <$0B
+vl_test0164: puls pc, b, a ; is this a double RTS? go back 2 subroutine calls?
+;
+
+; value given in A
+; write value to joystick port 2 (buttons)
+; Port A of PSG is kept in OUTPUT mode
+write_A_toJoy2:
+             sta -01,s ; store given value on stack
+
+; Latch Reg $07 of PSG
+vl_test0168: lda #$07 ; Register 7 of PSG
+vl_test016A: sta <$01 ; VIA A = 0x07 (DAC)
+vl_test016C: ldd #$9981
+vl_test016F: sta <$00 ; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+vl_test0171: stb <$00 ; VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+
+; write value of $7f to reg $07 (latched)
+vl_test0173: lda #$7F ; $7f to VIA A (DAC) $7f = 0111 1111, disable all noise and tone in psg, 
+                      ; ENABLE OUTPUT on port A of PSG (port B irrelevant since it is a 8912)
+vl_test0175: sta <$01 ; $7f to VIA A (DAC)
+vl_test0177: ldd #$9181
+vl_test017A: sta <$00 ; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+vl_test017C: stb <$00 ; VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+
+; Latch Reg $E of PSG (Port A)
+vl_test017E: lda #$0E
+vl_test0180: sta <$01 ; $0e to VIA A (DAC)
+vl_test0182: ldd #$9981
+vl_test0185: sta <$00 ; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+vl_test0187: stb <$00 ; VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+
+; write A to port
+vl_test0189: lda -01,s ; read value from stack
+vl_test018B: sta <$01 ; output value to via VIA port A to Port A of PSG (Joystick buttons)
+vl_test018D: ldd #$9181 
+vl_test0190: sta <$00 ; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+vl_test0192: stb <$00 ; VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+vl_test0194: rts
+
+
+; set up DP to d0
+; setup joyport communication
+; sends $ff to Joystick 2
+; $ff inherently has bit 7 set, which also triggers CA1 on other vectrex
+; and reads afterwards joystick port 2
+; value of read is kept in A
+; PSG port A is kept in INPUT mode
+
+; Latch Reg $07 of PSG
+JoytickFFCommunication_A: 
+             lda #$07 ; Register 7 of PSG
+vl_test0197: sta <$01 ; VIA A = 0x07 (DAC)
+vl_test0199: ldd #$9981
+vl_test019C: sta <$00 ; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+vl_test019E: stb <$00 ; VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+
+; write value of $3f to reg $07 (latched)
+vl_test01A0: lda #$3F ; $3f to VIA A (DAC) $3f = 0011 1111, disable all noise and tone in psg, 
+                      ; enable INPUT on port A of PSG (port B irrelevant since it is a 8912)
+vl_test01A2: sta <$01 ; $3f to VIA A (DAC)
+vl_test01A4: ldd #$9181
+vl_test01A7: sta <$00 ; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+vl_test01A9: stb <$00 ; VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+
+; Latch Reg $E of PSG (Port A)
+vl_test01AB: lda #$0E ; 
+vl_test01AD: sta <$01 ; $0e to VIA A (DAC)  
+vl_test01AF: ldd #$9981
+vl_test01B2: sta <$00 ; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+vl_test01B4: stb <$00 ; VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)
+
+; write value of $ff to reg $0e (latched)
+vl_test01B6: lda #$FF
+vl_test01B8: sta <$01 ; write $ff to VIA A (DAC)
+vl_test01BA: ldd #$9181
+vl_test01BD: sta <$00 ; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+vl_test01BF: stb <$00 ; VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)
+
+vl_test01C1: ldd #$0089
+vl_test01C4: sta <$03 ; configure VIA A as input (all zeroes 0)
+vl_test01C6: stb <$00 ; VIA Port B = 89, mux disabled, RAMP disabled, BC1/BDIR = 01 (Read from PSG)
+
+vl_test01C8: ldb #$81
+vl_test01CA: lda <$01 ; read value to a from VIA A, which in turn reads Port A of PSG
+vl_test01CC: stb <$00 ; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)
+vl_test01CE: ldb #$FF
+vl_test01D0: stb <$03 ; configure VIA A as output (all zeroes 1)
+vl_test01D2: rts
+
+start_UTG:
+start:
+        jsr     read_switches ; also known as "Read_Btns_Mask"
+        jsr     read_switches
+        jsr     read_switches
+        jsr     read_switches
+
+        ldd #$0103    ; Set-up for joystick poll #0103 is standard for Joy 1
+        std $c81f     ;$C81F: Vec_Joy_Mux_1_X Joystick 1 X enable/mux flag (=1)
+                      ;$C820: Vec_Joy_Mux_1_Y Joystick 1 Y enable/mux flag (=3)
+
+        ldd #$0000    ; ignore reading of all Joy 2 analgo values!
+        std $c821     ;$c821: Vec_Joy_Mux_2_X Joystick 2 X enable/mux flag (=5)
+                      ;$c822: Vec_Joy_Mux_2_Y Joystick 2 Y enable/mux flag (=7)
+
+        sta $c823     ;Vec_Misc_Count Misc counter/flag byte, zero when not in use
+
+
+bzone:
+
+
+        ldd #radar_circle
+        std radar_pos
+        lda #5
+        sta radar_pause
+;        lda #40
+;        sta move_pause
+
+        ldu #tank1_structure
+        jsr init_tank1
+        ldu #tank2_structure
+        jsr init_tank2
+
+
+
+
+vl_test01D3: lda #$D0    ;Main Loop ??
+vl_test01D5: tfr a,dp
+vl_test01D7: lda #$20
+vl_test01D9: sta $CBF0
+vl_test01DC: bsr vl_test01F1 ; setup a default indirect branch address to "vl_test01F8"
+
+vl_test01DE: clra
+vl_test01DF: sta $D00A    ; shift register to 0
+vl_test01E2: jsr waitrecal
+vl_test01E5: jsr vl_test03AB ; Read joysticks? (Button and directions)
+vl_test01E8: jsr syncVectrex_3bytes 
+vl_test01EB: jsr [$C889]
+vl_test01EF: bra vl_test01DE
+
+vl_test01F1: ldd #vl_test01F8
+vl_test01F4: std $C889
+vl_test01F7: rts
+
+vl_test01F8: ldd #$0000 ;#$00C0
+vl_test01FB: std $C881
+vl_test01FE: ldd #$4F00
+vl_test0201: std $C883
+vl_test0204: ldd #$004f ;#$404F
+vl_test0207: std $C885
+vl_test020A: lda $C880
+vl_test020D: bmi vl_test021F
+vl_test020F: bne vl_test0218
+vl_test0211: ldd #vl_test023B
+vl_test0214: std $C889
+vl_test0217: rts
+
+vl_test0218: ldd #vl_test0269 ;#$0269
+vl_test021B: std $C889
+vl_test021E: rts
+
+vl_test021F: lda #$D0
+vl_test0221: tfr a,dp
+vl_test0223: jsr reset0ref
+vl_test0226: lda #$3F
+vl_test0228: jsr intensity_to_a
+vl_test022B: ldd #$10E0
+vl_test022E: jsr move_pen7F_to_d
+vl_test0231: lda #$0F
+vl_test0233: sta <$04
+vl_test0235: ldu #vl_test0368
+vl_test0238: jmp vl_test02F1
+
+vl_test023B: lda $C880
+vl_test023E: bne vl_test01F1
+             ldx #$C881
+             bsr vl_test0299
+             jmp loop
+vl_test0240: lda #$D0
+vl_test0242: tfr a,dp
+vl_test0244: jsr reset0ref
+vl_test0247: ldx #vl_test03FF
+vl_test024A: lda $C826
+vl_test024D: lsra
+vl_test024E: anda #$0F
+vl_test0250: lda a,x
+vl_test0252: jsr intensity_to_a
+vl_test0255: ldx #$C881
+vl_test0258: bsr vl_test0299
+vl_test025A: jsr move_pen7F_to_d
+vl_test025D: lda #$09
+vl_test025F: sta <$04
+vl_test0261: ldu #vl_test0334
+vl_test0264: jsr vl_test02F1
+vl_test0267: bra vl_test02BE
+
+
+vl_test0269: lda $C880  
+vl_test026C: cmpa #$01
+vl_test026E: bne vl_test01F1
+             ldx #$C884
+             bsr vl_test0299
+             jmp loop
+vl_test0270: lda #$D0
+vl_test0272: tfr a,dp
+vl_test0274: jsr reset0ref
+vl_test0277: ldx #vl_test03FF
+vl_test027A: lda $C826
+vl_test027D: lsra
+vl_test027E: anda #$0F
+vl_test0280: lda a,x
+vl_test0282: jsr intensity_to_a
+vl_test0285: ldx #$C884
+vl_test0288: bsr vl_test0299
+vl_test028A: jsr move_pen7F_to_d
+vl_test028D: lda #$09
+vl_test028F: sta <$04
+vl_test0291: ldu #vl_test0334
+vl_test0294: jsr vl_test02F1
+vl_test0297: bra vl_test02BE
+
+vl_test0299: lda $C80F
+vl_test029C: bita #$0F
+vl_test029E: beq vl_test02A9
+vl_test02A0: lda 02,x
+vl_test02A2: beq vl_test02B2
+vl_test02A4: deca
+vl_test02A5: sta 02,x
+vl_test02A7: bra vl_test02B2
+
+vl_test02A9: lda 02,x
+vl_test02AB: cmpa #$4F
+vl_test02AD: bcc vl_test02B2
+vl_test02AF: inca
+vl_test02B0: sta 02,x
+vl_test02B2: ldd $C887
+vl_test02B5: asla
+vl_test02B6: adda ,x
+vl_test02B8: aslb
+vl_test02B9: addb 01,x
+vl_test02BB: std ,x
+vl_test02BD: rts
+
+vl_test02BE: jsr reset0ref        ;Draw Square and Triangle
+vl_test02C1: lda $C883
+vl_test02C4: jsr intensity_to_a
+vl_test02C7: ldd $C881            
+vl_test02CA: jsr move_pen7F_to_d
+vl_test02CD: lda #$3F
+vl_test02CF: sta <$04
+vl_test02D1: ldu #vl_test0317     ;Draw Triangle
+vl_test02D4: jsr vl_test02F1
+vl_test02D7: jsr reset0ref
+vl_test02DA: lda $C886
+vl_test02DD: jsr intensity_to_a
+vl_test02E0: ldd $C884
+vl_test02E3: jsr move_pen7F_to_d
+vl_test02E6: lda #$3F
+vl_test02E8: sta <$04
+vl_test02EA: ldu #vl_test0324
+vl_test02ED: jsr vl_test02F1
+vl_test02F0: rts
+
+vl_test02F1: lda ,u+  ;Draw Vector Set
+vl_test02F3: sta <$01
+vl_test02F5: clr <$00
+vl_test02F7: pulu b, a
+vl_test02F9: inc <$00
+vl_test02FB: sta <$01
+vl_test02FD: clra
+vl_test02FE: andb #$1F
+vl_test0300: stb <$0A
+vl_test0302: sta <$05
+vl_test0304: ldb -01,u
+vl_test0306: andb #$F0
+vl_test0308: lda #$40
+vl_test030A: bita <$0D
+vl_test030C: beq vl_test030A
+vl_test030E: stb <$0A
+vl_test0310: lda ,u+
+vl_test0312: cmpa #$80
+vl_test0314: bne vl_test02F3
+vl_test0316: rts
+
+vl_test0317: fcb $14   ;Triangle
+vl_test0318: fcb $00
+vl_test0319: fcb $00 
+vl_test031A: fcb $D8
+vl_test031B: fcb $14
+vl_test031C: fcb $FF
+vl_test031D: fcb $00
+vl_test031E: fcb $D8
+vl_test031F: fcb $FF
+vl_test0320: fcb $28
+vl_test0321: fcb $14
+vl_test0322: fcb $FF
+vl_test0323: fcb $80
+
+vl_test0324: fcb $14
+vl_test0325: fcb $00
+vl_test0326: fcb $00
+vl_test0327: fcb $EC
+vl_test0328: fcb $14
+vl_test0329: fcb $FF
+vl_test032A: fcb $EC
+vl_test032B: fcb $EC
+vl_test032C: fcb $FF
+vl_test032D: fcb $14
+vl_test032E: fcb $EC
+vl_test032F: fcb $FF
+vl_test0330: fcb $14
+vl_test0331: fcb $14
+vl_test0332: fcb $FF
+vl_test0333: fcb $80
+
+vl_test0334: fcb $60
+vl_test0335: fcb $7F
+vl_test0336: fcb $00
+vl_test0337: fcb $F0
+vl_test0338: fcb $E0
+vl_test0339: fcb $FF
+vl_test033A: fcb $F0
+vl_test033B: fcb $20
+vl_test033C: fcb $FF
+vl_test033D: fcb $F0
+vl_test033E: fcb $38
+vl_test033F: fcb $00
+vl_test0340: fcb $20
+vl_test0341: fcb $00
+vl_test0342: fcb $FF
+vl_test0343: fcb $20
+vl_test0344: fcb $E0
+vl_test0345: fcb $FF
+vl_test0346: fcb $E0
+vl_test0347: fcb $20
+vl_test0348: fcb $00
+vl_test0349: fcb $20
+vl_test034A: fcb $20
+vl_test034B: fcb $FF
+vl_test034C: fcb $00
+vl_test034D: fcb $18
+vl_test034E: fcb $00
+vl_test034F: fcb $00
+vl_test0350: fcb $40
+vl_test0351: fcb $FF
+vl_test0352: fcb $C0
+vl_test0353: fcb $00
+vl_test0354: fcb $FF
+vl_test0355: fcb $00
+vl_test0356: fcb $C0
+vl_test0357: fcb $FF
+vl_test0358: fcb $40
+vl_test0359: fcb $00
+vl_test035A: fcb $FF
+vl_test035B: fcb $00
+vl_test035C: fcb $58
+vl_test035D: fcb $00
+vl_test035E: fcb $C0
+vl_test035F: fcb $00
+vl_test0360: fcb $FF
+vl_test0361: fcb $00
+vl_test0362: fcb $40
+vl_test0363: fcb $FF
+vl_test0364: fcb $40
+vl_test0365: fcb $00
+vl_test0366: fcb $FF
+vl_test0367: fcb $80
+
+vl_test0368: fcb $40
+vl_test0369: fcb $00
+vl_test036A: fcb $FF
+vl_test036B: fcb $C0
+vl_test036C: fcb $40
+vl_test036D: fcb $FF
+vl_test036E: fcb $40
+vl_test036F: fcb $00
+vl_test0370: fcb $FF
+vl_test0371: fcb $00
+vl_test0372: fcb $10
+vl_test0373: fcb $00
+vl_test0374: fcb $00
+vl_test0375: fcb $40
+vl_test0376: fcb $FF
+vl_test0377: fcb $C0
+vl_test0378: fcb $00
+vl_test0379: fcb $FF
+vl_test037A: fcb $00
+vl_test037B: fcb $C0
+vl_test037C: fcb $FF
+vl_test037D: fcb $40
+vl_test037E: fcb $00
+vl_test037F: fcb $FF
+vl_test0380: fcb $00
+vl_test0381: fcb $78
+vl_test0382: fcb $00
+vl_test0383: fcb $C0
+vl_test0384: fcb $00
+vl_test0385: fcb $FF
+vl_test0386: fcb $00
+vl_test0387: fcb $40
+vl_test0388: fcb $FF
+vl_test0389: fcb $00
+vl_test038A: fcb $10
+vl_test038B: fcb $00
+vl_test038C: fcb $40
+vl_test038D: fcb $00
+vl_test038E: fcb $FF
+vl_test038F: fcb $C0
+vl_test0390: fcb $10
+vl_test0391: fcb $00
+vl_test0392: fcb $40
+vl_test0393: fcb $00
+vl_test0394: fcb $FF
+vl_test0395: fcb $C0
+vl_test0396: fcb $40
+vl_test0397: fcb $FF
+vl_test0398: fcb $40
+vl_test0399: fcb $00
+vl_test039A: fcb $FF
+vl_test039B: fcb $00
+vl_test039C: fcb $10
+vl_test039D: fcb $00
+vl_test039E: fcb $C0
+vl_test039F: fcb $00
+vl_test03A0: fcb $FF
+vl_test03A1: fcb $00
+vl_test03A2: fcb $40
+vl_test03A3: fcb $00
+vl_test03A4: fcb $20
+vl_test03A5: fcb $C0
+vl_test03A6: fcb $FF
+vl_test03A7: fcb $20
+vl_test03A8: fcb $40
+vl_test03A9: fcb $FF
+vl_test03AA: fcb $80
+
+vl_test03AB: lda #$D0
+vl_test03AD: tfr a,dp
+vl_test03AF: jsr read_switches2 ; aka Read_Btns
+vl_test03B2: lda #$03 ; mux disabled, Y integrator selected
+vl_test03B4: sta <$00 ; VIA B
+vl_test03B6: clr <$01 ; VIA A = 0 (DAC)
+vl_test03B8: dec <$00 ; Mux enable (VIA B)
+vl_test03BA: ldb #$20 ; counter = 32
+vl_test03BC: decb
+vl_test03BD: bne vl_test03BC ; wait for loop
+
+vl_test03BF: inc <$00 ; mux disable (Via B)
+vl_test03C1: ldb #$20 ; comparator input bit
+vl_test03C3: lda #$40
+vl_test03C5: sta <$01 ; VIA A = $40 (DAC)
+vl_test03C7: lda #$01
+vl_test03C9: bitb <$00 
+vl_test03CB: bne vl_test03D5
+vl_test03CD: neg <$01
+vl_test03CF: nega
+vl_test03D0: bitb <$00
+vl_test03D2: beq vl_test03D5
+vl_test03D4: clra
+vl_test03D5: sta $C887
+vl_test03D8: lda #$01
+vl_test03DA: sta <$00
+vl_test03DC: clr <$01
+vl_test03DE: dec <$00
+vl_test03E0: ldb #$20
+vl_test03E2: decb
+vl_test03E3: bne vl_test03E2
+vl_test03E5: inc <$00
+vl_test03E7: ldb #$20
+vl_test03E9: lda #$40
+vl_test03EB: sta <$01
+vl_test03ED: lda #$01
+vl_test03EF: bitb <$00
+vl_test03F1: bne vl_test03FB
+vl_test03F3: neg <$01
+vl_test03F5: nega
+vl_test03F6: bitb <$00
+vl_test03F8: beq vl_test03FB
+vl_test03FA: clra
+vl_test03FB: sta $C888
+vl_test03FE: rts
+
+vl_test03FF: fcb $27
+vl_test0400: fcb $2B
+vl_test0401: fcb $2F
+vl_test0402: fcb $33
+vl_test0403: fcb $37
+vl_test0404: fcb $3B
+vl_test0405: fcb $3F
+vl_test0406: fcb $43
+vl_test0407: fcb $47
+vl_test0408: fcb $43
+vl_test0409: fcb $3F
+vl_test040A: fcb $3B
+vl_test040B: fcb $37
+vl_test040C: fcb $33
+vl_test040D: fcb $2F
+vl_test040E: fcb $2B
+
+
+
+
+
+
+
+
+
+
+
+
+loop:
+;        jsr waitrecal
+;
+;        clra
+;        jsr read_switches
+;        jsr read_joystick
+;        jsr vlink_xfer
+
+        lda $C880
+        bne move_id1
+
+        lda $c884
+        suba $c882
+        nega
+        sta tank1_structure+posZ
+        lda $c885
+        nega
+        suba $c881
+        sta tank1_structure+posX
+        bra donetempmoving
+move_id1:
+        lda $c882
+        suba $c884
+        sta tank1_structure+posZ
+        lda $c881
+        nega
+        suba $c885
+        sta tank1_structure+posX
+
+donetempmoving:
+
+        jsr draw_horizon
+        jsr draw_sights
+        jsr draw_radar
+        jsr draw_border
+
+        ldu #tank1_structure
+        jsr draw_radar_dots 
+        jsr draw_upper
+        jsr draw_lower
+        jsr start_move_tank
+
+;        ldu #tank2_structure
+;        jsr draw_radar_dots 
+;        jsr draw_upper
+;        jsr draw_lower
+;        jsr start_move_tank
+        rts
+        bra loop
+
+draw_border:
+        lda #$7f
+        sta <$04
+        ldd #$7f7f
+        MOVE_PEN_MACRO
+
+    
+        lda #$ff
+        sta <$04
+        ldd #$8100
+        START_DRAW_LINE_MACRO
+        ldd #$0081
+        CONTINUE_DRAW_LINE_MACRO
+        ldd #$7F00
+        CONTINUE_DRAW_LINE_MACRO
+        ldd #$007F
+        CONTINUE_DRAW_LINE_MACRO
+
+        TURN_OFF_PEN_MACRO
+        RESET0REF_MACRO
+        rts
+
+draw_radar:
+        lda #$5f
+        jsr intensity_to_A
+        lda #$7f
+        sta <$04
+        lda  #114 ;#122
+        ldb #0
+        MOVE_PEN_MACRO
+        lda #-3
+        ldb #0
+        START_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        lda #-28 ;#-39
+        ldb #0
+        CONTINUE_DRAW_LINE_MACRO
+        lda #-3
+        ldb #0
+        START_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        lda #17 ;#20
+        ldb #-17
+        CONTINUE_DRAW_LINE_MACRO
+        lda #0
+        ldb #3
+        START_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        lda #0
+        ldb #31
+        CONTINUE_DRAW_LINE_MACRO
+        lda #0
+        ldb #-3
+        START_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        lda #0
+        ldb #-14
+        CONTINUE_DRAW_LINE_MACRO
+        lda #10
+        ldb #10
+        START_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        lda #-10
+        ldb #-10
+        CONTINUE_DRAW_LINE_MACRO
+        lda #10
+        ldb #-10
+        START_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        lda #-10
+        ldb #10
+        CONTINUE_DRAW_LINE_MACRO
+        ldx radar_pos
+        ldd ,x
+        START_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        RESET0REF_MACRO
+        dec radar_pause
+        bne not_reset_radar
+        lda #5
+        sta radar_pause
+        ldd radar_pos
+        addd #2
+;        std radar_pos
+;        ldd radar_pos
+        cmpd #end_radar_circle
+        bne not_reset_radar1
+        ldd #radar_circle
+not_reset_radar1:
+        std radar_pos
+not_reset_radar:
+
+
+        rts
+
+draw_radar_dots:
+        lda #$5f
+        jsr intensity_to_A
+
+        lda #$7f
+        sta <$04
+        lda posZ,u
+        asra
+        asra
+        asra
+        ldb posX,u
+        asrb
+        asrb
+        asrb
+
+        adda #97   ;center of radar
+        addb #0
+        MOVE_PEN_MACRO
+
+        TURN_ON_PEN_MACRO
+        nop
+        TURN_OFF_PEN_MACRO
+        RESET0REF_MACRO
+        rts
+
+radar_circle: ;r=14     y^2=x^2-r^2
+              ;         y=sqrt(196-x^2)
+              ;y,x
+              fcb 14,0
+              fcb 14,1
+              fcb 14,2
+              fcb 14,3
+              fcb 13,4
+              fcb 13,5
+              fcb 13,6
+              fcb 12,7
+              fcb 11,8
+              fcb 11,9
+              fcb 10,10
+              fcb 9,11
+              fcb 8,11
+              fcb 7,12
+              fcb 6,13
+              fcb 5,13
+              fcb 4,13
+              fcb 3,14
+              fcb 2,14
+              fcb 1,14
+              fcb 0,14
+              fcb -1,14
+              fcb -2,14
+              fcb -3,14
+              fcb -4,13
+              fcb -5,13
+              fcb -6,13
+              fcb -7,12
+              fcb -8,11
+              fcb -9,11
+              fcb -10,10
+              fcb -11,9
+              fcb -11,8
+              fcb -12,7
+              fcb -13,6
+              fcb -13,5
+              fcb -13,4
+              fcb -14,3
+              fcb -14,2
+              fcb -14,1
+              fcb -14,0
+
+              fcb -14,-1
+              fcb -14,-2
+              fcb -14,-3
+              fcb -13,-4
+              fcb -13,-5
+              fcb -13,-6
+              fcb -12,-7
+              fcb -11,-8
+              fcb -11,-9
+              fcb -10,-10
+              fcb -9,-11
+              fcb -8,-11
+              fcb -7,-12
+              fcb -6,-13
+              fcb -5,-13
+              fcb -4,-13
+              fcb -3,-14
+              fcb -2,-14
+              fcb -1,-14
+              fcb 0,-14
+              fcb 1,-14
+              fcb 2,-14
+              fcb 3,-14
+              fcb 4,-13
+              fcb 5,-13
+              fcb 6,-13
+              fcb 7,-12
+              fcb 8,-11
+              fcb 9,-11
+              fcb 10,-10
+              fcb 11,-9
+              fcb 11,-8
+              fcb 12,-7
+              fcb 13,-6
+              fcb 13,-5
+              fcb 13,-4
+              fcb 14,-3
+              fcb 14,-2
+              fcb 14,-1
+
+end_radar_circle:
+            
+rotate_counterclockwise:
+   rts
+
+rotate_clockwise:
+   lda posX,u
+   sta temp
+   ldb posZ,u
+   stb temp2
+;   bra skip
+
+
+   ldb #126
+   mul
+   std temp3
+   lda temp2
+   ldb #25
+   mul
+   addd temp3
+
+;   clr temp4
+;   tsta
+;   bpl not_neg_r1
+;   inc temp4
+;   coma
+;   comb
+;   addd #01
+;not_neg_r1:
+
+;   asra
+;   rorb
+;   asra
+;   rorb
+;   asra
+;   rorb
+;   asra
+;   rorb
+;   asra
+;   rorb
+;   tst temp4
+;   beq not_neg_r1b
+;   comb
+;not_neg_r1b:
+   sta posX,u
+
+;   rts
+skip:
+   lda temp2
+   ldb #31
+   mul
+   std temp3
+   lda temp
+   ldb #-6
+   mul
+   addd temp3
+
+;   clr temp4
+;   tsta
+;   bpl not_neg_r2
+;   inc temp4
+;   coma
+;   comb
+;   addd #01
+not_neg_r2:
+
+;   asra
+;   rorb
+;   asra
+;   rorb
+;   asra
+;   rorb
+;   asra
+;   rorb
+;   asra
+;   rorb
+;   tst temp4
+;   beq not_neg_r2b
+;   comb
+;not_neg_r2b:
+   sta posZ,u
+   rts
+
+
+draw_horizon:
+        lda #$5f
+        jsr intensity_to_A
+        lda #$7f
+        sta <$04
+        lda #-32
+        ldb #$7f
+        MOVE_PEN_MACRO
+
+        lda #$ff
+        sta <$04
+        ldd #$0081
+        START_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        RESET0REF_MACRO
+
+
+        rts
+
+draw_sights:
+        lda #$7f
+        sta <$04
+        lda #52-32
+        ldb #$00
+        MOVE_PEN_MACRO
+
+        lda #$7f
+        sta <$04
+        lda #-33
+        ldb #$00
+        START_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        lda #-40
+        ldb #$00
+        CONTINUE_DRAW_LINE_MACRO
+        lda #-33
+        ldb #$00
+        START_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        RESET0REF_MACRO
+
+        lda #$7f
+        sta <$04
+        lda #12-32
+        ldb #-16
+        MOVE_PEN_MACRO
+        lda #$7f
+        sta <$04
+        lda #7
+        ldb #$00
+        START_DRAW_LINE_MACRO
+        lda #0
+        ldb #32
+        CONTINUE_DRAW_LINE_MACRO
+        lda #-7
+        ldb #0
+        CONTINUE_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        lda #-24
+        ldb #0
+        CONTINUE_DRAW_LINE_MACRO
+        lda #-7
+        ldb #0
+        START_DRAW_LINE_MACRO
+        lda #0
+        ldb #-32
+        CONTINUE_DRAW_LINE_MACRO
+        lda #7
+        ldb #0
+        CONTINUE_DRAW_LINE_MACRO
+        TURN_OFF_PEN_MACRO
+        RESET0REF_MACRO
+
+
+        rts
+
+init_tank1:
+        ldd #$0000
+        std posX,u
+        ldd #$0000
+        std posY,u
+        lda #63
+        sta posZ,u
+        lda #8 ;0
+        sta Direction,u
+
+        lda #10
+        sta pause,u
+        clr moving,u
+
+        rts
+
+init_tank2:
+        ldd #$0000
+        std posX,u
+        ldd #$0000
+        std posY,u
+        lda #100
+        sta posZ,u
+        lda #4
+        sta Direction,u
+
+        lda #10
+        sta pause,u
+        clr moving,u
+
+        rts
+
+
+draw_upper:
+        lda posZ,u
+        lsra
+        nega
+        adda #$7f
+        jsr intensity_to_A 
+
+
+        lda #$7f
+        sta <$04
+
+        lda posZ,u
+        lbmi done_draw1
+        clrb
+        adda posZ,u
+        adcb #$00
+        adda posZ,u
+        adcb #$00
+        lsrb
+        rora
+        lsrb
+        rora
+
+;        lda posZ,u
+;        asra
+;        asra
+;        sta temp
+;        adda temp
+;        adda temp
+        adda #-124
+;        ldb posX,u
+        sta temp
+        ldb #127
+        subb posZ,u
+        clr temp2
+        lda posX,u
+        bpl not_neg1
+        inc temp2
+        nega
+not_neg1:
+        mul
+        asra
+        rorb
+        asra
+        rorb
+        asra
+        rorb
+        asra
+        rorb
+        cmpa #0
+        bne done_draw1
+        cmpb #127
+        bhi done_draw1
+        tst temp2
+        beq not_neg1b
+        negb
+not_neg1b:
+        lda temp
+        MOVE_PEN_MACRO
+
+        ldx #upper_pointers
+        ldb Direction,u
+        aslb
+        abx
+        ldx ,x
+
+;        ldx #Upper_000
+
+        lda #$7f
+        suba posZ,u
+        lsla
+        sta <$04
+
+next_line1:
+        lda ,x+
+        beq pen_off1
+        bpl done_draw1
+        TURN_ON_PEN_MACRO
+        bra draw_vector1
+pen_off1:
+        TURN_OFF_PEN_MACRO
+draw_vector1:
+        ldd ,x++
+        CONTINUE_DRAW_LINE_MACRO
+        bra next_line1
+
+done_draw1:
+        TURN_OFF_PEN_MACRO
+        RESET0REF_MACRO
+        rts
+
+
+draw_lower:
+        lda posZ,u
+        lsra
+        nega
+        adda #$7f
+        jsr intensity_to_A 
+
+        lda #$7f
+        sta <$04
+
+        lda posZ,u
+        lbmi done_draw2
+        clrb
+        adda posZ,u
+        adcb #$00
+        adda posZ,u
+        adcb #$00
+        lsrb
+        rora
+        lsrb
+        rora
+;        lda posZ,u
+;        asra
+;        asra
+;        sta temp
+;        adda temp
+;        adda temp
+        adda #-124
+;        ldb posX,u
+        sta temp
+
+        ldb #127
+        subb posZ,u
+        clr temp2
+        lda posX,u
+        bpl not_neg2
+        inc temp2
+        nega
+not_neg2:
+        mul
+        asra
+        rorb
+        asra
+        rorb
+        asra
+        rorb
+        asra
+        rorb
+        cmpa #0
+        bne done_draw2
+        cmpb #127
+        bhi done_draw1
+        tst temp2
+        beq not_neg2b
+        negb
+not_neg2b:
+
+        lda temp
+        MOVE_PEN_MACRO
+
+        ldx #lower_pointers
+        ldb Direction,u
+        aslb
+        abx
+        ldx ,x
+
+
+;        ldx #Lower_000
+
+        lda #$7f
+        suba posZ,u
+        lsla
+        sta <$04
+
+next_line2:
+        lda ,x+
+        beq pen_off2
+        bpl done_draw2
+        TURN_ON_PEN_MACRO
+        bra draw_vector2
+pen_off2:
+        TURN_OFF_PEN_MACRO
+draw_vector2:
+        ldd ,x++
+        CONTINUE_DRAW_LINE_MACRO
+        bra next_line2
+done_draw2:
+
+        TURN_OFF_PEN_MACRO
+        RESET0REF_MACRO
+        rts
+
+
+
+start_move_tank:
+;        dec pause,u           ;Simple rotate tank routine
+;        bne not_rst_D
+;        lda #20
+;        sta pause,u
+;
+;         inc Direction,u
+;         lda Direction,u
+;         cmpa #32
+;         bne not_rst_D
+;         clr Direction,u
+;not_rst_D:
+;         rts
+
+
+
+;        dec move_pause
+;        bne done_start_move_tank
+;        lda #40
+;        sta move_pause
+
+
+        lda $c81c
+        beq no_up_down
+        bmi down
+        dec posZ,u
+        jsr check_tank_limits
+        bra no_up_down
+down:
+        inc posZ,u
+        jsr check_tank_limits
+no_up_down:
+
+
+        lda $c81b
+        beq no_left_right
+        bmi left
+        dec posX,u
+;         jsr rotate_counterclockwise
+        jsr check_tank_limits
+        bra no_left_right
+left:
+        inc posX,u
+        jsr check_tank_limits
+;         jsr rotate_clockwise
+no_left_right:
+
+        lda $c80f
+        bra done_start_move_tank
+        bne done_start_move_tank
+
+
+        lda moving,u
+        beq do_rotate
+        jsr move_tank
+        jsr random
+        cmpa #5
+        bhi done_start_move_tank
+        clr moving,u
+        bra done_start_move_tank
+do_rotate:
+        dec pause,u
+        bne done_start_move_tank
+
+        lda #10
+        sta pause,u
+
+        inc Direction,u
+        lda Direction,u
+        cmpa #32
+        bne not_reset
+        clr Direction,u
+not_reset:       
+        jsr random
+        cmpa #30
+        bhi done_start_move_tank
+        inc moving,u
+done_start_move_tank:
+        rts
+
+
+move_tank:
+        ldx #directions
+        ldb Direction,u
+        aslb
+        aslb
+        abx
+
+        ldd posX,u
+        addd ,x++
+        std posX,u
+
+        ldd posZ,u
+        addd ,x
+        std posZ,u
+        jsr check_tank_limits
+        rts
+
+check_tank_limits:
+        lda posZ,u
+        cmpa #126
+        blt not_reset_Z1        
+        lda #125
+        sta posZ,u
+        clr moving,u
+not_reset_Z1:
+        cmpa #-126
+        bgt not_reset_Z2
+        lda #-125
+        sta posZ,u
+        clr moving,u
+not_reset_Z2:
+
+        lda posX,u
+        cmpa #120
+        blt not_reset_X1
+        lda #119
+        sta posX,u
+        clr moving,u
+not_reset_X1:
+        cmpa #-120
+        bgt not_reset_X2
+        lda #-119
+        sta posX,u
+        clr moving,u
+not_reset_X2:
+
+        rts
+
+
+directions: fdb  -127,0    ;0    deltaX, deltaZ
+            fdb  -112,-16  ;1
+            fdb  -96,-32   ;2
+            fdb  -80,-48   ;3
+            fdb  -64,-64   ;4
+            fdb  -48,-80   ;5
+            fdb  -32,-96   ;6
+            fdb  -16,-112  ;7
+            fdb  0,-127    ;8
+            fdb  16,-112   ;9
+            fdb  32,-96    ;10
+            fdb  48,-80    ;11
+            fdb  64,-64    ;12
+            fdb  80,-48    ;13
+            fdb  96,-32    ;14
+            fdb  112,-16   ;15
+            fdb  127,0     ;16
+            fdb  112,16    ;17
+            fdb  96,32     ;18
+            fdb  80,48     ;19
+            fdb  64,64     ;20
+            fdb  48,80     ;21
+            fdb  32,96     ;22
+            fdb  16,112    ;23
+            fdb  0,127     ;24
+            fdb  -16,112   ;25
+            fdb  -32,96    ;26
+            fdb  -48,80    ;27
+            fdb -64,64     ;28
+            fdb -80,48     ;29
+            fdb -96,32     ;30
+            fdb -112,16    ;31
+
+lower_pointers:
+        FDB Lower_000
+        FDB Lower_001
+        FDB Lower_002
+        FDB Lower_003
+        FDB Lower_004
+        FDB Lower_005
+        FDB Lower_006
+        FDB Lower_007
+        FDB Lower_008
+        FDB Lower_009
+        FDB Lower_010
+        FDB Lower_011
+        FDB Lower_012
+        FDB Lower_013
+        FDB Lower_014
+        FDB Lower_015
+        FDB Lower_016
+        FDB Lower_017
+        FDB Lower_018
+        FDB Lower_019
+        FDB Lower_020
+        FDB Lower_021
+        FDB Lower_022
+        FDB Lower_023
+        FDB Lower_024
+        FDB Lower_025
+        FDB Lower_026
+        FDB Lower_027
+        FDB Lower_028
+        FDB Lower_029
+        FDB Lower_030
+        FDB Lower_031
+upper_pointers:
+        FDB Upper_000
+        FDB Upper_001
+        FDB Upper_002
+        FDB Upper_003
+        FDB Upper_004
+        FDB Upper_005
+        FDB Upper_006
+        FDB Upper_007
+        FDB Upper_008
+        FDB Upper_009
+        FDB Upper_010
+        FDB Upper_011
+        FDB Upper_012
+        FDB Upper_013
+        FDB Upper_014
+        FDB Upper_015
+        FDB Upper_016
+        FDB Upper_017
+        FDB Upper_018
+        FDB Upper_019
+        FDB Upper_020
+        FDB Upper_021
+        FDB Upper_022
+        FDB Upper_023
+        FDB Upper_024
+        FDB Upper_025
+        FDB Upper_026
+        FDB Upper_027
+        FDB Upper_028
+        FDB Upper_029
+        FDB Upper_030
+        FDB Upper_031
+
+
+
+
+
+
+
+Lower_000: fcb 0,16,-61
+           fcb -1,-16,13
+           fcb -1,0,96
+           fcb -1,16,18
+           fcb -1,0,-127
+           fcb -1,10,30
+           fcb -1,0,78
+           fcb -1,-10,19
+;           fcb -1,0,0
+           fcb -1,0,-127
+           fcb -1,-16,13
+           fcb -1,0,96
+           fcb -1,16,18
+           fcb -1,10,-19
+           fcb -1,0,-78
+           fcb -1,-10,-30
+;           fcb -1,0,0
+           fcb 0,-16,13
+;           fcb -1,0,0
+           fcb 0,0,96
+;           fcb -1,0,0
+           fcb 1
+Lower_001: fcb 0,16,-52
+           fcb -1,-16,11
+           fcb -1,0,93
+           fcb -1,16,19
+           fcb -1,0,-123
+           fcb -1,10,26
+           fcb -1,0,75
+           fcb -1,-10,22
+           fcb -1,0,-14
+           fcb -1,0,-123
+           fcb -1,-16,14
+           fcb -1,0,93
+           fcb 0,16,16   ;
+           fcb 0,10,-15 ;
+           fcb -1,0,-75
+           fcb -1,-10,-33
+           fcb -1,0,14
+           fcb 0,-16,0
+           fcb -1,0,11
+           fcb 0,0,93
+           fcb -1,0,-11
+           fcb 1
+Lower_002: fcb 0,16,-42
+           fcb -1,-16,9
+           fcb -1,0,88
+           fcb -1,16,19
+           fcb -1,0,-116
+           fcb -1,10,21
+           fcb -1,0,70
+           fcb -1,-10,25
+           fcb -1,0,-27
+           fcb -1,0,-116
+           fcb -1,-16,14
+           fcb -1,0,88
+           fcb 0,16,14 ;
+           fcb 0,10,-11 ;
+           fcb -1,0,-71
+           fcb -1,-10,-34
+           fcb -1,0,27
+           fcb 0,-16,-13
+           fcb -1,0,22
+           fcb 0,0,88
+           fcb -1,0,-22
+           fcb 1
+Lower_003: fcb 0,16,-31
+           fcb -1,-16,8
+           fcb -1,0,79
+           fcb -1,16,18
+           fcb -1,0,-105
+           fcb -1,10,15
+           fcb -1,0,64
+           fcb -1,-10,26
+           fcb -1,0,-39
+           fcb -1,0,-105
+           fcb -1,-16,14
+           fcb -1,0,79
+           fcb 0,16,12 ;
+           fcb 0,10,-6 ;
+           fcb -1,0,-64
+           fcb -1,-10,-35
+           fcb -1,0,39
+           fcb 0,-16,-25
+           fcb -1,0,33
+           fcb 0,0,79
+           fcb -1,0,-33
+           fcb 1
+Lower_004: fcb 0,16,-17
+           fcb -1,-16,5
+           fcb -1,0,66
+           fcb -1,16,17
+           fcb -1,0,-88
+           fcb -1,10,8
+           fcb -1,0,54
+           fcb -1,-10,26
+           fcb -1,0,-50
+           fcb -1,0,-88
+           fcb -1,-16,13
+           fcb -1,0,66
+           fcb 0,16,9 ;
+           fcb 0,10,-1 ;
+           fcb -1,0,-54
+           fcb -1,-10,-33
+           fcb -1,0,50
+           fcb 0,-16,-37
+           fcb -1,0,42
+           fcb 0,0,66
+           fcb -1,0,-42
+           fcb 1
+Lower_005: fcb 0,16,-4
+           fcb -1,-16,3
+           fcb -1,0,52
+           fcb -1,16,14
+           fcb -1,0,-69
+           fcb -1,10,2
+           fcb -1,0,42
+           fcb -1,-10,25
+           fcb -1,0,-59
+           fcb -1,0,-69
+           fcb -1,-16,12
+           fcb -1,0,52
+           fcb 0,16,5 ;
+           fcb 0,10,5 ;
+           fcb -1,0,-42
+           fcb -1,-10,-32
+           fcb -1,0,59
+           fcb 0,-16,-47
+           fcb -1,0,50
+           fcb 0,0,52
+           fcb -1,0,-50
+           fcb 1
+Lower_006: fcb 0,16,9
+           fcb -1,-16,-1
+           fcb -1,0,38
+           fcb -1,16,12
+           fcb -1,0,-49
+           fcb -1,10,-5
+           fcb -1,0,30
+           fcb -1,-10,24
+           fcb -1,0,-65
+           fcb -1,0,-49
+           fcb -1,-16,10
+           fcb -1,0,38
+           fcb 0,16,1 ;
+           fcb 0,10,8 ;
+           fcb -1,0,-29
+           fcb -1,-10,-28
+           fcb -1,0,65
+           fcb 0,-16,-55
+           fcb -1,0,54
+           fcb 0,0,38
+           fcb -1,0,-54
+           fcb 1
+Lower_007: fcb 0,16,22
+           fcb -1,-16,-3
+           fcb -1,0,19
+           fcb -1,16,10
+           fcb -1,0,-26
+           fcb -1,10,-11
+           fcb -1,0,15
+           fcb -1,-10,22
+           fcb -1,0,-69
+           fcb -1,0,-26
+           fcb -1,-16,9
+           fcb -1,0,19
+           fcb 0,16,-2 ;
+           fcb 0,10,13 ;
+           fcb -1,0,-15
+           fcb -1,-10,-24
+           fcb -1,0,69
+           fcb 0,-16,-60
+           fcb -1,0,57
+           fcb 0,0,19
+           fcb -1,0,-57
+           fcb 1
+Lower_008: fcb 0,16,35
+           fcb -1,-16,-6
+;           fcb -1,0,0
+           fcb -1,16,6
+;           fcb -1,0,0
+           fcb -1,10,-18
+;           fcb -1,0,0
+           fcb -1,-10,18
+           fcb -1,0,-70
+;           fcb -1,0,0
+           fcb -1,-16,6
+;           fcb -1,0,0
+           fcb -1,16,-6
+           fcb -1,10,18
+;           fcb -1,0,0
+           fcb -1,-10,-18
+           fcb -1,0,70
+           fcb 0,-16,-64
+           fcb -1,0,58
+;           fcb 0,0,0
+           fcb -1,0,-58
+           fcb 1
+Lower_009: fcb 0,16,46
+           fcb -1,-16,-8
+           fcb -1,0,-18
+           fcb 0,16,2 ;
+           fcb -1,0,24
+           fcb -1,10,-23
+           fcb -1,0,-15
+           fcb 0,-10,14 ;
+           fcb -1,0,-69
+           fcb -1,0,24
+           fcb -1,-16,3 
+           fcb -1,0,-18
+           fcb -1,16,-9 
+           fcb -1,10,21 
+           fcb -1,0,15
+           fcb -1,-10,-12
+           fcb -1,0,69
+           fcb 0,-16,-66
+           fcb -1,0,58
+           fcb 0,0,-18
+           fcb -1,0,-58
+           fcb 1
+Lower_010: fcb 0,16,55
+           fcb -1,-16,-10
+           fcb -1,0,-36
+           fcb -0,16,-1 ;
+           fcb -1,0,47
+           fcb -1,10,-27
+           fcb -1,0,-28
+           fcb -0,-10,8 ;
+           fcb -1,0,-65
+           fcb -1,0,47
+           fcb -1,-16,1 
+           fcb -1,0,-36
+           fcb -1,16,-12
+           fcb -1,10,24
+           fcb -1,0,28
+           fcb -1,-10,-5 
+           fcb -1,0,65
+           fcb 0,-16,-64
+           fcb -1,0,54
+           fcb 0,0,-36
+           fcb -1,0,-54
+           fcb 1
+Lower_011: fcb 0,16,62
+           fcb -1,-16,-12
+           fcb -1,0,-51
+           fcb -0,16,-4 ;
+           fcb -1,0,67
+           fcb -1,10,-31 
+           fcb -1,0,-41
+           fcb -0,-10,5 ;
+           fcb -1,0,-60
+           fcb -1,0,68
+           fcb -1,-16,-2 
+           fcb -1,0,-51
+           fcb -1,16,-15
+           fcb -1,10,25
+           fcb -1,0,41
+           fcb -1,-10,2 
+           fcb -1,0,59
+           fcb 0,-16,-61
+           fcb -1,0,49
+           fcb 0,0,-51
+           fcb -1,0,-49
+           fcb 1
+Lower_012: fcb 0,16,67
+           fcb -1,-16,-13
+           fcb -1,0,-66
+           fcb -0,16,-9 ;
+           fcb -1,0,88
+           fcb -1,10,-33
+           fcb -1,0,-54
+           fcb -0,-10,-1 ;
+           fcb -1,0,-50
+           fcb -1,0,88
+           fcb -1,-16,-5 
+           fcb -1,0,-66
+           fcb -1,16,-17
+           fcb -1,10,26
+           fcb -1,0,54
+           fcb -1,-10,8 
+           fcb -1,0,50
+           fcb 0,-16,-55
+           fcb -1,0,42
+           fcb 0,0,-66
+           fcb -1,0,-42
+           fcb 1
+Lower_013: fcb 0,16,69
+           fcb -1,-16,-14
+           fcb -1,0,-77
+           fcb -0,16,-12 ;
+           fcb -1,0,103
+           fcb -1,10,-34
+           fcb -1,0,-63
+           fcb -0,-10,-6 ;
+           fcb -1,0,-39
+           fcb -1,0,103
+           fcb -1,-16,-8 
+           fcb -1,0,-77
+           fcb -1,16,-18
+           fcb -1,10,25
+           fcb -1,0,63
+           fcb -1,-10,15 
+           fcb -1,0,39
+           fcb 0,-16,-47
+           fcb -1,0,33
+           fcb 0,0,-77
+           fcb -1,0,-33
+           fcb 1
+Lower_014: fcb 0,16,70
+           fcb -1,-16,-15
+           fcb -1,0,-87
+           fcb -0,16,-14 ;
+           fcb -1,0,116
+           fcb -1,10,-35
+           fcb -1,0,-71
+           fcb -0,-10,-10 ;
+           fcb -1,0,-28
+           fcb -1,0,116
+           fcb -1,-16,-10 
+           fcb -1,0,-87
+           fcb -1,16,-19
+           fcb -1,10,24
+           fcb -1,0,71
+           fcb -1,-10,21 
+           fcb -1,0,28
+           fcb 0,-16,-38
+           fcb -1,0,23
+           fcb 0,0,-87
+           fcb -1,0,-23
+           fcb 1
+Lower_015: fcb 0,16,66
+           fcb -1,-16,-14
+           fcb -1,0,-92
+           fcb -0,16,-16 ;
+           fcb -1,0,122
+           fcb -1,10,-33
+           fcb -1,0,-74
+           fcb -0,-10,-15 ;
+           fcb -1,0,-15
+           fcb -1,0,122 
+           fcb -1,-16,-11
+           fcb -1,0,-92
+           fcb -1,16,-19
+           fcb -1,10,22
+           fcb -1,0,75 
+           fcb -1,-10,25
+           fcb -1,0,15
+           fcb 0,-16,-26
+           fcb -1,0,12
+           fcb 0,0,-92
+           fcb -1,0,-12
+           fcb 1
+Lower_016: fcb 0,16,60
+           fcb -1,-16,-13
+           fcb -1,0,-94
+           fcb -1,16,-18
+           fcb -1,0,125
+           fcb -1,10,-30
+           fcb -1,0,-76
+           fcb -1,-10,-19
+;           fcb -1,0,0
+           fcb -1,0,125
+           fcb -1,-16,-13
+           fcb -1,0,-94
+           fcb -1,16,-18
+           fcb -1,10,19
+           fcb -1,0,76
+           fcb -1,-10,30
+;           fcb -1,0,0
+           fcb 0,-16,-13
+;           fcb -1,0,0
+           fcb 0,0,-94
+;           fcb -1,0,0
+           fcb 1
+Lower_017: fcb 0,16,52
+           fcb 0,-16,-11 ;
+           fcb -1,0,-93
+           fcb -1,16,-19
+           fcb -1,0,123
+           fcb 0,10,-26 ;
+           fcb -1,0,-75
+           fcb -1,-10,-22
+           fcb -1,0,14
+           fcb -1,0,123
+           fcb -1,-16,-14
+           fcb -1,0,-93
+           fcb -1,16,-16
+           fcb -1,10,15
+           fcb -1,0,75
+           fcb -1,-10,33 
+           fcb -1,0,-14
+           fcb 0,-16,0
+           fcb -1,0,-11
+           fcb 0,0,-93
+           fcb -1,0,11
+           fcb 1
+Lower_018: fcb 0,16,42
+           fcb 0,-16,-9 ;
+           fcb -1,0,-88
+           fcb -1,16,-19
+           fcb -1,0,116
+           fcb 0,10,-21 ;
+           fcb -1,0,-70
+           fcb -1,-10,-25
+           fcb -1,0,27
+           fcb -1,0,116
+           fcb -1,-16,-14
+           fcb -1,0,-88
+           fcb -1,16,-14
+           fcb -1,10,11
+           fcb -1,0,71
+           fcb -1,-10,34
+           fcb -1,0,-27
+           fcb 0,-16,13
+           fcb -1,0,-22
+           fcb 0,0,-88
+           fcb -1,0,22
+           fcb 1
+Lower_019: fcb 0,16,31
+           fcb 0,-16,-8 ;
+           fcb -1,0,-79
+           fcb -1,16,-18
+           fcb -1,0,105
+           fcb 0,10,-15 ;
+           fcb -1,0,-64
+           fcb -1,-10,-26
+           fcb -1,0,39
+           fcb -1,0,105
+           fcb -1,-16,-14
+           fcb -1,0,-79
+           fcb -1,16,-12
+           fcb -1,10,6
+           fcb -1,0,64
+           fcb -1,-10,35
+           fcb -1,0,-39
+           fcb 0,-16,25
+           fcb -1,0,-33
+           fcb 0,0,-79
+           fcb -1,0,33
+           fcb 1
+Lower_020: fcb 0,16,17
+           fcb 0,-16,-5 ;
+           fcb -1,0,-66
+           fcb -1,16,-17
+           fcb -1,0,88
+           fcb 0,10,-8 ;
+           fcb -1,0,-54
+           fcb -1,-10,-26
+           fcb -1,0,50
+           fcb -1,0,88
+           fcb -1,-16,-13
+           fcb -1,0,-66
+           fcb -1,16,-9
+           fcb -1,10,1
+           fcb -1,0,54
+           fcb -1,-10,33
+           fcb -1,0,-50
+           fcb 0,-16,37
+           fcb -1,0,-42
+           fcb 0,0,-66
+           fcb -1,0,42
+           fcb 1
+Lower_021: fcb 0,16,4
+           fcb 0,-16,-3 ;
+           fcb -1,0,-52
+           fcb -1,16,-14
+           fcb -1,0,69
+           fcb 0,10,-2 ;
+           fcb -1,0,-42
+           fcb -1,-10,-25
+           fcb -1,0,59
+           fcb -1,0,69
+           fcb -1,-16,-12
+           fcb -1,0,-52
+           fcb -1,16,-5
+           fcb -1,10,-5
+           fcb -1,0,42
+           fcb -1,-10,32
+           fcb -1,0,-59
+           fcb 0,-16,47
+           fcb -1,0,-50
+           fcb 0,0,-52
+           fcb -1,0,50
+           fcb 1
+Lower_022: fcb 0,16,-9
+           fcb 0,-16,1 ;
+           fcb -1,0,-38
+           fcb -1,16,-12
+           fcb -1,0,49
+           fcb 0,10,5 ;
+           fcb -1,0,-30
+           fcb -1,-10,-24
+           fcb -1,0,65
+           fcb -1,0,49
+           fcb -1,-16,-10
+           fcb -1,0,-38
+           fcb -1,16,-1
+           fcb -1,10,-8
+           fcb -1,0,29
+           fcb -1,-10,28
+           fcb -1,0,-65
+           fcb 0,-16,55
+           fcb -1,0,-54
+           fcb 0,0,-38
+           fcb -1,0,54
+           fcb 1
+Lower_023: fcb 0,16,-22
+           fcb 0,-16,3 ;
+           fcb -1,0,-19
+           fcb -1,16,-10
+           fcb -1,0,26
+           fcb 0,10,11 ;
+           fcb -1,0,-15
+           fcb -1,-10,-22
+           fcb -1,0,69
+           fcb -1,0,26
+           fcb -1,-16,-9
+           fcb -1,0,-19
+           fcb -1,16,2
+           fcb -1,10,-13
+           fcb -1,0,15
+           fcb -1,-10,24
+           fcb -1,0,-69
+           fcb 0,-16,60
+           fcb -1,0,-57
+           fcb 0,0,-19
+           fcb -1,0,57
+           fcb 1
+Lower_024: fcb 0,16,-35
+           fcb -1,-16,6
+;           fcb -1,0,0
+           fcb -1,16,-6
+;           fcb -1,0,0
+           fcb -1,10,18
+;           fcb -1,0,0
+           fcb -1,-10,-18
+           fcb -1,0,70
+;           fcb -1,0,0
+           fcb -1,-16,-6
+;           fcb -1,0,0
+           fcb -1,16,6
+           fcb -1,10,-18
+;           fcb -1,0,0
+           fcb -1,-10,18
+           fcb -1,0,-70
+           fcb 0,-16,64
+           fcb -1,0,-58
+;           fcb 0,0,0
+           fcb -1,0,58
+           fcb 1
+Lower_025: fcb 0,16,-46
+           fcb -1,-16,8
+           fcb -1,0,18
+           fcb -1,16,-2 
+           fcb -1,0,-24
+           fcb -1,10,23
+           fcb -1,0,15
+           fcb -1,-10,-14 
+           fcb -1,0,69
+           fcb -1,0,-24
+           fcb 0,-16,-3 ;
+           fcb -1,0,18
+           fcb -1,16,9
+           fcb -1,10,-21
+           fcb -1,0,-15
+           fcb 0,-10,12 ;
+           fcb -1,0,-69
+           fcb 0,-16,66
+           fcb -1,0,-58
+           fcb 0,0,18
+           fcb -1,0,58
+           fcb 1
+Lower_026: fcb 0,16,-55
+           fcb -1,-16,10
+           fcb -1,0,36
+           fcb -1,16,1 
+           fcb -1,0,-47
+           fcb -1,10,27
+           fcb -1,0,28
+           fcb -1,-10,-8 
+           fcb -1,0,65
+           fcb -1,0,-47
+           fcb -0,-16,-1 ;
+           fcb -1,0,36
+           fcb -1,16,12
+           fcb -1,10,-24
+           fcb -1,0,-28
+           fcb -0,-10,5 ;
+           fcb -1,0,-65
+           fcb 0,-16,64
+           fcb -1,0,-54
+           fcb 0,0,36
+           fcb -1,0,54
+           fcb 1
+Lower_027: fcb 0,16,-62
+           fcb -1,-16,12
+           fcb -1,0,51
+           fcb -1,16,4 
+           fcb -1,0,-67
+           fcb -1,10,31
+           fcb -1,0,41
+           fcb -1,-10,-5 
+           fcb -1,0,60
+           fcb -1,0,-68
+           fcb -0,-16,2 ;
+           fcb -1,0,51
+           fcb -1,16,15
+           fcb -1,10,-25
+           fcb -1,0,-41
+           fcb -0,-10,-2 ;
+           fcb -1,0,-59
+           fcb 0,-16,61
+           fcb -1,0,-49
+           fcb 0,0,51
+           fcb -1,0,49
+           fcb 1
+Lower_028: fcb 0,16,-67
+           fcb -1,-16,13
+           fcb -1,0,66
+           fcb -1,16,9 
+           fcb -1,0,-88
+           fcb -1,10,33
+           fcb -1,0,54
+           fcb -1,-10,1 
+           fcb -1,0,50
+           fcb -1,0,-88
+           fcb -0,-16,5 ;
+           fcb -1,0,66
+           fcb -1,16,17
+           fcb -1,10,-26
+           fcb -1,0,-54
+           fcb -0,-10,-8 ;
+           fcb -1,0,-50
+           fcb 0,-16,55
+           fcb -1,0,-42
+           fcb 0,0,66
+           fcb -1,0,42
+           fcb 1
+Lower_029: fcb 0,16,-69
+           fcb -1,-16,14
+           fcb -1,0,77
+           fcb -1,16,12 
+           fcb -1,0,-103
+           fcb -1,10,34
+           fcb -1,0,63
+           fcb -1,-10,6 
+           fcb -1,0,39
+           fcb -1,0,-103
+           fcb -0,-16,8 ;
+           fcb -1,0,77
+           fcb -1,16,18
+           fcb -1,10,-25
+           fcb -1,0,-63
+           fcb -0,-10,-15 ;
+           fcb -1,0,-39
+           fcb 0,-16,47
+           fcb -1,0,-33
+           fcb 0,0,77
+           fcb -1,0,33
+           fcb 1
+Lower_030: fcb 0,16,-70
+           fcb -1,-16,15
+           fcb -1,0,87
+           fcb -1,16,14 
+           fcb -1,0,-116
+           fcb -1,10,35
+           fcb -1,0,71
+           fcb -1,-10,10 
+           fcb -1,0,28
+           fcb -1,0,-116
+           fcb -0,-16,10 ;
+           fcb -1,0,87
+           fcb -1,16,19
+           fcb -1,10,-24
+           fcb -1,0,-71
+           fcb -0,-10,-21 ;
+           fcb -1,0,-28
+           fcb 0,-16,38
+           fcb -1,0,-23
+           fcb 0,0,87
+           fcb -1,0,23
+           fcb 1
+Lower_031: fcb 0,16,-66
+           fcb -1,-16,14
+           fcb -1,0,92
+           fcb -1,16,16
+           fcb -1,0,-122 
+           fcb -1,10,33
+           fcb -1,0,74
+           fcb -1,-10,15
+           fcb -1,0,15 
+           fcb -1,0,-122
+           fcb -0,-16,11 ;
+           fcb -1,0,92
+           fcb -1,16,19
+           fcb -1,10,-22
+           fcb -1,0,-75
+           fcb -0,-10,-25 ;
+           fcb -1,0,-15
+           fcb 0,-16,26
+           fcb -1,0,-12
+           fcb 0,0,92
+           fcb -1,0,12
+           fcb 1
+
+
+Upper_000: fcb 0,46,36
+;           fcb -1,0,0
+           fcb -1,-20,-67
+;           fcb -1,0,0
+           fcb -1,20,67
+           fcb -1,-20,11
+;           fcb -1,0,0
+           fcb -1,20,-11
+           fcb 0,-12,-90
+           fcb -1,7,0
+;           fcb -1,0,0
+           fcb -1,-7,0
+;           fcb -1,0,0
+           fcb -1,0,52
+           fcb -1,7,18
+           fcb -1,0,-70
+;           fcb 0,0,0
+           fcb -1,0,70
+           fcb -1,-7,-18
+           fcb -1,0,-52
+           fcb 1
+Upper_001: fcb 0,46,36
+           fcb -1,0,-3
+           fcb -1,-20,-66
+           fcb -1,0,7
+           fcb -1,20,62
+           fcb -1,-20,13
+           fcb 0,0,-7
+           fcb 0,20,-9
+           fcb 0,-12,-85
+           fcb -1,7,0
+           fcb -1,0,-1
+           fcb -1,-7,0
+           fcb -1,0,1
+           fcb -1,0,51
+           fcb -1,7,17
+           fcb -1,0,-68
+           fcb 0,0,-1
+           fcb -1,0,67
+           fcb 0,-7,-16
+           fcb -1,0,-51
+           fcb 1
+Upper_002: fcb 0,46,36
+           fcb -1,0,-6
+           fcb -1,-20,-65
+           fcb -1,0,14
+           fcb -1,20,57
+           fcb -1,-20,13
+           fcb 0,0,-13
+           fcb 0,20,-6
+           fcb 0,-12,-78
+           fcb -1,7,0
+           fcb -1,0,-3
+           fcb -1,-7,0
+           fcb -1,0,3
+           fcb -1,0,48
+           fcb -1,7,16
+           fcb -1,0,-64
+           fcb 0,0,-3
+           fcb -1,0,64
+           fcb 0,-7,-16
+           fcb -1,0,-48
+           fcb 1
+Upper_003: fcb 0,46,34
+           fcb -1,0,-9
+           fcb -1,-20,-60
+           fcb -1,0,19
+           fcb -1,20,50
+           fcb -1,-20,14
+           fcb 0,0,-19
+           fcb 0,20,-4
+           fcb 0,-12,-67
+           fcb -1,7,0
+           fcb -1,0,-4
+           fcb -1,-7,0
+           fcb -1,0,4
+           fcb -1,0,42
+           fcb -1,7,15
+           fcb -1,0,-57
+           fcb 0,0,-4
+           fcb -1,0,57
+           fcb 0,-7,-14
+           fcb -1,0,-43
+           fcb 1
+Upper_004: fcb 0,46,30
+           fcb -1,0,-11
+           fcb -1,-20,-53
+           fcb -1,0,25
+           fcb -1,20,39
+           fcb -1,-20,15
+           fcb 0,0,-25
+           fcb 0,20,-1
+           fcb 0,-12,-54
+           fcb -1,7,0
+           fcb -1,0,-5
+           fcb -1,-7,0
+           fcb -1,0,5
+           fcb -1,0,36
+           fcb -1,7,13
+           fcb -1,0,-49
+           fcb 0,0,-5
+           fcb -1,0,48
+           fcb 0,-7,-12
+           fcb -1,0,-36
+           fcb 1
+Upper_005: fcb 0,46,26
+           fcb -1,0,-13
+           fcb -1,-20,-44
+           fcb -1,0,29
+           fcb -1,20,28
+           fcb -1,-20,14
+           fcb 0,0,-29
+           fcb 0,20,2
+           fcb 0,-12,-39
+           fcb -1,7,0
+           fcb -1,0,-6
+           fcb -1,-7,0
+           fcb -1,0,6
+           fcb -1,0,28
+           fcb -1,7,10
+           fcb -1,0,-38
+           fcb 0,0,-6
+           fcb -1,0,37
+           fcb 0,-7,-9
+           fcb -1,0,-28
+           fcb 1
+Upper_006: fcb 0,46,21
+           fcb -1,0,-15
+           fcb -1,-20,-34
+           fcb -1,0,32
+           fcb -1,20,17
+           fcb -1,-20,13
+           fcb 0,0,-33
+           fcb 0,20,5
+           fcb 0,-12,-23
+           fcb -1,7,0
+           fcb -1,0,-7
+           fcb -1,-7,0
+           fcb -1,0,7
+           fcb -1,0,19
+           fcb -1,7,7
+           fcb -1,0,-26
+           fcb 0,0,-7
+           fcb -1,0,26
+           fcb 0,-7,-6
+           fcb -1,0,-20
+           fcb 1
+Upper_007: fcb 0,46,14
+           fcb -1,0,-14
+           fcb -1,-20,-23
+           fcb -1,0,34
+           fcb -1,20,3
+           fcb -1,-20,12
+           fcb 0,0,-34
+           fcb 0,20,8
+           fcb 0,-12,-6
+           fcb -1,7,0
+           fcb -1,0,-8
+           fcb -1,-7,0
+           fcb -1,0,8
+           fcb -1,0,9
+           fcb -1,7,4
+           fcb -1,0,-13
+           fcb 0,0,-8
+           fcb -1,0,14
+           fcb 0,-7,-4
+           fcb -1,0,-10
+           fcb 1
+Upper_008: fcb 0,46,7
+           fcb -1,0,-14
+           fcb -1,-20,-10
+           fcb -1,0,34
+           fcb -1,20,-10
+           fcb -1,-20,10
+           fcb -1,0,-34
+           fcb -1,20,10
+           fcb 0,-12,10
+           fcb -1,7,0
+           fcb -1,0,-6
+           fcb -1,-7,0
+           fcb -1,0,6
+;           fcb -1,0,0
+           fcb -1,7,0
+;           fcb -1,0,0
+           fcb 0,0,-6
+;           fcb -1,0,0
+           fcb -1,-7,0
+;           fcb -1,0,0
+           fcb 1
+Upper_009: fcb 0,46,1
+           fcb -1,0,-15
+           fcb -1,-20,3
+           fcb -1,0,34
+           fcb -1,20,-22
+           fcb 0,-20,7
+           fcb 0,0,-34
+           fcb -1,20,12
+           fcb 0,-12,28
+           fcb -1,7,0
+           fcb -1,0,-8
+           fcb -1,-7,0
+           fcb -1,0,8
+           fcb -1,0,-10
+           fcb 0,7,-4
+           fcb -1,0,14
+           fcb 0,0,-8
+           fcb -1,0,-12
+           fcb -1,-7,3
+           fcb -1,0,9
+           fcb 1
+Upper_010: fcb 0,46,-5
+           fcb -1,0,-15
+           fcb -1,-20,15
+           fcb -1,0,33
+           fcb -1,20,-33
+           fcb 0,-20,5
+           fcb 0,0,-33
+           fcb -1,20,13
+           fcb 0,-12,43
+           fcb -1,7,0
+           fcb -1,0,-7
+           fcb -1,-7,0
+           fcb -1,0,7
+           fcb -1,0,-19
+           fcb 0,7,-6
+           fcb -1,0,25
+           fcb 0,0,-7
+           fcb -1,0,-25
+           fcb -1,-7,7
+           fcb -1,0,18
+           fcb 1
+Upper_011: fcb 0,46,-12
+           fcb -1,0,-14
+           fcb -1,-20,27
+           fcb -1,0,30
+           fcb -1,20,-43
+           fcb 0,-20,2
+           fcb 0,0,-30
+           fcb -1,20,14
+           fcb 0,-12,58
+           fcb -1,7,0
+           fcb -1,0,-7
+           fcb -1,-7,0
+           fcb -1,0,7
+           fcb -1,0,-28
+           fcb 0,7,-9
+           fcb -1,0,37
+           fcb 0,0,-7
+           fcb -1,0,-36
+           fcb -1,-7,9
+           fcb -1,0,27
+           fcb 1
+Upper_012: fcb 0,46,-19
+           fcb -1,0,-11
+           fcb -1,-20,39
+           fcb -1,0,25
+           fcb -1,20,-53
+           fcb 0,-20,-1
+           fcb 0,0,-25
+           fcb -1,20,15
+           fcb 0,-12,70
+           fcb -1,7,0
+           fcb -1,0,-5
+           fcb -1,-7,0
+           fcb -1,0,5
+           fcb -1,0,-36
+           fcb 0,7,-12
+           fcb -1,0,48
+           fcb 0,0,-5
+           fcb -1,0,-49
+           fcb -1,-7,13
+           fcb -1,0,36
+           fcb 1
+Upper_013: fcb 0,46,-25
+           fcb -1,0,-8
+           fcb -1,-20,48
+           fcb -1,0,20
+           fcb -1,20,-60
+           fcb 0,-20,-3
+           fcb 0,0,-20
+           fcb -1,20,15
+           fcb 0,-12,79
+           fcb -1,7,0
+           fcb -1,0,-4
+           fcb -1,-7,0
+           fcb -1,0,4
+           fcb -1,0,-43
+           fcb 0,7,-13
+           fcb -1,0,56
+           fcb 0,0,-4
+           fcb -1,0,-57
+           fcb -1,-7,15
+           fcb -1,0,42
+           fcb 1
+Upper_014: fcb 0,46,-30
+           fcb -1,0,-6
+           fcb -1,-20,57
+           fcb -1,0,14
+           fcb -1,20,-65
+           fcb 0,-20,-6
+           fcb 0,0,-14
+           fcb -1,20,14
+           fcb 0,-12,87
+           fcb -1,7,0
+           fcb -1,0,-3
+           fcb -1,-7,0
+           fcb -1,0,3
+           fcb -1,0,-48
+           fcb 0,7,-16
+           fcb -1,0,64
+           fcb 0,0,-3
+           fcb -1,0,-64
+           fcb -1,-7,16
+           fcb -1,0,48
+           fcb 1
+Upper_015: fcb 0,46,-33
+           fcb -1,0,-3
+           fcb -1,-20,62
+           fcb -1,0,7
+           fcb -1,20,-66
+           fcb 0,-20,-8
+           fcb 0,0,-8
+           fcb -1,20,13
+           fcb 0,-12,89
+           fcb -1,7,0
+           fcb -1,0,-2
+           fcb -1,-7,0
+           fcb -1,0,2
+           fcb -1,0,-51
+           fcb 0,7,-16
+           fcb -1,0,67
+           fcb 0,0,-2
+           fcb -1,0,-67
+           fcb -1,-7,17
+           fcb -1,0,50
+           fcb 1
+Upper_016: fcb 0,46,-35
+;           fcb -1,0,0
+           fcb -1,-20,65
+;           fcb 0,0,0
+           fcb 0,20,-65
+           fcb -1,-20,-11
+;           fcb -1,0,0
+           fcb -1,20,11
+           fcb 0,-12,88
+           fcb 0,7,0
+;           fcb -1,0,0
+           fcb -1,-7,0
+;           fcb 0,0,0
+           fcb 0,0,-52
+           fcb 0,7,-16
+           fcb 0,0,68
+;           fcb 0,0,0
+           fcb -1,0,-68
+           fcb 0,-7,16
+           fcb -1,0,52
+           fcb 1
+Upper_017: fcb 0,46,-36
+           fcb -1,0,3
+           fcb -1,-20,66
+           fcb 0,0,-7
+           fcb 0,20,-62
+           fcb -1,-20,-13
+           fcb -1,0,7
+           fcb -1,20,9
+           fcb 0,-12,85
+           fcb 0,7,0
+           fcb -1,0,1
+           fcb -1,-7,0
+           fcb 0,0,-1
+           fcb 0,0,-51
+           fcb 0,7,-17
+           fcb 0,0,68
+           fcb 0,0,1
+           fcb -1,0,-67
+           fcb 0,-7,16
+           fcb -1,0,51
+           fcb 1
+Upper_018: fcb 0,46,-36
+           fcb -1,0,6
+           fcb -1,-20,65
+           fcb 0,0,-14
+           fcb 0,20,-57
+           fcb -1,-20,-13
+           fcb -1,0,13
+           fcb -1,20,6
+           fcb 0,-12,78
+           fcb 0,7,0
+           fcb -1,0,3
+           fcb -1,-7,0
+           fcb 0,0,-3
+           fcb 0,0,-48
+           fcb 0,7,-16
+           fcb 0,0,64
+           fcb 0,0,3
+           fcb -1,0,-64
+           fcb 0,-7,16
+           fcb -1,0,48
+           fcb 1
+Upper_019: fcb 0,46,-34
+           fcb -1,0,9
+           fcb -1,-20,60
+           fcb 0,0,-19
+           fcb 0,20,-50
+           fcb -1,-20,-14
+           fcb -1,0,19
+           fcb -1,20,4
+           fcb 0,-12,67
+           fcb 0,7,0
+           fcb -1,0,4
+           fcb -1,-7,0
+           fcb 0,0,-4
+           fcb 0,0,-42
+           fcb 0,7,-15
+           fcb 0,0,57
+           fcb 0,0,4
+           fcb -1,0,-57
+           fcb 0,-7,14
+           fcb -1,0,43
+           fcb 1
+Upper_020: fcb 0,46,-30
+           fcb -1,0,11
+           fcb -1,-20,53
+           fcb 0,0,-25
+           fcb 0,20,-39
+           fcb -1,-20,-15
+           fcb -1,0,25
+           fcb -1,20,1
+           fcb 0,-12,54
+           fcb 0,7,0
+           fcb -1,0,5
+           fcb -1,-7,0
+           fcb 0,0,-5
+           fcb 0,0,-36
+           fcb 0,7,-13
+           fcb 0,0,49
+           fcb 0,0,5
+           fcb -1,0,-48
+           fcb 0,-7,12
+           fcb -1,0,36
+           fcb 1
+Upper_021: fcb 0,46,-26
+           fcb -1,0,13
+           fcb -1,-20,44
+           fcb 0,0,-29
+           fcb 0,20,-28
+           fcb -1,-20,-14
+           fcb -1,0,29
+           fcb -1,20,-2
+           fcb 0,-12,39
+           fcb 0,7,0
+           fcb -1,0,6
+           fcb -1,-7,0
+           fcb 0,0,-6
+           fcb 0,0,-28
+           fcb 0,7,-10
+           fcb 0,0,38
+           fcb 0,0,6
+           fcb -1,0,-37
+           fcb 0,-7,9
+           fcb -1,0,28
+           fcb 1
+Upper_022: fcb 0,46,-21
+           fcb -1,0,15
+           fcb -1,-20,34
+           fcb 0,0,-32
+           fcb 0,20,-17
+           fcb -1,-20,-13
+           fcb -1,0,33
+           fcb -1,20,-5
+           fcb 0,-12,23
+           fcb 0,7,0
+           fcb -1,0,7
+           fcb -1,-7,0
+           fcb 0,0,-7
+           fcb 0,0,-19
+           fcb 0,7,-7
+           fcb 0,0,26
+           fcb 0,0,7
+           fcb -1,0,-26
+           fcb 0,-7,6
+           fcb -1,0,20
+           fcb 1
+Upper_023: fcb 0,46,-14
+           fcb -1,0,14
+           fcb -1,-20,23
+           fcb 0,0,-34
+           fcb 0,20,-3
+           fcb -1,-20,-12
+           fcb -1,0,34
+           fcb -1,20,-8
+           fcb 0,-12,6
+           fcb 0,7,0
+           fcb -1,0,8
+           fcb -1,-7,0
+           fcb 0,0,-8
+           fcb 0,0,-9
+           fcb 0,7,-4
+           fcb 0,0,13
+           fcb 0,0,8
+           fcb 0,0,-14
+           fcb 0,-7,4
+           fcb 0,0,10
+           fcb 1
+Upper_024: fcb 0,46,-7
+           fcb -1,0,14
+           fcb -1,-20,10
+           fcb 0,0,-34
+           fcb 0,20,10
+           fcb -1,-20,-10
+           fcb -1,0,34
+           fcb -1,20,-10
+           fcb 0,-12,-10
+           fcb 0,7,0
+           fcb 0,0,6
+           fcb 0,-7,0
+           fcb 0,0,-6
+;           fcb 0,0,0
+           fcb 0,7,0
+;           fcb 0,0,0
+           fcb 0,0,6
+;           fcb 0,0,0
+           fcb 0,-7,0
+;           fcb 0,0,0
+           fcb 1
+Upper_025: fcb 0,46,-1
+           fcb -1,0,15
+           fcb 0,-20,-3
+           fcb 0,0,-34
+           fcb -1,20,22
+           fcb -1,-20,-7
+           fcb -1,0,34
+           fcb -1,20,-12
+           fcb 0,-12,-28
+           fcb -1,7,0
+           fcb -1,0,8
+           fcb 0,-7,0
+           fcb 0,0,-8
+           fcb 0,0,10
+           fcb 0,7,4
+           fcb -1,0,-14
+           fcb 0,0,8
+           fcb 0,0,12
+           fcb 0,-7,-3
+           fcb 0,0,-9
+           fcb 1
+Upper_026: fcb 0,46,5
+           fcb -1,0,15
+           fcb 0,-20,-15
+           fcb 0,0,-33
+           fcb -1,20,33
+           fcb -1,-20,-5
+           fcb -1,0,33
+           fcb -1,20,-13
+           fcb 0,-12,-43
+           fcb -1,7,0
+           fcb -1,0,7
+           fcb 0,-7,0
+           fcb -1,0,-7
+           fcb -1,0,19
+           fcb 0,7,6
+           fcb -1,0,-25
+           fcb 0,0,7
+           fcb 0,0,25
+           fcb 0,-7,-7
+           fcb -1,0,-18
+           fcb 1
+Upper_027: fcb 0,46,12
+           fcb -1,0,14
+           fcb 0,-20,-27
+           fcb 0,0,-30
+           fcb -1,20,43
+           fcb -1,-20,-2
+           fcb -1,0,30
+           fcb -1,20,-14
+           fcb 0,-12,-58
+           fcb -1,7,0
+           fcb -1,0,7
+           fcb 0,-7,0
+           fcb -1,0,-7
+           fcb -1,0,28
+           fcb 0,7,9
+           fcb -1,0,-37
+           fcb 0,0,7
+           fcb 0,0,36
+           fcb 0,-7,-9
+           fcb -1,0,-27
+           fcb 1
+Upper_028: fcb 0,46,19
+           fcb -1,0,11
+           fcb 0,-20,-39
+           fcb 0,0,-25
+           fcb -1,20,53
+           fcb -1,-20,1
+           fcb -1,0,25
+           fcb -1,20,-15
+           fcb 0,-12,-70
+           fcb -1,7,0
+           fcb -1,0,5
+           fcb 0,-7,0
+           fcb -1,0,-5
+           fcb -1,0,36
+           fcb 0,7,12
+           fcb -1,0,-48
+           fcb 0,0,5
+           fcb 0,0,49
+           fcb 0,-7,-13
+           fcb -1,0,-36
+           fcb 1
+Upper_029: fcb 0,46,25
+           fcb -1,0,8
+           fcb 0,-20,-48
+           fcb 0,0,-20
+           fcb -1,20,60
+           fcb -1,-20,3
+           fcb -1,0,20
+           fcb -1,20,-15
+           fcb 0,-12,-79
+           fcb -1,7,0
+           fcb -1,0,4
+           fcb 0,-7,0
+           fcb -1,0,-4
+           fcb -1,0,43
+           fcb 0,7,13
+           fcb -1,0,-56
+           fcb 0,0,4
+           fcb 0,0,57
+           fcb 0,-7,-15
+           fcb -1,0,-42
+           fcb 1
+Upper_030: fcb 0,46,30
+           fcb -1,0,6
+           fcb 0,-20,-57
+           fcb 0,0,-14
+           fcb -1,20,65
+           fcb -1,-20,6
+           fcb -1,0,14
+           fcb -1,20,-14
+           fcb 0,-12,-87
+           fcb -1,7,0
+           fcb -1,0,3
+           fcb 0,-7,0
+           fcb -1,0,-3
+           fcb -1,0,48
+           fcb 0,7,16
+           fcb -1,0,-64
+           fcb 0,0,3
+           fcb 0,0,64
+           fcb 0,-7,-16
+           fcb -1,0,-48
+           fcb 1
+Upper_031: fcb 0,46,33
+           fcb -1,0,3
+           fcb 0,-20,-62
+           fcb 0,0,-7
+           fcb -1,20,66
+           fcb -1,-20,8
+           fcb -1,0,8
+           fcb -1,20,-13
+           fcb 0,-12,-89
+           fcb -1,7,0
+           fcb -1,0,2
+           fcb 0,-7,0
+           fcb -1,0,-2
+           fcb -1,0,51
+           fcb 0,7,16
+           fcb -1,0,-67
+           fcb 0,0,2
+           fcb 0,0,67
+           fcb 0,-7,-17
+           fcb -1,0,-50
+           fcb 1
+
+
+music:
+          FDB     $fee8
+          FDB     $feb6
+          FCB     $0,$80
+          FCB     $0,$80

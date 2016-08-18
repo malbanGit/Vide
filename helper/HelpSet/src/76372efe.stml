@@ -13,13 +13,54 @@
 - you can define and use up to 10 bookmarks
 - you can configure you syntax coloring settings
 
-:h2 Assembling
-Pressing the button: ##control_play_blue.png## 
-starts the assembler with the current active file as input (file is automatically saved). If successfull, vecxi will automatically be started.~~
-The messages of assi can be viewed in the bottom tab called "ASM messages":
+:h2 Buttons
+##new.png##~~
+Create a new project or create an empty file.~~
 
+Special:~~
+If in file system view pressing "shift"-new will create a "default" project on the current selected assembler file.
+
+##arrow_refresh.png##~~
+Refresh the current display tree (if you externally added files - e.g.).~~
+
+Special:~~
+Pressing "shift"- refresh will switch the tree to a filesystem view within the Vide directory.
+
+##page_go.png##
+Load a file.~~
+Pressing shift with the button, will reload the current edited file.
+
+##page_save.png##
+Save the current file.~~
+Pressing shift with the button, will "save as" - opens a file dialog.
+
+##text_columns.png##~~
+Pretty print the current source (assembler only).
+
+:h2 Assembling
+Pressing the button: ##control_play_blue.png## ~~
+**starts** the assembler with the current active file as input (file is automatically saved). If successfull, vecxi will automatically be started.~~
+The messages of assi can be viewed in the bottom tab called "ASM messages":
 :image vediAss.png|message window
 
+Pressing the button: ##bug_go.png## ~~
+starts ** debugging** the assembler with the current active file as input (file is automatically saved). If successfull, vecxi will automatically be started.~~
+The messages of assi can be viewed in the bottom tab called "ASM messages".
+A breakpoint will be set automatically to the first valid instruction of the cartridge - dissi will popup and you can debug right away.
+
+Pressing the button: ##server_go.png## ~~
+starts the assembler with the current active file as input (file is automatically saved) 
+and if successfull (and a vecxi instance is already running) **injects** the built binary file into the currently running vecxi.
+Vecxi is not reset while doing this, you just “change” the cartridge ROM while running. You can thus experiment with changes to your bin file on the fly without losing RAM data, PC address or breakpoints.
+
+:h2 Ask/F1
+a) You can enter simple "expression" and use the ask field as a small calculator. Conversion between decimal, binary and hex is also supported.
+b) You can enter names of (Bruce Tomlin - defined) BIOS routines, and a (stay on top) window displays a small help
+c) You can enter Assembler mnemonics, and a help for the directive will be displayed
+
+Placing the cursor over such a "text" within the source, will do the same. 
+
+:h3 Messages
 - error messages are colored red
 - warning messages are colored blue
 - optimization messages are colored green

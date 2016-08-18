@@ -313,5 +313,7 @@ musica  EQU $FF44               ;
 musicb  EQU $FF62               ;
 musicc  EQU $FF7A               ;
 musicd  EQU $FF8F               ;
+Char_Table EQU $F9F4
+Char_Table_End EQU $FBD4
 
         endif

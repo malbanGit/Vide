@@ -1,0 +1,29 @@
+:title VecLink V1
+
+Earlier version of the cable (V1). The I/O on pin 4 is harder to drive than pins 1,2,3 so the pull up resistors were used to try and correct the voltage levels, but even then it was still iffy.
+ 
+ 
+
+::~~
+Vectrex A                Vectrex B~~
+1 |--------------------------| 4~~
+_____|~~
+_____|~~
+_____>~~
+_____<   600 Ohm Resistor~~
+_____     >~~
+_____<~~
+_____|~~
+_____|~~
+8 |--------------------------| 8~~
+_____|~~
+_____|~~
+_____>~~
+_____<   600 Ohm Resistor~~
+_____>~~
+_____<~~
+_____|~~
+_____|~~
+4 |--------------------------| 3~~
+2 |--------------------------| 1~~
+3 |--------------------------| 2~~::

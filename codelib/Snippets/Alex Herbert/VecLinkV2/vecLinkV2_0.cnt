@@ -101,9 +101,9 @@ LABEL $04A3 xReadDone
 COMMENT_LINE $0000 Note:
 COMMENT_LINE $0000 This file is an example I put together from two different sources.
 COMMENT_LINE $0000 a) the visible part is taken from the vecLink V1 test binary, which I also disassembled
-COMMENT_LINE $0000 binaries/and commented disassemby available
+COMMENT_LINE $0000 binaries/and commented disassembly available
 COMMENT_LINE $0000 b) The serial communication routines were taken from BerzerkArena, I disassembled the
-COMMENT_LINE $0000 relevant parts and but the routines in the example from a)
+COMMENT_LINE $0000 relevant parts and put the routines in the example from a)
 COMMENT_LINE $0000 BOTH original files were programmed by Alex Herbert
 COMMENT_LINE $0000 I was assured that Alex had given is consent in making the file available,
 COMMENT_LINE $0000 but sadly I had never the opportunity to get in contact with Alex himself.

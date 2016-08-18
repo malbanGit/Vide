@@ -20,6 +20,7 @@ import java.util.zip.ZipInputStream;
  
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 
 /**
@@ -39,7 +40,28 @@ public class UtilityFiles
         warning="";
     }
     
-    
+    // only FILES ending with ".xml"
+    public static ArrayList<String> getXMLFileList(String filePath)
+    {
+        ArrayList<String> files= new ArrayList<String>();
+        File directory = new File(filePath);
+        if (!directory.isDirectory())
+        {
+            if (directory.getParent()!=null)
+                directory = new File(directory.getParent());
+            if (!directory.isDirectory()) return files; // empty list
+        }
+        filePath = directory.toString();
+        // get all the files from a directory
+        File[] fList = directory.listFiles();
+        for (File file : fList) 
+        {
+            if (file.isDirectory()) continue;
+            if (!file.getName().contains(".xml")) continue;
+            files.add(file.getName());
+        }
+        return files;
+    }
     static class DeleteDirectoryVisitor extends SimpleFileVisitor<Path> 
     {
         public Path notme = null;

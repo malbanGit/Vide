@@ -12,6 +12,3 @@
 
 As long as not another PB6 using external device is emulated, VecFlash is detected automatically (this may change when EPROM RAM is implemented)
 
-~~**Note:**~~
-Since both, the eEprom emulation and bankswitching communicate with the external cartridge line (VIA PB6), only one can be "active" at a time within Vide.
-If both (bankswitching and eEprom emulation) are switched on, the eEprom emulation has precedence!

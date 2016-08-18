@@ -114,6 +114,15 @@ public class UtilityString
         if ((s >='0') && (s<='9')) return false;
         return true;
     }
+    static public boolean isIntBoundry(char s)
+    {
+        if (s == '$') return false;
+        if (s == '%') return false;
+        if ((s >='a') && (s<='f')) return false;
+        if ((s >='A') && (s<='F')) return false;
+        if ((s >='0') && (s<='9')) return false;
+        return true;
+    }
     // whole words defined as
     // borders are everyrhing that is non: _a-zA-Z0-9
     static public String replace(String name, String search, String with, boolean onlyWholeWords) {
@@ -555,6 +564,25 @@ public class UtilityString
         }
         return ret.toString();
     }
+    public static boolean writeToTextFile(String string, File file)
+    {
+        BufferedWriter writer;
+        try {
+            Writer w = new OutputStreamWriter(new FileOutputStream(file) );
+            writer =   new BufferedWriter(w);
+
+            writer.write(string);
+            writer.flush();
+            writer.close();
+
+        } catch (IOException e)
+        {
+            System.err.println("Error writing file.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }    
     public static boolean writeToTextFile(Vector<String> strings, File file)
     {
         BufferedWriter writer;

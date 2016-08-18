@@ -1,0 +1,13 @@
+:title Emulation: extra RAM / Spectrum RA
+Emulation of extra RAM is supported for the three known cartridges:
+- Animaction~~
+which has an additional 2k on board ram located at $2000- $27ff
+- Spectrum RA~~
+which has an additional 2k on board ram located at $8000- $87ff
+- Logo~~
+which has an additional 8k on board ram located at $6000- $7fff
+
+Also supported are the 8 LED from spectrum RA (controlled by the Joyport output of 8 buttons) - and a insert coin button (PB6 of Via ORB).~~
+These can only be seen and accessed at the "cartridge" window (in dissi type "carti").
+
+:image spectrumWin.png|emulation view

@@ -392,6 +392,33 @@ Done:
 todo:
 todoc:
 
+Imager saving
+set correct displaying of selected joyport devices after loading saved state
+
+save state of additional ram?
+
+
+- no drift raster routines
+
+- space between include " -> in assy error
+- macro /variables must be set befor they are called -> circumvent that?
+
+try sync to recalibtration instad of zero... might work wizth imager too!
+
+add informatoin  to wheel ngles, from what "cycle" the color starts
+
+ray gun with imager
+
+in imager mode, sync display to wavelen
+- assumption wheel spinning to slow is not emulated correctly!
+  I don't know how wide the reaction time of the index is!
+Imager auto sync
+
+Imager Example source
+
+eEprom Tuts example code
+
+
 if S is written to - reset call stack! (or redetermine)
 
 

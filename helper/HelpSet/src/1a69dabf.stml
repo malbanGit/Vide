@@ -1,0 +1,33 @@
+:title Emulation: eEprom Microchip 11AA010
+
+Based on the manual that can be got at the Microchip site and my own
+disassembly of VectorPilot - the only known cartridge, which makes use of the chip.
+
+Emulation is only done in so far, that VectorPilot playes all right, not emulated at the moment are the command: CRRD, ERAL and SETAL.
+
+Known cartridges which use this hardware:
+- VectorPilot
+
+Statefiles for the eEprom are always saved in the same directory and named as the original cartridge (bin) file, with the additional extension of: ".microchip.ser".
+~~(the save-format is java serialization)
+
+:h3 Technical
+The microchip 11AA010 uses a manchester serial protocoll (in short: a self synchronizing serial protocoll, where the bit encoding is done by a change from low/high or high/low instead of the high/low states itself).
+
+In general the emulation are three state machines, 
+- one lowlevel "machine"~~
+the low level in general handles the initial syncing needed for later "synchronized" communication
+- one midlevel "machine"~~
+which emulate atomic commands-steps (like MAK, SAK, reading a bit...) 
+- one highlevel "machine"~~
+which emulates complete commands, which consist of several atomic commands
+
+Input/output is basically done via the lineIn and lineOut functions.
+Both functions in itself do not trigger any further actions.
+
+You can view current emulation status by opening a "cartridge" window (in dissi type "carti").
+:image microchip.png|emulation view
+
+The datasheet of the chip can be found in the subdirectory: ~~
+
+documents/hardware/22067J.pdf

@@ -1,0 +1,32 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage Express 2.0">
+<title></title>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+
+<h3>Register $0a SHIFTREG</h3>
+
+<p>In vectrex terms the shiftreg is one of the most important registers of VIA, since it can control the CB2 (~BLANK) line. The shift modes can be set with Reg $0b and are described there. Each time a shift "outputs" a bit that bit is placed into the CB2 line. Shifting out a 0 enables blank (light is switched off), each time a 1 is shifted out blank is disabled (light is switched on). The shift direction is: most significant bit first, the bit 7 is rotated back to position 0. </p>
+
+<ul><li>
+<p>Shifting is done each 2 two processor cycles (shift out at system clock). </p>
+</li><li>
+<p>A complete Shift cycle takes 18 cycles, the last shifted value is held for an additional 2 cycles.</p>
+</li><li>
+<p>If a shift cycle is interrupted (a new shift initiated) VIA can stall (current shifted out value is held, no further shifting occurs). The time at which a stalling occurs appears to be dependend on the VIA generation. Known values (cycle counts) are 14 cycles and 15 cycles.</p>
+</li><li>
+<p>Attention: <br>
+ The 6809 instruction CLR also READS the value befor it clears it, thus an instruction<br>
+<tt> CLR &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shiftreg</tt><br>
+ reads the shift register after 4 cycles and writes the shift register after an additional 2 cycles.</p>
+</li><li>
+<p>a shift is started by reading and by writing to the shiftreg</p>
+</li></ul>
+
+</body>
+</html>

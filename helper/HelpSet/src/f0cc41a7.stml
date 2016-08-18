@@ -1,3 +1,125 @@
 :title Example: 3d Imager
+For the 3d Imager no "Code Generation" was done, since any generated code would have been an extensive example on its own.
 
-**not done**
+Instead I provide an example in form of a "code snippet" within codi.
+(see:~~
+:: codelib/Snippets/Malban/3dImager/3dImager.asm~~
+and ~~
+codelib/Snippets/Malban/3dImager/3dImager.i::)
+
+Much of the example is reused code found in the Narrow Escape binary and the great disassembly of Fred Taft.
+
+I enhanced his disassembly in two ways:
+a) added further comments
+b) extracted a couple of subroutines, which can be used "out of the box" without sorting out to much stuff
+
+Anyone interested in programming imager stuff should find it (I hope) to be quite easy to get going.
+
+In the example I do not do any fancy 3d calculation, I only print 6 messages for the combination color/eye. Movement and placing of vectors to acchive 3d effects I leave out as an excercise for the avid reader.
+:image ImagerExample.png|Imager example 
+:h2 In general
+
+Narrow Escape: how the imager is programmed and how PWM is realized to control the motor
+
+1) Startup
+The official imager games have a startup phase. 
+During this phase the imager is "powered" up with high frequency short pwm duty pulses until the speed of the wheel matches the above mentioned time frame. The pulse duty is about 67% [542 cycles of low pulse, with 805 cylces wavelength]. 
+
+During that powerup button 4 is polled to see if the sync hole of the wheel is triggered (button 4) - no usage of interrupts in the startup phase. 
+The measurement taken is thus that one 360° spin of the wheel (one sync cycle) must be done completely within the wanted time frame [time frame see below] - if that is achieved three times, the program assumes that the wheel is up to speed.
+
+The powerup loop only contains the above mentioned routines, if the power up does not reach its goal, from a user point of view the program  just "hangs", since no other output of any kind gives any feedback.
+
+
+2) Ingame
+Once the game runs, the PWM is realized differently. Vectrex "assumes" that the wheel is spinning about "right" and sends exactly one pulse (of a calculated length, which is adjusted all the time) per sync cycle.
+
+Each official game runs the game loop in a time reference frame. 
+The frequency of the wheel is set in accordance to that timing frame (different games have different timing parameters).
+
+The developer chose a frequency they would like to realize the game with (in Narrow Escape that timing value is $E000, which results in a frequency of 1/(1/1500000 * 0xe000) = 26,1579241... Hz wheel spin).~~
+(~~
+::Narrow Escape: $e000 -> 26.157Hz~~
+Minestorm 3d: $fc00 -> 23.251Hz~~
+3d Crazy Coaster: $f000 -> 24.414Hz~~::
+)~~
+
+Timer T2 is set to that value. T2 is started after the sync triggered the interrupt and thus "counted down" throughout the game loop, the game loop finishes with a CWAI instruction, which waits for another interrupt to occur.
+
+During the game T2 is compared to reference values:~~::
+$f000 right eye blue~~
+$BD00 right eye green~~
+$9600 right eye red~~
+$6800 left eye blue~~
+$4000 left eye green~~
+$2000 left eye red~~::
+
+When the timer has reached the value - the corresponding vectors are drawn.
+
+The pulse modulation is handled in a two fold manner:
+
+:h3 Interrupt
+With each occurrence of an interrupt a compare value is stored to a "global" variable (which I call "PWM\_T2\_Compare\_current"). While running the main loop in the beginning the pulse is switched on (put to low), T2 (hi) is compared against the reference every now and than and if T2 is lower than the reference, the pulse is switched off.
+
+The interrupt is triggered each time the index hole of the wheel passes the photo transistor and the in opposition placed LED.
+
+The interrupt handles the calculation of the PWM.
+In general:
+
+Within the interrupt two compare values are generated which I call
+- PWM\_T2\_Compare\_faster
+- PWM\_T2\_Compare\_slower
+
+As you might have guessed those two values are stored to the above mentioned "global" variable (PWM\_T2\_Compare\_current).~~
+The calculated value "PWM\_T2\_Compare\_slower" is used when no timeout occured and "PWM\_T2\_Compare\_faster" when a timeout occured. "Switching" between those two values all the time, the speed of the motor is held more or less constant (in emulation the difference is about 0.01 Hz, I have not been able to measure the real thing).
+
+The two mentioned values are checked from time to time if they also need adjustment. Therefor 
+eight interrupt "sampling" are bundled together and are further investigated.
+
+The timeout "failures" from above are counted and remembered. After 8 interrupt calls the ratio of "timeouts" and "not timeouts" are stored and further examined. 
+
+The current sampling (of 8 interrupt measurements) is stored in a variable which might be called:
+- ::countIRQFailureAfterRefreshFor8Samples::~~
+(yes I know - it is a long name, but I like self explaining variable names)
+
+for "long term" measurement, these samples are additionally stored for the last 3 samplings, in variables which I call:~~::
+- countIRQFailureAfterRefreshFor8Samples\_1~~
+- countIRQFailureAfterRefreshFor8Samples\_2~~
+- countIRQFailureAfterRefreshFor8Samples\_3~~::
+
+(So all together we have access to the last 4 * 8 = 32 timeout/non timeout IRQ values).
+
+The calculation of the new values for PWM\_T2\_Compare\_faster/PWM\_T2\_Compare\_slower is three fold:
+
+a) adjustment of "PWM\_T2\_Compare\_faster"
+- the sum of the current and last sampling is build, which results in a value between 0 - 16  
+ (maximum of 16 timeouts, wheel is WAY to slow), the average should be "8", half of the samplings were done in time, the other half had a timeout.
+- the sum is compared to 13~~
+  ___- if it is exactly equal, the "PWM\_T2\_Compare\_faster" stays the same~~
+  ___- if there are more failures than 13, subtract the difference from "PWM\_T2_\Compare\_faster" 
+    (when PWM\_T2\_Compare\_faster is decreased, the compare value to T2 is decreased and thus the duty pulse of the PWM is longer) (not below 0)~~
+  ___- if there are less failures than 13, add the difference to "PWM\_T2\_Compare\_faster" ~~
+    (when PWM\_T2\_Compare\_faster is increased, the compare value to T2 is increased and thus the duty pulse of the PWM is shorter) (not above 0xff)
+
+b) adjustment of "PWM\_T2\_Compare\_slower"~~
+- the sum of all available samplings is build, which results in a value between 0 - 32  
+ (maximum of 32 timeouts, wheel is WAY to slow), the average should be "16", half of the samplings were done in time, the other half had a timeout.~~
+- the sum is compared to 24~~
+  ___- if it is exactly equal, the "PWM\_T2\_Compare\_slower" stays the same~~
+  ___- if there are more failures than 24, subtract half the difference from "PWM\_T2\_Compare\_slower" (not below 0)~~
+  ___- if there are less failures than 24, add half the difference to "PWM\_T2\_Compare\_slower" (not above 0xff)~~
+ (The "PWM\_T2\_Compare\_slower" is "wheighted" more towards timeouts than the "PWM_\T2\_Compare\_faster" value by the usage of 32 samples (and 24 as timeout threshold)\)~~
+
+c) it is ensured, that both values are not to close to each other~~
+ - if the difference between "PWM\_T2\_Compare\_faster" and "PWM\_T2\_Compare\_slower" is smaller than $1a than the "newer" value of "PWM\_T2\_Compare\_faster" is taken as a reference and 
+ "PWM\_T2\_Compare\_slower" = "PWM\_T2\_Compare\_faster" - $1a 
+ is used.
+ 
+
+:h3 In game
+The "in game" handling of PWM is quite simple (once the IRQ has handled all the setup).
+At the beginning of the game loop (after joystick buttons have been read, this must be done beforehand, otherwise the button requests would interfere with the imager-communication), the duty pulse is enabled (set to low).
+
+Than each time after some "time consuming" work is done, the variable "PWM\_T2\_Compare\_current" is compared to T2 timer (hi byte). If T2 is lower than the reference value, the duty pulse is finished (set to high) and the "PWM\_T2\_Compare\_current" set to 0 as indication that the pwm control is done for this mainloop.
+
+

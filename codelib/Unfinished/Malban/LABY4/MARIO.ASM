@@ -149,7 +149,7 @@ map_offset:      DB 0
 map_worker:      DW 0
 map_address:     DW 0
 map_helper:      DW 0
-map_bits:        DS MAZE_SIZE*2 ; 16 Words
+map_bits: DS MAZE_SIZE*2 ; 16 Words
 
 ;********************************************************************
 look_direction:  DB 0 ; direction the player is facing
@@ -158,7 +158,7 @@ look_direction:  DB 0 ; direction the player is facing
 ; used in 'input' 'draw_maze'...
 ; therefor we only have 'y' coordinates...
 move_offset_y_big:
-move_offset_y_hi:DB 0
+move_offset_y_hi: DB 0
 move_offset_y:   DB 0
 ;********************************************************************
 ; the translate_position() subroutines

@@ -29,6 +29,7 @@ public class  ProjectProperties
 	protected String mProjectPostScriptClass="";
 	protected String mProjectPostScriptName="";
 	protected Vector<String> mBankDefines=new Vector<String>();
+	protected String mWheelName="";
 	public String getName()
 	{
 		return mName;
@@ -189,6 +190,14 @@ public class  ProjectProperties
 	{
 		mBankDefines=BankDefines;
 	}
+	public String getWheelName()
+	{
+		return mWheelName;
+	}
+	public void setWheelName(String WheelName)
+	{
+		mWheelName=WheelName;
+	}
 	private String exportXML()
 	{
 		StringBuffer s = new StringBuffer();
@@ -223,6 +232,7 @@ public class  ProjectProperties
 			s.append( "\t\t\t<BankDefines>"+UtilityString.toXML(mBankDefines.elementAt(i))+"</BankDefines>\n");
 		}
 		s.append( "\t\t</BankDefiness>\n");
+		s.append( "\t\t<WheelName>"+UtilityString.toXML(mWheelName)+"</WheelName>\n");
 		s.append( "\t</ProjectProperties>\n");
 		return s.toString();
 	}
@@ -237,7 +247,7 @@ public class  ProjectProperties
 	}
 	public static boolean saveCollectionAsXML(String filename, Collection<ProjectProperties> col)
 	{
-    	return saveCollectionAsXML(de.malban.Global.mBaseDir,  filename, col);
+	return saveCollectionAsXML(de.malban.Global.mBaseDir,  filename, col);
 	}
 	public static boolean saveCollectionAsXML(String pathName, String filename, Collection<ProjectProperties> col)
 	{

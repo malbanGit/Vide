@@ -3,9 +3,9 @@
 	<ProjectProperties>
 		<Class>Project</Class>
 		<Name>vecLinkV2</Name>
-		<ProjectName>vecLinkV2</ProjectName>
+		<ProjectName>VecLinkV2</ProjectName>
 		<DirectoryName></DirectoryName>
-		<Path></Path>
+		<Path>codelib/Snippets/Alex Herbert</Path>
 		<MainFile>vecLinkV2.asm</MainFile>
 		<Description></Description>
 		<Version>1.0</Version>

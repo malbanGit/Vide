@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<AllProjectProperties>
+	<ProjectProperties>
+		<Class>Project</Class>
+		<Name>3dImager</Name>
+		<ProjectName>3dImager</ProjectName>
+		<DirectoryName></DirectoryName>
+		<Path>codelib/Snippets/Malban</Path>
+		<MainFile>3dImager.asm</MainFile>
+		<Description></Description>
+		<Version>1.0</Version>
+		<Author>Malban</Author>
+		<Bankswitching>none</Bankswitching>
+		<createBankswitchCode>false</createBankswitchCode>
+		<createGameLoopCode>true</createGameLoopCode>
+		<NumberOfBanks>1</NumberOfBanks>
+		<BankMainFiless>
+			<BankMainFiles>3dImager.asm</BankMainFiles>
+		</BankMainFiless>
+		<Extras>512</Extras>
+		<ProjectPreScriptClass></ProjectPreScriptClass>
+		<ProjectPreScriptName></ProjectPreScriptName>
+		<ProjectPostScriptClass></ProjectPostScriptClass>
+		<ProjectPostScriptName></ProjectPostScriptName>
+		<BankDefiness>
+			<BankDefines></BankDefines>
+		</BankDefiness>
+		<WheelName>narrow escape</WheelName>
+	</ProjectProperties>
+</AllProjectProperties>

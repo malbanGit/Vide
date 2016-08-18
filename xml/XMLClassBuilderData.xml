@@ -42,6 +42,7 @@
 		<FIELDNAME>Snippet</FIELDNAME>
 		<FIELDNAME>CompleteGame</FIELDNAME>
 		<FIELDNAME>extremeVecFileImage</FIELDNAME>
+		<FIELDNAME>WheelName</FIELDNAME>
 		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>CartName</XMLNAME>
 		<XMLNAME>Author</XMLNAME>
 		<XMLNAME>Year</XMLNAME>
@@ -70,6 +71,7 @@
 		<XMLNAME>Snippet</XMLNAME>
 		<XMLNAME>CompleteGame</XMLNAME>
 		<XMLNAME>extremeVecFileImage</XMLNAME>
+		<XMLNAME>WheelName</XMLNAME>
 		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
@@ -97,6 +99,7 @@
 		<TYPE>boolean</TYPE>
 		<TYPE>boolean</TYPE>
 		<TYPE>boolean</TYPE>
+		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
 		</TYPEs>	</XMLClassBuilderData>
 	<XMLClassBuilderData>
@@ -200,6 +203,7 @@
 		<FIELDNAME>ProjectPostScriptClass</FIELDNAME>
 		<FIELDNAME>ProjectPostScriptName</FIELDNAME>
 		<FIELDNAME>BankDefines</FIELDNAME>
+		<FIELDNAME>WheelName</FIELDNAME>
 		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>ProjectName</XMLNAME>
 		<XMLNAME>DirectoryName</XMLNAME>
 		<XMLNAME>Path</XMLNAME>
@@ -218,6 +222,7 @@
 		<XMLNAME>ProjectPostScriptClass</XMLNAME>
 		<XMLNAME>ProjectPostScriptName</XMLNAME>
 		<XMLNAME>BankDefines</XMLNAME>
+		<XMLNAME>WheelName</XMLNAME>
 		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
@@ -236,6 +241,7 @@
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>Vector&lt;String></TYPE>
+		<TYPE>String</TYPE>
 		</TYPEs>	</XMLClassBuilderData>
 	<XMLClassBuilderData>
 		<Class>VIDE</Class>
