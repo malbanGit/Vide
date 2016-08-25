@@ -57,6 +57,11 @@ public class E6809 extends E6809State implements E6809Statics
             }
         }
     }
+    // called after a lds
+    void resetCallstack()
+    {
+        callStack.clear();
+    }
     
     
     int read_xyus(int r)
@@ -2989,6 +2994,7 @@ reg_cc &= tmp;
                     // dont care analog
                     inst_tst16 (reg_s.intValue);
                     cycles.intValue += 4;
+                    resetCallstack();
                     break;
                 case 0xde:
                     ea = ea_direct ();
@@ -2996,6 +3002,7 @@ reg_cc &= tmp;
                     // dont care analog
                     inst_tst16 (reg_s.intValue);
                     cycles.intValue += 6;
+                    resetCallstack();
                     break;
                 case 0xee:
                     ea = ea_indexed (cycles);
@@ -3003,6 +3010,7 @@ reg_cc &= tmp;
                     // dont care analog
                     inst_tst16 (reg_s.intValue);
                     cycles.intValue += 6;
+                    resetCallstack();
                     break;
                 case 0xfe:
                     ea = ea_extended ();
@@ -3010,6 +3018,7 @@ reg_cc &= tmp;
                     // dont care analog
                     inst_tst16 (reg_s.intValue);
                     cycles.intValue += 7;
+                    resetCallstack();
                     break;
                     /* sts */
                 case 0xdf:

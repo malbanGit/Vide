@@ -80,8 +80,12 @@ public class SourceLine {
             parsedOK = false;
             
             if (line.toLowerCase().contains("include"))
+            {
                 line = convertSeperator(line);
-            
+                // cheap circumvention of direct quotes after include
+                line = de.malban.util.UtilityString.replace(line, "clude\"", "clude \"");
+                line = de.malban.util.UtilityString.replace(line, "CLUDE\"", "CLUDE \"");
+            }            
             ParseString s = new ParseString(line);
             s.setPosition(0);
 

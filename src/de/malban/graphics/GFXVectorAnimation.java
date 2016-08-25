@@ -356,7 +356,7 @@ public class GFXVectorAnimation
         }
         return true;
     }
-    public String createASMDraw_VL_mode(String name, boolean includeInitialMove)
+    public String createASMDraw_VL_mode(String name, boolean includeInitialMove, boolean factor)
     {
         if (!isDraw_VL_mode()) return "";
         StringBuilder source = new StringBuilder();
@@ -371,7 +371,7 @@ public class GFXVectorAnimation
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
-            String asm = vl.createASMDraw_VL_mode(name+"_"+count, includeInitialMove);
+            String asm = vl.createASMDraw_VL_mode(name+"_"+count, includeInitialMove, factor);
             if (asm.length() == 0)
             {
                 log.addLog("Anim: createASMDraw_VL_mode failed, VL("+count+") returned error!", WARN);
@@ -386,7 +386,7 @@ public class GFXVectorAnimation
         String text = table.toString();
         return text;        
     }
-    public String createASMDraw_VLc(String name)
+    public String createASMDraw_VLc(String name, boolean factor)
     {
         if (!isDraw_VLc()) return "";
         StringBuilder source = new StringBuilder();
@@ -401,7 +401,7 @@ public class GFXVectorAnimation
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
-            String asm = vl.createASMMov_Draw_VLc_a(false, name+"_"+count);
+            String asm = vl.createASMMov_Draw_VLc_a(false, name+"_"+count, factor);
             if (asm.length() == 0)
             {
                 log.addLog("Anim: createASMDraw_VLc failed, VL("+count+") returned error!", WARN);
@@ -416,7 +416,7 @@ public class GFXVectorAnimation
         String text = table.toString();
         return text;        
     }    
-    public String createASMMov_Draw_VLc_a(String name)
+    public String createASMMov_Draw_VLc_a(String name, boolean factor)
     {
         if (!isMov_Draw_VLc_a()) return "";
         StringBuilder source = new StringBuilder();
@@ -431,7 +431,7 @@ public class GFXVectorAnimation
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
-            String asm = vl.createASMMov_Draw_VLc_a(true, name+"_"+count);
+            String asm = vl.createASMMov_Draw_VLc_a(true, name+"_"+count, factor);
             if (asm.length() == 0)
             {
                 log.addLog("Anim: createASMMov_Draw_VLc_a failed, VL("+count+") returned error!", WARN);
@@ -449,7 +449,7 @@ public class GFXVectorAnimation
     
     
 
-    public String createASMDraw_VLp(String name)
+    public String createASMDraw_VLp(String name, boolean factor)
     {
         if (!isDraw_VLp()) return "";
         StringBuilder source = new StringBuilder();
@@ -464,7 +464,7 @@ public class GFXVectorAnimation
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
-            String asm = vl.createASMDraw_VLp(name+"_"+count);
+            String asm = vl.createASMDraw_VLp(name+"_"+count, factor);
             if (asm.length() == 0)
             {
                 log.addLog("Anim: createASMDraw_VLp failed, VL("+count+") returned error!", WARN);
@@ -480,6 +480,35 @@ public class GFXVectorAnimation
         return text;        
     }
     
+    public String createASMDraw_syncList(String name, boolean factor, int resync)
+    {
+        StringBuilder source = new StringBuilder();
+        StringBuilder table = new StringBuilder();
+        GFXVectorAnimation al = this;
+        table.append(name).append(":\n");
+        
+        int count = 0;
+        for (GFXVectorList vl : al.list)
+        {
+            table.append(" DW "+name+"_"+count);
+            if (count == 0)
+                table.append(" ; list of all single vectorlists in this");
+            table.append("\n");
+            String asm = vl.createASMDraw_syncList(name+"_"+count, factor, resync);
+            if (asm.length() == 0)
+            {
+                log.addLog("Anim: createASMDraw_syncList failed, VL("+count+") returned error!", WARN);
+                return "";
+            }
+            source.append(asm);
+            
+            count++;
+        }
+        table.append("\n");
+        table.append(source);
+        String text = table.toString();
+        return text;        
+    }
     
     public String createASMCodeGen(String name)
     {

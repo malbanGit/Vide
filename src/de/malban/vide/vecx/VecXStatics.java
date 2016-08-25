@@ -33,7 +33,7 @@ public abstract interface VecXStatics
     
     
     public static boolean PARA = false;
-    public static final int EMU_TIMER = 5; // milliseconds per frame
+    public static final int EMU_TIMER = 20; // milliseconds per frame, used by speed limit!
 
 
     public static final int VECTREX_MHZ		= 1500000; /* speed of the vectrex being emulated */

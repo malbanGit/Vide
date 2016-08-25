@@ -91,7 +91,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }
     void addHistory()
     {
-        history.add(singleImagePanel1.getForegroundVectorList().clone());
+        history.add(singleVectorPanel1.getForegroundVectorList().clone());
         historyPos = history.size()-1;
         jButtonUndo.setEnabled(historyPos>0);
         jButtonRedo.setEnabled(historyPos<history.size()-1);
@@ -103,7 +103,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         // try not to double add
         if (historyPos == history.size()-1)
         {
-            String s1 = singleImagePanel1.getForegroundVectorList().clone().toString();
+            String s1 = singleVectorPanel1.getForegroundVectorList().clone().toString();
             String s2 = history.get(history.size()-1).toString();
             if (!s1.equals(s2))
                 addHistory();
@@ -112,7 +112,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
         historyPos--;
         GFXVectorList list = history.get(historyPos);
-        singleImagePanel1.setForegroundVectorList(list.clone());
+        singleVectorPanel1.setForegroundVectorList(list.clone());
         jButtonUndo.setEnabled(historyPos>0);
         jButtonRedo.setEnabled(historyPos<history.size()-1);
     }
@@ -121,7 +121,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         if (historyPos>=history.size()-1) return;
         historyPos++;
         GFXVectorList list = history.get(historyPos);
-        singleImagePanel1.setForegroundVectorList(list.clone());
+        singleVectorPanel1.setForegroundVectorList(list.clone());
         jButtonUndo.setEnabled(historyPos>0);
         jButtonRedo.setEnabled(historyPos<history.size()-1);
     }
@@ -133,7 +133,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
     // this is not the uid of the vectorlist that is beeing edited!
     // usually this is maximal a clone !
     int selectedAnimationFrameUID = -1;
-    
+    int preSelectedAnimationFrameUID = -1;
+
     // the vector that is CURRENTLY being build by the user 
     GFXVector buildingVector= new GFXVector();
     
@@ -201,24 +202,28 @@ public class VeccyPanel extends javax.swing.JPanel implements
      */
     public VeccyPanel() {
         initComponents();
+        jCheckBox1.setSelected(SingleVectorPanel.displayLen);
 
-        singleImagePanel1.addSibbling(singleImagePanel2);
-        singleImagePanel1.addSibbling(singleImagePanel3);
-        singleImagePanel1.addSibbling(single3dDisplayPanel);
+        // not done yet
+        jPanelScroller.setVisible(false);
         
+        singleVectorPanel1.addSibbling(singleImagePanel2);
+        singleVectorPanel1.addSibbling(singleImagePanel3);
+        singleVectorPanel1.addSibbling(single3dDisplayPanel);
+        single3dDisplayPanel.setSingleRepaint(true);
         
         // set axis on each panel
-        singleImagePanel1.setXMain();
+        singleVectorPanel1.setXMain();
         singleImagePanel2.setYMain();
         singleImagePanel3.setZMain();
         
         // add all listeners
-        singleImagePanel1.addMousePressedListener(this);
-        singleImagePanel1.addMouseMovedListener(this);
-        singleImagePanel1.addMouseReleasedListener(this);
+        singleVectorPanel1.addMousePressedListener(this);
+        singleVectorPanel1.addMouseMovedListener(this);
+        singleVectorPanel1.addMouseReleasedListener(this);
 
         // add grid and scaling
-        singleImagePanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.Int0(jTextFieldGridWidth.getText()));        
+        singleVectorPanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.Int0(jTextFieldGridWidth.getText()));        
         jSliderSourceScaleStateChanged(null);
         jSliderSourceScale1StateChanged(null); 
 
@@ -234,7 +239,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel17.setForeground(Color.GREEN);
         jLabel18.setForeground(Color.MAGENTA);
         
-        MyTableModel model = singleImagePanel1.getTableModel();
+        MyTableModel model = singleVectorPanel1.getTableModel();
         if (model != null)
         {
             jTable1.setModel(model);
@@ -262,75 +267,71 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 int val = (int) ((double)((Double) value));
                 
                 JLabel l = (JLabel)c;
+//                l = new JLabel();
                 l.setText(""+val);
                 l.setHorizontalAlignment(TRAILING);
+                
+                if (jRadioButtonSetPoint.isSelected())
+                {
+                    return l;
+                }
+                
                 if (!jRadioButtonSelectPoint.isSelected())
                 {
-                    return c;
+//                    return l;
                 }
 
                 if (table.getModel() instanceof MyTableModel)
                 {
                     MyTableModel model = (MyTableModel)table.getModel();
-                    GFXVector v = singleImagePanel1.getForegroundVectorList().get(row);
+                    GFXVector v = singleVectorPanel1.getForegroundVectorList().get(row);
 
-                    if (v.start.selected)
+                    if ((col == 1) || (col == 2)|| (col == 3))
                     {
-                        if ((col == 1) || (col == 2)|| (col == 3))
+                        if (isSelected)
                         {
-                            c.setBackground(table.getSelectionBackground());
+                            l.setBackground(table.getSelectionBackground());
+                        }
+                        else if (v.start.selected)
+                        {
+                            l.setBackground(table.getSelectionBackground());
                         }
                         else
                         {
-                            c.setBackground(table.getBackground());
-                        }
-                    }
-                    else
-                    {
-                        if ((col == 1) || (col == 2)|| (col == 3))
-                        {
-
-                            if (isSelected)
-                            {
-                                c.setBackground(table.getSelectionBackground());
-                            }
-                            else
-                            {
-                                c.setBackground(table.getBackground());
-                            }
+                            l.setBackground(table.getBackground());
                         }
                     }
                     
-                    if (v.end.selected)
+                    else if ((col == 4) || (col == 5)|| (col == 6))
                     {
-                        if ((col == 4) || (col == 5)|| (col == 6))
+                        if (isSelected)
                         {
-                            c.setBackground(table.getSelectionBackground());
-                            
+                            l.setBackground(table.getSelectionBackground());
+                        }
+                        else if (v.end.selected)
+                        {
+                            l.setBackground(table.getSelectionBackground());
                         }
                         else
                         {
-                            c.setBackground(table.getBackground());
+                            l.setBackground(table.getBackground());
                         }
                     }
                     else
                     {
-                        if ((col == 4) || (col == 5)|| (col == 6))
+                        if (isSelected)
                         {
-
-                            if (isSelected)
-                            {
-                                c.setBackground(table.getSelectionBackground());
-                            }
-                            else
-                            {
-                                c.setBackground(table.getBackground());
-                            }
+                            l.setBackground(table.getSelectionBackground());
+                        }
+                        else
+                        {
+                            l.setBackground(table.getBackground());
                         }
                     }
+                        
                     
                 }
-                return c;
+                return l;
             }   
         });        
     
@@ -349,7 +350,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         single3dDisplayPanel1.setAxisAngleX(0);
         single3dDisplayPanel1.setAxisAngleY(0);
         single3dDisplayPanel1.setAxisAngleZ(0);
-        single3dDisplayPanel1.repaint();
     }
     public void deinit()
     {
@@ -401,6 +401,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonClearAnimation = new javax.swing.JButton();
         jButtonOneBack = new javax.swing.JButton();
         jButtonJoin = new javax.swing.JButton();
+        jCheckBoxAutoEdit = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel10 = new javax.swing.JPanel();
@@ -418,10 +419,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonMirrorHorizontally = new javax.swing.JButton();
         jLabel50 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
-        jTextFieldScaleFactor = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
-        jButtonEnlarge = new javax.swing.JButton();
-        jButtonShrink = new javax.swing.JButton();
         jButtonOneForwardSelection2 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jTextFieldBaseSize = new javax.swing.JTextField();
@@ -448,6 +446,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jCheckBoxFraktion = new javax.swing.JCheckBox();
         jCheckBoxLine = new javax.swing.JCheckBox();
         jButtonOrderSplitWhereNeeded = new javax.swing.JButton();
+        jButtonShrink = new javax.swing.JButton();
+        jButtonEnlarge = new javax.swing.JButton();
+        jTextFieldScaleFactor = new javax.swing.JTextField();
+        jPanel36 = new javax.swing.JPanel();
+        jTextFieldScaleFactor1 = new javax.swing.JTextField();
+        jButtonEnlarge1 = new javax.swing.JButton();
+        jButtonShrink1 = new javax.swing.JButton();
+        jButtonFitByteRange1 = new javax.swing.JButton();
+        jCheckBoxFraktion1 = new javax.swing.JCheckBox();
         single3dDisplayPanel = new de.malban.graphics.Single3dDisplayPanel();
         jSliderSourceScale1 = new javax.swing.JSlider();
         jToggleButtonPlayAnim = new javax.swing.JToggleButton();
@@ -487,6 +494,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jCheckBox1 = new javax.swing.JCheckBox();
         jPanel16 = new javax.swing.JPanel();
         singleImagePanel2 = new de.malban.graphics.SingleVectorPanel();
         singleImagePanel3 = new de.malban.graphics.SingleVectorPanel();
@@ -572,6 +580,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel36 = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
         jTextFieldLabelListname = new javax.swing.JTextField();
+        jButtonDraw_syncList = new javax.swing.JButton();
+        jTextFieldResync = new javax.swing.JTextField();
         jPanel30 = new javax.swing.JPanel();
         jButtonMov_Draw_VLc_aAnim = new javax.swing.JButton();
         jButtonDraw_VLcAnim = new javax.swing.JButton();
@@ -582,9 +592,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel44 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
+        jButtonDraw_syncListAnim = new javax.swing.JButton();
+        jTextFieldResyncAnim = new javax.swing.JTextField();
         jCheckBoxRunnable = new javax.swing.JCheckBox();
         jButtonAssemble = new javax.swing.JButton();
         jButtonEditInVedi = new javax.swing.JButton();
+        jCheckBoxAddFactor = new javax.swing.JCheckBox();
+        jLabel54 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jPanel32 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextAreaResult1 = new javax.swing.JTextArea();
@@ -648,7 +663,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabelX = new javax.swing.JLabel();
         jTextFieldStartY = new javax.swing.JTextField();
         jTextFieldVectorCount = new javax.swing.JTextField();
-        singleImagePanel1 = new de.malban.graphics.SingleVectorPanel();
+        singleVectorPanel1 = new de.malban.graphics.SingleVectorPanel();
         jTextFieldCurrentX = new javax.swing.JTextField();
         jCheckBoxGrid = new javax.swing.JCheckBox();
         jTextFieldGridWidth = new javax.swing.JTextField();
@@ -666,6 +681,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonLoad = new javax.swing.JButton();
         jButtonOneForwardSelection1 = new javax.swing.JButton();
         jLabelMode = new javax.swing.JLabel();
+        jPanelScroller = new javax.swing.JPanel();
+        jButtonUp = new javax.swing.JButton();
+        jButtonDown = new javax.swing.JButton();
+        jButtonLeft = new javax.swing.JButton();
+        jButtonRight = new javax.swing.JButton();
 
         jPopupMenuPoint.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -746,7 +766,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
         jPopupMenuLine.add(jMenuItemDeleteNotSelected);
 
-        jMenuItemInsertPoint.setText("Insert point (not done)");
+        jMenuItemInsertPoint.setText("Insert point");
         jMenuItemInsertPoint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemInsertPointActionPerformed(evt);
@@ -774,7 +794,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonOneForward);
-        jButtonOneForward.setBounds(580, 40, 40, 19);
+        jButtonOneForward.setBounds(580, 35, 40, 20);
 
         jTextFieldCurrentNo.setToolTipText("Number of the current selected image.");
         applyCurrent.add(jTextFieldCurrentNo);
@@ -804,7 +824,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonApplyCurrent);
-        jButtonApplyCurrent.setBounds(240, 40, 110, 19);
+        jButtonApplyCurrent.setBounds(240, 35, 110, 20);
 
         jLabelSelSize.setText(" ");
         applyCurrent.add(jLabelSelSize);
@@ -820,7 +840,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonReverse);
-        jButtonReverse.setBounds(511, 10, 110, 19);
+        jButtonReverse.setBounds(511, 10, 110, 20);
 
         jButtonDeleteOne.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/exclamation.png"))); // NOI18N
         jButtonDeleteOne.setText("delete");
@@ -833,7 +853,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonDeleteOne);
-        jButtonDeleteOne.setBounds(630, 10, 110, 19);
+        jButtonDeleteOne.setBounds(630, 10, 110, 20);
 
         jButtonSave2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
         jButtonSave2.setToolTipText("save animation");
@@ -844,7 +864,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonSave2);
-        jButtonSave2.setBounds(40, 40, 21, 21);
+        jButtonSave2.setBounds(36, 35, 21, 21);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -901,7 +921,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonAddCurrent);
-        jButtonAddCurrent.setBounds(240, 10, 110, 19);
+        jButtonAddCurrent.setBounds(240, 10, 110, 20);
 
         jButtonLoad1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
         jButtonLoad1.setToolTipText("load animation");
@@ -912,7 +932,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonLoad1);
-        jButtonLoad1.setBounds(10, 40, 21, 21);
+        jButtonLoad1.setBounds(10, 35, 21, 21);
 
         buttonGroup2.add(jRadioButton1);
         jRadioButton1.setSelected(true);
@@ -946,7 +966,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonAddCurrent1);
-        jButtonAddCurrent1.setBounds(360, 10, 110, 19);
+        jButtonAddCurrent1.setBounds(360, 10, 110, 20);
 
         jButtonClearAnimation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/new.png"))); // NOI18N
         jButtonClearAnimation.setText("clear");
@@ -959,7 +979,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonClearAnimation);
-        jButtonClearAnimation.setBounds(630, 40, 110, 19);
+        jButtonClearAnimation.setBounds(630, 35, 110, 20);
 
         jButtonOneBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_left.png"))); // NOI18N
         jButtonOneBack.setToolTipText("Select previous, +SHIFT moves selected vectorlist one to the left.");
@@ -970,11 +990,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonOneBack);
-        jButtonOneBack.setBounds(510, 40, 40, 19);
+        jButtonOneBack.setBounds(511, 35, 40, 20);
 
         jButtonJoin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/vector_add.png"))); // NOI18N
         jButtonJoin.setText("join");
-        jButtonJoin.setToolTipText("joins all vectorlist to one in current edit");
+        jButtonJoin.setToolTipText("<html>\n<body>\nif \"edit on select\" selected:<BR>\nJoins all vectorlist to one in current edit<BR>\nif \"edit on select\" NOT selected:<BR>\nJoins current selected frame to the current edit<BR>\n</body>\n</html>\n");
         jButtonJoin.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonJoin.setPreferredSize(new java.awt.Dimension(62, 19));
         jButtonJoin.addActionListener(new java.awt.event.ActionListener() {
@@ -983,13 +1003,24 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonJoin);
-        jButtonJoin.setBounds(750, 10, 110, 19);
+        jButtonJoin.setBounds(750, 10, 110, 20);
+
+        jCheckBoxAutoEdit.setSelected(true);
+        jCheckBoxAutoEdit.setText("edit on select");
+        jCheckBoxAutoEdit.setMargin(new java.awt.Insets(0, 2, 0, 2));
+        jCheckBoxAutoEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxAutoEditActionPerformed(evt);
+            }
+        });
+        applyCurrent.add(jCheckBoxAutoEdit);
+        jCheckBoxAutoEdit.setBounds(60, 37, 100, 16);
 
         jCheckBoxHasPattern.setText("has pattern byte");
 
         jTextFieldPattern.setText("51");
 
-        jLabelPattern.setText("pattern byte (dec)");
+        jLabelPattern.setText("pattern byte (dec, bin, hex)");
 
         jCheckBoxHasIntensity.setText("has intensity");
 
@@ -1023,10 +1054,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addComponent(jLabelPattern1))
                             .addComponent(jCheckBoxHasIntensity)
                             .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jTextFieldPattern, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldPattern, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabelPattern)))
-                        .addGap(0, 139, Short.MAX_VALUE))
+                        .addGap(0, 90, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonSetStyle, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1049,7 +1080,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jTextFieldIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPattern1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                .addComponent(jButtonSetStyle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonSetStyle, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1093,27 +1124,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel53.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jLabel53.setText("around x-axis");
 
-        jTextFieldScaleFactor.setText("1.5");
-
         jLabel32.setText("factor");
-
-        jButtonEnlarge.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
-        jButtonEnlarge.setToolTipText("expand vectorlist");
-        jButtonEnlarge.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonEnlarge.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEnlargeActionPerformed(evt);
-            }
-        });
-
-        jButtonShrink.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
-        jButtonShrink.setToolTipText("shrink vectorlist");
-        jButtonShrink.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonShrink.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonShrinkActionPerformed(evt);
-            }
-        });
 
         jButtonOneForwardSelection2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/images.png"))); // NOI18N
         jButtonOneForwardSelection2.setText("image to vector");
@@ -1134,9 +1145,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addContainerGap()
                 .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel35Layout.createSequentialGroup()
-                        .addComponent(jButtonOneForwardSelection2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel35Layout.createSequentialGroup()
                         .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel35Layout.createSequentialGroup()
                                 .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1145,20 +1153,18 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                     .addComponent(jButtonRotate2d, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(jPanel35Layout.createSequentialGroup()
-                                .addComponent(jButtonShrink)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonEnlarge)
-                                .addGap(4, 4, 4)
+                                .addGap(52, 52, 52)
                                 .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(70, 70, 70)))
                         .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                            .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                             .addGroup(jPanel35Layout.createSequentialGroup()
-                                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))))
+                                .addComponent(jTextFieldRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 117, Short.MAX_VALUE))))
+                    .addGroup(jPanel35Layout.createSequentialGroup()
+                        .addComponent(jButtonOneForwardSelection2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel35Layout.setVerticalGroup(
             jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1175,16 +1181,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel53))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonShrink)
-                    .addComponent(jButtonEnlarge)
-                    .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel32)))
+                .addGap(15, 15, 15)
+                .addComponent(jLabel32)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonOneForwardSelection2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("2d-Tools", jPanel35);
@@ -1222,7 +1223,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jTextFieldBaseSize, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonCube, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addContainerGap(237, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1235,7 +1236,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButtonCube, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Figure", jPanel11);
@@ -1348,7 +1349,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jCheckBoxPosition)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxMoves)))
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Mode/Select", jPanel9);
@@ -1424,24 +1425,52 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
+        jButtonShrink.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
+        jButtonShrink.setToolTipText("shrink vectorlist");
+        jButtonShrink.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonShrink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonShrinkActionPerformed(evt);
+            }
+        });
+
+        jButtonEnlarge.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
+        jButtonEnlarge.setToolTipText("expand vectorlist");
+        jButtonEnlarge.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonEnlarge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEnlargeActionPerformed(evt);
+            }
+        });
+
+        jTextFieldScaleFactor.setText("1.5");
+
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonOrderSplitWhereNeeded, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                    .addComponent(jButtonConnectWherePossible, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonOrderVectorlist, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonFitByteRange, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonRemoveDots, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonFillGaps, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxLine, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBoxFraktion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel27Layout.createSequentialGroup()
+                        .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButtonOrderSplitWhereNeeded, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                            .addComponent(jButtonConnectWherePossible, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonOrderVectorlist, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonFitByteRange, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonRemoveDots, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonFillGaps, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBoxLine, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBoxFraktion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel27Layout.createSequentialGroup()
+                        .addComponent(jButtonShrink)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonEnlarge)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel27Layout.setVerticalGroup(
@@ -1465,10 +1494,90 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonFitByteRange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxFraktion))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButtonShrink)
+                        .addComponent(jButtonEnlarge))
+                    .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        jTabbedPane4.addTab("shortcuts", jPanel27);
+        jTabbedPane4.addTab("shortcut list", jPanel27);
+
+        jTextFieldScaleFactor1.setText("1.5");
+
+        jButtonEnlarge1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
+        jButtonEnlarge1.setToolTipText("expand vectorlist");
+        jButtonEnlarge1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonEnlarge1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEnlarge1ActionPerformed(evt);
+            }
+        });
+
+        jButtonShrink1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
+        jButtonShrink1.setToolTipText("shrink vectorlist");
+        jButtonShrink1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonShrink1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonShrink1ActionPerformed(evt);
+            }
+        });
+
+        jButtonFitByteRange1.setText("fit byte");
+        jButtonFitByteRange1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonFitByteRange1.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonFitByteRange1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFitByteRange1ActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxFraktion1.setSelected(true);
+        jCheckBoxFraktion1.setText("fractions");
+        jCheckBoxFraktion1.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
+        jPanel36.setLayout(jPanel36Layout);
+        jPanel36Layout.setHorizontalGroup(
+            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 276, Short.MAX_VALUE)
+            .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel36Layout.createSequentialGroup()
+                    .addGap(11, 11, 11)
+                    .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel36Layout.createSequentialGroup()
+                            .addComponent(jButtonFitByteRange1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jCheckBoxFraktion1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel36Layout.createSequentialGroup()
+                            .addComponent(jButtonShrink1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonEnlarge1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldScaleFactor1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(11, 11, 11)))
+        );
+        jPanel36Layout.setVerticalGroup(
+            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 233, Short.MAX_VALUE)
+            .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel36Layout.createSequentialGroup()
+                    .addGap(92, 92, 92)
+                    .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonFitByteRange1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCheckBoxFraktion1))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonShrink1)
+                            .addComponent(jButtonEnlarge1))
+                        .addComponent(jTextFieldScaleFactor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(93, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane4.addTab("shortcut collection", jPanel36);
 
         single3dDisplayPanel.setMaximumSize(new java.awt.Dimension(150, 150));
         single3dDisplayPanel.setMinimumSize(new java.awt.Dimension(150, 150));
@@ -1624,7 +1733,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jTextFieldRotateSteps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel33))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1684,7 +1793,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel21)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTextFieldMorphSteps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1717,7 +1826,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonPathsAsScenario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Scenario", jPanel14);
@@ -1762,8 +1871,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1802,18 +1911,31 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(jTable1);
 
+        jCheckBox1.setSelected(true);
+        jCheckBox1.setText("display vector length");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 807, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 821, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jCheckBox1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
-                .addGap(37, 37, 37))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox1)
+                .addGap(12, 12, 12))
         );
 
         jTabbedPane5.addTab("Vector List", jPanel4);
@@ -2246,7 +2368,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabelDelay1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxDisplayAxis)))
-                .addContainerGap(490, Short.MAX_VALUE))
+                .addContainerGap(504, Short.MAX_VALUE))
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2359,7 +2481,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5)
                         .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(72, Short.MAX_VALUE))
+                        .addContainerGap(81, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -2454,7 +2576,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(677, Short.MAX_VALUE))
+                .addContainerGap(691, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2540,25 +2662,42 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabel37.setText("Label name:");
 
+        jButtonDraw_syncList.setText("Draw sync list");
+        jButtonDraw_syncList.setToolTipText("<html>\n<B>Draw sync list</B>        <BR>                                  \n                                                <BR>                            \nFormat developed by Malban, this format describes a \"large\".  <BR> \nVectorlist, which can be synced while drawing. Synced means,   <BR> \nthe beam is zeroed and moved to the next location.   <BR> \nVide automatically inserts a \"sync\" when vectors are not connected. <BR> \n<BR>\nThe Sync point is always the \"displayed\" point 0, 0, after a sync the beam is moved<BR>\nthe vectorlist 0, 0 and from there to the next displayed vector.<BR>\nformat: <BR> \n\nMethod to draw:\nU = address of vectorlist\nX = (y,x) position of vectorlist (this will be point 0,0), positioning\nA = scalefactor \"Move\" (after sync)\nB = scalefactor \"Vector\" (vectors in vectorlist)\n\n<BR>\n<PRE>\n     mode, rel y, rel x,                                             \n     mode, rel y, rel x,                                             \n     .      .      .                                                \n     .      .      .                                                \n     mode, rel y, rel x,                                             \n     0xff, 0xffff \n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n0xff draw line        <BR>                           \n0  move to specified endpoint      <BR>                           \n1  sync (and move to specified endpoint)        <BR>     \n\n<BR>     \n</html>\n\n");
+        jButtonDraw_syncList.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonDraw_syncList.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_syncList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDraw_syncListActionPerformed(evt);
+            }
+        });
+
+        jTextFieldResync.setText("20");
+        jTextFieldResync.setToolTipText("maximum resync size");
+
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
         jPanel29.setLayout(jPanel29Layout);
         jPanel29Layout.setHorizontalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel29Layout.createSequentialGroup()
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonDraw_VLp, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                    .addComponent(jButtonDraw_VLc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonMov_Draw_VLc_a, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDraw_VL_mode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDraw_syncList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel29Layout.createSequentialGroup()
-                        .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButtonDraw_VLp, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(jButtonDraw_VLc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonMov_Draw_VLc_a, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonDraw_VL_mode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(30, 30, 30)
                         .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)))
-                    .addGroup(jPanel29Layout.createSequentialGroup()
+                            .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldResync, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel37)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldLabelListname, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -2582,11 +2721,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonDraw_VL_mode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel36))
-                .addGap(13, 13, 13)
-                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel37)
-                    .addComponent(jTextFieldLabelListname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 5, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel37)
+                        .addComponent(jTextFieldLabelListname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonDraw_syncList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldResync, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(5, 5, 5))
         );
 
         jPanel30.setBorder(javax.swing.BorderFactory.createTitledBorder("Animation/Scenario"));
@@ -2642,6 +2785,19 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel46.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jLabel46.setText("frames share the same starting point!");
 
+        jButtonDraw_syncListAnim.setText("Draw sync list");
+        jButtonDraw_syncListAnim.setToolTipText("<html>\n<B>Draw sync list</B>        <BR>                                  \n                                                <BR>                            \nFormat developed by Malban, this format describes a \"large\".  <BR> \nVectorlist, which can be synced while drawing. Synced means,   <BR> \nthe beam is zeroed and moved to the next location.   <BR> \nVide automatically inserts a \"sync\" when vectors are not connected. <BR> \n<BR>\nThe Sync point is always the \"displayed\" point 0, 0, after a sync the beam is moved<BR>\nthe vectorlist 0, 0 and from there to the next displayed vector.<BR>\nformat: <BR> \n\nMethod to draw:\nU = address of vectorlist\nX = (y,x) position of vectorlist (this will be point 0,0), positioning\nA = scalefactor \"Move\" (after sync)\nB = scalefactor \"Vector\" (vectors in vectorlist)\n\n<BR>\n<PRE>\n     mode, rel y, rel x,                                             \n     mode, rel y, rel x,                                             \n     .      .      .                                                \n     .      .      .                                                \n     mode, rel y, rel x,                                             \n     0xff, 0xffff \n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n0xff draw line        <BR>                           \n0  move to specified endpoint      <BR>                           \n1  sync (and move to specified endpoint)        <BR>     \n\n<BR>     \n</html>\n\n");
+        jButtonDraw_syncListAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonDraw_syncListAnim.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_syncListAnim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDraw_syncListAnimActionPerformed(evt);
+            }
+        });
+
+        jTextFieldResyncAnim.setText("20");
+        jTextFieldResyncAnim.setToolTipText("maximum resync size");
+
         javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
         jPanel30.setLayout(jPanel30Layout);
         jPanel30Layout.setHorizontalGroup(
@@ -2656,14 +2812,18 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jButtonDraw_VL_modeAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(34, 34, 34)
                         .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                            .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel46, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel30Layout.createSequentialGroup()
+                        .addComponent(jButtonDraw_syncListAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldResyncAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58)
                         .addComponent(jLabel38)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldAnimName, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGap(6, 6, 6))
         );
         jPanel30Layout.setVerticalGroup(
             jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2681,11 +2841,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonDraw_VL_modeAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel46))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel38)
-                    .addComponent(jTextFieldAnimName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel38)
+                        .addComponent(jTextFieldAnimName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonDraw_syncListAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldResyncAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         jCheckBoxRunnable.setText("runnable");
@@ -2715,14 +2879,22 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBoxAddFactor.setText("add  factor");
+
+        jLabel54.setText("scale:");
+        jLabel54.setEnabled(false);
+
+        jTextField1.setEnabled(false);
+
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
         jPanel19Layout.setHorizontalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(4, 4, 4)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel19Layout.createSequentialGroup()
@@ -2731,24 +2903,33 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jButtonAssemble)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonEditInVedi)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBoxAddFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel54, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 100, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCheckBoxRunnable, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButtonAssemble, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonEditInVedi, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jButtonEditInVedi, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jCheckBoxAddFactor)
+                                .addComponent(jLabel54)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -2897,7 +3078,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonEditInVedi1)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel32Layout.setVerticalGroup(
@@ -2936,7 +3117,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(669, Short.MAX_VALUE))
+                .addContainerGap(683, Short.MAX_VALUE))
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3106,7 +3287,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel28Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jCheckBox2dOnly, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
         jPanel28Layout.setVerticalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3249,23 +3430,23 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel18.add(jTextFieldVectorCount);
         jTextFieldVectorCount.setBounds(150, 350, 30, 20);
 
-        singleImagePanel1.setMaximumSize(new java.awt.Dimension(300, 300));
-        singleImagePanel1.setMinimumSize(new java.awt.Dimension(300, 300));
-        singleImagePanel1.setPreferredSize(new java.awt.Dimension(300, 300));
+        singleVectorPanel1.setMaximumSize(new java.awt.Dimension(300, 300));
+        singleVectorPanel1.setMinimumSize(new java.awt.Dimension(300, 300));
+        singleVectorPanel1.setPreferredSize(new java.awt.Dimension(300, 300));
 
-        javax.swing.GroupLayout singleImagePanel1Layout = new javax.swing.GroupLayout(singleImagePanel1);
-        singleImagePanel1.setLayout(singleImagePanel1Layout);
-        singleImagePanel1Layout.setHorizontalGroup(
-            singleImagePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout singleVectorPanel1Layout = new javax.swing.GroupLayout(singleVectorPanel1);
+        singleVectorPanel1.setLayout(singleVectorPanel1Layout);
+        singleVectorPanel1Layout.setHorizontalGroup(
+            singleVectorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
-        singleImagePanel1Layout.setVerticalGroup(
-            singleImagePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        singleVectorPanel1Layout.setVerticalGroup(
+            singleVectorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        jPanel18.add(singleImagePanel1);
-        singleImagePanel1.setBounds(10, 40, 300, 300);
+        jPanel18.add(singleVectorPanel1);
+        singleVectorPanel1.setBounds(10, 40, 300, 300);
 
         jTextFieldCurrentX.setText("80");
         jPanel18.add(jTextFieldCurrentX);
@@ -3468,24 +3649,83 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jButtonUndo))))
         );
 
+        jPanelScroller.setLayout(null);
+
+        jButtonUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_up.png"))); // NOI18N
+        jButtonUp.setToolTipText("select all");
+        jButtonUp.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonUp.setMargin(new java.awt.Insets(-1, -3, -1, -4));
+        jButtonUp.setPreferredSize(new java.awt.Dimension(14, 18));
+        jButtonUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpActionPerformed(evt);
+            }
+        });
+        jPanelScroller.add(jButtonUp);
+        jButtonUp.setBounds(20, 0, 18, 18);
+
+        jButtonDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_down.png"))); // NOI18N
+        jButtonDown.setToolTipText("select all");
+        jButtonDown.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonDown.setMargin(new java.awt.Insets(-1, -3, -1, -4));
+        jButtonDown.setPreferredSize(new java.awt.Dimension(14, 18));
+        jButtonDown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDownActionPerformed(evt);
+            }
+        });
+        jPanelScroller.add(jButtonDown);
+        jButtonDown.setBounds(20, 40, 18, 18);
+
+        jButtonLeft.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_left.png"))); // NOI18N
+        jButtonLeft.setToolTipText("select all");
+        jButtonLeft.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonLeft.setMargin(new java.awt.Insets(-4, 0, -4, -1));
+        jButtonLeft.setPreferredSize(new java.awt.Dimension(65, 19));
+        jButtonLeft.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLeftActionPerformed(evt);
+            }
+        });
+        jPanelScroller.add(jButtonLeft);
+        jButtonLeft.setBounds(0, 19, 20, 19);
+
+        jButtonRight.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_right.png"))); // NOI18N
+        jButtonRight.setToolTipText("select all");
+        jButtonRight.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonRight.setMargin(new java.awt.Insets(-1, 0, -1, -1));
+        jButtonRight.setPreferredSize(new java.awt.Dimension(65, 19));
+        jButtonRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRightActionPerformed(evt);
+            }
+        });
+        jPanelScroller.add(jButtonRight);
+        jButtonRight.setBounds(40, 19, 20, 19);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jSliderSourceScale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabelMinY, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelY0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelMaxY, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabelScale, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jCheckBoxByteFrame)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(jSliderSourceScale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addGap(2, 2, 2)
+                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabelMinY, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabelY0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabelMaxY, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jPanelScroller, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                            .addGap(4, 4, 4)
+                            .addComponent(jCheckBoxByteFrame))))
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -3502,7 +3742,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jSliderSourceScale, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                 .addComponent(jLabelMaxY)
-                                .addGap(121, 121, 121)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanelScroller, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(63, 63, 63)
                                 .addComponent(jLabelY0)
                                 .addGap(93, 93, 93)
                                 .addComponent(jLabelMinY)
@@ -3512,7 +3754,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
-                .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
 
@@ -3533,11 +3775,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(3, 3, 3)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(applyCurrent, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addComponent(applyCurrent, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -3550,7 +3793,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -3572,7 +3815,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabelScale.setText("Scale: "+new DecimalFormat("#.##").format(scale));
         jLabelMaxY.setText(""+Scaler.unscaleDoubleToInt(128, scale));
         jLabelMinY.setText("-"+Scaler.unscaleDoubleToInt(128, scale));
-        singleImagePanel1.setScale(scale);
+        singleVectorPanel1.setScale(scale);
     }//GEN-LAST:event_jSliderSourceScaleStateChanged
 
     private void jRadioButtonSelectPointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonSelectPointActionPerformed
@@ -3586,10 +3829,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
        
        if (jRadioButtonSelectPoint.isSelected())
        {
-            singleImagePanel1.setMode(SVP_SELECT_POINT);
+            singleVectorPanel1.setMode(SVP_SELECT_POINT);
        }
         jLabelMode.setText("POINT");
-       singleImagePanel1.getForegroundVectorList().resetSelection();
+       singleVectorPanel1.getForegroundVectorList().resetSelection();
        jTable1.repaint();
         
         
@@ -3605,31 +3848,31 @@ public class VeccyPanel extends javax.swing.JPanel implements
        }
        if (jRadioButtonSelectLine.isSelected())
        {
-            singleImagePanel1.setMode(SingleVectorPanel.SVP_SELECT_LINE);
+            singleVectorPanel1.setMode(SingleVectorPanel.SVP_SELECT_LINE);
        }
         jLabelMode.setText("VECTOR");
-       singleImagePanel1.getForegroundVectorList().resetSelection();
+       singleVectorPanel1.getForegroundVectorList().resetSelection();
        jTable1.repaint();
 
     }//GEN-LAST:event_jRadioButtonSelectLineActionPerformed
 
     private void jCheckBoxGridItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxGridItemStateChanged
-        singleImagePanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.Int0(jTextFieldGridWidth.getText()));
+        singleVectorPanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.Int0(jTextFieldGridWidth.getText()));
     }//GEN-LAST:event_jCheckBoxGridItemStateChanged
 
     private void jTextFieldGridWidthFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldGridWidthFocusLost
-        singleImagePanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.Int0(jTextFieldGridWidth.getText()));
+        singleVectorPanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.Int0(jTextFieldGridWidth.getText()));
     }//GEN-LAST:event_jTextFieldGridWidthFocusLost
 
     private void jTextFieldGridWidthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldGridWidthActionPerformed
-        singleImagePanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.Int0(jTextFieldGridWidth.getText()));
+        singleVectorPanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.Int0(jTextFieldGridWidth.getText()));
     }//GEN-LAST:event_jTextFieldGridWidthActionPerformed
 
     private void jCheckBoxContinueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxContinueActionPerformed
         continueStarted = false;
         if (!jCheckBoxContinue.isSelected())
         {
-            singleImagePanel1.continueVector(null);
+            singleVectorPanel1.continueVector(null);
             // continuous mode was switched of!
             if (buildingVector.isRelativ())
             {
@@ -3661,7 +3904,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jRadioButtonSetPointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonSetPointActionPerformed
        if (jRadioButtonSetPoint.isSelected())
        {
-            singleImagePanel1.setMode(SingleVectorPanel.SVP_SET);
+            singleVectorPanel1.setMode(SingleVectorPanel.SVP_SET);
        }
         jLabelMode.setText("SET");
        jTable1.repaint();
@@ -3670,8 +3913,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jMenuItemJoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemJoinActionPerformed
         // doesn't matter which panel
         addHistory();
-        ArrayList<GFXVector> vs = singleImagePanel1.getSelectedPointVectors();
-        Vertex joinHere = singleImagePanel1.getHighlightedVPoint();
+        ArrayList<GFXVector> vs = singleVectorPanel1.getSelectedPointVectors();
+        Vertex joinHere = singleVectorPanel1.getHighlightedVPoint();
 
         // if more than one point in one vector is selected, we take the first!
         GFXVector v1 = vs.get(0);
@@ -3814,7 +4057,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }            
         }
 
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jMenuItemJoinActionPerformed
@@ -3825,7 +4068,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jMenuItemConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConnectActionPerformed
         addHistory();
-        ArrayList<GFXVector> vs = singleImagePanel1.getSelectedPointVectors();
+        ArrayList<GFXVector> vs = singleVectorPanel1.getSelectedPointVectors();
 
         // if more than one point in one vector is selected, we take the first!
         GFXVector v1 = vs.get(0);
@@ -3991,8 +4234,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 }
             }            
         }
-        singleImagePanel1.addForegroundVector(nv);
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.addForegroundVector(nv);
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jMenuItemConnectActionPerformed
@@ -4000,7 +4243,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jMenuItemRipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRipActionPerformed
         addHistory();
 
-        ArrayList<GFXVector> vs = singleImagePanel1.getSelectedPointVectors();
+        ArrayList<GFXVector> vs = singleVectorPanel1.getSelectedPointVectors();
         GFXVector ve = vs.get(0);
         GFXVector vo = null;
         Vertex ps = ve.start;
@@ -4082,7 +4325,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         int value = jSliderFront.getValue();
         jTextFieldFront.setText(""+value);
         single3dDisplayPanel.setAngleX(value);
-        single3dDisplayPanel.repaint();
     }//GEN-LAST:event_jSliderFrontStateChanged
 
     private void jSliderSideStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderSideStateChanged
@@ -4090,7 +4332,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         int value = jSliderSide.getValue();
         jTextFieldSide.setText(""+value);
         single3dDisplayPanel.setAngleY(value);
-        single3dDisplayPanel.repaint();
     }//GEN-LAST:event_jSliderSideStateChanged
 
     private void jSliderTopStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderTopStateChanged
@@ -4098,7 +4339,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         int value = jSliderTop.getValue();
         jTextFieldTop.setText(""+value);
         single3dDisplayPanel.setAngleZ(value);
-        single3dDisplayPanel.repaint();
     }//GEN-LAST:event_jSliderTopStateChanged
 
     private void jSliderSourceScale1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderSourceScale1StateChanged
@@ -4112,7 +4352,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
             scale = 1.0/invScale;
         }
         single3dDisplayPanel.setScale(scale);
-        single3dDisplayPanel.repaint();
     }//GEN-LAST:event_jSliderSourceScale1StateChanged
 
     private void jSliderFrontTranslocationZStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderFrontTranslocationZStateChanged
@@ -4120,7 +4359,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         int value = jSliderFrontTranslocationZ.getValue();
         jTextFieldTop1.setText(""+value);
         single3dDisplayPanel.setTranslocationZ(value);
-        single3dDisplayPanel.repaint();
     }//GEN-LAST:event_jSliderFrontTranslocationZStateChanged
 
     private void jSliderFrontTranslocationYStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderFrontTranslocationYStateChanged
@@ -4128,7 +4366,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         int value = jSliderFrontTranslocationY.getValue();
         jTextFieldSide1.setText(""+value);
         single3dDisplayPanel.setTranslocationY(value);
-        single3dDisplayPanel.repaint();
     }//GEN-LAST:event_jSliderFrontTranslocationYStateChanged
 
     private void jSliderFrontTranslocationXStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderFrontTranslocationXStateChanged
@@ -4136,12 +4373,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         int value = jSliderFrontTranslocationX.getValue();
         jTextFieldFront1.setText(""+value);
         single3dDisplayPanel.setTranslocationX(value);
-        single3dDisplayPanel.repaint();
     }//GEN-LAST:event_jSliderFrontTranslocationXStateChanged
 
     private void jCheckBoxDisplayAxisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxDisplayAxisActionPerformed
         single3dDisplayPanel.setAxisShown(jCheckBoxDisplayAxis.isSelected());
-        single3dDisplayPanel.repaint();
         
     }//GEN-LAST:event_jCheckBoxDisplayAxisActionPerformed
 
@@ -4150,7 +4385,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         int value = jSliderTop1.getValue();
         jTextFieldTop2.setText(""+value);
         single3dDisplayPanel.setAxisAngleZ(value);
-        single3dDisplayPanel.repaint();
     }//GEN-LAST:event_jSliderTop1StateChanged
 
     private void jSliderSide1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderSide1StateChanged
@@ -4158,7 +4392,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         int value = jSliderSide1.getValue();
         jTextFieldSide2.setText(""+value);
         single3dDisplayPanel.setAxisAngleY(value);
-        single3dDisplayPanel.repaint();
     }//GEN-LAST:event_jSliderSide1StateChanged
 
     private void jSliderFront1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderFront1StateChanged
@@ -4166,7 +4399,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         int value = jSliderFront1.getValue();
         jTextFieldFront2.setText(""+value);
         single3dDisplayPanel.setAxisAngleX(value);
-        single3dDisplayPanel.repaint();
     }//GEN-LAST:event_jSliderFront1StateChanged
 
     private void jPopupMenuLineMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPopupMenuLineMouseExited
@@ -4176,27 +4408,27 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jMenuItemLineDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLineDeleteActionPerformed
         addHistory();
             // just delete it!
-        singleImagePanel1.deleteSelectedVector();
+        singleVectorPanel1.deleteSelectedVector();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jMenuItemLineDeleteActionPerformed
 
     private void jMenuItemHereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemHereActionPerformed
         addHistory();
-        singleImagePanel1.joinAllPointsAtHighlight();
+        singleVectorPanel1.joinAllPointsAtHighlight();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jMenuItemHereActionPerformed
 
     private void jButtonOneForwardSelection1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOneForwardSelection1ActionPerformed
         addHistory();
-        singleImagePanel1.clearVectors();
+        singleVectorPanel1.clearVectors();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jButtonOneForwardSelection1ActionPerformed
 
     private void jCheckBoxArrowsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxArrowsActionPerformed
-        singleImagePanel1.setDrawArrows(jCheckBoxArrows.isSelected());
+        singleVectorPanel1.setDrawArrows(jCheckBoxArrows.isSelected());
     }//GEN-LAST:event_jCheckBoxArrowsActionPerformed
 
     private void jButtonCubeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCubeActionPerformed
@@ -4290,17 +4522,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jSliderFront1.setValue(0);
         jTextFieldFront2.setText("0");
         single3dDisplayPanel.setAxisAngleX(0);
-        single3dDisplayPanel.repaint();
         
         jSliderSide1.setValue(0);
         jTextFieldSide2.setText("0");
         single3dDisplayPanel.setAxisAngleY(0);
-        single3dDisplayPanel.repaint();
 
         jSliderTop1.setValue(0);
         jTextFieldTop2.setText("0");
         single3dDisplayPanel.setAxisAngleZ(0);
-        single3dDisplayPanel.repaint();
         
         
         
@@ -4313,17 +4542,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jSliderFront1.setValue(38);
         jTextFieldFront2.setText("38");
         single3dDisplayPanel.setAxisAngleX(38);
-        single3dDisplayPanel.repaint();
         
         jSliderSide1.setValue(49);
         jTextFieldSide2.setText("49");
         single3dDisplayPanel.setAxisAngleY(49);
-        single3dDisplayPanel.repaint();
 
         jSliderTop1.setValue(31);
         jTextFieldTop2.setText("31");
         single3dDisplayPanel.setAxisAngleZ(31);
-        single3dDisplayPanel.repaint();
         
         inSetting--;
     }//GEN-LAST:event_jButton3dAxisActionPerformed
@@ -4386,7 +4612,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jButtonInterpreteActionPerformed
 
     private void jButtonOneForwardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOneForwardActionPerformed
-        int index = currentAnimation.getIndexFromUID(selectedAnimationFrameUID);
+        int index = currentAnimation.getIndexFromUID(preSelectedAnimationFrameUID);
         if (index <0) return;
         
         // if shift is pressed, than "switch position" with neighbour
@@ -4402,7 +4628,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             if (index>=currentAnimation.size()) return;
             int newUID = currentAnimation.get(index).uid;
             if (newUID == -1) return;
-            boolean ok = setCurrentListFromUID(newUID);
+            boolean ok = setCurrentListFromUID(newUID, false);
         }
         redrawAnimation();
         fillStatus();
@@ -4415,11 +4641,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jButtonSetStyleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSetStyleActionPerformed
         addHistory();
-        ArrayList<GFXVector> list = singleImagePanel1.getSelectedVectors();
+        ArrayList<GFXVector> list = singleVectorPanel1.getSelectedVectors();
 
         for (GFXVector v : list)
             checkVectorStyles(v);
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
         fillStatus();
 
@@ -4430,10 +4656,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButtonClearAnimationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearAnimationActionPerformed
-        GFXVectorList copy = singleImagePanel1.getForegroundVectorList().clone();
+        GFXVectorList copy = singleVectorPanel1.getForegroundVectorList().clone();
         currentAnimation = new GFXVectorAnimation();
-        singleImagePanel1.setForegroundVectorList(new GFXVectorList());
+        singleVectorPanel1.setForegroundVectorList(new GFXVectorList());
         selectedAnimationFrameUID = -1;
+        preSelectedAnimationFrameUID = -1;
 
         if (jToggleButtonPlayAnim.isSelected())
         {
@@ -4442,15 +4669,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
         redrawAnimation();
         jTextFieldCount.setText(""+currentAnimation.size());
 
-        copy.setRelativeWherePossible();
+//        copy.setRelativeWherePossible();
         setCurrentVectorList(copy);
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         fillStatus();
     }//GEN-LAST:event_jButtonClearAnimationActionPerformed
 
     private void jMenuItemDeleteNotSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDeleteNotSelectedActionPerformed
         addHistory();
-        singleImagePanel1.deleteNotSelectedVector();
+        singleVectorPanel1.deleteNotSelectedVector();
         fillStatus();
         
     }//GEN-LAST:event_jMenuItemDeleteNotSelectedActionPerformed
@@ -4460,7 +4687,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         String saveName = VectorListFileChoserJPanel.showSavePanel(filename, "Save selected Vectorlist", false);
         if (saveName != null)
         {
-            GFXVectorList vl = singleImagePanel1.getSelectedVectorList();
+            GFXVectorList vl = singleVectorPanel1.getSelectedVectorList();
             // is already a clone!
             vl.resetDisplay();
 
@@ -4484,12 +4711,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 jRadioButtonSelectLine.setSelected(true);
                 jRadioButtonSelectLineActionPerformed(null);
 
-                GFXVectorList listNow = singleImagePanel1.getForegroundVectorList();
+                GFXVectorList listNow = singleVectorPanel1.getForegroundVectorList();
                 for (int i=0; i<listNow.size(); i++)
                 {
                     listNow.get(i).selected = false;
                 }
-                singleImagePanel1.addForegroundVectorList(vl);
+                singleVectorPanel1.addForegroundVectorList(vl);
                 for (int i=0; i<vl.size(); i++)
                 {
                     vl.get(i).selected = true;
@@ -4500,7 +4727,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jTable1.tableChanged(null);
         mClassSetting--;
         setSelectedInTable();
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         fillStatus();
     }//GEN-LAST:event_jButtonInsertVectorList
 
@@ -4517,7 +4744,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jRadioButtonSelectLine.setSelected(true);
         jRadioButtonSelectLineActionPerformed(null);
         
-        GFXVectorList listNow = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList listNow = singleVectorPanel1.getForegroundVectorList();
         for (int i=0; i<listNow.size(); i++)
         {
             listNow.get(i).selected = false;
@@ -4529,7 +4756,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             list.get(i).selected = true;
             listNow.add(list.get(i));
         }
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         mClassSetting++;
         jTable1.tableChanged(null);
         mClassSetting--;
@@ -4542,7 +4769,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         // copy only selected
         // 1. copy all
-        buffer = singleImagePanel1.getForegroundVectorList().clone();
+        buffer = singleVectorPanel1.getForegroundVectorList().clone();
         
         // remove non selected!
         ArrayList<GFXVector> toRemove = new ArrayList<GFXVector>();
@@ -4562,7 +4789,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jButtonRemoveDotsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveDotsActionPerformed
         addHistory();
-        GFXVectorList listNow = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList listNow = singleVectorPanel1.getForegroundVectorList();
         
         // remove non selected!
         ArrayList<GFXVector> toRemove = new ArrayList<GFXVector>();
@@ -4601,7 +4828,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         for (GFXVector v: toRemove)
             listNow.remove(v);
 
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         
         mClassSetting++;
         jTable1.tableChanged(null);
@@ -4612,9 +4839,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jButtonConnectWherePossibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConnectWherePossibleActionPerformed
         addHistory();
-        GFXVectorList listNow = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList listNow = singleVectorPanel1.getForegroundVectorList();
         listNow.connectWherePossible(false);
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
         fillStatus();
     }//GEN-LAST:event_jButtonConnectWherePossibleActionPerformed
@@ -4642,18 +4869,18 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jTextFieldDelayActionPerformed
 
     private void jButtonSelectAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSelectAllActionPerformed
-        GFXVectorList listNow = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList listNow = singleVectorPanel1.getForegroundVectorList();
         for (int i=0; i<listNow.size(); i++)
         {
             GFXVector v = listNow.get(i);
             v.selected = true;
         }
         jTable1.repaint();
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
     }//GEN-LAST:event_jButtonSelectAllActionPerformed
 
     private void jCheckBoxByteFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxByteFrameActionPerformed
-        singleImagePanel1.setByteFrame(jCheckBoxByteFrame.isSelected());
+        singleVectorPanel1.setByteFrame(jCheckBoxByteFrame.isSelected());
         // in "play" mode the two are not connected,
         // therefor set it here to!
         single3dDisplayPanel.setByteFrame(jCheckBoxByteFrame.isSelected());
@@ -4683,6 +4910,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         addHistory();
         fitByteRange();
         fillStatus();
+        singleVectorPanel1.sharedRepaint();
+        jTable1.repaint();
     }//GEN-LAST:event_jButtonFitByteRangeActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
@@ -4725,7 +4954,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jTextFieldPatternNameActionPerformed
 
     private void jButtonOneBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOneBackActionPerformed
-        int index = currentAnimation.getIndexFromUID(selectedAnimationFrameUID);
+        int index = currentAnimation.getIndexFromUID(preSelectedAnimationFrameUID);
         if (index <=0) return;
         if (KeyboardListener.isShiftDown())
         {
@@ -4737,7 +4966,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             index--;
             int newUID = currentAnimation.get(index).uid;
             if (newUID == -1) return;
-            boolean ok = setCurrentListFromUID(newUID);
+            boolean ok = setCurrentListFromUID(newUID, false);
         }
         redrawAnimation();
     
@@ -4746,14 +4975,37 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jButtonJoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJoinActionPerformed
         // build list with all stuff
         GFXVectorList vl = new GFXVectorList();
-        for (int i=0; i<currentAnimation.size(); i++)
+        if (jCheckBoxAutoEdit.isSelected())
         {
-            vl.add(currentAnimation.get(i));
+            for (int i=0; i<currentAnimation.size(); i++)
+            {
+                vl.add(currentAnimation.get(i));
+            }
+            vl.connectWherePossible(false);
         }
-        vl.connectWherePossible(false);
+        else
+        {
+            if (preSelectedAnimationFrameUID == -1) return;
 
-        singleImagePanel1.setForegroundVectorList(vl);
-        singleImagePanel1.sharedRepaint();
+            int indexToJoin = -1;
+            for (int i=0;i<currentAnimation.size(); i++)
+            {
+                int uid = currentAnimation.get(i).uid;
+                if (uid ==preSelectedAnimationFrameUID)
+                {
+                    indexToJoin = i;
+                    break;
+                }
+            }        
+            if (indexToJoin==-1) return;
+            
+            
+            vl = singleVectorPanel1.getForegroundVectorList().clone();
+            vl.add(currentAnimation.get(indexToJoin));
+        }
+
+        singleVectorPanel1.setForegroundVectorList(vl);
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
         
@@ -4761,21 +5013,21 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jButtonOrderVectorlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOrderVectorlistActionPerformed
         addHistory();
-        singleImagePanel1.getForegroundVectorList().doOrder();
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.getForegroundVectorList().doOrder();
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jButtonOrderVectorlistActionPerformed
 
     private void jCheckBoxPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPositionActionPerformed
-        singleImagePanel1.setDrawPosition(jCheckBoxPosition.isSelected());
+        singleVectorPanel1.setDrawPosition(jCheckBoxPosition.isSelected());
     }//GEN-LAST:event_jCheckBoxPositionActionPerformed
 
     private void jButtonFillGapsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFillGapsActionPerformed
         addHistory();
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         vl.fillgaps(jCheckBoxLine.isSelected());
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jButtonFillGapsActionPerformed
@@ -4787,10 +5039,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jButtonEnlargeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnlargeActionPerformed
         addHistory();
         double scale = de.malban.util.UtilityString.FloatX(jTextFieldScaleFactor.getText(), 2);
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
         vl.scaleAll(scale, safetyMap);
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
 
@@ -4800,22 +5052,23 @@ public class VeccyPanel extends javax.swing.JPanel implements
         addHistory();
 
         double scale = 1.0/de.malban.util.UtilityString.FloatX(jTextFieldScaleFactor.getText(), 2);
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
         vl.scaleAll(scale, safetyMap);
-        singleImagePanel1.sharedRepaint();
+        
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jButtonShrinkActionPerformed
 
     private void jCheckBoxMovesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMovesActionPerformed
-        singleImagePanel1.setMovesVisible(jCheckBoxMoves.isSelected());
+        singleVectorPanel1.setMovesVisible(jCheckBoxMoves.isSelected());
     }//GEN-LAST:event_jCheckBoxMovesActionPerformed
 
     private void jMenuItemPoint0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPoint0ActionPerformed
         addHistory();
         highlightAsStart();
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jMenuItemPoint0ActionPerformed
@@ -4842,10 +5095,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }    
 
     private void jButtonMov_Draw_VLc_aActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMov_Draw_VLc_aActionPerformed
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         String name = jTextFieldLabelListname.getText();
         if (name.trim().length() == 0) name = "VectorList";
-        String text = vl.createASMMov_Draw_VLc_a(true, name);
+        String text = vl.createASMMov_Draw_VLc_a(true, name, jCheckBoxAddFactor.isSelected());
+        if (jCheckBoxAddFactor.isSelected())
+        {
+            text = "BLOW_UP EQU 1\n\n"+text;
+        }
         
         if (jCheckBoxRunnable.isSelected())
         {
@@ -4862,10 +5119,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jButtonMov_Draw_VLc_aActionPerformed
 
     private void jButtonDraw_VLcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_VLcActionPerformed
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         String name = jTextFieldLabelListname.getText();
         if (name.trim().length() == 0) name = "VectorList";
-        String text = vl.createASMMov_Draw_VLc_a(false, name);
+        String text = vl.createASMMov_Draw_VLc_a(false, name, jCheckBoxAddFactor.isSelected());
+        if (jCheckBoxAddFactor.isSelected())
+        {
+            text = "BLOW_UP EQU 1\n\n"+text;
+        }
         if (jCheckBoxRunnable.isSelected())
         {
             Path template = Paths.get(".", "template", "vectorlistDraw_VLc.template");
@@ -4879,10 +5140,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jButtonDraw_VLcActionPerformed
 
     private void jButtonDraw_VLpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_VLpActionPerformed
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         String name = jTextFieldLabelListname.getText();
         if (name.trim().length() == 0) name = "VectorList";
-        String text = vl.createASMDraw_VLp(name);
+        String text = vl.createASMDraw_VLp(name, jCheckBoxAddFactor.isSelected());
+        if (jCheckBoxAddFactor.isSelected())
+        {
+            text = "BLOW_UP EQU 1\n\n"+text;
+        }
         if (jCheckBoxRunnable.isSelected())
         {
             Path template = Paths.get(".", "template", "vectorlistDraw_VLp.template");
@@ -4896,10 +5161,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jButtonDraw_VLpActionPerformed
 
     private void jButtonDraw_VL_modeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_VL_modeActionPerformed
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         String name = jTextFieldLabelListname.getText();
         if (name.trim().length() == 0) name = "VectorList";
-        String text = vl.createASMDraw_VL_mode(name, false);
+        String text = vl.createASMDraw_VL_mode(name, false, jCheckBoxAddFactor.isSelected());
+        if (jCheckBoxAddFactor.isSelected())
+        {
+            text = "BLOW_UP EQU 1\n\n"+text;
+        }
         
         if (jCheckBoxRunnable.isSelected())
         {
@@ -4923,7 +5192,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
             else
                 name = "SceneList";
         }
-        String text = currentAnimation.createASMMov_Draw_VLc_a(name);
+        String text = currentAnimation.createASMMov_Draw_VLc_a(name, jCheckBoxAddFactor.isSelected());
+        if (jCheckBoxAddFactor.isSelected())
+        {
+            text = "BLOW_UP EQU 1\n\n"+text;
+        }
 
         if (jCheckBoxRunnable.isSelected())
         {
@@ -4955,7 +5228,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 name = "SceneList";
         }
 
-        String text = currentAnimation.createASMDraw_VLc(name);
+        String text = currentAnimation.createASMDraw_VLc(name, jCheckBoxAddFactor.isSelected());
+        if (jCheckBoxAddFactor.isSelected())
+        {
+            text = "BLOW_UP EQU 1\n\n"+text;
+        }
         
         if (jCheckBoxRunnable.isSelected())
         {
@@ -4987,7 +5264,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 name = "SceneList";
         }
 
-        String text = currentAnimation.createASMDraw_VLp(name);
+        String text = currentAnimation.createASMDraw_VLp(name, jCheckBoxAddFactor.isSelected());
+        if (jCheckBoxAddFactor.isSelected())
+        {
+            text = "BLOW_UP EQU 1\n\n"+text;
+        }
         
         if (jCheckBoxRunnable.isSelected())
         {
@@ -5019,7 +5300,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 name = "SceneList";
         }
 
-        String text = currentAnimation.createASMDraw_VL_mode(name, true);
+        String text = currentAnimation.createASMDraw_VL_mode(name, true, jCheckBoxAddFactor.isSelected());
+        if (jCheckBoxAddFactor.isSelected())
+        {
+            text = "BLOW_UP EQU 1\n\n"+text;
+        }
         if (jCheckBoxRunnable.isSelected())
         {
             Path template;
@@ -5041,25 +5326,26 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jButtonUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUndoActionPerformed
         stepBackHistory();
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jButtonUndoActionPerformed
 
     private void jButtonRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRedoActionPerformed
         stepForwardHistory();
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jButtonRedoActionPerformed
 
     private void jMenuItemInsertPointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertPointActionPerformed
         addHistory();
-        GFXVector v = singleImagePanel1.getHighlightedVector();
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
-        
+        GFXVector v = singleVectorPanel1.getHighlightedVector();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
+        if (v == null) return;
+        if (vl == null) return;
         vl.splitHalf(vl.list, v,v.order+1);
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
         
@@ -5080,9 +5366,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jCheckBoxOnePathActionPerformed
 
     private void jButtonOrderSplitWhereNeededActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOrderSplitWhereNeededActionPerformed
-        singleImagePanel1.getForegroundVectorList().splitWhereNeeded();
+        singleVectorPanel1.getForegroundVectorList().splitWhereNeeded();
         
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
     }//GEN-LAST:event_jButtonOrderSplitWhereNeededActionPerformed
@@ -5138,7 +5424,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jCheckBoxRunnable1ActionPerformed
 
     private void jButtonCodeGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCodeGenActionPerformed
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         String name = jTextFieldLabelListname1.getText();
         if (name.trim().length() == 0) name = "VectorList";
         String text = vl.createASMCodeGen(name);
@@ -5190,10 +5476,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jButtonRotate2dActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRotate2dActionPerformed
         addHistory();
         int angle = de.malban.util.UtilityString.IntX(jTextFieldRotate2d.getText(), 90);
-        GFXVectorList start = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList start = singleVectorPanel1.getForegroundVectorList();
 
         GFXVectorList newList = start;
         Matrix4x4 rotz = Matrix4x4.getRotationZ(Math.toRadians(angle));
+        HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
 
         for (int c = 0; c <newList.size(); c++)
         {
@@ -5201,21 +5488,28 @@ public class VeccyPanel extends javax.swing.JPanel implements
             Vertex p1 = v.start;
             Vertex p2 = v.end;
 
-            p1 = rotz.multiply(p1);
-            p2 = rotz.multiply(p2);
 
-            p1.coords[0] = Math.round(p1.coords[0]);
-            p1.coords[1] = Math.round(p1.coords[1]);
-            p1.coords[2] = Math.round(p1.coords[2]);
-
-            p2.coords[0] = Math.round(p2.coords[0]);
-            p2.coords[1] = Math.round(p2.coords[1]);
-            p2.coords[2] = Math.round(p2.coords[2]);
+            if (safetyMap.get(p1) == null)
+            {
+                Vertex p1_ = rotz.multiply(p1);
+                p1.coords[0] = Math.round(p1_.coords[0]);
+                p1.coords[1] = Math.round(p1_.coords[1]);
+                p1.coords[2] = Math.round(p1_.coords[2]);
+                safetyMap.put(p1, true);
+            }
+            if (safetyMap.get(p2) == null)
+            {
+                Vertex p2_ = rotz.multiply(p2);
+                p2.coords[0] = Math.round(p2_.coords[0]);
+                p2.coords[1] = Math.round(p2_.coords[1]);
+                p2.coords[2] = Math.round(p2_.coords[2]);
+                safetyMap.put(p2, true);
+            }
 
             v.start = p1;
             v.end = p2;            
         }
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
         fillStatus();
         
@@ -5223,8 +5517,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jButtonMirrorVerticallyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMirrorVerticallyActionPerformed
         addHistory();
-        GFXVectorList start = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList start = singleVectorPanel1.getForegroundVectorList();
         GFXVectorList newList = start;
+        HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
 
         for (int c = 0; c <newList.size(); c++)
         {
@@ -5232,52 +5527,200 @@ public class VeccyPanel extends javax.swing.JPanel implements
             Vertex p1 = v.start;
             Vertex p2 = v.end;
 
-            p1.coords[0] = -Math.round(p1.coords[0]);
-            p1.coords[1] = Math.round(p1.coords[1]);
-            p1.coords[2] = Math.round(p1.coords[2]);
+            if (safetyMap.get(p1) == null)
+            {
+                p1.coords[0] = -Math.round(p1.coords[0]);
+                p1.coords[1] = Math.round(p1.coords[1]);
+                p1.coords[2] = Math.round(p1.coords[2]);
+                safetyMap.put(p1, true);
+            }
 
-            p2.coords[0] = -Math.round(p2.coords[0]);
-            p2.coords[1] = Math.round(p2.coords[1]);
-            p2.coords[2] = Math.round(p2.coords[2]);
+            if (safetyMap.get(p2) == null)
+            {
+                p2.coords[0] = -Math.round(p2.coords[0]);
+                p2.coords[1] = Math.round(p2.coords[1]);
+                p2.coords[2] = Math.round(p2.coords[2]);
+                safetyMap.put(p2, true);
+            }
 
             v.start = p1;
             v.end = p2;            
         }
         
         
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
         fillStatus();
     }//GEN-LAST:event_jButtonMirrorVerticallyActionPerformed
 
     private void jButtonMirrorHorizontallyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMirrorHorizontallyActionPerformed
         addHistory();
-        GFXVectorList start = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList start = singleVectorPanel1.getForegroundVectorList();
         GFXVectorList newList = start;
-
+        HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
         for (int c = 0; c <newList.size(); c++)
         {
             GFXVector v = newList.get(c);
             Vertex p1 = v.start;
             Vertex p2 = v.end;
 
-            p1.coords[0] = Math.round(p1.coords[0]);
-            p1.coords[1] = -Math.round(p1.coords[1]);
-            p1.coords[2] = Math.round(p1.coords[2]);
+            if (safetyMap.get(p1) == null)
+            {
+                p1.coords[0] = Math.round(p1.coords[0]);
+                p1.coords[1] = -Math.round(p1.coords[1]);
+                p1.coords[2] = Math.round(p1.coords[2]);
+                safetyMap.put(p1, true);
+            }
 
-            p2.coords[0] = Math.round(p2.coords[0]);
-            p2.coords[1] = -Math.round(p2.coords[1]);
-            p2.coords[2] = Math.round(p2.coords[2]);
+            if (safetyMap.get(p2) == null)
+            {
+                p2.coords[0] = Math.round(p2.coords[0]);
+                p2.coords[1] = -Math.round(p2.coords[1]);
+                p2.coords[2] = Math.round(p2.coords[2]);
+                safetyMap.put(p2, true);
+            }
 
             v.start = p1;
             v.end = p2;            
         }
         
         
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
         fillStatus();
     }//GEN-LAST:event_jButtonMirrorHorizontallyActionPerformed
+
+    private void jButtonUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpActionPerformed
+        singleVectorPanel1.addYOffset(-1);
+    }//GEN-LAST:event_jButtonUpActionPerformed
+
+    private void jButtonDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDownActionPerformed
+        singleVectorPanel1.addYOffset(1);
+    }//GEN-LAST:event_jButtonDownActionPerformed
+
+    private void jButtonRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRightActionPerformed
+        singleVectorPanel1.addXOffset(1);
+    }//GEN-LAST:event_jButtonRightActionPerformed
+
+    private void jButtonLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLeftActionPerformed
+        singleVectorPanel1.addXOffset(-1);
+
+    }//GEN-LAST:event_jButtonLeftActionPerformed
+
+    private void jButtonDraw_syncListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_syncListActionPerformed
+
+        int resync = de.malban.util.UtilityString.IntX(jTextFieldResync.getText(), 20);
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
+        String name = jTextFieldLabelListname.getText();
+        if (name.trim().length() == 0) name = "VectorList";
+        String text = vl.createASMDraw_syncList(name, jCheckBoxAddFactor.isSelected(), resync);
+        if (jCheckBoxAddFactor.isSelected())
+        {
+            text = "BLOW_UP EQU 1\n\n"+text;
+        }
+        if (jCheckBoxRunnable.isSelected())
+        {
+            Path template = Paths.get(".", "template", "vectorlistDraw_sync.template");
+            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+            main += "\nvData = "+name+"\n";
+            
+            text = main +text;
+        }
+        
+        jTextAreaResult.setText(text);
+        copy(text);
+        checkAssemblerButton();
+    }//GEN-LAST:event_jButtonDraw_syncListActionPerformed
+
+    private void jCheckBoxAutoEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAutoEditActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxAutoEditActionPerformed
+
+    private void jButtonDraw_syncListAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_syncListAnimActionPerformed
+        String name = jTextFieldAnimName.getText();
+        int resync = de.malban.util.UtilityString.IntX(jTextFieldResyncAnim.getText(), 20);
+
+        // scenarion does not really make sense, since a sync list ACTUALLY IS some kind of scenario
+        if (name.trim().length() == 0) 
+        {
+            if (currentAnimation.isAnimation)
+                name = "AnimList";
+            else
+                name = "SceneList";
+        }
+
+        String text = currentAnimation.createASMDraw_syncList(name, jCheckBoxAddFactor.isSelected(), resync);
+        if (jCheckBoxAddFactor.isSelected())
+        {
+            text = "BLOW_UP EQU 1\n\n"+text;
+        }
+        if (jCheckBoxRunnable.isSelected())
+        {
+            Path template;
+            if (currentAnimation.isAnimation)
+                template = Paths.get(".", "template", "animationDraw_sync.template");
+            else
+                template = Paths.get(".", "template", "scenarioDraw_sync.template");
+                
+            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+            main += "\nvData = "+name+"\n";
+            main += "vDataLength = "+currentAnimation.size()+"\n";
+            text = main +text;
+        }
+        jTextAreaResult.setText(text);
+        
+        copy(text);
+        checkAssemblerButton();
+    }//GEN-LAST:event_jButtonDraw_syncListAnimActionPerformed
+
+    private void jButtonEnlarge1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnlarge1ActionPerformed
+        addHistory();
+        double scale = de.malban.util.UtilityString.FloatX(jTextFieldScaleFactor1.getText(), 2);
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
+        HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
+        vl.scaleAll(scale, safetyMap);
+        for (int i= currentAnimation.size()-1; i>=0; i--)
+        {
+            safetyMap = new HashMap<Vertex, Boolean>();
+            currentAnimation.get(i).scaleAll(scale, safetyMap);
+        }
+        redrawAnimation();
+        singleVectorPanel1.sharedRepaint();
+        jTable1.tableChanged(null);
+        fillStatus();
+    }//GEN-LAST:event_jButtonEnlarge1ActionPerformed
+
+    private void jButtonShrink1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonShrink1ActionPerformed
+        addHistory();
+
+        double scale = 1.0/de.malban.util.UtilityString.FloatX(jTextFieldScaleFactor1.getText(), 2);
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
+        HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
+        vl.scaleAll(scale, safetyMap);
+        for (int i= currentAnimation.size()-1; i>=0; i--)
+        {
+            safetyMap = new HashMap<Vertex, Boolean>();
+            currentAnimation.get(i).scaleAll(scale, safetyMap);
+        }
+        redrawAnimation();
+        singleVectorPanel1.sharedRepaint();
+        jTable1.tableChanged(null);
+        fillStatus();
+    }//GEN-LAST:event_jButtonShrink1ActionPerformed
+
+    private void jButtonFitByteRange1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFitByteRange1ActionPerformed
+        addHistory();
+        fitByteRangeCollection();
+        fillStatus();
+        singleVectorPanel1.sharedRepaint();
+        jTable1.repaint();
+
+    }//GEN-LAST:event_jButtonFitByteRange1ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        SingleVectorPanel.displayLen = jCheckBox1.isSelected();
+        jTable1.tableChanged(null);
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     // interface function for communication of events with singleVectorPanel
     public void pressed(EditMouseEvent evt)
@@ -5455,7 +5898,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 old.uid_end_connect = buildingVector.uid;
                 
                 buildingVector.start = old.end;
-                singleImagePanel1.continueVector(old);
+                singleVectorPanel1.continueVector(old);
                 continueStarted = true;
             }
             else
@@ -5565,7 +6008,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         }
         if (evt.highlightedPoint != null)
         {
-            singleImagePanel1.setHighlightedVPoint(evt.highlightedPoint);
+            singleVectorPanel1.setHighlightedVPoint(evt.highlightedPoint);
         }
         
         buildingVector.end.set(p);
@@ -5617,23 +6060,29 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonCube;
     private javax.swing.JButton jButtonCut;
     private javax.swing.JButton jButtonDeleteOne;
+    private javax.swing.JButton jButtonDown;
     private javax.swing.JButton jButtonDraw_VL_mode;
     private javax.swing.JButton jButtonDraw_VL_modeAnim;
     private javax.swing.JButton jButtonDraw_VLc;
     private javax.swing.JButton jButtonDraw_VLcAnim;
     private javax.swing.JButton jButtonDraw_VLp;
     private javax.swing.JButton jButtonDraw_VLpAnim;
+    private javax.swing.JButton jButtonDraw_syncList;
+    private javax.swing.JButton jButtonDraw_syncListAnim;
     private javax.swing.JButton jButtonEditInVedi;
     private javax.swing.JButton jButtonEditInVedi1;
     private javax.swing.JButton jButtonEnlarge;
+    private javax.swing.JButton jButtonEnlarge1;
     private javax.swing.JButton jButtonExpandDimensionYZ;
     private javax.swing.JButton jButtonExport;
     private javax.swing.JButton jButtonExport1;
     private javax.swing.JButton jButtonFillGaps;
     private javax.swing.JButton jButtonFitByteRange;
+    private javax.swing.JButton jButtonFitByteRange1;
     private javax.swing.JButton jButtonInsertYM;
     private javax.swing.JButton jButtonInterprete;
     private javax.swing.JButton jButtonJoin;
+    private javax.swing.JButton jButtonLeft;
     private javax.swing.JButton jButtonLoad;
     private javax.swing.JButton jButtonLoad1;
     private javax.swing.JButton jButtonMirrorHorizontally;
@@ -5651,6 +6100,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonRedo;
     private javax.swing.JButton jButtonRemoveDots;
     private javax.swing.JButton jButtonReverse;
+    private javax.swing.JButton jButtonRight;
     private javax.swing.JButton jButtonRotate2d;
     private javax.swing.JButton jButtonSave1;
     private javax.swing.JButton jButtonSave2;
@@ -5659,17 +6109,23 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonSelectAll;
     private javax.swing.JButton jButtonSetStyle;
     private javax.swing.JButton jButtonShrink;
+    private javax.swing.JButton jButtonShrink1;
     private javax.swing.JButton jButtonUndo;
+    private javax.swing.JButton jButtonUp;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox2dOnly;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
+    private javax.swing.JCheckBox jCheckBoxAddFactor;
     private javax.swing.JCheckBox jCheckBoxArrows;
+    private javax.swing.JCheckBox jCheckBoxAutoEdit;
     private javax.swing.JCheckBox jCheckBoxByteFrame;
     private javax.swing.JCheckBox jCheckBoxContinue;
     private javax.swing.JCheckBox jCheckBoxDisplayAxis;
     private javax.swing.JCheckBox jCheckBoxDragVectors;
     private javax.swing.JCheckBox jCheckBoxFraktion;
+    private javax.swing.JCheckBox jCheckBoxFraktion1;
     private javax.swing.JCheckBox jCheckBoxGrid;
     private javax.swing.JCheckBox jCheckBoxHasIntensity;
     private javax.swing.JCheckBox jCheckBoxHasPattern;
@@ -5738,6 +6194,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -5799,6 +6256,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -5806,6 +6264,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanelIMageCollection;
+    private javax.swing.JPanel jPanelScroller;
     private javax.swing.JPopupMenu jPopupMenuLine;
     private javax.swing.JPopupMenu jPopupMenuPoint;
     private javax.swing.JRadioButton jRadioButton1;
@@ -5843,6 +6302,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextAreaResult;
     private javax.swing.JTextArea jTextAreaResult1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
@@ -5866,12 +6326,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextFieldMorphSteps;
     private javax.swing.JTextField jTextFieldPattern;
     private javax.swing.JTextField jTextFieldPatternName;
+    private javax.swing.JTextField jTextFieldResync;
+    private javax.swing.JTextField jTextFieldResyncAnim;
     private javax.swing.JTextField jTextFieldRotate2d;
     private javax.swing.JTextField jTextFieldRotateSteps;
     private javax.swing.JTextField jTextFieldRotateX;
     private javax.swing.JTextField jTextFieldRotateY;
     private javax.swing.JTextField jTextFieldRotateZ;
     private javax.swing.JTextField jTextFieldScaleFactor;
+    private javax.swing.JTextField jTextFieldScaleFactor1;
     private javax.swing.JTextField jTextFieldSide;
     private javax.swing.JTextField jTextFieldSide1;
     private javax.swing.JTextField jTextFieldSide2;
@@ -5894,16 +6357,16 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JToggleButton jToggleButtonPlayAnim;
     private de.malban.graphics.Single3dDisplayPanel single3dDisplayPanel;
     private de.malban.graphics.Single3dDisplayPanel single3dDisplayPanel1;
-    private de.malban.graphics.SingleVectorPanel singleImagePanel1;
     private de.malban.graphics.SingleVectorPanel singleImagePanel2;
     private de.malban.graphics.SingleVectorPanel singleImagePanel3;
+    private de.malban.graphics.SingleVectorPanel singleVectorPanel1;
     // End of variables declaration//GEN-END:variables
 
     
     public void addVector(GFXVector v)
     {
         checkVectorStyles(v);
-        singleImagePanel1.addForegroundVector(v);
+        singleVectorPanel1.addForegroundVector(v);
         jTable1.tableChanged(null);
     }
     
@@ -5912,7 +6375,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     public Vector getVectors()
     {
         // for Beanshell we must use "old style"
-        GFXVectorList v = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList v = singleVectorPanel1.getForegroundVectorList();
         Vector vec = new Vector();
         
         for (GFXVector gfxv: v.list)
@@ -5923,12 +6386,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
     // clears all vectors from the current edited vectorlist
     public void clearVectors()
     {
-        singleImagePanel1.clearVectors();
+        singleVectorPanel1.clearVectors();
         jTable1.tableChanged(null);
     }
     public boolean saveCurrentList(String filename)
     {
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList().clone();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList().clone();
         vl.resetDisplay();
 
         if (!filename.toUpperCase().endsWith(".XML"))
@@ -5956,8 +6419,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
         vl.resetDisplay();
         currentAnimation.add(vl);
         selectedAnimationFrameUID = vl.uid;
+        preSelectedAnimationFrameUID = vl.uid;
     
-        setCurrentListFromUID(selectedAnimationFrameUID);
+        setCurrentListFromUID(selectedAnimationFrameUID, true);
         redrawAnimation();
     }
     
@@ -5967,11 +6431,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
     // a CLONE is added, not the list itself!
     void addCurrentToAnimation()
     {
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList().clone();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList().clone();
         vl.resetDisplay();
         currentAnimation.add(vl);
         selectedAnimationFrameUID = vl.uid;
-        setCurrentListFromUID(selectedAnimationFrameUID);
+        setCurrentListFromUID(selectedAnimationFrameUID, true);
         redrawAnimation();
     }
     
@@ -5995,6 +6459,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             panel.setName(""+uid);
             panel.setLayout(null);
             SingleVectorPanel svp =  new SingleVectorPanel();
+            
             svp.setByteFrame(false);
             svp.setBounds(1, 1, 50, 50);
             panel.add(svp);
@@ -6012,6 +6477,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             svp.setDrawVectorEnds(false);
             svp.setDrawCross(false);
             jPanelIMageCollection.add(panel);   
+            svp.sharedRepaint();
         }
         jScrollPane2.invalidate();
         jScrollPane2.validate();
@@ -6089,27 +6555,38 @@ public class VeccyPanel extends javax.swing.JPanel implements
         {
             lastSetUID = -1;
             selectedAnimationFrameUID = -1;
+            preSelectedAnimationFrameUID = -1;
             redrawAnimation();
             return;
         }
-        boolean ok = setCurrentListFromUID(uid);
+        boolean ok = setCurrentListFromUID(uid, false);
         redrawAnimation();
     }                                     
     
     // sets the vectorlist with UID to be the current
     // edited vectorlist
     // the vectorlist of the UID is CLONED, not taken directly!
-    private boolean setCurrentListFromUID(int uid)
+    private boolean setCurrentListFromUID(int uid, boolean forceEdit)
     {
         for (int i=0;i<currentAnimation.size(); i++)
         {
             if (uid == currentAnimation.get(i).uid)
             {
                 GFXVectorList vl = currentAnimation.get(i).clone();
-                setCurrentVectorList(vl);
-                selectedAnimationFrameUID = uid;
-                lastSetUID = selectedAnimationFrameUID;
-                return true;
+                if ((jCheckBoxAutoEdit.isSelected()) || (forceEdit))
+                {
+                    setCurrentVectorList(vl);
+                    selectedAnimationFrameUID = uid;
+                    lastSetUID = selectedAnimationFrameUID;
+                    preSelectedAnimationFrameUID = selectedAnimationFrameUID;
+                    return true;
+                }
+                else
+                {
+                    selectedAnimationFrameUID = uid;
+                    preSelectedAnimationFrameUID = uid;
+                    return true;
+                }
             }
         }
         return false;
@@ -6120,8 +6597,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
     public void setCurrentVectorList(GFXVectorList vl)
     {
         vl.setRelativeWherePossible();
-        singleImagePanel1.clearVectors();
-        singleImagePanel1.addForegroundVectorList(vl.list);
+        singleVectorPanel1.clearVectors();
+        singleVectorPanel1.addForegroundVectorList(vl.list);
         jTable1.tableChanged(null);
         fillStatus();
         single3dDisplayPanel.repaint();
@@ -6148,18 +6625,18 @@ public class VeccyPanel extends javax.swing.JPanel implements
         boolean shouldPlay = jToggleButtonPlayAnim.isSelected();
         if (shouldPlay)
         {
-            singleImagePanel1.removeSibbling(single3dDisplayPanel);
+            singleVectorPanel1.removeSibbling(single3dDisplayPanel);
             single3dDisplayPanel.setAnimation(currentAnimation);
             single3dDisplayPanel.setDelay(de.malban.util.UtilityString.IntX(jTextFieldDelay.getText(),-1));
         }
         else
         {
             // ensure sibbling is removed:
-            singleImagePanel1.removeSibbling(single3dDisplayPanel);
+            singleVectorPanel1.removeSibbling(single3dDisplayPanel);
             single3dDisplayPanel.setAnimation(new GFXVectorAnimation());
-            single3dDisplayPanel.setForegroundVectorList(singleImagePanel1.getForegroundVectorList());
+            single3dDisplayPanel.setForegroundVectorList(singleVectorPanel1.getForegroundVectorList());
             single3dDisplayPanel.setDelay(-1);
-            singleImagePanel1.addSibbling(single3dDisplayPanel);
+            singleVectorPanel1.addSibbling(single3dDisplayPanel);
             
         }
     }
@@ -6168,6 +6645,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         String filename ="xml"+File.separator+"vectoranimation";
         String loadName = VectorListFileChoserJPanel.showSavePanel(filename, "Load Vector-Animation", true);
         selectedAnimationFrameUID = -1;
+        preSelectedAnimationFrameUID = -1;
         boolean ok = false;
         if (loadName != null)
         {
@@ -6180,7 +6658,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             {
                 if (currentAnimation.size()>0)
                 {
-                    ok = setCurrentListFromUID(currentAnimation.get(0).uid);
+                    ok = setCurrentListFromUID(currentAnimation.get(0).uid, true);
                 }
             }
         }
@@ -6212,7 +6690,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         if (indexToDelete >=0)
         {
             int newUID = currentAnimation.get(indexToDelete).uid;
-            boolean ok = setCurrentListFromUID(newUID);
+            boolean ok = setCurrentListFromUID(newUID, true);
         }
         redrawAnimation();
         return true;
@@ -6229,10 +6707,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
         if (selectedAnimationFrameUID == -1) return false;
         
         int indexToReplace = currentAnimation.getIndexFromUID(selectedAnimationFrameUID);
-        GFXVectorList newList = singleImagePanel1.getForegroundVectorList().clone();
+        GFXVectorList newList = singleVectorPanel1.getForegroundVectorList().clone();
         newList.resetDisplay();
         currentAnimation.replace(newList, indexToReplace);
         selectedAnimationFrameUID = newList.uid;
+        preSelectedAnimationFrameUID = selectedAnimationFrameUID;
         lastSetUID = selectedAnimationFrameUID;
         redrawAnimation();
         return true;
@@ -6243,7 +6722,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     {
         if (mClassSetting>0) return;
         mClassSetting++;
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         int i = 0;
         jTable1.clearSelection();
         for (GFXVector v :vl.list)
@@ -6259,20 +6738,31 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }
     void tableSelectionChanged() 
     {
+/*
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
+        if (vl != null)
+        {
+            for (GFXVector v :vl.list)
+            v.selected = false;
+        } 
+*/        
         if (mClassSetting>0) return;
-        if (singleImagePanel1.isDragging()) return;
+        if (singleVectorPanel1.isDragging()) return;
         if (!jRadioButtonSelectLine.isSelected()) return;
         
         mClassSetting++;
 
         int[] selectedRow = jTable1.getSelectedRows();
         
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         int i = 0;
         for (GFXVector v :vl.list)
         {
             v.selected = false;
+        }
 
+        for (GFXVector v :vl.list)
+        {
             for (int t=0; t<selectedRow.length; t++)
             {
                 if (selectedRow[t] == i)
@@ -6283,13 +6773,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
             i++;
         }
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         mClassSetting--;
         
     }
     void buildRotationAnimation()
     {
-        GFXVectorList start = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList start = singleVectorPanel1.getForegroundVectorList();
 
         int steps = de.malban.util.UtilityString.Int0(jTextFieldRotateSteps.getText());
      //   if (steps == 0) return;
@@ -6338,6 +6828,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         currentAnimation.add(newList);
         selectedAnimationFrameUID = newList.uid;
+        preSelectedAnimationFrameUID = selectedAnimationFrameUID;
 
         angleX+=incX;
         angleY+=incY;
@@ -6380,6 +6871,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             
             currentAnimation.add(newList);
             selectedAnimationFrameUID = newList.uid;
+            preSelectedAnimationFrameUID = selectedAnimationFrameUID;
             
             angleX+=incX;
             angleY+=incY;
@@ -6558,7 +7050,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     void expandDimensionYZ()
     {
         int expandSize = de.malban.util.UtilityString.IntX(jTextFieldExpandYZ.getText(), 1);
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         GFXVectorList newVl = vl.clone();
         boolean dragVector = jCheckBoxDragVectors.isSelected();
         
@@ -6591,14 +7083,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
         
         newVl.connectWherePossible(false);
-        singleImagePanel1.setForegroundVectorList(newVl);
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.setForegroundVectorList(newVl);
+        singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
     }
     
     void centerVectorList()
     {
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         double minX = Integer.MAX_VALUE;
         double maxX = -Integer.MAX_VALUE;
         double minY = Integer.MAX_VALUE;
@@ -6654,13 +7146,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         }        
         
-        singleImagePanel1.sharedRepaint();
+        singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
     }
     void fitByteRange()
     {
-        centerVectorList();
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+//        centerVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
 
         double max = vl.getMaxAbsLenValue();
         if (jCheckBoxFraktion.isSelected())
@@ -6676,7 +7168,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         boolean shouldPlay = jToggleButtonPlayAnim.isSelected();
         if (shouldPlay)
         {
-            singleImagePanel1.removeSibbling(single3dDisplayPanel);
+            singleVectorPanel1.removeSibbling(single3dDisplayPanel);
             single3dDisplayPanel.setAnimation(new GFXVectorAnimation());
             single3dDisplayPanel.setDelay(-1);
 
@@ -6693,11 +7185,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
         }
         else
         {
-            singleImagePanel1.removeSibbling(single3dDisplayPanel);
+            singleVectorPanel1.removeSibbling(single3dDisplayPanel);
             single3dDisplayPanel.setAnimation(new GFXVectorAnimation());
-            single3dDisplayPanel.setForegroundVectorList(singleImagePanel1.getForegroundVectorList());
+            single3dDisplayPanel.setForegroundVectorList(singleVectorPanel1.getForegroundVectorList());
             single3dDisplayPanel.setDelay(-1);
-            singleImagePanel1.addSibbling(single3dDisplayPanel);
+            singleVectorPanel1.addSibbling(single3dDisplayPanel);
         }
     }
 
@@ -6796,6 +7288,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 vl.resetDisplay();
                 currentAnimation.add(vl);
                 selectedAnimationFrameUID = vl.uid;
+                preSelectedAnimationFrameUID = selectedAnimationFrameUID;
             }
             redrawAnimation();
             jTextFieldCount.setText(""+currentAnimation.size());        
@@ -6809,7 +7302,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             single3dDisplayPanel1.setForegroundVectorList(newList);
             single3dDisplayPanel1.setDelay(-1);
 
-            singleImagePanel1.setForegroundVectorList(newList);
+            singleVectorPanel1.setForegroundVectorList(newList);
             jTable1.tableChanged(null);
         }
     }
@@ -6901,7 +7394,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     
     void fillStatus()
     {
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         jTextFieldVectorCount.setText(""+vl.size());
         jCheckBoxSameIntensity.setSelected(vl.isAllSameIntensity());
         jCheckBoxSamePattern.setSelected(vl.isAllSamePattern());
@@ -6971,7 +7464,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }
     void pathsAsScenario()
     {
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         ArrayList<GFXVectorList> subLists = vl.seperatePaths();
         
         for (GFXVectorList vl2 : subLists)
@@ -6988,9 +7481,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }
     void highlightAsStart()
     {
-        Vertex here = singleImagePanel1.getHighlightedVPoint();
+        Vertex here = singleVectorPanel1.getHighlightedVPoint();
         if (here==null) return;
-        GFXVectorList vl = singleImagePanel1.getForegroundVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         vl.setPointZero(here);
         vl.setRelativeWherePossible();
     }
@@ -7089,7 +7582,30 @@ public class VeccyPanel extends javax.swing.JPanel implements
         checkAssemblerButton();
         checkAssemblerButton2();
     }
-    
+    void fitByteRangeCollection()
+    {
+        double max = currentAnimation.getMaxAbsLenValue();
+
+        // a current list
+//        centerVectorList();
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
+
+        if (jCheckBoxFraktion1.isSelected())
+        {
+            double mul = 127.0/max;
+            HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
+            vl.scaleAll(mul, safetyMap);
+        }
+
+        // b current animation
+        if (jCheckBoxFraktion1.isSelected())
+        {
+            double mul = 127.0/max;
+            HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
+            currentAnimation.scaleAll(mul, safetyMap);
+        }
+        redrawAnimation();
+    }    
 }
 
 

@@ -10,6 +10,8 @@ import de.malban.gui.CSAMainFrame;
 import de.malban.gui.HotKey;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
+import de.malban.input.EventController;
+import de.malban.input.SystemController;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.muntjak.tinylookandfeel.Theme;
@@ -22,6 +24,7 @@ import java.util.HashMap;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import net.java.games.input.Controller;
 
 /**
  *
@@ -31,6 +34,10 @@ public class VideConfig  implements Serializable{
     // VECX CONFIG
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
 
+    public static transient ArrayList<ControllerConfig> controllerConfigs = null;
+
+    
+    
     public int[] delays = {0,5,0,9,8,0,0,0,11,0,13, 4}; // full delays, ramp on and off have partials!
     public double[] partialDelays = {0,0,0,0,0,0,0,0,0,0, 0}; // this is not used!
     public String[] delaysDisplay = {"-", "ZERO", "BLANK", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL"};
@@ -70,6 +77,10 @@ public class VideConfig  implements Serializable{
     public boolean syncCables = false;
     public boolean speedLimit = true;
     public boolean imagerAutoOnDefault = false;
+    
+    public int minimumSpinnerChangeCycles = 40000;
+    public int jinputPolltime = 50;
+    
     
     /// ASSI CONFIG
     public boolean expandBranches=true;
@@ -147,14 +158,32 @@ public class VideConfig  implements Serializable{
         load("Default.vsv");
     }
 
+    public boolean saveControllerConfig()
+    {
+        try
+        {
+            if (controllerConfigs == null) controllerConfigs = new ArrayList<ControllerConfig>();
+
+            CSAMainFrame.serialize(controllerConfigs ,"serialize"+File.separator+"controllerConfig.ser");
+        }
+        catch (Throwable e)
+        {
+            log.addLog("Could not save controller configuration!", WARN);
+            return false;
+        }        
+        return true;
+    }
+    
     // filename + path
     public boolean save(String filename)
     {
+        saveControllerConfig();
         try
         {
             keySupport = new KeySupport();
             styleSupport = new StyleSupport();
             loadedConfig = filename;
+            
             return CSAMainFrame.serialize(this ,filename);
         }
         catch (Throwable e)
@@ -169,12 +198,30 @@ public class VideConfig  implements Serializable{
     {
         try
         {
+            if (controllerConfigs == null)
+            {
+                // if not loaded yet - load now
+                ArrayList<ControllerConfig> cConfig =  (ArrayList<ControllerConfig>) CSAMainFrame.deserialize("serialize"+File.separator+"controllerConfig.ser");
+                if (cConfig != null) 
+                {
+                    controllerConfigs = cConfig;
+                }
+                else
+                {
+                    controllerConfigs = new ArrayList<ControllerConfig>();
+                }
+                initControllers();
+            }   
             VideConfig newConfig =  (VideConfig) CSAMainFrame.deserialize("serialize"+File.separator+filename);
-            if (newConfig == null) return false;
+            if (newConfig == null) 
+            {
+                return false;
+            }
             copyAll(newConfig, this);
             loadedConfig = filename;
             double v =  ((double) masterVolume)/(double)255.0;
             TinySound.setGlobalVolume(v);
+            EventController.setPollResultion(newConfig.jinputPolltime);
             if (keySupport != null)
             {
                 if ( keySupport.allMappings.size()>0)
@@ -300,9 +347,6 @@ public class VideConfig  implements Serializable{
         to.scanVars = from.scanVars;
         to.scanForVectorLists = from.scanForVectorLists;
         
-        
-            
-        
     }
     
     public static File[] getConfigs()
@@ -317,6 +361,38 @@ public class VideConfig  implements Serializable{
                 }
             });     
         return files;
+    }
+    
+       
+    // controllers must be:
+    // a) configured
+    // b) available thru JInput
+    private void initControllers()
+    {
+        ArrayList<Controller> controllers = SystemController.getCurrentControllers();
+        for (ControllerConfig cConfig : controllerConfigs)
+        {
+            String configId = cConfig.JInputId;
+            for (Controller controller: controllers)
+            {
+                if (controller.getName().equals(configId))
+                {
+                    cConfig.isWorking = true;
+                    break;
+                }
+            }
+        }
+    }
+    
+    public static ArrayList<ControllerConfig> getAvailableControllerConfigs()
+    {
+        ArrayList<ControllerConfig> cConfigs = new ArrayList<ControllerConfig>();
+        for (ControllerConfig cConfig : controllerConfigs)
+        {
+            if (cConfig.isWorking)
+                cConfigs.add(cConfig);
+        }
+        return cConfigs;
     }
     
 }

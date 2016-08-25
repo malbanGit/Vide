@@ -384,88 +384,114 @@ Done:
 - done: vecci for raster generation add the ability to NOT reverse every second row!
 - done: veccy to save state "old_via_ca1"
 - done: vecxi lightPen port 1
+- done: vecci fitbyte -> must redraw
+- done: vecci BUG rotate a single vlist "breaks" continuous vectors
+- done: vecci BUG "loadded" vector lists can not be mirrored correctl -> (only non continous vectors???), see "AA"
+- done: vecci sync list + anim+scenario
+- done: vecci vecci scalefactor to complete animation
+- done: vecci vector length in table viewable
+- done: vecxi Imager saving set correct displaying of selected joyport devices after loading saved state
+- done: examples no drift raster routines
+- done: add information to wheels, from what "cycle" the color starts
+- done: vecci - not possible! sync list so, that it can be imported (import must be done)
+- done: vecxi save state of additional ram
+- done: space between include " -> in assy error
+- done: vecxi try sync to recalibtration instad of zero... might work wizth imager too!
+- done: vecxi in imager mode, sync display to wavelen, and Imager auto sync
+- done: codi Imager Example source
+- done: vecxi if S is written to - reset call stack! (or redetermine)
+        not possible to do correctly, just implemented a complete reset after a lds
+- done: reinit carti after load (from save game) the carti
+        - no bug! -> enable always update and one sees the changes
+- done: vecxi ray gun with imager
+- done: dissi add a bank mode, where all breakpoints are set/erased in all banks
+- done: vecxi emulaiton MICROCHIP 11AA010
+- done: vecxi emulation 3d imager
+- done: vedi tooltip in vedi with vectrex bios functions?
+- done: dissi analog windows, button correct? -> NO
+- done: NO BUG Vectopia looks Vectrace look BAD!
+- done: vecxi SPEED COUNTER 
+- done: vecxi CODE INJECTION DONE
+- done: VInfi with vector count
+- done: vecxi vectrex animaction extra ram
+- done: vecxi support Spektrum
+- done: vecxi animaction
+- done: vecxi spectrum (+cart)
+- done: vecxi dualVec
+- done: vecxi speed increase in Microchip
+- done: vecxi logo
+- done: dissi, columns not taken from config?
+- done: vedi clear last files
+- done: vecxi add a "speed" viewer, which shows how fast in a relation to a real vectrex we are
+- done: vedi helper - small conversion % to $ to Dez...
+- done: vecxi input devices & 
 
 
-
-
+recently done:
+added raster uni/bidirectiona
+- added raster selection of imagge
+- added shrink expand for animation
+- added factor to vectorlist
+- examples print str
+- sped up dumpi on large Rasterlists
+in dumpi - linewidth react on input
+in dumpi, address start end textfields are not working
+add vectorlist to other vectorlist
+display a collection of vectorlists
+sync bevtorist
+- BUG rotate a single vlist "breaks" continuous vectors
+- BUG "loadded" vector lists can not be mirrored correctl -> (only non continous vectors???), see "AA"
+vecci scalefactor to complete animation
+veccy vector length in table viewable
+phosphor off
+keyboard spinner yx direction (x) cv buttons 3+4
 
 todo:
-todoc:
 
-Imager saving
-set correct displaying of selected joyport devices after loading saved state
+rounders displays paddle and some dots WRONG
 
-save state of additional ram?
+hidden line removal
+- see video split where needed -> no saveable automatically
 
+- vecxi spinner, wheels
+- vide JInput devices
 
-- no drift raster routines
+- assi macro /variables must be set befor they are called -> circumvent that?
+- assi bug: dec b -> gives exception
+- assi difference in assi to macro
+       ld\1 #(lo (hival))<<8 | (lo (loval))
+       brackets are needed if macro parameter hival/loval consists of an expression
 
-- space between include " -> in assy error
-- macro /variables must be set befor they are called -> circumvent that?
+- vecxi assumption wheel spinning to slow is not emulated correctly!
+        I don't know how wide the reaction time of the index is!
+- vecxi VecMulti
+- vecxi examin, if stalling is really only triggered by a "read" of via (at the moment by a read from clr)
+- vecxi save and load input devices of vecx
+- vecxi do pb6 as correct line emulation, not all special cases...
 
-try sync to recalibtration instad of zero... might work wizth imager too!
-
-add informatoin  to wheel ngles, from what "cycle" the color starts
-
-ray gun with imager
-
-in imager mode, sync display to wavelen
-- assumption wheel spinning to slow is not emulated correctly!
-  I don't know how wide the reaction time of the index is!
-Imager auto sync
-
-Imager Example source
-
-eEprom Tuts example code
+- codi eEprom Tuts example code
+- codi add example programs just for "programming"
+       (String, Scroll, Clip, ... codi)
 
 
-if S is written to - reset call stack! (or redetermine)
+- vecci 3d vectors "real" (with z disortion) and option to remove "back" vectors
+- vecci with DOT-Lists
+
+- vide do a veccy comment like
+       vide-veccy mode 1: 2: %y %x %m 3:
+       and upon finding that string do a tooltip of the vectorlist!
+- vide thread syntax color in vedi still somtimes lost
+
+- libi order documents
 
 
-VecMulti
-
-veccy
-3d vectors "real" (with z disortion) and option to remove "back" vectors
-
-
-order documents
-
-add example programs just for "programming"
-(String, Scroll, Clip, ... codi)
-
-
-do a stack frame window (for U, S X Y) with definable vars (byte word, named)
-which can be saved to cnt
-
-also a saveable "notes" window
-
-correct pb6 breakpoints fo in and out
-
-
-add a bank mode, where all breakpoints are set/erased in all banks
-
-Next:
-- emulaiton MICROCHIP 11AA010
-- emulation 3d imager
-
-: bug
-assi  dec b -> gives exception
-
-remove from memory stuff when vedi windows are clsed
-
-do a veccy comment like
-; vide-veccy mode 1: 2: %y %x %m 3:
-; and upon finding that string do a tooltip of the vectorlist!
+- dissi do a stack frame window (for U, S X Y) with definable vars (byte word, named)
+        which can be saved to cnt
+- dissi correct pb6 breakpoints fo in and out
 
 
 
-- thread syntax color in vedi still somtimes lost
 
-examin, if stalling is really only triggered by a "read" of via (at the moment by a read from clr)
-
-save and load input devices of vecx
-
-analog windows, button correct? -> NO
 
 possible future games:
 - labyrinth game
@@ -473,36 +499,16 @@ possible future games:
 - Warblade
 - release
 
-tooltip in vedi with vectrex bios functions?
-
 - vecvox - no emulation of: Microchip 24LC256 (see i.rtf)
-- examples for 3d imager
-- vecMulti
-
-
-
-- vecci with DOT-Lists
-
-
--do pb6 as correct line emulation, not all special cases...
-
-
-- BUG Vectopia looks Vectrace look BAD!
-
-- difference in assi to macro
- ld\1 #(lo (hival))<<8 | (lo (loval))
-brackets are needed if macro parameter hival/loval consists of an expression
 
 - vecspeech:
  add new variables to cloning
-link new pdf files to library
+  link new pdf files to library
 - test java version upon start!
 - doc prebuilt/postbuild scripts
 - analog jystick
-- eprom 
 - multi ram
 - hot key save /edit config
-- examin: cacle /close button on windows?
 - clip in DRAW clipped
 - vari list of vars are coma seperated - should be :
 - LEX:                     _SCALE   (SCALE_FACTOR_GAME)          ; everything we do with "positioning" is scale SCALE_FACTOR_GAME
@@ -521,15 +527,12 @@ link new pdf files to library
   add in tab
   add on popum menu on panels (e.g. vari/viai) 
 - dissi many times debug on/off -> reset
-- dissi, columns not taken from config?
 - vecxi drift allways toward zero? (nope, but still needs more testing)
 - to test: is drift ramp / ref depenended?
 - vedi on delete of files, also delete files in vedi settings
 - vedi generated project files (raster), do not know their variables!! (scan for vars/macros not working!)
 - assi Option to save LST files from ASSI
-- vedi clear last files
 - dissi new command -> wipe vec window
-- vecxi add a "speed" viewer, which shows how fast in a relation to a real vectrex we are
 - vedi right mouse click on data statements -> convert to vector / call vecci
 - vecxi try own handwritten graphics primitives for glow on byte array of buffer
 - vecxi try ray gun with handwritten graphic rouines, perhaps on a 255x255 grid, which might be scaled...
@@ -537,7 +540,6 @@ link new pdf files to library
 - dissi CNT information for byte data (and counts) are sometimes LOST
 - vecxi implement "color" drift
 - vedi auto saves in vedi
-- vedi helper - small conversion % to $ to Dez...
 - vedi enable apple keys
 - vecxi proboard, mentiones that drift is stronger -y and -x than +y and +x
   (see curved lines stuff stared by christopher: http://vectorgaming.proboards.com/thread/1234/drawing-6522s-shift-register-timer?page=3)
@@ -548,14 +550,9 @@ link new pdf files to library
   bug? works under windows...
 - ASM: lda   #$-8                      ;Get y ($2FBE)
 - vecxi alg_rsh not emulated at all!
-- vecxi input devices & 
-- vecxi imager
-- vecxi sync vector drawing to wait recal
 - vecxi save breakpoints
 - vecxi breakpoint upon analog/VIA/REG changes
-- vecxi vectrex animaction extra ram
 - vecxi vecram
-- vecxi support Spektrum
 - vecxi look at bug mentioned in mame vectrex RND Minestorm
 - vecxi look at bugs mentions by para
 - vedi output to real vectrex from here
@@ -566,53 +563,23 @@ link new pdf files to library
   macro call parameters should be 1memops additionally comma seperated!
 - lex bra TileW TileW TileW TileW TileW 
 
-- SPEED COUNTER DONE
-- CODE INJECTION DONE
-- VInfi with vector count
-
-- cnt
-- animaction
-- spectrum (+cart)
-- dualVec
-- info
-- speed increase in Microchip
-- logo
-
-brightness adjust!
-
-
-The sound emulation does not work correctly for the game VectorPilot (by Kristof Tuts). This is especially obvious for the player's shoot, that sounds quite different on the emulator and on a real vectrex.
-
-Unlike most of the vectrex games, VectorPilot does not update the PSG register only once per frame (about every 20ms). Instead, it does modify the sound registers about every 5ms (roughly 4 times per frame) to output a high-quality sound.
-
-By design, ParaJVE is only updating the sound wave at the end of every frame ; thus the "intermediate" writes to the PSG registers done by VectorPilot are ignored, plain and simple. To achieve a perfect rendering, the sound emulation sub-system must be refactored to update the waveform data whenever a PSG register is accessed (filling a temporary buffer, that will be consumed at the end of the frame, when the sound waveform is to be output).
-Von meinem iPhone gesendet
-
-Am 05.08.2016 um 16:57 schrieb Christopher Salomon <chrissalo@posteo.de>:
-
-
-In combination with this, you can also reload external modifications made to the ROM directly from within ParaJVE, 
-without having to restart it : just select the "Rebuild / Reload ROM" menu item and you're done (no matter what kind 
-of ROM you're running - binary or source).
-This latter feature was added in an attempt to make ParaJVE more homebrew developers friendly. This great idea was suggested 
-by Alex of Vectorzoa, who has started an effort to involve more people into vectrex creation... If you're interested, run and 
-
-
-
-Von meinem iPhone gesendet
-
-Am 01.08.2016 um 23:07 schrieb Christopher Salomon <chrissalo@posteo.de>:
-
 http://atariage.com/forums/topic/14837-atari-2600-vectrex-video-game-release-party-in-ottawa/
 
 veclink 0 hw
-
 serial usb to vectrex
-
-Von meinem iPhone gesendet
-
-
 
 Controller:
 Vectrosis
 Driving Controller
+
+
+
+
+The sound emulation does not work correctly for the game VectorPilot (by Kristof Tuts). This is especially obvious for the player's shoot, 
+that sounds quite different on the emulator and on a real vectrex.
+Unlike most of the vectrex games, VectorPilot does not update the PSG register only once per frame (about every 20ms). Instead, it does 
+modify the sound registers about every 5ms (roughly 4 times per frame) to output a high-quality sound.
+By design, ParaJVE is only updating the sound wave at the end of every frame ; thus the "intermediate" writes to the PSG registers done by 
+VectorPilot are ignored, plain and simple. To achieve a perfect rendering, the sound emulation sub-system must be refactored to update the 
+waveform data whenever a PSG register is accessed (filling a temporary buffer, that will be consumed at the end of the frame, 
+when the sound waveform is to be output).

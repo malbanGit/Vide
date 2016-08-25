@@ -5,8 +5,6 @@
  */
 package de.malban.vide.vecx.devices;
 
-import de.malban.vide.vecx.VecX;
-
 /**
  *
  * @author malban

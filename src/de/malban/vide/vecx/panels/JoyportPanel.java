@@ -19,7 +19,7 @@ import de.malban.vide.vecx.Updatable;
 import de.malban.vide.vecx.VecXStatics;
 import de.malban.vide.vecx.devices.Imager3dDevice;
 import de.malban.vide.vecx.devices.JoyportDevice;
-import de.malban.vide.vecx.devices.KeyboardInputDevice;
+import de.malban.vide.vecx.devices.KeyboardJoystickDevice;
 import de.malban.vide.vecx.devices.LightpenDevice;
 import de.malban.vide.vecx.devices.VecSpeechDevice;
 import de.malban.vide.vecx.devices.VectrexJoyport;

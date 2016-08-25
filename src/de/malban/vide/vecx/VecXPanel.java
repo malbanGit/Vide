@@ -20,6 +20,7 @@ import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.ShowErrorDialog;
 import de.malban.util.KeyboardListener;
+import de.malban.vide.ControllerConfig;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.dissy.MemoryInformation;
 import static de.malban.vide.vecx.VecX.START_TYPE_INJECT;
@@ -37,7 +38,10 @@ import de.malban.vide.vecx.cartridge.Microchip11AA010;
 import de.malban.vide.vecx.devices.AbstractDevice;
 import de.malban.vide.vecx.devices.Imager3dDevice;
 import de.malban.vide.vecx.devices.JoyportDevice;
-import de.malban.vide.vecx.devices.KeyboardInputDevice;
+import de.malban.vide.vecx.devices.JInputJoystickDevice;
+import de.malban.vide.vecx.devices.JInputSpinnerDevice;
+import de.malban.vide.vecx.devices.KeyboardJoystickDevice;
+import de.malban.vide.vecx.devices.KeyboardSpinnerDevice;
 import de.malban.vide.vecx.devices.NullDevice;
 import de.malban.vide.vecx.devices.VecLinkV1Device;
 import de.malban.vide.vecx.devices.VecLinkV2Device;
@@ -752,6 +756,7 @@ public class VecXPanel extends javax.swing.JPanel
         }
         setDissi(dissi);
         dissi.dis(vecx.cart);
+        
         dissi.setDissiBank(vecx.cart.getCurrentBank());
         dissiInit = true;
         if (config.overlayEnabled)
@@ -1624,7 +1629,7 @@ public class VecXPanel extends javax.swing.JPanel
     // curves would need a timewarp, (history of points)
     // dwell time and color should be handled so that color
     // greater than 255 is "spilled" to neighbouring pixels!
-    public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved)
+    public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved, int alg_vector_speed, int alg_leftEye, int alg_rightEye)
     {
         if (phosphor[phosphorDraw]==null) return;
         Graphics2D g2 = phosphor[phosphorDraw].createGraphics();
@@ -1634,8 +1639,9 @@ public class VecXPanel extends javax.swing.JPanel
         x1 =Scaler.scaleDoubleToInt(x1, scaleWidth);
         y1 =Scaler.scaleDoubleToInt(y1, scaleHeight);
 
-
-        Color c = new Color(255,255,255,color );
+        Color c = getColor(color, alg_leftEye, alg_rightEye);
+//        if (vecx.imagerMode)
+//        Color c = new Color(255,255,255,color );
         g2.setColor(c);
         g2.drawLine(((int) x0), ((int) y0), ((int) x1),((int) y1));
 
@@ -1658,10 +1664,20 @@ public class VecXPanel extends javax.swing.JPanel
 
         Graphics2D g2 = image.createGraphics();
         
-        Color cc = new Color(0,0,0,config.persistenceAlpha );
-        g2.setColor(cc);
-        g2.fillRect(0, 0, vectrexDisplayWidth, vectrexDisplayheight);
-        
+        if (config.persistenceAlpha != 255)
+        {
+                Color cc = new Color(0,0,0,config.persistenceAlpha );
+                g2.setColor(cc);
+                g2.fillRect(0, 0, vectrexDisplayWidth, vectrexDisplayheight);
+        }
+        else
+        {
+                Color cc = new Color(0,0,0,255);
+                g2.setBackground(cc);
+                g2.clearRect(0, 0, vectrexDisplayWidth, vectrexDisplayheight);
+
+        }
+
         if (pausing)
         {
             Color c = new Color(255,0,0,255 );
@@ -2924,53 +2940,65 @@ public class VecXPanel extends javax.swing.JPanel
 
         deviceList.add(new NullDevice()); // 0
 
-        deviceList.add(new KeyboardInputDevice(this, 0)); // 1
-        deviceList.add(new KeyboardInputDevice(this, 1)); // 2
         
-        deviceList.add(new LightpenDevice()); // 3
+        deviceList.add(new LightpenDevice()); // 1
         
         VecSpeechDevice speech = new VecSpeechDevice(); 
         speech.setVecVoice(true);
-        deviceList.add(speech); // 4
+        deviceList.add(speech); // 2
         
         speech = new VecSpeechDevice();
         speech.setVecVoice(false);
-        deviceList.add(speech);// 5
+        deviceList.add(speech);// 3
 
-        deviceList.add(new Imager3dDevice()); // 6 (imager someday)
+        deviceList.add(new Imager3dDevice()); // 4
 
-        deviceList.add(VecLinkV1Device.getVecLinkV1(0));// 7
-        deviceList.add(VecLinkV1Device.getVecLinkV1(1));// 8
-        deviceList.add(VecLinkV2Device.getVecLinkV2(0));// 9
-        deviceList.add(VecLinkV2Device.getVecLinkV2(1));// 10
+        deviceList.add(VecLinkV1Device.getVecLinkV1(0));// 5
+        deviceList.add(VecLinkV1Device.getVecLinkV1(1));// 6
+        deviceList.add(VecLinkV2Device.getVecLinkV2(0));// 7
+        deviceList.add(VecLinkV2Device.getVecLinkV2(1));// 8
+
+        deviceList.add(new KeyboardJoystickDevice(this, 0)); // 9
+        deviceList.add(new KeyboardJoystickDevice(this, 1)); // 10
+        deviceList.add(new KeyboardSpinnerDevice(this)); // 11
+        for (ControllerConfig cConfig: config.getAvailableControllerConfigs())
+        {
+            if (cConfig.vectrexType==ControllerConfig.CONTROLLER_JOYSTICK)
+                deviceList.add(JInputJoystickDevice.getDevice(cConfig)); // 12++
+            if (cConfig.vectrexType==ControllerConfig.CONTROLLER_SPINNER)
+                deviceList.add(JInputSpinnerDevice.getDevice(cConfig)); // 13++
+        }
         
         
         
         jComboBoxJoyport0.setModel((new DefaultComboBoxModel(deviceList.toArray())) );
         jComboBoxJoyport1.setModel((new DefaultComboBoxModel(deviceList.toArray())) );
-        
     }
     
     public static int DEVICE_NULL = 0;
-    public static int DEVICE_KEYBOARD0 = 1;
-    public static int DEVICE_KEYBOARD1 = 2;
-    public static int DEVICE_LIGHTPEN = 3;
-    public static int DEVICE_VECVOICE = 4;
-    public static int DEVICE_VECVOX = 5;
 
-    public static int DEVICE_IMAGER = 6;
+    public static int DEVICE_LIGHTPEN = 1;
+    public static int DEVICE_VECVOICE = 2;
+    public static int DEVICE_VECVOX = 3;
 
-    public static int DEVICE_LINKV1_L = 7;
-    public static int DEVICE_LINKV1_R = 8;
-    public static int DEVICE_LINKV2_L = 9;
-    public static int DEVICE_LINKV2_R = 10;
+    public static int DEVICE_IMAGER = 4;
+
+    public static int DEVICE_LINKV1_L = 5;
+    public static int DEVICE_LINKV1_R = 6;
+    public static int DEVICE_LINKV2_L = 7;
+    public static int DEVICE_LINKV2_R = 8;
+    public static int DEVICE_KEYBOARD_JOYSTICK0 = 9;
+    public static int DEVICE_KEYBOARD_JOYSTICK1 = 10;
+    public static int DEVICE_KEYBOARD_SPINNER = 11;
+    public static int DEVICE_JINPUT_JOYSTICK = 12; // ...
+    public static int DEVICE_JINPUT_SPINNER = 13; // ...
     
     
     private void initJoyportsFromFlag()
     {
         if (vecx == null) return;
-        vecx.joyport[0].plugIn(deviceList.get(DEVICE_KEYBOARD0));
-        vecx.joyport[1].plugIn(deviceList.get(DEVICE_KEYBOARD1));
+        vecx.joyport[0].plugIn(deviceList.get(DEVICE_KEYBOARD_JOYSTICK0));
+        vecx.joyport[1].plugIn(deviceList.get(DEVICE_KEYBOARD_JOYSTICK1));
 
         if (vecx.cart == null) return;
         if (vecx.cart.currentCardProp == null) return;
@@ -3030,24 +3058,20 @@ public class VecXPanel extends javax.swing.JPanel
         
         mClassSetting++;
 
-/*
-        JoyportDevice device0 = vecx.joyport[0].getDevice();
-        if (device0 != null)
-        {
-            replaceDeviceInList(device0);
-            jComboBoxJoyport0.setSelectedItem(device0);
-        }
-        else
-        {
-            jComboBoxJoyport0.setSelectedIndex(-1);
-        }
-*/        
-        vecx.joyport[0].plugIn(deviceList.get(DEVICE_KEYBOARD0));
+        vecx.joyport[0].plugIn(deviceList.get(DEVICE_KEYBOARD_JOYSTICK0));
         if (!(device1 instanceof Imager3dDevice))
-            vecx.joyport[1].plugIn(deviceList.get(DEVICE_KEYBOARD1));
+            vecx.joyport[1].plugIn(deviceList.get(DEVICE_KEYBOARD_JOYSTICK1));
 
-        if (vecx.cart == null) return;
-        if (vecx.cart.currentCardProp == null) return;
+        if (vecx.cart == null) 
+        {
+            mClassSetting--;
+            return;
+        }
+        if (vecx.cart.currentCardProp == null) 
+        {
+            mClassSetting--;
+            return;
+        }
         
         int flags = vecx.cart.currentCardProp.getTypeFlags();
         if ((flags & Cartridge.FLAG_LIGHTPEN1) == Cartridge.FLAG_LIGHTPEN1)
@@ -3066,14 +3090,6 @@ public class VecXPanel extends javax.swing.JPanel
         {
             vecx.joyport[1].plugIn(deviceList.get(DEVICE_VECVOX));
         }
-/*        
-        if ((flags & Cartridge.FLAG_IMAGER) == Cartridge.FLAG_IMAGER)
-        {
-            vecx.joyport[1].plugIn(deviceList.get(DEVICE_IMAGER));
-            String wheelName = vecx.cart.currentCardProp.getWheelName();
-            ((Imager3dDevice)deviceList.get(DEVICE_IMAGER)).setWheel(wheelName);
-        }
-*/        
         if (vecx.joyport[0] != null)
         {
             jComboBoxJoyport0.setSelectedItem(vecx.joyport[0].getDevice());

@@ -726,7 +726,7 @@ public class SingleImagePanel extends javax.swing.JPanel {
 
         return tile;
     }
-
+    
     public void fillRGBA(int X, int Y)
     {
         if (sourceImage == null) return;

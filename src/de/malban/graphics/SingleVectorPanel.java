@@ -23,6 +23,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
@@ -50,6 +51,9 @@ public class SingleVectorPanel extends javax.swing.JPanel
         Vertex hightLightVPoint = null;
         GFXVector hightLightVector = null;
     
+        int xOffset = 0;
+        int yOffset = 0;
+        
         int workingMode = SVP_SET;
         Color BACKGROUND_COLOR = Color.BLACK;
         Color CROSS_COLOR = Color.ORANGE;
@@ -166,7 +170,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     public void setDrawVectorEnds(boolean b)
     {
         vars.realyBigEnd = b;
-        repaint();
+        sharedRepaint();
     }
     public static final int SVP_SET = 0;
     public static final int SVP_SELECT_LINE = 1;
@@ -210,12 +214,14 @@ public class SingleVectorPanel extends javax.swing.JPanel
         vars.mPressedListener.clear();
         unsetImage();
     }
-    
+    public static boolean displayLen = true;
     public class MyTableModel extends AbstractTableModel
     {
-        public final String[] NAMES = new String[] {"uid","x0", "y0", "z0", "x1", "y1", "z1","relativ","next", "previous", "order", "pattern", "intensity", "factor", "R", "G", "B"};
+        public final String[] NAMES = new String[] {"uid","x0", "y0", "z0", "x1", "y1", "z1","relativ","next", "previous", "order", "pattern", "intensity", 
+            "x_len", "y_len", "z_len", 
+            "factor", "R", "G", "B"};
         @Override
-        public int getColumnCount() { return 17-4;}
+        public int getColumnCount() { if (displayLen) return 17+3-4;return 17+3-4-3;}
         @Override
         public int getRowCount() { return vars.foregroundVectors.size();}
         @Override
@@ -233,10 +239,16 @@ public class SingleVectorPanel extends javax.swing.JPanel
           if (col == 10) return vars.foregroundVectors.get(row).order;
           if (col == 11) return vars.foregroundVectors.get(row).pattern;
           if (col == 12) return vars.foregroundVectors.get(row).getIntensity();
-          if (col == 13) return vars.foregroundVectors.get(row).factor;
-          if (col == 14) return vars.foregroundVectors.get(row).r;
-          if (col == 15) return vars.foregroundVectors.get(row).g;
-          if (col == 16) return vars.foregroundVectors.get(row).b;
+
+          if (col == 13) return vars.foregroundVectors.get(row).end.x()-vars.foregroundVectors.get(row).start.x();
+          if (col == 14) return vars.foregroundVectors.get(row).end.y()-vars.foregroundVectors.get(row).start.y();
+          if (col == 15) return vars.foregroundVectors.get(row).end.z()-vars.foregroundVectors.get(row).start.z();
+          
+          
+          if (col == 16) return vars.foregroundVectors.get(row).factor;
+          if (col == 17) return vars.foregroundVectors.get(row).r;
+          if (col == 18) return vars.foregroundVectors.get(row).g;
+          if (col == 19) return vars.foregroundVectors.get(row).b;
           return "-";
         }
         
@@ -244,6 +256,11 @@ public class SingleVectorPanel extends javax.swing.JPanel
         public boolean isCellEditable(int row, int col) {
             if (col == 0) return false;
             if (col == 7) return false;
+
+            if (col == 13) return false;
+            if (col == 14) return false;
+            if (col == 15) return false;
+            
             return true;
         }
         
@@ -263,10 +280,15 @@ public class SingleVectorPanel extends javax.swing.JPanel
             if (col == 10) return Integer.class;
             if (col == 11) return Integer.class;
             if (col == 12) return Integer.class;
-            if (col == 13) return Integer.class;
-            if (col == 14) return Integer.class;
-            if (col == 15) return Integer.class;
+            
+            if (col == 13) return Double.class;
+            if (col == 14) return Double.class;
+            if (col == 15) return Double.class;
+            
             if (col == 16) return Integer.class;
+            if (col == 17) return Integer.class;
+            if (col == 18) return Integer.class;
+            if (col == 19) return Integer.class;
             return Object.class;
         }
         
@@ -285,10 +307,15 @@ public class SingleVectorPanel extends javax.swing.JPanel
             if (col == 10) vars.foregroundVectors.get(row).order= (Integer)aValue;
             if (col == 11) vars.foregroundVectors.get(row).pattern= (Integer)aValue;
             if (col == 12) vars.foregroundVectors.get(row).setIntensity((Integer)aValue);
-            if (col == 13) vars.foregroundVectors.get(row).factor= (Integer)aValue;
-            if (col == 14) vars.foregroundVectors.get(row).r= (Integer)aValue;
-            if (col == 15) vars.foregroundVectors.get(row).g= (Integer)aValue;
-            if (col == 16) vars.foregroundVectors.get(row).b= (Integer)aValue;
+
+            if (col == 13) ;
+            if (col == 14) ;
+            if (col == 15) ;
+
+            if (col == 16) vars.foregroundVectors.get(row).factor= (Integer)aValue;
+            if (col == 17) vars.foregroundVectors.get(row).r= (Integer)aValue;
+            if (col == 18) vars.foregroundVectors.get(row).g= (Integer)aValue;
+            if (col == 19) vars.foregroundVectors.get(row).b= (Integer)aValue;
             fireVectorPostChange();
             fixRelatives();
             sharedRepaint();
@@ -362,7 +389,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     // repaint self and all siblings
     public void sharedRepaint()
     {
-        for (SingleVectorPanel svp: vars.siblings) svp.repaint();
+        for (SingleVectorPanel svp: vars.siblings) svp.updateAndRepaint();
     }
     public GFXVectorList getForegroundVectorList()
     {
@@ -571,8 +598,6 @@ public class SingleVectorPanel extends javax.swing.JPanel
         
         
         setScale(s);
-
-    
     }
 
     
@@ -1119,366 +1144,20 @@ public class SingleVectorPanel extends javax.swing.JPanel
     
     @Override public void paintComponent(Graphics g)
     {
-        // save original color
-        Color c = g.getColor();
-
-        // clear to background!
+        doPaint((Graphics2D)g);
+/*
+        super.paintComponent(g);
+        if (bufferUsed == -1)
         {
-            g.setColor(vars.BACKGROUND_COLOR);
-            g.fillRect(0, 0, getWidth(), getHeight());
-        }
-        
-        if ((vars.workingMode == SVP_SELECT_POINT) ||  (vars.workingMode == SVP_SELECT_LINE))
-        {
-            if ((vars.displayDragSelection) && (vars.selecting))
+            updateAndRepaint();
+            if (bufferUsed == -1)
             {
-                if ((vars.dragging) ||  (vars.pressed) )
-                {
-                    Color dragArea = new Color(0,200,0,50);
-                    g.setColor(dragArea);
-
-                    
-                    int x =  mXPressStart; 
-                    int y =  mYPressStart; 
-                    int w =  mX-mXPressStart; 
-                    int h =  mY-mYPressStart; 
-
-                    
-                    if (mX<mXPressStart)
-                    {
-                        x = mX;
-                        w =  mXPressStart-mX; 
-                    }
-                    if (mY<mYPressStart)
-                    {
-                        y = mY;
-                        h =  mYPressStart-mY; 
-                    }
-
-                    g.fillRect(x, y, w, h);
-                    selWidth = (int)(w);
-                    selHeight = (int)(h);
-                }
-                else
-                {
-                    selWidth = 0;
-                    selHeight = 0;
-                }
+                return;
             }
         }
-        int potentialCrossX = 10000000;
-        int potentialCrossY = 10000000;
-
         
-        // draw the grid
-        g.setColor(vars.GRID_COLOR);
-        int xg0 = Scaler.unscaleDoubleToInt(x0Offset, vars.scale);
-        int xg1 = Scaler.unscaleDoubleToInt(-x0Offset, vars.scale);
-        int yg0 = Scaler.unscaleDoubleToInt(y0Offset, vars.scale);
-        int yg1 = Scaler.unscaleDoubleToInt(-y0Offset, vars.scale);
-        int counter = 0;
-        int GRID_NOW = 1;
-        if (vars.displayGrid)
-            GRID_NOW = vars.gridWidth;
-
-        // befor vectors, so we can check against cross variables
-        do
-        {
-            int xPositive = Scaler.scaleDoubleToInt((+(counter*GRID_NOW)), vars.scale)+x0Offset;
-            int xNegative = Scaler.scaleDoubleToInt((-(counter*GRID_NOW)), vars.scale)+x0Offset;
-            int yPositive = Scaler.scaleDoubleToInt((+(counter*GRID_NOW)), vars.scale)+y0Offset;
-            int yNegative = Scaler.scaleDoubleToInt((-(counter*GRID_NOW)), vars.scale)+y0Offset;
-
-            if (Math.abs(xPositive - mX) < Math.abs(potentialCrossX)) potentialCrossX = xPositive- mX;
-            if (Math.abs(xNegative - mX) < Math.abs(potentialCrossX)) potentialCrossX = xNegative- mX;
-            if (Math.abs(yPositive - mY) < Math.abs(potentialCrossY)) potentialCrossY = yPositive- mY;
-            if (Math.abs(yNegative - mY) < Math.abs(potentialCrossY)) potentialCrossY = yNegative- mY;
-
-
-            if (vars.displayGrid)
-            {
-                // x+
-                drawVectrexScaledLine(g,+(counter*GRID_NOW), yg0, +(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
-                // x-
-                drawVectrexScaledLine(g,-(counter*GRID_NOW), yg0, -(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
-
-                // y+
-                drawVectrexScaledLine(g,xg0, +(counter*GRID_NOW), xg1, +(counter*GRID_NOW), false, null, false, false, 0, null);
-                // y-
-                drawVectrexScaledLine(g,xg0, -(counter*GRID_NOW), xg1, -(counter*GRID_NOW), false, null, false, false, 0, null);
-            }
-
-            counter++;
-        } while (x0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW), vars.scale)<getWidth());
-        // Grid done
-        
-        if (vars.drawByteFrame)
-        {
-            g.setColor(vars.FRAME_COLOR);
-            int x0 = -128;
-            int x1 = 127;
-            int y0 = -128;
-            int y1 = 127;
-            drawVectrexScaledLine(g,x0, y0, x1, y0, false, null, false, false, 0, null);
-            drawVectrexScaledLine(g,x0, y0, x0, y1, false, null, false, false, 0, null);
-            drawVectrexScaledLine(g,x1, y0, x1, y1, false, null, false, false, 0, null);
-            drawVectrexScaledLine(g,x0, y1, x1, y1, false, null, false, false, 0, null);
-        }
-
-        potentialCrossX+=mX;
-        potentialCrossY+=mY;
-        
-        // vectrex 0,0 is in the center
-        for (GFXVector v: vars.backgroundVectors.list)
-        {
-            // todo - not done yet
-        }
-
-        synchronized (vars.foregroundVectors.list)
-        {
-            int pos = 0;
-            for (GFXVector v: vars.foregroundVectors.list)
-            {
-                double x0,x1,y0,y1;
-                // vectrex y coordinate has opposite "direction"
-
-                x0=v.start.coord()[horizontalAxis];
-                y0=(v.start.coord()[verticalAxis]*-1);
-                x1=v.end.coord()[horizontalAxis];
-                y1=(v.end.coord()[verticalAxis]*-1);
-
-                g.setColor(new Color(v.r, v.g, v.b, v.a));
-                if (v.pattern != 255)
-                {
-                    if ((v.pattern != 0) || (!vars.drawMoves))
-                    {
-                        if (v.pattern == 0)
-                        {
-                            g.setColor(vars.MOVE_COLOR);
-                        }
-                        float[] pattern = getPattern(v);
-                        
-                        Stroke dashed = new BasicStroke(0, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, pattern, 0);
-                        drawVectrexScaledLine(g,(int)x0, (int)y0, (int)x1, (int)y1, true, dashed, vars.drawArrows, vars.drawPositions, pos++, v);
-                    }
-                    else
-                    {
-                        g.setColor(vars.MOVE_COLOR);
-                        drawVectrexScaledLine(g,(int)x0, (int)y0, (int)x1, (int)y1, true, null, vars.drawArrows, vars.drawPositions, pos++, v);
-                    }
-                }
-                else
-                {
-                    drawVectrexScaledLine(g,(int)x0, (int)y0, (int)x1, (int)y1, true, null, vars.drawArrows, vars.drawPositions, pos++, v);
-                }
-
-
-            } // Foreground Vectors done
-        }
-        // draw highlighted points (mouse is on them)
-        if (vars.hightLightVPoint != null) 
-        {
-            if (vars.hightLightVPoint.highlight)
-            {
-                double x0=vars.hightLightVPoint.coord()[horizontalAxis];
-                double y0=vars.hightLightVPoint.coord()[verticalAxis]*-1;
-                
-                if (vars.isScale)
-                {
-                    x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
-                    y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
-                }
-                else
-                {
-                    x0 = x0Offset+x0;
-                    y0 = x0Offset+y0;
-                }
-                g.setColor(vars.POINT_HIGHLIGHT_COLOR);
-                g.drawOval((int)x0-vars.POINT_HIGHLIGHT_RADIUS, (int)y0-vars.POINT_HIGHLIGHT_RADIUS, vars.POINT_HIGHLIGHT_RADIUS*2, vars.POINT_HIGHLIGHT_RADIUS*2);
-            }
-        }
-
-        // draw highlighted vector (mouse is on)
-        if (vars.hightLightVector != null) 
-        {
-            if (vars.hightLightVector.highlight)
-            {
-                double x0=vars.hightLightVector.start.coord()[horizontalAxis];
-                double y0=vars.hightLightVector.start.coord()[verticalAxis]*-1;
-                double x1=vars.hightLightVector.end.coord()[horizontalAxis];
-                double y1=vars.hightLightVector.end.coord()[verticalAxis]*-1;
-                
-                if (vars.isScale)
-                {
-                    x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
-                    y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
-                    x1 = x0Offset+Scaler.scaleDoubleToInt(x1, vars.scale);
-                    y1 = y0Offset+Scaler.scaleDoubleToInt(y1, vars.scale);
-                }
-                else
-                {
-                    x0 = x0Offset+x0;
-                    y0 = x0Offset+y0;
-                    x1 = x0Offset+x1;
-                    y1 = x0Offset+y1;
-                }
-                g.setColor(vars.VECTOR_HIGHLIGHT_COLOR);
-                
-                // construct a perpendicular vector for a 
-                // paralle transition
-                double py = x0-x1;
-                double px = -(y0-y1);
-                double l = Math.sqrt((Math.pow(py,2) + Math.pow(px,2)));
-                
-                double transition = vars.VECTOR_HIGHLIGHT_RADIUS;
-                
-                double px0 = x0 + (transition / l) * px;
-                double py0 = y0 + (transition / l) * py;
-                double px1 = x1 + (transition / l) * px;
-                double py1 = y1 + (transition / l) * py;
-                
-                double transition2 = -vars.VECTOR_HIGHLIGHT_RADIUS;
-                
-                double px02 = x0 + (transition2 / l) * px;
-                double py02 = y0 + (transition2 / l) * py;
-                double px12 = x1 + (transition2 / l) * px;
-                double py12 = y1 + (transition2 / l) * py;
-
-                g.drawLine(((int) px0), ((int) py0), ((int) px1),((int) py1));
-                g.drawLine(((int) px02), ((int) py02), ((int) px12),((int) py12));
-                
-                g.drawLine(((int) px0), ((int) py0), ((int) px02),((int) py02));
-                g.drawLine(((int) px1), ((int) py1), ((int) px12),((int) py12));
-            }
-
-        }
-        
-        // draw selected vectors/ points 
-        synchronized (vars.foregroundVectors.list)
-        {
-            for (GFXVector v: vars.foregroundVectors.list)
-            {
-                // draw selected vectors
-                if (v.selected)
-                {
-
-                    double x0=v.start.coord()[horizontalAxis];
-                    double y0=v.start.coord()[verticalAxis]*-1;
-                    double x1=v.end.coord()[horizontalAxis];
-                    double y1=v.end.coord()[verticalAxis]*-1;
-
-                    if (vars.isScale)
-                    {
-                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
-                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
-                        x1 = x0Offset+Scaler.scaleDoubleToInt(x1, vars.scale);
-                        y1 = y0Offset+Scaler.scaleDoubleToInt(y1, vars.scale);
-                    }
-                    else
-                    {
-                        x0 = x0Offset+x0;
-                        y0 = x0Offset+y0;
-                        x1 = x0Offset+x1;
-                        y1 = x0Offset+y1;
-                    }
-                    g.setColor(vars.VECTOR_SELECTED_COLOR);
-
-                    // construct a perpendicular vector for a 
-                    // paralle transition
-                    double py = x0-x1;
-                    double px = -(y0-y1);
-                    double l = Math.sqrt((Math.pow(py,2) + Math.pow(px,2)));
-
-                    double transition = vars.VECTOR_SELECTED_RADIUS;
-
-                    double px0 = x0 + (transition / l) * px;
-                    double py0 = y0 + (transition / l) * py;
-                    double px1 = x1 + (transition / l) * px;
-                    double py1 = y1 + (transition / l) * py;
-
-                    double transition2 = -vars.VECTOR_SELECTED_RADIUS;
-
-                    double px02 = x0 + (transition2 / l) * px;
-                    double py02 = y0 + (transition2 / l) * py;
-                    double px12 = x1 + (transition2 / l) * px;
-                    double py12 = y1 + (transition2 / l) * py;
-
-                    g.drawLine(((int) px0), ((int) py0), ((int) px1),((int) py1));
-                    g.drawLine(((int) px02), ((int) py02), ((int) px12),((int) py12));
-
-                    g.drawLine(((int) px0), ((int) py0), ((int) px02),((int) py02));
-                    g.drawLine(((int) px1), ((int) py1), ((int) px12),((int) py12));
-                }
-                // draw selected point
-                Vertex s = v.start;
-                if (s.selected)
-                {
-                    double x0=s.coord()[horizontalAxis];
-                    double y0=s.coord()[verticalAxis]*-1;
-
-                    if (vars.isScale)
-                    {
-                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
-                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
-                    }
-                    else
-                    {
-                        x0 = x0Offset+x0;
-                        y0 = x0Offset+y0;
-                    }
-                    g.setColor(vars.POINT_SELECTED_COLOR);
-                    g.drawOval((int)x0-vars.POINT_SELECTED_RADIUS, (int)y0-vars.POINT_SELECTED_RADIUS, vars.POINT_SELECTED_RADIUS*2, vars.POINT_SELECTED_RADIUS*2);
-                }
-                s = v.end;
-                if (s.selected)
-                {
-                    double x0=s.coord()[horizontalAxis];
-                    double y0=s.coord()[verticalAxis]*-1;
-
-                    if (vars.isScale)
-                    {
-                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
-                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
-                    }
-                    else
-                    {
-                        x0 = x0Offset+x0;
-                        y0 = x0Offset+y0;
-                    }
-                    g.setColor(vars.POINT_SELECTED_COLOR);
-                    g.drawOval((int)x0-vars.POINT_SELECTED_RADIUS, (int)y0-vars.POINT_SELECTED_RADIUS, vars.POINT_SELECTED_RADIUS*2, vars.POINT_SELECTED_RADIUS*2);
-                }
-            }
-        }        
-        
-        // draw "cross" (if allowed)
-        if ((!noCross) && (vars.crossDrawn))
-        {
-            // befor vectors, so we can check against cross variables
-            lastCrossX = potentialCrossX;
-            lastCrossY = potentialCrossY;
-            g.setColor(vars.crossColor);
-            g.drawLine(0, lastCrossY, getWidth(), lastCrossY);
-            g.drawLine(lastCrossX, 0, lastCrossX, getHeight());
-        }
-
-        // draw a "dragged" vector (continous mode)
-        // if no cross is drawn, than also don't draw "draggin" or "continue"
-        if (!noCross)
-        {
-            // only draw a "dragging" if mode is SET
-            if (vars.workingMode == SVP_SET)
-            {
-                if ((vars.dragging) || (vars.continueMode))
-                {
-                    g.setColor(vars.VECTOR_DRAG_COLOR);
-                    g.drawLine(mXPressStart, mYPressStart, lastCrossX, lastCrossY);
-                }
-            }
-        }
-
-        // restore original color
-        g.setColor(c);
+        g.drawImage(paintBufferImage[bufferUsed], 0, 0, null);
+        */
     }
 
 
@@ -2065,9 +1744,404 @@ public class SingleVectorPanel extends javax.swing.JPanel
         }
     }
     
+    public void addYOffset(int v)    
+    {
+        vars.yOffset+=v;
+        sharedRepaint();
+    }
+    public void addXOffset(int v)    
+    {
+        vars.xOffset+=v;
+        sharedRepaint();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
+    BufferedImage[] paintBufferImage = new BufferedImage[2];
+    int bufferUsed = -1;
+    
+    // somehow - this does not work as expected...
+    void updateAndRepaint()
+    {
+        int width = getWidth();
+        int height = getHeight();
+        
+        int nextBuffer = (bufferUsed +1)%2;
+        paintBufferImage[nextBuffer] = de.malban.util.UtilityImage.getNewImage(width, height);
+
+        if ( paintBufferImage[nextBuffer] == null) return;
+        
+        Graphics2D g = paintBufferImage[nextBuffer].createGraphics();
+        doPaint(g);
+        bufferUsed = nextBuffer;
+        repaint();
+    }
+    
+    private void doPaint(Graphics2D g)
+    {
+        // save original color
+        Color c = g.getColor();
+
+        // clear to background!
+        {
+            g.setColor(vars.BACKGROUND_COLOR);
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
+        
+        if ((vars.workingMode == SVP_SELECT_POINT) ||  (vars.workingMode == SVP_SELECT_LINE))
+        {
+            if ((vars.displayDragSelection) && (vars.selecting))
+            {
+                if ((vars.dragging) ||  (vars.pressed) )
+                {
+                    Color dragArea = new Color(0,200,0,50);
+                    g.setColor(dragArea);
+
+                    
+                    int x =  mXPressStart; 
+                    int y =  mYPressStart; 
+                    int w =  mX-mXPressStart; 
+                    int h =  mY-mYPressStart; 
+
+                    
+                    if (mX<mXPressStart)
+                    {
+                        x = mX;
+                        w =  mXPressStart-mX; 
+                    }
+                    if (mY<mYPressStart)
+                    {
+                        y = mY;
+                        h =  mYPressStart-mY; 
+                    }
+
+                    g.fillRect(x, y, w, h);
+                    selWidth = (int)(w);
+                    selHeight = (int)(h);
+                }
+                else
+                {
+                    selWidth = 0;
+                    selHeight = 0;
+                }
+            }
+        }
+        int potentialCrossX = 10000000;
+        int potentialCrossY = 10000000;
+
+        
+        // draw the grid
+        g.setColor(vars.GRID_COLOR);
+        int xg0 = Scaler.unscaleDoubleToInt(x0Offset, vars.scale);
+        int xg1 = Scaler.unscaleDoubleToInt(-x0Offset, vars.scale);
+        int yg0 = Scaler.unscaleDoubleToInt(y0Offset, vars.scale);
+        int yg1 = Scaler.unscaleDoubleToInt(-y0Offset, vars.scale);
+        int counter = 0;
+        int GRID_NOW = 1;
+        if (vars.displayGrid)
+            GRID_NOW = vars.gridWidth;
+
+        // befor vectors, so we can check against cross variables
+        do
+        {
+            int xPositive = Scaler.scaleDoubleToInt((+(counter*GRID_NOW)), vars.scale)+x0Offset;
+            int xNegative = Scaler.scaleDoubleToInt((-(counter*GRID_NOW)), vars.scale)+x0Offset;
+            int yPositive = Scaler.scaleDoubleToInt((+(counter*GRID_NOW)), vars.scale)+y0Offset;
+            int yNegative = Scaler.scaleDoubleToInt((-(counter*GRID_NOW)), vars.scale)+y0Offset;
+
+            if (Math.abs(xPositive - mX) < Math.abs(potentialCrossX)) potentialCrossX = xPositive- mX;
+            if (Math.abs(xNegative - mX) < Math.abs(potentialCrossX)) potentialCrossX = xNegative- mX;
+            if (Math.abs(yPositive - mY) < Math.abs(potentialCrossY)) potentialCrossY = yPositive- mY;
+            if (Math.abs(yNegative - mY) < Math.abs(potentialCrossY)) potentialCrossY = yNegative- mY;
+
+
+            if (vars.displayGrid)
+            {
+                // x+
+                drawVectrexScaledLine(g,+(counter*GRID_NOW), yg0, +(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
+                // x-
+                drawVectrexScaledLine(g,-(counter*GRID_NOW), yg0, -(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
+
+                // y+
+                drawVectrexScaledLine(g,xg0, +(counter*GRID_NOW), xg1, +(counter*GRID_NOW), false, null, false, false, 0, null);
+                // y-
+                drawVectrexScaledLine(g,xg0, -(counter*GRID_NOW), xg1, -(counter*GRID_NOW), false, null, false, false, 0, null);
+            }
+
+            counter++;
+        } while (x0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW), vars.scale)<getWidth());
+        // Grid done
+        
+        if (vars.drawByteFrame)
+        {
+            g.setColor(vars.FRAME_COLOR);
+            int x0 = -128;
+            int x1 = 127;
+            int y0 = -128;
+            int y1 = 127;
+            drawVectrexScaledLine(g,x0, y0, x1, y0, false, null, false, false, 0, null);
+            drawVectrexScaledLine(g,x0, y0, x0, y1, false, null, false, false, 0, null);
+            drawVectrexScaledLine(g,x1, y0, x1, y1, false, null, false, false, 0, null);
+            drawVectrexScaledLine(g,x0, y1, x1, y1, false, null, false, false, 0, null);
+        }
+
+        potentialCrossX+=mX;
+        potentialCrossY+=mY;
+        
+        // vectrex 0,0 is in the center
+        for (GFXVector v: vars.backgroundVectors.list)
+        {
+            // todo - not done yet
+        }
+
+        synchronized (vars.foregroundVectors.list)
+        {
+            int pos = 0;
+            for (GFXVector v: vars.foregroundVectors.list)
+            {
+                double x0,x1,y0,y1;
+                // vectrex y coordinate has opposite "direction"
+
+                x0=v.start.coord()[horizontalAxis];
+                y0=(v.start.coord()[verticalAxis]*-1);
+                x1=v.end.coord()[horizontalAxis];
+                y1=(v.end.coord()[verticalAxis]*-1);
+
+                g.setColor(new Color(v.r, v.g, v.b, v.a));
+                if (v.pattern != 255)
+                {
+                    if ((v.pattern != 0) || (!vars.drawMoves))
+                    {
+                        if (v.pattern == 0)
+                        {
+                            g.setColor(vars.MOVE_COLOR);
+                        }
+                        float[] pattern = getPattern(v);
+                        
+                        Stroke dashed = new BasicStroke(0, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, pattern, 0);
+                        drawVectrexScaledLine(g,(int)x0, (int)y0, (int)x1, (int)y1, true, dashed, vars.drawArrows, vars.drawPositions, pos++, v);
+                    }
+                    else
+                    {
+                        g.setColor(vars.MOVE_COLOR);
+                        drawVectrexScaledLine(g,(int)x0, (int)y0, (int)x1, (int)y1, true, null, vars.drawArrows, vars.drawPositions, pos++, v);
+                    }
+                }
+                else
+                {
+                    drawVectrexScaledLine(g,(int)x0, (int)y0, (int)x1, (int)y1, true, null, vars.drawArrows, vars.drawPositions, pos++, v);
+                }
+
+
+            } // Foreground Vectors done
+        }
+        // draw highlighted points (mouse is on them)
+        if (vars.hightLightVPoint != null) 
+        {
+            if (vars.hightLightVPoint.highlight)
+            {
+                double x0=vars.hightLightVPoint.coord()[horizontalAxis];
+                double y0=vars.hightLightVPoint.coord()[verticalAxis]*-1;
+                
+                if (vars.isScale)
+                {
+                    x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
+                    y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
+                }
+                else
+                {
+                    x0 = x0Offset+x0;
+                    y0 = x0Offset+y0;
+                }
+                g.setColor(vars.POINT_HIGHLIGHT_COLOR);
+                g.drawOval((int)x0-vars.POINT_HIGHLIGHT_RADIUS, (int)y0-vars.POINT_HIGHLIGHT_RADIUS, vars.POINT_HIGHLIGHT_RADIUS*2, vars.POINT_HIGHLIGHT_RADIUS*2);
+            }
+        }
+
+        // draw highlighted vector (mouse is on)
+        if (vars.hightLightVector != null) 
+        {
+            if (vars.hightLightVector.highlight)
+            {
+                double x0=vars.hightLightVector.start.coord()[horizontalAxis];
+                double y0=vars.hightLightVector.start.coord()[verticalAxis]*-1;
+                double x1=vars.hightLightVector.end.coord()[horizontalAxis];
+                double y1=vars.hightLightVector.end.coord()[verticalAxis]*-1;
+                
+                if (vars.isScale)
+                {
+                    x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
+                    y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
+                    x1 = x0Offset+Scaler.scaleDoubleToInt(x1, vars.scale);
+                    y1 = y0Offset+Scaler.scaleDoubleToInt(y1, vars.scale);
+                }
+                else
+                {
+                    x0 = x0Offset+x0;
+                    y0 = x0Offset+y0;
+                    x1 = x0Offset+x1;
+                    y1 = x0Offset+y1;
+                }
+                g.setColor(vars.VECTOR_HIGHLIGHT_COLOR);
+                
+                // construct a perpendicular vector for a 
+                // paralle transition
+                double py = x0-x1;
+                double px = -(y0-y1);
+                double l = Math.sqrt((Math.pow(py,2) + Math.pow(px,2)));
+                
+                double transition = vars.VECTOR_HIGHLIGHT_RADIUS;
+                
+                double px0 = x0 + (transition / l) * px;
+                double py0 = y0 + (transition / l) * py;
+                double px1 = x1 + (transition / l) * px;
+                double py1 = y1 + (transition / l) * py;
+                
+                double transition2 = -vars.VECTOR_HIGHLIGHT_RADIUS;
+                
+                double px02 = x0 + (transition2 / l) * px;
+                double py02 = y0 + (transition2 / l) * py;
+                double px12 = x1 + (transition2 / l) * px;
+                double py12 = y1 + (transition2 / l) * py;
+
+                g.drawLine(((int) px0), ((int) py0), ((int) px1),((int) py1));
+                g.drawLine(((int) px02), ((int) py02), ((int) px12),((int) py12));
+                
+                g.drawLine(((int) px0), ((int) py0), ((int) px02),((int) py02));
+                g.drawLine(((int) px1), ((int) py1), ((int) px12),((int) py12));
+            }
+
+        }
+        
+        // draw selected vectors/ points 
+        synchronized (vars.foregroundVectors.list)
+        {
+            for (GFXVector v: vars.foregroundVectors.list)
+            {
+                // draw selected vectors
+                if (v.selected)
+                {
+
+                    double x0=v.start.coord()[horizontalAxis];
+                    double y0=v.start.coord()[verticalAxis]*-1;
+                    double x1=v.end.coord()[horizontalAxis];
+                    double y1=v.end.coord()[verticalAxis]*-1;
+
+                    if (vars.isScale)
+                    {
+                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
+                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
+                        x1 = x0Offset+Scaler.scaleDoubleToInt(x1, vars.scale);
+                        y1 = y0Offset+Scaler.scaleDoubleToInt(y1, vars.scale);
+                    }
+                    else
+                    {
+                        x0 = x0Offset+x0;
+                        y0 = x0Offset+y0;
+                        x1 = x0Offset+x1;
+                        y1 = x0Offset+y1;
+                    }
+                    g.setColor(vars.VECTOR_SELECTED_COLOR);
+
+                    // construct a perpendicular vector for a 
+                    // paralle transition
+                    double py = x0-x1;
+                    double px = -(y0-y1);
+                    double l = Math.sqrt((Math.pow(py,2) + Math.pow(px,2)));
+
+                    double transition = vars.VECTOR_SELECTED_RADIUS;
+
+                    double px0 = x0 + (transition / l) * px;
+                    double py0 = y0 + (transition / l) * py;
+                    double px1 = x1 + (transition / l) * px;
+                    double py1 = y1 + (transition / l) * py;
+
+                    double transition2 = -vars.VECTOR_SELECTED_RADIUS;
+
+                    double px02 = x0 + (transition2 / l) * px;
+                    double py02 = y0 + (transition2 / l) * py;
+                    double px12 = x1 + (transition2 / l) * px;
+                    double py12 = y1 + (transition2 / l) * py;
+
+                    g.drawLine(((int) px0), ((int) py0), ((int) px1),((int) py1));
+                    g.drawLine(((int) px02), ((int) py02), ((int) px12),((int) py12));
+
+                    g.drawLine(((int) px0), ((int) py0), ((int) px02),((int) py02));
+                    g.drawLine(((int) px1), ((int) py1), ((int) px12),((int) py12));
+                }
+                // draw selected point
+                Vertex s = v.start;
+                if (s.selected)
+                {
+                    double x0=s.coord()[horizontalAxis];
+                    double y0=s.coord()[verticalAxis]*-1;
+
+                    if (vars.isScale)
+                    {
+                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
+                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
+                    }
+                    else
+                    {
+                        x0 = x0Offset+x0;
+                        y0 = x0Offset+y0;
+                    }
+                    g.setColor(vars.POINT_SELECTED_COLOR);
+                    g.drawOval((int)x0-vars.POINT_SELECTED_RADIUS, (int)y0-vars.POINT_SELECTED_RADIUS, vars.POINT_SELECTED_RADIUS*2, vars.POINT_SELECTED_RADIUS*2);
+                }
+                s = v.end;
+                if (s.selected)
+                {
+                    double x0=s.coord()[horizontalAxis];
+                    double y0=s.coord()[verticalAxis]*-1;
+
+                    if (vars.isScale)
+                    {
+                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
+                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
+                    }
+                    else
+                    {
+                        x0 = x0Offset+x0;
+                        y0 = x0Offset+y0;
+                    }
+                    g.setColor(vars.POINT_SELECTED_COLOR);
+                    g.drawOval((int)x0-vars.POINT_SELECTED_RADIUS, (int)y0-vars.POINT_SELECTED_RADIUS, vars.POINT_SELECTED_RADIUS*2, vars.POINT_SELECTED_RADIUS*2);
+                }
+            }
+        }        
+        
+        // draw "cross" (if allowed)
+        if ((!noCross) && (vars.crossDrawn))
+        {
+            // befor vectors, so we can check against cross variables
+            lastCrossX = potentialCrossX;
+            lastCrossY = potentialCrossY;
+            g.setColor(vars.crossColor);
+            g.drawLine(0, lastCrossY, getWidth(), lastCrossY);
+            g.drawLine(lastCrossX, 0, lastCrossX, getHeight());
+        }
+
+        // draw a "dragged" vector (continous mode)
+        // if no cross is drawn, than also don't draw "draggin" or "continue"
+        if (!noCross)
+        {
+            // only draw a "dragging" if mode is SET
+            if (vars.workingMode == SVP_SET)
+            {
+                if ((vars.dragging) || (vars.continueMode))
+                {
+                    g.setColor(vars.VECTOR_DRAG_COLOR);
+                    g.drawLine(mXPressStart, mYPressStart, lastCrossX, lastCrossY);
+                }
+            }
+        }
+
+        // restore original color
+        g.setColor(c);
+        
+    }
 }
 
 

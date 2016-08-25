@@ -94,7 +94,7 @@ public class AboutPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setText("1.0 RC2");
+        jLabel1.setText("1.0 RC3");
 
         jLabel3.setText("Homepage: ");
 

@@ -37,7 +37,9 @@ import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -305,8 +307,13 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                         MemoryInformation memInfo = dissi.getMemoryInformation(model.getAddress(rowIndex, colIndex), vecxPanel.getCurrentBank());
                         if (memInfo.memType == MEM_TYPE_RAM)
                         {
-                            tip += "RAM:<BR> \"";
-                            tip += "decimal: "+model.getIntegerValueAt(rowIndex, colIndex)+"<BR>";
+                            int num = model.getIntegerValueAt(rowIndex, colIndex)&0xff;
+                            
+                            tip += "RAM:<BR> ";
+                            tip += "binary: "+DASM6809.printbinary(num)+"<BR>";
+                            tip += "decimal: "+num+"<BR>";
+                            if (num>127) num-=256;
+                            tip += "decimal (2 compl.): "+num+"<BR>";
                             tip += "labels: \"";
                             for (int i = 0; i< memInfo.labels.size(); i++)
                             {
@@ -325,7 +332,13 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                         }
                         if (memInfo.memType == MEM_TYPE_ROM)
                         {
-                            tip += "ROM:<BR>labels: \"";
+                            int num = model.getIntegerValueAt(rowIndex, colIndex)&0xff;
+                            tip += "ROM:<BR>";
+                            tip += "binary: "+DASM6809.printbinary(num)+"<BR>";
+                            tip += "decimal: "+num+"<BR>";
+                            if (num>127) num-=256;
+                            tip += "decimal (2 compl.): "+num+"<BR>";
+                            tip += "labels: \"";
                             for (int i = 0; i< memInfo.labels.size(); i++)
                             {
                                 if (i>0) tip+=", ";
@@ -343,7 +356,14 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                         }
                         if (memInfo.memType == MEM_TYPE_IO)
                         {
-                            tip += "IO:<BR>labels: \"";
+                            int num = model.getIntegerValueAt(rowIndex, colIndex)&0xff;
+                            
+                            tip += "IO:<BR>";
+                            tip += "binary: "+DASM6809.printbinary(num)+"<BR>";
+                            tip += "decimal: "+num+"<BR>";
+                            if (num>127) num-=256;
+                            tip += "decimal (2 compl.): "+num+"<BR>";
+                            tip += "labels: \"";
                             for (int i = 0; i< memInfo.labels.size(); i++)
                             {
                                 if (i>0) tip+=", ";
@@ -657,6 +677,11 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
             }
         });
 
+        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField2FocusLost(evt);
+            }
+        });
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -670,6 +695,11 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
 
         jLabel3.setText("start");
 
+        jTextField3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField3FocusLost(evt);
+            }
+        });
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -737,9 +767,20 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         jTextField8.setText("%C");
 
         jSpinnerRasterWidth.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        jSpinnerRasterWidth.setValue(1);
         jSpinnerRasterWidth.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jSpinnerRasterWidthStateChanged(evt);
+            }
+        });
+        jSpinnerRasterWidth.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jSpinnerRasterWidthFocusLost(evt);
+            }
+        });
+        jSpinnerRasterWidth.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jSpinnerRasterWidthKeyTyped(evt);
             }
         });
 
@@ -790,7 +831,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                         .addContainerGap(145, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE))))
+                        .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -957,13 +998,13 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     }
     
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        startAddress = de.malban.util.UtilityString.IntX(jTextField2.getText(), startAddress);
+        startAddress = DASM6809.toNumber(jTextField2.getText());
         selectionChanged();
         jTable1.repaint();
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        endAddress = de.malban.util.UtilityString.IntX(jTextField3.getText(), endAddress);
+        endAddress = DASM6809.toNumber(jTextField3.getText());
         selectionChanged();
         jTable1.repaint();
     }//GEN-LAST:event_jTextField3ActionPerformed
@@ -1015,13 +1056,13 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
-        startAddress = de.malban.util.UtilityString.IntX(jTextField2.getText(), startAddress);
+        startAddress = DASM6809.toNumber(jTextField2.getText());
         selectionChanged();
         jTable1.repaint();
     }//GEN-LAST:event_jTextField2KeyTyped
 
     private void jTextField3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyTyped
-        endAddress = de.malban.util.UtilityString.IntX(jTextField3.getText(), endAddress);
+        endAddress = DASM6809.toNumber(jTextField3.getText());
         selectionChanged();
         jTable1.repaint();
     }//GEN-LAST:event_jTextField3KeyTyped
@@ -1063,8 +1104,33 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jCheckBoxActiveActionPerformed
 
     private void jSpinnerRasterWidthStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinnerRasterWidthStateChanged
+        bitmapWidth = de.malban.util.UtilityString.Int0(jSpinnerRasterWidth.getValue().toString());
         selectionChanged();
     }//GEN-LAST:event_jSpinnerRasterWidthStateChanged
+
+    private void jSpinnerRasterWidthKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jSpinnerRasterWidthKeyTyped
+        JTextField tf = ((JSpinner.DefaultEditor)jSpinnerRasterWidth.getEditor()).getTextField();
+        String wi = tf.getText();//jSpinnerRasterWidth.getValue().toString();
+        bitmapWidth =  de.malban.util.UtilityString.Int0(wi);
+        selectionChanged();
+    }//GEN-LAST:event_jSpinnerRasterWidthKeyTyped
+
+    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
+        startAddress = DASM6809.toNumber(jTextField2.getText());
+        selectionChanged();
+    }//GEN-LAST:event_jTextField2FocusLost
+
+    private void jTextField3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField3FocusLost
+        endAddress = DASM6809.toNumber(jTextField3.getText());
+        selectionChanged();
+    }//GEN-LAST:event_jTextField3FocusLost
+
+    private void jSpinnerRasterWidthFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jSpinnerRasterWidthFocusLost
+        JTextField tf = ((JSpinner.DefaultEditor)jSpinnerRasterWidth.getEditor()).getTextField();
+        String wi = tf.getText();//jSpinnerRasterWidth.getValue().toString();
+        bitmapWidth =  de.malban.util.UtilityString.Int0(wi);
+        selectionChanged();
+    }//GEN-LAST:event_jSpinnerRasterWidthFocusLost
     public void updateTable()
     {
         jTable1.repaint();
@@ -1191,25 +1257,37 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
     {
         updateEnabled = b;
     }
+    int bitmapWidth = 1;
+    int oldStart = 0;
+    int oldEnd = 0;
+    int oldWidth = 0;
     void doBitmap()
     {
-        single3dDisplayPanel1.clearVectors();
         if (startAddress==-1) return;
         if (endAddress==-1) return;
         if (endAddress<startAddress) return;
 
-
+        if ((oldStart == startAddress) && (oldEnd == endAddress) && (oldWidth ==bitmapWidth )) return;
+        oldStart = startAddress;
+        oldEnd = endAddress;
+        oldWidth = bitmapWidth;
+        single3dDisplayPanel1.clearVectors();
+        
 //        int targetWidth = de.malban.util.UtilityString.IntX(jTextFieldRasterWidth.getText(), 1);
         
-        String wi = jSpinnerRasterWidth.getValue().toString();
-       
         
-        int targetWidth =  de.malban.util.UtilityString.Int0(wi);
+//        JTextField tf = ((JSpinner.DefaultEditor)jSpinnerRasterWidth.getEditor()).getTextField();
+ //       String wi = tf.getText();//jSpinnerRasterWidth.getValue().toString();
+ //      bitmapWidth
+        
+        int targetWidth =  bitmapWidth;//de.malban.util.UtilityString.Int0(wi);
+        if (targetWidth == 0) return;
         int targetHeight = (endAddress-startAddress)/targetWidth;
 
         
         
 
+        single3dDisplayPanel1.suspendRepaint();
         int vy = 0 +(targetHeight/2);  
         for (int y=0; y<targetHeight; y++)
         {
@@ -1265,6 +1343,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
             }
             vy--;
         }                
+        single3dDisplayPanel1.continueRepaint();
     }        
     protected boolean savePatterns()
     {

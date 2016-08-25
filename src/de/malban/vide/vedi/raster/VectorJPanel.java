@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -160,6 +161,10 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         jLabel15 = new javax.swing.JLabel();
         jSliderBlurThreshold = new javax.swing.JSlider();
         jButton2 = new javax.swing.JButton();
+        jLabel16 = new javax.swing.JLabel();
+        jTextFieldStartX = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jTextFieldStartY = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(960, 537));
@@ -180,6 +185,12 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         jTextFieldHeight.setEditable(false);
 
         jLabel2.setText("x");
+
+        singleImagePanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                singleImagePanel1MouseDragged(evt);
+            }
+        });
 
         javax.swing.GroupLayout singleImagePanel1Layout = new javax.swing.GroupLayout(singleImagePanel1);
         singleImagePanel1.setLayout(singleImagePanel1Layout);
@@ -352,45 +363,66 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             }
         });
 
+        jLabel16.setText("start");
+
+        jTextFieldStartX.setEditable(false);
+        jTextFieldStartX.setText("0");
+
+        jLabel17.setText(",");
+
+        jTextFieldStartY.setEditable(false);
+        jTextFieldStartY.setText("0");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel14))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel12)
+                                        .addGap(15, 15, 15)))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jSliderDespeckle, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                                        .addComponent(jSliderThreshold, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jSliderBlurRadius, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(5, 5, 5)
+                                        .addComponent(jLabel15))
+                                    .addComponent(jSliderBlurThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(10, 10, 10))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
+                        .addComponent(jTextFieldStartX, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldStartY, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel14))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addGap(15, 15, 15)))
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jSliderDespeckle, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-                                .addComponent(jSliderThreshold, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jSliderBlurRadius, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addComponent(jLabel15))
-                            .addComponent(jSliderBlurThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(10, 10, 10)
+                        .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel3Layout.createSequentialGroup()
@@ -454,11 +486,17 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel16)
+                                .addComponent(jTextFieldStartX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldStartY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel17))
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1)
+                                .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -635,6 +673,52 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void singleImagePanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_singleImagePanel1MouseDragged
+        if (baseImage == null) return;
+        int x = ((int)((double)((double)evt.getX())/1));
+        int y = ((int)((double)((double)evt.getY())/1));
+        
+        int sX = singleImagePanel1.getPressedStartX();
+        int sY = singleImagePanel1.getPressedStartY();
+        
+        if (x<0) x = 0;
+        if (sX<0) sX = 0;
+        if (y<0) y = 0;
+        if (sY<0) sY = 0;
+        
+        if (x>baseImage.getWidth()) x = baseImage.getWidth();
+        if (sX>baseImage.getWidth()) sX = baseImage.getWidth();
+        if (y>baseImage.getHeight()) y = baseImage.getHeight();
+        if (sY>baseImage.getHeight()) sY = baseImage.getHeight();
+        
+        if (x < sX)
+        {
+            int tmp = sX;
+            sX = x;
+            x = tmp;
+        }
+        if (y < sY)
+        {
+            int tmp = sY;
+            sY = y;
+            y = tmp;
+        }
+        
+        int w = x-sX;
+        int h = y-sY;
+        
+        jTextFieldStartX.setText(""+sX);
+        jTextFieldStartY.setText(""+sY);
+        jTextFieldWidth.setText(""+w);
+        jTextFieldHeight.setText(""+h);
+      //  jTextFieldVectorWitdh.setText(""+w);
+      //  jTextFieldVectorHeight.setText(""+h);
+        
+        
+        
+        buildVectors();
+    }//GEN-LAST:event_singleImagePanel1MouseDragged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -649,6 +733,8 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -673,6 +759,8 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextFieldHeight;
+    private javax.swing.JTextField jTextFieldStartX;
+    private javax.swing.JTextField jTextFieldStartY;
     private javax.swing.JTextField jTextFieldWidth;
     private de.malban.graphics.SingleImagePanel singleImagePanel1;
     private de.malban.graphics.SingleImagePanel singleImagePanel2;
@@ -727,15 +815,41 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     boolean building = false;
     public boolean buildVectors()
     {
+        
+        
         if (building) return false;
         building = true;
+        
+        
+        
+        // BufferedImage orgImage = singleImagePanel1.getImage();
+
+        int startX = de.malban.util.UtilityString.IntX(jTextFieldStartX.getText(), 0);
+        int startY = de.malban.util.UtilityString.IntX(jTextFieldStartY.getText(), 0);
+        int width = de.malban.util.UtilityString.IntX(jTextFieldWidth.getText(), baseImage.getWidth()-startX);
+        int height = de.malban.util.UtilityString.IntX(jTextFieldHeight.getText(), baseImage.getHeight()-startY);
+        
+        if (width == 0) 
+        {
+            building = false;
+            return false;
+        }
+        if (height == 0) 
+        {
+            building = false;
+            return false;
+        }
+        BufferedImage orgImage = baseImage;
+        
+        
+        
         String filenameTMP = "tmp"+File.separator+"tmpImage"+(uid++)+".bmp";
         try
         {
             // get image
 
             // despeckle
-            BufferedImage filteredImage= de.malban.util.UtilityImage.toNonAlpha(baseImage);
+            BufferedImage filteredImage= de.malban.util.UtilityImage.toNonAlpha(orgImage);
             DespeckleFilter despeckleFilter = new DespeckleFilter();
             for (int d = 0; d<jSliderDespeckle.getValue(); d++ )
             {
@@ -751,14 +865,16 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                 filteredImage = blurFilter.filter(filteredImage, null);
             }
             singleImagePanel1.setBaseImage(filteredImage);
-            
+            singleImagePanel1.setNoMouseRection(false);
 
             // black and white filter with threshold
             ThresholdFilter bwFilter = new ThresholdFilter(jSliderThreshold.getValue());
 
             // build black and white and force NO alpha (otherwise saving to BMP does not work)
             filteredImage = bwFilter.filter(filteredImage, null);
+            filteredImage = filteredImage.getSubimage(startX, startY, width, height);
 
+            
             // show image to user
             singleImagePanel2.setBaseImage( filteredImage);
 
@@ -780,7 +896,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             }
             
             // read data to point lists
-            Features features = readJSONData(outFilename, baseImage.getWidth(), baseImage.getHeight());
+            Features features = readJSONData(outFilename, orgImage.getWidth(), orgImage.getHeight());
             
             // now process the result
             features = cullBorders(features);
@@ -798,6 +914,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             GFXVectorList vectorList = concat(vList); 
             jTextField3.setText(""+vectorList.list.size());
             singleVectorPanel1.clearForegroundVectorList();
+            centerVectorList(vectorList);
             singleVectorPanel1.addForegroundVectorList(vectorList.list);
         }
         catch (Throwable e)
@@ -811,7 +928,63 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         
         return true;
     }
-
+    void centerVectorList(GFXVectorList vl)
+    {
+        double minX = Integer.MAX_VALUE;
+        double maxX = -Integer.MAX_VALUE;
+        double minY = Integer.MAX_VALUE;
+        double maxY = -Integer.MAX_VALUE;
+        double minZ = Integer.MAX_VALUE;
+        double maxZ = -Integer.MAX_VALUE;
+        
+        
+        for (int i=0; i< vl.size(); i++)
+        {
+            GFXVector v = vl.get(i);
+            if (minX>v.start.x()) minX = v.start.x();
+            if (minX>v.end.x()) minX = v.end.x();
+            if (maxX<v.start.x()) maxX = v.start.x();
+            if (maxX<v.end.x()) maxX = v.end.x();
+            
+            if (minY>v.start.y()) minY = v.start.y();
+            if (minY>v.end.y()) minY = v.end.y();
+            if (maxY<v.start.y()) maxY = v.start.y();
+            if (maxY<v.end.y()) maxY = v.end.y();
+            
+            if (minZ>v.start.z()) minZ = v.start.z();
+            if (minZ>v.end.z()) minZ = v.end.z();
+            if (maxZ<v.start.z()) maxZ = v.start.z();
+            if (maxZ<v.end.z()) maxZ = v.end.z();
+        }
+        double difX = maxX-minX;
+        double difY = maxY-minY;
+        double difZ = maxZ-minZ;
+        
+        int translocationX = (int) (maxX-difX/2);
+        int translocationY = (int) (maxY-difY/2);
+        int translocationZ = (int) (maxZ-difZ/2);
+        
+        HashMap<String, Boolean> done = new HashMap<String, Boolean>();
+        for (int i=0; i< vl.size(); i++)
+        {
+            GFXVector v = vl.get(i);
+            if (done.get(""+v.start.uid) == null)
+            {
+                v.start.x(v.start.x()-translocationX);            
+                v.start.y(v.start.y()-translocationY);            
+                v.start.z(v.start.z()-translocationZ);            
+                done.put(""+v.start.uid, true);
+            }
+            
+            if (done.get(""+v.end.uid) == null)
+            {
+                v.end.x(v.end.x()-translocationX);            
+                v.end.y(v.end.y()-translocationY);            
+                v.end.z(v.end.z()-translocationZ);            
+                done.put(""+v.end.uid, true);
+            }
+        }        
+    }
     ArrayList<GFXVectorList> generateGFXVectorList_(Features in)
     {
         ArrayList<GFXVectorList> vList= new ArrayList<GFXVectorList>();

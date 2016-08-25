@@ -163,7 +163,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public transient VectrexJoyport[] joyport= new VectrexJoyport[2];
      
     // dummy displayer, which does nothing!
-    public transient DisplayerInterface displayer = new DisplayerInterface(){public void breakpointRemove(Breakpoint bp){}public void switchDisplay(){}public void updateDisplay(){} public void directDraw(vector_t v){}public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved){}public void setJoyportDevice(int port, JoyportDevice d){}};
+    public transient DisplayerInterface displayer = new DisplayerInterface(){public void breakpointRemove(Breakpoint bp){}public void switchDisplay(){}public void updateDisplay(){} public void directDraw(vector_t v){}public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved, int alg_vector_speed, int alg_leftEye, int alg_rightEye){}public void setJoyportDevice(int port, JoyportDevice d){}};
         
     
     transient VectrexDisplayVectors[] vectorDisplay = new VectrexDisplayVectors[2];
@@ -1566,7 +1566,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 {
                     displayer.switchDisplay();
                     displayer.updateDisplay();
-                    
                 }                
             }
             if (config.ringbufferActive)
@@ -1840,6 +1839,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             initFromState(state);
             cart.setListener(mListener);
             cart.init();
+            
             if (imagerMode)
             {
                 state.imager.setIgnoreReset(true);
@@ -2214,9 +2214,12 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             {
                 if (imagerMode)
                 {
-                    Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
-                    leftEyeColor = i3d.getLeftColor();
-                    rightEyeColor = i3d.getRightColor();
+                    if (joyport[1].getDevice() instanceof Imager3dDevice)
+                    {
+                        Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
+                        leftEyeColor = i3d.getLeftColor();
+                        rightEyeColor = i3d.getRightColor();
+                    }
                 }
                 
                 /* start a new vector */
@@ -2249,9 +2252,12 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         {
             if (imagerMode)
             {
-                Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
-                leftEyeColor = i3d.getLeftColor();
-                rightEyeColor = i3d.getRightColor();
+                if (joyport[1].getDevice() instanceof Imager3dDevice)
+                {
+                    Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
+                    leftEyeColor = i3d.getLeftColor();
+                    rightEyeColor = i3d.getRightColor();
+                }
             }
             boolean yChanged = (-alg_ysh.intValue != alg_vector_dy) && (sig_ramp.intValue== 0);
             boolean xChanged = (alg_xsh.intValue != alg_vector_dx) && (sig_ramp.intValue== 0);
@@ -2479,7 +2485,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             if (alg_oldBlank != 0)
             {
                 int dwell = Math.max(Math.abs(sig_dx), Math.abs(sig_dy));
-                displayer.rayMove((int)alg_old_x, (int)alg_old_y, (int)alg_curr_x, (int)alg_curr_y, alg_oldzsh, dwell, alg_curved);
+                displayer.rayMove((int)alg_old_x, (int)alg_old_y, (int)alg_curr_x, (int)alg_curr_y, alg_oldzsh, dwell, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
             }
 
             alg_oldRamp = sig_ramp.intValue;

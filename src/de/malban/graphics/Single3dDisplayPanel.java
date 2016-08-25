@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -66,6 +67,7 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
     public void setAxisShown (boolean s)
     {
         axisShown = s;
+        sharedRepaint();
     }
             
     public Single3dDisplayPanel() {
@@ -179,14 +181,17 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
     public void setAxisAngleX(int value)
     {
         axisXAngle = value;
+        sharedRepaint();
     }
     public void setAxisAngleY(int value)
     {
         axisYAngle = value;
+        sharedRepaint();
     }
     public void setAxisAngleZ(int value)
     {
         axisZAngle = value;
+        sharedRepaint();
     }
     
     int angleX = 0;
@@ -199,31 +204,38 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
     public void setAngleX(int value)
     {
         angleX = value;
+        sharedRepaint();
     }
     public void setAngleY(int value)
     {
         angleY = value;
+        sharedRepaint();
     }
     public void setAngleZ(int value)
     {
         angleZ = value;
+        sharedRepaint();
     }
     
     public void setTranslocationX(int x)
     {
         transX = x;
+        sharedRepaint();
     }
     public void setTranslocationY(int y)
     {
         transY = y;
+        sharedRepaint();
     }
     public void setTranslocationZ(int z)
     {
         transZ = z;
+        sharedRepaint();
     }
     public void setScale(double s)
     {
         scale = s;
+        updateAndRepaint();
     }
     public double getScale()
     {
@@ -234,8 +246,61 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
         return lastDisplayList;
     }
     GFXVectorList lastDisplayList = new GFXVectorList();
-    @Override synchronized public void paintComponent(Graphics g)
+    @Override public void paintComponent(Graphics g)
     {
+//        super.paintComponent(g);
+        if (bufferUsed == -1) return;
+        g.drawImage(paintBufferImage[bufferUsed], 0, 0, null);
+    }
+
+    @Override
+    public void sharedRepaint() {
+        updateAndRepaint();
+        if (singleRepaint)
+        {
+            return;
+        }
+        updateAndRepaint();
+        super.sharedRepaint(); //To change body of generated methods, choose Tools | Templates.
+
+    }
+
+
+    
+    
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // End of variables declaration//GEN-END:variables
+
+    boolean singleRepaint = false;
+    public void setSingleRepaint(boolean b)
+    {
+        singleRepaint = b;
+    }
+    
+    
+    BufferedImage[] paintBufferImage = new BufferedImage[2];
+    int bufferUsed = -1;
+    synchronized void updateAndRepaint()
+    {
+        if (noRepaint) return;
+        int width = getWidth();
+        int height = getHeight();
+        if (width == 0) return;
+        if (height == 0) return;
+        int nextBuffer = (bufferUsed +1)%2;
+        paintBufferImage[nextBuffer] = de.malban.util.UtilityImage.getNewImage(width, height);
+
+        if ( paintBufferImage[nextBuffer] == null) return;
+
+        if (!repaint) 
+        {
+            bufferUsed = nextBuffer;
+            return;
+        }
+
+        Graphics2D g = paintBufferImage[nextBuffer].createGraphics();
+    
         synchronized (vars.foregroundVectors.list)
         {
             g.setColor(Color.BLACK);
@@ -417,13 +482,22 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
             // restore original color
             g.setColor(c);
         }
+        bufferUsed = nextBuffer;
+        super.repaint();
     }
-
-
+    public void repaint() 
+    {
+        updateAndRepaint();
+    }
+    boolean noRepaint = false;
+    public void suspendRepaint()
+    {
+        noRepaint = true;
+    }
+    public void continueRepaint()
+    {
+        noRepaint = false;
+        repaint();
+    }
     
-    
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
-
 }

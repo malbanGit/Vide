@@ -5,20 +5,118 @@
  */
 package de.malban.input;
 
+import de.malban.config.Configuration;
+import de.malban.gui.CSAMainFrame;
+import de.malban.gui.Stateable;
+import de.malban.gui.Windowable;
+import de.malban.gui.components.CSAView;
+import static de.malban.input.EventController.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.io.Serializable;
 import java.util.ArrayList;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
+import net.java.games.input.Component;
 import net.java.games.input.Controller;
 
 /**
  *
  * @author malban
  */
-public class InputControllerDisplay extends javax.swing.JPanel {
+public class InputControllerDisplay extends javax.swing.JPanel implements
+        Windowable, Stateable
+{
+    private ArrayList<ControllerListern> mListener= new ArrayList<ControllerListern>();
 
+    @Override
+    public boolean isLoadSettings() { return true; }
+    private CSAView mParent = null;
+    private javax.swing.JMenuItem mParentMenuItem = null;
+    private int mClassSetting=0;
+    public static String SID = "Input Controller";
+
+    
+    JPanel relativesPanel;
+    JPanel axesPanel;
+    JPanel buttonsPanel;
+    EventController selectedController = null;
+    // X axis and Y axis
+    int xAxisPercentage = 0;
+    int yAxisPercentage = 0;
+    int hatSwitchPosition = CENTER;
+    ArrayList<Float> headSwitchPositions = new ArrayList<Float>();
+    ArrayList<Controller> controllers;
+    
+    
+    @Override
+    public Serializable getAdditionalStateinfo(){return null;}
+    @Override
+    public void setAdditionalStateinfo(Serializable ser){}
+    @Override
+    public String getID()
+    {
+        return SID;
+    }
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
+    }
+    
+    @Override
+    public void closing()
+    {
+        deinit();
+    }
+    @Override
+    public void setParentWindow(CSAView jpv)
+    {
+        mParent = jpv;
+    }
+    @Override
+    public void setMenuItem(javax.swing.JMenuItem item)
+    {
+        mParentMenuItem = item;
+        mParentMenuItem.setText(SID);
+    }
+    @Override
+    public javax.swing.JMenuItem getMenuItem()
+    {
+        return mParentMenuItem;
+    }
+    @Override
+    public javax.swing.JPanel getPanel()
+    {
+        return this;
+    }
+    public void deinit()
+    {
+    }
     /**
      * Creates new form InputControllerDisplay
      */
     public InputControllerDisplay() {
         initComponents();
+        searchControllers();
     }
 
     /**
@@ -30,21 +128,36 @@ public class InputControllerDisplay extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelHatSwitch = new javax.swing.JPanel();
+        jPanelHatSwitch = new JPanel()
+        {
+            @Override
+            protected void paintComponent(Graphics g)
+            {
+                //        super.paintComponent(g);
+                paintHatSwitches(g);
+            }
+        };
+        ;
         jPanelButtons = new javax.swing.JPanel();
         jPanelAxes = new javax.swing.JPanel();
         jLabelXYAxis = new javax.swing.JLabel();
-        jPanelXYAxis = new javax.swing.JPanel();
+        jPanelXYAxis = new JPanel()
+        {
+            @Override
+            protected void paintComponent(Graphics g)
+            {
+                //        super.paintComponent(g);
+                paintAxis(g);
+            }
+        };
+        ;
         jPanel_forAxis = new javax.swing.JPanel();
-        jComboBox_controllers = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jPanelHatSwitch1 = new javax.swing.JPanel();
-        jPanelButtons1 = new javax.swing.JPanel();
-        jPanelAxes1 = new javax.swing.JPanel();
         jLabelXYAxis1 = new javax.swing.JLabel();
-        jPanelXYAxis1 = new javax.swing.JPanel();
-        jPanel_forAxis1 = new javax.swing.JPanel();
-        jComboBox_controllers1 = new javax.swing.JComboBox();
+        jPanelForRelatives = new javax.swing.JPanel();
+        jLabelXYAxis2 = new javax.swing.JLabel();
+        jComboBox_controllers = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         jPanelHatSwitch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(165, 163, 151)), "Hat Switch", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Geneva", 0, 11), new java.awt.Color(0, 51, 204))); // NOI18N
 
@@ -56,7 +169,7 @@ public class InputControllerDisplay extends javax.swing.JPanel {
         );
         jPanelHatSwitchLayout.setVerticalGroup(
             jPanelHatSwitchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
 
         jPanelButtons.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(165, 163, 151)), "Buttons", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Geneva", 0, 11), new java.awt.Color(0, 51, 204))); // NOI18N
@@ -69,7 +182,7 @@ public class InputControllerDisplay extends javax.swing.JPanel {
         );
         jPanelButtonsLayout.setVerticalGroup(
             jPanelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jPanelAxes.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(165, 163, 151)), "Axes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Geneva", 0, 11), new java.awt.Color(0, 51, 204))); // NOI18N
@@ -101,30 +214,54 @@ public class InputControllerDisplay extends javax.swing.JPanel {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jLabelXYAxis1.setText("additional axes");
+
+        javax.swing.GroupLayout jPanelForRelativesLayout = new javax.swing.GroupLayout(jPanelForRelatives);
+        jPanelForRelatives.setLayout(jPanelForRelativesLayout);
+        jPanelForRelativesLayout.setHorizontalGroup(
+            jPanelForRelativesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanelForRelativesLayout.setVerticalGroup(
+            jPanelForRelativesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jLabelXYAxis2.setText("relative movement");
+
         javax.swing.GroupLayout jPanelAxesLayout = new javax.swing.GroupLayout(jPanelAxes);
         jPanelAxes.setLayout(jPanelAxesLayout);
         jPanelAxesLayout.setHorizontalGroup(
             jPanelAxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelAxesLayout.createSequentialGroup()
                 .addGroup(jPanelAxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelXYAxis)
+                    .addComponent(jPanelXYAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel_forAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelXYAxis1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelAxesLayout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(jLabelXYAxis))
-                    .addGroup(jPanelAxesLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jPanelXYAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel_forAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                        .addComponent(jLabelXYAxis2)
+                        .addContainerGap(63, Short.MAX_VALUE))
+                    .addComponent(jPanelForRelatives, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanelAxesLayout.setVerticalGroup(
             jPanelAxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelAxesLayout.createSequentialGroup()
-                .addComponent(jLabelXYAxis)
+                .addGroup(jPanelAxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelXYAxis)
+                    .addComponent(jLabelXYAxis1)
+                    .addComponent(jLabelXYAxis2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelXYAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 16, Short.MAX_VALUE))
-            .addComponent(jPanel_forAxis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelAxesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelAxesLayout.createSequentialGroup()
+                        .addComponent(jPanelXYAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(52, Short.MAX_VALUE))
+                    .addComponent(jPanelForRelatives, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel_forAxis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jComboBox_controllers.addActionListener(new java.awt.event.ActionListener() {
@@ -133,97 +270,10 @@ public class InputControllerDisplay extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setText("check available controllers");
+        jButton1.setText("reScan");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-
-        jPanelHatSwitch1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(165, 163, 151)), "Hat Switch", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Geneva", 0, 11), new java.awt.Color(0, 51, 204))); // NOI18N
-
-        javax.swing.GroupLayout jPanelHatSwitch1Layout = new javax.swing.GroupLayout(jPanelHatSwitch1);
-        jPanelHatSwitch1.setLayout(jPanelHatSwitch1Layout);
-        jPanelHatSwitch1Layout.setHorizontalGroup(
-            jPanelHatSwitch1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanelHatSwitch1Layout.setVerticalGroup(
-            jPanelHatSwitch1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jPanelButtons1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(165, 163, 151)), "Buttons", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Geneva", 0, 11), new java.awt.Color(0, 51, 204))); // NOI18N
-
-        javax.swing.GroupLayout jPanelButtons1Layout = new javax.swing.GroupLayout(jPanelButtons1);
-        jPanelButtons1.setLayout(jPanelButtons1Layout);
-        jPanelButtons1Layout.setHorizontalGroup(
-            jPanelButtons1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 248, Short.MAX_VALUE)
-        );
-        jPanelButtons1Layout.setVerticalGroup(
-            jPanelButtons1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
-        );
-
-        jPanelAxes1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(165, 163, 151)), "Axes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Geneva", 0, 11), new java.awt.Color(0, 51, 204))); // NOI18N
-
-        jLabelXYAxis1.setText("X Axis / Y Axis");
-
-        jPanelXYAxis1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanelXYAxis1.setPreferredSize(new java.awt.Dimension(111, 111));
-
-        javax.swing.GroupLayout jPanelXYAxis1Layout = new javax.swing.GroupLayout(jPanelXYAxis1);
-        jPanelXYAxis1.setLayout(jPanelXYAxis1Layout);
-        jPanelXYAxis1Layout.setHorizontalGroup(
-            jPanelXYAxis1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 109, Short.MAX_VALUE)
-        );
-        jPanelXYAxis1Layout.setVerticalGroup(
-            jPanelXYAxis1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 109, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel_forAxis1Layout = new javax.swing.GroupLayout(jPanel_forAxis1);
-        jPanel_forAxis1.setLayout(jPanel_forAxis1Layout);
-        jPanel_forAxis1Layout.setHorizontalGroup(
-            jPanel_forAxis1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 202, Short.MAX_VALUE)
-        );
-        jPanel_forAxis1Layout.setVerticalGroup(
-            jPanel_forAxis1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanelAxes1Layout = new javax.swing.GroupLayout(jPanelAxes1);
-        jPanelAxes1.setLayout(jPanelAxes1Layout);
-        jPanelAxes1Layout.setHorizontalGroup(
-            jPanelAxes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelAxes1Layout.createSequentialGroup()
-                .addGroup(jPanelAxes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelAxes1Layout.createSequentialGroup()
-                        .addGap(58, 58, 58)
-                        .addComponent(jLabelXYAxis1))
-                    .addGroup(jPanelAxes1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jPanelXYAxis1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel_forAxis1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanelAxes1Layout.setVerticalGroup(
-            jPanelAxes1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelAxes1Layout.createSequentialGroup()
-                .addComponent(jLabelXYAxis1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelXYAxis1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 16, Short.MAX_VALUE))
-            .addComponent(jPanel_forAxis1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jComboBox_controllers1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_controllers1ActionPerformed(evt);
             }
         });
 
@@ -231,102 +281,426 @@ public class InputControllerDisplay extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(259, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(175, 175, 175))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jPanelButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanelHatSwitch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(jPanelAxes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jComboBox_controllers, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(342, 342, 342)))
-                    .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(22, 22, 22)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jPanelButtons1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanelHatSwitch1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(jPanelAxes1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jComboBox_controllers1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(342, 342, 342)))
-                    .addGap(2, 2, 2)))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jComboBox_controllers, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanelButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanelHatSwitch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelAxes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addContainerGap(327, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jComboBox_controllers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelAxes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanelHatSwitch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(22, 22, 22)
-                    .addComponent(jComboBox_controllers1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelAxes1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanelButtons1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanelHatSwitch1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(2, 2, 2)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jComboBox_controllers))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelAxes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelHatSwitch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox_controllersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_controllersActionPerformed
+        if (mClassSetting>0) return;
         // When another controller is selected we have to remove old stuff.
-        initSelectedController();
+        initController();
     }//GEN-LAST:event_jComboBox_controllersActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        if (mClassSetting>0) return;
+        searchControllers();// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jComboBox_controllers1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_controllers1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox_controllers1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox_controllers;
-    private javax.swing.JComboBox jComboBox_controllers1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelXYAxis;
     private javax.swing.JLabel jLabelXYAxis1;
+    private javax.swing.JLabel jLabelXYAxis2;
     private javax.swing.JPanel jPanelAxes;
-    private javax.swing.JPanel jPanelAxes1;
     private javax.swing.JPanel jPanelButtons;
-    private javax.swing.JPanel jPanelButtons1;
+    private javax.swing.JPanel jPanelForRelatives;
     private javax.swing.JPanel jPanelHatSwitch;
-    private javax.swing.JPanel jPanelHatSwitch1;
     private javax.swing.JPanel jPanelXYAxis;
-    private javax.swing.JPanel jPanelXYAxis1;
     private javax.swing.JPanel jPanel_forAxis;
-    private javax.swing.JPanel jPanel_forAxis1;
     // End of variables declaration//GEN-END:variables
 
-    void initSelectedController()
+    void searchControllers()
     {
-         ArrayList<Controller> controllers = SystemController.getCurrentControllers();
+        mClassSetting++;
+        deinitController();
+        controllers = SystemController.getCurrentControllers();
+        jComboBox_controllers.removeAllItems();
+        for (Controller c :controllers)
+        {
+            jComboBox_controllers.addItem(c.getName());
+        }
+        jComboBox_controllers.setSelectedIndex(-1);
+        mClassSetting--;
     }
+    void deinitController()
+    {
+        if (selectedController != null)
+        {
+            selectedController.clearEventListerner();
+            selectedController.setActive(false);
+        }
+        selectedController = null;
+        deinitDisplay();
+    }
+    void initController()
+    {
+        deinitController();
+        int index = jComboBox_controllers.getSelectedIndex();
+        if (index <0)
+        {
+            selectedController = null;
+            return;
+        }
+        selectedController = new EventController(controllers.get(index));
+        selectedController.addEventListerner(new ControllerListern()
+        {
+            @Override
+            public void controllerEvent(ControllerEvent e)
+            {
+                if (e.type == ControllerEvent.CONTROLLER_DISCONNECT)
+                {
+                    jLabel1.setText("Disconnected");
+                    return;
+                }
+                jLabel1.setText("connected");
+                
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        updateControllerStatus();
+                    }
+                });
+                fireControllerChanged(e);
+            }
+        });
+ 
+       
+        // JPanel for controller buttons
+        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 1));
+        buttonsPanel.setBounds(6, 19, 246, 110);
+        for (int i=0; i< selectedController.getButtonCount(); i++)
+        {
+            // Create and add new button to panel.
+            JToggleButton aToggleButton = new JToggleButton(selectedController.getButtonId(i));
+            aToggleButton.setPreferredSize(new Dimension(48, 25));
+            buttonsPanel.add(aToggleButton);
+            aToggleButton.setSelected(selectedController.getButtonState(i));
+        }
+        
+        // JPanel for other axes.
+        axesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 25, 2));
+        axesPanel.setBounds(0, 0, 200, 190);
+        for (int i=0; i< selectedController.getAxisCount(); i++)
+        {
+            if (selectedController.getAxisId(i).equals(Component.Identifier.Axis.X.getName()))
+            {
+                xAxisPercentage = selectedController.getAxisPercent(i);
+            }
+            else if (selectedController.getAxisId(i).equals(Component.Identifier.Axis.Y.getName()))
+            {
+                yAxisPercentage = selectedController.getAxisPercent(i);
+            }
+            else
+            {
+                JLabel progressBarLabel = new JLabel(selectedController.getAxisId(i));
+                JProgressBar progressBar = new JProgressBar(0, 100);
+                progressBar.setValue(selectedController.getAxisPercent(i));
+                axesPanel.add(progressBarLabel);
+                axesPanel.add(progressBar);
+            }
+        }
+        
+        
+        // JPanel for RELATIVE INPuts
+        relativesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 2));
+        relativesPanel.setBounds(0, 0, 150, 150);
+        for (int i=0; i< selectedController.getRelativeCount(); i++)
+        {
+            JLabel label = new JLabel(selectedController.getRelativeId(i));
+            label.setText(""+selectedController.getRelativeValue(index));
+          //  label.setSize(65, label.getHeight());
+            label.setPreferredSize(new Dimension(65, 21));
+          //  label.setMaximumSize(new Dimension(65, label.getHeight()));
+          //  label.setMinimumSize(new Dimension(65, label.getHeight()));
+            
+            
+            JTextField tf = new JTextField();
+          //  tf.setSize(65, tf.getHeight());
+            tf.setPreferredSize(new Dimension(65, 21));
+          //  tf.setMaximumSize(new Dimension(65, tf.getHeight()));
+          //  tf.setMinimumSize(new Dimension(65, tf.getHeight()));
+            tf.setText(""+((int)Math.abs(selectedController.getRelativeValue(index))));
+            relativesPanel.add(label);
+            relativesPanel.add(tf);
+        }
+
+        // Now that we go trough all controller components,
+        // we add butons panel to window,
+        jPanelButtons.removeAll();
+        jPanelButtons.add(buttonsPanel);
+
+        // set x and y axes,
+        setXYAxis(xAxisPercentage, yAxisPercentage);
+        // add other axes panel to window.
+        jPanel_forAxis.removeAll();
+        jPanel_forAxis.add(axesPanel);
+        jPanel_forAxis.validate();
+        
+        
+        jPanelForRelatives.removeAll();
+        jPanelForRelatives.add(relativesPanel);
+        jPanelForRelatives.validate();
+
+        selectedController.setActive(true);
+        invalidate();
+        validate();
+        repaint();
+    }
+    public int getCompareValue(String relativeId)
+    {
+        if (relativeId==null) return 0;
+        if (selectedController == null) return 0;
+        for (int i=0; i< selectedController.getRelativeCount(); i++)
+        {
+            if (!selectedController.getRelativeId(i).equals(relativeId)) continue;
+            java.awt.Component comp = relativesPanel.getComponent(i*2+1);
+            JTextField tf = (JTextField) comp;
+            int value = de.malban.util.UtilityString.Int0(tf.getText());
+            return value;
+        }
+        return 0;
+    }
+    void deinitDisplay()
+    {
+        // todo
+        // JPanel for other axes.
+        axesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 25, 2));
+        axesPanel.setBounds(0, 0, 200, 190);
+
+        // JPanel for controller buttons
+        buttonsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 1));
+        buttonsPanel.setBounds(6, 19, 246, 110);
+
+        relativesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 25, 2));
+        relativesPanel.setBounds(0, 0, 110, 110);
+        
+        jPanelButtons.removeAll();
+        jPanelButtons.add(buttonsPanel);
+
+        jPanelForRelatives.removeAll();
+        jPanelForRelatives.add(relativesPanel);
+        
+        // set x and y axes,
+        setXYAxis(50,50);
+        
+        // reset pov
+        headSwitchPositions = new ArrayList<Float>();
+        
+        // add other axes panel to window.
+        jPanel_forAxis.removeAll();
+        jPanel_forAxis.add(axesPanel);
+
+        invalidate();
+        validate();
+        repaint();
+    }
+
+    void updateControllerStatus()
+    {
+        if (selectedController == null) return; // sneeking a last event in?
+        
+        for (int i=0; i< selectedController.getButtonCount(); i++)
+        {
+            JToggleButton aToggleButton = (JToggleButton) buttonsPanel.getComponent(i);
+            aToggleButton.setSelected(selectedController.getButtonState(i));
+        }
+        int additionalAxis = 0;
+        for (int i=0; i< selectedController.getAxisCount(); i++)
+        {
+            if (selectedController.getAxisId(i).equals(Component.Identifier.Axis.X.getName()))
+            {
+                xAxisPercentage = selectedController.getAxisPercent(i);
+            }
+            else if (selectedController.getAxisId(i).equals(Component.Identifier.Axis.Y.getName()))
+            {
+                yAxisPercentage = selectedController.getAxisPercent(i);
+            }
+            else
+            {
+                additionalAxis++; // JLabel
+                java.awt.Component comp = axesPanel.getComponent(additionalAxis++);
+                JProgressBar progressBar = (JProgressBar) comp;
+                progressBar.setValue(selectedController.getAxisPercent(i));
+            }
+        }
+        for (int i=0; i< selectedController.getPOVCount(); i++)
+        {
+            // assuming there can only be ONE pov - which makes sense!
+            hatSwitchPosition = selectedController.getPOVPosition(i);
+        }
+        for (int i=0; i< selectedController.getRelativeCount(); i++)
+        {
+            java.awt.Component comp = relativesPanel.getComponent(i*2);
+            JLabel label = (JLabel) comp;
+            label.setText(""+selectedController.getRelativeValue(i));
+            comp = relativesPanel.getComponent(i*2+1);
+            JTextField tf = (JTextField) comp;
+            int oldValue = de.malban.util.UtilityString.Int0(tf.getText());
+
+            int newValue = ((int)Math.abs(selectedController.getRelativeValue(i)));
+            if (newValue>oldValue)
+               tf.setText(""+newValue);
+        }
+        invalidate();
+        validate();
+        repaint();
+    }
+
+    
+    public void setXYAxis(int xPercentage, int yPercentage){
+        Graphics2D g2d = (Graphics2D)jPanelXYAxis.getGraphics();
+        if (g2d == null) return;
+        g2d.clearRect(1, 1, jPanelXYAxis.getWidth() - 2, jPanelXYAxis.getHeight() - 2);
+        g2d.fillOval(xPercentage, yPercentage, 10, 10);
+    }
+
+    void paintAxis(Graphics g)
+    {
+        Graphics2D g2d = (Graphics2D)g;
+        int w = jPanelXYAxis.getWidth() - 2;
+        int h = jPanelXYAxis.getHeight() - 2;
+        g2d.clearRect(1, 1, w, h);
+        g2d.setColor(Color.red);
+        g2d.fillOval(xAxisPercentage, yAxisPercentage, 10, 10);
+    }
+
+    void paintHatSwitches(Graphics g)
+    {
+        Graphics2D g2d = (Graphics2D)g;
+        setHatSwitch(hatSwitchPosition, g2d);
+    }
+        
+    public void setHatSwitch(int hatSwitchPosition, Graphics2D g2d) {
+        int circleSize = 100;
+        
+//        Graphics2D g2d = (Graphics2D)jPanelHatSwitch.getGraphics();
+        if (g2d == null) return;
+        g2d.clearRect(5, 15, jPanelHatSwitch.getWidth() - 10, jPanelHatSwitch.getHeight() - 22);
+        g2d.drawOval(20, 22, circleSize, circleSize);
+        
+        if (hatSwitchPosition== OFF)
+            return;
+        
+        int smallCircleSize = 10;
+        int upCircleX = 65;
+        int upCircleY = 17;
+        int leftCircleX = 15;
+        int leftCircleY = 68;
+        int betweenX = 37;
+        int betweenY = 17;
+        
+        int x = 0;
+        int y = 0;
+        
+        g2d.setColor(Color.blue);
+                        
+        if(hatSwitchPosition== UP){
+            x = upCircleX;
+            y = upCircleY;
+        }else if(hatSwitchPosition== DOWN){
+            x = upCircleX;
+            y = upCircleY + circleSize;
+        }else if(hatSwitchPosition== LEFT){
+            x = leftCircleX;
+            y = leftCircleY;
+        }else if(hatSwitchPosition== RIGHT){
+            x = leftCircleX + circleSize;
+            y = leftCircleY;
+        }else if (hatSwitchPosition== UP_LEFT){
+            x = upCircleX - betweenX;
+            y = upCircleY + betweenY;
+        }else if(hatSwitchPosition== UP_RIGHT){
+            x = upCircleX + betweenX;
+            y = upCircleY + betweenY;
+        }else if(hatSwitchPosition== DOWN_LEFT){
+            x = upCircleX - betweenX;
+            y = upCircleY + circleSize - betweenY;
+        }else if(hatSwitchPosition== DOWN_RIGHT){
+            x = upCircleX + betweenX;
+            y = upCircleY + circleSize - betweenY;
+        }
+        
+        g2d.fillOval(x, y, smallCircleSize, smallCircleSize);
+    }
+
+
+    public void addEventListerner(ControllerListern listener)
+    {
+        mListener.remove(listener);
+        mListener.add(listener);
+    }
+
+    public void removeEventListerner(ControllerListern listener)
+    {
+        mListener.remove(listener);
+    }
+    public void clearEventListerner()
+    {
+        mListener.clear();
+    }
+    public void fireControllerChanged(ControllerEvent event)
+    {
+        for (int i=0; i<mListener.size(); i++)
+        {
+            mListener.get(i).controllerEvent(event);
+        }
+        // log.addLog(event+" fired", VERBOSE);
+    }
+    
+    public Controller getSelectedController()
+    {
+        return selectedController.getController();
+    }
+    public void setSelectedController(String controllerName)
+    {
+        for (int i=0; i<jComboBox_controllers.getItemCount(); i++)
+        {
+            if (jComboBox_controllers.getItemAt(i).toString().equals(controllerName))
+            {
+                jComboBox_controllers.setSelectedIndex(i);
+                return;
+            }
+        }
+        jComboBox_controllers.setSelectedIndex(-1);
+    }
+
+
 }

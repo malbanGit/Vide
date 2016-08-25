@@ -4048,8 +4048,11 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
             end = memInfo.address+len;
         }
+        if (lastDumpi == start + end) return;
+        lastDumpi = start + end;
         dumpi.setStartEndAddress(start, end);
     }
+    int lastDumpi = -1;
     
     void synchronizeComment(int adr)
     {

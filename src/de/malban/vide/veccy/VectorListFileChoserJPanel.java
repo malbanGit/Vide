@@ -57,13 +57,8 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         jLabel5.setVisible(isAnimation);
         singleVectorPanel.setByteFrame(false);
         singleVectorPanel.setAxisAngleX(0);
-        singleVectorPanel.repaint();
-        
         singleVectorPanel.setAxisAngleY(0);
-        singleVectorPanel.repaint();
-
         singleVectorPanel.setAxisAngleZ(0);
-        singleVectorPanel.repaint();    
         
         ListSelectionModel cellSelectionModel = jTable1.getSelectionModel();
         cellSelectionModel.addListSelectionListener(new ListSelectionListener() 
@@ -380,13 +375,13 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         if (isAnimation)
         {   
             GFXVectorAnimation animation = new GFXVectorAnimation(getChosenFilename());
-            returnText = animation.createASMMov_Draw_VLc_a(name);
+            returnText = animation.createASMMov_Draw_VLc_a(name, false);
             return;
         }
         
         GFXVectorList vl = singleVectorPanel.getForegroundVectorList();
         
-        returnText = vl.createASMMov_Draw_VLc_a(true, name);
+        returnText = vl.createASMMov_Draw_VLc_a(true, name, false);
 
     }//GEN-LAST:event_jButtonMov_Draw_VLc_aActionPerformed
 
@@ -404,12 +399,12 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         if (isAnimation)
         {   
             GFXVectorAnimation animation = new GFXVectorAnimation(getChosenFilename());
-            returnText = animation.createASMMov_Draw_VLc_a(name);
+            returnText = animation.createASMMov_Draw_VLc_a(name, false);
             return;
         }
         
         GFXVectorList vl = singleVectorPanel.getForegroundVectorList();
-        returnText = vl.createASMMov_Draw_VLc_a(false, name);
+        returnText = vl.createASMMov_Draw_VLc_a(false, name, false);
         
     }//GEN-LAST:event_jButtonDraw_VLcActionPerformed
 
@@ -426,11 +421,11 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         if (isAnimation)
         {   
             GFXVectorAnimation animation = new GFXVectorAnimation(getChosenFilename());
-            returnText = animation.createASMDraw_VLp(name);
+            returnText = animation.createASMDraw_VLp(name, false);
             return;
         }
         GFXVectorList vl = singleVectorPanel.getForegroundVectorList();
-        returnText = vl.createASMDraw_VLp(name);
+        returnText = vl.createASMDraw_VLp(name, false);
         
     }//GEN-LAST:event_jButtonDraw_VLpActionPerformed
 
@@ -447,11 +442,11 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         if (isAnimation)
         {   
             GFXVectorAnimation animation = new GFXVectorAnimation(getChosenFilename());
-            returnText = animation.createASMDraw_VL_mode(name, true);
+            returnText = animation.createASMDraw_VL_mode(name, true, false);
             return;
         }
         GFXVectorList vl = singleVectorPanel.getForegroundVectorList();
-        returnText = vl.createASMDraw_VL_mode(name, false);
+        returnText = vl.createASMDraw_VL_mode(name, false, false);
     }//GEN-LAST:event_jButtonDraw_VL_modeActionPerformed
 
     private void jButtonCodeGenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCodeGenActionPerformed

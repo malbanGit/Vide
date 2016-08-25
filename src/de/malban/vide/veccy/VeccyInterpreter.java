@@ -36,6 +36,7 @@ public class VeccyInterpreter {
         %P pattern
         %B brightness (=intensity)
         %M mode
+        not possible %S sync mode
         %I ignore (no output)
     
     Breaks for last line
@@ -431,6 +432,62 @@ public class VeccyInterpreter {
                         break;
                     }
                 }
+                /*
+                else if (p.equals("S")) // sync byte pattern 
+                {
+                    int mode = data.get(pos++)&0xff;
+                    if (mode == 0)
+                    {
+                        s.append(hex(mode));
+                        v.pattern = 0;
+                    }
+                    else if (mode == 255)
+                    {
+                        s.append(hex(mode));
+                        v.pattern = 255;
+                    }
+                    else if (mode == 1)
+                    {
+                        // ignore lines till pattern = 255
+                        int lineSize = patternLineX.length;
+                        s.append(hex(mode)+"i");
+                        s.append(" ");
+
+                        while (!breaking)
+                        {
+                            for (int i=0; i<lineSize-1; i++)
+                            {
+                                s.append(hex(data.get(pos++)&0xff)+"i");
+                                s.append(" ");
+                            }
+                                s.append("\n");
+                            if (pos>=data.size())
+                            {
+                                breaking = true;
+                                break;
+                            }
+                            mode = data.get(pos++)&0xff;
+                            if (mode == 255)
+                            {
+                                s.append(hex(mode));
+                                break;
+                            }
+                            else
+                            {
+                                s.append(hex(mode)+"i");
+                                s.append(" ");
+                            }
+                        }
+                    }
+                    else if (mode == 2)
+                    {
+                        s.append(hex(mode));
+                        finished = true;
+                        s.append("\n");
+                        break;
+                    }
+                }
+                */
                 s.append(" ");
             }
             s.append("\n");

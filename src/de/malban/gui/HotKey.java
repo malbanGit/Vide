@@ -151,7 +151,16 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_UP, 0, "Joy1_Up_released", true);
             HotKey.addMap(KeyEvent.VK_DOWN, 0, "Joy1_Down_pressed", false);
             HotKey.addMap(KeyEvent.VK_DOWN, 0, "Joy1_Down_released", true);
-
+            HotKey.addMap(KeyEvent.VK_C, 0, "SpinnerButton_1_pressed", false);
+            HotKey.addMap(KeyEvent.VK_V, 0, "SpinnerButton_2_pressed", true);
+            HotKey.addMap(KeyEvent.VK_C, 0, "SpinnerButton_1_released", false);
+            HotKey.addMap(KeyEvent.VK_V, 0, "SpinnerButton_2_released", true);
+            
+            HotKey.addMap(KeyEvent.VK_Y, 0, "Spinner_Left_pressed", false);
+            HotKey.addMap(KeyEvent.VK_Y, 0, "Spinner_Left_released", true);
+            HotKey.addMap(KeyEvent.VK_X, 0, "Spinner_Right_pressed", false);
+            HotKey.addMap(KeyEvent.VK_X, 0, "Spinner_Right_released", true);
+            
             HotKey.addMap(KeyEvent.VK_Q, 0, "Button2_1_pressed", false);
             HotKey.addMap(KeyEvent.VK_Q, 0, "Button2_1_released", true);
             HotKey.addMap(KeyEvent.VK_W, 0, "Button2_2_pressed", false);

@@ -22,7 +22,7 @@ import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.gui.panels.TipOfDayGUI;
 import de.malban.gui.panels.WindowablePanel;
-import de.malban.input.JoystickTest;
+import de.malban.input.InputControllerDisplay;
 import de.malban.jdbc.DBConnectionEdit;
 import de.malban.jdbc.StatementWindow;
 import de.malban.util.KeyboardListener;
@@ -1239,7 +1239,11 @@ public class CSAMainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-new JoystickTest();        // TODO add your handling code here:
+
+        InputControllerDisplay p = new InputControllerDisplay();
+        addPanel(p);
+        setMainPanel(p);
+        CSAInternalFrame frame = windowMe(p, 800, 600, "Input Controller");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     boolean gameMode = false;

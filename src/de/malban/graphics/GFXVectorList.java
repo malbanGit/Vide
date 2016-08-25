@@ -57,7 +57,8 @@ public class GFXVectorList {
 
             // relative is not cloned
             // since if "single" cloned, vectors are not relative anymore!
-            cv.relativ = v.relativ; 
+            cv.setRelativ(v.relativ);
+//            cv.relativ = v.relativ; 
             ret.add(cv); 
         }
         // postprocess vector cloning 
@@ -1205,12 +1206,15 @@ public class GFXVectorList {
     
     // assuming list is ordered
     // and vectors are continuous!
-    String getRelativeCoordString(GFXVector v)
+    String getRelativeCoordString(GFXVector v, boolean factor)
     {
         String ret = "";
 //        double x = v.end.x() - v.start.x();
 //        double y = v.end.y() - v.start.y();
-        ret +=hex((int)getRelY(v))+", "+hex((int)getRelX(v));
+        if (!factor)
+            ret +=hex((int)getRelY(v))+", "+hex((int)getRelX(v));
+        else
+            ret +=hex((int)getRelY(v))+"*BLOW_UP, "+hex((int)getRelX(v))+"*BLOW_UP";
         return ret;
     }
     
@@ -1338,7 +1342,7 @@ public class GFXVectorList {
         return true;
     }
     
-    public String createASMMov_Draw_VLc_a(boolean includeMove, String name)
+    public String createASMMov_Draw_VLc_a(boolean includeMove, String name, boolean factor)
     {
         if (includeMove)
             if (!isMov_Draw_VLc_a()) return "";
@@ -1361,7 +1365,7 @@ public class GFXVectorList {
                 init = false;
                 s.append(" DB ").append(hex((int)v.start.y())).append(", ").append(hex((int)v.start.x())).append(" ; move to y, x\n");
             }
-            s.append(" DB ").append(getRelativeCoordString(v)).append(" ; draw to y, x\n");
+            s.append(" DB ").append(getRelativeCoordString(v, factor)).append(" ; draw to y, x\n");
             
         }
         String text = s.toString();
@@ -1370,7 +1374,7 @@ public class GFXVectorList {
     
     // if highbyte in a pattern is cleared
     // it is FORCED set!
-    public String createASMDraw_VLp(String name)
+    public String createASMDraw_VLp(String name, boolean factor)
     {
         if (!isDraw_VLp()) return "";
         StringBuilder s = new StringBuilder();
@@ -1387,7 +1391,7 @@ public class GFXVectorList {
                 pattern +=128; // high byte is forcible set!
             }
             s.append(" DB ").append(hexU(pattern)).append(", ");
-            s.append(getRelativeCoordString(v));
+            s.append(getRelativeCoordString(v, factor));
             if (warn)
                 s.append(" ; WARN pattern high byte set!\n");
             else
@@ -1400,7 +1404,7 @@ public class GFXVectorList {
         return text;
     }
     
-    public String createASMDraw_VL_mode(String name, boolean includeInitialMove)
+    public String createASMDraw_VL_mode(String name, boolean includeInitialMove, boolean factor)
     {
         if (!isDraw_VL_mode()) return "";
         StringBuilder s = new StringBuilder();
@@ -1434,7 +1438,7 @@ public class GFXVectorList {
             
             
             s.append(" DB ").append(hexU(mode)).append(", ");
-            s.append(getRelativeCoordString(v));
+            s.append(getRelativeCoordString(v, factor));
             s.append(" ; mode, y, x\n");
                 
         }
@@ -1573,5 +1577,227 @@ public class GFXVectorList {
         String text = s.toString();
         return text;
     }
+    
+    // removes redundant move vectors
+    // if directly following move vectors can be joined (<127, -128) than joins these
+    GFXVectorList optimizeMove(GFXVectorList vl)
+    {
+        vl = vl.clone();
         
+        vl.connectWherePossible(true);
+        vl.doOrder();
+        
+        boolean optimizeDone = false;
+        do
+        {
+            optimizeDone = false;
+            int index = 0;
+            while (index < vl.size()-1)
+            {
+                GFXVector v1 = vl.get(index);
+                GFXVector v2 = vl.get(index+1);
+                index++;
+                if (v1.pattern != 0) continue;
+                if (v2.pattern != 0) continue;
+                // now to consecutive movevectors
+                // see if some of moves are within byte range, than 
+                // build a resulting move and replace the vectors!
+                
+                double xDelta1 = v1.start.x() - v1.end.x(); 
+                double yDelta1 = v1.start.y() - v1.end.y(); 
+                double zDelta1 = v1.start.z() - v1.end.z(); 
+
+                double xDelta2 = v2.start.x() - v2.end.x(); 
+                double yDelta2 = v2.start.y() - v2.end.y(); 
+                double zDelta2 = v2.start.z() - v2.end.z(); 
+
+                double sumXDelta = xDelta1 + xDelta2; 
+                double sumYDelta = yDelta1 + yDelta2; 
+                double sumZDelta = zDelta1 + zDelta2; 
+            
+                if ( ((sumXDelta<=127) && (sumXDelta>=-128)) && 
+                     ((sumYDelta<=127) && (sumYDelta>=-128)) && 
+                     ((sumZDelta<=127) && (sumZDelta>=-128)) 
+                   )
+                {
+                    optimizeDone = true;
+                    v1.end = v2.end;
+                    v1.end_connect = v2.end_connect;
+                    if (v2.end_connect.start.uid == v2.end.uid)
+                    {
+                        v2.end_connect.start_connect = v1;
+                    }
+                    vl.remove(v2);
+                    break;
+                }
+                
+            }
+                
+        } while (optimizeDone);
+        
+            
+            
+        return vl;
+    }
+    void splitList(GFXVectorList vl, int maxResync, ArrayList<GFXVectorList> subLists)
+    {
+        if (maxResync == -1)
+        {
+            subLists.add(vl);
+            return;
+        }
+        if (vl.size()<maxResync)
+        {
+            subLists.add(vl);
+            return;
+        }
+        int s = vl.size()/2;
+
+        GFXVectorList vl2 = new GFXVectorList();
+        for (int i=s; i<vl.size(); i++)
+        {
+            GFXVector v = vl.get(i);
+            if ((i==s) && (i>0))
+            {
+                // correct old end
+                vl.get(i-1).end_connect = null;
+                vl.get(i-1).end = new Vertex(vl.get(i-1).end);
+                
+                // correct new start
+                vl.get(i).start_connect = null;
+            }
+            vl2.add(v);
+        }
+        for (GFXVector v: vl2.list) vl.remove(v);
+        
+        // correct possible circle
+        if (vl2.get(vl2.size()-1).end_connect != null)
+        {
+            if (vl2.get(vl2.size()-1).end_connect == vl.get(0).start_connect)
+            {
+                vl.get(0).start_connect = null;
+                vl.get(0).start = new Vertex(vl.get(0).start);
+                vl2.get(vl2.size()-1).end_connect = null;
+            }
+        }
+        splitList(vl, maxResync, subLists);
+        splitList(vl2, maxResync, subLists);
+    }
+    
+    public String createASMDraw_syncList(String name, boolean factor, int maxResync)
+    {
+        StringBuilder s = new StringBuilder();
+        // actually this is nearly the same as a scenario - only the
+        // data is kept in one list, not in several, and there
+        // is a config byte to discern.
+        
+        // starting location for all entities is 0,0 of the vectorlist
+
+        // split list to max resyncs (-1 = no additional resyncs)
+        ArrayList<GFXVectorList> subLists1 = seperatePaths();
+        ArrayList<GFXVectorList> subLists = new ArrayList<GFXVectorList>();
+        for (GFXVectorList vl: subLists1)
+        {
+            splitList(vl, maxResync, subLists);
+        }
+        
+        
+        s.append(name).append(":\n");
+        for (GFXVectorList vectorlist: subLists)
+        {
+            boolean first = true;
+            // concatinate moves, if possible
+            vectorlist = optimizeMove(vectorlist);
+
+            // split where needed
+            vectorlist.splitWhereNeeded();
+         
+            for (GFXVector vector: vectorlist.list)
+            {
+                Vertex start = vector.start;
+                Vertex end = vector.end;
+                int pattern = vector.pattern&0xff;
+                
+                if (first)
+                {
+                    // first info is always a sync + move
+                    // move might be 0,0 -> than the draw routine
+                    // can do a beq...
+                    int y =(int)start.y();
+                    int x =(int)start.x();
+                    
+                    // moves, which are added from internal vectorlist drawing can be larger than 2 comp. byte
+                    // split here needed in more moves
+                    // this can only happen after a sync
+                    do
+                    {
+                        int useX;
+                        int useY;
+                        if (y>127)
+                        {
+                            useY = 127;
+                            y -= 127;
+                        }
+                        else if (y<-128)
+                        {
+                            useY = -128;
+                            y += 128;
+                        }
+                        else
+                        {
+                            useY = y;
+                            y -=useY;
+                        }
+                        if (x>127)
+                        {
+                            useX = 127;
+                            x -= 127;
+                        }
+                        else if (x<-128)
+                        {
+                            useX = -128;
+                            x += 128;
+                        }
+                        else
+                        {
+                            useX = x;
+                            x -=useX;
+                        }
+                        if (factor)
+                        {
+                            if (first)
+                                s.append(" DB ").append(hexU(1)).append(", ").append(hex(useY)).append("*BLOW_UP").append(", ").append(hex(useX)).append("*BLOW_UP").append(" ; sync and move to y, x\n");
+                            else
+                                s.append(" DB ").append(hexU(0)).append(", ").append(hex(useY)).append("*BLOW_UP").append(", ").append(hex(useX)).append("*BLOW_UP").append(" ; move to y, x\n");
+                        }
+                        else
+                        {
+                            if (first)
+                                s.append(" DB ").append(hexU(1)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(" ; sync and move to y, x\n");
+                            else
+                                s.append(" DB ").append(hexU(0)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(" ; move to y, x\n");
+                        }
+                        first = false;
+                    } while (((y!=0) || (x!=0)));
+                }
+                if (pattern == 0) // move
+                {
+                    s.append(" DB ").append(hexU(0)).append(", ");
+                    s.append(getRelativeCoordString(vector, factor));
+                    s.append(" ; mode, y, x\n");
+                }
+                else  // draw
+                {
+                    s.append(" DB ").append(hexU(255)).append(", ");
+                    s.append(getRelativeCoordString(vector, factor));
+                    s.append(" ; draw, y, x\n");
+                }
+            }
+        }
+        s.append(" DB ").append(hexU(2)).append(" ; endmarker \n");
+        String text = s.toString();
+        
+        return text;
+    }
+            
 }

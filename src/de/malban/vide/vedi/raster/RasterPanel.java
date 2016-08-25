@@ -2,10 +2,7 @@
 
 
 import de.malban.config.Configuration;
-import de.malban.event.EditMouseEvent;
 import de.malban.graphics.GFXVector;
-import de.malban.graphics.MousePressedListener;
-import de.malban.graphics.Vertex;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.ImageCache;
 import de.malban.gui.Windowable;
@@ -420,20 +417,21 @@ public class RasterPanel extends javax.swing.JPanel implements
                     .addComponent(jSliderSourceScale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextFieldVectorWitdh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldVectorHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
                         .addComponent(jTextFieldStartX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextFieldStartY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7)))
+                        .addComponent(jLabel7))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jTextFieldVectorWitdh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldVectorHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel1)
+                        .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -537,12 +535,14 @@ public class RasterPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jCheckBoxAssume9BitActionPerformed
 
     private void jCheckBoxBiDirectionalDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxBiDirectionalDataActionPerformed
-        
+        /*
         if (!jCheckBoxBiDirectionalData.isSelected())
         {
             jCheckBoxGenerateExampleCode.setSelected(false);
         }
         jCheckBoxGenerateExampleCode.setEnabled(jCheckBoxBiDirectionalData.isSelected());
+        */
+
     }//GEN-LAST:event_jCheckBoxBiDirectionalDataActionPerformed
 
     private void singleImagePanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_singleImagePanel1MouseDragged
@@ -1066,14 +1066,28 @@ public class RasterPanel extends javax.swing.JPanel implements
         }
         if (jCheckBoxGenerateExampleCode.isEnabled())
         {
-            Path template = Paths.get(".", "template", "rasterDraw.template");
-            de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDraw.asm");
+            Path template;
+            if (!jCheckBoxBiDirectionalData.isSelected())
+            {
+                template = Paths.get(".", "template", "rasterDrawUni.template");
+                de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDraw.asm");
 
-            Path include = Paths.get(".", "template", "VECTREX.I");
-            de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
-            
-            
-            template = Paths.get(".", "template", "rasterExampleMain.template");
+                Path include = Paths.get(".", "template", "VECTREX.I");
+                de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
+
+                template = Paths.get(".", "template", "rasterExampleMainUni.template");            
+            }
+            else
+            {
+                template = Paths.get(".", "template", "rasterDraw.template");
+                de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDraw.asm");
+
+                Path include = Paths.get(".", "template", "VECTREX.I");
+                de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
+
+                template = Paths.get(".", "template", "rasterExampleMain.template");            
+            }
+
             String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
                     
             exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#DATAFILE#", basebaseName + ".asm");
