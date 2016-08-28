@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vedi;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.HotKey;
@@ -242,9 +243,9 @@ public class EditorPanel extends EditorPanelFoundation
         // table setup
         // 8736("&"%%!%%$$$!°°!!!°
         // I don't want to think about it... WHY am I using an own LAF if this is an issue???
-        if (Configuration.MAC_OS_X)
+        if (Global.MAC_OS_X)
             jTable1.setRowHeight(15);
-        if (Configuration.WINDOWS)
+        if (Global.WINDOWS)
             jTable1.setRowHeight(17);
         
         jTable1.setTableHeader(null);

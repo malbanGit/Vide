@@ -4,25 +4,112 @@
  */
 package de.malban;
 
-import static de.malban.gui.panels.LogPanel.WARN;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.management.ManagementFactory;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Control;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.SourceDataLine;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 /**
  *
  * @author Malban
  */
 public class Global {
+    
+    // enabled so must be "-XstartOnFirstThread" upon run!
+    public static final boolean LWJGL_ENABLE = false;
+    
+    public static final String OSNAME;
+    public static final String NATIVES_PATH;
+    
+    public static final boolean SOLARIS;
+    public static final boolean LINUX;
+    public static final boolean MAC_OS_X;
+    public static final boolean WINDOWS;
+
+    
+    static 
+    {
+        OSNAME = System.getProperty("os.name").toLowerCase();
+        if (OSNAME.startsWith("mac"))
+        {
+          LINUX = false;
+          MAC_OS_X = true;
+          WINDOWS = false;
+          SOLARIS = false;
+        }
+        else if (OSNAME.contains("windows"))
+        {
+          LINUX = false;
+          MAC_OS_X = false;
+          WINDOWS = true;
+          SOLARIS = false;
+        }
+        else if (OSNAME.contains("sol"))
+        {
+          LINUX = false;
+          MAC_OS_X = false;
+          WINDOWS = false;
+          SOLARIS = true;
+        }
+        else
+        {
+          LINUX = true;
+          MAC_OS_X = false;
+          WINDOWS = false;
+          SOLARIS = false;
+        }
+
+        // http://www.java-gaming.org/topics/setup-natives-from-code/32484/view.html
+        if (WINDOWS) NATIVES_PATH = "lib/";
+        else if(MAC_OS_X)NATIVES_PATH = "lib";
+        else if(LINUX)NATIVES_PATH = "lib";
+        else if(SOLARIS)NATIVES_PATH = "lib";
+        else NATIVES_PATH = "lib";
+
+        // see: http://stackoverflow.com/questions/17413690/java-jinput-rescan-reload-controllers
+        /**
+         * Fix windows 8 warnings by defining a working plugin
+         */
+        AccessController.doPrivileged(new PrivilegedAction<Object>() 
+        {
+            public Object run() {
+                String os = System.getProperty("os.name", "").trim();
+                if ((os.startsWith("Windows 8")) || (os.startsWith("Windows 1"))) {  // 8, 8.1 etc.
+
+                    // disable default plugin lookup
+                    System.setProperty("jinput.useDefaultPlugin", "false");
+
+                    // set to same as windows 7 (tested for windows 8 and 8.1)
+                    System.setProperty("net.java.games.input.plugins", "net.java.games.input.DirectAndRawInputEnvironmentPlugin");
+
+                }
+                return null;
+            }
+        });
+        
+        // set native library path
+        AccessController.doPrivileged(new PrivilegedAction() 
+        {
+            public Object run() 
+            {
+                System.setProperty("net.java.games.input.librarypath", new File(NATIVES_PATH).getAbsolutePath());
+                return null;
+            }
+        });         
+        
+        // set native library path lwjgl
+        AccessController.doPrivileged(new PrivilegedAction() 
+        {
+            public Object run() 
+            {
+                System.setProperty("org.lwjgl.librarypath", new File(NATIVES_PATH).getAbsolutePath());
+                return null;
+            }
+        });         
+    }
     
     public static String mBaseDir="xml"+java.io.File.separator;
     private static final java.util.Random _Rand = new java.util.Random();
@@ -106,5 +193,4 @@ public class Global {
         if (is64bit) return 64;
         return 32;
     }
-
 }

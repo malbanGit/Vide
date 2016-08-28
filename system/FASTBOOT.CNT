@@ -1,0 +1,1421 @@
+START_BANK                    $00
+LABEL                    $E000                              _E000
+LABEL                    $E019                              _E019
+LABEL                    $E030                              _E030
+LABEL                    $E031                              _E031
+LABEL                    $E034                              _E034
+LABEL                    $E03D                              _E03D
+LABEL                    $E081                              _E081
+LABEL                    $E09F                              _E09F
+LABEL                    $E0A5                              _E0A5
+LABEL                    $E0B8                              _E0B8
+LABEL                    $E0D5                              _E0D5
+LABEL                    $E0F9                              _E0F9
+LABEL                    $E129                              _E129
+LABEL                    $E14C                              _E14C
+LABEL                    $E15C                              _E15C
+LABEL                    $E18C                              _E18C
+LABEL                    $E198                              _E198
+LABEL                    $E1A4                              _E1A4
+LABEL                    $E1B6                              _E1B6
+LABEL                    $E1E6                              _E1E6
+LABEL                    $E208                              _E208
+LABEL                    $E214                              _E214
+LABEL                    $E21A                              _E21A
+LABEL                    $E220                              _E220
+LABEL                    $E226                              _E226
+LABEL                    $E239                              _E239
+LABEL                    $E250                              _E250
+LABEL                    $E262                              _E262
+LABEL                    $E290                              _E290
+LABEL                    $E2A0                              _E2A0
+LABEL                    $E2AE                              _E2AE
+LABEL                    $E2B0                              _E2B0
+LABEL                    $E2C2                              _E2C2
+LABEL                    $E2D4                              _E2D4
+LABEL                    $E2EE                              _E2EE
+LABEL                    $E2F2                              _E2F2
+LABEL                    $E2F4                              _E2F4
+LABEL                    $E2F7                              _E2F7
+LABEL                    $E30A                              _E30A
+LABEL                    $E30C                              _E30C
+LABEL                    $E31B                              _E31B
+LABEL                    $E330                              _E330
+LABEL                    $E338                              _E338
+LABEL                    $E34A                              _E34A
+LABEL                    $E353                              _E353
+LABEL                    $E383                              _E383
+LABEL                    $E3A5                              _E3A5
+LABEL                    $E3BE                              _E3BE
+LABEL                    $E3C7                              _E3C7
+LABEL                    $E3D3                              _E3D3
+LABEL                    $E3F7                              _E3F7
+LABEL                    $E3F9                              _E3F9
+LABEL                    $E407                              _E407
+LABEL                    $E430                              _E430
+LABEL                    $E43B                              _E43B
+LABEL                    $E447                              _E447
+LABEL                    $E45A                              _E45A
+LABEL                    $E481                              _E481
+LABEL                    $E485                              _E485
+LABEL                    $E488                              _E488
+LABEL                    $E49C                              _E49C
+LABEL                    $E4B1                              _E4B1
+LABEL                    $E4B8                              _E4B8
+LABEL                    $E4BE                              _E4BE
+LABEL                    $E4C1                              _E4C1
+LABEL                    $E4C6                              _E4C6
+LABEL                    $E4DF                              _E4DF
+LABEL                    $E4E3                              _E4E3
+LABEL                    $E4E7                              _E4E7
+LABEL                    $E4EB                              _E4EB
+LABEL                    $E4EC                              _E4EC
+LABEL                    $E51E                              _E51E
+LABEL                    $E526                              _E526
+LABEL                    $E52A                              _E52A
+LABEL                    $E533                              _E533
+LABEL                    $E58A                              _E58A
+LABEL                    $E596                              _E596
+LABEL                    $E5AB                              _E5AB
+LABEL                    $E5CB                              _E5CB
+LABEL                    $E5D3                              _E5D3
+LABEL                    $E5E1                              _E5E1
+LABEL                    $E5EC                              _E5EC
+LABEL                    $E5FF                              _E5FF
+LABEL                    $E61A                              _E61A
+LABEL                    $E61D                              _E61D
+LABEL                    $E624                              _E624
+LABEL                    $E627                              _E627
+LABEL                    $E644                              _E644
+LABEL                    $E647                              _E647
+LABEL                    $E657                              _E657
+LABEL                    $E670                              _E670
+LABEL                    $E686                              _E686
+LABEL                    $E6B3                              _E6B3
+LABEL                    $E6D7                              _E6D7
+LABEL                    $E6EC                              _E6EC
+LABEL                    $E6F1                              _E6F1
+LABEL                    $E6F8                              _E6F8
+LABEL                    $E6FE                              _E6FE
+LABEL                    $E703                              _E703
+LABEL                    $E711                              _E711
+LABEL                    $E716                              _E716
+LABEL                    $E727                              _E727
+LABEL                    $E742                              _E742
+LABEL                    $E764                              _E764
+LABEL                    $E767                              _E767
+LABEL                    $E76A                              _E76A
+LABEL                    $E784                              _E784
+LABEL                    $E78B                              _E78B
+LABEL                    $E796                              _E796
+LABEL                    $E7A1                              _E7A1
+LABEL                    $E7B3                              _E7B3
+LABEL                    $E7B5                              _E7B5
+LABEL                    $E7D2                              _E7D2
+LABEL                    $E7E4                              _E7E4
+LABEL                    $E7FA                              _E7FA
+LABEL                    $E808                              _E808
+LABEL                    $E810                              _E810
+LABEL                    $E837                              _E837
+LABEL                    $E84C                              _E84C
+LABEL                    $E866                              _E866
+LABEL                    $E876                              _E876
+LABEL                    $E87F                              _E87F
+LABEL                    $E880                              _E880
+LABEL                    $E884                              _E884
+LABEL                    $E88D                              _E88D
+LABEL                    $E88E                              _E88E
+LABEL                    $E892                              _E892
+LABEL                    $E89D                              _E89D
+LABEL                    $E89E                              _E89E
+LABEL                    $E8A2                              _E8A2
+LABEL                    $E8AA                              _E8AA
+LABEL                    $E8E3                              _E8E3
+LABEL                    $E8F1                              _E8F1
+LABEL                    $E8FD                              _E8FD
+LABEL                    $E904                              _E904
+LABEL                    $E90B                              _E90B
+LABEL                    $E90D                              _E90D
+LABEL                    $E915                              _E915
+LABEL                    $E920                              _E920
+LABEL                    $E94A                              _E94A
+LABEL                    $E954                              _E954
+LABEL                    $E95F                              _E95F
+LABEL                    $E98A                              _E98A
+LABEL                    $E991                              _E991
+LABEL                    $E9A1                              _E9A1
+LABEL                    $E9B0                              _E9B0
+LABEL                    $E9BA                              _E9BA
+LABEL                    $E9D5                              _E9D5
+LABEL                    $EA13                              _EA13
+LABEL                    $EA3C                              _EA3C
+LABEL                    $EA3E                              _EA3E
+LABEL                    $EA51                              _EA51
+LABEL                    $EA57                              _EA57
+LABEL                    $EA6D                              _EA6D
+LABEL                    $EA7F                              _EA7F
+LABEL                    $EA8D                              _EA8D
+LABEL                    $EA9D                              _EA9D
+LABEL                    $EAA8                              _EAA8
+LABEL                    $EAB4                              _EAB4
+LABEL                    $EACF                              _EACF
+LABEL                    $EAEF                              _EAEF
+LABEL                    $EAF0                              _EAF0
+LABEL                    $EB1D                              _EB1D
+LABEL                    $EB29                              _EB29
+LABEL                    $EB35                              _EB35
+LABEL                    $EB41                              _EB41
+LABEL                    $EB43                              _EB43
+LABEL                    $EB4F                              _EB4F
+LABEL                    $EB53                              _EB53
+LABEL                    $EB59                              _EB59
+LABEL                    $EB5A                              _EB5A
+LABEL                    $EB93                              _EB93
+LABEL                    $EB9A                              _EB9A
+LABEL                    $EBA0                              _EBA0
+LABEL                    $EBA9                              _EBA9
+LABEL                    $EC17                              _EC17
+LABEL                    $EC20                              _EC20
+LABEL                    $EC46                              _EC46
+LABEL                    $EC56                              _EC56
+LABEL                    $EC5C                              _EC5C
+LABEL                    $EC63                              _EC63
+LABEL                    $EC64                              _EC64
+LABEL                    $EC95                              _EC95
+LABEL                    $ECA4                              _ECA4
+LABEL                    $ECB2                              _ECB2
+LABEL                    $ECB3                              _ECB3
+LABEL                    $ECC9                              _ECC9
+LABEL                    $ECD6                              _ECD6
+LABEL                    $ECE3                              _ECE3
+LABEL                    $ECF0                              _ECF0
+LABEL                    $ECF5                              _ECF5
+LABEL                    $ED00                              _ED00
+LABEL                    $ED07                              _ED07
+LABEL                    $ED0A                              _ED0A
+LABEL                    $ED1A                              _ED1A
+LABEL                    $ED20                              _ED20
+LABEL                    $ED30                              _ED30
+LABEL                    $ED36                              _ED36
+LABEL                    $ED80                              _ED80
+LABEL                    $EDE3                              _EDE3
+LABEL                    $EE39                              _EE39
+LABEL                    $EE40                              _EE40
+LABEL                    $EE70                              _EE70
+LABEL                    $EE88                              _EE88
+LABEL                    $EEDD                              _EEDD
+LABEL                    $EF22                              _EF22
+LABEL                    $EF25                              _EF25
+LABEL                    $F000                              Start
+COMMENT                    $F000                              ;Set up stack pointer
+COMMENT                    $F004                              ;Initialize system
+COMMENT                    $F007                              ;Check cold start flag
+LABEL                    $F008                              _F008
+COMMENT                    $F00E                              ;Branch if warm start
+COMMENT                    $F010                              ;Initialize cold start flag
+COMMENT                    $F013                              ;Set high score invalid flag
+COMMENT                    $F016                              ;Clear high score
+LABEL                    $F01C                              LF01C
+COMMENT                    $F01C                              ;DP to RAM
+COMMENT                    $F01F                              ;When we have looped 257 times,
+COMMENT                    $F027                              ;start the intro music
+LABEL                    $F029                              LF029
+COMMENT                    $F029                              ;Get line pattern from table
+COMMENT                    $F031                              ;Store pattern
+COMMENT                    $F033                              ;Set up counter for two boxes
+COMMENT                    $F037                              ;Get address of music
+COMMENT                    $F03A                              ;Initialize the music
+COMMENT                    $F03D                              ;Wait for next frame
+LABEL                    $F040                              _F040
+COMMENT                    $F040                              ;Play music if active
+COMMENT                    $F043                              ;Normal brightness
+COMMENT                    $F046                              ;Alternate size every 32 loops
+LABEL                    $F048                              _F048
+COMMENT                    $F049                              ;Load address of double high text
+COMMENT                    $F050                              ;Skip double high text
+LABEL                    $F052                              LF052
+COMMENT                    $F052                              ;Print startup text
+LABEL                    $F058                              LF058
+COMMENT                    $F058                              ;Move to start of line
+COMMENT                    $F05B                              ;Draw 4 lines
+COMMENT                    $F060                              ;Go back for next box
+COMMENT                    $F068                              ;Repeat for 512 counts
+LABEL                    $F06C                              Warm_Start
+COMMENT                    $F06C                              ;DP to RAM
+COMMENT                    $F06F                              ;Set new line pattern
+COMMENT                    $F073                              ;Save copyright string addr
+COMMENT                    $F078                              ;Clear loop counter
+COMMENT                    $F07C                              ;Look at address zero
+COMMENT                    $F082                              ;11 bytes long
+LABEL                    $F084                              LF084
+COMMENT                    $F084                              ;Compare next byte
+COMMENT                    $F088                              ;Okay if match
+COMMENT                    $F08A                              ;Not okay if last byte wrong
+COMMENT                    $F08E                              ;Okay if date wrong
+LABEL                    $F092                              LF092
+COMMENT                    $F092                              ;Bad cart; load Mine Storm addr
+LABEL                    $F097                              LF097
+COMMENT                    $F097                              ;Go back for next byte
+COMMENT                    $F09A                              ;Store zero as address of
+COMMENT                    $F09C                              ;copyright string
+LABEL                    $F09E                              LF09E
+COMMENT                    $F09E                              ;Set music enable flag
+COMMENT                    $F0A0                              ;Save address of header
+COMMENT                    $F0A2                              ;Get address of music
+LABEL                    $F0A4                              LF0A4
+COMMENT                    $F0A4                              ;DP to RAM
+COMMENT                    $F0A7                              ;???
+COMMENT                    $F0AC                              ;Initialize the music
+COMMENT                    $F0AF                              ;Wait for next frame
+COMMENT                    $F0B2                              ;Play the music if active
+COMMENT                    $F0B5                              ;Normal brightness
+LABEL                    $F0B8                              _F0B8
+COMMENT                    $F0B8                              ;Print copyright string
+LABEL                    $F0C0                              _F0C0
+COMMENT                    $F0C1                              ;Skip if no high score
+LABEL                    $F0D2                              LF0D2
+COMMENT                    $F0D2                              ;Get cartridge header addr
+COMMENT                    $F0D5                              ;Skip music addr
+COMMENT                    $F0D7                              ;Print it
+COMMENT                    $F0DA                              ;Go back if music still playing
+COMMENT                    $F0DF                              ;Go back if count less than 126
+COMMENT                    $F0E7                              ;Jump into cartridge
+LABEL                    $F0E9                              Intro_Boxes
+LABEL                    $F0F8                              _F0F8
+LABEL                    $F0FD                              DF0FD
+LABEL                    $F101                              Copyright_Str
+LABEL                    $F10C                              here__
+LABEL                    $F10C                              Vec_Title
+COMMENT                    $F10C                              ;Height, width
+COMMENT                    $F10E                              ;Y,X
+LABEL                    $F118                              Vec_Title_2
+COMMENT                    $F118                              ;Height, width
+COMMENT                    $F11A                              ;Y,X
+COMMENT                    $F124                              ;Height, width
+COMMENT                    $F126                              ;Y,X
+COMMENT                    $F12C                              ;Height, width
+COMMENT                    $F12E                              ;Y,X
+COMMENT                    $F13D                              ;Height, width
+COMMENT                    $F13F                              ;Y,X
+LABEL                    $F14C                              Init_VIA
+COMMENT                    $F14E                              ;Port A=all output
+COMMENT                    $F151                              ;Port B=OIIOOOOO
+COMMENT                    $F153                              ;Port B sound BDIR=1
+COMMENT                    $F158                              ;ACR=$98 T1->PB7 enabled
+COMMENT                    $F15B                              ;auxiliary control register
+COMMENT                    $F15D                              ;T1CL=$7F scale factor?
+LABEL                    $F164                              Init_OS_RAM
+COMMENT                    $F164                              ;DP to RAM
+COMMENT                    $F166                              ;Clear $C800-$C87A
+COMMENT                    $F16E                              ;Point $C87B to $C87D
+LABEL                    $F173                              LF173
+COMMENT                    $F173                              ;Make sure random number
+COMMENT                    $F175                              ;seed is non-zero!
+COMMENT                    $F177                              ;Init dot dwell (brightness)
+COMMENT                    $F17B                              ;Init refresh time to $7530
+COMMENT                    $F180                              ;Init joystick enable flags
+LABEL                    $F18B                              Init_OS
+LABEL                    $F192                              Wait_Recal
+COMMENT                    $F192                              ;Increment loop counter
+COMMENT                    $F19A                              ;DP to I/O
+LABEL                    $F19E                              LF19E
+COMMENT                    $F19E                              ;Wait for timer t2
+LABEL                    $F1A2                              Set_Refresh
+COMMENT                    $F1A2                              ;Store refresh value
+COMMENT                    $F1A5                              ;into timer t2
+LABEL                    $F1AA                              DP_to_D0
+LABEL                    $F1AF                              DP_to_C8
+LABEL                    $F1B4                              Read_Btns_Mask
+COMMENT                    $F1B4                              ;Mask out "always" buttons
+LABEL                    $F1BA                              Read_Btns
+COMMENT                    $F1BA                              ;Point to button flags
+COMMENT                    $F1BD                              ;Save previous state
+COMMENT                    $F1C1                              ;Sound chip register 0E to port A
+COMMENT                    $F1C5                              ;sound BDIR on, BC1 on, mux off
+COMMENT                    $F1CA                              ;pause
+COMMENT                    $F1CB                              ;sound BDIR off, BC1 off, mux off
+COMMENT                    $F1CD                              ;DDR A to input
+COMMENT                    $F1CF                              ;sound BDIR off, BC1 on, mux off
+COMMENT                    $F1D4                              ;pause
+COMMENT                    $F1D5                              ;Read buttons
+COMMENT                    $F1D7                              ;Convert to active high
+COMMENT                    $F1D8                              ;Save buttons
+COMMENT                    $F1DA                              ;sound BDIR off, BC1 off, mux off
+COMMENT                    $F1DE                              ;DDR A to output
+COMMENT                    $F1E0                              ;Check for transitions
+COMMENT                    $F1E4                              ;Store transition result
+COMMENT                    $F1E6                              ;Save result for return value
+COMMENT                    $F1E8                              ;Initialize bit position
+LABEL                    $F1EA                              LF1EA
+COMMENT                    $F1EA                              ;Mask out bit
+COMMENT                    $F1EE                              ;Store masked bit
+COMMENT                    $F1F0                              ;Go back for next bit
+COMMENT                    $F1F3                              ;Get back transition bits and return
+LABEL                    $F1F5                              Joy_Analog
+COMMENT                    $F1F5                              ;Set analog mode flag
+LABEL                    $F1F8                              Joy_Digital
+COMMENT                    $F1F8                              ;Point to first pot
+LABEL                    $F1FB                              LF1FB
+COMMENT                    $F1FB                              ;Read it if enabled
+LABEL                    $F1FF                              LF1FF
+COMMENT                    $F1FF                              ;Go back untl all pots read
+COMMENT                    $F204                              ;X points to $C823, clear it
+COMMENT                    $F208                              ;disable mux
+LABEL                    $F20B                              LF20B
+COMMENT                    $F20B                              ;enable mux and select pot
+COMMENT                    $F20D                              ;output $00 to D/A
+COMMENT                    $F20F                              ;disable mux
+COMMENT                    $F211                              ;delay and end up with B=$80
+LABEL                    $F213                              LF213
+COMMENT                    $F216                              ;check analog flag
+COMMENT                    $F219                              ;branch if analog pot
+COMMENT                    $F21D                              ;enable mux
+COMMENT                    $F21F                              ;test comparator
+COMMENT                    $F223                              ;output $40 to D/A
+COMMENT                    $F227                              ;test comparator
+LABEL                    $F22D                              LF22D
+COMMENT                    $F22D                              ;output $C0 to D/A
+COMMENT                    $F231                              ;test comparator
+LABEL                    $F235                              LF235
+LABEL                    $F236                              LF236
+COMMENT                    $F236                              ;store A/D result
+COMMENT                    $F238                              ;go back for next pot
+LABEL                    $F23A                              LF23A
+LABEL                    $F240                              LF240
+COMMENT                    $F240                              ;test comparator
+COMMENT                    $F244                              ;branch to go lower?
+LABEL                    $F24C                              LF24C
+COMMENT                    $F24C                              ;try next bit position
+COMMENT                    $F24D                              ;check for accuracy threshold
+COMMENT                    $F250                              ;go back if not finished
+COMMENT                    $F252                              ;read D/A value
+COMMENT                    $F254                              ;go back to store it
+LABEL                    $F256                              Sound_Byte
+COMMENT                    $F256                              ;point to shadow memory
+LABEL                    $F259                              Sound_Byte_x
+LABEL                    $F25B                              Sound_Byte_raw
+COMMENT                    $F25B                              ;store register select byte
+COMMENT                    $F25D                              ;sound BDIR on, BC1 on, mux off
+COMMENT                    $F261                              ;sound BDIR off, BC1 off, mux off
+COMMENT                    $F265                              ;read sound chip status (?)
+COMMENT                    $F267                              ;store data byte
+COMMENT                    $F269                              ;sound BDIR on, BC1 off, mux off
+COMMENT                    $F26D                              ;sound BDIR off, BC1 off, mux off
+LABEL                    $F272                              Clear_Sound
+LABEL                    $F275                              LF275
+LABEL                    $F27D                              Sound_Bytes
+COMMENT                    $F27D                              ;Point to shadow memory
+LABEL                    $F282                              LF282
+COMMENT                    $F282                              ;Update the sound register
+LABEL                    $F284                              Sound_Bytes_x
+COMMENT                    $F284                              ;Get next next pair of bytes
+COMMENT                    $F286                              ;Go back if not end of list
+LABEL                    $F289                              Do_Sound
+COMMENT                    $F289                              ;point to shadow memory
+LABEL                    $F28C                              Do_Sound_x
+COMMENT                    $F28C                              ;point to sound buffer
+COMMENT                    $F28F                              ;init count for 14 registers
+LABEL                    $F291                              LF291
+COMMENT                    $F291                              ;get next register
+COMMENT                    $F293                              ;skip if unchanged
+COMMENT                    $F297                              ;else update register
+LABEL                    $F299                              LF299
+COMMENT                    $F299                              ;go back for next register
+LABEL                    $F29D                              Intensity_1F
+LABEL                    $F2A1                              Intensity_3F
+LABEL                    $F2A5                              Intensity_5F
+LABEL                    $F2A9                              Intensity_7F
+LABEL                    $F2AB                              Intensity_a
+COMMENT                    $F2AB                              ;Store intensity in D/A
+COMMENT                    $F2AD                              ;Save intensity in $C827
+COMMENT                    $F2B0                              ;mux disabled channel 2
+COMMENT                    $F2B5                              ;mux enabled channel 2
+COMMENT                    $F2B7                              ;do it again just because
+COMMENT                    $F2BB                              ;turn off mux
+LABEL                    $F2BE                              Dot_ix_b
+LABEL                    $F2C1                              Dot_ix
+LABEL                    $F2C3                              Dot_d
+LABEL                    $F2C5                              Dot_here
+COMMENT                    $F2C5                              ;Set pattern to all 1's
+COMMENT                    $F2C7                              ;Store in VIA shift register
+COMMENT                    $F2C9                              ;Get dot dwell (brightness)
+LABEL                    $F2CC                              LF2CC
+COMMENT                    $F2CC                              ;Delay leaving beam in place
+COMMENT                    $F2CF                              ;Blank beam in VIA shift register
+LABEL                    $F2D2                              LF2D2
+COMMENT                    $F2D2                              ;Decrement counter
+LABEL                    $F2D5                              Dot_List
+COMMENT                    $F2D5                              ;Draw next dot
+COMMENT                    $F2D7                              ;Check counter
+COMMENT                    $F2DA                              ;Go back until finished
+COMMENT                    $F2DC                              ;Go to Reset0Ref
+LABEL                    $F2DE                              Dot_List_Reset
+COMMENT                    $F2DE                              ;get mode byte
+COMMENT                    $F2E0                              ;if >0 go to Reset0Ref
+COMMENT                    $F2E2                              ;plot the dot
+COMMENT                    $F2E4                              ;dot_list@x_&_reset
+LABEL                    $F2E6                              Recalibrate
+COMMENT                    $F2E6                              ;$7F7F
+COMMENT                    $F2EE                              ;$8080
+LABEL                    $F2F2                              Moveto_x_7F
+COMMENT                    $F2F2                              ;Set scale factor to $7F
+COMMENT                    $F2F6                              ;Get y high
+COMMENT                    $F2F8                              ;Get x high
+LABEL                    $F2FC                              Moveto_d_7F
+COMMENT                    $F2FC                              ;Store Y in D/A register
+COMMENT                    $F2FE                              ;Save D-register on stack
+COMMENT                    $F300                              ;Set scale factor to $7F
+COMMENT                    $F304                              ;Enable mux
+LABEL                    $F308                              Moveto_ix_FF
+LABEL                    $F30C                              Moveto_ix_7F
+LABEL                    $F30E                              Moveto_ix_b
+COMMENT                    $F30E                              ;Set scale factor
+LABEL                    $F310                              Moveto_ix
+LABEL                    $F312                              Moveto_d
+COMMENT                    $F312                              ;Store Y in D/A register
+COMMENT                    $F314                              ;Enable mux
+COMMENT                    $F316                              ;Save D-register on stack
+LABEL                    $F318                              LF318
+COMMENT                    $F318                              ;Blank low, zero high?
+COMMENT                    $F31C                              ;Clear shift regigster
+COMMENT                    $F31E                              ;Disable mux
+COMMENT                    $F320                              ;Store X in D/A register
+COMMENT                    $F322                              ;timer 1 count high
+COMMENT                    $F324                              ;Get back D-reg
+LABEL                    $F33B                              LF33B
+COMMENT                    $F33B                              ;Wait for timer 1
+LABEL                    $F33D                              LF33D
+LABEL                    $F341                              LF341
+COMMENT                    $F341                              ;Delay a moment
+LABEL                    $F345                              LF345
+COMMENT                    $F345                              ;Wait for timer 1
+LABEL                    $F34A                              Reset0Ref_D0
+LABEL                    $F34F                              Check0Ref
+LABEL                    $F354                              Reset0Ref
+COMMENT                    $F357                              ;/BLANK low and /ZERO low
+COMMENT                    $F359                              ;clear shift register
+LABEL                    $F35B                              Reset_Pen
+COMMENT                    $F35E                              ;clear D/A register
+COMMENT                    $F360                              ;mux=1, disable mux
+COMMENT                    $F362                              ;mux=1, enable mux
+COMMENT                    $F364                              ;do it again
+COMMENT                    $F368                              ;disable mux
+LABEL                    $F36A                              LF36A_RTS
+LABEL                    $F36B                              Reset0Int
+COMMENT                    $F36E                              ;blank low and zero low
+COMMENT                    $F370                              ;clear shift register
+LABEL                    $F373                              Print_Str_hwyx
+LABEL                    $F378                              Print_Str_yx
+LABEL                    $F37A                              Print_Str_d
+LABEL                    $F383                              LF383
+LABEL                    $F385                              Print_List_hw
+LABEL                    $F38A                              Print_List
+LABEL                    $F38C                              Print_List_Chk
+LABEL                    $F391                              Print_Ships_x
+LABEL                    $F393                              Print_Ships
+COMMENT                    $F393                              ;Save B-reg
+COMMENT                    $F397                              ;Point U into the stack
+COMMENT                    $F399                              ;Save A-reg and a terminator
+COMMENT                    $F39B                              ;Get back B-reg
+COMMENT                    $F39D                              ;If B-reg >9 then
+COMMENT                    $F3A1                              ;load $6C = infinty symbol
+LABEL                    $F3A3                              LF3A3
+COMMENT                    $F3A7                              ;Push digit and minus sign
+COMMENT                    $F3A9                              ;Push (y,x) coordinates
+COMMENT                    $F3AB                              ;Print it
+LABEL                    $F3AD                              Mov_Draw_VLc_a
+LABEL                    $F3B1                              Mov_Draw_VL_b
+COMMENT                    $F3B1                              ;Set scale factor
+LABEL                    $F3B5                              Mov_Draw_VLcs
+LABEL                    $F3B7                              Mov_Draw_VL_ab
+COMMENT                    $F3B7                              ;Set scale factor
+LABEL                    $F3B9                              Mov_Draw_VL_a
+LABEL                    $F3BC                              Mov_Draw_VL
+COMMENT                    $F3BC                              ;Get next coordinate pair
+LABEL                    $F3BE                              Mov_Draw_VL_d
+COMMENT                    $F3BE                              ;Send Y to A/D
+COMMENT                    $F3C0                              ;Enable mux
+COMMENT                    $F3C2                              ;Point to next coordinate pair
+COMMENT                    $F3C4                              ;Wait a moment
+COMMENT                    $F3C5                              ;Disable mux
+COMMENT                    $F3C7                              ;Send X to A/D
+COMMENT                    $F3C9                              ;Shift reg=0 (no draw), T1H=0
+COMMENT                    $F3CC                              ;A->D00A, B->D005
+LABEL                    $F3CE                              Draw_VLc
+LABEL                    $F3D2                              Draw_VL_b
+COMMENT                    $F3D2                              ;Set scale factor
+LABEL                    $F3D6                              Draw_VLcs
+LABEL                    $F3D8                              Draw_VL_ab
+LABEL                    $F3DA                              Draw_VL_a
+LABEL                    $F3DD                              Draw_VL
+LABEL                    $F3DF                              Draw_Line_d
+COMMENT                    $F3DF                              ;Send Y to A/D
+COMMENT                    $F3E1                              ;Enable mux
+COMMENT                    $F3E3                              ;Point to next coordinate pair
+COMMENT                    $F3E5                              ;Wait a moment
+COMMENT                    $F3E6                              ;Disable mux
+COMMENT                    $F3E8                              ;Send X to A/D
+COMMENT                    $F3EA                              ;Shift reg=$FF (solid line), T1H=0
+LABEL                    $F3ED                              LF3ED
+COMMENT                    $F3ED                              ;Put pattern in shift register
+COMMENT                    $F3EF                              ;Set T1H (scale factor?)
+COMMENT                    $F3F1                              ;B-reg = T1 interrupt bit
+LABEL                    $F3F4                              LF3F4
+COMMENT                    $F3F4                              ;Wait for T1 to time out
+COMMENT                    $F3F8                              ;Wait a moment more
+COMMENT                    $F3F9                              ;Clear shift register (blank output)
+COMMENT                    $F3FB                              ;Decrement line count
+COMMENT                    $F3FF                              ;Go back for more points
+COMMENT                    $F401                              ;Reset zero reference if necessary
+LABEL                    $F404                              Draw_VLp_FF
+LABEL                    $F408                              Draw_VLp_7F
+LABEL                    $F40C                              Draw_VLp_scale
+LABEL                    $F40E                              Draw_VLp_b
+COMMENT                    $F40E                              ;Set scale factor
+LABEL                    $F410                              Draw_VLp
+COMMENT                    $F410                              ;Get next coordinate pair
+COMMENT                    $F412                              ;Send Y to A/D
+COMMENT                    $F414                              ;Enable mux
+COMMENT                    $F416                              ;Get pattern byte?
+COMMENT                    $F418                              ;Advance to next point in list
+COMMENT                    $F41A                              ;Disable mux
+COMMENT                    $F41C                              ;Send X to A/D
+COMMENT                    $F41E                              ;Store pattern in shift register
+COMMENT                    $F420                              ;Clear T1H
+COMMENT                    $F422                              ;B-reg = T1 interrupt bit
+LABEL                    $F425                              LF425
+COMMENT                    $F425                              ;Wait for T1 to time out
+COMMENT                    $F429                              ;Wait a moment more
+COMMENT                    $F42A                              ;Clear shift register (blank output)
+COMMENT                    $F42C                              ;Get next pattern byte
+COMMENT                    $F42E                              ;Go back if high bit of pattern is set
+LABEL                    $F433                              LF433
+LABEL                    $F434                              Draw_Pat_VL_a
+LABEL                    $F437                              Draw_Pat_VL
+COMMENT                    $F437                              ;Get next coordinate pair
+LABEL                    $F439                              Draw_Pat_VL_d
+COMMENT                    $F439                              ;Send Y to A/D
+COMMENT                    $F43B                              ;Enable mux
+COMMENT                    $F43D                              ;Point to next coordinate pair
+COMMENT                    $F43F                              ;Disable mux
+COMMENT                    $F441                              ;Send X to A/D
+COMMENT                    $F443                              ;Get default pattern
+COMMENT                    $F446                              ;B-reg = T1 interrupt bit
+COMMENT                    $F448                              ;Put pattern in shift register
+COMMENT                    $F44A                              ;Clear T1H (scale factor?)
+COMMENT                    $F44C                              ;Check if T1 timed out (note wasted byte)
+COMMENT                    $F44F                              ;Update pattern if not
+COMMENT                    $F451                              ;Clear shift register (blank output)
+COMMENT                    $F453                              ;Get line counter
+COMMENT                    $F456                              ;Go back for more points
+LABEL                    $F459                              LF459
+COMMENT                    $F459                              ;Get default pattern
+LABEL                    $F45C                              LF45C
+COMMENT                    $F45C                              ;Update pattern register
+COMMENT                    $F45E                              ;Wait a moment
+COMMENT                    $F45F                              ;Check if T1 timed out
+COMMENT                    $F461                              ;Update pattern again if not
+COMMENT                    $F463                              ;Get line counter
+COMMENT                    $F466                              ;Clear shift register (blank output)
+COMMENT                    $F468                              ;Go back if more lines to draw
+COMMENT                    $F46B                              ;Reset zero reference if necessary
+LABEL                    $F46E                              Draw_VL_mode
+COMMENT                    $F46E                              ;Save old Check0Ref flag
+COMMENT                    $F473                              ;Don't reset the zero reference yet
+LABEL                    $F476                              LF476
+COMMENT                    $F476                              ;Get the next mode byte
+COMMENT                    $F47A                              ;If <0, draw a patterned line
+LABEL                    $F47E                              LF47E
+COMMENT                    $F480                              ;If =0, move to the next point
+LABEL                    $F485                              LF485
+COMMENT                    $F488                              ;If <>1, draw a solid line
+LABEL                    $F48D                              LF48D
+COMMENT                    $F48D                              ;If =1, exit
+COMMENT                    $F48F                              ;Restore old Check0Ref flag
+COMMENT                    $F492                              ;Reset zero reference if necessary
+LABEL                    $F495                              Print_Str
+COMMENT                    $F495                              ;Save string pointer
+COMMENT                    $F498                              ;Point to start of chargen bitmaps
+COMMENT                    $F49B                              ;$8x = enable RAMP?
+COMMENT                    $F49E                              ;Clear D/A output
+COMMENT                    $F4A0                              ;Shift reg mode = 110, T1 PB7 enabled
+COMMENT                    $F4A2                              ;Point to start of chargen bitmaps
+LABEL                    $F4A5                              LF4A5
+COMMENT                    $F4A5                              ;Update RAMP, set mux to channel 1
+COMMENT                    $F4A7                              ;Enable mux
+COMMENT                    $F4AC                              ;Wait a moment
+COMMENT                    $F4AD                              ;Disable mux
+COMMENT                    $F4AF                              ;Enable RAMP, set mux to channel 0
+COMMENT                    $F4B1                              ;Enable mux
+COMMENT                    $F4B3                              ;I think this is a delay only
+COMMENT                    $F4B6                              ;Enable RAMP, disable mux
+COMMENT                    $F4B8                              ;Get text width
+COMMENT                    $F4BB                              ;Send it to the D/A
+COMMENT                    $F4C0                              ;Point to start of text string
+COMMENT                    $F4C3                              ;Disable RAMP, disable mux
+LABEL                    $F4C7                              LF4C7
+COMMENT                    $F4C7                              ;Get bitmap from chargen table
+COMMENT                    $F4C9                              ;Save in shift register
+LABEL                    $F4CB                              LF4CB
+COMMENT                    $F4CB                              ;Get next character
+COMMENT                    $F4CD                              ;Go back if not terminator
+COMMENT                    $F4D1                              ;Enable RAMP, disable mux
+COMMENT                    $F4D3                              ;Negate text width to D/A
+COMMENT                    $F4D7                              ;Disable RAMP, disable mux
+COMMENT                    $F4D9                              ;     Check for last row
+COMMENT                    $F4DC                              ;Branch if last row
+COMMENT                    $F4DE                              ;Point to next chargen row
+COMMENT                    $F4E1                              ;Get string length
+COMMENT                    $F4E6                              ; -  2
+COMMENT                    $F4E8                              ; *  2
+COMMENT                    $F4E9                              ;Delay a moment
+LABEL                    $F4EB                              LF4EB
+COMMENT                    $F4EF                              ;Delay some more in a loop
+COMMENT                    $F4F1                              ;Enable RAMP, disable mux
+COMMENT                    $F4F3                              ;Get text height
+COMMENT                    $F4F6                              ;Store text height in D/A
+COMMENT                    $F4F8                              ;Enable mux
+COMMENT                    $F4FD                              ;Wait a moment
+COMMENT                    $F4FE                              ;Enable RAMP, disable mux
+COMMENT                    $F500                              ;Clear D/A
+COMMENT                    $F502                              ;Disable RAMP, disable mux
+COMMENT                    $F504                              ;Enable RAMP, disable mux
+COMMENT                    $F506                              ;$0x = disable RAMP?
+COMMENT                    $F508                              ;Go back for next scan line
+LABEL                    $F50A                              LF50A
+COMMENT                    $F50C                              ;T1->PB7 enabled
+COMMENT                    $F50E                              ;Reset the zero reference
+LABEL                    $F511                              Random_3
+LABEL                    $F517                              Random
+LABEL                    $F51A                              LF51A
+LABEL                    $F51D                              LF51D
+LABEL                    $F533                              Init_Music_Buf
+LABEL                    $F53F                              Clear_x_b
+LABEL                    $F542                              Clear_C8_RAM
+LABEL                    $F545                              Clear_x_256
+LABEL                    $F548                              Clear_x_d
+LABEL                    $F550                              Clear_x_b_80
+LABEL                    $F552                              Clear_x_b_a
+LABEL                    $F55A                              Dec_3_Counters
+LABEL                    $F55E                              Dec_6_Counters
+LABEL                    $F560                              LF560
+LABEL                    $F563                              Dec_Counters
+LABEL                    $F569                              LF569
+LABEL                    $F56D                              Delay_3
+COMMENT                    $F56D                              ;2 cycles
+COMMENT                    $F56F                              ;3 cycles
+LABEL                    $F571                              Delay_2
+COMMENT                    $F571                              ;2 cycles
+COMMENT                    $F573                              ;3 cycles
+LABEL                    $F575                              Delay_1
+COMMENT                    $F575                              20 cycles
+COMMENT                    $F575                              ;2 cycles
+COMMENT                    $F577                              ;3 cycles
+LABEL                    $F579                              Delay_0
+COMMENT                    $F579                              ;2 cycles
+LABEL                    $F57A                              Delay_b
+COMMENT                    $F57A                              ;2 cycles
+COMMENT                    $F57B                              ;3 cycles
+LABEL                    $F57D                              Delay_RTS
+COMMENT                    $F57D                              5 cycles
+COMMENT                    $F57D                              ;5 cycles
+LABEL                    $F57E                              Bitmask_a
+LABEL                    $F584                              Abs_a_b
+LABEL                    $F58B                              Abs_b
+LABEL                    $F592                              LF592
+LABEL                    $F593                              Rise_Run_Angle
+LABEL                    $F5B0                              LF5B0
+LABEL                    $F5B2                              LF5B2
+LABEL                    $F5D0                              LF5D0
+LABEL                    $F5D3                              LF5D3
+LABEL                    $F5D9                              Get_Rise_Idx
+COMMENT                    $F5D9                              ;Offset angle by 90 degrees
+LABEL                    $F5DB                              Get_Run_Idx
+COMMENT                    $F5DB                              ;Get address of slope table
+COMMENT                    $F5DF                              ;If angle in 180-360,
+COMMENT                    $F5E3                              ;flag negative rise or positive run
+LABEL                    $F5E5                              LF5E5
+COMMENT                    $F5E5                              ;Mask to multiple of 180 degrees
+COMMENT                    $F5E7                              ;If 90 degrees
+COMMENT                    $F5EB                              ;then rise or run is on an axis
+LABEL                    $F5EC                              LF5EC
+COMMENT                    $F5EC                              ;Get slope from slope table
+LABEL                    $F5EF                              Rise_Run_Idx
+COMMENT                    $F5EF                              ;Save X-reg
+COMMENT                    $F5F1                              ;Get angle
+COMMENT                    $F5F3                              ;Get run index pair for angle
+COMMENT                    $F5F7                              ;Get angle
+COMMENT                    $F5F9                              ;Get rise index pair for angle
+COMMENT                    $F5FD                              ;Restore X-reg and return
+LABEL                    $F5FF                              Rise_Run_X
+LABEL                    $F601                              Rise_Run_Y
+LABEL                    $F603                              Rise_Run_Len
+COMMENT                    $F605                              ;Get index pair of angle
+COMMENT                    $F607                              ;Get run value
+COMMENT                    $F60A                              ;Save run value
+COMMENT                    $F60C                              ;Get rise value
+COMMENT                    $F60E                              ;Restore run value and return
+LABEL                    $F610                              Rot_VL_ab
+LABEL                    $F616                              Rot_VL
+LABEL                    $F61F                              Rot_VL_Mode
+COMMENT                    $F61F                              ;Save angle
+COMMENT                    $F622                              ;Save DP register
+COMMENT                    $F624                              ;DP to RAM
+COMMENT                    $F627                              ;Store $C8 (negative value) into $C823
+COMMENT                    $F629                              ;Get index pair of angle
+LABEL                    $F62B                              Rot_VL_M_dft
+COMMENT                    $F62B                              ;Get mode byte
+COMMENT                    $F62D                              ;Copy to destination
+COMMENT                    $F62F                              ;Rotate if not end of list
+COMMENT                    $F631                              ;Exit with $C823 cleared
+COMMENT                    $F633                              ;Restore DP register and return
+LABEL                    $F635                              LF635
+COMMENT                    $F635                              ;Decrement count for (y,x) list
+LABEL                    $F637                              LF637
+COMMENT                    $F637                              ;Get y coordinate
+COMMENT                    $F63B                              ;Store partial y coordinate
+COMMENT                    $F63D                              ;Get x coordinate
+COMMENT                    $F641                              ;Add to partial y coordinate
+COMMENT                    $F643                              ;Store rotated y coordinate
+COMMENT                    $F645                              ;Get y coordinate
+COMMENT                    $F649                              ;Store partial x coordinate
+COMMENT                    $F64B                              ;Get x coordinate
+COMMENT                    $F64F                              ;Add to partial x coordinate
+COMMENT                    $F651                              ;Store rotated x coordinate
+COMMENT                    $F653                              ;Get counter
+COMMENT                    $F655                              ;If negative, go back to mode list loop
+COMMENT                    $F657                              ;If non-zero, go back to (y,x) list loop
+LABEL                    $F65B                              Xform_Run_a
+LABEL                    $F65D                              Xform_Run
+LABEL                    $F661                              Xform_Rise_a
+LABEL                    $F663                              Xform_Rise
+LABEL                    $F665                              LF665
+LABEL                    $F66F                              LF66F
+LABEL                    $F676                              LF676
+LABEL                    $F679                              LF679
+LABEL                    $F67E                              LF67E
+LABEL                    $F67F                              Move_Mem_a_1
+COMMENT                    $F67F                              ;Copy the byte
+LABEL                    $F683                              Move_Mem_a
+COMMENT                    $F683                              ;Decrement the count
+COMMENT                    $F684                              ;Go back until finished
+LABEL                    $F686                              LF686
+LABEL                    $F687                              Init_Music_chk
+COMMENT                    $F687                              ;Test sound active flag
+COMMENT                    $F689                              ;Continue sound if active
+COMMENT                    $F68B                              ;Return if sound not active
+LABEL                    $F68D                              Init_Music
+COMMENT                    $F68D                              ;Save pointer to frequency table
+LABEL                    $F692                              Init_Music_dft
+COMMENT                    $F692                              ;Set sound active flag
+COMMENT                    $F696                              ;Save address of ADSR table
+COMMENT                    $F69A                              ;Save address of twang table
+COMMENT                    $F69E                              ;Save pointer to music data
+COMMENT                    $F6A0                              ;Initialize music buffer
+COMMENT                    $F6A6                              ;Init ADSR timers of chans 2 & 3
+COMMENT                    $F6AB                              ;Clear frequency of channel 2
+COMMENT                    $F6AD                              ;Clear frequency of channel 3
+COMMENT                    $F6AF                              ;A-reg = 0 (sound channel number?)
+LABEL                    $F6B3                              LF6B3
+COMMENT                    $F6B3                              ;Get address of ADSR timers
+COMMENT                    $F6B6                              ;Count for three channels
+LABEL                    $F6B8                              LF6B8
+COMMENT                    $F6B8                              ;Get the channel's ADSR timer
+COMMENT                    $F6BC                              ;Skip if at maximum
+COMMENT                    $F6BE                              ;Else increment the timer
+LABEL                    $F6C0                              LF6C0
+COMMENT                    $F6C0                              ;Go back for the other channels
+COMMENT                    $F6C8                              ;Twang limit is 6-8 depending on channel
+LABEL                    $F6CA                              LF6CA
+COMMENT                    $F6CA                              ;Increment twang counter
+COMMENT                    $F6CC                              ;Check against limit
+COMMENT                    $F6D0                              ;Clear it if limit exceeded
+LABEL                    $F6D2                              LF6D2
+COMMENT                    $F6D2                              ;Get twang count
+COMMENT                    $F6D4                              ;Mask out low 3 bits
+COMMENT                    $F6D6                              ;Get twang value from table
+COMMENT                    $F6D8                              ;Update current twang value
+COMMENT                    $F6DA                              ;Increment twang limit
+COMMENT                    $F6DD                              ;Go back until all three channels done
+COMMENT                    $F6DF                              ;Decrement the duration timer
+COMMENT                    $F6E1                              ;Update ADSR while note still playing
+LABEL                    $F6E3                              LF6E3
+COMMENT                    $F6E3                              ;Go to next music channel
+COMMENT                    $F6E6                              ;If < 0, set it to 2
+LABEL                    $F6EA                              LF6EA
+LABEL                    $F6EC                              LF6EC
+COMMENT                    $F6EC                              ;Get next byte of music data
+COMMENT                    $F6F0                              ;Clear ADSR timer for this channel
+COMMENT                    $F6F5                              ;If $40 bit of music data set,
+COMMENT                    $F6F7                              ;we're going to make some noise
+COMMENT                    $F6F9                              ;Get bit mask for this channel
+COMMENT                    $F6FE                              ;Turn channel bit off for register 7
+COMMENT                    $F702                              ;Set current channel bit in register 7
+COMMENT                    $F70C                              ;Mask off low 5 bits of music data
+COMMENT                    $F70E                              ;and store in register 6
+LABEL                    $F712                              LF712
+COMMENT                    $F712                              ;If $40 bit of music data was cleared,
+COMMENT                    $F715                              ;Get bit mask for this channel
+COMMENT                    $F717                              ;Turn channel bit off for register 7
+COMMENT                    $F71B                              ;Set current channel bit in register 7
+COMMENT                    $F725                              ;Get $C855 * 2 + 3
+COMMENT                    $F72A                              ;Point U-reg to #$C861 + $C855 * 2
+COMMENT                    $F72C                              ;Mask off low 6 bits of music data,
+COMMENT                    $F72E                              ;multiply by 2
+COMMENT                    $F72F                              ;Get pointer to note-to-frequency table
+COMMENT                    $F731                              ;Get note table data
+COMMENT                    $F733                              ;Store in word at $C861-$C866
+LABEL                    $F735                              LF735
+COMMENT                    $F735                              ;Re-get byte of music data
+COMMENT                    $F739                              ;Update music data pointer
+COMMENT                    $F73C                              ;If byte>=$80, advance to next channel
+COMMENT                    $F73E                              ;Get second byte of music data
+COMMENT                    $F740                              ;If >=$80, (terminator)
+COMMENT                    $F742                              ;  clear music buffer,
+COMMENT                    $F745                              ;  clear music flag,
+COMMENT                    $F747                              ;  and exit
+LABEL                    $F748                              LF748
+COMMENT                    $F748                              ;Update music data pointer
+COMMENT                    $F74A                              ;Duration in low 6 bits of second byte
+COMMENT                    $F74C                              ;Store duration counter
+LABEL                    $F74E                              LF74E
+COMMENT                    $F74E                              ;Get pointer to ADSR table
+COMMENT                    $F751                              ;Point to ADSR timer table
+COMMENT                    $F757                              ;Count for three channels
+LABEL                    $F759                              LF759
+COMMENT                    $F759                              ;Get channel timer?
+COMMENT                    $F75B                              ;Test low bit of ADSR index
+COMMENT                    $F75F                              ;If odd, divide ADSR index by by 2
+COMMENT                    $F760                              ;Get low nibble from ADSR table
+LABEL                    $F766                              LF766
+COMMENT                    $F766                              ;If even, divide ADSR index by 2
+COMMENT                    $F767                              ;Get high nibble from ADSR table
+LABEL                    $F76D                              LF76D
+COMMENT                    $F76D                              ;Store ADSR value in regs 10-12
+COMMENT                    $F76F                              ;Decrement channel counter
+COMMENT                    $F770                              ;Go back for next channel
+COMMENT                    $F772                              ;Point to base frequency table
+COMMENT                    $F775                              ;Point to twang table
+LABEL                    $F778                              LF778
+COMMENT                    $F778                              ;Get next base frequency
+COMMENT                    $F77A                              ;Test twang value
+COMMENT                    $F77E                              ;If <0, negate twang table entry
+COMMENT                    $F780                              ;Subtract negated value from frequency
+COMMENT                    $F782                              ;Propagate borrow to high byte
+COMMENT                    $F784                              ;Un-negate twang entry
+LABEL                    $F788                              LF788
+COMMENT                    $F788                              ;If >0 add twang to base frequency
+COMMENT                    $F78A                              ;Propagate carry to high byte
+LABEL                    $F78C                              LF78C
+COMMENT                    $F78C                              ;Store freq in regs 5/4, 3/2, 1/0
+LABEL                    $F793                              LF793_RTS
+LABEL                    $F794                              Player_Str
+LABEL                    $F79F                              Game_Str
+LABEL                    $F7A9                              Select_Game
+COMMENT                    $F7A9                              ;Save max players and games
+COMMENT                    $F7AC                              ;If non-zero players specified,
+COMMENT                    $F7AF                              ;  set selection to 1
+LABEL                    $F7B1                              LF7B1
+COMMENT                    $F7B1                              ;If non-zero games specified,
+COMMENT                    $F7B4                              ;  set selection to 1
+LABEL                    $F7B6                              LF7B6
+COMMENT                    $F7B6                              ;Save default selection
+COMMENT                    $F7B9                              ;DP to RAM
+COMMENT                    $F7C1                              ;Set $C83C flag to non-zero
+LABEL                    $F7C5                              LF7C5
+COMMENT                    $F7C5                              ;Start with a fresh frame, DP to I/O
+COMMENT                    $F7C8                              ;Read buttons, all in direct mode
+COMMENT                    $F7CF                              ;Brightness to normal
+COMMENT                    $F7D2                              ;Display number of players
+COMMENT                    $F7DB                              ;Display currently selected game
+COMMENT                    $F7E4                              ;DP to RAM
+COMMENT                    $F7E7                              ;If $C83C=0, check buttons
+COMMENT                    $F7ED                              ;If any button pressed, reset timers
+COMMENT                    $F7EF                              ;Clear $C83C flag
+LABEL                    $F7F1                              LF7F1
+COMMENT                    $F7F1                              ;Return if counter 2 timed out
+COMMENT                    $F7F5                              ;If repeat timer not timed out,
+COMMENT                    $F7F7                              ;  ignore the buttons
+COMMENT                    $F7FB                              ;Return if button 4 pressed
+LABEL                    $F800                              _F800
+COMMENT                    $F801                              ; Ignore if no players option
+COMMENT                    $F803                              ;If button 1 pressed,
+COMMENT                    $F805                              ;   increment number of players
+COMMENT                    $F80A                              ;Reset to 1 if max players exceeded
+LABEL                    $F80C                              LF80C
+COMMENT                    $F80C                              ; Update number of players
+COMMENT                    $F80E                              ;Update timers and go back to the loop
+LABEL                    $F810                              LF810
+COMMENT                    $F810                              ;Return to the loop if no game options
+COMMENT                    $F818                              ;If button 2 down, increment game
+COMMENT                    $F81D                              ;Reset to 1 if maximum exceeded
+LABEL                    $F821                              LF821
+COMMENT                    $F825                              ;If button 3 down, decrement game
+COMMENT                    $F828                              ;Reset to max if zero reached
+LABEL                    $F82A                              LF82A
+LABEL                    $F82C                              LF82C
+COMMENT                    $F82C                              ;Reset timers
+COMMENT                    $F833                              ;Go back to the loop
+LABEL                    $F835                              Display_Option
+COMMENT                    $F835                              ;Point to temp storage
+COMMENT                    $F838                              ;Save option
+COMMENT                    $F83A                              ;Clear scratch score accumulator
+COMMENT                    $F83C                              ;Get option back
+COMMENT                    $F83E                              ;Exit printing nothing if option = zero
+COMMENT                    $F840                              ;Put option in scratch score accumulator
+COMMENT                    $F842                              ;Transfer X to be printed
+COMMENT                    $F844                              ;Get (y,x) of value
+COMMENT                    $F846                              ;Print value
+COMMENT                    $F849                              ;Transfer Y to be printed
+COMMENT                    $F84B                              ;Print option string
+LABEL                    $F84E                              LF84E
+LABEL                    $F84F                              Clear_Score
+COMMENT                    $F84F                              ;Store the leading blanks
+COMMENT                    $F858                              ;Store the zero and terminator byte
+LABEL                    $F85E                              Add_Score_a
+COMMENT                    $F85E                              ;Initialize BCD result to zero
+LABEL                    $F861                              LF861
+COMMENT                    $F861                              ;Add in the hundreds
+LABEL                    $F86D                              LF86D
+COMMENT                    $F86D                              ;Add in the tens
+LABEL                    $F878                              LF878
+COMMENT                    $F878                              ;Add in the ones
+COMMENT                    $F87A                              ;Move it to the D-register
+LABEL                    $F87C                              Add_Score_d
+COMMENT                    $F87C                              ;Save BCD on stack in reverse order
+LABEL                    $F882                              LF882
+COMMENT                    $F882                              ;Add zero to 10000 and 100000 digits
+COMMENT                    $F887                              ;Add right nibble to hundreds and ones
+LABEL                    $F88F                              LF88F
+COMMENT                    $F88F                              ;Add left nibble to thousands and tens
+LABEL                    $F895                              LF895
+COMMENT                    $F895                              ;Isolate desired nibble
+LABEL                    $F897                              LF897
+COMMENT                    $F897                              ;Add in carry ($C823 is normally zero)
+COMMENT                    $F89A                              ;Clear carry
+COMMENT                    $F89D                              ;Add to digit
+COMMENT                    $F89F                              ;If digit was a blank,
+COMMENT                    $F8A3                              ;  promote the result to a digit
+LABEL                    $F8A5                              LF8A5
+COMMENT                    $F8A5                              ;If a carry has occurred,
+COMMENT                    $F8A9                              ;  subtract ten
+COMMENT                    $F8AB                              ;  and set carry flag
+LABEL                    $F8AE                              LF8AE
+COMMENT                    $F8AE                              ;Store resulting digit
+COMMENT                    $F8B0                              ;Go back for more digits
+COMMENT                    $F8B3                              ;Clear $C823 back to zero
+LABEL                    $F8B7                              Strip_Zeros
+COMMENT                    $F8B7                              ;Test current digit
+COMMENT                    $F8BB                              ;Exit if not zero
+COMMENT                    $F8BD                              ;Change it to a blank
+LABEL                    $F8C6                              LF8C6
+LABEL                    $F8C7                              Compare_Score
+COMMENT                    $F8C7                              ;Save score pointers
+COMMENT                    $F8C9                              ;Default to scores are the same
+LABEL                    $F8CA                              LF8CA
+COMMENT                    $F8CC                              ;Return if end of string
+COMMENT                    $F8D0                              ;Continue if byte is the same
+COMMENT                    $F8D2                              ;Return 1 if X > U
+COMMENT                    $F8D4                              ;Return 2 if U > X
+LABEL                    $F8D5                              LF8D5
+LABEL                    $F8D6                              LF8D6
+COMMENT                    $F8D6                              ;Restore pointers and return
+LABEL                    $F8D8                              New_High_Score
+COMMENT                    $F8D8                              ;Compare the scores
+COMMENT                    $F8DC                              ;Return if X is not > U
+LABEL                    $F8DE                              LF8DE
+COMMENT                    $F8DE                              ;Copy the new high score
+COMMENT                    $F8E2                              ;until end of string encountered
+LABEL                    $F8E4                              LF8E4
+LABEL                    $F8E5                              Obj_Will_Hit_u
+COMMENT                    $F8E5                              ;Save regs for the hit-test code
+COMMENT                    $F8E9                              ;Get object position
+COMMENT                    $F8EB                              ;Add it to the modification values
+LABEL                    $F8EF                              LF8EF
+COMMENT                    $F8EF                              ;Put updated object position back
+COMMENT                    $F8F1                              ;Go do the hit-test
+LABEL                    $F8F3                              Obj_Will_Hit
+COMMENT                    $F8F3                              ;Save regs for the hit-test code
+COMMENT                    $F8F7                              ;Get modification values
+COMMENT                    $F8F9                              ;Add them to the object position
+COMMENT                    $F8FD                              ;Put update position back and hit-test
+LABEL                    $F8FF                              Obj_Hit
+COMMENT                    $F8FF                              ;Save some regs
+LABEL                    $F903                              LF903
+COMMENT                    $F903                              ;Point X to the stack
+COMMENT                    $F905                              ;Offset to point to y
+LABEL                    $F906                              LF906
+COMMENT                    $F907                              ;Get height/2
+COMMENT                    $F909                              ;Add object y
+COMMENT                    $F90D                              ;Set to $7F if overflow
+LABEL                    $F90F                              LF90F
+COMMENT                    $F90F                              ;Branch if missile out of range
+COMMENT                    $F913                              ;Get height/2
+COMMENT                    $F915                              ;Subtract object y
+COMMENT                    $F919                              ;Set to $80 if overflow
+LABEL                    $F91B                              LF91B
+COMMENT                    $F91B                              ;Branch if missile out of range
+COMMENT                    $F91F                              ;Offset to point to x
+COMMENT                    $F922                              ;Go back for x
+COMMENT                    $F924                              ;Object in range, set carry
+LABEL                    $F928                              LF928
+COMMENT                    $F928                              ;Object not in range, clear carry
+LABEL                    $F92A                              LF92A
+LABEL                    $F92E                              Explosion_Snd
+COMMENT                    $F936                              ;Copy 4 bytes from U-reg to $C858
+COMMENT                    $F93E                              ;Divide first byte by 8
+COMMENT                    $F941                              ;OR with first byte
+COMMENT                    $F943                              ;AND with 7
+COMMENT                    $F945                              ;store in $C854
+COMMENT                    $F947                              ;Get first byte
+COMMENT                    $F949                              ;Mask off bits 3-5
+COMMENT                    $F94B                              ;store in $C853
+COMMENT                    $F94D                              ;Get first byte
+COMMENT                    $F94F                              ;AND with 7
+COMMENT                    $F951                              ;store in $C85D
+COMMENT                    $F953                              ;Start with channel number 2
+COMMENT                    $F957                              ;Initialize time count
+LABEL                    $F95B                              LF95B
+LABEL                    $F968                              LF968
+LABEL                    $F97B                              LF97B
+LABEL                    $F97D                              LF97D
+LABEL                    $F987                              LF987
+LABEL                    $F98F                              LF98F
+LABEL                    $F991                              LF991
+LABEL                    $F997                              LF997
+COMMENT                    $F997                              ;Get channel number
+COMMENT                    $F999                              ;Decrement channel number
+COMMENT                    $F99C                              ;Reset to 2 if less than zero
+LABEL                    $F99E                              LF99E
+COMMENT                    $F99E                              ;Save channel number
+COMMENT                    $F9A0                              ;Get bit mask of the channel
+COMMENT                    $F9A5                              ;Go back if not in for $C85D
+COMMENT                    $F9A9                              ;Negative of channel number ; 2
+COMMENT                    $F9AB                              ;  (registers 1, 3, and 5)
+LABEL                    $F9BC                              LF9BC
+LABEL                    $F9C2                              LF9C2
+LABEL                    $F9C9                              LF9C9_RTS
+LABEL                    $F9CA                              LF9CA
+LABEL                    $F9CF                              LF9CF
+COMMENT                    $F9CF                              ;Exit if all channels done
+COMMENT                    $F9D2                              ;Point to next register (8-10)
+COMMENT                    $F9D7                              ;Store noise value if chan in use
+LABEL                    $F9DB                              LF9DB_RTS
+LABEL                    $F9DC                              Bit_Masks
+COMMENT                    $F9DC                              ;For Bitmask_a
+LABEL                    $F9E4                              Music_Table_1
+COMMENT                    $F9E4                              ;For noise
+LABEL                    $F9EA                              Music_Table_2
+COMMENT                    $F9EA                              ;For music
+LABEL                    $F9F0                              Recal_Points
+COMMENT                    $F9F0                              ;For Recalibrate
+LABEL                    $F9F4                              Char_Table
+LABEL                    $FBD4                              Char_Table_End
+LABEL                    $FC24                              DFC24
+LABEL                    $FC2C                              DFC2C
+LABEL                    $FC6D                              DFC6D
+LABEL                    $FC8D                              Freq_Table
+LABEL                    $FD0D                              music1
+LABEL                    $FD0D                              Intro_Music
+LABEL                    $FD1D                              DFD1D
+LABEL                    $FD69                              DFD69
+LABEL                    $FD79                              DFD79
+LABEL                    $FD81                              DFD81
+LABEL                    $FDC3                              DFDC3
+LABEL                    $FDD3                              DFDD3
+LABEL                    $FE28                              DFE28
+LABEL                    $FE38                              DFE38
+LABEL                    $FE66                              DFE66
+LABEL                    $FE76                              DFE76
+LABEL                    $FEB2                              DFEB2
+LABEL                    $FEB6                              DFEB6
+LABEL                    $FEC6                              DFEC6
+LABEL                    $FEE8                              DFEE8
+LABEL                    $FEF8                              DFEF8
+LABEL                    $FF08                              _FF08
+LABEL                    $FF16                              DFF16
+LABEL                    $FF26                              DFF26
+LABEL                    $FF44                              DFF44
+LABEL                    $FF62                              DFF62
+LABEL                    $FF7A                              DFF7A
+LABEL                    $FF8F                              DFF8F
+LABEL                    $FF9F                              Draw_Grid_VL
+COMMENT                    $FF9F                              ;Get flag byte
+COMMENT                    $FFA1                              ;Jump into loop
+LABEL                    $FFA3                              LFFA3
+COMMENT                    $FFA3                              ;Draw a regular vector list
+COMMENT                    $FFA6                              ;Clear vector list flag
+LABEL                    $FFAB                              LFFAB
+COMMENT                    $FFAB                              ;Save flag byte for vector count
+LABEL                    $FFAE                              LFFAE
+COMMENT                    $FFAE                              ;Decrement vector count
+LABEL                    $FFB0                              _FFB0
+COMMENT                    $FFB1                              ;Get Y of next point
+COMMENT                    $FFB6                              ;Get X of next point
+COMMENT                    $FFBF                              ;Draw a regular vector list?
+COMMENT                    $FFC2                              ;Go back if so
+COMMENT                    $FFC4                              ;Draw a line to the new point
+COMMENT                    $FFC7                              ;Check vector counter
+COMMENT                    $FFCC                              ;Go back if more vectors to draw
+COMMENT                    $FFCE                              ;Check for end of list
+COMMENT                    $FFD0                              ;Go back if more lists to draw
+LABEL                    $FFD8                              _FFD8
+COMMENT                    $FFEE                              ;Unused
+COMMENT                    $FFF2                              ;SWI3 vector
+COMMENT                    $FFF4                              ;SWI2 vector
+COMMENT                    $FFF6                              ;FIRQ vector
+LABEL                    $FFF8                              _FFF8
+COMMENT                    $FFF8                              ;IRQ vector
+COMMENT                    $FFFA                              ;SWI vector
+COMMENT                    $FFFC                              ;NMI vector
+COMMENT                    $FFFE                              ;Reset vector
+RANGE $F007-$F01D DP $D0
+RANGE $F01F-$F038 DP $C8
+RANGE $F06F-$F0B0 DP $C8
+RANGE $F0B5-$F0E5 DP $D0
+RANGE $F14E-$F162 DP $D0
+RANGE $F166-$F189 DP $C8
+RANGE $F18F-$F190 DP $D0
+RANGE $F19C-$F1A8 DP $D0
+RANGE $F1B4-$F2D0 DP $D0
+RANGE $F2E6-$F2F0 DP $D0
+RANGE $F2F2-$F343 DP $D0
+RANGE $F354-$F38F DP $D0
+RANGE $F3AD-$F50F DP $D0
+RANGE $F533-$F558 DP $C8
+RANGE $F593-$F69E DP $C8
+RANGE $F6A3-$F792 DP $C8
+RANGE $F7A9-$F833 DP $C8
+RANGE $F92E-$F9DA DP $C8
+RANGE $E000-$E008 CODE
+RANGE $E008-$E00A DB_DATA 4
+RANGE $E00A-$E012 CODE
+RANGE $E012-$E013 DB_DATA 4
+RANGE $E013-$E240 CODE
+RANGE $E240-$E243 DB_DATA 4
+RANGE $E243-$E24C CODE
+RANGE $E24C-$E24D DB_DATA 4
+RANGE $E24D-$E24F CODE
+RANGE $E24F-$E250 DB_DATA 4
+RANGE $E250-$E260 CODE
+RANGE $E260-$E261 DB_DATA 4
+RANGE $E261-$E44E CODE
+RANGE $E44E-$E44F DB_DATA 4
+RANGE $E44F-$E45A CODE
+RANGE $E45A-$E45B DB_DATA 4
+RANGE $E45B-$E45E CODE
+RANGE $E45E-$E45F DB_DATA 4
+RANGE $E45F-$E468 CODE
+RANGE $E468-$E469 DB_DATA 4
+RANGE $E469-$E47C CODE
+RANGE $E47C-$E47D DB_DATA 4
+RANGE $E47D-$E487 CODE
+RANGE $E487-$E488 DB_DATA 4
+RANGE $E488-$E48A CODE
+RANGE $E48A-$E48B DB_DATA 4
+RANGE $E48B-$E4A3 CODE
+RANGE $E4A3-$E4A5 DB_DATA 4
+RANGE $E4A5-$E4B3 CODE
+RANGE $E4B3-$E4B4 DB_DATA 4
+RANGE $E4B4-$ED39 CODE
+RANGE $ED39-$ED3A DB_DATA 4
+RANGE $ED3A-$ED3C CODE
+RANGE $ED3C-$ED3D DB_DATA 4
+RANGE $ED3D-$ED53 CODE
+RANGE $ED53-$ED54 DB_DATA 4
+RANGE $ED54-$ED56 CODE
+RANGE $ED56-$ED57 DB_DATA 4
+RANGE $ED57-$ED5C CODE
+RANGE $ED5C-$ED5D DB_DATA 4
+RANGE $ED5D-$ED67 CODE
+RANGE $ED67-$ED68 DB_DATA 4
+RANGE $ED68-$ED70 CODE
+RANGE $ED70-$ED71 DB_DATA 4
+RANGE $ED71-$ED77 CODE
+RANGE $ED77-$ED79 DB_DATA 4
+RANGE $ED79-$ED7D CODE
+RANGE $ED7D-$ED7E DB_DATA 4
+RANGE $ED7E-$ED81 CODE
+RANGE $ED81-$ED82 DB_DATA 4
+RANGE $ED82-$ED85 CODE
+RANGE $ED85-$ED86 DB_DATA 4
+RANGE $ED86-$ED8B CODE
+RANGE $ED8B-$ED8C DB_DATA 4
+RANGE $ED8C-$EDA6 CODE
+RANGE $EDA6-$EDA7 DB_DATA 4
+RANGE $EDA7-$EDAF CODE
+RANGE $EDAF-$EDB0 DB_DATA 4
+RANGE $EDB0-$EDBC CODE
+RANGE $EDBC-$EDBD DB_DATA 4
+RANGE $EDBD-$EDBF CODE
+RANGE $EDBF-$EDC0 DB_DATA 4
+RANGE $EDC0-$EDC8 CODE
+RANGE $EDC8-$EDC9 DB_DATA 4
+RANGE $EDC9-$EDCB CODE
+RANGE $EDCB-$EDCD DB_DATA 4
+RANGE $EDCD-$EDD3 CODE
+RANGE $EDD3-$EDD6 DB_DATA 4
+RANGE $EDD6-$EDD8 CODE
+RANGE $EDD8-$EDDA DB_DATA 4
+RANGE $EDDA-$EDE7 CODE
+RANGE $EDE7-$EDE8 DB_DATA 4
+RANGE $EDE8-$EE03 CODE
+RANGE $EE03-$EE04 DB_DATA 4
+RANGE $EE04-$EE0C CODE
+RANGE $EE0C-$EE0D DB_DATA 4
+RANGE $EE0D-$EE26 CODE
+RANGE $EE26-$EE28 DB_DATA 4
+RANGE $EE28-$EE2B CODE
+RANGE $EE2B-$EE2C DB_DATA 4
+RANGE $EE2C-$EE30 CODE
+RANGE $EE30-$EE31 DB_DATA 4
+RANGE $EE31-$EE34 CODE
+RANGE $EE34-$EE35 DB_DATA 4
+RANGE $EE35-$EE36 CODE
+RANGE $EE36-$EE37 DB_DATA 4
+RANGE $EE37-$EE3A CODE
+RANGE $EE3A-$EE3C DB_DATA 4
+RANGE $EE3C-$EE3E CODE
+RANGE $EE3E-$EE3F DB_DATA 4
+RANGE $EE3F-$EE52 CODE
+RANGE $EE52-$EE53 DB_DATA 4
+RANGE $EE53-$EE57 CODE
+RANGE $EE57-$EE58 DB_DATA 4
+RANGE $EE58-$EE5B CODE
+RANGE $EE5B-$EE5C DB_DATA 4
+RANGE $EE5C-$EE6E CODE
+RANGE $EE6E-$EE6F DB_DATA 4
+RANGE $EE6F-$EE76 CODE
+RANGE $EE76-$EE77 DB_DATA 4
+RANGE $EE77-$EE8D CODE
+RANGE $EE8D-$EE8E DB_DATA 4
+RANGE $EE8E-$EEAC CODE
+RANGE $EEAC-$EEAD DB_DATA 4
+RANGE $EEAD-$EEB9 CODE
+RANGE $EEB9-$EEBA DB_DATA 4
+RANGE $EEBA-$EED3 CODE
+RANGE $EED3-$EED5 DB_DATA 4
+RANGE $EED5-$EEE3 CODE
+RANGE $EEE3-$EEE4 DB_DATA 4
+RANGE $EEE4-$EEEA CODE
+RANGE $EEEA-$EEEB DB_DATA 4
+RANGE $EEEB-$EF03 CODE
+RANGE $EF03-$EF04 DB_DATA 4
+RANGE $EF04-$EF0A CODE
+RANGE $EF0A-$EF0B DB_DATA 4
+RANGE $EF0B-$EF14 CODE
+RANGE $EF14-$EF15 DB_DATA 4
+RANGE $EF15-$EF1B CODE
+RANGE $EF1B-$EF1C DB_DATA 4
+RANGE $EF1C-$EF25 CODE
+RANGE $EF25-$EF26 DB_DATA 4
+RANGE $EF26-$EF58 CODE
+RANGE $EF58-$EF59 DB_DATA 4
+RANGE $EF59-$EF5C CODE
+RANGE $EF5C-$EF5D DB_DATA 4
+RANGE $EF5D-$EF79 CODE
+RANGE $EF79-$EF7A DB_DATA 4
+RANGE $EF7A-$EF8F CODE
+RANGE $EF8F-$EF90 DB_DATA 4
+RANGE $EF90-$EF93 CODE
+RANGE $EF93-$EF94 DB_DATA 4
+RANGE $EF94-$EFA5 CODE
+RANGE $EFA5-$EFA6 DB_DATA 4
+RANGE $EFA6-$EFB2 CODE
+RANGE $EFB2-$EFB3 DB_DATA 4
+RANGE $EFB3-$EFCB CODE
+RANGE $EFCB-$EFCC DB_DATA 4
+RANGE $EFCC-$F0E9 CODE
+RANGE $F0E9-$F101 DB_DATA 4
+RANGE $F101-$F10B CHAR_DATA 10
+RANGE $F10B-$F110 DB_DATA 4
+RANGE $F110-$F117 CHAR_DATA 7
+RANGE $F117-$F11C DB_DATA 4
+RANGE $F11C-$F123 CHAR_DATA 7
+RANGE $F123-$F128 DB_DATA 4
+RANGE $F128-$F12B CHAR_DATA 3
+RANGE $F12B-$F130 DB_DATA 4
+RANGE $F130-$F13C CHAR_DATA 12
+RANGE $F13C-$F141 DB_DATA 4
+RANGE $F141-$F14A CHAR_DATA 9
+RANGE $F14A-$F14C DB_DATA 4
+RANGE $F14C-$F794 CODE
+RANGE $F794-$F798 DW_DATA 4
+RANGE $F798-$F79E CHAR_DATA 6
+RANGE $F79E-$F79F DB_DATA 4
+RANGE $F79F-$F7A3 DW_DATA 4
+RANGE $F7A3-$F7A8 CHAR_DATA 5
+RANGE $F7A8-$F7A9 DB_DATA 4
+RANGE $F7A9-$F9DC CODE
+RANGE $F9DC-$F9F0 DB_DATA 4
+RANGE $F9F0-$FC6C DW_DATA 4
+RANGE $FC6C-$FC6D DB_DATA 4
+RANGE $FC6D-$FE23 DW_DATA 4
+RANGE $FE23-$FE28 DB_DATA 4
+RANGE $FE28-$FF8A DW_DATA 4
+RANGE $FF8A-$FF8F DB_DATA 4
+RANGE $FF8F-$FF9F DW_DATA 4
+RANGE $FF9F-$FFD3 CODE
+RANGE $FFD3-$FFEE CHAR_DATA 27
+RANGE $FFEE-$FFFE CODE
+RANGE $FFFE-$0000 DB_DATA 4
+DIRECT_LABEL $D0 $00 VIA_port_b
+DIRECT_LABEL $D0 $01 VIA_port_a
+DIRECT_LABEL $D0 $02 VIA_DDR_b
+DIRECT_LABEL $D0 $03 VIA_DDR_a
+DIRECT_LABEL $D0 $04 VIA_t1_cnt_lo
+DIRECT_LABEL $D0 $05 VIA_t1_cnt_hi
+DIRECT_LABEL $D0 $08 VIA_t2_lo
+DIRECT_LABEL $D0 $09 VIA_t2_hi
+DIRECT_LABEL $D0 $0A VIA_shift_reg
+DIRECT_LABEL $D0 $0B VIA_aux_cntl
+DIRECT_LABEL $D0 $0C VIA_cntl
+DIRECT_LABEL $D0 $0D VIA_int_flags
+DIRECT_LABEL $D0 $0E VIA_int_enable
+DIRECT_LABEL $C8 $45 Vec_Music_Wk_7
+DIRECT_LABEL $C8 $46 Vec_Music_Wk_6
+DIRECT_LABEL $C8 $4D Vec_Freq_Table
+DIRECT_LABEL $C8 $4F Vec_ADSR_Table
+DIRECT_LABEL $C8 $0F Vec_Btn_State
+DIRECT_LABEL $C8 $50 Vec_Max_Games
+DIRECT_LABEL $C8 $51 Vec_Twang_Table
+DIRECT_LABEL $C8 $12 Vec_Button_1_1
+DIRECT_LABEL $C8 $53 Vec_Expl_ChanA
+DIRECT_LABEL $C8 $13 Vec_Button_1_2
+DIRECT_LABEL $C8 $54 Vec_Expl_Chans
+DIRECT_LABEL $C8 $14 Vec_Button_1_3
+DIRECT_LABEL $C8 $55 Vec_Music_Chan
+DIRECT_LABEL $C8 $15 Vec_Button_1_4
+DIRECT_LABEL $C8 $56 Vec_Music_Flag
+DIRECT_LABEL $C8 $57 Vec_Duration
+DIRECT_LABEL $C8 $58 Vec_Expl_1
+DIRECT_LABEL $C8 $59 Vec_Expl_2
+DIRECT_LABEL $C8 $5A Vec_Expl_3
+DIRECT_LABEL $C8 $5B Vec_Expl_4
+DIRECT_LABEL $C8 $5C Vec_Expl_Chan
+DIRECT_LABEL $C8 $5D Vec_Expl_ChanB
+DIRECT_LABEL $C8 $1F Vec_Joy_Mux
+DIRECT_LABEL $C8 $21 Vec_Joy_Mux_2_X
+DIRECT_LABEL $C8 $23 Vec_Misc_Count
+DIRECT_LABEL $C8 $24 Vec_0Ref_Enable
+DIRECT_LABEL $C8 $25 Vec_Loop_Count
+DIRECT_LABEL $C8 $26 _C826
+DIRECT_LABEL $C8 $67 Vec_Expl_Flag
+DIRECT_LABEL $C8 $28 Vec_Dot_Dwell
+DIRECT_LABEL $C8 $29 Vec_Pattern
+DIRECT_LABEL $C8 $2A Vec_Text_Height
+DIRECT_LABEL $C8 $2E Vec_Counters
+DIRECT_LABEL $C8 $2F Vec_Counter_2
+DIRECT_LABEL $C8 $34 Vec_RiseRun_Tmp
+DIRECT_LABEL $C8 $36 Vec_Angle
+DIRECT_LABEL $C8 $37 Vec_Run_Index
+DIRECT_LABEL $C8 $77 Vec_Expl_Timer
+DIRECT_LABEL $C8 $39 Vec_Rise_Index
+DIRECT_LABEL $C8 $79 Vec_Num_Players
+DIRECT_LABEL $C8 $7A Vec_Num_Game
+DIRECT_LABEL $C8 $7B Vec_Seed_Ptr
+DIRECT_LABEL $C8 $3B Vec_RiseRun_Len
+DIRECT_LABEL $C8 $7D Vec_Random_Seed
+DIRECT_LABEL $C8 $3D Vec_Rfrsh
+END_BANK                    $00
+

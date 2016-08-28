@@ -24,6 +24,7 @@ import de.malban.input.EventController;
 import de.malban.input.SystemController;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.util.DownloaderPanel;
+import de.malban.util.KeyboardListener;
 import static de.malban.vide.ControllerConfig.CONTROLLER_JOYSTICK;
 import static de.malban.vide.ControllerConfig.CONTROLLER_NONE;
 import static de.malban.vide.ControllerConfig.CONTROLLER_SPINNER;
@@ -49,6 +50,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import net.java.games.input.Component;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
 
@@ -124,6 +126,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     
     private void initValues()
     {
+        initControllers("");
         jTextField9.setText(""+config.minimumSpinnerChangeCycles);
         jTextField10.setText(""+config.jinputPolltime);
         
@@ -266,7 +269,20 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         {
            jComboBox1.setSelectedItem(config.loadedConfig);
         }
-        initControllers("");
+        
+
+        for (int i=0; i<jComboBox2.getItemCount(); i++)
+        {
+            SystemRom o = (SystemRom)jComboBox2.getItemAt(i);
+            if (o.getCartName().toLowerCase().equals(config.usedSystemRom.toLowerCase()))
+            {
+                jComboBox2.setSelectedIndex(i);
+                break;
+            }
+        }
+        
+        
+        
         mClassSetting--;
     }
     
@@ -2346,7 +2362,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
 
         jLabel29.setText("minimum cycles between spinner events:");
 
-        jTextField9.setText("40000");
+        jTextField9.setText("30000");
         jTextField9.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField9FocusLost(evt);
@@ -3078,7 +3094,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             jToggleButton7.setEnabled(false);
             jToggleButton8.setEnabled(false);
             jToggleButton9.setEnabled(true);
-            jToggleButton10.setEnabled(false);
+            jToggleButton10.setEnabled(true);
             jLabel17.setEnabled(false);
             jLabel18.setEnabled(false);
             jLabel19.setEnabled(true);
@@ -3086,21 +3102,21 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             jLabel22.setEnabled(false);
             jLabel23.setEnabled(false);
             jLabel24.setEnabled(true);
-            jLabel25.setEnabled(false);
+            jLabel25.setEnabled(true);
         }        
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
     private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
-        config.minimumSpinnerChangeCycles = de.malban.util.UtilityString.IntX(jTextField9.getText(), 40000);
+        config.minimumSpinnerChangeCycles = de.malban.util.UtilityString.IntX(jTextField9.getText(), 30000);
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField9ActionPerformed
 
     private void jTextField9FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField9FocusLost
-        config.minimumSpinnerChangeCycles = de.malban.util.UtilityString.IntX(jTextField9.getText(), 40000);
+        config.minimumSpinnerChangeCycles = de.malban.util.UtilityString.IntX(jTextField9.getText(), 30000);
     }//GEN-LAST:event_jTextField9FocusLost
 
     private void jTextField9KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField9KeyReleased
-        config.minimumSpinnerChangeCycles = de.malban.util.UtilityString.IntX(jTextField9.getText(), 40000);
+        config.minimumSpinnerChangeCycles = de.malban.util.UtilityString.IntX(jTextField9.getText(), 30000);
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField9KeyReleased
 
@@ -3389,6 +3405,14 @@ public class ConfigJPanel extends javax.swing.JPanel implements
 
     public void controllerEvent(ControllerEvent e)
     {
+     
+        if (e.type == ControllerEvent.CONTROLLER_BUTTON_CHANGED)
+        {
+            if (e.componentId.equals(Component.Identifier.Button.LEFT.getName()))
+            {
+                if (KeyboardListener.isShiftDown()) return;
+            }
+        }
         if (e.type == ControllerEvent.CONTROLLER_CHANGED)
         {
             
@@ -3442,6 +3466,14 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                         listenFor = null;
                         updateControllerMapping();
                     }
+                    
+                    if (e.type == ControllerEvent.CONTROLLER_BUTTON_CHANGED)
+                    {
+                        inputMapping.put(listenFor.getName(), e.componentId);
+                        listenFor = null;
+                        updateControllerMapping();
+                    }
+                            
                 }
                 else
                 {

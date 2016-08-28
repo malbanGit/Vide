@@ -1,1 +1,4 @@
 http://vgcollect.freehosting.net/myvectrex.htm
+
+Note the Source code in the ZIP was not complete nor was it the current version, so this game
+compiles a bit "buggy".

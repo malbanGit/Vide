@@ -217,6 +217,8 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         single3dDisplayPanel1.setAxisAngleZ(0);
         single3dDisplayPanel1.setDrawVectorEnds(false);
         single3dDisplayPanel1.repaint();
+        single3dDisplayPanel1.setDumpMode(true);
+        
         jSliderSourceScale1StateChanged(null); 
         jTable1.setModel(model);
         
@@ -1287,6 +1289,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         
         
 
+        single3dDisplayPanel1.setSharedRepaint(false);
         single3dDisplayPanel1.suspendRepaint();
         int vy = 0 +(targetHeight/2);  
         for (int y=0; y<targetHeight; y++)
@@ -1344,6 +1347,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
             vy--;
         }                
         single3dDisplayPanel1.continueRepaint();
+        single3dDisplayPanel1.setSharedRepaint(true);
     }        
     protected boolean savePatterns()
     {

@@ -78,8 +78,8 @@ public class KeyboardSpinnerDevice extends AbstractDevice
         new HotKey("Spinner_Left_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  moveDirection = LEFT; }}, panel);
         new HotKey("Spinner_Right_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  moveDirection = RIGHT; }}, panel);
 
-        new HotKey("Spinner_Left_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  moveDirection = NONE; }}, panel);
-        new HotKey("Spinner_Right_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  moveDirection = NONE; }}, panel);
+        new HotKey("Spinner_Left_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  moveDirection = NONE;currentCount=-1; }}, panel);
+        new HotKey("Spinner_Right_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  moveDirection = NONE;currentCount=-1; }}, panel);
     }   
 
     @Override

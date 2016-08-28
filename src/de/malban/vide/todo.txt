@@ -448,6 +448,8 @@ keyboard spinner yx direction (x) cv buttons 3+4
 
 todo:
 
+- input devces not samed with game information
+
 rounders displays paddle and some dots WRONG
 
 hidden line removal

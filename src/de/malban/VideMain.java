@@ -5,13 +5,18 @@
  */
 package de.malban;
 
+import de.malban.config.Configuration;
 import de.malban.event.EventSupport;
 import de.malban.gui.CSAMainFrame;
+import de.malban.input.SystemController;
+import de.malban.lwgl.LWJGLSupport;
 import de.malban.sound.tinysound.TinySound;
 import java.awt.Toolkit;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
 
 
 /**
@@ -24,6 +29,13 @@ public class VideMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Configuration.getConfiguration().getDebugEntity();
+        Global g = new Global();
+
+        SystemController.isJInputSupported();
+        LWJGLSupport.isLWJGLSupported();
+        
+        
 /*        
         System.out.println("JInput version: " + Version.getVersion());
         ControllerEnvironment ce = ControllerEnvironment.getDefaultEnvironment();
@@ -53,25 +65,21 @@ public class VideMain {
             ex.printStackTrace();
         }  
         EventSupport.getEventSupport();
-  /*     
-long eventMask = AWTEvent.MOUSE_MOTION_EVENT_MASK
-    + AWTEvent.MOUSE_EVENT_MASK
-    + AWTEvent.KEY_EVENT_MASK;
- eventMask = AWTEvent.KEY_EVENT_MASK;
-
-Toolkit.getDefaultToolkit().addAWTEventListener( new AWTEventListener()
-{
-    public void eventDispatched(AWTEvent e)
-    {
-        System.out.println(e.getID());
-    }
-}, eventMask);
-*/
+  
+        
 
         TinySound.init();
-        CSAMainFrame mainFrame = new CSAMainFrame();
-        mainFrame.setVisible(true);
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                CSAMainFrame mainFrame = new CSAMainFrame();
+                mainFrame.setVisible(true);
+            }
+        });
 
+        if (LWJGLSupport.isLWJGLSupported())
+            LWJGLSupport.getLWJGLSupport().deliverMainThread();
     }
     
 }

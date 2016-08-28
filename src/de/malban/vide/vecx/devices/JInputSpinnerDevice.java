@@ -172,8 +172,6 @@ public class JInputSpinnerDevice  extends AbstractDevice implements ControllerLi
                     moveDirection=NONE;
                     speedFactor = 1;
                 }
-                
-                
             }
             
             else if (e.type == CONTROLLER_RELATIVE_CHANGED)
@@ -214,12 +212,39 @@ public class JInputSpinnerDevice  extends AbstractDevice implements ControllerLi
                     moveDirection=NONE;
                     speedFactor = 1;
                 }
-                
-                
             }
+            else if (e.type == ControllerEvent.CONTROLLER_BUTTON_CHANGED)
+            {
+                if (e.currentButtonState)
+                {
+                    speedFactor = 1;
+                    moveDirection=RIGHT;
+                }
+                else 
+                {
+                    moveDirection=NONE;
+                    speedFactor = 1;
+                }
+            }
+            
 //            joyport.setHorizontal((int)(e.currentAxisPercent*FACTOR)&0xff, true);
         }
-        
+        if (vectrexTarget.equals("vertical"))  
+        {
+            if (e.type == ControllerEvent.CONTROLLER_BUTTON_CHANGED)
+            {
+                if (e.currentButtonState)
+                {
+                    speedFactor = 1;
+                    moveDirection=LEFT;
+                }
+                else 
+                {
+                    moveDirection=NONE;
+                    speedFactor = 1;
+                }
+            }
+        }       
     }
     static double FACTOR = 127.0/50.0;
     

@@ -250,6 +250,11 @@ public class RasterPanel extends javax.swing.JPanel implements
                 singleImagePanel1MouseDragged(evt);
             }
         });
+        singleImagePanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                singleImagePanel1MouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout singleImagePanel1Layout = new javax.swing.GroupLayout(singleImagePanel1);
         singleImagePanel1.setLayout(singleImagePanel1Layout);
@@ -587,14 +592,17 @@ public class RasterPanel extends javax.swing.JPanel implements
         jTextFieldVectorHeight.setText(""+h);
         
         
-        
-        buildVectors();
+                buildVectors();
         
     }//GEN-LAST:event_singleImagePanel1MouseDragged
 
     private void singleImagePanel1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_singleImagePanel1MouseMoved
         // TODO add your handling code here:
     }//GEN-LAST:event_singleImagePanel1MouseMoved
+
+    private void singleImagePanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_singleImagePanel1MouseReleased
+
+    }//GEN-LAST:event_singleImagePanel1MouseReleased
 
     boolean wasMainSetManually = false;
 
@@ -832,6 +840,7 @@ public class RasterPanel extends javax.swing.JPanel implements
     }
     void displayVectors()
     {
+        singleVectorPanel1.setSharedRepaint(false);
         singleVectorPanel1.setDrawVectorEnds(false);
         BufferedImage orgImage = singleImagePanel1.getImage();
         int targetWidth = de.malban.util.UtilityString.IntX(jTextFieldVectorWitdh.getText(), orgImage.getWidth());
@@ -898,6 +907,7 @@ public class RasterPanel extends javax.swing.JPanel implements
                 }                
             }
         }
+        singleVectorPanel1.setSharedRepaint(true);
     }
     void createASMFile()
     {

@@ -78,7 +78,7 @@ public class VideConfig  implements Serializable{
     public boolean speedLimit = true;
     public boolean imagerAutoOnDefault = false;
     
-    public int minimumSpinnerChangeCycles = 40000;
+    public int minimumSpinnerChangeCycles = 30000;
     public int jinputPolltime = 50;
     
     

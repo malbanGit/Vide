@@ -2795,7 +2795,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField9">
               <Properties>
-                <Property name="text" type="java.lang.String" value="40000"/>
+                <Property name="text" type="java.lang.String" value="30000"/>
               </Properties>
               <Events>
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTextField9FocusLost"/>

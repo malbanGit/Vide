@@ -13,11 +13,14 @@ import de.malban.gui.ResizeListener;
 import de.malban.gui.ScaleListener;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.sound.Audio;
 import java.awt.Font;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,31 +39,7 @@ public final class Configuration
     public static final int DIALOG_CANCEL=0;
 
     
-  public static final boolean LINUX;
-  public static final boolean MAC_OS_X;
-  public static final boolean WINDOWS;
-  static
-  {
-    String str1 = System.getProperty("os.name").toLowerCase();
-    if (str1.startsWith("mac"))
-    {
-      LINUX = false;
-      MAC_OS_X = true;
-      WINDOWS = false;
-    }
-    else if (str1.contains("windows"))
-    {
-      LINUX = false;
-      MAC_OS_X = false;
-      WINDOWS = true;
-    }
-    else
-    {
-      LINUX = true;
-      MAC_OS_X = false;
-      WINDOWS = false;
-    }
-  }
+
     private Theme currentTheme = null;
     public Theme getCurrentTheme()
     {
@@ -546,121 +525,121 @@ public final class Configuration
    }
 
 
-		public void clearLog()
-        {
-            mLogPanel.clearLog();
+    public void clearLog()
+    {
+        mLogPanel.clearLog();
 
-        }
-        public void clearDebugLog()
-        {
-            mDebugPanel.clearLog();
-        }
+    }
+    public void clearDebugLog()
+    {
+        mDebugPanel.clearLog();
+    }
 
-        public void resetStatic()
-        {
-            Audio.resetCaches();
-            SoundEffect.resetMappings();
-        }
+    public void resetStatic()
+    {
+        Audio.resetCaches();
+        SoundEffect.resetMappings();
+    }
 
-        public void setSoundVolumne(int volumne)
-        {
-            mData.mSoundVolumne=volumne;
-        }
-        public int getSoundVolumne()
-        {
-            return mData.mSoundVolumne;
-        }
+    public void setSoundVolumne(int volumne)
+    {
+        mData.mSoundVolumne=volumne;
+    }
+    public int getSoundVolumne()
+    {
+        return mData.mSoundVolumne;
+    }
 
-        public void setStartInFullScrren(boolean b)
-        {
-            mData.mStartInFullScreen = b;
-        }
-        public boolean isStartInFullScrren()
-        {
-            return mData.mStartInFullScreen;
-        }
-        public void setFullScrrenResString(String res)
-        {
-            if (res==null) res ="";
-            mData.mFullscreenResolution = res;
-        }
-        public String getFullScrrenResString()
-        {
-            if (mData.mFullscreenResolution == null) return "";
-            return mData.mFullscreenResolution;
-        }
+    public void setStartInFullScrren(boolean b)
+    {
+        mData.mStartInFullScreen = b;
+    }
+    public boolean isStartInFullScrren()
+    {
+        return mData.mStartInFullScreen;
+    }
+    public void setFullScrrenResString(String res)
+    {
+        if (res==null) res ="";
+        mData.mFullscreenResolution = res;
+    }
+    public String getFullScrrenResString()
+    {
+        if (mData.mFullscreenResolution == null) return "";
+        return mData.mFullscreenResolution;
+    }
 
-        public boolean isFirstTime()
-        {
-            return !mData.mFirstTimeStarting;
-        }
-        public void  setFirstTime(boolean f)
-        {
-            mData.mFirstTimeStarting = !f;
-        }
-        public void setTitleMusic(String t)
-        {
-            mData.mTitleMusik = t;
-        }
-        public String getTitleMusic()
-        {
-            return mData.mTitleMusik;
-        }
+    public boolean isFirstTime()
+    {
+        return !mData.mFirstTimeStarting;
+    }
+    public void  setFirstTime(boolean f)
+    {
+        mData.mFirstTimeStarting = !f;
+    }
+    public void setTitleMusic(String t)
+    {
+        mData.mTitleMusik = t;
+    }
+    public String getTitleMusic()
+    {
+        return mData.mTitleMusik;
+    }
 
-        public void setFileLoggingDisabled(boolean b)
-        {
-            mData.mDisableFileLogs = b;
-            mDebugPanel.setFiletracking(!mData.mDisableFileLogs);
-            mLogPanel.setFiletracking(!mData.mDisableFileLogs);
-        }
-        public boolean isFileLoggingDisabled()
-        {
-            return mData.mDisableFileLogs;
-        }
+    public void setFileLoggingDisabled(boolean b)
+    {
+        mData.mDisableFileLogs = b;
+        mDebugPanel.setFiletracking(!mData.mDisableFileLogs);
+        mLogPanel.setFiletracking(!mData.mDisableFileLogs);
+    }
+    public boolean isFileLoggingDisabled()
+    {
+        return mData.mDisableFileLogs;
+    }
 
-        public void setPlayTitleMusic(boolean b )
-        {
-            mData.mPlayMusic = b;
-        }
-        public boolean isPlayTitleMusic()
-        {
-            return mData.mPlayMusic;
-        }
+    public void setPlayTitleMusic(boolean b )
+    {
+        mData.mPlayMusic = b;
+    }
+    public boolean isPlayTitleMusic()
+    {
+        return mData.mPlayMusic;
+    }
 
-        public void setSoundMapName(String s)
-        {
-            mData.mSoundMapName = s;
-            Audio.resetCaches();
-            SoundEffect.resetMappings();
-            mSoundMap = null;
-        }
+    public void setSoundMapName(String s)
+    {
+        mData.mSoundMapName = s;
+        Audio.resetCaches();
+        SoundEffect.resetMappings();
+        mSoundMap = null;
+    }
 
-        public String getSoundMapName()
-        {
-            return mData.mSoundMapName;
-        }
+    public String getSoundMapName()
+    {
+        return mData.mSoundMapName;
+    }
 
-        public SoundMap getSoundMap()
+    public SoundMap getSoundMap()
+    {
+        if (mSoundMap == null)
         {
+            SoundMapPool mSoundMapPool = new SoundMapPool();
+            mSoundMap = mSoundMapPool.get(mData.mSoundMapName);
             if (mSoundMap == null)
-            {
-                SoundMapPool mSoundMapPool = new SoundMapPool();
-                mSoundMap = mSoundMapPool.get(mData.mSoundMapName);
-                if (mSoundMap == null)
-                    mSoundMap = new SoundMap();
-                SoundEffect.resetMappings();
-            }
-            return mSoundMap;
+                mSoundMap = new SoundMap();
+            SoundEffect.resetMappings();
         }
+        return mSoundMap;
+    }
 
-        public void setShowTOD(boolean b)
-        {
-            mData.mShowTippOfDay = b;
-        }
-        public boolean isShowTOD()
-        {
-            return mData.mShowTippOfDay;
-        }
+    public void setShowTOD(boolean b)
+    {
+        mData.mShowTippOfDay = b;
+    }
+    public boolean isShowTOD()
+    {
+        return mData.mShowTippOfDay;
+    }
 
     Vector<String> getAllThemes() {
         return new Vector<String>();
@@ -673,7 +652,6 @@ public final class Configuration
         
     class DummyLog implements Logable
     {
-        
         @Override public void setFiletracking(boolean b){}
         @Override public void setInterestedClasses(String c){}
         @Override public void setInterestedMethods(String m){}
@@ -693,5 +671,27 @@ public final class Configuration
         @Override public void clearLog(){}
         @Override public void addLogListener(LogListener l){};
         @Override public void removeLogListener(LogListener l){};
+    }
+
+    static StringBuilder add = new StringBuilder();
+    public static PrintStream getLogStream()
+    {
+        PrintStream  p= new PrintStream(
+            new OutputStream()
+            {
+                @Override
+                public void write( int b )
+                {
+                    add.append((char)b);
+                    if (b=='\n')
+                    {
+                        Configuration.getConfiguration().getDebugEntity().addLog(add.toString(), WARN);
+                        add.delete(0, add.length());
+                    }
+                }
+            }
+        );
+//        p.flush();
+        return p;
     }
 }

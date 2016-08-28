@@ -25,10 +25,9 @@ import de.malban.gui.panels.WindowablePanel;
 import de.malban.input.InputControllerDisplay;
 import de.malban.jdbc.DBConnectionEdit;
 import de.malban.jdbc.StatementWindow;
-import de.malban.util.KeyboardListener;
+import de.malban.lwgl.LWJGLSupport;
 import de.malban.vide.assy.AssyPanel;
 import de.malban.vide.dissy.CompareDissiPanel;
-import de.malban.vide.dissy.DissiFullPanel;
 import de.malban.vide.vecx.panels.AnalogJPanel;
 import de.malban.vide.vecx.panels.BreakpointJPanel;
 import de.malban.vide.ConfigJPanel;
@@ -51,14 +50,11 @@ import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import de.malban.vide.vedi.VediPanel;
 import java.awt.*;
-import static java.awt.BorderLayout.CENTER;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -848,6 +844,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         AbstractDevice.exitSync = true;
         DualVec.exitSync = true;
+        LWJGLSupport.getLWJGLSupport().exit = true;
         saveStateAll();
         dispose();
         System.exit(0);
@@ -940,6 +937,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         AbstractDevice.exitSync = true;
         DualVec.exitSync = true;
+        LWJGLSupport.getLWJGLSupport().exit = true;
         saveStateAll();
     }//GEN-LAST:event_formWindowClosing
 

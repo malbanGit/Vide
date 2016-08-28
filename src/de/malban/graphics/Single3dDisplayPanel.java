@@ -477,7 +477,8 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
                 count++;
             } // Foreground Vectors done
 
-            lastDisplayList.setRelativeWherePossible();
+            if (!dumpMode)
+                lastDisplayList.setRelativeWherePossible();
 
             // restore original color
             g.setColor(c);
@@ -500,4 +501,9 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
         repaint();
     }
     
+    boolean dumpMode = false;
+    public void setDumpMode(boolean dp)
+    {
+        dumpMode = dp;
+    }
 }

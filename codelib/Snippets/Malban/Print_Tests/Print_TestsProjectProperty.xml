@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<AllProjectProperties>
+	<ProjectProperties>
+		<Class>Project</Class>
+		<Name>Print_Tests</Name>
+		<ProjectName>Print_Tests</ProjectName>
+		<DirectoryName></DirectoryName>
+		<Path>codelib/Snippets/Malban</Path>
+		<MainFile>Print_TestMain.asm</MainFile>
+		<Description></Description>
+		<Version>1.0</Version>
+		<Author>Malban</Author>
+		<Bankswitching>none</Bankswitching>
+		<createBankswitchCode>false</createBankswitchCode>
+		<createGameLoopCode>true</createGameLoopCode>
+		<NumberOfBanks>1</NumberOfBanks>
+		<BankMainFiless>
+			<BankMainFiles>Print_TestMain.asm</BankMainFiles>
+		</BankMainFiless>
+		<Extras>0</Extras>
+		<ProjectPreScriptClass></ProjectPreScriptClass>
+		<ProjectPreScriptName></ProjectPreScriptName>
+		<ProjectPostScriptClass></ProjectPostScriptClass>
+		<ProjectPostScriptName></ProjectPostScriptName>
+		<BankDefiness>
+			<BankDefines></BankDefines>
+		</BankDefiness>
+		<WheelName></WheelName>
+	</ProjectProperties>
+</AllProjectProperties>

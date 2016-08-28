@@ -333,6 +333,7 @@
                   <Events>
                     <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="singleImagePanel1MouseMoved"/>
                     <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="singleImagePanel1MouseDragged"/>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="singleImagePanel1MouseReleased"/>
                   </Events>
 
                   <Layout>

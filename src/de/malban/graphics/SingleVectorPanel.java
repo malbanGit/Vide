@@ -43,7 +43,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         Vector<MouseReleasedListener> mReleasedListener= new Vector<MouseReleasedListener>();
         
         Vector<VectorChangedListener> mVectorListener= new Vector<VectorChangedListener>();
-        
+        boolean shareRepaintEnabled = true;
         int gridWidth = 10;
         boolean displayGrid = true;
         boolean continueMode = false;
@@ -385,10 +385,18 @@ public class SingleVectorPanel extends javax.swing.JPanel
         }
         unselectAll();
     }
-    
+    public void setSharedRepaint(boolean doSharedRepaint)
+    {
+        vars.shareRepaintEnabled = doSharedRepaint;
+        if (doSharedRepaint)
+        {
+            sharedRepaint();
+        }
+    }
     // repaint self and all siblings
     public void sharedRepaint()
     {
+        if (!vars.shareRepaintEnabled) return;
         for (SingleVectorPanel svp: vars.siblings) svp.updateAndRepaint();
     }
     public GFXVectorList getForegroundVectorList()

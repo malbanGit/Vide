@@ -5,6 +5,9 @@
  */
 package de.malban.vide.vecx;
 
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
+
 import de.malban.vide.vecx.devices.LightpenDevice;
 import de.malban.vide.VideConfig;
 import de.malban.config.Configuration;
@@ -19,6 +22,14 @@ import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.ShowErrorDialog;
+import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.INFO;
+
+import de.malban.lwgl.LWJGLRenderer;
+import de.malban.lwgl.LWJGLSupport;
+import de.malban.lwgl.LWJGLSupport.GLWindow;
+import static de.malban.lwgl.LWJGLSupport.isLWJGLSupported;
+
 import de.malban.util.KeyboardListener;
 import de.malban.vide.ControllerConfig;
 import de.malban.vide.dissy.DissiPanel;
@@ -80,7 +91,6 @@ import de.malban.vide.vecx.panels.VIAJPanel;
 import de.malban.vide.vecx.panels.VarJPanel;
 import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
-import de.malban.vide.vedi.VediPanel;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import javax.swing.DefaultComboBoxModel;
@@ -92,10 +102,11 @@ import javax.swing.DefaultComboBoxModel;
 public class VecXPanel extends javax.swing.JPanel  
     implements  Windowable, 
                 DisplayerInterface, 
-                VecXStatics, 
+                VecXStatics, LWJGLRenderer, 
                 Stateable
 {
     public boolean isLoadSettings() { return true; }
+    LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     VideConfig config = VideConfig.getConfig();
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
@@ -165,6 +176,8 @@ public class VecXPanel extends javax.swing.JPanel
         {
             vecx.deinit();
         }
+        if (isLWJGL)
+            LWJGLSupport.getLWJGLSupport().removeWindow(w);
     }
     @Override
     public void setParentWindow(CSAView jpv)
@@ -223,6 +236,7 @@ public class VecXPanel extends javax.swing.JPanel
         vecx.setDisplayer(this);
         updatePorts();
         resetGfx();
+        initLWGL();
     }
 
     /**
@@ -3336,5 +3350,35 @@ public class VecXPanel extends javax.swing.JPanel
         updateAvailableWindows(true, false, true);
         return ok;
     }
+
+    
+    boolean isLWJGL = false;
+    GLWindow w = null;
+    void initLWGL()
+    {
+        isLWJGL = LWJGLSupport.isLWJGLSupported();
+        if (!isLWJGL) return;
+        w = LWJGLSupport.getLWJGLSupport().addWindow(0,0, 300, 300, "Hello Vectrex!", this);
+        if ( w == null )
+        {
+            log.addLog("GL Window not created!", INFO);
+            isLWJGL = false;
+        }
+    }
+
+    public void render()
+    {
+        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);        
+        vecx.getDisplayList();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+        glfwSwapBuffers(w.window); // swap the color buffers
+    }
+
+    public void lwjglExit()
+    {
+        jButtonStopActionPerformed(null);
+        ((CSAMainFrame)mParent).removePanel(this, true);
+    }
     
 }
+

@@ -297,7 +297,7 @@ public class LogPanel extends javax.swing.JPanel implements Windowable, Logable{
         }
         if (logToStd)
         {
-            System.out.println(text+"");
+            System.out.println("LogOut:\n"+text+"");
         }
         fileAppend(text+"\n");
         fireLogAdded(text);

@@ -5,7 +5,10 @@
  */
 package de.malban.input;
 
+import de.malban.Global;
+import static de.malban.Global.NATIVES_PATH;
 import de.malban.config.Configuration;
+import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -21,67 +24,10 @@ import net.java.games.input.ControllerEnvironment;
  */
 public class SystemController 
 {
-    public static final String OSNAME;
-    public static final String NATIVES_PATH;
-
+    public static boolean init = false;
+    public static boolean supported = false;
     private static ArrayList<Controller> foundControllers;
     private static Boolean jinputAvailable = null;
-    static 
-    {
-        // http://www.java-gaming.org/topics/setup-natives-from-code/32484/view.html
-        OSNAME = System.getProperty("os.name").toLowerCase();
-        if (OSNAME.contains("win")) NATIVES_PATH = "lib/";
-        else if(OSNAME.contains("mac"))NATIVES_PATH = "lib";
-        else if(OSNAME.contains("lin"))NATIVES_PATH = "lib";
-        else if(OSNAME.contains("sol"))NATIVES_PATH = "lib";
-        else NATIVES_PATH = "lib";
-
-        // see: http://stackoverflow.com/questions/17413690/java-jinput-rescan-reload-controllers
-        /**
-         * Fix windows 8 warnings by defining a working plugin
-         */
-        AccessController.doPrivileged(new PrivilegedAction<Object>() 
-        {
-            public Object run() {
-                String os = System.getProperty("os.name", "").trim();
-                if ((os.startsWith("Windows 8")) || (os.startsWith("Windows 1"))) {  // 8, 8.1 etc.
-
-                    // disable default plugin lookup
-                    System.setProperty("jinput.useDefaultPlugin", "false");
-
-                    // set to same as windows 7 (tested for windows 8 and 8.1)
-                    System.setProperty("net.java.games.input.plugins", "net.java.games.input.DirectAndRawInputEnvironmentPlugin");
-
-                }
-                return null;
-            }
-        });
-        if (!OSNAME.contains("mac"))
-        {
-            // set native library path
-            AccessController.doPrivileged(new PrivilegedAction() 
-            {
-                public Object run() 
-                {
-                    System.setProperty("net.java.games.input.librarypath", new File(NATIVES_PATH).getAbsolutePath());
-                    return null;
-                }
-            });         
-
-        }
-        else
-        {
-            // set native library path
-            AccessController.doPrivileged(new PrivilegedAction() 
-            {
-                public Object run() 
-                {
-                    System.setProperty("java.library.path", new File("lib").getAbsolutePath());
-                    return null;
-                }
-            });         
-        }
-    }
 
     public static boolean isJInputAvailable()
     {
@@ -91,6 +37,14 @@ public class SystemController
         }
         return jinputAvailable;
     }
+    
+    public static boolean isJInputSupported()
+    {
+        createDefaultEnvironment();
+        return jinputAvailable;
+    }
+    
+    
     
     private static ControllerEnvironment createDefaultEnvironment()  
     {
@@ -103,8 +57,21 @@ public class SystemController
             // Constructor is package private, so we have to deactivate access control checks
             constructor.setAccessible(true);
 
+            
+            // needs             // -Djava.library.path="lib"
+
+            String test = System.mapLibraryName("jinput-osx");
+//            if (test.equals("libjinput-osx.dylib")) test = "libjinput-osx.jnilib";
+            
+//            System.loadLibrary("jinput-osx");
             // Create object with default constructor
             ControllerEnvironment env = constructor.newInstance();
+            if (!init)
+            {
+                Controller[] controllers = env.getControllers();
+                init = true;
+                Configuration.getConfiguration().getDebugEntity().addLog("JInput is supported", INFO);
+            }
             jinputAvailable = true;
             return env;
         }
@@ -112,7 +79,13 @@ public class SystemController
         {
             Configuration.getConfiguration().getLogEntity().addLog(e, WARN);
         }
+        
         jinputAvailable = false;
+        if (!init)
+        {
+            init = true;
+            Configuration.getConfiguration().getDebugEntity().addLog("JInput is not supported", INFO);
+        }
         return null;
     }
     
