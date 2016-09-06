@@ -1,0 +1,135 @@
+...
+
+Note: I found no documention regarding how a lightpen for Vectrex
+      exactly works. I found a dissassembled ArtMaster Rom
+      file at a certain ftp site (look at links...).
+      Thanks for that again Fred!
+      I tried some reverse engeniering,... and it actually works now
+      for the three lightpen using images I found so far:
+
+      Art Master
+      Melody Master
+      Animaction
+
+      I don't know if I got it completly right. If something does not
+      work... you may try contacting me...
+
+How I think the vectrex lightpen works:
+(forgive me if something in here doesn't sound very professional,
+ cause I really am a technical illiterate, I just describe what I found
+ out looking at the Art Master Rom...
+ and ... I never programmed a 6809 processor)
+
+Artmaster uses sort of two different ways to locate the lightpen:
+a. check known positions if something is there
+b. search the hole screen for a lightpen
+
+a. To put it simple: The last lightpen position is known, Vectrex thinks
+   the lightpen must still be somewhere near, so it draws something like
+   a spider net arround the last position.
+                                   /-----\
+                /---\             /       \
+    /-\        /     \            I       I
+    I*I        I  *  I            I   *   I         ...
+    \-/        \     /            I       I
+                \---/             \       /
+                                   \-----/
+
+   If it is found somewhere on the WEB Vectrex is happy :-)!
+   If not it stops searching and is unhappy :-(!
+   You will see that very often using Artmasters Sketch or Connect
+   Menu (everytime you release the button!).
+
+   Emulating this was fairly simple, since the only thing to be added
+   was mouse position information.
+   The lightpen will generate an interrupt on the PIA line CA1.
+   So I only changed the analog section of the emulator, if
+   the position of the vector ray was near the mouse position
+   then...
+   t6522IFLG|=E6522IFLG_CA1;
+   change the PIA interrupt register so that it thinks an interrupt had
+   occured. Actually I didn't like to put it in the Analog section,
+   since it is a PIA interrupt, and all other PIA interrupts are triggered
+   in the PIA section of the code... but than again it is triggered sort
+   of by the vector beam too...
+
+b. The method used in animation modus is somewhere different, for
+   you can put 'new' lines anywhere on the screen, so 'webbing' would
+   be sort of unefficent.
+
+   ArtMaster scans the whole screen for the lightpen position.
+   It draws lines from bottom to top (search_screen_for_scanlines (0721)).
+   (0x7a lines by the way (0721)) These lines are drawn every
+   0x0200 (0766) vectrex coordinates (y-axis that is).
+   It starts at position 14944 (decimal)(0726) and goes up (screen upwards)
+   to -17888.
+
+   A line is drawn all the way, after it is finnished there is a check if
+   a lightpen pick occured, if so then further testing regarding the
+   horizontal position is done (find_point_of_intersection (076d)).
+   If it doesn't find a pick at all it leaves the routine
+   (being unhappy again...).
+
+   The horizontal position is somewhat trickier to get. ArtMaster
+   calculates the position. It redraws the scanline (0770...) where
+   it found the lightpen pick, starts a counter (register b=0x7f (0798))
+   draws the line and while decreasing the counter waits for an
+   interrupt to occur. (lightpen interrupt on PIA CA1, 0776...)
+   If an interrupt occurs, the position is calculated and stored
+   (process_ISR (07B7)).
+   Finished.
+
+   So I had to implement a new interrupt, the vectrex emulator
+   did not react on CA1 interrupts (this was done in five minutes, since
+   it was virtually nothing!).
+   After me having optimized the processor to multi-ticks (that's what
+   I call it) calculation of the horizontal position was somewhat
+   difficult. I actually had to reimplement the old single-tick cpu
+   again to calculate the position correctly, furthermore an analog
+   tick HAD to occur every cycle, otherwise the emulator could miss
+   the position it was looking for.
+   The beam position had to be integrated every tick and could not
+   be calculated per ticks since last integration.
+   All this makes lightpen emulation sort of inefficient :-(.
+   BUT I only use this sort of testing and integrating when BOTH
+   mousebutton is pressed and an CIA interrupt is enabled... so
+   most of the time emulation goes smooth still.
+
+   While we are at it... I cheated somewhat here!
+   ArtMaster tries to disable interrupts with following code
+   (disable_interrupts (07aa)):
+
+   clra
+   sta   0x0e
+
+   Which doesn't really clear anything, since the interrupt vector
+   to be cleared must be specified, it should be something like:
+
+   lda   #0x02
+   sta   0x0e
+
+   This incorrectness caused a slowdown once the interrupt was enabled
+   the first time and the mouse button was pressed...
+   The workarround to that was, that EVERYTIME an interrupt is cleared
+   bit two is set!
+   (emu6522.c function: UBYTE f6522Addr0EWrite(UWORD tAddress,UBYTE tData))
+   This shouldn't really concern any other vectrex rom, since that
+   interrupt is only used by the lightpen (I think).
+   But I really hated doing that, since emulation
+   perfection is somewhat broken...
+   The other way would have been to change the ROM, but that would
+   have been a none trivial task, since there is not so much
+   space for new code in there...
+
+   The width for a mouse position to be recognized is 0x100 vectrex
+   coordinates, I derived that value of the ArtMaster
+   search_screen_for_lightpen routine, which scans in intervalls of
+   0x200. Sometimes with the emulator lightpens are not recognized,
+   this relates directly to the above mentioned 0x100. It could
+   probably be a bit wider range, but a miss happens fairly seldom,
+   so why bother, I guess it happened with a real lightpen too.
+   To take a wider range than 0x100 would have made
+   for example connect and scetch somewhat inaccurate, so I left it at
+   0x100...
+
+...

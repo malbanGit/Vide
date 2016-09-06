@@ -1,0 +1,267 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 16</H2>
+<H3>Memory Devices</H3>
+
+         We have spent some time looking at interfaces; the other major
+         component in any complete microcomputer system is, of course, the
+         memory.  There are, these days, a wide variety of memory devices
+         with wide ranging characteristics in terms of access method,
+         speed and capacity.
+<P>
+<CENTER>
+<TABLE BORDER CELLPADDING=5>
+<TR><TH ROWSPAN=2>Serial access<TH>volatile<TD>Charge coupled<TD>RW
+<TR><TH>non-volatile
+	<TD>
+	Magnetic tape<br>
+	Magnetic disc<br>
+	Optical disc<br>
+	WORM drive<br>
+	Magnetic bubble
+	<TD>
+	RW<br>RW<br>RO<br>RW<br>RW<br>
+<TR><TH ROWSPAN=2>Random Access
+<TH>volatile<TD>Semiconductor<TD>RW
+<TR><TH ROWSPAN=2>non-volatile<TD>Magnetic core<br>Semiconductor
+	<TD>RW<br>RO
+  
+</TABLE>
+</CENTER>
+<P>
+         In a serial access device data is stored in such a way that data
+         has to be read in sequence and in the order in which it was
+         written. It is not possible to pick out an individual data byte
+         without reading through to that point or at least reading a block
+         of data and then finding the byte required.  To put it more
+         precisely, the access time for a particular byte is variable and
+         depends on what has just been read (or written).  For example in a
+         magnetic tape system if the last byte has just been read and we
+         now wish to read the first byte then we may have to wait a few
+         minutes for the tape to be rewound.
+<P>
+         A random access device, however, allows access to any data byte
+         individually and the access time is fixed and not dependent on
+         previous read or write operations.
+<P>
+         Volatile or non-volatile refers to whether or not the data
+         remains stored when the power is removed.  Clearly a volatile
+         device can be made non-volatile by adding emergency power usually
+         in the form of rechargeable batteries which are trickle charged
+         while the power is on. The feasibility of this depends on the
+         power consumption so that it is simple to provide battery back-up
+         for a small semiconductor RAM but it is less feasible for a
+         1GByte hard disc.
+<P>
+         Random access devices are inherently faster then serial devices
+         and so have to be used for the instruction memory in any computer
+         system.  Semiconductor memories are used as the main memory for
+         almost all computer systems these days except where operating
+         conditions such as wide temperature variations or high levels of
+         radiation make them unsuitable.
+<P>
+         Serial memory devices usually have a much higher packing density
+         because the address depends on position in the stream of data
+         rather than having to be individually coded.  The address decoding
+         and data access paths account for the majority of the space on a
+         semiconductor memory chip.  Serial devices are therefore used as
+         backing store for large amounts of data or for programs when they
+         are actually being used.  Disc stores are the most obvious
+         examples of this although for really large amounts of data
+         magnetic tapes and optical discs (CD ROMS) provide much higher
+         packing densities and the ability to archive data cheaply.
+<P>
+         Another distinction between memory devices is whether data can be
+         written and read or just read, referred to as read-only or read-
+         write devices (or wrongly as RAM).  Strictly no device can be
+         considered as read-only because if we can't write data into it at
+         some point it would be completely useless.  The terminology refers
+         to normal usage in the computer system.  Read-only memory is often
+         written at the manufacturing stage or in a special programming
+         device outside the computer system.  Sometimes, as with optical
+         discs, the data can be written once but not modified, in other
+         words it is write-once memory.  A few devices can be written to
+         slowly but read quickly such as some non-volatile semiconductor
+         memories.  These might be referred to as read-mostlymemories.
+<P>
+<H3>Memory devices in a personal computer</H3>
+
+         A typical personal computer will have four or possibly five
+         distinct types of memory device:-
+<OL>
+<LI>The main memory for storing programs and data while they are
+               in use.  This will be semiconductor read write memory.  Size
+               will be typically 1 to 16 MBytes.  1MByte=2^10 bytes.
+<LI>Non-volatile RAM - A small area of semiconductor read-write
+               memory with a battery back-up supply in which user settings
+               are stored permanently.  Things like the type of printer, the
+               program which should run on switch-on, the date and time -
+               all these are stored here.  The battery may also supply a
+               circuit which updates the time.  Typical memory sizes are 64
+               to 512 Bytes.
+<LI>Read-only memory - Most systems have a number of important
+               programs stored in read-only memory so that they are always
+               available.   An IBM PC-type machine has BIOS (Binary Operating
+               System).  This provides a number of low-level functions like
+               looking at memory locations directly, loading a program from
+               disc and running it, controlling keyboard and screen etc.
+               The DOS or disc operating system is not stored on ROM and
+               has to be loaded from disc every time the computer is
+               switched on.  Typical sizes are 64K to 256KBytes.
+<LI>Floppy-disc - This is the commonest backing store used for
+              programs and large amounts of data.  It is also a removable
+              medium i.e. discs can be removed thus providing a vast
+              amount of memory although only a limited amount on-line.
+              Typical sizes are 0.5 to 2 MByte.  An IBM-like machine must
+              have the DOS disc inserted when the machine is switched on
+              so that MSDOS can be loaded.
+<LI>Hard disc - This is a sealed disc system which provides
+              faster access and higher density than the removable floppy
+              disc.  Typical sizes are 100 Mbytes to 1 GBytes.
+</OL>
+
+<H3>Memory devices in a small control microcomputer</H3>
+
+         The  memory requirements of a small dedicated microcomputer 
+	 or microcontroller are
+         much more modest and will typically be of two types only:-
+
+<OL>
+<LI>ROM - An area of read-only memory, usually semiconductor,
+              for storing the program, restart and interrupt vectors and
+              process constants.  Clearly it is important that the program
+              should not be corrupted under any circumstances and be
+              available instantly on power-up.  Typically 2K to 48KBytes.
+<LI>RAM - An area of read-write memory for storing variables,
+              readings from transducers etc.  Typically 128 to 8KBytes.
+</OL>
+<H3>Read-Only Memory</H3>
+
+         There are a wide variety of semiconductor read-only memory
+         devices depending upon the type of chips used in the system and
+         the method of installing the information in the chip.  The system
+         may be constructed using bipolar or MOS transistors and within
+         these classes there are different types of circuit.
+<P>
+         ECL - ECL logic uses bipolar transistors in a current switching
+         non-saturating configuration which results in very high speed.
+         The basic circuits are complex, however, which results in poor
+         packing density.  ECL memories are therefore relatively small.
+         Very high power dissipation also limits number of devices on chip
+         and special cooling arrangements may be necessary.
+<P>
+         TTL - uses bipolar transistors in more conventional circuits.
+         Speed id high but density not very high because of the complexity
+         and number of processing steps involved in making bipolar
+         devices.
+<P>
+         NMOS - uses MOS transistors in very simple circuits which results
+         in very high packing densities.  The capacitance of MOS devices
+         limits speeds although they can sometimes approach those of TTL.
+<P>
+         CMOS - uses N and P type MOS transistors in complementary and
+         symmetrical circuits resulting in very low power dissipation.
+         Speeds are lower than NMOS and because of more complex processing
+         packing density is also lower.
+<P>
+         All the devices in a system frequently use the same technology.
+         This avoids problems of matching voltage and current levels and
+         means that devices have comparable speeds.  Logic levels for CMOS
+         and NMOS can usually be matched to TTL levels thus allowing
+         mixing where necessary e.g. CMOS low power RAM for battery
+         backed-up memory in an otherwise NMOS system or TTL address
+         decoders to reduce gate delays in an NMOS system.
+<P>
+ROM, in common with most semiconductor memory, is arranged in matrix form
+where a ROW of data is selected by a subset of the address lines and then
+the COLUMN in which the data bit is selected by the remaining address lines.
+<P>
+In the example below, the matrix is also split between 8 planes where each
+plane supplies one bit to the data bus.
+<P>
+<CENTER>
+<IMG SRC="6809rom.gif">
+</CENTER>
+
+<H3>ROM parameters</H3>
+To access data in a ROM, the parameters given by the manufacturer 
+in the data sheet should be observed.
+<P>
+One example of timing for a 6800-compatible ROM is given below.
+Note that the precharge time is not always required with later
+ROMs and that the access time alone does not indicate how often
+data may be read from the ROM.   The cycle time is the shortest
+time between successive reads of the ROM.
+<P>
+<CENTER>
+<IMG SRC="6809romt.gif">
+
+<P>
+<TABLE BORDER CELLPADDING=5>
+<TR><TH COLSPAN=2>PARAMETER<TH>min<TH>max<TH>units</TR>
+<TR><TD WIDTH=10%>T<FONT SIZE=-1>cyc</FONT><br>
+	T<FONT SIZE=-2>CE</FONT><br>
+	T<FONT SIZE=-1>acc</FONT><br>
+	T<FONT SIZE=-1>off</FONT><br>
+	T<FONT SIZE=-2>AH</FONT><br>
+	T<FONT SIZE=-2>AS</FONT><br>
+	T<FONT SIZE=-1>p</FONT>
+   <TD WIDTH=60%>Cycle time<br>
+	/CE pulse width<br>
+	/CE access time<br>
+	Output turn-off delay<br>
+	Address & CS hold time to /CE<br>
+	Address & CS setup time to /CE<br>
+	/CE precharge time
+   <TH WIDTH=10%>400<br>250<br> <br> <br>100<br>0<br>150
+   <TH WIDTH=10%> <br> <br>250<br>75<br> <br> <br>
+   <TH WIDTH=10%>ns<br>ns<br>ns<br>ns<br>ns<br>ns<br>ns<br>
+</TR>
+  
+</TABLE>
+</CENTER>
+
+<H3>Mask-Programmed ROM</H3>
+
+         Thus the ROM in a system will normally match the rest of the
+         system and a typical MOS ROM will have a single device with gate
+         connected or not to store each bit of data.  The contents of the
+         ROM will be defined when the device is made usually by the last
+         layer of connections which are defined by a mask.  Thus these are
+         known as mask-programmed ROMS.  Setting up the mask is a fairly
+         expensive process and will typically cost several thousand
+         pounds.  The chips themselves are simple and cheap and so this
+         approach is cost effective when many thousands of the same chip
+         are required e.g. for the program in a washing-machine.  These
+         devices can be very large because of their simplicity but there
+         is little point in making them more then 64kBytes.  The number of
+         pins on the package also limits the number of address lines.
+         Errors in the program are clearly very expensive so for early
+         production   and low-volume applications an       alternative    is
+         necessary and this is provided by the programmable ROM or PROM.
+
+<H3>Programmable ROM</H3>
+
+         Various types of PROM are available, some are once only devices
+         such as the fusible-link PROM where a minute fuse is blown in
+         locations where a zero is to be stored.  A more common device is
+         the EPROM which functions be trapping charge on the buried gate
+         of an MOS transistor by tunneling.  The charge changes the
+         threshold level of the device which can result in a zero being
+         read instead of a one.  The charge can be removed by exposing the
+         device to high intensity ultra-violet light which gives the
+         electrons enough energy to tunnel back thus allowing the device
+         to be reprogrammed.  The device can be reprogrammed many times and
+         will retain data for up to 100 years if it is kept away from
+         sources of ultra-violet light such as fluorescent lights.  These
+         devices can be up to 128KBytes in size although 2,4,or 8 KBytes
+         are also common.
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up17.htm">Next</A> |</CENTER>
+
+</BODY>
+</HTML>

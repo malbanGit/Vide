@@ -88,6 +88,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     public void postVectorChange()
     {
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }
     void addHistory()
     {
@@ -351,8 +352,18 @@ public class VeccyPanel extends javax.swing.JPanel implements
         single3dDisplayPanel1.setAxisAngleY(0);
         single3dDisplayPanel1.setAxisAngleZ(0);
     }
+    VectorJPanel vPanel = null;
     public void deinit()
     {
+        if (vPanel != null)
+        {
+            vPanel.setVeccy(null);
+            vPanel = null;
+        }
+    }
+    public void setVPanel(VectorJPanel v)
+    {
+        vPanel = v;
     }
 
     /**
@@ -402,6 +413,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonOneBack = new javax.swing.JButton();
         jButtonJoin = new javax.swing.JButton();
         jCheckBoxAutoEdit = new javax.swing.JCheckBox();
+        jCheckBoxAutoApply = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel10 = new javax.swing.JPanel();
@@ -647,6 +659,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel41 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel55 = new javax.swing.JLabel();
         jLabelMaxY = new javax.swing.JLabel();
         jLabelY0 = new javax.swing.JLabel();
         jLabelMinY = new javax.swing.JLabel();
@@ -798,20 +812,20 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldCurrentNo.setToolTipText("Number of the current selected image.");
         applyCurrent.add(jTextFieldCurrentNo);
-        jTextFieldCurrentNo.setBounds(120, 13, 30, 20);
+        jTextFieldCurrentNo.setBounds(120, 13, 30, 19);
 
         jLabelImageNow.setText("now");
         applyCurrent.add(jLabelImageNow);
-        jLabelImageNow.setBounds(90, 16, 30, 14);
+        jLabelImageNow.setBounds(90, 16, 30, 15);
 
         jTextFieldCount.setText("0");
         jTextFieldCount.setToolTipText("Count of images.");
         applyCurrent.add(jTextFieldCount);
-        jTextFieldCount.setBounds(47, 13, 30, 20);
+        jTextFieldCount.setBounds(47, 13, 30, 19);
 
         jLabelImageCount.setText("Count");
         applyCurrent.add(jLabelImageCount);
-        jLabelImageCount.setBounds(10, 16, 40, 14);
+        jLabelImageCount.setBounds(10, 16, 40, 15);
 
         jButtonApplyCurrent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_square_go.png"))); // NOI18N
         jButtonApplyCurrent.setText("apply");
@@ -828,7 +842,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabelSelSize.setText(" ");
         applyCurrent.add(jLabelSelSize);
-        jLabelSelSize.setBounds(320, 40, 50, 14);
+        jLabelSelSize.setBounds(320, 40, 50, 15);
 
         jButtonReverse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_refresh_small.png"))); // NOI18N
         jButtonReverse.setText("Reverse");
@@ -864,7 +878,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonSave2);
-        jButtonSave2.setBounds(36, 35, 21, 21);
+        jButtonSave2.setBounds(36, 35, 20, 20);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -932,7 +946,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jButtonLoad1);
-        jButtonLoad1.setBounds(10, 35, 21, 21);
+        jButtonLoad1.setBounds(10, 35, 20, 20);
 
         buttonGroup2.add(jRadioButton1);
         jRadioButton1.setSelected(true);
@@ -943,7 +957,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jRadioButton1);
-        jRadioButton1.setBounds(160, 10, 71, 23);
+        jRadioButton1.setBounds(160, 10, 73, 19);
 
         buttonGroup2.add(jRadioButton2);
         jRadioButton2.setText("scenario");
@@ -953,7 +967,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         applyCurrent.add(jRadioButton2);
-        jRadioButton2.setBounds(160, 30, 65, 23);
+        jRadioButton2.setBounds(160, 30, 65, 19);
 
         jButtonAddCurrent1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
         jButtonAddCurrent1.setText("add view");
@@ -1015,6 +1029,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
         applyCurrent.add(jCheckBoxAutoEdit);
         jCheckBoxAutoEdit.setBounds(60, 37, 100, 16);
+
+        jCheckBoxAutoApply.setText("auto apply");
+        applyCurrent.add(jCheckBoxAutoApply);
+        jCheckBoxAutoApply.setBounds(360, 37, 78, 19);
 
         jCheckBoxHasPattern.setText("has pattern byte");
 
@@ -1980,15 +1998,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabelY.setText("<- Y(z) ->");
         jPanel16.add(jLabelY);
-        jLabelY.setBounds(0, 319, 70, 14);
+        jLabelY.setBounds(0, 319, 70, 15);
 
         jLabelZ.setText("<- Z(x) ->");
         jPanel16.add(jLabelZ);
-        jLabelZ.setBounds(550, 320, 70, 14);
+        jLabelZ.setBounds(550, 320, 70, 15);
 
         jTextFieldExpandYZ.setText("1");
         jPanel16.add(jTextFieldExpandYZ);
-        jTextFieldExpandYZ.setBounds(80, 320, 30, 20);
+        jTextFieldExpandYZ.setBounds(80, 320, 30, 19);
 
         jButtonExpandDimensionYZ.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_out.png"))); // NOI18N
         jButtonExpandDimensionYZ.setText("expand dimension");
@@ -2005,7 +2023,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jCheckBoxDragVectors.setText("drag vectors");
         jPanel16.add(jCheckBoxDragVectors);
-        jCheckBoxDragVectors.setBounds(290, 320, 120, 23);
+        jCheckBoxDragVectors.setBounds(290, 320, 120, 19);
 
         jTabbedPane5.addTab("Y/Z", jPanel16);
 
@@ -3222,6 +3240,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel43.setFont(new java.awt.Font("Geneva", 1, 14)); // NOI18N
         jLabel43.setText("This is an information tab, changing checkboxes here is a waste of time!");
 
+        jButton1.setText("are selected points coplanar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
         jPanel28.setLayout(jPanel28Layout);
         jPanel28Layout.setHorizontalGroup(
@@ -3277,7 +3302,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel40)
                             .addComponent(jLabel39)
-                            .addComponent(jLabel41)))
+                            .addGroup(jPanel28Layout.createSequentialGroup()
+                                .addComponent(jLabel41)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel28Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jCheckBoxSameIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -3287,7 +3317,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel28Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jCheckBox2dOnly, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(144, Short.MAX_VALUE))
+                .addContainerGap(169, Short.MAX_VALUE))
         );
         jPanel28Layout.setVerticalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3308,11 +3338,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jCheckBox2dOnly)
                 .addGap(1, 1, 1)
                 .addComponent(jCheckBoxOnePath)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBoxVectorsContinuous)
-                    .addComponent(jLabel41))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
+                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jCheckBoxVectorsContinuous)
+                        .addComponent(jLabel41)))
+                .addGap(0, 0, 0)
                 .addComponent(jCheckBoxVectorClosedPolygon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxVectorOrderedClosedPolygon)
@@ -3392,43 +3426,43 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabelStartInX.setText("start point:");
         jPanel18.add(jLabelStartInX);
-        jLabelStartInX.setBounds(13, 1, 90, 14);
+        jLabelStartInX.setBounds(13, 1, 90, 15);
 
         jLabelCurrent.setText("current:");
         jPanel18.add(jLabelCurrent);
-        jLabelCurrent.setBounds(173, 1, 80, 14);
+        jLabelCurrent.setBounds(173, 1, 80, 15);
 
         jTextFieldStartX.setText("80");
         jPanel18.add(jTextFieldStartX);
-        jTextFieldStartX.setBounds(10, 20, 40, 20);
+        jTextFieldStartX.setBounds(10, 20, 40, 19);
 
         jTextFieldCurrentZ.setText("80");
         jPanel18.add(jTextFieldCurrentZ);
-        jTextFieldCurrentZ.setBounds(270, 20, 40, 20);
+        jTextFieldCurrentZ.setBounds(270, 20, 40, 19);
 
         jTextFieldCurrentY.setText("80");
         jPanel18.add(jTextFieldCurrentY);
-        jTextFieldCurrentY.setBounds(220, 20, 40, 20);
+        jTextFieldCurrentY.setBounds(220, 20, 40, 19);
 
         jLabelCount.setText("vector count:");
         jPanel18.add(jLabelCount);
-        jLabelCount.setBounds(70, 350, 80, 14);
+        jLabelCount.setBounds(70, 350, 80, 15);
 
         jTextFieldStartZ.setText("80");
         jPanel18.add(jTextFieldStartZ);
-        jTextFieldStartZ.setBounds(110, 20, 40, 20);
+        jTextFieldStartZ.setBounds(110, 20, 40, 19);
 
         jLabelX.setText("<- X(y) ->");
         jPanel18.add(jLabelX);
-        jLabelX.setBounds(10, 350, 70, 14);
+        jLabelX.setBounds(10, 350, 70, 15);
 
         jTextFieldStartY.setText("80");
         jPanel18.add(jTextFieldStartY);
-        jTextFieldStartY.setBounds(60, 20, 40, 20);
+        jTextFieldStartY.setBounds(60, 20, 40, 19);
 
         jTextFieldVectorCount.setText("0");
         jPanel18.add(jTextFieldVectorCount);
-        jTextFieldVectorCount.setBounds(150, 350, 30, 20);
+        jTextFieldVectorCount.setBounds(150, 350, 30, 19);
 
         singleVectorPanel1.setMaximumSize(new java.awt.Dimension(300, 300));
         singleVectorPanel1.setMinimumSize(new java.awt.Dimension(300, 300));
@@ -3450,7 +3484,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldCurrentX.setText("80");
         jPanel18.add(jTextFieldCurrentX);
-        jTextFieldCurrentX.setBounds(170, 20, 40, 20);
+        jTextFieldCurrentX.setBounds(170, 20, 40, 19);
 
         jCheckBoxGrid.setSelected(true);
         jCheckBoxGrid.setText("grid");
@@ -3461,7 +3495,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         jPanel18.add(jCheckBoxGrid);
-        jCheckBoxGrid.setBounds(230, 350, 50, 23);
+        jCheckBoxGrid.setBounds(230, 350, 50, 19);
 
         jTextFieldGridWidth.setText("1");
         jTextFieldGridWidth.setToolTipText("grid distance");
@@ -3476,7 +3510,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         jPanel18.add(jTextFieldGridWidth);
-        jTextFieldGridWidth.setBounds(280, 350, 30, 20);
+        jTextFieldGridWidth.setBounds(280, 350, 30, 19);
 
         jCheckBoxByteFrame.setSelected(true);
         jCheckBoxByteFrame.setText("byteFrame");
@@ -4060,6 +4094,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jMenuItemJoinActionPerformed
 
     private void jPopupMenuPointMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPopupMenuPointMouseExited
@@ -4238,6 +4273,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jMenuItemConnectActionPerformed
 
     private void jMenuItemRipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRipActionPerformed
@@ -4317,6 +4353,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleImagePanel3.sharedRepaint();        
         jTable1.tableChanged(null);
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jMenuItemRipActionPerformed
 
     private void jSliderFrontStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderFrontStateChanged
@@ -4411,6 +4448,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.deleteSelectedVector();
         jTable1.tableChanged(null);
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jMenuItemLineDeleteActionPerformed
 
     private void jMenuItemHereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemHereActionPerformed
@@ -4418,6 +4456,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.joinAllPointsAtHighlight();
         jTable1.tableChanged(null);
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jMenuItemHereActionPerformed
 
     private void jButtonOneForwardSelection1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOneForwardSelection1ActionPerformed
@@ -4457,6 +4496,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         addVector(v = new GFXVector(v,-length,0,0));
         addVector(v = new GFXVector(v,0,0,-length));
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
         
     }//GEN-LAST:event_jButtonCubeActionPerformed
 
@@ -4484,6 +4524,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         addVector(v = new GFXVector(v,length,length,-length));
         addVector(v = new GFXVector(v,length,-length,-length));
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -4648,6 +4689,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
 
     }//GEN-LAST:event_jButtonSetStyleActionPerformed
 
@@ -4679,6 +4721,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         addHistory();
         singleVectorPanel1.deleteNotSelectedVector();
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
         
     }//GEN-LAST:event_jMenuItemDeleteNotSelectedActionPerformed
 
@@ -4835,6 +4878,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         mClassSetting--;
         setSelectedInTable();
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonRemoveDotsActionPerformed
 
     private void jButtonConnectWherePossibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConnectWherePossibleActionPerformed
@@ -4844,6 +4888,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonConnectWherePossibleActionPerformed
 
     private void jButtonReverseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReverseActionPerformed
@@ -4904,6 +4949,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         addHistory();
         centerVectorList();
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButtonFitByteRangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFitByteRangeActionPerformed
@@ -4912,6 +4958,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         fillStatus();
         singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonFitByteRangeActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
@@ -5017,6 +5064,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonOrderVectorlistActionPerformed
 
     private void jCheckBoxPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPositionActionPerformed
@@ -5030,6 +5078,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonFillGapsActionPerformed
 
     private void jButtonPathsAsScenarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPathsAsScenarioActionPerformed
@@ -5071,6 +5120,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jMenuItemPoint0ActionPerformed
 
     private void jButtonAssembleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleActionPerformed
@@ -5348,6 +5398,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
         
     }//GEN-LAST:event_jMenuItemInsertPointActionPerformed
 
@@ -5371,6 +5422,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonOrderSplitWhereNeededActionPerformed
 
     private void jButtonOneForwardSelection2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOneForwardSelection2ActionPerformed
@@ -5512,6 +5564,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
         
     }//GEN-LAST:event_jButtonRotate2dActionPerformed
 
@@ -5551,6 +5605,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonMirrorVerticallyActionPerformed
 
     private void jButtonMirrorHorizontallyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMirrorHorizontallyActionPerformed
@@ -5588,6 +5643,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
         fillStatus();
+        if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonMirrorHorizontallyActionPerformed
 
     private void jButtonUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpActionPerformed
@@ -5721,6 +5777,173 @@ public class VeccyPanel extends javax.swing.JPanel implements
         SingleVectorPanel.displayLen = jCheckBox1.isSelected();
         jTable1.tableChanged(null);
     }//GEN-LAST:event_jCheckBox1ActionPerformed
+ArrayList<Vertex> getCurrentSelectedPoints()
+    {
+        ArrayList<Vertex> listOfPoints = new ArrayList<Vertex>();
+        ArrayList<GFXVector> toTranslocate = singleVectorPanel1.getSelectedPointVectors();
+        HashMap<Vertex, Vertex> alreadyDone = new HashMap<Vertex, Vertex>();
+        for (GFXVector v: toTranslocate)
+        {
+            Vertex start = v.start;
+            if (start.selected)
+            {
+                if (alreadyDone.get(start) == null) 
+                {
+                    alreadyDone.put(start, start);
+                    listOfPoints.add(start);
+                }
+            }
+            Vertex end = v.end;
+            if (end.selected)
+            {
+                if (alreadyDone.get(end) == null) 
+                {
+                    alreadyDone.put(end, end);
+                    listOfPoints.add(end);
+                }
+            }
+        }
+        return listOfPoints;
+    }
+    int getA(Vertex p1, Vertex p2, Vertex p3)
+    {
+        int x1 = (int)p1.x();
+        int y1 = (int)p1.y();
+        int z1 = (int)p1.z();
+        int x2 = (int)p2.x();
+        int y2 = (int)p2.y();
+        int z2 = (int)p2.z();
+        int x3 = (int)p3.x();
+        int y3 = (int)p3.y();
+        int z3 = (int)p3.z();
+        int A = y1*(z2-z3) + y2*(z3-z1)+y3*(z1-z2);
+        return A;
+    }
+    int getB(Vertex p1, Vertex p2, Vertex p3)
+    {
+        int x1 = (int)p1.x();
+        int y1 = (int)p1.y();
+        int z1 = (int)p1.z();
+        int x2 = (int)p2.x();
+        int y2 = (int)p2.y();
+        int z2 = (int)p2.z();
+        int x3 = (int)p3.x();
+        int y3 = (int)p3.y();
+        int z3 = (int)p3.z();
+        int B = z1*(x2-x3) + z2*(x3-x1)+z3*(x1-x2);
+        return B;
+    }
+    int getC(Vertex p1, Vertex p2, Vertex p3)
+    {
+        int x1 = (int)p1.x();
+        int y1 = (int)p1.y();
+        int z1 = (int)p1.z();
+        int x2 = (int)p2.x();
+        int y2 = (int)p2.y();
+        int z2 = (int)p2.z();
+        int x3 = (int)p3.x();
+        int y3 = (int)p3.y();
+        int z3 = (int)p3.z();
+        int C = x1*(y2-y3) + x2*(y3-y1)+x3*(y1-y2);
+        return C;
+    }
+    int getD(Vertex p1, Vertex p2, Vertex p3)
+    {
+        int x1 = (int)p1.x();
+        int y1 = (int)p1.y();
+        int z1 = (int)p1.z();
+        int x2 = (int)p2.x();
+        int y2 = (int)p2.y();
+        int z2 = (int)p2.z();
+        int x3 = (int)p3.x();
+        int y3 = (int)p3.y();
+        int z3 = (int)p3.z();
+        int D =-( x1*(y2*z3 - y3*z2) +x2*(y3*z1-y1*z3) +x3*(y1*z2-y2*z1));
+        return D;
+    }
+
+    // if possible find a set of non colinear points, tha
+    // determine a plane
+    ArrayList<Vertex> getPlaneDefinition(ArrayList<Vertex> listOfPoints)
+    {
+        if (listOfPoints.size()<3) return null;
+        for (int p1 =0; p1<listOfPoints.size();p1++)
+        {
+            for (int p2 =1; p2<listOfPoints.size();p2++)
+            {
+                for (int p3 =2; p3<listOfPoints.size();p3++)
+                {
+                    int A = getA(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
+                    int B = getB(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
+                    int C = getC(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
+                    int D = getD(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
+
+                    // if the points are colinear,  ABC = 0!
+                    if (!((A==0) && (B==0) && (C==0)))
+                    {
+                        ArrayList<Vertex> list = new ArrayList<Vertex>();
+                        list.add(listOfPoints.get(p1));
+                        list.add(listOfPoints.get(p2));
+                        list.add(listOfPoints.get(p3));
+                        return list;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    
+    boolean isCoplanar(ArrayList<Vertex> listOfPoints)
+    {
+        if (listOfPoints.size()<=3)
+        {
+            // trivial
+            return true;
+        }
+        ArrayList<Vertex> plane = getPlaneDefinition(listOfPoints);
+        // all points lie on a line
+        if (plane == null)
+        {
+            // nearly trivial
+            return true;
+        }
+        // plane defining determinats
+        int A = getA(plane.get(0), plane.get(1), plane.get(2));
+        int B = getB(plane.get(0), plane.get(1), plane.get(2));
+        int C = getC(plane.get(0), plane.get(1), plane.get(2));
+        int D = getD(plane.get(0), plane.get(1), plane.get(2));
+
+        // test all points
+        for (Vertex p:listOfPoints)
+        {
+            int test = A*((int)p.x()) + B*((int)p.y()) + C*((int)p.z()) +D;
+            if (test != 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        // coplanar check, see: http://paulbourke.net/geometry/pointlineplane/
+        ArrayList<Vertex> listOfPoints = getCurrentSelectedPoints();
+        ArrayList<Vertex> plane = getPlaneDefinition(listOfPoints);
+        if (plane == null)
+        {
+            jLabel55.setText("not even a plane");
+        }
+        if (isCoplanar(listOfPoints))
+        {
+            jLabel55.setText("coplanar");
+        }
+        else
+        {
+            jLabel55.setText("not coplanar");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // interface function for communication of events with singleVectorPanel
     public void pressed(EditMouseEvent evt)
@@ -5910,6 +6133,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     buildingVector.start_connect.end_connect = null;
                 }
             }
+            if (jCheckBoxAutoApply.isSelected()) applyChanges();
             jTable1.tableChanged(null);
             fillStatus();
         }
@@ -6005,6 +6229,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             setSelectedInTable();
             jTable1.repaint();
             fillStatus();
+            if (jCheckBoxAutoApply.isSelected()) applyChanges();
         }
         if (evt.highlightedPoint != null)
         {
@@ -6041,6 +6266,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JPanel applyCurrent;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton2dAxis;
     private javax.swing.JButton jButton3dAxis;
@@ -6119,6 +6345,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBoxAddFactor;
     private javax.swing.JCheckBox jCheckBoxArrows;
+    private javax.swing.JCheckBox jCheckBoxAutoApply;
     private javax.swing.JCheckBox jCheckBoxAutoEdit;
     private javax.swing.JCheckBox jCheckBoxByteFrame;
     private javax.swing.JCheckBox jCheckBoxContinue;
@@ -6195,6 +6422,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -6435,6 +6663,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         vl.resetDisplay();
         currentAnimation.add(vl);
         selectedAnimationFrameUID = vl.uid;
+        
         setCurrentListFromUID(selectedAnimationFrameUID, true);
         redrawAnimation();
     }
@@ -6485,6 +6714,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonApplyCurrent.setEnabled((selectedAnimationFrameUID != -1) && (uidFound));
         
         int index = getIndex(selectedAnimationFrameUID);
+        
+        
         if (index == -1)
             jTextFieldCurrentNo.setText("");
         else

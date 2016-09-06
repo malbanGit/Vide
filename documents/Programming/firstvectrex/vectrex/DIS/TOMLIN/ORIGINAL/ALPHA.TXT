@@ -1,0 +1,180 @@
+
+I've always wondered why GCE didn't go for the k-rAd vector letters like
+you see on the Atari vector coin-ops.  And I've always thought there might
+be a reason.  Maybe I've found it.  The only way I can think of to keep
+the letters from wobbling like crazy is to draw each one individually,
+passing the initial X,Y coordinates to the Vector_Text routine.  Even
+then, the right leg of the "A" comes up a bit short.
+
+                INCLUDE VECTREX.INC
+                LIST    ON
+                SETDP   $D0             Carts start up with DP = $D0
+
+                FCC     /g GCE 2001/
+                FCB     $80
+
+                FDB     $FF8F
+
+                FCB     -8,72           h,w
+                FCB     32,-48          y,x
+                FCC     /ALPHA TEST/
+                FCB     $80
+
+                FCB     $00
+
+                INC     Vec_0Ref_Enable This is kind of important
+
+Loop            JSR     DP_to_D0        Vector routines want DP = $D0
+                SETDP   $D0
+
+                LDD     #$00C0          Move to the origin to (-64,0)
+                JSR     Moveto_d_7F     (This also turns off zero mode)
+
+                LDB     #20             Set the scale factor
+                STB     VIA_t1_cnt_lo
+
+                LDU     #Text
+                JSR     Vector_Text     Draw the text
+
+*               JSR     DP_to_C8        Music routines want DP = $C8
+*               SETDP   $C8
+
+*               LDU     #music          (if we had something to play)
+*               JSR     Init_Music_chk  (if we had something to play)
+                JSR     Wait_Recal      Wait for time to draw next frame
+                SETDP   $D0             Wait_Recal sets DP to $D0
+*               JSR     Do_Sound        (if we had something to play)
+
+                BRA     Loop            Go back to draw next frame
+
+
+Text            FCC     /ABCDEFGH/
+                FCB     $80
+
+
+                SETDP   $D0
+Vector_Text     LDA     Vec_0Ref_Enable Save the Check0Ref flag...
+                PSHS    A
+                CLR     Vec_0Ref_Enable    and turn it off
+
+Vector_Text_a   LDA     ,U+             Get the next chracter
+                BMI     Vector_Text_b   Exit if it's the terminator
+                BSR     Vector_Char     Draw the character
+                BRA     Vector_Text_a   Go back to draw the next character
+
+Vector_Text_b   LEAU    1,U             Point past the terminator
+                PULS    A
+                STA     Vec_0Ref_Enable Restore the Check0Ref flag
+                JMP     Check0Ref       Reset the zero reference and return
+
+
+Vector_Char     CMPA    #Letter_Min     Check to make sure it's in range
+                BLO     Get_Letter_a
+                CMPA    #Letter_Max
+                BLS     Get_Letter_b
+Get_Letter_a    LDA     #Letter_Min     Load it with a blank if not
+Get_Letter_b    SUBA    #Letter_Min     Index into the letter table
+                LEAX    <Letter_Table,PC
+                LEAX    A,X
+                LEAX    A,X
+                LDX     ,X              Get the letter's vector list
+                JMP     Draw_VL_mode    Draw it
+
+
+Letter_Min      EQU     '@'
+Letter_Max      EQU     'H'
+
+Letter_Table    FDB     Letter_Blank
+                FDB     Letter_A
+                FDB     Letter_B
+                FDB     Letter_C
+                FDB     Letter_D
+                FDB     Letter_E
+                FDB     Letter_F
+                FDB     Letter_G
+                FDB     Letter_H
+
+*       Note:  when I used the raw vector values with K=1 with a large
+*       scale factor, the characters at the end of a string wobbled like
+*       nobody's business.  When I used K=10 and a small (10-20) scale
+*       factor, they were rock steady, but convergence was awful.  But no
+*       matter what I did, there was a slight "staircase" effect of about
+*       one unit in the Y direction per character, hence the Y correction.
+
+K               EQU     5
+Y               EQU     -1
+
+Letter_A        FCB     2, 5*K, 0*K
+                FCB     2, 3*K, 3*K
+                FCB     2, 0*K, 2*K
+                FCB     2,-3*K, 3*K
+                FCB     2,-5*K, 0*K
+                FCB     0, 5*K, 0*K
+                FCB     2, 0*K,-8*K
+                FCB     0,-5*K+Y,11*K
+                FCB     1
+
+Letter_B        FCB     0, 5*K, 0*K
+                FCB     2, 0*K, 7*K
+                FCB     2, 1*K, 1*K
+                FCB     2, 1*K, 0*K
+                FCB     2, 1*K,-1*K
+                FCB     2, 0*K,-7*K
+                FCB     2,-8*K, 0*K
+                FCB     2, 0*K, 7*K
+                FCB     2, 1*K, 1*K
+                FCB     2, 3*K, 0*K
+                FCB     2, 1*K,-1*K
+                FCB     0,-5*K+Y,4*K
+                FCB     1
+
+Letter_C        FCB     0, 0*K, 8*K
+                FCB     2, 0*K,-8*K
+                FCB     2, 8*K, 0*K
+                FCB     2, 0*K, 8*K
+                FCB     0,-8*K+Y,3*K
+                FCB     1
+
+Letter_D        FCB     2, 8*K, 0*K
+                FCB     2, 0*K, 5*K
+                FCB     2,-3*K, 3*K
+                FCB     2,-2*K, 0*K
+                FCB     2,-3*K,-3*K
+                FCB     2, 0*K,-5*K
+Letter_Blank    FCB     0, 0*K+Y,11*K
+                FCB     1
+
+Letter_E        FCB     0, 0*K, 8*K
+                FCB     2, 0*K,-8*K
+                FCB     2, 8*K, 0*K
+                FCB     2, 0*K, 8*K
+                FCB     0,-3*K,-3*K
+                FCB     2, 0*K,-6*K
+                FCB     0,-5*K+Y,11*K
+                FCB     1
+
+Letter_F        FCB     2, 8*K, 0*K
+                FCB     2, 0*K, 8*K
+                FCB     0,-3*K,-3*K
+                FCB     2, 0*K,-6*K
+                FCB     0,-5*K+Y,11*K
+                FCB     1
+
+Letter_G        FCB     0, 5*K, 4*K
+                FCB     2, 0*K, 4*K
+                FCB     2,-5*K, 0*K
+                FCB     2, 0*K,-8*K
+                FCB     2, 8*K, 0*K
+                FCB     2, 0*K, 8*K
+                FCB     0,-8*K+Y,3*K
+                FCB     1
+
+Letter_H        FCB     2, 8*K, 0*K
+                FCB     0,-3*K, 0*K
+                FCB     2, 0*K, 8*K
+                FCB     0, 3*K, 0*K
+                FCB     2,-8*K, 0*K
+                FCB     0, 0*K+Y,3*K
+                FCB     1
+
+                END

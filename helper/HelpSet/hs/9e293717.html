@@ -1,0 +1,51 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Bankswitching</title>
+</head>
+<body class="doc">
+<h1>Bankswitching</h1>
+
+<p>When creating a new project one can also create projects that support bankswitching.</p>
+
+<p>As of now two different bankswitch schemes are supported:
+<ul><li>
+<p>"Dondzila" Bankswitching (2 banks)</p>
+</li><li>
+<p>"VecFlash" Bankswitching (up to 64 banks)</p>
+</li></ul>
+</p>
+
+<p>In order to create code for these schemes you must:
+<ul><li>
+<p>check the checkbox "create standard game loop"</p>
+</li><li>
+<p>check the checkbox "create bankswitch code"</p>
+</li><li>
+<p>and you must select what kind of bankswitching you want</p>
+</li><li>
+<p>if vecflash is chosen, you have to give the number of banks (combobox)</p>
+</li></ul>
+</p>
+
+<p>In the table below the checkboxes you can enter filenames for each bank (if left blank, than standard filenames will be created). You can even use the same filename for different banks. Column 3 of the table ("define(s)") allows you to enter a "DEFINE" so you can chose sections in your main file to include/exclude.</p>
+
+<p>The project window (for a "Dondzila"-Bankswitching) looks like:</p>
+<br><p align="center">
+<img src="pics/BankSwitch1.png" width="709" height="630"><br>
+<em>new project window</em></p><br>
+
+<p>The result is two generated files for "Main" (since I did not give any file names they are named "mainBank0.asm" and "mainBank1.asm").</p>
+<br><p align="center">
+<img src="pics/Bankswitch2.png" width="1119" height="1281"><br>
+<em>created files</em></p><br>
+
+<p>The files are documented, and can be run in vide straight out of the box. The program only displays a string "bank 0", if any button is pressed, the bank is switched and "bank 1" is displayed.</p>
+<br><p align="center">
+<img src="pics/Bankswitch3.png" width="405" height="504"><br>
+<em>bank 0</em></p><br>
+<br><p align="center">
+<img src="pics/Bankswitch4.png" width="403" height="505"><br>
+<em>bank 1</em></p><br>
+</body>
+</html>

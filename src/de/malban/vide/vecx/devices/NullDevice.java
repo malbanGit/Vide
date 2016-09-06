@@ -28,4 +28,8 @@ public class NullDevice extends AbstractDevice
     {
         return " ";
     }    
+    public String getDeviceName()
+    {
+        return "null device";
+    }
 }

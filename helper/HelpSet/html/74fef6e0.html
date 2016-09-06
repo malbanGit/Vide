@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511232928" />
+<meta name="date" content="20160906151831" />
 <!-- created with HelpSetMaker, ID=74fef6e0 -->
 <title>Mod-Conversion</title>
 </head>
@@ -103,7 +103,9 @@ First there are 12 radio buttons, with these you can set which of the 4 mod chan
 <img src="pics/adsr.png" width="306" height="199" /><br/>
 <em>ADSR</em></p><br/>
 
-<p>The last possible settings are the ADSR (<b>A</b>ttack, <b>D</b>ecay, <b>S</b>ustain, <b>R</b>elease) and TWANG (Vibrato) table.  Although I have as yet not found an in depth explaination of how these are best configured... you CAN enable different instrument settings with these. The values displayed are a shameless copy of the lineart demo, but you can surely experiment with them!</p>
+<p>The last possible settings are the ADSR (<b>A</b>ttack, <b>D</b>ecay, <b>S</b>ustain, <b>R</b>elease) and TWANG (Vibrato) table. <br />
+(See also Programming the Vectrex - Sound)<br />
+The vectrex mod formats supports different ADSR / TWANG settings for each voice. </p>
 <br />
 
 <p>Note:<br />
@@ -112,6 +114,24 @@ Each pattern can have different ADSR and TWANG tables. The values you find here 
 
 <p>Note again:<br />
 The ADSR and TWANG values are copied to the source AS IS, if you put errors in there or supply the wrong count of values, strange sounds may occur!</p>
+<br />
+
+<p>Instruments<br />
+This might be confusing, there are actually "3" different entities lurking behind the label "instrument".
+<ol><li>
+<p>The Instruments which are mod file inherent, these are samples which are played in different frequencies to acchieve different tones.</p>
+</li><li>
+<p>In the table of the mod conversion, you can set the vectrex "translation" instruments. This originated in the way vectrex (or the PSG) generates sounds and how the sound format of the orginal BIOS was defined. There are two "states" a sound register can produce output from: <i>NOISE</i> and <i> TONE</i>. The noise is generated PSG internally and the input "frequency" defines the noise - this is not equavalent to a "tone-frequency". For that reason you can select in the table: 
+<ul><li>
+<p>silence (no sound)</p>
+</li><li>
+<p>a "noise" instrument (there are 3 fixed defined ones, but you can add easily to the resulting source code)</p>
+</li><li>
+<p>any "tone" instrument as "note" - the actual tone instrument is defined via the ADSR and TWANG tables (see also instrument editor)</p>
+</li></ul>
+</p>
+</li></ol>
+</p>
 <h3>The last checkbox<br />
 </h3>
 

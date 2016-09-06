@@ -1,0 +1,218 @@
+;*******************
+
+;Draw Everything
+
+; State = $00 Don't Draw
+
+;         $01 Dot
+
+;         $02 Text
+
+;         $04 Vector List (move_draw_VL4)
+
+;         $08 Vector List with Invisible Vectors (drawl1b) (Not implemented)
+
+;         $FF Stop drawing sprites, exit subroutine immediately
+
+;
+
+; If rotation=0, sprite is not rotated
+
+; If intensity=0, intensity is NOT changed (allows you to draw several
+
+;   sprites of the same intensity in sequence without changing intensity
+
+;   and speeding things up a little.
+
+;
+
+; When a dot is being draw, rotation, scale and no_vectros is ignored.
+
+;
+
+; When a string is being draw, scale=height and rotation=width. no_vectors
+
+;  is ignored. vector_list is the pointer to a string terminated by #$80
+
+;*******************
+
+
+
+draw_everything:
+
+
+
+        jsr   waitrecal                 ;Reset the CRT
+
+        lda   no_sprites                ;sprite_left is the counter
+
+        sta   sprites_left              ;Create loop variable
+
+        ldy   #sprite_1
+
+
+
+start_loop:
+
+        lda   state,y                   ;load status byte
+
+        beq   end_loop                  ;If status is 0, don't draw object ("dead")
+
+        cmpa  #$04                      ;Is this Sprite a list of Vectors?
+
+        beq   draw_vectors              ;Yes, go draw Vectors
+
+        cmpa  #$02
+
+        beq   draw_string
+
+        cmpa  #$ff
+
+        beq   end_routine
+
+
+
+draw_dot:
+
+        lda   intensity,y               ;Get the Intensity
+
+        beq   no_intensity2             ;If intensity=0, don't change intensity
+
+        jsr   intensity_to_A            ;Set intensity
+
+
+
+no_intensity2:
+
+        lda   posy,y                    ;Get y
+
+        ldb   posx,y                    ;Get x
+
+        jsr   dot_at_d                  ;Draw dot
+
+        jsr   reset0ref                 ;Move pen to (0,0)
+
+        bra   end_loop
+
+
+
+
+
+draw_string:
+
+        lda   intensity,y               ;Get the Intensity
+
+        beq   no_intensity3             ;If intensity=0, don't change intensity
+
+        jsr   intensity_to_A            ;Set intensity
+
+
+
+no_intensity3:
+
+        lda   scale,y                   ;Get string Height
+
+        ldb   rotation,y                ;Get string Width
+
+        std   $c82a                     ;Store Height/Width in BIOS
+
+        lda   posy,y                    ;Get y
+
+        ldb   posx,y                    ;Get x
+
+        jsr   move_pen7f_to_d           ;go to (PosX,PosY)
+
+        ldu   vector_list,y             ;Get address of string
+
+
+
+        jsr   display_string            ;Print the string
+
+
+
+        jsr   reset0ref                 ;Move pen to (0,0)
+
+        bra   end_loop
+
+
+
+draw_vectors:
+
+        lda   rotation,y                ;Get rotation
+
+        beq   no_rotation
+
+        ldb   no_vectors,y              ;Get number of vectors
+
+        ldx   vector_list,y             ;Get address of Vector list
+
+        ldu   #buffer                   ;Transform buffer
+
+        jsr   rot_vec_list2             ;Rotate Object
+
+
+
+no_rotation:
+
+        lda   posy,y                    ;Get y
+
+        ldb   posx,y                    ;Get x
+
+        jsr   move_pen7f_to_d           ;go to (PosX,PosY)
+
+
+
+        lda   intensity,y               ;Get the Intensity
+
+        beq   no_intensity              ;If intensity=0, don't change intensity
+
+        jsr   intensity_to_A            ;Set intensity
+
+
+
+no_intensity:
+
+        lda   rotation,y                ;Get rotation
+
+        beq   no_rotation2
+
+        ldx   #buffer                   ;Transformed points
+
+        bra   rotated
+
+no_rotation2:
+
+        ldx   vector_list,y
+
+rotated:
+
+        lda   no_vectors,y              ;Get number of vectors
+
+        ldb   scale,y                   ;Get the scale
+
+        jsr   move_draw_VL4             ;Draw it
+
+
+
+        jsr   reset0ref                 ;Move pen to (0,0)
+
+
+
+end_loop:
+
+        dec   sprites_left              ;Decrement the counter
+
+        bmi   end_routine               ;Are we done?
+
+        leay  #15,y                     ;Next object structure
+
+        bra   start_loop                ;Not done, back to start of loop
+
+
+
+end_routine:                            ;We're done
+
+
+
+        rts
+

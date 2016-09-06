@@ -5,16 +5,60 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511232928" />
+<meta name="date" content="20160906151831" />
 <!-- created with HelpSetMaker, ID=066c9925 -->
 <title>dumpi</title>
 </head>
 <body class="doc">
 <h1>dumpi</h1>
 <br/><p align="center">
-<img src="pics/dumpi.png" width="823" height="540" /><br/>
+<img src="pics/dumpi.png" width="1002" height="852" /><br/>
 <em>dumpi window</em></p><br/>
 
-<p>Nothing special here. Memory locations are shown...</p>
+<p>In the top row there are buttons to jump directly to RAM locations. Followed by 16bit register buttons. Pressing the later also jumps to the address the "pressed" register points to.</p>
+
+<p>On the top left is a checkbox called "data display". If selected, the dumpi window is split, and in the bottom part a vector/raster display is shown.</p>
+
+<p>This displays when "active" (a checkbox below the table) either a "raster" image (a vector representation of a bitmap) or a vectorlist.</p>
+<br />
+
+<p>These modes are selectable by the two radiobuttons.<br />
+</p>
+<h3>Selection</h3>
+
+<p>The selection that is displayed can be chosen by three differen means:
+<ol><li>
+<p>in the dumpi window: left click on start address, shift left click on end address</p>
+</li><li>
+<p>the selection in dissi is taken immediately as selection in dumpi (when active)</p>
+</li><li>
+<p>direct editing of start/end address in textfields</p>
+</li></ol>
+</p>
+
+<p>The selected values are highlighted light blue in the dumpi-table.</p>
+<h3>Vectorlist</h3>
+
+<p>The data selected can be displayed as a vectorlist. The configuration of the vectorlist types that are supported (or can be configured) are the same as described in vecci (import). For a detailed description see there...</p>
+<h3>Raster data</h3>
+
+<p>Raster data (images or fonts) can also be displayed (large amount of selected data slows down vide, remember in java to not place heavily updated windows above each other, they will trigger updating each other...).</p>
+
+<p>The user still has to figure out:
+<ul><li>
+<p>start of the data</p>
+</li><li>
+<p>end of the data</p>
+</li><li>
+<p>how many bytes constitute one "line"</p>
+</li></ul>
+</p>
+
+<p>For images the last one is usually not to big (10 bytes are already a 80 bit wide image).</p>
+
+<p>For fonts the width is usually the number of characters that the font consists of. (e.g. BerzerkArena has a font with 108 characters, so the width is 108) </p>
+<br/><p align="center">
+<img src="pics/dumpi2.png" width="1003" height="852" /><br/>
+<em>dumpi example 2 vectorlist display</em></p><br/>
 </body>
 </html>

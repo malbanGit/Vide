@@ -55,41 +55,6 @@ Bill Hawkins</Eastereggs>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
-		<Name>SectorX</Name>
-		<CartName>Sector-X</CartName>
-		<Author>Georg Pelonis</Author>
-		<Year>2010</Year>
-		<CRC>0</CRC>
-		<TypeFlags>512</TypeFlags>
-		<FullFilenames>
-			<FullFilename>Dumped/SectorX.BIN</FullFilename>
-		</FullFilenames>
-		<Information>Georg Pelonis</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage>http://furyunlimited.com/_sgg/f10000.htm</Homepage>
-		<InstructionFile></InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage></InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink></BinaryLink>
-		<Licence></Licence>
-		<CopyrightType>Copyright 2010 Georg Pelonis</CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>false</Homebrew>
-		<Demo>false</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>false</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName>narrow escape</WheelName>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
 		<Name>Vector 21</Name>
 		<CartName>Vector 21</CartName>
 		<Author>George Pelonis</Author>
@@ -464,6 +429,7 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CRC>0</CRC>
 		<TypeFlags>16384</TypeFlags>
 		<FullFilenames>
+			<FullFilename>Dumped/logolite.BIN</FullFilename>
 		</FullFilenames>
 		<Information>Alex Nicholson</Information>
 		<Cheats></Cheats>
@@ -1124,6 +1090,41 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Greetings</Name>
+		<CartName>Greetings</CartName>
+		<Author>Malban</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>1024</TypeFlags>
+		<FullFilenames>
+			<FullFilename>projects/WelcomeToVide/C1Main_0.bin</FullFilename>
+		</FullFilenames>
+		<Information>Malban</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence>None</Licence>
+		<CopyrightType>None</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>true</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>SectorX</Name>
 		<CartName>Sector-X</CartName>
 		<Author>Georg Pelonis</Author>
@@ -1409,6 +1410,41 @@ responsible for any damage due to the use of this software.</Licence>
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Logolite</Name>
+		<CartName>Logolite</CartName>
+		<Author>Alex Nicholson</Author>
+		<Year>2006</Year>
+		<CRC>0</CRC>
+		<TypeFlags>16384</TypeFlags>
+		<FullFilenames>
+			<FullFilename>Dumped/logolite.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Alex Nicholson</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 2006 Alex Nicholson</CopyrightType>
+		<PDFLink>Logo Manual</PDFLink>
+		<PDFFile>download/documents/games/logoman.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
 	</CartridgeProperties>
@@ -3038,7 +3074,7 @@ This binary requires a VecVoice module for speech to be heard.&amp;#x20;</Easter
 		<BackImage>./cartridges/images/Hyperchase-771573708655811629.png</BackImage>
 		<Overlay>overlays/hyper.png</Overlay>
 		<InGameImage>./cartridges/images/Hyperchase4677046460432195532.png</InGameImage>
-		<Critic>documents/games/_critics.txt</Critic>
+		<Critic>documents/games/Hyperchase_critics.txt</Critic>
 		<Other></Other>
 		<BinaryLink></BinaryLink>
 		<Licence>In the mid-1990s, Smith Engineering condoned the duplication of the Vectrex system image and cartridges for non-commercial uses.</Licence>
@@ -3262,6 +3298,41 @@ The above copyright notice and this permission notice shall be included in all c
 		<CartridgeImage></CartridgeImage>
 		<Homebrew>true</Homebrew>
 		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Spikes Circus</Name>
+		<CartName>Spikes Circus</CartName>
+		<Author></Author>
+		<Year></Year>
+		<CRC>0</CRC>
+		<TypeFlags>16384</TypeFlags>
+		<FullFilenames>
+			<FullFilename>Dumped/Spikes Circus.BIN</FullFilename>
+		</FullFilenames>
+		<Information></Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
@@ -3556,7 +3627,7 @@ The above copyright notice and this permission notice shall be included in all c
 		<CRC>0</CRC>
 		<TypeFlags>1</TypeFlags>
 		<FullFilenames>
-			<FullFilename>Vectrexians 2007 #069.BIN</FullFilename>
+			<FullFilename>Dumped/Vectrexians 2007 #069.BIN</FullFilename>
 		</FullFilenames>
 		<Information>Kristof Tuts</Information>
 		<Cheats></Cheats>

@@ -1,0 +1,8 @@
+<Instrument>
+<name>
+T1</name>
+<adsr>
+$CE, $FE, $FF, $FE, $DD, $DD, $DD, $DD, $CB, $A9, $87, $65, $43, $21, $00, $00</adsr>
+<twang>
+$00, $07, $15, $07, $00, $F8, $EA, $F8</twang>
+</Instrument>

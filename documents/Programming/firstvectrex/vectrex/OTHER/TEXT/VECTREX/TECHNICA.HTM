@@ -1,0 +1,181 @@
+<html>
+
+<head>
+<title>Technical Specs and Info</title>
+</head>
+
+<body background="backg.jpg">
+
+<p><img src="title1.jpg" alt="title1.jpg (17600 bytes)" align="left" hspace="12" width="355" height="140"></p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p align="center"><big><font face="Arial"><big><strong>Technical Specs and Info</strong></big></font></big></p>
+
+<p><font face="Courier New" size="2">&nbsp;</p>
+
+<p></font><a name="General Overview"><font size="2" face="Arial"><big><big><strong>General
+Overview</strong></big></big></font></a><font face="Courier New" size="2"></p>
+
+<p align="center"></font><font size="2">#General Overview | <a href="#Technical Overview">#Technical
+Overview</a> |</font> <small><a href="#Joystick Diagram">#Joystick Diagram</a></small> |<small>
+<a href="#Downloads">#Downloads</small></a><font face="Courier New" size="2"></p>
+
+<p></font><font size="2"><big>The following text is taken from the Vectrex technical
+manual.</big></font><font face="Courier New" size="2"></p>
+
+<p></font><font size="2"><big>As a general description, the HP3OOO is a self-contained
+video game system intended for home use. The system includes its own 9&quot; B&amp;W
+monitor screen and 3&quot; permanent magnet speaker. Plug-in ROM type cartridges are
+available offering arcade type video and sound game play. No external TV receiver hookup
+is needed or provided for. A front panel storable controller allows control over the game
+via joystick and push button action switches. For two player operation a second controller
+identical to the single player controller is available as an accessory product. Both
+controllers attach to the main game console through nine wire coiled telephone style
+cables. There is a consumer power switch/volume control on the front panel as well as a
+game reset button. A consumer adjustable brightness control is located on the main console
+rear housing.</big></font><font face="Courier New" size="2"></p>
+</font>
+
+<p><a name="Technical Overview"><big><strong><font face="Arial">Technical Overview</font></strong></big></a></p>
+
+<p align="center"><font size="2"><a href="#General Overview">#General Overview</a> |
+#Technical Overview | <a href="#Joystick Diagram">#Joystick Diagram</a> | </font><small><a href="#Downloads">#Downloads</a></small></p>
+
+<p><font size="2"><big>The following text is taken from the Vectrex technical manual.</p>
+
+<p>For the technical description which follows, the reader is encouraged to refer to the
+block diagram and schematic [see the technical manual].</p>
+
+<p>The HP3OOO is a microprocessor based, vector scan system using a standard 9&quot; black
+&amp; white CRT as its video display device. The microprocessor (MPU) is the Motorola
+68A09 device. The MPU operates at 1.6 MHz from a 6 MHz external Xtal. An internal divide
+by 4 circuit generates the MPU 1.6 MHz &quot;E&quot; clock signal used in the system.
+Program memory is stored in the 8K x 8 bit 2363 type ROM. This ROM contains common
+subroutines, the &quot;executive&quot; or assembler instructions plus one complete game.</p>
+
+<p>Two 1K x 4 bit 2114 type static RAMS provide storage locations for data indicative of
+locations of objects, game status, and various other information needed by the
+microprocessor during game operation.</p>
+
+<p>Peripheral Interface Adaptor (PIA) Chip, has two 8 bit peripheral ports which
+interfaces the MPU with peripheral devices and external signals. One of the PIA ports
+interfaces the General Instrument AY-3-8912 sound-I.O. chip with the MPU and also drives
+the digital to analog converter chip MC1408. The other PIA port is used as control lines
+for the sound chip, selector control for the multiplex chip and as a means to read the A/D
+comparator that's used in the joystick successive approximation circuitry. Sound is either
+MPU generated directly or by use of the AY-3-8912 sound chip.</p>
+
+<p>The AY-3-8912 sound chip is a programmable sound generator containing 3 tone generators
+and wave shaping circuitry. This chip also has a single 8 bit I.O. port used to read the
+status of each of the hand controller's 4 action switches.</p>
+
+<p>The standard TTL device types 74LS00 and 74LS32 are used as control line decoders to
+allow the MPU to select the appropriate circuit element to be addressed at any particular
+time.</p>
+
+<p>The analog processing section includes digital to analog converter (DAC) chip type
+MC1408, dual 4 channel multiplexer/demultiplexer chip type CD4052, and dual channel
+op-amps types LF353 and LF347.</p>
+
+<p>DAC chip MC1408 receives an 8 bit word at data terminals D0-D7. DAC output (pin 4) is
+current source. One section of IC LF353 is used to change this current to a voltage
+representative of the 8 bit digital word received by the DAC chip. The LF353 voltage is
+applied to an input of the dual 4 channel multiplexer (MUX) chip CD4052. This same voltage
+(designated &quot;DAC&quot; on the schematic) is the X-axis drive signal. The CD4052 MUX
+chip serves two purposes: it selectively couples, under MPU control, the output of the DAC
+current/voltage converter to one of 4 places and is used to selectively couple the inputs
+from the joystick pots to the voltage comparator IC LF353.</big></p>
+</font>
+
+<p><font size="2" face="Arial"><big><strong><big><a name="Joystick Diagram">Joystick
+Diagram</a></big></strong></big></font></p>
+
+<p align="center"><font size="2"><a href="#General Overview">#General Overview</a> | <a href="#Technical Overview">#Technical Overview</a> | #Joystick Diagram | </font><small><a href="#Downloads">#Downloads</a></small></p>
+
+<p><font size="2"><big>The following information was extracted from the Vectrex technical
+manual. I have re-drawn the schematic and added the table to make it easier to understand.</big></font></p>
+
+<p><font size="2"><big>If you have a basic understanding of electronics you should be able
+to convert another joystick to use with the Vectrex without too much trouble.</big></font></p>
+
+<p><img src="stick.gif" alt="stick.gif (4644 bytes)" align="left" width="524" height="399"></p>
+
+<p>&nbsp;</p>
+<div align="left">
+
+<table border="1" height="247">
+  <tr>
+    <td width="33%" height="19">Pin No.</td>
+    <td width="33%" height="19">Wire Colour</td>
+    <td width="34%" height="19"></td>
+  </tr>
+  <tr>
+    <td width="33%" height="19">1</td>
+    <td width="33%" height="19">Green</td>
+    <td width="34%" height="19">Button 1</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19">2</td>
+    <td width="33%" height="19">Yellow</td>
+    <td width="34%" height="19">Button 2</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19">3</td>
+    <td width="33%" height="19">Orange</td>
+    <td width="34%" height="19">Button 3</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19">4</td>
+    <td width="33%" height="19">Red</td>
+    <td width="34%" height="19">Button 4</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19">5</td>
+    <td width="33%" height="19">Brown</td>
+    <td width="34%" height="19">Joystick X</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19">6</td>
+    <td width="33%" height="19">White</td>
+    <td width="34%" height="19">Joystick Y</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19">7</td>
+    <td width="33%" height="19">Grey</td>
+    <td width="34%" height="19">+5v</td>
+  </tr>
+  <tr>
+    <td width="33%" height="19">8</td>
+    <td width="33%" height="19">Black</td>
+    <td width="34%" height="19">Gnd</td>
+  </tr>
+  <tr>
+    <td width="33%" height="16">9</td>
+    <td width="33%" height="16">Blue</td>
+    <td width="34%" height="16">- 5v</td>
+  </tr>
+</table>
+</div>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p><a name="Downloads"><font size="2" face="Arial"><big><strong><big>Downloads</big></strong></big></font></a></p>
+
+<p align="center"><font size="2"><a href="#General Overview">#General Overview</a> | <a href="#Technical Overview">#Technical Overview</a> | <a href="#Joystick Diagram">#Joystick
+Diagram</a> | #Downloads</font></p>
+
+<p><font size="2"><big><a href="manual.zip">MANUAL.ZIP</a> - Scans of the Vectrex
+technical manual in GIF format. </big></font></p>
+
+<p>&nbsp;</p>
+
+<p><a href="index.html"><font size="2"><big>Back to Main Index</big></font></a></p>
+</body>
+</html>

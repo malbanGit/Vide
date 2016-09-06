@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160906151831" />
+<!-- created with HelpSetMaker, ID=083552fe -->
+<title>Example: VecLink V1</title>
+</head>
+<body class="doc">
+<h1>Example: VecLink V1</h1>
+
+<p>With the information about the veclink cables I was given a couple of binaries.</p>
+
+<p>One of the binaries ("vl_test.bin") is a test program for the veclink V1 cable. The program was most likely written by Alex Herbert.</p>
+
+<p>I disassembled the program and commented it.</p>
+
+<p>It is by now a very well documented example on how to use veclink V1.</p>
+
+<p>It can be found in the directory:<br />
+</p>
+
+<p><tt> codelib/Snippets/Alex Herbert/VecLinkV1/vlink1.asm<br />
+</tt><br />
+The program can be assembled and run in vide.</p>
+
+<p>If you want you can look at it and rip it apart, but keep in mind, that my documentation says that VecLink V2 is much more stable.</p>
+
+<p>For more information look at the source to the example and possibly at the "Emulation: VecLink V1 + V2" section.</p>
+
+<p>Let me remind you, that there is no way to "automatically" configure vide to run two vecx instances, you have to start two instances manually:</p>
+
+<p>Manually meaning:
+<ul><li>
+<p>go to the main menu and start a vecx</p>
+</li><li>
+<p>select the veclink binary you would like to play</p>
+</li><li>
+<p>press start</p>
+</li><li>
+<p>select for port 0 the input device you would like to use</p>
+</li><li>
+<p>select for port 1 the veclink cable you would like to use, start with the "left" side (although it does not really matter which side is plugged in first)</p>
+</li><li>
+<p>repeat the above process for a second vecx instance, </p>
+</li><li>
+<p>for port 1 select the "other side" (right?) of the same veclink cable</p>
+</li></ul>
+</p>
+<br/><p align="center">
+<img src="pics/VecLink.png" width="802" height="460" /><br/>
+<em>VecLink example</em></p><br/>
+</body>
+</html>

@@ -1,0 +1,98 @@
+                VECTREX 3D GOGGLE ELECTRONICS DESCRIPTION
+
+If you have any comments or questions about this file or the 
+schematic, please direct them to zacketh@ibm.net
+
+                                 Zack Ethridge
+                                 12/26/95
+
+The 3D goggles are fairly simple, mechanically.  They consist of
+an approximately 1"x2" circuit board which controls a small dc
+motor.  This motor turns a color wheel which is opaque over half
+of it's area and red, green, blue on the other half.  As the
+color wheel spins it alternately covers each eye which allows the
+Vectrex to produce the 3D effect.  As each of the 3 different
+colors go past the eye, the Vectrex draws the object on the
+screen which will be seen as that color.  Simple but effective.
+
+The Vectrex sends a stream of pulses which controls the speed of
+the motor using Pulse Width Modulation.  The feedback from the
+goggles is the pulse from the index hole.  The Vectrex alters the
+negative width of the pulses it outputs until the index pulse it
+receives is approximately 27 Hz.
+
+There are 3 circuits on the circuit board.  See 3DGOGGLE.GIF or
+3DGOGGLE.BMP for the schematic.
+
+Circuit component values are as follows:
+R1 - 3.3K     R6 - 3.3K    C1 - 47 uFd  10v
+R2 - 1K       R7 - 220K    C2 - .1 uFd
+R3 - 150      R8 - 3.3K    C3 - .1 uFd
+R4 - 27K      R9 - 1M      C4 - .1 uFd
+R5 - 47K     R10 - 10
+Q1 - PNP driver transistor
+     (Radio Shack 276-1604 [2N3906] works here)
+Q2 - Photo transistor
+     (Radio Shack 276-145A works here)
+D1 - generic diode (1N94 should work)
+D2 - generic LED (red)
+U1 - LM393 5v dual opamp
+M1 - small pm dc motor (no gearing)
+
+One circuit consists of C4, R9, D1, U1a, R6, R1, R2, Q1, C3, C1,
+C2, R10, and M1.  This circuit takes the pulse from the Vectrex
+and uses it to drive the motor.  The wider the negative input
+pulse, the faster the motor spins.   
+
+The next circuit consists of R3 and D2.  This circuit is the LED
+which shines through the index hole in the color wheel.
+
+The last circuit consists of Q2, R4, R5, U1b, R7, and R8.  This
+circuit senses the index pulse light through the color wheel and
+shapes it into a negative going pulse output to the Vectrex. 
+
+That's all there is.  The Vectrex does the speed correction, and
+uses the index pulse to time the screen draws to get both the
+color and 3D effects.   
+
+The Vectrex uses 4 lines to connect to the 3D goggles.  Looking
+at the end of the goggle connector the pins are numbered like
+this:
+        1 2 3 4 5
+         9 8 7 6.  
+
+Pin 8 is the ground.  Pin 7 is the +5vdc.  Pin 3 is the signal
+in, from the Vectrex.  Pin 2 is the signal out, from the goggles.
+
+Both the signal in and the signal out are negative going pulses. 
+During the Narrow Escape game, the pulse repetition time for both
+pulses is 37.5 msec.  The signal out pulse width is 1.05 msec. 
+The signal in pulse width bounces between 12 and 16 msec.
+
+SIGNAL OUT:  a - 1.05 msec 
+             b - 37.5 msec
+
+           :---------b---------:
+           :-a-:               :
++5vdc______     ___________     ________
+           |   |           |   | 
+           |   |           |   |
+Gnd        |___|           |___|
+
+
+SIGNAL IN    a - 12-16 msec
+             b - 37.5 msec
+
+           :-----------b-----------:
+           :--a--:                 :
++5vdc______       ___________       ________
+           |     |           |     | 
+           |     |           |     |
+Gnd        |_____|           |_____|
+
+
+During the startup sequence at the beginning of the game the signal in 
+pulse train seems to be very high and have about a 50% duty cycle.  I 
+believe this happens in order that the motor will get up to speed quickly.
+Once the wheel is spinning near normal speed, the pulse train changes 
+to the normal signal, apparently synchronized to the output pulse train.

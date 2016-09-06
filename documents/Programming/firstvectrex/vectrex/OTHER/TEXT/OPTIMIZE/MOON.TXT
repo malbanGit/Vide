@@ -1,0 +1,246 @@
+Thema:	Re: 6809/Vectrex Programming: Speed Optimisation
+Von:	clay@supra.com (Clay Cowgill)
+Datum:	Fri, 21 Nov 1997 11:13:37 -0800
+
+In article <64se1q$o7j@freenet-news.carleton.ca>,
+aa993@FreeNet.Carleton.CA (Christopher L. Tumber) wrote:
+
+> So, I'd appreciate anyone willing to share their 6809/Vectrex optimisation
+> tips. I'm going to start things off with some observations I've made so far.
+> Many of my comments will relate directly to Clay Cowgill's Rocks source code.
+> I *really* don't intend this as any sort of slam against Clay. Without his
+> well documented code (Far better commented than just about anything I've 
+> ever written!), I'm sure I'd still be spinning my wheels going nowhere fast.
+> However, working through his code has raised a number of issues and concerns.
+
+Oooh!  A code review! ;-)  Sounds like fun... *grin*
+
+First, a little background on my 6809 code in "Rocks".  It's basically
+just a carved-up version of the Moon Lander source, which is the first
+6809 code I've ever written, so be gentle. *laugh*  I started the 6809
+after writing an Asteroids game on the Super Nintendo (65816), so my 6809
+code looks kinda 65816/6502-ish...
+
+The other point is that compared to the actual BIOS draw routines, my CPU
+usage was pretty minimal-- so optimizing wasn't a big priority.  (Except
+in some CPU-hog routines like stepping through all the asteroids and
+whatnot.)
+
+> d versus a and b registers
+> ==========================
+> lda __y,y
+> ldb --x,y
+> jsr move_pen7f_to_d
+>  
+> would be faster as something like:
+>  
+> ldd __yx,y
+> jsr move_pen7f_to_d
+
+Yep, you're right. :-)
+
+> The y register offset takes on a different meaning as __yx is two bytes 
+> instead of single bytes for __y and __x but the implementation is almost 
+> identical. When drawing objects to the Vectrex screen, you are using a lot 
+> of this kind of X/Y positional pairing. Sure, we're only saving 1 cycle per 
+> object per screen update but if you have a lot of objects and (as with the 
+> Vectrex) you're updating the screen frequently it adds up quickly!
+
+Ehhhhh...  Yeah, you're right, and it'd be OK to do when the code is done,
+but the main reason I keep things "separate" instead of combining into an
+LDD or something is so that it's easy when first writing the code to
+hand-modify things like screen locations without having to remember which
+byte goes to which axis.  (Lazy, I know, but when you switch between 5 or
+6 different processors all at assembly level it's not easy to keep
+straight.)
+
+> jsr/rts
+> =======
+>  
+> My own personal biggest speed optimisation beef is overuse of jsr and rts.
+> Every instance of jsr and rts in a 6809 program costs 4 bytes and 13 cycles. 
+> If optimising for speed, those 13 cycles can be a serious consideration.
+
+I won't buy off on this one.  ;-) UNLESS the game is running too slowly in
+the first place I NEVER do code inlining or loop unrolling.  In the case
+of Moon Lander (where the Rocks code is from) it's running just fine
+without trying to squeeze cycles.
+
+> I know every computer science prof in the world told you to write programs
+> that look like this:
+>  
+> Main_Loop: jsr Subroutine_1
+>            jsr Subroutine_2
+>            jsr Subroutine_3
+>            jsr Subroutine_4
+>            jsr Subroutine_5
+>            jsr Subroutine_6
+>            jsr Subroutine_7
+>            jmp Main_Loop
+>  
+> Sure, it looks nice, but is it really any more readable than something like 
+> this:
+
+[...]
+
+> By placing code right in the main loop instead of in subroutines, in the
+> above example we've saved 28 bytes and more importantly 91 cycles each
+> time through the main loop. If this main loop is executed 20 times a second,
+> that's a savings of 1820 cycles a second. Think you can find something 
+> interesting to do with a free 1820 cycles per second?
+
+Wrong, wrong, wrong, wrong, wrong. ;-)  (Not your math, but the methodology.)
+
+Like I said, you can inline it after it's working if you want.  Debugging
+is MUCH, MUCH, MUCH easier with the subroutine calls.  It's easier to
+edit, easier to breakpoint around, and generally faster for the programmer
+to figure out.  Not to mention you can use the code elsewhere with a
+minimum of fuss.
+
+[...]
+> IMHO, unless a sequence of code is called from multiple places, it should 
+> NEVER be placed in a subroutine. Even if it is called from multiple sources,
+> you need to determine if it is called often enough and is long enough to
+> warrant the trade-off of 13 cycles each time it's called as a subroutine
+> instead of being imbeded right where needed. In the case of 1k of code 
+> that's called from 10 different place, yes, of course that should be a 
+> subroutine. But, two lines of code that are called only from two different 
+> locations right in your most important and time critical pieces of code?
+> I don't think so!
+
+*Bzzzzzt!*  Wrong!  Thanks for playing.  (just kidding)
+
+You're kinda missing the point.  All this stuff is a perfectly sound
+theoretical approach to things, but the whole thing is moot if you spend
+all your time saving cycles and the project never gets finished.  Unless
+you NEED the speed, keep the code readable!  I personally guarantee that
+if you need to go back and look at code a year from now that you've done
+all sorts of crafty speed-ups to, it'll be much harder to follow. 
+
+I'll offer a corollary-- Unless you absolutely need the cycles, ALWAYS
+place functional modules in subroutines.  You can always inline it later
+if you have to, and if you don't need to it's time saved all around. 
+(Time = money)
+
+> dptoD0 and dptoC8
+> =================
+>  
+> dptoD0 and dptoC8 are two short, simple ROM routines which are called IMHO 
+> far too frequently. The complete routines are as follows:
+>  
+> dptoD0: lda #$d0                           dptoC8: lda #$c8
+>         tfr a,dp                                   tfr a,dp
+>         rts                                        rts
+
+More readable.  
+
+> Rocks uses dp values of #$d0 (Hardware I/O) and #$c8 (OS RAM) almost 
+> exclusively. However, almost every routine sets the value of dp it will be 
+> using. It seems to me a far more efficient method would be to choose a 
+> default value for dp (say #$d0 since that one is used most often) and
+> set dp to that value. Any routine requiring a different value would then
+> change dp to the new value and then back. (I'd suggest pshs dp and puls dp
+> to restore the original dp value since pshs and puls should be faster than
+> setting dp through register a as dptoD0 and dptoC8 do.)
+
+Once again, code readability and reuse.  The BIOS makes some assumptions
+of DP state depending on the routine called.  I was getting clobbered on
+occasion by BIOS calls (sometimes nested) because of DP settings.  I like
+to start off subroutines from a known state since there will be times that
+I call the routine from different parts of the code that may or may not
+have the state preserved.  When I cut and paste the subroutine into
+something else I don't have to worry so much about side-effects from the
+register state in the new code.
+
+> The purpose of the dp register is to improve speed and shorten code through 
+> Direct Addressing. However, because of the overhead involved in setting and 
+> resetting dp if you are not careful dp can become counter productive to these 
+> primary functions. Unlike some of the other optimisation issues I've raised, 
+> readibility isn't really a concern. lda $10 is not any more readable than 
+> lda $c810. In fact, the opposite might be true because in Direct Addressing 
+> you need to keep track of the current value of dp while decyphering code. 
+> In Extended you do not.
+
+You'll notice that I seldom use DP addressing in my code.  The BIOS uses
+it extensively.  When I set DP it's almost always to appease the BIOS for
+some upcoming call.
+
+> Unnessesary Variables
+> =====================
+>  
+> In the routine (draw_lander) which draws the player's ship on the screen,
+> Rocks uses:
+>  
+> lda lander_bright
+> jsr intensity_to_A
+>  
+> Where lander_bright is a memory location containing the value #$4f. This is
+> the brightness at which to draw the player's ship. However, this value is 
+> never changed. So why use a variable? lda lander_bright since it's 
+> Extended Addressing takes 5 cycles and 3 bytes. As lander_bright is 
+> effectively a constant, lda #$4f would take only 2 cycles 2 bytes and 
+> therefore save 3 cycles and 1 byte (not to mention freeing up the 
+> lander_bright location for us by another variable).
+
+Look at what you're complaining about.  Think.  LANDER BRIGHTNESS.  This
+is leftover code from Moon Lander, which fades the lander graphic out
+while simultaneously brightening up and expanding an explosion.  I left it
+in in case someone wants to add a "death" routine to Rocks that uses it.
+
+Ok, now I'm actually a little agitated and need to vent for a second.
+
+"Rocks" was an adaptation of Moon Lander code.  It was done in about 8
+hours.  That fact alone, IMNSHO, supports my contention that having code
+in subroutines lends itself very nicely to rapid adaptation to new
+targets.  I went from a "luner lander" game with a single ship that flies
+around with gravity to a "free-flying" ship firing missiles with a bunch
+of asteroids (and collision detection).  If Moon Lander was fully inlined
+and obfusicated with a bunch of speed tweaks that would NOT have been
+possible.
+
+For my original post back in 4/97:
+
+"I have't done any loop unrolling yet, and all the rotation is computed on
+the fly, so I can table that up and make that faster... There's a bunch of
+old Moon Lander code getting executed that doesn't need to be taking
+cycles..."
+
+So, I'll calm down a bit now an re-iterate the points I wanted to make:
+
+1) Optimizing code for speed when the additional speed isn't needed wastes
+programmer time, obfusicates the code needlessly, and makes the codebase
+less portable and reusable.  (Good chunks of "Rocks" were grabbed from
+SNESteroids because of the modular code base there.)
+
+2) There's no free lunch.  Inlining subroutines and unrolling loops
+consume more codespace.  (With audio samples and all game levels Moon
+Lander won't fit in a 32K EPROM as it is-- adding code for speed that
+isn't needed is a bad call.)
+
+3) Optimize after you're done with the code.  When developing, keep things
+easy to understand and re-use.  (Particularly if you'll likely be on and
+off the project over a long period of time.)
+
+4) The most clear example of how to write for a system is seldom the best
+example of how to code for the system.  "Rocks" is meant as a pretty-well
+commented and easy to follow example of writing code for the Vectrex. 
+Some people were having trouble following John's source (few comments and
+meaningful labels) so I put Rocks out as an 'easy' example.  
+
+Here's a couple suggestions:
+
+Add profiler capabilities to the emulator.  (Some sort of automatic cycle
+counting at least)  It doesn't even really need to run at real-time
+speeds.  Just making a big-ass table of long ints for all addresses in the
+6809 memory and keeping an "access count" on each address would make a
+kinda interesting histogram...
+
+If you want-- take Rocks, inline everything, remove redundant JSR's, etc.
+and squeeze absolutely everything you can out of it.  Then show me how
+many extra instructions per pass through the main look you get-- and how
+many extra vectors you get on screen as a result.  
+
+-Clay
+
+Clayton N. Cowgill                                Engineering Manager                 
+______________

@@ -1,0 +1,48 @@
+.ERASE
+
+##### DEFAULT BUILD MODE IS RELEASE #####
+
+######## NAMES OF EXECUTABLES ##########
+
+CCEXE   =  WPP386
+LINKEXE =  WLINK
+
+######## COMPILER FLAGS ##########
+
+CFLAGS = /zq /oi /w4 /s /or /ot /5r /oa /ol+ /ox /ol+ /ox
+LINKMODE= $#
+
+######## NAME OF FINAL EXECUTABLE ########
+
+EXENAME  = BACK.EXE
+
+######## LIST OF OBJECTS ########
+
+OBJECTS  = BACK.obj
+
+LINK_OBJ1 =BACK.obj
+
+######## LIST OF DEPENDENCES ########
+
+$(EXENAME): $(OBJECTS) makefile
+        @ECHO Linking $(EXENAME) ...
+
+
+        @echo $(linkmode)             >__link__.tmp
+        @echo system pmodew           >>__link__.tmp
+        @echo option map, quiet, stack=512K     >>__link__.tmp
+        @echo name $(EXENAME)         >>__link__.tmp
+        @echo file $(LINK_OBJ1)       >>__link__.tmp
+
+        @$(LINKEXE) @__link__.tmp
+        @del __link__.tmp
+        @echo Done.
+        @copy *.exe ..
+
+# I don't believe in automation in makefiles...
+
+BACK.obj: BACK.cpp
+        @echo $(CFLAGS) >__comp__.tmp
+        @echo Compiling BACK.obj ...
+        @$(CCEXE) -fo=BACK.obj BACK.cpp @__comp__.tmp
+        @del __comp__.tmp

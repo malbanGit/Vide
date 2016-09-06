@@ -1,0 +1,12 @@
+LF353
+Dual JFET-input operational amplifiers.
+
+     +----------+
+1OUT |1  +--+  8| VCC
+-1In |2        7| 2OUT
++1In |3 LF353  6| -2In
+ VEE |4        5| +2In
+     +----------+
+
+[This information is part of the GIICM]
+

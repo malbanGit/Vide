@@ -7,6 +7,7 @@ package de.malban.vide.vecx;
 
 import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.devices.Imager3dDevice;
+import de.malban.vide.vecx.devices.JoyportDevice;
 import java.io.Serializable;
 
 /**
@@ -22,6 +23,11 @@ public class CompleteState implements Serializable
     E8910State e8910State = new E8910State();
     VecXState eVecXState = new VecXState();
     Imager3dDevice imager = null;
+    
+    int deviceID0 = -1;
+    int deviceID1 = -1;
+    String deviceName0 = "";
+    String deviceName1 = "";
     
     public void putState(Imager3dDevice i)
     {

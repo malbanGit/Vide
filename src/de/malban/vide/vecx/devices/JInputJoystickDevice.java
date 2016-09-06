@@ -32,6 +32,11 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
     public JInputJoystickDevice()
     {
     }
+    public String getDeviceName()
+    {
+        if (cConfig == null) return "n/a";
+        return cConfig.name;
+    }
     
 
     @Override

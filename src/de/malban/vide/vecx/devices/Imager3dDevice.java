@@ -168,6 +168,10 @@ public class Imager3dDevice extends AbstractDevice implements Serializable
     {
         return DEVICE_IMAGER;
     }
+    public String getDeviceName()
+    {
+        return "Imager";
+    }
     public Imager3dDevice()
     {
     }
@@ -401,7 +405,7 @@ public class Imager3dDevice extends AbstractDevice implements Serializable
     
     public String toString()
     {
-        return "Imager";
+        return getDeviceName();
     }
     
     // if i== true

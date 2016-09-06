@@ -6,3 +6,15 @@
 I would like to integrate a "library" of vectrex essential documentations.
 
 Provided I get permission, this (at least for me) may be helpfull as I don't have to look for all those manuals in the shelfs.
+
+The "Library" is generated from all files that can be found in the documentation folder.
+Following "rules" are used to generate:
+- the file extension must be one of: "pdf", "txt", "rtf", "doc", "html", all other files are ignored
+- files containing "\_critics.txt" or "\_instructions.txt" are ignored
+- directories containing "firstvectrex" are ignored
+
+All other files and directories (provided they are not empty with above mentioned rules) are displayed.
+
+For each selected entry the system wide default "viewer" is started when activated.
+
+You can add your //own// entries by simply copying your documents in the directory (and restarting vide).

@@ -1,0 +1,8 @@
+<Instrument>
+<name>
+solarquest</name>
+<adsr>
+$DE, $EF, $FE, $DC, $BA, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00</adsr>
+<twang>
+$00, $00, $00, $00, $00, $00, $00, $00</twang>
+</Instrument>

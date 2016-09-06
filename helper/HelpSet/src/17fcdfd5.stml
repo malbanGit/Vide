@@ -1,0 +1,139 @@
+:title Sound (Bios) - more or less
+
+Following I am assuming the length of a "gameloop" as 0,02 seconds (30000 cycles) - 50Hz, 0,02 seconds will further be references to as "soundticks".
+
+(each calling of the BIOS function: "Init\_Music\_chk" executes one soundtick, the function is usually called once per gameloop)
+
+
+The PSG supports 3 voices at the time, so our music can also be played utilizing three voices. Furthermore it has the ability to create noises, so we can not only play music, but can also have some shooting or explosion or the like sounds (snare drums...).
+
+:h3 Notes
+The music playing routines the BIOS provides us with, enables us to use 64 notes, ranging from G2 to AS7 (S=Sharp). In each octave we have 12 different notes, look at a BIOS for a list of all notes [BIOS location: $FC8D, using mod2Vectrex you can generate a human readable table of the notes+offset, you can also look in vide at "library->programming->Tutorial Malban->AppendixF" ]. If you absolutely hate music and do not even want any further information, the BIOS has several pieces of music built into (13 I think), you can use them in your programs for several usages, they range from simple songs, to some noise and bonus sounds. 
+
+:h3 Music format
+The music structure the BIOS provides is described in Bruce Tomlins BIOS disassembly:~~
+
+::
+; Music data format:~~
+; ~~
+; header word -> $C84F 32 nibble ADSR table ~~
+; header word -> $C851 8-byte "twang" table ~~
+; data bytes ~~
+; ~~
+; The ADSR table is simply 32 nibbles (16 bytes) of amplitude values. ~~
+; ~~
+; The twang table is 8 signed bytes to modify the base frequency of ~~
+; each note being played. Each channel has a different limit to its ~~
+; twang table index (6-8) to keep them out of phase to each other. ~~
+; ~~
+; Music data bytes: ~~
+; Bits 0-5 = frequency ~~
+; Bit 6 clear = tone ~~
+; Bit 6 set = noise ~~
+; Bit 7 set = next music data byte is for next channel ~~
+; Bit 7 clear, play note with duration in next music data byte: ~~
+; bits 0-5 = duration ~~
+; bit 6 = unused ~~
+; bit 7 set = end of music ~~ 
+::
+
+While the above description is 100% correct IMHO it is hard to understand.
+
+I will try to explain the format a little bit more closely.
+
+
+- each data entry consists of 1,2 or 3 notes (1 channel, 2 channels or 3 channels) plus one entry for duration of the note 
+- the notes are values from the frequency table
+- there are $3f different notes
+- but the "note" entry in the music structure uses all bits, the top most bits ... (see below)
+- in binary the bits %AONN NNNN are used (N = used) for notes
+- O bit (bit 6) is used to indicate whether an actual note or noise is played (0 = note, 1 = noise)
+- A bit (bit 7) indicates whether an additional channel is used, if so, the next value is expected to be another note, not the duration marker (up to a maximum of 3 channels)
+
+Example for one "line":~~
+::____FCB____$80+2,$80+26, 14, 12____;~~::
+
+- plays the note "2" (A2) in channel 1, and continues to channel 2(+$80)
+- plays the note "26" (A4) in channel 2, and continues to channel 3(+$80)
+- plays the note "14" (A3) in channel 3
+- for a duration of 12
+
+The length of the note is in "soundticks". The maximum "sensible" length of a note is $1f (31) - because this is the maximum of the ADSR envelope - after that the note sound will be silenced.
+
+
+:h3 ADSR
+For a general explanation see google (or some other parts of this documentation).~~
+In relation to vectrex the ADSR used with BIOS routines consists of 16 bytes 
+
+These 16 bytes are split into nibbles (two 4 bit pieces in each byte), which each represent a 4 bit number, thus ranging from 0 to 15.
+Alltogether there are 32 nibbles.
+
+Each note played will be "enveloped" in the ADSR table given. Each nibble (4 bit value) is read as a volume parameter ranging from 0 - 15.
+These volume parameters are applied over the duration of the note to the output volume of the note. 
+
+Thus each note is played with a volume level corresponding to the ADSR (nibble) value of the duration timer of the note at each soundtick. ~~Example:~~
+
+::adsr: db $cc, $fe, $dd, $dd, $aa, $88, $44, $00, $00, $00, $00, $00, $00, $00, $00, $00::
+
+will play a note with following volume levels at each tick:~~
+1) Tick: volume 12 (of 15) ; Attack 
+2) Tick: volume 12 (of 15)
+3) Tick: volume 15 (of 15) ; Decay
+3) Tick: volume 14 (of 15)
+3) Tick: volume 13 (of 15) ; Sustain (in vectrex the sustain IS timed)
+3) Tick: volume 13 (of 15)
+3) Tick: volume 13 (of 15)
+3) Tick: volume 13 (of 15)
+3) Tick: volume 10 (of 15) ; Release
+3) Tick: volume 10 (of 15)
+3) Tick: volume 8 (of 15)
+3) Tick: volume 8 (of 15)
+3) Tick: volume 4 (of 15)
+3) Tick: volume 4 (of 15)
+3) silence thereafter...
+
+If the duration of the note is shorter than the ADSR table, the played note will be cut off - and the next note will start directly.
+
+The ADSR envelope "defines" (more or less) the type of instrument you like to play (again - google is your friend).
+
+:h3 Twang
+With the twang values you can define a kind of "vibrato" effect to. The Twang table consists of 8 bytes, each byte representing a signed byte value (-128 to +128). The value gotten from the twang table is added "directly" to the PSG sound registers for the frequency of the used channel (PSG registers 5/4, 3/2, 1/0) [remember, the frequency for each note is kept in the table located at: ::Vec\_Freq\_Table:: - $FC8D].~~ 
+An internal counter for the twang table is increased with each soundtick and each soundtick the "next" value is used. The counter will be reset to 0 after a number of soundticks (and again increased). For each channel the rollover (soundtick-) timer is different:
+- channel 0: Twang rollover after 6 soundticks
+- channel 1: Twang rollover after 7 soundticks
+- channel 2: Twang rollover after 8 soundticks
+
+The internal TWANG counter is increased (and rolled over) whether a sound is actually played or not. The twang counter is not resetted when a note starts. That means a note can start of playing at any twang location.~~
+~~
+(Note:~~
+Even though the above table ::Vec\_Freq\_Table:: is called "frequency table", the values stored there are **not** frequencies, but values for the PSG-frequency registers. This means for example, for the note "C" there is a 12 bit value stored: $06 $AE this value put into the frequency registers of the correct channel translates to a frequency 65.416 Hz (which is pretty near the 65.406 Hz of the actual note "C".\))~~
+
+~~
+**Note:~~**
+The routines used in mod2Vectrex is a modified version of the vectrex sound routines, while in general very similar, following changes were made:
+- allowing the use of "silence" as a note (value $3f), this also means one note less for the user
+- using "silence" (for the other channels) you can play each channels independendly
+- each channel has its own ADSR and TWANG setting
+
+What is still missing: ~~
+Different "duration" timers for each channel.
+
+
+:h3 PSG accessing
+
+
+The PSG hardware is a bit "cumbersome" to access, from a programmers point of view. Therefor the BIOS developers  "shadowed" all soundchip registers in RAM.
+
+If you only use BIOS functions, it is sufficient to modify the shadow registers of the PSG chip and call the "Do\_Sound" routine ones per update round.
+
+The RAM locations of the shadow is located at $C800. 
+That location should not be confused with "Vec\_Music\_Work" (located at: $C83F).
+
+~~
+For a more in depth reading, please head over to:
+~~::
+codi->Snippets->Christopher Tumber->Sound
+::
+There you will also find Christophers own play routines, which allow more controll over single notes (like adsr length dependency), or playing each channel selectively.
+
+ 

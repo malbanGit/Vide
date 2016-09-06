@@ -1,0 +1,39 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>... a demo written</title>
+</head>
+<body class="doc">
+<h1>... a demo written</h1>
+
+<p>Under the "projects" directory you can find a small demo written using Vide. The demo was "written" in a couple of hours and is merely ment as an example for vide-usage.</p>
+
+<p>Here some clues what is done:<br>
+<b>part 1</b><br>
+</p>
+
+<ul><li>
+<p>When started the vectorlist "MALBAN" is displayed. That vectorlist was generated from an raster image using the utiliy "vector images" - and slightly edited thereafter in vecci. The drawing routine used was "draw_synced_list" - the routine was optimized for the used scale factor (since the orginal routine always assumes the worst), movetod was inlined.</p>
+</li><li>
+<p>A raster image is displayed showing a picture of me. That image was generated using the utility "raster images". The image is display uni directional, the display routine was also "optimized" the same way as the above mentioned vectorlist routine. The raster-image was also bit-shifted by hand to save one byte per line.</p>
+</li><li>
+<p>The displayed cube was generated using vecci, hiddenline removal was done by hand (but took only about 10 minutes). The cube is a "standard"- animation displayed by the BIOS-routine "Draw_VL_mode".</p>
+</li><li>
+<p>The background music a converted mod, nothing special done here, only selecting instruments in the mod converter.</p>
+</li></ul>
+
+<p><b>part 2</b> (after pressing any key)<br>
+
+<ul><li>
+<p>The "running" man was again created in vecci, using image to vector conversion and a little bit of editing afterwards. The vectorlist was further repositioned and scaled to use "good" vector strengths.<br>
+The vectorlists are of arbitrary size some with lose ends and "inner circles". The list consists of a maximum of about 40 vectors. Therefor this animation is displayed using the "synced" list again. But I didn't bother to optimize the drawing routine all that much.</p>
+</li><li>
+<p>The music is a YM-converted (and packed) piece I found in the internet (Bitmap). I modified the YM_player slightly to not write to the soundchip, but to the shadow-registers in ram, with that it was easy to... </p>
+</li><li>
+<p>using the buttons 1-3 you can play 3 different AYFX sounds parallel to the YM-file using a modified AYFX-play routine. The modified routine also writes to the shadow register, doing that after the YM-routine "overlays" the ym generated sounds with the AYFX sounds.</p>
+</li><li>
+<p>The scrolltext was something I did some time ago, there must somewhere be a version that enters and exits the letters "clipped" but I have not found that one yet.</p>
+</li></ul>
+</p>
+</body>
+</html>

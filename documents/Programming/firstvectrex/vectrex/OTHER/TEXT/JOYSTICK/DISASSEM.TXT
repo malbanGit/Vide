@@ -1,0 +1,76 @@
+Bryan,
+
+I recently had to do the same with one of my controllers.  I wrote up a list
+of steps I did when I took mine apart.  Hey they are
+
+Perform the following steps
+
+1) Tools:  Miniature flat tip screwdriver
+           Small phillips tip (crosstip) screwdriver
+           Heat gun (a good blow dryer is ok)
+           3m Spray adhesive or equivalent  (contact cement is ok)
+           Toothpick
+           Clean and Dry Fingers!!!
+
+2) The top of the controller is actually a thick plastic sticker.  When it's
+   peeled back the screws (6) are exposed.
+
+3) To remove the sticker I suggest using the heat gun to heat the sticker.
+   This will make the sticker easier to peel off.  BE CARFUL WITH THE HEAT!!!
+
+4) Once heated use the miniature flat tip screwdrive to lift one of the corners
+   of the sticker.  Don't lift it too far!  Just enough to get a hold with your
+   clean fingers.  Since the gap between the sticker is very small you really
+   need a small screwdriver.  A dentist's pick might be used but be careful of
+   the sharp point.
+
+5) Once you can grasp the sticker with you fingers, peel back the sticker far
+   enough to expose the screws.  When peelling TAKE YOUR TIME and DON'T pull at
+   too much of an angle!  This will keep wrinkles form forming on the sticker.
+   I would suggest peeling from two angles.  First peel far enough from the
+   right to expose one set of screws.  Then peel from the left to expose the.
+   Leave part of the sticker attached so alignment is a no-brainer when you
+   close it up later.
+
+6) The controller back should come off easily at this point.  Don't worry about
+   any parts falling out.  They are attached inside.  (unless broken that is.)
+
+7) Once open the controller you will find a pcboard with switch contacts and
+   two small potentiommeters.  You will also find the joystick assembly with
+   two spring loaded potentiommeters mounted.  The springs center the joystick.
+   The potentiommeters on the joystick are the main control.  The small
+   potentiommeters on the board are for fine joystick calibration  I think you
+   know what the pcboard switches are used for.
+
+9) If you only aim is cleaning then I reccommend using a relay contact cleaning
+   spray.  Be sure not to get it in the mechanincs of the joystick, just the
+   potentiommeters.  If you do, you may have to apply some plastic grease again.
+   This is also a good time to remove dust from all of the nooks.
+
+10) If your potentiommeters spring(s) are broken there are other Vectrex WWWW
+    sites and FAQ's on their repair.
+
+11) Closing UP.
+    First replace the back on the controller.  make sure the screw holes line
+    up.  Then screw all of the screws back in.
+
+12) If you took your time in peeling off the sticker it should go back on with
+    its own adhesive.  If not then use a SMALL amount of 3M spray adhesive or
+    contact cement where required.
+
+13) Smooth the sticker from the center to the edges.  Use the heat gun again to
+    help do this.  The gun will also active the old adhesive again to help it
+    adhere.
+
+14) If the orginal edge you lifted with the scredriver is still poking up then
+    use a tookpick to smooth it down.  Don't use a metal object as this will
+    scratch or tear the sticker.
+
+15) If all steps were carefully followed no one will be able to tell the
+    controller was take apart.  In fact it will probably look better because
+    the dust is gone.
+
+Hoped this has helped you,
+
+Chris
+

@@ -1,0 +1,204 @@
+; Digitized Sound
+
+; by Clay Cowgill
+
+; Date: 1/13/97
+
+
+
+; System Executive Entry Points
+
+
+
+dptoD0                  EQU     $f1aa
+
+
+
+        ORG     $0000
+
+
+
+; Magic Init Block
+
+
+
+        FCB     $67,$20
+
+        FCC     "GCE XXXX"
+
+        FCB     $80
+
+        FDB     music
+
+        FDB     $f850
+
+        FDB     $30b8
+
+        FCC     "AUDIO"
+
+        FCB     $80,$0
+
+
+
+start:
+
+        bra    snd_start                     ; branch always to init code
+
+
+
+; *****************************
+
+; This is the entry point for
+
+; the main loop
+
+; *****************************
+
+
+
+snd_start:
+
+        ldd     #$0000
+
+        jsr     dptoD0
+        direct d0
+        lda     $00             ; data reg B from 6522
+
+        anda    #$f8            ; save top 5 bits, mask off bottom 3
+
+        ora     #$06            ; set S/H, SEL 0, SEL 1
+
+        sta     $00             ; write back to reg B in 6522
+
+
+
+        ldx     #snd_four
+
+        ldy     #$0BD0          ; length of four
+
+        jsr     >play_sound
+
+
+
+        ldx     #snd_three
+
+        ldy     #$1100          ; length of three
+
+        jsr     >play_sound
+
+
+
+        ldx     #snd_two
+
+        ldy     #$0E10          ; length of two
+
+        jsr     >play_sound
+
+
+
+        ldx     #snd_one
+
+        ldy     #$0ac0          ; length of one
+
+        jsr     >play_sound
+
+
+
+        ldx     #snd_ignite         ; address of sound
+
+        ldy     #$16e0          ; length of ignition
+
+        jsr     >play_sound
+
+
+
+        jmp     >snd_start
+
+
+
+; *****************************
+
+;       Play a Sound
+
+;       Length in Y
+
+;       Start Address in X
+
+; *****************************
+
+
+
+play_sound:
+
+next_byte:
+
+        lda     ,-y
+
+        lda     ,x+             ; get sound byte
+
+        sta     $01             ; store in reg A in 6522
+
+        cmpy    #$0000
+
+        beq     >done_snd
+
+        ldb     #$19            ; delay
+
+delay:
+
+        decb
+
+        cmpb    #$00
+
+        bne     delay
+
+        jmp     >next_byte
+
+done_snd:
+
+        rts
+
+
+
+music:
+
+        FDB     $ed8f
+
+        FDB     $feb6
+
+        FCB     4,10
+
+        FCB     0,$80
+
+
+
+        ZMB     $1000-*         ; pad out to even boundard (just looks nicer)
+
+
+
+; Sound samples here...
+
+
+
+        ORG     $1000
+
+snd_ignite:
+
+        ORG     $26e0
+
+snd_four:
+
+        ORG     $32b0
+
+snd_three:
+
+        ORG     $43b0
+
+snd_two:
+
+        ORG     $51c0
+
+snd_one:
+
+
+

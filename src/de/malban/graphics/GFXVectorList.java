@@ -22,6 +22,7 @@ import java.util.HashMap;
 public class GFXVectorList {
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     private static int UID = 0;
+    public int load_uid;
     public int uid = ++UID;
     public int order = 0;
     static long tuid=0; // to build unique labels in code gen!
@@ -168,7 +169,7 @@ public class GFXVectorList {
         list = new ArrayList<GFXVector>();
         int errorCode = 0;
 //        StringBuilder xmlBuffer = new StringBuilder(xml);
-        uid= xmlSupport.getIntElement("id", xml);errorCode|=xmlSupport.errorCode;
+        load_uid= xmlSupport.getIntElement("id", xml);errorCode|=xmlSupport.errorCode;
         order= xmlSupport.getIntElement("order", xml);errorCode|=xmlSupport.errorCode;
         //while (XMLSupport.hasTag("GFXVector", xmlBuffer))
         StringBuilder oneElement = null;
@@ -182,10 +183,29 @@ public class GFXVectorList {
             errorCode|=xmlSupport.errorCode;
             list.add(v);
         } while (true);
+        
+        correctVectorUIDs();
+        
+        
         setRelativeWherePossible(); // do connected vectors per IDs
         if (errorCode!= 0) return false;
         return true;
     }
+    // ensures that vector UIDS are not doubled thru the load procedure
+    // that load uids are replaced with correct uids
+    private void correctVectorUIDs()
+    {
+        for(GFXVector v: list)
+        {
+            int luid = v.load_uid;
+            for(GFXVector v2: list)
+            {
+                if (v2.uid_end_connect == luid) v2.uid_end_connect = v.uid;
+                if (v2.uid_start_connect == luid) v2.uid_start_connect = v.uid;
+            }
+        }           
+     }
+    
     /*
     // a xml "list" of an arbitrary number of GFXVectors
     public boolean fromXML(StringBuilder xml, XMLSupport xmlSupport)
@@ -952,7 +972,7 @@ public class GFXVectorList {
         }
         list = newList;        
     }
-    
+    /*
     public void polygon(boolean doLine)
     {
         fillgaps(doLine);
@@ -993,7 +1013,7 @@ public class GFXVectorList {
         // and add new vector!
         list.add(v2);        
     }
-    
+    */
     // seperate entities are allways clones!
     public ArrayList<GFXVectorList> seperatePaths()
     {
@@ -1363,7 +1383,8 @@ public class GFXVectorList {
             if (init)
             {
                 init = false;
-                s.append(" DB ").append(hex((int)v.start.y())).append(", ").append(hex((int)v.start.x())).append(" ; move to y, x\n");
+                if (!( (((int)v.start.y()) == 0) && (((int)v.start.x()) == 0)))
+                    s.append(" DB ").append(hex((int)v.start.y())).append(", ").append(hex((int)v.start.x())).append(" ; move to y, x\n");
             }
             s.append(" DB ").append(getRelativeCoordString(v, factor)).append(" ; draw to y, x\n");
             
@@ -1417,7 +1438,8 @@ public class GFXVectorList {
             if ((includeInitialMove) && (init))
             {
                 init = false;
-                s.append(" DB ").append(hexU(0)).append(", ").append(hex((int)v.start.y())).append(", ").append(hex((int)v.start.x())).append(" ; move to y, x\n");
+                if (!( (((int)v.start.y()) == 0) && (((int)v.start.x()) == 0)))
+                    s.append(" DB ").append(hexU(0)).append(", ").append(hex((int)v.start.y())).append(", ").append(hex((int)v.start.x())).append(" ; move to y, x\n");
             }
 
             boolean warn = false;
@@ -1556,7 +1578,8 @@ public class GFXVectorList {
             if (init)
             {
                 init = false;
-                s.append(templateInsert(moveASM, v.start.y(), v.start.x(), v.pattern, v.intensity));
+                if (!( (((int)v.start.y()) == 0) && (((int)v.start.x()) == 0)))
+                    s.append(templateInsert(moveASM, v.start.y(), v.start.x(), v.pattern, v.intensity));
             }
             if (v.pattern == 0)
             {
@@ -1623,9 +1646,12 @@ public class GFXVectorList {
                     optimizeDone = true;
                     v1.end = v2.end;
                     v1.end_connect = v2.end_connect;
-                    if (v2.end_connect.start.uid == v2.end.uid)
+                    if (v2.end_connect != null)
                     {
-                        v2.end_connect.start_connect = v1;
+                        if (v2.end_connect.start.uid == v2.end.uid)
+                        {
+                            v2.end_connect.start_connect = v1;
+                        }
                     }
                     vl.remove(v2);
                     break;
@@ -1765,8 +1791,9 @@ public class GFXVectorList {
                         }
                         if (factor)
                         {
+                            // sync moves are not "blown up"
                             if (first)
-                                s.append(" DB ").append(hexU(1)).append(", ").append(hex(useY)).append("*BLOW_UP").append(", ").append(hex(useX)).append("*BLOW_UP").append(" ; sync and move to y, x\n");
+                                s.append(" DB ").append(hexU(1)).append(", ").append(hex(useY)).append("").append(", ").append(hex(useX)).append("").append(" ; sync and move to y, x\n");
                             else
                                 s.append(" DB ").append(hexU(0)).append(", ").append(hex(useY)).append("*BLOW_UP").append(", ").append(hex(useX)).append("*BLOW_UP").append(" ; move to y, x\n");
                         }

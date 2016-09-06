@@ -1,0 +1,60 @@
+;***************
+
+;move_everything
+
+;***************
+
+
+
+move_everything:
+
+        lda   #12                       ;sprite_left is the counter
+
+        sta   sprites_left              ;Create loop variable
+
+        ldy   #sprite_21                ;First sprite to move
+
+
+
+st_loop:
+
+        lda   state,y                   ;load status byte
+
+        beq   en_loop                   ;If status is 0, don't move object ("dead")
+
+        cmpa  #$ff                      ;If status is FF, exit routine
+
+        beq   en_routine
+
+        ldd   posx,y                    ;Get posx
+
+        addd  deltax,y                  ;Add deltax (velocity)
+
+        std   posx,y                    ;Store adjusted posx
+
+        ldd   posy,y                    ;Get posy
+
+        addd  deltay,y                  ;Add deltay (velocity)
+
+        std   posy,y                    ;Store adjusted posy
+
+
+
+en_loop:
+
+        dec   sprites_left              ;Decrement the counter
+
+        bmi   en_routine                ;Are we done?
+
+        leay  #15,y                     ;Next object structure
+
+        bra   st_loop                   ;Not done, back to start of loop
+
+
+
+en_routine:                             ;We're done
+
+
+
+        rts
+

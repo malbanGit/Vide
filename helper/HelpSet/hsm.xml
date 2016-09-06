@@ -178,6 +178,11 @@
 <Filename>74fef6e0</Filename>
 <Title>Mod-Conversion</Title>
 <FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>1452071a</Filename>
+<Title>Instrument editor</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
 </DocumentNode>
 <DocumentNode>
 <Filename>1f5fe20b</Filename>
@@ -389,6 +394,21 @@
 <Filename>eae1f853</Filename>
 <Title>Programming the Vectrex</Title>
 <FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>a1c5ac89</Filename>
+<Title>Strings - Raster</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>17fcdfd5</Filename>
+<Title>Sound (Bios) - more or less</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>81796e0f</Filename>
+<Title>... a demo written</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
 </DocumentNode>
 <DocumentNode>
 <Filename>d89a00cd</Filename>
@@ -584,6 +604,12 @@
 <Width>699</Width>
 <Height>400</Height>
 </Image>
+<Image Name="FrogNotSynced.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472164376000</Timestamp>
+<Width>469</Width>
+<Height>639</Height>
+</Image>
 <Image Name="FroggerExample.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1462721238000</Timestamp>
@@ -613,6 +639,12 @@
 <Timestamp>1471348847000</Timestamp>
 <Width>379</Width>
 <Height>484</Height>
+</Image>
+<Image Name="Instruments.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472765270000</Timestamp>
+<Width>1026</Width>
+<Height>429</Height>
 </Image>
 <Image Name="LightPenExample1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1268,6 +1300,12 @@
 <Width>1003</Width>
 <Height>852</Height>
 </Image>
+<Image Name="dumpiChars.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1471769450000</Timestamp>
+<Width>1803</Width>
+<Height>735</Height>
+</Image>
 <Image Name="eEprom1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1468949968000</Timestamp>
@@ -1298,6 +1336,12 @@
 <Width>16</Width>
 <Height>16</Height>
 </Image>
+<Image Name="frogSynced.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472164344000</Timestamp>
+<Width>459</Width>
+<Height>639</Height>
+</Image>
 <Image Name="gapsFilled.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1462785576000</Timestamp>
@@ -1315,6 +1359,12 @@
 <Timestamp>1455631972000</Timestamp>
 <Width>780</Width>
 <Height>539</Height>
+</Image>
+<Image Name="jinput.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472164311000</Timestamp>
+<Width>582</Width>
+<Height>948</Height>
 </Image>
 <Image Name="labi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1453,6 +1503,12 @@
 <Timestamp>1462817238000</Timestamp>
 <Width>232</Width>
 <Height>228</Height>
+</Image>
+<Image Name="printString.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1471768814000</Timestamp>
+<Width>516</Width>
+<Height>687</Height>
 </Image>
 <Image Name="projectPopUp.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1703,11 +1759,13 @@
 <ThumbName Image="CleanSweep.png">4b3d0302</ThumbName>
 <ThumbName Image="CodeGen.png">19280db0</ThumbName>
 <ThumbName Image="Downloader.png">84558e3d</ThumbName>
+<ThumbName Image="FrogNotSynced.png">d8890c40</ThumbName>
 <ThumbName Image="FroggerExample.png">99a554db</ThumbName>
 <ThumbName Image="GameLoop1.png">fab342cd</ThumbName>
 <ThumbName Image="GameLoop2.png">71e85416</ThumbName>
 <ThumbName Image="GameLoop3.png">91645759</ThumbName>
 <ThumbName Image="ImagerExample.png">93cc77f7</ThumbName>
+<ThumbName Image="Instruments.png">68efd3ec</ThumbName>
 <ThumbName Image="LightPenExample1.png">9a1d6c56</ThumbName>
 <ThumbName Image="LightPenExample2.png">d4632bed</ThumbName>
 <ThumbName Image="LightPenExample3.png">a9a4612d</ThumbName>
@@ -1817,15 +1875,18 @@
 <ThumbName Image="ds2430a.png">492e69de</ThumbName>
 <ThumbName Image="dumpi.png">77ff7379</ThumbName>
 <ThumbName Image="dumpi2.png">a1bf717a</ThumbName>
+<ThumbName Image="dumpiChars.png">f4d7d756</ThumbName>
 <ThumbName Image="eEprom1.png">eff801f4</ThumbName>
 <ThumbName Image="eEprom2.png">4a0341cf</ThumbName>
 <ThumbName Image="eEprom3.png">d9432b52</ThumbName>
 <ThumbName Image="eEprom4.png">85b31845</ThumbName>
 <ThumbName Image="folder_go.png">f93f3c91</ThumbName>
+<ThumbName Image="frogSynced.png">44a12649</ThumbName>
 <ThumbName Image="gameLoop2.png">118930dd</ThumbName>
 <ThumbName Image="gapsFilled.png">b1c90eaf</ThumbName>
 <ThumbName Image="help.png">9faf6a44</ThumbName>
 <ThumbName Image="indexadressing.png">e2fc28b9</ThumbName>
+<ThumbName Image="jinput.png">eb8e7029</ThumbName>
 <ThumbName Image="labi.png">6e292378</ThumbName>
 <ThumbName Image="library.png">4e8c5dae</ThumbName>
 <ThumbName Image="line.png">d5ef4ba4</ThumbName>
@@ -1849,6 +1910,7 @@
 <ThumbName Image="paste_plain.png">c26f0afe</ThumbName>
 <ThumbName Image="pencil.png">f8da7f7a</ThumbName>
 <ThumbName Image="polygonError.png">1666d919</ThumbName>
+<ThumbName Image="printString.png">54248700</ThumbName>
 <ThumbName Image="projectPopUp.png">825fbaf5</ThumbName>
 <ThumbName Image="pwm1.png">2fc7985d</ThumbName>
 <ThumbName Image="raster1.png">1a7dfe0a</ThumbName>

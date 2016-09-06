@@ -1,0 +1,2017 @@
+; Asteroids
+; Vectrex Version by Clay Cowgill
+; Start:  4/11/97
+; Current: 4/13/97
+
+; System Executive Entry Points
+
+; constants
+SHOT_SPEED              EQU     #$08
+SHOT_RANGE              EQU     #$20
+NUM_ROCKS               EQU     #45     ; rocks * 9
+MAX_ROCKS               EQU     #288
+
+dptoC8                  EQU     $f1af
+dptoD0                  EQU     $f1aa
+drawl1b                 EQU     $f40e
+waitrecal               EQU     $f192
+intensity_to_1f         EQU     $f29d
+intensity_to_3f         EQU     $f2a1
+intensity_to_5f         EQU     $f2a5
+intensity_to_7f         EQU     $f2a9
+intensity_to_A          EQU     $f2ab
+clear_256_bytes         EQU     $f545
+set_dft_score           EQU     $f84f
+rot_vec_list2           EQU     $f610
+move_pen7f_to_d         EQU     $f2fc
+read_switches           EQU     $f1b4
+read_joystick           EQU     $f1f8
+display_string          EQU     $f495
+move_draw_VL4           EQU     $f3b7
+printu2                 EQU     $f38a
+reset0ref               EQU     $f354
+conv_ang_rr             EQU     $F601
+get_abs_val_ab          EQU     $F584
+moveto_d_7f             EQU     $F2FC
+print_1_string          EQU     $f373
+move_block              EQU     $f67f
+move_block2             EQU     $f683
+move_pen_d              EQU     $f312
+draw_vl_count4          EQU     $f3ce
+move_pen7f              EQU     $f30c
+dot_at_d                EQU     $f2c3
+dot_ix                  EQU     $f2c1
+move_pen                EQU     $f310
+move_penff              EQU     $f308
+rot_vec_list1           EQU     $f61f
+print_str_d             EQU     $f37a
+joy_analog              EQU     $f1f5
+dot_d                   EQU     $f2c3
+random                  EQU     $f517
+print_ships             EQU     $f393
+draw_vl_a               EQU     $f3da
+clear_score             EQU     $f84f
+add_score_a             EQU     $f85e
+add_score_d             EQU     $f87c
+new_high_score          EQU     $f8d8
+dot_here                EQU     $f2c5
+obj_hit                 EQU     $f8ff
+explosion_snd           EQU     $f92e
+sound_byte              EQU     $f256
+sound_bytes             EQU     $f27d
+init_music_buf          EQU     $f533
+init_sound_chk          EQU     $f687
+init_sound              EQU     $f68d
+do_sound                EQU     $f289
+clear_sound             EQU     $f272
+
+;System RAM locations
+
+_text_size              EQU     $c82a   ; system text size location
+_stick1_mask            EQU     $c81f
+_stick2_mask            EQU     $c820
+_stick3_mask            EQU     $c821
+_stick4_mask            EQU     $c822
+_stick_res              EQU     $c81a
+_stick_type             EQU     $c823
+_pot_y                  EQU     $c81c
+_intensity              EQU     $c827
+_music_ready            EQU     $c856
+_refresh_time           EQU     $c83d
+
+;User Code Storage locations
+
+;$c880
+user_RAM        EQU     $c890
+
+;$c880
+player1         EQU     user_RAM
+p1_buttons      EQU     player1         ; 1 byte    +0
+p1_bright       EQU     player1+1       ; 1 byte    +1
+lander_bright   EQU     player1+1
+p1_alive        EQU     p1_bright+1     ; 1 byte    +2
+dead            EQU     p1_bright+1
+p1_run          EQU     p1_alive+1      ; 1 byte    +3
+p1_rise         EQU     p1_run+1        ; 1 byte    +4
+p1_rotation     EQU     p1_rise+1       ; 1 byte    +5
+p1_shipcount    EQU     p1_rotation+1   ; 1 byte    +6
+p1_x            EQU     p1_shipcount+1  ; 2 bytes   +7
+p1_y            EQU     p1_x+2          ; 2 bytes   +9
+p1_xvel         EQU     p1_y+2          ; 2 bytes   +b
+p1_yvel         EQU     p1_xvel+2       ; 2 bytes   +d
+p1_score_header EQU     p1_yvel+2       ; 4 bytes   +f
+score_header    EQU     p1_yvel+2
+p1_score        EQU     p1_yvel+4       ; 7 bytes   +13
+score           EQU     p1_yvel+4
+
+__buttons       EQU     #$0
+__xvel          EQU     #$b
+__yvel          EQU     #$d
+__x             EQU     #$7
+__y             EQU     #$9
+__rotation      EQU     #$5
+__bright        EQU     #$1
+__dead          EQU     #$2
+__rise          EQU     #$4
+__run           EQU     #$3
+
+hscore_header   EQU     score+7   ; 4 bytes
+hscore          EQU     hscore_header+4   ; 7 bytes
+
+;$c8a4
+title           EQU     hscore+8   ; 1 byte
+lights          EQU     title+1   ; 1 byte
+game_state      EQU     lights+1   ; 1 byte
+pause           EQU     game_state+1   ; 1 byte
+screen_saver    EQU     pause+1   ; 1 byte
+level           EQU     screen_saver+1   ; 1 byte
+thrust_flag     EQU     level+1   ; 2 byte
+turn_speed      EQU     thrust_flag+1   ; 1 byte
+thrust_power    EQU     turn_speed+1   ; 1 byte
+status          EQU     thrust_power+1   ; 1 byte
+temp1           EQU     status+1
+temp2           EQU     temp1+1
+temp3           EQU     temp2+1
+temp4           EQU     temp3+1
+
+;$c8b2
+bullets         EQU     temp4+1
+; 0 state
+; 1 rise
+; 2 rise
+; 3 run
+; 4 run
+; 5 y
+; 6 y
+; 7 x
+; 8 x
+
+
+junk            EQU     bullets+36
+multa           EQU     junk+1
+work            EQU     multa+1
+hity            EQU     work+1          ; 2 bytes
+hitx            EQU     hity+2          ; 2 bytes
+loop            EQU     hitx+2          ; 1
+stable          EQU     loop+1          ; 1
+landed          EQU     stable+1        ;1
+land_ok         EQU     landed+1   ; 0 is ok to land
+burn_rate       EQU     land_ok+1   ; 2 bytes thrust rate
+kaput           EQU     burn_rate+2   ; is explosion done?
+stick           EQU     kaput+1         ; 1
+animate         EQU     stick+1         ; 1
+explosion_type  EQU     animate+1        ; 1
+bang_block      EQU     explosion_type+1; 4 bytes
+the_music       EQU     bang_block+4    ; 2 bytes
+thrust_sound    EQU     the_music+2    ; 1
+music_map       EQU     thrust_sound+1  ; 2 bytes
+end_round_cnt   EQU     music_map+2     ; 1
+end_position    EQU     end_round_cnt+1 ; 1
+end_scale       EQU     end_position+1  ; 1
+zoom            EQU     end_scale+1     ; 1
+size            EQU     zoom+1          ; 1
+state_1_timer   EQU     size+1      ; 1
+throttle        EQU     state_1_timer+1 ; 1
+state_timer     EQU     throttle+1
+hit_count       EQU     state_timer+1
+rock_size       EQU     hit_count+1
+num_rocks       EQU     rock_size+2
+missile_start   EQU     num_rocks+1
+missile_end     EQU     missile_start+2
+object_count    EQU     missile_end+2
+
+rocks           EQU     object_count+1
+; 0 state
+; 1 rise
+; 2 rise
+; 3 run
+; 4 run
+; 5 ypos
+; 6 ypos
+; 7 xpos
+; 8 xpos
+
+buffer          EQU     rocks+288           ; transform buffer
+buffer2         EQU     buffer+32
+message         EQU     buffer2+32   ; 32 bytes
+
+temp_x          EQU     message+32
+temp_y          EQU     temp_x+1
+
+;$cbea  SP set here by boot, grows down...
+
+        ORG     $0000
+
+; Magic Init Block
+
+        FCB     $67,$20
+        FCC     "GCE XXXX"
+        FCB     $80
+        FDB     music
+        FDB     $f850
+        FDB     $30b8
+        FCC     "BCOR-FTS"
+        FCB     $80,$0
+
+start:
+        bra    init                     ; branch always to init code
+
+init:
+        ldx     #user_RAM               ; get address of free RAM
+        jsr     clear_256_bytes         ; clear it
+        ldx     #bullets
+        jsr     clear_256_bytes
+
+        lda     #$c9
+        tfr     a,dp
+        ldx     #rocks
+        jsr     clear_256_bytes
+
+        ldx     #rocks+128
+        jsr     clear_256_bytes
+
+        jsr     dptoC8                  ; set direct mode ptr
+
+        ldx     #hscore                 ; zero high score
+        jsr     clear_score
+
+        ldx     #score
+        jsr     clear_score
+
+        ldd     #$fd2a                  ; size
+        std     score_header
+        ldd     #$7060                  ; position
+        std     score_header+2
+
+        ldd     #$fd2a                  ; size
+        std     hscore_header
+        ldd     #$7000                  ; position
+        std     hscore_header+2
+
+warmstart:
+
+        ; ************************
+        ; Initialize
+        ; ************************
+        jsr     dptoC8
+
+        lda     #$ca
+        tfr     a,dp
+        ldu     #m1                     ; copy text message
+        ldx     #message                ; into message array
+        lda     #$08
+        jsr     move_block2
+
+        ldu     #m2                     ; copy text message
+        ldx     #message+8                ; into message array
+        lda     #$08
+        jsr     move_block2
+
+        ldu     #m3                     ; copy text message
+        ldx     #message+16                ; into message array
+        lda     #$08
+        jsr     move_block2
+
+        ldu     #m4                     ; copy text message
+        ldx     #message+24                ; into message array
+        lda     #$08
+        jsr     move_block2
+
+        inc     title                   ; display title message
+
+        ldu     #player1
+        clr     __buttons,x                    ; clear button values
+
+        clr     __dead                    ; not dead
+        clr     pause                   ; not paused
+
+        lda     #$4f                    ; brightness to draw lander at
+        sta     lander_bright
+        sta     lights
+
+;        clr     level                   ; clear level
+;        jsr     load_level              ; load ground data
+
+;        jsr     clear_sound
+
+;        ldu     #sound1
+;        jsr     sound_bytes
+
+;        ldu     #music
+;        stu     the_music
+
+        ldx     #$3075
+        stx     _refresh_time
+
+;        clr     thrust_sound
+
+        clr     game_state
+
+        clr     screen_saver
+        clr     hit_count
+
+        lda     #$09
+        sta     thrust_power
+
+        lda     #$00                    ; high res read
+        sta     _stick_res
+        lda     #$01
+        sta     _stick1_mask
+        lda     #$03
+        sta     _stick2_mask
+        lda     #$00
+        sta     _stick3_mask
+        lda     #$00
+        sta     _stick4_mask
+
+        clr     turn_speed
+        inc     turn_speed
+
+
+; *****************************
+; This is the entry point for
+; the main loop
+; *****************************
+
+read_input:
+main:
+
+;        lda     #$50
+;        sta     game_state
+
+
+        jsr     dptoC8
+;        ldu     #music
+;        jsr     init_sound_chk
+
+        jsr     dptoD0
+        jsr     waitrecal
+;        jsr     do_sound
+
+;        jsr     sound_effects
+
+
+        ; 08= pause
+        ; 04= skip/thrust
+        ; 02= rotate right
+        ; 01= rotate left
+        lda     #$04                    ; report absolute values
+        jsr     read_switches
+        jsr     read_buttons            ; interpret what you just read
+        jsr     dptoD0
+        lda     title
+        bne     no_read_analog
+        jsr     joy_analog              ; fix title screen bug
+no_read_analog:
+
+        lda     game_state
+        beq     check_title
+        cmpa    #$01
+        beq     s1
+        cmpa    #$02
+        beq     s2
+        cmpa    #$03
+        beq     s3
+        cmpa    #$50
+        beq     s50
+        cmpa    #$52
+        beq     s52
+        cmpa    #$54
+        beq     s54
+
+s54:    jmp     state_54
+s52:    jmp     state_52
+s50:    jmp     state_50
+s3:     jmp     state_3
+s2:     jmp     state_2
+s1:     jmp     state_1
+
+check_title:
+        lda     title                   ; should we display the title?
+;        jmp     >playing
+        beq     playing                 ; no, we're playing...
+        jsr     intensity_to_5f         ; yes, draw title screen
+
+        lda     loop
+        cmpa    #$40
+        bne     no_saver
+        inc     screen_saver            ; every once in a while,
+        lda     screen_saver
+        cmpa    #$03
+        bne     no_saver
+        clr     screen_saver            ; restart to keep the screen from burning
+        jmp     #$f000
+no_saver:
+        lda     loop                    ; main loop counter
+        inca                            ; count up
+        sta     loop
+        bita    #$40                    ; every 64 cycles
+        bne     skip_start              ; blink the message
+        jsr     reset0ref               ; zero integrators
+        jsr     intensity_to_3f
+        ldu     #press_start
+        jsr     print_1_string          ; print a message
+
+skip_start:
+        jsr     reset0ref
+
+        jsr     read_buttons            ; read button values
+
+        ldu     #player1                ; get player record
+        lda     __buttons,u             ; get buttons
+        anda    #$0f                    ; test for button 4
+        bne     no_start                ;     read_input
+        jmp     >read_input
+no_start:
+        clr     title
+        jmp     start_game
+playing:
+        jsr     dptoD0
+        jsr     reset0ref
+        jsr     rotate_rock
+        jsr     update_rocks
+        jsr     update_missiles
+        lda     object_count
+        cmpa    #$0A
+        bgt     fast_hits
+
+        clr     lights
+        ldd     #bullets
+        std     missile_start
+        ldd     #bullets+45
+        std     missile_end
+        jsr     missile_hits
+        bra     resume_main
+fast_hits:
+        inc     lights
+        lda     loop
+        anda    #$01
+        beq     check_set2      ;beq
+        ldd     #bullets
+        std     missile_start
+        ldd     #bullets+18
+        std     missile_end
+        jsr     missile_hits
+        bra     resume_main
+check_set2:
+        ldd     #bullets+27
+        std     missile_start
+        ldd     #bullets+45 ;+45
+        std     missile_end
+        jsr     missile_hits
+resume_main:
+        jsr     draw_lander
+
+        ldb     level
+        ldx     #level_lookup
+        lda     b,x
+        cmpa    hit_count
+        bne     still_playing
+        inc     level
+        clr     hit_count
+        jsr     load_level
+        jmp     >read_input
+still_playing:
+
+        inc     loop                    ; increment main loop counter
+
+        jsr     read_buttons
+
+left:
+        lda     __buttons,u                      ; button status
+        bita    #$01                    ; button 1= left
+        beq     right
+        lda     pause                   ; no rotate when paused
+        bne     right
+        lda     turn_speed
+        bne     left_turn
+        lda     loop
+        anda    #$01
+        beq     right
+left_turn:
+        inc     __rotation,u
+
+right:
+
+        lda     __buttons,u
+        bita    #$02
+        beq     fire              ; ##################### was level_skip
+        lda     pause                   ; no rotate when paused
+        lbne    fire
+        lda     turn_speed
+        bne     right_turn
+        lda     loop
+        anda    #$01
+        lbeq     pause_game
+right_turn:
+        dec     __rotation,u
+;        jmp     pause_game
+
+fire:
+        lda     __buttons,u
+        bita    #$04                    ; fire button
+        lbeq     thrust                 ; if not pressed
+
+        ldx     #bullets                ; get address of bulletstates
+next_bullet:
+        lda     0,x
+        beq     fire_ok
+        leax    9,x                     ; advance to next bullet
+        cmpx    #bullets+36
+        beq     thrust                  ; no bullets, skip
+        bra     next_bullet             ; still checking
+fire_ok:
+        lda     #SHOT_RANGE
+        sta     0,x                     ; range of missile
+
+        lda     #$7f
+        ldb     __rotation,u            ; rotation
+        jsr     >conv_ang_rr
+        std     temp1           ; store the thrust vector...
+
+        lda     #SHOT_SPEED
+        ldb     temp1
+        jsr     >mult_riserun_A
+        addd    __yvel,u
+        std     1,x
+
+        ldb     temp1+1
+        lda     #SHOT_SPEED
+        jsr     >mult_riserun_A
+        addd    __xvel,u
+        std     3,x
+
+        ldd     __x,u
+        std     7,x
+        ldd     __y,u
+        exg     a,b
+        std     5,x
+
+        bra     thrust
+
+level_skip:
+        bita    #$04
+        beq     thrust; pause_game              ; ##################### was thrust
+        clr     __xvel,u                    ; clear velocity
+        clr     __xvel+1,u                    ; "
+        clr     __yvel,u                    ; "
+        clr     __yvel+1,u                     ; "
+        lda     level                   ; get the current level
+        inca                            ; increment level
+        anda    #$1f                    ; mask for 32 levels
+        sta     level                   ; store new level
+        jsr     load_level              ; load level
+        jsr     new_game
+        bra     thrust
+
+pause_game:
+        lda     __buttons,u
+        bita    #$04
+        beq     thrust
+        lda     pause
+        beq     pause_on
+pause_off:
+        clr     pause
+        bra     thrust
+pause_on:
+        lda     #$01
+        sta     pause
+
+thrust:
+
+        lda     pause
+        beq     not_paused
+
+        jsr     dptoD0
+        jsr     reset0ref
+        jsr     intensity_to_5f
+;        ldu     #pause_string
+;        jsr     print_1_string
+;        jsr     draw_satellite
+        lbra    main
+
+not_paused:
+        clr     thrust_flag
+        lda     __buttons,u                      ; get button states
+        bita    #$08
+        bne     chk_fuel
+        bra     exit
+;        lda     _pot_y                  ; get stick y location
+;        lbmi    exit                    ; is it up? No? Outta here...
+ ;
+chk_fuel:
+        lda     __buttons,u                      ; thrust button?
+        bita    #$08
+        beq     no_button
+        lda     #$00
+        ldb     thrust_power            ; button is max thrust
+        bra     store_burn
+no_button:
+        lda     _pot_y                  ; get value of stick
+        anda    #$70                    ; mask for top 3 bits only
+        asra
+        asra
+        asra
+        asra                            ; divide by 16
+        cmpa    #$01
+        beq     adjust_thruster
+        cmpa    #$02
+        beq     adjust_thruster
+        bra     no_adjuster
+adjust_thruster:
+        lda     #$00
+no_adjuster:
+        sta     throttle
+        tfr     a,b                     ; copy a into b
+        lda     #$00                    ; clear a
+store_burn:
+        std     burn_rate               ; thrust value from 1-8
+        bpl     thrust_good             ; go draw thrust
+thrust_good:
+        jsr     draw_thrust
+
+        ;^^^^^^^^^^^^^^^^^^^^^^^^
+
+;        inc     thrust_sound            ; flag sound to play
+
+        jsr     dptoC8
+        ldu     #player1                ; player data
+        inc     thrust_flag
+;        ldd     burn_rate               ; how much fuel we burning?
+;        tfr     b,a                     ; (only low byte counts here)
+        lda     thrust_power
+        ldb     __rotation,u                   ; rotation
+        jsr     conv_ang_rr
+        std     __run,u                    ; store the thrust vector...
+
+exit:
+                                        ; calculate ship physics
+        jsr     dptoC8
+        lda     thrust_flag                ; get velocity
+        ldb     __run,u                    ; rise
+        jsr     >mult_riserun_A
+        addd    __yvel,u                    ; get shipy velocity
+        std     __yvel,u                    ; store new shipy velocity
+
+        lda     thrust_flag             ; get velocity
+        ldb     __rise,u                    ; run
+        jsr     >mult_riserun_A         ; returns copy in $80
+        addd    __xvel,u                    ; shipx velocity
+        std     __xvel,u
+
+        ; drag on ship
+        lda     loop
+        anda    #$01
+        beq     no_wind
+check_x_drag:
+        ldd     __xvel,u
+        blt     drag_x_neg
+        bgt     drag_x_pos
+        bra     check_y_drag
+drag_x_neg:
+        addd    #$01
+        std     __xvel,u
+        bra     check_y_drag
+drag_x_pos:
+        subd    #$01
+        std     __xvel,u
+
+check_y_drag:
+        ldd     __yvel,u
+        blt     drag_y_neg
+        bgt     drag_y_pos
+        bra     no_wind
+drag_y_neg:
+        addd    #$01
+        std     __yvel,u
+        bra     no_wind
+drag_y_pos:
+        subd    #$01
+        std     __yvel,u
+
+no_wind:
+
+        ldd     __y,u                   ; add y vel to fixed point position
+        addd    __yvel,u
+        std     __y,u
+
+        ldd     __x,u                   ; add x vel to fixed point position
+        addd    __xvel,u
+        std     __x,u
+
+        lda     __y,u                   ; ship Y position
+        sta     hity                    ; store y position
+        lda     __x,u                   ; ship X position
+        cmpa    #$7f                    ; at screen boundary?
+        bne     no_7f                   ; no...
+        inca                            ; yes, wrap around
+no_7f:
+        sta     hitx                    ; store x position
+
+next_chk1:
+        lda     dead                    ; you dead?
+        cmpa    #$00
+        jmp     text_stuff; next_check
+
+still_alive:
+;        jsr     >hit_mountain           ; go check for collisions
+
+        beq     next_check              ; dead yet?
+        lda     #$7f
+        sta     dead                    ; dead counter on
+        jmp     text_stuff
+
+next_check:
+
+        lda     #100
+        ldx     #score
+        jsr     add_score_a
+
+text_stuff:
+        jsr     dptoD0
+        jsr     reset0ref
+        jsr     intensity_to_5f
+
+        lda     kaput                   ; have you died this timeslice?
+        beq     never_mind              ; no, never mind...
+        dec     p1_shipcount            ; yes decrement ship count
+        lda     p1_shipcount
+        ble     outta_guys              ; is ship count 0?
+        jsr     new_game                ; nope, try again
+outta_guys:
+        lda     #$01                    ; yep, set display title flag
+        sta     title
+        ldx     #score
+        ldu     #hscore
+        jsr     new_high_score
+        lbra    warmstart               ; bail
+never_mind:
+
+;        ldu     #player1                ; DEBUG PRINT
+
+;        ldx     #bullets
+        lda     hit_count; 0,x
+        ldb     #$01
+; ******************        jsr     print_stat
+
+;        ldx     #bullets
+;        leax    7,x
+        lda     object_count
+        ldb     #$02
+; ******************        jsr     print_stat
+
+;        ldu     #player1
+;        ldb     __rotation,u
+;        andb    #$3e
+;        clra
+;        addd    #cos
+;        tfr     d,x
+         lda     lights
+        ldb     #$03
+; ******************        jsr     print_stat
+
+;        ldx     #bullet_state+3
+;        lda     ,x
+;        ldu     #player1
+;        lda     __rotation,u
+;        anda    #$3f
+;        asra
+;        ldb     #$04
+;        jsr     print_stat
+
+        ; scores, ships remaining, message by lander
+;****************
+
+        ldd     #$00f0                  ; move pen to score area
+        jsr     move_pen7f_to_d
+
+        ldb     #$70                    ; print the score (zoom)
+        ldu     #score_header
+        jsr     print_1_string
+
+        jsr     reset0ref
+
+unsafe:
+
+no_sat:
+        jsr     dptoD0
+        jmp     >read_input
+
+restart:
+        jmp     >init
+
+; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+; subroutines
+; +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+; **********************
+; Missile hits
+; **********************
+missile_hits:
+        ldx     missile_start; #bullets           ; get address of bulletstates
+check_for_hits:
+        cmpx    missile_end
+        beq     no_miss_hits_all
+        lda     0,x
+        bne     active_ok
+continue_cfh:
+        leax    9,x
+        bra     check_for_hits
+active_ok:
+;        dec     0,x                     ; range of missile
+
+        lda     6,x                     ; y pos
+        ldb     7,x                     ; x pos
+        pshs    x                       ; x is index to missile struct, save it
+        tfr     d,x                     ; x is now current missile x/y pair
+
+        ldy     #rocks           ; get address of rock structure
+rock_check:
+        lda     0,y
+        bne     rock_test
+more_rock_check:
+        leay    9,y
+        cmpy    #rocks+#MAX_ROCKS
+        beq     no_miss_hits
+        bra     rock_check
+rock_test:
+        lda     0,y
+        cmpa    #$01
+        beq     small_test
+        cmpa    #$03
+        beq     big_test
+        ldd     #$0909  ; was 0505
+        bra     hit_check
+small_test:
+        ldd     #$0606  ; was 0808
+        bra     hit_check
+big_test:
+        ldd     #$0b0b  ; was 0606
+hit_check:
+        std     rock_size
+        lda     6,y                     ; y pos
+        ldb     7,y                     ; x pos
+        pshs    y                       ; save rock number
+        tfr     d,y
+        ldd     rock_size                  ; height/width
+        jsr     obj_hit
+        bcc     check_next_rock
+        puls    y
+
+        lda     0,y                     ; hit an asteroid
+        cmpa    #$03
+        beq     make_medium             ; big one-- spawn
+        cmpa    #$02
+        beq     make_small              ; medium one-- spawn
+        clr     0,y                     ; hit! small asteroid, it's gone
+        inc     hit_count
+
+;        lda     #50
+;        ldx     #score
+;        jsr     add_score_a
+
+        bra     miss_hit
+
+check_next_rock:
+
+        puls    y                       ; get back y
+        leay    9,y
+        cmpy    #rocks+#MAX_ROCKS
+        beq     no_miss_hits
+        bra     rock_check
+miss_hit:
+        puls    x
+        clr     0,x
+        leax    9,x
+        lbra    check_for_hits
+
+no_miss_hits:
+        puls    x                       ; get back x
+        leax    9,x
+        lbra    check_for_hits
+
+no_miss_hits_all:
+        rts
+
+make_medium:
+        lda     #10
+        ldx     #score
+        jsr     add_score_a
+
+        lda     #$02
+        sta     0,y
+        inc     hit_count
+        lda     #$02
+        sta     temp1
+        jsr     spawn
+        bra     miss_hit
+
+make_small:
+        lda     #25
+        ldx     #score
+        jsr     add_score_a
+
+        lda     #$01
+        sta     0,y
+        inc     hit_count
+        lda     #$01
+        sta     temp1
+        jsr     spawn
+        bra     miss_hit
+
+; ********************
+; Spawn new rocks
+; ********************
+
+spawn:
+        ldx     #rocks           ; get address of rock structure
+look_for_rock:
+        lda     0,x
+        beq     empty_rock
+        leax    9,x
+        cmpx    #rocks+#MAX_ROCKS
+        beq     miss_hit
+        bra     look_for_rock
+empty_rock:
+        lda     temp1
+        sta     0,x
+
+        ldd     5,y                     ; y pos
+        std     5,x
+
+        ldd     7,y                     ; x pos
+        std     7,x                     ; store new x pos
+
+rand1:
+        jsr     random
+        anda    #$7f
+        cmpa    #$02
+        bgt     rand1
+        sta     1,x
+        jsr     random
+        sta     2,x
+        bpl     rand2
+        lda     1,x
+        anda    #$80
+        sta     1,x
+
+rand2:
+        jsr     random
+        anda    #$7f
+        cmpa    #$02
+        bgt     rand2
+        sta     3,x
+        jsr     random
+        sta     4,x
+        bpl     done_rand2
+        lda     3,x
+        anda    #$80
+        sta     3,x
+done_rand2:
+        rts
+
+
+; **********************
+; Update missiles
+; **********************
+update_missiles:
+        lda     loop
+        asla
+        asla
+        ora     #$40
+        anda    #$7f
+        jsr     intensity_to_A
+
+        ldx     #bullets           ; get address of bulletstates
+check_bullet:
+        lda     0,x
+        bne     update_ok
+continue_check:
+        leax    9,x
+        cmpx    #bullets+45
+        beq     no_update_miss
+        bra     check_bullet
+update_ok:
+        dec     0,x                     ; range of missile
+
+        ldd     5,x                     ; y pos
+        exg     a,b                     ; high and low bytes swapped on y
+        addd    1,x                     ; add rise
+        exg     a,b
+        std     5,x                     ; store new y pos
+
+        ldd     7,x                     ; x pos
+        addd    3,x                     ; add run
+        std     7,x                     ; store new x pos
+        pshs    x                       ; save x value
+        leax    6,x                     ; y pos (a=x+6) x pos (b=x+7)
+        lda     #$7f                    ; zoom factor
+        sta     $04
+        jsr     dot_ix                  ; plot dot
+        jsr     reset0ref
+        puls    x                       ; get back x
+        leax    9,x
+        bra     check_bullet
+no_update_miss:
+;        jsr     reset0ref
+        rts
+
+; **********************
+; Update rocks
+; **********************
+update_rocks:
+;        jsr     intensity_to_7f
+
+        clr     object_count
+        ldx     #rocks           ; get address of rock structure
+check_rock:
+        lda     0,x
+        bne     update_rock
+continue_rock:
+        leax    9,x
+        cmpx    #rocks+#MAX_ROCKS
+        beq     no_update_rock
+        bra     check_rock
+update_rock:
+;        dec     0,x                     ; range of missile
+        inc     object_count
+        sta     size
+
+        ldd     5,x                     ; y pos
+        exg     a,b                     ; high and low bytes swapped on y
+        addd    1,x                     ; add rise
+        exg     a,b
+        std     5,x                     ; store new y pos
+
+        ldd     7,x                     ; x pos
+        addd    3,x                     ; add run
+        std     7,x                     ; store new x pos
+        pshs    x                       ; save x value
+;        leax    6,x                     ; y pos (a=x+6) x pos (b=x+7)
+;        lda     #$7f                    ; zoom factor
+;        sta     $04
+
+        lda     6,x
+        ldb     7,x
+        jsr     draw_rock                  ; plot dot
+;        jsr     reset0ref
+        puls    x                       ; get back x
+        leax    9,x
+        cmpx    #rocks+#MAX_ROCKS
+        beq     no_update_rock
+        bra     check_rock
+no_update_rock:
+        rts
+
+; **********************
+; Draw Thrust
+; clobbers x, u, a, b
+; **********************
+
+draw_thrust:
+        jsr     dptoD0
+
+        lda     dead
+        bne     no_flame_here
+
+        lda     __rotation,y                   ; get rotation
+        ldb     #$04                    ; number of points
+;        ldb     #$0b                    ; number of points
+        ldx     #flame                  ; address of vector list
+        ldu     #buffer                 ; transform buffer
+        jsr     rot_vec_list2           ; rotate it
+        jsr     random
+        anda    #$7f
+        ora     #$20
+        jsr     intensity_to_A
+        lda     __y,y                   ; y
+        ldb     __x,y                   ; x
+        jsr     move_pen7f_to_d         ; go to location
+
+        ldb     thrust_power
+        aslb
+        lda     #$04                    ; #pts
+        ldx     #buffer                 ; transformed points
+        jsr     move_draw_VL4
+
+no_flame_here:
+        rts
+
+; **********************
+; rotate rock
+; **********************
+rotate_rock:
+;        lda     loop                    ; get rotation
+;        anda    #$03
+;        cmpa    #$03
+;        bne     no_rot_rock
+        lda     loop
+        ldb     #$0a                    ; number of points
+        ldx     #rock1                  ; address of vector list
+        ldu     #buffer2                 ; transform buffer
+        jsr     rot_vec_list1           ; rotate it
+        rts
+
+; **********************
+; Draw rock
+; clobbers x, u, a, b
+; d = location to draw at
+; size= size to draw
+; **********************
+
+draw_rock:
+
+        jsr     move_pen7f_to_d         ; go to location
+
+        lda     #$3f
+        jsr     intensity_to_A
+
+        lda     size
+        cmpa    #$03
+        beq     big_rock
+        cmpa    #$02
+        beq     med_rock
+        ldb     #$0f
+        bra     draw_rock_size
+big_rock:
+        ldb     #$2f
+        bra     draw_rock_size
+med_rock:
+        ldb     #$1f
+draw_rock_size:
+        lda     #$0a          ; #pts
+        ldx     #buffer2                 ; transformed points
+        jsr     drawl1b
+
+        jsr     reset0ref
+        rts
+
+; *************************
+; Draw Lander
+; clobbers y,a,b,x
+; DP = $D0 on exit
+; *************************
+draw_lander:
+        jsr     dptoD0
+
+        ldy     #player1                ; player 1
+        lda     __rotation,y                   ; get rotation
+        ldb     #$04                    ; number of points
+        ldx     #lander                 ; address of vector list
+        ldu     #buffer                 ; transform buffer
+        jsr     rot_vec_list2           ; rotate it
+        lda     __y,y                   ; y
+        ldb     __x,y                   ; x
+        jsr     move_pen7f_to_d         ; go to location
+
+        lda     lander_bright
+        jsr     intensity_to_A
+
+        ldd     #$040f                  ; #pts, scale
+        ldb     zoom
+        ldx     #buffer                 ; transformed points
+        jsr     move_draw_VL4
+
+        jsr     reset0ref
+        rts
+
+
+; **********************
+; State 1
+; **********************
+state_1:
+still_state1:
+        jmp     >read_input
+
+; **********************
+; State 2
+; **********************
+state_2:
+still_state2:
+        jmp     >read_input
+
+; **********************
+; State 3
+; **********************
+
+state_3:
+exit_scoring:
+        jmp     >read_input
+;
+; **********************
+; State 50
+; **********************
+
+state_50:
+exit_scoring50:
+        jmp     >read_input
+
+; **********************
+; State 52
+; **********************
+
+state_52:
+;        jsr     intensity_to_5f         ; State 52 is heading down to planet
+;        jsr     draw_lander
+;  ;      jsr     draw_thrust_fan
+;   ;     jsr     draw_home
+;
+;        jsr     reset0ref
+;
+;        lda     #$10                    ; setup location of lower starfield
+;        ldb     #$17
+;        jsr     move_pen7f_to_d
+;
+;        lda     #$6f ;dead; #$50        ; direct write to zoom register
+;        sta     $d004
+;
+;        jsr     intensity_to_3f
+;        jsr     dots_only
+;
+;        jsr     reset0ref
+;
+;        lda     #$80                    ; setup location of lower starfield
+;        ldb     #$00
+;        jsr     move_pen7f_to_d
+;
+;        lda     #$5f ;dead; #$50        ; direct write to zoom register
+;        sta     $d004
+;
+;        jsr     intensity_to_3f
+;        jsr     dots_only
+;
+;        lda     loop                    ; main loop counter
+;        inca                            ; count up
+;        sta     loop
+;
+;        lda     loop                    ; need a timebase
+;        anda    #$01
+;        beq     loop_odd52
+;
+;        ldu     #player1                ; move lander up screen
+;        inc     -14,u
+;        inc     -12,u
+;
+;        inc     junk
+;        dec     zoom
+;
+;loop_odd52:
+;
+;
+;
+;        lda     loop                    ; slowly fade out the planet
+;        anda    #$03
+;        cmpa    #$03
+;        bne     loop_quad52
+;;        inc     planet_z
+;
+;loop_quad52:
+;        lda     state_timer
+;        deca
+;        sta     state_timer
+;        bne     exit_scoring52
+;
+;;        clr     game_state
+;
+;        lda     #$54
+;        sta     game_state
+;
+;        lda     #$ff
+;        sta     state_timer
+;        clr     temp1
+;        clr     temp2
+;
+;;        lda     level                   ; count up a level
+;;        inca
+;;        anda    #$1f                    ; mask for max # of levels
+;;        sta     level
+;
+;
+;;        jmp     new_game
+exit_scoring52:
+        jmp     >read_input
+
+; **********************
+; State 54
+; **********************
+
+state_54:
+exit_scoring54:
+        jmp     >read_input
+
+
+; ************************
+; sound routine
+; ************************
+
+sound_effects:
+        lda     _music_ready
+        beq     other_sounds
+        bra     snd_rts
+
+other_sounds:
+        lda     loop
+        cmpa    #$00
+        bne     skip
+        ldu     #sound2
+;        jsr     sound_bytes
+skip:
+        lda     thrust_sound
+        cmpa    #$00
+        beq     no_engine
+        clr     thrust_sound
+        lda     _music_ready
+        bmi     outta_snd
+        ldu     #sound2
+;        jsr     sound_bytes
+engine_snd:
+        ldd     burn_rate
+        cmpa    #$0000
+        beq     no_engine
+
+        lda     #$07
+        ldb     #$37
+;        jsr     sound_byte
+        lda     burn_rate+1
+        asla
+        tfr     a,b
+        lda     #$08
+;        jsr     sound_byte
+        bra     outta_snd
+no_engine:
+        lda     #$07
+        ldb     #$38
+;        jsr     sound_byte
+        ldu     #sound_clr
+;        jsr     sound_bytes
+        bra     outta_snd
+
+snd_rts:
+;        lda     music_map
+;        asla
+;        bcs     tune1
+;        asla
+;        bcs     tune2
+;        asla
+;        bcs     tune3
+
+;tune1:  ldu     #sat_music
+;        jsr     init_sound_chk
+;        bra     do_it
+;tune2:  ldu     #pause_music
+;        jsr     init_sound_chk
+;        bra     do_it
+;tune3:  ldu     #ok_music
+;        jsr     init_sound_chk
+;        bra     do_it
+
+do_it:
+;       jsr     do_sound
+outta_snd:
+        rts
+
+
+
+
+; *****************************
+; Draw the title
+; *****************************
+
+draw_title:
+        rts
+
+
+
+; **********************
+; Draw Explosion
+; **********************
+
+kaboom:
+        ldu     #bang_block
+;        jsr     explosion_snd
+        jsr     dptoD0
+        jsr     reset0ref
+
+        ldx     #player1                ; player 1 data area
+        lda     -14,x                   ; y position
+        ldb     -12,x                   ; x position
+        clr     -3,x                    ; zero all momentum
+        clr     -2,x
+        clr     -1,x
+        clr     0,x
+
+        jsr     move_pen7f_to_d         ; move pen
+
+        lda     dead                    ; death duration counter
+        suba    #$09                    ; subtract a bunch
+        ble     done_bang               ; less than zero?
+
+        sta     dead                    ; no, store remainder
+
+        jsr     intensity_to_A          ; the brightness drops off...
+
+;        ldx     #bang
+;        lda     explosion_type
+;        beq     land_explosion
+;        ldx     #air_bang
+land_explosion:
+        lda     dead                    ; out decreasing counter
+        ldb     #$7f                    ; 1:1 zoom
+        subb    dead                    ; zoom in a bit
+        jsr     drawl1b                 ; draw explosion
+        lda     lander_bright           ; lander brightness
+        suba    #$0e                    ; dimmer
+        sta     lander_bright           ; apply to lander
+        sta     lights                  ; and lights
+        jsr     particles
+        rts
+done_bang:
+        clr     dead                    ; clear dying counter
+        inc     kaput
+        rts
+
+; *************************
+; Particles
+; *************************
+particles:
+        jsr     reset0ref
+
+        ldy     #player1
+        lda     -14,y                    ; setup location of landscape
+        ldb     -12,y
+        jsr     move_pen7f_to_d
+
+        lda     #$7f ;dead; #$50                    ; direct write to zoom register
+        suba    dead
+        sta     $d004                   ; (reset zoom to 0x50
+
+stars_at:
+        ldb     #$0d
+        ldx     #stars
+part_l1:                                ; plot 14 stars in background
+        pshs    b
+        jsr     random
+        anda    #$7f
+        jsr     intensity_to_A          ; make them "twinkle"
+        ldd     ,x++
+        jsr     dot_d
+        puls    b
+        decb
+        bne     part_l1
+
+        rts
+
+; *************************
+; Dots only
+; *************************
+
+dots_only:
+        ldb     #$0d
+        ldx     #stars
+dots_l1:                                ; plot 14 stars in background
+        pshs    b
+        jsr     random
+        anda    #$3f
+        jsr     intensity_to_A
+        ldd     ,x++
+        jsr     dot_d
+        puls    b
+        decb
+        bne     dots_l1
+
+        rts
+
+
+; **********************
+; read buttons
+; DP= $C8 on exit
+; clobbers u,a,b
+; returns buttons states in A
+; **********************
+
+read_buttons:
+        jsr     dptoC8
+        ldu     #player1
+        lda     $11                     ; get buttons
+        sta     __buttons,u
+        rts
+
+; **********************
+; Setup a new moon
+; **********************
+
+start_game:
+        ldx     #player1                ; This is player one
+
+        clr     level                   ; Start at level 0!
+
+        lda     #$03                    ; 3 ships
+        sta     p1_shipcount            ; store it
+
+        ldx     #p1_score               ; address of score buffer
+        jsr     set_dft_score           ; prep score buffer
+
+        ldx     #score
+        jsr     clear_score
+
+        ldd     #$fd2a
+        std     score_header
+        ldd     #$7060
+        std     score_header+2
+
+        ldd     #$fd2a
+        std     hscore_header
+        ldd     #$7000
+        std     hscore_header+2
+
+; **********************
+; Setup a new moon
+; **********************
+
+new_game:
+
+        ldx     #player1                ; beginning of player structure
+        ldd     #$0000                  ; y=70h
+        std     __y,x                   ; p1 y location
+        ldd     #$0000                  ; x=00
+        std     __x,x                   ; p1 x location
+        lda     #$00                    ; rotation value
+        sta     __rotation,x            ; p1 rotation
+        ldd     #$0000                  ; zero out velocity numbers
+        std     __xvel,x
+        ldd     #$0000                   ; starting drop speed
+        std     __yvel,x
+
+        lda     level                   ; get the next moon
+        jsr     load_level
+
+        clr     dead                    ; not dead
+        clr     kaput                   ; and clear dead animation over flag
+
+        lda     #$4f                    ; lander brightness
+        sta     __bright,u
+
+        lda     #$0f
+        sta     zoom
+
+        lda     #$45
+;        sta     planet_z
+
+
+        lda     #$00
+        sta     explosion_type          ; default explosion is on the ground
+        jmp    >main
+
+; **********************
+; multiply rise and run
+; clobbers u,a,b, $80
+; DP= $C8 on exit
+; result in $80
+; multiply a * b
+; **********************
+
+mult_riserun_A:
+        clr     $83
+        tstb
+        bpl     pos_mult
+        inc     $83                     ; track if negative
+pos_mult:
+        jsr     get_abs_val_ab          ; get absolute value
+        mul
+        std     $80
+        lsr     $83
+        bhs     exit_mult
+        coma                            ; 2's complement if negative
+        comb                            ;
+        addd    #$0001                  ;
+        std     $80
+exit_mult:
+        rts
+
+; **********************
+; signed multiply
+; clobbers u,a,b, $80
+; DP= $C8 on exit
+; result in $80
+; **********************
+
+mult_AB_sign:
+        clr     $83
+        clr     $84
+        tstb                            ; is b negative
+        bpl     b_pos                   ; no
+        inc     $83                     ; yes, flag $83 (track if negative)
+b_pos:
+        tsta                            ; is a negative
+        bpl     a_pos                   ; no
+        inc     $84                     ; yes, flag $84
+a_pos:
+        jsr     get_abs_val_ab          ; get absolute value
+        mul                             ; multiply together
+        std     $80                     ; store result in $80-81
+        lsr     $83                     ; check sign of b
+        bhs     check_a                 ; positive, check a sign
+        coma
+        comb
+        addd    #$0001
+        std     $80
+check_a:
+        lsr     $84
+        bhs     exit_mult_ab
+        coma                            ; 2's complement if negative
+        comb                            ;
+        addd    #$0001                  ;
+        std     $80
+exit_mult_ab:
+        rts
+
+; *************************
+; print player attribute
+; a= value, b=height
+; *************************
+
+print_stat:
+        cmpb    #$01
+        beq     p_stat1
+        cmpb    #$02
+        beq     p_stat2
+        cmpb    #$03
+        beq     p_stat3
+        cmpb    #$04
+        beq     p_stat4
+p_stat1:
+        jmp     p1_doit
+p_stat2:
+        jmp     p2_doit
+p_stat3:
+        jmp     p3_doit
+p_stat4:
+        jmp     p4_doit
+
+
+p4_doit:
+        pshs    a
+        anda    #$f
+        adda    #$30
+        cmpa    #$3A
+        blt     out4
+        adda    #7
+out4:
+        sta     message+29
+        puls    a
+        lsra
+        lsra
+        lsra
+        lsra
+        adda    #$30
+        cmpa    #$3A
+        blt     out24
+        adda    #7
+out24:
+        sta     message+28
+
+
+        lda     #$f8
+        sta     message+24
+        jsr     dptoD0
+        ldu     #message+24
+        jsr     print_1_string
+        rts
+
+p3_doit:
+        pshs    a
+        anda    #$f
+        adda    #$30
+        cmpa    #$3A
+        blt     out3
+        adda    #7
+out3:
+        sta     message+21
+        puls    a
+        lsra
+        lsra
+        lsra
+        lsra
+        adda    #$30
+        cmpa    #$3A
+        blt     out23
+        adda    #7
+out23:
+        sta     message+20
+
+        jsr     dptoD0
+        ldu     #message+16
+        jsr     print_1_string
+        rts
+
+p2_doit:
+        pshs    a
+        anda    #$f
+        adda    #$30
+        cmpa    #$3A
+        blt     out2
+        adda    #7
+out2:
+        sta     message+13
+        puls    a
+        lsra
+        lsra
+        lsra
+        lsra
+        adda    #$30
+        cmpa    #$3A
+        blt     out22
+        adda    #7
+out22:
+        sta     message+12
+
+        jsr     dptoD0
+        ldu     #message+8
+        jsr     print_1_string
+        rts
+
+p1_doit:
+        pshs    a
+        anda    #$f
+        adda    #$30
+        cmpa    #$3A
+        blt     out1
+        adda    #7
+out1:
+        sta     message+5
+        puls    a
+        lsra
+        lsra
+        lsra
+        lsra
+        adda    #$30
+        cmpa    #$3A
+        blt     out21
+        adda    #7
+out21:
+        sta     message+4
+
+        jsr     dptoD0
+        ldu     #message
+        jsr     print_1_string
+        rts
+
+; *************************
+; Load Level
+; clobbers a,b,x
+; *************************
+
+load_level:
+        lda     level                   ; get the level number
+        adda    #$04
+        cmpa    #$07
+        ble     level_good
+        lda     #$07
+level_good:
+        ldb     #$09
+        mul
+        stb     num_rocks
+
+        ldx     #rocks
+gen_rocks:
+
+
+        lda     #$03
+        sta     0,x             ; rock size (big= 3, med= 2, sml= 1)
+
+new_rand1:
+        jsr     random
+        anda    #$02
+        sta     1,x
+rand1_lp:
+        jsr     random
+        cmpa    #$40
+        blt     rand1_lp
+        sta     2,x
+        anda    #$04
+        beq     new_rand2
+        lda     1,x
+        coma    #$80
+        sta     1,x
+
+new_rand2:
+        jsr     random
+        anda    #$02
+        sta     3,x
+rand2_lp:
+        jsr     random
+        cmpa    #$40
+        blt     rand2_lp
+        sta     4,x
+        anda    #$04
+        beq     done_rr
+        lda     3,x
+        coma    #$80
+        sta     3,x
+
+done_rr:
+        jsr     random
+        ora     #$60
+        std     5,x             ; x pos (whole)
+        jsr     random
+        ora     #$60
+        std     7,x             ; y pos (whole)
+
+        leax    9,x
+        lda     #$00
+        ldb     num_rocks
+        addd    #rocks
+        std     temp1
+        cmpx    temp1
+        beq     done_gen
+        bra     gen_rocks
+done_gen:
+        rts
+
+; **********************************
+; Shape tables and data follow
+; **********************************
+
+rock1:
+        fcb     0,-20,10
+        fcb     -1,-10,-15
+        fcb     -1,10,-15
+        fcb     -1,10,5
+        fcb     -1,15,-15
+        fcb     -1,25,15
+        fcb     -1,-5,35
+        fcb     -1,-25,10
+        fcb     -1,-25,-10
+        fcb     -1,5,-10
+        fcb     1
+
+lander:
+        fcb     -20,20
+        fcb     40,-20
+        fcb     -40,-20
+        fcb     20,20
+        fcb     -20,20
+
+flame:
+        fcb     -10,10
+        fcb     -20,-10
+        fcb     20,-10
+        fcb     10,10
+        fcb     -10,10
+
+air_bang:
+        fcb     0,30,0
+        fcb     -1,-20,5
+        fcb     -1,5,10
+        fcb     -1,-10,-5
+        fcb     -1,-5,20
+        fcb     -1,-5,-20
+        fcb     -1,-10,5
+        fcb     -1,5,-10
+        fcb     -1,-20,-5
+        fcb     -1,20,-5
+        fcb     -1,-5,-10
+        fcb     -1,10,5
+        fcb     -1,5,-20
+        fcb     -1,5,20
+        fcb     -1,10,-5
+        fcb     -1,-5,10
+        fcb     -1,20,5
+        fcb     1
+
+stars:
+        fcb     120,-118,50,-80,-80,-10,-80,60
+        fcb     -20,70,80,40,30,70,-100,40,-30,-70
+        fcb     100,40,-35,85,-40,25,80,25
+
+m1:
+        FDB     #$f850
+        FDB     #$70e0
+        fcc     "  "
+        fcb     #$80
+m2:
+        FDB     #$f850
+        FDB     #$50e0
+        fcc     "  "
+        fcb     #$80
+m3:
+        FDB     #$f850
+        FDB     #$30e0
+        fcc     "  "
+        fcb     #$80
+m4:
+        FDB     #$f850
+        FDB     #$10e0
+        fcc     "  "
+        fcb     #$80
+
+press_start:
+        fdb     #$f850
+        fdb     #$f080
+        fcc     "PRESS BUTTON TO START"
+        fcb     #$80
+
+copyright:
+        fdb     #$fd20
+        fdb     #$85d8
+        fcb     $67     ; (c)
+        fcc     "1997, CLAY COWGILL"
+        fcb     #$80
+
+; ************************
+;  Lander collision points
+; ************************
+
+hitx_offset:
+        fcb     0,-2,-4,-6,-8,-6,-4,-2,0,2,4,6,8,6,4,2
+
+hity_offset:
+        fcb     -8,-6,-4,-2,0,2,4,6,8,6,4,2,0,-2,-4,-6
+
+; ************************
+;  Music Block
+; ************************
+
+attack:
+        fdb     $ffff,$ffff,$ffee,$eedd,$ddcc,$9876,$5432,$1000
+
+pause_music:
+        FDB     $fe66
+        FDB     $feb6
+        FCB     $a0, $23, $0f
+        FCB     0,$80
+
+;music:
+        FDB     #attack   ; fe28 fe28
+        FDB     $feb6   ; fee8 fe28
+        FCB     $a0,$23,$0f,$a0,$23,$0c,$9c,$20,$06,$9e,$21,$12
+        FCB     $9c,20,$32,13,$80
+
+;ok_music:
+music:
+        FDB     $fee8
+        FDB     $feb6
+        FCB     $28,$08
+        FCB     $0,$80
+
+sat_music:
+        FDB     $fe28
+        FDB     $fee8
+        FCB     $16,$08,$00,$80
+
+;music:
+thrust_music:
+        FDB     $fd69
+        FDB     $fd79
+        FCB     $7f,1,$7d,1
+        FCB     $0,$80
+
+; ************************
+;  Level Indexes
+; ************************
+
+sound1:
+        fcb     $00,$00
+        fcb     $01,$00
+        fcb     $02,$00
+        fcb     $03,$00
+        fcb     $04,$00
+        fcb     $05,$00
+        fcb     $06,$00
+        fcb     $07,$38 ; mixer
+        fcb     $08,$0f ; ch A volume
+        fcb     $09,$0f ; ch B volume
+        fcb     $0a,$0f ; ch C volume
+        fcb     $0b,$00
+        fcb     $0c,$00
+        fcb     $0d,$00 ; env
+        fcb     $0e,$20
+        fcb     $ff
+
+sound2:
+        fcb     $06,$1f
+        fcb     $07,$38 ; mixer
+        fcb     $08,$0f ; ch A volume
+        fcb     $09,$0f ; ch B volume
+        fcb     $0a,$0f ; ch C volume
+        fcb     $0b,$00
+        fcb     $0c,$00
+        fcb     $0d,$00 ; env
+        fcb     $0e,$20
+        fcb     $ff
+
+sound_clr:
+        fcb     $00,00
+        fcb     $01,00
+        fcb     $02,00
+        fcb     $03,00
+        fcb     $04,00
+        fcb     $05,00
+        fcb     $ff
+
+level_lookup:
+        fcb     #28     ; 4+8+16
+        fcb     #35     ; 5+10+20
+        fcb     #42     ; 6+12+24
+        fcb     #49     ; 7+14+28
+        fcb     #56     ; 8+16+32

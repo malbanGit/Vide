@@ -592,6 +592,16 @@
                 </Constraint>
               </Constraints>
             </Component>
+            <Component class="javax.swing.JCheckBox" name="jCheckBoxAutoApply">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="auto apply"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="360" y="37" width="-1" height="-1"/>
+                </Constraint>
+              </Constraints>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel5">
@@ -4127,7 +4137,13 @@
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Component id="jLabel40" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel39" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel41" min="-2" max="-2" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="jLabel41" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="jLabel55" min="-2" pref="125" max="-2" attributes="0"/>
+                                              </Group>
                                           </Group>
                                       </Group>
                                       <Group type="102" attributes="0">
@@ -4143,7 +4159,7 @@
                                           <Component id="jCheckBox2dOnly" min="-2" pref="170" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="144" max="32767" attributes="0"/>
+                                  <EmptySpace pref="169" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -4168,12 +4184,18 @@
                                   <Component id="jCheckBox2dOnly" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                                   <Component id="jCheckBoxOnePath" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jCheckBoxVectorsContinuous" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel41" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                          <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel55" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="jCheckBoxVectorsContinuous" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel41" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                                   <Component id="jCheckBoxVectorClosedPolygon" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jCheckBoxVectorOrderedClosedPolygon" min="-2" max="-2" attributes="0"/>
@@ -4397,6 +4419,16 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="This is an information tab, changing checkboxes here is a waste of time!"/>
                           </Properties>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="jButton1">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="are selected points coplanar"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel55">
                         </Component>
                       </SubComponents>
                     </Container>

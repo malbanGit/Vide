@@ -1,0 +1,511 @@
+
+                     Vectrex HP3000 Programming Notes
+                      (Rev B - 21st March 1993)
+
+
+     Author : Keith Wilkins
+
+     email  : spike@trd.tmg.nec.co.jp  (until April 28th 1993)
+
+              After this date I will be off the air until
+              I get my act together and organize a private
+              internet account for myself. Not too long I hope.
+
+
+     Revision History:
+
+              Rev A: 14/03/93 K.W  -  1st Draft, incomplete.
+              Rev B: 21/03/93 K.W  -  2nd Draft, incomplete.
+
+
+
+     If you find errors (Technical/Spelling/Grammar) in this document
+     please mail me with a description of the error and I'll fix the file
+     for the next revision, all spelling mistakes are copyright.
+
+     I will welcome additions of new material, and credit the author
+     in this preface section.
+
+     Do you have documents describing the following devices:
+
+                Vectrex DAC MC1408-P8
+                6522PIA Software/Hardware Spec
+                AY-3-8192 Software/Hardware Spec
+                Source code to the Vectrex EXEC ROM
+
+     I am having trouble locating these documents which is slowing down
+     the compilation of this file, so if you have them or know of where
+     to get them please let me know.
+
+
+
+
+
+     Disclaimer:
+
+     I feel that I have to add one of these, not because I want to, but
+     just in case anyone does something stupid and then says its my
+     fault.
+
+     WARNING - The voltages generated on the CRT drive board are Very
+               HIGH and Very dangerous, dont mess with the Vectrex
+               hardware unless you know what you are doing.
+
+     I take no responsibility for how you use this information. I also
+     make no guarantees that any of the information contained herein is
+     is correct.
+
+
+System Memory Map
+~~~~~~~~~~~~~~~~~
+
+To save chips/money/space the vectrex memory is a little convoluted but
+only uses 2 chips, one conatining four 2 input NAND gates and the other
+containing four 2 input OR gates. Its a most admirable job considering
+the number of gates used.
+
+
+    0000-7fff   Cartridge ROM Space, the CART line is also gated with
+                ~E to produce a signal that can be fed directly to the
+                output enable of a ROM. This address range is not gated
+                with the read-write line but this line is fed to the
+                cartridge connector. (r/w)
+
+    8000-C7FF   Unmapped space.
+
+    C800-CFFF   Vectrex RAM Space 1Kx8, shadowed twice. (r/w)
+
+    D000-D7FF   6522PIA shadowed 128 times (r/w)
+
+    D800-DFFF   Dont use this area. Both the 6522 and RAM are selected
+                in any reads/writes to this area.
+
+    E000-FFFF   System ROM Space 8Kx8 (r/w)
+
+
+
+6522A
+~~~~~
+
+This device is used to control all of the vectrex peripheral devices, such
+as the Keypads, Vector generator, DAC, Sound chip, etc.
+
+The A port is used as a BUS and goes directly to the DAC input and sound
+chip input pins D0-D7. The DAC will output whatever value is on this
+port.
+
+The B Port is used in the following way:
+
+    PB0 - SWITCH    Switch Control, enables/disables the analog multiplexer,
+                    see Vector drawing hardware description
+
+    PB1 - SEL0      Controls multiplexer channel select, see section on
+    PB2 - SEL1      Vector drawing.
+
+    PB3 - BC1       Chip Select Signal for the AY-3-8192 Sound Chip
+    PB4 - BDIR      Read/Write Signal for the AY-3-8192 Sound Chip
+
+    PB5 - COMPARE   Feedback from the OP-AMP that does the comparison
+                    for calculation of analog joystick positions.
+
+    PB6 - ???       This line is fed to the cartridge connector. It is
+                    likely that this line was to have been used as a ROM
+                    bank select for cartridges greater than 32K.
+
+    PB7 - ~RAMP     This line controls part of the vector drawing
+                    hardware, see later. It is an active LOW signal.
+
+The 6522PIA Has a number of control lines that are sometimes used as
+handshake lines as the can generate interrupts, but on the vectrex they
+are used to control the vector drawing hardware
+
+    CA1 - IO7       This line is connected to the IO7 line of the AY-3-8192
+                    sound chip. My guess it is used to generate an
+                    interrupt to the CPU. See the AY-3-8192 description
+                    for more details on IO7.
+
+    CA2 - ~ZERO     Connected to the integrators that form part of the
+                    vector drawing hardware. This line will cause them
+                    to be zero'd (both X and Y) and has the effect of
+                    bringing the beam back to the centre of the CRT. It
+                    is an active LOW signal. See Vector hardware section
+                    for more info.
+
+    CB1 - Not Connected
+
+    CB2 - ~BLANK    This Active LOW signal is the BEAM ON/OFF signal
+                    to the Vector drawing hardware, and is used to hide
+                    the beam when it is being positioned for re-draw.
+                    See Vector hardware section for more info.
+
+
+
+Vector Drawing hardware
+~~~~~~~~~~~~~~~~~~~~~~~
+
+I apologise in advance for the patronising nature of some of the text in
+this section, if you know it already ignore it it isnt aimed at you. The
+text is aimed at computer literate people who may not have dabbled in
+the fuzzy world of Digital/Analog interfacing.
+
+When I use the word ASSERTED or ACTIVE state with reference to a signal
+I an talking about the state in which it is active. ie RAMP is only
+active when its LOW (ZERO) and INACTIVE when HIGH. INACTIVE or NEGATED
+means the signal is not in the ACTIVE state. See the descriptions of the
+different signals for what there particular active state is.
+
+It will to understand this section if you have a copy of the Vector drawing
+block diagram (see vector.gif).
+
+The vector drawing circuit is a mixed analog/digital circuit, consisting
+of the following parts. When the text says SET or CLEAR a line or
+feature refer back to these descriptions of how to set-up the hardware
+for a particular function:
+
+1) The DAC. (Digital to Analog Convertor)
+
+        This is the most crucial part of the Vector block. It is connected
+        directly to PORT A of the 6522. (See 6522A Section for details
+        on how to setup and write to PORT A). The DAC takes this 8 bit
+        digital value and converts it into an analog signal proportional
+        to the value of the byte presented to the DAC.
+
+                DAC Vout = (PORTA - OFFSET) * Constant
+
+        The range if the DAC output if from +?.??V to -?.??V in steps
+        of ?.??V.
+
+        Be warned there is NO enable control on the DAC so whatever value
+        you present will be converted. The DAC output connects to the
+        input of the multiplexer and the input of the X Axis integrator.
+        PORT A which feeds the DAC also connects to the AY-3-8192 so when
+        you write to the sound chip make sure that either/both the BLANK
+        and RAMP signals are not asserted, otherwise you may draw crap
+        all over the CRT.
+
+
+2) The MULTIPLEXER (Mixed Digital/Analog)
+
+        The output of the DAC is connected to the input of the Multiplexer
+        IC (one half, the other half is used for AtoD conversion of the
+        joypad potentiometers). The Multiplexer takes the input signal
+        and switches to any one of FOUR output lines, the input signal
+        is only ever connected to one output line at any one time.
+
+        The multiplexer has 3 control inputs. The first, the ENABLE signal
+        comes from the 6522A SWITCH line from PORT B Bit0 (See the 6522A
+        section on how to set/clear this bit). When this line is ACTIVE
+        the input pin is connected to the selected output pin, just as
+        if a mechanical switch were thrown, when NEGATED the input and
+        output pins are completely isolated from each other.
+
+        The other two inputs SEL0 and SEL1, again from PORT B of the 6522
+        Bits 1 & 2 respectively. These bits are used to form a 2 bit number
+        in the range 0-3, and when the multiplexer is active (see above)
+        these inputs are used to decide which ouput pin is connected to
+        the input pin. The Pin/Channel numbers for the Vector multiplexer
+        are given below:
+
+                0 - Y Axis integrator channel
+
+                1 - X,Y Axis integrator offset
+
+                2 - Z Axis (Vector Brightness) level
+
+                3 - Connected to sound output line via divider network
+
+
+3) X-Axis integrator, Y-Axis integrators (Analog)
+
+        Before the input to each integrator is an analog switch, this
+        switch is connected to the RAMP line from the 6522PIA PORT B
+        Bit7. When the switch is closed (RAMP=0) the integrators will
+        integrate the Value presented on the input, when RAMP is negated
+        and the switch opened no integration action can occur and the
+        integrators will hold their current value (see ZERO function).
+        The outputs will follow the following form:
+
+
+                     ^
+                    |
+               1    |
+           -  ---   |  ( Vin - Voffset ) dT   + Constant
+              CxR   |
+                    |
+                   v
+
+        For the X,Y integrators R=10000 and C=0.01x10E-6
+
+        When we fill the numbers in we get:
+
+
+           Vout = - ((10000 x (Vin-Voffset) x Integration time) + Voutstart)
+
+
+        Assuming that the full deflection voltages are +5V and -5V we can
+        calculate the beam movement. This is always a relative movement
+        based on the last position of the beam. If you want to be sure of
+        where the beam is make sure you ZERO the integrators first then
+        you can be sure the beam is at 0,0.
+
+
+           IntInput  = (DAC value - 128) * (10/256)
+
+           IntOffset = (DAC value - 128) * (10/256)
+
+        The 10/256 comes from a 10 volt possible swing on the DAC in 256
+        steps, therefore one step is 10/256 Volts. The -128 turns the DAC
+        value into a plus/minus value.
+
+
+           delta X = - ((10000 x (IntInput-IntOffset) x RAMPtime) + X)
+            (or Y)
+
+                 X = X + detla X
+
+        Assuming the vextrex usable screen area is 8 Inches which converts
+        to 20.3 cm. This is equal to 10 volts of swing.
+
+        (Note 8 inches is a guess, I dont have a vectrex screen to measure
+         so please correct me if I'm wrong, also these firgures dont take
+         into accound any overdrive of the screen area, and will therefore
+         be slightly incorrect, though by how much I wouldnt like to say)
+
+
+             X pos = X (volts) * 2.03 (cm/volt)
+              (or Y)
+
+        This value is again referenced to the 0,0 point in the centre
+        of the screen.
+
+        The power supply to the integrator comes from the +5V and -5V
+        analog power supply. No matter how long we integrate for we can
+        never exceed the supply rails, if we integrate for too long then
+        then integrator will saturate. Typicall the integration time, the
+        length of the active RAMP pulse will be quite short, in the order
+        of microseconds or milliseconds.
+
+        To move over the full range of swing (10volts) it will take ??
+        Assuming Voffset=0 and Voutstart=0 and no saturation.
+
+
+                10 = - 10000 x -10 X Integration time
+
+                Integration time = 100us = 0.1ms
+
+(1/10000)/(1/1500000)*128              = 19200
+
+
+
+        This is for drawing the largest possible vector, from one side
+        of the screen to the other.
+
+
+                Vout = -5V to +5V in both X and Y Axis
+
+
+4) RAMP (Digital, Active Low)
+
+    As mentioned above the RAMP signal controls the integrator integration
+    time described in the previous section. This line is an active low
+    signal and is connected to the 6522 PIA Port B Bit 7.
+
+
+5) ZERO (Digital, Active Low)
+
+    This line is connected to the 6522 CA2 line, see the 6522 section for
+    info on how to set this line up. As with RAMP is is an active low
+    signal. During any integration operation this line must be set to
+    the inactive state (HIGH).
+
+    When ACTIVE this line will cause the integrator output to be set to
+    0V which will be the centre of the screen. This line should be
+    ACTIVATED before any line drawing sequence to set the integrators to
+    a known value. The integrator output value is held by a small capacitor
+    and this will leak charge, basically the result is that over a period
+    of time the when the integrator in not in RAMP mode its output will
+    slowly fall to zero. So after drawing a sequence of vectors it is best
+    to zero the output to give a solid reference.
+
+6) Z-Axis Signal (Analog)
+
+    This signal controls the Z Axis of the CRT, the brightness. It is
+    set be setting the multiplexer to the Z-Axis setting and writing a
+    value to the DAC. This signal is connected to a Sample and Hold
+    circuit so you can switch the multiplexer away from this signal and
+    it will hold it value.
+
+    As with the integrators (See 3,7) the sample and hold will slowly
+    drift towards zero, so every now and then in will need to be
+    re-written. A good idea would be to write this value once for each
+    object being drawn, or once per group of screen refresh if you are
+    using a constant brightness, of course if your vectors are of
+    differing brightness then you will need to set this value for each
+    vector anyway.
+
+7) BLANK (Digital, Active High)
+
+    So that you dont need to change the brigness when positioning the
+    CRT beam on the Screen you can use this line to temporarily BLANK
+    off the Z-Axis signal, when NEGATED the Z-Axis signal will return
+    to its old value.
+
+
+
+Bringing it all together
+
+The main basis if the vector drawing as weve seen is the X and Y integrators,
+the Z Axis brightness is a passive system and easily understood. Just in
+case the technical bit has lost you here is an analogy to explain the
+integrator system.
+
+We'll convert all of our electrical system to some household plumbing.
+Voltages will convert to water pressure and current/charge to water
+flow.
+
+So our DAC is a TAP and the value we write to is the water pressure
+behind the tap. An integrator can be thought of as a water tank. The
+screen deflection is measured by the level of the water in the tank.
+
+So when we set the DAC values we set the water pressure at the tank
+inlet. The RAMP switch controls the ON/OFF of the tap. So the higher
+the pressure (X,Y integrator values from the DAC) the faster the
+water will flow into the tank and the faster the level will rise, ie
+the water level is the vector position, we have two tanks X and Y.
+
+So you can see we have two ways of regulating the water levels, the
+water pressure and the amount of time we leave the tap on for.
+
+Halfway down the side of each tank is a valve marked ZERO. We always
+start with our tanks half full. And after we've poured our water in
+we can open the ZERO valve to dump out excess water and bring ourselves
+back to the zero point (the screen centre).
+
+But our system has a twist, we can set the input taps to a negatve pressure
+and suck water from the tank, and when we open the ZERO valve water will
+flood in to fill us back up to the mid point. Our system also has a
+few minor problems, our tanks have holes in them and slowly let the water
+out back down to the middle level, and the pressure we set on the Tap
+slowly fades away, so we must always ZERO and set the Tank pressure
+before a flush/fill cycle.
+
+Its in this manor that we can push the CRT beam around the screen to
+create the vectors we require.
+
+
+
+
+How to draw a Vector
+~~~~~~~~~~~~~~~~~~~~
+
+Maybe after reading the above you now have a pretty good idea about
+how to draw vectors, or maybe you werent really interested and skipped
+it, so here is the info on how to draw a vector.
+
+
+    Step    1   Set the BLANK bit to 0, it should already be set to
+                this to stop it dribbling crap on the screen when idle
+
+            2   Set the ZERO bit to 0 to clear the integrators
+
+            3   Set the RAMP bit to 1
+
+            4   Set the ZERO bit back to 1
+
+            5   Enable the Multiplexer and select Z-Axis
+
+            6   Write your Vector Brightness to the DAC
+
+            7   Setect the X,Y Axis integrator offset and write
+                your value to the DAC, this can be used to scale
+                the X,Y axis up/down.
+
+     --->   8   Set the BLANK line according to wether this operation
+    |           is going to be a DRAW or POSITION operation
+    |
+    |       9   Select the Y-Axis to the multiplexer and write your
+    |           Y-Axis Vector Velocity value to the DAC.
+    |
+    |       10  Disable the Multiplexer
+    |
+    |loop   11  Write your X-Axis Vector Velocity to the DAC.
+    |
+    |       12  Set RAMP to 1
+    |
+    |   < Vector is now being drawn>
+    |
+     ---    13  Set RAMP to 0
+
+        < Vector has finished >
+
+            14  Set BLANK to 0 to stop any more info being drawn on the
+                CRT no that weve finished.
+
+The above can be run in a loop for each object or the whole screen, I dont
+know how the EXEC ROM does it but I would run the 1-14 sequence once
+for each object, ie the 8-13 loop for the components of the object. This
+would ensure the repeatability of object positioning as each object is
+always placed with reference to zero rather than the last object drawn.
+If you dont do a zero its likely that errors will build up and your
+objects may appear wobbly or jittery.
+
+Parts 5&6 of the sequence can be omitted if you are only positioning the
+vector ready for drawing.
+
+Now comes the tricky bit, just how do we calculate the values for X and
+Y velocity, X,Y integrator offset and how long do we make the RAMP
+pulse.
+
+The LENGTH of the RAMP pulse is critical if the screen is to appear
+stable, you MUST disable the interrupts during the vector drawing cycle
+as an interrupt occuring when RAMP is active would alter the length of
+the RAMP pulse.
+
+As I see it there are 3 possible ways to drive the system. All assuming
+that X,Y integrator offset is constant, you can use is for zoom in/out
+effects.
+
+
+1) The most likely way the EXEC ROM does it (IMHO). We have a FIXED length
+   of RAMP pulse for ALL vectors. Then with the 8 bit DAC values we
+   have a 255 unit resolution on vectors in both the X and Y axis. This
+   doesnt mean the screen resolution os 256x256, depending on the values
+   used for RAMP time and XY integrator offset a 255 unit vector could
+   be extremely small OR very large, its because everything is done
+   relative to the last integrator position. I reckon this method involves
+   the least calculation. You fix RAMP and then set the unit length with
+   the XY integrator offset.
+
+2) We have a look-up table of X,Y values depending on the direction that
+   we want to move (you could calculate the values) and these are all
+   scaled for a single fixed unit length vector. We then have a choice of
+   either varying the RAMP length or XY integrator offset to procuce
+   the length of vector we required, we just multiply the values of X and Y
+   integrator settings for the fixed unit length by the length we require.
+
+3) The most complicated way. We can vary all of the variables, but god
+   only knows how we would calulate them, we would have four varibles.
+
+Solutions 1 and 2 look the most promising as they restrict the number
+of variables we have to calculate. Using a fixed value of RAMP would
+seem the easiest thing so that we avoid any problems of CPU cycle counting
+to get the required RAMP settings, we would need good control of the
+RAMP time resolution, which is awkward, though not impossible in software
+expecially when there is no hardware timer.
+
+Without access to a Vectrex and some development tools to write some
+test code I cannot test any of these THEORYs and work out conversions
+from DAC values,times to Screen positions. As I dont know what the full
+screen deflection voltages are, I would assume that the Max/Min integrator
+values will corrspond to the Max/Min screen deflection values, or maybe
+the Max/Min value is off screen, but by how much ??
+
+WARNING: Dont go poking around the insides of the vector delecftion
+circuitry. The logic board only contains low voltage circuitry but
+the voltage chopper for the vector deflection circuit produce voltages of
+around 5000Volts. YOU HAVE BEEN WARNED.
+
+When I get time to Disassemble the EXEC ROM I can clear up once and for
+all how the EXEC draws vectors.
+
+

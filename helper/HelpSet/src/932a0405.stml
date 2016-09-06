@@ -38,28 +38,28 @@ The emulation of the imager hardware consists of different entities:
 :h3 Reference points
 Following points of reference are assumed in emulation and in the following descriptions:
 - all "directions" are from the view of the person wearing the imager, looking through the imager
-- on the wheel the degree 0° is the start of the black area, degrees are increased clock wise, thus the first color starts at 180°
-- the 0° on the hardware side is the 6 o'clock position (right above the nose of the wearer)
+- on the wheel the degree 0 is the start of the black area, degrees are increased clock wise, thus the first color starts at 180 degree
+- the 0 degree on the hardware side is the 6 o'clock position (right above the nose of the wearer)
 
 :h3 The wheel
 The wheel characteristcs are:
 - black area~~ 
-it is assumed every imager wheel has a 180° black area, for reference sake the start of the black area is regarded as 0° (zero) degree point for wheel definition.
+it is assumed every imager wheel has a 180 degree black area, for reference sake the start of the black area is regarded as 0 degree (zero) degree point for wheel definition.
 - color areas~~
-all known games feature three colors, but actually the number of colors is arbitrary, emulation allows to build wheels with different numbers of colors. The first color always starts at degree 180° and the last color always ends at degree 360°.
+all known games feature three colors, but actually the number of colors is arbitrary, emulation allows to build wheels with different numbers of colors. The first color always starts at degree 180 degree and the last color always ends at degree 360 degree.
 - index hole~~
 Placement of the index hole on the wheel. This is the reference point the vectrex programs use for internal calculation of when to draw vectors (left/right eye in relation to color). ~~
 In "real live" a phototransistor and a led are placed opposite of each other, and only when the index whole is in the right position the light of the led reaches the phototransistor. The transistor switches "button 4" to the state "pressed" and thus sends a signal to the vectrex (button 4 is also connected to CA1 of VIA - and can thus be configured to trigger an interrupt).~~ ~~
-The index hole is not in the same position (in relation to the above defined 0°) for the two known official wheels. 
+The index hole is not in the same position (in relation to the above defined 0 degree) for the two known official wheels. 
 
 :h3 Phototransistor
-Experiments and measures indicate a good value for the phototransistor location at 339°. The index hole has a size of about 3.3274 millimeters :-) - but experiments also show, that the transistor does not react on the led for the whole size of the hole, the actual reaction size is (guessing) only 1/3 of that.
+Experiments and measures indicate a good value for the phototransistor location at 339 degree. The index hole has a size of about 3.3274 millimeters :-) - but experiments also show, that the transistor does not react on the led for the whole size of the hole, the actual reaction size is (guessing) only 1/3 of that.
 
 :h3 Motor
 The motor is emulated as a "frequency" of rotation. The frequency can be either set manually or can be determined by a calculation of the pulses got from the vectrex (see pwm). Emulation-internally an angle is increased every emulated cycle - in relation to the current frequency.
 
 :h3 Eye areas
-The holes where the wearer sees the vectrex image through. In relation to the reference the eyes are located at 90° and 270° respectively.
+The holes where the wearer sees the vectrex image through. In relation to the reference the eyes are located at 90 degree and 270 degree respectively.
 
 :h2 Inspecting the emulation
 You can view current emulation status by opening a "device" window (in dissi type "joyi").
@@ -75,7 +75,7 @@ Each official game runs the game loop in a time reference frame. The frequency o
 
 The official imager games have a startup phase. During this phase the imager is "powered" up with heavy duty cycles (pwm) until the speed of the wheel matches the above mentioned time frame (many "pulses" per sync round). During that powerup button 4 is polled to see if the sync hole of the wheel is triggered (button 4) - no usage of interrupts in the startup phase. ~~
 
-The measurement taken is thus that one 360° spin of the wheel (one sync cycle) must be done completely within the wanted time frame - if that is achieved three times, the program assumes that the wheel is up to speed.
+The measurement taken is thus that one 360 degree spin of the wheel (one sync cycle) must be done completely within the wanted time frame - if that is achieved three times, the program assumes that the wheel is up to speed.
 
 Once the game runs, the PWM is realized differently. Vectrex "assumes" that the wheel is spinning about "right" and sends exactly one pulse (of a calculated length, which is adjusted all the time) per sync cylces.
 

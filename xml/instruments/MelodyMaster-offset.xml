@@ -1,0 +1,8 @@
+<Instrument>
+<name>
+MelodyMaster-offset</name>
+<adsr>
+$FF, $FF, $EE, $EE, $DD, $DD, $CC, $CC, $00, $00, $00, $00, $00, $00, $00, $00</adsr>
+<twang>
+$80, $80, $80, $80, $80, $80, $80, $80</twang>
+</Instrument>

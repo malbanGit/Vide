@@ -1,0 +1,36 @@
+These files are a collection of material I deem contain information relevant
+to programming vectrex, or might be in some way of help.
+The whole archive is 7,1MB mostly unpacked.
+
+Packed in 1 archive: 2,7MB
+
+VECTREX.TXT   Main file, vectrex programming information (370KB)
+
+DIS           Directory, contains collection of sourcecodes from various
+              authors (3,5MB)
+
+OTHER         contains two subdirectories, TEXT and TOOLS (3,6MB)
+
+ TEXT         contains various texts about any vectrex aspect, ranging from
+              information about chips, joysticks, FAQ, easter eggs, interfaces
+              service manual and so on (1,1MB)
+
+ TOOLS        contains again 3 subdirectories, 6809, DVE, VECCY (2,5MB)
+
+  6809        contains assemblers, dissassemblers, tools... for 6809 micro-
+              processor (1,0MB)
+
+  DVE         contains a beta release of make_cnt, a program that converts
+              Kingswood's Assembler listing output to DVE readable control
+              files (source and DOS executable) (100KB)
+
+  VECCY       contains a beta version of veccy, a small vector draw program,
+              with which I drew the sprites for Vectrex Frogger
+              (source for Watcom DOS and GCC linux (SVGALIB), DOS executable)
+              (1,4MB)
+
+These files were put together and were partly written by:
+
+Malban
+(email:malban@email.de)
+April 1998

@@ -2162,7 +2162,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             selectedTreeEntry = te;
             
             jMenuItemModi.setEnabled(te.name.toLowerCase().endsWith(".mod"));
+          //  jMenuItemModi.setEnabled(true);
             jMenuItemYM.setEnabled(te.name.toLowerCase().endsWith(".ym"));
+            jMenuItemYM.setEnabled(true);
             jMenuItemASFX.setEnabled(te.name.toLowerCase().endsWith(".afx"));
             jMenuItemRaster.setEnabled(
                         te.name.toLowerCase().endsWith(".jpg") ||
@@ -2305,6 +2307,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         currentProject = null;
     }//GEN-LAST:event_jMenuItemCloseActionPerformed
 
+    public void closeProject()
+    {
+        inProject = false;
+        fillTree();
+        closeAllEditors();
+        settings.currentProject = null;
+        currentProject = null;
+    }
+    
     private void jListProjectsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListProjectsMousePressed
         
         if (evt.getClickCount() == 2) 
@@ -4320,7 +4331,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     public static boolean displayHelp(String h)
     {
         h = h.toLowerCase();
-        String path = "documents"+File.separator+"help"+File.separator;
+        String path = "help"+File.separator;
         
         String full = path+h+".html";
         File f = new File(full);
@@ -4340,5 +4351,13 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             return true;
         }
         return false;
+    }
+    
+    public static boolean openInVedi(String path)
+    {
+        VediPanel vp = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).getVedi(true);
+        vp.closeProject();
+        vp.addEditor(path, false);
+        return true;
     }
 }

@@ -935,8 +935,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         sig_zero.intValue = 1;
         sig_ramp.intValue = 0;
         sig_blank.intValue = 0;
-        alg_curr_x = ALG_MAX_X / 2;
-        alg_curr_y = ALG_MAX_Y / 2;
+        alg_curr_x = config.ALG_MAX_X / 2;
+        alg_curr_y = config.ALG_MAX_Y / 2;
         
         alg_DAC.intValue = 0;
         alg_vectoring = 0;
@@ -1453,6 +1453,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     }
     // for speed measurement    
     long cyclesDone=0;
+    boolean thisWaitRecal = false;
+    long lastWaitRecal=0;
     int vecx_emu(long cyclesOrg)
     {
         stop = false;
@@ -1479,6 +1481,21 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             nonCPUStepsDone = 0;
             // see: http://oldies.malban.de/firstvectrex/vectrex/UNSORTED/text/6809/HTML/UP05.HTM
             int pc = e6809.reg_pc%65536;
+            if (pc == 0xf07b)
+            {
+                if (e6809_readOnly8(0xf617) == 0x32)
+                {
+                    // fix Malban Bios
+                    loadOrgBios();
+                }
+            }
+            if (pc == 0xf1a2)
+            {
+                thisWaitRecal = true;
+            }
+
+            
+            
             icycles = e6809.e6809_sstep (via_ifr & 0x80, firq);
             firq = 0;
             if (config.codeScanActive) 
@@ -1510,7 +1527,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             boolean doSync = false;
             if (config.autoSync)
             {
-                // imager games can be synced to there generated interrupt!
+                // imager games can be synced to their generated interrupt!
                 if ((imagerMode)&& ((via_ier &0x02) == 0x02))
                 {
                     if (((via_ifr &0x02) == 0x02) && ((via_ier &0x02) == 0x02) && (e6809.get_cc(E6809.FLAG_I) == 0))
@@ -1522,20 +1539,32 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 }
                 else
                 {
+                    
                     if (syncImpulse)
                     {
-                        // some carts use T2 for other timing (like digital output), these timers are "relly" small compared to 50 Hz
+                        // some carts use T2 for other timing (like digital output), these timers are "realy" small compared to 50 Hz
                         if (cyclesRunning - lastSyncCycles < 20000) // do not trust T2 timers which are to lo!
                         {
                             lastSyncCycles = cyclesRunning;
                             syncImpulse = false;
                         }
                     }
-
                     if (syncImpulse)
                     {
-                        lastSyncCycles = cyclesRunning;
-                        doSync = true;
+                        // this check evens out some peaks above the 3000cycle range
+                        if (cyclesRunning - lastWaitRecal < 100000)
+                        {
+                            if (thisWaitRecal)
+                            {
+                                lastSyncCycles = cyclesRunning;
+                                doSync = true;
+                            }
+                        }
+                        else
+                        {
+                            lastSyncCycles = cyclesRunning;
+                            doSync = true;
+                        }
                     }
                     else if (fcycles < 0) 
                     {
@@ -1553,6 +1582,12 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             
             if (doSync)
             {
+                if (thisWaitRecal)
+                {
+                    thisWaitRecal = false;
+                    lastWaitRecal = cyclesRunning;
+                }                
+
                 syncImpulse = false;
                 fcycles = FCYCLES_INIT;
                 if (!config.useRayGun)
@@ -1692,9 +1727,35 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }        
         return true;
     }
+    private boolean loadOrgBios()
+    {
+        try
+        {
+            Path path = Paths.get("system"+File.separator+"system.img");
+            byte[] biosData = Files.readAllBytes(path);
+            for (int i=0; i< biosData.length;i++)
+            {
+                rom[i] = biosData[i];
+            }
+        }
+        catch (Throwable e)
+        {
+            log.addLog(e, ERROR);
+            return false;
+        }        
+        return true;
+    }
 
     public boolean init(CartridgeProperties cartProp)
     {
+        ds2430Enabled = false;
+        microchipEnabled = false;
+        extraRam2000_2800Enabled = false;
+        extraRam8000_8800Enabled = false;
+        extraRam6000_7fff_8k_Enabled = false;
+        isDualVec = false;
+        isDualVec = false;
+
         if (!loadBios()) 
         {
             log.addLog("Vecx: init() BIOS of vectrex not loaded!", WARN);
@@ -1737,6 +1798,14 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     
     public boolean init(String filenameRom, boolean checkForCartridge)
     {
+        cart = new Cartridge();
+        ds2430Enabled = false;
+        microchipEnabled = false;
+        extraRam2000_2800Enabled = false;
+        extraRam8000_8800Enabled = false;
+        extraRam6000_7fff_8k_Enabled = false;
+        isDualVec = false;
+        isDualVec = false;
         joyport[0].deinit();
         joyport[1].deinit();
         romName = filenameRom;
@@ -1772,6 +1841,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     
     public boolean inject(String filenameRom, boolean checkForCartridge)
     {
+        cart = new Cartridge();
         romName = filenameRom;
         
         try
@@ -1823,6 +1893,54 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         CSAMainFrame.serialize(state, "serialize"+File.separator+"StateSaveTest.ser");
         return true;
     }
+    // caller must ensure, that no
+    // concurrent modification is done on the data
+    // otherwise an exception will occur!
+    public CompleteState getState()
+    {
+        CompleteState state = new CompleteState();
+        state.rom = rom;
+        state.cart = cart;
+        
+        state.putState(this);
+        state.putState(this.e6809);
+        state.putState(this.e8910);
+        
+        if (imagerMode)
+            state.putState((Imager3dDevice)joyport[1].getDevice());
+        
+        return state;
+    }
+    public boolean putState(CompleteState state)
+    {
+        try 
+        {
+            joyport[0].deinit();
+            joyport[1].deinit();
+            // this is sort of bad
+            // but a shortcut to reinitializing listerners
+            ArrayList<CartridgeListener> mListener = cart.getListener();
+            
+            rom = state.rom;
+            cart = state.cart;
+            initFromState(state);
+            cart.setListener(mListener);
+            cart.init();
+            
+            if (imagerMode)
+            {
+                state.imager.setIgnoreReset(true);
+                joyport[1].plugIn(state.imager);
+                state.imager.setIgnoreReset(false);
+            }
+            return true;
+        } 
+        catch (Throwable ex) 
+        {
+            log.addLog(ex, ERROR);
+        }
+        return false;
+    }    
     public boolean loadStateFromFile(String name)
     {
         try 
@@ -2140,8 +2258,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
              * calculate distance to origin and use that as dx,dy.
              */
 
-            sig_dx = (ALG_MAX_X / 2 - (int)alg_curr_x);
-            sig_dy = (ALG_MAX_Y / 2 - (int)alg_curr_y);
+            sig_dx = (config.ALG_MAX_X / 2 - (int)alg_curr_x);
+            sig_dy = (config.ALG_MAX_Y / 2 - (int)alg_curr_y);
 /* Doing the below threshold does not reset zero fast enough
             // this can be seen most in berzerk arena, labyrinht drawin
             // zeroing there is very optimized!
@@ -2191,7 +2309,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                     alg_curr_x += (int)(((double)alg_xsh.intValue)*(config.cooldown));
                     alg_curr_y += -(int)(((double)alg_ysh.intValue)*(config.cooldown));
                     
-                    if (alg_vectoring == 1 && alg_curr_x >= 0 && alg_curr_x < ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < ALG_MAX_Y) 
+                    if (alg_vectoring == 1 && alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y) 
                     {
                         /* we're vectoring ... current point is still within limits so
                          * extend the current vector.
@@ -2208,8 +2326,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         if (alg_vectoring == 0) 
         {
             if (sig_blank.intValue == 1 &&
-                    alg_curr_x >= 0 && alg_curr_x < ALG_MAX_X &&
-                    alg_curr_y >= 0 && alg_curr_y < ALG_MAX_Y &&
+                    alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X &&
+                    alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y &&
                     ((alg_zsh.intValue &0x80) ==0) &&  ((alg_zsh.intValue &0x7f) !=0)) 
             {
                 if (imagerMode)
@@ -2314,7 +2432,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 /* the parameters of the vectoring processing has changed.
                  * so end the current line.
                  */
-                boolean inLimits = (alg_curr_x >= 0 && alg_curr_x < ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < ALG_MAX_Y);
+                boolean inLimits = (alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y);
                 
                 
                 if ((alg_ramping) ||  (sig_zero.intValue == 0))
@@ -2386,11 +2504,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         
         if (config.efficiencyEnabled)
         {
-            double xTest = alg_curr_x - (ALG_MAX_X / 2);
-            double yTest = alg_curr_y - (ALG_MAX_Y / 2);
+            double xTest = alg_curr_x - (config.ALG_MAX_X / 2);
+            double yTest = alg_curr_y - (config.ALG_MAX_Y / 2);
 
-            double xPercent = Math.abs( xTest / (ALG_MAX_X / 2) );
-            double yPercent = Math.abs( xTest / (ALG_MAX_X / 2) );
+            double xPercent = Math.abs( xTest / (config.ALG_MAX_X / 2) );
+            double yPercent = Math.abs( xTest / (config.ALG_MAX_X / 2) );
 
             double xEfficience = 1.0-(xPercent)/config.efficiency;
             double yEfficience = 1.0-(yPercent)/config.efficiency;
@@ -2470,7 +2588,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         
         
         
-        if (alg_vectoring == 1 && alg_curr_x >= 0 && alg_curr_x < ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < ALG_MAX_Y) 
+        if (alg_vectoring == 1 && alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y) 
         {
             /* we're vectoring ... current point is still within limits so
              * extend the current vector.
@@ -2900,7 +3018,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }
         for (Breakpoint bp: tmp)
         {
-            displayer.breakpointRemove(bp);
+            if (displayer != null)  
+                displayer.breakpointRemove(bp);
         }
         
     }

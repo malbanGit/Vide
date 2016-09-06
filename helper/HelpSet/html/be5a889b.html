@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511232928" />
+<meta name="date" content="20160906151831" />
 <!-- created with HelpSetMaker, ID=be5a889b -->
 <title>FAQ vecci</title>
 </head>
@@ -36,11 +36,12 @@
 <p>These vectors are "totally" relative, meaning both start and end are shared between this vector and its "neighbours".</p>
 <h2>I want to change one "frame" of an animation, but it seems I always work on a copy!</h2>
 
-<p>Yes, that is true. If you click on a animation frame, the editor is always filled with a copy of that frame. There is no direct editing. However, you can edit to your hearts content, when finished use the "apply" button (in the animation section), the edited vector list than replaces the current selected animation frame.</p>
+<p>Yes, that is true. If you click on an animation frame, the editor is always filled with a copy of that frame. There is no direct editing. However, you can edit to your hearts content, when finished use the "apply" button (in the animation section), the edited vector list than replaces the current selected animation frame. <br />
+There also is an option to "auto" apply all changes, but this might be dangerous, since all editing is directly applied to the animation list.</p>
 <h2>What is the "add view" button useful for?</h2>
 
 <p>At first it looks like it is just the same as the "add current" button. The difference is, that it does not add the current vectorlist of the editor, but rather the "displayed" vectorlist in the little panel below that. If that panel is not in play mode, it displays the currently edited vectorlist. The "trick" is, that the displayed vectorlist can be viewed from different angles.<br />
-Switch to the tab "3d axis settings", here you can change the 3d display settings the "viewport" perspective if you might want to call it.<br />
+Switch to the tab "3d axis settings", here you can change the 3d display settings of the "viewport" perspective (if you might want to call it that).<br />
 You will notice as you either change the object angle or the coordinate system axis, that the displayed vectorlist changes its display. Using the "add view" button, you add the currently shown viewport "version" of the edited vectorlist to the animation. This might be usefull if you do not want to create a rotation animation with all angles, but rather would like to add specific viewport versions of your vectorlist.<br />
  <br />
 Note:<br />
@@ -49,7 +50,7 @@ The display panel always uses the given 3d settings. If you just added a view to
 
 <p>The "smoothness" depends in general on two factors:
 <ol><li>
-<p>the count of steps you specified between your start angle and your end angle. If you specified (for example) only 10 steps for a 360degree rotation, that means each frame will differ with 36 degrees, which IS rather "unsmooth" - just chose to use more steps</p>
+<p>the count of steps you specified between your start angle and your end angle. If you specified (for example) only 10 steps for a 360 degree rotation, that means each frame will differ with 36 degrees, which IS rather "unsmooth" - just chose to use more steps</p>
 </li><li>
 <p>all vector coordinates are integers, if your vectors are rather short (like each coordinate below 20) than the resulting rotation vectors tend to "jump" from one integer point to the next upon one step, which is also rather "unsmooth". In that case you should use a larger scale to draw your vectors, the resulting rotation will be much smoother, since it results in a better differentiation of coordinates.</p>
 </li></ol>
@@ -86,7 +87,7 @@ This obviously only works if the program you want to "grab" from uses BIOS routi
 <ol><li>
 <p>draw in continuous mode, that way you are insured to have a drawing in "one go"</p>
 </li><li>
-<p>this is not always possible, I realize that, appart from doing continuous drawing by hand, veccy is strong at supporting you to do that later!
+<p>this is not always possible, I realize that, appart from doing continuous drawing by hand, vecci is strong at supporting you to do that later!
 <ul><li>
 <p>pressing the 3 shortcuts: <br />
 <b> "connect where possible"<br />
@@ -101,8 +102,5 @@ Usually you want gaps filled with "moves" (invisible vectors), this is what the 
 </p>
 </li></ol>
 </p>
-<h2>I don't get it, what are scenarios good for?</h2>
-<h2>Why can't I chose what export I want, why are some grayed out?</h2>
-<h2>What is it with "User" export/import?</h2>
 </body>
 </html>

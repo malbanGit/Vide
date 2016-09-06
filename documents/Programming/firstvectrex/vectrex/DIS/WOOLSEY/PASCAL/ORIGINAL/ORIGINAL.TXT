@@ -1,0 +1,8 @@
+These programs require some missing files, or are just
+relevant for a vectrex interface, which I haven't got.
+
+Modifications must be inserted in order to comply with
+PC hardware in opposite to CP/M (ports for vectrex hardware
+or general line drawing...).
+
+Malban

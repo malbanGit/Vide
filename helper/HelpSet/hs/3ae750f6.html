@@ -28,5 +28,24 @@ As shown in the image above, you can also set breakpoints to ram locations.
 <p>value: triggered when ram locations is written to with a certain value</p>
 </li></ul>
 </p>
+
+<p><b>use label as data</b> You can force a label to be also be recognized as "immediate data". If you force that, dissi is able to use an address in immediate addressing.</p>
+
+<p>That means, if e.g.</p>
+
+<p><tt>$c880 has a label start_ram</tt><br>
+</p>
+
+<p>and an assembler directive like:</p>
+
+<p><tt>LDU #$c880</tt><br>
+ </p>
+
+<p>is encountered, dissi than can recognize the immediate label and output:</p>
+
+<p><tt>LDU #start_ram</tt><br>
+ </p>
+
+<p>... for better readability.</p>
 </body>
 </html>

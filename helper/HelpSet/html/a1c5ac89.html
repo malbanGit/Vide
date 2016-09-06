@@ -1,0 +1,118 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160906151831" />
+<!-- created with HelpSetMaker, ID=a1c5ac89 -->
+<title>Strings - Raster</title>
+</head>
+<body class="doc">
+<h1>Strings - Raster</h1>
+<h2>How are strings drawn by vectrex BIOS?</h2>
+
+<p>The vectrex BIOS stores a raster "image" of all characters supported, this can be seen e.g. by using dumpi:</p>
+<br/><p align="center">
+<img src="pics/dumpiChars.png" width="1803" height="735" /><br/>
+<em>Dumpi</em></p><br/>
+
+<p>Each char is represented by 7 bytes, each byte repressents one row of the character and each bit position one column. So the "pixel" size of one char is 8*7 (height * width).</p>
+
+<p>If a string is to be printed, the BIOS loads the address of the bitmap, examines each character of the string and uses the char values as a lookup reference into the raster image and outputs in one long line the first row of all characters of the string.</p>
+
+<p>Of each char (in the string) the first byte is read and the bits which are set are output with the "light switched on" and bits which are not set are output with the "light switched off".</p>
+
+<p>Actually each line of a String output is one long line which changes its "pattern"-byte continually along the way. Lets call this thing a "string-line" for easier reference.</p>
+
+<p>All raster outputs on a vectrex are more or less done exactly that way.</p>
+<h3>Outputting more than one line</h3>
+
+<p>There is virtually no way the above explained can be made more efficient. To output one byte of (raster) data you need one full "shift cycle". One shift cycle takes 18 (CPU) cylces. You can finish that sooner - than you did not output 8 bits, you can finish that later, but you will not output more bits. So - exactly 18 cycles is what it takes. Fullstop!</p>
+
+<p>The only way one can change the output of "complete" strings is to change the things which are done in between the output of each string-line.</p>
+
+<p>Take a look at the following image, here I show three different ways what can be done:</p>
+<br/><p align="center">
+<img src="pics/printString.png" width="516" height="687" /><br/>
+<em>PrintString</em></p><br/>
+<h3>BIOS routine - the original</h3>
+
+<p>This I call "uni directional output", in short:</p>
+
+<ul><li>
+<p>output one string line</p>
+</li><li>
+<p>go a little bit down</p>
+</li><li>
+<p>go back to the start of the line</p>
+</li><li>
+<p>do the above 7 times</p>
+</li></ul>
+<h3> Moon Lander routines (and some of "thomas")</h3>
+
+<p>This I call "bi directional output", in short:<br />
+
+<ul><li>
+<p>output one string line</p>
+</li><li>
+<p>go down a little bit</p>
+</li><li>
+<p>while going back output an "inverse string line"</p>
+</li><li>
+<p>do above for all 7 lines</p>
+</li></ul>
+</p>
+<h3>Alex Herbert/Kristof Tuts (?) routines</h3>
+
+<p>This I call "synced output", in short:</p>
+
+<ul><li>
+<p>    output one string line</p>
+</li><li>
+<p>    zero the integrators, and wait</p>
+</li><li>
+<p>    reposition beam to start and move down a little</p>
+</li><li>
+<p>    do the above 7 times</p>
+</li></ul>
+
+<p> </p>
+<h3>Pros /Cons</h3>
+
+<p><i>uni directional output</i><br />
+
+<ul><li>
+<p>Speed - medium (shown example 10486 cycles for "Hello world this is - a wonderfull day")</p>
+</li><li>
+<p>vulnerable to vectrex drift, the longer the text the more "italic" it gets</p>
+</li></ul>
+</p>
+
+<p><i>bi directional output</i><br />
+
+<ul><li>
+<p>Speed - fast (shown example 6209 cycles for "Hello world this is a wonderfull day")</p>
+</li><li>
+<p>vulnerable to vectrex drift, but not as much as "uni", tends to be a bit more "grizzly"</p>
+</li><li>
+<p>reports, that it does not work on all vectri (although I have not seen that in real live yet)</p>
+</li></ul>
+</p>
+
+<p><i>synced output</i><br />
+
+<ul><li>
+<p>Speed - slow (shown example 12443 cycles for "Hello world this is a wonderfull day")</p>
+</li><li>
+<p>not! vulnerable to vectrex drift</p>
+</li></ul>
+</p>
+
+<p>Example routines can be found in codi:<br />
+<tt>codelib/Snippets/Malban/Print_Tests/ </tt></p>
+
+<p> </p>
+</body>
+</html>

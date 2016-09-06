@@ -22,6 +22,22 @@ Exiting the above dialog with "create" will (...hm...) create sources in the cur
 ~~(The name of the generated sources are derived from the chosen file. In the following it is assumed that the name given is ::"ghost.png"::.)
 ~~The generated sources are accompanied by an example raster display program. The example routine is programmed for bi directional raster data, if you want to use the provided routines - be sure that the corresponding checkbox is checked.
 
+**Note:~~**
+You can chose whether you want to generate uni- or bi- directional data (and examples).
+- bi directional data will be drawn:~~
+a) positioning of the beam
+b) draw one line forward
+c) draw one line backward
+d) do 2) and 3) till finished
+This is in comparisson quite fast, but the result is prone to be "italic" due to vectrex drift
+
+- uni directional data will be drawn:~~
+a) zeroing and positioning of the beam
+b) draw line forward
+d) do 1) and 2) till finished
+This is in comparisson quite slow (nearly double time as bi), but the result very "clear" and is immune to drift
+
+
 Following sources are generated:
 - ::rasterDraw.asm::~~
 the subroutines to display a raster "image"

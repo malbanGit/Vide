@@ -1,0 +1,212 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 1</H2>
+<H3>From Random Logic To Microprocessors</H3>
+
+<H3>1. INTRODUCTION</H3>
+Digital computers are found in all walks of life, from the home to the office and in
+industry.  Many of these are used for purely computational tasks such as handling
+accounts, stock control and word-processing.  But another important use of digital
+computers is in control systems and automatic machinery.
+<P>
+At first, large scale calculations and data processing were carried out on "main-frame
+computers" - large, room-sized machines requiring special rooms with air-conditioning.
+These tasks continue to be performed in this way with perhaps one computer serving a
+variety of needs within the one business.  But main-frame computers were soon 
+followed by "minicomputers", the size of a large filing cabinet, and which had slightly
+less computing power and data storage than main-frames, but were much cheaper and
+could be operated in ordinary rooms.  In this way, small businesses could operate their
+own computer, and larger firms could have several minicomputers operating in 
+different departments.  The advent of the microprocessor in 1971 soon led to the 
+construction of "microcomputers" which are small, desk-top personal computers.  At first,
+their computing power was modest, but today advanced microprocessors offer the
+power of a mainframe in a personal computer.  This is the main area of application for
+general-purpose microprocessors today.
+<P>
+Before computers were widely available, automatic control of machines was achieved
+using logic circuitry of the TTL family and its predecessors.  Sequential operations
+were implemented using flip-flops and counters.  Process conditions were detected
+using combinational logic.  The overall process was described in hardware and was not
+easy to change.  It was the introduction of the minicomputer that allowed machines
+and industrial processes to become computer controlled.  Before this, it was 
+impracticable for a mainframe computer to be used in this way.
+<P>
+In 1971, an electronics engineer realised that the functions of the device for which he
+was designing logic hardware could be described in terms of a computer program.  It
+occurred to him that logic could be designed so that the circuit sequences were stored
+as a program.  Although extra circuitry was required for this approach, the result was a
+general purpose processing board which could be used in other applications.  This
+board was marketed as a microcomputer.  The circuit was further developed and 
+incorporated into a chip set which became known as a microprocessor.  This usage, where
+the microprocessor is used as a logic replacement, is the second main area of
+microprocessor applications.
+<P>
+<H3>2. FUNDAMENTALS</H3>
+ In this section, the building blocks which are found in all microprocessor systems
+ described.
+<P>
+These are: the Arithmetic and Logic Unit (ALU), registers and buses.
+
+<H3>2.1 ALU</H3>
+ The ALU comprises circuitry to perform arithmetic and logical operations, such a
+ ADD, SUBTRACT, AND, OR, SHIFT.  We may understand its construction an
+ operation by taking some examples of logical and arithmetic operations.
+ A simple logic gate is shown below.
+<P>
+<IMG SRC="and1.gif">
+<P>
+ A and B are binary digits, and so is X - these are called bits.
+ In a microprocessor, it is normal to deal with bytes (8 bits) rather than individual bits
+ so the ALU equivalent to perform a byte-wide AND is
+<P>
+<IMG SRC="and8.gif">
+<P>
+ A0 to A7 comprise byte 1 and B0 to B7, byte 2. X0 to X7 is the result, again one
+ byte.
+ In this bitwise-AND operation, the circuitry for each bit is independent.  These bits
+ not always independent as we can see in the following example.
+ Consider the circuit for an adder.
+<P>
+<IMG SRC="add1.gif">
+<P>
+ A and B are 1-bit inputs and SUM is the 1-bit output.  CARRYin and CARRYout
+ allow full adder stages to be cascaded as shown.
+<P>
+<IMG SRC="add8.gif">
+<P>
+ This is more commonly represented in the diagram below.
+<P>
+<IMG SRC="add2.gif">
+<P>
+
+<H3>2.2. REGISTERS</H3>
+ In practice, one of the input operands, byte 1, will be stored in a special register called
+ an ACCUMULATOR so that the result of one addition can be carried forward to the next.
+<P>
+Definition:
+<PRE>
+        A register is a temporary (internal) storage element.  This will typically hold a
+        8 or 16 bit operand.
+</PRE>
+Redrawing the diagram once more, we can see how multiple bytes of data can be
+ added together.  The sequencing circuitry is not shown.
+<P>
+<IMG SRC="acc2.gif">
+<P>
+Here, the result is stored in the accumulator, overwriting any previous data.  It derives
+ its name from this accumulating action.
+<P>
+The following sequence will add together two 8-bit numbers.
+<PRE>
+	1) Load accumulator with operand A
+	2) Fetch data operand B
+	3) Add A and B in the adder, put the result in the accumulator.
+</PRE>
+
+Each step in the sequence will take a few microseconds to execute.
+ Instead of just adding numbers or performing AND operations, we require the ALU to
+ do a variety of operations in any sequence.  Thus, in addition to the data inputs to the
+ ALU, there are other programming or function select inputs.
+<P>
+Such circuitry is not very complex.  An example of such an ALU is found in the 74
+ series logic family.  For example, the 74HC181, is a 4 + 4 bit ALU with 32 
+ programmable functions.
+<P>
+In order to make this ALU into a processor, a means must be provided for presenting
+ the data words at the inputs, storing the output word and applying the appropriate
+ function code at the select inputs for each instruction.
+ Such hardware is incorporated into a microprocessor and the logical sequences for
+ each instruction need not be known by the programmer.
+
+<H2>GENERAL MICROPROCESSOR MODEL</H2>
+A typical microprocessor model for an 8-bit microprocessor is shown below-
+
+<H3>Definition:</H3>
+<PRE>
+        An 8-bit microprocessor is designed to operate with 8-bit operands 
+	predominantly.  This does not preclude it dealing with 16 or 32 bit 
+	numbers, or more, but it will handle these larger words in 8-bit chunks.
+</PRE>
+<P>
+<IMG SRC="micro8.gif">
+
+<H3>2.3 BUSES</H3>
+The registers and ALU are not permanently connected together, but are joined by a
+DATA BUS.  This bus allows data to be passed from a register to the ALU at one
+instant and from the ALU to a register at another instant.  More generally, any device
+which needs to read or write data will be connected to the data bus.  The timing and
+control circuitry ensures that only one pair of devices is using the data bus at any time
+(one writing data and the other reading it).
+
+<h3>Definition:</h3>
+<PRE>
+        A bus is a parallel set of wires (metallisation or conductive silicon internally to
+        a chip) which carries information.
+</PRE>
+
+Rather than each device having a private connection to every other device in the system, 
+which would be expensive and require many interconnecting paths; all devices
+share the same set of wires.  Usage of the bus is time multiplexed.
+<P>
+In addition to the 8-bit data bus, there is a 16-bit address bus.  Access to these busses
+is governed by control signals.
+<P>
+The amount of data storage provided internally in the microprocessor is limited.  Only
+a few operands can be stored in the internal registers.  If the required program steps
+were to be stored internally in registers, this would place an unacceptable limit on the
+size of program allowed.
+<P>
+So some means of extending the available storage is provided.  External storage ele-
+ments, or memory, can be read or written to using an extension of the internal data
+bus.  Buffers are provided to interface with external memory chips over an external
+data bus.  These memory chips allow program instructions to be stored, which can be
+read into the microprocessor at the appropriate time.  Results of calculations and data
+to be input to the ALU can also be stored in this external memory.  The arrows on the
+diagram show that the data bus is bidirectional, that is, data must be able to pass to
+and from external memory as the microprocessor writes or reads it.  Clearly, a control
+signal is provided to indicate in which direction the data is travelling.  This line is
+called READ/NOT-WRITE or R/W for short.  When HIGH, a memory read operation
+is taking place; when LOW, a memory write (ie. the microprocessor is transferring
+data to external memory).
+<P>
+Since there will be a large number of external memory locations, we need to specify
+which one is to be used for transferring data to or from the microprocessor.  This is
+achieved by the address bus.  The address bus carries a 16-bit code which uniquely
+identifies the external memory location we require.  Each memory location will only
+respond to its own code (called its address) and, according to the setting of the R/W
+line, will take data from the data bus or place data on the data bus.  The address bus is
+unidirectional since it only makes sense for the microprocessor to generate addresses
+as it is the system controller.
+<P>
+The address bus of 8-bit microprocessors is usually 16-bits wide which allows us to
+access up to 65536 external bytes of data.  As a shorthand, 1024 bytes is called lk
+bytes; thus 65536 equals 64k bytes.
+
+<H3>3. SUMMARY</H3>
+The ALU performs arithmetic and logical operations.
+<P>
+ Accumulators are a special class of register which are closely connected with the ALU
+ such that arithmetic and logical operations can be easily performed on their contents.
+<P>
+ Registers are storage elements, some of which have specific functions owing to the
+ way in which they are implemented in hardware or the task they have to perform.
+<P>
+ In order that transfers of data occur in an orderly manner, Timing and Control circuits
+ coordinate all such operations.  It takes tens of nanoseconds for the ALU to process
+ data or for data to be transferred to or from a register.  The timing circuit takes this
+ into account.
+<P>
+ Address and Data Busses exist to transfer data both internally and externally to the
+ microprocessor.
+<P>
+ Having introduced the basic microprocessor hardware configuration, we can now look
+ at how a microprocessor is programmed.
+
+<hr>
+<A HREF="micros.htm">Back</A>
+<hr>
+</BODY>
+</HTML>

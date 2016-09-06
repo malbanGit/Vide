@@ -90,5 +90,18 @@ do the above mentioned "normalization", selecting a number of bits "cuts" these 
 <p>The generated "play" routines use sampled data "backwards", therefor you can select to reverse the order of the data statements generated.</p>
 
 <p>The data is output in data-statements, the format of the data is described in the (generated) source. With the sourcecode some example code is also generated.</p>
+<h2>Technically</h2>
+
+<p>Samples as implemented now have NOTHING whatsoever to do with PSG.</p>
+
+<p>It might be possible to implement samples as "volume" levels of  PSG channels, but as of now nobody has tried that.</p>
+
+<p>The current implementation of playing samples is using  a direct DAC -&gt; audio implementation.</p>
+
+<p>Technical meaning:</p>
+
+<p>The sample data is taken directly (as signed 8 bit values), fed into the vectrex DAC and converted to analog values. Thru the multiplexer the resulting analog values are fed DIRECTLY to the vectrex sound hardware (not the PSG).</p>
+
+<p>A MUXSEL value of 11 (and mux select enabled) does that with data in port A of VIA.</p>
 </body>
 </html>

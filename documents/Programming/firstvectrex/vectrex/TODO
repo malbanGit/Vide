@@ -1,0 +1,36 @@
+*       Notes on the production of music using the Vectrex music routines.
+
+*       Each beat can have up to three voices.  The notes are listed together,
+*       each but the last having its sign bit set.  There follows a duration.
+*       It would appear that silence has a note value of 63.  One thing that
+*       remains to be determined is how to produce new attacks while sustaining
+*       other voices.  Apparently this is accomplished simply by letting the
+*       envelop sustain a voice while another attack begins.
+
+*       This early attempt turned out to be an exercise in manually
+*       transcribing music (which I don't read well anyway) and typing.
+*       The careful listener will detect at least two errors in my
+*       transcription.
+
+
+
+
+do the sledge thing
+
+wait recal... power monitor??? by 'oversaturation' ???
+DEFLOK  LDX     #FALWEL CALL TO KEEP POWER ON
+        BSR     POSIT2  SUPER LONG SATURATED KEEP ALIVE PULSE
+
+
+
+explosion sound -> rum chip
+
+seven segment (rum chip!
+
+ram!
+
+NEW as09_new
+
+curved lines
+
+digi sound

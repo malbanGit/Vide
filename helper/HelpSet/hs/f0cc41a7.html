@@ -1,0 +1,157 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Example: 3d Imager</title>
+</head>
+<body class="doc">
+<h1>Example: 3d Imager</h1>
+
+<p>For the 3d Imager no "Code Generation" was done, since any generated code would have been an extensive example on its own.</p>
+
+<p>Instead I provide an example in form of a "code snippet" within codi. (see:<br>
+<tt> codelib/Snippets/Malban/3dImager/3dImager.asm<br>
+and <br>
+codelib/Snippets/Malban/3dImager/3dImager.i</tt>)</p>
+
+<p>Much of the example is reused code found in the Narrow Escape binary and the great disassembly of Fred Taft.</p>
+
+<p>I enhanced his disassembly in two ways:
+<ol><li>
+<p>added further comments</p>
+</li><li>
+<p>extracted a couple of subroutines, which can be used "out of the box" without sorting out to much stuff</p>
+</li></ol>
+</p>
+
+<p>Anyone interested in programming imager stuff should find it (I hope) to be quite easy to get going.</p>
+
+<p>In the example I do not do any fancy 3d calculation, I only print 6 messages for the combination color/eye. Movement and placing of vectors to acchive 3d effects I leave out as an excercise for the avid reader.</p>
+<br><p align="center">
+<img src="pics/ImagerExample.png" width="379" height="484"><br>
+<em>Imager example</em></p><br>
+<h2>In general</h2>
+
+<p>Narrow Escape: how the imager is programmed and how PWM is realized to control the motor</p>
+
+<ol><li>
+<p>Startup The official imager games have a startup phase.  During this phase the imager is "powered" up with high frequency short pwm duty pulses until the speed of the wheel matches the above mentioned time frame. The pulse duty is about 67% [542 cycles of low pulse, with 805 cylces wavelength]. </p>
+</li></ol>
+
+<p>During that powerup button 4 is polled to see if the sync hole of the wheel is triggered (button 4) - no usage of interrupts in the startup phase.  The measurement taken is thus that one 360Â° spin of the wheel (one sync cycle) must be done completely within the wanted time frame [time frame see below] - if that is achieved three times, the program assumes that the wheel is up to speed.</p>
+
+<p>The powerup loop only contains the above mentioned routines, if the power up does not reach its goal, from a user point of view the program  just "hangs", since no other output of any kind gives any feedback.</p>
+
+<ol><li>
+<p>Ingame Once the game runs, the PWM is realized differently. Vectrex "assumes" that the wheel is spinning about "right" and sends exactly one pulse (of a calculated length, which is adjusted all the time) per sync cycle.</p>
+</li></ol>
+
+<p>Each official game runs the game loop in a time reference frame.  The frequency of the wheel is set in accordance to that timing frame (different games have different timing parameters).</p>
+
+<p>The developer chose a frequency they would like to realize the game with (in Narrow Escape that timing value is $E000, which results in a frequency of 1/(1/1500000 * 0xe000) = 26,1579241... Hz wheel spin).<br>
+(<br>
+<tt>Narrow Escape: $e000 -&gt; 26.157Hz<br>
+Minestorm 3d: $fc00 -&gt; 23.251Hz<br>
+3d Crazy Coaster: $f000 -&gt; 24.414Hz<br>
+</tt> )<br>
+</p>
+
+<p>Timer T2 is set to that value. T2 is started after the sync triggered the interrupt and thus "counted down" throughout the game loop, the game loop finishes with a CWAI instruction, which waits for another interrupt to occur.</p>
+
+<p>During the game T2 is compared to reference values:<br>
+<tt> $f000 right eye blue<br>
+$BD00 right eye green<br>
+$9600 right eye red<br>
+$6800 left eye blue<br>
+$4000 left eye green<br>
+$2000 left eye red<br>
+</tt></p>
+
+<p>When the timer has reached the value - the corresponding vectors are drawn.</p>
+
+<p>The pulse modulation is handled in a two fold manner:</p>
+<h3>Interrupt</h3>
+
+<p>With each occurrence of an interrupt a compare value is stored to a "global" variable (which I call "PWM_T2_Compare_current"). While running the main loop in the beginning the pulse is switched on (put to low), T2 (hi) is compared against the reference every now and than and if T2 is lower than the reference, the pulse is switched off.</p>
+
+<p>The interrupt is triggered each time the index hole of the wheel passes the photo transistor and the in opposition placed LED.</p>
+
+<p>The interrupt handles the calculation of the PWM. In general:</p>
+
+<p>Within the interrupt two compare values are generated which I call
+<ul><li>
+<p>PWM_T2_Compare_faster</p>
+</li><li>
+<p>PWM_T2_Compare_slower</p>
+</li></ul>
+</p>
+
+<p>As you might have guessed those two values are stored to the above mentioned "global" variable (PWM_T2_Compare_current).<br>
+The calculated value "PWM_T2_Compare_slower" is used when no timeout occured and "PWM_T2_Compare_faster" when a timeout occured. "Switching" between those two values all the time, the speed of the motor is held more or less constant (in emulation the difference is about 0.01 Hz, I have not been able to measure the real thing).</p>
+
+<p>The two mentioned values are checked from time to time if they also need adjustment. Therefor  eight interrupt "sampling" are bundled together and are further investigated.</p>
+
+<p>The timeout "failures" from above are counted and remembered. After 8 interrupt calls the ratio of "timeouts" and "not timeouts" are stored and further examined. </p>
+
+<p>The current sampling (of 8 interrupt measurements) is stored in a variable which might be called:
+<ul><li>
+<p><tt>countIRQFailureAfterRefreshFor8Samples</tt><br>
+(yes I know - it is a long name, but I like self explaining variable names)</p>
+</li></ul>
+</p>
+
+<p>for "long term" measurement, these samples are additionally stored for the last 3 samplings, in variables which I call:<br>
+<tt>
+<ul><li>
+<p>countIRQFailureAfterRefreshFor8Samples_1<br>
+</p>
+</li><li>
+<p>countIRQFailureAfterRefreshFor8Samples_2<br>
+</p>
+</li><li>
+<p>countIRQFailureAfterRefreshFor8Samples_3<br>
+<tt></tt></p>
+</li></ul>
+</tt></p>
+
+<p>(So all together we have access to the last 4 * 8 = 32 timeout/non timeout IRQ values).</p>
+
+<p>The calculation of the new values for PWM_T2_Compare_faster/PWM_T2_Compare_slower is three fold:</p>
+
+<ol><li>
+<p>adjustment of "PWM_T2_Compare_faster"
+<ul><li>
+<p>the sum of the current and last sampling is build, which results in a value between 0 - 16    (maximum of 16 timeouts, wheel is WAY to slow), the average should be "8", half of the samplings were done in time, the other half had a timeout.</p>
+</li><li>
+<p>the sum is compared to 13<br>
+  &nbsp;&nbsp;&nbsp;- if it is exactly equal, the "PWM_T2_Compare_faster" stays the same<br>
+  &nbsp;&nbsp;&nbsp;- if there are more failures than 13, subtract the difference from "PWM_T2&nbsp;Compare_faster"      (when PWM_T2_Compare_faster is decreased, the compare value to T2 is decreased and thus the duty pulse of the PWM is longer) (not below 0)<br>
+  &nbsp;&nbsp;&nbsp;- if there are less failures than 13, add the difference to "PWM_T2_Compare_faster" <br>
+    (when PWM_T2_Compare_faster is increased, the compare value to T2 is increased and thus the duty pulse of the PWM is shorter) (not above 0xff)</p>
+</li></ul>
+</p>
+</li><li>
+<p>adjustment of "PWM_T2_Compare_slower"<br>
+
+<ul><li>
+<p>the sum of all available samplings is build, which results in a value between 0 - 32    (maximum of 32 timeouts, wheel is WAY to slow), the average should be "16", half of the samplings were done in time, the other half had a timeout.<br>
+</p>
+</li><li>
+<p>the sum is compared to 24<br>
+  &nbsp;&nbsp;&nbsp;- if it is exactly equal, the "PWM_T2_Compare_slower" stays the same<br>
+  &nbsp;&nbsp;&nbsp;- if there are more failures than 24, subtract half the difference from "PWM_T2_Compare_slower" (not below 0)<br>
+  &nbsp;&nbsp;&nbsp;- if there are less failures than 24, add half the difference to "PWM_T2_Compare_slower" (not above 0xff)<br>
+ (The "PWM_T2_Compare_slower" is "wheighted" more towards timeouts than the "PWM&nbsp;T2_Compare_faster" value by the usage of 32 samples (and 24 as timeout threshold))<br>
+</p>
+</li></ul>
+</p>
+</li><li>
+<p>it is ensured, that both values are not to close to each other<br>
+ - if the difference between "PWM_T2_Compare_faster" and "PWM_T2_Compare_slower" is smaller than $1a than the "newer" value of "PWM_T2_Compare_faster" is taken as a reference and   "PWM_T2_Compare_slower" = "PWM_T2_Compare_faster" - $1a   is used.  </p>
+</li></ol>
+<h3>In game</h3>
+
+<p>The "in game" handling of PWM is quite simple (once the IRQ has handled all the setup). At the beginning of the game loop (after joystick buttons have been read, this must be done beforehand, otherwise the button requests would interfere with the imager-communication), the duty pulse is enabled (set to low).</p>
+
+<p>Than each time after some "time consuming" work is done, the variable "PWM_T2_Compare_current" is compared to T2 timer (hi byte). If T2 is lower than the reference value, the duty pulse is finished (set to high) and the "PWM_T2_Compare_current" set to 0 as indication that the pwm control is done for this mainloop.</p>
+</body>
+</html>

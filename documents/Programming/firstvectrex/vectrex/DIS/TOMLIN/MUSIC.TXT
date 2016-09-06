@@ -1,0 +1,152 @@
+ Subject: Vectrex demo program: music.asm
+From: btomlin@crl.com (Bruce Tomlin)
+Date: 4 Aug 1996 19:29:33 -0700
+Message-ID: <4u3mad$3jc@crl5.crl.com>
+
+Here's something I just wrote now that I have a decent development setup
+(good assembler, good documentation, lots of 2764 chips, socketed Blitz
+board, spare Vextrex next to computer).  It just plays all of the music
+data in the ROM.
+
+                INCLUDE VECTREX.INC
+                LIST    ON
+
+                FCC     /g GCE 2001/
+                FCB     $80
+
+                FDB     $FF8F
+
+                FDB     $F848
+                FDB     $20D0
+                FCC     /MUSIC TEST/
+                FCB     $80
+
+                FCB     $00
+
+
+                LDD     #$F160          Set default text height & width
+                STD     Vec_Text_HW
+
+Start           LDX     #Music_Table
+
+Loop_Outer      LDD     ,X++            Check for end of list
+                BEQ     Start
+
+                INC     Vec_Music_Flag  Get ready to face the music
+
+                PSHS    X               Save text pointer on stack
+
+Loop_Inner      JSR     DP_to_D0
+
+                LDU     ,S              Get text pointer
+                LDD     #$27CF          Get Y,X coordinate
+                JSR     Print_Str_d     Print the string
+
+                PSHS    U               Save end of string
+
+                LDU     2,S             Get text pointer back
+                LDU     -2,U            Get music pointer
+
+                JSR     DP_to_C8
+
+                JSR     Init_Music_chk  Initialize the music
+                JSR     Wait_Recal      Wait for the next frame
+                JSR     Do_Sound        Play the sound
+
+                PULS    U               Get back end of string
+
+                TST     Vec_Music_Flag  Loop if music is still playing
+                BNE     Loop_Inner
+
+                LEAS    2,S             Throw away the text pointer
+                TFR     U,X             U-reg contains next text pointer
+
+                LDD     #$1000          Delay a moment between music
+Delay_Loop      SUBD    #1
+                BNE     Delay_Loop
+
+                BRA     Loop_Outer      Go play the next song
+
+
+Music_Table
+
+*       FD0D = power-on music and music for Crazy Coaster and Narrow Escape
+                FDB     $FD0D
+                FCC     /FD0D/
+                FCB     $80
+
+*       FD1D = music for Berzerk?
+                FDB     $FD1D
+                FCC     /FD1D/
+                FCB     $80
+
+*       FD81 = music
+
+                FDB     $FD81
+                FCC     /FD81/
+                FCB     $80
+
+*       FDD3 = music for Scramble
+
+                FDB     $FDD3
+                FCC     /FDD3/
+                FCB     $80
+
+*       FE38 = music for Solar Quest
+
+                FDB     $FE38
+                FCC     /FE38/
+                FCB     $80
+
+*       FE76 = music
+
+                FDB     $FE76
+                FCC     /FE76/
+                FCB     $80
+
+*       FEC6 = music
+
+                FDB     $FEC6
+                FCC     /FEC6/
+                FCB     $80
+
+*       FEF8 = music for Melody Master
+
+                FDB     $FEF8
+                FCC     /FEF8/
+                FCB     $80
+
+*       FF26 = music
+
+                FDB     $FF26
+                FCC     /FF26/
+                FCB     $80
+
+*       FF44 = music
+
+                FDB     $FF44
+                FCC     /FF44/
+                FCB     $80
+
+*       FF62 = music
+
+                FDB     $FF62
+                FCC     /FF62/
+                FCB     $80
+
+*       FF7A = music
+
+                FDB     $FF7A
+                FCC     /FF7A/
+                FCB     $80
+
+*       FF8F = music
+
+                FDB     $FF8F
+                FCC     /FF8F/
+                FCB     $80
+
+                FDB     0
+
+                END
+

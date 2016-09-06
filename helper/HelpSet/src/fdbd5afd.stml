@@ -28,16 +28,17 @@ Nothing, the file was deleted.
 :h2 Closing project/file/vide does not save or ask for save, why is that?
 Because I programmed it that way, you should know what you do!
 
-
 :h2 I just want to play some games, why is dissi always starting?
-Because the program is called vide and not gami!
+Because the program is called vide and not gami!~~
+Update: Starting a game starts dissi iconified now!
 
 :h2 Is there a fullscreen mode, with just vecxi?
 Nope, this is only 10 lines of code, but the program is called vide, not gami!
 
 :h2 Why don't you use OpenGL and some shaders, the results would be much prettier, look at paraJVE?
 Because Vide is an developement environment, not a game center!~~
-Also...  Vide is pure java.
+Also...  Vide is (was :-( ) pure java.~~
+Actually I started a openGL version using LWJGL, but using that library send shivers down my spine. I aborted it after 1 day. I //might// at some stage start another try with JOGL, but don't wait for it.
 
 :h2 There are more vectrex programs available, why aren't they in the starter listing?
 Most homebrewlers are pretty strict with their creations. No homebrew program is bundled with vide (apart from the sources in the codi area).
@@ -49,7 +50,6 @@ See last answer.
 :h2 Can I get the source code to VIDE?
 Yup, the source comes along with it.
 
-
 :h2 What kind of copyright/licencing does the source have?
 VIDE consists of different parts, which are programs collected from different sources.
 The old copyrights still apply. I only used sources which are freely available, but that does NOT mean they are public domain.
@@ -57,11 +57,12 @@ With all sources I included copyright notices and license files (if available) -
 Code done by me (Malban) is open source and licenced with GPL V2.0.
 
 :h2 The source is huge, at least compared to the "compactness" of vecx, any tips?
-I use Netbeans version 8.x. All development was done with Netbeans, so that is what I recomend as IDE.~~
+I use Netbeans version 8.x. All development was done with Netbeans, so that is what I recommend as IDE.~~
 Add the libraries in the "lib" (jars) folder, and you should be able to build.
-I use quite a lot of sourcecode from my other projects, for that reason there are probably many sources in the archive not really NEEDED for VIDE, nonethelss they are there.~~
+I use quite a lot of sourcecode from my other projects, for that reason there are probably many sources in the archive not really NEEDED for VIDE, nonetheless they are there.~~
 
 The "Main" program can be found under: de.malban.VideMain, this mainly just instantiates a "CSAMainFrame", which is the main desktop application, from here all events are triggered.~~
 All things directly "vide"-related can be found under: de.malban.vide.*
 
-
+:h2 Do you support any other input devices than keyboard?
+You can configure many input devices. For accessing them I use the JInput library, which needs native support. For Windows, Mac and Linux the native libraries are included in the lib directory. If you use another OS, you are not able to configure other input devices. To configure, go to "Configuration" and than tab "Input".

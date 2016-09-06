@@ -1183,6 +1183,7 @@ public class DASM6809 extends DASMStatics {
     }
     public static int toNumber(String s, boolean largeAllowed)
     {
+        s = de.malban.util.UtilityString.replace(s, "$$","$");
         s = s.toUpperCase();
         boolean minus = false;
         int radix = 10;
@@ -1318,6 +1319,19 @@ public class DASM6809 extends DASMStatics {
     }
     public String disassemble(byte[] data, int romStartAddress, int disassemblyStartAddress, boolean assumeVectrexModule, int bank)
     {
+        
+        String biosName = null;
+        if (new File (config.usedSystemRom).exists())
+        {
+            biosName = new File (config.usedSystemRom).getName();
+        }
+        if (biosName == null)
+        {
+            biosName = "system.img";
+        }
+        
+        String biosNameOnly = biosName.substring(0, biosName.indexOf("."));
+        
         myMemory.setBank(bank, true);
         currentCNTScanBank = bank;
         if (assumeVectrexModule)
@@ -1328,18 +1342,18 @@ public class DASM6809 extends DASMStatics {
             {
                 if (config.lstFirst)
                 {
-                    boolean done = readLSTFile("system"+File.separator+"SYSTEM.LST", true);
+                    boolean done = readLSTFile("system"+File.separator+biosNameOnly+".lst", true);
                     if (!done)
-                        readCNTFile("system"+File.separator+"SYSTEM.CNT");
+                        readCNTFile("system"+File.separator+biosNameOnly+".cnt");
                 }
                 else 
                 {
-                    boolean done = readCNTFile("system"+File.separator+"SYSTEM.CNT");
+                    boolean done = readCNTFile("system"+File.separator+biosNameOnly+".cnt");
                     if (!done)
-                        readLSTFile("system"+File.separator+"SYSTEM.LST", true);
+                        readLSTFile("system"+File.separator+biosNameOnly+".lst", true);
                 }
                 
-                Path path = Paths.get("system"+File.separator+"SYSTEM.IMG");
+                Path path = Paths.get("system"+File.separator+biosName);
                 byte[] biosData = Files.readAllBytes(path);
                 disassemble(biosData,0xe000, 0xe000, false, bank);
             }

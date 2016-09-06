@@ -1,19 +1,19 @@
 <html>
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
-<title>ongoing - Bankswitching</title>
+<title>Bankswitching</title>
 </head>
 <body class="doc">
-<h1>ongoing - Bankswitching</h1>
+<h1>Bankswitching</h1>
 
 <ul><li>
 <p>Bankswitching is handled in class Cartridge (triggered by emulation)</p>
 </li><li>
 <p>cartridge can hold an arbitrary number of banks</p>
 </li><li>
-<p>dissy memory is now loaded via cartridge (after vecxi has been initialized), that is new!</p>
+<p>dissi memory is now loaded via cartridge (after vecxi has been initialized), that is new!</p>
 </li><li>
-<p>dissy adds itself to cartridge as a listener and reacts to bankswitched</p>
+<p>dissi adds itself to cartridge as a listener and reacts to bankswitched</p>
 </li><li>
 <p>the Memory (dissi/dasm) class has been updated to handle banks too, MemoryInformation is still held seperately from cartridge</p>
 </li><li>
@@ -25,9 +25,9 @@
 </li><li>
 <p>development wise I must still consider the options of building seperate bin files and concat, or in one go or or or</p>
 </li><li>
-<p>done: generate dissy: dasm output</p>
+<p>done: generate dissi: dasm output</p>
 </li><li>
-<p>done: generate dissy: CNT out</p>
+<p>done: generate dissi: CNT out</p>
 </li><li>
 <p>not done: reading lst, cnt for banks &gt;0</p>
 </li><li>
@@ -35,83 +35,5 @@
 </li><li>
 <p>done: consequently building information for different banks</p>
 </li></ul>
-<h2>Bankswitch Scheme 1 (Dondzila)</h2>
-
-<ul><li>
-<p>Only 2 banks available</p>
-</li><li>
-<p>switch is implemented by high/low of VIA ORB PB6</p>
-</li><li>
-<p>switching is usually done by setting the corresponding DDR register to input (PB6 goes high automatically) or output (PB6 goes low automatically)</p>
-</li><li>
-<p>vectrex default state is PB6 = INPUT</p>
-</li><li>
-<p>PB6 high enables BANK 1</p>
-</li><li>
-<p>PB6 low enables BANK 0</p>
-</li><li>
-<p>therefor the default vectrex bank upon startup is BANK 1!</p>
-</li></ul>
-
-<p>Here John Dondzilas original rec.games.vectrex post (29.10.1999):</p>
-
-<div class="code">
-<p><b>EXTRA ! EXTRA ! READ ALL ABOUT IT - PCJOHN AND ANOTHER VECTREX FIRST !!!</b> <br>
- <br>
-Thanks to Peter Pachla's suggestion, I spent the last 2 nights working on<br>
-the software selectable mini bankswitch cart and I'm pleased to announce:<br>
-<br>
-SUCCESS !!!<br>
-<br>
-Hardware wise is really easy, just wire the PB6 line (pin 35) to the<br>
-high address line (A15) on the 64K EPROM.<br>
-<br>
-The software end was a little trickier, the 6522 info I have and the actual<br>
-execution of the thing don't work quite the same ...<br>
-<br>
-Basically, if you set the PB6 line to INPUT, it seems to automatically go<br>
-high. If you set it to OUTPUT, it goes low. You can send a high bit in the<br>
-output mode, but it will only pulse once, then reset to low. This could be<br>
-useful for larger carts, but I need the 2 banks to stay steady right now without<br>
-re-writing all 8 programs. I'm not sure if my manual is wrong or the Vec does<br>
-this, either way - it works. Now I just need to test it on some more machines<br>
-before I implement it into the final package.<br>
-<br>
-Looks like emulator users will be getting Volume I and Volume II<br>
-seperate binaries.<br>
-<br>
-JD<br>
-<br>
- </p>
-</div>
-
-<p>Emulator:
-<ul><li>
-<p>if a bin file is 32k &lt; Size &lt;= 64K, Vide assumes this bankswitch scheme</p>
-</li></ul>
-</p>
-<h2>Bankswitch Scheme 2 (VecFlash)</h2>
-
-<ul><li>
-<p>64 banks available</p>
-</li><li>
-<p>switch is implemented again by use of high/low of VIA ORB PB6</p>
-</li><li>
-<p>switching is usually done by setting the corresponding DDR register to input (PB6 goes high automatically) or output (PB6 goes low automatically)</p>
-</li><li>
-<p>switch routine in general works this way:
-<ul><li>
-<p>first time when PB6 (external line from cartridge point of view) is set to high from low (after a LONG time... (&gt;2000 cycles?) bank is resetted to 0</p>
-</li><li>
-<p>if another switch from high to low occurs within a short (but not too short) time (about 1500 cycles) bank is increased by one</p>
-</li><li>
-<p>so to reach "higher" banks we have to loop thru all lower banks...</p>
-</li></ul>
-</p>
-</li><li>
-<p>the routine which does the bankswitching must not reside in flash memory, thus the actual switching routine must run in RAM-memory!</p>
-</li></ul>
-
-<p>As long as not another PB6 using external device is emulated, VecFlash is detected automatically (this may change when EPROM RAM is implemented)</p>
 </body>
 </html>

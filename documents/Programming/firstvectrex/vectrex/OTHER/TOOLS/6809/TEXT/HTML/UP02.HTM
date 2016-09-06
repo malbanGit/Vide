@@ -1,0 +1,200 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 2</H2>
+<H3>Revision/summary</H3>
+
+         The main components of a small computer system are:-
+<PRE>
+         MEMORY     - Stores the program and data required by the program
+         INTERFACES - Communicate with the outside world
+         PROCESSOR  - Carries out the program instructions one at a time
+</PRE>
+         All data and instructions in any computer system are stored in
+         binary.  If they appear in any other form then a translation must
+         have been carried out.
+<P>
+         The meaning of a binary number depends entirely on how it is
+         used, or on its context.  E.g. 10000110 is clearly a binary number
+         which can be translated into 86 in hexadecimal notation.  If it is
+         part of an 6809 program and is executed as an instruction then it
+         would have the effect of 'Loading accumulator A using immediate
+         addressing'.  If it is used as data in unsigned arithmetic then it
+         has the value 134 in decimal.  If it is used in twos complement
+         arithmetic, however, it has the value -122.  Its negative because
+         the most significant bit is a 1. If it sent to a vdu then it will
+         be interpretted as an ASCII character and the letter N will be
+         displayed.  Alternatively it might be in the address part of an
+         instruction and refer to a memory location.  It might be sent to
+         an interface connected to a pelican crossing and result in the
+         green traffic lights being turned on, the red 'do not cross,
+         signs being illuminated and the 'WAIT' signs being on.
+<P>
+         This is a very important point which many people have difficulty
+         in grasping - that a pattern of 1s and 0s has no intrinsic
+         meaning   it all depends on what you do with it.
+<hr>
+         <B>MEMORY</B> is a mass of registers where binary data can be stored.
+         Some may be read-only; their contents cannot be changed, others
+         may be read-write; what is stored can be changed whenever
+         necessary.  Every register has an address, which is also a binary
+         number, by which it can be referenced to distinguish it from
+         other memory registers.  Surprisingly this address may not be
+         unique.  As we shall see later a memory register may have several
+         different addresses.  E.g. the register at address 0000 may also
+         have address 4000 and 8000 and C000.  What must not happen, and
+         this is down to the system design, is that two memory registers
+         have the same address otherwise when you read from that address
+         you don't know which data you're getting.
+<hr>
+         <B>INTERFACES</B> - also appear as registers in memory but they are not
+         simply passive memory locations where you always get back what
+         was stored in them.  They are connected to external devices so when
+         you store a binary value in memory location FE00 for example, if
+         that address is an interface to a set of LEDS, then the stored
+         value will cause certain LEDs to be turned on and others to be
+         turned off.  When you read data from FE01, if that is an interface
+         connected to a set of switches than the data is not what has been
+         previously stored in that location but the setting on each of the
+         switches. These days most interface devices are programmable
+         which means they can perform a variety of functions.  This makes
+         the devices more flexible and means that the same interface
+         device can be used in a wide range of applications. In order to
+         customise the interface for one particular application it will
+         frequently need to be set up by storing values in control
+         registers.  These again appear as memory registers.
+<hr>
+       The <B>PROCESSOR</B> - is obviously the most important part of the
+       system and is where all the instructions are carried out. it
+       takes the instructions one at a time, normally in the order in
+       which they are stored in memory, and executes them.  Generally
+       speaking there are three groups of instructions -
+<UL>
+    <LI>Data Movement (or Memory Reference) - These instructions move
+       data from one register to another, usually from memory registers
+       to registers inside the processor and vice versa.  E.g 'Load
+       accumulator A with the contents of memory register 002E'.</LI>
+
+    <LI>Arithmetic & Logical - These operate on data usually already in
+       processor registers to perform arithmetic operations such as
+       addition or logical operations such as shifting one bit to the
+       left.</LI>
+
+     <LI>Program Control (Jump and Branch) - These alter the program flow
+       from the normal one instruction after another in the sequence
+       stored in memory.  E.g Jump to the instruction in memory register
+       201A.  Often these are conditional so that program loops can be
+       created.  E.g. 'Go back 8 instructions if the result of the last
+       arithmetic instruction was not zero'.</LI>
+</UL>
+<hr>
+       Early computers stuck fairly rigidly to these three groups but
+       more modern processors, like the 6809, blur the distinctions by
+       having instructions which combine two operations into a single
+       instruction like 'Add the contents of memory register 201A to
+       accumulator B'.  This is both data movement and arithmetic in one
+       instruction.
+<hr>
+<H3>Registers</H3>
+       In order to achieve this the processor has a number of internal
+       registers -
+<UL>
+    <LI>Data   Registers - These are registers where data can be
+       manipulated by the arithmetic and logical instructions.
+       operations which are carried out on these registers are usually
+       fast because they do not require reference to data held in
+       external memory registers.  The 6809 has only two of these which
+       are called Accumulator A and Accumulator B. Since the 6809 can
+       only perform arithmetic operations on 8 bits at one time (it has
+       an 8 bit ALU) these registers can only store 8 bits.  All memory
+       registers also store 8 bit data.  More recent processors have many
+       more data registers, for example the 68000 has 16.</LI>
+
+    <LI>Address Registers - These hold addresses for use in data
+         movement instructions.  Addresses in these registers can also be
+         manipulated e.g. one added to them so that a table can be stepped
+         through.  The 6809 has two of these called Index Register X and
+         Index Register Y. In order to enable a reasonable amount of
+         memory to be addressed all addresses are 16 bits.  It follows that
+         these address registers must be 16 bits.  The 68000 has 16 address
+         registers.</LI>
+
+    <LI>Program Counter - This register keeps track of where the
+         processor is in a program.  It stores the address of the next
+         instruction which is to be executed.  Normally this is stepped up
+         by one automatically as each instruction is carried out.  An
+         instruction which causes a jump to a different part of the
+         program obviously modifies this process and operates directly on
+         the program counter.  Since this register stores an address it
+         must be a 16 bit register in the 6809.</LI>
+
+    <LI>Instruction Register - This holds the binary instruction word
+         while it is being executed in the processor.' Therefore the first
+         stage in carrying out an instruction is to move the instruction
+         from the appropriate memory register (the PC says which one) into
+         the instruction register.  Different parts of this instruction
+         word then indicate different actions.       For example in an
+         arithmetic instruction four bits control the ALU to set it into
+         the correct mode for add, subtract, shift etc.</LI>
+
+    <LI>Temporary registers - In addition the processor requires various
+         temporary registers to hold transitory data while an instruction
+         is being carried out.  For example an instruction which 'Loads
+         data from memory register 001B into accumulator A' must read the
+         part of the instruction which defines the address which must then
+         be held somewhere so that it can be used to fetch the appropriate
+         data from memory.  A temporary register is used for that purpose.
+         An instruction which exchanges the contents of accumulators A and
+         B also needs to store the value in one of the accumulators so
+         that it is not lost in the exchange.
+<PRE>
+                        (A)    ->   (temp)
+                        (B)    ->     (A)
+                      (temp)   ->     (B)
+</PRE></LI>
+     <LI>Other registers - We will see in due course that other registers
+         are necessary to make the processor more versatile. We will deal
+         with them as we come to them.</LI>
+</UL>
+<H3>User-programmable registers in the M6809</H3>
+<CENTER>
+<IMG SRC="6809reg.gif">
+</CENTER>
+<hr>
+<H3>Buses</H3>
+           These are data paths which enable data to be transferred from
+         one device to another in the system.  In a computer system these
+         are normally parallel in nature i.e. to transfer 8 bits of data
+         we need 8 wires (or 8 tracks on a PCB) connected to each device.
+         There are two such buses which are necessary.
+<UL>
+     <LI>Address Bus - Connects the processor to memory devices and
+         interfaces.  It is used by the processor to indicate which memory
+         register (or interface register) is the source or destination for
+         data.  In 6809 it has to be 16 bits.  Since the address is always
+         supplied by the processor (except in DMA) the processor always
+         outputs data on this bus and the other devices always input or
+         receive data.</LI>
+
+     <LI>Data Bus - This is used to transfer data between the processor
+         and memory registers and interface registers.  The source of data
+         may be the processor or it may be a memory register or an
+         interface register:  To avoid damaging the devices or scrambling
+         data only one device may place data on the bus at a time.  This
+         will be either the processor or the device addressed by the
+         binary pattern currently on the address bus.  Normal logic gates
+         have only two output states high (1) or low (0).  Gates connected
+         to a bus of this type must have a third high-impedence state when
+         they are effectively not outputting anything but allowing another
+         device to output data.  The data bus in a 6809 system has 8 bits.
+     </LI>
+</UL>
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up03.htm">Next</A> |</CENTER>
+<hr>
+<I>ACKNOWLEDGMENT: Some of the above was taken from Dr A J Tollyfield's notes.</I>
+</BODY>
+</HTML>

@@ -1,0 +1,38 @@
+no_sprites         EQU ;Start address here;Total number of sprites to display
+
+
+
+sprites_left       EQU no_sprites+1       ;Counter for displaying sprites
+
+sprite_1           EQU sprites_left+1     ;Start of structure of Sprite #1
+
+state              EQU #$00
+
+posx               EQU #$01               ;X coordinate of Sprite
+
+deltax             EQU #$03               ;X velocity of Sprite
+
+posy               EQU #$05               ;Y coordinate of Sprite
+
+deltay             EQU #$07               ;Y velocity of Sprite
+
+rotation           EQU #$09               ;Rotation of Sprite
+
+intensity          EQU #$0a               ;Intensity of Sprite
+
+scale              EQU #$0b               ;Scale of Sprite
+
+no_vectors         EQU #$0c               ;Number of Vectors in vector list for Sprite
+
+vector_list        EQU #$0d               ;Address of Vector list for Sprite
+
+sprite_2           EQU sprite_1+#15       ;Start of structure for Sprite #2
+
+sprite_3           EQU sprite_2+#15       ;Start of structure for Sprite #3
+
+sprite_4           EQU sprite_3+#15
+
+sprite_5           EQU sprite_4+#15
+
+;Etc....
+

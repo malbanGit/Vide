@@ -1,0 +1,342 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 3</H2>
+<H3>Instruction Length</H3>
+
+          So far we have assumed that instructions are all the same number
+          of bits and it was suggested that this instruction length is 8
+          bits.  This is in fact not the case because an 8 bit length
+          imposes tremendous restrictions on the number of instructions
+          available and doesn't take into account the need for many
+          instructions to include an address.
+<P>
+          Take for example the instruction 'Load accumulator A with the
+          contents of memory location $2A01'.  The instruction code has to
+          contain   information about the type of instruction 'Load
+          accumulator', which register is involved 'Accumulator A' and the
+          address from which data is to be fetched 'Memory location 2A01'.
+<P>
+          There is no way that all this can be coded in 8 bits, although
+          there are some tricks as we shall see for condensing the length
+          of instructions.  The only solution is to make the instruction
+          longer so that we have an 8 bit code meaning 'Load accumulator A
+          with the contents of memory register' (B6 for the 6809 - I shall
+          use hex notation but remember it is only a short-hand for a
+          binary code) and then specify which memory register by including
+          the address in full in two further instruction words.  Thus we
+          have a three byte instruction in three consecutive memory
+          locations.
+<PRE>
+                           memory location n      - B6
+                                           n+1    - 2A
+                                           n+2    - 01
+</PRE>
+          On the other hand some instructions can be fitted into a single
+          byte; usually where no reference to a memory address is required.
+          For example 'Decrement Acc A'. This has the single byte
+          instruction code 4A.
+<P>
+          Instructions, therefore, are variable in length and included in
+          the first byte must be information about how many bytes are in
+          the instruction.  In other words 4A is always a single byte
+          instruction and B6 is always a 3 byte instruction.  In the 6809
+          instructions can be 1,2,3 or 4 bytes in length.  We have seen how
+          1 and 3 byte ones come about.  Two byte instructions result from
+          using a shortened version of the address or include 8 bit data in
+          the instruction e.g. 'Load Acc A with the number FF'
+<PRE>
+                           memory location n      - 86
+                                           n+1    - FF
+</PRE>
+          Four byte instructions are really illogical and result largely
+          from the fact that when Motorola designed the 6809 they wanted it
+          to be compatible with previous processors the 6800 and 6802.
+          These had fewer instructions (no general transfer instruction and
+          fewer indexing modes for example) and fewer registers (no Index
+          register Y and no Stack pointer U and no D register).
+          Nevertheless the vast majority of the 256 different instruction
+          codes had already been used.  To allow the extra instructions and
+          in particular those to handle the extra registers they used the
+          few unused codes to access an extended set of instructions (e.g.
+          1E, 10 & 11). Thus the instruction 'Load Index register Y with
+          the number $FE00' is -
+<PRE>
+                          memory location n      - 10
+                                          n+1    - 8E
+                                          n+2    - FE
+                                          n+3    - 00
+</PRE>
+          This problem of maintaining compatibility with ealier processors
+          is a very serious one.  As a microprocessor manufacturer you
+          cannot expect your users to rewrite all their software when you
+          bring out a new processor.  There are two alternative approaches.
+<OL>
+          <LI>You make any new processor include all the instruction codes
+          of the old one and use tricks (such as that above) to access new
+          instructions.</LI>
+
+          <LI>You provide software which will convert software written for
+          the old processor so that it will run on the new one.  This means
+          you have to make sure that there are instructions (or sequences
+          of instructions which will exactly imitate the old ones).  This
+          can result in some very inefficient programs and users expecting
+          greater speed as a result of improved processor performance are
+          often disappointed.</LI>
+</OL>
+          Intel have always followed the first route and this has resulted
+          in the instruction sets for its processors being highly
+          idiosyncratic and illogical.  For example the very first 8 bit
+          processor, the 8008 had a very limited instruction set and no
+          instructions to access memory in the way I described ealier.
+          Instead it had two 8 bit registers H and L which had to be loaded
+          first.  So the operation above requires 3 instructions.
+<PRE>
+                    Load H with 2A
+                    Load L with 01
+                    Load Acc from memory
+</PRE>
+          Even processors such as the 80486 retain H and L registers and
+          the instructions for using them in this way!
+<P>
+          Motorola retained compatibility in its range of 8 bit processors
+          but when it brought out the 16 bit processor, 68000 some years
+          ago it dropped all attempt at compatibility and tried to design a
+          logical processor and instruction format.  
+<hr>
+<H3>Addressing Modes</H3>
+
+         As we have seen many instructions require that locations in the
+         bank of memory registers be defined in some way.  This is
+         particularly true of data movement instructions 'Load Acc B with
+         contents of location A02B' etc.  The way in which the appropriate
+         memory locations are defined is known as an addressing mode.
+<P>
+         Many of the instructions in most processors can be used with a
+         variety of addressing modes.  Generally the more sophisticated the
+         processor the greater the number of these modes.  There are six
+         main addressing modes in the 6809:-
+<PRE>
+                   Immediate
+                   Direct
+                   Extended
+                   Indexed
+                   Indirect
+                   Relative
+</PRE>
+         Many of the data movement instructions can use all of these modes
+         whilst others such as branch instructions can only use a few.
+<h4>Immediate Addressing</H4>
+
+         This mode is the simplest - but at the same time seems to cause
+         the most confusion.  It is used when the required data is fixed
+         and is known at the time of writing the program.  E.g. 'Load Acc A
+         with $FF'.  Every time the program is run the data is the same 'FF'
+         and the value is known at the time of writing the program - it
+         might be used to initialise an interface register for example.
+         Since the data is known and fixed it can be conveniently stored
+         as part of the program (in ROM if the program is in ROM) without
+         using up additional memory registers.  This instruction would be
+         coded as:-
+<PRE>
+                   Load Acc A with FF     LDA  #$FF        86
+                                                           FF
+</PRE>
+         Sometimes people say 'There isn't any address specified so its
+         not really an addressing mode at all'.  This is not really correct
+         - the address of the data is the location following the
+         instruction and in order to get the data the processor has to
+         output the address contained in the program counter on the
+         address bus and read the data that comes back on the data bus
+         into the appropriate register.      So although no address is
+         specified in the instruction, there is an address and it can be
+         deduced by the processor from the address of the instruction
+         itself.  It is really a special case of relative addressing which
+         we shall look at later.
+<P>
+         The processor will automatically read the correct number of bytes
+         of data for the size of register into which data is being
+         transferred.  The accumulators are 8 bits and require one byte of
+         data but the index registers are 16 bits and so require two bytes.
+	 e.g.
+<PRE>
+                   Load IR X with 2000    LDX #$2000       8E
+                                                           20
+                                                           00
+</PRE>
+         This is an important point to remember and which which often
+         catches you out in the lab.  If you forget to supply two bytes the
+         processor can't detect this, it will just take the next byte
+         which you intend to be an instruction and put it into the IR.  The
+         processor is then out of step with your instructions which can
+         have disastrous effects.
+<hr>
+<h4>Direct Addressing</H4>
+<I>This section is included for completeness.  It is not essential for the
+course and you are advised to avoid the Direct Addressing mode and to
+use Extended Addressing instead.</I>
+<P>
+         This name is a little confusing because it is not very direct at
+         all - but Motorola call it this so we will have to stick with it.
+<P>
+         The purpose of this mode is to allow an address to be specified
+         using only 8 bits rather than 16.  This leads not only to shorter
+         instructions and shorter programs but also faster instructions
+         because the extra byte does not have to fetched from memory.  The
+         way it works is that the address byte specified in the program is
+         the least significant byte.  The most significant byte is supplied
+         by the DP or Direct Page register in the processor.  Suppose in
+         our program we are going to access a lot of data in the range
+         FE00 to FE10, then we could load DP with FE and then use direct
+         addressing throughout.  Unfortunately there is no instruction for
+         loading DP easily, we have to load A or B with the appropriate
+         value and transfer it into DP-
+<PRE>
+                    Load A with FE     LDA  #$FE       86
+                                                       FE
+                    Transfer A to DP   TFR A,DP        1F
+                                                       8B
+</PRE>
+         Then if we want to load A from location FE00 we can say
+<PRE>
+                    Load A from DP+0   LDA  <$00       96
+                                                       00
+</PRE>
+          or if we want to store B in FE01
+<PRE>
+                    Store B in DP+01   STB  <$01       D7
+                                                       01
+</PRE>
+         So once we have loaded DP with the appropriate page value or base
+         value we can easily refer to addresses within that page of 256
+         memory locations.
+<P>
+         This is an example of Effective Address calculation. The
+         processor does not use the address part of the instruction
+         immediately, it calculates the address by taking the DP value,
+         shifting it right 8 places and then adding the address given in
+         the instruction.  This is a useful term and we will come across
+         it quite a lot in future.
+<hr>
+<h4>Extended Addressing</H4>
+
+         This is in fact far more straight-forward than direct addressing.
+         The whole address is given in the instruction as a two-byte value
+         following the instruction code.   The advantage over direct
+         addressing is that any location can be specified, its
+         disadvantages are that it takes an extra byte and extra clock
+         cycles to be carried out.
+<PRE>
+                    Store B in FE01    STB  $FE01     F7
+                                                      FE
+                                                      01
+
+                    Load IRX from 102B LDX $102B      BE
+                                                      10
+                                                      2B
+</PRE>
+         Note with this last example, since IRX is a 16 bit register two
+         bytes of data are needed.  These are taken from 102B AND 102C which are
+	 copied into the high and low bytes of X respectively.
+<hr>
+<A NAME = "table"></A>
+<H2>Selected 6809 Instructions</H2>
+Some typical instructions are given below.   These are in the following format:
+<PRE>
+| instruction description | mnemonic | op-code |
+</PRE>
+Where the instruction description refers to M (e.g. A=A+M) this always
+refers to the <B>contents</B> of the effective address (EA) of the data.
+<P>
+The mnemonic given is the basic one; if you want to distinguish between 
+immediate data and an address, then you will have to add a hash (#)
+after the mnemonic to indicate immediate data.
+<P>
+Most of the op-codes given are single bytes.   The two (or four) letters
+after the op-code (e.g. dd) are to help you decide how many bytes of data
+are required, and whether this is data (dd), address (mm/nn) or an offset (bb).
+<PRE>
+	dd	indicates a byte of immediate data
+	mm nn	are two bytes of a full address
+	nn	is the low byte, used in direct addressing
+	bb	is a 2's complement offset to PC which allows the program to branch
+	++	is the <A HREF="uppost.htm">postbyte</A> (and offset) for indexed mode
+</PRE>
+<hr>
+<TABLE CELLPADDING=1 WIDTH=100% HEIGHT =100% BORDER>
+<TR>
+<TH ROWSPAN=2>OPERATION	<TH ROWSPAN=2>MNEMONIC	<TH COLSPAN=5>OP-CODE<br>(+ bytes)
+<TR>
+<TD WIDTH=100 BGCOLOR=#f0c0c0>Immediate <TD WIDTH=100 BGCOLOR=#ffffc0>Extended <TD WIDTH=100 BGCOLOR=#c0ffff>Indexed <TD WIDTH=50 BGCOLOR=#ffff00>Inherent <TD WIDTH=50 BGCOLOR=#c0c0ff>Relative
+<TR>
+<TD>Add with carry<br>A=A+M+C 
+<TH>ADCA	<TD BGCOLOR=#f0c0c0>89 dd <TD BGCOLOR=#ffffc0>B9 mm nn	<TD BGCOLOR=#c0ffff>A9 ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>Add<br>A=A+M
+<TH>ADDA	<TD BGCOLOR=#f0c0c0>8B dd <TD BGCOLOR=#ffffc0>BB mm nn <TD BGCOLOR=#c0ffff>AB ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>Add<br>B=B+M
+<TH>ADDB	<TD BGCOLOR=#f0c0c0>CB dd <TD BGCOLOR=#ffffc0>FB mm nn <TD BGCOLOR=#c0ffff>EB ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>And<br>A=A AND M
+<TH>ANDA	<TD BGCOLOR=#f0c0c0>84 dd <TD BGCOLOR=#ffffc0>B4 mm nn <TD BGCOLOR=#c0ffff>A4 ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>Clear accumulator<br>A=0
+<TH>CLRA	<TD>&nbsp; <TD>&nbsp; <TD>&nbsp; <TD BGCOLOR=#ffff00>4F <TD>&nbsp; 
+<TR>
+<TD>Clear accumulator<br>B=0
+<TH>CLRB	<TD>&nbsp; <TD>&nbsp; <TD>&nbsp; <TD BGCOLOR=#ffff00>5F <TD>&nbsp; 
+<TR>
+<TD>Compare<br>(A-M) set flags
+<TH>CMPA	<TD BGCOLOR=#f0c0c0>81 dd	<TD BGCOLOR=#ffffc0>B1 mm nn <TD BGCOLOR=#c0ffff>A1 ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>Or<br>A=A OR M
+<TH>ORA		<TD BGCOLOR=#f0c0c0>8A dd	<TD BGCOLOR=#ffffc0>BA mm nn <TD BGCOLOR=#c0ffff>AA ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>Load accumulator<br>A=M
+<TH>LDA		<TD BGCOLOR=#f0c0c0>86 dd	<TD BGCOLOR=#ffffc0>B6 mm nn <TD BGCOLOR=#c0ffff>A6 ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>Store accumulator<br>M=A
+<TH>STA		<TD>&nbsp; <TD BGCOLOR=#ffffc0>B7 mm nn <TD BGCOLOR=#c0ffff>A7 ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>Load double accumulator<br>D=M:M+1
+<TH>LDD		<TD BGCOLOR=#f0c0c0>CC dd dd	<TD BGCOLOR=#ffffc0>FC mm nn <TD BGCOLOR=#c0ffff>EC ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>Store double accumulator<br>M:M+1=D
+<TH>STD		<TD>&nbsp; <TD BGCOLOR=#ffffc0>FD mm nn <TD BGCOLOR=#c0ffff>EC ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>Load X register<br>X=M:M+1
+<TH>LDX		<TD BGCOLOR=#f0c0c0>8E dd dd	<TD BGCOLOR=#ffffc0>BE mm nn <TD BGCOLOR=#c0ffff>AE ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>Branch if zero<br>flag Z=1
+<TH>BEQ		<TD>&nbsp; <TD>&nbsp; <TD>&nbsp; <TD>&nbsp; <TD BGCOLOR=#c0c0ff>27 bb
+<TR>
+<TD>Branch if not zero<br>flag Z=0
+<TH>BNE		<TD>&nbsp; <TD>&nbsp; <TD>&nbsp; <TD>&nbsp; <TD BGCOLOR=#c0c0ff>26 bb
+<TR>
+<TD>Branch if minus<br>flag N=1
+<TH>BMI		<TD>&nbsp; <TD>&nbsp; <TD>&nbsp; <TD>&nbsp; <TD BGCOLOR=#c0c0ff>2B bb
+<TR>
+<TD>Jump<br>PC=M:M+1
+<TH>JMP		<TD>&nbsp; <TD BGCOLOR=#ffffc0>7E mm nn <TD>&nbsp; <TD>&nbsp; <TD>&nbsp;
+<TR>
+<TD>Software Interrupt<br>End program
+<TH>SWI		<TD>&nbsp; <TD>&nbsp; <TD>&nbsp;<TD BGCOLOR=#ffff00>3F <TD>&nbsp;
+<TR>
+<TD>No operation<br>PC=PC+1
+<TH>NOP		<TD>&nbsp; <TD>&nbsp; <TD>&nbsp; <TD BGCOLOR=#ffff00>12 <TD>&nbsp;
+<TR>
+<TD>Increment Memory<br>M=M+1
+<TH>INC		<TD>&nbsp; 	<TD BGCOLOR=#ffffc0>7C mm nn <TD BGCOLOR=#c0ffff>6C ++ <TD>&nbsp; <TD>&nbsp; 
+<TR>
+<TD>Decrement Memory<br>M=M-1
+<TH>DEC		<TD>&nbsp; 	<TD BGCOLOR=#ffffc0>7A mm nn <TD BGCOLOR=#c0ffff>6A ++ <TD>&nbsp; <TD>&nbsp; 
+</TABLE>
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up04.htm">Next</A> |</CENTER>
+
+</BODY>
+</HTML>

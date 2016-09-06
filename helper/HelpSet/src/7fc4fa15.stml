@@ -60,7 +60,8 @@ Using the known scalefactor and the countdown while drawing the scanline, the x-
 
 ~~ 
 Note on Interrupt:~~
-Although none of my VIA 6522 documentation describes this - the routines described below clear the Interrupt flag with ~~::"CLR VIA_int_flags"::~~
+Although none of my VIA 6522 documentation describes this - the routines described below clear the Interrupt flag with ~~
+::"CLR_________VIA\_int\_flags"::~~
 this obviously works ok though ...
 
 :h2 Example routines

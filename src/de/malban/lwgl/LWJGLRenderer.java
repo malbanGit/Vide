@@ -10,7 +10,7 @@ package de.malban.lwgl;
  * @author malban
  */
 public interface LWJGLRenderer {
-    public void render();
+    public int render(LWJGLSupport.GLWindow w);
     public void lwjglExit();
             
 }

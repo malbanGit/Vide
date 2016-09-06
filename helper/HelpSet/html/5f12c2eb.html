@@ -5,23 +5,23 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511232928" />
+<meta name="date" content="20160906151831" />
 <!-- created with HelpSetMaker, ID=5f12c2eb -->
 <title>vecci</title>
 </head>
 <body class="doc">
 <h1>vecci</h1>
 
-<p>Veccy is one of the few enties in VIDE which is not based on software of other programmers, so if you are not content with what you find here - all blame belongs to Malban alone!</p>
+<p>Vecci is one of the few entities in VIDE which is not based on software of other programmers, so if you are not content with what you find here - all blame belongs to Malban alone!</p>
 
-<p>Anyway... vecci is is the part of VIDE that concerns itself with vector drawing, vector lists and other display stuff. There are many functions hidden under the complicated seeming gui. But I promise you, once you programmed vecci, you know it by heart and can do wonderfull stuff with it!</p>
+<p>Anyway... vecci is is the part of VIDE that concerns itself with vector drawing, vector lists and other display stuff. There are many functions hidden under the complicated seeming gui. But I promise you, once you programmed vecci, you know it by heart and can do wonderfull things with it!</p>
 <br/><p align="center">
 <img src="pics/veccy.png" width="1184" height="946" /><br/>
 <em>vecci window</em></p><br/>
 <h2>Basic</h2>
 <h3>Colors</h3>
 
-<p>Using veccy you will notice different colorings in the vector display areas:
+<p>Using vecci you will notice different colorings in the vector display areas:
 <ul><li>
 <p>black<br />
  the background is always black</p>
@@ -96,14 +96,14 @@ the grid (if enabled) is always dark gray</p>
 </li></ul>
 </p>
 
-<p>Not all of these cases are implemented as exports as of now, but all of these factors can be edited and persisted by veccy.</p>
+<p>Not all of these cases are implemented as exports as of now, but all of these factors can be edited and persisted by vecci.</p>
 
 <p>The main "list" of vectors is displayed in the first tab named "Vector List" on the left side of the window. </p>
 <h3>Animations/Scenarios</h3>
 
 <p>Animations is what I call a collection of vectorlists which have a common "interest" this might be a rotation, a movement or a "real" animation.</p>
 
-<p>An animation consists of an arbitrary number of vector list. As of now these can be saved/loaded in Veccy format (and exported). Custom routines to use animations are as example provided...</p>
+<p>An animation consists of an arbitrary number of vectorlists. As of now these can be saved/loaded in vecci format (and exported). Custom routines to use animations are as example provided...</p>
 
 <p><b>Note!</b><br />
 The DISPLAY panel can be switched from "vectorlist" display to "animation/scenario" display using the "play" button!</p>
@@ -112,7 +112,7 @@ The DISPLAY panel can be switched from "vectorlist" display to "animation/scenar
 <ul><li>
 <p>the "black" panels are vector displays or editors</p>
 </li><li>
-<p>editing can only be done in the upper half of veccy, in the vector editor panel(s) or in the vector table</p>
+<p>editing can only be done in the upper half of vecci, in the vector editor panel(s) or in the vector table</p>
 </li><li>
 <p>in the middle you have a vector DISPLAY panel, and several tabs/buttons with which you can change modes or build/transform vectorlists</p>
 </li><li>
@@ -120,7 +120,7 @@ The DISPLAY panel can be switched from "vectorlist" display to "animation/scenar
 </li></ul>
 <h3>Vector panels</h3>
 
-<p>There are a number of "black" panels you see in the veccy window. These in general display vectors. The three largest (all in the upper half of the window (two are "hidden" on the tab "Y/Z") ) are "editor" panels. Here you can actually draw, select, delete and move vectors. The three largest also fathom a "grid". The grid can be toggled on/off with the small checkbox "grid" on the left of the window. You can also select the width of the grid. If the grid is enabled, vectors are placed on the current grid spacing!</p>
+<p>There are a number of "black" panels you see in the vecci window. These in general display vectors. The three largest (all in the upper half of the window (two are "hidden" on the tab "Y/Z") ) are "editor" panels. Here you can actually draw, select, delete and move vectors. The three largest also fathom a "grid". The grid can be toggled on/off with the small checkbox "grid" on the left of the window. You can also select the width of the grid. If the grid is enabled, vectors are placed on the current grid spacing!</p>
 
 <p>The middle "smaller" vector display window is only a "DISPLAY", here you can see the current vectorlist:
 <ol><li>
@@ -134,10 +134,10 @@ The DISPLAY panel can be switched from "vectorlist" display to "animation/scenar
 
 <p>depending on your current settings.</p>
 
-<p>There are two sliders which you can see when you open veccy, both are used to change the scale of the nearby vector displays. If you center the sliders the scale value is one and you see approximatly a display with coordinates ranging from -150 to +150. You will probably also see a light blue border. This border I call "byteFrame" it can be switched on and off using the "byteFrame" checkbox in the upper left of the window. The byteFrame is drawn around the coordinates -128 to +127, this is the largest/smallest possible value a vector for vectrex should have, since it is a 8bit-machine and the values are signed.</p>
+<p>There are two sliders which you can see when you open vecci, both are used to change the scale of the nearby vector displays. If you center the sliders the scale value is one and you see approximatly a display with coordinates ranging from -150 to +150. You will probably also see a light blue border. This border I call "byteFrame" it can be switched on and off using the "byteFrame" checkbox in the upper left of the window. The byteFrame is drawn around the coordinates -128 to +127, this is the largest/smallest possible value a vector for vectrex should have, since it is a 8bit-machine and the values are signed.</p>
 <h3>Vector table</h3>
 
-<p>Right of the main vector editor panel you can see a table, this table holds (in veccy format) all vector information of the currently edited vectorlist. The relevant fields (coordinates, pattern, intensity) can be edited. Below the table are several buttons, with these you can persist or load single vectorlists.</p>
+<p>Right of the main vector editor panel you can see a table, this table holds (in vecci format) all vector information of the currently edited vectorlist. The relevant fields (coordinates, pattern, intensity) can be edited. Below the table are several buttons, with these you can persist or load single vectorlists.</p>
 
 <ul><li>
 <p><img src="pics/page_go.png" alt="page_go.png" /> &nbsp;&nbsp;<b>load vectorlist</b><br />
@@ -156,7 +156,7 @@ Save the current vectorlist to a XML-file.<br />
 </p>
 </li><li>
 <p><img src="pics/page_copy.png" alt="page_copy.png" /> &nbsp;&nbsp;<b>copy selected vectors</b><br />
-Put the current selected vectors in a buffer (this is no clipboard buffer, but can be accessed from all veccy-panels)</p>
+Put the current selected vectors in a buffer (this is no clipboard buffer, but can be accessed from all vecci-panels)</p>
 </li><li>
 <p><img src="pics/paste_plain.png" alt="paste_plain.png" /> &nbsp;&nbsp;<b>paste buffer</b><br />
 Paste the current buffer into the current vectorlist. </p>
@@ -191,7 +191,7 @@ Since the value is a FACTOR you can not expand points!</p>
 <p>The above table is part of a tabbed pane surrounding it. The other tabs are:
 <ul><li>
 <p>Y/Z<br />
-If you want to edit 3d vectorlists, here are the other to visual displays. The "normal" display I call "Front", the second I call "Top" and the third "Sideways". All three displays are orthogonal displays. To view the actual 3d structure you have to look at the DISPLAY vector display.</p>
+If you want to edit 3d vectorlists, here are the other two visual displays. The "normal" display I call "Front", the second I call "Top" and the third "Sideways". All three displays are orthogonal displays. To view the actual 3d structure you have to look at the DISPLAY vector display.</p>
 </li><li>
 <p>3d axis settings<br />
 Usually the DISPLAY display is the same as the "Front" display, but using this tab you can change the angle (camera position), the location and the axis of the DISPLAY.</p>
@@ -239,7 +239,7 @@ are all vectors (except start and end) connected? (determined by different metho
 <h2>Drawing vectors</h2>
 <h3>Mode</h3>
 
-<p>There are as of yet three different modes, veccy can be set to. Depending on the mode settings you can do different things.   The modes can be changed by a setting nearly in the middle of the window. In a tabbed pane with the heading "Mode/Select": </p>
+<p>There are as of yet three different modes, vecci can be set to. Depending on the mode settings you can do different things.   The modes can be changed by a setting nearly in the middle of the window. In a tabbed pane with the heading "Mode/Select": </p>
 <br/><p align="center">
 <img src="pics/VeccyMode.png" width="253" height="240" /><br/>
 <em>Mode</em></p><br/>
@@ -247,7 +247,12 @@ are all vectors (except start and end) connected? (determined by different metho
 <p>The "Set" mode, does what it is named after - it sets vectors. The other modes are "edit" modes.<br />
 </p>
 
-<p>Veccy starts of in Mode "Set"</p>
+<p>Vecci starts of in Mode "Set".<br />
+ <br />
+</p>
+
+<p><b>Quick switch!<br />
+</b> While the mouse is over the vectorlist edit panel, you can use the middle mouse button to switch thru the three available modes! The selected mode is also displayed in blue letters.</p>
 <h4>Mode "SET"</h4>
 
 <p>In the "set" mode, you can actually draw vectors. Left click on the "black" panel on the upper right, dragging the mouse and releasing the button draws one single vector. Right click after you have drawn your first vector will create a new vector from the last "end" position to the current click position.</p>
@@ -324,7 +329,9 @@ x Points selected<br />
 
 <ul><li>
 <p>"join here"<br />
-  Joins all points at the current location and truly joins them!</p>
+  Joins all points at the current location and truly joins them!<br />
+<b>NOTE</b><br />
+ Joining more than two vectors in one point is usualy a bad idea and might lead to unexpected results, when using some other "shortcuts" within vecci</p>
 </li></ul>
 </p>
 
@@ -375,6 +382,26 @@ If checked move vectors (pattern = 0) are displayed using a dark blue color.</p>
 <p>Rotations can be calculated by vecci, you can chose the axis (1 or more axis) the maximal angle and the number of steps you would like to rotate.</p>
 
 <p>If you use "large" coordinates in your vectorlists, the rotation list values <i>can</i> be higher than the byte range vectrex allows, to prevent this you can chose the extra option "scale to byte", this ensures that the resulting list still "fits".</p>
+
+<p>A built "animation" of a rotation always has 3 parts:
+<ol><li>
+<p>the origin</p>
+</li><li>
+<p>the final result</p>
+</li><li>
+<p>the steps in between</p>
+</li></ol>
+</p>
+
+<p>The "steps" counter where you can enter the "steps" represents c). 0 (zero) can be used!</p>
+
+<ol><li>
+<p>is always the original vectorlist</p>
+</li><li>
+<p>is always the given "max angle" applied to the vectorlist</p>
+</li><li>
+<p>are all steps in between</p>
+</li></ol>
 <br/><p align="center">
 <img src="pics/test.gif" /><br/>
 <em>Rotation example</em></p><br/>
@@ -446,7 +473,7 @@ This and similar constructs are not easy to analyse and handle correctly. I have
 
 <p>(for a picture look at "Rotation")<br />
 Animations/Scenarios are both a collection of different vectorlists. I differ the two entities because one displays all vectorslists at the same time (scenario) the other plays each vectorlist after another (with a delay) to create the illusion of an animation. <br />
-The datastructure and the handling in veccy are identical! <br />
+The datastructure and the handling in vecci are identical! <br />
 In short what you can see/do:<br />
 
 <ul><li>
@@ -483,9 +510,9 @@ SHIFT clicking the buttons MOVES one animation frame in the corresponding direct
  This joins all vectorlist entries in the current animation/scenario into one single vectorlist</p>
 </li></ul>
 </p>
-<h2>Veccy format (Save/Load)</h2>
+<h2>Vecci format (Save/Load)</h2>
 
-<p>The vecvy save format is a straight forward XML-File with all data in appropriate sub structures.</p>
+<p>The vecci save format is a straight forward XML-File with all data in appropriate sub structures.</p>
 
 <ul><li>
 <p>a VectorAnimation consists of n XML-structures of the type GFXVectorList</p>
@@ -500,5 +527,39 @@ SHIFT clicking the buttons MOVES one animation frame in the corresponding direct
 </li></ul>
 
 <p>If need should arise I can also provide a "JSON" format.</p>
+<h2>Other stuff</h2>
+<h3>Line</h3>
+<br/><p align="center">
+<img src="pics/line.png" width="306" height="258" /><br/>
+<em>line</em></p><br/>
+
+<p>Per default line "settings" are off. With the checkboxes visible above you can switch line settings on. Two options are available:
+<ol><li>
+<p>pattern<br />
+Here you can set a pattern byte for the vectors to be used. The actual pattern is a the binary representation of the entered byte (you can enter either hex or dec numbers).<br />
+The default pattern for lines is "255" which is a complete line.</p>
+</li><li>
+<p>intensity<br />
+The default intensity is 63, which is half of the available max intensity of 127 (negative values - values higher than 127 - result in non visible lines on a real vectrex)</p>
+<br />
+</li></ol>
+</p>
+
+<p>Note:<br />
+Within vecci "moves" are represented with a pattern of 0 (zero). Vectors with an intensity of 0 (zero) are still not visible, but are not considered "move" vectors by vecci.</p>
+
+<p>The above settings are (if switched on) always used for the next drawn vectors. If you want to change already defined vectors you can do so too. <br />
+Select (multi select is supported) the vectors you want to apply the new settings to, and press "set to selected" than the given values are applied.</p>
+<h3>2d-Tools</h3>
+<br/><p align="center">
+<img src="pics/2dtools.png" width="303" height="263" /><br/>
+<em>2d-Tools</em></p><br/>
+
+<p>The tools under this tab are all applied directly to the currently edited vectorlist. The first three are "shortcuts" to processings which can be acchieved by other means in vecci, but are a bit "cumbersume" (one has to generate rotation animations an extract single lists from those)</p>
+
+<p>The button "image to vector" is explained in its own "Vector image" section.</p>
+<h3>Figure</h3>
+
+<p>Ignore these for now...</p>
 </body>
 </html>

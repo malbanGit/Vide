@@ -8,6 +8,8 @@ import de.malban.gui.ImageCache;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.components.ModalInternalFrame;
+import de.malban.gui.dialogs.InternalFrameFileChoser;
+import de.malban.vide.vedi.VediPanel;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,14 +17,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class RasterPanel extends javax.swing.JPanel implements 
          Windowable
 {
     
-
+    boolean modal = true;
+    public void setModal(boolean b)
+    {
+        modal = b;
+        jPanel1.setVisible(!modal);
+        jButtonCancel.setVisible(modal);
+    }
     String orgName = "";
 
     private int mClassSetting=0;
@@ -151,6 +161,9 @@ public class RasterPanel extends javax.swing.JPanel implements
         jTextFieldStartX = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jTextFieldStartY = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jButtonLoad = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(700, 600));
 
@@ -164,6 +177,11 @@ public class RasterPanel extends javax.swing.JPanel implements
 
         jButtonCancel.setText("cancel");
         jButtonCancel.setName("cancel"); // NOI18N
+        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -466,18 +484,51 @@ public class RasterPanel extends javax.swing.JPanel implements
 
         jTabbedPane1.addTab("image settings", jPanel3);
 
+        jLabel8.setText("load image file");
+
+        jButtonLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
+        jButtonLoad.setToolTipText("load YM");
+        jButtonLoad.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoadActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonLoad)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonLoad)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 3, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1)
-                .addGap(1, 1, 1)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -604,6 +655,42 @@ public class RasterPanel extends javax.swing.JPanel implements
 
     }//GEN-LAST:event_singleImagePanel1MouseReleased
 
+    String lastImagePath = ".";
+    private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
+
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setMultiSelectionEnabled(true);
+        if (lastImagePath.length()==0)
+        {
+        }
+        else
+        {
+            fc.setCurrentDirectory(new java.io.File(lastImagePath));
+        }
+        FileNameExtensionFilter  filter = new  FileNameExtensionFilter("Images", "jpg", "jpeg", "png", "bmp", "gif");
+        fc.setFileFilter(filter);
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        File[] files = fc.getSelectedFiles();
+        String fullPath;
+        if ((files == null) || (files.length == 1))
+        {
+            fullPath = fc.getSelectedFile().getAbsolutePath();
+        }
+        else // add multiple images
+        {
+            fullPath = files[0].getAbsolutePath();
+        }
+        lastImagePath =fullPath;
+        setImage(fullPath);
+    }//GEN-LAST:event_jButtonLoadActionPerformed
+
+    private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
+        
+        
+        
+    }//GEN-LAST:event_jButtonCancelActionPerformed
+
     boolean wasMainSetManually = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -611,6 +698,7 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonCreate;
+    private javax.swing.JButton jButtonLoad;
     private javax.swing.JCheckBox jCheckBoxAssume9Bit;
     private javax.swing.JCheckBox jCheckBoxBiDirectionalData;
     private javax.swing.JCheckBox jCheckBoxGenerateData;
@@ -623,6 +711,8 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton jRadioButton2;
@@ -667,6 +757,18 @@ public class RasterPanel extends javax.swing.JPanel implements
         
         return false;
     }    
+    
+    public static void showModPanelNoModal()
+    {
+        JFrame frame = Configuration.getConfiguration().getMainFrame();
+        RasterPanel panel = new RasterPanel();
+        panel.setModal(false);
+       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
+       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1080, 800, panel.getMenuItem().getText());
+    }        
+    
+    
+    
     ArrayList<Integer>[] shiftRegRows= new ArrayList[0];
     ArrayList<GFXVector>[] vectorRows= new ArrayList[0];
     void buildVectors()
@@ -911,6 +1013,31 @@ public class RasterPanel extends javax.swing.JPanel implements
     }
     void createASMFile()
     {
+        if (orgName == null) return;
+        if (orgName.length() == 0) return;
+        
+        if (!modal)
+        {
+            // ask where to save!
+            InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+            fc.setDialogTitle("Select save directory");
+            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+            int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+            if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+            String lastPath = fc.getSelectedFile().getAbsolutePath();
+
+            Path p = Paths.get(lastPath);
+            String newName = p.toString();
+            if (!newName.endsWith(File.separator)) newName+=File.separator;
+            File f = new File(orgName);
+            String nameOnly = f.getName();
+            newName = newName + nameOnly;
+            orgName = newName;
+        }
+        
+        
         String baseName = orgName;
         int li = baseName.lastIndexOf(".");
         if (li>=0) 
@@ -1109,7 +1236,10 @@ public class RasterPanel extends javax.swing.JPanel implements
             exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YPOS#", "10");
             de.malban.util.UtilityFiles.createTextFile(pathName+File.separator+basebaseName+"Main.asm", exampleMain);
         }
-        
+        if (!modal)
+        {
+            VediPanel.openInVedi(pathName+File.separator+basebaseName+"Main.asm");
+        }
         
     }
     int bitReverse8(int shiftreg)

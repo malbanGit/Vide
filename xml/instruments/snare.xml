@@ -1,0 +1,8 @@
+<Instrument>
+<name>
+snare</name>
+<adsr>
+$EF, $FF, $CA, $97, $66, $55, $53, $33, $32, $22, $11, $10, $00, $00, $00, $00</adsr>
+<twang>
+$10, $00, $10, $00, $10, $00, $10, $00</twang>
+</Instrument>

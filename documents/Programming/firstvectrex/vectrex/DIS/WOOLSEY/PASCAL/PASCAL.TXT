@@ -1,0 +1,10 @@
+I changed some of the programs to compile with the Turbo Pascal
+version I dug out from somewhere.
+Not every program was changed, all changed done are commented with
+something like (* malban *)
+
+Some programs I didn't touch at all (yet)
+
+Of the programs I touched, I compiled a working (semi) *.com file.
+
+Malban

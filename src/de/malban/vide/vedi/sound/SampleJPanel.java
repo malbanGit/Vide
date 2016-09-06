@@ -6,9 +6,13 @@
 package de.malban.vide.vedi.sound;
 
 import de.malban.config.Configuration;
+import de.malban.config.TinyLogInterface;
 import de.malban.event.EditMouseEvent;
 import de.malban.graphics.MouseMovedListener;
 import de.malban.graphics.MousePressedListener;
+import de.malban.gui.CSAMainFrame;
+import de.malban.gui.Windowable;
+import de.malban.gui.components.CSAView;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.QuickHelpModal;
@@ -22,6 +26,7 @@ import de.malban.sound.tinysound.internal.ByteList;
 import de.malban.sound.tinysound.internal.MemSound;
 import de.malban.sound.tinysound.internal.PositionListener;
 import de.malban.vide.dissy.DASM6809;
+import de.malban.vide.vedi.VediPanel;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -46,6 +51,7 @@ import javax.sound.sampled.Mixer;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
@@ -56,7 +62,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * // see: http://www.jsresources.org/examples/AudioRecorder.html
  * @author malban
  */
-public class SampleJPanel extends javax.swing.JPanel implements PositionListener, MousePressedListener, MouseMovedListener {
+public class SampleJPanel extends javax.swing.JPanel implements PositionListener, MousePressedListener, MouseMovedListener, Windowable {
 
     public static final String TMP_FILENAME = "tmp"+File.separator+"sampleRecording.wav";
     
@@ -94,6 +100,53 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     int lastPostion = 0;
     int lastDrawnPosition = 0;
     
+    boolean standalone = false;
+    private int mClassSetting=0;
+    private CSAView mParent = null;
+    private javax.swing.JMenuItem mParentMenuItem = null;
+    @Override public boolean isIcon()
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return false;
+        return frame.getInternalFrame(this).isIcon();
+    }
+    @Override public void setIcon(boolean b)
+    {
+        CSAMainFrame frame = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame());
+        if (frame.getInternalFrame(this) == null) return;
+        try
+        {
+            frame.getInternalFrame(this).setIcon(b);
+        }
+        catch (Throwable e){}
+    }
+    @Override
+    public void closing()
+    {
+        deinit();
+    }
+    @Override
+    public void setParentWindow(CSAView jpv)
+    {
+        mParent = jpv;
+    }
+    @Override
+    public void setMenuItem(javax.swing.JMenuItem item)
+    {
+        mParentMenuItem = item;
+        mParentMenuItem.setText("Samples");
+    }
+    @Override
+    public javax.swing.JMenuItem getMenuItem()
+    {
+        return mParentMenuItem;
+    }
+    @Override
+    public javax.swing.JPanel getPanel()
+    {
+        return this;
+    }            
+    
     
     String pathOnly = "";
     /**
@@ -104,6 +157,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         fillDeviceList();
         checkTargetLine();
 
+        if (filename== null) filename = "";
         
         // check if is a file or a dir
         File file = new File(filename);
@@ -131,7 +185,9 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         
         singleImagePanel1.setCrossDrawn(false);
         singleImagePanel1.setSelectionDrawn(false);
-        
+    }
+    void deinit()
+    {
         
     }
     public void pressed(EditMouseEvent evt)
@@ -802,7 +858,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
-        // TODO add your handling code here:
+       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).removePanel(this);
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
     private void jButtonRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecordActionPerformed
@@ -974,7 +1030,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        QuickHelpModal.showHelpHtmlFile("documents"+File.separator+"help"+File.separator+"sample.html");
+        QuickHelpModal.showHelpHtmlFile("help"+File.separator+"sample.html");
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButtonStop3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStop3ActionPerformed
@@ -1144,6 +1200,15 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         
         return false;
     }        
+    public static boolean showSamplePanelNoModal()
+    {
+        JFrame frame = Configuration.getConfiguration().getMainFrame();
+        SampleJPanel panel = new SampleJPanel(null);
+        panel.standalone = true;
+       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
+       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 800, 800, panel.getMenuItem().getText());
+        return true;
+    }      
     private void checkTargetLine()
     {
         if (targetMixers.isEmpty())
@@ -1627,9 +1692,25 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
             ShowErrorDialog.showErrorDialog("Size of samples exceeds memory limit of vectrex, creating source of that is stupid!<BR>I, <B>'VIDE'</B> refuses to do so!");
             return;
         }
+        String name="";
+        if (standalone)
+        {
+            // ask where to save!
+            InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+            fc.setDialogTitle("Select save directory/name");
+            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+
+            int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+            if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+            pathOnly = fc.getSelectedFile().getParent();
+            if (!pathOnly.endsWith(File.separator)) pathOnly+=File.separator;
+            name = fc.getSelectedFile().getName();
+        }
+        else
+        {
+            name = GetFilenamePanel.showEnterValueDialog();
+        }
         
-        
-        String name = GetFilenamePanel.showEnterValueDialog();
         String nameOnly = name;
         name = name+".asm";
         
@@ -1704,6 +1785,11 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_LENGTH#", ""+nameOnly+"_length");
         exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#SAMPLE_FILE#", ""+nameOnly+".asm");
         de.malban.util.UtilityFiles.createTextFile(pathNow+nameOnly+"Main.asm", exampleMain);
+        if (standalone)
+        {
+            VediPanel.openInVedi(pathNow+nameOnly+"Main.asm");
+        }
+        
     }
     void playVectrex()
     {

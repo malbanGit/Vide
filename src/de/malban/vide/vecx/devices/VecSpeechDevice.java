@@ -252,6 +252,10 @@ public class VecSpeechDevice extends AbstractDevice implements Serializable
             reset();
         }
     }
+    public String getDeviceName()
+    {
+        return deviceName;
+    }
     @Override
     public String toString()
     {

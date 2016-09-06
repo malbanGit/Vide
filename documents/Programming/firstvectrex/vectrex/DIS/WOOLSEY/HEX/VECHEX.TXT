@@ -1,0 +1,4 @@
+The library seems to be broken from a certain stage, I was not
+able to extract all games found in there.
+
+Malban

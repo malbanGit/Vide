@@ -28,18 +28,55 @@ That mapping is shadowed 128 times in the following regions, that means VIA regi
 2 (binary: 10) Z-value of vector hardware (brightness)<br>
 3 (binary: 11) audio hardware<br>
 </p>
-<h4>Bit 3 sound BC1</h4>
-<h4>Bit 4 sound BDIR</h4>
+
+<p>Note:<br>
+The only known use of state 3 is the playing of samples, since this is a direct connection of the DAC value to the audio hardware... "Eek", "Help", "Spike"...</p>
+
+<p>Note:<br>
+The same select lines are used to demultiplex the joystick analog potentiometers:<br>
+0 (binary: 00) port 0 horizontal<br>
+1 (binary: 01) port 0 vertical<br>
+2 (binary: 01) port 1 horizontal<br>
+3 (binary: 11) port 1 vertical<br>
+ <br>
+For more information regarding joystick input, see Joyport devices.</p>
+<h4>Bit 3 sound BC1  + Bit 4 sound BDIR</h4>
+
+<p>The above two bits are again "bundled" to 4 different possible states of communication with the PSG chip:</p>
+
+<ol><li>
+<p>0 (binary: 00) PSG Inactive<br>
+The PSG/CPU bus is inactive DA7--DA0                             are in high impedance state.</p>
+</li><li>
+<p>1 (binary: 01) Read from PSG<br>
+This signal causes the contents                             of the register which is currently addressed to                             appear on the PSG/CPU bus. DA7--DA0 are in the                             output mode.</p>
+</li><li>
+<p>2 (binary: 10) Write to PSG<br>
+This signal indicates that the bus                             contains register data which should be latched into                             the currently addressed register. DA7--DA0 are in                             the input mode.</p>
+</li><li>
+<p>3 (binary: 11) Latch address<br>
+This signal indicates that the bus                             contains a register address which should be latched                             in the PSG. DA7--DA0 are in input mode.</p>
+</li></ol>
+
+<p>Communication to any devices connected to the joyport is done via PSG. See ALSO Joyport devices for more information about accessing PSG chip.</p>
 <h4>Bit 5 comparator input</h4>
 
-<p>Joystick...</p>
+<p>See Joyport devices ...</p>
 <h4>Bit 6 external device (slot pin 35) initialized to input</h4>
 
-<p>Communication wiht cartridge, -&gt; Bankswitching, RAM etc</p>
+<p>Communication with cartridge, -&gt; Bankswitching, RAM, eEprom etc</p>
 <h4>Bit 7 /RAMP</h4>
+
+<p>The ramp bit controls the activity of the integrators. If RAMP is zero, the integrators are active. If RAMP is one the integrators are not active. Depending on the settings of the VIA auxiliary register this bit can be set by accessing bit 7 of port B - or is controlled by Timer T1.</p>
 <h3>Register $01 VIA Port A Input/Output</h3>
 
-<p>For vectrex purposes via port A is simple the digital register that serves as input to the Digital to Analoge Converter (DAC).</p>
+<p>For vectrex purposes via port A is: 
+<ol><li>
+<p>simply the digital register that serves as input to the Digital to Analog Converter (DAC).</p>
+</li><li>
+<p>if BC1 and BDIR are configured - the port that sends (receives from) data to the PSG</p>
+</li></ol>
+</p>
 <h3>Register $02 DDRB (Data Direction Register port B)</h3>
 
 <p>Port B can be used as an output register (referred to as ORB) or as an input register (referred to as IRB). The configuration for input and output can be set for each bit of the port. Usually all bits except bit 5 and 6 are configured as output. Bit 5 and 6 are configured as input.</p>
@@ -49,6 +86,24 @@ That mapping is shadowed 128 times in the following regions, that means VIA regi
 <p>Many multicards and other hardware use bit 6 for this purpose (see bankswitching). </p>
 
 <p>The "tricky" thing with vectrex is, if PB6 is configured as input, bit 6 goes automatically high. If set to output it goes to low automatically. Even if in output mode and a "ONE" is written to pb6, it only goes high for a short period of time and than switches back to low automatically.   </p>
+<h3>Register $0a SHIFTREG</h3>
+
+<p>In vectrex terms the shiftreg is one of the most important registers of VIA, since it can control the CB2 (~BLANK) line. The shift modes can be set with Reg $0b and are described there. Each time a shift "outputs" a bit that bit is placed into the CB2 line. Shifting out a 0 enables blank (light is switched off), each time a 1 is shifted out blank is disabled (light is switched on). The shift direction is: most significant bit first, the bit 7 is rotated back to position 0. </p>
+
+<ul><li>
+<p>Shifting is done each 2 two processor cycles (shift out at system clock). </p>
+</li><li>
+<p>A complete Shift cycle takes 18 cycles, the last shifted value is held for an additional 2 cycles.</p>
+</li><li>
+<p>If a shift cycle is interrupted (a new shift initiated) VIA can stall (current shifted out value is held, no further shifting occurs). The time at which a stalling occurs appears to be dependend on the VIA generation. Known values (cycle counts) are 14 cycles and 15 cycles.</p>
+</li><li>
+<p>Attention: <br>
+ The 6809 instruction CLR also READS the value befor it clears it, thus an instruction<br>
+<tt> CLR &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shiftreg</tt><br>
+ reads the shift register after 4 cycles and writes the shift register after an additional 2 cycles.</p>
+</li><li>
+<p>a shift is started by reading and by writing to the shiftreg</p>
+</li></ul>
 <h3>Register $b VIA Auxiliary control register</h3>
 
 <p>With the auxilary control register the behaviors of the timers and the shift register can be configured (also latching for ORA and ORB, but I am not aware that this makes any since for vectrex).</p>
@@ -104,7 +159,11 @@ CB2<br>
 
 <p>All control lines act as interrupt inputs or as handshake Outputs.</p>
 
-<p>For vectrex anlog parts (and for now) only the lines CA2 (ZERO) and CB2 (BLANK) are interesting.</p>
+<p>For vectrex anlog parts (and for now) the lines CA2 (ZERO) and CB2 (BLANK) are <i>most</i> interesting.</p>
+
+<p>CA1<br>
+The CA1 line is connected to the second joystickport of the vectrex, more specific to button4. For joystick activity the controlline is not used. However, the lightpen device and the 3d Imager make use of that control line!<br>
+The lightpen for example "triggers" CA1 when it sees some "light" :-). Bit 0 controls the interrupt behaviour of the CA1 line. Usually the bit is (left ) to 0. If this bit is a logic 0, the CAl interrupt flag will be set by a negative transition (high to low) of the signal on the CAl pin. If bit 0 is a logic 1, the CAl interrupt flag will be set by a positive transition (low to high) of this signal. The Imager 3d (at least in Narrow Escape), sets this bit to 1 to receive the "signal" from the index hole.</p>
 
 <p>CA2 - ZERO<br>
 Responsible bits are bit 1-3: 
@@ -136,6 +195,55 @@ Responsible bits are bit 5-7:
 <p>%110x111x = $ce means ZERO disabled, and BLANK enabled</p>
 </li></ul>
 </p>
+<h3>Via Interrupt Flag Reg $d</h3>
+
+<p>Write one to a bit resets the interrupt flag.</p>
+
+<ul><li>
+<p>0x01 : bit 0 CA2 interrupt (cleared by read/write port A depeneding on "independed" interrupt)</p>
+</li><li>
+<p>0x02 : bit 1 CA1 interrupt (edge is determined by PCR bit 0, cleared by read/write of Port A)</p>
+</li><li>
+<p>0x04 : bit 2 Shiftreg interrupt (complete 8 shifts)</p>
+</li><li>
+<p>0x08 : bit 3 CB2 interrupt</p>
+</li><li>
+<p>0x10 : bit 4 CB1 interrupt</p>
+</li><li>
+<p>0x20 : bit 5 Timer2 interrupt </p>
+</li><li>
+<p>0x40 : bit 6 Timer1 interrupt</p>
+</li><li>
+<p>0x80 : bit 7 indicates whether ANY interrupt happened</p>
+</li></ul>
+<h3>Via Interrupt enable Reg $e</h3>
+
+<p>if bit 7 is 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 interrupt disabled<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 interrupt enabled<br>
+<br>
+if bit 7 is 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 interrupt disabled<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 interrupt enabled<br>
+</p>
+
+<ul><li>
+<p>0x01 : bit 0 CA2 interrupt</p>
+</li><li>
+<p>0x02 : bit 1 CA1 interrupt</p>
+</li><li>
+<p>0x04 : bit 2 Shiftreg interrupt</p>
+</li><li>
+<p>0x08 : bit 3 CB2 interrupt</p>
+</li><li>
+<p>0x10 : bit 4 CB1 interrupt</p>
+</li><li>
+<p>0x20 : bit 5 Timer2 interrupt</p>
+</li><li>
+<p>0x40 : bit 6 Timer1 interrupt</p>
+</li><li>
+<p>0x80 : bit 7 indicates whether ANY interrupt happened</p>
+</li></ul>
 <h2>Timers</h2>
 
 <p>VIA has two timers, both are "used" by the vectrex.  How these timer exactly operate -&gt; see Manual of VIA.</p>

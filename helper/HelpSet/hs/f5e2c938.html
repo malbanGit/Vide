@@ -15,6 +15,8 @@
 
 <p>The image to convert is taken from the right clicked popup from above, the size is displayed.</p>
 
+<p>Using "click" and "drag" - and thus build a selection in the source image - you can also use only partial image conversion.</p>
+
 <p>On the left side you can see a "generated" vector image (the left slider zooms in/out), below the vector display you can give the resulting size - with this it is possible to resize the image any way you like.</p>
 
 <p>One can chose what information to take for vector generation, the "color" - strength of a pixel (r+g+b/3) or the alpha channel. The slider on the right/bottom can be used to enter a threshold at what value a vector will be generated.</p>
@@ -26,6 +28,8 @@
 <p>Using the checkboxes to the left and the create button to the right generates code (and an example main program). </p>
 
 <p>The data is output in binary-data-statements, that way (with some fantasy) you can still discern your image, although this is made more difficult with each alternating line, since the display routine is bidirectional, meaning the data of every second line is stored "backwards".</p>
+
+<p>You can also generate uni directional data, for the difference of the two formats, look at the section in "Code Generation".</p>
 
 <p>The format of the data is described in the (generated) source.</p>
 

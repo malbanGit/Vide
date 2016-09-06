@@ -29,7 +29,15 @@
 </li></ul>
 
 <p>Notice:<br>
-The callstack is not the contents of the stack!<br>
-The callstack only has "subroutine"-return-addresses!</p>
+
+<ul><li>
+<p>the callstack is not the contents of the stack!<br>
+</p>
+</li><li>
+<p>the callstack only has "subroutine"-return-addresses!</p>
+</li><li>
+<p>the callstack might also get confused if the stack is changed programmatically (like <tt>LDS&nbsp;&nbsp;&nbsp;#$C800</tt>)</p>
+</li></ul>
+</p>
 </body>
 </html>

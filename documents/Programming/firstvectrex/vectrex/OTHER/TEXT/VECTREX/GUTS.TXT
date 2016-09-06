@@ -1,0 +1,126 @@
+
+>From the Vectrex Technical Description (my comments in {curly braces}):
+
+The HP3000 {Vectrex} is a microprocessor based, vector scan system using a
+standard 9" black & white CRT as its video display device. The
+microprocessor (MPU) is the Motorola 68A09 device {hardware multiply and
+divide!}. The MPU operates at 1.6 MHz from a 6 MHz extrenal Xtal. An
+internal divide by 4 circuit generates the MPU 1.6 MHz "E" clock signal used
+in the system. Program memory is stored in the 8K x 8 2363 {really 2764}
+type ROM. This ROM contains common subroutines, the "executive" or assembler
+instructions plus one complete game {Mine Storm}.
+
+Two 1K x 4 2114 type static RAMS provide storage locations for data
+indicative of locations of objects, game status, and various other
+information needed by the microprocessor during game operation. Peripheral
+Interface Adaptor (PIA) Chip {a 6522A}, has two 8 bit peripheral ports which
+interfaces the MPU with peripheral devices and external signals. One of the
+PIA ports interfaces the General Instruments AY-3-8912 sound-IO chip with
+the MPU and also drives the digital to analog converter chip MC1408. The
+other PIA port is used as control lines for the sound chip, selector control
+for the multiplex chip and as means to read the A/D comparator that's used
+in the joystick successive approximation circuitry. Sound is either MPU
+generated directly or by use of the AY-3-8912 sound chip.
+
+The AY-3-8912 sound chip is a programmable sound generator containing 3 tone
+generators and wave shapping circuitry. This chip also has a single 8 bit IO
+port used to read the status of each of the handcontrollers 4 action
+switches.
+
+The standard TTL device types 74LS00 and 74LS32 are usued as control line
+decoders to allow the MPU to select the appropriate circuit element to be
+addressed at any particular time.
+
+The analog processing section includes digital to analog converter (DAC)
+chip type MC1408, dual 4 channel multiplexer/demultiplexer chip type CD4052,
+and dual op-amps types LF353 and LF347.
+
+DAC chip M1408 receives an 8 bit word at data terminals D0-D7. DAC output
+(pin 4) is current source. One section of IC LF353 is used to change this
+current to a voltage representative of the 8 bit digital word received by
+the DAC chip. The LF353 voltage is applied to an input of the dual 4 channel
+multiplexer (MUX) chip CD4052. This same voltage (designated "DAC" on the
+schematic) is the X-axis drive signal.
+
+The CD4052 MUX chip serves two purposes: it selectively couples, under MPU
+control, the output of the DAC current/voltage converter to one of 4 places
+and is used to selectively couple the inputs from the joystick pots to the
+voltage comparator IC LF353.
+
+The 4 places to which the "DAC" signal is coupled by the MUX are:
+
+1) The Y-axis sample and hold IC LF347
+2) The "0" reference charge capacitor
+3) The Z-axis (brightness signal) sample and hold IC LF347
+4) MPU sound resistive netowrk
+
+Each of these 4 signals is a voltage value representative of the 8 bit DAC
+input word for that function.
+
+The joystick pot positions are sensed by a successive approximation process.
+The MUX chip selects each joystick pot input line and applies it to the plus
+input of comparator IC LF353. At the same time the MPU generates digital
+words that are changed to voltages by the DAC and current/voltage converter
+mentioned previously. These voltages are successfully {successively} applied
+to the comparator's minus input until the MPU generated voltage is equal to
+the joystick voltage. The MPU then recognizes the digital word
+representative of the comparison voltage and is able to establish a location
+for the joystick pot. The present position for each joystick is sensed in
+this manner. The pot position information is updated on a regular basis by
+the MPU.
+
+Returning to the X and Y axis drive signals, these signals are applied to
+X,Y integrator IC LF347 negative input pins through series analog switch
+types 4066B. The "zero" reference signal is applied to the positive inputs
+of the integrators. There are also analog switches across integrator IC
+capacitors. The series analog switches are controlled by MPU signal RAMP and
+the parallel capacitor switches are controlled by MPU signal Zero 10. RAMP
+10 determines when and for how long the X and Y axis voltage levels will be
+applied to the integrator amps. Zero 10 is used to discharge the X & Y axis
+integrator caps thus initializing them for the next signal to be integrated.
+
+The outputs of the X,Y axis integrators are coupled through J-FET switches
+to IC LM379 deflection amplifiers. The LM379 operates as a voltage to
+current driver, the current through the deflection coils forming the
+electromagnetic field which deflects the CRT beam. To protect the CRT from
+spot burn in the event of a loss of deflection, the Y axis drive amplifiers
+output is detected and a deflection enable/disable signal is generated. This
+signal controls the J-FET switches in series with the X,Y deflection amp
+inputs to reduce the scan drive signal in the event of a software or
+hardware failure plus discrete transistor type 2SC1921 operates to bias off
+the CRT.
+
+Conventional full wave rectification and three terminal regulators are used
+in the low voltage power supply. A special negative DC source is generated
+by a voltage double-circuit which is used to supply a 13V to the DAV chip.
+
+The high voltage is generated via an oscillator, drive transistor and
+flyback type transformer circuitry similar to what is commonly used in small
+black and white TV receivecrs.
+
+Judicious use of bypass caps, RF filter chokes, ferrite beads, etc., has
+been used in the design to control RFI emmisions.
+--------------------
+
+{Me again}
+The cartridge connector has the following lines from the MPU: A0-A15, D0-D7,
+R/~W, ~HALT, ~NMI, ~IRQ, ~E, a cartridge chip select, and one bit from PIA
+port B (PB6).
+
+I've dumped the contents of the Exec ROM in to a file... One of these days
+somebody will get around to disassembling it... (any volunteers?)
+
+If you'd like copies of the schematics and block diagrams, drop me your
+snail address.
+
+There's a bunch of us here at CMU interested in hacking on our Vectrexes
+(Vectrex-People@CMUC). If we come up with anything good, I'll let the net
+know. If anybody out there has come up with anything, or wants to get
+involved, let me know... We could have a world wide effort!
+
+                cheers, -m-
+
+
+
+
+

@@ -1,0 +1,2651 @@
+BANK 0
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C80F Vec_Btn_State
+COMMENT_LABEL $C80F Current state of all joystick buttons
+LABEL $C812 Vec_Button_1_1
+COMMENT_LABEL $C812 Current toggle state of stick 1 button 1
+LABEL $C81A Vec_Joy_Resltn
+COMMENT_LABEL $C81A Joystick A/D resolution ($80=min $00=max)
+LABEL $C81F Vec_Joy_Mux_1_X
+COMMENT_LABEL $C81F Joystick 1 X enable/mux flag (=1)
+LABEL $C821 Vec_Joy_Mux_2_X
+COMMENT_LABEL $C821 Joystick 2 X enable/mux flag (=5)
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C825 Vec_Loop_Count
+COMMENT_LABEL $C825 Loop counter word (incremented in Wait_Recal)
+LABEL $C827 Vec_Brightness
+COMMENT_LABEL $C827 Default brightness
+LABEL $C828 Vec_Dot_Dwell
+COMMENT_LABEL $C828 Dot dwell time?
+LABEL $C829 Vec_Pattern
+COMMENT_LABEL $C829 Dot pattern (bits)
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82A Vec_Text_Height
+COMMENT_LABEL $C82A Default text height
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82C Vec_Str_Ptr
+COMMENT_LABEL $C82C Temporary string pointer for Print_Str
+LABEL $C82E Vec_Counters
+COMMENT_LABEL $C82E Six bytes of counters
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C837 Vec_Run_Index
+COMMENT_LABEL $C837 Index pair for run
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84B Vec_Music_Wk_1
+COMMENT_LABEL $C84B register 1
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C853 Vec_Expl_ChanA
+COMMENT_LABEL $C853 Used by Explosion_Snd - bit for first channel used?
+LABEL $C854 Vec_Expl_Chans
+COMMENT_LABEL $C854 Used by Explosion_Snd - bits for all channels used?
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C858 Vec_Expl_1
+COMMENT_LABEL $C858 Four bytes copied from Explosion_Snd's U-reg parameters
+LABEL $C859 Vec_Expl_2
+LABEL $C85A Vec_Expl_3
+LABEL $C85B Vec_Expl_4
+LABEL $C85C Vec_Expl_Chan
+COMMENT_LABEL $C85C Used by Explosion_Snd - channel number in use?
+LABEL $C85D Vec_Expl_ChanB
+COMMENT_LABEL $C85D Used by Explosion_Snd - bit for second channel used?
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $C867 Vec_Expl_Flag
+COMMENT_LABEL $C867 Explosion_Snd initialization flag?
+LABEL $C877 Vec_Expl_Timer
+COMMENT_LABEL $C877 Used by Explosion_Snd
+LABEL $C87B Vec_Seed_Ptr
+COMMENT_LABEL $C87B Pointer to 3-byte random number seed (=$C87D)
+LABEL $C87D Vec_Random_Seed
+COMMENT_LABEL $C87D Default 3-byte random number seed
+LABEL $CBEA Vec_Default_Stk
+COMMENT_LABEL $CBEA Default top-of-stack
+LABEL $CBEB Vec_High_Score
+COMMENT_LABEL $CBEB High score storage (7 bytes)
+LABEL $CBFE Vec_Cold_Flag
+COMMENT_LABEL $CBFE Cold start flag (warm start if = $7321)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D002 VIA_DDR_b
+COMMENT_LABEL $D002 VIA port B data direction register (0=input 1=output)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D008 VIA_t2_lo
+COMMENT_LABEL $D008 VIA timer 2 count/latch register lo (refresh)
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $F000 Start
+LABEL $F18B Init_OS
+LABEL $F06C Warm_Start
+LABEL $F84F Clear_Score
+LABEL $F01C LF01C
+LABEL $F1AF DP_to_C8
+LABEL $F029 LF029
+LABEL $F0FD DF0FD
+LABEL $FD0D Intro_Music
+LABEL $F6E9 Init_Music_chk
+LABEL $F192 Wait_Recal
+LABEL $F289 Do_Sound
+LABEL $F2A9 Intensity_7F
+LABEL $F0E9 Intro_Boxes
+LABEL $F049 LF058
+LABEL $F308 Moveto_ix_FF
+LABEL $F434 Draw_Pat_VL_a
+EQU $40 WIDTH
+EQU -$40 XPOS
+EQU $7F YPOS
+LABEL $F617 C1_data
+LABEL $F593 draw_raster_image
+LABEL $F101 Copyright_Str
+LABEL $F084 LF084
+LABEL $F097 LF097
+LABEL $F092 LF092
+LABEL $F09E LF09E
+LABEL $F0A4 LF0A4
+LABEL $F37A Print_Str_d
+LABEL $F0D2 LF0D2
+LABEL $F385 Print_List_hw
+LABEL $F10C here__
+LABEL $F10C Vec_Title
+LABEL $F118 Vec_Title_2
+LABEL $F14C Init_VIA
+LABEL $F1AA DP_to_D0
+LABEL $F354 Reset0Ref
+LABEL $F1A2 Set_Refresh
+LABEL $F164 Init_OS_RAM
+LABEL $F53F Clear_x_b
+LABEL $F173 LF173
+LABEL $F272 Clear_Sound
+LABEL $F19E LF19E
+LABEL $F2E6 Recalibrate
+LABEL $F1B4 Read_Btns_Mask
+LABEL $F1BA Read_Btns
+LABEL $F1EA LF1EA
+LABEL $F1F5 Joy_Analog
+LABEL $F1F8 Joy_Digital
+LABEL $F1FB LF1FB
+LABEL $F20B LF20B
+LABEL $F1FF LF1FF
+LABEL $F213 LF213
+LABEL $F240 LF240
+LABEL $F22D LF22D
+LABEL $F236 LF236
+LABEL $F235 LF235
+LABEL $F23A LF23A
+LABEL $F24C LF24C
+LABEL $F256 Sound_Byte
+LABEL $F259 Sound_Byte_x
+LABEL $F25B Sound_Byte_raw
+LABEL $F275 LF275
+LABEL $F533 Init_Music_Buf
+LABEL $F27D Sound_Bytes
+LABEL $F284 Sound_Bytes_x
+LABEL $F282 LF282
+LABEL $F28C Do_Sound_x
+LABEL $F291 LF291
+LABEL $F299 LF299
+LABEL $F29D Intensity_1F
+LABEL $F2AB Intensity_a
+LABEL $F2A1 Intensity_3F
+LABEL $F2A5 Intensity_5F
+LABEL $F2BE Dot_ix_b
+LABEL $F2C1 Dot_ix
+LABEL $F2C3 Dot_d
+LABEL $F312 Moveto_d
+LABEL $F2C5 Dot_here
+LABEL $F2CC LF2CC
+LABEL $F2D2 LF2D2
+LABEL $F2D5 Dot_List
+LABEL $F2DE Dot_List_Reset
+LABEL $F9F0 Recal_Points
+LABEL $F36B Reset0Int
+LABEL $F310 Moveto_ix
+LABEL $F2F2 Moveto_x_7F
+LABEL $F2FC Moveto_d_7F
+LABEL $F318 LF318
+LABEL $F30E Moveto_ix_b
+LABEL $F30C Moveto_ix_7F
+LABEL $F584 Abs_a_b
+LABEL $F345 LF345
+LABEL $F33B LF33B
+LABEL $F33D LF33D
+LABEL $F341 LF341
+LABEL $F34A Reset0Ref_D0
+LABEL $F34F Check0Ref
+LABEL $F36A LF36A_RTS
+LABEL $F35B Reset_Pen
+LABEL $F373 Print_Str_hwyx
+LABEL $F378 Print_Str_yx
+LABEL $F575 Delay_1
+LABEL $F495 Print_Str
+LABEL $F383 LF383
+LABEL $F38A Print_List
+LABEL $F38C Print_List_Chk
+LABEL $F391 Print_Ships_x
+LABEL $F393 Print_Ships
+LABEL $F3A3 LF3A3
+LABEL $F3AD Mov_Draw_VLc_a
+LABEL $F3B9 Mov_Draw_VL_a
+LABEL $F3B1 Mov_Draw_VL_b
+LABEL $F3BC Mov_Draw_VL
+LABEL $F3B5 Mov_Draw_VLcs
+LABEL $F3B7 Mov_Draw_VL_ab
+LABEL $F3BE Mov_Draw_VL_d
+LABEL $F3ED LF3ED
+LABEL $F3CE Draw_VLc
+LABEL $F3DA Draw_VL_a
+LABEL $F3D2 Draw_VL_b
+LABEL $F3DD Draw_VL
+LABEL $F3D6 Draw_VLcs
+LABEL $F3D8 Draw_VL_ab
+LABEL $F3DF Draw_Line_d
+LABEL $F3F4 LF3F4
+LABEL $F404 Draw_VLp_FF
+LABEL $F40E Draw_VLp_b
+LABEL $F408 Draw_VLp_7F
+LABEL $F40C Draw_VLp_scale
+LABEL $F410 Draw_VLp
+LABEL $F425 LF425
+LABEL $F433 LF433
+LABEL $F437 Draw_Pat_VL
+LABEL $F439 Draw_Pat_VL_d
+LABEL $F45C LF45C
+LABEL $F459 LF459
+LABEL $F46E Draw_VL_mode
+LABEL $F476 LF476
+LABEL $F47E LF47E
+LABEL $F485 LF485
+LABEL $F48D LF48D
+LABEL $F9F4 Char_Table
+LABEL $F4A5 LF4A5
+LABEL $F4CB LF4CB
+LABEL $F4C7 LF4C7
+LABEL $FBD4 Char_Table_End
+LABEL $F50A LF50A
+LABEL $F4EB LF4EB
+LABEL $F511 Random_3
+LABEL $F51A LF51A
+LABEL $F517 Random
+LABEL $F51D LF51D
+LABEL $F548 Clear_x_d
+LABEL $F542 Clear_C8_RAM
+LABEL $F545 Clear_x_256
+LABEL $F550 Clear_x_b_80
+LABEL $F552 Clear_x_b_a
+LABEL $F55A Dec_3_Counters
+LABEL $F560 LF560
+LABEL $F55E Dec_6_Counters
+LABEL $F563 Dec_Counters
+LABEL $F569 LF569
+LABEL $F56D Delay_3
+LABEL $F57A Delay_b
+LABEL $F571 Delay_2
+LABEL $F579 Delay_0
+LABEL $F57D Delay_RTS
+LABEL $F57E Bitmask_a
+LABEL $F9DC Bit_Masks
+LABEL $F58B Abs_b
+LABEL $F592 LF592
+EQU $60 SCALE_DRAW
+EQU $20 SCALE_MOVE
+EQU $01 ZERO_DELAY
+COMMENT_LABEL $01 delay 7 counter is exactly 111 cycles delay between zero SETTING and zero unsetting (in moveto_d)
+LABEL $F5A4 next_line
+LABEL $F5B4 zeroLoop
+LABEL $F5DC m2d
+LABEL $F5FF oneShiftOutForward
+LABEL $F605 dummy1
+LABEL $F6E1 Move_Mem_a_1
+LABEL $F6E5 Move_Mem_a
+LABEL $F6E8 LF686
+LABEL $F715 LF6B3
+LABEL $F6EF Init_Music
+LABEL $FC8D Freq_Table
+LABEL $F6F4 Init_Music_dft
+LABEL $F74E LF6EC
+LABEL $F71A LF6B8
+LABEL $F722 LF6C0
+LABEL $F72C LF6CA
+LABEL $F734 LF6D2
+LABEL $F7B0 LF74E
+LABEL $F745 LF6E3
+LABEL $F74C LF6EA
+LABEL $F774 LF712
+LABEL $F9E4 Music_Table_1
+LABEL $F797 LF735
+LABEL $F9EA Music_Table_2
+LABEL $F7AA LF748
+LABEL $F7BB LF759
+LABEL $F7C8 LF766
+LABEL $F7CF LF76D
+LABEL $F7DA LF778
+LABEL $F7EA LF788
+LABEL $F7EE LF78C
+LABEL $F7F5 LF793_RTS
+LABEL $F835 Display_Option
+LABEL $F84E LF84E
+LABEL $F85E Add_Score_a
+LABEL $F861 LF861
+LABEL $F86D LF86D
+LABEL $F878 LF878
+LABEL $F87C Add_Score_d
+LABEL $F882 LF882
+LABEL $F897 LF897
+LABEL $F88F LF88F
+LABEL $F895 LF895
+LABEL $F8A5 LF8A5
+LABEL $F8AE LF8AE
+LABEL $F8B7 Strip_Zeros
+LABEL $F8C6 LF8C6
+LABEL $F8C7 Compare_Score
+LABEL $F8CA LF8CA
+LABEL $F8D6 LF8D6
+LABEL $F8D5 LF8D5
+LABEL $F8D8 New_High_Score
+LABEL $F8E4 LF8E4
+LABEL $F8DE LF8DE
+LABEL $F8E5 Obj_Will_Hit_u
+LABEL $F8EF LF8EF
+LABEL $F903 LF903
+LABEL $F8F3 Obj_Will_Hit
+LABEL $F8FF Obj_Hit
+LABEL $F906 LF906
+LABEL $F90F LF90F
+LABEL $F928 LF928
+LABEL $F91B LF91B
+LABEL $F92A LF92A
+LABEL $F92E Explosion_Snd
+LABEL $F95B LF95B
+LABEL $F968 LF968
+LABEL $F9C9 LF9C9_RTS
+LABEL $F9CA LF9CA
+LABEL $F97D LF97D
+LABEL $F97B LF97B
+LABEL $F987 LF987
+LABEL $F991 LF991
+LABEL $F98F LF98F
+LABEL $F9C2 LF9C2
+LABEL $F997 LF997
+LABEL $F99E LF99E
+LABEL $F9BC LF9BC
+LABEL $F9CF LF9CF
+LABEL $F9DB LF9DB_RTS
+LABEL $FC24 DFC24
+LABEL $FC2C DFC2C
+LABEL $FC6D DFC6D
+LABEL $FEE8 DFEE8
+LABEL $FEB6 DFEB6
+LABEL $FD1D DFD1D
+LABEL $FD69 DFD69
+LABEL $FD79 DFD79
+LABEL $FD81 DFD81
+LABEL $FDC3 DFDC3
+LABEL $FDD3 DFDD3
+LABEL $FE28 DFE28
+LABEL $FE38 DFE38
+LABEL $FE66 DFE66
+LABEL $FE76 DFE76
+LABEL $FEB2 DFEB2
+LABEL $FEC6 DFEC6
+LABEL $FEF8 DFEF8
+LABEL $FF16 DFF16
+LABEL $FF26 DFF26
+LABEL $FF44 DFF44
+LABEL $FF62 DFF62
+LABEL $FF7A DFF7A
+LABEL $FF8F DFF8F
+LABEL $FF9F Draw_Grid_VL
+LABEL $FFAB LFFAB
+LABEL $FFA3 LFFA3
+LABEL $FFAE LFFAE
+COMMENT_LINE $0000 4 KB Bios
+COMMENT_LINE $0000 can be assembled correctly now
+COMMENT_LINE $0000 corrected and compatibilty added by Malban
+COMMENT_LINE $0000 assemble with comand line:
+COMMENT_LINE $0000 .\ass\as09.exe -w200 -h0 -l -mcti bios.asm >error
+COMMENT_LINE $0000 used the 6809 assembler:
+COMMENT_LINE $0000 as09 [1.11].
+COMMENT_LINE $0000 Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Software.
+COMMENT_LINE $0000 Available at:
+COMMENT_LINE $0000 http://www.falstaff.demon.co.uk/cross.html
+COMMENT_LINE $F000 -----------------------------------------------------------------------;
+COMMENT_LINE $F000 This disassembly of the Vectrex ROM was done by Bruce Tomlin          ;
+COMMENT_LINE $F000 (btomlin@aol.com), and is based in part on a disassembly done by      ;
+COMMENT_LINE $F000 Fred Taft (fred@hp-pcd.cv.hp.com).                                    ;
+COMMENT_LINE $F000 -----------------------------------------------------------------------;
+COMMENT_LINE $F000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $F000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $F000 $C83C   ;temp byte
+COMMENT_LINE $F000 $C843   ;        register 9
+COMMENT_LINE $F000 $C844   ;        register 8
+COMMENT_LINE $F000 $C848   ;        register 4
+COMMENT_LINE $F000 $C849   ;        register 3
+COMMENT_LINE $F000 $C84A   ;        register 2
+COMMENT_LINE $F000 $C84C   ;        register 0
+COMMENT_LINE $F000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $F000 $C868...$C876   ;Unused?
+COMMENT_LINE $F000 $C878   ;Unused?
+COMMENT_LINE $F000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $F000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $F000 1 mux sel 0
+COMMENT_LINE $F000 2 mux sel 1
+COMMENT_LINE $F000 3 sound BC1
+COMMENT_LINE $F000 4 sound BDIR
+COMMENT_LINE $F000 5 comparator input
+COMMENT_LINE $F000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $F000 7 /RAMP
+COMMENT_LINE $F000 0 PA latch enable
+COMMENT_LINE $F000 1 PB latch enable
+COMMENT_LINE $F000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $F000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $F000 4 /
+COMMENT_LINE $F000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $F000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $F000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $F000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $F000 1 \
+COMMENT_LINE $F000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $F000 3 /
+COMMENT_LINE $F000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $F000 5 \
+COMMENT_LINE $F000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $F000 7 /
+COMMENT_LINE $F000 bit                             cleared by
+COMMENT_LINE $F000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $F000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $F000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $F000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $F000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $F000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $F000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $F000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $F000 0 CA2 interrupt enable
+COMMENT_LINE $F000 1 CA1 interrupt enable
+COMMENT_LINE $F000 2 shift register interrupt enable
+COMMENT_LINE $F000 3 CB2 interrupt enable
+COMMENT_LINE $F000 4 CB1 interrupt enable
+COMMENT_LINE $F000 5 timer 2 interrupt enable
+COMMENT_LINE $F000 6 timer 1 interrupt enable
+COMMENT_LINE $F000 7 IER set/clear control
+COMMENT_LINE $F000 -----------------------------------------------------------------------;
+COMMENT_LINE $F000 F000    Start                                                   ;
+COMMENT_LINE $F000 ;
+COMMENT_LINE $F000 Jump here to restart the Vectrex and re-initialize the OS.  If the    ;
+COMMENT_LINE $F000 cold start flag is correct (it should be unless you just turned the   ;
+COMMENT_LINE $F000 Vectrex on), the cold start code is skipped.                          ;
+COMMENT_LINE $F000 ;
+COMMENT_LINE $F000 On cold start, the high score is cleared, and the power-on screen     ;
+COMMENT_LINE $F000 is displayed with the power-on music.                                 ;
+COMMENT_LINE $F000 -----------------------------------------------------------------------;
+COMMENT $F000 Set up stack pointer
+COMMENT $F004 Initialize system
+COMMENT $F007 Check cold start flag
+COMMENT $F00E Branch if warm start
+COMMENT $F010 Initialize cold start flag
+COMMENT $F013 Set high score invalid flag
+COMMENT $F016 Clear high score
+COMMENT_LINE $F01C First power-up loop.  This prints the "VECTREX"
+COMMENT_LINE $F01C power-on screen and plays the power-on music.
+COMMENT $F01C DP to RAM
+COMMENT $F01F When we have looped 257 times,
+COMMENT $F027 start the intro music
+COMMENT_LINE $F029 Get the line pattern for the boundary box lines
+COMMENT $F029 Get line pattern from table
+COMMENT $F031 Store pattern
+COMMENT $F033 Set up counter for two boxes
+COMMENT_LINE $F037 Play the intro music
+COMMENT $F037 Get address of music
+COMMENT $F03A Initialize the music
+COMMENT $F03D Wait for next frame
+COMMENT $F040 Play music if active
+COMMENT_LINE $F043 Display power-up message
+COMMENT $F043 Normal brightness
+COMMENT_LINE $F046 LDA     $C826           ;Alternate size every 32 loops
+COMMENT_LINE $F046 LDU     #Vec_Title     ;Load address of double high text
+COMMENT_LINE $F046 BITA    #$20
+COMMENT_LINE $F046 BEQ     LF052
+COMMENT_LINE $F046 LEAU    <<(Vec_Title_2-Vec_Title),U  ;Skip double high text
+COMMENT_LINE $F046 LF052:          JSR     Print_List_hw   ;Print startup text
+COMMENT_LINE $F046 nop 3
+COMMENT_LINE $F046 Draw the frame boxes
+COMMENT $F049 Move to start of line
+COMMENT $F04C Draw 4 lines
+COMMENT $F051 Go back for next box
+COMMENT $F05B Text position relative Y
+COMMENT $F05D Text position relative X
+COMMENT $F062 Vectrex BIOS print routine
+COMMENT $F068 Repeat for 512 counts
+COMMENT_LINE $F06C -----------------------------------------------------------------------;
+COMMENT_LINE $F06C F06C    Warm_Start                                              ;
+COMMENT_LINE $F06C ;
+COMMENT_LINE $F06C Jump here to restart the Vectrex without re-initializing the OS.      ;
+COMMENT_LINE $F06C -----------------------------------------------------------------------;
+COMMENT_LINE $F06C Prepare for ROM check
+COMMENT $F06C DP to RAM
+COMMENT $F06F Set new line pattern
+COMMENT $F073 Save copyright string addr
+COMMENT $F078 Clear loop counter
+COMMENT_LINE $F07C Check for valid cartridge ROM
+COMMENT $F07C Look at address zero
+COMMENT $F082 11 bytes long
+COMMENT $F084 Compare next byte
+COMMENT $F088 Okay if match
+COMMENT $F08A Not okay if last byte wrong
+COMMENT $F08E Okay if date wrong
+COMMENT $F092 Bad cart; load Mine Storm addr
+COMMENT $F097 Go back for next byte
+COMMENT $F09A Store zero as address of
+COMMENT $F09C copyright string
+COMMENT_LINE $F09E Prepare to play game start-up music
+COMMENT $F09E Set music enable flag
+COMMENT $F0A0 Save address of header
+COMMENT $F0A2 Get address of music
+COMMENT_LINE $F0A4 Second power-up loop.  This prints the name of the
+COMMENT_LINE $F0A4 game, the copyright, and plays the start-up music
+COMMENT $F0A4 DP to RAM
+COMMENT $F0A7 ???
+COMMENT $F0AC Initialize the music
+COMMENT $F0AF Wait for next frame
+COMMENT $F0B2 Play the music if active
+COMMENT_LINE $F0B5 Display cartridge GCE copyright string
+COMMENT $F0B5 Normal brightness
+COMMENT $F0B8 Print copyright string
+COMMENT_LINE $F0C1 Display current high score if any
+COMMENT $F0C1 Skip if no high score
+COMMENT_LINE $F0D2 Display cartridge name
+COMMENT $F0D2 Get cartridge header addr
+COMMENT $F0D5 Skip music addr
+COMMENT $F0D7 Print it
+COMMENT $F0DA Go back if music still playing
+COMMENT $F0DF Go back if count less than 126
+COMMENT $F0E7 Jump into cartridge
+COMMENT_LINE $F0E9 Outer box (y,x)
+COMMENT_LINE $F0F3 Inner box (y,x)
+COMMENT_LINE $F0FD Line patterns for boundary boxes
+COMMENT_LINE $F101 Copyright string
+COMMENT_LINE $F10C Title strings
+COMMENT $F10C Height, width
+COMMENT $F10E Y,X
+COMMENT $F118 Height, width
+COMMENT $F11A Y,X
+COMMENT $F124 Height, width
+COMMENT $F126 Y,X
+COMMENT $F12C Height, width
+COMMENT $F12E Y,X
+COMMENT $F13D Height, width
+COMMENT $F13F Y,X
+COMMENT_LINE $F14C -----------------------------------------------------------------------;
+COMMENT_LINE $F14C F14C    Init_VIA                                                ;
+COMMENT_LINE $F14C ;
+COMMENT_LINE $F14C This routine is invoked during powerup, to initialize the VIA chip.   ;
+COMMENT_LINE $F14C Among other things, it initializes the scale factor to 0x7F, and      ;
+COMMENT_LINE $F14C sets up the direction for the port A and B data lines.                ;
+COMMENT_LINE $F14C ;
+COMMENT_LINE $F14C EXIT: DP = $D0                                                        ;
+COMMENT_LINE $F14C ;
+COMMENT_LINE $F14C D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F14C -----------------------------------------------------------------------;
+COMMENT $F14E Port A=all output
+COMMENT $F151 Port B=OIIOOOOO
+COMMENT $F153 Port B sound BDIR=1
+COMMENT $F158 ACR=$98 T1->PB7 enabled
+COMMENT $F15B auxiliary control register
+COMMENT $F15D T1CL=$7F scale factor?
+COMMENT_LINE $F164 -----------------------------------------------------------------------;
+COMMENT_LINE $F164 F164    Init_OS_RAM                                             ;
+COMMENT_LINE $F164 ;
+COMMENT_LINE $F164 This routine first clears the block of RAM in the range $C800 to      ;
+COMMENT_LINE $F164 $C87A, and then it initializes the dot dwell time, the refresh time,  ;
+COMMENT_LINE $F164 and the joystick enable flags.                                        ;
+COMMENT_LINE $F164 ;
+COMMENT_LINE $F164 EXIT: DP = $C8                                                        ;
+COMMENT_LINE $F164 ;
+COMMENT_LINE $F164 D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F164 -----------------------------------------------------------------------;
+COMMENT $F164 DP to RAM
+COMMENT $F166 Clear $C800-$C87A
+COMMENT $F16E Point $C87B to $C87D
+COMMENT $F173 Make sure random number
+COMMENT $F175 seed is non-zero!
+COMMENT $F177 Init dot dwell (brightness)
+COMMENT $F17B Init refresh time to $7530
+COMMENT $F180 Init joystick enable flags
+COMMENT_LINE $F18B -----------------------------------------------------------------------;
+COMMENT_LINE $F18B F18B    Init_OS                                                 ;
+COMMENT_LINE $F18B ;
+COMMENT_LINE $F18B This routine is responsible for setting up the initial system state,  ;
+COMMENT_LINE $F18B each time the system is either reset or powered up.  It will          ;
+COMMENT_LINE $F18B initialize the OS RAM area, initialize the VIA chip, and then clear   ;
+COMMENT_LINE $F18B all the registers on the sound chip.                                  ;
+COMMENT_LINE $F18B ;
+COMMENT_LINE $F18B EXIT: DP = $D0                                                        ;
+COMMENT_LINE $F18B ;
+COMMENT_LINE $F18B D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F18B -----------------------------------------------------------------------;
+COMMENT_LINE $F192 -----------------------------------------------------------------------;
+COMMENT_LINE $F192 F192    Wait_Recal                                              ;
+COMMENT_LINE $F192 ;
+COMMENT_LINE $F192 Wait for t2 (the refresh timer) to timeout, then restart it using     ;
+COMMENT_LINE $F192 the value in $C83D.  then, recalibrate the vector generators to the   ;
+COMMENT_LINE $F192 origin (0,0).  This routine MUST be called once every refresh         ;
+COMMENT_LINE $F192 cycle, or your vectors will get out of whack.  This routine calls     ;
+COMMENT_LINE $F192 Reset0Ref, so the integrators are left in zero mode.                  ;
+COMMENT_LINE $F192 ;
+COMMENT_LINE $F192 EXIT: DP = $D0                                                        ;
+COMMENT_LINE $F192 ;
+COMMENT_LINE $F192 D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F192 -----------------------------------------------------------------------;
+COMMENT $F192 Increment loop counter
+COMMENT $F19A DP to I/O
+COMMENT $F19E Wait for timer t2
+COMMENT_LINE $F1A2 -----------------------------------------------------------------------;
+COMMENT_LINE $F1A2 F1A2    Set_Refresh                                             ;
+COMMENT_LINE $F1A2 ;
+COMMENT_LINE $F1A2 This routine loads the refresh timer (t2) with the value in $C83D-    ;
+COMMENT_LINE $F1A2 $C83E, and recalibrates the vector generators, thus causing the pen   ;
+COMMENT_LINE $F1A2 to be left at the origin (0,0).  The high order byte for the timer    ;
+COMMENT_LINE $F1A2 is loaded from $C83E, and the low order byte is loaded from $C83D.    ;
+COMMENT_LINE $F1A2 The refresh rate is calculated as follows:                            ;
+COMMENT_LINE $F1A2 ;
+COMMENT_LINE $F1A2 rate = (C83E)(C83D) / 1.5 mhz                                       ;
+COMMENT_LINE $F1A2 ;
+COMMENT_LINE $F1A2 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F1A2 ;
+COMMENT_LINE $F1A2 D-reg trashed                                           ;
+COMMENT_LINE $F1A2 -----------------------------------------------------------------------;
+COMMENT $F1A2 Store refresh value
+COMMENT $F1A5 into timer t2
+COMMENT_LINE $F1AA -----------------------------------------------------------------------;
+COMMENT_LINE $F1AA F1AA    DP_to_D0                                                ;
+COMMENT_LINE $F1AA ;
+COMMENT_LINE $F1AA Sets the DP register to $D0, so that all direct page addressing will  ;
+COMMENT_LINE $F1AA start at $D000 (the hardware I/O area).                               ;
+COMMENT_LINE $F1AA ;
+COMMENT_LINE $F1AA EXIT: DP = $D0                                                        ;
+COMMENT_LINE $F1AA A-reg = $D0                                                     ;
+COMMENT_LINE $F1AA -----------------------------------------------------------------------;
+COMMENT_LINE $F1AF -----------------------------------------------------------------------;
+COMMENT_LINE $F1AF F1AF    DP_to_C8                                                ;
+COMMENT_LINE $F1AF ;
+COMMENT_LINE $F1AF Sets the DP register to $C8, so that all direct page addressing will  ;
+COMMENT_LINE $F1AF start at $C800 (OS RAM area).                                         ;
+COMMENT_LINE $F1AF ;
+COMMENT_LINE $F1AF ;
+COMMENT_LINE $F1AF EXIT: DP = $C8                                                        ;
+COMMENT_LINE $F1AF A-reg = $C8                                                     ;
+COMMENT_LINE $F1AF -----------------------------------------------------------------------;
+COMMENT_LINE $F1B4 -----------------------------------------------------------------------;
+COMMENT_LINE $F1B4 F1B4    Read_Btns_Mask                                          ;
+COMMENT_LINE $F1B4 F1BA    Read_Btns                                               ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 Both of these routines read the button states on the two joysticks,   ;
+COMMENT_LINE $F1B4 and return their state in the following RAM locations:                ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 joystick 1, button 1:  $C812 = $01                              ;
+COMMENT_LINE $F1B4 button 2:  $C813 = $02                              ;
+COMMENT_LINE $F1B4 button 3:  $C814 = $04                              ;
+COMMENT_LINE $F1B4 button 4:  $C815 = $08                              ;
+COMMENT_LINE $F1B4 joystick 2, button 1:  $C816 = $10                              ;
+COMMENT_LINE $F1B4 button 2:  $C817 = $20                              ;
+COMMENT_LINE $F1B4 button 3:  $C818 = $40                              ;
+COMMENT_LINE $F1B4 button 4:  $C819 = $80                              ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 C80F: Contains current state of all buttons;                    ;
+COMMENT_LINE $F1B4 1 = depressed, 0 = not depressed                          ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 C810: Contains state of all buttons from LAST time these        ;
+COMMENT_LINE $F1B4 routines were called; if Read_Btns_Mask was called,       ;
+COMMENT_LINE $F1B4 then this is AND'ed with the passed in mask.              ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 C811: Contains the same information as $C812-$C819              ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 Bit 7                                     Bit 0                ;
+COMMENT_LINE $F1B4 +-----+-----+-----+-----+-----+-----+-----+-----+               ;
+COMMENT_LINE $F1B4 | 2.4 | 2.3 | 2.2 | 2.1 | 1.4 | 2.3 | 1.2 | 1.1 |               ;
+COMMENT_LINE $F1B4 +-----+-----+-----+-----+-----+-----+-----+-----+               ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 If Read_Btns is called, the result will be the same as Read_Btns_Mask ;
+COMMENT_LINE $F1B4 with a mask of $FF, and a 1 will only be returned if the button       ;
+COMMENT_LINE $F1B4 has transitioned to being pressed.                                    ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 If Read_Btns_Mask is called, then a mask, passed in in the A-reg      ;
+COMMENT_LINE $F1B4 will be used to determine how the button state info is returned:      ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 If a bit is 0, then the current state of the button is to be returned ;
+COMMENT_LINE $F1B4 in the appropriate RAM location; 0 = not pressed, and 1 = pressed.    ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 If a bit is 1, then the appropriate RAM location is = to 1 only     ;
+COMMENT_LINE $F1B4 on the depression transition of the button; additional calls will     ;
+COMMENT_LINE $F1B4 return 0, until the button is released and then depressed again.      ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F1B4 A-reg = mask (for Read_Btns_Mask only)                          ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 Exit: A-reg = button transition state (same as $C811)                 ;
+COMMENT_LINE $F1B4 ;
+COMMENT_LINE $F1B4 B-reg, X-reg trashed                                            ;
+COMMENT_LINE $F1B4 -----------------------------------------------------------------------;
+COMMENT $F1B4 Mask out "always" buttons
+COMMENT $F1BA Point to button flags
+COMMENT $F1BD Save previous state
+COMMENT $F1C1 Sound chip register 0E to port A
+COMMENT $F1C5 sound BDIR on, BC1 on, mux off
+COMMENT $F1CA pause
+COMMENT $F1CB sound BDIR off, BC1 off, mux off
+COMMENT $F1CD DDR A to input
+COMMENT $F1CF sound BDIR off, BC1 on, mux off
+COMMENT $F1D4 pause
+COMMENT $F1D5 Read buttons
+COMMENT $F1D7 Convert to active high
+COMMENT $F1D8 Save buttons
+COMMENT $F1DA sound BDIR off, BC1 off, mux off
+COMMENT $F1DE DDR A to output
+COMMENT $F1E0 Check for transitions
+COMMENT $F1E4 Store transition result
+COMMENT $F1E6 Save result for return value
+COMMENT $F1E8 Initialize bit position
+COMMENT $F1EA Mask out bit
+COMMENT $F1EE Store masked bit
+COMMENT $F1F0 Go back for next bit
+COMMENT $F1F3 Get back transition bits and return
+COMMENT_LINE $F1F5 -----------------------------------------------------------------------;
+COMMENT_LINE $F1F5 F1F5    Joy_Analog                                              ;
+COMMENT_LINE $F1F5 F1F8    Joy_Digital                                             ;
+COMMENT_LINE $F1F5 ;
+COMMENT_LINE $F1F5 These routines read the current positions of the two joysticks.       ;
+COMMENT_LINE $F1F5 ;
+COMMENT_LINE $F1F5 The joystick enable flags (C81F-C822) must be initialized to one of   ;
+COMMENT_LINE $F1F5 the following values:                                                 ;
+COMMENT_LINE $F1F5 ;
+COMMENT_LINE $F1F5 0 - ignore; return no value.                                    ;
+COMMENT_LINE $F1F5 1 - return state of console 1 left/right position.              ;
+COMMENT_LINE $F1F5 3 - return state of console 1 up/down position.                 ;
+COMMENT_LINE $F1F5 5 - return state of console 2 left/right position.              ;
+COMMENT_LINE $F1F5 7 - return state of console 2 up/down position.                 ;
+COMMENT_LINE $F1F5 ;
+COMMENT_LINE $F1F5 The joystick values are returned in $C81B-$C81E, where the value      ;
+COMMENT_LINE $F1F5 returned in $C81B corresponds to the mask = in in $C81F, and so     ;
+COMMENT_LINE $F1F5 on and so forth.                                                      ;
+COMMENT_LINE $F1F5 ;
+COMMENT_LINE $F1F5 The joystick conversion is dependent on which routine is called.      ;
+COMMENT_LINE $F1F5 Results for each routine are:                                         ;
+COMMENT_LINE $F1F5 ;
+COMMENT_LINE $F1F5 Joy_Digital:                                                    ;
+COMMENT_LINE $F1F5 The return value will be:                               ;
+COMMENT_LINE $F1F5 < 0 if joystick is left of down of center.            ;
+COMMENT_LINE $F1F5 = 0 if joystick is centered.                          ;
+COMMENT_LINE $F1F5 > 0 if joystick is right or up of center.             ;
+COMMENT_LINE $F1F5 ;
+COMMENT_LINE $F1F5 Joy_Analog:                                                     ;
+COMMENT_LINE $F1F5 A successive approximation algorithm is used to read    ;
+COMMENT_LINE $F1F5 the actual value of the joystick pot, a signed value.   ;
+COMMENT_LINE $F1F5 In this case, $C81A must be = to a power of 2, to     ;
+COMMENT_LINE $F1F5 to control conversion resolution; 0x80 is least         ;
+COMMENT_LINE $F1F5 accurate, and 0x00is most accurate.                     ;
+COMMENT_LINE $F1F5 ;
+COMMENT_LINE $F1F5 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F1F5 ;
+COMMENT_LINE $F1F5 D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F1F5 -----------------------------------------------------------------------;
+COMMENT $F1F5 Set analog mode flag
+COMMENT $F1F8 Point to first pot
+COMMENT $F1FB Read it if enabled
+COMMENT $F1FF Go back untl all pots read
+COMMENT $F204 X points to $C823, clear it
+COMMENT $F208 disable mux
+COMMENT $F20B enable mux and select pot
+COMMENT $F20D output $00 to D/A
+COMMENT $F20F disable mux
+COMMENT $F211 delay and end up with B=$80
+COMMENT $F216 check analog flag
+COMMENT $F219 branch if analog pot
+COMMENT $F21D enable mux
+COMMENT $F21F test comparator
+COMMENT $F223 output $40 to D/A
+COMMENT $F227 test comparator
+COMMENT $F22D output $C0 to D/A
+COMMENT $F231 test comparator
+COMMENT $F236 store A/D result
+COMMENT $F238 go back for next pot
+COMMENT $F240 test comparator
+COMMENT $F244 branch to go lower?
+COMMENT $F24C try next bit position
+COMMENT $F24D check for accuracy threshold
+COMMENT $F250 go back if not finished
+COMMENT $F252 read D/A value
+COMMENT $F254 go back to store it
+COMMENT_LINE $F256 -----------------------------------------------------------------------;
+COMMENT_LINE $F256 F256    Sound_Byte                                              ;
+COMMENT_LINE $F256 F259    Sound_Byte_x                                            ;
+COMMENT_LINE $F256 F25B    Sound_Byte_raw                                          ;
+COMMENT_LINE $F256 ;
+COMMENT_LINE $F256 All of these routines cause a byte of music data to be written to     ;
+COMMENT_LINE $F256 the music chip.  Sound_Byte stores a shadow copy of the data into     ;
+COMMENT_LINE $F256 $C800-$C80E, and Sound_Byte_x stores a shadow copy into a 15 byte     ;
+COMMENT_LINE $F256 area pointed to by the X register.  Sound_Byte_raw does not store a   ;
+COMMENT_LINE $F256 shadow copy of the data at all.                                       ;
+COMMENT_LINE $F256 ;
+COMMENT_LINE $F256 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F256 A-reg = which of the 15 sound chip registers to modify          ;
+COMMENT_LINE $F256 B-reg = the byte of sound data                                  ;
+COMMENT_LINE $F256 X-reg = 15 byte shadow area (Sound_Byte_x only)                 ;
+COMMENT_LINE $F256 ;
+COMMENT_LINE $F256 EXIT: X-reg = $C800 (Sound_Byte only)                                 ;
+COMMENT_LINE $F256 ;
+COMMENT_LINE $F256 D-reg trashed                                                   ;
+COMMENT_LINE $F256 -----------------------------------------------------------------------;
+COMMENT $F256 point to shadow memory
+COMMENT $F25B store register select byte
+COMMENT $F25D sound BDIR on, BC1 on, mux off
+COMMENT $F261 sound BDIR off, BC1 off, mux off
+COMMENT $F265 read sound chip status (?)
+COMMENT $F267 store data byte
+COMMENT $F269 sound BDIR on, BC1 off, mux off
+COMMENT $F26D sound BDIR off, BC1 off, mux off
+COMMENT_LINE $F272 -----------------------------------------------------------------------;
+COMMENT_LINE $F272 F272    Clear_Sound                                             ;
+COMMENT_LINE $F272 ;
+COMMENT_LINE $F272 This routine clears the 15 registers on the music chip and the soft   ;
+COMMENT_LINE $F272 copy of their values (C800-C80E), by writing a byte of 0 to each      ;
+COMMENT_LINE $F272 register.  This causes the sound chip to not make any sounds.         ;
+COMMENT_LINE $F272 ;
+COMMENT_LINE $F272 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F272 ;
+COMMENT_LINE $F272 D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F272 -----------------------------------------------------------------------;
+COMMENT_LINE $F27D -----------------------------------------------------------------------;
+COMMENT_LINE $F27D F27D    Sound_Bytes                                             ;
+COMMENT_LINE $F27D F284    Sound_Bytes_x? (apparently never used)                  ;
+COMMENT_LINE $F27D ;
+COMMENT_LINE $F27D This routine copies a block of sound information into the sound       ;
+COMMENT_LINE $F27D chip buffer (at $C800-$C80E) and into the registers on the music      ;
+COMMENT_LINE $F27D chip.  The format for the block of sound data is as follows:          ;
+COMMENT_LINE $F27D ;
+COMMENT_LINE $F27D (register number), (music data),                                    ;
+COMMENT_LINE $F27D (register number), (music data),                                    ;
+COMMENT_LINE $F27D .                  .                                          ;
+COMMENT_LINE $F27D .                  .                                          ;
+COMMENT_LINE $F27D 0xFF                                                            ;
+COMMENT_LINE $F27D ;
+COMMENT_LINE $F27D As long as the register number is >= 0, then the music data will be   ;
+COMMENT_LINE $F27D copied; however, as soon as a register number < 0 is encountered,     ;
+COMMENT_LINE $F27D the copy will stop.                                                   ;
+COMMENT_LINE $F27D ;
+COMMENT_LINE $F27D ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F27D U-reg = pointer to the block of sound data                      ;
+COMMENT_LINE $F27D ;
+COMMENT_LINE $F27D D-reg, X-reg, U-reg trashed                                     ;
+COMMENT_LINE $F27D -----------------------------------------------------------------------;
+COMMENT $F27D Point to shadow memory
+COMMENT $F282 Update the sound register
+COMMENT $F284 Get next next pair of bytes
+COMMENT $F286 Go back if not end of list
+COMMENT_LINE $F289 -----------------------------------------------------------------------;
+COMMENT_LINE $F289 F289    Do_Sound                                                ;
+COMMENT_LINE $F289 F28C    Do_Sound_x? (apparently never used)                     ;
+COMMENT_LINE $F289 ;
+COMMENT_LINE $F289 This routine will start/continue making the sound which was first     ;
+COMMENT_LINE $F289 = up by your call to Init_Music.  This routine should normally      ;
+COMMENT_LINE $F289 be called right after your call to Wait_Recal.  It takes the next     ;
+COMMENT_LINE $F289 music information, contained in the music buffer $C83F-$C84C, and     ;
+COMMENT_LINE $F289 updates only those registers which differ from the last data written  ;
+COMMENT_LINE $F289 to the sound chip.                                                    ;
+COMMENT_LINE $F289 ;
+COMMENT_LINE $F289 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F289 ;
+COMMENT_LINE $F289 D-reg, X-reg, U-reg trashed                                     ;
+COMMENT_LINE $F289 -----------------------------------------------------------------------;
+COMMENT $F289 point to shadow memory
+COMMENT $F28C point to sound buffer
+COMMENT $F28F init count for 14 registers
+COMMENT $F291 get next register
+COMMENT $F293 skip if unchanged
+COMMENT $F297 else update register
+COMMENT $F299 go back for next register
+COMMENT_LINE $F29D -----------------------------------------------------------------------;
+COMMENT_LINE $F29D F29D    Intensity_1F                                            ;
+COMMENT_LINE $F29D F2A1    Intensity_3F                                            ;
+COMMENT_LINE $F29D F2A5    Intensity_5F                                            ;
+COMMENT_LINE $F29D F2A9    Intensity_7F                                            ;
+COMMENT_LINE $F29D F2AB    Intensity_a                                             ;
+COMMENT_LINE $F29D ;
+COMMENT_LINE $F29D Each of these routines are responsible for setting the vector/dot     ;
+COMMENT_LINE $F29D intensity (commonly used to denote the z axis) to a specific value.   ;
+COMMENT_LINE $F29D 0x00 is the lowest intensity, and 0xFF is the brightest intensity.    ;
+COMMENT_LINE $F29D The intensity must be reset to the desired value after each call      ;
+COMMENT_LINE $F29D to Wait_Recal; however, it can also be changed at any other time.     ;
+COMMENT_LINE $F29D A copy of the new intensity value is saved in $C827.                  ;
+COMMENT_LINE $F29D ;
+COMMENT_LINE $F29D ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F29D A-reg = intensity (Intensity_a only)                            ;
+COMMENT_LINE $F29D ;
+COMMENT_LINE $F29D D-reg trashed                                                   ;
+COMMENT_LINE $F29D -----------------------------------------------------------------------;
+COMMENT $F2AB Store intensity in D/A
+COMMENT $F2AD Save intensity in $C827
+COMMENT $F2B0 mux disabled channel 2
+COMMENT $F2B5 mux enabled channel 2
+COMMENT $F2B7 do it again just because
+COMMENT $F2BB turn off mux
+COMMENT_LINE $F2BE -----------------------------------------------------------------------;
+COMMENT_LINE $F2BE F2BE    Dot_ix_b                                                ;
+COMMENT_LINE $F2BE F2C1    Dot_ix                                                  ;
+COMMENT_LINE $F2BE ;
+COMMENT_LINE $F2BE These routines draw a dot at the relative y and relative x            ;
+COMMENT_LINE $F2BE position pointed to by the X register.  Afterwards, the X register    ;
+COMMENT_LINE $F2BE is incremented by 2.                                                  ;
+COMMENT_LINE $F2BE ;
+COMMENT_LINE $F2BE ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F2BE X-reg points to the (y,x) coordinate pair                       ;
+COMMENT_LINE $F2BE B-reg contains the intensity (Dot_ix_b only)                    ;
+COMMENT_LINE $F2BE $C828 contains the intensity (Dot_ix only)                      ;
+COMMENT_LINE $F2BE ;
+COMMENT_LINE $F2BE EXIT  X-reg incremented by 2                                          ;
+COMMENT_LINE $F2BE ;
+COMMENT_LINE $F2BE D-reg trashed                                                   ;
+COMMENT_LINE $F2BE -----------------------------------------------------------------------;
+COMMENT_LINE $F2C3 -----------------------------------------------------------------------;
+COMMENT_LINE $F2C3 F2C3    Dot_d                                                   ;
+COMMENT_LINE $F2C3 ;
+COMMENT_LINE $F2C3 This routine draws a dot at the relative y and relative x position    ;
+COMMENT_LINE $F2C3 contained in the D register.  The intensity used is the value         ;
+COMMENT_LINE $F2C3 already stored in $C828.                                              ;
+COMMENT_LINE $F2C3 ;
+COMMENT_LINE $F2C3 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F2C3 A-reg = relative Y coordinate                                   ;
+COMMENT_LINE $F2C3 B-reg = relative X coordinate                                   ;
+COMMENT_LINE $F2C3 ;
+COMMENT_LINE $F2C3 D-reg trashed                                                   ;
+COMMENT_LINE $F2C3 -----------------------------------------------------------------------;
+COMMENT_LINE $F2C5 -----------------------------------------------------------------------;
+COMMENT_LINE $F2C5 F2C5    Dot_here                                                ;
+COMMENT_LINE $F2C5 ;
+COMMENT_LINE $F2C5 This routine draws a dot at the current pen position.                 ;
+COMMENT_LINE $F2C5 The intensity used is the value already stored in $C828.              ;
+COMMENT_LINE $F2C5 ;
+COMMENT_LINE $F2C5 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F2C5 ;
+COMMENT_LINE $F2C5 D-reg trashed                                                   ;
+COMMENT_LINE $F2C5 -----------------------------------------------------------------------;
+COMMENT $F2C5 Set pattern to all 1's
+COMMENT $F2C7 Store in VIA shift register
+COMMENT $F2C9 Get dot dwell (brightness)
+COMMENT $F2CC Delay leaving beam in place
+COMMENT $F2CF Blank beam in VIA shift register
+COMMENT_LINE $F2D2 -----------------------------------------------------------------------;
+COMMENT_LINE $F2D2 F2D5    Dot_List                                                ;
+COMMENT_LINE $F2D2 ;
+COMMENT_LINE $F2D2 This routine draws a series of dots, using the intensity already      ;
+COMMENT_LINE $F2D2 = up in $C828.  The format for the dot list, which is pointed to    ;
+COMMENT_LINE $F2D2 by the X register, is:                                                ;
+COMMENT_LINE $F2D2 ;
+COMMENT_LINE $F2D2 ( rel y, rel x), (rel y, rel x), .....                            ;
+COMMENT_LINE $F2D2 ;
+COMMENT_LINE $F2D2 The number of dots to draw is specified in $C823.                     ;
+COMMENT_LINE $F2D2 ;
+COMMENT_LINE $F2D2 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F2D2 X-reg points to the list of dot coordinates                     ;
+COMMENT_LINE $F2D2 $C823 specifies the number of dots to draw                      ;
+COMMENT_LINE $F2D2 ;
+COMMENT_LINE $F2D2 EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F2D2 $C823 cleared                                                   ;
+COMMENT_LINE $F2D2 ;
+COMMENT_LINE $F2D2 D-reg trashed                                                   ;
+COMMENT_LINE $F2D2 -----------------------------------------------------------------------;
+COMMENT $F2D2 Decrement counter
+COMMENT $F2D5 Draw next dot
+COMMENT $F2D7 Check counter
+COMMENT $F2DA Go back until finished
+COMMENT $F2DC Go to Reset0Ref
+COMMENT_LINE $F2DE -----------------------------------------------------------------------;
+COMMENT_LINE $F2DE F2DE    Dot_List_Reset                                          ;
+COMMENT_LINE $F2DE ;
+COMMENT_LINE $F2DE This routine draws a series of dots, specified by the list pointed    ;
+COMMENT_LINE $F2DE to by the X register.  The list has the following format:             ;
+COMMENT_LINE $F2DE ;
+COMMENT_LINE $F2DE mode, relative y, relative x,                                     ;
+COMMENT_LINE $F2DE mode, relative y, relative x,                                     ;
+COMMENT_LINE $F2DE .      .           .                                            ;
+COMMENT_LINE $F2DE .      .           .                                            ;
+COMMENT_LINE $F2DE mode, relative y, relative x                                      ;
+COMMENT_LINE $F2DE 0x01                                                              ;
+COMMENT_LINE $F2DE ;
+COMMENT_LINE $F2DE This routine will continue to traverse the list, until a mode > 0     ;
+COMMENT_LINE $F2DE is encountered; at that point, it will reset the zero reference       ;
+COMMENT_LINE $F2DE (the integrators).                                                    ;
+COMMENT_LINE $F2DE ;
+COMMENT_LINE $F2DE ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F2DE X-reg points to the dot list                                    ;
+COMMENT_LINE $F2DE ;
+COMMENT_LINE $F2DE EXIT: X-reg points to next byte after the terminator                  ;
+COMMENT_LINE $F2DE ;
+COMMENT_LINE $F2DE D-reg trashed                                                   ;
+COMMENT_LINE $F2DE -----------------------------------------------------------------------;
+COMMENT $F2DE get mode byte
+COMMENT $F2E0 if >0 go to Reset0Ref
+COMMENT $F2E2 plot the dot
+COMMENT $F2E4 dot_list@x_&_reset
+COMMENT_LINE $F2E6 -----------------------------------------------------------------------;
+COMMENT_LINE $F2E6 F2E6    Recalibrate                                             ;
+COMMENT_LINE $F2E6 ;
+COMMENT_LINE $F2E6 Recalibrate the vector generators.                              ;
+COMMENT_LINE $F2E6 ;
+COMMENT_LINE $F2E6 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F2E6 ;
+COMMENT_LINE $F2E6 D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F2E6 -----------------------------------------------------------------------;
+COMMENT $F2E6 $7F7F
+COMMENT $F2EE $8080
+COMMENT_LINE $F2F2 -----------------------------------------------------------------------;
+COMMENT_LINE $F2F2 F2F2    Moveto_x_7F                                             ;
+COMMENT_LINE $F2F2 ;
+COMMENT_LINE $F2F2 This routine forces the scale factor to 0x7F, and then moves the      ;
+COMMENT_LINE $F2F2 pen to the location pointed to by the X register.  The relative y     ;
+COMMENT_LINE $F2F2 and relative x coordinates are both 2 byte quantities; however,       ;
+COMMENT_LINE $F2F2 only the most signicant byte of each is of any interest.  The values  ;
+COMMENT_LINE $F2F2 pointed to by the X register have the following format:               ;
+COMMENT_LINE $F2F2 ;
+COMMENT_LINE $F2F2 X => (rel y hi),(rel y lo), (rel x hi), (rel x lo)                ;
+COMMENT_LINE $F2F2 ;
+COMMENT_LINE $F2F2 The position moved to is obtained by y=(0,x) & x=(2,x).               ;
+COMMENT_LINE $F2F2 ;
+COMMENT_LINE $F2F2 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F2F2 X-reg points to double-sized coordinate pair                    ;
+COMMENT_LINE $F2F2 ;
+COMMENT_LINE $F2F2 D-reg trashed                                                   ;
+COMMENT_LINE $F2F2 -----------------------------------------------------------------------;
+COMMENT $F2F2 Set scale factor to $7F
+COMMENT $F2F6 Get y high
+COMMENT $F2F8 Get x high
+COMMENT_LINE $F2FC -----------------------------------------------------------------------;
+COMMENT_LINE $F2FC F2FC    Moveto_d_7F                                             ;
+COMMENT_LINE $F2FC ;
+COMMENT_LINE $F2FC This routine forces the scale factor to 0x7F, and then moves the      ;
+COMMENT_LINE $F2FC pen to the position specified in the D register.                      ;
+COMMENT_LINE $F2FC ;
+COMMENT_LINE $F2FC ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F2FC A-reg = relative Y coordinate                                   ;
+COMMENT_LINE $F2FC B-reg = relative X coordinate                                   ;
+COMMENT_LINE $F2FC ;
+COMMENT_LINE $F2FC D-reg trashed                                                   ;
+COMMENT_LINE $F2FC -----------------------------------------------------------------------;
+COMMENT $F2FC Store Y in D/A register
+COMMENT $F2FE Save D-register on stack
+COMMENT $F300 Set scale factor to $7F
+COMMENT $F304 Enable mux
+COMMENT_LINE $F308 -----------------------------------------------------------------------;
+COMMENT_LINE $F308 F308    Moveto_ix_FF                                            ;
+COMMENT_LINE $F308 F30C    Moveto_ix_7F                                            ;
+COMMENT_LINE $F308 F30E    Moveto_ix_b                                             ;
+COMMENT_LINE $F308 ;
+COMMENT_LINE $F308 These routines force the scale factor to 0xFF, 0X7F, or the           ;
+COMMENT_LINE $F308 A register, and then move the pen to the (y,x) position pointed to    ;
+COMMENT_LINE $F308 by the X-register.  The X-register is then incremented by 2.          ;
+COMMENT_LINE $F308 ;
+COMMENT_LINE $F308 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F308 X-reg points to the (y,x) coordinate pair                       ;
+COMMENT_LINE $F308 B-reg contains the scale factor (Moveto_ix_b only)              ;
+COMMENT_LINE $F308 ;
+COMMENT_LINE $F308 EXIT: X-reg has been incremented by 2                                 ;
+COMMENT_LINE $F308 ;
+COMMENT_LINE $F308 D-reg trashed                                                   ;
+COMMENT_LINE $F308 -----------------------------------------------------------------------;
+COMMENT $F30E Set scale factor
+COMMENT_LINE $F310 -----------------------------------------------------------------------;
+COMMENT_LINE $F310 F310    Moveto_ix                                               ;
+COMMENT_LINE $F310 ;
+COMMENT_LINE $F310 This routine uses the current scale factor, and moves the pen to the  ;
+COMMENT_LINE $F310 (y,x) position pointed to by the X register.  The X register is then  ;
+COMMENT_LINE $F310 incremented by 2.                                                     ;
+COMMENT_LINE $F310 ;
+COMMENT_LINE $F310 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F310 X-reg points to the (y,x) coordinate pair                       ;
+COMMENT_LINE $F310 ;
+COMMENT_LINE $F310 EXIT: X-reg has been incremented by 2                                 ;
+COMMENT_LINE $F310 ;
+COMMENT_LINE $F310 D-reg trashed                                                   ;
+COMMENT_LINE $F310 -----------------------------------------------------------------------;
+COMMENT_LINE $F312 -----------------------------------------------------------------------;
+COMMENT_LINE $F312 F312    Moveto_d                                                ;
+COMMENT_LINE $F312 ;
+COMMENT_LINE $F312 This routine uses the current scale factor, and moves the pen to the  ;
+COMMENT_LINE $F312 (y,x) position specified in D register.                               ;
+COMMENT_LINE $F312 ;
+COMMENT_LINE $F312 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F312 A-reg = Y coordinate                                            ;
+COMMENT_LINE $F312 B-reg = X coordinate                                            ;
+COMMENT_LINE $F312 ;
+COMMENT_LINE $F312 D-reg trashed                                                   ;
+COMMENT_LINE $F312 -----------------------------------------------------------------------;
+COMMENT $F312 Store Y in D/A register
+COMMENT $F314 Enable mux
+COMMENT $F316 Save D-register on stack
+COMMENT $F318 Blank low, zero high?
+COMMENT $F31C Clear shift regigster
+COMMENT $F31E Disable mux
+COMMENT $F320 Store X in D/A register
+COMMENT $F322 timer 1 count high
+COMMENT $F324 Get back D-reg
+COMMENT $F33B Wait for timer 1
+COMMENT $F341 Delay a moment
+COMMENT $F345 Wait for timer 1
+COMMENT_LINE $F34A -----------------------------------------------------------------------;
+COMMENT_LINE $F34A F34A    Reset0Ref_D0                                            ;
+COMMENT_LINE $F34A ;
+COMMENT_LINE $F34A This routine sets the DP register to D0, and then resets the          ;
+COMMENT_LINE $F34A integrators.                                                          ;
+COMMENT_LINE $F34A ;
+COMMENT_LINE $F34A EXIT: DP = $D0                                                        ;
+COMMENT_LINE $F34A ;
+COMMENT_LINE $F34A D-reg trashed                                                   ;
+COMMENT_LINE $F34A -----------------------------------------------------------------------;
+COMMENT_LINE $F34F -----------------------------------------------------------------------;
+COMMENT_LINE $F34F F34F    Check0Ref                                               ;
+COMMENT_LINE $F34F ;
+COMMENT_LINE $F34F This routine will check to see if the Reset0Ref enable flag ($C824)   ;
+COMMENT_LINE $F34F is set, and if it is, then it will reset the integrators by calling   ;
+COMMENT_LINE $F34F Reset0Ref.                                                            ;
+COMMENT_LINE $F34F ;
+COMMENT_LINE $F34F ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F34F $C824 = enable flag                                             ;
+COMMENT_LINE $F34F ;
+COMMENT_LINE $F34F D-reg trashed                                                   ;
+COMMENT_LINE $F34F -----------------------------------------------------------------------;
+COMMENT_LINE $F354 -----------------------------------------------------------------------;
+COMMENT_LINE $F354 F354    Reset0Ref                                               ;
+COMMENT_LINE $F354 ;
+COMMENT_LINE $F354 This routine zeros the integrators, and resets the pen back to the    ;
+COMMENT_LINE $F354 origin.  It leaves the integrators in zero mode, so nothing can be    ;
+COMMENT_LINE $F354 drawn until a move is done, or $D00C is = to 0xCE to bring /ZERO    ;
+COMMENT_LINE $F354 high.  This routine must be called every so often, to prevent your    ;
+COMMENT_LINE $F354 vectors from getting out of whack.                                    ;
+COMMENT_LINE $F354 ;
+COMMENT_LINE $F354 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F354 ;
+COMMENT_LINE $F354 D-reg trashed                                                   ;
+COMMENT_LINE $F354 -----------------------------------------------------------------------;
+COMMENT $F357 /BLANK low and /ZERO low
+COMMENT $F359 clear shift register
+COMMENT_LINE $F35B -----------------------------------------------------------------------;
+COMMENT_LINE $F35B F35B    Reset_Pen                                               ;
+COMMENT_LINE $F35B ;
+COMMENT_LINE $F35B Reset the pen to the origin.                                    ;
+COMMENT_LINE $F35B ;
+COMMENT_LINE $F35B ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F35B ;
+COMMENT_LINE $F35B D-reg trashed                                                   ;
+COMMENT_LINE $F35B -----------------------------------------------------------------------;
+COMMENT $F35E clear D/A register
+COMMENT $F360 mux=1, disable mux
+COMMENT $F362 mux=1, enable mux
+COMMENT $F364 do it again
+COMMENT $F368 disable mux
+COMMENT_LINE $F36B -----------------------------------------------------------------------;
+COMMENT_LINE $F36B F36B    Reset0Int                                               ;
+COMMENT_LINE $F36B ;
+COMMENT_LINE $F36B This routine resets the integrators to zero.  It leaves the           ;
+COMMENT_LINE $F36B integrators in zero mode, so nothing can be drawn until a move is     ;
+COMMENT_LINE $F36B done, or D00C is = to 0xCE.                                         ;
+COMMENT_LINE $F36B ;
+COMMENT_LINE $F36B ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F36B ;
+COMMENT_LINE $F36B D-reg trashed                                                   ;
+COMMENT_LINE $F36B -----------------------------------------------------------------------;
+COMMENT $F36E blank low and zero low
+COMMENT $F370 clear shift register
+COMMENT_LINE $F373 -----------------------------------------------------------------------;
+COMMENT_LINE $F373 F373    Print_Str_hwyx                                          ;
+COMMENT_LINE $F373 ;
+COMMENT_LINE $F373 This routine prints a single string (up to an 0x80).  The parameter   ;
+COMMENT_LINE $F373 block describing the string is pointed to by the U register.  The     ;
+COMMENT_LINE $F373 format for the parameter block is as follows:                         ;
+COMMENT_LINE $F373 ;
+COMMENT_LINE $F373 height, width, rel y, rel x, string, 0x80                       ;
+COMMENT_LINE $F373 ;
+COMMENT_LINE $F373 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F373 U-reg points to the string list                                 ;
+COMMENT_LINE $F373 ;
+COMMENT_LINE $F373 EXIT: U-reg points to the byte after the terminating 0x80             ;
+COMMENT_LINE $F373 ;
+COMMENT_LINE $F373 D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F373 -----------------------------------------------------------------------;
+COMMENT_LINE $F378 -----------------------------------------------------------------------;
+COMMENT_LINE $F378 F378    Print_Str_yx                                            ;
+COMMENT_LINE $F378 ;
+COMMENT_LINE $F378 This routine prints a single string (up to an 0x80), using the        ;
+COMMENT_LINE $F378 default height and width, as stored in $C82A.  The parameter block    ;
+COMMENT_LINE $F378 describing the string is pointed to by the U register.  The format    ;
+COMMENT_LINE $F378 for the parameter block is as follows:                                ;
+COMMENT_LINE $F378 ;
+COMMENT_LINE $F378 rel y, rel x, string, 0x80                                      ;
+COMMENT_LINE $F378 ;
+COMMENT_LINE $F378 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F378 U-reg points to the string list                                 ;
+COMMENT_LINE $F378 ;
+COMMENT_LINE $F378 EXIT: U-reg points to the byte after the terminating 0x80             ;
+COMMENT_LINE $F378 ;
+COMMENT_LINE $F378 D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F378 -----------------------------------------------------------------------;
+COMMENT_LINE $F37A -----------------------------------------------------------------------;
+COMMENT_LINE $F37A F37A    Print_Str_d                                             ;
+COMMENT_LINE $F37A ;
+COMMENT_LINE $F37A This routine prints a single string (up to an 0x80), using the        ;
+COMMENT_LINE $F37A default height and width, as stored in $C82A, and at the pen position ;
+COMMENT_LINE $F37A specified in the D register.  The parameter block describing the      ;
+COMMENT_LINE $F37A string is pointed to by the U register.  The format for the           ;
+COMMENT_LINE $F37A parameter block is as follows:                                        ;
+COMMENT_LINE $F37A ;
+COMMENT_LINE $F37A string, 0x80                                                      ;
+COMMENT_LINE $F37A ;
+COMMENT_LINE $F37A ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F37A U-reg points to string list                                     ;
+COMMENT_LINE $F37A A-reg = relative Y position                                     ;
+COMMENT_LINE $F37A B-reg = relative X position                                     ;
+COMMENT_LINE $F37A ;
+COMMENT_LINE $F37A EXIT: U-reg points to the byte after the terminating 0x80             ;
+COMMENT_LINE $F37A ;
+COMMENT_LINE $F37A D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F37A -----------------------------------------------------------------------;
+COMMENT $F37A neccessary for assembling, this jsr is allways
+COMMENT_LINE $F37A optimized to a short branch otherwise
+COMMENT_LINE $F383 -----------------------------------------------------------------------;
+COMMENT_LINE $F383 F385    Print_List_hw                                           ;
+COMMENT_LINE $F383 ;
+COMMENT_LINE $F383 This displays the group of strings described by the parameter block   ;
+COMMENT_LINE $F383 which is pointed to by the U register.  The string parameter block    ;
+COMMENT_LINE $F383 has the following format:                                             ;
+COMMENT_LINE $F383 ;
+COMMENT_LINE $F383 height, width, rel y, rel x, string, 0x80,                        ;
+COMMENT_LINE $F383 height, width, rel y, rel x, string, 0x80,                        ;
+COMMENT_LINE $F383 0x00                                                              ;
+COMMENT_LINE $F383 ;
+COMMENT_LINE $F383 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F383 U-reg points to string list                                     ;
+COMMENT_LINE $F383 ;
+COMMENT_LINE $F383 EXIT: U-reg points to null terminator byte                            ;
+COMMENT_LINE $F383 ;
+COMMENT_LINE $F383 D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F383 -----------------------------------------------------------------------;
+COMMENT_LINE $F38A -----------------------------------------------------------------------;
+COMMENT_LINE $F38A F38A    Print_List                                              ;
+COMMENT_LINE $F38A F38C    Print_List_chk                                          ;
+COMMENT_LINE $F38A ;
+COMMENT_LINE $F38A This displays the group of strings described by the parameter block   ;
+COMMENT_LINE $F38A which is pointed to by the U register.  The string parameter block    ;
+COMMENT_LINE $F38A has the following format:                                             ;
+COMMENT_LINE $F38A ;
+COMMENT_LINE $F38A rel y, rel x, string, 0x80,                                     ;
+COMMENT_LINE $F38A rel y, rel x, string, 0x80,                                     ;
+COMMENT_LINE $F38A 0x00                                                            ;
+COMMENT_LINE $F38A ;
+COMMENT_LINE $F38A The current string height and width to which the hardware is = will ;
+COMMENT_LINE $F38A be used.                                                              ;
+COMMENT_LINE $F38A ;
+COMMENT_LINE $F38A Print_List routine will first print the passed-in string, and THEN    ;
+COMMENT_LINE $F38A check for the end of the string list.  Print_List_Chk will check for  ;
+COMMENT_LINE $F38A the end of the string list first.                                     ;
+COMMENT_LINE $F38A ;
+COMMENT_LINE $F38A ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F38A U-reg points to string list                                     ;
+COMMENT_LINE $F38A ;
+COMMENT_LINE $F38A EXIT: U-reg points to null terminator byte                            ;
+COMMENT_LINE $F38A ;
+COMMENT_LINE $F38A D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F38A -----------------------------------------------------------------------;
+COMMENT_LINE $F391 -----------------------------------------------------------------------;
+COMMENT_LINE $F391 F391    Print_Ships_x                                           ;
+COMMENT_LINE $F391 F393    Print_Ships                                             ;
+COMMENT_LINE $F391 ;
+COMMENT_LINE $F391 This routine displays the number of ships passed in the B register    ;
+COMMENT_LINE $F391 followed by a minus sign and the ship icon character passed in the    ;
+COMMENT_LINE $F391 A register at the (y,x) coordinates passed in the X register.  If     ;
+COMMENT_LINE $F391 the B-register > 9, then the infinity symbol is displayed.            ;
+COMMENT_LINE $F391 ;
+COMMENT_LINE $F391 Note: This routine uses bytes at a negative offset from the stack as  ;
+COMMENT_LINE $F391 temporary storage, so hopefully an IRQ won't happen until the   ;
+COMMENT_LINE $F391 string is finished bring printed!                               ;
+COMMENT_LINE $F391 ;
+COMMENT_LINE $F391 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F391 A-reg = ship icon character                                     ;
+COMMENT_LINE $F391 B-reg = number of ships                                         ;
+COMMENT_LINE $F391 X-reg = (y,x) coordinates (Print_Ships only)                    ;
+COMMENT_LINE $F391 X-reg points to (y,x) coordinates (Print_Ships_x only)          ;
+COMMENT_LINE $F391 ;
+COMMENT_LINE $F391 D-reg, X-reg, U-reg trashed                                     ;
+COMMENT_LINE $F391 -----------------------------------------------------------------------;
+COMMENT $F393 Save B-reg
+COMMENT $F397 Point U into the stack
+COMMENT $F399 Save A-reg and a terminator
+COMMENT $F39B Get back B-reg
+COMMENT $F39D If B-reg >9 then
+COMMENT $F3A1 load $6C = infinty symbol
+COMMENT $F3A7 Push digit and minus sign
+COMMENT $F3A9 Push (y,x) coordinates
+COMMENT $F3AB Print it
+COMMENT_LINE $F3AD -----------------------------------------------------------------------;
+COMMENT_LINE $F3AD F3AD    Mov_Draw_VLc_a                                          ;
+COMMENT_LINE $F3AD ;
+COMMENT_LINE $F3AD This routine moves to the first location specified in vector list,    ;
+COMMENT_LINE $F3AD and then draws lines between the rest of coordinates in the list.     ;
+COMMENT_LINE $F3AD The number of vectors to draw is specified as the first byte in the   ;
+COMMENT_LINE $F3AD vector list.  The current scale factor is used.  The vector list has  ;
+COMMENT_LINE $F3AD the following format:                                                 ;
+COMMENT_LINE $F3AD ;
+COMMENT_LINE $F3AD count, rel y, rel x, rel y, rel x, ...                          ;
+COMMENT_LINE $F3AD ;
+COMMENT_LINE $F3AD ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3AD X-reg points to the vector list                                 ;
+COMMENT_LINE $F3AD ;
+COMMENT_LINE $F3AD EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F3AD ;
+COMMENT_LINE $F3AD D-reg trashed                                                   ;
+COMMENT_LINE $F3AD -----------------------------------------------------------------------;
+COMMENT_LINE $F3B1 -----------------------------------------------------------------------;
+COMMENT_LINE $F3B1 F3B1    Mov_Draw_VL_b                                           ;
+COMMENT_LINE $F3B1 ;
+COMMENT_LINE $F3B1 This routine moves to the first location specified in vector list,    ;
+COMMENT_LINE $F3B1 and then draws lines between the rest of coordinates in the list.     ;
+COMMENT_LINE $F3B1 The vector list has the following format:                             ;
+COMMENT_LINE $F3B1 ;
+COMMENT_LINE $F3B1 rel y, rel x, rel y, rel x, ...                                 ;
+COMMENT_LINE $F3B1 ;
+COMMENT_LINE $F3B1 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3B1 B-reg = scale factor                                            ;
+COMMENT_LINE $F3B1 $C823 = number of vectors to draw                               ;
+COMMENT_LINE $F3B1 X-reg points to the vector list                                 ;
+COMMENT_LINE $F3B1 ;
+COMMENT_LINE $F3B1 EXIT: $C823 is cleared                                                ;
+COMMENT_LINE $F3B1 ;
+COMMENT_LINE $F3B1 EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F3B1 ;
+COMMENT_LINE $F3B1 D-reg trashed                                                   ;
+COMMENT_LINE $F3B1 -----------------------------------------------------------------------;
+COMMENT $F3B1 Set scale factor
+COMMENT_LINE $F3B5 -----------------------------------------------------------------------;
+COMMENT_LINE $F3B5 F3B5    Mov_Draw_VLcs                                           ;
+COMMENT_LINE $F3B5 ;
+COMMENT_LINE $F3B5 This routine moves to the first location specified in vector list,    ;
+COMMENT_LINE $F3B5 and then draws lines between the rest of coordinates in the list.     ;
+COMMENT_LINE $F3B5 The number of vectors to draw is specified as the first byte in the   ;
+COMMENT_LINE $F3B5 vector list, and the scale factor is the second byte in the vector    ;
+COMMENT_LINE $F3B5 list.  The vector list has the following format:                      ;
+COMMENT_LINE $F3B5 ;
+COMMENT_LINE $F3B5 count, scale, rel y, rel x, rel y, rel x, ...                   ;
+COMMENT_LINE $F3B5 ;
+COMMENT_LINE $F3B5 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3B5 X-reg points to the vector list                                 ;
+COMMENT_LINE $F3B5 ;
+COMMENT_LINE $F3B5 EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F3B5 ;
+COMMENT_LINE $F3B5 D-reg trashed                                                   ;
+COMMENT_LINE $F3B5 -----------------------------------------------------------------------;
+COMMENT_LINE $F3B7 -----------------------------------------------------------------------;
+COMMENT_LINE $F3B7 F3B7    Mov_Draw_VL_ab                                          ;
+COMMENT_LINE $F3B7 F3B9    Mov_Draw_VL_a                                           ;
+COMMENT_LINE $F3B7 ;
+COMMENT_LINE $F3B7 This routine moves to the first location specified in vector list,    ;
+COMMENT_LINE $F3B7 and then draws lines between the rest of coordinates in the list.     ;
+COMMENT_LINE $F3B7 The vector list has the  following format:                            ;
+COMMENT_LINE $F3B7 ;
+COMMENT_LINE $F3B7 rel y, rel x, rel y, rel x, ...                                 ;
+COMMENT_LINE $F3B7 ;
+COMMENT_LINE $F3B7 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3B7 A-reg = number of vectors to draw                               ;
+COMMENT_LINE $F3B7 B-reg = scale factor to use (Draw_VL_ab only)                   ;
+COMMENT_LINE $F3B7 X-reg points to the vector list                                 ;
+COMMENT_LINE $F3B7 ;
+COMMENT_LINE $F3B7 EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F3B7 ;
+COMMENT_LINE $F3B7 D-reg trashed                                                   ;
+COMMENT_LINE $F3B7 -----------------------------------------------------------------------;
+COMMENT $F3B7 Set scale factor
+COMMENT_LINE $F3BC -----------------------------------------------------------------------;
+COMMENT_LINE $F3BC F3BC    Mov_Draw_VL                                             ;
+COMMENT_LINE $F3BC F3BE    Mov_Draw_VL_d                                           ;
+COMMENT_LINE $F3BC ;
+COMMENT_LINE $F3BC This routine moves to the first location specified in vector list,    ;
+COMMENT_LINE $F3BC and then draws lines between the rest of coordinates in the list.     ;
+COMMENT_LINE $F3BC The vector list has the following format:                             ;
+COMMENT_LINE $F3BC ;
+COMMENT_LINE $F3BC rel y, rel x, rel y, rel x, ...                                 ;
+COMMENT_LINE $F3BC ;
+COMMENT_LINE $F3BC Draw_VL_d starts at the (y,x) coordinates specified in the D register ;
+COMMENT_LINE $F3BC and ignores the first pair of coordinates in the vector list.         ;
+COMMENT_LINE $F3BC ;
+COMMENT_LINE $F3BC ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3BC $C823 = number of vectors to draw                               ;
+COMMENT_LINE $F3BC D-reg = start coordinate (Draw_VL_d only)                       ;
+COMMENT_LINE $F3BC X-reg points to the vector list (2,X for Mov_Draw_VL_d)         ;
+COMMENT_LINE $F3BC ;
+COMMENT_LINE $F3BC EXIT: $C823 is cleared                                                ;
+COMMENT_LINE $F3BC ;
+COMMENT_LINE $F3BC EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F3BC ;
+COMMENT_LINE $F3BC D-reg trashed                                                   ;
+COMMENT_LINE $F3BC -----------------------------------------------------------------------;
+COMMENT $F3BC Get next coordinate pair
+COMMENT $F3BE Send Y to A/D
+COMMENT $F3C0 Enable mux
+COMMENT $F3C2 Point to next coordinate pair
+COMMENT $F3C4 Wait a moment
+COMMENT $F3C5 Disable mux
+COMMENT $F3C7 Send X to A/D
+COMMENT $F3C9 Shift reg=0 (no draw), T1H=0
+COMMENT $F3CC A->D00A, B->D005
+COMMENT_LINE $F3CE -----------------------------------------------------------------------;
+COMMENT_LINE $F3CE F3CE    Draw_VLc                                                ;
+COMMENT_LINE $F3CE ;
+COMMENT_LINE $F3CE This routine draws vectors between the = of (y,x) points pointed    ;
+COMMENT_LINE $F3CE to by the X register.  The number of vectors to draw is specified     ;
+COMMENT_LINE $F3CE as the first byte in the vector list.  The current scale factor is    ;
+COMMENT_LINE $F3CE used.  The vector list has the following format:                      ;
+COMMENT_LINE $F3CE ;
+COMMENT_LINE $F3CE count, rel y, rel x, rel y, rel x, ...                          ;
+COMMENT_LINE $F3CE ;
+COMMENT_LINE $F3CE ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3CE X-reg points to the vector list                                 ;
+COMMENT_LINE $F3CE ;
+COMMENT_LINE $F3CE EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F3CE ;
+COMMENT_LINE $F3CE D-reg trashed                                                   ;
+COMMENT_LINE $F3CE -----------------------------------------------------------------------;
+COMMENT_LINE $F3D2 -----------------------------------------------------------------------;
+COMMENT_LINE $F3D2 F3D2    Draw_VL_b                                               ;
+COMMENT_LINE $F3D2 ;
+COMMENT_LINE $F3D2 This routine draws vectors between the = of (y,x) points pointed to ;
+COMMENT_LINE $F3D2 by the X register.  The vector list has the following format:         ;
+COMMENT_LINE $F3D2 ;
+COMMENT_LINE $F3D2 rel y, rel x, rel y, rel x, ...                                 ;
+COMMENT_LINE $F3D2 ;
+COMMENT_LINE $F3D2 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3D2 B-reg = the scale factor                                        ;
+COMMENT_LINE $F3D2 X-reg points to the vector list                                 ;
+COMMENT_LINE $F3D2 ;
+COMMENT_LINE $F3D2 EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F3D2 ;
+COMMENT_LINE $F3D2 D-reg trashed                                                   ;
+COMMENT_LINE $F3D2 -----------------------------------------------------------------------;
+COMMENT $F3D2 Set scale factor
+COMMENT_LINE $F3D6 -----------------------------------------------------------------------;
+COMMENT_LINE $F3D6 F3D6    Draw_VLcs                                               ;
+COMMENT_LINE $F3D6 ;
+COMMENT_LINE $F3D6 This routine draws vectors between the = of (y,x) points pointed    ;
+COMMENT_LINE $F3D6 to by the X register.  The number of vectors to draw is specified     ;
+COMMENT_LINE $F3D6 as the first byte in the vector list.  The scale factor is specified  ;
+COMMENT_LINE $F3D6 as the second byte in the vector list. The vector list has the        ;
+COMMENT_LINE $F3D6 following format:                                                     ;
+COMMENT_LINE $F3D6 ;
+COMMENT_LINE $F3D6 count, scale, rel y, rel x, rel y, rel x, ...                   ;
+COMMENT_LINE $F3D6 ;
+COMMENT_LINE $F3D6 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3D6 X-reg points to the vector list                                 ;
+COMMENT_LINE $F3D6 ;
+COMMENT_LINE $F3D6 EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F3D6 ;
+COMMENT_LINE $F3D6 D-reg trashed                                                   ;
+COMMENT_LINE $F3D6 -----------------------------------------------------------------------;
+COMMENT_LINE $F3D8 -----------------------------------------------------------------------;
+COMMENT_LINE $F3D8 F3D8    Draw_VL_ab                                              ;
+COMMENT_LINE $F3D8 ;
+COMMENT_LINE $F3D8 This routine draws vectors between the = of (y,x) points pointed    ;
+COMMENT_LINE $F3D8 to by the X register.  The vector list has the following format:      ;
+COMMENT_LINE $F3D8 ;
+COMMENT_LINE $F3D8 rel y, rel x, rel y, rel x, ...                                 ;
+COMMENT_LINE $F3D8 ;
+COMMENT_LINE $F3D8 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3D8 A-reg = the number of vectors to draw                           ;
+COMMENT_LINE $F3D8 B-reg = the scale factor                                        ;
+COMMENT_LINE $F3D8 X-reg points to the vector list                                 ;
+COMMENT_LINE $F3D8 ;
+COMMENT_LINE $F3D8 EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F3D8 ;
+COMMENT_LINE $F3D8 D-reg trashed                                                   ;
+COMMENT_LINE $F3D8 -----------------------------------------------------------------------;
+COMMENT_LINE $F3DA -----------------------------------------------------------------------;
+COMMENT_LINE $F3DA F3DA    Draw_VL_a                                               ;
+COMMENT_LINE $F3DA ;
+COMMENT_LINE $F3DA This routine draws vectors between the = of (y,x) points pointed    ;
+COMMENT_LINE $F3DA to by the register.  The current scale factor is used.  The vector    ;
+COMMENT_LINE $F3DA list has the following format:                                        ;
+COMMENT_LINE $F3DA ;
+COMMENT_LINE $F3DA rel y, rel x, rel y, rel x, ...                                 ;
+COMMENT_LINE $F3DA ;
+COMMENT_LINE $F3DA ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3DA A-reg = the number of vectors to draw                           ;
+COMMENT_LINE $F3DA X-reg points to the vector list                                 ;
+COMMENT_LINE $F3DA ;
+COMMENT_LINE $F3DA EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F3DA ;
+COMMENT_LINE $F3DA D-reg trashed                                                   ;
+COMMENT_LINE $F3DA -----------------------------------------------------------------------;
+COMMENT_LINE $F3DD -----------------------------------------------------------------------;
+COMMENT_LINE $F3DD F3DD    Draw_VL                                                 ;
+COMMENT_LINE $F3DD ;
+COMMENT_LINE $F3DD This routine draws vectors between the = of (y,x) points pointed    ;
+COMMENT_LINE $F3DD to by the X register.  The number of vectors to draw must already be  ;
+COMMENT_LINE $F3DD specified in $C823.  The current scale factor is used.  The vector    ;
+COMMENT_LINE $F3DD list has the following format:                                        ;
+COMMENT_LINE $F3DD ;
+COMMENT_LINE $F3DD rel y, rel x, rel y, rel x, ...                                 ;
+COMMENT_LINE $F3DD ;
+COMMENT_LINE $F3DD ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3DD X-reg points to the vector list                                 ;
+COMMENT_LINE $F3DD ;
+COMMENT_LINE $F3DD EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F3DD ;
+COMMENT_LINE $F3DD D-reg trashed                                                   ;
+COMMENT_LINE $F3DD -----------------------------------------------------------------------;
+COMMENT_LINE $F3DF -----------------------------------------------------------------------;
+COMMENT_LINE $F3DF F3DF    Draw_Line_d                                             ;
+COMMENT_LINE $F3DF ;
+COMMENT_LINE $F3DF This routine will draw a line from the current pen position, to the   ;
+COMMENT_LINE $F3DF point specified by the (y,x) pair specified in the D register.  The   ;
+COMMENT_LINE $F3DF current scale factor is used.  Before calling this routine, $C823     ;
+COMMENT_LINE $F3DF should be = 0, so that only the one vector will be drawn.             ;
+COMMENT_LINE $F3DF ;
+COMMENT_LINE $F3DF ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F3DF A-reg = relative y position                                     ;
+COMMENT_LINE $F3DF B-reg = relative x position                                     ;
+COMMENT_LINE $F3DF ;
+COMMENT_LINE $F3DF EXIT: X-reg is incremented by 2                                       ;
+COMMENT_LINE $F3DF ;
+COMMENT_LINE $F3DF D-reg trashed                                                   ;
+COMMENT_LINE $F3DF -----------------------------------------------------------------------;
+COMMENT $F3DF Send Y to A/D
+COMMENT $F3E1 Enable mux
+COMMENT $F3E3 Point to next coordinate pair
+COMMENT $F3E5 Wait a moment
+COMMENT $F3E6 Disable mux
+COMMENT $F3E8 Send X to A/D
+COMMENT $F3EA Shift reg=$FF (solid line), T1H=0
+COMMENT $F3ED Put pattern in shift register
+COMMENT $F3EF Set T1H (scale factor?)
+COMMENT $F3F1 B-reg = T1 interrupt bit
+COMMENT $F3F4 Wait for T1 to time out
+COMMENT $F3F8 Wait a moment more
+COMMENT $F3F9 Clear shift register (blank output)
+COMMENT $F3FB Decrement line count
+COMMENT $F3FF Go back for more points
+COMMENT $F401 Reset zero reference if necessary
+COMMENT_LINE $F404 -----------------------------------------------------------------------;
+COMMENT_LINE $F404 F404    Draw_VLp_FF                                             ;
+COMMENT_LINE $F404 F408    Draw_VLp_7F                                             ;
+COMMENT_LINE $F404 ;
+COMMENT_LINE $F404 These routines force the scale factor to 0xFF or 0x7F, and then       ;
+COMMENT_LINE $F404 process the vector list pointed to by the X register.  The vector     ;
+COMMENT_LINE $F404 list has the following format:                                        ;
+COMMENT_LINE $F404 ;
+COMMENT_LINE $F404 pattern, rel y, rel x                                           ;
+COMMENT_LINE $F404 pattern, rel y, rel x                                           ;
+COMMENT_LINE $F404 .      .      .                                              ;
+COMMENT_LINE $F404 .      .      .                                              ;
+COMMENT_LINE $F404 pattern, rel y, rel x                                           ;
+COMMENT_LINE $F404 0x01                                                            ;
+COMMENT_LINE $F404 ;
+COMMENT_LINE $F404 The list is terminated by a pattern byte with the high bit cleared.   ;
+COMMENT_LINE $F404 ;
+COMMENT_LINE $F404 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F404 X-reg points to the vector list                                 ;
+COMMENT_LINE $F404 ;
+COMMENT_LINE $F404 EXIT: X-reg points to the terminator byte                             ;
+COMMENT_LINE $F404 ;
+COMMENT_LINE $F404 D-reg trashed                                                   ;
+COMMENT_LINE $F404 -----------------------------------------------------------------------;
+COMMENT_LINE $F40C -----------------------------------------------------------------------;
+COMMENT_LINE $F40C F40C    Draw_VLp_scale                                          ;
+COMMENT_LINE $F40C ;
+COMMENT_LINE $F40C This routine processes the vector list pointed to by the X register.  ;
+COMMENT_LINE $F40C The first byte in the vector list is the scale factor.  The vector    ;
+COMMENT_LINE $F40C list has the following format:                                        ;
+COMMENT_LINE $F40C ;
+COMMENT_LINE $F40C scale                                                           ;
+COMMENT_LINE $F40C pattern, rel y, rel x                                           ;
+COMMENT_LINE $F40C pattern, rel y, rel x                                           ;
+COMMENT_LINE $F40C .      .      .                                              ;
+COMMENT_LINE $F40C .      .      .                                              ;
+COMMENT_LINE $F40C pattern, rel y, rel x                                           ;
+COMMENT_LINE $F40C 0x01                                                            ;
+COMMENT_LINE $F40C ;
+COMMENT_LINE $F40C The list is terminated by a pattern byte with the high bit cleared.   ;
+COMMENT_LINE $F40C ;
+COMMENT_LINE $F40C ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F40C X-reg points to the vector list                                 ;
+COMMENT_LINE $F40C ;
+COMMENT_LINE $F40C EXIT: X-reg points to the terminator byte                             ;
+COMMENT_LINE $F40C ;
+COMMENT_LINE $F40C D-reg trashed                                                   ;
+COMMENT_LINE $F40C -----------------------------------------------------------------------;
+COMMENT_LINE $F40E -----------------------------------------------------------------------;
+COMMENT_LINE $F40E F40E    Draw_VLp_b                                              ;
+COMMENT_LINE $F40E ;
+COMMENT_LINE $F40E This routine draws patterned lines using the vector list pointed to   ;
+COMMENT_LINE $F40E by the X register.  The vector list has the following format:         ;
+COMMENT_LINE $F40E ;
+COMMENT_LINE $F40E pattern, rel y, rel x                                           ;
+COMMENT_LINE $F40E pattern, rel y, rel x                                           ;
+COMMENT_LINE $F40E .      .      .                                              ;
+COMMENT_LINE $F40E .      .      .                                              ;
+COMMENT_LINE $F40E pattern, rel y, rel x                                           ;
+COMMENT_LINE $F40E 0x01                                                            ;
+COMMENT_LINE $F40E ;
+COMMENT_LINE $F40E The list is terminated by a pattern byte with the high bit cleared.   ;
+COMMENT_LINE $F40E ;
+COMMENT_LINE $F40E ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F40E B-reg = the scale factor                                        ;
+COMMENT_LINE $F40E X-reg points to the vector list                                 ;
+COMMENT_LINE $F40E ;
+COMMENT_LINE $F40E EXIT: X-reg points to the terminator byte                             ;
+COMMENT_LINE $F40E ;
+COMMENT_LINE $F40E D-reg trashed                                                   ;
+COMMENT_LINE $F40E -----------------------------------------------------------------------;
+COMMENT $F40E Set scale factor
+COMMENT_LINE $F410 -----------------------------------------------------------------------;
+COMMENT_LINE $F410 F410    Draw_VLp                                                ;
+COMMENT_LINE $F410 ;
+COMMENT_LINE $F410 This routine draws patterned lines using the vector list pointed to   ;
+COMMENT_LINE $F410 by the X-register.  The current scale factor is used.  The vector     ;
+COMMENT_LINE $F410 list has the following format:                                        ;
+COMMENT_LINE $F410 ;
+COMMENT_LINE $F410 pattern, rel y, rel x                                           ;
+COMMENT_LINE $F410 pattern, rel y, rel x                                           ;
+COMMENT_LINE $F410 .      .      .                                              ;
+COMMENT_LINE $F410 .      .      .                                              ;
+COMMENT_LINE $F410 pattern, rel y, rel x                                           ;
+COMMENT_LINE $F410 0x01                                                            ;
+COMMENT_LINE $F410 ;
+COMMENT_LINE $F410 The list is terminated by a pattern byte with the high bit cleared.   ;
+COMMENT_LINE $F410 ;
+COMMENT_LINE $F410 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F410 X-reg points to the vector list                                 ;
+COMMENT_LINE $F410 ;
+COMMENT_LINE $F410 EXIT: X-reg points to the terminator byte                             ;
+COMMENT_LINE $F410 ;
+COMMENT_LINE $F410 D-reg trashed                                                   ;
+COMMENT_LINE $F410 -----------------------------------------------------------------------;
+COMMENT $F410 Get next coordinate pair
+COMMENT $F412 Send Y to A/D
+COMMENT $F414 Enable mux
+COMMENT $F416 Get pattern byte?
+COMMENT $F418 Advance to next point in list
+COMMENT $F41A Disable mux
+COMMENT $F41C Send X to A/D
+COMMENT $F41E Store pattern in shift register
+COMMENT $F420 Clear T1H
+COMMENT $F422 B-reg = T1 interrupt bit
+COMMENT $F425 Wait for T1 to time out
+COMMENT $F429 Wait a moment more
+COMMENT $F42A Clear shift register (blank output)
+COMMENT $F42C Get next pattern byte
+COMMENT $F42E Go back if high bit of pattern is set
+COMMENT_LINE $F433 -----------------------------------------------------------------------;
+COMMENT_LINE $F433 F434    Draw_Pat_VL_a                                           ;
+COMMENT_LINE $F433 F437    Draw_Pat_VL                                             ;
+COMMENT_LINE $F433 F439    Draw_Pat_VL_d                                           ;
+COMMENT_LINE $F433 ;
+COMMENT_LINE $F433 All of these routines draw a series of patterned vectors.  The        ;
+COMMENT_LINE $F433 pattern to use must already be specified in $C829.  When using        ;
+COMMENT_LINE $F433 Draw_Pat_VL or Draw_Pat_VL_d, the number of vectors to draw minus 1   ;
+COMMENT_LINE $F433 must be specified in $C823; when using Draw_Pat_VL_a, the number of   ;
+COMMENT_LINE $F433 vectors to draw minus 1 must be passed in in the A register.          ;
+COMMENT_LINE $F433 The vector list, pointed to by the X register, has the following      ;
+COMMENT_LINE $F433 format:                                                               ;
+COMMENT_LINE $F433 ;
+COMMENT_LINE $F433 rel y, rel x, rel y, rel x, ...                                 ;
+COMMENT_LINE $F433 ;
+COMMENT_LINE $F433 Draw_Pat_VL_d starts at the (y,x) coordinates specified in the        ;
+COMMENT_LINE $F433 D register and ignores the first pair of coordinates in the vector    ;
+COMMENT_LINE $F433 list.                                                                 ;
+COMMENT_LINE $F433 ;
+COMMENT_LINE $F433 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F433 X-reg points to the vector list                                 ;
+COMMENT_LINE $F433 A-reg = the number of vectors to draw (Draw_Pat_VL_a only)      ;
+COMMENT_LINE $F433 D-reg = start (Y,X) coordinate (Draw_Pat_VL_d only)             ;
+COMMENT_LINE $F433 $C829 contains the line pattern.                                ;
+COMMENT_LINE $F433 ;
+COMMENT_LINE $F433 EXIT: X-reg points to next byte after list                            ;
+COMMENT_LINE $F433 ;
+COMMENT_LINE $F433 D-reg trashed                                                   ;
+COMMENT_LINE $F433 -----------------------------------------------------------------------;
+COMMENT $F437 Get next coordinate pair
+COMMENT $F439 Send Y to A/D
+COMMENT $F43B Enable mux
+COMMENT $F43D Point to next coordinate pair
+COMMENT $F43F Disable mux
+COMMENT $F441 Send X to A/D
+COMMENT $F443 Get default pattern
+COMMENT $F446 B-reg = T1 interrupt bit
+COMMENT $F448 Put pattern in shift register
+COMMENT $F44A Clear T1H (scale factor?)
+COMMENT $F44C Check if T1 timed out (note wasted byte)
+COMMENT $F44F Update pattern if not
+COMMENT_LINE $F451 Don't reset the zero reference if last line is really short?
+COMMENT $F451 Clear shift register (blank output)
+COMMENT $F453 Get line counter
+COMMENT $F456 Go back for more points
+COMMENT_LINE $F459 This code is for lines that are not really short lines
+COMMENT $F459 Get default pattern
+COMMENT $F45C Update pattern register
+COMMENT $F45E Wait a moment
+COMMENT $F45F Check if T1 timed out
+COMMENT $F461 Update pattern again if not
+COMMENT $F463 Get line counter
+COMMENT $F466 Clear shift register (blank output)
+COMMENT $F468 Go back if more lines to draw
+COMMENT $F46B Reset zero reference if necessary
+COMMENT_LINE $F46E -----------------------------------------------------------------------;
+COMMENT_LINE $F46E F46E    Draw_VL_mode                                            ;
+COMMENT_LINE $F46E ;
+COMMENT_LINE $F46E This routine processes the vector list pointed to by the X register.  ;
+COMMENT_LINE $F46E The current scale factor is used.  The vector list has the following  ;
+COMMENT_LINE $F46E format:                                                               ;
+COMMENT_LINE $F46E ;
+COMMENT_LINE $F46E mode, rel y, rel x,                                             ;
+COMMENT_LINE $F46E mode, rel y, rel x,                                             ;
+COMMENT_LINE $F46E .      .      .                                                ;
+COMMENT_LINE $F46E .      .      .                                                ;
+COMMENT_LINE $F46E mode, rel y, rel x,                                             ;
+COMMENT_LINE $F46E 0x01                                                            ;
+COMMENT_LINE $F46E ;
+COMMENT_LINE $F46E where mode has the following meaning:                                 ;
+COMMENT_LINE $F46E ;
+COMMENT_LINE $F46E < 0  use the pattern in $C829                                   ;
+COMMENT_LINE $F46E = 0  move to specified endpoint                                 ;
+COMMENT_LINE $F46E = 1  end of list, so return                                     ;
+COMMENT_LINE $F46E > 1  draw to specified endpoint                                 ;
+COMMENT_LINE $F46E ;
+COMMENT_LINE $F46E ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F46E X-reg points to the vector list                                 ;
+COMMENT_LINE $F46E $C829 contains the line pattern.                                ;
+COMMENT_LINE $F46E ;
+COMMENT_LINE $F46E EXIT: X-reg points to next byte after terminator                      ;
+COMMENT_LINE $F46E ;
+COMMENT_LINE $F46E D-reg trashed                                                   ;
+COMMENT_LINE $F46E -----------------------------------------------------------------------;
+COMMENT $F46E Save old Check0Ref flag
+COMMENT $F473 Don't reset the zero reference yet
+COMMENT $F476 Get the next mode byte
+COMMENT $F47A If <0, draw a patterned line
+COMMENT $F480 If =0, move to the next point
+COMMENT $F488 If <>1, draw a solid line
+COMMENT $F48D If =1, exit
+COMMENT $F48F Restore old Check0Ref flag
+COMMENT $F492 Reset zero reference if necessary
+COMMENT_LINE $F495 -----------------------------------------------------------------------;
+COMMENT_LINE $F495 F495    Print_Str                                               ;
+COMMENT_LINE $F495 ;
+COMMENT_LINE $F495 This is the routine which does the actual printing of a string.  The  ;
+COMMENT_LINE $F495 U register points to the start of the string, while $C82A contains    ;
+COMMENT_LINE $F495 the height of the character, cell, and $C82B contains the width of    ;
+COMMENT_LINE $F495 the character cell.  The string is terminated with an 0x80.           ;
+COMMENT_LINE $F495 ;
+COMMENT_LINE $F495 The string is displayed by drawing 7 horizontal rows of dots.  The    ;
+COMMENT_LINE $F495 first row is drawn for each character, then the second, etc.  The     ;
+COMMENT_LINE $F495 character generation table is located at ($F9D4 + $20).  Only         ;
+COMMENT_LINE $F495 characters 0x20-0x6F (upper case) are defined; the lower case         ;
+COMMENT_LINE $F495 characters a-o produce special icons.                                 ;
+COMMENT_LINE $F495 ;
+COMMENT_LINE $F495 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F495 U-reg points to the start of the string                         ;
+COMMENT_LINE $F495 ;
+COMMENT_LINE $F495 EXIT: U-reg points to next byte after terminator                      ;
+COMMENT_LINE $F495 ;
+COMMENT_LINE $F495 D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F495 -----------------------------------------------------------------------;
+COMMENT $F495 Save string pointer
+COMMENT $F498 Point to start of chargen bitmaps
+COMMENT $F49B $8x = enable RAMP?
+COMMENT $F49E Clear D/A output
+COMMENT $F4A0 Shift reg mode = 110, T1 PB7 enabled
+COMMENT $F4A2 Point to start of chargen bitmaps
+COMMENT $F4A5 Update RAMP, = mux to channel 1
+COMMENT $F4A7 Enable mux
+COMMENT $F4AC Wait a moment
+COMMENT $F4AD Disable mux
+COMMENT $F4AF Enable RAMP, set mux to channel 0
+COMMENT $F4B1 Enable mux
+COMMENT $F4B3 I think this is a delay only
+COMMENT $F4B6 Enable RAMP, disable mux
+COMMENT $F4B8 Get text width
+COMMENT $F4BB Send it to the D/A
+COMMENT $F4C0 Point to start of text string
+COMMENT $F4C3 Disable RAMP, disable mux
+COMMENT $F4C7 Get bitmap from chargen table
+COMMENT $F4C9 Save in shift register
+COMMENT $F4CB Get next character
+COMMENT $F4CD Go back if not terminator
+COMMENT $F4D1 Enable RAMP, disable mux
+COMMENT $F4D3 Negate text width to D/A
+COMMENT $F4D7 Disable RAMP, disable mux
+COMMENT $F4D9 Check for last row
+COMMENT $F4DC Branch if last row
+COMMENT $F4DE Point to next chargen row
+COMMENT $F4E1 Get string length
+COMMENT $F4E6 -  2
+COMMENT $F4E8 *  2
+COMMENT $F4E9 Delay a moment
+COMMENT $F4EF Delay some more in a loop
+COMMENT $F4F1 Enable RAMP, disable mux
+COMMENT $F4F3 Get text height
+COMMENT $F4F6 Store text height in D/A
+COMMENT $F4F8 Enable mux
+COMMENT $F4FD Wait a moment
+COMMENT $F4FE Enable RAMP, disable mux
+COMMENT $F500 Clear D/A
+COMMENT $F502 Disable RAMP, disable mux
+COMMENT $F504 Enable RAMP, disable mux
+COMMENT $F506 $0x = disable RAMP?
+COMMENT $F508 Go back for next scan line
+COMMENT $F50C T1->PB7 enabled
+COMMENT $F50E Reset the zero reference
+COMMENT_LINE $F511 -----------------------------------------------------------------------;
+COMMENT_LINE $F511 F511    Random_3                                                ;
+COMMENT_LINE $F511 F517    Random                                                  ;
+COMMENT_LINE $F511 ;
+COMMENT_LINE $F511 This routine generates a random 1-byte number, and places it in the   ;
+COMMENT_LINE $F511 A register.  Random_3 runs through the random number generator        ;
+COMMENT_LINE $F511 algorithm three times.  The random number seed is stored in the       ;
+COMMENT_LINE $F511 three bytes pointed to by $C87B.                                      ;
+COMMENT_LINE $F511 ;
+COMMENT_LINE $F511 EXIT: A-reg contains the generated random number                      ;
+COMMENT_LINE $F511 ;
+COMMENT_LINE $F511 All other registers are preserved.                              ;
+COMMENT_LINE $F511 -----------------------------------------------------------------------;
+COMMENT_LINE $F533 -----------------------------------------------------------------------;
+COMMENT_LINE $F533 F533    Init_Music_Buf                                          ;
+COMMENT_LINE $F533 ;
+COMMENT_LINE $F533 This routine clears out the music work buffer, located at             ;
+COMMENT_LINE $F533 $C83F-$C84C.                                                          ;
+COMMENT_LINE $F533 ;
+COMMENT_LINE $F533 X-reg, D-reg trashed                                            ;
+COMMENT_LINE $F533 -----------------------------------------------------------------------;
+COMMENT_LINE $F53F -----------------------------------------------------------------------;
+COMMENT_LINE $F53F F53F    Clear_x_b                                               ;
+COMMENT_LINE $F53F ;
+COMMENT_LINE $F53F This routine clears to 0 the block of memory starting at the          ;
+COMMENT_LINE $F53F address contained in the X register, and continuing for the number    ;
+COMMENT_LINE $F53F of bytes specified by B+1.                                            ;
+COMMENT_LINE $F53F ;
+COMMENT_LINE $F53F ENTRY X-reg points to the start of the RAM to be cleared.             ;
+COMMENT_LINE $F53F B-reg = number of bytes minus 1 to clear.                       ;
+COMMENT_LINE $F53F ;
+COMMENT_LINE $F53F EXIT: D-reg = $FFFF                                                   ;
+COMMENT_LINE $F53F -----------------------------------------------------------------------;
+COMMENT_LINE $F542 -----------------------------------------------------------------------;
+COMMENT_LINE $F542 F542    Clear_C8_RAM    (never used by GCE carts?)              ;
+COMMENT_LINE $F542 ;
+COMMENT_LINE $F542 This routine clears to 0 the block of memory in the range             ;
+COMMENT_LINE $F542 $C800-$C8FF.                                                          ;
+COMMENT_LINE $F542 ;
+COMMENT_LINE $F542 EXIT: X-reg = $C800                                                   ;
+COMMENT_LINE $F542 D-reg = $FFFF                                                   ;
+COMMENT_LINE $F542 -----------------------------------------------------------------------;
+COMMENT_LINE $F545 -----------------------------------------------------------------------;
+COMMENT_LINE $F545 F545    Clear_x_256                                             ;
+COMMENT_LINE $F545 F548    Clear_x_d                                               ;
+COMMENT_LINE $F545 ;
+COMMENT_LINE $F545 This routine clears the block of memory starting at the contained     ;
+COMMENT_LINE $F545 in the X register to zero.                                            ;
+COMMENT_LINE $F545 ;
+COMMENT_LINE $F545 ENTRY X-reg points to the start of RAM to be cleared                  ;
+COMMENT_LINE $F545 D-reg = number of bytes to clear minus 1 (Clear_x_d only)       ;
+COMMENT_LINE $F545 ;
+COMMENT_LINE $F545 EXIT: D-reg = $FFFF                                                   ;
+COMMENT_LINE $F545 -----------------------------------------------------------------------;
+COMMENT_LINE $F550 -----------------------------------------------------------------------;
+COMMENT_LINE $F550 F550    Clear_x_b_80                                            ;
+COMMENT_LINE $F550 F552    Clear_x_b_a                                             ;
+COMMENT_LINE $F550 ;
+COMMENT_LINE $F550 This routine sets the block of memory pointed to by the X register    ;
+COMMENT_LINE $F550 to $80 or the A register.  The B register specifies the number of     ;
+COMMENT_LINE $F550 bytes to be cleared.                                                  ;
+COMMENT_LINE $F550 ;
+COMMENT_LINE $F550 ENTRY A-reg = byte to be stored (Clear_x_b_a only)                    ;
+COMMENT_LINE $F550 B-reg = number of bytes to clear ($00 = 256)                    ;
+COMMENT_LINE $F550 X-reg points to start of memory block to clear                  ;
+COMMENT_LINE $F550 ;
+COMMENT_LINE $F550 EXIT: A-reg = $80 (Clear_x_b_80 only)                                 ;
+COMMENT_LINE $F550 B-reg = $00                                                     ;
+COMMENT_LINE $F550 ;
+COMMENT_LINE $F550 All other registers preserved.                                  ;
+COMMENT_LINE $F550 -----------------------------------------------------------------------;
+COMMENT_LINE $F55A -----------------------------------------------------------------------;
+COMMENT_LINE $F55A F55A    Dec_3_Counters                                          ;
+COMMENT_LINE $F55A F55E    Dec_6_Counters                                          ;
+COMMENT_LINE $F55A ;
+COMMENT_LINE $F55A These routines check either the first three or all six of the         ;
+COMMENT_LINE $F55A default counters at $C82E-$C833 and decrements those which are not    ;
+COMMENT_LINE $F55A already zero.                                                         ;
+COMMENT_LINE $F55A ;
+COMMENT_LINE $F55A EXIT: X-reg points to the default counters at $C82E                   ;
+COMMENT_LINE $F55A B-reg = $FF                                                     ;
+COMMENT_LINE $F55A ;
+COMMENT_LINE $F55A All other registers preserved.                                  ;
+COMMENT_LINE $F55A -----------------------------------------------------------------------;
+COMMENT_LINE $F563 -----------------------------------------------------------------------;
+COMMENT_LINE $F563 F563    Dec_Counters                                            ;
+COMMENT_LINE $F563 ;
+COMMENT_LINE $F563 This routine checks the counters pointed to by the X register and     ;
+COMMENT_LINE $F563 decrements those which are not already zero.                          ;
+COMMENT_LINE $F563 ;
+COMMENT_LINE $F563 ENTRY B-reg = number of counters minus 1                              ;
+COMMENT_LINE $F563 X-reg points to counter bytes                                   ;
+COMMENT_LINE $F563 ;
+COMMENT_LINE $F563 EXIT: B-reg = $FF                                                     ;
+COMMENT_LINE $F563 ;
+COMMENT_LINE $F563 All other registers preserved.                                  ;
+COMMENT_LINE $F563 -----------------------------------------------------------------------;
+COMMENT_LINE $F56D -----------------------------------------------------------------------;
+COMMENT_LINE $F56D F56D    Delay_3         30 cycles                               ;
+COMMENT_LINE $F56D F571    Delay_2         25 cycles                               ;
+COMMENT_LINE $F56D F575    Delay_1         20 cycles                               ;
+COMMENT_LINE $F56D F579    Delay_0         12 cycles                               ;
+COMMENT_LINE $F56D F57A    Delay_b         5;B + 10 cycles                         ;
+COMMENT_LINE $F56D F57D    Delay_RTS       5 cycles                                ;
+COMMENT_LINE $F56D ;
+COMMENT_LINE $F56D Each of these routines loads the B-register with the indicated        ;
+COMMENT_LINE $F56D value, and then loops until the B register value has decremented      ;
+COMMENT_LINE $F56D below zero.  Delay_RTS is just an RTS instruction, but at least       ;
+COMMENT_LINE $F56D one GCE cartridge calls it.                                           ;
+COMMENT_LINE $F56D ;
+COMMENT_LINE $F56D Cycle counts do not include timing of the instructions used to        ;
+COMMENT_LINE $F56D call the delay routines.                                              ;
+COMMENT_LINE $F56D ;
+COMMENT_LINE $F56D ENTRY B-reg = delay count (Delay_b only)                              ;
+COMMENT_LINE $F56D ;
+COMMENT_LINE $F56D EXIT: B-reg = $FF (except Delay_RTS)                                  ;
+COMMENT_LINE $F56D -----------------------------------------------------------------------;
+COMMENT $F56D 2 cycles
+COMMENT $F56F 3 cycles
+COMMENT $F571 2 cycles
+COMMENT $F573 3 cycles
+COMMENT $F575 2 cycles
+COMMENT $F577 3 cycles
+COMMENT $F579 2 cycles
+COMMENT $F57A 2 cycles
+COMMENT $F57B 3 cycles
+COMMENT $F57D 5 cycles
+COMMENT_LINE $F57E -----------------------------------------------------------------------;
+COMMENT_LINE $F57E F57E    Bitmask_a                                               ;
+COMMENT_LINE $F57E ;
+COMMENT_LINE $F57E This routine takes a bit number, specified in the A register, and     ;
+COMMENT_LINE $F57E returns a bit mask with only the specified bit set.                   ;
+COMMENT_LINE $F57E ;
+COMMENT_LINE $F57E ENTRY A-reg contains the bit number                                   ;
+COMMENT_LINE $F57E ;
+COMMENT_LINE $F57E EXIT: A-reg contains the bit mask                                     ;
+COMMENT_LINE $F57E ;
+COMMENT_LINE $F57E X-reg trashed                                                   ;
+COMMENT_LINE $F57E -----------------------------------------------------------------------;
+COMMENT_LINE $F584 -----------------------------------------------------------------------;
+COMMENT_LINE $F584 F584    Abs_a_b                                                 ;
+COMMENT_LINE $F584 F58B    Abs_b                                                   ;
+COMMENT_LINE $F584 ;
+COMMENT_LINE $F584 This routine returns the absolute value of the two single byte        ;
+COMMENT_LINE $F584 numbers passed in in the A and B registers.  Abs_b only uses the B    ;
+COMMENT_LINE $F584 register.  There is a special case: 0x80 is returned as 0x7F.         ;
+COMMENT_LINE $F584 ;
+COMMENT_LINE $F584 ENTRY A-reg contains first value                                      ;
+COMMENT_LINE $F584 B-reg contains second value (Abs_a_b only)                      ;
+COMMENT_LINE $F584 ;
+COMMENT_LINE $F584 EXIT: A-reg contains absolute value of first value                    ;
+COMMENT_LINE $F584 B-reg contains absolute value of second value (Abs_a_b only)    ;
+COMMENT_LINE $F584 ;
+COMMENT_LINE $F584 All other registers preserved.                                  ;
+COMMENT_LINE $F584 -----------------------------------------------------------------------;
+COMMENT_LINE $F593 ; this hand optmized raster routine for this image is about 14000 cycles faster than the "normal" templated one!
+COMMENT_LINE $F593 expects width strength to be = to the default bios location Vec_Text_Width
+COMMENT_LINE $F593 expects height strength to be = to the default bios location Vec_Text_Height
+COMMENT_LINE $F593 address of raster data is expected in U
+COMMENT_LINE $F593 print is done to current screen location
+COMMENT_LINE $F593 uses bios ram-locations  Vec_Counter_1,  Vec_Counter_2,  Vec_Counter_3
+COMMENT_LINE $F593 as temporary storages
+COMMENT_LINE $F593 zero delay is needed for zeroing to work correctly
+COMMENT_LINE $F593 depends on the distance of the current integrator position to actual zero point
+COMMENT_LINE $F593 experiment with my vectri:
+COMMENT_LINE $F593 ZERO ing the integrators takes time. Measures at my vectrex show e.g.:
+COMMENT_LINE $F593 If you move the beam with a to x = -127 and y = -127 at diffferent scale values, the time to reach zero:
+COMMENT_LINE $F593 - scale $ff -> zero 110 cycles
+COMMENT_LINE $F593 - scale $7f -> zero 75 cycles
+COMMENT_LINE $F593 - scale $40 -> zero 57 cycles
+COMMENT_LINE $F593 - scale $20 -> zero 53 cycles
+COMMENT_LINE $F593 put move position on stack put it so, that we can load "d" directly from stack
+COMMENT $F597 load line counter
+COMMENT $F599 height counter
+COMMENT $F59C load line width
+COMMENT $F59E width counter
+COMMENT $F5A1 width counter (work)
+COMMENT_LINE $F5A4 setup VIA raster routine
+COMMENT_LINE $F5A4 setup rampin with auxControl
+COMMENT $F5A4 reload line width
+COMMENT_LINE $F5AA zero
+COMMENT $F5AA zero the integrators
+COMMENT $F5AC store zeroing values to cntl
+COMMENT $F5AE and wait for zeroing to be actually done
+COMMENT_LINE $F5B0 reset integrators
+COMMENT $F5B0 reset integrator offset
+COMMENT_LINE $F5B4 wait that zeroing surely has the desired effect!
+COMMENT $F5B4 while waiting, zero offsets
+COMMENT_LINE $F5BB unzero is done by moveto_d
+COMMENT_LINE $F5C1 jsr      Moveto_d
+COMMENT_LINE $F5C1 ;;;;; move to d as direct code start
+COMMENT $F5C1 Store Y in D/A register
+COMMENT $F5C3 Blank low, zero high?
+COMMENT $F5C8 Enable mux
+COMMENT $F5CA Clear shift regigster
+COMMENT $F5CC Disable mux
+COMMENT $F5CE Store X in D/A register
+COMMENT $F5D0 enable timer
+COMMENT $F5D2 optimized correct adder for next scan line
+COMMENT $F5D4 done befor wait loop of move to d
+COMMENT $F5D8 preload next scale
+COMMENT_LINE $F5E0 ;;;;; move to d as direct code end
+COMMENT_LINE $F5E2 ensure y int does nothing
+COMMENT $F5E2 mux disabled, mux sel = y int
+COMMENT $F5E4 to via b
+COMMENT $F5E6 ensure dac is 0
+COMMENT $F5E8 enable mux
+COMMENT $F5EA delay
+COMMENT $F5EB disable mux
+COMMENT $F5ED a = $18,
+COMMENT $F5EF $18: T1 OneSHotMode WITHOUT Ramp control, Shift out under System clock
+COMMENT $F5F1 get width
+COMMENT $F5F4 Send it to the D/A
+COMMENT $F5F6 a = $01
+COMMENT $F5F8 Enable RAMP, disable mux
+COMMENT_LINE $F5FA output is ongoing! (RAMP is enabled)
+COMMENT $F5FA [5]
+COMMENT $F5FD [2] wait
+COMMENT $F5FE [2] wait
+COMMENT $F5FF [6] get bitmap (shiftreg-data) from raster table
+COMMENT $F601 [4] This loop needs to have exactly 18 cycles (8*2+2)
+COMMENT_LINE $F603 one complete shiftreg output takes 16 cycles (8*2) + 2 cycles since VIA needs some rest
+COMMENT $F603 [3]
+COMMENT $F605 [2]
+COMMENT $F606 [3] go back if not done for line
+COMMENT $F608 [2] delay 2 to finish last shiftout
+COMMENT $F609 [4] b is 0 now, switch of shift
+COMMENT_LINE $F60B don't bother about ramp and dac, in the next round all will be resetted
+COMMENT $F60B EXIT routine
+COMMENT $F60D T1->PB7 enabled
+COMMENT $F60F check for last row
+COMMENT $F612 branch if not last row
+COMMENT $F614 all done, correct stack
+COMMENT $F619 forward
+COMMENT $F61D forward
+COMMENT $F621 forward
+COMMENT $F625 forward
+COMMENT $F629 forward
+COMMENT $F62D forward
+COMMENT $F631 forward
+COMMENT $F635 forward
+COMMENT $F639 forward
+COMMENT $F63D forward
+COMMENT $F641 forward
+COMMENT $F645 forward
+COMMENT $F649 forward
+COMMENT $F64D forward
+COMMENT $F651 forward
+COMMENT $F655 forward
+COMMENT $F659 forward
+COMMENT $F65D forward
+COMMENT $F661 forward
+COMMENT $F665 forward
+COMMENT $F669 forward
+COMMENT $F66D forward
+COMMENT $F671 forward
+COMMENT $F675 forward
+COMMENT $F679 forward
+COMMENT $F67D forward
+COMMENT $F681 forward
+COMMENT $F685 forward
+COMMENT $F689 forward
+COMMENT $F68D forward
+COMMENT $F691 forward
+COMMENT $F695 forward
+COMMENT $F699 forward
+COMMENT $F69D forward
+COMMENT $F6A1 forward
+COMMENT $F6A5 forward
+COMMENT $F6A9 forward
+COMMENT $F6AD forward
+COMMENT $F6B1 forward
+COMMENT $F6B5 forward
+COMMENT $F6B9 forward
+COMMENT $F6BD forward
+COMMENT $F6C1 forward
+COMMENT $F6C5 forward
+COMMENT $F6C9 forward
+COMMENT $F6CD forward
+COMMENT $F6D1 forward
+COMMENT $F6D5 forward
+COMMENT $F6D9 forward
+COMMENT $F6DD forward
+COMMENT_LINE $F6E1 -----------------------------------------------------------------------;
+COMMENT_LINE $F6E1 F67F    Move_Mem_a_1                                            ;
+COMMENT_LINE $F6E1 F683    Move_Mem_a                                              ;
+COMMENT_LINE $F6E1 ;
+COMMENT_LINE $F6E1 This routine copies a block of memory, starting at the hi address,    ;
+COMMENT_LINE $F6E1 and working down to the low address.  The base of the source address  ;
+COMMENT_LINE $F6E1 is specified in the U register, and the base of the destination       ;
+COMMENT_LINE $F6E1 address is  specified in the X register.  The A register contains     ;
+COMMENT_LINE $F6E1 the number of bytes to copy; 0x80 is the maximum value which can      ;
+COMMENT_LINE $F6E1 be specified.                                                         ;
+COMMENT_LINE $F6E1 ;
+COMMENT_LINE $F6E1 ENTRY A-reg = byte count (Move_Mem_a only)                            ;
+COMMENT_LINE $F6E1 A-reg = byte count minus 1 (Move_Mem_a_1 only)                  ;
+COMMENT_LINE $F6E1 X-reg points to the destination                                 ;
+COMMENT_LINE $F6E1 U-reg points to the source                                      ;
+COMMENT_LINE $F6E1 ;
+COMMENT_LINE $F6E1 EXIT  A-reg = $FF                                                     ;
+COMMENT_LINE $F6E1 B-reg = first byte of source                                    ;
+COMMENT_LINE $F6E1 -----------------------------------------------------------------------;
+COMMENT $F6E1 Copy the byte
+COMMENT $F6E5 Decrement the count
+COMMENT $F6E6 Go back until finished
+COMMENT_LINE $F6E9 -----------------------------------------------------------------------;
+COMMENT_LINE $F6E9 F687    Init_Music_chk                                          ;
+COMMENT_LINE $F6E9 F68D    Init_Music                                              ;
+COMMENT_LINE $F6E9 F692    Init_Music_dft                                          ;
+COMMENT_LINE $F6E9 ;
+COMMENT_LINE $F6E9 These routines are responsible for filling the music work buffer      ;
+COMMENT_LINE $F6E9 while a sound is being made.  It should be called once during each    ;
+COMMENT_LINE $F6E9 refresh cycle.  If you want to start a new sound, then you must =   ;
+COMMENT_LINE $F6E9 $C856 to 0x01, and point the U-register to the sound block.  If no    ;
+COMMENT_LINE $F6E9 sound is in progress ($C856 = 0), then it returns immediately         ;
+COMMENT_LINE $F6E9 (unless you called Init_Music or Init_Music_dft, which do not make    ;
+COMMENT_LINE $F6E9 this check).  When a sound is in progress, $C856 will be = to 0x80. ;
+COMMENT_LINE $F6E9 ;
+COMMENT_LINE $F6E9 These routines process a single note at a time, and calculate the     ;
+COMMENT_LINE $F6E9 amplitude and course/fine tuning values for the 3 sound channels.     ;
+COMMENT_LINE $F6E9 The values calculated are stored in the music work buffer, at         ;
+COMMENT_LINE $F6E9 $C83F-$C84C.                                                          ;
+COMMENT_LINE $F6E9 ;
+COMMENT_LINE $F6E9 Music data format:                                                    ;
+COMMENT_LINE $F6E9 ;
+COMMENT_LINE $F6E9 header word -> $C84F  32 nibble ADSR table                      ;
+COMMENT_LINE $F6E9 header word -> $C851  8-byte "twang" table                      ;
+COMMENT_LINE $F6E9 data bytes                                                      ;
+COMMENT_LINE $F6E9 ;
+COMMENT_LINE $F6E9 The ADSR table is simply 32 nibbles (16 bytes) of amplitude values.   ;
+COMMENT_LINE $F6E9 ;
+COMMENT_LINE $F6E9 The twang table is 8 signed bytes to modify the base frequency of     ;
+COMMENT_LINE $F6E9 each note being played.  Each channel has a different limit to its    ;
+COMMENT_LINE $F6E9 twang table index (6-8) to keep them out of phase to each other.      ;
+COMMENT_LINE $F6E9 ;
+COMMENT_LINE $F6E9 Music data bytes:                                                     ;
+COMMENT_LINE $F6E9 Bits 0-5 = frequency                                            ;
+COMMENT_LINE $F6E9 Bit 6 clear = tone                                              ;
+COMMENT_LINE $F6E9 Bit 6 = = noise                                               ;
+COMMENT_LINE $F6E9 Bit 7 = = next music data byte is for next channel            ;
+COMMENT_LINE $F6E9 Bit 7 clear, play note with duration in next music data byte:   ;
+COMMENT_LINE $F6E9 bits 0-5 = duration                                     ;
+COMMENT_LINE $F6E9 bit 6 = unused                                          ;
+COMMENT_LINE $F6E9 bit 7 = = end of music                                ;
+COMMENT_LINE $F6E9 ;
+COMMENT_LINE $F6E9 ENTRY DP = $C8                                                        ;
+COMMENT_LINE $F6E9 U-reg points to the start of the music data                     ;
+COMMENT_LINE $F6E9 $C84D points to frequency table (Init_Music_dft only)           ;
+COMMENT_LINE $F6E9 $C856 may need to be set.                                       ;
+COMMENT_LINE $F6E9 ;
+COMMENT_LINE $F6E9 D-reg, X-reg, Y-reg, U-reg trashed                              ;
+COMMENT_LINE $F6E9 -----------------------------------------------------------------------;
+COMMENT $F6E9 Test sound active flag
+COMMENT $F6EB Continue sound if active
+COMMENT $F6ED Return if sound not active
+COMMENT $F6EF Save pointer to frequency table
+COMMENT $F6F4 Set sound active flag
+COMMENT $F6F8 Save address of ADSR table
+COMMENT $F6FC Save address of twang table
+COMMENT $F700 Save pointer to music data
+COMMENT $F702 Initialize music buffer
+COMMENT $F708 Init ADSR timers of chans 2 & 3
+COMMENT $F70D Clear frequency of channel 2
+COMMENT $F70F Clear frequency of channel 3
+COMMENT $F711 A-reg = 0 (sound channel number?)
+COMMENT_LINE $F715 Continue currently playing sound here
+COMMENT $F715 Get address of ADSR timers
+COMMENT $F718 Count for three channels
+COMMENT $F71A Get the channel's ADSR timer
+COMMENT $F71E Skip if at maximum
+COMMENT $F720 Else increment the timer
+COMMENT $F722 Go back for the other channels
+COMMENT $F72A Twang limit is 6-8 depending on channel
+COMMENT $F72C Increment twang counter
+COMMENT $F72E Check against limit
+COMMENT $F732 Clear it if limit exceeded
+COMMENT $F734 Get twang count
+COMMENT $F736 Mask out low 3 bits
+COMMENT $F738 Get twang value from table
+COMMENT $F73A Update current twang value
+COMMENT $F73C Increment twang limit
+COMMENT $F73F Go back until all three channels done
+COMMENT $F741 Decrement the duration timer
+COMMENT $F743 Update ADSR while note still playing
+COMMENT $F745 Go to next music channel
+COMMENT $F748 If < 0, set it to 2
+COMMENT $F74E Get next byte of music data
+COMMENT $F752 Clear ADSR timer for this channel
+COMMENT $F757 If $40 bit of music data set,
+COMMENT $F759 we're going to make some noise
+COMMENT $F75B Get bit mask for this channel
+COMMENT $F760 Turn channel bit off for register 7
+COMMENT $F764 Set current channel bit in register 7
+COMMENT $F76E Mask off low 5 bits of music data
+COMMENT $F770 and store in register 6
+COMMENT $F774 If $40 bit of music data was cleared,
+COMMENT $F777 Get bit mask for this channel
+COMMENT $F779 Turn channel bit off for register 7
+COMMENT $F77D Set current channel bit in register 7
+COMMENT $F787 Get $C855 * 2 + 3
+COMMENT $F78C Point U-reg to #$C861 + $C855 * 2
+COMMENT $F78E Mask off low 6 bits of music data,
+COMMENT $F790 multiply by 2
+COMMENT $F791 Get pointer to note-to-frequency table
+COMMENT $F793 Get note table data
+COMMENT $F795 Store in word at $C861-$C866
+COMMENT $F797 Re-get byte of music data
+COMMENT $F79B Update music data pointer
+COMMENT $F79E If byte>=$80, advance to next channel
+COMMENT $F7A0 Get second byte of music data
+COMMENT $F7A2 If >=$80, (terminator)
+COMMENT $F7A4 clear music buffer,
+COMMENT $F7A7 clear music flag,
+COMMENT $F7A9 and exit
+COMMENT $F7AA Update music data pointer
+COMMENT $F7AC Duration in low 6 bits of second byte
+COMMENT $F7AE Store duration counter
+COMMENT $F7B0 Get pointer to ADSR table
+COMMENT $F7B3 Point to ADSR timer table
+COMMENT $F7B9 Count for three channels
+COMMENT $F7BB Get channel timer?
+COMMENT $F7BD Test low bit of ADSR index
+COMMENT $F7C1 If odd, divide ADSR index by by 2
+COMMENT $F7C2 Get low nibble from ADSR table
+COMMENT $F7C8 If even, divide ADSR index by 2
+COMMENT $F7C9 Get high nibble from ADSR table
+COMMENT $F7CF Store ADSR value in regs 10-12
+COMMENT $F7D1 Decrement channel counter
+COMMENT $F7D2 Go back for next channel
+COMMENT $F7D4 Point to base frequency table
+COMMENT $F7D7 Point to twang table
+COMMENT $F7DA Get next base frequency
+COMMENT $F7DC Test twang value
+COMMENT $F7E0 If <0, negate twang table entry
+COMMENT $F7E2 Subtract negated value from frequency
+COMMENT $F7E4 Propagate borrow to high byte
+COMMENT $F7E6 Un-negate twang entry
+COMMENT $F7EA If >0 add twang to base frequency
+COMMENT $F7EC Propagate carry to high byte
+COMMENT $F7EE Store freq in regs 5/4, 3/2, 1/0
+COMMENT_LINE $F835 -----------------------------------------------------------------------;
+COMMENT_LINE $F835 F835    Display_Option  (not called by GCE cartridges)          ;
+COMMENT_LINE $F835 ;
+COMMENT_LINE $F835 This routine displays the player or game option string, along with    ;
+COMMENT_LINE $F835 the current value for that option.  The A-register contains the       ;
+COMMENT_LINE $F835 value of the option, while the Y-register points to a block of the    ;
+COMMENT_LINE $F835 following form:                                                       ;
+COMMENT_LINE $F835 ;
+COMMENT_LINE $F835 rel y, rel x,      ( for value )                                ;
+COMMENT_LINE $F835 rel y, rel x,      ( for option string)                         ;
+COMMENT_LINE $F835 option string,                                                  ;
+COMMENT_LINE $F835 0x80                                                            ;
+COMMENT_LINE $F835 ;
+COMMENT_LINE $F835 ENTRY DP = $D0                                                        ;
+COMMENT_LINE $F835 A-reg=the option value.                                         ;
+COMMENT_LINE $F835 Y-reg points to the string block.                               ;
+COMMENT_LINE $F835 ;
+COMMENT_LINE $F835 D-reg, U-reg, X-reg trashed                                     ;
+COMMENT_LINE $F835 -----------------------------------------------------------------------;
+COMMENT $F835 Point to temp storage
+COMMENT $F838 Save option
+COMMENT $F83A Clear scratch score accumulator
+COMMENT $F83C Get option back
+COMMENT $F83E Exit printing nothing if option = zero
+COMMENT $F840 Put option in scratch score accumulator
+COMMENT $F842 Transfer X to be printed
+COMMENT $F844 Get (y,x) of value
+COMMENT $F846 Print value
+COMMENT $F849 Transfer Y to be printed
+COMMENT $F84B Print option string
+COMMENT_LINE $F84F -----------------------------------------------------------------------;
+COMMENT_LINE $F84F F84F    Clear_Score                                             ;
+COMMENT_LINE $F84F ;
+COMMENT_LINE $F84F This routine will initialize the passed-in score string (pointed to   ;
+COMMENT_LINE $F84F by the X-register) to the following value:                            ;
+COMMENT_LINE $F84F ;
+COMMENT_LINE $F84F "     0",0x80                                                   ;
+COMMENT_LINE $F84F ;
+COMMENT_LINE $F84F ENTRY X-reg points to seven byte score accumulator                    ;
+COMMENT_LINE $F84F ;
+COMMENT_LINE $F84F D-reg trashed                                                   ;
+COMMENT_LINE $F84F -----------------------------------------------------------------------;
+COMMENT $F84F Store the leading blanks
+COMMENT $F858 Store the zero and terminator byte
+COMMENT_LINE $F85E -----------------------------------------------------------------------;
+COMMENT_LINE $F85E F85E    Add_Score_a                                             ;
+COMMENT_LINE $F85E F87C    Add_Score_d                                             ;
+COMMENT_LINE $F85E ;
+COMMENT_LINE $F85E These routines take the BCD value in the D-register or the binary     ;
+COMMENT_LINE $F85E value in the A-register, and add it to the 6-byte ASCII number        ;
+COMMENT_LINE $F85E pointed by the X-register.                                            ;
+COMMENT_LINE $F85E ;
+COMMENT_LINE $F85E ENTRY A-reg = binary value (Add_Score_a only)                         ;
+COMMENT_LINE $F85E D-reg = BCD value (Add_Score_d only)                            ;
+COMMENT_LINE $F85E U-reg = BCD conversion of A-reg (Add_Score_a only)              ;
+COMMENT_LINE $F85E X-reg points to six byte ASCII score accumulator                ;
+COMMENT_LINE $F85E ;
+COMMENT_LINE $F85E D-reg trashed                                                   ;
+COMMENT_LINE $F85E -----------------------------------------------------------------------;
+COMMENT $F85E Initialize BCD result to zero
+COMMENT $F861 Add in the hundreds
+COMMENT $F86D Add in the tens
+COMMENT $F878 Add in the ones
+COMMENT $F87A Move it to the D-register
+COMMENT $F87C Save BCD on stack in reverse order
+COMMENT $F882 Add zero to 10000 and 100000 digits
+COMMENT $F887 Add right nibble to hundreds and ones
+COMMENT $F88F Add left nibble to thousands and tens
+COMMENT $F895 Isolate desired nibble
+COMMENT $F897 Add in carry ($C823 is normally zero)
+COMMENT $F89A Clear carry
+COMMENT $F89D Add to digit
+COMMENT $F89F If digit was a blank,
+COMMENT $F8A3 promote the result to a digit
+COMMENT $F8A5 If a carry has occurred,
+COMMENT $F8A9 subtract ten
+COMMENT $F8AB and set carry flag
+COMMENT $F8AE Store resulting digit
+COMMENT $F8B0 Go back for more digits
+COMMENT $F8B3 Clear $C823 back to zero
+COMMENT_LINE $F8B7 -----------------------------------------------------------------------;
+COMMENT_LINE $F8B7 F8B7    Strip_Zeros                                             ;
+COMMENT_LINE $F8B7 ;
+COMMENT_LINE $F8B7 This routine strips the leading zeros from a score accumulator.       ;
+COMMENT_LINE $F8B7 ;
+COMMENT_LINE $F8B7 ENTRY B-reg = first digit to start with (usually zero)                ;
+COMMENT_LINE $F8B7 X-reg points to six byte ASCII score accumulator                ;
+COMMENT_LINE $F8B7 ;
+COMMENT_LINE $F8B7 D-reg trashed                                                   ;
+COMMENT_LINE $F8B7 -----------------------------------------------------------------------;
+COMMENT $F8B7 Test current digit
+COMMENT $F8BB Exit if not zero
+COMMENT $F8BD Change it to a blank
+COMMENT_LINE $F8C7 -----------------------------------------------------------------------;
+COMMENT_LINE $F8C7 F8C7    Compare_Score                                           ;
+COMMENT_LINE $F8C7 ;
+COMMENT_LINE $F8C7 This routine will compare two BCD score strings, to determine which   ;
+COMMENT_LINE $F8C7 one is higher.  The two strings are pointed to by the U and X         ;
+COMMENT_LINE $F8C7 registers.  Depending upon how the scores compare, one of the         ;
+COMMENT_LINE $F8C7 following values will be returned in the A-register:                  ;
+COMMENT_LINE $F8C7 ;
+COMMENT_LINE $F8C7 1) The scores are the same: a = 0                               ;
+COMMENT_LINE $F8C7 2) X score > U score:   a = 1                                   ;
+COMMENT_LINE $F8C7 3) U score > X score:   a = 2                                   ;
+COMMENT_LINE $F8C7 ;
+COMMENT_LINE $F8C7 ENTRY X-reg points to first score string (terminated with $80)        ;
+COMMENT_LINE $F8C7 U-reg points to second score string                             ;
+COMMENT_LINE $F8C7 ;
+COMMENT_LINE $F8C7 EXIT: A-reg returns result of the compare                             ;
+COMMENT_LINE $F8C7 ;
+COMMENT_LINE $F8C7 B-reg trashed                                                   ;
+COMMENT_LINE $F8C7 -----------------------------------------------------------------------;
+COMMENT $F8C7 Save score pointers
+COMMENT $F8C9 Default to scores are the same
+COMMENT $F8CC Return if end of string
+COMMENT $F8D0 Continue if byte is the same
+COMMENT $F8D2 Return 1 if X > U
+COMMENT $F8D4 Return 2 if U > X
+COMMENT $F8D6 Restore pointers and return
+COMMENT_LINE $F8D8 -----------------------------------------------------------------------;
+COMMENT_LINE $F8D8 F8D8    New_High_Score                                          ;
+COMMENT_LINE $F8D8 ;
+COMMENT_LINE $F8D8 This routine compares a players score string, pointed to by the       ;
+COMMENT_LINE $F8D8 X register, to the current hi score, pointed by the U register.  If   ;
+COMMENT_LINE $F8D8 the player's score is higher than the currently saved hi score, then  ;
+COMMENT_LINE $F8D8 the player's score will be copied into the hi score buffer pointed    ;
+COMMENT_LINE $F8D8 to by the U register.                                                 ;
+COMMENT_LINE $F8D8 ;
+COMMENT_LINE $F8D8 ENTRY X-reg points to a player's score string                         ;
+COMMENT_LINE $F8D8 U-reg points to the high score string (usually $CBEB?)          ;
+COMMENT_LINE $F8D8 ;
+COMMENT_LINE $F8D8 X-reg, U-reg, D-reg trashed                                     ;
+COMMENT_LINE $F8D8 -----------------------------------------------------------------------;
+COMMENT $F8D8 Compare the scores
+COMMENT $F8DC Return if X is not > U
+COMMENT $F8DE Copy the new high score
+COMMENT $F8E2 until end of string encountered
+COMMENT_LINE $F8E5 -----------------------------------------------------------------------;
+COMMENT_LINE $F8E5 F8E5    Obj_Will_Hit_u                                          ;
+COMMENT_LINE $F8E5 F8F3    Obj_Will_Hit                                            ;
+COMMENT_LINE $F8E5 ;
+COMMENT_LINE $F8E5 This routine first modifies the position of the object, and then it   ;
+COMMENT_LINE $F8E5 checks to see if the missile has hit the object.  The Y register      ;
+COMMENT_LINE $F8E5 contains the (y,x) position of the object, the U register contains    ;
+COMMENT_LINE $F8E5 a pointer to the (y,x) modification values, the X register contains   ;
+COMMENT_LINE $F8E5 the missile (y,x) position, and the D register contains the           ;
+COMMENT_LINE $F8E5 (height/2, width/2) of the object.                                    ;
+COMMENT_LINE $F8E5 ;
+COMMENT_LINE $F8E5 (0,u) is temporarily added to the y position of the object, and       ;
+COMMENT_LINE $F8E5 (1,u) is temporarily added to the x position.                         ;
+COMMENT_LINE $F8E5 ;
+COMMENT_LINE $F8E5 ENTRY Y-reg = (y,x) position of the object                            ;
+COMMENT_LINE $F8E5 X-reg = (y,x) position of the missile                           ;
+COMMENT_LINE $F8E5 U-reg points to movement (y,x) (Mov_Obj_Hit_u only)             ;
+COMMENT_LINE $F8E5 U-reg = movement (y,x) (Mov_Obj_Hit only)                       ;
+COMMENT_LINE $F8E5 D-reg = (h/2,w/2) size of object                                ;
+COMMENT_LINE $F8E5 ;
+COMMENT_LINE $F8E5 EXIT: Carry bit = if the object & missile have collided             ;
+COMMENT_LINE $F8E5 ;
+COMMENT_LINE $F8E5 ALL registers saved.  Even the original Y-register.             ;
+COMMENT_LINE $F8E5 -----------------------------------------------------------------------;
+COMMENT $F8E5 Save regs for the hit-test code
+COMMENT $F8E9 Get object position
+COMMENT $F8EB Add it to the modification values
+COMMENT $F8EF Put updated object position back
+COMMENT $F8F1 Go do the hit-test
+COMMENT $F8F3 Save regs for the hit-test code
+COMMENT $F8F7 Get modification values
+COMMENT $F8F9 Add them to the object position
+COMMENT $F8FD Put update position back and hit-test
+COMMENT_LINE $F8FF -----------------------------------------------------------------------;
+COMMENT_LINE $F8FF F8FF    Obj_Hit                                                 ;
+COMMENT_LINE $F8FF ;
+COMMENT_LINE $F8FF Thit routine checks to see if a missile hashit an object.  If the     ;
+COMMENT_LINE $F8FF missile has hit the object, then the carry bit will be set;           ;
+COMMENT_LINE $F8FF otherwise, the carry bit will be cleared.  A hit is checked for in    ;
+COMMENT_LINE $F8FF the following fashion:                                                ;
+COMMENT_LINE $F8FF ;
+COMMENT_LINE $F8FF if (object y-height/2) <= missile y <= (object y+height/2)          ;
+COMMENT_LINE $F8FF and                                     ;
+COMMENT_LINE $F8FF (object x-width/2)  <= missile x <= (object x+width/x)           ;
+COMMENT_LINE $F8FF ;
+COMMENT_LINE $F8FF then the missile hit, otherwise it missed.                          ;
+COMMENT_LINE $F8FF ;
+COMMENT_LINE $F8FF ENTRY Y-reg = (y,x) position of the object                            ;
+COMMENT_LINE $F8FF X-reg = (y,x) position of the missile                           ;
+COMMENT_LINE $F8FF D-reg = (h/2,w/2) size of object                                ;
+COMMENT_LINE $F8FF ;
+COMMENT_LINE $F8FF EXIT: Carry bit = if the object & missile have collided             ;
+COMMENT_LINE $F8FF ;
+COMMENT_LINE $F8FF All registers preserved.                                        ;
+COMMENT_LINE $F8FF -----------------------------------------------------------------------;
+COMMENT $F8FF Save some regs
+COMMENT $F903 Point X to the stack
+COMMENT $F905 Offset to point to y
+COMMENT $F907 Get height/2
+COMMENT $F909 Add object y
+COMMENT $F90D Set to $7F if overflow
+COMMENT $F90F Branch if missile out of range
+COMMENT $F913 Get height/2
+COMMENT $F915 Subtract object y
+COMMENT $F919 Set to $80 if overflow
+COMMENT $F91B Branch if missile out of range
+COMMENT $F91F Offset to point to x
+COMMENT $F922 Go back for x
+COMMENT $F924 Object in range, set carry
+COMMENT $F928 Object not in range, clear carry
+COMMENT_LINE $F92E -----------------------------------------------------------------------;
+COMMENT_LINE $F92E F92E    Explosion_Snd                                           ;
+COMMENT_LINE $F92E ;
+COMMENT_LINE $F92E This routine appears to generate some type of an explosion sound,     ;
+COMMENT_LINE $F92E dependent upon the 4 bytes which are pointed to by the U register.    ;
+COMMENT_LINE $F92E You will probably need to call Do_Sound for this to do anything.      ;
+COMMENT_LINE $F92E ;
+COMMENT_LINE $F92E The format of the 4-byte block is:                                    ;
+COMMENT_LINE $F92E 1)      Bits 0-2 = ?    Stored in $C85D                         ;
+COMMENT_LINE $F92E Bits 3-5 = ?    Stored in $C853                         ;
+COMMENT_LINE $F92E Bits 6-7 = 0                                            ;
+COMMENT_LINE $F92E Bits 0-2 and 3-5 are ORed and stored in bits 0-2 of     ;
+COMMENT_LINE $F92E $C854   ;
+COMMENT_LINE $F92E 2)      <0 = ?          Something to do with register 6         ;
+COMMENT_LINE $F92E =0 = ?                                                  ;
+COMMENT_LINE $F92E >0 = ?                                                  ;
+COMMENT_LINE $F92E 3)      <0 = ?                                                  ;
+COMMENT_LINE $F92E =0 = ?                                                  ;
+COMMENT_LINE $F92E >0 = ?                                                  ;
+COMMENT_LINE $F92E 4)      Speed?  Higher values = lower duration?                 ;
+COMMENT_LINE $F92E ;
+COMMENT_LINE $F92E ENTRY DP = $C8                                                        ;
+COMMENT_LINE $F92E U-reg points to 4-byte block of data if $C867 high bit =      ;
+COMMENT_LINE $F92E ;
+COMMENT_LINE $F92E D-reg, X-reg trashed                                            ;
+COMMENT_LINE $F92E -----------------------------------------------------------------------;
+COMMENT $F936 Copy 4 bytes from U-reg to $C858
+COMMENT $F93E Divide first byte by 8
+COMMENT $F941 OR with first byte
+COMMENT $F943 AND with 7
+COMMENT $F945 store in $C854
+COMMENT $F947 Get first byte
+COMMENT $F949 Mask off bits 3-5
+COMMENT $F94B store in $C853
+COMMENT $F94D Get first byte
+COMMENT $F94F AND with 7
+COMMENT $F951 store in $C85D
+COMMENT $F953 Start with channel number 2
+COMMENT $F957 Initialize time count
+COMMENT $F997 Get channel number
+COMMENT $F999 Decrement channel number
+COMMENT $F99C Reset to 2 if less than zero
+COMMENT $F99E Save channel number
+COMMENT $F9A0 Get bit mask of the channel
+COMMENT $F9A5 Go back if not in for $C85D
+COMMENT $F9A9 Negative of channel number ; 2
+COMMENT $F9AB (registers 1, 3, and 5)
+COMMENT $F9CF Exit if all channels done
+COMMENT $F9D2 Point to next register (8-10)
+COMMENT $F9D7 Store noise value if chan in use
+COMMENT $F9DC For Bitmask_a
+COMMENT $F9E4 For noise
+COMMENT $F9EA For music
+COMMENT $F9F0 For Recalibrate
+COMMENT_LINE $FC24 These tables are used by the rise/run calculations
+COMMENT_LINE $FC8D Music note to frequency table
+COMMENT_LINE $FD0D FD0D = power-on music and music for Crazy Coaster and Narrow Escape
+COMMENT_LINE $FD1D FD1D = music for Berzerk?
+COMMENT_LINE $FD69 FD69 = ADSR table for Berzerk and FF7A
+COMMENT_LINE $FD79 FD79 = twang table for Berzerk and Scramble
+COMMENT_LINE $FD81 FD81 = music
+COMMENT_LINE $FDC3 FDC3 = ADSR table for FD81 and FF8F
+COMMENT_LINE $FDD3 FDD3 = music for Scramble
+COMMENT_LINE $FE28 FE28 = ADSR table for Scramble, FF26, FF44, FF62
+COMMENT_LINE $FE38 FE38 = music for Solar Quest
+COMMENT_LINE $FE66 FE66 = ADSR table for Solar Quest
+COMMENT_LINE $FE76 FE76 = music
+COMMENT_LINE $FEB2 FEB2 = ADSR table for FE76
+COMMENT_LINE $FEB6 FEB6 = "flat" twang table
+COMMENT_LINE $FEC6 FEC6 = music
+COMMENT_LINE $FEE8 FEE8 = ADSR table for FEC6
+COMMENT_LINE $FEF8 FEF8 = music for Melody Master
+COMMENT_LINE $FF16 FF16 = ADSR table for FEF8
+COMMENT_LINE $FF26 FF26 = music
+COMMENT_LINE $FF44 FF44 = music
+COMMENT_LINE $FF62 FF62 = music
+COMMENT_LINE $FF7A FF7A = music
+COMMENT_LINE $FF8F FF8F = music
+COMMENT_LINE $FF9F -----------------------------------------------------------------------;
+COMMENT_LINE $FF9F FF9F    Draw_Grid_VL                                            ;
+COMMENT_LINE $FF9F ;
+COMMENT_LINE $FF9F This routine apparently will draw a vector list using a 16x16 grid,   ;
+COMMENT_LINE $FF9F and occasionally using regular vector lists too.  This could possibly ;
+COMMENT_LINE $FF9F be useful for drawing gridded things like a chess board and all of    ;
+COMMENT_LINE $FF9F its pieces at the same time.                                          ;
+COMMENT_LINE $FF9F ;
+COMMENT_LINE $FF9F The master vector list contains multiple sublists that start with     ;
+COMMENT_LINE $FF9F a flag byte:                                                          ;
+COMMENT_LINE $FF9F Bit 7 = draw the next regular vector list (from X-reg) first    ;
+COMMENT_LINE $FF9F Bit 6 = this is the last sublist in the master vector list      ;
+COMMENT_LINE $FF9F Bits 5,4 = unused                                               ;
+COMMENT_LINE $FF9F Bits 3-0 = number of points in this sublist (1-16)              ;
+COMMENT_LINE $FF9F ;
+COMMENT_LINE $FF9F The points are stored as a pair of nibbles:                           ;
+COMMENT_LINE $FF9F Bits 7-4 = Y coordinate (?)                                     ;
+COMMENT_LINE $FF9F Bits 3-0 = X coordinate (?)                                     ;
+COMMENT_LINE $FF9F ;
+COMMENT_LINE $FF9F ENTRY DP = $D0                                                        ;
+COMMENT_LINE $FF9F X-reg points to regular vector lists                            ;
+COMMENT_LINE $FF9F Y-reg points to master vector list                              ;
+COMMENT_LINE $FF9F ;
+COMMENT_LINE $FF9F EXIT: X-reg points to next byte after last regular vector list used   ;
+COMMENT_LINE $FF9F Y-reg points to next byte after end of master vector list       ;
+COMMENT_LINE $FF9F ;
+COMMENT_LINE $FF9F D-reg trashed                                                   ;
+COMMENT_LINE $FF9F -----------------------------------------------------------------------;
+COMMENT $FF9F Get flag byte
+COMMENT $FFA1 Jump into loop
+COMMENT $FFA3 Draw a regular vector list
+COMMENT $FFA6 Clear vector list flag
+COMMENT $FFAB Save flag byte for vector count
+COMMENT $FFAE Decrement vector count
+COMMENT $FFB1 Get Y of next point
+COMMENT $FFB6 Get X of next point
+COMMENT $FFBF Draw a regular vector list?
+COMMENT $FFC2 Go back if so
+COMMENT $FFC4 Draw a line to the new point
+COMMENT $FFC7 Check vector counter
+COMMENT $FFCC Go back if more vectors to draw
+COMMENT $FFCE Check for end of list
+COMMENT $FFD0 Go back if more lists to draw
+COMMENT $FFEE Unused
+COMMENT $FFF2 SWI3 vector
+COMMENT $FFF4 SWI2 vector
+COMMENT $FFF6 FIRQ vector
+COMMENT $FFF8 IRQ vector
+COMMENT $FFFA SWI vector
+COMMENT $FFFC NMI vector
+COMMENT $FFFE Reset vector
+RANGE $F593-$0000 DP $D0
+RANGE $F000-$F0E9 CODE
+RANGE $F0E9-$F101 DB_DATA
+RANGE $F101-$F10B CHAR_DATA
+RANGE $F10B-$F110 DB_DATA
+RANGE $F110-$F117 CHAR_DATA
+RANGE $F117-$F11C DB_DATA
+RANGE $F11C-$F123 CHAR_DATA
+RANGE $F123-$F128 DB_DATA
+RANGE $F128-$F12B CHAR_DATA
+RANGE $F12B-$F130 DB_DATA
+RANGE $F130-$F13C CHAR_DATA
+RANGE $F13C-$F141 DB_DATA
+RANGE $F141-$F14A CHAR_DATA
+RANGE $F14A-$F14C DB_DATA
+RANGE $F14C-$F617 CODE
+RANGE $F617-$F6E1 DB_DATA
+RANGE $F6E1-$F9DC CODE
+RANGE $F9DC-$F9F0 DB_DATA
+RANGE $F9F0-$FC6C DW_DATA
+RANGE $FC6C-$FC6D DB_DATA
+RANGE $FC6D-$FE23 DW_DATA
+RANGE $FE23-$FE28 DB_DATA
+RANGE $FE28-$FF8A DW_DATA
+RANGE $FF8A-$FF8F DB_DATA
+RANGE $FF8F-$FF9F DW_DATA
+RANGE $FF9F-$FFD3 CODE
+RANGE $FFD3-$FFEE CHAR_DATA
+RANGE $FFEE-$0000 DW_DATA
+

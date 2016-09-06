@@ -220,7 +220,8 @@ The vectorlist might be reordered in order to set the point.
 --------------::~~
 x Points selected~~
 - "join here"~~
-  Joins all points at the current location and truly joins them!
+  Joins all points at the current location and truly joins them!~~
+**NOTE**~~ Joining more than two vectors in one point is usualy a bad idea and might lead to unexpected results, when using some other "shortcuts" within vecci
 
 2 Points selected~~
 - "connect selected"~~
@@ -333,7 +334,7 @@ SHIFT clicking the buttons MOVES one animation frame in the corresponding direct
 
 
 :h2 Vecci format (Save/Load)
-The vecvy save format is a straight forward XML-File with all data in appropriate sub structures.
+The vecci save format is a straight forward XML-File with all data in appropriate sub structures.
 
 - a VectorAnimation consists of n XML-structures of the type GFXVectorList
 - a GFXVectorList consists of n XML-structures of the type GFXVector

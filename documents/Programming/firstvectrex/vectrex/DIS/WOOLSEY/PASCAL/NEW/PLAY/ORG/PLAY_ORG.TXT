@@ -1,0 +1,187 @@
+Vectrex Music, as accepted by the PLAY.PAS program, is as follows.
+
+PLAY Statement, additional information as specified for the Vectrex...
+Purpose: Plays music as specified by *string*.
+
+Format: PLAY *string*
+
+Remarks:
+PLAY implements a concept similar to DRAW by imbedding a "tune
+definition language" into a character string.
+*string* is a string expression consisting of single- or double-character
+music commands.
+The commands in PLAY are:
+
+A to G with optional #, +, or -
+         Plays the indicated notes in the current octave.  A number sign (#)
+         or plus sign (+) afterward indicates a sharp; a minus sign (-)
+         indicates a flat.  A #, +, or - is not allowed unless it corresponds
+         to a black key on a piano.  For example, B# is an invalid note.
+         The Vectrex is not so picky.
+
+H*string*
+         Declare *string* to be the title of the piece.  On the Vectrex, it
+         will be centered in the middle of the screen.  The string terminates
+         at end-of-line.  If this command is omitted (or late) the tune file
+         name becomes the title.  This command must occur before any notes
+         or rests if it is to be displayed.
+
+K*string*
+         Declare *string* to be the author (Komposer?) of the piece.  This
+         string is centered above the title.  If omitted or late, some
+         suitable thing will be displayed.
+
+O n
+         Octave.  Sets the current octave for the notes that follow.  There are
+         7 octaves, numebred 0 to 6.  Each octave goes from C to B.  Octave
+         3 starts with middle C.  Octave 4 is the default octave.
+
+> n
+         Go up to the next higher octave and play note n.  Each time note n
+         is played, the octave goes up until it reaches octave 6.  For example,
+         PLAY ">A" raises the octave and plays note A.  Each time PLAY ">A" is
+         executed, the octave goes up until it reaches octave 6; then each
+         time PLAY ">A" executes, note A plays at octave 6.  (For BASIC 2.0
+         and later releases.)
+
+< n
+         Go down one octave and play note n. [...until octave 0 per > -jxh]
+
+N n
+         Plays note n, which can range from 0 to 84.  In the 7 possible octaves,
+         there are 84 notes.  n=0 means "rest."  This is an alternative way
+         of selecting notes besides specifying the octave (O n) and the note
+         name (A-G).  (The Vectrex range is narrower (0-62; an attempt was
+         made to center it the same as PLAY), and a rest is 63.)
+
+L n
+         Sets the length of the notes that follow.  The actual length of the
+         note is 1/n.  n can range from 1 to 64.  In the Vectrex
+         implementation, the default is 4.
+
+         Length  Equivalent
+          L1      whole note
+          L2      half note
+          L3      one of a triplet of three half notes
+                    (1/3 of a 4-beat measure)
+          L4      quarter note
+          L5      one of a quintuplet (1/5 of a measure)
+          L6      one of a quarter-note triplet
+          .
+          .
+          .
+          L64    sixty-fourth note
+
+         The length can also follow the note when you want to change only the
+         length of the note.  For example, A16 is equivalent to L16A.
+
+P n
+         Pause (rest).  n can range from 1 to 64, and figures the length of the
+         pause in the same way as L (length).
+
+.
+         (dot or period)  When placed after a note, causes the note to be
+         played as a dotted note.  A dot increases the duration of a note
+         by half the duration of the note.  A note can have more than one dot.
+         Each dot increases the total value by 1/2 the value of the previous
+         dot.  For example, a double-dotted halfnote is equivalent in duration
+         to a half note plus a quarter note plus an eighth note.  Dots can
+         also appear after a pause (P) to scale the pause length in the same
+         way.
+
+T n
+         Tempo.  Sets the number of quarter notes in a minute.  n can range
+         from 32 to 255.  The default is 120.  Under "SOUND Statement" is a
+         table listing common tempos and the equivalent beats per minute.
+
+MF
+         Music Foreground.  Music (created by SOUND or PLAY) runs in foreground.
+         Each subsequent note or sound will not start until the previous note
+         or sound is finished.  You can press Ctrl-Break to exit PLAY.
+         Music foreground is the default state.  Not relevant on the Vectrex.
+
+MB
+         Music Background.  Music (created by SOUND or PLAY) runs in background
+         instead of foreground.  Each note or sound is placed in a buffer,
+         allowing the BASIC program to continue executing while music plays
+         in the background.  The music background buffer can hold up to 32
+         notes at one time.  Not relevant on the Vectrex.
+
+MN
+         Music Normal.  Each note plays 7/8 of the time specified by L (length).
+         This is the default setting of MN, ML, and MS.
+
+MD
+         Old dot mode.   One piece I received was written for a dot mode
+         where d := d + d / 2, whereas the default mode is d := d + dot / 2.
+         Automatic translation of the piece from the old mode into the new
+         is proving difficult.
+
+ML
+         Music Legato.  Each note plays the full period set by L (length).
+
+MS
+         Music Staccato.  Each note plays 3/4 of the time specified by L.
+
+X variable;
+         Executes the specified string.  The Vectrex implemenation gets angry
+         if you try to use this.
+
+R*string*
+         Remarks.  Arbitrary text for commenting (or whatever).  Ends at next
+         newline.
+
+W*string*
+         Intended to represent the lyrics (if any) for the tune being played.
+         Not presently implemented on the Vectrex; behaves like R.
+
+Y*date*
+         *date* is placed in the copyright message while the tune is playing.
+         *date* generally should be the year the tune was composed, but it
+         may be any 4 characters.
+
+Z
+         Enter special polyphonic mode where all of the notes on one line
+         are played for the duration of the shortest.  This exists to
+         support true polyphonic sound for the Vectrex.
+
+In all these commands, the n argument can be a constant such as 12, or it
+can be *=variable;* where *variable* is the name of a variable.  The semicolon
+(;) is required when you use a variable in this way, and when you use the
+X command.  Otherwise a semicolon is not allowed after MF, MB, MN, ML, or
+MS.  Also, any blanks in *string* are ignored.  The Vectrex does not accept
+the =*variable*; syntax.
+
+You can specify variables in the form VARPTR$(variable), instead of =variable;.
+The VARPTR$ form is the only one that can be used in compiled programs.
+For example:
+
+One method      Alternative method
+PLAY "XA$;"     PLAY "X"+VARPTR$(A$)
+PLAY "O=I;"     PLAY "O="+VARPTR$(I)
+
+You can use X to store a "subtune" in one string and call it repetitively
+with different tempos or octaves from another string.
+
+Examples:  The following example plays a tune.
+
+10  'little lamb
+20  MARY$="GFE-FGGG"
+30  PLAY "MB T100 O3 L8;XMARY$;P8 FFF4"
+40  PLAY "GB-B-4; XMARY$; GFFGFE-...."
+
+The following example plays the scale from octave 0 to octave 6.
+
+10  ' Play the scale using > octave
+20  SCALE$="CDEFGAB"
+30  PLAY "O0 XSCALE$;"
+40  FOR I=1 TO 6
+50  PLAY ">XSCALE;"
+60  NEXT
+70  ' Play the scale using < octave
+80  PLAY "O6 XSCALE;"
+90  FOR I=1 TO 6
+100 PLAY "<XSCALE$;"
+110 NEXT
+
+

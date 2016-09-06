@@ -1,0 +1,75 @@
+Title  FYI: How to replace a  Vec Controller cable.
+From:    Mark S.
+
+A missing or damaged Vec Controller cable can be replaced with a Sega
+Genesis Extension Cable. These are avaliable from Toys-r-Us for $10.
+
+1) Open the controller.
+
+   The controller is fastened with 5 screws under the label on the top
+   side of the controller. One screw is located near each corner of the
+   label (ex: One is under the "IN" in "MADE IN TAIWAN"). The fifth
+   screw is to the right of the cable, at the top of the "V" in
+   "VECTREX".
+
+   Removing the label will destroy it. It's better to cut out holes
+   where the screws are located with an exacto-knife. To exactly locate
+   the screws, press the label with a pen or pencel point, you will see
+   the label flex when it's over a screw.
+
+2) Recycle the strain relief.
+
+   Cut the old cable just above the strain relief. Pull the strain
+   relief off of the wires (don't disconnect the wires from the circut
+   board).
+
+   All or part of the OLD CABLE CASING can be removed from the
+   strain relief by pulling it from the BOTTOM of the strain-relief.
+
+   Any remaining old cable casing can be removed by gently drilling
+   it out.
+
+3) Prep the new cable.
+
+   Cut the Sega Genesis Cable to length, I suggest 2 feet. (This will
+   give a working length of 18 inches).
+
+   The sides of the plug must be trimmed to fit in the Vec's socket.
+   End View:
+      Before:           After:
+      +-----------+     +-----------+
+      |  -------  |     |  -------  |
+      |  \=====/  |     |  \=====/  |
+      |   -----   |      \  -----   /
+      +-----------+       \--------/
+
+   Slowly and carfully enlarge the strain-relief using a drill. Only
+   drill it out 1/64 an inch at a time to avoid tearing it.
+
+   Lubricate the end of the new cable and inset it into the strain
+   relief. it should stick through about 4 inches.
+
+4) Connect the new cable:
+
+   remove the new cable casing below the strain relief and attach to
+   the Vec Controler wires as follows:
+
+
+
+   Pin    Vec Color   Sega Color
+    1     Green       Brown
+    2     Yellow      Red
+    3     Orange      Orange
+    4     Red         Yellow
+    5     Brown       Green
+    6     White       Blue
+    7     Gray        Grey
+    8     Black       Black
+    9     Blue        White
+
+    I soldered the connections, then insulated them with heat-shrink
+    tubeing.
+
+5) Screw it back together.
+
+6) Have a blast.

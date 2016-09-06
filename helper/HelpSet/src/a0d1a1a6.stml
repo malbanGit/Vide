@@ -30,23 +30,7 @@ Due to Vide being 100% pure java and trying to emulate vectrex as precisley as I
 I know that I still am not able to emulate the old brute 100% - but god knows I have put much effort into the emulation - and I am quite certain that at the time beeing - emulation in VIDE is the most exact vectrex emulation around.
 
 Always depending on the options you have chosen.
-
-There is also some hardware I have not put effort into emulating, for various reasons:
-- I do not have the hardware
-- it is down on my priority list
-- or any other reason
-
-Well known hardware not emulated yet include:
-- Animaction RAM
-- 3d Imager
-- VecMulti (haven't got one)
-- VecVox
-- Lightpen (port 1)
-- RA Spectrum
-- high score RAM thingy...
-...
-
-None the less - here some descriptions of what is emulated, and how you may alter emulation with configuration: 
+Here some descriptions of what is emulated, and how you may alter emulation with configuration: 
 :h1 Emulator
 
 :image config1.png|emulator config
@@ -261,5 +245,65 @@ If checked, vedi scans files for the entities, this allows displaying / coloring
 If checked, vecxi scans while running, whether BIOS vectrex routines draw a vectorlist, if so - vecxi saves the list in XML format, under the cartridge name.
 
 :h1 Keyboard
-:h1 Theme/Color
+All kind of keyboard inputs can be defined/altered here (editor, and vectrex emulator input controls).~~
 
+Follow the instructions given on the TAB.
+~~
+~~Note:~~
+For Joytick simulations your have to configure both "Pressed" and "Released" events!
+
+:h1 Theme/Color
+Follow the instructions given on the TAB.
+
+:h1 Input
+:image jinput.png|input settings
+
+
+Here you can configure additional input settings for different inout "hardware" for use with the emulator. The code is based on the "JInput" library.
+
+The tab is split into two halfs, the upper half representing the vectrex "side" the lower half representing the input device parameters.
+
+There are at the moment two types of vectrex input types:
+a) Joystick
+b) spinner (like atari driving paddle)
+
+Pressing one button on the vectrex half enables "input chosing" - pressing (or moving) the actual hardware of the selected "real" input device - connects the two sides.
+
+Pressing ##add.png## saves the configuration (after a valid name was entered.
+
+Upon the next start of a vecxi window, the new input settings will be appear in the Joyport selection boxes.
+
+Devices will be remembered for the next vide-sessions, however should the device not be available, it won't appear in the combobox.
+
+~~
+
+**Note**:~~
+There is a global setting for spinner emulation: "minimum cycles bewteen spinner events". Following an explanaition where this value is derived from, and when you might want to change it:
+
+The driving atari-controller works thus, that the state of two switches form a 2 bit value, the actual spinner "rotates" the switch states 00 01 10 11 (binary).
+
+The direction of rotation is computed via two of such states:~~
+- left direction is computed when following states succeed each other:~~ 00 -> 01
+~~ 01 -> 11
+~~ 10 -> 00
+~~ 11 -> 10
+ 
+- right direction is computed when following states succeed each other:
+~~ 00 -> 10
+~~ 01 -> 00
+~~ 10 -> 11
+~~ 11 -> 01
+
+All other succeeding "pairs" of states are "illegal" or no "movements" and are as such taken as "no movement".
+
+The emulated paddle sets these paddle "button" values (button 1+2 of the used joyport) in the correct order at "fixed" intervalls. The minimum intervall these values are set is the cycle count given in the parameter "minimum cycles bewteen spinner events".~~
+(if you use analog emulation as input, than "slower" spinning is a multiple of that value)
+
+So...~~
+If your vectrex game, refreshes once each 30000 cycles and you call the paddle "read"-routine every 30000 cycles everything is fine (default setting).
+
+But if your game refreshes each 20000 and also reads paddle values each 20000 cylces the above state-order will "hickup" and some states will be read as "no movement".
+
+Same happens if you read more paddle events per update round.
+
+I think for most games the 30000 will be ok, but with the value "minimum cycles bewteen spinner events" you can actually alter the emulation of the paddle to accomodate possible slower games or multiple update readings.

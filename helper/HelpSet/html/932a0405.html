@@ -1,0 +1,167 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160906151831" />
+<!-- created with HelpSetMaker, ID=932a0405 -->
+<title>Emulation: Imager 3d (Goggles)</title>
+</head>
+<body class="doc">
+<h1>Emulation: Imager 3d (Goggles)</h1>
+
+<p>Emulation of the 3d imager can be enabled with the cartridge settings. Required is also that a "wheel" is chosen for the imager.</p>
+
+<p>The wheel has important information which are needed to display the game correctly:</p>
+
+<ul><li>
+<p>the colors</p>
+</li><li>
+<p>the angle of the colors</p>
+</li><li>
+<p>the position of the index hole<br />
+</p>
+</li><li>
+<p>(the default speed of the wheel,<br />
+ this information is not required, but emulating the pulse width modulation slows down the startup of a game, using the default speed is a quicker way. The default speed is game related, not wheel-related though. It makes sense to create own wheels (even if the layout is identical) for each game, since the default speeds vary between games)</p>
+</li></ul>
+
+<p>The emulation has two different "modes", namely
+<ul><li>
+<p>manual</p>
+</li><li>
+<p>automatic</p>
+</li></ul>
+</p>
+<h3>Manual "Imager" emulation</h3>
+
+<p>In this mode the speed of the wheel is "fixed", the user (or the settings) can set (or change) the speed of the wheel. The vectrex program has no influence on the speed.</p>
+
+<p>If a game is "known" this setting is the "better" looking version. All known games use during its livecycle only one rotation speed, so the value can be pre-set.</p>
+<h3>Automatic "Imager" emulation</h3>
+
+<p>In this mode the speed of the wheel is calculated by obtaining and calculating the pulses the vectrex sends to the imager hardware (see PWM).  At the beginning of an imager programm the vectrex sends heavy duty pulses to get the wheel up to speed (which takes a few seconds to emulate), and than regulates the speed continuously while the game is runnning. The wavelength of one sequence is always the time between two sync (hole) passes.</p>
+
+<p><b>Note!</b><br />
+Switching from automatic to manual emulation mode is no problem. Switching from manual emulation to automatic gives sometimes unexpected results. This is caused by the algorythms the vectrex games use to control the motor (pwm) with. The algorythm tries to achieve a "fixed" relation between timeout and non-timeouts. The manual emulation knows only one fixed frequency. That frequency either times out or does not timeout. One way or the other, the count of these events is min and max, the game algorythms still try to adept to the received values. Even to the EXTREME. Thus switching from manual to automatic, the startup values for automatic mode (of the current running game) are all wrong and the game probably goes completely out of sync.</p>
+<h2>Emulation Imager in general</h2>
+
+<p>The emulation of the imager hardware consists of different entities:
+<ul><li>
+<p>the wheel</p>
+</li><li>
+<p>phototransistor</p>
+</li><li>
+<p>the motor</p>
+</li><li>
+<p>eye areas</p>
+</li></ul>
+</p>
+<h3>Reference points</h3>
+
+<p>Following points of reference are assumed in emulation and in the following descriptions:
+<ul><li>
+<p>all "directions" are from the view of the person wearing the imager, looking through the imager</p>
+</li><li>
+<p>on the wheel the degree 0 is the start of the black area, degrees are increased clock wise, thus the first color starts at 180 degree</p>
+</li><li>
+<p>the 0 degree on the hardware side is the 6 o'clock position (right above the nose of the wearer)</p>
+</li></ul>
+</p>
+<h3>The wheel</h3>
+
+<p>The wheel characteristcs are:
+<ul><li>
+<p>black area<br />
+  it is assumed every imager wheel has a 180 degree black area, for reference sake the start of the black area is regarded as 0 degree (zero) degree point for wheel definition.</p>
+</li><li>
+<p>color areas<br />
+all known games feature three colors, but actually the number of colors is arbitrary, emulation allows to build wheels with different numbers of colors. The first color always starts at degree 180 degree and the last color always ends at degree 360 degree.</p>
+</li><li>
+<p>index hole<br />
+Placement of the index hole on the wheel. This is the reference point the vectrex programs use for internal calculation of when to draw vectors (left/right eye in relation to color). <br />
+In "real live" a phototransistor and a led are placed opposite of each other, and only when the index whole is in the right position the light of the led reaches the phototransistor. The transistor switches "button 4" to the state "pressed" and thus sends a signal to the vectrex (button 4 is also connected to CA1 of VIA - and can thus be configured to trigger an interrupt).<br />
+ <br />
+The index hole is not in the same position (in relation to the above defined 0 degree) for the two known official wheels. </p>
+</li></ul>
+</p>
+<h3>Phototransistor</h3>
+
+<p>Experiments and measures indicate a good value for the phototransistor location at 339 degree. The index hole has a size of about 3.3274 millimeters :-) - but experiments also show, that the transistor does not react on the led for the whole size of the hole, the actual reaction size is (guessing) only 1/3 of that.</p>
+<h3>Motor</h3>
+
+<p>The motor is emulated as a "frequency" of rotation. The frequency can be either set manually or can be determined by a calculation of the pulses got from the vectrex (see pwm). Emulation-internally an angle is increased every emulated cycle - in relation to the current frequency.</p>
+<h3>Eye areas</h3>
+
+<p>The holes where the wearer sees the vectrex image through. In relation to the reference the eyes are located at 90 degree and 270 degree respectively.</p>
+<h2>Inspecting the emulation</h2>
+
+<p>You can view current emulation status by opening a "device" window (in dissi type "joyi").</p>
+<br/><p align="center">
+<img src="pics/device_imager.png" width="742" height="744" /><br/>
+<em>emulation view</em></p><br/>
+
+<p>Using the button <img src="pics/page_edit.png" alt="page_edit.png" /> you can start editing your own wheels:</p>
+<br/><p align="center">
+<img src="pics/WheelEdit1.png" width="479" height="584" /><br/>
+<em>wheel editor</em></p><br/>
+<h2>Additional Notes</h2>
+<h3>Startup / Interrupt usage</h3>
+
+<p>Each official game runs the game loop in a time reference frame. The frequency of the wheel is set in accordance to that timing frame (different games can have different timing parameters).</p>
+
+<p>The official imager games have a startup phase. During this phase the imager is "powered" up with heavy duty cycles (pwm) until the speed of the wheel matches the above mentioned time frame (many "pulses" per sync round). During that powerup button 4 is polled to see if the sync hole of the wheel is triggered (button 4) - no usage of interrupts in the startup phase. <br />
+</p>
+
+<p>The measurement taken is thus that one 360 degree spin of the wheel (one sync cycle) must be done completely within the wanted time frame - if that is achieved three times, the program assumes that the wheel is up to speed.</p>
+
+<p>Once the game runs, the PWM is realized differently. Vectrex "assumes" that the wheel is spinning about "right" and sends exactly one pulse (of a calculated length, which is adjusted all the time) per sync cylces.</p>
+
+<p>The game "loop" is realized by using the interrupt the sync triggers. Here the difference:<br />
+The normal game loop:<br />
+<tt>main: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR WaitRecal<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DoSound<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DisplaySomething<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DoGameStuff<br />
+...<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA main</tt><br />
+</p>
+
+<p>and imager game loop looks like:</p>
+
+<p><tt>main: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DoOwnRecal<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DoSound<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DisplaySomething<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JSR DoGameStuff<br />
+...<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CWAI #$ef<br />
+...<br />
+InterruptHandler: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ... do imager stuff<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDS #$CBEA ; or any other kind of stack correction because of interrupt<br />
+...<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JMP main</tt><br />
+</p>
+
+<p>There are two dangers if not handled carefully:
+<ol><li>
+<p>the wheel spinning to fast<br />
+If for any reason, the wheel spins to fast, the interrupt can be triggered to soon, while still in some important other routine. If this happens two things can go awfully wrong.
+<ul><li>
+<p>the routine is not completed and the game does not run correctly</p>
+</li><li>
+<p>the assumptions of the interrupt routine are not met (e.g. correct setting of the DP register)</p>
+</li></ul>
+</p>
+</li><li>
+<p>the wheel is spinning to slow<br />
+Here also a "tricky" thing can happen. The imager (in opposite to the default) triggers the interrupt CA1 on "active high" (state of the line going form low to high) (which is set by storing the right bits into VIA control register $c). Within the Interrupt handler the BIOS routine <tt>"Reset0Ref"</tt> is called, which resets that setting to the default value (trigger interrupt on active low, going from high to low).<br />
+If the wheel spins to slowly, the index whole has not yet reached its end, and another interrupt is triggered when the sync is shut down again - since the expected interrupt settings were not yet in place (trigger on active high). This second trigger while in itself not a catastrophy can also happen at exactly the wrong time (e.g. dp not correctly set) - so that the program also is not working anymore.</p>
+</li></ol>
+</p>
+</body>
+</html>

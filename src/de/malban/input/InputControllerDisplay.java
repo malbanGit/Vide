@@ -468,7 +468,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         jPanelButtons.add(buttonsPanel);
 
         // set x and y axes,
-        setXYAxis(xAxisPercentage, yAxisPercentage);
+//        setXYAxis(xAxisPercentage, yAxisPercentage);
         // add other axes panel to window.
         jPanel_forAxis.removeAll();
         jPanel_forAxis.add(axesPanel);
@@ -519,7 +519,9 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         jPanelForRelatives.add(relativesPanel);
         
         // set x and y axes,
-        setXYAxis(50,50);
+//        setXYAxis(50,50);
+        xAxisPercentage = 50;
+        yAxisPercentage = 50;
         
         // reset pov
         headSwitchPositions = new ArrayList<Float>();
@@ -583,7 +585,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         validate();
         repaint();
     }
-
+/*
     
     public void setXYAxis(int xPercentage, int yPercentage){
         Graphics2D g2d = (Graphics2D)jPanelXYAxis.getGraphics();
@@ -591,7 +593,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         g2d.clearRect(1, 1, jPanelXYAxis.getWidth() - 2, jPanelXYAxis.getHeight() - 2);
         g2d.fillOval(xPercentage, yPercentage, 10, 10);
     }
-
+*/
     void paintAxis(Graphics g)
     {
         Graphics2D g2d = (Graphics2D)g;

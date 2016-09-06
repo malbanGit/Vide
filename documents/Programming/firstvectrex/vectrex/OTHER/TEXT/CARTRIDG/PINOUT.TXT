@@ -1,0 +1,43 @@
+This information is empirical.  Real information is available by scrutinzing
+the schematics in the nth-generation copy of the service manual...
+
+The following is the Vectrex Cartridge connector pinout.
+
+Pin #     info source    designation
+-----     -----------    -----------
+1         Ohm            HALT* (MPU 40)
+2         Ohm            Vcc (MPU 7)
+3         cart           A7 (ROM 1)
+4         Ohm            Vcc (MPU 7)
+5         cart           A6 (ROM 2)
+6         cart           A8 (ROM 23)
+7         cart           A5 (ROM 3)
+8         cart           A9 (ROM 22)
+9         cart           A4 (ROM 4)
+10        cart           A11 (ROM 21)
+11        cart           A3 (ROM 5)
+12        cart           OE*/Vpp (ROM 20) (LS32 1)
+13        cart           A2 (ROM 6)
+14        cart           A10 (ROM 19)
+15        cart           A1 (ROM 7)
+16        cart           CE* (ROM 18) A15 (MPU 23) (LS32 2)
+17        cart           A0 (ROM 8)
+18        cart           D7 (ROM 17)
+19        cart           D0 (ROM 9)
+20        cart           D6 (ROM 16)
+21        cart           D1 (ROM 10)
+22        cart           D5 (ROM 15)
+23        cart           D2 (ROM 11)
+24        cart           D4 (ROM 14)
+25        cart           GND
+26        cart           D3 (ROM 13)
+27        cart           GND
+28        cart           GND (ROM 12)
+29        Ohm            A12 (MPU 20)
+30        Ohm            (PIA 22) (35 Ohms to R/W* (MPU 32))
+31        Ohm            A13 (MPU 21)
+32        Ohm            (LS32 3)
+33        Ohm            A14 (MPU 22)
+34        Ohm            NMI* (MPU 2)
+35        Ohm            (PIA 16)
+36        Ohm            IRQ* (MPU 3)

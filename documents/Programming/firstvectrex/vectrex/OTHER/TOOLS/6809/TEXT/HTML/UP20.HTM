@@ -1,0 +1,248 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 20</H2>
+<H3>16/32-bit microprocessor architecture and hardware</H3>
+<hr>
+<H2>68000 addressing modes</H2>
+
+<H3>Register direct</H3>
+<ul><ul>
+<LI> EA = Rn
+</ul>
+<PRE>
+               eg.       exg       a3,d0
+                         add.l     d2,a5
+</PRE></ul>
+<H3>Memory addressing</H3>
+<OL>
+<LI>Indirect 
+<ul>
+<LI> EA = (An)
+</ul>                            
+<PRE>
+               eg.       add.w    (a2),d3
+                         movea.b   (a0),(al)
+</PRE>
+<LI>Indirect with post-increment or pre-decrement
+<ul>
+<LI> EA = (An) ; [An = An + 1] or [An = An - 1]
+</ul>
+<PRE>
+               eg.       cmp.l     (a2)-,d5
+                         movea.b   (a0)+,(al)+
+</PRE>
+<LI>Indirect with displacement 
+<ul>
+<LI> EA = (An) + offset
+</ul>
+<PRE>
+               eg.       add.b     10(a3),d3
+</PRE>
+<LI>Indirect with index and displacement
+<ul>
+<LI> EA = (An) + Xn + offset
+</ul>
+<PRE>
+               eg.       movea.l    20(d0:w,a2),a2
+</PRE>
+<LI>Absolute 
+<ul>
+<LI> EA = (PC) - short address
+<LI> EA = (PC | PC+1) - long address
+</ul>                            
+<PRE>
+               eg.       add.l      0x7100,d3
+                         add.l      0x4la713c,d3
+</PRE>
+<LI>PC with displacement 
+<ul>
+<LI> EA = (PC) + offset
+</ul>                
+<PRE>
+               eg.       move.l    100(pc),d3
+</PRE>
+<LI>Pc with index and displacement
+<ul>
+<LI> EA = (PC) + Xn + offset
+</ul>
+<PRE>
+               eg.       movea.l    10(d0,pc),a2
+</PRE>
+<LI>Immediate
+<ul>
+<LI> EA = PC
+</ul>                               
+<PRE>
+               eg.       add.w      #0xl2f4,d3
+</PRE>
+</OL>
+
+<H3>Operand size</H3>
+     Where appropriate, the operand may be a BYTE, WORD or LONG-WORD.
+     The operand size is indicated to the assembler by adding a suffix
+<PRE>
+               b (byte)   w (word)   l (long)
+</PRE>
+     to the instruction.
+
+<HR>
+<H2>68000 INSTRUCTION SET (summary)</H2>
+   This selection from the 68000 instruction set is intended to give
+   a 'feel' for the microprocessor, rather than to provide an exhaustive
+   manual for its use.
+
+<H3>DATA MOVEMENT</H3>
+
+<PRE>
+    instruction      operand          action            comments.
+     mnemonic         size
+  ----------------+--------------+-----------------+-----------------------
+       EXG           32 bit          Rn ->  Rm        exchange registers  
+
+       LEA           32              EA ->  An        load effective address
+
+       MOVE          8/16/32         EAs -> EAd       replaces LDA,LDX,STA,STX
+                                                          etc. in the 6809
+                                                      the general move instruction
+       SWAP          32           Dn(hi) <-> Dn(lo)
+                                                      swap register halves
+
+       MOVEM         16/32         EA -> Rn ... Rm    move multiple registers
+                                   Rn ... Rm -> EA    
+       etc.
+</PRE>
+
+<H3>ARITHMETIC</H3>
+<PRE>
+
+        ADD          8/16/32       EA + Dn -> Dn
+        CLR		"
+        CMP		"
+        DIVS         32/16         signed divide    32 bit/16 bit
+        DIVU            "          unsigned divide        "
+        MULS         16/32         signed multiply  16 bit x 16 bit
+        MULU            "          unsigned multiply 	  "
+        NEG          8/16/32       2's complement
+        SUB		"
+        TST             "          compare with zero & set flags
+        etc.
+</PRE>
+<H3>LOGICAL</H3>
+<PRE>
+        AND          8/16/32
+        OR		"
+        EOR		"
+        NOT		"
+</PRE>
+<H3>SHIFT &  ROTATE</H3>
+<PRE>
+        ASL          8/16/32
+        ASR		"
+        LSL		"
+        LSR		"
+        ROL             "	   CARRY is not included in
+        ROR             "          the rotation
+        ROXL            "          as above, except the X bit
+        ROXR            "          is part of the shift registe
+</PRE>
+<H3>BIT</H3>
+<PRE>
+       BTST          1 bit
+       BSET		"
+       BCLR		"
+       BCHG		"	   test & change bit
+
+       the Z flag reflects the state of the bit tested
+</PRE>
+<H3>BCD</H3>
+<PRE>
+       ABCD          8		   add BCD operands
+       SBCD          8		   subtract
+       NBCD          8		   negate
+
+       all results  are extended to 32 bits
+</PRE>
+<H3>BRANCHES</H3>
+<PRE>
+       Bcc           where 'cc' represents one of the 16 testable conditions
+                     eg. BGT, BLS, BMI etc.
+                     the offset may be 8 or 16 bits in length.
+       DBcc          as above, except .......
+                     decrements the specified register, tests and branches
+                     if condition met.
+       BRA
+       BSR
+       JMP
+       JSR
+       RTS
+       etc.
+</PRE>
+<H3>SYSTEM</H3>
+<UL>
+<LI>there are a set of privileged instructions, mainly to manipulate the
+       status register and control interrupts.
+<LI>there are further instructions which are in User mode and cause a
+       transfer of control to the Supervisor mode for processing.
+       The most important are:
+<UL>
+<LI>CHK - checks a register against bounds<br>
+                    ie, zero and the data specified.
+                    a software interrupt (exception processing) is generated
+                    if the bounds are exceeded
+<LI>TRAP - generates a vectored software interrupt<br>
+                    a vector is supplied with the instruction (up to 16 possible
+                    vectors), which causes a jump to one of the 16 trap
+                    routines.
+                    In this way, a User program can force a jump to a routine
+                    which is run under Supervisor control.
+</UL></UL>
+
+<hr>
+<H2>Hardware compatibility with 8-bit devices</H2>
+The 68000 designers made no attempt to maintain software compatibility
+with earlier 6800 designs.   However, 6800 peripheral devices (PIAs and
+ACIAs etc.) which are synchronous can be used with the 68000 asynchronous
+bus.
+<P>
+An E signal is continuously generated by the 68000, which does the same
+job as the E signal of the 6809.
+Since 6800 peripherals do not generate DTACK, a 6800-type bus cycle is
+timed with respect to the E signal instead.
+<P>
+<I>How does the 68000 know when to execute a 6800-type cycle?</I>
+<P>
+Address decoding is used to reserve some memory locations for synchronous
+devices.   When an address in this range is used by the 68000, the
+address decoder sends a VPA (valid peripheral address) signal to the
+68000 which causes it to synchronise with the E signal.
+<P>
+Since the E signal is continuously generated, it can be in any phase with
+the instruction execution cycle.   Therefore, when VPA is asserted,
+the 68000 waits until the E signal is high and then goes low - marking
+the start of the E clock cycle.
+<P>
+Thereafter, wait states (SW) are inserted by the 68000 until the end of
+the E clock cycle, when the 68000 cycle terminates in the usual 
+(asynchronous) way.
+<P>
+<IMG SRC = "68k2m09.gif">
+<P>
+The address decoding can be as simple as in the diagram below, where
+synchronous peripherals are addressed when A23 is high.
+<P>         
+<IMG SRC = "68k6809h.gif">
+
+<H2>UDS and LDS</H2>
+For standard, asynchronous, bus cycles the upper and lower data strobes
+are connected to byte-wide memory devices as shown below.
+This allows word or byte accesses to take place.
+<IMG SRC = "68kram.gif">
+<hr>
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | </CENTER>
+
+</BODY>
+</HTML>

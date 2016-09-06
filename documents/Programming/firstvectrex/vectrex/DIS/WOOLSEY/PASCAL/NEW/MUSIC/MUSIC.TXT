@@ -1,0 +1,13 @@
+music.txt
+---------
+
+commented an ERROR line (unkown variable)
+
+removed a B: from a filename
+
+search for (* malban ... *)
+
+Malban
+
+
+

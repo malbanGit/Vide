@@ -1,0 +1,16 @@
+run.txt
+-------
+
+changed 'screen' variable...
+
+removed a A: from a filename
+
+search for (* malban ... *)
+
+It will not work as it is since the port[] statements are
+probably only ment for CP/M systems, but at least it compiles...
+
+Malban
+
+
+

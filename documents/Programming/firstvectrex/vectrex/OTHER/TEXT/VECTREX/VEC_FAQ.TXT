@@ -1,0 +1,1266 @@
++-----------+
+|  Vectrex  |
+| +-------+ | Vectrex "Frequently Asked Questions" List!  Created: 9/1/92
+| | # +  *| | version 4.0 Copyright worldwide (c) 1992, 1996
+| | :  X  | | Created and maintained by Gregg Woodcock (woodcock@bnr.ca)
+| | :  . .| |
+| | A  (=)| | This list will be reposted on the first day of every month.
+| |     . | |
+| |  X  + | |    @@@
+| | *  x  | |  @@   @@@
+| +-------+ @@@    +---@----+
+| ###   # Q@@     / ! oooo /
+| ###   OO  |    +--------+
++-----------+
+
+(duhn duht duhn duht ... duhn duht duhn dit dut)
+
+This file is copyrighted (c) 1996 by Gregg Woodcock but may be
+distributed in part or in whole by anyone for any purpose (commercial or
+otherwise) provided proper credit is given to me and the individual
+contributors.  If you do use the FAQ, I would appreciate it if you send
+me a copy of whatever you are doing with it.  Special thanks to Tom
+Sloper for correcting many mistakes and providing insightful
+explanations on several parts of earlier FAQ versions!
+
+
+
+Q. What is Vectrex?
+
+Here it is in layman's terms:
+
+Vectrex is one of the most inspired video game machines ever produced
+(but similar things were said about the Edsel and Titanic).  Its point
+of distinction is the fact that it uses vector "line" graphics (as
+opposed to raster "pixel" graphics).  This is the same type of screen
+used in such arcade classics as Space Wars, Asteroids, Battlezone and
+Tempest.  The machine has a 9 x 11 inch black and white screen and comes
+with a built-in Asteroids clone called Minestorm.  The games come with
+plastic overlays that slide over the screen to cut down on flicker and
+give some illusion of color.  It uses one of the most advanced 8 bit
+processors, the 68A09 (6809 with 1.5MHz clock speed), and a popular and
+excellent sound chip, General Instruments AY-3-8192, which can produce a
+wide range of noises.  Also included is a 1.5 inch, self-centering,
+joystick with 4 buttons on the right.  It uses an analog/potentiometer
+system allowing differing degrees of directional input.
+
+The machine's footprint takes up a little less than a square foot on a
+desk (in fact, it quite resembles a jet black Macintosh SE sans mouse
+and keyboard), and can be operated easily in that area.  The joystick is
+connected via a springy telephone-like cord and can be folded into the
+base of the machine for portability.  The machine is moderately
+transportable and very well constructed but, alas, very much extinct.
+It made its debut late in 1982 and was quite scarce by the end of 1984
+due to the Great Video Game Depression of '82 which forced Milton
+Bradley (who bought the rights to the Vectrex from General Consumer
+Electronics (GCE)) to discontinue production due to to poor sales.
+After this, the rights to the Vectrex and all related materials were
+returned to the original developers, Smith Engineering.  Smith
+Engineering has graciously condoned the not-for-profit circulation of
+any duplicatable materials including games and manuals and is happy to
+see it is still 'alive' in certain circles.
+
+Here are some more detailed snippets from the service manual:
+
+As a general description, the HP3OOO is a self-contained video game
+system intended for home use.  The system includes its own 9" B&W
+monitor screen and 3" permanent magnet speaker.  Plug-in ROM type
+cartridges are available offering arcade type video and sound game play.
+No external TV receiver hookup is needed or provided for.  A front panel
+storable controller allows control over the game via joystick and push
+button action switches.  For two player operation a second controller
+identical to the single player controller is available as an accessory
+product.  Both controllers attach to the main game console through nine
+wire coiled telephone style cables.  There is a consumer power
+switch/volume control on the front panel as well as a game reset button.
+A consumer adjustable brightness control is located on the main console
+rear housing.
+
+For the technical description which follows, the reader is encouraged to
+refer to the block diagram and schematic [not included here].
+
+The HP3OOO is a microprocessor based, vector scan system using a
+standard 9" black & white CRT as its video display device.  The
+microprocessor (MPU) is the Motorola 68A09 device.  The MPU operates at
+1.6 MHz from a 6 MHz external Xtal.  An internal divide by 4 circuit
+generates the MPU 1.6 MHz "E" clock signal used in the system.  Program
+memory is stored in the 8K x 8 bit 2363 type ROM.  This ROM contains
+common subroutines, the "executive" or assembler instructions plus one
+complete game.
+
+Two 1K x 4 bit 2114 type static RAMs provide storage locations for data
+indicative of locations of objects, game status, and various other
+information needed by the microprocessor during game operation.
+Peripheral Interface Adapter (PIA) Chip, has two 8 bit peripheral ports
+which interfaces the MPU with peripheral devices and external signals.
+One of the PIA ports interfaces the General Instrument AY-3-8912
+sound-I.O. chip with the MPU and also drives the digital to analog
+converter chip MC1408.  The other PIA port is used as control lines for
+the sound chip, selector control for the multiplex chip and as a means
+to read the A/D comparator that's used in the joystick successive
+approximation circuitry.  Sound is either MPU generated directly or by
+use of the AY-3-8912 sound chip.
+
+The AY-3-8912 sound chip is a programmable sound generator containing 3
+tone generators and wave shaping circuitry.  This chip also has a single
+8 bit I.O. port used to read the status of each of the hand controller's
+4 action switches.
+
+The standard TTL device types 74LS00 and 74LS32 are used as control line
+decoders to allow the MPU to select the appropriate circuit element to
+be addressed at any particular time.
+
+The analog processing section includes digital to analog converter (DAC)
+chip type MC1408, dual 4 channel multiplexer/demultiplexer chip type
+CD4052, and dual channel op-amps types LF353 and LF347.
+
+DAC chip MC1408 receives an 8 bit word at data terminals D0-D7.  DAC
+output (pin 4) is current source.  One section of IC LF353 is used to
+change this current to a voltage representative of the 8 bit digital
+word received by the DAC chip.  The LF353 voltage is applied to an input
+of the dual 4 channel multiplexer (MUX) chip CD4052.  This same voltage
+(designated "DAC" on the schematic) is the X-axis drive signal.
+
+The CD4052 MUX chip serves two purposes:  it selectively couples, under
+MPU control, the output of the DAC current/voltage converter to one of 4
+places and is used to selectively couple the inputs from the joystick
+pots to the voltage comparator IC LF353.
+
+
+
+Q. What games were released or on the drawing board before Vectrex died?
+
+Production #      Name (Notes)               [Size or NR=Not Released]
+------------   ----------------------------------------------------------
+   VT 3000     Minestorm (built-in game; Asteroids clone)         [4K]
+   VT 3000     Minestorm/II (bug free version in cart form)       [4K]
+   VT 3101     Cosmic Chasm (1st home game ported to arcade)      [4K]
+   VT 3102     Rip Off (Cinematronics arcade port)                [4K]
+   VT 3103     Scramble (Konami arcade port)                      [4K]
+   VT 3104     Solar Quest (Cinematronics arcade port)            [4K]
+   VT 3105     Space Wars (Cinematronics arcade port)             [4K]
+   VT 3106     Starhawk (Cinematronics arcade port)               [4K]
+   VT 3107     Star Trek (AKA Star Ship in Europe)                [4K]
+   VT 3108     Web Wars (AKA Web Warp in ?????) (best game?)      [8K]
+   VT 3109     Star Castle (Cinematronics arcade port)            [4K]
+   VT 3201     Hyperchase (very bad driving game)                 [4K]
+   VT 3202     Blitz! Action Football                             [8K]
+   VT 3203     Heads-Up Action Soccer (Soccer Football in Europe) [8K]
+   VT 3204     Spinball (Flipper Pinball in Europe) (has PAUSE!)  [8K]
+   VT 3205     Pitcher's Duel -OR- Batter Up Action Baseball      [NR]
+   VT 3206     Pole Position (Atari/Namco arcade port)            [8K]
+   VT 3301     Armor Attack (Cinematronics arcade port)           [4K]
+   VT 3302     Berzerk (Stern arcade port; high levels crash)     [4K]
+   VT 3303     Clean Sweep (Pac-Man clone)                        [4K]
+   VT 3304     Fortress of Narzod (great shooter)                 [8K]
+   VT 3305     Bedlam ("inside-out" Tempest derivative)           [4K]
+   VT 3306     Spike (It talks; well it sort of does :)           [8K]
+   VT 3307     Dark Tower (ONLY 1 PROTOTYPE EXISTS!)       [12K=8K+4K]
+   VT 3308     Polar Rescue (Good sub hunt game) (has PAUSE!)     [8K]
+   VT 3600     Light Pen (Hardware; required for 360X games)
+   VT 3601     Art Master (light pen) (pack-in game)              [4K]
+   VT 3602     Melody Master (light pen)                          [8K]
+   VT 3603     Mail Plane (light pen) (100% completed)            [NR]
+   VT 3604     Animaction (light pen)                      [8K+2K RAM]
+   VT 3630     3-D Imager (Hardware; required for 363X games)
+   VT 3631     3-D Pole Position (3-D) (completed?)               [NR]
+   VT 3632     3-D Minestorm (3-D) (pack-in game)                 [8K]
+   VT 3633     Narrow Escape (3-D) (same color disk as CC)        [8K]
+   VT 3634     Crazy Coaster (3-D) (same color disk as NE)        [8K]
+   VT ????     Test Cartridge (issued to repair centers only)     [4K]
+   VT ????     Tour de France (100% completed)                    [NR]
+   VT ????     HangMan (Touch Screen) (pack-in game; complete)    [NR]
+
+The following games and accessories were planned but never released:
+Cartridges:
+   Art Master II
+   Art Master III
+   Art Master IV
+   Basic Science
+   Create-A-Game/Maze
+   Exploring the Solar System
+   Flipout
+   Hangman (game developed for use with Touch Screen)
+   Imagine
+   Pitcher's Duel
+   Pole Position (for 3-D Imager)
+   Power Trip
+   Sock It
+Accessories:
+   Touch-Sensitive Screen (prototype known to exist)
+   Computer Adapter with BASIC (prototypes rumored to exist)
+      Computer Keyboard
+      Printer
+      Disk Driver/Wafer Tape Drive
+      Modem
+      Computer Software:
+         Create Your Own Video Game
+         Music Maestro
+         Art Program in LOGO
+         Basic Science
+         Solar System
+         Word Processing
+
+A company called Roy Abel & Associates also commercially exploited the
+Vectrex by using it as a text terminal (which is about the worst thing
+it can do) to perform the "Luscher Color Test" after you put a quarter
+into a coin device which activated the unit.  You would pick colors in
+the order that they appealed to you (again, why did they use a black and
+white display for this job?), and it would tell you about your
+personality.  Actually, no matter what you picked it would tell you
+something that you could identify with; all of the statements were
+pretty vague.  The guy that programmed it did not understand the
+hardware; the text scrolled up the screen, but lines popped on at the
+bottom and disappeared near the top instead of scrolling on and off from
+offscreen.  Roy had GCE's permission and blessing to do the project.  In
+fact, some former WT personnel (Sidleys and others) as well as Lee
+Chaden (big guy at GCE) were at Abel & Associates at the time.
+
+
+
+Q. How does the 3-D imager work?
+
+Robert Stickles (sutekh@feldspar.com) explained it very well like this:
+The 3-D imager spins a disk which is 1/2 black and 1/2 colored bands
+that radiate from the centre (Usually red, green and blue) between your
+eyes and the vectrex screen.  The Vectrex is synchronized to the
+rotation of the disk (or vice versa) and draws vectors corresponding to
+a particular color and/or a particular eye.  Therefore only one eye will
+see the vectrex screen and its associated images (or color) at any one
+time while the other will see nothing.
+
+A single object that does not lie on the plane of the monitor (i.e.  in
+front of or into the monitor) is drawn at least twice to provide
+information for each eye.  The distance between the duplicate images and
+whether the right eye image or the left eye image is drawn first will
+determine where the object will appear to "be" in 3-D space.  The 3-D
+illusion is also enhanced by adjusting the brightness of the object
+(dimming objects in the background).  Spinning the disk at a high enough
+speed will fool your eyes/brain into thinking that the multiple images
+it's seeing are two different views of the same object, and voila!
+Instant 3-D and color.
+
+
+
+Q. I see double images and blurry objects; is my 3-D imager broken?
+
+Robert Stickles (sutekh@feldspar.com) answered this very well like this:
+Probably not.  There are problems with the basic design of the imager as
+implemented.  When the imager displays red objects, especially those
+that are to appear in the foreground, it's very difficult for your eyes
+to resolve the two images and you end up seeing double.  Two things
+contribute to this:  When your eyes naturally try to focus on an object
+that is supposed to be in the distance the objects close up become out
+of focus.  This makes games that have 3-D objects deep "into" the screen
+(such as Narrow Escape) have double images for the foreground objects
+(such as your ship).
+
+The second factor is the "ghosting" created by red (and oddly enough,
+only red) images seen through the imager.  For example, the red tracks
+in Crazy Coaster are hard to visualise because my eyes can see white
+ghosts of the image intended for the opposite eye, and consequently you
+interpret the jumble as two different objects and not one.  I am not
+completely sure what causes this, but it may be due to inaccuracies in
+the synching of the wheel.  I do believe that the reason why the 3-D
+Minestorm color wheel is different from the one used for the other games
+(it has little red and the sync hole is slightly offset) is to show off
+the imager at it's best, with lots of green and blue (or maybe the
+coders just wanted lots of green!).  I will make a homemade color wheel
+similar to the CC/NE one, but with different colors to determine for
+sure if the color red is the problem or it is a sync problem.  The 3-D
+Minestorm wheel differs too much from the other wheel to make a good
+judgement.
+
+I have found two ways to remedy this problem:
+
+1) The further your eyes are away from the screen, the easier it is to
+resolve the double images.  So sit waaaay back and enjoy.  This helps
+the focusing problem.
+
+2) Using an overlay on the screen tends cut down on the red "ghosting".
+I use a Spinball/Flipper pinball overlay , but any of the single color
+overlays (Berserk, Blitz, etc) will work just as well.  This seems to
+cut down the the intensity of the ghosts (and using the brightness
+control wouldn't hurt either)
+
+I now really enjoy playing Narrow Escape as it was intended (sort of a
+head-on Zaxxon) and play this game more often than Web Wars or Armor
+Attack.  I'm not as thrilled with Crazy Coaster as it seems to have an
+unpolished feel to it.  Besides, it looks *nothing* like the screen
+shots.  :-)
+
+
+
+Q.  I have a 3-D game but no imager.  When I play the game it doesn't do
+    anything; is it broken?
+
+Probably not.  The 3-D games all start out by trying to spin up the 3-D
+wheel so before an image is displayed so that it will look 3-D right
+away.  They send power to the motor and then check they sync pulse to
+see how fast the wheel is spinning.  If it isn't spinning fast enough,
+it increases the voltage to the motor gradually until it is.  If the
+voltage gets maxed out and the wheel still is not spinning fast enough,
+the game will try to run but at a reduced frame rate.  If there is no
+3-D imager attached then there is no sync pulse and the speed of the
+wheel will always be interpreted as zero.  The game will not run until
+it sees a sync pulse of some kind.
+
+William Howald (howald@u.washington.edu) did find a way to get 3-D games
+to run without the imager though.  If you plug a controller into port 2,
+and bash away at the 4 button, after 1-2 minutes (be patient) the game
+will start running but -s l o w l y-.  Every tap on the button will
+"flash" one frame on the screen and the sound if playing will advance to
+the next step.  The wire for the 4 button is the one hooked up to the be
+hooked up to a optical sensor that reads light through the hole in the
+disk which is used as a sync pulse.  I think you could build a
+oscillator(about 10 Hz?) and pulse the 4 button to "play" without
+glasses!
+
+
+
+Q. What is Minestorm/II?
+
+As we all know, the very first Vectrex units were shipped with a flawed
+version of Minestorm.  Evidently nobody ever though that any player
+could ever get to, let alone survive wave 12 so they only included data
+for 12 waves.  Predictably, most players found that their game crashed
+after wave 12 (the "wave 13" bug) because the software indexed off the
+end of the table which contains the information about what items were to
+exist on each wave.  It reads in garbage which usually causes the game
+to crash.
+
+I have in my possession a cartridge that originated from a private owner
+on the East Coast of the USA (who was recently identified) which has a
+fully produced label that says "Minestorm".  The title screen of this
+game says, "Minestorm II".  This is a bug free version of Minestorm as
+you can easily play past wave 13 (I will read in the ROM data as soon as
+I can).  It would seem that if you contacted GCE/WT about the bug,
+instead of swapping out the Executive/Minestorm ROM inside the Vectrex
+unit, they simply sent you a production Minestorm cart.  Evidently the
+cart did not come with a manual or box all the other games in this
+private collection still had these things.  If you want to see what it
+looks like, there is a JPEG in the archives.
+
+
+
+Q. What is the Minestorm "Wave 13" bug?
+
+Fred Taft (fred@cv.hp.com) explained it to me very well like this:  Each
+level of Mine Storm is described by an entry in an array of structures;
+the array entry described such details as the types of mines at the
+level, etc.  Unfortunately, the array was only defined to contain 13
+entries!  That's why the first 13 levels work as expected.  However,
+once you got past level 13, the game ran out of array entries, but
+because it did not check for this, it simply used the next block of code
+after the array, as the information describing the next level.  The code
+was smart enough to skip levels if there were no valid mines; that's why
+it occasionally skips levels.
+
+As for sometimes jumping back to the startup screen after you've
+completed a level, that is also a 'feature' of the code.  Once a level
+is cleared, it jumps to some code which looks to see if any buttons are
+pressed; if they are, then it assumes the user wants to start a new
+game; this is code which should have only been executed when a game was
+over, but it gets checked after completing a level also.  Keep in mind
+that this is the very first release of the Minestorm and later versions
+had various portions of the bugs patched out.
+
+
+
+Q. Well how many released versions of the Minestorm software was there?
+
+There were at least 3 versions.  Two with the "Wave 13" bug which are
+different in that waves 2 and 3 are swapped and one with the bug fixed.
+The test cart checksum will give a different value for different ROM
+versions so this is a way for you to check.
+
+
+
+Q. What miscellaneous Vectrex items might my collection be missing?
+
+Here is a list of most of the extra stuff that isn't a cart, overlay,
+box or regular manual...
+
+* Orange 5"x3.75" sheet notifying us of GCE's change of address
+* "IMPORTANT SAFETY INSTRUCTIONS" addendum to Owner's Manual
+ (No. 98722-072).  This listed 17 things you shouldn't do
+* Canadian addendum to Owner's Manual for warranty info (pg. 11/12)
+* Manual for the Control Panel (Joystick)
+* White 5.5"x3" manuals for the Light Pen and 3-D Glasses
+* White 3"x4" 3-D Imager addendum describing how to work the color disk latch
+* White 3.5"x4.5" 3-D Crazy Coaster addendum telling how to survive underpasses
+* White 4"x6" Minestorm addendum (P/N 140028-1) describing wave 13 bug
+* White 2.5"x2.5" addendum to the Star Trek manual describing self-play bug
+* A catalog of games (same size as regular manuals) from "Triton"
+* A catalog of games (same size as regular manuals) called "Passport"
+* A 7.5"x3.5" pamphlet listing HW and games called "High Performance Machine"
+* Vectrex unit warranty registration card (and Owner's Club form)
+* Electronic Games Magazine subscription form (44% off for Vectrex players)
+* Custom Designed Accessories for your Vectrex Arcade System order form
+  listing a collapsible carrying case ($14.95) and a vinyl dust cover
+  ($5.95).
+* carrying case for the Vectrex
+* protective dust cover for the Vectrex
+* Service Manual
+* Test Cart
+* The first (and only?) issue of the Owner's Club magazine "Passport"
+
+
+
+Q. Where is the Vectrex FTP archive and what is there?
+
+The ftp Vectrex information archive is at ftp.csus.edu (130.86.90.1) in
+the pub/vectrex directory.  It is maintained by John F. Sandhoff
+(sandhoff@csus.edu).
+
+There are binary listings (2 flavors; pure binary from the ROMs, and
+Motorola "S-format" dumps) for most of the games along with instructions
+on how to burn EPROMs.  There are several commented examples of code
+demonstrating how to write both music and graphics.  There is also a
+copy of the service manual and much more.  Almost all of the stuff is
+bundled into a compressed file called "vectrex.tar.Z".  There are plenty
+of experiments to keep an eager hacker busy including schematics of the
+3-D goggles (very simple circuit to build).  Recently, some GIF/JPEG
+files were added showing some of the screen overlays (there are also
+GIFs of the 2 color wheels).  Also, text files of the manuals for most,
+if not all, of the games are there.
+
+David Wright (davewt@NCoast.ORG) will be putting the Vectrex stuff up on
+his Email server.  If you don't have FTP access, this may work for you.
+If you want to try and get at it, the Email server is at
+"impinfo@Prism1.COM".  If your site doesn't like that, try
+"prism1!impinfo@NCoast.ORG".  To receive a list of the files available
+place "send vect.index" in the message body.  You can also add "send
+help" to get a complete set of instructions.  Be aware that some of
+these files are huge and may push you over your mailbox or disk space
+quota immediately.
+
+
+
+Q. Isn't copying the games by burning EPROMs stealing or violating a
+   copyright?
+
+If the system is "dead" then no money is lost by making copies of
+something which otherwise would never be available.  Even so, it is a
+fuzzy matter and technically the answer should probably be, "YES."
+Fortunately, Smith Engineering has given Usenetters permission to make
+copies of all Vectrex related materials (manuals, games, overlays, etc.)
+as long as it is for distribution to members of the group and as long as
+it is not for profit.
+
+
+
+Q.  OK, I want to make a copy of a game; what is the pinout of the port?
+
+The even pin numbers are on the top while the odd are on the bottom.
+one and two start on the right side (or near side as oriented when cart
+is inside the base unit), and 35 and 36 are on the left (or far) side.
+     36                   2
+     +--------------------+
+     +--------------------+
+     35                   1
+
+
+
+Q.  I ordered a multi-cart from Mark Woodward well over a year ago and
+    paid him in advance.  I am having trouble getting hold of him and I
+    still haven't received my cart.  Did I get ripped off?
+
+Here is everything I know.  The multi-carts came back from the
+fabricator shortly after everybody got their orders in and Mark built
+them and started sending them out.  It turns out that there are 2
+different hardware designs for the Vectrex and Mark had the less
+common version.  Unfortunately this first multi-cart design is
+incompatible with the most common version of the Vectrex hardware and
+most of the multi-carts had to be sent back to Mark for repair (and he
+stopped sending the originals out, also).  Mark then had to do several
+expensive and time consuming things; he had to locate and purchase one
+of the other versions of the Vectrex, he had to redesign the PCB and
+find a way to make the new design backward compatible with the old
+design so that he could reuse the PCBs, he had to rewrite the software
+which meant he had to unsolder the EPROMs (since they weren't
+socketed) and erase them, reprogram them, and solder them back on.  He
+then has to upgrade the PCB by cutting several traces and soldering on
+several jumpers.
+
+As you can see, fixing all these PCBs takes a LONG time and a lot of
+effort (and money since he has to pay double-shipping for all the carts
+that did go out).  To complicate matters, Mark changed Email addresses
+(and jobs?), and was blessed with the birth of a new baby creating a
+large drain on his "free" time.  I am not excusing his tardiness and I
+agree that even considering these circumstances the delay is still too
+long to excuse.  I am just trying to give you all some background as to
+how a good idea went very wrong.  I talked to Mark sometime around the
+beginning of September and he told me that as of that date all
+international orders had been filled and that there were exactly 15 USA
+orders left to be retrofitted.
+
+I offered to do the retrofits for him and he agreed to send the
+materials to me.  He decided to send the stuff to be fixed immediately
+and it arrived sometime around Halloween and I have been working on them
+ever since.  I have completed all repairs several times only to have a
+couple of other necessary repairs creep up.  At the beginning of
+December I got MOST of the carts working (all of the 15 except 3) and
+sent them out to people the 1st week in December and sent the 3 screwy
+ones back to Mark.  By the end of December, he had them all working and
+sent them to the owners.
+
+So it boils down to this, if you paid for a cart and didn't get one, you
+are out of luck because there are no more.  You need to contact Mark and
+work something out with him.
+
+
+
+Q.  Do I have to make my own multi-cart; can't I just buy one from
+    somebody?
+
+No; I mean, Yes, er...  There are several people making multi-carts
+for resale on the net but the best ones (by far) were being made by Mark
+Woodward.  He has sold out of the original batch and it was such a
+headache that he will not be doing it again.  Instead, I have taken over
+the project and am working on getting the images to some unreleased, yet
+completed games.  They are Tour de France and Mail Plane (and perhaps
+another "goodie" that isn't really a game but a silly in-house project
+never meant for release).
+
+Until I get those images (should be soon now), I will not be building
+any multicarts because I don't know how big the images are (the recently
+discovered Dark Tower image, for example, is 12K).  The reason this
+matters is because I am going to be rewriting Mark's menu code to account
+for files of flexible length (right now it just uses 8K boundaries and
+wastes a large hunk of the EPROM) and I will also need to redesign the
+hardware.  I plan on using Xilynx chips and reduce the design to
+essentially 4 chips so that the PCB will be able to fit inside a
+cannibalized cartridge case.
+
+The carts will allow you to select the games via a menu on the Vectrex
+screen instead of by flipping dip switches as most others do.  The carts
+will support the RAM for Animaction and include a 'pause' button
+allowing you to pause any of the games.  They will contain all the
+released games plus the Test Cart and 2 hacked versions of Minestorm
+(infinite lives and more shots) and any other goodies I can fit (which
+after the redesign should be most of what is at the archive).
+
+The estimated price breakdown is as follows...
+$30 PCB + S/W selection
+$20 EPROM (unless you can send me one)
+$20 Xilynx LCA chips
+$10 Donation to charity of your choice
+$5  RAM (Optional)
+$5  Misc. parts (solder, switches, etc.)
+---
+$90 Complete, ready-to-play multicart ($10 to charity, $80 to me)
+
+If I build it for you then there will be a $5 charge for miscellaneous
+parts and you will be obligated donate $10 to a local charity to cover
+my time.  This is in the spirit of the Smith Engineering agreement for
+'not-for-profit' duplication.  The only 'profit' I will get is from the
+s/w selection code which I deserve and am entitled to because I licensed
+the 100% original code from Mark who wrote (owns) it.  The games have
+been generously donated by Smith Engineering and the parts will be sold
+at cost (with a little to cover shipping).
+
+The PCBs are made at a professional manufacturer and include plated
+through holes, etc.  No hack and slash job here :>
+
+If you want to build it yourself I will provide you with the PCB, a
+programmed EPROM (or image if you can blast your own) and a parts list.
+
+At this point, I am not ready to accept orders but if you want to get on
+the waiting list, Email me your name, address and telephone number and
+I'll let you know when I begin making them again; hopefully this will be
+in the next few months but it all depends on when I get the new games
+and how long it takes me to redesign the HW/SW.  This FAQ will be
+updated as the situation changes.
+
+
+
+Q. How do I play (game X)?
+
+Simple, read the manual.  WHAT; you don't have a manual?  OK then, read
+the screen overlay (it lists the functions of all the buttons).  You
+don't have the screen overlay either?  In that case most (maybe all by
+now) of the manuals have been transcribed into text files and made
+available via ftp.  YOU DON'T HAVE FTP EITHER?  OK, I'll tell you what;
+in the spirit of Smith Engineering's generosity, I will volunteer my
+services as Vectrex copy shop.
+
+I have all of the overlays and manuals (as well as some extra stuff like
+the service manual, "Passport" magazine, the "Triton" and "Passport"
+catalog pamphlets, and the "High Performance Machine" pamphlet) and am
+willing to make copies for free to anybody that is willing to play by my
+"rules".
+
+You must send a Self-Addressed, Stamped Envelope (SASE) along with a
+listing of everything that you want photocopies of (black and white
+copies only; if you want color overlay copies, send $2.50 for each one
+since color copies cost $$$).  You will receive double sided copies
+unless you specifically request single sided ones.
+
+I will fill the orders only about once a month so don't hold your breath
+for a quick return.  Please note that these will not be replicas in any
+particular sense.  I will be copying them as you would a book (I WILL
+NOT REMOVE THE STAPLES TO REPLICATE THE SHEETS TO FACILITATE MAKING
+EXACT DUPLICATES).  If you want exact duplicates, you will need to
+modify the copies I send you (I am trying to keep my effort to a
+minimum).
+
+If I need to fold something to fit it in your SASE, then I will, so keep
+that in mind if you want unfolded stuff.  The amount of postage is left
+up to you to figure out; I am just going to copy, stuff, and send; I
+will not verify sufficient postage.  Tips are appreciated (particularly
+if you are asking for a *lot* of copying) but not necessary nor
+required; this is a free service.
+
+Send SASE to:
+   Gregg Woodcock
+   2930 Dukeswood Drive
+   Garland, TX 75040-8770
+   U.S.A
+
+P.S.  If you take advantage of either of these services, it would be
+nice if you would "pay the community back" by transcribing at least one
+document that is not currently at the ftp site and uploading it (or
+Emailing it to me and I will get it there).  I am pretty sure none of
+the "extra" stuff I have has been transcribed yet.
+
+P.P.S.  If you have an original service manual, please contact me so I
+can get an copy of it (or buy it from you).  The copy I have is Nth
+generation and is very hard to read...
+
+
+
+Q. Is there a way to make a Vectrex joystick perhaps with autofire
+   capability?
+
+Brian Holscher (brianh@ichips.intel.com) has designed a flexible way to
+convert a Sega Genesis controller for use with the Vectrex.  He will
+build one for you for a small fee or if you check the archives, you will
+find a file describing how to build one yourself (it is more complex
+than you will probably be expecting).  Here is the first part of that
+file:
+
+This information including schematics is copyright 1994 by Brian
+Holscher.  This information is free for distribution as long as its not
+used for commercial purposes.
+
+        Using Sega Controllers with Vectrex
+            (Revision 2.0a)
+
+This Section explains:
+
+1.  How to convert a Sega Controller to work with Vectrex.
+1.  How to make a Sega Controller to Vectrex Adapter.
+2.  Where to purchase a converted Sega Controller.
+3.  Where to purchase a Sega to Vectrex controller adapter.
+
+
+BACKGROUND
+
+    Since my Vectrex controller is flaky, I bought a cheap Sega
+Controller and converted it to work on the Vectrex.  From there I added
+some nice features like auto-fire and re-programmable buttons.  I decided
+to post schematics for those who want to make Vectrex controllers.
+After talking with others on the net, I decided to build a Sega to
+Vectrex adapter.  This is a little harder than converting controllers,
+but I got one to work.  This posting includes info and schematics for
+both.
+
+    For those who don't want the hassle of making your own controllers,
+I'm offering converted controllers and adapters for sale.  I'm also
+offering a preprogrammed micro-controller for sale.
+
+
+LIMITATIONS
+
+    The Sega Controller is a digital controller.  The Vectrex control
+panel is an analog controller.  Games like Minestorm don't look at the
+analog values of the joystick and only look to see what direction the
+joystick is moved.  Games like Minestorm work with these converted Sega
+controllers.  Games like Hyperchase look at how far the joystick moves
+in a direction and are not fun to play with these converted controllers.
+
+All (known) games work with these converted controllers and adapters
+with 2 exceptions.  Hyperchase (all game variations) and Starhawk (game
+variation #2 only) are completely unplayable due to the need for analog
+controller data.
+
+
+FEATURES
+
+    This design incorporates a micro-controller for additional
+functionality.  The micro-controller allows the user to program which
+Sega Controller button maps to which Vectrex button.  This is useful
+since the 4th button (called Start) on the Sega Controller is a smaller
+and inconveniently located since it is normally reserved for starting
+games on Sega systems.  The micro-controller even allows reprogramming
+of the button assignments in the middle of a game.  Another feature is
+auto-fire.  Any button can be set to auto-fire.  This means that the
+micro-controller presses the button over and over again instead of the
+player.
+
+
+CONTROLLERS VRS ADAPTERS
+
+    Adapters give you the advantage of using any Sega Controller with
+Vectrex and still be able to use it on the Sega system.  If you don't
+have a Sega controller, a converted controller is less cost than an
+adapter plus the cost of a Sega controller.  Another slight advantage is
+that the LED that informs the user during button reprogramming and
+auto-fire is easier to see on a converted controller.  The
+micro-controller is optional if you are converting your own Sega
+controller.  However, the micro-controller is required for the adapter.
+
+
+BUYING CONVERTED CONTROLLERS
+
+    If your don't want to convert a controller or make an adapter
+yourself, you can purchase them from me.  You can also purchase a
+preprogrammed micro-controller from me.
+
+Source Code for Micro-controller ------- Free if you ask nicely.
+
+Preprogrammed Micro-controller  -------- $20
+(The includes Xtal and Xtal capacitors)
+
+Converted Sega Controller  ------------- $45
+
+Sega to Vectrex Adapter    ------------- $45
+
+Shipping is included.  Send email to brianh@ichips.intel.com and we will
+work out the details.
+
+
+
+Q. How can I make a copy of a screen overlay?
+
+With the advances made in the past 2 years in color scanners, copiers
+and printers, it is now possible to make a near exact duplicate with the
+push of a (few) button(s).
+
+0.  First you need an original overlay, preferably one with little fading.
+1.  If you want a "rough" copy, simply get a good high end color
+    photocopy onto acetate (those overhead projector plastic sheets).
+2.  If you want a better copy, you scan the image, preferably in color.
+    I think 150 DPI is okay though some people may want to go for
+    maximum resolution.
+3.  Then you need a good paint program, I used Adobe Photoshop to do some
+    preliminary clean-up work, but I have a feeling it would take quite
+    a bit of work to make a perfect overlay.
+4.  Printing--the critical part.  You need a color printer that can do
+    acetate (animation cel) printouts.  Unfortunately, no color printer
+    can work on thick sheets, which brings us to 5.
+5.  You need go to a hobby shop and get a piece of .045 thick clear
+    sheet of [poly]styrene.  Its pretty cheap.
+6.  The only part I haven't worked out, bonding the acetate overlay to
+    the styrene.  It is probable that there are some mucho expensive
+    color printers that professional print shops use that can print onto
+    any thickness sheets but I haven't done much looking.
+
+Thanks to Noel (NOEL@UMBC2.UMBC.edu) for this info.
+
+
+
+Q. My Vectrex is very noisy; is there anything I can do to make it any
+   quieter?
+
+Here is what Daniel A. Muntz (dmuntz@quip.eecs.umich.edu) said helped
+him:  The noise isn't digital in nature and it closely follows the
+video.  It also isn't a power supply problem; isolating the audio input
+of the amplifier from the sound circuit revealed no noise at all.  It
+seems the noise is generated in two ways:
+
+1: By induction; Moving the audio cable around makes the noise less or
+   more prominent.  It is at minimum when the cable is placed in its
+   original manufactured groove.  Good design since that's farthest from
+   the CRT yoke.
+2: By ground impedance; Although all supplies are clean the hum is still
+   present in the modulated DC difference between the two boards.
+
+A definite improvement can be achieved by doing the following:
+
+1: Rewiring the ground between the digital and video board.
+2: Shielding audio circuit and changing cable to volume pot to a better
+   shielded one.
+
+
+
+Q. My joystick won't auto-center anymore; can I fix it?
+   (AKA How do I get inside or open up my joystick?)
+
+You can't make it "good-as-new", but you can repair it so that is is
+usable again.  You must first get past the sticker on the top of the
+joystick to get at the 5 screws that hold it together (4 are about 3/8"
+in from the sides and 1/2" from the top/bottom and the last is about
+1/2" to the right of the cable).  Just feel around and you should be
+able to find where the holes are.  You can either try to peel off the
+sticker (difficult to do without damaging it but possible if you are
+careful) or simply punch 5 holes in it so you can remove the screws
+(leaving most of the sticker intact).  Now that you have the joystick
+open, remove the broken spring that used to center the joystick.
+
+You then have 2 choices that work equally well.
+
+(1) Sean Kelly (skelly@flood.xnet.com) came up with another great
+method.  If you are technically inclined, you can open the potientometer
+and replace the spring with a spring out of an Atari 2600 cartridge.
+The spring that's used to push down the "protective" cover on 2600 carts
+fits nicely.  It needs a little bending, but I've replaced several
+broken ones with them and they work great...
+
+(2) Use the core from the largest available guitar string to replace the
+spring you just removed.  If you snip off one end you can remove the
+(usually gold) wire wrapped around a core wire by pulling on the gold
+wire.  Credit goes to Dan Muntz once again for this clever solution and
+to Mike Packard (lordgen@kaiwan.com) for details about the screws.
+
+
+
+Q. My Vectrex just shows a white dot when I turn it on.  I can hear the
+   game playing but there is no picture.  Can I fix it?
+
+There is 1 common problem that will cause this symptom.  Inside the unit
+there is a 4-wire power connector connecting the side board to the
+bottom board.  Often units with no picture have bad solder joints on
+this connector.  Try resoldering the pins and see if that helps.
+
+
+
+Q. Are there tricks or cheats for any Vectrex games?
+
+YES!  (Vectrex had cheats back when they were still known as bugs):
+
+ARMOR ATTACK:  If you crank the brightness all the way up, you are able
+to see the helicopter's position as soon as you hear it (even though it
+is off the screen).
+
+BEDLAM:  You can see a special author title screen that proclaims,
+"PROGRAMMED BY WILLIAM HAWKINS GT 1982" if you follow the instructions
+found in the "STAR CASTLE" entry below.  I discovered this by trying the
+"original" Star Castle trick on other games that I knew Bill wrote.
+This screen is different from all the similar ones in that it plays
+music too!  You are treated to the chorus line of "Dixie" (Bill hails
+from the South).  The screen ends when the tune finishes and releasing
+buttons has no effect.
+
+BERZERK:  The hunt for this egg began thanks to Pete Rittwage
+(bushwick@netcom.com) who first reported it but could not reproduce it.
+Even after confirming the trick with Chris King, the programmer of the
+game, nobody was able to find it because Chris had forgotten exactly
+what was required to activate it!  Then along came net.hero Fred Taft
+(fred@hpcvusc.cv.hp.com) with the answer after disassembling the object
+code.  Before your man stops flashing when you kill your last man, press
+and hold down only the 1, 3, and 4 buttons on the player 1 control
+panel.  When the "GOT YOU HUMANOID" summary screen appears with your
+score, there will be the programmer's initials in the lower right corner
+("CMK").  This screen will stay for about 90 seconds before going back
+to the game select screen and you cannot get out of it by pressing
+buttons.
+
+BLITZ!:  If you get a 1st and inches (1 and 0 to go), as long as you
+stay on the 0 yard line, you keep getting first downs.  Thanks to Adam
+Fox (adamfox@super.org) for this one.
+
+BLITZ!:  On player 1, game 1, get the kickoff around the 15 yard line
+then run the ball back down the middle of the field, and wait for a
+while and let the blockers hold the other team.  Then go to the far
+right of the field (almost out of bounds) and there is a small gap
+between that final free defensive player and the out of bounds.  You run
+down screen, thru that small gap, and you can return the ball from
+kickoff to about the opponent's 20 yard line.  It's pretty cool because
+you can do it over and over, because in the one player game, the
+computer's team always kicks off to you.  Thanks to Craig
+(cbariou@eng.clemson.edu) for this one.
+
+COSMIC CHASM:  You can see a special programmer title screen that
+proclaims, "PROGRAMMED BY WILLIAM HAWKINS GT 1982" if you follow the
+instructions found in the "STAR CASTLE" entry below.  I discovered this
+by trying the "original" Star Castle trick on other games that I knew
+Bill wrote.
+
+FORTRESS OF NARZOD:  If you can somehow manage to kill the "Mystic
+Hurler" (you know, the BossAtTheEndOfTheWave guy that looks like a
+gorilla) at the same time he kills you, your lives remaining will turn
+into the infinity sign (oo) and you will have 255 lives.  It is not
+known for sure if your lives in reserve value has to be zero for this to
+work (probably so since this bug is most likely due to an accidental
+underflow from 0 to -1 which presumably would trigger the software to be
+in virtual infinite play mode to aid play/beta testing).  The author
+takes credit for this one!
+
+MINESTORM:  The brightness trick allows you to see the "invisible"
+mines.
+
+RIPOFF:  You can see a special programmer title screen that proclaims,
+"PROGRAMMED BY WILLIAM HAWKINS GT 1982" if you follow the instructions
+found in the "STAR CASTLE" entry below.  I discovered this by trying the
+"original" Star Castle trick on other games that I knew Bill wrote.
+
+SPACE WARS:  Either ship is invincible after being hit, while pieces are
+in the air.  This may not sound like much, or maybe this was
+intentional, but I've played against people who make this their entire
+strategy.  They skim the edge of the Star in the middle, just to knock
+off a tail section or something, and then while they are invincible,
+they fly right into you.  Not nice, but it works very well.  The time
+window is surprisingly long.
+
+SCRAMBLE:  A quote from Paul Allen Newell, developer of the game:  "I
+remember going thru long discussions with management about giving the
+programmers credit on the games.  Western Technologies and/or GCE didn't
+approve it and most of the programmers hide their names somewhere in the
+games.  My 'Easter Egg' can be located in 'Scramble' by doing the
+following.  If you have two controllers with joystick and buttons, put
+them both in; otherwise, use the single one in the usual position.
+While 'Scramble' is displaying its 'game # player #' section, move the
+joystick so it is 'down'.  When 'Scramble' starts, keep it in this down
+position so your plane crashes on the floor BEFORE THE MOUNTAINS START.
+Do this for all your ships; DO NOT PUSH ANY BUTTONS TO FIRE BOMBS OR
+BULLETS.  When it is over, the display 'end' will come up.  WITHOUT
+TOUCHING ANY BUTTONS, unplug the main controller and move it to the
+'player two' plug (if you have two controllers, this step is not
+necessary).  Then, with the 'player two' controller, PUSH ALL FOUR
+BUTTONS SIMULTANEOUSLY.  They must all go down at the same time.  Repeat
+until you get all four down at the same time.  You'll know when you see
+the word 'end' change into something else.  This is the first time I
+have documented the method, having only mentioned it to friends or
+hinted to others.  Enjoy!"  (Thanks a LOT to Stefan Herr
+(Steve@lioness.okapi.sub.org) for digging up this one-of-a-kind gem).
+
+SPIKE:  If you position the door ALMOST all the way to the right of the
+screen, then jump into it, so as to be jammed between the door, and the
+little space that is left; the game freaks out, you will be pushed
+forward about 47,000 points, and the difficulty will be increased
+proportionally.
+
+STAR CASTLE:  This is the most extravagant egg in all the Vectrex games.
+The designer put in his own title screen which brazenly proclaims
+"PROGRAMMED BY WILLIAM HAWKINS GT 1983".  A quick caveat; this only
+works on a cold restart (i.e. the first time you turn the game on) and
+will not work if you start the game over by pressing the reset button.
+However, it will work with the software selectable muticarts if Star
+Castle is the first game you select after turning the game on.  To get
+the screen to appear you must push the 1, 2, and 4 keys on the player 1
+control panel before the Star Castle title screen music finishes
+playing.  If those 3 buttons are down when tune ends, the programmer
+title screen will appear.  It will last for about 2 seconds or until you
+release one of the buttons.  It is my guess that the GT stands for
+Georgia Tech and the 1983 is the year the software was written.  (MANY
+thanks to Fred Taft (fred@hpcvusc.cv.hp.com) for discovering this after
+disassembling the object code).
+
+WEB WARS:  You can see a special programmer title screen that proclaims,
+"PROGRAMMED BY WILLIAM HAWKINS DUNCAN MUIRHEAD PATRICK KING GT 1983" if
+you follow the instructions found in the "STAR CASTLE" entry above.  I
+discovered this by trying the "original" Star Castle trick on other
+games that I knew Bill wrote.  This screen is different from all the
+similar ones in that the font size is about 3 times as big.
+
+
+
+Q. What is the history of the Vectrex?
+
+A.  Thanks a lot to Stefan Herr (steve@lioness.okapi.sub.org) for the
+following information he dug up while researching an article for a
+European gaming magazine.  If you have any additions or corrections,
+please contact both of us.  Thanks also to Chris King who sent me
+personal email to fill some gaps.
+
+VECTREX TIMETABLE
+-----------------
+
+End 1980/Spring 1981:  The development of Vectrex starts with an idea
+from staffers (probably Mike Purvis and John Ross) after brainstorming
+about how to use cheap CRTs that were found in a small liquidators'
+surplus store.  The idea took flight and form under the skilled
+cultivation of Jay Smith, head of Western Technologies/Smith
+Engineering, guiding his talented staff.  The small, vector scan table
+top game was originally known by its working title of "Mini Arcade" but
+was later officially renamed when the time came to begin making
+marketing decisions.  A brainstorming session yielded a short list of
+final choices and among those was "Vector-X" suggested by Tom Sloper.
+This was felt to be too 50's B sci-fi by GCE so it was contracted to the
+catchy name we all know and love.
+
+Spring 1981:  The Mini Arcade idea is optioned to Kenner (known for
+their "Star Wars", "Care Bears", "Batman" and "Batman Returns" figures).
+At that time it was planned to have a 5" black and white tube.
+
+06/1981:  Paul A. Newell is hired by Western Technologies to join the
+"Atari reverse engineering project" group (aim:  be able to write games
+for the VCS 2600) which at that point consisted of Mark Indictor and
+John Hall.
+
+07/1981:  Kenner declines to pursue the Mini Arcade.
+
+08 or 09/1981:  The Mini Arcade concept is licensed by GCE (General
+Consumer Electronics).  GCE's president Ed Krakauer had the vision to
+see the great potential of the system.  To enhance its appeal, GCE asks
+that the screen be increased to 9-inches.
+
+Autumn 1981:  The Atari project is canceled and the three Atari people
+(M.I., P.N., J.H.) start work on the Vectrex project.  John Ross
+designs the hardware, Gerry Karr works together with John Hall on the
+system ROM (called "The Executive").  In the beginning it is planned to
+use a 6502 processor which turns out to be too slow.  For this reason
+the 6809 was finally used.
+
+Jan 1982:  Bill Hawkins and Chris King join the Western Tech.  They were
+both students at Georgia Tech at the time and are hired by Ed Smith as
+"Cooperative Education" students.  They are supposed to work for three
+months and then go back to school.  Duncan Muirhead joins a week or two
+afterwards.  He had just dropped out of a Physics PHD program at UCLA.
+
+??:  A strict timetable demands that the first 12 games and the hardware
+should be ready in June 1982.  The Vectrex name is subsequently chosen,
+as already described.
+
+??:  John Hall later exclusively works on "Mine Storm" while Gerry Karr
+works on The Executive alone.  Gerry starts over from scratch and
+changes the name to the RUM (Run Time Monitor).  In the end, a number of
+people contribute to the RUM, most notably Duncan Muirhead who handled
+most of the heavy trig stuff.
+
+04/1982:  Paul Newell finishes "Scramble".  Mine Storm, Berzerk,
+Scramble, Rip Off, and Star Trek were all completed at the same time.
+
+06/1982:  The Vectrex is introduced to the public at the Summer CES in
+Chicago.
+
+Summer 1982:  Mark Indictor, John Hall and others are directly hired by
+GCE to write more games.  Paul Newell and Duncan Muirhead leave Western
+Technologies to join Simutrek, a company developing arcade laser disc
+games ("Cube Quest").  Chris King leaves 6 months later.  Noah Anglin
+(former vice president of Atari) was hired by GCE as a consultant to
+watch over the development of Vectrex.  It was a good deal for him since
+he recruited the core of the software guys for his new company,
+Simutrek, from Western Technologies.  Unfortunately, this wasn't enough.
+Simutrek died on the vine.
+
+??:  Mark Indictor and his family move about two hours out of Los
+Angeles and he writes games in the seclusion of a pine forest at 5,000
+feet.  He even has an NBC news crew come up and interview him for a news
+show on weird computer hackers and their life styles.
+
+Late summer 82:  Start of mass production.
+
+11/1982:  Vectrex is available in the USA for $199.  Very positive
+reviews in the magazines.  Paul Newell's "Scramble" gets the "Arcade
+Award" of the "Electronic Games" magazine for the best "Mini-Arcade
+game" (a category which is founded exclusively for the Vectrex).
+
+Spring 1983:  GCE is acquired by Milton Bradley (MB).
+
+03/1983:  Vectrex is announced in the German "Telematch" magazine for
+the first time in Germany.
+
+Summer 1983:  Distribution begins in Germany and many other west
+European countries by Milton Bradley (German office located in Fuerth).
+
+Summer/Fall 1983:  Jeff Corsiglia, having left WT to join Datascan,
+produces some additional games for GCE, including 3-D Narrow Escape,
+programmed by Richard Moszkowski.  (Not all of the Vectrex games were
+produced by WT).
+
+1983:  Several efforts fail in developing a color Vectrex.  One obvious
+project is to use a color TV tube; however, this is always too
+expensive.  Another is to use a projection TV with three vector scan
+tubes.  It works well but is commercially impractical.  Yet another
+effort is to use two layers of color phosphor on a black and white type
+TV tube.  By varying the high voltage level, the electron beam would
+excite the bottom layer or the top layer.  However the high voltage
+cannot be changed rapidly enough to keep up with the scan.
+
+02/1984:  "Artmaster Lightpen", "Star Castle", "Polar Rescue",
+"Animaction" and "Pole Position" presented on the "Nuernberger
+Spielwarenmesse" (Germany's most important show for the toy industry).
+
+around 02/84:  3-D Imager is presented at the Winter-CES in Las Vegas.
+
+31/03/1984:  End of Vectrex in Germany:  MB in Fuerth announces stop of
+sales on this date.
+
+Rest of 1984:  Vectrex is phased out as Hasbro buys Milton Bradley and
+video game fever comes crashing down (probable causes:  home computer
+fever, too many mediocre and downright terrible games flooding the
+market, fallout from the arcade videogame crash of about a year
+earlier).  Rummage sales in Germany (mainly in stores of the
+METRO-chain, which had bought the rest of MB's stock) close out Vectrex
+equipment at bargain prices.
+
+1988:  Western Technologies/Smith Engineering tries to resurrect Vectrex
+as a handheld unit.  It is to be based on the Sinclair flat TV tube,
+which has fast static deflection at low power consumption and low cost.
+However, the impending introduction of GameBoy (1989) eventually causes
+the idea to be scrapped.
+
+10/1993:  A feature about the 10th anniversary of the Vectrex is
+published in the German "Video Games" magazine.  Contains technical
+descriptions, pictures of Jay Smith and Mark Indictor, a Vectrex history
+and a list of games and accessories.  The article is based on
+information collected by the author (Stefan Herr) from the Usenet
+Vectrex newsgroup, various FTP archives, many Emails from several former
+Vectrex developers and a historical overview about the development by
+Jay Smith.
+
+There is not very much evidence of the existence of a computer keyboard
+with a BASIC cartridge (or something similar) for the Vectrex.  The only
+known hints are from an article in an old issue of "Creative Computing"
+magazine (in the first couple of pages they do a ranking of computers'
+speed based on some simple benchmark.  There is an entry for the Vectrex
+in it using Vectrex basic) and an article about new computers starting
+on page 114 of the October, 1983 issue of Popular Science.  A chart in
+the article indicates that the keyboard was to include 16K of RAM,
+expandable to 64K.  The article goes in to great detail about the
+computer add-on.  Thanks to Joshua See who can be reached at
+SMTC474@uoft02.utoledo.edu.
+
+It is the issue that reviewed the original Macintosh (1984?).
+
+
+LIST OF PERSONS INVOLVED IN THE VECTREX DEVELOPMENT
+---------------------------------------------------
+
+Lenny Carlson
+   Musician hired to write game sounds and title tunes
+   Did finishing touches to Bedlam
+
+Jeff Corsiglia
+   Main game designer
+   Designed 3-D Crazy Coaster
+   Designed 3-D Narrow Escape
+   Designed and coded Minestorm
+   Designed Cosmic Chasm
+   Designed Hyperchase
+   Designed Blitz!
+   Designed Clean Sweep
+   Quit WT in 1982 to go work for Datascan
+   (contracted with GCE to do Vectrex games)
+
+Miva Filoseta
+   Designed many, if not most, of the colorful overlays
+   Now works for Mattel
+
+John Hall (*)
+   Worked on The Executive
+   Designed and coded Mine Storm
+
+Bill Hawkins
+   Coded 3-D Minestorm
+   Coded 3-D Crazy Coaster
+   Coded Bedlam
+   Coded Cosmic Chasm
+   Coded Lenny Carlson's Greatest Bits (never intended for release)
+   Coded Rip Off
+   Coded Star Castle
+   Coded (with Duncan Muirhead) Web Wars
+
+Mark Indictor (*)
+   First duties during development:
+      Software for communication with the ICE (In-Circuit-Emulator)
+      Star Trek
+   Games:
+      for Western Technologies:
+         Designed and coded Star Trek
+      for GCE
+         Designed and coded Spinball
+         Designed and coded Polar Rescue
+         Designed and coded Mail Plane (not published, for use with Lightpen)
+         Designed and coded Tour de France (not published)
+
+Gerry Karr
+   Took over The Executive project after John Hall concentrated on Minestorm
+
+Chris King
+   Coded Berzerk
+   Designed and coded Hyperchase
+
+Patrick King (*not* related to Chris)
+   Designer of Web Wars
+   Went on to work for Sega
+
+Ronald J. Logsdon
+   Designed and coded Melody Master
+
+Kim Martin
+   Digitized the Scramble landscapes
+   Beta-tester (mainly for Scramble)
+
+Richard "The Mouse" Moszkowski ("The Mouse" is a nickname, nothing more)
+   Programmed game watches prior to Vectrex work
+   Involved with Vectrex since its inception
+   Coded 3-D Narrow Escape
+   Coded Art Master
+   Coded Clean Sweep
+   Died by his own hand in October 1995
+
+Duncan Muirhead
+   Joined WT at the end of 1981 (or beginning of 1982)
+   Coded Armor...Attack
+   Coded (with Bill Hawkins) Web Wars
+
+Walter Nakano
+   Model builder
+   Co-designed Vectrex external case 1-2 years before the Macintosh!
+
+Paul Allen Newell (*)
+   Coded Scramble
+
+Gary Niles
+   Vice President at WT during Vectrex era
+   From there went to Sega, then Revell, and as of 1996 is with Galoob
+
+Mike Purvis
+   Hardware Tech
+
+John Ross
+   Developer of the hardware
+
+Tom Sloper
+   Came up with "Vector-X"
+   Started out at WT as a modelmaker and then designed watch and
+   calculator games
+   Designed Bedlam
+   Designed Spike!
+   Played arcade games for programmers since he could "beat" most of
+   them After WT, worked for Datascan, Sega, Rudell Design, Atari Corp.
+   and finally ended up at Activision (since 1988) where his title now
+   is "Senior Producer"
+
+Ed Smith (Jay's brother)
+   Manager of engineering during early development
+   Before Vectrex, he worked at Harris in Orlando and frequently used GA
+   Tech Co-ops
+   Hired a bunch of ex-Harris guys to work at a new Western Technologies
+   branch office in Orlando where a number of games were written
+
+Jay Smith
+   Founder and president of Western Technologies/Smith Engineering
+
+Colin Vowles
+   Model builder; co-designed the external case 1-2 years before the
+   Macintosh.
+
+(*):  These persons worked on the "Atari reverse engineering" project.
+Only one of the three games that were created by that group was released
+(the one written by Paul Newell).  Anyway, the whole project was
+canceled later because the competition (e.g. Activision) was too big.
+
+Other people involved (this list does not claim to be complete) were
+David Blair, Alan Cobb, Ed Faris, Joel Hassell, Don Herndon, Ed Horton,
+Bill Hudson, Kevin Hudson, Nolan Johnson, Steve Marking, Lori Pearsall,
+and Bob Rutkowski.
+
+Sources:  Electronic mails from Mark Indictor, Paul Newell, Chris King,
+Ronald J. Logsdon, Bill Hawkins and Tom Sloper, personal letter from
+Jay Smith, several articles from "Electronic Games" magazine (provided
+by Paul Newell), article from "Creative Computing" magazine (provided by
+Dion Dock).
+
+Send corrections, suggestions, additions, etc. to woodcock@bnr.ca
+--
+THANX...Gregg   day 214.684.7380  night UNLIST/PUBL   TEXAS NOT CANADA!
+woodcock@bnr.ca  or  woodcock@nt.com  or  bn202@cleveland.freenet.edu
+*CLASSIC VIDEOGAME COLLECTOR BUY/SELL/TRADE NON-COMPUTER (ARCADE/HOME)*
+"If you quote me on this I'll have to deny it; I won't remember because
+I have such a bad memory.  Not only that, but my memory is *terrible*."
+

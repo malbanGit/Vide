@@ -1,0 +1,6 @@
+I converted all pieces of music to DB data statements for use in
+source codes.
+
+Only two songs proved to be problematic (within the library of songs).
+
+Malban

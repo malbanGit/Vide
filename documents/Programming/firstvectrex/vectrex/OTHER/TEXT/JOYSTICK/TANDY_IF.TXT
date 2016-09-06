@@ -1,0 +1,100 @@
+  Interface for Tandy Joystick - Vectrex
+  ======================================
+
+     +5V                                                          +5V
+J5 )--------+--+---------+--------------------------------------------( V7
+            |  |         |                                         Gy
+            |  \ 10k     |
+            |  /         |   10k
+            |  \    +----)---/\/\---+
+            |  /    |    |          |
+            |  |    |  |\|          |
+            |  +----+--|-\          |                            Pot0
+      X     |          |  >---------+---------------------------------( V5
+J1 )--------)----------|+/ U1a                                     Gn
+            |          |/  1458
+            /
+            \ 10k       100k
+            /      +----/\/\----+
+            \      |            |
+            |      |            |
+     Y 47k  |      |   |\       |
+J2 )--/\/\/-)------+---|-\      |                                Pot1
+            |          |  >-----+-------------------------------------( V6
+            +----------|+/ U1b                                     Bu
+            |          |/| 1458
+            |            |                                        -5V
+            /            +--------------------------------------------( V9
+            \ 4k7                                                   W
+            /
+            \
+     Gnd    |                                                      0V
+J3 )--------+------------------------------+-------------+------------( V8
+                                           |             |         Bk
+                                           |             |
+                                    SW2 | -+      SW1 | -+
+                                       =|            =|
+                                        | -+          | -+
+                                           |             |        Sw1
+                                           |             +------------( V1
+                                           |                       Br
+                                           |
+                                           |                      Sw2
+                                           +--------------------------( V2
+                                                                   R
+
+
+      SwA                                                         Sw4
+J4 )------------------------------------------------------------------( V4
+                                                                   Y
+
+      SwB                                                         Sw3
+J6 )------------------------------------------------------------------( V3
+                                                                   Or
+6 pin DIN skt                                                    9 pin D skt
+
+Theory
+------
+
+The switches are simple : The Tandy joystick has 2 fire buttons which ground the
+appropriate pins (4 and 6) on the connector when they are pressed. Thus, these
+pins are simply linked to the button 4 and 3 (respectively) inputs on the
+Vectrex. Two more buttons on the interface (SW1 and SW2) ground the remaining 2
+Vectrex inputs.
+
+Although the Tnady joystick is proportional, it differs from the Vectrex unit
+in 2 important ways.
+a) The output voltage varies from 0 to +5V, not -5V to +5V
+b) The Tandy joystick output increases for movement to the right and movement
+down. The Vectrex joystick output increases for movement to the right and
+movement down.
+
+The conversion between these 2 systems is performed by U1, a 1458 Dual Op-Amp.
+U1a, wired as a non-inverting *2 amplifer, doubles the X voltage without
+reversing it. The input resistor is returned to the +5V line to provide the
+required voltage offset. U1b is wired as an inverting amplifier with a gain of
+approximately 2, which inverts and doubles the 'Y' voltage. The potential
+divider connected to the non-inverting input of this device provides the
+necessary offset.
+
+Notes
+-----
+
+1) Layout is not critical, and any standard technique should work
+
+2) The Op-Amp used was a 1458. Any similar dual Op-Amp should work, but has
+   not been tested.
+
+3) Connection to the Vectrex is best performed by using the socket end of a
+   Sega extension lead. The colours on the circuit diagram are the colours
+   in the cable used for the original design.
+
+4) Connection to the Joystick is perfomed by a 6-pin DIN socket
+
+5) 2 more swtiches (SW1 and SW2) provide the extra 2 vectrex buttons.
+
+6) Distribution and use of this circuit for the benefit of Vectrex owners is
+   encouraged. Please feel free to put it on ftp sites, etc.
+
+
+

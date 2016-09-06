@@ -87,8 +87,8 @@ If you click on a "Label" (coloumn label, and a label must be present) all usage
 - if something was found, searching is halted and dissy jumps to the row
 - if nothing was found searching continues with next (previous) row
 
-:h2 In dissi, the number of cycles sometimes do not match with the table I got from motorola, what the...?
-Well yes.
+:h2 In dissi, the number of cycles sometimes do not match with the table I got from motorola, what the...?~~
+Well yes.~~
 Dissi displays the REAL number of cycles, some official tables only show the "base" number of cycles. 
 For indirect and/or indexed addressing you must add some cycles because the address has to be calculated by the CPU.
 Believe me, the cycle information in dissi is "more" correct!

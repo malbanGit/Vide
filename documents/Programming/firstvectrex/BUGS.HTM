@@ -1,0 +1,281 @@
+<HTML>
+<HEAD>
+<TITLE>Vectrex Emulator incompatibility page!!!</TITLE>
+</HEAD>
+<body
+TEXT=#c0d0c0
+BGCOLOR=#202020
+GCOLOR=#000000
+LINK=#ffff00
+VLINK=#0000ff>
+
+<H1>Vectrex Emulator incompatibility page!!!</H1>
+<H2>Introduction</H2>
+<HR>
+<P>
+Well, this page is all about DVE, DOS VECTREX EMULATOR, by Keith Wilkins.
+Minor changes done by Malban.<BR>
+
+There are still some 'features' not emulated.
+Actually nobody will probably ever need these features, since they never
+occur in any 'real' cartridge.<BR>
+
+But I also had in mind to use the emulator as a development platform for
+writing new vectrex games. In order to achieve an ambitious goal like that, it
+would be nice if the emulator actually emulated all features of the vectrex,
+even the 'strange' behaviour ones... .<BR>
+
+Since I'm in no way a technical person I need some help.
+This is where you might come handy :-) If you are a knowledgeable person.<BR>
+
+Perhaps you only want to peek at these pages and look what the emulator can
+and can't yet do... that's all right also.<BR>
+
+If you are a becoming vectrex programmer you might even find some usefull
+information to avoid 'traps'.<BR>
+</P>
+<HR>
+
+
+<H2>Emulation so far...</H2>
+<HR>
+</P>
+
+By now I have a vectrex system hooked to the parallel port of my computer.
+I was able to do some testing. Yep, I found a lot of stuff that DVE is not
+capable of emulating yet... :-(<BR>
+So obviously the search for information must go on.<BR>
+
+Apart from some (below) mentioned stuff, emulation is actually quite good.
+I developed a frogger version for vectrex using the emulator alone. It works
+like a dream on the real machine.<BR>
+I only had done one thing 'wrong'. (the emulator was not good enough)
+
+<P></P><BR>Emulation so far covers:
+<LI>Joystick</LI>
+<LI>Sound (including speech synthesis (perfectly)</LI>
+<LI>LightPen</LI>
+<LI>3D Imager (self adjusting), in many different ways</LI>
+<LI>All commercial programs work just fine (including 'exotics' like Pole Position,
+CleanSweep, Spinball, Starhawk)</LI>
+<LI>...</LI>
+
+<P></P><BR>technically:<BR>
+<LI>Correct speed</LI>
+<LI>Overlays</LI>
+<LI>Anti aliasing</LI>
+<LI>Sound via SEAL library</LI>
+<LI>Graphics via VESA (1.2 - 2.0)</LI>
+<LI>GUI + debugging features</LI>
+<LI>State saving/loading</LI>
+<LI>Pause</LI>
+<LI>...</LI>
+<P>
+<HR>
+
+
+
+<H2>Problems with DVE</H2>
+<HR>
+</P>
+Well, I don't know where to start, since I don't really know what is wrong.
+If I knew what is wrong, I could probably fix it.
+The vectrex internals (schematics) are available on some pages (look at links).
+Some of these technical details are not emulated yet.<BR>
+
+Below you will find a small test program that uncovers many 'features' hidden in the
+vectrex, that I don't know yet how to emulate.
+<BR><P></P>
+1. Delays and drifts.<BR>
+My vectrex's vector beam allways seems to drift to +,+ (cartesian coordiantes).
+If I draw a dot at one position, wait for say 10000 cycles and than just draw another
+dot, it appears a few centimeters above and to the right from the spot it should be.
+That doesn't sound to hard to implement for the emulator, but this is not all there
+is, and implementing a 'drift' collides with some other features.
+<BR><P></P>
+
+2. Variable resistors for DAC OFFSET and Integration offsets.<BR>
+I implemented these, in order to try to simulate some stuff of the vectrex hardware's
+analog 'senility'. But it didn't prove valuable after all.
+(The newest DVE version implements them, with '+', '-' for DAC Offset, and SHIFT-'UP',
+SHIFT-'DOWN', SHIFT-'LEFT and SHIFT-'RIGHT' for X,Y integrator offsets respectably.)
+Actually I'm not to happy with the results.
+<BR><P></P>
+
+3. Test Cartridge<BR>
+BEAM CUTOFF Test, doesn't work like it is supposed to, the checksum is not valid either.
+<BR><P></P>
+
+4. Simulation of the behavior of non callibration<BR>
+The vectrex really 'gets out of whack', if you don't recalibrate, but I can't think
+of any reason why it behaves like it does, and I certainly can't emulate it.
+This goes for the positioning, zeroing and for brightness.
+If you draw a dot on vectrex and don't recalibrate, you'll soon have a line, with varying
+brightness!!!
+<BR><P></P>
+
+5. Timer refresh values<BR>
+$C83D is the RAM location where the default timer for recalibration is stored.
+If you change that value from the default 30000, most of the time your vectors will
+start to 'shake' (like in the below image). Why?
+<BR><P></P>
+
+6.<BR>
+If you have access to a vectrex hooked to the parallel port or something similar,
+you can try the source program below. It really behaves weirdly (look at the images).
+It only calls OS routines, and not even wrongly. But it looks deadly wrong.
+<P>
+<HR>
+
+
+<H2>Source of Test Program</H2>
+
+<HR>
+</P>
+<PRE>
+; this game was written in April 1998 by Malban
+; it is public domain
+;
+; comments and vectrex talk are welcome
+; my email: Malban@email.de
+;
+;
+; following command line was used to assemble:
+;
+; C:>as09.exe -w200 -h0 -l -mcti test.asm >error
+;
+; I used the 6809 assembler:
+; as09 [1.11].
+; Copyright 1990-1994, Frank A. Vorstenbosch, Kingswood Software.
+; Available at:
+; http://www.falstaff.demon.co.uk/cross.html
+;
+; some OS functions
+Wait_Recal      EQU     $F192                  ;
+Dot_here        EQU     $F2C5                  ;
+Intensity_a     EQU     $F2AB                  ;
+Moveto_d        EQU     $F312                  ;
+music7          EQU     $FEC6                  ;
+
+; VIA registers...
+VIA_t1_cnt_lo   EQU     $D004                  ; VIA timer 1 count register lo
+                                               ; (scale factor)
+;***************************************************************************
+                ORG     0
+; start of vectrex memory with cartridge name...
+                DB      "g GCE 1998", $80      ; 'g' is copyright sign
+                DW      music7                 ; music from the rom
+                DB      $F8, $50, $20, -$46    ; hight, width, rel y, rel x
+                                               ; (from 0,0)
+                DB      "VECTREX TEST", $80    ; some game information,
+                                               ; ending with $80
+                DB      $F8, $50, $5, -$20     ; hight, width, rel y, rel x
+                                               ; (from 0,0)
+                DB      "MALBAN", $80           ; some game information,
+                                               ; ending with $80
+                DB      0                      ; end of game header
+;***************************************************************************
+; here the cartridge program starts off
+entry_point:
+                 LDD #$b898                    ; this is $98b8 which is
+                                               ; 39096 cycles
+                 STD $C83D                     ; setting the refresh timer,
+                                               ; appr. 26Hz
+                 LDA #$ff                      ; scale of $ff
+                 STA VIA_t1_cnt_lo             ; set to the scaling 'poke'
+                 LDA #$7f                      ; load maximum brighness
+                 JSR Intensity_a               ; and set it
+round_entry:
+                 JSR Wait_Recal                ; first of, allways do a recall
+                 JSR Dot_here                  ; now 'print' a supposed dot to 0, 0
+                 LDD #$0000                    ; CLR D (move to no position)
+                                               ; zero is taken correctly as zero,
+                                               ; the OS doesn't do a stupid '-'
+                                               ; and thinks it's a '255', it correctly
+                                               ; tests for positive or negative,
+                                               ; so a 0, 0 is ok here
+                 JSR Moveto_d                  ; now move another (relative) 0, 0
+                 JSR Dot_here                  ; print another dot
+                 LDB #10                       ; wait for 10*255 'delays'
+                 JSR wait_256_B                ; quite a few cycles...
+                                               ; (10000? 20000? dunno)
+                 JSR Dot_here                  ; and another dot
+                 BRA round_entry               ; restart everything!
+;***************************************************************************
+; a small nothing destroying (apart from flags)
+; wait routine
+wait_256_1:
+                 PSHS    A                     ; save A
+                 LDA     #255                  ; loop 255
+wait_256_1_loop:
+                 DECA                          ; decrement 1
+                 BNE     wait_256_1_loop       ; if not zero... go on
+                 PULS    A                     ; restore A
+                 RTS                           ; and go back
+;***************************************************************************
+; a small nothing destroying (apart from flags)
+; wait routine, b times the above smaller wait...
+wait_256_B:
+                 PSHS    B                     ; save B
+wait_256_B_loop:
+                 JSR     wait_256_1            ; do one 255 waiter
+                 DECB                          ; decrement counter
+                 BNE     wait_256_B_loop       ; if not 0 do another loop
+                 PULS    B                     ; restore B
+                 RTS                           ; and go back
+;***************************************************************************
+                END entry_point
+;***************************************************************************
+</PRE>
+
+<P>
+<HR>
+
+
+<H2>Images</H2>
+<HR>
+</P>
+This is what the real vectrex looks like running the test program!<BR>
+<CENTER>
+<IMG SRC="vectrex.gif">
+</CENTER>
+This is what the real vectrex looks like running the test program (after a couple of
+minutes)!<BR>
+<CENTER>
+<IMG SRC="vectrex4.gif">
+</CENTER>
+This is what the emulator looks like! (allways!)<BR>
+<CENTER>
+<IMG SRC="vemu.gif">
+</CENTER>
+<P>
+
+
+<H2>Links</H2>
+<HR>
+</P>
+
+<PRE>
+In order to compile the above test program you need, the above mentioned
+assembler, go get it at its homepage:<BR>
+  <A HREF="http://www.falstaff.demon.co.uk/cross.html">http://www.falstaff.demon.co.uk/cross.html</A>
+
+In order to run DVE, you gotta have it first, look at my homepage for it for
+the newest (probably beta) version:
+  <A HREF="vectrexcs/">vectrexcs/</A>
+
+Schematics and technical information can be found on many vectrex concerning pages.
+e.g.:
+   <A HREF="http://www.monmouth.com/~pcjohn">http://www.monmouth.com/~pcjohn</A><BR>
+   <A HREF="http://website.lineone.net/~raven">http://website.lineone.net/~raven</A><BR>
+   <A HREF="ftp://ftp.csus.edu/pub/vectrex/">ftp://ftp.csus.edu/pub/vectrex/</A><BR>
+
+Malban
+</PRE>
+
+
+<P>
+<HR>
+
+</BODY>
+</HTML>

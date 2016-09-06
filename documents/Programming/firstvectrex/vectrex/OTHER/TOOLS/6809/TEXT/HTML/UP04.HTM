@@ -1,0 +1,355 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 4</H2>
+<H3>Addressing Modes</H3>
+
+          It is important to remember that although we are looking in
+          detail at the M6809 we need to learn more general lessons about
+          the way in which such microprocessors are organised.  Thus the
+          addressing modes we are looking at will appear in one form or
+          another in all processors but may have different names or may
+          work in a slightly different way.
+<H3>Indexed Addressing</H3>
+
+          This is a mode which at first appears unnecessarily complicated
+          but in fact turns out to be very useful, particularly when tables
+          of data have to be accessed. It is also the only mode which
+          allows addresses to be calculated at run time, i.e. it must be
+          used where the address is not known when the program is written.
+<P>
+          The basis is that the address is held in one of the index
+          registers in the processor, X or Y. Obviously it must be put
+          there in previous instructions.  This base address is then
+          modified by an offset which is included in the instruction.  The
+          offset is interpreted as a twos complement number , which means
+          that it can be both positive and negative depending upon the most
+          significant bit.     
+ 
+<FONT COLOR=BLUE>
+<H4>2's Complement Numbers (digression)</H4>
+There are many ways of looking at two's
+complement numbers - the simplest is to regard it as shifting the
+starting point for a set of numbers.
+
+<PRE>
+                    Normal                        Twos Complement
+                Binary      Decimal              Binary      Decimal
+               00000000         0               1000000       -128
+               00000001         1               1000001       -127
+		   .				    .
+		   .				    .
+               01111111         127             1111111         -1
+               10000000         128             0000000         0
+               10000001         129             0000001         1
+		   .				    .
+		   .				    .
+               11111110         254             0111110         126
+               11111111         255             0111111         127
+</PRE>
+          Note that for  positive numbers 0 to 127 the binary values in both
+          systems are    the same. If we want to find out what a negative
+          binary two's complement number 'means' we invert all the bits and
+          add 1.
+<P>
+          E.g.   10110101 = minus (01001010 + 1) = minus 01001011 = -75
+<P>
+           Fortunately the same process works the other way if we wish to
+           convert a negative number into two's-complement notation.
+<P>
+           E.g.   -25 = minus 00011001 = 11100110 + 1 = 11100111
+<P>
+           Here we have been using 8 bits but it works equally well with any
+           number of bits e.g. 16 or 5
+<P>
+           Using 16 bits     minus 0000000000011001 = 1111111111100110 + 1
+                                       =1111111111100111
+<P>
+           Using 5 bits     minus 11001 = 00110 + 1 = 00111
+<P>
+           But something has gone wrong here! 00111 is 7 in binary and not a
+           negative number at all.  In other words, 25 or -25 is too big to
+           represent using 5 bits.
+<PRE>
+                10000      -16
+                10001      -15
+                10010      -14
+		 ...
+		11111	   -1
+                00000       0
+                00001       1
+		 ...
+                01111       15
+</PRE>
+</FONT>
+           To return to indexed addressing, the actual or effective address
+           is made up in the processor by adding the contents of the index
+           register and the offset contained in the instruction.  The actual
+           instruction format, however, is complicated because these are
+           some of the extended instructions referred to earlier.
+<PRE>
+                Load Acc A with an offset of 5 from Y    LDA 5,Y
+</PRE>
+           The basic code for 'Load Acc A using indexed addressing' is A6.
+           The next byte contains two pieces of information.  Firstly that
+           IRY is being used and secondly that the offset is 5. The format
+           of this byte is
+<PRE>
+                              ORRnnnnn
+
+           where RR is a code representing the register
+                      00 - Index register X
+                      01 - Index register Y
+                      10 - User stack pointer U
+                      11 - System stack pointer S
+
+           and nnnnn is a five bit offset as detailed above.
+</PRE>
+           The second byte is therefore 0 01 00101 or 25 and the complete
+           instruction code is therefore       A6 25
+<P>
+         Notice that the stack pointers (S, U) can be used in a similar way to
+         the index registers.
+<P>
+         Obviously we are frequently going to need a larger offset than
+         can be accommodated in a 5-bit offset.  We can in fact use an 8 or
+         16 bit offset but the instruction format must change because we
+         can't fit all the information required into a single byte.
+         If the first bit of the second byte is a 1 then it indicates to
+         the processor that a different mode is going to be used.  The
+         format becomes
+<PRE>
+                         1RRccccc
+</PRE>
+         where RR is the same as before indicating which address register
+         is to be the base.
+<br>
+         and ccccc is an additional instruction code as follows
+<PRE>
+              00100 - No offset (has the same effect as 00000 in 5 bit)
+              01000 - 8-bit offset in next byte
+              01001 - 16-bit offset in next two bytes
+</PRE>
+         Obviously we could have 3 different instructions all having the
+         same effect.
+<PRE>
+              A6         A6         A6
+              25         A8         A9
+                         05         00
+                                    05
+</PRE>
+         Clearly the first is going to be preferable on the grounds that
+         it takes up less memory and executes more quickly since there are
+         fewer bytes to be read.
+<P>
+         What about all the other possible codes?  Each of them in fact
+         allows an additional mode of addressing which we will not describe
+         in detail, but these are just list listed.
+<OL>
+     <LI>Auto increment/decrement
+<PRE>
+	e.g. 	LDA ,X+
+		LDD ,X++
+		LDA ,-Y
+		LDX ,--Y
+
+            00000 - Use no offset but increment the address register by 1
+            00001 -     no offset but increment the address register by 2
+            00010 -     no offset but decrement the address register by 1
+            00011 -     no offset but decrement the address register by 2
+</PRE></LI>
+     <LI>Accumulator offset
+<PRE>
+	e.g.	LDA B,Y
+		LDB A,X
+		LDA D,X
+
+            00110  - Use 8-bit offset in Accumulator A
+            00101  -     8-bit offset in Accumulator B
+            01011  -    16-bit offset in Accumulator D (A,B)
+</PRE></LI>
+      <LI>Relative
+<PRE>
+	e.g.	LDA 8,PC
+		LDB $1000,PC
+
+            01100  - Use 8-bit offset from the Program Counter (RR ignored)
+            01101  -    16-bit offset from the Program Counter
+</PRE></LI>
+</OL>
+<H3>Indirect Addressing</H3>
+
+         If the first bit of ccccc is a 1 then the addressing mode becomes
+         indirect.  This means that the Effective Address is calculated by
+         the processor and the contents of that address (and the one
+         following) is used to form a second address.  The second address
+	 is where the data is stored.   Note that this requires several memory
+	 accesses; two accesses to retrieve the 16-bit address and a further
+	 access (or accesses) to retrieve the data which is to be loaded into
+	 the register.
+<P>
+<I>N.B. It is not essential to learn Indirect Addressing for this course</I>
+
+<H3>Relative Addressing</H3>
+
+         One of the problems encountered early on in programming is that
+         if you write a program using addressing modes such as direct and
+         extended, then if you move that program somewhere else in memory
+         then it no longer works.  Why should you want to move the program
+         somewhere else?  The most obvious reason is that you want to build
+         up a library of useful bits of program or subroutines so that you
+         can use them each time you're writing some software and so don't
+         have to keep on rewriting the same bits of program.  Obviously
+         there is no guarantee that they will end up in the same place in
+         memory.  Another reason is that in a multi-user environment many
+         users, programs will be loaded into memory at once.  Again there
+         is no guarantee that the same area of memory will always be
+         available.
+<P>
+         Relative addressing is one of the techniques which alleviates
+         this problem because using this mode addresses are relative to
+         the program counter i.e. the address of the instruction.  Thus
+<PRE>
+           Load Acc A with contents of PC+128	LDA 128,PC
+</PRE>
+         will work correctly wherever the program happens to be.
+<P>
+         As we have already seen we can use relative addressing for data
+         movement   instructions but the chief use comes in branch
+         instructions.  Branch instructions are used to create loops in a
+         program and so are frequently of the form
+<PRE>
+            Branch back 30 bytes if the last arithmetic instruction 
+	    resulted in zero.                   BEQ PC-30
+</PRE>
+         Most loops are relatively small and within range of an 8 bit twos
+         complement offset.  All the branch instructions in the 6809
+         therefore use an 8-bit offset relative addressing mode.  The above
+         instruction becomes
+<PRE>
+                                   27
+                                   E2    -30 dec
+</PRE>
+         Where an offset becomes too large for this mode then a long
+         relative mode is available in which the code is prefixed by 10
+<PRE>
+                                   10
+                                   27
+                                   FF
+                                   E2
+</PRE>
+         This is an equivalent instruction using 16 bit offset
+<hr>
+         Similar instructions using alternative addressing modes, direct
+         and extended are provided and for some obscure reason these are
+         called jumps rather than branches.
+<P>
+         Clearly there are a lot of powerful addressing modes here, some
+         of which are not easy to understand.  The important ones to
+         remember are
+<UL>
+       <LI>Immediate</LI>
+       <LI>Extended</LI>
+       <LI>Indexed - Simple types using 5 or 8 bit offset from X or Y</LI>
+       <LI>Relative - 8-bit offset as used in branch instructions</LI>
+</UL>
+<H3>Condition Code or Status Register</H3>
+
+          We have examined the role of most of the registers in the 6809,
+          the ones remaining are the U and S stack pointers and the
+          condition code register.  The latter is not really a single
+          register at all but is made up of 8 single bit registers.  These 8
+          bits are labelled (in order) E F H I N Z V C and are used by the
+          processor to store the fact that certain events have occurred.
+          These events fall into two categories, those resulting from
+          arithmetic operations and those resulting from external
+          interrupts.
+<H3>Arithmetic Status Bits</H3>
+<PRE>
+          C   Carry/Borrow     When two 8 bit numbers are added a 9 bit
+                               number may result.  The 9th bit is transferred
+                               to the C bit.
+                                          F3              F3
+                                     +    0E         +    07
+                                     =  1 01         =  0 FA
+
+                               Similarly in subtraction, if a larger number
+                               is subtracted from a smaller then a Borrow
+                               results which is transferred to the C bit.
+                                          56              66
+                                     -    63         -    63
+                                     =  1 F3          = 0 03
+
+          N   Negative         In twos-complement notation the most
+                               significant bit can be regarded as the sign
+                               bit - if it is 1 the number is negative.  This
+                               sign bit is transferred to the N bit so that
+                               it can be used in Branch instructions.
+
+          Z - Zero             The Zero bit is set to 1 whenever the result
+                               of an arithmetic operation is zero.  The Zero
+                               bit is cleared whenever the result is
+                               anything but zero.
+
+          V - Overflow         This is similar to the C bit but relates to
+                               twos-complement arithmetic.  When two positive
+                               numbers are added together they can give a
+                               negative result without causing a carry.  The
+                               V bit is set when this situation occurs.
+                                          73
+                                      +   24
+                                      =   97   = -69
+
+          H - Half Carry       In BCD notation four bits are used to
+                               represent a decimal number with the values A
+                               to F not allowed.  When two such numbers are
+                               added the result may have to be adjusted. to
+                               correct for the unallowed digits.
+
+                                          13            19
+                                     +    85       +    85
+                                     =    98       =    9E - needs adjusting
+
+                              The adjustment is carried out by the Decimal
+                              Adjust instruction as follows. 06 is added
+                              and the H bit checked.  If it is 1 the
+                              adjustment was needed otherwise the 06 is
+                              subtracted again. 98 + 06 = 9D (no adjustment).
+
+                                     9E + 06 = A4 (adjustment needed)
+
+                              The process is then repeated with 60 and
+                              checking the Carry bit.
+
+                                     98 + 60 = F8   (no adjustment)
+                                     A4 + 60 = 1 04 (adjustment needed)
+</PRE>
+<h3>Interrupt Status Bits</H3>
+<PRE>
+          I - Interrupt       
+          F - Fast Interrupt 
+          E - Entire
+</PRE>
+	  These are all associated with interrupt handling 
+	  which we will deal with later.
+
+<h3>Flags</H3>
+          With the exception of the Half-carry bit these are used in branch
+          instructions in various combinations or individually.
+<PRE>
+          BCC - Branch if Carry Clear (C=0)
+          BCS - Branch if Carry Set    (C=1)
+          BNE - Branch if Not Equal to zero (Z=0)
+          BEQ - Branch if Equal to zero (Z=1)
+          BLS - Branch if lower or same (C+Z=1)      This is used after a
+          compare instruction and results in a branch if the first number
+          is lower (C=1) or the same (Z=1) as the second.
+          etc.
+</PRE>
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up05.htm">Next</A> |</CENTER>
+
+</BODY>
+</HTML>

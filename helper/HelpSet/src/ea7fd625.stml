@@ -9,7 +9,7 @@
 ~~__2) go to menu: Library->Programming->Tutorial Malban
 + The first emphasises assembler for starters
 + The second emphasises vectrex/vectrex BIOS for starters
-- in relation to VIDE open a Vedi panel (menu: Tools->vide)
+- in relation to VIDE open a vedi panel (menu: Tools->vide)
 - create a new project (button NEW-> new Project)
 - give your trial project a name, and check create game loop
 - now you have your first "hello world" program, with the two reads from above you should start to experiment
@@ -27,7 +27,7 @@ Again there are (at least) two options, for both - open vedi and:
 
 :h2 My sources are spread over several files, how do I assemble them?
 Look at the answer to the last question, both work.
-- build a project and select add all files, set the "main" as main
+- build a project and select add and all files, set the "main" as main
 - all the other files are included by the assembler 
 
 If the files represent different banks for bankswitching, create a new project according to your bankswitching scheme. Set to each bank the according file as main (this can only be done from the project properties panel)

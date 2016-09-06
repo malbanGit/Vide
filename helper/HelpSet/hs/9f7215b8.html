@@ -42,11 +42,18 @@
 </p>
 <h2>Debugging using dissi</h2>
 
+<p>Using vide there will only be one "instance" of dissi and its children be available - usually that will be "enough". In the seldom cases when it might be usefull [debugging link cable connected vectri] to debug two vecxi instances at the same time (in opposite to the non usefull cases, where the user just wants to play around) you can switch dissi from one vecxi to another vecxi by pressing the <img src="pics/bug_go.png" alt="bug_go.png"> button on the <b>vecxi</b> instance. Pressing that button ensures that dissi is connected to THAT vecxi instance. Pressing the button also clears all breakpoints (only if dissi realy was connected to a different vecxi instance), after all - where should the debugging be done for a breakpoint - if there is no dissi anymore...</p>
+
+<p><b>Buttons</b><br>
+</p>
+
 <p>For dissi and its "children" you can often find the following icon in the uper left corner:<br>
  <br>
 <img src="pics/webcam.png" alt="webcam.png">&nbsp;&nbsp;<b>always update</b><br>
- which means the contents of this window will be updated "always". This mainly refers to when not in debug mode.  The term "always" is a bit misleading. Always here means after each "emulator call". This does not mean "after each emulated instruction". The later is only true, when in single step or continuous mode.  When the emulator is in "play" mode, each emulator call approximately emulates 30000 cycles worth of instructions. <br>
-Following buttons are available for dissi:</p>
+ (that is a "switch" button!) which means the contents of this window will be updated "always". This mainly refers to when not in debug mode.  The term "always" is a bit misleading. Always here means after each "emulator call". This does not mean "after each emulated instruction". The later is only true, when in single step or continuous mode.  When the emulator is in "play" mode, each emulator call approximately emulates 30000 cycles worth of instructions. <br>
+</p>
+
+<p>Following buttons are available for dissi:</p>
 
 <ul><li>
 <p><img src="pics/bug_go.png" alt="bug_go.png">&nbsp;&nbsp;<b>debug</b><br>
@@ -74,7 +81,7 @@ Breakpoints are ALWAYS active, even when not in debug mode!</p>
  undo the last emulated instruction. Currently the undo-buffer is set to "2000", after that no undo is possible. This will be configurable at a later point.</p>
 </li><li>
 <p><img src="pics/arrow_turn_right.png" alt="arrow_turn_right.png">&nbsp;&nbsp;<b>redo</b><br>
- the next "state" in the ringbuffer of undoable state is set. If I did everything correct, this should be exactly the same as performing a single step. Performing a "real" single step "resets" the redo "pointer". <br>
+ the next "state" in the ringbuffer of undoable state is set. If I did everything correct, this should be exactly the same as performing a single step. Although, performing a "real" single step "resets" the redo "pointer". <br>
  <br>
 </p>
 </li><li>
@@ -118,7 +125,7 @@ If the current cartridge has more than one bank, a file is generated for EACH ba
 </p>
 </li><li>
 <p><img src="pics/vectorCam.png" alt="vectorCam.png">&nbsp;&nbsp;<b> save vector screenshot</b><br>
-  Saves the current vectrex display as a Vectorlist to use in veccy. <br>
+  Saves the current vectrex display as a vectorlist to use in vecci. <br>
 <br>
 </p>
 </li><li>
@@ -131,6 +138,8 @@ If the current cartridge has more than one bank, a file is generated for EACH ba
 <h2>The table...</h2>
 
 <p>The main part of "dissi" is occupied by a "memory" table. Each line represents one memory location of your vectrex. Per default unkown locations are hidden. Addresses which are "part of other" addresses are also per default hidden (both can be viewed toggling the two checkboxes in the upper right area). </p>
+
+<p>It is worth mentioning, that if a dumpi window is displayed, and on dumpi the switches "data display" and "active" are activated, that each selection in dissi is also taken as selection in dumpi. This way you can select regions (vectorlists or bitmap data) also in dissi and use dumpi as a "preview" window for the selected data!</p>
 
 <p>The columns of the table are more or less self explainatory, here some more information:<br>
 
@@ -163,10 +172,11 @@ Labels can be edited! When you enter the editor, you see all labels for <i>exact
 This is a hex-byte representation of this memory location (group)</p>
 </li><li>
 <p><b>Column 4 - Mnemonic</b><br>
-A Mnemonic representation of the underlying manchine language instruction - or a pseudo opcode for data (DB, DW).</p>
+A Mnemonic representation of the underlying manchine language instruction - or a pseudo opcode for data (DB, DW). Double click on an instruction will open a small help for the mnemonic (stay on top window).</p>
 </li><li>
 <p><b>Column 5 - Operand</b><br>
-Underlying operand of the machine language instruction or a representation of data.</p>
+Underlying operand of the machine language instruction or a representation of data. <br>
+If the operand represents a BIOS (Bruce Tomlin style) routine, you can double click the operand, and a small help (stay on top window) will be displayed.</p>
 </li><li>
 <p><b>Column 6 - Page</b><br>
 one of four possible states:<br>
@@ -250,6 +260,14 @@ Guessed or set direct page register dissi thinks appropriate for that address. <
 </li><li>
 <p><b>DP</b> <br>
  set direct page register (what dissi is led to believe the dp is) to one of $c8, $c9, $d0</p>
+</li><li>
+<p><b>use label as data</b> You can force a label to be also be recognized as "immediate data". If you force that, dissi is able to use an address in immediate addressing. That means, if e.g.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<tt>$c880 has a label start_ram</tt><br>
+and an assembler directive like:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<tt>LDU #$c880</tt><br>
+  is encountered, dissi than can recognize the immediate label and output:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<tt>LDU #start_ram</tt><br>
+  ... for better readability.</p>
 </li></ul>
 </p>
 <h3>Keyboard shortcuts</h3>
@@ -281,11 +299,15 @@ Guessed or set direct page register dissi thinks appropriate for that address. <
 </li><li>
 <p>these will be expanded as I need them, as of now following "written" commands are available:
 <ul><li>
-<p>reset</p>
+<p>hardreset</p>
+</li><li>
+<p>softreset</p>
 </li><li>
 <p>go</p>
 </li><li>
 <p>cycles (set or read)</p>
+</li><li>
+<p>run cycles</p>
 </li><li>
 <p>count cycles (between two addresses)</p>
 </li><li>
@@ -308,11 +330,23 @@ Guessed or set direct page register dissi thinks appropriate for that address. <
 <p>cls</p>
 </li><li>
 <p>poke $xxxx $yy [change any memory location]</p>
+</li><li>
+<p>sync bank comments</p>
+</li><li>
+<p>carti</p>
+</li><li>
+<p>joyi</p>
+</li><li>
+<p>bankswitch debug</p>
+</li><li>
+<p>set xx yy</p>
 </li></ul>
 </p>
 </li></ul>
 
 <p>(as you see, these were commands that I at some stage needed while hacking VIDE together :-))</p>
+
+<p>You can enter simple "expression" and use the cli as a small calculator. Conversion between decimal, binary and hex is also supported.</p>
 <h3>Searching</h3>
 
 <p>On the bottom of dissi is a search field. Searches covers all kinds of labels and commentary</p>
@@ -329,7 +363,7 @@ Guessed or set direct page register dissi thinks appropriate for that address. <
 
 <p>The comment syntax is quite easy, dissi parses all comments and if it finds the keywords:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>hey dissi</b><br>
-It knows that you are talking to it. Dissi than takes the string it finds after "hey dissi" which is expected to be in parentheses and tries to interprete it as commands.<br>
+It knows that you are talking to it. Dissi than takes the string it finds after "hey dissi" which is expected to be in quotes and tries to interprete it as commands.<br>
 Dissi as of now only knows two commands:<br>
 
 <ul><li>
@@ -384,7 +418,7 @@ Whenever this line is passed in emulation. The emulation is <b>not</b> stopped, 
 <p>In short:<br>
 
 <ul><li>
-<p>you can output any text after a print provided in parantheses</p>
+<p>you can output any text after a print provided in quotes</p>
 </li><li>
 <p>you can give the print command a 16bit hex-number which must start with a "$", it than will print that address and the 8bit value stored in that address</p>
 </li><li>
@@ -419,7 +453,23 @@ You can use the "LST" files that this assembler generates. If the "LST" file is 
 </p>
 <h3>CNT-Files</h3>
 
-<p>A CNT file is a description file for a rom. There are a handfull of entries you can provide. If done with enough endurance and research you can supply a wealth of information. Following entries are possible:<br>
+<p>You can create CNT files manually, but you will usually do is either:
+<ol><li>
+<p>assemble a source code with assi - than an cnt file is generated automatically</p>
+</li><li>
+<p>comment a "bin" cartridge in dissi - and save your comments - saving "knowledge" in dissi alays saves to a cnt file</p>
+</li></ol>
+</p>
+
+<p>Saving is always done to the same directory the binary file was loaded from. In opposition to that cnt files are loaded in the following manner:
+<ul><li>
+<p>first dissi tries to load a cnt file in the directory the binary file as loaded from</p>
+</li><li>
+<p>after that a directory "cnt" is looked for and if found, a cnt file for the binary file is looked for there </p>
+</li></ul>
+</p>
+
+<p>A CNT file is a description file for a rom. There are a handfull of entries you can provide. If done with enough endurance and research you can supply a whealth of information. Following entries are possible:<br>
 </p>
 
 <p><b>START&nbsp;BANK x / END&nbsp;BANK x</b><br>
@@ -505,6 +555,7 @@ Example:</p>
 <div class="code">
 <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RANGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$17 - &nbsp;&nbsp;&nbsp;&nbsp;$28 &nbsp;&nbsp;&nbsp;&nbsp;CHAR_DATA<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RANGE&nbsp;&nbsp;&nbsp;&nbsp;$1917 - $1943 &nbsp;&nbsp;&nbsp;&nbsp;DB_DATA<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RANGE&nbsp;&nbsp;&nbsp;&nbsp;$1913 - $1917 &nbsp;&nbsp;&nbsp;&nbsp;BIN_DATA<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RANGE&nbsp;&nbsp;&nbsp;&nbsp;$1913 - $1917 &nbsp;&nbsp;&nbsp;&nbsp;DW_DATA<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RANGE&nbsp;&nbsp;&nbsp;&nbsp;$2913 - $2917 &nbsp;&nbsp;&nbsp;&nbsp;DWP_DATA<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RANGE&nbsp;&nbsp;&nbsp;&nbsp;$1943 - $3499 &nbsp;&nbsp;&nbsp;&nbsp;CODE<br>
@@ -519,6 +570,9 @@ Example:</p>
  <br>
 <i>DB_DATA<br>
 </i> Byte data. <br>
+ <br>
+<i>BIN_DATA<br>
+</i> Byte data as binary. <br>
  <br>
 <i>DW_DATA<br>
 </i> Word data. <br>

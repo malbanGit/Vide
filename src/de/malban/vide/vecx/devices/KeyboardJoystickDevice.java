@@ -21,6 +21,10 @@ public class KeyboardJoystickDevice extends AbstractDevice
     {
         return DEVICE_KEYBOARD_JOYSTICK0;
     }
+    public String getDeviceName()
+    {
+        return "keyboard joystick";
+    }
     VecXPanel panel;
     
     int keySet = 0;
@@ -35,8 +39,7 @@ public class KeyboardJoystickDevice extends AbstractDevice
     {
         if (keySet == 0)
         {
-            new HotKey("Button1_1_pressed", new AbstractAction() {@Override
- public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton1(false, true); }}, panel);
+            new HotKey("Button1_1_pressed", new AbstractAction() {@Override public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton1(false, true); }}, panel);
             new HotKey("Button1_2_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton2(false, true); }}, panel);
             new HotKey("Button1_3_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton3(false, true); }}, panel);
             new HotKey("Button1_4_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton4(false, true); }}, panel);

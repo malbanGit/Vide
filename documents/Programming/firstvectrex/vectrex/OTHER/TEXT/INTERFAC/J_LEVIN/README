@@ -1,0 +1,29 @@
+
+This package was designed by Jeff Levin and his name must remain
+intact on the enclosed documents.
+
+Contents:
+
+Dualport.gif - Schematic for a development board
+Vectrex_.gif - Schematic for serial interface
+Vmon02.zip   - Source for 6809 monitor program
+
+The dualport schematic allows you to place executable code into a static
+ram connected through the cartridge slot. The other side connects to
+a system which shares the static ram. Once the executable is in
+the RAM you must write protect it (use WPM switch), switch the RAM
+to the vectrex and hit reset.
+
+The serial interface provides the same functionality through a 9600 baud
+connection and will support RAM at address $2000.
+
+Look at the source to get an idea of the functions provided by the
+monitor. Use either of the two above interfaces or modify a game
+cartridge to take a standard EPROM and program the monitor into
+it.
+
+Mark Woodward.
+
+mcrw@hobbit.gandalf.ca
+
+

@@ -88,6 +88,17 @@ In short zero means "ground", if you look at the diagram the zero line is connec
 If an integration happend befor, values are resetted!
 If zero is active and you as a programmer try to draw something - all you will see is a bright spot in the middle of the screen - the point zero!
 
+ZERO ing the integrators takes time. Measures at my vectrex show e.g.:
+If you move the beam with a to x = -127 and y = -127 at diffferent scale values, the time to reach zero:
+- scale $ff -> zero 110 cycles
+- scale $7f -> zero 75 cycles
+- scale $40 -> zero 57 cycles
+- scale $20 -> zero 53 cycles
+
+After these I stopped my (tedious) measurements.
+
+Just remember, not to draw vectors to early after doing a ZERO.
+
 :h3 BLANK
 The same thing as ZERO only this time for the brightness of the beam, not the position. If BLANK is active, the beam is switched off, no matter what other brightness you might have set befor.
 

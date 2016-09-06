@@ -40,6 +40,7 @@ import java.nio.file.Paths;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JScrollBar;
@@ -60,6 +61,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     String currentYMFile = "";
     String ymSaveName = "";
     String pathOnly = "";
+    String startPath = "";
     Thread two = null;
     Thread three = null;
     YmSound ymSound;
@@ -249,7 +251,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jCheckBox16.setSelected(usedRegs[15]);
         
         initYM(filename);
-        
+        startPath = pathOnly;
         jTable1.setModel(new YMTableModel());
         jTable2.setModel(new YMCountTableModel());
         JScrollBar sBar1 = jScrollPane1.getVerticalScrollBar();
@@ -309,6 +311,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     boolean initYM(String filename)
     {
         // check if is a file or a dir
+        if (filename == null) filename = "";
         File file = new File(filename);
         if (filename.length()!=0)
             pathOnly = file.getParent();
@@ -660,12 +663,16 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jPanel3.setLayout(null);
+
         jCheckBox1.setSelected(true);
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox1);
+        jCheckBox1.setBounds(10, 0, 17, 17);
 
         jCheckBox2.setSelected(true);
         jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
@@ -673,6 +680,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox2);
+        jCheckBox2.setBounds(45, 0, 17, 17);
 
         jCheckBox3.setSelected(true);
         jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
@@ -680,6 +689,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox3);
+        jCheckBox3.setBounds(80, 0, 17, 17);
 
         jCheckBox4.setSelected(true);
         jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
@@ -687,6 +698,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox4);
+        jCheckBox4.setBounds(115, 0, 17, 17);
 
         jCheckBox5.setSelected(true);
         jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
@@ -694,6 +707,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox5);
+        jCheckBox5.setBounds(150, 0, 17, 17);
 
         jCheckBox6.setSelected(true);
         jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
@@ -701,6 +716,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox6);
+        jCheckBox6.setBounds(185, 0, 17, 17);
 
         jCheckBox7.setSelected(true);
         jCheckBox7.addActionListener(new java.awt.event.ActionListener() {
@@ -708,6 +725,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox7);
+        jCheckBox7.setBounds(220, 0, 17, 17);
 
         jCheckBox8.setSelected(true);
         jCheckBox8.addActionListener(new java.awt.event.ActionListener() {
@@ -715,6 +734,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox8);
+        jCheckBox8.setBounds(255, 0, 17, 17);
 
         jCheckBox9.setSelected(true);
         jCheckBox9.addActionListener(new java.awt.event.ActionListener() {
@@ -722,6 +743,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox9);
+        jCheckBox9.setBounds(290, 0, 17, 17);
 
         jCheckBox10.setSelected(true);
         jCheckBox10.addActionListener(new java.awt.event.ActionListener() {
@@ -729,6 +752,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox10);
+        jCheckBox10.setBounds(325, 0, 17, 17);
 
         jCheckBox11.setSelected(true);
         jCheckBox11.addActionListener(new java.awt.event.ActionListener() {
@@ -736,95 +761,48 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox11);
+        jCheckBox11.setBounds(360, 0, 17, 17);
 
         jCheckBox12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox12);
+        jCheckBox12.setBounds(395, 0, 17, 17);
 
         jCheckBox13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox13);
+        jCheckBox13.setBounds(430, 0, 17, 17);
 
         jCheckBox14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox14);
+        jCheckBox14.setBounds(465, 0, 17, 17);
 
         jCheckBox15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
             }
         });
+        jPanel3.add(jCheckBox15);
+        jCheckBox15.setBounds(500, 0, 17, 17);
 
         jCheckBox16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jCheckBox1)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox2)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox3)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox4)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox5)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox6)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox7)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox8)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox9)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox10)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox11)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox12)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox13)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox14)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox15)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox16)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jCheckBox15, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox2, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox3, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox4, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox5, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox6, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox7, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox8, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox9, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox10, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox11, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox12, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox13, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox14, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jCheckBox16, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
+        jPanel3.add(jCheckBox16);
+        jCheckBox16.setBounds(535, 0, 17, 17);
 
         jButtonPlaySample.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_play_blue.png"))); // NOI18N
         jButtonPlaySample.setToolTipText("Play current YM!");
@@ -3109,8 +3087,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, 0)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(1, 1, 1)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
@@ -3386,7 +3364,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         if (copyBuf==null) return;
         insertYM(copyBuf, copyBuf[0].length);
     }//GEN-LAST:event_jButtonPasteActionPerformed
-    String lastPath ="";
+    String lastPath =".";
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
 
         if (jTable1.isEditing()) jTable1.getCellEditor().stopCellEditing();        
@@ -3410,6 +3388,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         
         ympos = 0;
         workBufToSelection();
+        jTable1.tableChanged(null);
+        jTable2.tableChanged(null);
         jTable1.repaint();
         jTable2.repaint();
     }//GEN-LAST:event_jButtonLoadActionPerformed
@@ -3959,22 +3939,20 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     JInternalFrame modelDialog;
     public static boolean showYMPanel(String fileName, TinyLogInterface tl)
     {
-        
-        
-        
         return false;
     }        
     String ymGivenName ="";
+    boolean standalone = false;
     public static void showYMPanelNoModal(String fileName, TinyLogInterface tl)
     {
+        showYMPanelNoModal(fileName, tl,false);
+    }
+    public static void showYMPanelNoModal(String fileName, TinyLogInterface tl, boolean sa)
+    {
+        
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         YMJPanel panel = new YMJPanel(fileName, tl);
-        if (!panel.ymSound.init)
-        {
-            panel = null;
-            return;
-        }
-        
+        panel.standalone = sa;
        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1024, 600, panel.getMenuItem().getText());
     }        
@@ -3985,6 +3963,35 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
     void doYM_part1()
     {
+        if (standalone)
+        {
+            // ask where to save!
+            InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+            fc.setDialogTitle("Select save directory");
+            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+            int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+            if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+            String lastPath = fc.getSelectedFile().getAbsolutePath();
+
+            Path p = Paths.get(lastPath);
+            String newName = p.toString();
+            if (!newName.endsWith(File.separator)) newName+=File.separator;
+            File f = new File(currentYMFile);
+            String nameOnly = f.getName();
+            newName = newName + nameOnly;
+            currentYMFile = newName;
+            
+            startPath = fc.getSelectedFile().toString();
+            if (!startPath.endsWith(File.separator)) startPath+=File.separator;
+            
+        }
+        else
+        {
+            
+        }
+        
         if (two != null) return;
         ymSaveName = "";
         // check for a property file!
@@ -3994,9 +4001,11 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         String filenameOnly ="";
         String filenameBaseOnly ="";
         Path p = Paths.get(currentYMFile);
+        if(p== null) return;
         pathFull = p.toString();
-        pathOnly = p.getParent().toString();
-        if (pathOnly.length()>0)
+        if (pathOnly.length() != 0)
+            pathOnly = p.getParent().toString();
+        if ((pathOnly.length()>0) && (!pathOnly.endsWith(File.separator)))
             pathOnly+= File.separator;
         
         
@@ -4006,11 +4015,12 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         
         
         boolean pic = false;
-        if (filenameOnly.toLowerCase().endsWith(".ym"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".ym")) pic = true;
         if (!pic) 
         {
-            tinyLog.printError("Selected entry does not have a known ym extension!");
-            return;
+            tinyLog.printWarning("Selected entry does not have a known ym extension - using 'name' to create a file...");
+            filenameBaseOnly = jTextFieldSongName.getText();
+           // return;
         }
         String saveNameOnly ="";
         if (jCheckBoxDontCompress.isSelected())
@@ -4087,11 +4097,18 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 log.addLog("YM - Error openening output file! ('"+pathOnly+filenameBaseOnly+".asm"+"').", WARN);
                 tinyLog.printError("Error creating file: "+pathOnly+filenameBaseOnly+".asm");
             }
-            ((VediPanel)tinyLog).refreshTree();
-            return;
+            if (tinyLog instanceof VediPanel)
+                ((VediPanel)tinyLog).refreshTree();
+            if (standalone)
+            {
+                VediPanel.openInVedi(pathOnly+filenameOnly.substring(0,filenameOnly.length()-3)+"Main.asm");
+            }
         }
-        // do compress
-        start(pathFull);
+        else
+        {
+            // do compress
+            start(pathFull);
+        }
     }
     
     void doYM_part2()
@@ -4131,6 +4148,11 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         {
             ((VediPanel)tinyLog).returnFromYMPanel(true);
         }
+        if (standalone)
+        {
+            if (jCheckBoxCreatePlayer.isSelected())
+                VediPanel.openInVedi(pathOnly+filenameOnly.substring(0,filenameOnly.length()-3)+"Main.asm");
+        }
         
     }
         
@@ -4142,9 +4164,27 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         {
             public void run() 
             {
+                String saveName = currentYMFile;
+                //if (!standalone)
+                {
+                }
                 ymSaveName = ymSound.buildASM(usedRegs);
                 if (ymSaveName != null) 
                 {
+                    if (startPath.length() != 0)
+                    {
+                        if ((startPath.length()>0) && (!startPath.endsWith(File.separator)))
+                            startPath+= File.separator;
+                        String name = new File (ymSaveName).getName();
+                        
+                        
+        de.malban.util.UtilityFiles.move(ymSaveName, startPath+name);
+        ymSaveName =startPath+name;
+                    }
+                    
+
+                    
+                    
                     SwingUtilities.invokeLater(new Runnable()
                     {
                         public void run()

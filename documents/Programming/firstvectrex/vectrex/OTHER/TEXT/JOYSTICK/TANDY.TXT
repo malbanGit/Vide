@@ -1,0 +1,125 @@
+Converting a Tandy Joystick to use with the Vectrex
+===================================================
+
+These instructions relate to the Tandy 26-3123 Deluxe Joystick only.
+
+The main problem in converting the joystick for use with the vectrex is that
+the sense of the vertical axis needs to be reversed. Since the potentiometers
+in this unit are formed by resistive traces on a plastic plate (the 'Pot
+Plate'), it's not a simple matter to reverse the connections to one of the pots.
+Here's how to do it.
+
+1) Remove the 4 screws from the underside of the joystick, and take off the
+   lower cover. Set these parts aside
+
+2) Carefully lift up the 'Pot Plate', and note where the wires are connected.
+   Disconnect the wires. Note that 2 of the connections are linked by a
+   (red) wire.
+
+3) Disconnect the wires on the PCB. Note where the 3 wires (white, red, black)
+   which go to the switches in the joystick handle are connected. Set the
+   joystick cable aside. You'll need to recover the push-on tags from this
+   cable later.
+
+4) Remove the 2 screws, the PCB, and the fire button + springs. Set these parts
+   asside for the moment.
+
+5) Note how the joystick mechanism is assembled. The aim is to rotate the
+  'Pot Plate' and the sliding contacts counter-clockwise by 90 degrees. To
+   do this, first unclip the 2 return springs from the mechanism
+
+6) Lift out the pivot from the centre of the sliders, and then remove the
+   sliders. Note how they are fitted
+
+7) Remove the plastic base from the joystick mechanism. You need to rotate this
+   through 90 degrees also, so that the sliders will fit correctly. In order
+   to do this, enlarge the hole that will be in the lower right corner using
+   a 7.5mm drill from the side that faces the joystick handle, until the
+   plast base will fit correctly in this orrientation.
+
+8) Now you start reassembling the parts. Refit the plastic base (rotated
+   through 90 degrees), the sliders (metal contacts on the left and top as
+   you look at them), the central pivot, and the return springs (over the top
+   left and bottom right bosses).
+
+9) Slide the fine trim controls off the pot plate _carefully_. Hold the
+   pot plate so that the track side is uppermost, the connection pads are on the
+   top and right sides, and the fine trim controls are on the bottom and left
+   sides. Refit the fine trim controls by sliding them on, takeing care to avoid
+   damaging the contacts.
+
+10) Use the socket end of a Sega extension cable for the connection to the
+    Vectrex. Remove about 4" of outer covering from the cable, and recover 3
+    clips from the original cable. Do not touch the red jumper lead for the
+    moment.
+
+11) Crimp and solder these tags to the Green (pin 5, Pot0), Blue (Pin 6, Pot 1)
+    and Grey (pin 7, +5V) on the cable. Now cut the red jumper wire complete wit
+    it's tags from the original cable. Solder the white lead from the cable to
+    one tag on the jumper wire.
+
+12) Reconnect the leads to the pot plate in the following way, seen from the
+    track side
+
+             White + Red Jumper (-5V)
+               /         Blue (Pot 1)
+              /          /       Grey (+5V)
+             /          /       /
+            /          /       /
+      +-----####------####----####-----+    Green (Pot 0)
+      |                                |   /
+      |                                #  /
+      |                                # /
+      |                                #
+      |                                |
+      |                                |
+      |                                |
+      |                                |
+      |                                |    Red Jumper
+      |                                #   /
+      |                                #  /
+      |                                # /
+      |                                |
+      +--------------------------------+
+
+13) Now take the PCB you removed earlier. Carefully desolder the slide swtich
+    from it. Also cut the track between the fire button on the PCB and the
+    first connector slot on the edge.
+
+14) Connect 3 more wires from the cable to the holes left vacant by the removal
+    of the slide switch as shown.
+
+       ^                                                               ^
+       | Notched edge of board, viewed from component (non-track side) |
+                            (Sw3)             (Sw4)
+                            Orange----o o---- Yellow
+                                      o o
+                            Red-------o o
+                            (Sw2)
+
+15) Connect the black lead of the cable (0V) to the far left slot on the PCB.
+    This slot is connected to all the other slots on the left of the fire
+    button.
+
+16) Re-install the fire button, the PCB, and the screws.
+
+17) Reconnect the leads from the joystick handle to the PCB, in the same
+    positions as they were originally.
+
+18) Position the pot plate over the joystick mechanism. Use 2 of the cover
+    screws to hold it in place
+
+19 Plug the joystick into the vectrex, and use the joystick test in the
+   diagnostic ROM to test it.
+
+20 Cut a slot in the left side of the cover to allow the fine trim control to
+   protrude. Copy this slot from the one on the right side, and file down the
+   lower part of the cover in a similar way.
+
+21) Use a couple of cable ties to make a strain-relief to hold the cable in the
+    slot in the joystick body.
+
+22) Remove the screws you fitted to hold the pot plate in place, fit the cover,
+    and secure it with the 4 screws.
+
+

@@ -1,7 +1,7 @@
 :title vecxi
 :image vecxi.png|vecxi emulation window
 
-Emulation wise this is the heart of VIDE.  In the above example you can see the wonderful implementation of Cleansweep in the emulator.
+Emulation wise this is the heart of VIDE.  In the above example you can see the Cleansweep running in the emulator.
 
 The shown window is a preliminary version, I am sure the final output will be different!
 
@@ -12,10 +12,8 @@ In short: ~~
 - ##control_stop.png## **__stop**~~ (unloads the current rom)
 - **load**~~ well - load a state (only one savestate possible as of now)
 - **save** ~~ save a state
-- ##pencil.png## **__enable lightpen**~~ (only in port 2 as of now)
-- ##color_wheel.png## **__enable imager**~~ (not done yet)
 
-Emulation and debuggings wise, vecxi is the center of VIDE. Once you load a rom and start emulation, a "dissi" window will pop up (if not already open).
+Emulation and debuggings wise, vecxi is the center of VIDE. Once you load a rom and start emulation, a "dissi" window will pop up (if not already open - or might "pop" into an iconified state).
 
 From dissi you can access all other debugging utilities VIDE has to offer. . .
 
@@ -27,7 +25,7 @@ Some features:
 - vecxi can be told (mainly usable in debug mode, otherwise there is just a "blur") to draw a small circle at the current "integrator position", so you can follow the virtual beam
 
 - vecxi can be told to draw "arrows" rather than vectors, so you can see the direction of all vectors
-- many more...
+- and much more...
 
 
 

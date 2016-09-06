@@ -1,0 +1,153 @@
+
+From: brain@garnet.msen.com (Jim Brain)
+Newsgroups: comp.sys.cbm
+Subject: PC's as 64 HD's and the 6522 chip!
+Date: 7 Apr 1994 13:48:35 GMT
+
+
+
+Right after I posted about hooking a 6522 VIA up to a PC parallel port
+to turn the PC into a "char-banger" instead of a "bit-banger", someone
+posted that they had thought the 6522 had a problem with the shift
+register.  The poster also said that Jim Butterfield had alerted him and
+others to it.
+
+  Well, I have been in correspondence with "The Commodore Man", so I asked him
+  to elaborate on the topic.  Here is the two responses:
+
+>  Yes, it's true.  Although I didn't get official confirmation of this
+>long after, when a Spectrum article quoted the designers.
+>  As you know, the first Commodore computers used the IEEE bus to connect to
+>peripherals such as disk and printer.  I understand that these were available
+>only from one source:  Belden cables.  A couple of years into Commodore's
+>computer career, Belden went out of stock on such cables (military contract?
+>who knows?).  In any case, Commodore were in quite a fix:  they made
+>computers and disk drives, but couldn't hook 'em together!
+>  So Tramiel issued the order:  "On our next computer, get off that bus.
+>Make it a cable anyone can manufacture".  And so, starting with the VIC-20
+>the serial bus was born.  It was intended to be just as fast as the
+>IEEE-488 it replaced.
+>  Technically, the idea was sound:  the 6522 VIA chip has a "shift
+>register" circuit that, if tickled with the right signals (data and clock)
+>will cheerfully collect 8 bits of data without any help from the CPU.
+>At that time, it would signal that it had a byte to be collected, and
+>the processor would do so, using an automatic handshake built into the
+>6522 to trigger the next incoming byte.  Things worked in a similar way
+>outgoing from the computer, too.
+>  We early PET/CBM freaks knew, from playing music, that there was something
+>wrong with the 6522's shift register:  it interfered with other functions.
+>The rule was:  turn off the music before you start the tape!  (The shift
+>register was a popular sound generator).  But the Commodore engineers,
+>who only made the chip, didn't know this.  Until they got into final
+>checkout of the VIC-20.
+>  By this time, the VIC-20 board was in manufacture.  A new chip could
+>be designed in a few months (yes, the silicon guys had application notes
+>about the problem, long since), but it was TOO LATE!
+>  A major software rewrite had to take place that changed the VIC-20
+>into a "bit-catcher" rather than a "character-catcher".  It called for
+>eight times as much work on the part of the CPU; and unlike the shift
+>register plan, there was no timing/handshake slack time.  The whole
+>thing slowed down by a factor of approximately 5 to 6.
+>  There's more (the follow-on C64 catastrophe), but that's where it
+>happened.
+                --Jim
+
+And the saga continues ...
+
+>  When the 64 came out, the problem VIA 6522 chip had been
+>replaced by the CIA 6526.  This did not have the shift register problem
+>which had caused trouble on the VIC-20, and at that time it would have
+>been possible to restore plan 1, a fast serial bus.  Note that this would
+>have called for a redesign of the 1540 disk drive, which also used a VIA.
+>   As best I can estimate - and an article in the IEEE Spectrum magazine
+>supports this - the matter was discussed within Commodore, and it was
+>decided that VIC-20 compatibility was more important than disk speed.
+>Perhaps the prospect of a 1541 redesign was an important part of the
+>decision, since current inventories needed to be taken into account.
+>   But to keep the Commodore 64 as a "bit-banger", a new problem arose.
+>The higher-resolution screen of the 64 (as compared to the VIC-20)
+>could not be supported without stopping the CPU every once in a while.
+>To be exact:  Every 8 screen raster lines (each line of text), the CPU
+>had to be put into a WAIT condition for 42 microseconds, so as to allow
+>the next line of screen text and color nybbles to be swept into the chip.
+>(More time would be needed if sprites were being used).
+>   But the bits were coming in on the serial bus faster than that:  aD
+>a bit would come in about every 20 microseconds!  So the poor CPU, frozen
+>for longer than that, would miss some serial bits completely!
+>   Commodore's solution was to slow down the serial bus even more.
+>That's why the VIC-20 has a faster serial bus than the 64, even though
+>the 64 was capable, technically, of running many times faster.
+>   Fast disk finally came into its own with the Commodore 128.
+
+                --Jim
+
+
+Now someone also told me at one time that they had seen a fastloader that
+same someone said he thought it was odd that the author of the loader had
+credited Commodore with the routines.  Well, I can hazard a guess that the
+routines were the ones they had wanted to put in the 6522, but had to scrap
+due to the 6522 problem.  Now I have no idea what the problem is/was, but
+I am eager to find out.  However, I rescind my plans to build something
+around the 6522 until we find out what the problem is.
+
+
+Jim "Just the Facts" Brain
+
+
+--
+Jim Brain, Embedded Systems Designer, Brain Innovations.
+brain@msen.com
+Dabbling in VR, Old Commodore Computers, and Good Times!
+"The above views DO reflect my employer, since I am my employer" - Jim Brain
+--
+From: dillon@apollo.west.oic.com (Matthew Dillon)
+Newsgroups: comp.sys.amiga.advocacy,comp.sys.cbm
+Subject: Re: COMMODORE STOCK SPECULATION!!
+Date: 8 Apr 1994 23:15:06 -0700
+
+In article <1994Apr8.020037.9386@pimacc.pima.edu> ppugliese@pimacc.pima.edu writes:
+:In article <2o1pjq$20a@netaxs.com>, firefoot@netaxs.com (Ivan Kohler) writes:
+:> ppugliese@pimacc.pima.edu wrote:
+:> : In article <2ns7bt$ivu@falcon.ccs.uwo.ca>, koops@gaul.csd.uwo.ca (Luke
+:>  Koops) writes:
+:> : > In article <1994Apr3.181524.821@mnemosyne.cs.du.edu>,
+:
+:> : >
+:> : > Grapevine has made KS chips and 8372A's. If you are in good enough with
+:> : > Commodore, you can make your own chips with an eprom burner. We used to do
+:...
+:
+:
+:No. I was only referring to the chips that the previous poster mentioned.
+:The custom ships would have to be fabricated, although the CIA may not
+:be so hard to find, after all. I say that because I once was looking for
+: the VIA chips that the 1541 uses & found them "on the rack" in an elec-
+: tronics supply house. Some guy in the LUG said that those chips were used
+: for "alot of things".
+
+    Most of Commodore's older chips are also made by Rockwell, but
+    unfortunately they haven't fixed any of the bugs.  For example,
+    the 65C22 still has a number of interrupt/timer race conditions.
+    I don't quite remember the details of all the bugs, but I found
+    on the order of 3 hardware bugs in the 65C22.  The chips used in
+    the C64 also have problems... Bryce found at least one hardware
+    race condition that would screw up a timer interrupt.
+
+    I do not know whether any of Commodore's newer chips have secondary
+    sources... certainly the big custom chips do NOT.
+
+    But even if C='s chip fab goes out of business, they could easily
+    license the schematics to a professional workshop.  NRE would probably
+    be around $50,000 to reimplement them with a more modern process
+    (Commodore was using 5 micron NMOS last I heard, or is it 3 now?).
+
+                                                    -Matt
+
+--
+
+    Matthew Dillon              dillon@apollo.west.oic.com
+    1005 Apollo Way
+    Incline Village, NV. 89451  ham: KC6LVW (no mail drop)
+    USA                         Sandel-Avery Engineering (702)831-8000
+    [always include a portion of the original email in any response!]
+

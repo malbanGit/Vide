@@ -1,0 +1,134 @@
+
+
+Can somebody explain Vectrex ADSR envelopes to me?
+ 
+I know what ADSR envelopes are, for example, on the C=64 you would set the 
+Attack, Decay and Release values as time (ie: 1 Millisecond) and the Sustain 
+value as a Volume (ie: Loud or Soft). When you triggered the sound, it would
+ramp up to full volume in the time specified by Attack then ramp down to the 
+Sustain volume in the time specified by Decay. The note would be held at 
+Sustain (potentially indefinately) until you told the C=64 to begin Release, 
+at which point it would ramp down the volume in the time specified by 
+Release. (So you determine the length of the note by how long you have the 
+computer hold the note at Sustain).
+ 
+And that's how you make sound of the C=64 (Well, you also set the frequency, 
+obviously, as well as waveform (Square, Triangle, Sawtooth, Noise)). That's 
+the last machine I played around with ADSR envelopes...
+ 
+Now, on the Vectrex, ADSR envelopes take the form:
+ 
+ADSR1:    fdb $4488,$ccff,$ffff,$ffff,$ffff,$ffff,$ffff,$cc44
+ 
+From what I've played around with, these values seen to represent volumes 
+from 0 to maximum volume with each word being 1/8 of the total length of the 
+note.
+ 
+So, you could actually make notes more complicated than a "normal" ADSR 
+envelope (ie: ramp up, ramp down, ramp up, ramp down, sustain, ramp down..)
+ 
+That's fine, but, how is the "time" sliced up? According to word, byte or 
+nybble?
+ 
+For example, does $00f0 mean 0 volume for 2/32 of the note, then full volume 
+for 1/32 of the note then back to 0 volume for 1/32 of the note?
+ 
+Or, does $00f0 mean 0 volume for 1/16 of the note then almost full volume 
+($f0) for 1/16 of the note? Or, does it mean almost half volume ($00f0) for 
+1/8 of the note?
+ 
+Some of the ADSR waveforms in ROM look like each nybble is a time slice, 
+while others look like each byte. However, it could also be by word or even 
+double word (2 words each for Attack, Decay, Sustain, Release).
+ 
+Or, am I misreading this completely and these values actually have some other 
+meaning (Time instead of volume)?
+ 
+Any help would be appreciated!!
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>Can somebody explain Vectrex ADSR envelopes to me?
+> 
+
+No, not really :-(!
+
+I can make some (more or less) clever remarks!
+
+Indeed the table consists of nibbles.
+
+Actually only 31, but you can not store 31 nibbles, so they took
+32, the last is just for fun.
+
+It is not exactly a ADSR table as you described, it is just a table
+of volumes.
+Internally a counter is count down with each step of the sound
+routine (usually at each wait_recal).
+This is, as we know, about 20ms or 30,000 cycles.
+
+The sound routine keeps track of the length of the note
+and looks the volumes for the notes up in the ADSR table.
+(the corresponding nibble)
+
+Lets have an example (our beloved Vectrex Frogger :-)):
+
+           FDB     $FEE8,$FEB6 ;ADSR and twang address tables
+           FCB     2,12               
+...
+FEE8   FDB, $EEFF,$FFEE,$EEDD,$CCBB,$AA99,$8888,$8888,$8888
+...
+
+The sound routine will remember the addresses of the 'fade'=='ADSR' and
+twang table, will remember the startaddress of the music score,
+gets the note (here the 2) and stores it to PSG channel A.
+
+It will also set up the other channels according to the data found (here nothing).
+
+Than it looks for the note's length and stores the length.
+
+It loads the first nibble '$E' of the ADSR table and stores it to the PSG
+Volume of Channel A, the only active channel. (only a 4 bit value)
+
+If there were other active channels, they also would recieve '$E' as volume
+information. (BTW the non active channels get nibble 31 '$8' here as volume
+information)
+
+(than it does the VIBE stuff)
+
+Than off we go...
+
+Next round... 
+Looks up the next volume, another '$E'... and stores it...
+the counter is count down from 11 to 10 (oops, forgot to mention the countdown above... well, it did countdown in the above section from 12 to 11- here we go).
+
+Next round... 
+looks up '$F'... stores it... count down...
+
+Next rounds... 
+
+looks up '$D' stores it count down to 0, initiates next note
+(but playing the last 'fade' of this note)
+
+There can be at most $1f = 31 different such FADE's.
+If the note is played longer it will linger on the nibble 31 volume.
+
+OK...
+That's all for the clever remarks!
+
+Malban
+
+PS
+I hope this is correct, I just figured it looking at the ROM...

@@ -1,0 +1,49 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Emulation: eEprom DS2430A</title>
+</head>
+<body class="doc">
+<h1>Emulation: eEprom DS2430A</h1>
+
+<p>Based on the description and vectrex source code from Alex Herbert. Emulation is only done in so far, that SP can be read and written, this is no FULL emulation of a DS2430!</p>
+
+<p>Known cartridges which use this hardware:
+<ul><li>
+<p>Thrust</p>
+</li><li>
+<p>Protector/ YASI</p>
+</li></ul>
+</p>
+
+<p>Statefiles for the eEprom are always saved in the same directory and named as the original cartridge (bin) file, with the additional extension of: ".ds2430.ser". <br>
+(the save-format is java serialization)</p>
+<h3>Technical</h3>
+
+<p>In general the emulation are two state machines, 
+<ul><li>
+<p>one lowlevel "machine" which regulates bit manipulations and waits for timings slots and such.</p>
+</li><li>
+<p>and one highlevel machine which emulates the commands</p>
+</li></ul>
+</p>
+
+<p>The highlevel uses the lowlevel machine and is "called" back from it when it is finished.</p>
+
+<p>Input/output is basically done via the lineIn and lineOut functions. Both functions in itself do not trigger any further actions.</p>
+
+<p>All steps of emulation are "triggered" from the "step" function. The step function should be called EVERY emulated cycle.</p>
+
+<p>The step function is basically the lowLevel statemachine, which on occassion triggers the highlevel.</p>
+
+<p>You can view current emulation status by opening a "cartridge" window (in dissi type "carti").</p>
+<br><p align="center">
+<img src="pics/ds2430a.png" width="658" height="508"><br>
+<em>emulation view</em></p><br>
+
+<p>The datasheet of the chip can be found in the subdirectory: <br>
+</p>
+
+<p>documents/hardware/DS2430A.pdf</p>
+</body>
+</html>

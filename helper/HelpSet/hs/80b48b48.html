@@ -1,0 +1,105 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Emulation: VecLink V1 + V2</title>
+</head>
+<body class="doc">
+<h1>Emulation: VecLink V1 + V2</h1>
+
+<p>These emulations can not be configured using the cartridge settings.</p>
+
+<p>The reasoning is that as of now, the starting logic was not ment to ever start two vecx instantiations at the same time.</p>
+
+<p>Thus - even if veclink would be "cartridge enabled", you would not be able to see any effects by only starting one emulator instance.</p>
+
+<p>Nonetheless, veclink emulation IS supported, you just have to configure using it manually.</p>
+
+<p>Manually meaning:
+<ul><li>
+<p>go to the main menu and start a vecx</p>
+</li><li>
+<p>select the veclink binary you would like to play</p>
+</li><li>
+<p>press start</p>
+</li><li>
+<p>select for port 0 the input device you would like to use</p>
+</li><li>
+<p>select for port 1 the veclink cable you would like to use, start with the "left" side (although it does not really matter which side is plugged in first)</p>
+</li><li>
+<p>repeat the above process for a second vecx instance, </p>
+</li><li>
+<p>for port 1 select the "other side" (right?) of the same veclink cable</p>
+</li></ul>
+</p>
+
+<p>That should do it...</p>
+<h2>BerzerkArena</h2>
+
+<p>BerzerkArena uses veclink V2.</p>
+
+<p>The following pieces are thoughts of Malban during the disassembly of said bin file.
+<ol><li>
+<p>There is an initial syncing of several bytes. In game, only one byte is synced each WaitRecal cycle: Joystick Data (4 bit for the buttons, and 4 bit for the directions up/down, left/right).</p>
+</li><li>
+<p>upon initializing the veclink, a synchronizing of the wait recal routine of both vectrex is done (Alex wait recal is customized, and has a specific counter and timing)</p>
+</li><li>
+<p>since the swapping of the one byte is synchronized by each WR and the WR are also synchronized, no additional data is needed, everything else (shots, ammunition, teleports can be calculated from the one transfered byte)</p>
+</li></ol>
+</p>
+<h3>Low Level</h3>
+
+<p>The used transfer protocoll:</p>
+
+<p>The bits of port A used: 
+<ul><li>
+<p>bit 4 (control bit)    [button 1 of port 1] </p>
+</li><li>
+<p>bit 5 (data bit) [button 2 of port 1] </p>
+</li><li>
+<p>bit 6 (acknowledge bit) [button 3 of port 1] </p>
+</li></ul>
+</p>
+
+<p><i>Control bit<br>
+</i> Each byte is send in 4 "packages" of 2 bit. The first bit of such a package has the control bit set to 0 (zero), the second bit in such a package has the control bit set to 1 (one).</p>
+
+<p><i>Data bit<br>
+</i> This bit - as the name implies - carries the one bit of data used in one "transfer" round.</p>
+
+<p><i>Acknowledge bit<br>
+</i> The receiving vectrex must send an acknowledgement "message" in which the bit 6 must be set.</p>
+
+<p>If any of the above is not true while the communication is done (actually there is a timer which waits for the appropriate resonse, one byte must be transfered in $ffff cycles (T1 Timer)), the communication is broken and a message is displayed.</p>
+
+<p><b>Special</b><br>
+(See also Joyport Devices...)<br>
+The complete game BerzerkArena is played with PSG Port A set to output (on both ends of the serial cable), the serial communication still works in both directions.</p>
+<h3>Higher Level</h3>
+
+<p>One of the two vectrex must be the first, this is always the case :-).</p>
+
+<p>Primary vectrex:<br>
+The first one obviously does not receive any data before. If no data is received, than a "$4d" is sent. </p>
+
+<p>Secondary vectrex:<br>
+The secondary vectrex receives the above mentioned "$4d" and responds with sending a "$73".</p>
+
+<p>If both above sendings and readings are aknowledged by both vectri, the primary starts the initial syncing sequence by transfering 7 bytes of data (amongst them the wait recal counters).</p>
+
+<p>The primary vectrex sets its first indirect jumper in the main routine to: <br>
+ <tt>linkPort0ExchangePrimary(). </tt> <br>
+</p>
+
+<p>The secondary vectrex sets its first indirect jumper in the main routine to: <br>
+ <tt> linkPort0ExchangeSecondary(). </tt> <br>
+</p>
+
+<p>All other routines are henceforth the same on both vectri. The difference in the above two routines:
+<ul><li>
+<p>the order of calling read/write to serial connection</p>
+</li><li>
+<p>the view on what are "own" joystick data and what are "other" joystick data</p>
+</li></ul>
+</p>
+</body>
+</html>

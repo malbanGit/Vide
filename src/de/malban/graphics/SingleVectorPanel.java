@@ -517,7 +517,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     }
     public void setForegroundVectorList(GFXVectorList fv)
     {
-        clearVectors();
+        vars.foregroundVectors.clear();
         addForegroundVectorList(fv.list);
     }
     public void addForegroundVectorList(GFXVectorList fv)

@@ -10,98 +10,98 @@
 
 <p>Here a corrected version: </p>
 
-<p><tt> ;-----------------------------------------------------------------------;<br>
-;       F495    Print&nbsp;Str                                               ;<br>
-;                                                                       ;<br>
-; This is the routine which does the actual printing of a string.  The  ;<br>
-; U register points to the start of the string, while $C82A contains    ;<br>
-; the height of the character, cell, and $C82B contains the width of    ;<br>
-; the character cell.  The string is terminated with an 0x80.           ;<br>
-;                                                                       ;<br>
-; The string is displayed by drawing 7 horizontal rows of dots.  The    ;<br>
-; first row is drawn for each character, then the second, etc.  The     ;<br>
-; character generation table is located at ($F9D4 + $20).  Only         ;<br>
-; characters 0x20-0x6F (upper case) are defined; the lower case         ;<br>
-; characters a-o produce special icons.                                 ;<br>
-;                                                                       ;<br>
-; ENTRY DP = $D0                                                        ;<br>
-;       U-reg points to the start of the string                         ;<br>
-;                                                                       ;<br>
-; EXIT: U-reg points to next byte after terminator                      ;<br>
-;                                                                       ;<br>
-;       D-reg, X-reg trashed                                            ;<br>
-;-----------------------------------------------------------------------;<br>
+<p><tt> ;-----------------------------------------------------------------------<br>
+;       F495    Print_Str                                               <br>
+;                                                                       <br>
+; This is the routine which does the actual printing of a string. The  <br>
+; U register points to the start of the string, while $C82A contains    <br>
+; the height of the character, cell, and $C82B contains the width of    <br>
+; the character cell. The string is terminated with an 0x80.           <br>
+;                                                                       <br>
+; The string is displayed by drawing 7 horizontal rows of dots. The    <br>
+; first row is drawn for each character, then the second, etc. The     <br>
+; character generation table is located at ($F9D4 + $20). Only         <br>
+; characters 0x20-0x6F (upper case) are defined; the lower case         <br>
+; characters a-o produce special icons.                                 <br>
+;                                                                       <br>
+; ENTRY DP = $D0                                                        <br>
+;       U-reg points to the start of the string                         <br>
+;                                                                       <br>
+; EXIT: U-reg points to next byte after terminator                      <br>
+;                                                                       <br>
+;       D-reg, X-reg trashed                                            <br>
+;-----------------------------------------------------------------------<br>
 <br>
-Print&nbsp;Str:      <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STU     Vec&nbsp;Str&nbsp;Ptr     ;Save string pointer<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDX     #Char&nbsp;Table-$20 ;Point to start of chargen bitmaps<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD     #$1883          ;a-&gt;AUX: b-&gt;ORB: $8x = Disable RAMP, Disable Mux, mux sel = 01 (int offsets)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR     &lt;VIA&nbsp;port&nbsp;a     ;Clear D/A output<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;aux&nbsp;cntl   ;Shift reg mode = 110 (shift out under system clock), T1 PB7 disabled, one shot mode<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDX     #Char&nbsp;Table-$20 ;Point to start of chargen bitmaps<br>
+Print_Str:      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STU&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vec_Str_Ptr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Save string pointer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Char_Table-$20&nbsp;;Point to start of chargen bitmaps<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$1883&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;a-&gt;AUX: b-&gt;ORB: $8x = Disable RAMP, Disable Mux, mux sel = 01 (int offsets)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Clear D/A output<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_aux_cntl&nbsp;&nbsp;&nbsp;;Shift reg mode = 110 (shift out under system clock), T1 PB7 disabled, one shot mode<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Char_Table-$20&nbsp;;Point to start of chargen bitmaps<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; first entry here, ramp is disabled<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; if there was a jump from below<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ramp will be enabled by next line<br>
 LF4A5:          <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB     &lt;VIA&nbsp;port&nbsp;b     ;ramp off/on set mux to channel 1<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEC     &lt;VIA&nbsp;port&nbsp;b     ;Enable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD     #$8081          ;both to ORB, both disable ram, mux sel = 0 (y int), a:-&gt;enable mux: b:-&gt;disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP                     ;Wait a moment<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INC     &lt;VIA&nbsp;port&nbsp;b     ;Disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB     &lt;VIA&nbsp;port&nbsp;b     ;Disable RAMP, set mux to channel 0, disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;Enable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TST     $C800           ;I think this is a delay only<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INC     &lt;VIA&nbsp;port&nbsp;b     ;disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     Vec&nbsp;Text&nbsp;Width  ;Get text width<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;a     ;Send it to the D/A<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD     #$0100			    ;both to ORB, both ENABLE RAMP, a:-&gt; disable mux, b:-&gt; enable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDU     Vec&nbsp;Str&nbsp;Ptr     ;Point to start of text string<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;[4]enable RAMP, disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA     LF4CB	         ;[3]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;ramp off/on set mux to channel 1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Enable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$8081&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;both to ORB, both disable ram, mux sel = 0 (y int), a:-&gt;enable mux: b:-&gt;disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Wait a moment<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Disable RAMP, set mux to channel 0, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Enable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$C800&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;I think this is a delay only<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vec_Text_Width&nbsp;&nbsp;;Get text width<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Send it to the D/A<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$0100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;both to ORB, both ENABLE RAMP, a:-&gt; disable mux, b:-&gt; enable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDU&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vec_Str_Ptr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Point to start of text string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[4]enable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LF4CB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[3]<br>
 ; one letter is drawn (one row that is) in 18 cycles<br>
 ; 13 cycles overhead<br>
 ; ramp is thus active for #ofLetters*18 + 13 cycles<br>
 LF4C7:          <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     A,X             ;[+5]Get bitmap from chargen table<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;shift&nbsp;reg  ;[+4]rasterout of char bitmap "row" thru shift out in shift register<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[+5]Get bitmap from chargen table<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_shift_reg&nbsp;&nbsp;;[+4]rasterout of char bitmap "row" thru shift out in shift register<br>
 LF4CB:          <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     ,U+             ;[+6]Get next character<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BPL     LF4C7           ;[+3]Go back if not terminator<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     #$81	         ;[2]disable mux, disable ramp <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;[4]disable RAMP, disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEG     &lt;VIA&nbsp;port&nbsp;a     ;Negate text width to D/A<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     #$01	         ;enable ramp, disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;enable RAMP, disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CMPX    #Char&nbsp;Table&nbsp;End-$20;[4]Check for last row<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEQ     LF50A           ;[3]Branch if last row<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAX    $50,X           ;[3]Point to next chargen row<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TFR     U,D             ;[6]Get string length<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUBD    Vec&nbsp;Str&nbsp;Ptr     ;[7] <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUBB    #$02            ;[2] -  2 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASLB                    ;[2] *  2 calculate return "way"<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRN     LF4EB           ;[3]Delay a moment<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,U+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[+6]Get next character<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BPL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LF4C7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[+3]Go back if not terminator<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[2]disable mux, disable ramp <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[4]disable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Negate text width to D/A<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;enable ramp, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;enable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CMPX&nbsp;&nbsp;&nbsp;&nbsp;#Char_Table_End-$20;[4]Check for last row<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LF50A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[3]Branch if last row<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAX&nbsp;&nbsp;&nbsp;&nbsp;$50,X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[3]Point to next chargen row<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TFR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U,D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[6]Get string length<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUBD&nbsp;&nbsp;&nbsp;&nbsp;Vec_Str_Ptr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[7] <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUBB&nbsp;&nbsp;&nbsp;&nbsp;#$02&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[2] -  2 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ASLB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[2] *  2 calculate return "way"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LF4EB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[3]Delay a moment<br>
 LF4EB:          <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     #$81            ;[2]disable RAMP, disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP		         ;[2]<br>
-                DECB                    ;[2]<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BNE     LF4EB           ;Delay some more in a loop<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;disable RAMP, disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB     Vec&nbsp;Text&nbsp;Height ;Get text height<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB     &lt;VIA&nbsp;port&nbsp;a     ;Store text height in D/A [go down -&gt; later]<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEC     &lt;VIA&nbsp;port&nbsp;b     ;Enable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD     #$8101<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP                     ;Wait a moment<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;disable RAMP, disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR     &lt;VIA&nbsp;port&nbsp;a     ;Clear D/A<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB     &lt;VIA&nbsp;port&nbsp;b     ;enable RAMP, disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;port&nbsp;b     ;disable RAMP, disable mux<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB     #$03            ;$0x = ENABLE RAMP?<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA     LF4A5           ;Go back for next scan line<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[2]disable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[2]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DECB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;[2]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BNE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LF4EB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Delay some more in a loop<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;disable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vec_Text_Height&nbsp;;Get text height<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Store text height in D/A [go down -&gt; later]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Enable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$8101<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Wait a moment<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;disable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Clear D/A<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;enable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_port_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;disable RAMP, disable mux<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;$0x = ENABLE RAMP?<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BRA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LF4A5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Go back for next scan line<br>
 <br>
 LF50A:          <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA     #$98<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA     &lt;VIA&nbsp;aux&nbsp;cntl   ;T1-&gt;PB7 enabled<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JMP     Reset0Ref       ;Reset the zero reference<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#$98<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;VIA_aux_cntl&nbsp;&nbsp;&nbsp;;T1-&gt;PB7 enabled<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JMP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reset0Ref&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;Reset the zero reference<br>
 <br>
 </tt></p>
 </body>

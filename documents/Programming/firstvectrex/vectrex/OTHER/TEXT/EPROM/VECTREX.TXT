@@ -1,0 +1,38 @@
+>The introductory tunes are played by a routine in the system ROM, and it
+>just reads the notes from the header at the front of the cartridge.
+>The tunes are pretty short.
+
+I kind of suspected that this was what is going on.
+
+>
+>I presume you _fixed_ the crossed address lines.   Some of the games
+>require that they be in ROM; RAM won't work.  That's why the
+>Vectrex-S100 interface has a write-disable line for the Vectrex.
+>
+Hmmm... I wonder if I should review the pinout on the bus.  Perhaps I've hooked
+the write-disable line up incorrectly?  In order to make my cartridge, I looked
+at the bus pinout (available from ftp on csus.csus.edu) and also examined the
+4kb ROM connections in the prefabricated Star Trek game to verify that
+everything seemed correct.  Then, I grabbed a blank cartridge, inserted a dip
+socket for an 2764 (an 8k EPROM), and wired it up.  I found two wiring errors
+when I was done, but went back and fixed them.  Perhaps there is still a wiring
+error, though I examined it repeatedly over a period of several days.
+
+>You might also want to make sure that the whole game fits in your ROM.
+>Long games in short ROMs will flake out as you describe.
+
+The 8k EPROMS should be able to handle all of the games except the ones with
+the extra RAM on the cartridges.  BTW, does anyone remember which games NEED
+the extra RAM?  Some people e-mailed and mentioned this to me or inquired if I
+knew which ones do.
+>
+>BTW, it's been so long since I've run this stuff that I don't remember
+>if the Bach thing has the dynamic pitch/duration graph that I wrote.  I
+>vaguely recall that it doesn't, in which case the "game" isn't really
+>executable at all.  (It might have been one of the early tests I did,
+>and when the tune ends it displays the character set.  Thrilling.)
+>--
+Don't sweat it... it's cool of you to post a reply!  Thanks for the
+information!
+
+--thomas--

@@ -1,0 +1,22 @@
+These Pascal programs are generally intended for use under CP/M Turbo
+Pascal Ver 3.0 or so, with a Vectrex interface.   The include modules
+DRAWLINE and VECDRAW are nominally the same, they just interface
+different hardware.  VECDRAW is the implementation for using the
+Vectrex+interface as the graphics display device.  DRAWLINE is the
+draphics display routines for the console display, which uses "sixel"
+graphics.
+
+There are also some utility programs, and some quick-and-dirty data
+conversion programs.  Most of the latter were for obtaining the linear
+list of PLAY strings from the BASIC programs that originally contained
+them.
+
+The Pascal programs should be fairly easily modified to write cartridge
+contents to a file rather than the Vectrex interface.
+
+I never did get around to playing with the 3-D stuff, other than the DNA
+thing.
+
+Don't panic too much over the stuff in .lbr files; some of these 
+programs contain code to read them.
+

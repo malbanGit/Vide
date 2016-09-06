@@ -9,6 +9,13 @@
 	</SystemRom>
 	<SystemRom>
 		<Class>SystemRom</Class>
+		<Name>MalbanBios</Name>
+		<CartName>system/M2.bin</CartName>
+		<Version>0.1</Version>
+		<Comment></Comment>
+	</SystemRom>
+	<SystemRom>
+		<Class>SystemRom</Class>
 		<Name>System</Name>
 		<CartName>system/SYSTEM_B796.IMG</CartName>
 		<Version>B796</Version>

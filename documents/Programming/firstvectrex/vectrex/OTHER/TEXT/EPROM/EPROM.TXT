@@ -1,0 +1,97 @@
+
+(sacrificial line)
+The following is a first stab at documenting Vectrex
+hacks that have been implemented.  This is mainly for
+encouraging the interchange of ideas and/or programs
+for a unique and yet endangered species - the Vectrex.
+
+
+*******************************************************
+
+
+Ok, so you want to run EPROM resident stuff on the
+Vectrex!   First, lets define the EPROM.
+
+The EPROM I have been using in these tests have been
+Intel 2732-2 4K x8 MOS EPROMs.  Anything slower and
+there may be problems.
+
+1) Open the cartridge by taking the single screw out
+of the bottom.  Then, carefully unsnap the top and bottom
+halves of the cartridge case.
+
+2) You now have a little green and gold printed circuit board
+with a 24 pin (Sharp or GI) ROM mounted on it.
+
+You now have two routes possible.  You can try to remove the
+chip from the board unharmed (not really too bad with a good
+solder-sucker tool) or simply cut the little guy out with a
+sharp pair of diagonal cutters.  I removed the chip, the leads
+of the chip were formed such that they didn't really retain
+too much solder. Ie: didn't cause any problems when removing
+the chip from the holes.
+
+3) Remove the chip.  Remember that the PC board is the more
+important part here.
+
+    You will notice that all but two of the traces on the
+component side hook up sequentially to the edge connector
+pads (gold).  The order of pins 10 and 16 (remember, the
+component side of the edge connector has all even #s!) seem
+to be reversed.
+
+The reason for this is because GCE (the Vectrex manufacturer)
+initially designed the PC board to accept a chip with an
+Intel 2732 pinout.  Later, they swapped 10 and 16 (to make
+them out of order) to acomodate a different pinout for Sharp
+and/or GI mask-programmable ROMS.
+
+4) So, in order to make it cozy for a 2732 again, one must
+re-reverse the wiring!  The way it should look, when you
+finish, is -
+
+Edge pad #             24pin EPROM pin #
+-----------------------------------------
+
+   10........................21
+   16........................18
+
+If you are clever, you can cut the trace, peel it
+back with an exacto knife and, where the trace goes
+past the correct pin, scrape the coating off the copper
+conductor and solder it to the pad where the EPROM
+socket will be soldered in.
+
+The best socket to put on it is either a ZIF (Zero
+Insertion Force) socket (by Textool) or a barrel-pin
+socket (from Augat).  Remember, a cheap chip socket
+will be a real pain to replace later!
+
+5) Solder the socket onto the pad where the ROM used
+to sit.  Be careful to orient it properly (socket
+pin 1 to pad 1) and not to have solder bridges between
+pins.  You may have to bend the socket pins to get them
+to sit well on the printed circuit pads.
+
+Now, if you have no EPROM to test it with, there is
+a quick procedure that will not only test your board,
+but also make your old game ROM usable!
+
+Get an extra Augat socket and mount the ROM in it
+after lifting up pins 21 and 18 of the ROM chip.
+Next, (tricky) wire pin 21 of the rom to pin 18 of the
+socket and visa-versa.
+Now your old ROM has the same pinout as a 2732! Yeow!
+
+Plug your Augat/ROM into the socket on the board and
+plug the whole assembly into the Vectrex.
+
+Be sure to plug it in COMPONENT SIDE UP!!!
+
+Pin one of the ROM/socket should be facing you (when
+looking at the front of the Vectrex.
+
+Now you are ready to pop in EPROMs from new and exotic
+lands.
+
+

@@ -13,6 +13,8 @@ All registers are displayed.~~
 
 
 Notice:~~
-The callstack is not the contents of the stack!~~
-The callstack only has "subroutine"-return-addresses!
+- the callstack is not the contents of the stack!~~
+- the callstack only has "subroutine"-return-addresses!
+- the callstack might also get confused if the stack is changed programmatically (like ::LDS___#$C800::)
+
 

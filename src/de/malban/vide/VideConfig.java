@@ -36,7 +36,9 @@ public class VideConfig  implements Serializable{
 
     public static transient ArrayList<ControllerConfig> controllerConfigs = null;
 
-    
+    public int ALG_MAX_X		= 38000;
+    public int ALG_MAX_Y		= 41000;
+    public String startFile = "";
     
     public int[] delays = {0,5,0,9,8,0,0,0,11,0,13, 4}; // full delays, ramp on and off have partials!
     public double[] partialDelays = {0,0,0,0,0,0,0,0,0,0, 0}; // this is not used!
@@ -271,6 +273,11 @@ public class VideConfig  implements Serializable{
     
     private void copyAll(VideConfig from, VideConfig to)
     {
+        to.ALG_MAX_X = from.ALG_MAX_X;
+        to.ALG_MAX_Y = from.ALG_MAX_Y;
+        to.startFile = from.startFile;
+        
+        
         System.arraycopy(from.delays, 0, to.delays, 0, from.delays.length);
         System.arraycopy(from.partialDelays, 0, to.partialDelays, 0, from.partialDelays.length);
         System.arraycopy(from.delaysDisplay, 0, to.delaysDisplay, 0, from.delaysDisplay.length);

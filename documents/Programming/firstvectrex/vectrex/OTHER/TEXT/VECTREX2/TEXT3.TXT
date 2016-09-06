@@ -1,0 +1,232 @@
+The following document appears to be a production plan for the partly
+implemented Vectrex II.  From what I gather, the Vectrex II was a plain
+Vectrex with new executive code (it can do lower case letters which the
+Vectrex can't), a light pen, a port hacked on to communicate with a box
+which drives a raster display and some type of computer module.
+
+Accompanying this document were 4 slightly different Vectrex II demo
+ROMs which will shortly be uploaded to the archives.  They all contain
+the following text.  I have not tried to run this on my regular Vectrex
+yet but I think it will at least display the text although not properly
+as all lower case letters will show up as special graphics (or perhaps
+not at all).
+
+========================================
+GCE 1983
+RV-DEMO
+
+GENERAL CONSUMER ELECTRONICS, INC.
+(A MILTON BRADLEY COMPANY)
+- Presents -
+
+VECTREX II
+GRAPHIC COMPUTER DISPLAY
+
+YOU WERE THERE !!!
+
+... for the
+
+FIRST KNOWN DEMONSTRATION
+of
+SIMULTANEOUS RASTER and VECTOR!
+========================================
+
+Here is the original document which was typed landscape on 8.5x11 paper.
+
+[Page 1]
+
+GENERAL CONSUMER ELECTRONICS INC.
+(A MILTON BRADLEY COMPANY)
+
+VECTREX II
+
+INTELLIGENT DISPLAY
+-------------------
+
+October 1983
+
+[Page 2]
+
+Background
+----------
+
+GCE is a subsidiary of the Milton Bradley Company.
+
+Principal product is Vectrex, a video game system.  Differentiated from
+competitive systems by:
+
+   - Use of vector scan rather than raster scan technology to generate
+     images, which are faster and require less memory;
+
+   - A self-contained CRT display.
+
+Patent application has been filed on unique method of generating vector
+images.
+
+Experience with display technology has lead to development of two new
+displays.
+
+[Page 3]
+
+Purpose
+-------
+
+To present two new displays which have significant implications for the
+word processing industry for your review.
+
+   - Display A combines vector and raster technology to combine high
+     resolution, free-flowing imagery with character generation
+
+   - Display B uses raster technology to provide character generation
+   efficiently
+
+[Page 4]
+
+A. Vector/Raster Display
+   ---------------------
+
+   Method:        Combine vector and raster technologies to produce high
+                  resolution, free-flowing imagery with character
+                  generation
+
+   Advantages:    Primarily in use of vector scan technology to generate
+                  images and combine these with raster generated text.
+                  Provides high resolution images with a minimum of
+                  instruction; thus, reducing program time, and storage
+                  area required to refresh the image on the display.
+                  Efficient use of memory results in high drawing speed
+                  at low cost.  Combines these images effectively and
+                  efficiently with raster generated text.
+
+   Applications:  Display drawings and printed text simultaneously.
+                  Valuable for engineering drawings, computer aided
+                  design, instruction manuals, learning materials,
+                  diagnostic uses, etc.
+
+[Page 5]
+
+B. Raster Display
+   --------------
+
+
+   Method:        Uses raster technology to generate large numbers of
+                  characters efficiently
+
+   Advantages:    System generates 4800 characters (80 columns by 60
+                  lines) and in sharp focus at low cost
+
+   Applications:  Primarily in word processing.  User has the advantage
+                  of seeing the full page of text displayed.  Provides
+                  opportunity for final review, editing prior to
+                  printing.  Results in improved quality of work, time
+                  saving.
+
+[Page 6]
+
+VECTREX II VS TELEVIDEO 950 COMPARISON CHART
+--------------------------------------------
+                              VECTREX II                  TELEVIDEO 950
+                              __________                  _____________
+MONITOR
+ Size                      12 inch                     12 inch
+ Phosphor                  (Black & White w/overlays   P31 green nonglare
+                           available in green/amber/
+                           blue-vector/raster display)
+                           P39 yellow/green nonglare*
+                           (raster display)
+
+CHARACTER FONT             5 x 9 character in 8 x 10   10 x 14 character cell w/
+                           cell with descenders        descenders
+
+DISPLAYED CHARACTER SET    240 displayable:            128 displayable:
+                           96 ASCII U/L Case           96 ASCII U/L Case
+                           32 control                  32 control
+                           112 primitives, foreign,    15 graphics
+                           math
+
+NUMBER OF CHARACTERS       4800 characters, 60 lines   2000 characters, 25 lines
+                           x 80 cols (Raster Display)  x 80 columns
+
+ANSI COMPATIBLE            YES                         YES
+
+CHARACTER ATTRIBUTES
+ Protected fields          NO**                        YES
+ Reverse video             YES                         YES
+ Underline fields          YES                         YES
+ Blink                     YES                         YES
+ Blank                     YES                         YES
+ Half Intensity            YES                         YES
+ Highlighting              YES                         YES
+
+EDITING
+ Insert/delete character   YES                         YES
+ Insert/delete line        YES                         YES
+ Line/page edit            NO**                        YES
+ Local/duplex              NO**                        YES
+
+[Page 7]
+
+                              VECTREX II                  TELEVIDEO 950
+                              __________                  _____________
+SPECIAL FEATURES
+ Smooth scroll             NO                          YES
+ Line Lock                 NO**                        YES
+
+CURSOR CONTROL
+ Up/down/left/right        YES                         YES
+ Home/tab/back tab         YES                         YES
+ Center/left/backspace     NO**                        YES
+
+REPEAT                     N/A - no keyboard           20 cps auto repeat
+
+PARITY                     N/A-unless serial link      E/O/send/Mark/No
+                           used
+
+WORD STRUCTURE             N/A-see above               7/8 bits
+
+BAUD RATES                 N/A-see above               50 to 19200
+
+TRANSMISSION               Full/half duples [sic]      Local/Block/Full or half
+                                                       duplex
+
+COMM PROTOCOL              N/A-unless serial link      X-on/X-off, DTR
+                           used
+
+INTERFACES                 N/A-see above               RS-232
+
+PRINTER PORT               NO                          YES
+
+VECTOR GRAPHICS            YES (vector/raster display) NO
+                           NO (/raster display)
+
+PERIPHERALS                Light Pen-interacts elec-
+                           tronically with screen
+
+NOTES:  * To be discussed
+       ** Not currently implemented in software, but can be added
+
+[Page 8; stapled in upside-down!]
+
+Preliminary Development Schedule of Events
+------------------------------------------
+
+11-01-83     Product Decision "Go Ahead"
+11-07-83     Project Start
+11-21-83     Start System Operating Software
+ 1-16-84     Build Engineering Prototypes
+ 1-30-84     Design and Release Tools
+ 1-30-84     Design Freeze
+ 2-01-84     Start Test Plan
+ 2-15-84     Key Components Identified + Specs Completed
+ 2-15-84     Product Spec Start
+ 3-12-84     Engineering Pilot, (10) Units
+ 3-12-84     System Test/Qualification Start
+ 3-15-84     Agency Submission
+ 3-15-84     Preproduction Pilot
+ 3-29-84     Environmental Testing Start
+ 4-15-84     First OFF Tool Samples
+ 4-30-84     Second OFF Tool Samples/Approvals
+ 5-05-84     Production Pilot
+ 5-12-84     Production Release
+ 6-15-84     Agency Approvals
+ 6-22-84     Production Start

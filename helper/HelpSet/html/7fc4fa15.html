@@ -1,0 +1,155 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160906151831" />
+<!-- created with HelpSetMaker, ID=7fc4fa15 -->
+<title>Example: Lightpen</title>
+</head>
+<body class="doc">
+<h1>Example: Lightpen</h1>
+
+<p>For the lightpen no "Code Generation" was done, since any generated code would have been an extensive example on its own.</p>
+
+<p>Instead I provide an example in form of a "code snippet" within codi. (see:<br />
+<tt> codelib/Snippets/Malban/Lightpen/LightpenExample.asm<br />
+and <br />
+codelib/Snippets/Malban/Lightpen/LightpenSubroutines.i</tt>)</p>
+
+<p>Much of the example is reused code found in the Artmaster binary and the great disassembly of Fred Taft.</p>
+
+<p>I enhanced his disassembly in two ways:
+<ol><li>
+<p>added further comments</p>
+</li><li>
+<p>extracted a couple of subroutines, which can be used "out of the box" without sorting out to much stuff</p>
+</li></ol>
+</p>
+
+<p>Anyone interested in programming lighpen stuff should find it (I hope) to be quite easy to get going.</p>
+
+<p>I didn't bother to provide examples for lightpen usage in port 0, I can't really seem to find much use for it, although the routines in general should be nearly the same. Further writings about lightpen in this documentation always assumes lightpen in port 1.</p>
+<h2>In general</h2>
+
+<p>The main (and actually - ONLY) communication that is going on between the lightpen and a vectrex is by whether "button 4" of joyport 1 is pressed or not. The lightpen internally reacts (how else could it be) on light. If the light is switched on the button is active (I say active here, in reality the state of the button goes low, but that is sort of confusing, lets just say light = active), if the light is switched off - the button is not active. The switching is done "lightning" fast. If you use your usual vectrex 50Hz display, the button is switched on/off 50 times per second, the "glow" of the vectors is in this case negligible.</p>
+
+<p>Also, button four of the joytickport 1 is connected to the CA1 line of VIA, this enables us to very easily check whether the lightpen is active - or not (we do not have to check the PSG  all the time). </p>
+
+<p>If the lightpen is active, CA1 will be 1 - true, or whatever you want to call it :-). This enables us to use the interruptflags of VIA to check whether the lightpen saw some light or not.</p>
+
+<p>The interruptflag is usually configured that it is set upon the lightpen going from inactive to active. 
+<ol><li>
+<p>the IFR must be reset befor an interrupt can occur again</p>
+</li><li>
+<p>that lightpen must be inactive befor it goes active again in order for an interrupt to occur</p>
+</li></ol>
+</p>
+<h3>Checking lightpen for a vector</h3>
+
+<p>Remembering that, the general strategy to check for lightpen is:
+<ul><li>
+<p>clear flags</p>
+</li><li>
+<p>get something on the screen (one vector, one scanline of text,...) </p>
+</li><li>
+<p>check if interruptflag for CA1 is set</p>
+</li><li>
+<p>if set, remember for what vector the flag was set</p>
+</li><li>
+<p>and react on that whenever you have time to do so</p>
+</li></ul>
+</p>
+
+<p>This is really straight forward.</p>
+
+<p>It gets more complicated, when you do not have a vector that you want to react upon, like finding a lightpen which was placed on an empty screen, or if you want to use your lightpen to "drag" a vector around the screen.</p>
+
+<p>In this cases you must think a bit around the corner...  </p>
+<h3>Checking lightpen for a "move"/empty screen</h3>
+
+<p>All strategies come down to using the above strategy. You can not check for light, without light! Therefor the two strategies the old artmasters came up with are: <br />
+(you are invited to come up with your own...)<br />
+
+<ul><li>
+<p>Movement/Dragging &rarr; webbing<br />
+The thought behind that is, that if you want to "move" something, you will do not big jumps, but move "slowly" in small steps. The method for checking is - to surround the last known position where the lightpen was found with a steadily in size increasing "web" (an 8 sided polygon). If one of the vectors the web consists of "reacts" on the lightpen (an interrupt occurs while drawing it), the location is calculated, based on the index of the vector (in the polygon), size of the web (vectors) and the scalefactor used to draw it. The result of the calculation is the new position.</p>
+</li><li>
+<p>Finding a lightpen on an empty screen &rarr; scanning<br />
+With this method you fill the whole screen (bottom to top, left to right) with "scanlines" (122 scanlines). You check after each line was drawn if an interrupt occured, if yes, you have the y-coordinate. Now you still have to find the x-coordinate. Instead of "plotting" 122 dots on one line (which would habe been the 1:1 solution to scanning), the artmasters (Mark Indictor), came up with a calculative way. This time the said scanline is drawn again, but while drawing it, a counter is decreased, and the CA1 interrupt (which is usually only checked by a flag) this time actually <b>generates</b> an interrupt. Using the known scalefactor and the countdown while drawing the scanline, the x- position is calculated after the interrupt occured. The interrupt cleans up the stack and returns to the calling routine with the actual pair of y, x coordinates set to the X register.</p>
+<br />
+</li></ul>
+</p>
+
+<p>  Note on Interrupt:<br />
+Although none of my VIA 6522 documentation describes this - the routines described below clear the Interrupt flag with <br />
+<tt>"CLR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VIA_int_flags"</tt><br />
+this obviously works ok though ...</p>
+<h2>Example routines</h2>
+
+<p>The provided example shows four different lightpen "situations":
+<ul><li>
+<p>select a text (strategy one with string)</p>
+</li><li>
+<p>pick a vector (strategy one with vectors)</p>
+</li><li>
+<p>drag a point (webbing)</p>
+</li><li>
+<p>find a location (scanning)</p>
+</li></ul>
+</p>
+
+<p>The code is well structed and documented, I will not document it here further.</p>
+
+<p>The example main program includes a set of lightpen routines, which can be found in the above dscribed file:<br />
+<tt> codelib/Snippets/Malban/Lightpen/LightpenSubroutines.i</tt> <br />
+</p>
+
+<p>That file includes a set of "public" routines, which can be "normally" used, and some routines which I like to describe as "private". Which a "user" not neccesarily must use, but which support the public rotuines.</p>
+
+<p>Following public routines are available:</p>
+<h3>print_with_pick_check</h3>
+
+<p>This routine is very much like the ordinary <tt>Print_Str</tt> routine the BIOS offers.</p>
+
+<p>As input a pointer in U Register is expected which points to  a string structure consisting of:<br />
+<tt> DB height, width<br />
+DB ypos, xpos<br />
+DB "SOME TEXT", $80<br />
+</tt></p>
+
+<p>If a lightpen pick occured while printing the string, the variable "<tt>lightpen_pick</tt>" ($C89E) will be set to 2 if no pick occured it will be 0.</p>
+<h3>draw_vector_with_pick_check</h3>
+
+<p>This routine is very much like the ordinary <tt>Draw_Line_d</tt> routine the BIOS offers.</p>
+
+<p>It draws a vector from the current position, using the current scale to the delta coordinates given in register D. On return register A is set to 2 if a lightpen pick occured and  if no pick occured it will be 0.</p>
+<h3>search_screen_for_lightpen</h3>
+
+<p>(This method uses 6 bytes of RAM, see documentation in source code)</p>
+
+<p>This routine implements the above mentioned "scanning". After a call register A will be $ff if a lightpen pick was found or 0 if not. If a pick was found register X contains the location (scale factor $ff) as y, x. </p>
+<h3>check_point_move</h3>
+
+<p>(This method uses 12 bytes of RAM, see documentation in source code)</p>
+
+<p>This routine implements the above mentioned "webbing". </p>
+
+<p>This routine expects as input parameters in register X the "point" that might be moved, and in register A a flag whether the "point" was found by the lightpen the last time it was checked. </p>
+
+<p>The return of the method is the same as the input:</p>
+
+<p>After a call register A will be $ff if a lightpen pick was found or 0 if not. If a pick was found register X contains the location (scale factor $ff) as y, x. </p>
+<br/><p align="center">
+<img src="pics/LightPenExample1.png" width="559" height="695" /><br/>
+<em>Lightpen example 1</em></p><br/>
+<br/><p align="center">
+<img src="pics/LightPenExample2.png" width="559" height="694" /><br/>
+<em>Lightpen example 2</em></p><br/>
+<br/><p align="center">
+<img src="pics/LightPenExample3.png" width="558" height="693" /><br/>
+<em>Lightpen example 3</em></p><br/>
+</body>
+</html>

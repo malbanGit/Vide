@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160906151831" />
+<!-- created with HelpSetMaker, ID=1a69dabf -->
+<title>Emulation: eEprom Microchip 11AA010</title>
+</head>
+<body class="doc">
+<h1>Emulation: eEprom Microchip 11AA010</h1>
+
+<p>Based on the manual that can be got at the Microchip site and my own disassembly of VectorPilot - the only known cartridge, which makes use of the chip.</p>
+
+<p>Emulation is only done in so far, that VectorPilot playes all right, not emulated at the moment are the command: CRRD, ERAL and SETAL.</p>
+
+<p>Known cartridges which use this hardware:
+<ul><li>
+<p>VectorPilot</p>
+</li></ul>
+</p>
+
+<p>Statefiles for the eEprom are always saved in the same directory and named as the original cartridge (bin) file, with the additional extension of: ".microchip.ser". <br />
+(the save-format is java serialization)</p>
+<h3>Technical</h3>
+
+<p>The microchip 11AA010 uses a manchester serial protocoll (in short: a self synchronizing serial protocoll, where the bit encoding is done by a change from low/high or high/low instead of the high/low states itself).</p>
+
+<p>In general the emulation are three state machines, 
+<ul><li>
+<p>one lowlevel "machine"<br />
+the low level in general handles the initial syncing needed for later "synchronized" communication</p>
+</li><li>
+<p>one midlevel "machine"<br />
+which emulate atomic commands-steps (like MAK, SAK, reading a bit...) </p>
+</li><li>
+<p>one highlevel "machine"<br />
+which emulates complete commands, which consist of several atomic commands</p>
+</li></ul>
+</p>
+
+<p>Input/output is basically done via the lineIn and lineOut functions. Both functions in itself do not trigger any further actions.</p>
+
+<p>You can view current emulation status by opening a "cartridge" window (in dissi type "carti").</p>
+<br/><p align="center">
+<img src="pics/microchip.png" width="661" height="508" /><br/>
+<em>emulation view</em></p><br/>
+
+<p>The datasheet of the chip can be found in the subdirectory: <br />
+</p>
+
+<p>documents/hardware/22067J.pdf</p>
+</body>
+</html>

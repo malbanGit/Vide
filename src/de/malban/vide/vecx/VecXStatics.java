@@ -39,8 +39,6 @@ public abstract interface VecXStatics
     public static final int VECTREX_MHZ		= 1500000; /* speed of the vectrex being emulated */
     public static final int VIA_MHZ             = 2000000;
     public static final int VECTREX_COLORS      = 128;     /* number of possible colors ... grayscale */
-    public static final int ALG_MAX_X		= 33000;
-    public static final int ALG_MAX_Y		= 41000;
     public static final int VECTREX_PDECAY	= 30;      /* phosphor decay rate */
     public static final int FCYCLES_INIT        =  VECTREX_MHZ/ VECTREX_PDECAY;/* number of 6809 cycles before a frame redraw */
             /* max number of possible vectors that maybe on the screen at one time.

@@ -1,0 +1,78 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 18</H2>
+<H3>Microcontrollers (Single-Chip computers)</H3>
+
+Microprocessors from the major manufacturers possess a family resemblance.
+<P>
+Motorola entered the 8-bit microprocessor market with the 6800 processor.
+<CENTER>
+<TABLE BORDER>
+<TR><TH ALIGN=LEFT>6800<TD>Basic microprocessor
+<TR><TH>6802<TD>on-chip clock<br>
+	128 bytes RAM<br>
+	a 3-chip microcontroller is possible
+<TR><TH>6809<TD>compatible with 6800<br>
+	source code software is easily converted<br>
+	some 16-bit instructions<br>
+	MUL instruction<br>
+	2 x 16-bit index registers<br>
+	2 x 16-bit stack pointers<br>
+	autoincrement indexed addressing<br>
+	variety of offsets for indexed addressing
+<TR><TH>6801<TD>microcontroller<br>
+	2k ROM, 128 bytes RAM<br>
+	31 parallel, 3 serial I/O<br>
+	2 x 16-bit timers<br>
+	can access up to 64k bytes externally<br>
+	has 16-bit instructions<br>
+	MUL instruction
+
+</TABLE>
+</CENTER>
+<P>
+Microcontrollers, such as the 6801, result in a very low chip count
+since the CPU, RAM, ROM and I/O are on the one device.
+<P>
+Mention should also be made of the 8048 family of devices as they
+are quite common.
+<CENTER>
+<TABLE BORDER>
+<TH>8048<TD>1K ROM, 64 bytes RAM<br>
+	3 x 8-bit parallel ports, timer<br>
+	(an earlier device than the 6801)
+</TABLE>
+</CENTER>
+<H3>16/32 bit processors</H3>
+From the 8-bit processors, most manufacturers introduced 16-bit devices.
+<CENTER>
+<TABLE BORDER>
+<TR><TH>8085<TH>-> 8086<TD>Intel
+<TR><TH>Z80<TH>-> Z8000<TD>Zilog
+<TR><TH>6800<TH>-> 68000<TD>Motorola
+</TABLE>
+</CENTER>
+<H3>Advantages of 16-bit processors</H3>
+Since the data bus is 16-bits wide, 2 bytes are read or written to
+each memory cycle.   Therefore data transfers are faster for a
+given bus speed.
+<P>
+As technical designs moved forward, extra logic was possible on-chip.
+This was used to provide extra registers, instruction logic and
+interrupt and bus handling.
+<P>
+In the same way, more address lines were added to the processor,
+so that 16 Mbyte address space became common, compared to the
+64 kbyte limit of 8-bit processors.
+<P>
+Architectures were developed to make register to register transfers
+more common than in 8-bit designs.
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up19.htm">Next</A> |</CENTER>
+
+</BODY>
+</HTML>

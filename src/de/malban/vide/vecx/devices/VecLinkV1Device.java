@@ -47,7 +47,12 @@ public class VecLinkV1Device extends AbstractDevice
     private VecLinkV1Device()
     {
     }
-    
+    public String getDeviceName()
+    {
+        if (side == 0)
+            return "VecLinkV1 left";
+        return "VecLinkV1 right";
+    }
     public String toString()
     {
         if (side == 0)

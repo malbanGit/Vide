@@ -1,0 +1,11 @@
+detoken.txt
+-----------
+
+removed a B: in a filename
+
+search for (* malban *)
+
+Malban
+
+
+

@@ -23,7 +23,7 @@
 <p>See "How do I start a game", second bullet point.</p>
 <h2>My own new game should have an overlay, what can I do?</h2>
 
-<p>Overlays are just "normal" pictures where some regions have some alpha values. Try your favourite paint program. Save them as "png" images. (The overlay provided were stolen from MESS!) The filename of the overlay should be the same as the "bin" file, only with a different extension (png)</p>
+<p>Overlays are just "normal" pictures where some regions have some alpha values. Try your favourite paint program. Save them as "png" images. (The overlay provided were stolen from MESS!) The filename of the overlay should be the same as the "bin" file, only with a different extension (png). </p>
 <h2>Where should I put my own overlay image?</h2>
 
 <p>Several options:
@@ -65,30 +65,32 @@ Well, probably<br>
 <h2>Emulation seems to be awfully slow, can I speed things up?</h2>
 
 <p>Yep. Just remember, vide was never build for speed! <br>
-you can:
+you can (in descending order):
 <ul><li>
-<p>set line width to 1</p>
-</li><li>
-<p>disable glow</p>
-</li><li>
-<p>don't use an overlay</p>
-</li><li>
-<p>antialiazing ON (on is faster on my system, why? I don't now!)</p>
-</li><li>
-<p>switch off the use of splines</p>
-</li><li>
-<p>disable cycle exact emulation</p>
+<p>be absolutley sure that "ray gun" is switched off!</p>
 </li><li>
 <p>disable ringbuffer</p>
 </li><li>
+<p>antialiazing ON (on is faster on my system, why? I don't now!)</p>
+</li><li>
+<p>disable glow</p>
+</li><li>
+<p>set line width to 1</p>
+</li><li>
+<p>disable persistence</p>
+</li><li>
+<p>don't use an overlay</p>
+</li><li>
 <p>disable codescan</p>
 </li><li>
-<p>be absolutley sure that "ray gun" is switched off!</p>
+<p>disable cycle exact emulation</p>
+</li><li>
+<p>switch off the use of splines</p>
 </li></ul>
 </p>
 <h2>When I start one of the 3d games only a black screen is shown after the start, why?</h2>
 
-<p>Because I have not bothered yet, to emulate the 3d Imager.</p>
+<p>For all known 3d-Imager games the configuration includes "imager". If for some reason in the second joystick port no imager is present, that might be the problem. Chose "Imager" in the combobox for port 1.</p>
 <h2>When I debug my program, I notice vectors are drawn differently, what is that?</h2>
 
 <p>Depending on your VIDE settings ("activate direct draw on debug"), vectors while single stepping/multistepping are REALLY drawn differently!<br>

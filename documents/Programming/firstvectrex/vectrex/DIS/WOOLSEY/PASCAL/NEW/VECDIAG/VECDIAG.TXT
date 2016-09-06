@@ -1,0 +1,12 @@
+vecdiag.txt
+-----------
+
+nothing changed
+
+It will not work as it is since the port[] statements are
+probably only ment for CP/M systems, but at least it compiles...
+
+Malban
+
+
+

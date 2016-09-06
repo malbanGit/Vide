@@ -28,6 +28,9 @@ import java.util.HashMap;
 public class Mod2Vectrex 
 {
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+    
+    public static byte DEFAULT_SPEED = 2;
+    
     public Mod2Vectrex()
     {
         vectrexModMapping[0] = 0;
@@ -77,7 +80,7 @@ public class Mod2Vectrex
         int repeat_length;  // * 2 gives replen in bytes
     }
     
-    public static byte SPEED = 2;
+    public static byte SPEED = DEFAULT_SPEED;
     public static byte BASS_DRUM_VALUE = 63;
     public static byte HIHAT_DRUM_VALUE = 1;
     public static byte SNARE_DRUM_VALUE = 47;
@@ -563,11 +566,19 @@ public class Mod2Vectrex
         writer.println();
 
         writer.println("adsr: ");
-        writer.println("  fcb "+adsr1);
+        writer.println("  fcb "+adsr1 +"      ; channel 2");
+        writer.println("  fcb "+adsr2 +"      ; channel 1");
+        writer.println("  fcb "+adsr3 +"      ; channel 0");
         writer.println();
         writer.println("twang: ");
-        writer.println("  fcb "+twang);
+        writer.println("  fcb "+twang1 +"      ; channel 2");
+        writer.println("  fcb "+twang2 +"      ; channel 1");
+        writer.println("  fcb "+twang3 +"      ; channel 0");
         writer.println();
+        
+        writer.println("");
+        writer.println("SPEED = "+DEFAULT_SPEED);
+        
         
         if (VERBOSITY>0) stdOut.append(" Writing Pattern Position Table..."+"\n");
         writer.println("SIL	equ	$3f");
@@ -664,8 +675,12 @@ public class Mod2Vectrex
                        else 
                            writer.print("     ");
                    }
-
-                   writer.println("$"+hex(SPEED)+" ; $"+hex((byte)c));
+                   if (SPEED == DEFAULT_SPEED)
+                   {
+                       writer.println("SPEED ; $"+hex((byte)c));
+                   }
+                   else
+                       writer.println("$"+hex(SPEED)+" ; $"+hex((byte)c));
                 }
                 writer.println(" fcb $00, $80 ; end-marker");
                 writer.println();
@@ -700,11 +715,18 @@ public class Mod2Vectrex
         writer.println();
 
         writer.println("adsr: ");
-        writer.println("  fcb "+adsr1);
+        writer.println("  fcb "+adsr1 +"      ; channel 2");
+        writer.println("  fcb "+adsr2 +"      ; channel 1");
+        writer.println("  fcb "+adsr3 +"      ; channel 0");
         writer.println();
         writer.println("twang: ");
-        writer.println("  fcb "+twang);
+        writer.println("  fcb "+twang1 +"      ; channel 2");
+        writer.println("  fcb "+twang2 +"      ; channel 1");
+        writer.println("  fcb "+twang3 +"      ; channel 0");
         writer.println();
+
+        writer.println("");
+        writer.println("SPEED = "+DEFAULT_SPEED);
         
         if (VERBOSITY>0) stdOut.append(" Writing Pattern Position Table..."+"\n");
         writer.println("; Player identifier values");
@@ -827,7 +849,13 @@ public class Mod2Vectrex
                    }
                    int SPEED_POS = 60;
                    for (int p=pos;p<SPEED_POS; p++)writer.print(" ");
-                   writer.println("$"+hex(SPEED)+" ; $"+hex((byte)c));
+                   if (SPEED == DEFAULT_SPEED)
+                   {
+                       writer.println("SPEED ; $"+hex((byte)c));
+                   }
+                   else
+                       writer.println("$"+hex(SPEED)+" ; $"+hex((byte)c));
+                   
                 }
                 writer.println(" fcb $00, $80 ; end-marker");
                 writer.println();
@@ -978,14 +1006,23 @@ public class Mod2Vectrex
     StringBuffer stdOut;
     
     String adsr1 = "";
-    String twang = "";
+    String adsr2 = "";
+    String adsr3 = "";
+    String twang1 = "";
+    String twang2 = "";
+    String twang3 = "";
     ArrayList<ModJPanel.InstrumentHandle> instrumentHandles;
     
     
-    public String doIt(String filename, ArrayList<ModJPanel.InstrumentHandle> vh, String a1, String t, boolean indirectOutput)
+    public String doIt(String filename, String outname, ArrayList<ModJPanel.InstrumentHandle> vh, String a1,String a2,String a3, String t1,String t2,String t3, boolean indirectOutput)
     {
-        adsr1 = a1;
-        twang = t;
+        SPEED = DEFAULT_SPEED;
+        adsr1 = a3;
+        adsr2 = a2;
+        adsr3 = a1;
+        twang1 = t3;
+        twang2 = t2;
+        twang3 = t1;
         instrumentHandles = vh;
         
         stdOut = new StringBuffer();
@@ -1002,10 +1039,10 @@ public class Mod2Vectrex
         inModName = filename;
 
         
-        int li = filename.lastIndexOf(".");
+        int li = outname.lastIndexOf(".");
         if (li<0) return "File not recognized.";
-        outTxtName = filename.substring(0,li)+".txt";
-        outVecFile = filename.substring(0,li)+".asm";
+        outTxtName = outname.substring(0,li)+".txt";
+        outVecFile = outname.substring(0,li)+".asm";
         
 
         boolean ok = readMod(inModName);

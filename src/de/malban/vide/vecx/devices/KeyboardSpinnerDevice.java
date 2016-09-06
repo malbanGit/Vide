@@ -59,6 +59,10 @@ public class KeyboardSpinnerDevice extends AbstractDevice
     {
         return VecXPanel.DEVICE_KEYBOARD_SPINNER;
     }
+    public String getDeviceName()
+    {
+        return "keyboard spinner";
+    }
     VecXPanel panel;
     
     public KeyboardSpinnerDevice(VecXPanel p)

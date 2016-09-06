@@ -1,0 +1,2806 @@
+; Omega Chase
+
+; Copyright 1997 by Christopher L. Tumber
+
+; Last update: Dec 2, 1997
+
+
+
+; System Executive Entry Points
+
+
+
+get_pl_game             EQU     $f7a9
+
+print_at_d              EQU     $f37a
+
+dptoC8                  EQU     $f1af
+
+dptoD0                  EQU     $f1aa
+
+drawl1b                 EQU     $f40e
+
+waitrecal               EQU     $f192
+
+intensity_to_1f         EQU     $f29d
+
+intensity_to_3f         EQU     $f2a1
+
+intensity_to_5f         EQU     $f2a5
+
+intensity_to_7f         EQU     $f2a9
+
+intensity_to_A          EQU     $f2ab
+
+clear_256_bytes         EQU     $f545
+
+set_dft_score           EQU     $f84f
+
+rot_vec_list2           EQU     $f610
+
+move_pen7f_to_d         EQU     $f2fc
+
+read_switches           EQU     $f1b4
+
+read_joystick           EQU     $f1f8
+
+display_string          EQU     $f495
+
+move_draw_VL4           EQU     $f3b7
+
+printu2                 EQU     $f38a
+
+reset0ref               EQU     $f354
+
+conv_ang_rr             EQU     $F601
+
+get_abs_val_ab          EQU     $F584
+
+moveto_d_7f             EQU     $F2FC
+
+print_1_string          EQU     $f373
+
+move_block              EQU     $f67f
+
+move_block2             EQU     $f683
+
+move_pen_d              EQU     $f312
+
+draw_vl_count4          EQU     $f3ce
+
+move_pen7f              EQU     $f30c
+
+dot_at_d                EQU     $f2c3
+
+dot_ix                  EQU     $f2c1
+
+move_pen                EQU     $f310
+
+move_penff              EQU     $f308
+
+rot_vec_list1           EQU     $f61f
+
+print_str_d             EQU     $f37a
+
+joy_analog              EQU     $f1f5
+
+dot_d                   EQU     $f2c3
+
+random                  EQU     $f517
+
+print_ships             EQU     $f393
+
+draw_vl_a               EQU     $f3da
+
+clear_score             EQU     $f84f
+
+add_score_a             EQU     $f85e
+
+add_score_d             EQU     $f87c
+
+new_high_score          EQU     $f8d8
+
+dot_here                EQU     $f2c5
+
+obj_hit                 EQU     $f8ff
+
+explosion_snd           EQU     $f92e
+
+sound_byte              EQU     $f256
+
+sound_bytes             EQU     $f27d
+
+init_music_buf          EQU     $f533
+
+init_sound_chk          EQU     $f687
+
+init_sound              EQU     $f68d
+
+do_sound                EQU     $f289
+
+clear_sound             EQU     $f272
+
+
+
+;System RAM locations
+
+
+
+_text_size              EQU     $c82a   ; system text size location
+
+_stick1_mask            EQU     $c81f
+
+_stick2_mask            EQU     $c820
+
+_stick3_mask            EQU     $c821
+
+_stick4_mask            EQU     $c822
+
+_stick_res              EQU     $c81a
+
+_stick_type             EQU     $c823
+
+_pot_y                  EQU     $c81c
+
+_intensity              EQU     $c827
+
+_music_ready            EQU     $c856
+
+_refresh_time           EQU     $c83d
+
+
+
+;User Code Storage locations
+
+
+
+;$c880
+
+user_RAM        EQU     $c890
+
+
+
+;$c880
+
+
+
+buffer             EQU $90
+
+level              EQU buffer+50
+
+
+
+drag               EQU level+1
+
+accel              EQU drag+2
+
+pos_max_vel        EQU accel+1
+
+neg_max_vel        EQU pos_max_vel+2
+
+tmp                EQU neg_max_vel+2
+
+tmp2               EQU tmp+2
+
+salien_posv        EQU tmp2+2
+
+salien_negv        EQU salien_posv+2
+
+
+
+no_sprites         EQU $c890+$32+$20      ;Total number of sprites to display
+
+
+
+sprites_left       EQU no_sprites+1       ;Counter for displaying sprites
+
+sprite_1           EQU sprites_left+1     ;Start of structure of Sprite #1
+
+state              EQU #$00
+
+posx               EQU #$01               ;X coordinate of Sprite
+
+deltax             EQU #$03               ;X velocity of Sprite
+
+posy               EQU #$05               ;Y coordinate of Sprite
+
+deltay             EQU #$07               ;Y velocity of Sprite
+
+rotation           EQU #$09               ;Rotation of Sprite
+
+intensity          EQU #$0a               ;Intensity of Sprite
+
+scale              EQU #$0b               ;Scale of Sprite
+
+no_vectors         EQU #$0c               ;Number of Vectors in vector list for Sprite
+
+vector_list        EQU #$0d               ;Address of Vector list for Sprite
+
+sprite_2           EQU sprite_1+#15       ;Start of structure for Sprite #2
+
+sprite_3           EQU sprite_2+#15       ;Start of structure for Sprite #3
+
+sprite_4           EQU sprite_3+#15
+
+sprite_5           EQU sprite_4+#15
+
+sprite_6           EQU sprite_5+#15
+
+sprite_7           EQU sprite_6+#15
+
+sprite_8           EQU sprite_7+#15
+
+sprite_9           EQU sprite_8+#15
+
+sprite_10          EQU sprite_9+#15
+
+sprite_11          EQU sprite_10+#15
+
+sprite_12          EQU sprite_11+#15
+
+sprite_13          EQU sprite_12+#15
+
+sprite_14          EQU sprite_13+#15
+
+sprite_15          EQU sprite_14+#15
+
+sprite_16          EQU sprite_15+#15
+
+sprite_17          EQU sprite_16+#15
+
+sprite_18          EQU sprite_17+#15
+
+sprite_19          EQU sprite_18+#15
+
+sprite_20          EQU sprite_19+#15
+
+sprite_21          EQU sprite_20+#15
+
+sprite_22          EQU sprite_21+#15
+
+sprite_23          EQU sprite_22+#15
+
+sprite_24          EQU sprite_23+#15
+
+sprite_25          EQU sprite_24+#15
+
+sprite_26          EQU sprite_25+#15
+
+sprite_27          EQU sprite_26+#15
+
+sprite_28          EQU sprite_27+#15
+
+sprite_29          EQU sprite_28+#15
+
+sprite_30          EQU sprite_29+#15
+
+sprite_31          EQU sprite_30+#15
+
+sprite_32          EQU sprite_31+#15
+
+sprite_33          EQU sprite_32+#15
+
+sprite_34          EQU sprite_33+#15
+
+sprite_35          EQU sprite_34+#15
+
+sprite_36          EQU sprite_35+#15
+
+sprite_37          EQU sprite_36+#15
+
+sprite_38          EQU sprite_37+#15
+
+sprite_39          EQU sprite_38+#15
+
+sprite_40          EQU sprite_39+#15
+
+sprite_41          EQU sprite_40+#15
+
+sprite_42          EQU sprite_41+#15
+
+sprite_43          EQU sprite_42+#15
+
+sprite_44          EQU sprite_43+#15
+
+sprite_45          EQU sprite_44+#15
+
+sprite_46          EQU sprite_45+#15
+
+sprite_47          EQU sprite_46+#15
+
+sprite_48          EQU sprite_47+#15
+
+sprite_49          EQU sprite_48+#15
+
+
+
+;$cbea  SP set here by boot, grows down...
+
+
+
+        ORG     $0000
+
+
+
+; Magic Init Block
+
+
+
+        FCB     $67,$20
+
+        FCC     "GCE XXXX"
+
+        FCB     $80
+
+        FDB     music
+
+        FDB     $f850
+
+        FDB     $30b8
+
+        FCC     "OMEGA CHASE"
+
+        FCB     $80,$0
+
+start:
+
+        bra init                     ; branch always to init code
+
+
+
+init:
+
+        ldx #user_RAM               ; get address of free RAM
+
+        jsr clear_256_bytes         ; clear it
+
+
+
+warmstart:
+
+        lda   #$c8                      ;This is equivalent to jsr dptoC8
+
+        tfr   a,dp                      ;But inlined
+
+        bsr start_game
+
+
+
+main2:
+
+        bsr   new_level
+
+        lda   #$c8                      ;This is equivalent to jsr dptoC8
+
+        tfr   a,dp                      ;But inlined
+
+main:
+
+        lda   #$d0                      ;This is equivalent to jsr dptoD0
+
+        tfr   a,dp                      ;But inlined
+
+        jsr draw_everything
+
+        jsr read_joysticks
+
+        lda   #$c8                      ;This is equivalent to jsr dptoC8
+
+        tfr   a,dp                      ;But inlined
+
+
+
+        jsr update_ship
+
+        jsr update_alien_v
+
+        jsr move_everything
+
+
+
+
+
+        bra main
+
+
+
+;***************
+
+
+
+start_game:
+
+        lda #$02   ;Number players
+
+        ldb #$02   ;Number games
+
+        jsr get_pl_game
+
+
+
+        clr level
+
+        lda #$40
+
+        sta accel
+
+        ldd #640
+
+        std pos_max_vel
+
+        ldd #-640
+
+        std neg_max_vel
+
+        ldd #$0010
+
+        std drag
+
+        ldd level_def+2
+
+        std salien_posv
+
+        ldd level_def+4
+
+        std salien_negv
+
+        rts
+
+
+
+
+
+new_level:
+
+
+
+        jsr init_sprites
+
+
+
+        ldx #sprite_21
+
+        lda #$04
+
+        sta state,x
+
+        lda #$4f
+
+        sta intensity,x
+
+        lda #$00
+
+        sta rotation,x
+
+        sta deltax,x
+
+        sta deltay,x
+
+        lda #$08
+
+        sta scale,x
+
+        lda #$0f
+
+        sta no_vectors,x
+
+        ldd #lander
+
+        std vector_list,x
+
+        lda -127
+
+        sta posx,x
+
+        lda #$3f
+
+        sta posy,x
+
+
+
+        ldx #sprite_23
+
+        lda #$02
+
+        sta state,x
+
+        lda #$3f
+
+        sta intensity,x
+
+        lda #$fd
+
+        sta scale,x
+
+        lda #$2a
+
+        sta rotation,x
+
+        ldd #test_score
+
+        std vector_list,x
+
+        lda #-23
+
+        sta posx,x
+
+        lda #20
+
+        sta posy,x
+
+
+
+        ldx #sprite_24
+
+        lda #$02
+
+        sta state,x
+
+        lda #$3f
+
+        sta intensity,x
+
+        lda #$fd
+
+        sta scale,x
+
+        lda #$2a
+
+        sta rotation,x
+
+        ldd #test_score
+
+        std vector_list,x
+
+        lda #-23
+
+        sta posx,x
+
+        lda #-18
+
+        sta posy,x
+
+
+
+        lda     level
+
+        beq     level_0
+
+        cmpa    #$01
+
+        beq     level_1
+
+        cmpa    #$02
+
+        beq     level_2
+
+        cmpa    #$03
+
+        beq     level_3
+
+        cmpa    #$04
+
+        beq     level_4
+
+        cmpa    #$05
+
+        beq     level_5
+
+        cmpa    #$06
+
+        beq     level_6
+
+        cmpa    #$07
+
+        beq     level_7
+
+
+
+level_0:  jsr     set_sq_out_wall
+
+          jsr     set_oct_sm_wall
+
+          jmp     end_level
+
+level_1:  jsr     set_sq_out_wall
+
+          jsr     set_sq_in_wall
+
+          jmp     end_level
+
+level_2:  jsr     set_oct_out_wall
+
+          jsr     set_oct_sm_wall
+
+          jmp     end_level
+
+level_3:  jsr     set_oct_out_wall
+
+          jsr     set_sq_in_wall
+
+          jmp     end_level
+
+level_4:  jsr     set_sq_out_wall
+
+          jsr     set_oct_in_wall
+
+          jmp     end_level
+
+level_5:  jsr     set_sq_out_wall
+
+          jsr     set_sq_lg_wall
+
+          jmp     end_level
+
+level_6:  jsr     set_oct_out_wall
+
+          jsr     set_oct_in_wall
+
+          jmp     end_level
+
+level_7:  jsr     set_oct_out_wall
+
+          jsr     set_sq_lg_wall
+
+          jmp     end_level
+
+
+
+end_level:
+
+
+
+        ldx #sprite_25
+
+        lda  level
+
+        lsra
+
+        lsra
+
+        adda #$08
+
+        sta sprites_left
+
+        ldy #enemy_start
+
+
+
+set_enemy:
+
+        lda #$04
+
+        sta state,x
+
+        lda #$3f
+
+        sta intensity,x
+
+        lda #$00
+
+        sta rotation,x
+
+        lda #$08
+
+        sta scale,x
+
+        lda #$11
+
+        sta no_vectors,x
+
+        ldd #enemy1
+
+        std vector_list,x
+
+        lda 0,y
+
+        sta posx,x
+
+        lda 1,y
+
+        sta posy,x
+
+        ldd #$0000
+
+        std deltax,x
+
+
+
+
+
+        leay #2,y
+
+        leax #15,x
+
+        dec sprites_left
+
+        bne set_enemy
+
+
+
+        lda     #$4f
+
+        jsr     intensity_to_A  ;preset intensity
+
+
+
+        rts
+
+
+
+;**************
+
+;update_alien_v
+
+;Updates alien velocity (deltax and deltay) based upon position on screen.
+
+;**************
+
+update_alien_v:
+
+
+
+        ldy #sprite_25               ;First sprite to update
+
+        lda #8                       ;sprite_left is the counter
+
+        sta sprites_left             ;Create loop variable
+
+
+
+alien_v_loop:
+
+        ldd posx,y                   ;Get sprite's posx
+
+        bmi left_half                ;If negative, it's in left half of screen
+
+right_half:
+
+        ldd posy,y                   ;Get sprite's posy
+
+        bmi lr_quadrant              ;If negative, it's in lower right corner
+
+ur_quadrant:                         ;Sprite is in upper right corner
+
+        cmpd posx,y                  ;Compare posx and posy
+
+        bgt ur_2
+
+ur_1:                                ;Sprite is in right half of ur corner
+
+        ldd salien_posv
+
+        std deltay,y                 ;Set deltay to positive velocity
+
+        ldd #$00
+
+        std deltax,y                 ;Set deltax to 0
+
+        bra next_alien
+
+ur_2:                                ;Sprite us in left half of ur corner
+
+        ldd #$00
+
+        std deltay,y                 ;Set deltay to 0
+
+        ldd salien_negv
+
+        std deltax,y                 ;Set deltax to negative velocity
+
+        bra next_alien
+
+
+
+lr_quadrant:                         ;Sprite is in lower right corner
+
+        jsr get_abs_val_ab           ;Get absolute value of posy
+
+        cmpa posx,y                  ;Compare with posx
+
+        bgt lr_2
+
+lr_1:                                ;Sprite is in right half of lr corner
+
+        ldd salien_posv
+
+        std deltay,y                 ;Set deltay to positive velocity
+
+        ldd #$00
+
+        std deltax,y                 ;Set deltax to 0
+
+        bra next_alien
+
+lr_2:                                ;Sprite is in left half of lr corner
+
+        ldd #$00
+
+        std deltay,y                 ;Set deltay to 0
+
+        ldd salien_posv
+
+        std deltax,y                 ;Set deltax to positive velocity
+
+        bra next_alien
+
+
+
+left_half:                           ;Sprite is in left half of screen
+
+        ldd posy,y                   ;Get posy
+
+        bmi ll_quadrant              ;If posy is negative Sprite is in lower left corner
+
+ul_quadrant:                         ;Sprite is in upper left corner
+
+        ldd posx,y                   ;Get posx
+
+        jsr get_abs_val_ab           ;Get absolute value of posx
+
+        cmpa posy,y                  ;Compare to posy
+
+        bgt ul_2
+
+ul_1:                                ;Sprite is in right half of ul corner
+
+        ldd #$00
+
+        std deltay,y                 ;Set deltay to 0
+
+        ldd salien_negv
+
+        std deltax,y                 ;Set deltax to negative velocity
+
+        bra next_alien
+
+ul_2:                                ;Sprite is in left half of ul corner
+
+        ldd salien_negv
+
+        std deltay,y                 ;Set deltay to negative velocity
+
+        ldd #$00
+
+        std deltax,y                 ;Set deltax to 0
+
+        bra next_alien
+
+ll_quadrant:                         ;Sprite is in lower left corner
+
+        cmpd posx,y
+
+        bgt ll_2
+
+ll_1:                                ;Sprite is in right half of ll corner
+
+        ldd #$00
+
+        std deltay,y                 ;Set deltay to 0
+
+        ldd salien_posv
+
+        std deltax,y                 ;Set delta x to positive velocity
+
+        bra next_alien
+
+ll_2:                                ;Sprite is in left half of ll corner
+
+        ldd salien_negv
+
+        std deltay,y                 ;Set deltay to negative velocity
+
+        ldd #$00
+
+        std deltax,y                 ;Set deltax to 0
+
+        bra next_alien
+
+
+
+next_alien:
+
+        leay 15,y                    ;Get next Sprite structure
+
+        dec sprites_left             ;Are we done?
+
+        beq end_alien                ;Yes, go to end
+
+        jmp alien_v_loop             ;No, loop back
+
+end_alien:
+
+        rts
+
+
+
+;**************
+
+;read_joysticks
+
+;Simply calls the BIOS read_joystick() routine.
+
+;Results are left is $c81b-$c81e
+
+;As follows $c81b - Joystick 1 Left/Right state
+
+;           $c81c - Joystick 1 Up/Down state
+
+;           $c81d - Joystick 2 Left/Right state
+
+;           $c81e - Joystick 2 Up/Down state
+
+;****************
+
+read_joysticks:
+
+        ldd #$0103            ;Set-up for joystick poll
+
+        std $c81f
+
+        ldd #$0507
+
+        std $c821
+
+        lda #$00
+
+        sta $c823
+
+        jsr read_joystick
+
+        rts
+
+
+
+;**********
+
+;update_ship
+
+;Rotates ship, updates ship velocity (deltax and deltay) using joystick
+
+;state and rotation. Applies effect of drag on velocity.
+
+;************
+
+update_ship:
+
+
+
+        ldy #sprite_21
+
+        lda $c81b           ;Get left/right joystick state
+
+        beq done_rot1       ;If 0, no rotation
+
+        blt rot_left1       ;If negative rotate clockwise
+
+        dec rotation,y      ;Rotate counter-clockwise
+
+        bra done_rot1
+
+rot_left1:
+
+        inc rotation,y      ;Rotate clockwise
+
+
+
+done_rot1:
+
+        lda $c81c           ;Get up/down joystick state
+
+        bgt acc1            ;If up, accelerate
+
+        bra done_acc1
+
+acc1:
+
+        ldb rotation,y      ;Get rotation
+
+        lda accel           ;Get accelration
+
+        jsr conv_ang_rr     ;Get rise and run based on rotation and acceleration
+
+        std tmp             ;Store results in tmp
+
+        tsta
+
+        blt a_neg           ;Is A rise negative?
+
+        ldd deltay,y        ;Get deltay
+
+        addb tmp            ;Add rise
+
+        adca #$00
+
+        tsta
+
+        ble y_not_faster    ;If deltay is negative, don't test for maximum velocity
+
+        cmpd pos_max_vel    ;Compare deltay with maximum velocity
+
+        bls y_not_faster
+
+        ldd pos_max_vel     ;If faster than max velocity, make deltay=max velocity
+
+y_not_faster:
+
+        std deltay,y        ;Store deltay back
+
+        bra do_b
+
+a_neg:
+
+        jsr get_abs_val_ab  ;Get absolute value of A
+
+        sta tmp
+
+        ldd deltay,y        ;Get deltay
+
+        subb tmp            ;Subtract rise
+
+        sbca #$00
+
+        tsta
+
+        bge y_not_faster2   ;If deltay is positive, don't test for maximum velocity
+
+        cmpd neg_max_vel    ;Compare deltay with maximum velocity
+
+        bhs y_not_faster2
+
+        ldd neg_max_vel     ;If faster than max velocity, make deltay=max velocity
+
+y_not_faster2:
+
+        std deltay,y        ;store deltay back
+
+
+
+do_b:
+
+        ldb tmp+1           ;Get run
+
+        tstb
+
+        blt b_neg           ;Check if run is negative
+
+        ldd deltax,y        ;Get deltax
+
+        addb tmp+1          ;Add run
+
+        adca #$00
+
+        tsta
+
+        ble x_not_faster    ;If deltax is negative, don't test for maximum velocity
+
+        cmpd pos_max_vel    ;Compare deltax with maximum velocity
+
+        bls x_not_faster
+
+        ldd pos_max_vel     ;If faster than max velocity, make deltax=max velocity
+
+x_not_faster:
+
+        std deltax,y        ;Store back deltax
+
+        bra done_acc1
+
+b_neg:
+
+        jsr get_abs_val_ab  ;Get absolute value of run
+
+        stb tmp+1
+
+        ldd deltax,y        ;Get deltax
+
+        subb tmp+1          ;Subtract run
+
+        sbca #$00
+
+        tsta
+
+        bge x_not_faster2   ;If deltax is positive, don't test for maximum velocity
+
+        cmpd neg_max_vel    ;Compare deltax with maximum velocity
+
+        bhs x_not_faster2
+
+        ldd neg_max_vel     ;If faster than max velocity, make deltax=max velocity
+
+x_not_faster2:
+
+        std deltax,y        ;Store back deltax
+
+done_acc1:
+
+
+
+apply_drag_x:               ;Adjust deltax for drag
+
+        ldd deltax,y        ;Get deltax
+
+        beq apply_drag_y    ;If it's 0, don't apply drag
+
+        blt neg_deltax      ;If negative, go apply positive drag
+
+
+
+pos_deltax:                 ;Deltax is positive
+
+        subd drag           ;Subtract drag
+
+        cmpd drag           ;If deltax<drag...
+
+        bgt not_cleared1
+
+        ldd #$00            ;...Clear deltax to 0
+
+not_cleared1:
+
+        std deltax,y        ;Store adjusted deltax
+
+        bra apply_drag_y
+
+
+
+neg_deltax:                 ;Deltax is negative
+
+        addd drag           ;Add drag
+
+        std deltax,y
+
+
+
+apply_drag_y:               ;Adjust deltax for drag
+
+        ldd deltay,y        ;Get deltay
+
+        beq done_drag       ;If deltay=0 don't apply drag
+
+        blt neg_deltay      ;If negative apply positive drag
+
+
+
+pos_deltay:                 ;Deltay is positive
+
+        subd drag           ;Subtract drag
+
+        cmpd drag           ;If deltay<drag...
+
+        bgt not_cleared2
+
+        ldd #$00            ;...Clear deltay to 0
+
+not_cleared2:
+
+        std deltay,y        ;Store adjusted deltay
+
+        bra done_drag
+
+
+
+neg_deltay:                 ;Deltay is negative
+
+        addd drag           ;Add drag
+
+        std deltay,y
+
+
+
+done_drag:
+
+        rts
+
+
+
+
+
+
+
+;***************
+
+;move_everything
+
+;***************
+
+
+
+move_everything:
+
+        lda   #12                       ;sprite_left is the counter
+
+        sta   sprites_left              ;Create loop variable
+
+        ldy   #sprite_21                ;First sprite to move
+
+
+
+st_loop:
+
+        lda   state,y                   ;load status byte
+
+        beq   en_loop                   ;If status is 0, don't move object ("dead")
+
+        cmpa  #$ff                      ;If status is FF, exit routine
+
+        beq   en_routine
+
+        ldd   posx,y                    ;Get posx
+
+        addd  deltax,y                  ;Add deltax (velocity)
+
+        std   posx,y                    ;Store adjusted posx
+
+        ldd   posy,y                    ;Get posy
+
+        addd  deltay,y                  ;Add deltay (velocity)
+
+        std   posy,y                    ;Store adjusted posy
+
+
+
+en_loop:
+
+        dec   sprites_left              ;Decrement the counter
+
+        bmi   en_routine                ;Are we done?
+
+        leay  #15,y                     ;Next object structure
+
+        bra   st_loop                   ;Not done, back to start of loop
+
+
+
+en_routine:                             ;We're done
+
+
+
+        rts
+
+
+
+
+
+
+
+;*******************
+
+;Draw Everything
+
+; State = $00 Don't Draw
+
+;         $01 Dot
+
+;         $02 Text
+
+;         $04 Vector List (move_draw_VL4)
+
+;         $08 Vector List with Invisible Vectors (drawl1b) (Not implemented)
+
+;         $FF Stop drawing sprites, exit subroutine immediately
+
+;
+
+; If rotation=0, sprite is not rotated
+
+; If intensity=0, intensity is NOT changed (allows you to draw several
+
+;   sprites of the same intensity in sequence without changing intensity
+
+;   and speeding things up a little.
+
+;
+
+; When a dot is being draw, rotation, scale and no_vectros is ignored.
+
+;
+
+; When a string is being draw, scale=height and rotation=width. no_vectors
+
+;  is ignored. vector_list is the pointer to a string terminated by #$80
+
+;*******************
+
+
+
+draw_everything:
+
+
+
+        jsr   waitrecal                 ;Reset the CRT
+
+        lda   no_sprites                ;sprite_left is the counter
+
+        sta   sprites_left              ;Create loop variable
+
+        ldy   #sprite_1
+
+
+
+start_loop:
+
+        lda   state,y                   ;load status byte
+
+        beq   end_loop                  ;If status is 0, don't draw object ("dead")
+
+        cmpa  #$04                      ;Is this Sprite a list of Vectors?
+
+        beq   draw_vectors              ;Yes, go draw Vectors
+
+        cmpa  #$02
+
+        beq   draw_string
+
+        cmpa  #$ff
+
+        beq   end_routine
+
+
+
+draw_dot:
+
+        lda   intensity,y               ;Get the Intensity
+
+        beq   no_intensity2             ;If intensity=0, don't change intensity
+
+        jsr   intensity_to_A            ;Set intensity
+
+
+
+no_intensity2:
+
+        lda   posy,y                    ;Get y
+
+        ldb   posx,y                    ;Get x
+
+        jsr   dot_at_d                  ;Draw dot
+
+        jsr   reset0ref                 ;Move pen to (0,0)
+
+        bra   end_loop
+
+
+
+
+
+draw_string:
+
+        lda   intensity,y               ;Get the Intensity
+
+        beq   no_intensity3             ;If intensity=0, don't change intensity
+
+        jsr   intensity_to_A            ;Set intensity
+
+
+
+no_intensity3:
+
+        lda   scale,y                   ;Get string Height
+
+        ldb   rotation,y                ;Get string Width
+
+        std   $c82a                     ;Store Height/Width in BIOS
+
+        lda   posy,y                    ;Get y
+
+        ldb   posx,y                    ;Get x
+
+        jsr   move_pen7f_to_d           ;go to (PosX,PosY)
+
+        ldu   vector_list,y             ;Get address of string
+
+
+
+        jsr   display_string            ;Print the string
+
+
+
+        jsr   reset0ref                 ;Move pen to (0,0)
+
+        bra   end_loop
+
+
+
+draw_vectors:
+
+        lda   rotation,y                ;Get rotation
+
+        beq   no_rotation
+
+        ldb   no_vectors,y              ;Get number of vectors
+
+        ldx   vector_list,y             ;Get address of Vector list
+
+        ldu   #buffer                   ;Transform buffer
+
+        jsr   rot_vec_list2             ;Rotate Object
+
+
+
+no_rotation:
+
+        lda   posy,y                    ;Get y
+
+        ldb   posx,y                    ;Get x
+
+        jsr   move_pen7f_to_d           ;go to (PosX,PosY)
+
+
+
+        lda   intensity,y               ;Get the Intensity
+
+        beq   no_intensity              ;If intensity=0, don't change intensity
+
+        jsr   intensity_to_A            ;Set intensity
+
+
+
+no_intensity:
+
+        lda   rotation,y                ;Get rotation
+
+        beq   no_rotation2
+
+        ldx   #buffer                   ;Transformed points
+
+        bra   rotated
+
+no_rotation2:
+
+        ldx   vector_list,y
+
+rotated:
+
+        lda   no_vectors,y              ;Get number of vectors
+
+        ldb   scale,y                   ;Get the scale
+
+        jsr   move_draw_VL4             ;Draw it
+
+
+
+        jsr   reset0ref                 ;Move pen to (0,0)
+
+
+
+end_loop:
+
+        dec   sprites_left              ;Decrement the counter
+
+        bmi   end_routine               ;Are we done?
+
+        leay  #15,y                     ;Next object structure
+
+        bra   start_loop                ;Not done, back to start of loop
+
+
+
+end_routine:                            ;We're done
+
+
+
+        rts
+
+
+
+
+
+;**************
+
+;init_sprites
+
+;Turns all sprites off
+
+;**************
+
+init_sprites:
+
+        ldb  #36                ;Turn all sprites off
+
+        ldx #sprite_1           ;Get address of first sprite
+
+        lda #$00
+
+
+
+reset_sprites:
+
+        sta state,x             ;Store 0 in state
+
+        ldy #$0000
+
+        sty deltax,x            ;Store 0 in Delta X
+
+        sty deltay,x            ;Store 0 in Delta Y
+
+        leax #15,x              ;Get next sprite
+
+        decb
+
+        bne reset_sprites       ;Loop back
+
+
+
+        lda #35                 ;Total 35 Sprites used
+
+        sta no_sprites
+
+        rts
+
+
+
+
+
+;*******************
+
+;set_sq_out_wall
+
+;Sets up sprites for square outer wall
+
+;Uses sprites 1-8
+
+;*******************
+
+set_sq_out_wall:
+
+        ldx #sprite_1
+
+        ldb #$08
+
+
+
+sprite_setup1a:
+
+        lda #$04
+
+        sta state,x
+
+        lda #$00
+
+        sta rotation,x
+
+        lda #$4f
+
+        sta intensity,x
+
+        lda #$80
+
+        sta scale,x
+
+        lda #$01
+
+        sta no_vectors,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup1a
+
+
+
+        ldx #sprite_1
+
+        ldb #$04
+
+
+
+sprite_setup1b:
+
+        ldy #horiz_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup1b
+
+
+
+        ldx #sprite_5
+
+        ldb #$04
+
+
+
+sprite_setup1c:
+
+        ldy #vert_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup1c
+
+
+
+        ldx #sprite_1
+
+        lda #$7f
+
+        sta posy,x
+
+        ldb #$80
+
+        stb posx,x
+
+        ldx #sprite_2
+
+        lda #$7f
+
+        sta posy,x
+
+        ldb #$00
+
+        stb posx,x
+
+        ldx #sprite_3
+
+        lda #$80
+
+        sta posy,x
+
+        ldb #$80
+
+        stb posx,x
+
+        ldx #sprite_4
+
+        lda #$80
+
+        sta posy,x
+
+        ldb #$00
+
+        stb posx,x
+
+
+
+        ldx #sprite_5
+
+        lda #$80
+
+        sta posy,x
+
+        ldb #$80
+
+        stb posx,x
+
+        ldx #sprite_6
+
+        lda #$00
+
+        sta posy,x
+
+        ldb #$80
+
+        stb posx,x
+
+        ldx #sprite_7
+
+        lda #$80
+
+        sta posy,x
+
+        ldb #$7f
+
+        stb posx,x
+
+        ldx #sprite_8
+
+        lda #$00
+
+        sta posy,x
+
+        ldb #$7f
+
+        stb posx,x
+
+        rts
+
+
+
+;*******************
+
+;set_sq_in_wall
+
+;Sets up sprites for small square inner wall
+
+;Uses sprites 9-15
+
+;*******************
+
+set_sq_in_wall:
+
+        ldx #sprite_9
+
+        ldb #$08
+
+
+
+sprite_setup2a:
+
+        lda #$04
+
+        sta state,x
+
+        lda #$00
+
+        sta rotation,x
+
+        lda #$4f
+
+        sta intensity,x
+
+        lda #$20
+
+        sta scale,x
+
+        lda #$01
+
+        sta no_vectors,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup2a
+
+
+
+        ldx #sprite_9
+
+        ldb #$04
+
+
+
+sprite_setup2b:
+
+        ldy #horiz_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup2b
+
+
+
+        ldx #sprite_13
+
+        ldb #$04
+
+
+
+sprite_setup2c:
+
+        ldy #vert_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup2c
+
+
+
+        ldx #sprite_9
+
+        lda #$22
+
+        sta posy,x
+
+        ldb #$e0
+
+        stb posx,x
+
+        ldx #sprite_10
+
+        lda #$22
+
+        sta posy,x
+
+        ldb #$00
+
+        stb posx,x
+
+        ldx #sprite_11
+
+        lda #$e0
+
+        sta posy,x
+
+        ldb #$e0
+
+        stb posx,x
+
+        ldx #sprite_12
+
+        lda #$e0
+
+        sta posy,x
+
+        ldb #$00
+
+        stb posx,x
+
+
+
+        ldx #sprite_13
+
+        lda #$e0
+
+        sta posy,x
+
+        ldb #$e0
+
+        stb posx,x
+
+        ldx #sprite_14
+
+        lda #$00
+
+        sta posy,x
+
+        ldb #$e0
+
+        stb posx,x
+
+        ldx #sprite_15
+
+        lda #$e0
+
+        sta posy,x
+
+        ldb #$22
+
+        stb posx,x
+
+        ldx #sprite_16
+
+        lda #$00
+
+        sta posy,x
+
+        ldb #$22
+
+        stb posx,x
+
+        rts
+
+
+
+;*******************
+
+;set_sq_lg_wall
+
+;Sets up sprites for large square inner wall
+
+;Uses sprites 9-15
+
+;*******************
+
+set_sq_lg_wall:
+
+        ldx #sprite_9
+
+        ldb #$08
+
+
+
+sprite_setup6a:
+
+        lda #$04
+
+        sta state,x
+
+        lda #$00
+
+        sta rotation,x
+
+        lda #$4f
+
+        sta intensity,x
+
+        lda #$40
+
+        sta scale,x
+
+        lda #$01
+
+        sta no_vectors,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup6a
+
+
+
+        ldx #sprite_9
+
+        ldb #$04
+
+
+
+sprite_setup6b:
+
+        ldy #horiz_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup6b
+
+
+
+        ldx #sprite_13
+
+        ldb #$04
+
+
+
+sprite_setup6c:
+
+        ldy #vert_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup6c
+
+
+
+        ldx #sprite_9
+
+        lda #$41
+
+        sta posy,x
+
+        ldb #$c0
+
+        stb posx,x
+
+        ldx #sprite_10
+
+        lda #$41
+
+        sta posy,x
+
+        ldb #$00
+
+        stb posx,x
+
+        ldx #sprite_11
+
+        lda #$c0
+
+        sta posy,x
+
+        ldb #$c0
+
+        stb posx,x
+
+        ldx #sprite_12
+
+        lda #$c0
+
+        sta posy,x
+
+        ldb #$00
+
+        stb posx,x
+
+
+
+        ldx #sprite_13
+
+        lda #$c0
+
+        sta posy,x
+
+        ldb #$c0
+
+        stb posx,x
+
+        ldx #sprite_14
+
+        lda #$00
+
+        sta posy,x
+
+        ldb #$c0
+
+        stb posx,x
+
+        ldx #sprite_15
+
+        lda #$c0
+
+        sta posy,x
+
+        ldb #$41
+
+        stb posx,x
+
+        ldx #sprite_16
+
+        lda #$00
+
+        sta posy,x
+
+        ldb #$41
+
+        stb posx,x
+
+        rts
+
+
+
+;***************
+
+;set_oct_out_wall
+
+;Sets up sprites for octagonal outer wall
+
+;Uses sprites 1-8
+
+;***************
+
+set_oct_out_wall:
+
+        ldx #sprite_1
+
+        ldb #$08
+
+
+
+sprite_setup3a:
+
+        lda #$04
+
+        sta state,x
+
+        lda #$00
+
+        sta rotation,x
+
+        lda #$4f
+
+        sta intensity,x
+
+        lda #$80
+
+        sta scale,x
+
+        lda #$01
+
+        sta no_vectors,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup3a
+
+
+
+        ldx #sprite_1
+
+        ldy #horiz_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_3
+
+        ldy #vert_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_5
+
+        ldy #dia_up_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_7
+
+        ldy #dia_down_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_1
+
+        lda #$7f
+
+        sta posy,x
+
+        ldb #$c0
+
+        stb posx,x
+
+        ldx #sprite_2
+
+        lda #$80
+
+        sta posy,x
+
+        ldb #$c0
+
+        stb posx,x
+
+
+
+        ldx #sprite_3
+
+        lda #$c0
+
+        sta posy,x
+
+        ldb #$80
+
+        stb posx,x
+
+        ldx #sprite_4
+
+        lda #$c0
+
+        sta posy,x
+
+        ldb #$7f
+
+        stb posx,x
+
+
+
+        ldx #sprite_5
+
+        lda #$40
+
+        sta posy,x
+
+        ldb #$80
+
+        stb posx,x
+
+        ldx #sprite_6
+
+        lda #$80
+
+        sta posy,x
+
+        ldb #$40
+
+        stb posx,x
+
+        ldx #sprite_7
+
+        lda #$c0
+
+        sta posy,x
+
+        ldb #$80
+
+        stb posx,x
+
+        ldx #sprite_8
+
+        lda #$7f
+
+        sta posy,x
+
+        ldb #$40
+
+        stb posx,x
+
+
+
+        rts
+
+
+
+;***************
+
+;set_oct_in_wall
+
+;Sets up sprites for large octagonal inner wall
+
+;Uses sprites 9-16
+
+;***************
+
+set_oct_in_wall:
+
+        ldx #sprite_9
+
+        ldb #$08
+
+
+
+sprite_setup4a:
+
+        lda #$04
+
+        sta state,x
+
+        lda #$00
+
+        sta rotation,x
+
+        lda #$4f
+
+        sta intensity,x
+
+        lda #$40
+
+        sta scale,x
+
+        lda #$01
+
+        sta no_vectors,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup4a
+
+
+
+        ldx #sprite_9
+
+        ldy #horiz_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_11
+
+        ldy #vert_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_13
+
+        ldy #dia_up_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_15
+
+        ldy #dia_down_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_9
+
+        lda #$41
+
+        sta posy,x
+
+        ldb #$e0
+
+        stb posx,x
+
+        ldx #sprite_10
+
+        lda #$c0
+
+        sta posy,x
+
+        ldb #$e0
+
+        stb posx,x
+
+
+
+        ldx #sprite_11
+
+        lda #$e0
+
+        sta posy,x
+
+        ldb #$c0
+
+        stb posx,x
+
+        ldx #sprite_12
+
+        lda #$e0
+
+        sta posy,x
+
+        ldb #$41
+
+        stb posx,x
+
+
+
+        ldx #sprite_13
+
+        lda #$21
+
+        sta posy,x
+
+        ldb #$c0
+
+        stb posx,x
+
+        ldx #sprite_14
+
+        lda #$c0
+
+        sta posy,x
+
+        ldb #$21
+
+        stb posx,x
+
+        ldx #sprite_15
+
+        lda #$e0
+
+        sta posy,x
+
+        ldb #$c0
+
+        stb posx,x
+
+        ldx #sprite_16
+
+        lda #$41
+
+        sta posy,x
+
+        ldb #$21
+
+        stb posx,x
+
+
+
+        rts
+
+
+
+;***************
+
+;set_oct_sm_wall
+
+;Sets up sprites for small octagonal inner wall
+
+;Uses sprites 9-16
+
+;***************
+
+set_oct_sm_wall:
+
+        ldx #sprite_9
+
+        ldb #$08
+
+
+
+sprite_setup5a:
+
+        lda #$04
+
+        sta state,x
+
+        lda #$00
+
+        sta rotation,x
+
+        lda #$4f
+
+        sta intensity,x
+
+        lda #$20
+
+        sta scale,x
+
+        lda #$01
+
+        sta no_vectors,x
+
+        leax #15,x
+
+        decb
+
+        bne sprite_setup5a
+
+
+
+        ldx #sprite_9
+
+        ldy #horiz_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_11
+
+        ldy #vert_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_13
+
+        ldy #dia_up_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_15
+
+        ldy #dia_down_wall
+
+        sty vector_list,x
+
+        leax #15,x
+
+        sty vector_list,x
+
+
+
+        ldx #sprite_9
+
+        lda #$23
+
+        sta posy,x
+
+        ldb #$f1
+
+        stb posx,x
+
+        ldx #sprite_10
+
+        lda #$df
+
+        sta posy,x
+
+        ldb #$f1
+
+        stb posx,x
+
+
+
+        ldx #sprite_11
+
+        lda #$f0
+
+        sta posy,x
+
+        ldb #$e0
+
+        stb posx,x
+
+        ldx #sprite_12
+
+        lda #$f0
+
+        sta posy,x
+
+        ldb #$24
+
+        stb posx,x
+
+
+
+        ldx #sprite_13
+
+        lda #$12
+
+        sta posy,x
+
+        ldb #$e0
+
+        stb posx,x
+
+        ldx #sprite_14
+
+        lda #$df
+
+        sta posy,x
+
+        ldb #$13
+
+        stb posx,x
+
+
+
+        ldx #sprite_15
+
+        lda #$f0
+
+        sta posy,x
+
+        ldb #$e0
+
+        stb posx,x
+
+        ldx #sprite_16
+
+        lda #$23
+
+        sta posy,x
+
+        ldb #$13
+
+        stb posx,x
+
+
+
+        rts
+
+
+
+; **********************************
+
+; Shape tables and data follow
+
+; **********************************
+
+test_score:
+
+        fcc     "000000"
+
+        fcb     #$80
+
+
+
+vert_wall:
+
+          fcb    0,0
+
+          fcb    127,0
+
+horiz_wall:
+
+          fcb    0,0
+
+          fcb    0,127
+
+dia_up_wall:
+
+          fcb    0,0
+
+          fcb    63,63
+
+dia_down_wall:
+
+          fcb    0,0
+
+          fcb    -63,63
+
+lander:
+
+        fcb    0,0
+
+        fcb    -38,-40
+
+        fcb    112,40
+
+        fcb    8,5
+
+        fcb    8,-5
+
+        fcb    -8,-5
+
+        fcb    -8,5
+
+        fcb    -76,60
+
+        fcb    44,-10
+
+        fcb    -44,10
+
+        fcb    0,-120
+
+        fcb    44,10
+
+        fcb    -44,-10
+
+        fcb    76,60
+
+        fcb    -112,40
+
+        fcb    38,-40
+
+
+
+enemy1: fcb   -40,80
+
+        fcb   80,0
+
+        fcb   40,-40
+
+        fcb   0,-80
+
+        fcb   -40,-40
+
+        fcb   -80,0
+
+        fcb   -40,40
+
+        fcb   0,80
+
+        fcb   40,40
+
+        fcb   120,-40
+
+        fcb   -40, -120
+
+        fcb   -120,40
+
+        fcb   40,120
+
+        fcb   80,0
+
+        fcb   40,-120
+
+        fcb   -120,-40
+
+        fcb   -40,120
+
+        fcb   120,40
+
+
+
+mine1:  fcb   0,-40
+
+        fcb   40,40
+
+        fcb   -40,40
+
+        fcb   0,-80
+
+mine2:  fcb   0,-40
+
+        fcb   -40,40
+
+        fcb   40,40
+
+        fcb   0,-80
+
+mine3:  fcb   0,-40
+
+        fcb   40,40
+
+        fcb   -40,40
+
+        fcb   0,-80
+
+        fcb  -40,40
+
+        fcb   40,40
+
+music:
+
+        FDB     $fee8
+
+        FDB     $feb6
+
+        FCB     $28,$08
+
+        FCB     $0,$80
+
+
+
+enemy_start:
+
+        fcb    -35,-80     ;Level 0
+
+        fcb    -25,-96
+
+        fcb    -15,-80,  -5,-96
+
+        fcb      5,-80,  15,-96
+
+        fcb     25,-80,  35,-96
+
+
+
+
+
+level_def:
+
+        ;Level 0
+
+        fcb  7      ;Number slow aliens
+
+        fcb  1      ;Number fast aliens
+
+        fdb  128    ;Slow alien pos speed
+
+        fdb  -128   ;Slow alien neg speed
+
+        fdb  256    ;Fast alien pos speed
+
+        fdb  -256   ;Fast alien neg speed
+
+        fcb  8      ;Maximum number of alien shots
+
+        fcb  8      ;Maximum number of alien mines
+
+
+

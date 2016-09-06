@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160906151831" />
+<!-- created with HelpSetMaker, ID=74800ffe -->
+<title>eEprom DS2430A</title>
+</head>
+<body class="doc">
+<h1>eEprom DS2430A</h1>
+
+<p>When creating a new project one can also create projects that support eEprom reading and writing.</p>
+
+<p>For this example disable the "create standard game loop" creation (otherwise you get two main files, and the default won't be the eEprom example file).</p>
+
+<p>Chose the settings like: (and press "create")</p>
+<br/><p align="center">
+<img src="pics/eEprom1.png" width="708" height="629" /><br/>
+<em>new project window</em></p><br/>
+
+<p>In order for the example to be runable select the created file: "ds2430ExampleMain.asm", right click to show the popup-Menu and select "set as Main".</p>
+
+<p>With this you tell the current project that the selected file should be treated as the main file, meaning - this file must be assembled.</p>
+<br/><p align="center">
+<img src="pics/eEprom2.png" width="537" height="394" /><br/>
+<em>changing main file</em></p><br/>
+
+<p>As you see a couple of files (include files for low level access) are created along with the main file.</p>
+<br/><p align="center">
+<img src="pics/eEprom4.png" width="951" height="1277" /><br/>
+<em>file structure</em></p><br/>
+
+<p>There only two methods and one variable worth mentioning of the included files:
+<ul><li>
+<p>you must declare a RAM space of 32 consecutive bytes, in the example the name for that space is <tt>"eeprom_buffer"</tt> (that buffer should beforehand be filled with a "standard" setting, in case the eEprom is first used and thus empty)</p>
+</li><li>
+<p>upon starting the cartridge, you read the eEprom <tt>"JSR eeprom_load"</tt> (transfer 32 bytes to the above mentioned buffer - or upon first access reset the eEprom with the default values)</p>
+</li><li>
+<p>upon changing data in the buffer, that you wish to persist call <tt>"JSR eeprom_save"</tt>.</p>
+</li></ul>
+</p>
+
+<p>That is all.</p>
+
+<p>The example program just increases a counter each time it is started.<br />
+(technically in vide the savestate is saved in a file with the name of the "bin" concatinated with "ds2430.ser" -  java serialization)</p>
+<br/><p align="center">
+<img src="pics/eEprom3.png" width="741" height="507" /><br/>
+<em>running</em></p><br/>
+</body>
+</html>

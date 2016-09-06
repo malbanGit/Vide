@@ -22,7 +22,7 @@ Using the checkboxes to the left and the create button to the right generates co
 
 The data is output in binary-data-statements, that way (with some fantasy) you can still discern your image, although this is made more difficult with each alternating line, since the display routine is bidirectional, meaning the data of every second line is stored "backwards".
 
-You can also generate uni directional data, but for this data no example routines can be generated (yet).
+You can also generate uni directional data, for the difference of the two formats, look at the section in "Code Generation".
 
 The format of the data is described in the (generated) source.
 

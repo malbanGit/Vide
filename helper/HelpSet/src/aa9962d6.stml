@@ -126,6 +126,48 @@ The formats: Draw_VLx have no way to "place" the vectorlist. The vectorlist is d
 **Note:**!~~
 In order to be able to export an animation be sure the "original" single vectors are exportable in the format you wish.
 
+::**Draw sync list**~~     ::                                    
+                                                                       
+This routine does not have BIOS pendant, with this type of list output of large non linear vectorlists can be achieved, which additionally are not prone (not very) to vectrex drift.
+
+The list look a lot like the Draw\_VL\_mode format: ::                                                              ~~
+                                                                       ~~
+______mode, rel y, rel x,                                             ~~
+______mode, rel y, rel x,                                             ~~
+______.      .      .                                                ~~
+______.      .      .                                                ~~
+______mode, rel y, rel x,                                             ~~
+______0x02
+::
+
+But the behaviour is a bit different. Following mode bytes are supported:
+- "0x00" move to the y, x (relative) 
+- "0xff" draw to the y, x (relative) 
+- "0x01" zero the integrators, reset offset, move to the designated start of the vectorlist and from there move to the y, x (relative) 
+- "0x02" end marker
+
+As you see with this list it is possible to "resync" the beam in between drawing of the vectorlist. 
+
+For the above mentioned resync to be possible the call to the routine must provide additional information, as:~~
+- U register, address of vectorlist
+- X register, the "absolut" position of the vectorlist to be drawn at
+- A register, the scalefactor for the positioning to the above start point
+- B register, the scalefactor the vectorlist itself will be drawn with
+
+Examples (runnable) for this type of vectorlist can be generated as for all others.
+
+**Note:**~~
+The vectorlists build in vecci automatically resync at points in the list which are not connected. One additional parameter can be given to the generation of the list (textfield right beside the button). This is the maximum of vectors that are drawn without a resync (or -1, if only resyncs should be inserted at non connected vectors).
+
+An example of the differences of a synced and not synced vectorlist:
+
+
+:image FrogNotSynced.png|Not synced
+
+:image frogSynced.png|synced
+
+
+
 :h2 Vectorlist export
 Look above...
 

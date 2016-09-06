@@ -39,6 +39,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.nio.file.Files;
@@ -2390,6 +2391,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
     }
     public String dis(Cartridge cart)
     {
+        
+        
         currentDissi.init = false;
         currentDissi.dasm.reset();
         handleCodeScan();

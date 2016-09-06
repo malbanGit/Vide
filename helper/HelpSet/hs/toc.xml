@@ -23,6 +23,7 @@
 <tocitem text="vecci" target="_file.5f12c2eb">
 <tocitem text="Import" target="_file.6aacd4ec" />
 <tocitem text="Export" target="_file.aa9962d6" />
+<tocitem text="Vector images" target="_file.59f24a14" />
 </tocitem>
 <tocitem text="assi" target="_file.7a721502">
 <tocitem text="asmj - original syntax" target="_file.ab1f13b7" />
@@ -30,21 +31,63 @@
 <tocitem text="vedi" target="_file.76372efe">
 <tocitem text="projects" target="_file.206c34b9" />
 <tocitem text="Raster images" target="_file.f5e2c938" />
-<tocitem text="Vector images" target="_file.6b0cc1a6" />
 <tocitem text="Samples" target="_file.04182ba8" />
-<tocitem text="Mod-Conversion" target="_file.74fef6e0" />
+<tocitem text="Mod-Conversion" target="_file.74fef6e0">
+<tocitem text="Instrument editor" target="_file.1452071a" />
+</tocitem>
 <tocitem text="YM-Conversion I" target="_file.1f5fe20b">
 <tocitem text="YM Packing used by VecSound" target="_file.c7d2b088" />
 <tocitem text="VecSound Decoder in C(++) example" target="_file.7ffd0b31" />
 </tocitem>
 <tocitem text="YM-Conversion II" target="_file.52584a51" />
 <tocitem text="AYFX-Conversion" target="_file.ca8cc2e6" />
+<tocitem text="VecVoice/VecVox+" target="_file.33c0be8d" />
 </tocitem>
-<tocitem text="codi" target="_file.3c1a6002" />
+<tocitem text="Code Generation" target="_file.83b2bd44">
+<tocitem text="Game loop" target="_file.ab9264fe" />
+<tocitem text="Bankswitching" target="_file.9e293717" />
+<tocitem text="eEprom DS2430A" target="_file.74800ffe" />
+<tocitem text="Samples" target="_file.26bf6b20" />
+<tocitem text="Mod-Files" target="_file.990ba6a9" />
+<tocitem text="Raster images" target="_file.364f1577" />
+<tocitem text="YM-Files" target="_file.e1fe840c" />
+<tocitem text="AYFX sound effects" target="_file.f34029d9" />
+<tocitem text="VecVoice/VecVox" target="_file.9f1f20c2" />
+<tocitem text="Vector images" target="_file.cd5a0191" />
+<tocitem text="Vectorlists" target="_file.f2256591" />
+</tocitem>
+<tocitem text="codi" target="_file.3c1a6002">
+<tocitem text="Example: Lightpen" target="_file.7fc4fa15" />
+<tocitem text="Example: VecLink V1" target="_file.083552fe" />
+<tocitem text="Example: VecLink V2" target="_file.5c97d83c" />
+<tocitem text="Example: 3d Imager" target="_file.f0cc41a7" />
+</tocitem>
 <tocitem text="Library" target="_file.f02d0c4c" />
-<tocitem text="Cartridges" target="_file.5d9d584e" />
+<tocitem text="Cartridges" target="_file.5d9d584e">
+<tocitem text="Emulation: eEprom DS2430A" target="_file.2a6412de" />
+<tocitem text="Emulation: eEprom Microchip 11AA010" target="_file.1a69dabf" />
+<tocitem text="Emulation: Bankswitching 'Dondzila'" target="_file.a720cadf" />
+<tocitem text="Emulation: VecFlash" target="_file.aee71600" />
+<tocitem text="Emulation: Lightpen" target="_file.8a994bbb" />
+<tocitem text="Emulation: Sprites Mod - extreme Vectrex 'BadApple'" target="_file.bfd72746" />
+<tocitem text="Emulation: VecVoice" target="_file.01a96af5" />
+<tocitem text="Emulation: VecVox" target="_file.9b5d7603" />
+<tocitem text="Emulation: extra RAM / Spectrum RA" target="_file.3fc7d2bd" />
+<tocitem text="Emulation: VecLink V1 + V2" target="_file.80b48b48">
+<tocitem text="VecLink V1" target="_file.cff42374" />
+<tocitem text="VecLink V2" target="_file.4f7bba49" />
+</tocitem>
+<tocitem text="Emulation: Dual Vec" target="_file.94a59805" />
+<tocitem text="Emulation: Imager 3d (Goggles)" target="_file.932a0405">
+<tocitem text="What is PWM." target="_file.8c8fdbdf" />
+</tocitem>
+</tocitem>
 <tocitem text="Configuration" target="_file.a0d1a1a6" />
-<tocitem text="ongoing - Bankswitching" target="_file.27322096" />
+<tocitem text="Programming the Vectrex" target="_file.eae1f853">
+<tocitem text="Strings - Raster" target="_file.a1c5ac89" />
+<tocitem text="Sound (Bios) - more or less" target="_file.17fcdfd5" />
+<tocitem text="... a demo written" target="_file.81796e0f" />
+</tocitem>
 <tocitem text="Vectrex internals" target="_file.d89a00cd">
 <tocitem text="VIA Versatile Interface Adapter  6522A MOS Technology" target="_file.5838f00b" />
 <tocitem text="Glossar/Hardware" target="_file.fa6663aa" />
@@ -52,6 +95,8 @@
 <tocitem text="Clean Sweep" target="_file.b19507f3" />
 <tocitem text="Print_Str" target="_file.bf23c11e" />
 <tocitem text="Sound / PSG Chip" target="_file.44a3eb2e" />
+<tocitem text="Bankswitching" target="_file.27322096" />
+<tocitem text="Joyport Devices" target="_file.b2de88b8" />
 </tocitem>
 <tocitem text="FAQ general" target="_file.fdbd5afd">
 <tocitem text="FAQ emulation" target="_file.7b55f032" />
@@ -62,5 +107,6 @@
 </tocitem>
 <tocitem text="VIDE: Copyrights and Licenses..." target="_file.19c9af2f" />
 <tocitem text="Other: Copyrights and Licenses..." target="_file.6fa35300" />
+<tocitem text="Other: Further used code..." target="_file.5348e46a" />
 </tocitem>
 </toc>

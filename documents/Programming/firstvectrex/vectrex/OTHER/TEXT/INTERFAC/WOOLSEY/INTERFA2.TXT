@@ -1,0 +1,58 @@
+T85/08/13. 19.17.59. VECTREX. MYBASMT.		Jeff Woolsey.
+
+Blue-sky Vectrex Interface design notes.
+
+The  S100  Vectrex interface continues to have noise problems with its  cable. 
+The  problems have gotten worse since I reworked the memory array.   Unless  I 
+can  correct the problems soon,  I may be tempted to begin work on the  second 
+version of the Vectrex interface -- a more general purpose,  but perhaps  less 
+versatile one.
+
+I envision a board that plugs into the game port.  Initially it would have had 
+its own CPU, a serial port, and some dual-ported memory.  I revised the design 
+somewhat, considering that the Vectrex already had its own intelligence.  What 
+I have, then, is a board with a ROM, some 16K (or more) of RAM, a serial port, 
+and some logic.  The ROM contains an Interface Monitor which allows a terminal 
+(or  whatever)  attached to the serial port to do normal monitor-type  things, 
+like  read and write memory.   It will also have a mode where it can  load  S-
+format files,  and jump to them,  and so on.  Because part of the purpose here 
+is to retain the capabilites of the S100 interface,  the Mark II should behave 
+in rather a different way.
+
+When the board is plugged into the Vectrex,  and the Vectrex is reset, it will 
+jump to the ROM on board, which at 0 contains the Interface Monitor.  It looks 
+like  an ordinary game cartridge.   When it starts up,  it monitors the serial 
+port  for  commands  (or possibly one of the game ports can be  treated  as  a 
+serial port?)  The ROM will have code in it which will get it out of the  way, 
+and allow the interface to look like a pile of RAM (with some status bits that 
+control write protect and so on.
+
+Perhaps the ROM operation will be to copy itself into internal RAM,  or to the 
+high  end of the itnerface memory.   It will then set some bit that makes  the 
+ROM  disappear from the address space,  so that the RAM can be written  (with, 
+possibly,  a game image).  The monitor can then jump to a specific address, or 
+to  the Executive to have it start the game.   The code in the ROM can be made 
+position  independent,   facilitating  a  mechanism  which  might  just  allow 
+relocation of the ROM somewhere else in the address space.
+
+One  thing  that doesn't appear feasible in this implementation  is  to  wrest 
+control of the Vectrex from the running game to the Interface Monitor.  In the 
+S100  interface  this is done by halting the Vectrex and writing all over  the 
+interface memory.   In this version the only thing we could possibly hope  for 
+is  that  interrupts (from the serial port,  however that's configured)  still 
+work.   Most  games,  however,  either trash the  interrupt  vectors,  disable 
+interrupts,  or  do something else with the ports (like run a light pen or  an 
+imager).  This advances the case for offboard intelligence.
+
+The  problem  I'm trying to eliminate here is noise on the long cable  between 
+the  Vectrex  and  the  interface,  and one obvious thing to  do  is  put  the 
+interface right outside the Vectrex.   We lose some capability by doing  this, 
+however,  as I have outlined above.  However, one would not need any real sort 
+of support system to do a few other things.
+
+There is also the matter of the serial port (such as it is).   Ideally,  it is 
+autobaud and everything.   However,  the Vectrex does not provide +/- 12 volts 
+at the cartridge connector,  and it appears that the pins on the two ports are 
+only TTL levels.   What's a designer to do, particularly when one of the goals 
+is to work with an unmodified Vectrex?
+ 

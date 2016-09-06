@@ -14,6 +14,7 @@ import de.malban.gui.components.CSAView;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
+import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.Updatable;
 import de.malban.vide.vecx.VecXStatics;
@@ -38,6 +39,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public boolean isLoadSettings() { return true; }
+    public VideConfig config = VideConfig.getConfig();
 
     
     
@@ -200,7 +202,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
             jTextField9.setText("n/a");
         else
         {
-            int calc_x = (int)x-VecXStatics.ALG_MAX_X/2;
+            int calc_x = (int)x-config.ALG_MAX_X/2;
             boolean neg = calc_x<0;
             int pos = Math.abs(calc_x)&0x0ffff;
             if (neg)
@@ -213,7 +215,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
             jTextField10.setText("n/a");
         else
         {
-            int calc_y = (int)y-VecXStatics.ALG_MAX_Y/2;
+            int calc_y = (int)y-config.ALG_MAX_Y/2;
             boolean neg = calc_y<0;
             int pos = Math.abs(calc_y)&0x0ffff;
             if (neg)

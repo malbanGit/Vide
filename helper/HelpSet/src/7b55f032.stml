@@ -13,14 +13,13 @@ See "How do I start a game", second bullet point.
 
 :h2 My own new game should have an overlay, what can I do?
 Overlays are just "normal" pictures where some regions have some alpha values. Try your favourite paint program. Save them as "png" images. (The overlay provided were stolen from MESS!)
-The filename of the overlay should be the same as the "bin" file, only with a different extension (png)
+The filename of the overlay should be the same as the "bin" file, only with a different extension (png). 
 
 :h2 Where should I put my own overlay image?
 Several options:
 - in the same directory as the binary
 - in the directory "overlay"
 - if the overlay belongs to a "cartridge" file, than just put the path to the image in the appropriate place
-
 
 
 :h2 Some vectors in games seem wrong, vector lists appear to have lose ends?
@@ -47,20 +46,21 @@ In the configuration there is an option "Try autoSync". Well - if autosyncing is
 
 :h2 Emulation seems to be awfully slow, can I speed things up?
 Yep. Just remember, vide was never build for speed!
-~~you can:
-- set line width to 1
-- disable glow
-- don't use an overlay
-- antialiazing ON (on is faster on my system, why? I don't now!)
-- switch off the use of splines
-- disable cycle exact emulation
-- disable ringbuffer
-- disable codescan
+~~you can (in descending order):
 - be absolutley sure that "ray gun" is switched off!
+- disable ringbuffer
+- antialiazing ON (on is faster on my system, why? I don't now!)
+- disable glow
+- set line width to 1
+- disable persistence
+- don't use an overlay
+- disable codescan
+- disable cycle exact emulation
+- switch off the use of splines
 
 
 :h2 When I start one of the 3d games only a black screen is shown after the start, why?
-Because I have not bothered yet, to emulate the 3d Imager.
+For all known 3d-Imager games the configuration includes "imager". If for some reason in the second joystick port no imager is present, that might be the problem. Chose "Imager" in the combobox for port 1.
 
 :h2 When I debug my program, I notice vectors are drawn differently, what is that?
 Depending on your VIDE settings ("activate direct draw on debug"), vectors while single stepping/multistepping are REALLY drawn differently!~~

@@ -1,0 +1,642 @@
+; Song Demo
+; by Christopher L. Tumber
+; Last update: July 1, 1998
+
+; System Executive Entry Points
+
+BIOS_music_data         EQU     $FC8D
+
+byte2sndchip            EQU     $F256
+waitrecal               EQU     $f192
+
+;User Code Storage locations
+
+whole_dur          EQU $c880
+half_dur           EQU whole_dur+1
+quarter_dur        EQU half_dur+1
+eighth_dur         EQU quarter_dur+1
+sixteenth_dur      EQU eighth_dur+1
+V1_notes           EQU sixteenth_dur+1
+V1_pos             EQU V1_notes+2
+V1_count           EQU V1_pos+2
+V1_dur             EQU V1_count+1
+V1_whole           EQU V1_dur+1
+V1_half            EQU V1_whole+2
+V1_quarter         EQU V1_half+2
+V1_eighth          EQU V1_quarter+2
+V1_sixteenth       EQU V1_eighth+2
+V2_notes           EQU V1_sixteenth+1
+V2_pos             EQU V2_notes+2
+V2_count           EQU V2_pos+2
+V2_dur             EQU V2_count+1
+V2_whole           EQU V2_dur+1
+V2_half            EQU V2_whole+2
+V2_quarter         EQU V2_half+2
+V2_eighth          EQU V2_quarter+2
+V2_sixteenth       EQU V2_eighth+2
+V3_notes           EQU V2_sixteenth+1
+V3_pos             EQU V3_notes+2
+V3_count           EQU V3_pos+2
+V3_dur             EQU V3_count+1
+V3_whole           EQU V3_dur+1
+V3_half            EQU V3_whole+2
+V3_quarter         EQU V3_half+2
+V3_eighth          EQU V3_quarter+2
+V3_sixteenth       EQU V3_eighth+2
+
+;$cbea  SP set here by boot, grows down...
+
+        ORG     $0000
+
+; Magic Init Block
+
+        FCB     $67,$20
+        FCC     "GCE XXXX"
+        FCB     $80
+        FDB     music
+        FDB     $f850
+        FDB     $30b8
+        FCC     "SONG DEMO"
+        FCB     $80,$0
+start:
+        bra init                     ; branch always to init code
+init:
+warmstart:
+        jsr setup_intro_mus
+main:
+        lda #$c8                        ;This is equivalent to jsr dptoD0
+        tfr a,dp                        ;But inlined
+        jsr waitrecal                   ;Reset the CRT
+        jsr play_voice1
+        jsr play_voice2
+        jsr play_voice3
+        bra main
+
+blank_space:
+        fcb 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        fcb 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        fcb 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        fcb 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        fcb 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        fcb 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        fcb 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        fcb 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        fcb 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        fcb 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+setup_intro_mus:
+          lda #32
+          sta whole_dur
+          lda #16
+          sta half_dur
+          lda #8
+          sta quarter_dur
+          lda #4
+          sta eighth_dur
+          lda #2
+          sta sixteenth_dur
+          ldd #intro_song1
+          std V1_notes
+          std V1_pos
+          lda #00
+          sta V1_count
+          lda #00
+          sta V1_dur
+          ldd #ins1_w_ADSR
+          std V1_whole
+          ldd #ins1_h_ADSR
+          std V1_half
+          ldd #ins1_q_ADSR
+          std V1_quarter
+          ldd #ins1_e_ADSR
+          std V1_eighth
+          ldd #ins1_s_ADSR
+          std V1_sixteenth
+          ldd #intro_song2
+          std V2_notes
+          std V2_pos
+          lda #00
+          sta V2_count
+          lda #00
+          sta V2_dur
+          ldd #ins2_w_ADSR
+          std V2_whole
+          ldd #ins2_h_ADSR
+          std V2_half
+          ldd #ins2_q_ADSR
+          std V2_quarter
+          ldd #ins2_e_ADSR
+          std V2_eighth
+          ldd #ins2_s_ADSR
+          std V2_sixteenth
+          ldd #intro_song3
+          std V3_notes
+          std V3_pos
+          lda #00
+          sta V3_count
+          lda #00
+          sta V3_dur
+          ldd #ins3_w_ADSR
+          std V3_whole
+          ldd #ins3_h_ADSR
+          std V3_half
+          ldd #ins3_q_ADSR
+          std V3_quarter
+          ldd #ins3_e_ADSR
+          std V3_eighth
+          ldd #ins3_s_ADSR
+          std V3_sixteenth
+          rts
+
+play_voice1:
+           lda V1_count
+           lbne hold_voice1
+
+           ldx V1_pos
+           lda 0,x
+           cmpa #$ff
+           bne not_restartV1
+           
+           ldx V1_notes
+           stx V1_pos
+           lda 0,x
+           bra not_rest1
+
+not_restartV1:
+           cmpa #128
+           bne not_rest1
+
+           ldb $c807
+           orb #$01    ;Turn off bit 0 - Pulse on Voice 1
+           orb #8    ;Turn on  bit 4 - No noise on Voice 1
+           lda #$07
+           jsr byte2sndchip
+           bra cont_v1
+
+not_rest1:           
+           anda #$40
+           beq tone1
+           
+           ldb 0,x
+           andb #$1f
+           lda #$06
+           jsr byte2sndchip
+           
+           ldb $c807
+           orb #01    ;Turn on bit 0 - No Pulse on Voice 1
+           andb #247    ;Turn off bit 4 - Noise on Voice 1
+           lda #$07
+           jsr byte2sndchip
+           bra cont_v1
+
+tone1:
+           lda 0,x
+           lsla
+           ldx #BIOS_music_data
+           ldb a,x
+           lda #$01
+           jsr byte2sndchip
+           
+           ldx V1_pos
+           lda 0,x
+           lsla
+           inca 
+           ldx #BIOS_music_data
+           ldb a,x
+           lda #$00
+           jsr byte2sndchip
+
+           ldb $c807
+           andb #254    ;Turn off bit 0 - Pulse on Voice 1
+           orb  #8    ;Turn on  bit 4 - No noise on Voice 1
+           lda #$07
+           jsr byte2sndchip
+           
+cont_v1:           
+           ldx V1_pos
+           lda 1,x
+           sta V1_dur      ; Added This!
+
+           ldx #whole_dur
+           lda a,x
+           sta V1_count
+           
+           ldx V1_pos
+           leax 2,x
+           stx V1_pos
+
+hold_voice1:
+           dec V1_count
+           
+           lda V1_dur
+           cmpa #$00
+           bne not_whole1
+           ldx #ins1_w_ADSR
+           bra do_volume1
+not_whole1:           
+           cmpa #$01
+           bne not_half1
+           ldx #ins1_h_ADSR
+           bra do_volume1
+not_half1:
+           cmpa #$02
+           bne not_quarter1
+           ldx #ins1_q_ADSR
+           bra do_volume1
+not_quarter1:
+           cmpa #$03
+           bne not_eighth1
+           ldx #ins1_e_ADSR
+           bra do_volume1
+not_eighth1:
+           ldx #ins1_s_ADSR
+do_volume1:
+           lda V1_count
+           ldb a,x
+           lda #08
+           jsr byte2sndchip
+           rts
+
+play_voice2:
+           lda V2_count
+           lbne hold_voice2
+
+           ldx V2_pos
+           lda 0,x
+           cmpa #$ff
+           bne not_restartV2
+           
+           ldx V2_notes
+           stx V2_pos
+           lda 0,x
+           bra not_rest2
+
+not_restartV2:
+           cmpa #128
+           bne not_rest2
+
+           ldb $c807
+           orb #$02    ;Turn on bit 1 - No Pulse on Voice 2
+           orb #16    ;Turn on bit 5 - No noise on Voice 2
+           lda #$07
+           jsr byte2sndchip
+           bra cont_v2
+
+not_rest2:
+           anda #$40
+           beq tone2
+           
+           ldb 0,x
+           andb #$1f
+           lda #$06
+           jsr byte2sndchip
+           
+           ldb $c807
+           orb #$02    ;Turn on bit 0 - No Pulse on Voice 2
+           andb #239    ;Turn off bit 4 - Noise on Voice 2
+           lda #$07
+           jsr byte2sndchip
+           bra cont_v2
+
+tone2:
+           lda 0,x
+           lsla
+           ldx #BIOS_music_data
+           ldb a,x
+           lda #$03
+           jsr byte2sndchip
+           
+           ldx V2_pos
+           lda 0,x
+           lsla
+           inca 
+           ldx #BIOS_music_data
+           ldb a,x
+           lda #$02
+           jsr byte2sndchip
+
+           ldb $c807
+           andb #253    ;Turn off bit 1 - Pulse on Voice 2
+           orb  #16    ;Turn on bit 5 - No noise on Voice 2
+           lda #$07
+           jsr byte2sndchip
+           
+cont_v2:
+           ldx V2_pos
+           lda 1,x
+           sta V2_dur      ; Added This!
+
+           ldx #whole_dur
+           lda a,x
+           sta V2_count
+           
+           ldx V2_pos
+           leax 2,x
+           stx V2_pos
+
+hold_voice2:
+           dec V2_count
+           
+           lda V2_dur
+           cmpa #$00
+           bne not_whole2
+           ldx #ins2_w_ADSR
+           bra do_volume2
+not_whole2:           
+           cmpa #$01
+           bne not_half2
+           ldx #ins2_h_ADSR
+           bra do_volume2
+not_half2:
+           cmpa #$02
+           bne not_quarter2
+           ldx #ins2_q_ADSR
+           bra do_volume2
+not_quarter2:
+           cmpa #$03
+           bne not_eighth2
+           ldx #ins2_e_ADSR
+           bra do_volume2
+not_eighth2:
+           ldx #ins2_s_ADSR
+do_volume2:
+           lda V2_count
+           ldb a,x
+           lda #09
+           jsr byte2sndchip
+           rts
+
+play_voice3:
+           lda V3_count
+           lbne hold_voice3
+
+           ldx V3_pos
+           lda 0,x
+           cmpa #$ff
+           bne not_restartV3
+           
+           ldx V3_notes
+           stx V3_pos
+           lda 0,x
+           bra not_rest3
+
+not_restartV3:
+           cmpa #128
+           bne not_rest3
+
+           ldb $c807
+           orb #$04    ;Turn on bit 2 - No Pulse on Voice 3
+           orb #32    ;Turn on bit 6 - No noise on Voice 3
+           lda #$07
+           jsr byte2sndchip
+           bra cont_v3
+
+not_rest3:
+           anda #$40
+           beq tone3
+           
+           ldb 0,x
+           andb #$1f
+           lda #$06
+           jsr byte2sndchip
+           
+           ldb $c807
+           orb #$04    ;Turn on bit 0 - No Pulse on Voice 3
+           andb #223    ;Turn off bit 4 - Noise on Voice 3
+           lda #$07
+           jsr byte2sndchip
+           bra cont_v3
+
+tone3:
+           lda 0,x
+           lsla
+           ldx #BIOS_music_data
+           ldb a,x
+           lda #$05
+           jsr byte2sndchip
+           
+           ldx V3_pos
+           lda 0,x
+           lsla
+           inca 
+           ldx #BIOS_music_data
+           ldb a,x
+           lda #$04
+           jsr byte2sndchip
+
+           ldb $c807
+           andb #251    ;Turn off bit 1 - Pulse on Voice 3
+           orb  #32    ;Turn on bit 5 - No noise on Voice 3
+           lda #$07
+           jsr byte2sndchip
+           
+cont_v3:
+           ldx V3_pos
+           lda 1,x
+           sta V2_dur      ; Added This!
+
+           ldx #whole_dur
+           lda a,x
+           sta V3_count
+           
+           ldx V3_pos
+           leax 2,x
+           stx V3_pos
+
+hold_voice3:
+           dec V3_count
+           
+           lda V3_dur
+           cmpa #$00
+           bne not_whole3
+           ldx #ins3_w_ADSR
+           bra do_volume3
+not_whole3:           
+           cmpa #$01
+           bne not_half3
+           ldx #ins3_h_ADSR
+           bra do_volume3
+not_half3:
+           cmpa #$02
+           bne not_quarter3
+           ldx #ins3_q_ADSR
+           bra do_volume3
+not_quarter3:
+           cmpa #$03
+           bne not_eighth3
+           ldx #ins3_e_ADSR
+           bra do_volume3
+not_eighth3:
+           ldx #ins3_s_ADSR
+do_volume3:
+           lda V3_count
+           ldb a,x
+           lda #10
+           jsr byte2sndchip
+           rts
+
+
+;ins1_w_ADSR: fcb 15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15
+;ins1_h_ADSR: fcb 15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15
+
+ins1_w_ADSR: fcb 1,3,5,7,9,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,15,15,15,8,1
+ins1_h_ADSR: fcb 1,3,5,7,9,11,11,11,11,11,11,15,15,15,8,1
+
+ins2_w_ADSR: fcb 1,3,5,7,9,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,15,15,15,8,1
+ins2_h_ADSR: fcb 1,3,5,7,9,11,11,11,11,11,11,15,15,15,8,1
+   
+ins3_w_ADSR: fcb 1,3,5,7,9,11,13,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,13,11,9,7,5,3,1
+ins3_h_ADSR: fcb 1,3,5,7,9,11,13,15,15,13,11,9,7,5,3,1
+
+ins1_q_ADSR: fcb 15,15,15,15,15,15,15,15
+ins1_e_ADSR: fcb 15,15,15,15
+ins1_s_ADSR: fcb 15,15
+ins2_q_ADSR: fcb 15,15,15,15,15,15,15,15
+ins2_e_ADSR: fcb 15,15,15,15
+ins2_s_ADSR: fcb 15,15
+ins3_q_ADSR: fcb 15,15,15,15,15,15,15,15
+ins3_e_ADSR: fcb 15,15,15,15
+ins3_s_ADSR: fcb 15,15
+intro_song3: fcb 10,2
+             fcb #$ff
+
+intro_song2: fcb 1,1
+             fcb 2,1
+             fcb 3,1
+             fcb 4,1
+             fcb 5,1
+             fcb 6,1
+             fcb 7,1
+             fcb 8,1
+             fcb 9,1
+             fcb 10,1
+             fcb 11,1
+             fcb 12,1
+             fcb 13,1
+             fcb 14,1
+             fcb 15,1
+             fcb 16,1
+             fcb 17,1
+             fcb 18,1
+             fcb 19,1
+             fcb 20,1
+             fcb 21,1
+             fcb 22,1
+             fcb 23,1
+             fcb 24,1
+             fcb 25,1
+             fcb 26,1
+             fcb 27,1
+             fcb 28,1
+             fcb 29,1
+             fcb 30,1
+             fcb 31,1
+             fcb 32,1
+             fcb 33,1
+             fcb 34,1
+             fcb 35,1
+             fcb 36,1
+             fcb 37,1
+             fcb 38,1
+             fcb 39,1
+             fcb 40,1
+             fcb 41,1
+             fcb 42,1
+             fcb 43,1
+             fcb 44,1
+             fcb 45,1
+             fcb 46,1
+             fcb 47,1
+             fcb 48,1
+             fcb 49,1
+             fcb 50,1
+             fcb 51,1
+             fcb 52,1
+             fcb 53,1
+             fcb 54,1
+             fcb 55,1
+             fcb 56,1
+             fcb 57,1
+             fcb 58,1
+             fcb 59,1
+             fcb 60,1
+             fcb 61,1
+             fcb 62,1
+             fcb 63,1
+             fcb #$ff
+
+intro_song1: fcb 63,1
+             fcb 62,1
+             fcb 61,1
+             fcb 60,1
+             fcb 59,1
+             fcb 58,1
+             fcb 57,1
+             fcb 56,1
+             fcb 55,1
+             fcb 54,1
+             fcb 53,1
+             fcb 52,1
+             fcb 51,1
+             fcb 50,1
+             fcb 49,1
+             fcb 48,1
+             fcb 47,1
+             fcb 46,1
+             fcb 45,1
+             fcb 44,1
+             fcb 43,1
+             fcb 42,1
+             fcb 41,1
+             fcb 40,1
+             fcb 39,1
+             fcb 38,1
+             fcb 37,1
+             fcb 36,1
+             fcb 35,1
+             fcb 34,1
+             fcb 33,1
+             fcb 32,1
+             fcb 31,1
+             fcb 30,1
+             fcb 29,1
+             fcb 28,1
+             fcb 27,1
+             fcb 26,1
+             fcb 25,1
+             fcb 24,1
+             fcb 23,1
+             fcb 22,1
+             fcb 21,1
+             fcb 20,1
+             fcb 19,1
+             fcb 18,1
+             fcb 17,1
+             fcb 16,1
+             fcb 15,1
+             fcb 14,1
+             fcb 13,1
+             fcb 12,1
+             fcb 11,1
+             fcb 10,1
+             fcb 9,1
+             fcb 8,1
+             fcb 7,1
+             fcb 6,1
+             fcb 5,1
+             fcb 4,1
+             fcb 3,1
+             fcb 2,1
+             fcb 1,1
+             fcb 1,0
+             fcb #$ff
+
+music:
+        FDB     #$ff16,#$feb6
+        FCB     #$00,#$80
+
+
+
+
+
+

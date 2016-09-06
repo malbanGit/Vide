@@ -1,0 +1,122 @@
+                INCLUDE VECTREX.INC
+                LIST    ON
+                SETDP   $D0             Carts start up with DP = $D0
+
+                FCC     /g GCE 2001/
+                FCB     $80
+
+                FDB     $FF8F
+
+                FCB     -8,72           h,w
+                FCB     32,-48          y,x
+                FCC     /VEC TEST/
+                FCB     $80
+
+                FCB     $00
+
+                INC     Vec_0Ref_Enable This is kind of important
+
+Start           LDX     #Vector_Table   Get address of vector list
+
+Loop            JSR     DP_to_D0        Vector routines want DP = $D0
+                SETDP   $D0
+
+                LDA     #$CE            Reset0Ref left the integrators in zero
+                STA     VIA_cntl          mode, so set /BLANK low, /ZERO high
+
+                JSR     Mov_Draw_VLcs   Draw vector list (calls Check0Ref)
+
+                LDD     ,X              End of list if count=0 and scale=0
+                BNE     Loop            Go back for more if not end of list
+
+*               JSR     DP_to_C8        Music routines want DP = $C8
+*               SETDP   $C8
+
+*               LDU     #music          (if we had something to play)
+*               JSR     Init_Music_chk  (if we had something to play)
+                JSR     Wait_Recal      Wait for time to draw next frame
+                SETDP   $D0             Wait_Recal sets DP to $D0
+*               JSR     Do_Sound        (if we had something to play)
+
+                BRA     Start           Go back to draw next frame
+
+
+Vector_Table
+
+*               These first four were ripped off from the 4D Rotocube demo
+
+                FCB     2,80            count,scale
+                FCB     127,0           Y,X
+                FCB     -127,0          y,x
+                FCB     -127,0          y,x
+
+                FCB     2,80            count,scale
+                FCB     0,127           Y,X
+                FCB     0,-127          y,x
+                FCB     0,-127          y,x
+
+                FCB     2,80            count,scale
+                FCB     127,127         Y,X
+                FCB     -127,-127       y,x
+                FCB     -127,-127       y,x
+
+                FCB     2,80            count,scale
+                FCB     127,-127        Y,X
+                FCB     -127,127        y,x
+                FCB     -127,127        y,x
+
+*               And now some octagons.  They are drawn clockwise, with
+*               the origin point at the left end of the topmost line.
+*
+*               Note that they come out brighter than the longer lines,
+*               probably because the lines are being drawn in a constant
+*               time period (which would be the scale factor).  Hopefully
+*               this effect is only visible with the longest of lines.
+
+                FCB     8,80            count,scale
+                FCB     96,-64          Y,X
+                FCB     0,5             y,x
+                FCB     -5,5            y,x
+                FCB     -5,0            y,x
+                FCB     -5,-5           y,x
+                FCB     0,-5            y,x
+                FCB     5,-5            y,x
+                FCB     5,0             y,x
+                FCB     5,5             y,x
+
+                FCB     8,80            count,scale
+                FCB     96,64           Y,X
+                FCB     0,5             y,x
+                FCB     -5,5            y,x
+                FCB     -5,0            y,x
+                FCB     -5,-5           y,x
+                FCB     0,-5            y,x
+                FCB     5,-5            y,x
+                FCB     5,0             y,x
+                FCB     5,5             y,x
+
+                FCB     8,80            count,scale
+                FCB     -96,64          Y,X
+                FCB     0,5             y,x
+                FCB     -5,5            y,x
+                FCB     -5,0            y,x
+                FCB     -5,-5           y,x
+                FCB     0,-5            y,x
+                FCB     5,-5            y,x
+                FCB     5,0             y,x
+                FCB     5,5             y,x
+
+                FCB     8,80            count,scale
+                FCB     -96,-64         Y,X
+                FCB     0,5             y,x
+                FCB     -5,5            y,x
+                FCB     -5,0            y,x
+                FCB     -5,-5           y,x
+                FCB     0,-5            y,x
+                FCB     5,-5            y,x
+                FCB     5,0             y,x
+                FCB     5,5             y,x
+
+                FDB     0               end of list
+
+                END

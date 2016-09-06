@@ -1,0 +1,32 @@
+I'm not sure how I did it but when my game was over in Polar Rescue, I
+got the phrase "M.INDICTOR" in the midddle of my radar screen!
+Anybody else ever seen this?
+
+After seeing this, I started browsing through the ROMs and here is
+what I found:
+
+In 3D MineStorm, there is the text,
+   PROGRAMMED BY WILLIAM HAWKINS
+              1983
+  VECTREX AND IMAGER BY JOHN ROSS
+
+In Armor Attack I found:
+   Disable   Block   Listen   Learn   Frwrd
+
+In Bedlam I found:
+   Called From: *PC: *SR: !!Address Registers: Data Registers: Fatal Error
+
+In Heads Up I found:
+   Drive   Track   Sector   DMA address   Read address
+
+In RipOff I found:
+   THIS SPACE AVAILABLE   WHAT THE HELL ARE YOU LOOKING AT ???
+
+In Spinball I found:
+   MARK INDICTOR
+
+In Web Wars I found:
+   Watch for these great games coming soon from G.C.E.
+   Cosmic Chasm -- soon to be a big hit with Cinematronics,
+   Hyper Chase -- THE car race game,
+   Bedlam -- a fast paced test of nerves and skill

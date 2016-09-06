@@ -45,6 +45,11 @@ public class JInputSpinnerDevice  extends AbstractDevice implements ControllerLi
     {
         return DEVICE_JINPUT_SPINNER;
     }
+    public String getDeviceName()
+    {
+        if (cConfig == null) return "n/a";
+        return cConfig.name;
+    }
     
     public JInputSpinnerDevice()
     {

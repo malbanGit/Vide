@@ -1,0 +1,233 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 11</H2>
+<H3>Characters and Strings</H2>
+Successful man-machine interaction requires the use of a common set
+of codes to convert between the internal representations in the
+microprocessor (<I>binary</I>) and the form that humans can understand
+(<I>characters</I>).
+
+<H3>How are characters represented in a microprocessor system?</H3>
+The convention below is used which allows printable and non-printing
+characters to be assigned a universally-agreed binary value.
+This is called the ASCII Character Set (American Standard Code
+for Information Interchange).
+<P>
+<CENTER>
+<TABLE BORDER WIDTH=60% BGCOLOR=#ffffc0>
+<TR><TD><TH><TH><TH COLSPAN=8>-------- Most significant three bits ----------<TH></TR>
+<TR>
+<TD>
+<TH>H<br>E<br>X<TH>B<br>I<br>N<TH>0<br>000<TH>1<br>001<TH>2<br>010
+<TH>3<br>011<TH>4<br>100<TH>5<br>101<TH>6<br>110<TH>7<br>111<TH>HEX<br>BIN
+</TR>
+<TR>
+<TH ROWSPAN=16><IMG SRC="less_sig.gif">
+<TH>0<TH>0000<TH>NUL<TH>DLE<TH>SP<TH>0<TH>@<TH>P<TH>`<TH>p<TH></TR>
+<TR>
+<TH>1<TH>0001<TH>SOH<TH>DC1<TH>!<TH>1<TH>A<TH>Q<TH>a<TH>q<TH></TR>
+<TR>
+<TH>2<TH>0010<TH>STX<TH>DC2<TH>"<TH>2<TH>B<TH>R<TH>b<TH>r<TH></TR>
+<TR>
+<TH>3<TH>0011<TH>ETX<TH>DC3<TH>#<TH>3<TH>C<TH>S<TH>c<TH>s<TH></TR>
+<TR>
+<TH>4<TH>0100<TH>EOT<TH>DC4<TH>$<TH>4<TH>D<TH>T<TH>d<TH>t<TH></TR>
+<TR>
+<TH>5<TH>0101<TH>ENG<TH>NAK<TH>%<TH>5<TH>E<TH>U<TH>e<TH>u<TH></TR>
+<TR>
+<TH>6<TH>0110<TH>ACK<TH>SYN<TH>&<TH>6<TH>F<TH>V<TH>f<TH>v<TH></TR>
+<TR>
+<TH>7<TH>0111<TH>BEL<TH>ETB<TH>'<TH>7<TH>G<TH>W<TH>g<TH>w<TH></TR>
+<TR>
+<TH>8<TH>1000<TH>BS<TH>CAN<TH>(<TH>8<TH>H<TH>X<TH>h<TH>x<TH></TR>
+<TR>
+<TH>9<TH>1001<TH>HT<TH>EM<TH>)<TH>9<TH>I<TH>Y<TH>i<TH>y<TH></TR>
+<TR>
+<TH>A<TH>1010<TH>LF<TH>SUB<TH>*<TH>:<TH>J<TH>Z<TH>j<TH>z<TH></TR>
+<TR>
+<TH>B<TH>1011<TH>VT<TH>ESC<TH>+<TH>;<TH>K<TH>[<TH>k<TH>{<TH></TR>
+<TR>
+<TH>C<TH>1100<TH>FF<TH>FS<TH>,<TH><<TH>L<TH>\<TH>l<TH>|<TH></TR>
+<TR>
+<TH>D<TH>1101<TH>CR<TH>GS<TH>-<TH>=<TH>M<TH>]<TH>m<TH>}<TH></TR>
+<TR>
+<TH>E<TH>1110<TH>SO<TH>RS<TH>.<TH>><TH>N<TH>^<TH>n<TH>~<TH></TR>
+<TR>
+<TH>F<TH>1111<TH>SI<TH>VS<TH>/<TH>?<TH>O<TH><-<TH>o<TH>DEL<TH></TR>
+
+</TABLE></CENTER>
+
+Notes:<br>
+<UL>
+<LI>The ASCII code uses only seven of the eight bits in a byte.
+The other (most significant) bit is left zero or is used as a parity
+but for error detection.
+<LI>The codes in the first two columns and the delete code (DEL)
+are not printable.   The symbols given are used to identify them.
+<LI>SP prints as a space.
+<LI>Example: the letter 'A' is represented by ASCII 41 (in hex.)
+</UL>
+
+<H3>Control Characters</H3>
+There are a number of non-printing (or 'control') characters in the
+ASCII table.
+<P>
+These are generated from the keyboard by holding down the CTRL key
+whilst hitting a letter key.  An ASCII code which is $40 less than the
+upper-case character is generated.
+<P>
+Control codes may be used for any purpose, but in the interests of
+standardisation, the majority have a defined usage, for example:
+<PRE>
+	$0A	line feed (LF)		= CTRL-J
+	$0D	carriage return (CR)	= CTRL-M
+	$08	backspace (BS)		= CTRL-H
+	$09	horizontal tab (HT)	= CTRL-I
+</PRE>
+Such representations of characters are used within a microprocessor
+system.   A standard character set is especially important when
+transferring data between systems.
+<H2>Transmission of Data</H2>
+To transfer bytes of data between systems there are two types of
+interface, <I>parallel</I> and <I>serial</I>.   Clearly, parallel
+interfaces are capable of higher transfer rates since 8 bits are
+transferred at once.   However, it is not always possible to
+arrange to transfer data in parallel form and there can be problems
+with this type of interface when long-distance transfers are required.
+
+<H2>Parallel interfaces</H2>
+One example of a parallel interface is a PIA port, with handshaking
+controlling the transfer.   Bi-directional transfers are possible
+using a single port, but a protocol must be used to change the
+direction of data transfer.
+<P>
+Parallel data transfers are commonly used for printers.   Here, fast
+data transfer is possible as the distance from computer to printer
+is normally short.  The 'Centronics' interface is one example of
+a parallel port.
+<P>
+With long lines and (or) high data rates, parallel interfaces run
+into problems with <I>data skew</I> or differential delay.
+At the remote end, the bits of data may no longer be aligned and
+it will be difficult to reconstruct the original data.
+<P>
+Another problem with long parallel lines is that of <I>cross-talk</I>
+where data from an adjacent line interferes with the data, so
+corrupting it.
+<P>
+For these reasons, parallel interfaces are normally only used for
+short distances.
+<P>
+A higher-performance parallel interface has been defined and is known
+as the General Purpose Interface Bus (GPIB) or HPIB (Hewlett-Packard
+Interface Bus, since HP originated the specification), or by its
+American Standard - IEEE 488.
+
+<H2>Serial Interfaces</H2>
+The most common serial interface is the RS232-C (or CCITT V.24).
+This standard defines the type of connectors used, the pin 
+designations and the signal voltage levels.
+This is an asynchronous interface (although the specification 
+does allow a synchronous mode).
+<H3>Baud rate</H3>
+One of RS232's parameters is the <I>baud rate</I>.
+A <I>baud</I> is one bit per second.   If the time taken to
+transfer one serial bit is <I>T</I>, then the baud rate
+is <I>1/T</I>.
+<H3>Data Format</H3>
+Since data is sent serially, we need to know when one 8-bit character
+ends and the next one starts.  In RS232, this is achieved through the
+use of <I>START</I> and <I>STOP</I> bits.  There may be more than 
+one <I>STOP</I> bit to increase the gap between characters and to make
+the detection of the <I>START</I> bit more reliable.
+<P>
+A <I>parity</I> bit may also be used to detect single-bit errors.
+<P>
+The data may be sent as 8-bit ASCII or 7-bit ASCII and this
+format must be agreed in advance by transmitter and receiver.
+<P>
+e.g. 7-bit ASCII, 1 STOP bit
+<CENTER>
+<P>
+<TABLE BORDER WIDTH=60% BGCOLOR=#ffff80>
+<TR>
+<TH WIDTH=10%>start
+<TH WIDTH=10%>0
+<TH WIDTH=10%>1
+<TH WIDTH=10%>2
+<TH WIDTH=10%>3
+<TH WIDTH=10%>4
+<TH WIDTH=10%>5
+<TH WIDTH=10%>6
+<TH WIDTH=10%>parity
+<TH WIDTH=10%>stop
+</TABLE>
+</CENTER>
+<P>
+In the format above, in order to transmit a 7-bit ASCII code, 10 bits are used
+in the frame.
+<P>
+Between characters, a continuous <I>STOP</I> bit is sent. This is a '1'.
+The <I>START</I> bit is always a '0' so a high-to-low transition defines
+the start of a character.   The baud rate is agreed in advance, so that
+on receipt of a <I>start</I> bit, a half-bit delay is generated and each bit
+is then sampled at intervals of one bit (i.e. in the centre of each bit).
+<H3>Framing Error</H3>
+After all the data bits and the parity bit have been read, we expect to see
+a <I>STOP</I> bit next, when the final bit is sampled.
+If a '1' is not read for the <I>STOP</I> bit, then a <I>framing error</I>
+has occurred.   This probably means that the <I>START</I> bit was 
+incorrectly detected.   It can also mean that the data format selected
+is incorrect.  For example, 8-bit ASCII may have been transmitted, but the
+receiver was expecting 7-bit ASCII.
+<H3>Parity Bit</H3>
+The parity bit is used to detect transmission errors.
+<P>
+All the '1's in the data transmitted are counted (excluding START and STOP bits).
+<P>
+If <I>even parity</I> is selected, the parity bit is set so that the total number
+of bits which are '1' is an <B>even</B> number.
+<P>
+If <I>odd parity</I> is selected, the parity bit is set so that the total number
+of bits which are '1' is an <B>odd</B> number.
+
+<H3>Data Levels</H3>
+True RS232 signals are bipolar, that is they range between positive and negative
+levels when changing from '1' to '0' states.
+<P>
+Some RS232 derivative specifications use 0V and 5V levels.   These are acceptable
+for short distances only.
+<P>
+The full RS232 specification allows for +/-15V to be sent by the transmitter.
+The receiver has a +/-3V threshold to allow for attenuation.
+<P>
+A <I>SPACE</I> (logic '0') is transmitted as a positive voltage and the
+<I>MARK</I> (logic '1') is transmitted as a negative voltage.   It should be
+noted that negative logic is used here.
+<H3>Physical connection</H3>
+There are a large number of control signals provided in RS232.  However, the
+simplest RS232 connection is shown below, which does not use any hardware control
+lines.
+<PRE>
+
+	Tx  2 -------------\  /-------------- 2 Tx
+			    \/
+	Rx  3 ______________/\_______________ 3 Rx
+
+
+	GND 7 ------------------------------- 7 GND
+
+</PRE>
+In spite of the 'standard', there are numerous variations in RS232 connections
+found in equipment.   This is why there are several RS232 analysers on the 
+market.   It may be necessary to experiment before achieving successful
+RS232 communications.
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up12.htm">Next</A> |</CENTER>
+
+</BODY>
+</HTML>

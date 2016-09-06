@@ -1,0 +1,412 @@
+OK...
+
+I really stirred some of you (at last)...
+
+Just some other small information...
+(I should have put on the pages as well)
+
+I only made the Frogger to get a bit more into vectrex programming.
+I intend to make (some day in the future) a vectrex development
+system arround DVE.
+There are not many vectrex developers out there, and information
+for programming is still not all that well available.
+
+.....
+
+I asked a few times for support in this newsgroup, and most
+people said they would help in getting information together.
+Sadly the only thing I ever got (besides the stuff I downloaded
+from various pages) was the the sound routine of Clay for
+digitized sound. Thanks for that, the emulation is now
+pretty perfect concerning sound.
+(by the way, CleanSweep, Spinball AND PolePosition work
+flawlessly now)
+
+.....
+
+I thought in doing my own vectrex program I could figure out best
+what would be needed...
+(actually I'm thinking about dropping the whole notion of
+ compiling from the emulator side, since some batch files really do
+ a nice job as well)
+
+And I honestly can say, the emulator is not yet a great help in
+programming... :-(
+...but perhaps will be some day, I implemented watches and
+timing information commands... that's all what changed so far...
+(well, I did all debugging and testing with the emulator, since I
+have as yet not connected the vectrex to my pc, one could call that
+a pretty decent help...)
+
+......
+
+BTW. Timing...
+Someone asked if I had a vectrex system by now...
+YES I have a vectrex (thanks to a christmas present of my girl... ;-)
+
+I have also a cartridge that has an EPROM socket, but as yet
+no EPROM emulator. I ordered one, and as far as I know
+it lies somewhere in Frankfurt in a tax office waiting for being
+declared 'ready to go' :-(
+
+I have as yet not seen the frogger on a real vectrex, and I will not
+release it untill I do (though I'm quite confident that it will work out
+fine). Call it a test if emulation is good :-)
+
+.......
+
+John asked about flicker...
+Well, that's a problem, the emulator only flickers if I tell it to :-)
+So I can let every and no programm flicker.
+Generally flicker relates to timing issues, how many screen updates
+you can do in a second. Some time ago I asked what would
+be an OK value (timing related) for a vectrex program, that would
+still be called stable or 'flicker free' or just bearable...
+
+.....
+
+One person really answered!!!
+
+And said somewhere between 25Hz (tv) and 50Hz (cinema)
+(did I remember correctly?).
+Gnmph, didn't help that much, vectrex related...
+What I really ment was, how long stay the vectors on the screen
+befor they have to be updated in order to produce a stable image...
+(perhaps that even IS the same...)
+
+.....
+
+Anyway... I have (for now) only the information the emulator gives
+me. That information is in TICKS.
+One tick is 1/1,500,000 second, since the processor is running
+at 1.5 MHz.
+
+I have written an emulator timing function which watches
+the ROM function WAIT_RECALL, which almost all games
+(including frogger) use for timing and synchronizing.
+With that function I was able to determine exactly how long
+one 'update round' takes.
+For now Vectrex frogger in no event uses more than 50,000 ticks.
+That should be arround 30Hz, compared to todays SVGA cards
+this sounds VERY bad, but with vectrex games this is 'normal'.
+When I see it on a real vectrex and it flickers heavily, I might
+get it downtuned to arround 40.000, but I would rather avoid it,
+since I would have to redesign 'sprites'  to use less vectors,
+and redesign levels to use less sprites, but it would be
+possible...
+
+Some values I got with the emulator for comparisson:
+(all values describe a range... or two)
+Minestorm 33,000
+Dark Castle 40,000
+Berzerk 40,000
+Cosmic Chasm 30,000 - 60,000
+Blitz 50,000
+Fortress of Narzod 50,000 - 60,000
+Head's Up 45,000
+Hyper Chase 50,000 - 60,000
+Patriots 40,000 - 90,000 (destroying all cities ;-))
+Polar Rescue (no WAIT_RECALL used)
+Spinball (no WAIT_RECALL used)
+Pole Position 50,000 - 60,000
+RipOff 25,000 - 30,000
+Scramble 45,000 - 55,000
+Solar Quest 25,000 - 30,000
+Star Hawk 35,000 - 45,000
+Vector Vaders 70,000 (all Invaders)
+Web Wars 55,000 - 65,000
+
+.......
+
+Notice ALL values are in THOUSANDS.
+Some time ago there was a discussion going on how programs
+could be optimized using this and that better instruction.
+They were talking about 100-200 (at MOST) cycles per round.
+Squeezing out using inlining technics instead of JSR and
+other (trickier than that) stuff.
+As I now see it that is absolutely rediculous. While optimization is all
+nice, there is NO way it is worth the effort :-)
+(Even if it only takes a few minutes (exception to every rule certainly
+apply)).
+(you should try writting programs for VCS 2600...!!!)
+IMHO the only thing worth optimizing is drawing and positioning
+of vectors.
+While we are at it, allways use the lowest possible scale and
+the highest possible vector 'strength'. Since the scaling
+value is a timer value, which DIRECTLY influences the time needed
+for drawing (and/or positioning).
+Changing one scaling value in Frogger will make that above value
+from below 50,000 go up as high and over 100,000!!!
+
+-------------
+So what do you think should I stop babbling? Or not?
+
+Well this group is not all that active, a longer letter won't hurt you all
+that much...
+-------------
+
+Concerning the frogger again...
+Nice that some of you are interested in obtaining a cartridge.
+- but you won't get one...
+
+At least not from me, I have not the resources nor the knowhow
+for manufacturing them, perhaps I will make one, and only one
+for personal use, so that I have at least one so called 'ultra rare'
+cartridge, but I might as well not do it...
+
+Frogger will be PUBLIC DOMAIN!!!
+It will be free in every respect.
+The source will be available, and if any or all of you guys want to
+make money with it or publish it in any way you are welcome.
+
+If anyone wants to make cartridges whether multi or not, produce
+overlays or or or... you are all welcome... that's what public
+domain is about.
+(though I don't think anybody will become a second Bill Gates
+because of vectrex frogger (and Hasbro whould probably have a
+word with you if you did))...
+
+It would be nice to know what comes from frogger, so
+you are free to tell me what anybody wants and does...
+
+But all I do is write the thing and make it available...
+
+.......
+
+Someone asked if it was difficult programming vectrex...
+Whooo,
+what a question.
+All I can say is ... it depends on what you did before! :-)
+
+I certainly didn't find it very difficult, but that doesn't mean anything.
+I lived with computers happily the last 20 years or so.
+I did write programs before in many languages, from BASIC, C,
+C++, LISP, SCHEME, EIFFEL, PASCAL, COBOL, CLIPPER...
+to name just a few... and some range of Assemblers from
+6502 to 68000 to 80x86...
+
+Frogger (and before vpong) were the first 6809 programs I did.
+And for being firsts it was easy going.
+
+I think there are only a few things anyone needs to do a decent
+vectrex programm:
+
+1. an assembler
+(http://www.falstaff.demon.co.uk/cross.html a really nice
+makro cross-assembler...)
+
+2. emulator or vectrex system hooked to pc
+
+3. The GREAT GREAT dissassembled rom listings, either Fred's or
+ Bruce's (I used Bruce's, many many thanks for that work man...)
+
+4. and some 6809 documentation (try motorolla, you'll get
+ everything you need for free, or just some 6809 reference card...)
+
+(
+5. Once you really want to dig deeper into vectrex internals,
+ like doing own vector routines, doing own sound routines,
+ curved vectors, lightpen or 3d imager stuff or or or, you must
+ dig deeper for appropriate documentation, but by then you
+ will have the neccessary 'feeling' for digging :-)
+ (VIA, Integration Hardware, PSG, in and outgoing ports...)
+)
+
+One thing I found curious and NICE was that you don't have to
+worry about trash on your screen. If you ever did program a game
+or a gui on a day to day computer you sooner or later have to
+keep track where the last pixels were set in order to clean up the
+screen. Not so with vectrex... the next round the whole screen is
+clean again... a new and nice programming experience :-)
+
+
+Now... all of you tired reading yet?
+
+so I'll leave you to your own thoughts again...
+
+Bye 
+
+
+########
+
+
+Re....
+
+>I think the emulator is great for what it does! Namely, allow you to test
+>code without using an actual Vectrex. The only things I would change with
+>respect to the emulator would be to make it mimic a Vectrex "bugs" more
+>closely.. ie: Flicker, vector drift...
+
+Flicker...
+Hard to emulate better the way the emulator is set up now,...
+The core of the problem probably is, that the emulator draws
+vectors, these vectors are kept in memory as lines.
+If you get many lines in a vectrex programm it really slows down
+emulation... than you'll have flicker on the emulator side of the
+program, not with vectrex. The emulation compares each new
+line with lines in memory and only 'refreshes' a timer connected
+to each line instead of drawing it new...
+What really would be needed to emulate the hardware would be
+a vector beam emulation that draws pixels on the position on the
+screen the beam is currently on. And to each pixel a timer
+should be connected. And further to each pixel also a counter
+should be attached, to see if not another vector beam touches that
+point and increases it's brighness in it's own update time...
+As you can easily see this method would need a VERY FAST
+computer... I don't think common computers of 1998 are really
+up to it for a large number of pixels... All that (and all the
+other emulation) in real time of course...
+
+DRIFT...
+Really hard, since that depends on the age, weather
+temperature and and and of the vectrex...
+I wouldn't have a clue where to start...
+
+>As far as debugging tools and such go, I don't think given the type of
+>software we're all working on that seriously sophisticated tools are all that
+>
+>neccessary. And even if they are, I expect they're already out there with
+>existing 6809 cross assembler packages.
+>IMHO, the biggest impediment to Vectrex programming right now is the
+>difficulty in running code on an actual Vectrex. I know if I could actually
+>see stuff on my Vectrex, I would have gotten a lot more done in the last
+>several weeks rather than let the whole project slide the way I have...
+
+...tell me about it... I'm still waiting for that stupid eprom emulator...
+I haven't coded a single frogger line in a weeks time :-(
+
+>It seems from your list that about 40,000 ticks per screen update is "Safe"
+>while it's possible to push that to about 60,000.
+>
+>I think this is key information.
+>
+>I would like to know the values for Berzerk with 8/9/10 robots on screen as
+>you can really see the deterioration of flicker in that game...
+
+Berzerk 6 -> 40000
+Berzerk 7 -> 44000
+Berzerk 8 -> 48000
+Berzerk 9 -> 51500
+Berzerk 10 -> 54500
+
+...
+>If we assume a target of 40,000 ticks per program "cycle" (as above), just
+>how many of those cycles are involved in updating the screen? My guess is at
+>least half, if not more. Which means the programmer actually has maybe 20,000
+>ticks to play with.... If the average op-code is 3 or 4 ticks that's 5000 to
+>6666 lines of code. Use some big loops or heavy duty number crunching (real
+>time 3D) and you'll gobble that up pretty quick.
+>Given the flicker problems already evident, I think knowing the possible
+>solutions in optimisation is well worth the effort...
+
+(screen update... Frogger probably 4/5 of all cycles)
+
+Well certainly to some extend...
+I implemented a divide routine... (for some special effects)...
+You can surely waste time while not drawing, I tell you :-)
+(I ended up dividing only be ^2 values (LSL))...
+I tried from the start to save cycles where I could, but seeing how
+little it was worth in the end in general routines... I ended up
+to not care much anymore...
+
+But perhaps I will pick up clays idea with that huge counter field
+for each instruction in code and look where it really could mean a
+difference... (some day)
+
+>>IMHO the only thing worth optimizing is drawing and positioning
+>>of vectors.
+>
+>This is an excellent point. While something like move_draw_VL4 is great for
+>general purpose vector drawing, maybe a routine or routines that are
+>optimised to draw a set of vectors at ALWAYS the same scale and intensity
+>would be helpfull since the same values for these attributes tend to be
+>used over and over (and this would eliminate uneeded variables and any
+>calculations based upon these variables). Or perhaps even routines that
+>would only draw a set of 4 vectors at pre-specified scale/intensity.
+>Another that would draw a set of 8 vectors, etc.
+
+Actually what I did... I took some routines from the ROM
+wrapped them in a macro and used that macro in places where I
+thought it would be most beneficial...
+(my fingers are also itching to change some rom routines, but
+I'll wait till I get the vectrex system hooked to the computer...
+since with vector drawing one never really knows what kind of
+timing 'NOPS' are in there...)
+
+>>While we are at it, allways use the lowest possible scale and
+>
+>Really?
+>
+>So a vector (0,63) drawn at a scale of $80 is slower than a vector of
+>(0,126) drawn at a scale of $40??
+
+Defenitively! Exactly double!!!
+Vector scaling factors are TIMER VALUES...
+
+>What about drawing two vectors (0,127) at $40 instead of one vector (0,127)
+>at $80? (ie: Just how much faster is and, and would it be worthwhile to draw
+>multiple vectors at smaller scale rather than 1 vector at a larger scale?)
+
+That doesn't work, as mentioned above, $80 is double $40,
+so it uses the double time...
+But if you draw two small vectors you usually have some minor
+overhead...
+
+But that leads directly to the cycle saver discussed above...
+A vector with scale factor $80 will take
+($80 + c) cycles to be drawn. ('c' overhead constant... I can't remember.. at
+some stage I calculated it exactly for a vector routine... was something about
+30-50 (dec)).
+
+So... If you draw an object consisting of 10 lines
+(that is not much if you want to be able to recognize the object as
+something)...
+than you'll have
+($80 + c)*10 cycles
+Than lets say you have 10 objects (that to is not much)...
+($80+c)*10*10 cycles...
+That is about... 15000 cycles... !!!
+(and you did not yet position the sprites, that also takes
+ a scaling and an 'invisible' vector drawing...)
+Now take a scaling of $10 instead (you can still make pretty big
+sprites with that...) you'll have about 5000 cycles.
+
+>If so, I thought the brighter the vector, the slower the "pen" was dragged
+>accross the screen so as to leave a brighter trail. So, a dimmer Vector would
+>be drawn faster. Is this not correct?
+
+No, not correct, brightness doesn't relate to any timing, the
+vector beam somehow can have different brightnesses...
+
+>Speaking of which, anyone done anything with Timer Interrupts on the Vectrex?
+>I'd like to tie my movement (etc) routines to a timer as it's the IMHO
+>easiest
+>way to avoid "slow-downs". You either hook things up to a timer, or you have
+>to build in delay loops (NOPs) during the "faster" parts of your game (ie: If
+>
+>levels start with 10 aliens onscreen when you get down to 1 you want to
+>compensate for not having to do everything associated with the missing 9
+>aliens (movement calcs, shooting calcs, drawing to screen, etc) by executing
+>the equivalent in looped NOPs so the game doesn't get faster when the CPU has
+>less to do (ie: Berzerk).
+
+
+Yes, that's what the WAIT_RECALL function is for.
+You set a timer (or the OS does if you don't) and at the beginning
+of each 'loop' you call that function. This resets the vector
+system and synchronizes to the timer value you sat.
+I think the BIOS value is pretty near 30000 ticks.
+It is a 16 bit timer so there is a limit somewhere in the 40000-50000
+range.
+
+Some games do not use the Wait_recall function (see last message).
+I haven't looked at how they do their synchronizing, but the
+3d imager game 'narrow escape' (thanks to Fred Taft's dissassembly) virtually runs only in timer interrupts...
+
+Bye
+
+
+Malban
+
+
+

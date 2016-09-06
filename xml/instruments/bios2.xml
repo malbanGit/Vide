@@ -1,0 +1,8 @@
+<Instrument>
+<name>
+bios2</name>
+<adsr>
+$FF, $FF, $EE, $EE, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00</adsr>
+<twang>
+$00, $00, $00, $00, $00, $00, $00, $00</twang>
+</Instrument>

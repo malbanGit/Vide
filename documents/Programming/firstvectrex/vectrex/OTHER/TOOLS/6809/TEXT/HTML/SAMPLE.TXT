@@ -1,0 +1,56 @@
+0001                         ; sample program for 6809 assembler
+0002                         ;
+0003                         ; program to add two multiple precision operands
+0004                         ;
+0005                         
+0006 0008                    nbytes  EQU     8
+0007                         
+0008 1000                    	     ORG     $1000      ; start at 1000H
+0009                         
+0010                         ; BCD addition subroutine
+0011                         
+0012 1000 c6 08              bcd     ldb     #nbytes
+0013 1002 be 01 00           	     ldx     addr       ; load data address
+0014 1005 1c fe              	     andcc   #$0FE      ; clear carry bit
+0015 1007 a6 07              next    lda     nbytes-1,x	; start loop
+0016 1009 a9 0e              	     adca    nbytes-1*2,x
+0017 100b 19                 	     daa
+0018 100c a7 88 15           	     sta     nbytes-1*3,x
+0019 100f 30 1f              	     leax    -1,x
+0020 1011 5a                 	     decb
+0021 1012 26 f3              	     bne     next
+0022 1014 39                 	     rts                ; end of subroutine
+0023                         
+0024                         ; begin main program
+0025                         ; (uses subroutine 'bcd')
+0026 1100                    	     ORG     $1100      ; main program at 1100H
+0027 1100 10 ce 01 3f        	     lds     #$013f     ; initialise SP
+0028 1104 be 01 02           	     ldx     temp
+0029 1107 bf 01 00           	     stx     addr
+0030 110a bd 10 00           	     jsr     bcd
+0031 110d 8e 01 0a           	     ldx     #msg       ; get address of string
+0032 1110 bd 11 16           	     jsr     print      ; and print it
+0033 1113 12                 	     nop
+0034 1114 20 fe              loop    bra     loop       ; loop forever
+0035                         
+0036                         ; dummy routine print
+0037 1116 39                 print   rts
+0038                         
+0039                         ; allocate data area
+0040 0100                    	     ORG     $0100
+0041 0100 00 00              addr    FDB     0
+0042 0102                    temp    RMB     nbytes
+0043 010a 6d 75 6c 74 69 70  msg     FCC     "multiplication done"
+     6c 69 63 61 74 69
+     6f 6e 20 64 6f 6e
+     65
+0044 011d 0d 00              	     FCB     $0D,00
+0045                         	     END
+
+
+Motorola S records (for downloading to microprocessor system)
+S1181000C608BE01001CFEA607A90E19A78815301F5A26F33974
+S11A110010CE013FBE0102BF0100BD10008E010ABD11161220FE3982
+S10501000000F9
+S118010A6D756C7469706C69636174696F6E20646F6E650D001B
+S9030000FC

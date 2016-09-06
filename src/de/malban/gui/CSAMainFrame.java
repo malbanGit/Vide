@@ -48,7 +48,15 @@ import de.malban.vide.vecx.panels.JoyportPanel;
 import de.malban.vide.vecx.panels.StarterJPanel;
 import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
+import de.malban.vide.vecx.panels.WheelEdit;
 import de.malban.vide.vedi.VediPanel;
+import de.malban.vide.vedi.raster.RasterPanel;
+import de.malban.vide.vedi.raster.VectorJPanel;
+import de.malban.vide.vedi.sound.InstrumentEditor;
+import de.malban.vide.vedi.sound.ModJPanel;
+import de.malban.vide.vedi.sound.SampleJPanel;
+import de.malban.vide.vedi.sound.VecSpeechPanel;
+import de.malban.vide.vedi.sound.YMJPanel;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -191,6 +199,7 @@ public class CSAMainFrame extends javax.swing.JFrame
      */
     public CSAMainFrame() {
         //initComponents();
+        initLibraryMapping();
         Global.mMainWindow = this;
         ToolTipManager.sharedInstance().setDismissDelay(15000);
         Theme t = Configuration.getConfiguration().getCurrentTheme();
@@ -246,11 +255,21 @@ public class CSAMainFrame extends javax.swing.JFrame
             }
         });
 
-        VideConfig.getConfig();
+        VideConfig config = VideConfig.getConfig();
         setUpGlobalKeys();
         
         getFrame().setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         loadMe();
+        
+        initLibrary();
+        if (config.startFile != null)
+        {
+            File file = new File(config.startFile);
+            if (file.exists())
+            {
+                getVecxy().startBin(config.startFile);
+            }
+        }
     }
     void windowManagerStart()
     {
@@ -280,10 +299,6 @@ public class CSAMainFrame extends javax.swing.JFrame
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItemCartridgeEdit = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         jMenuItemStarter = new javax.swing.JMenuItem();
@@ -294,6 +309,19 @@ public class CSAMainFrame extends javax.swing.JFrame
         jMenuItemDissy = new javax.swing.JMenuItem();
         jMenuItemAssi = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenu8 = new javax.swing.JMenu();
+        jMenuItem38 = new javax.swing.JMenuItem();
+        jMenuItem39 = new javax.swing.JMenuItem();
+        jMenuItem40 = new javax.swing.JMenuItem();
+        jMenuItem41 = new javax.swing.JMenuItem();
+        jMenuItem43 = new javax.swing.JMenuItem();
+        jMenuItem45 = new javax.swing.JMenuItem();
+        jMenuItem42 = new javax.swing.JMenuItem();
+        jMenuItem44 = new javax.swing.JMenuItem();
+        jMenuItemCartridgeEdit = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItemConfig = new javax.swing.JMenuItem();
         jMenuLibrary = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
@@ -392,38 +420,6 @@ public class CSAMainFrame extends javax.swing.JFrame
         jMenu2.add(jMenuItem1);
         jMenu2.add(jSeparator2);
 
-        jMenuItem3.setText("compare Dissi");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem3);
-
-        jMenuItem4.setText("File utility");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem4);
-
-        jMenuItemCartridgeEdit.setText("EditCartridgeInfo");
-        jMenuItemCartridgeEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemCartridgeEditActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItemCartridgeEdit);
-
-        jMenuItem2.setText("Input Devices");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem2);
-
         fileMenu.add(jMenu2);
 
         exitMenuItem.setText("Exit");
@@ -496,6 +492,99 @@ public class CSAMainFrame extends javax.swing.JFrame
         });
         toolsMenu.add(jMenuItemAssi);
         toolsMenu.add(jSeparator1);
+
+        jMenu8.setText("Utilities");
+
+        jMenuItem38.setText("Raster images");
+        jMenuItem38.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem38ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem38);
+
+        jMenuItem39.setText("Vector images");
+        jMenuItem39.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem39ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem39);
+
+        jMenuItem40.setText("YM-files");
+        jMenuItem40.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem40ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem40);
+
+        jMenuItem41.setText("Mod-files");
+        jMenuItem41.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem41ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem41);
+
+        jMenuItem43.setText("Vectrex instruments");
+        jMenuItem43.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem43ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem43);
+
+        jMenuItem45.setText("Sample generation");
+        jMenuItem45.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem45ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem45);
+
+        jMenuItem42.setText("VecVoice/VecVox");
+        jMenuItem42.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem42ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem42);
+
+        jMenuItem44.setText("Imager wheel editor");
+        jMenuItem44.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem44ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem44);
+
+        jMenuItemCartridgeEdit.setText("Cartridge information");
+        jMenuItemCartridgeEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCartridgeEditActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItemCartridgeEdit);
+
+        jMenuItem4.setText("File utility");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem4);
+
+        jMenuItem3.setText("Dissi compare");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem3);
+
+        toolsMenu.add(jMenu8);
+        toolsMenu.add(jSeparator3);
 
         jMenuItemConfig.setText("Configuration");
         jMenuItemConfig.addActionListener(new java.awt.event.ActionListener() {
@@ -669,7 +758,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         });
         jMenu4.add(jMenuItem24);
 
-        jMenuItem25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
+        jMenuItem25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_white_acrobat.png"))); // NOI18N
         jMenuItem25.setText("Vectrex Programmers Manual Vol 2");
         jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -678,7 +767,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         });
         jMenu4.add(jMenuItem25);
 
-        jMenuItem26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
+        jMenuItem26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder.png"))); // NOI18N
         jMenuItem26.setText("Vectrex BIOS Original");
         jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1236,13 +1325,37 @@ public class CSAMainFrame extends javax.swing.JFrame
         addAsWindow(c, 1018, 680, "Application onfiguration");
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void jMenuItem38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem38ActionPerformed
+        RasterPanel.showModPanelNoModal();
+    }//GEN-LAST:event_jMenuItem38ActionPerformed
 
-        InputControllerDisplay p = new InputControllerDisplay();
-        addPanel(p);
-        setMainPanel(p);
-        CSAInternalFrame frame = windowMe(p, 800, 600, "Input Controller");
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    private void jMenuItem39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem39ActionPerformed
+        VectorJPanel.showModPanelNoModal(null);
+    }//GEN-LAST:event_jMenuItem39ActionPerformed
+
+    private void jMenuItem40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem40ActionPerformed
+        YMJPanel.showYMPanelNoModal(null,log, true);
+    }//GEN-LAST:event_jMenuItem40ActionPerformed
+
+    private void jMenuItem41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem41ActionPerformed
+        ModJPanel.showModPanelNoModal(null, log, true);
+    }//GEN-LAST:event_jMenuItem41ActionPerformed
+
+    private void jMenuItem43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem43ActionPerformed
+        InstrumentEditor.showInstrumentPanelNoModal(log);
+    }//GEN-LAST:event_jMenuItem43ActionPerformed
+
+    private void jMenuItem45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem45ActionPerformed
+        SampleJPanel.showSamplePanelNoModal();
+    }//GEN-LAST:event_jMenuItem45ActionPerformed
+
+    private void jMenuItem42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem42ActionPerformed
+        VecSpeechPanel.showVecSpeechPanelNoModal(log, null);
+    }//GEN-LAST:event_jMenuItem42ActionPerformed
+
+    private void jMenuItem44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem44ActionPerformed
+        WheelEdit.showWheelEdit();
+    }//GEN-LAST:event_jMenuItem44ActionPerformed
 
     boolean gameMode = false;
     de.malban.event.MasterEventListener keyListener = null;    
@@ -1346,6 +1459,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
@@ -1357,7 +1471,6 @@ public class CSAMainFrame extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem22;
@@ -1377,7 +1490,15 @@ public class CSAMainFrame extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItem35;
     private javax.swing.JMenuItem jMenuItem36;
     private javax.swing.JMenuItem jMenuItem37;
+    private javax.swing.JMenuItem jMenuItem38;
+    private javax.swing.JMenuItem jMenuItem39;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem40;
+    private javax.swing.JMenuItem jMenuItem41;
+    private javax.swing.JMenuItem jMenuItem42;
+    private javax.swing.JMenuItem jMenuItem43;
+    private javax.swing.JMenuItem jMenuItem44;
+    private javax.swing.JMenuItem jMenuItem45;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
@@ -1398,6 +1519,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     private javax.swing.JMenu jMenuLibrary;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu toolsMenu;
@@ -2505,6 +2627,14 @@ public class CSAMainFrame extends javax.swing.JFrame
     }
     
     // returns the "first" found vecxy panel or creates a new one!
+    public VediPanel getVedi(boolean forceNew)
+    {
+        VediPanel v=null;
+        if (!forceNew)
+            v =checkVedi();
+        if (v == null) v = createVedi();
+        return v;
+    }
     public VediPanel getVedi()
     {
         VediPanel v =checkVedi();
@@ -2923,7 +3053,8 @@ public class CSAMainFrame extends javax.swing.JFrame
     boolean saveStateAll()
     {
         saveMe();
-        for(JInternalFrame frame: mFrames)
+        Vector<JInternalFrame> saveFrames = (Vector<JInternalFrame>) mFrames.clone();
+        for(JInternalFrame frame: saveFrames)
         {
             CSAInternalFrame f = (CSAInternalFrame)frame;
             JPanel p = f.getPanel();
@@ -3650,5 +3781,109 @@ public class CSAMainFrame extends javax.swing.JFrame
             topElement.repaint();
         }
     }
+    public void resizeVecxis()
+    {
+        for (JPanel p: mPanels )
+        {
+            if (p instanceof Stateable)
+            {
+                if (((Stateable)p).getID().equals(VecXPanel.SID))
+                {
+                    ((VecXPanel)p).forceResize();
+                    
+                }
+            }
+        }
+        for(JInternalFrame frame: mFrames)
+        {
+            CSAInternalFrame f = (CSAInternalFrame)frame;
+            if (!(f.getPanel() instanceof Stateable)) continue;
+            if (((Stateable)f.getPanel()).getID().equals(VecXPanel.SID))
+                 ((VecXPanel)f.getPanel()).forceResize();
+        }
+    }
+    void initLibrary()
+    {
+        jMenuLibrary.removeAll();
+        String baseDir = "documents";
+        addFilesToMenu(jMenuLibrary, baseDir);
+    }
+    void addFilesToMenu(javax.swing.JMenu menu, String path)
+    {
+        File pfile = new File(path);
+        if (pfile.isDirectory())
+        {
+            // get all the files from a directory
+            File[] fList = pfile.listFiles();
+            Arrays.sort(fList);
+            // two times, to output all directories first
+            for (File file : fList) 
+            {
+                if (file.isDirectory())
+                {
+                    if (file.toString().toLowerCase().endsWith("firstvectrex")) continue;
+                    JMenu newMenu = new javax.swing.JMenu();
+                    newMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder.png"))); // NOI18N
+                    newMenu.setText(file.getName());
+                    addFilesToMenu(newMenu, file.getPath());
+                    if (newMenu.getItemCount()>0)
+                        menu.add(newMenu);
+                }
+            }
+            for (File file : fList) 
+            {
+                if (!file.isDirectory())
+                {
+                    if (file.toString().toLowerCase().contains("_critics.txt")) continue;
+                    if (file.toString().toLowerCase().contains("_instructions.txt")) continue;
+                    addFilesToMenu(menu, file.getPath());
+                    
+                }
+            }
+        }
+        else
+        {
+            for (LibraryMap lm: libMap)
+            {
+                String name = pfile.getName();
+                if (pfile.toString().toLowerCase().endsWith(lm.ending))
+                {
+                    name = name.substring(0, name.length()-lm.ending.length());
+                    javax.swing.JMenuItem mItem = new javax.swing.JMenuItem();
+                    mItem.setText(name);
+                    mItem.setIcon(new javax.swing.ImageIcon(getClass().getResource(lm.image))); // NOI18N
+                    mItem.addActionListener(new java.awt.event.ActionListener() 
+                    {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) 
+                        {
+                            invokeSystemFile(pfile);
+                        }
+                    });
+                    menu.add(mItem);
+                }
+            }
+        }
+    }
+    static class LibraryMap
+    {
+        String ending="";
+        String image="";
+        LibraryMap(String e, String i)
+        {
+            ending = e;
+            image = i;
+        }
+    }
+    static ArrayList<LibraryMap> libMap = null;
+    static void initLibraryMapping()
+    {
+        if (libMap != null) return;
+        libMap = new ArrayList<LibraryMap>();
+        libMap.add(new LibraryMap(".pdf", "/de/malban/vide/images/page_white_acrobat.png"));
+        libMap.add(new LibraryMap(".html", "/de/malban/vide/images/html.png"));
+        libMap.add(new LibraryMap(".txt", "/de/malban/vide/images/text_align_justify.png"));
+        libMap.add(new LibraryMap(".rtf", "/de/malban/vide/images/text_dropcaps.png"));
+        libMap.add(new LibraryMap(".doc", "/de/malban/vide/images/page_white_word.png"));
+    }
+    
 }
-

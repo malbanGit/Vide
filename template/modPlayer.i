@@ -3,7 +3,6 @@ Init_Music_Buf      equ      $F533
 Freq_Table          equ      $FC8D 
 Music_Table_1       equ      $F9E4 
 Music_Table_2       equ      $F9EA 
-
 plr_pattern         equ      music_ram 
 plr_geilmusik       equ      plr_pattern+1 
 plr_geilmusik_hi    equ      plr_geilmusik+1 
@@ -11,16 +10,19 @@ plr_part            equ      plr_geilmusik_hi+1
 plr_part_hi         equ      plr_part+1 
 plr_part_init       equ      plr_part_hi+1 
 plr_part_init_hi    equ      plr_part_init +1 
-
 ; following code is apart from one slight modification a copy of the original
 ; vectrex rom music play routine
-; the modified part is marked with two "; !" - lines!
-LF686:              rts      
+;
+; support for a §silence value: note $3f
+; also for a ADSR and TWANG table for each channel!
 
+
+                    direct   $c800 
 Init_Music_chk_mod: 
                     lda      <Vec_Music_Flag              ;Test sound active flag 
                     bmi      LF6B3                        ;Continue sound if active 
-                    beq      LF686                        ;Return if sound not active 
+                    bne      Init_Music_mod                        ;Return if sound not active 
+              rts      
 Init_Music_mod: 
                     ldx      #Freq_Table                  ;Save pointer to frequency table 
                     stx      <Vec_Freq_Table 
@@ -38,12 +40,15 @@ Init_Music_dft_mod:
                     ldd      #$0000 
                     std      <Vec_Music_Freq+2            ;Clear frequency of channel 2 
                     std      <Vec_Music_Freq+4            ;Clear frequency of channel 3 
-                    sta      <Vec_Music_Chan              ;A-reg = 0 (sound channel number?) 
-                    bra      LF6EC 
+                    ldb      #$03                         ;Count for three channels 
+                    stb      <Vec_Music_Chan 
+                    bra      LF6E3 
 
 ; Continue currently playing sound here
 LF6B3:              ldu      #Vec_ADSR_Timers             ;Get address of ADSR timers 
-                    ldb      #$02                         ;Count for three channels 
+                    ldb      #$03                         ;Count for three channels 
+                    stb      <Vec_Music_Chan 
+                    decb     
 LF6B8:              lda      b,u                          ;Get the channel's ADSR timer 
                     cmpa     #$1F 
                     beq      LF6C0                        ;Skip if at maximum 
@@ -51,8 +56,8 @@ LF6B8:              lda      b,u                          ;Get the channel's ADS
 LF6C0:              decb                                  ;Go back for the other channels 
                     bpl      LF6B8 
                     ldx      <Vec_Twang_Table 
-                    ldu      #Vec_Music_Twang 
-                    lda      #$07                         ;Twang limit is 6-8 depending on channel 
+                    ldu      #Vec_Music_Twang             ; pointer to "counter, current TWANG" for each cahnenl (3*2 bytes) 
+                    lda      #$09                         ;07 ;Twang limit is 6-8 depending on channel 
 LF6CA:              inc      ,u                           ;increment twang counter 
                     cmpa     ,u                           ;Check against limit 
                     bge      LF6D2 
@@ -61,27 +66,28 @@ LF6D2:              ldb      ,u+                          ;Get twang count
                     andb     #$07                         ;Mask out low 3 bits 
                     ldb      b,x                          ;Get twang value from table 
                     stb      ,u+                          ;Update current twang value 
-                    inca                                  ;increment twang limit 
-                    cmpa     #$09 
+                    leax     #8,x                         ; for next channel use next twang table 
+                    cmpu     #Vec_Music_Twang +4          ; three twangs done -> jump 
+                                                          ; inca ;increment twang limit 
+                                                          ; cmpa #$09 
                     bls      LF6CA                        ;Go back until all three channels done 
                     dec      <Vec_Duration                ;decrement the duration timer 
-                    bne      LF74E                        ;Update ADSR while note still playing 
+                    lbne     LF74E                        ;Update ADSR while note still playing 
+
+; from here start reading the next note and start "playing" it
 LF6E3:              lda      <Vec_Music_Chan              ;Go to next music channel 
                     deca     
                     bpl      LF6EA                        ;If < 0, set it to 2 
                     lda      #$02 
 LF6EA:              sta      <Vec_Music_Chan 
 LF6EC:              ldb      [Vec_Music_Ptr]              ;Get next byte of music data 
-; !
-                    cmpb     #$3F                         ; if it's a 3F, set the ADSR timer to end (silence) 
-                    bne      LF6EC3 
-                    ldb      #$1F 
-                    stb      a,u 
-                    ldb      [Vec_Music_Ptr]              ; reload original value 
-                    bra      LF6EC2 
-; !
 
-LF6EC3:             ldu      #Vec_ADSR_Timers             ;Clear ADSR timer for this channel 
+                    andb     #$3f 
+                    cmpb     #$3F                         ; if it's a 3F, set the ADSR timer to end (silence) 
+                    beq      LF735 
+LF6EC3: 
+                    ldb      [Vec_Music_Ptr]              ; reload, since we destroyed with SIL test 
+                    ldu      #Vec_ADSR_Timers             ;Clear ADSR timer for this channel 
                     clr      a,u 
 LF6EC2:             bitb     #$40                         ;If $40 bit of music data set, 
                     beq      LF712                        ;we're going to make some noise 
@@ -149,10 +155,11 @@ LF766:              lsrb                                  ;If even, divide ADSR 
                     lsrb     
                     lsrb     
 LF76D:              stb      a,x                          ;Store ADSR value in regs 10-12 
+                    leay     #16,y                        ; each channel has a adsr, they rare 16 byte apart 
                     deca                                  ;decrement channel counter 
                     bpl      LF759                        ;Go back for next channel 
                     ldu      #Vec_Music_Freq+6            ;Point to base frequency table 
-                    ldx      #Vec_Music_Wk_5              ;Point to twang table 
+                    ldx      #Vec_Music_Wk_5              ;Point to shadow registers of PSG for frequency 
 LF778:              ldd      ,--u                         ;Get next base frequency 
                     tst      -8,u                         ;Test twang value 
                     bpl      LF788 
@@ -168,3 +175,5 @@ LF78C:              std      ,x++                         ;Store freq in regs 5/
                     cmpx     #Vec_Music_Work+14 
                     bne      LF778 
 LF793_rts:          rts      
+
+                    direct   $ffff 

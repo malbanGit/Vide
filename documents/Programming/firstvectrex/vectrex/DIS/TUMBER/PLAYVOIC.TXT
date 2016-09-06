@@ -1,0 +1,244 @@
+Using PLAY_VOICE
+
+This document explains how to use my new song playing routines, as used in 
+SONGDEMO.BIN and posted here previously.
+
+The Basics
+===========
+Song playing is done through the use of four routines. The first, is 
+setup_intro_mus. It is called just once, and initialises all the variables 
+for use in playing the song. setup_intro_mus is actually a completely 
+arbitrary name. In fact, if you have several tunes to be played throught the 
+course of your program you will need to setup many of the song playing 
+variables each time. So, you will need multiple setup_intro_mus (though 
+obviously not all called that). Or, you can just integrate setup_intro_mus' 
+functions into another initialisation routine. setup_intro_mus (or something 
+like it) must be called first, before proceeding with actual song playing.
+
+The real work is done by the play_voice1, play_voice2 and play_voice3 
+routines. Each one of the routines corresponds to a specific voice. 
+play_voice1 plays a tune on voice 1. play_voice 2 plays a tune on voice 2 and 
+play_voice3 plays a voice on voice3. All three routines are completely 
+independant and you only need to call the routines you need. So, if you want 
+to play a tune ONLY on voice 1, only use play_voice1 and don't use 
+play_voice2 or play_voice3.
+
+play_voice1, play_voice2 and play_voice3 should be called immediately after 
+waitrecal in any main_loop that needs to play a song.
+
+
+Note Lengths
+============
+play_voice uses whole, half, quarter, eight and sixteenth notes. The lengths 
+of these notes are defined by a series of variables as follows:
+
+whole_dur      - Duration of whole note
+half_dur       - Duration of half note
+quarter_dur    - Duration of quarter note
+eighth_dur     - Duration of eight note
+sixteenth_dur  - Duration of sixteenth note
+
+The contents of these variables determines hoe many iterations of the 
+main_loop the note will be held. In the case of waitrecal's default timer 
+setting, the main_loop is executed 50 times per second. So each iteration is 
+1/50th of a second. The values I've used are:
+
+whole_dur      - 32
+half_dur       - 16
+quarter_dur    -  8
+eighth_dur     -  4
+sixteenth_dur  -  2
+
+These values are arbitrary and you can change them at your leasure. These 
+values mean that a whole note is twice as long as a half note, a half note 
+twice as long as a quarter, a quarter twice as long as an eighth and and 
+eighth twice as long as a sixteenth. A whole note is held for 32/50 of a 
+second.
+
+These ratios do not need to be maintained, either. If you need extra long 
+notes or you don't need the very short notes, or you want notes of (say) 3/4 
+the length of other notes these values may be changed to reflect these needs. 
+The name of the variables simply reflect what seemed their most likely use 
+and doesn't need to reflect the actual note lengths.
+
+Just be sure to modify the ADSR envelopes to reflect note lengths.
+
+
+ADSR Envelopes
+==============
+
+Each note length has it's own ADSR envelope for each voice. This is so that 
+notes of different lengths can be scaled properly to sound uniform at 
+different durations without the Vectrex having to do the work of 
+interpolating of exterpolating the ADSR envelopes. It's not as elegant a 
+solution as letting the AY-3-8192 do the work and this may change in later 
+versions of these routines as I come to understand on ADSR envelopes work on 
+the AY-3-8192.
+
+The addresses of the ADSR tables are stored in a series of variables. These 
+variables are named:
+
+V1_whole     - Address of voice 1 whole note ADSR table
+V1_half      - Address of voice 1 half note ADSR table
+V1_quarter   - Address of voice 1 quarter note ADSR table
+V1_eighth    - Address of voice 1 quarter note ADSR table
+V1_sixteenth - Address of voice 1 sixteenth note ADSR table
+V2_whole
+V2_half
+V2_quarter
+V2_eighth
+V2_sixteenth
+V3_whole
+V3_half
+V3_quarter
+V3_eighth
+V3_sixteenth
+
+setup_intro_mus sets these variables as follows, however, you can use tables 
+of your own name and design. Or just overwrite and modify these until you 
+gett used to it.
+
+ins1_w_ADSR: Voice 1 whole note ADSR table
+ins1_h_ADSR: Voice 1 half note ADSR table
+ins1_q_ADSR: Voice 1 quarter note ADSR table
+ins1_e_ADSR: Voice 1 eight note ADSR table
+ins1_s_ADSR: Voice 1 sixteenth note ADSR table
+
+ins2_w_ADSR: 
+ins2_h_ADSR: 
+ins2_q_ADSR: 
+ins2_e_ADSR: 
+ins2_s_ADSR: 
+   
+ins3_w_ADSR: 
+ins3_h_ADSR: 
+ins3_q_ADSR: 
+ins3_e_ADSR: 
+ins3_s_ADSR: 
+
+Each value in the table is the actual volume the note will play at for that 
+itteration through the main_loop. Since with waitrecal the main_loop executes 
+50 imes per second, you have control of the wave envelope at 1/50 of a second 
+intervals. Not perfect, but good enough to give you pretty good control of 
+the sound.
+
+The ADSR tables actually work from high memory to low (or right to left if 
+you put all the values on one line as I try to do).
+
+For example, a table like:
+
+ins1_h_ADSR: 15,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1
+             ^^                                   ^
+             Final Volume                         First Volume
+
+Ramps up the volume of the note from silence to full volume. The note is then 
+cut off quickly at the end as it goes from full volume to off.
+
+Meanwhile:
+
+ins1_h_ADSR: 1,3,5,7,9,11,13,15,15,15,15,15,15,11,6,1
+             ^^                                   ^
+             Final Volume                         First Volume
+
+This ADSR ramps volume up to full quickly, hold full volume and then fades 
+it back down again fairly slowly.
+
+By using varying ADSR envelopes, you can create different sounding 
+instruments for each voice to play as each voice has it's own set of ADSR 
+envelopes, one for every note length.
+
+If you're going to be using the voice's ADSR envelopes to creates notes of 
+the same instrument of different length (You don't HAVE to do this. You could 
+use completely different ADSR envelopes on the same voice thus giving you 
+access to different instrumenst on a single voice) you need to scale the 
+envelopes accordingly.
+
+For example:
+
+
+   lda #16
+   sta whole_dur
+   lda #8
+   sta half_dur
+   lda #ins1_w_ADSR
+   sta V1_whole
+   lda #ins1_h_ADSR
+   sta V1_half
+   rts
+
+ins1_w_ADSR: 2,5,8,11,11,11,11,11,11,11,11,15,11,6,1
+ins1_h_ADSR: 2,5,8,11,15,11,6,1
+
+In this example, voice one has a whole note of duration 16 and a half note of 
+duration 8. These notes are scaled, and the half note will sound like a 
+shorter version of the whole note. These notes create an ADSR envelope which 
+looks like this:
+
+       /\
+      /  \
+     /     ---------
+    /                \
+   /                   \
+   
+The initial rising volume is the ATTACK which increases to the maximum 
+volume. Then the volume DECAYS until it reaches the SUSTAIN volume. This 
+volume is held until the RELEASE begin and the sound fades to off.
+
+This is a typical ADSR envelope. When scaling, you generally want to start 
+with the shortest note. To scale up to longer notes, increase the length of 
+the SUSTAIN.
+
+You don't HAVE to use the standard ADSR type envelopes, you can do any kind 
+of oddball ADSR envelopes you want. You can do notes which rise and fall in 
+volume or other unusual effects.
+
+
+Notes
+=====
+
+Each play_voice routine uses its own table of notes. When initialising your 
+song, store the address of the tables in V1_notes and V1_pos for voice 1. In 
+V2_notes and V2_pos for voice 2 and V3_notes and V3_pos for voice 3. 
+
+setup_intro_mus initialises these tables as being at intro_song1:, 
+intro_song2: and intro_song3: but you can put the anywhere you like.
+
+Each note is two bytes long. The first byte is the actual note, the second 
+byte is the duration of the note. For the note, check Appendix F of Chris 
+(The other one's) Vectrex tutorial for the list of note values. The note 
+is a whole note if the second byte is a 0, a half note if it's a 1, a quarter 
+note if it's a 2, and eighth note if it's a 3 and a sixteenth note if it's 
+anything else.
+
+So:
+
+intro_song: fcb #$00,#$01
+
+Will play a half note and it will be a G2.
+
+The end of a song is denoted by a #$ff. A #128 in the first byte indicates 
+that that note is a rest and no note (silence) is played for that duration.
+
+In addition, you can play noise. If bit 6 of the first byte is set then noise 
+is played. Noise has a frequency of #$00 to #$1f. So noise nottes have a 
+value from #$40 to #$5f. Noise notes do not use the note frequency table that 
+regular notes do. What's more, changing the frequency doesn't seem to have 
+any effect on the actual noise sound produced so you're on your own here.
+
+
+
+That's really all there is to it. Take a look at the song demo I've 
+provided. It should be pretty clear what's going on. At first all you really
+need to play with are the note tables and the ADSR envelopes. Even the ADSR
+envelopes are optional if you just want to get something going. After that
+you can play with note lengths and such.
+
+As always, feel free to foreward your comments and complaints. I'll be 
+around...
+
+
+Tomorrow: Omega Chase!
+
+###
+1
+

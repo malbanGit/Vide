@@ -1,0 +1,380 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160906151831" />
+<!-- created with HelpSetMaker, ID=b2de88b8 -->
+<title>Joyport Devices</title>
+</head>
+<body class="doc">
+<h1>Joyport Devices</h1>
+<h2>Part one - Buttons!</h2>
+
+<p>Below I mainly explain how to use buttons to "transport" data to a device connected to the joyport. If you understand the below things - it will be easy to read such simple things as buttons states. So - for now I will not explain that :-)!</p>
+
+<p>Vectrex has two joyports, both are wired:</p>
+
+<div class="code">
+<p> <tt> Vectrex Controller &amp; Port Connections:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin 1: Button 1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin 2: Button 2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin 3: Button 3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin 4: Button 4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin 5: Joystick: Horizontal<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin 6: Joystick: Vertical<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin 7: +5V<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin 8: Ground<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pin 9: -5V<br />
+</tt></p>
+</div>
+
+<p>For easier writing, in the following I will say "button x" whenever I refer to "Pin x".  And what I really mean is: the device connected to Pin x. 		 	<br />
+<br />
+	 <b>Specials:<br />
+</b> Port 0 Button 4 is wired to 6809 FIRQ line<br />
+Port 1 Button 4 is wired to 6522 CA1 line<br />
+</p>
+
+<p>Both lines are DIRECTLY connected to the button outputs, these connections are not  going thru PSG chip first!</p>
+
+<p>Devices (except for e.g. paddles) on the joyports usually only use the four "buttons" to communicate with vectrex (Lightpen, Imager, LinkCables, VecSpeech).</p>
+
+<p>Although in theory all devices can be plugged into both ports usually only port 1 is used for these devices, since:
+<ol><li>
+<p>the vectrex "user" is used to having a joystick in port 0</p>
+</li><li>
+<p>all programs making use of the devices have to adjust to the ports, and they usually don't do that</p>
+</li></ol>
+</p>
+
+<p>The only device known, that actually IS used in port 0 is the lightpen. There is one program (Engine Analyzer) which expects the lightpen in port 0.</p>
+
+<p><b><br />
+Communication<br />
+</b></p>
+
+<p>There are  two types of communication possible:</p>
+<br />
+
+<p><b>direct</b><br />
+Uni directional communication: Device &rarr; vectrex.</p>
+
+<p>The direct communication can only be used FROM the device TO vectrex. This can only be done via "button 4" which is connected to CA1 or FIRQ.</p>
+<br />
+
+<p><b>indirect</b><br />
+Bi directional communication is possible using the PSG chip.</p>
+
+<p>Port 0 button 1-4 are connected to the four lower bits of Port A of the PSG chip.<br />
+(button 1 to bit 0, button 2 to bit 1, button 3 to bit 2, button 4 to bit 3)<br />
+Port 1 button 1-4 are connected to the four upper bits of Port A of the PSG chip.<br />
+(button 1 to bit 4, button 2 to bit 5, button 3 to bit 6, button 4 to bit 7)</p>
+<br />
+
+<p><i>interlude PSG</i><br />
+ <br />
+It is worth noting, that the Port A has two modes:
+<ul><li>
+<p>Input mode (port A of PSG can be written to from the outside[a device in the joyports])</p>
+</li><li>
+<p>Output mode (port A of PSG can output data to the outside [a device in the joyports])</p>
+</li></ul>
+</p>
+
+<p>The mode of the port is set by bit 6 of register 7 of the PSG (0 = input, 1 = output).</p>
+
+<p>It seems, that internally the PSG has a special storage area for output values. This "storage" is not effected by the values which are put to the port A lines (from the outside). Upon switching from input to output mode, the values from that internal storage are  always restored and set to port A.</p>
+
+<p>In INPUT-mode<br />
+It seems that the output values can ALSO be set while PSG is in input mode. (Setting output data while in input mode, sets the data to that internal "storage" area,  the actual port A will always read $ff when read[from the outside] while in input mode.)</p>
+
+<p>In OUTPUT-mode<br />
+The opposite does not seem to be true. When PSG is in output mode, it seems data can still be "correctly" read from the PSG side  (meaning: reading from the vectrex side, reading out PSG register (reg 14) reads the state  of the buttons (NOT $ff) - my first guess would have been to read a $ff  if in output mode - but this is NOT the case)<br />
+[I have not written extensive test programs for this behaviour. I don't know if the returned value is the CURRENT input value on the ports, or the last known input value. In the later case that would mean, that there also is an internal storage area for input values,  as there is for output values. The known implementation of the game BerzerkArena seem to indicate, that even though port A of the PSG is set to output mode, input values (coming in this case from the other vectrex) can be read as "usual". The complete game BerzerkArena is played with PSG Port A set to output, and the serial communication works in both directions.]</p>
+<br />
+
+<p><i>interlude end</i><br />
+</p>
+<br />
+
+<p><b>Accessing the Buttons</b><br />
+As mentioned above, the joyport buttons are directly connected to PSG port A. To read or write to the buttons the programmer must access Port A of PSG.</p>
+
+<p>The PSG on the other hand is not connected/mapped to any memory location. To access PSG  one has to go through VIA 6522.</p>
+
+<p>Now it gets confusing. <br />
+VIA also has a Port A (Reg 1), the lines of VIA port A are "passed" through the PSG chip to the DAC. We are ignoring DAC and all that follows at the moment and just acknowledge the fact, that PSG chip is connected  (with its DA0-7 lines [DA stands for Data/Address, you will see why later]) to VIA.<br />
+ <br />
+So - at the end of the day to read or write values to the PSG one has to go thru VIA (port A). (Needless to say, that Via port A also can be input or output, which in turn is configured by Via Reg 3 DDRA).</p>
+
+<p>Now, PSG has only one 8 bit "line" (DA0 - DA7) as Input/Output for data. But we also have to tell the PSG what we want to do (read or write, and from where or where to). For that purpose there are two other PSG "pins" available (in reality 3, but we are ignoring BC2 here).<br />
+Pin: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BDIR (Bus direction)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BC1 (Bus Control 1)<br />
+</p>
+
+<p>Those two pins taken together can be read as a two bit number with following meaning:<br />
+BDIR/BC1: 00 - inactive<br />
+BDIR/BC1: 01 - read from PSG<br />
+BDIR/BC1: 10 - write to PSG<br />
+BDIR/BC1: 11 - latch address<br />
+</p>
+
+<p>With configuring these pins in conjunction with the DA lines we access the PSG and can read or write values.</p>
+
+<p>Simple example:<br />
+ Task: read value of register 7 <br />
+ <br />
+We set following "things" of PSG:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DA       =  7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BDIR/BC1 = 00<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BDIR/BC1 = 11<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BDIR/BC1 = 00<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BDIR/BC1 = 01<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DA can now be read with the value of PSG Reg 7<br />
+  <br />
+Comments:
+<ol><li>
+<p>first set the register we are interested in to DA <br />
+(hence D"A" (ADDRESS we want to read))</p>
+</li><li>
+<p>set BDIR/BC1 = 00 to INACTIVE, this is NEEDED!<br />
+   Switching the state of BDIR/BC1 can not be done directly!<br />
+   Switching to a state (different 00) must ALLWAYS be done from state 00!</p>
+</li><li>
+<p>set BDIR/BC1 = 11, PSG remembers the value in DA (7) as the current latched address<br />
+   meaning: the next read or write access will be done with that latched address</p>
+</li><li>
+<p>set BDIR/BC1 = 00 see above</p>
+</li><li>
+<p>set BDIR/BC1 = 01 read the currently latched register (7) to DA <br />
+(hence "D"A    (since now it is filled with DATA of reg 7)) <br />
+ </p>
+</li></ol>
+</p>
+
+<p> <br />
+<b>BDIR and BC1</b><br />
+These two pins are again set (can not be read!) by setting appropriate bits to VIA.<br />
+More specific both pins are connected to VIA port B.<br />
+Even still more specific:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BDIR is bit 4 of via port B<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BC1 is bit 3 of via port B<br />
+  <br />
+  Real world vectrex example:</p>
+
+<p>Writing a value to joystick buttons </p>
+
+<p>(value of A is "split" to two nibbles, <br />
+the lower nibble will end up in Port 0 buttons<br />
+the upper nibble will end up in port 1 buttons<br />
+- with vectrex, writings to port 0 will usually be discarded<br />
+  by an ignorant joystick :-) ) </p>
+
+<p><tt><br />
+; value given in A<br />
+; write value to joystick ports (buttons)<br />
+; Port A of PSG is kept in OUTPUT mode<br />
+; assuming that port A of VIA is in output mode<br />
+; and also that port B of VIA is otherwise configured to correct IO settings<br />
+write&nbsp;A&nbsp;toJoy2:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta -01,s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; store given value on stack<br />
+<br />
+; Latch Reg $07 of PSG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda #$07&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Register 7 of PSG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta &lt;VIA&nbsp;port&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; VIA A = 0x07 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldd #$9981&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; 1001 1001 / 1000 0001 1) bit 3+4 == 11, 2) bit 3+4 = 00 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)<br />
+     <br />
+; write value of $7f to reg $07 (latched)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda #$7F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; $7f to VIA A (DAC) $7f = 0111 1111, disable all noise and tone in psg, <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ENABLE OUTPUT on port A of PSG (port B irrelevant since it is a 8912)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta &lt;VIA&nbsp;port&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; $7f to VIA A (DAC)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldd #$9181<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)<br />
+<br />
+; now port A of PSG is in output mode and can be written to	 <br />
+	 <br />
+; Latch Reg $E of PSG (Port A)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda #$0E<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta &lt;VIA&nbsp;port&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; $0e to VIA A (DAC)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldd #$9981&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; 1001 1001 / 1000 0001 1) bit 3+4 == 11, 2) bit 3+4 = 00 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)<br />
+     <br />
+; write A to port<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda -01,s&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; read value from stack<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta &lt;VIA&nbsp;port&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; output value to via VIA port A to Port A of PSG (Joystick buttons)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldd #$9181&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; 1001 0001 / 1000 0001 1) bit 3+4 == 10, 2) bit 3+4 = 00 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stb &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rts<br />
+<br />
+</tt> Note:<br />
+BC1/BDIR = 00 is used at the end of each command. This is ok, if this is followed strictly, since before each setting BC1/BDIR must be 00, which is still "honoured".</p>
+
+<p>Note:<br />
+The vectrex BIOS also supports PSG "operations". If you only use BIOS functions to access PSG, than all registers of the PSG are shadows at the RAM locations:<br />
+<br />
+$c83f (register 14)<br />
+...<br />
+$c84c (register 0)<br />
+<br />
+Yes - in reverse order!<br />
+You can read those values and use them as you would do "directly". To poke a value at register 7 you would do:<br />
+</p>
+
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb #$00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; value to set<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda #$07&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; Register 7 of PSG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jsr Sound&nbsp;Byte&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; write byte to soundchip and to shadow registers <br />
+</tt></p>
+<h2>Part two - Joystick!</h2>
+
+<p>Reading values of the joystick is not as easy as one might think.<br />
+(Or - you just use the available BIOS functions - THAT makes it quite easy, but that is explained elsewhere).</p>
+
+<p>The vectrex was one of the first machines to have analog joysticks. Below I will try to explain how they are implemented and accessed.</p>
+
+<p>Each joystick direction is implemented as a potentiometer. Alltogether there can be four such potentiometers:
+<ul><li>
+<p>port 0: horizontal</p>
+</li><li>
+<p>port 0: vertical</p>
+</li><li>
+<p>port 1: horizontal</p>
+</li><li>
+<p>port 1: vertical</p>
+</li></ul>
+</p>
+
+<p>Do you remember how the integrators have access to DAC values? The DAC value goes "thru" a multiplexer. The multiplexer has two "SELECT" lines (Via port B bit 1+2). The select values "multiplex" the one input signal to one of four output lines. The output line is chosen by the value of the select lines.</p>
+
+<p>Why am I telling you that?</p>
+
+<p>Because with the joystick potentiometers this is the same.</p>
+
+<p>REALLY the same, since the physical electronic part inside the vectrex is the same (4052b). That chip is a Multiplexer/DeMultiplexer. The same select lines (Via port B bits 1+2) select which of the 4 potentiometers is taken as input:<br />
+Bit2+Bit1:
+<ul><li>
+<p>00: port 0 horizontal</p>
+</li><li>
+<p>01: port 0 vertical</p>
+</li><li>
+<p>10: port 1 horizontal</p>
+</li><li>
+<p>11: port 1 vertical</p>
+</li></ul>
+</p>
+
+<p>The demultiplexer sets the voltage of the one selected potentiometer to a circuit which is connected to the DAC and a special other pin.</p>
+
+<p>The circuit compares the value of the potentiomenter to the analog value received from the DAC. If the contents of the DAC (the analog representation of a digital signed value ranging from -128 to +127) is smaller than the value gotten from the potentiometer, than the above mentioned pin is set to true - otherwise false.</p>
+
+<p>The pin (how could it be otherwise) is again part of Via - it can be found in Via port B bit 5. The bit/pin is cleverly named "comparator input bit" (meaning: input <i>from</i> the comparator, not input <i>to</i> the comparator!).</p>
+
+<p>With that information, a digital request in pseudo code can be done like:</p>
+
+<p>Question: is Joystick port B moved to right?<br />
+<br />
+
+<ul><li>
+<p>disable mux<br />
+</p>
+</li><li>
+<p>dac = 0<br />
+</p>
+</li><li>
+<p>mux sel = 00<br />
+</p>
+</li><li>
+<p>enable mux<br />
+</p>
+</li><li>
+<p>delay short<br />
+</p>
+</li><li>
+<p>disable mux<br />
+</p>
+</li><li>
+<p>delay "long"<br />
+</p>
+</li><li>
+<p>load dac with some positive value<br />
+</p>
+</li><li>
+<p>check compare bit<br />
+</p>
+</li><li>
+<p>if set than joystick was moved right<br />
+</p>
+</li></ul>
+</p>
+
+<p>To get an analog value in principle the same must be done, but you have to test more. The line "load dac with some positive value" - and the checking afterwards has to be done with increasing values till a point is reached where the flag is not set anymore. The last set value (or the first unset value) is the digital representation of the potentiometer of the current joystick axis.</p>
+
+<p>This is, why it is usually a good idea to only use analog values if it absolutely neccessary, since it is time consuming to do the aproximation.</p>
+
+<p>Real life example of a digital joystick "request" for port 0:<br />
+(not the BIOS function)<br />
+<br />
+<tt> queryInputPort0: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda      #$D0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; setup DP <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tfr      a,dp <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direct   $D0 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda      #$03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; mux disabled, mux sel = 01 (vertical pot port 0) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta      &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr      &lt;VIA&nbsp;port&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; dac = 0 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec      &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; mux enabled, mux sel = 01 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb      #$20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; a wait loop 32 times a loop (waiting for the pots to "read" values, and feed to compare logic) <br />
+waitLoopV: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ... <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bne      waitLoopV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; wait... <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc      &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; disable mux <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb      #$20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; load b with comparator bit (0010 0000) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda      #$40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; load a with test value (positive y) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta      &lt;VIA&nbsp;port&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; test value to DAC <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda      #$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; default result value y was pushed UP <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bitb     &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; test comparator <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bne      yReadDone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; if comparator not cleared - joystick was moved up <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;neg      &lt;VIA&nbsp;port&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; "load" with negative value <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nega&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; also switch the possible result in A <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bitb     &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; test comparator again <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beq      yReadDone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; if cleared the joystick was moved down <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; if still not cleared, we clear a as the final vertical test result (no move at all) <br />
+yReadDone: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta      &gt;joy&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; remember the result in "our" joystick data <br />
+;<br />
+; now the same for horizontal<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda      #$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; mux disabled, mux sel = 00 (horizontal pot port 0) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta      &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr      &lt;VIA&nbsp;port&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; dac = 0 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dec      &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; mux enabled, mux sel = 01 <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb      #$20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; a wait loop 32 times a loop (waiting for the pots to "read" values, and feed to compare logic) <br />
+waitLoopH: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; ... <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bne      waitLoopH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; wait... <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inc      &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; disable mux <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ldb      #$20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; load b with comparator bit (0010 0000) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda      #$40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; load a with test value (positive x) <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta      &lt;VIA&nbsp;port&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; test value to DAC <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lda      #$01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; default result value x was pushed right <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bitb     &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; test comparator <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bne      xReadDone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; if comparator not<br />
+ cleared - joystick was moved right <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;neg      &lt;VIA&nbsp;port&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; "load" with negative value <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nega&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; also switch the possible result in A <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bitb     &lt;VIA&nbsp;port&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; test comparator again <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beq      xReadDone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; if cleared the joystick was moved left <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clra&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; if still not cleared, we clear a as the final vertical test result (no move at all) <br />
+xReadDone: <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sta      &gt;joy&nbsp;x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; remember the result in "our" joystick data <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rts&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; done <br />
+</tt></p>
+<br />
+</body>
+</html>

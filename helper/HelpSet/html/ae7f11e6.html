@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511232928" />
+<meta name="date" content="20160906151831" />
 <!-- created with HelpSetMaker, ID=ae7f11e6 -->
 <title>FAQ debugging/dissi</title>
 </head>
@@ -102,7 +102,11 @@ Apart from that, some more tips:
 <p>See two questions above.</p>
 <h2>Tracki - some programs do not show any tracki information, why is that?</h2>
 
-<p>They do to! Most probably you didn't configure tracki correctly. Tracky measure cycles between two memory locations the CPU (pc - program counter) passes. The default configuration is set up to measure cycles between the exit and the entry of the BIOS routine "WaitRecal". Many programs use that routine to do vector recalibration at the end of their game loop. Therefor for these programs the given locations measures the cylces of a game loop round. For programs which do not use the "WaitRecal" routine for their recalibration, the setup does not show any results. You must figure out what the program you are interested in uses for a game loop and/or recalibration. You can enter the so found addresses into the supplied start/end addreesses of tracki - than you can measure those programs. Also: Remember to switch the "allways update" button to "on" - otherwise you won't see anything either :-)</p>
+<p>They do to!<br />
+Most probably you didn't configure tracki correctly. Tracky measure cycles between two memory locations the CPU (pc - program counter) passes.<br />
+The default configuration is set up to measure cycles between the exit and the entry of the BIOS routine "WaitRecal". Many programs use that routine to do vector recalibration at the end of their game loop. Therefor for these programs the given locations measures the cylces of a game loop round.<br />
+For programs which do not use the "WaitRecal" routine for their recalibration, the setup does not show any results. You must figure out what the program you are interested in uses for a game loop and/or recalibration. You can enter the so found addresses into the supplied start/end addreesses of tracki - than you can measure those programs.<br />
+Also: Remember to switch the "always update" button to "on" - otherwise you won't see anything either :-)</p>
 <h2>In dissi, what is the advantage of setting DP register knowledge to a location?</h2>
 
 <p>DP - Variable names can be automatically used. Some DP variables (like VIA addresses) are "automatically" used if DP is set correctly. "VIA&nbsp;ORB" is IMHO better readable than "$d000". </p>
@@ -122,9 +126,11 @@ Apart from that, some more tips:
 </li><li>
 <p>if nothing was found searching continues with next (previous) row</p>
 </li></ul>
-<h2>In dissi, the number of cycles sometimes do not match with the table I got from motorola, what the...?</h2>
+<h2>In dissi, the number of cycles sometimes do not match with the table I got from motorola, what the...?<br />
+</h2>
 
-<p>Well yes. Dissi displays the REAL number of cycles, some official tables only show the "base" number of cycles.  For indirect and/or indexed addressing you must add some cycles because the address has to be calculated by the CPU. Believe me, the cycle information in dissi is "more" correct!</p>
+<p>Well yes.<br />
+Dissi displays the REAL number of cycles, some official tables only show the "base" number of cycles.  For indirect and/or indexed addressing you must add some cycles because the address has to be calculated by the CPU. Believe me, the cycle information in dissi is "more" correct!</p>
 <h2>In dissi, what is "highlight op" usefull for?</h2>
 
 <p>Well, depends what your definition of usefull is. Play with it! The column "Operand" is taken as a string, if (case independend) the string you entered in "highlight op:" was part of the string, the operand column for that row is highlighted (yellow). This can be anything you like, a label, an address or anything that can be an operand. Great for a quick visual search! </p>

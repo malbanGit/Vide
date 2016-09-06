@@ -1,0 +1,177 @@
+This pretty much describes the working interface as built.
+
+S84/06/23. 15.13.37. VECTREX. MYBASMT.		Jeff Woolsey.
+N85/03/31. 13.25.06. VECTREX. MYBASMT.		Jeff Woolsey.
+
+These  proposals  are being scaled down to obtain a functional unit  from  the 
+previous  prototype which was perhaps a bit ambitious.   In doing so we  shall 
+remove anything that doesn't seem immediately attainable or necessary, without 
+undoing too much work,  and add only that which is needed to get the interface 
+running usably.
+
+Proposed operational details for the S100-HP3000 (Vectrex) interface.
+
+The interface will be accessed through 4 ports,  defined as follows,  relative 
+to the base port.
+
+         7   6   5   4   3   2   1   0
+       +---+---+---+---+---+---+---+---+
+0      | V |   |   | N | I | H | A | W |    R/W  Status/Control Port
+       +---+---+---+---+---+---+---+---+
+         |   |   |   |   |   |   |   |
+         |   |   |   |   |   |   |   +--->  R/W  Vectrex Write disable
+         |   |   |   |   |   |   |
+         |   |   |   |   |   |   +------->  R/W  Inhibit Address Increment
+         |   |   |   |   |   |
+         |   |   |   |   |   +----------->  R/W  Vectrex HALT
+         |   |   |   |   |
+         |   |   |   |   +--------------->  R/W  Vectrex IRQ
+         |   |   |   |
+         |   |   |   +------------------->  R/W  Vectrex NMI
+         |   |   |
+         |   |   +----------------------->  R/W
+         |   |
+         |   +--------------------------->  R/W
+         |
+         +------------------------------->  R/W  Vectrex disable/Host Enable
+
+
+         7   6   5   4   3   2   1   0
+       +---+---+---+---+---+---+---+---+
+1      | D | D | D | D | D | D | D | D |    R/W  Data Port
+       +---+---+---+---+---+---+---+---+
+
+         7   6   5   4   3   2   1   0
+       +---+---+---+---+---+---+---+---+
+2      | A | A | A | A | A | A | A | A |    R/W  LSB Address Port
+       +---+---+---+---+---+---+---+---+
+
+         7   6   5   4   3   2   1   0
+       +---+---+---+---+---+---+---+---+
+3      | A | A | A | A | A | A | A | A |    R/W  MSB Address Port
+       +---+---+---+---+---+---+---+---+
+
+
+The  interface consists primarily of a chunk of memory which is accessible  by 
+both the Vectrex, and the S100 Host. It resides at address 0 on up the Vectrex 
+address  space  (same as the ROM cartridges).  In the S100  host,  an  onboard 
+address  counter  is used to give the same address range,  although access  is 
+indirect through the use of I/O ports, described below.
+
+Setting  and reading bits in the Status/Control port is  straightforward.  The 
+values  of bits were chosen such that writing a 0 to the port restores  normal 
+Vectrex operation.  Individual bit descriptions follow.
+
+  W - Vectrex  Write Disable.  Setting this bit makes the interface look  like 
+      ROM  to the Vectrex.    Clearing it allows both read and write access to 
+      the memory. Host operation is not affected.
+
+  A - Inhibit  Address  Increment.  Setting  this  bit  prevents  the  address 
+      counters  from  being  incremented  when  the  data  port  is  accessed. 
+      Handshaking is the intended use.
+
+  H - Vectrex HALT.    Setting this bit halts the Vectrex in its tracks.  This 
+      is  useful if memory is not dual-ported,  in that the Vectrex  will  not 
+      access  memory  when it is halted,  thus the host can run  amok  without 
+      worrying  about timing windows.   Clearing this bit releases the Vectrex 
+      from the host's grip.  
+
+  I - Vectrex  IRQ.   Setting  this bit asserts IRQ at the  Vectrex  cartridge 
+      socket.   Interrupt  acknowledge  is  not  directly  available  at   the 
+      cartridge.
+
+  N - Vectrex NMI.  Same as above, but asserts NMI.
+
+  V - Vectrex disable/Host enable.  Delegates responsibility for memory access 
+      to the host.  Clearing the bit enables Vectrex access to  the  interface 
+      memory  and  disables   host  access.  Setting   the  bit  reverses  the 
+      situation, which  generally means  that the Vectrex  will jump  off into 
+      Never-never Land,  so care must be  taken.  This area has not been fully 
+      researched yet.
+
+Writing a byte to the data port causes the following:
+
+  1. The data are latched.
+  2. The address in the counters is presented to the memory.
+  3. The data are presented to memory.
+  4. WR is applied to memory.
+  5. If not inhibited, the address counter is incremented.
+
+Reading the data port causes the following.
+
+  1. The address in the counters is presented to the memory.
+  2. RD is applied to memory.
+  3. The data are latched and presented to the host bus.
+  4. If not inhibited, the address counter is incremented.
+
+Reading  and writing data is arbitrated by the host setting or clearing the  V 
+bit  in  the  status byte (see above).   We repeat the  concern  that  Vectrex 
+control can be lost if care is not taken.
+
+Writing  to  the  address  ports causes the data byte to be  loaded  into  the 
+corresponding  address  counter.   Reading the port causes the  value  in  the 
+counter to be returned.    Only 32K of memory is addressible externally to the 
+Vectrex, but all 16 address lines are available.
+
+One  glaring  difficulty  in using this interface becomes  apparent  when  one 
+notices  the  lack  of a Vectrex RESET capability.   The line  simply  is  not 
+present at the cartridge connector.    This is not an insurmountable  problem, 
+however,  partly  because  there  IS a reset button on  the  Vectrex.   It  is 
+inconvenient, though, to have to hit the button repeatedly.
+
+The  desired effect is to be able to have the Vectrex execute a loaded program 
+from  having  been  powered  up,  without having to  touch  it.  This  can  be 
+accomplished, although recovering from runaway programs is more difficult.
+
+When the Vectrex is first powered up, it displays its title page and plays its 
+music  for  about 5 seconds.   This is ample time to load something  into  the 
+interface,  provided  the host can do this within 5 seconds from power  up  as 
+well,  assuming that the host and the Vectrex are on the same mains.   If not, 
+be  patient.   The  Vectrex  then looks for a cartridge in  the  socket.  This 
+procedure is described in detail elsewhere.  If it finds no cartridge, it runs 
+the MINE STORM game.  Unattended,  MINE STORM will end in about 90 seconds, at 
+which point it will wait a while for any joystick button to be pressed to  run 
+the  game over.   If this times out,  it will jump back to the monitor,  which 
+displays the Vectrex title page and music again,  and then looks once more for 
+a  cartridge   (If  you manage to plug in a cartridge  while  the  machine  is 
+running,  against all advice,  it will work.  Positive reinforcement.).  If by 
+this  time you have managed to load a program into the interface,  it will  be 
+executed. Less  patient programmers will want to wrest control immediately. In 
+looking  over  the executive ROM for clues,  one finds that NMI and  SWI  both 
+vector  to  $CBFB,  and  IRQ goes to $CBF8.   One could try tugging  on  these 
+control lines via the Status/Control Port.
+
+Recovering  from a runaway program is unexplored territory.   Progress in this 
+area depends upon having a working interface to experiment with.
+
+---
+
+Now that we have a working interface,  here's an untried method of keeping the 
+Vec's  attention  once we have it.   Assume for the moment that we  have  some 
+program  running  in the interface.   The procedure should  work  as  follows. 
+First,  HALT  the  Vectrex using the HALT* line on the interface.   Wait  long 
+enough  for  whatever instruction was being executed to  finish.   This  could 
+involve  as many and six additional memory references.   Once the  Vectrex  is 
+halted,   fill  the interface memory with three specific things:   1) Fill the 
+middle of the interface address space with NOPs.   2)  Put a JMP opcode in the 
+last  byte  of the interface address space.   The address that the  JMP  reads 
+follows immediately, and will read FF since there is no memory there. At $FFFF 
+there  is a 00 byte.   This is the opcode of a two-byte NEG  instruction,  the 
+object  of  which is obtained by wrapping around to $0000.  3)   Put  a  small 
+bootstrap  loader  loader program at $0000.   The first byte of which  is  the 
+object of the NEG instruction.   The loader loader must move a small bootstrap 
+program  into the internal RAM and jump to it.   This small bootstrap  program 
+will  montior  $0000  for  $67,  at which point  it  jumps  to  $F000.   While 
+monitoring,  it  might  put out some message on the screen saying that  it  is 
+ready  for a load.   It might also want to set $0000 to something to  indicate 
+to the host that it has taken over and that the interface is free for the host 
+to  write  all  over.   At this point,  when the  interface  is  done  loading 
+something,   the  little bootstrap program will notice and execute  it.   This 
+will not work the first time the interface is loaded,  as it will be executing 
+MINE STORM,  and a HALT will simply halt it, and when MINE STORM finishes, the 
+bootstrap  loader  loader will not look like a cartridge header  unless  we're 
+awful  damn  clever:   The Vec jumps to $FFFF which does a NEG $67 (at  0)  in 
+direct mode,  which negates byte $67 in whatever page DP points at.   Then  it 
+hits a space ($20) which is a BRA,  followed by the G in GCE.   That's $47, so 
+it branches forward $47 bytes, to $004A  So, if we can put up a little message 
+and music that fits, things might actually work....

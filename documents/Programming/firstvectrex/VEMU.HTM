@@ -1,0 +1,635 @@
+<HTML>
+
+<HEAD>
+<TITLE>Vectrex Emulator page</TITLE>
+</HEAD>
+<body background="vback1.gif"
+TEXT=#c0d0c0
+BGCOLOR=#c0d0c0
+GCOLOR=#000000
+LINK=#ffff00
+VLINK=#0000ff>
+
+<BODY>
+<FONT SIZE=+1>
+
+<center>
+<H1>Vectrex Emulator page</H1>
+<A HREF="vemu1.gif"><IMG SRC="vlittle.gif"></A> Emulator running Minestorm<BR>
+</center>
+<FONT SIZE=+1>
+<HR>
+
+
+
+This page is supposed to have no relation to my
+<A HREF="../firstpage/emu1.htm">other emulation pages</A>,
+it has only to do with Vectrex and Keiths emulator.
+<BR><P></P>
+Anyway, let's first look what other possibilities might have arisen (will
+still arise?) if Keith had not done a great job in doing his emulator...<BR>
+<BR><P></P>
+To my best knowledge there have been so far at least two other attempts to emulate
+Vectrex (I don't count my rather half hearted attempt). I have not seen any of
+the other emulators in action, so I can't really say anything for sure.
+According to emulator rumors (hey that's me!) there is one under way from
+a certain <I>MARK</I> (wonder who that is!).<BR>
+Here is what is stated at the above page:<BR>
+<BR><P></P>
+<PRE>
+
+     ME
+     >I just wondered how far you have come?
+     >Is there something to look
+     >out for? Any beta's available?
+     >
+
+     HIM
+     It is almost there.
+     I just have to polish the DOS version a bit more.
+
+     ME
+     >where did you get your documentation from?
+
+     HIM
+     I got it from ftp.csus.edu, it is the archive site
+     for the vectrex and has quite a bit of info.
+
+     ME
+     >Which OS do you support...
+
+     HIM
+     Right now I have a version for Linux/SVGA
+     (with sound), SunOS 4.1.x/X11
+     (sound is buggy), DOS (no sound at all yet).
+     It is all in 'C' and quite portable. I hope to
+     get it compiled on other
+     platforms when I have it working 100%.
+
+     Mark
+
+</PRE>
+
+That has been on my pages for quite some time now... I wonder what happened to it?
+
+<BR><P></P>
+The other emulation attempt I know about was done by a guy called <I>Bo</I>. He
+says:<BR>
+<PRE>
+
+Yeah, i began coding a vectrex emu a long time ago,
+but then keith wilkins got so well on with his that i
+dumped the project altogether.
+
+</PRE>
+So sadly nothing can be expected from that source again.
+I might even sympathize with that guy... since I did the same :-)!
+(Actually you like starting and not finishing ey? (me too) I just thought about that
+Atari VCS emu of yours...)
+
+<BR><P></P>
+<center>
+<H1>DVE (DOS VECTREX EMULATOR)</H1>
+</center>
+OK folks, here we go, this is what these pages are for in the first place.
+That emulator is written originally by
+<a href="mailto:kwilkins@nectech.co.uk">Keith Wilkins</a>
+all credits really should go to him. He has an own homepage for DVE (<a href="http://www.parallax.co.uk/~lmw">http://www.parallax.co.uk/~lmw</a>).
+I have done some minor changes to it, so there is now a release version DVE 1.20.
+(look at the bottom of the page for the downloading links)<BR><P></P>
+
+I think sometimes I like writting about certain subjects, so don't be surprised to find
+a lot of crap. If you are easily bored or not interested in that emulator you probably
+should download it (or just leave it alone) and be gone.<BR><P></P>
+
+There is a documentation included in both packages (Emulator/Source), though different
+readme's. I don't really know if they are complete or all that well understandable, if you
+have any questions left open, try contacting me (or someone else)...<BR>
+Actually there are three different documentation resources available, package 1, package 2
+and this page (and what belongs to it)...
+<BR><P></P>
+<H2>What does DVE do?</H2>
+DVE is a program to emulate the Vectrex game console HP-3000 (most parts of it anyway).
+It is a program written in 'C' and assembler. Compiler used: Watcom C/C++ with
+DOS extender DOS4GW or PMODEW.
+<BR><P></P>
+Emulated:<BR>
+<UL>
+<LI>Microprocessor m6809 (Motorola)
+<LI>Versatile Interface Adaper (VIA) R6522 (Rockwell)
+<LI>Programmable Sound Generator AY-3-8912 (PSG) (General Instruments)
+<LI>Odds and ends that make up the Vectors/analog Hardware (DAC, MUX, LF347...)
+<LI>Output on VGA (VESA) card
+<LI>Input Joystick via keyboard (analog/digital)
+<LI>Lightpen via mouse
+<LI>Overlay via drawing functions or PCX-pictures
+<LI>Speed limiter to 100%
+</UL>
+<BR><P></P>
+<H2>What DVE doesn't do?</H2>
+<UL>
+<LI>Something I don't know yet (randomize in Spike...)
+<LI>Look at the <A HREF="bugs.htm" TARGET="main">DVE Bugs</A> page.
+</UL>
+<BR><P></P>
+
+<H2>What does DVE require?</H2>
+<UL>
+<LI>Pentium 100 and fast grafics card to run 100% vectrex speed
+<LI>A MS-DOS compatible OS
+<LI>VESA capable video drivers (VESA 2.0 + hardware linear framebuffer works best)
+<LI>OPL3/Adlib Soundcard for sound support
+<LI>Some 'heavy' memory requirements for V1.20 (depending on mode), due to use of large 'buffer'-arrays, guess about 8MB, old version 1.00 much less
+
+</UL>
+<BR><P></P>
+
+Didn't have much time recently to properly update my pages...
+Here is the news about DVE...
+<pre>
+1.2
+     - Initial release of Malban's DVE changes.
+       DVE developed solely by Keith Wilkins!!!
+
+1.2a
+     - ALT G screen capture
+
+
+     - Overlay background colors
+
+     - new color table format
+       o 0-15 background for overlays
+       o i 1-14 14 vectrex pen colors
+       o i+0-i+15 intensities of pen i
+       o 240-245 solid colors
+
+1.2b
+     - ??? Clay - continous capture version?
+
+1.2c
+     - Bugfix, overlay color shades
+
+
+1.2d
+     - Two new *.vol file options (I don't like)
+
+     - ALT W saves game in progress
+       (ALT 1 - ALT 9 save different games)
+
+     - ALT L loades saved game
+       (1 - 9 load different games)
+
+     - Vectrex.ini:
+       restore_on_start=0/1
+       save_on_exit=0/1
+
+     - Bugfix, lighpen was broken in 1.2c
+
+1.2e
+     - Carousel overlay bug fixed
+
+1.2f - save format changed slightly
+
+     - a bit speed improve I think
+
+     - keys don't react quite as good (well a bit of loss somewhere)
+
+     - old overlay style fixed, though display colors now start with
+       pen 1 instead of zero
+       pen 1 is white
+       pen 2 is red
+       ...
+       as in the pcx overlays
+       pen 0 color 1 -14 are used for erase pen colors,
+       pen 0 1 is erase color for pen 1
+       pen 0 2 is erase color for pen 2 ...
+
+       because of that some changes must be made to existing *.vol
+       overlays, though they shouldn't be dramatic
+
+       and in vectrex.ini
+       display_color only ranges from 1 to 14 instead from 0 to 15...
+       (old default is 0 now is 1)
+
+     - two new overlay comands (old style)
+       border triangle pen intensity x1 y1 x2 y2 x3 y3
+       overlay triangle pen x1 y1 x2 y2 x3 y3
+       wonder what they do?
+       (on demand... didn't test them all that much...)
+
+1.3
+     - Clay wrote the following:
+          "The emulator has some quirks-- it will display
+           vector intensities with the high bit set (the
+           Vectrex shows black for any intensity of %1xxxxxxx)"
+       fixed!
+
+     - new ini command "force_vesa12", if set to one a
+       banked (VESA 1.20 compatible) mode will be forced,
+       hopefully that will work with people who have trouble
+       with VESA 2.0 modes, though it is about 10% slower...
+
+     - thanks to Clay I added digital sound support
+       this can be heard in spike or in clays moon lander
+       (or the sample file he gave me :-))
+       New ini command "digital_volume", can be set to
+       a procentage. The digital volume can be regulated with
+       that (with my system, it is quite another volume than
+       the non digitized...).
+       In order to enable digital samples, a soundblaster/compatible
+       card must be used AND the BLASTER environment variable
+       must be set!
+       Note: If emulation runs to fast, the samples will all
+       speed up! The speed settings will not work fine
+       with digitized audio, since speed is regulated by
+       a timer interrupt (18.2 times per second),
+       the emulator runs sort of in small burst if the
+       machine is to fast. This has weird effects on
+       samples (which are written directly to the DSP DAC).
+       I tried setting the timer interrupt up to 1000 times per
+       second and synchronizing to that, but it doesn't really
+       make any difference.
+       What I did was add another ini command:
+       "force_single_processor" (boolean, 0 or 1)
+       If set that will slow down emulation considerably
+       and probably will be to slow (unless you have a fast
+       processor :-)).
+       Whenever I get a really fast processor, I will add a delay
+       to the above single_processor_mode, that should fix the
+       speed things with digital samples once and for all,
+       since the emulator will than be able to run
+       cycle exact at 100% speed...
+
+1.4  - 3d Imager support!
+       Finally I had some time to look at it. It sort of works, it is not
+       perfect yet, but...
+       First some drawbacks...
+       I have no 3d imager, neither have I seen one working yet, I
+       don't really know what the games look like, so if
+       I have some color settings wrong, feel free to do better...
+       Right now I'm emulating a fixed speed for the spinning wheel.
+       Vectrex usually wants to fiddle with that speed, that is not suported
+       yet (dunno if it ever will be...).
+       "Narrow Escape" and "Crazy Coaster" work just about fine.
+       "Mine 3d" so so, I suspect it to change the rate of the
+       color wheel during the startup screen, since I can't find a
+       speed setting that will satisfy both the game and the startup...
+
+       There are some new settings for the *.vol files, as e.g.:
+
+       3D_IMAGER_GAME
+       WHEEL_TICKS #number#
+       COLOR_1_DEGREES #number#
+       COLOR_2_DEGREES #number#
+       COLOR_3_DEGREES #number#
+       IMAGER_MODE #number#
+
+       Most of these are fairly selfexplanatory, but here is what they
+       do anyhow.
+
+       3D_IMAGER_GAME - tells the emulator, that the game for this
+       *.vol file is a GOGGLE-GAME.
+
+       WHEEL_TICKS #number# - you tell the *.vol file the speed with which
+       the wheel has to spin. One tick is 1/1500000 second.
+       (vectrex 6809 runs at 1.5Mhz) Good values to start with are
+       between 40000 and 60000.
+
+       COLOR_?_DEGREES #number# - these three things are used to
+       tell the emulator, what the wheel looks like.
+       In degrees how much of the half wheel is covered by the
+       corresponding color.
+       It is very strongly recomended, that these three
+       values add up to 180 degrees, though I don't check it...
+       BTW..., COLOR1 is 15, COLOR2 is 13, COLOR3 is 14...
+
+       IMAGER_MODE #number# - number between 0 - 6.
+       This determines how the imager is to be emulated to the
+       screen.
+       At some time there was sort of a discussion going on in some
+       newsgroup how the goggles could at all be satisfyingly
+       emulated. Well probably can't suit you all, but
+       I couldn't think of much more, save to insert some goggles
+       to the joystick port... (no, I won't do that!)
+       Here is what these 7 modes do:
+
+
+       # 0 only the 'left' side is displayed, unicolor, therefor
+           an overlay picture can be used
+
+       # 1 only the 'right' side is displayed, unicolor, therefor
+           an overlay picture can be used
+
+       # 2 red/blue for left and right side, if you have some glasses
+           you might be lucky and get a glimps of true 3d :-)
+
+       # 3 only the 'left' side is displayed, in the colors corresponding
+           to the wheel colors (overlays must be enabled nonetheless)
+
+       # 4 only the 'right' side is displayed, in the colors corresponding
+           to the wheel colors (overlays must be enabled nonetheless)
+
+       # 5 both sides are displayed in colors corresponding
+           to the wheel colors (overlays must be enabled nonetheless)
+           this most probably looks like a real vectrex seen without
+           the helmet on :-)
+
+       # 6 left side is displayed on the leftmost side of the screen
+           right side is displayed on the rightmost side of the screen
+           (scaling must be set manually to fit...)
+           Actually I like this setting a lot...
+
+       Strangly these different mode sometime need different values
+       for the other above described settings.
+       I don't really know why. You just have to keep experimenting
+       with the values a bit. Whatever mode suits you most... you
+       probably must find the settings on your own.
+
+BUGS:
+     - sound leaves a lot to be desired overall
+
+     - Clean sweep ...
+
+
+
+On my pages you can find a NEW release of DVE V2.0beta.
+
+NOTE:
+        This version is perhaps the last version!
+
+Much of what I wanted to do for the release is still unfinished, even
+the documentary stuff is not all available. Only download this if you have
+a FAST system (like 200Mhz Pentium).
+
+OK, whats new for now?
+
+- GUI with integrated help for nearly every program and vectrex itself,
+  toggle with SPACE
+
+- perfect sound  (seal library, look in ini file)
+
+- anti aliased lines possible (speed breakdown, look in ini file)
+  (allways switch overlay on for anti aliased lines)
+  (no color star trek with anti aliased lines)
+  (for best emulation switch anti aliased lines on, without some more minor
+   faults might be visible)
+
+- useable PC joystick (look in ini file)
+
+- patch for some offset problems (some!!!, not all, not emulated,
+  this is a patch (sadly))
+  cleansweep and spinball work now (though some other problems might occur)
+
+- one executable for debug and exe
+
+- enhanced monitor and breakpoint abilities
+
+- windows for nearly all emulated vectrex registers and circuits, with online
+  help and breakpoint ability
+
+- completly new style ini file
+
+- imager self calibration (incomplete)
+
+- support for middline DAC changes (Pole Position works OK now)
+
+- preleminary support for analog tweaking
+
+For some further information look at the <A HREF="bugs.htm" TARGET="main">DVE Bugs</A><BR> page.
+
+To download:
+TWO FILES, you MUST DOWNLOAD BOTH:
+
+<A HREF="vemu1/dve_2b_1.zip">vemu1/dve_2b_1.zip</A> (1.8Mb)<BR>
+<A HREF="vemu2/dve_2b_2.zip">vemu2/dve_2b_2.zip</A> (1.3Mb)<BR>
+The source us also available:<BR>
+<A HREF="vectrexcs/dves2b_1.zip">vectrexcs/dves2b_1.zip</A> (0.5Mb)<BR>
+
+
+In order to compile DVE you need:
+
+1. Watcom C/C++ (I use v10.6)
+   dunno, guess you have to buy it...
+
+2. The source, get it at:
+      vectrexcs/dves2b_1.zip (0.5Mb)
+<A HREF="vectrexcs/dves2b_1.zip">vectrexcs/dves2b_1.zip</A><BR>
+
+3. The binary (since it contains additional files needed for working)
+   vemu1/dve_2b_1.zip (1.8Mb)
+   vemu2/dve_2b_2.zip (1.3Mb)
+<A HREF="vemu1/dve_2b_1.zip">vemu1/dve_2b_1.zip</A><BR>
+<A HREF="vemu2/dve_2b_2.zip">vemu2/dve_2b_2.zip</A><BR>
+
+4. Seal audio library (I use v1.03):
+   http://www.egerter.com/seal/seal103.zip (dunno)
+<A HREF="http://www.egerter.com/seal/seal103.zip">http://www.egerter.com/seal/seal103.zip</A><BR>
+
+5. Scitech SVGALIB 6.0
+   ftp://ftp.cs.tu-berlin.de/pub/msdos/mirrors/ftp.scitechsoft.com/devel/svbase60.exe (~1.2M)
+   ftp://ftp.cs.tu-berlin.de/pub/msdos/mirrors/ftp.scitechsoft.com/devel/svdem60.exe (~1.2M)
+   ftp://ftp.cs.tu-berlin.de/pub/msdos/mirrors/ftp.scitechsoft.com/devel/svsrc60.exe (~1.2M)
+
+<A HREF="ftp://ftp.cs.tu-berlin.de/pub/msdos/mirrors/ftp.scitechsoft.com/devel/svbase60.exe">ftp://ftp.cs.tu-berlin.de/pub/msdos/mirrors/ftp.scitechsoft.com/devel/svbase60.exe</A><BR>
+<A HREF="ftp://ftp.cs.tu-berlin.de/pub/msdos/mirrors/ftp.scitechsoft.com/devel/svdem60.exe">ftp://ftp.cs.tu-berlin.de/pub/msdos/mirrors/ftp.scitechsoft.com/devel/svdem60.exe</A><BR>
+<A HREF="ftp://ftp.cs.tu-berlin.de/pub/msdos/mirrors/ftp.scitechsoft.com/devel/svsrc60.exe">ftp://ftp.cs.tu-berlin.de/pub/msdos/mirrors/ftp.scitechsoft.com/devel/svsrc60.exe</A><BR>
+
+Schematics and technical information can be found on many vectrex concerning pages.
+e.g.:
+http://www.monmouth.com/~pcjohn.
+http://website.lineone.net/~raven
+or the csus ftp site:
+ftp://ftp.csus.edu/pub/vectrex/
+
+Malban
+
+</PRE>
+
+<HR>
+Following is part of the readme...
+<PRE>
+
+Note emulation is not complete.
+And I probably won't do any more stuff to it.
+
+But every known game works nearly perfectly, this includes, but is not
+limitted to:
+
+Clean Sweep
+Narrow Escape
+Pole Position
+Vectrex Frogger ( :-) )
+Spinball
+Cosmic Chasm (you see that DOT (anti aliased enabled))
+Star Hawk (that offset in the middle is seen at my vectrex too!)
+          (Though in the sourcecode there somehwere still is a patch for that)
+Spike (pretty perfect sound actually)
+      (spikes randomizing is somewhat awkward :-( )
+
+
+
+
+There are a couple of defines, which produce different emulator versions.
+
+One crucial part is 'anatick.cc', this is where the analog hardware of
+vectrex is emulated. Right now, if you switch on anti aliased lines,
+there is a constant EMU_FULL_ANALOG declared. This enables some 'more'
+analog features, like DRIFTs, integrator offsets (slow going) and DAC offsets.
+The drifts include X, Y and Z drifts. The feature is still in test stadium,
+so no 100% results can be expected, though some vectrex 'features' can be
+examined with it. Note: DAC offsets can be changed online, while GUI is
+enabled (and aa) with the keypad +,- keys. Integrator offsets can be changed
+online, while in GUI with SHIFT cursor keys. The drifts (X, Y) can be changed
+online using CTRL cursor keys. Reset these things to zero with SHIFT END.
+
+If a global constant is set (in the makefile preferable) PATCH_OFFSET,
+than the things that desturbs games like cleansweep is patched, that it
+works fine. Note: this is no exact emulation, it is a 6522 patch, that
+get's correct results, for what this does look in emu6522.c.
+
+Another global constant can be set (though preferable not at the same time
+as the above mentioned) ANALOG_CYCLE_PATCH.
+I suspect that some control lines are not updated at the same cycle as
+VIA. Original emulation had it, that for example BLANK is exactly the
+VIA output (control line t6522CB2). I suspect, that the analog hardware
+recieves the BLANK impulse some cycles later. I further suspect that
+these lines have different 'delays'. With the above option some form
+of delay can be enabled for a certain number of analog lines.
+For information look in emu6522.h, emu6522.c, pia.cc.
+In order for this to work somewhat correctly the option
+FORCE_SINGLE_PROCESSOR must be enabled in the ini file.
+Note the maximum queue for updates is defined as 5 now, so don't delay for
+to long, otherwise the system WILL crash.
+The delay values can be changed online, while in GUI with
+following keys:
+'c'+ -DAC
+'z'+ -ZERO
+'h'+ -SAMPLE-HOLD
+'r'+ -RAMP
+'b'+ -BLANK
+
+'C'- -DAC
+'Z'- -ZERO
+'H'- -SAMPLE-HOLD
+'R'- -RAMP
+'B'- -BLANK
+
+Some aspects not otherwise correctly emulated can be observed while fiddling
+with the above settings. But I think the above things are not all that need
+be emulated. For example writting to VIA also has some delay of sometimes
+1, 1.5, 2 cycles. In some really time critical situations this IS important,
+but as yet not emulated. (I encountered situations like this, while
+optimizing Vectrex Frogger)
+
+One other thing not emulated is the correct zeroing. Zeroing is
+done at once, the real vectrex takes it's time zeroing (in a e-function
+style).
+
+And another... Though it is right that 6809 only reacts to interrupts when it
+is in a fetch cycle, the vectrex hardware certainly reacts when the interrupt
+occurs, EXACTLY, even half a cycle is possible, since VIA has an
+offset, delay of sometimes half a cylce. Some analog lines (mentioned above)
+are updated by a VIA interrupt (PB7=RAMP), if that happens, we have again
+some inaccuracy!
+
+
+Imager games.
+Though they look like they work correctly (some), this is not
+yet fully emulated either. While probably no cycle exact emulation is needed,
+as with the analog hardware, there are still some traps.
+(btw, the PSG output/input could be done with the cycle delay stuff mentioned
+above also)
+When I optimzed Keith's original source, we thought that interrupts could only
+be made by VIA, through timers or shifts. This is not TRUE.
+Lightpen, and 3D imager can both produce interrupts. Both joypads can
+produce interrupts as a matter of fact, but only the one from the second
+is really interesting.
+While not in FORCE_SINGLE_PROCESSOR mode, some interrupts can thus be missed.
+(only with the imager, lightpen is 'patched ok').
+For narrow escape everything seems to be fine as it is, but especially
+3d MineStorm has problems displaying correctly without FORCE_SINGLE_PROCESSOR.
+Note further, I have not exactly translated the pulse width into
+cycles needed, I just guessed. So if you intend to write your own 3D game,
+you better have a vectrex and a 3d imager handy, since other values than the
+ones used by the 3 available games are only guess work.
+(see sound.c for the guessed values)
+
+(bGblForceSingleProcessor can be toggled in GUI with CTRL F)
+
+Overall I must admitt, that the source looks really awfull. I have not
+commented much, and the different inlinings at places really suck.
+It is everything but intuitive and readable.
+
+Most includes found in the code can be replaced by function calls, I thought
+at a time that there would be a significant speed improvement (which it was),
+but nowadays with fast computers it is not all that neccessary anymore, but
+still confusingly inserted in the code.
+
+DVE emulates MANY aspects now of a real vectrex, but not everything. I planned
+that sooner or later DVE could be used as a development system, but now I
+realize, that without rewriting it from the bottom and slowing it down
+significantly (since I wouldn't be doing it in assembler), no such thing
+would be possible. I won't rewrite the emulator from scratch, it is just
+too boring to do stuff again. Thus emulation is incomplete and will remain
+incomplete until another picks it up (though I doubt it).
+
+This release is probably my last, sadly incomplete, and slower as intended.
+Actually right now I really can not be bothered to go on optimizing stuff.
+
+The executable is compiled with optimization enabled, with PATCH_OFFSET
+enabled and ANALOG_CYCLE_PATCH disabled.
+
+Note:
+The emulator emulates nearly everything needed to run available games
+correctly. But beware to try something different!
+So 6522 only is emulated in relation what is needed. Only one SHIFT mode
+for example. I thought for example about a different vector drawing routine
+using another SHIFT mode... The emulator would only produse garbage at that
+stage. Only do stuff like it is supposed to, otherwise BEWARE!
+(only relevant for vectrex programmers (rare persons :-))
+
+Note:
+The GUI thing is also far from complete, you'll notice soon enough.
+Originally I planned to add a couple of more settings and
+capabilities, but somehow I got too bored.
+
+But: You can at least new games to the GUI thing if you want without
+recompilation, just look at vgames.hlf, this file describes
+the help file, that show when the GAME button is pressed, if you
+do the same for your 'new' games, as is done for the others,
+you shouldn't have difficulties to add your own to the menu.
+
+Same applies to the whole help file system!
+
+NOTE:!!!
+The program has somehow difficulties with different compiler
+optimization switches.
+If I use the full optimizing switches, than random chrashed occur!!!
+Therefor only partly optimzed versions are distributed!
+
+
+Note: there are difficulties with ATI MACH 64 VESA cards.
+These are the only cards which have problems with my VESA routines.
+I don't as yet know why that is. The problem can be partly solved by
+aquiring the newest VESA driver at ATI and fiddling with the settings.
+
+:a run the M64VBE.COM with "vga" option to disable accelerated VGA CRT
+settings
+
+b: only in display_mode 0 (640x480 that is)
+
+
+
+</PRE>
+
+
+<HR>
+</FONT>
+<P></P><BR>
+
+<A HREF="../firstpage/index.htm">A Link to my homepage...</A><BR>
+Last Updated: April 1998
+<a href="mailto:malban@email.de">Malban</a>
+
+</BODY>
+</HTML>

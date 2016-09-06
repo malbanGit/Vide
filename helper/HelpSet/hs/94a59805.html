@@ -1,0 +1,44 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<title>Emulation: Dual Vec</title>
+</head>
+<body class="doc">
+<h1>Emulation: Dual Vec</h1>
+
+<p>I found following message on a very old rec.games.vectrex usenet entry:<br>
+<br>
+</p>
+
+<div class="code">
+<p><tt> I wrote those programs years ago at Western Tech to demonstrate the possibility of making a game that would play on two systems (Like you can do with gameboy now...)</tt></p>
+
+<p><tt> This program did nothing more than display the buttons from one Vectrex on the other's display (and vice-versa).  </tt></p>
+
+<p><tt> I have no idea how these programs made it into the archive - I only showed this software to a few people...   You may safely discard them.   It communicates between the system by using PB6 on the cartridge.  If you really want to see it work, you must connect PB6 and GND between the two systems, then run DUALVEC on 1 system and DUALVEC2 on the other.</tt></p>
+
+<p><tt> Bill Hawkins</tt></p>
+</div>
+
+<p>I just implemented that...</p>
+
+<p>These emulations must be configured via the cartridge settings - since the communication goes via the cartridge extension cable - but to see the emulation in action - you have to start two vecxi instances manually.</p>
+
+<p>Manually meaning:
+<ul><li>
+<p>go to the main menu and start a vecx</p>
+</li><li>
+<p>select the "DualVec.bin" in one vecxi</p>
+</li><li>
+<p>and "DualVec2.bin" in the other vecxi</p>
+</li><li>
+<p>press start (for both)</p>
+</li></ul>
+</p>
+
+<p>That should do it... (configuration is automatically gotten from the cartridge settings).</p>
+
+<p><b>Note:<br>
+</b> Due to the same reasons that VecLinkV1 ist somewhat unstable in vide [no proper, synchronization between the two in different threads running emulators], this one too is a bit "flickery". Once I have done all other stuff I want to do with vide, I will add a proper "dual emulation", where two emulators can run in cycle sync. Doing that will get rid of these last disturbances. If anyone wants to use any of the link versions befor that far away day in the future and also would like to use vide to develope â give me a call and I will prioritiseâ¦</p>
+</body>
+</html>

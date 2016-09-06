@@ -13,6 +13,7 @@ package de.malban.gui.panels;
 import de.malban.config.Configuration;
 import de.malban.config.LogListener;
 import de.malban.config.Logable;
+import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
@@ -24,7 +25,7 @@ import java.util.Vector;
  *
  * @author Malban
  */
-public class LogPanel extends javax.swing.JPanel implements Windowable, Logable{
+public class LogPanel extends javax.swing.JPanel implements Windowable, Logable, TinyLogInterface{
 
     public static boolean logToStd = false;
     public static final int MAX_LOG_LEN = 30000;
@@ -478,6 +479,28 @@ public class LogPanel extends javax.swing.JPanel implements Windowable, Logable{
             mLogListener.elementAt(i).logAddedChanged(addTest);
         }
     }
-    
-
+    public void printMessage(String s)
+    {
+        addLog(s, INFO);
+    }
+    public void printWarning(String s)
+    {
+        addLog(s, WARN);
+    }
+    public void printError(String s)
+    {
+        addLog(s, ERROR);
+    }
+    public void printMessageSU(String s)
+    {
+        addLog(s, INFO);
+    }
+    public void printWarningSU(String s)
+    {
+        addLog(s, WARN);
+    }
+    public void printErrorSU(String s)
+    {
+        addLog(s, ERROR);
+    }
 }

@@ -1662,7 +1662,7 @@ Draw_Pat_VL_d:  STA     <VIA_port_a     ;Send Y to A/D
                 LDB     #$40            ;B-reg = T1 interrupt bit
                 STA     <VIA_shift_reg  ;Put pattern in shift register
                 CLR     <VIA_t1_cnt_hi  ;Clear T1H (scale factor?)
-                BITB    VIA_int_flags   ;Check if T1 timed out (note wasted byte)
+                BITB    >VIA_int_flags   ;Check if T1 timed out (note wasted byte)
                 BEQ     LF45C           ;Update pattern if not
 
 ;               Don't reset the zero reference if last line is really short?

@@ -10,6 +10,7 @@ import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.vide.vecx.devices.VecSpeechDevice;
@@ -27,6 +28,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
@@ -328,6 +330,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
         jTextArea3.setRows(5);
         jScrollPane4.setViewportView(jTextArea3);
 
+        jCheckBox1.setSelected(true);
         jCheckBox1.setText("create full example");
 
         jCheckBoxPhrasealator.setSelected(true);
@@ -779,6 +782,10 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         VecSpeechPanel panel = new VecSpeechPanel( tl);
         panel.home = path;
+        if (path == null)
+        {
+            panel.standalone = true;
+        }
        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1024, 600, panel.getMenuItem().getText());
     }        
@@ -1078,9 +1085,23 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
             outPutMnemonicsSpeakJet(mnemonics);
         }
     }
-    
+    boolean standalone=false;
     void createSource()
     {
+        if (standalone)
+        {
+            // ask where to save!
+            InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+            fc.setDialogTitle("Select save directory");
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+
+            int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+            if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+            home = fc.getSelectedFile().getAbsolutePath();
+            if (!home.endsWith(File.separator)) home+=File.separator;
+        }
+        
         if (jRadioButtonVecVox.isSelected()) 
         {
 
@@ -1116,6 +1137,11 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
             {
                 ((VediPanel)tinyLog).returnFromVecVoxPanel(1);
             }
+            if (jCheckBox1.isSelected())
+            if (standalone)
+            {
+                VediPanel.openInVedi(pathOnly+"vecVoxMain.asm");
+            }
         }
         else if (jRadioButtonVecVoice.isSelected())
         {
@@ -1145,6 +1171,11 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
             if (tinyLog instanceof VediPanel)
             {
                 ((VediPanel)tinyLog).returnFromVecVoxPanel(2);
+            }
+            if (jCheckBox1.isSelected())
+            if (standalone)
+            {
+                VediPanel.openInVedi(pathOnly+"vecVoiceMain.asm");
             }
             
         }

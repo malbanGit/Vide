@@ -1,0 +1,5 @@
+Everything in here is music in the IBM-PC BASIC PLAY statement format.
+Elsewhere I have a program for converting these things into Vectrex
+cartridges, which will then play the given tunes.  The program presently
+assumes an actual Vectrex interface, but could easily be modified to
+write out the cartridge to a file directly.

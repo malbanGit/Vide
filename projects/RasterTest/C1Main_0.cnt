@@ -1,0 +1,5252 @@
+BANK 0
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $C83F Vec_Music_Work
+COMMENT_LABEL $C83F Music work buffer (14 bytes, backwards?)
+LABEL $C842 Vec_Music_Wk_A
+COMMENT_LABEL $C842 register 10
+LABEL $C845 Vec_Music_Wk_7
+COMMENT_LABEL $C845 register 7
+LABEL $C846 Vec_Music_Wk_6
+COMMENT_LABEL $C846 register 6
+LABEL $C847 Vec_Music_Wk_5
+COMMENT_LABEL $C847 register 5
+LABEL $C84D Vec_Freq_Table
+COMMENT_LABEL $C84D Pointer to note-to-frequency table (normally $FC8D)
+LABEL $C84F Vec_ADSR_Table
+COMMENT_LABEL $C84F Storage for first music header word (ADSR table)
+LABEL $C851 Vec_Twang_Table
+COMMENT_LABEL $C851 Storage for second music header word ('twang' table)
+LABEL $C853 Vec_Music_Ptr
+COMMENT_LABEL $C853 Music data pointer
+LABEL $C855 Vec_Music_Chan
+COMMENT_LABEL $C855 Current sound channel number for Init_Music
+LABEL $C856 Vec_Music_Flag
+COMMENT_LABEL $C856 Music active flag ($00=off $01=start $80=on)
+LABEL $C857 Vec_Duration
+COMMENT_LABEL $C857 Duration counter for Init_Music
+LABEL $C858 Vec_Music_Twang
+COMMENT_LABEL $C858 3 word 'twang' table used by Init_Music
+LABEL $C85E Vec_ADSR_Timers
+COMMENT_LABEL $C85E ADSR timers for each sound channel (3 bytes)
+LABEL $C861 Vec_Music_Freq
+COMMENT_LABEL $C861 Storage for base frequency of each channel (3 words)
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $F192 Wait_Recal
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1BA Read_Btns
+LABEL $F289 Do_Sound
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F312 Moveto_d
+LABEL $F354 Reset0Ref
+LABEL $F46E Draw_VL_mode
+COMMENT_LABEL $F46E mode y x mode y x ... $01
+LABEL $F533 Init_Music_Buf
+LABEL $F548 Clear_x_d
+LABEL $FD0D music1
+EQU $60 SCALE_DRAW
+EQU $20 SCALE_MOVE
+EQU $40 WIDTH
+EQU -$40 XPOS
+EQU $7F YPOS
+EQU $05 delayReset
+EQU $06 delayReset_rm
+LABEL $C880 sfx_pointer_1
+LABEL $C882 sfx_status_1
+LABEL $C883 sfx_pointer_2
+LABEL $C885 sfx_status_2
+LABEL $C886 sfx_pointer_3
+LABEL $C888 sfx_status_3
+LABEL $C8A9 delayCounter
+LABEL $C8AA animationCounter
+LABEL $C88B SCROLL_RAM_START
+LABEL $C89F music_ram
+LABEL $C8A9 cube_ram
+LABEL $C89F ym_ram
+EQU $25 start
+LABEL $C89F plr_pattern
+LABEL $00AA loadmusic
+LABEL $0039 main
+LABEL $C8A0 plr_geilmusik
+LABEL $047D Init_Music_chk_mod
+LABEL $00D1 start_main2
+LABEL $0228 C1_data
+LABEL $01A4 draw_raster_image
+LABEL $036E vData
+LABEL $02F2 draw_synced_list
+LABEL $1143 AnimList
+LABEL $003D vDataLength
+LABEL $000D songLength
+LABEL $00C1 plr_cnt
+LABEL $0000 loopPosition
+LABEL $05F3 script
+LABEL $F160 NORMAL_TEXT_SIZE
+COMMENT_LABEL $F160 big text that is
+LABEL $0080 SCALE_FACTOR_GAME
+LABEL $C890 scroll_y
+LABEL $C892 scroll_x_left
+LABEL $C893 scroll_x_right
+LABEL $C88F scroll_speed
+LABEL $C895 scroll_intensity
+LABEL $50B7 scroll_text
+LABEL $4CB3 set_up_scrolling
+LABEL $3FBE SONG_DATA
+LABEL $1EAA init_ym_sound
+LABEL $011F main2
+LABEL $1D88 unshadow_sound
+COMMENT_LABEL $1D88 only regs 0 - 10
+LABEL $4CE9 do_one_scroll_step
+LABEL $4491 rmData
+LABEL $4440 draw_synced_list_rm
+LABEL $0158 main2_cont
+LABEL $000E rmDataLength
+LABEL $1EE4 do_ym_sound
+LABEL $C8A7 ym_data_current
+LABEL $401B sfx_doframe
+LABEL $0179 nextbuttontest2
+LABEL $41D3 aleste_1_data
+LABEL $018A nextbuttontest3
+LABEL $4266 druid_5_data
+LABEL $019B nextbuttontest4
+LABEL $43AD nemesis_17_data
+EQU $07 ZERO_DELAY
+COMMENT_LABEL $07 delay 7 counter is exactly 111 cycles delay between zero SETTING and zero unsetting (in moveto_d)
+LABEL $01B5 next_line
+LABEL $01C5 zeroLoop
+LABEL $01ED m2d
+LABEL $0210 oneShiftOutForward
+LABEL $0216 dummy1
+LABEL $02F8 sync_sl
+LABEL $036B drawdone_sl
+LABEL $032A m2d_1
+LABEL $0330 moveTo_sl
+LABEL $034B nextListEntry_sl
+LABEL $0347 m2d_2
+LABEL $0363 setPatternLoop_sl
+LABEL $036E VectorList
+LABEL $FC8D Freq_Table
+LABEL $F9E4 Music_Table_1
+LABEL $F9EA Music_Table_2
+LABEL $C8A1 plr_geilmusik_hi
+LABEL $C8A2 plr_part
+LABEL $C8A3 plr_part_hi
+LABEL $C8A4 plr_part_init
+LABEL $04AC LF6B3
+LABEL $0484 Init_Music_mod
+LABEL $04ED LF6E3
+LABEL $04B4 LF6B8
+LABEL $04BC LF6C0
+LABEL $04C6 LF6CA
+LABEL $04CE LF6D2
+LABEL $0562 LF74E
+LABEL $04F4 LF6EA
+LABEL $04F6 LF6EC
+LABEL $0549 LF735
+LABEL $0509 LF6EC2
+LABEL $0526 LF712
+LABEL $055C LF748
+LABEL $056D LF759
+LABEL $057A LF766
+LABEL $0581 LF76D
+LABEL $058F LF778
+LABEL $059F LF788
+LABEL $05A3 LF78C
+LABEL $05AA LF793_rts
+LABEL $05AB adsr
+LABEL $05DB twang
+EQU $0A SPEED
+EQU $3F SIL
+COMMENT_LABEL $3F Silence
+EQU $40 NOISE
+COMMENT_LABEL $40 Sound is a 'noise'
+LABEL $0080 CONT
+COMMENT_LABEL $0080 continue to next note (max 2 continues per line)
+EQU $3F _03
+COMMENT_LABEL $3F Noise    :  version of this        -> Bass drum
+EQU $2F _04
+COMMENT_LABEL $2F Noise    :  massive dancehit!      -> Snare drum
+EQU $00 G2_
+EQU $01 GS2
+EQU $03 AS2
+EQU $05 C3_
+EQU $08 DS3
+EQU $0A F3_
+EQU $0C G3_
+EQU $0D GS3
+EQU $0F AS3
+EQU $11 C4_
+EQU $13 D4_
+EQU $14 DS4
+EQU $16 F4_
+EQU $18 G4_
+EQU $1A A4_
+EQU $1B AS4
+LABEL $060D pattern00
+LABEL $0701 pattern01
+LABEL $07F4 pattern02
+LABEL $08E8 pattern03
+LABEL $09DB pattern04
+LABEL $0ACF pattern05
+LABEL $0BC2 pattern06
+LABEL $0CB6 pattern07
+LABEL $0DA9 pattern08
+LABEL $0E7C pattern09
+LABEL $0F5A pattern0A
+LABEL $1032 pattern0B
+LABEL $11BD AnimList_0
+LABEL $11F1 AnimList_1
+LABEL $1225 AnimList_2
+LABEL $1259 AnimList_3
+LABEL $128D AnimList_4
+LABEL $12C1 AnimList_5
+LABEL $12F5 AnimList_6
+LABEL $1329 AnimList_7
+LABEL $135D AnimList_8
+LABEL $1391 AnimList_9
+LABEL $13C5 AnimList_10
+LABEL $13F9 AnimList_11
+LABEL $142D AnimList_12
+LABEL $1461 AnimList_13
+LABEL $1495 AnimList_14
+LABEL $14C6 AnimList_15
+LABEL $14F7 AnimList_16
+LABEL $152E AnimList_17
+LABEL $1565 AnimList_18
+LABEL $159C AnimList_19
+LABEL $15D3 AnimList_20
+LABEL $160A AnimList_21
+LABEL $1641 AnimList_22
+LABEL $1678 AnimList_23
+LABEL $16AC AnimList_24
+LABEL $16E0 AnimList_25
+LABEL $1714 AnimList_26
+LABEL $1748 AnimList_27
+LABEL $177C AnimList_28
+LABEL $17B0 AnimList_29
+LABEL $17E4 AnimList_30
+LABEL $1812 AnimList_31
+LABEL $1840 AnimList_32
+LABEL $186E AnimList_33
+LABEL $189C AnimList_34
+LABEL $18CA AnimList_35
+LABEL $18F8 AnimList_36
+LABEL $192C AnimList_37
+LABEL $1960 AnimList_38
+LABEL $1994 AnimList_39
+LABEL $19C8 AnimList_40
+LABEL $19FC AnimList_41
+LABEL $1A2D AnimList_42
+LABEL $1A5B AnimList_43
+LABEL $1A89 AnimList_44
+LABEL $1ABD AnimList_45
+LABEL $1AEB AnimList_46
+LABEL $1B19 AnimList_47
+LABEL $1B47 AnimList_48
+LABEL $1B75 AnimList_49
+LABEL $1BA0 AnimList_50
+LABEL $1BCE AnimList_51
+LABEL $1BFC AnimList_52
+LABEL $1C2A AnimList_53
+LABEL $1C58 AnimList_54
+LABEL $1C86 AnimList_55
+LABEL $1CB4 AnimList_56
+LABEL $1CE2 AnimList_57
+LABEL $1D10 AnimList_58
+LABEL $1D3E AnimList_59
+LABEL $1D6C AnimList_60
+EQU $00 INFO_START
+EQU $00 BYTE_POS
+EQU $02 BIT_POS
+EQU $03 CBYTE
+EQU $04 CU_BYTE
+EQU $05 CRLE_COUNTER
+EQU $07 CRLE_MAPPER
+EQU $09 CIS_PHRASE
+EQU $0B CP_BYTE
+EQU $0C CP_START
+EQU $0E REG_USED
+EQU $0F INFO_END
+EQU $0F STRUCT_LEN
+LABEL $C8A0 temp
+LABEL $C8A1 temp2
+LABEL $C8A2 temp3
+LABEL $C8A3 calc_coder
+LABEL $C8A4 calc_bits
+LABEL $C8A5 ym_len
+LABEL $C8A9 ym_name
+LABEL $C8AB ym_regs_used
+LABEL $C8AC ym_regs_count
+LABEL $C8AD ym_data_start
+LABEL $1EC3 nreg_init
+LABEL $1F28 ymsodone
+LABEL $1EFC next_reg
+LABEL $1EFC get_cbyte
+LABEL $1F29 nv_byte
+LABEL $1F16 no_p
+LABEL $1F1B cnotmone
+LABEL $1F39 bready_1
+LABEL $1FA2 ns_byte
+LABEL $1F43 dechifer
+LABEL $1F49 tn_bit
+LABEL $1F5F bready
+LABEL $1F68 no_add
+LABEL $1F6A sagain
+LABEL $1F99 no_p_d
+LABEL $1F92 pfound
+LABEL $1F8B nphrase
+LABEL $1FA7 mbits
+LABEL $1FBA bready_2
+LABEL $1FD7 bready_3
+LABEL $1FDF ehere_3
+LABEL $1FE1 go_on_2
+LABEL $1FF1 bready_4
+LABEL $1FF9 ehere_4
+LABEL $1FFA snotydone
+LABEL $2000 no_carry
+LABEL $201A _start
+LABEL $201C _reg_0
+LABEL $2055 _pd_0
+LABEL $2098 _reg_0_data
+LABEL $225F _reg_1
+LABEL $2280 _pd_1
+LABEL $229F _reg_1_data
+LABEL $248C _reg_2
+LABEL $268D _pd_2
+LABEL $27C2 _reg_2_data
+LABEL $2AC2 _reg_3
+LABEL $2AEC _pd_3
+LABEL $2B18 _reg_3_data
+LABEL $2E49 _reg_4
+LABEL $2ED6 _pd_4
+LABEL $2F5D _reg_4_data
+LABEL $316D _reg_5
+LABEL $3176 _pd_5
+LABEL $3176 _reg_5_data
+LABEL $31DA _reg_6
+LABEL $3222 _pd_6
+LABEL $325A _reg_6_data
+LABEL $344A _reg_7
+LABEL $3471 _pd_7
+LABEL $3481 _reg_7_data
+LABEL $37B3 _reg_8
+LABEL $37DA _pd_8
+LABEL $3813 _reg_8_data
+LABEL $3A01 _reg_9
+LABEL $3A43 _pd_9
+LABEL $3AAF _reg_9_data
+LABEL $3C97 _reg_10
+LABEL $3CE5 _pd_10
+LABEL $3D62 _reg_10_data
+LABEL $3FBE _data
+LABEL $4026 noay1
+LABEL $4037 sfx_doframe_intern_1
+LABEL $402E noay2
+LABEL $40BB sfx_doframe_intern_2
+LABEL $4036 noay3
+LABEL $414F sfx_doframe_intern_3
+LABEL $4046 sfx_checktonefreq_1
+LABEL $40AB sfx_endofeffect_1
+LABEL $405C sfx_checknoisefreq_1
+LABEL $406A sfx_checkvolume_1
+LABEL $4083 sfx_enabletone_1
+LABEL $408C sfx_checknoisedisable_1
+LABEL $409D sfx_enablenoise_1
+LABEL $40A6 sfx_nextframe_1
+LABEL $40CA sfx_checktonefreq_2
+LABEL $412F sfx_endofeffect_2
+LABEL $40E0 sfx_checknoisefreq_2
+LABEL $40EE sfx_checkvolume_2
+LABEL $4107 sfx_enabletone_2
+LABEL $4110 sfx_checknoisedisable_2
+LABEL $4121 sfx_enablenoise_2
+LABEL $412A sfx_nextframe_2
+LABEL $41C3 sfx_endofeffect_3
+LABEL $415E sfx_checktonefreq_3
+LABEL $4174 sfx_checknoisefreq_3
+LABEL $4182 sfx_checkvolume_3
+LABEL $419B sfx_enabletone_3
+LABEL $41A4 sfx_checknoisedisable_3
+LABEL $41B5 sfx_enablenoise_3
+LABEL $41BE sfx_nextframe_3
+EQU $01 ZERO_DELAY_1
+COMMENT_LABEL $01 delay 7 counter is exactly 111 cycles delay between zero SETTING and zero unsetting (in moveto_d)
+LABEL $4446 sync_rm
+LABEL $448E drawdone_rm
+LABEL $4453 zeroLoop_rm
+LABEL $4467 moveTo_rm
+LABEL $446E nextListEntry_rm
+LABEL $4486 setPatternLoop_rm
+LABEL $4491 AnimList_rm
+LABEL $44AD AnimList_rm_0
+LABEL $4535 AnimList_rm_1
+LABEL $45C3 AnimList_rm_2
+LABEL $467E AnimList_rm_3
+LABEL $472D AnimList_rm_4
+LABEL $47CA AnimList_rm_5
+LABEL $485E AnimList_rm_6
+LABEL $48D4 AnimList_rm_7
+LABEL $4947 AnimList_rm_8
+LABEL $49C6 AnimList_rm_9
+LABEL $4A4B AnimList_rm_10
+LABEL $4AEE AnimList_rm_11
+LABEL $4B85 AnimList_rm_12
+LABEL $4C3D AnimList_rm_13
+EQU $00 USE_RELATIVE_POSITIONING
+EQU $0C SCROLL_SCALE_FACTOR
+EQU $0D NUMBER_OF_SCROLL_LETTERS
+LABEL $C88B scroll_text_address_start
+LABEL $C88D scroll_text_address_current
+LABEL $C891 scroll_x
+LABEL $C894 scroll_step_width
+LABEL $C896 counter
+LABEL $C897 tmp1
+LABEL $C899 divide_tmp
+LABEL $C898 mov_x
+LABEL $4CE0 divide_by_zero23
+LABEL $4CDA divide_next23
+LABEL $4CCF divide_next123
+LABEL $4CE2 divide_end23
+LABEL $4D20 getNextChar_start
+LABEL $4D20 scroll_text_not_over_yet
+LABEL $4D2C getNextChar
+LABEL $4D38 no_text_end
+LABEL $4D41 no_scroll_space
+LABEL $50B6 ABC_28
+LABEL $4D5E load_x_with_letter_address_done
+LABEL $4D4A no_scroll_fullstop
+LABEL $505A ABC_26
+LABEL $4D53 no_scroll_0
+LABEL $5067 ABC_27
+LABEL $4DDB _abc
+LABEL $4D8A LF33D_27
+LABEL $4D95 next_VListByte
+LABEL $4DAA draw_one_line
+LABEL $4DCA done_Draw
+LABEL $4DC1 LF3F4
+EQU $0C BLOWUP
+COMMENT_LABEL $0C max = 126
+LABEL $4E15 ABC_0
+LABEL $4E2E ABC_1
+LABEL $4E44 ABC_2
+LABEL $4E60 ABC_3
+LABEL $4E76 ABC_4
+LABEL $4E8F ABC_5
+LABEL $4EA2 ABC_6
+LABEL $4EC4 ABC_7
+LABEL $4ED7 ABC_8
+LABEL $4EEA ABC_9
+LABEL $4F00 ABC_10
+LABEL $4F13 ABC_11
+LABEL $4F20 ABC_12
+LABEL $4F33 ABC_13
+LABEL $4F40 ABC_14
+LABEL $4F5F ABC_15
+LABEL $4F75 ABC_16
+LABEL $4F9A ABC_17
+LABEL $4FB6 ABC_18
+LABEL $4FDE ABC_19
+LABEL $4FEE ABC_20
+LABEL $5004 ABC_21
+LABEL $5014 ABC_22
+LABEL $502A ABC_23
+LABEL $5037 ABC_24
+LABEL $504A ABC_25
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 DEFINE SECTION
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 load vectrex bios routine definitions
+COMMENT $0000 vectrex function includes
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 Variable / RAM SECTION
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 insert your variables (RAM usage) in the BSS section
+COMMENT_LINE $0000 user RAM starts at $c880
+COMMENT $0000 start of our ram space
+COMMENT_LINE $C88B ***************************************************************************
+COMMENT_LINE $C88B HEADER SECTION
+COMMENT_LINE $C88B ***************************************************************************
+COMMENT_LINE $C88B The cartridge ROM starts at address 0
+COMMENT_LINE $0000 the first few bytes are mandatory, otherwise the BIOS will not load
+COMMENT_LINE $0000 the ROM file, and will start MineStorm instead
+COMMENT $0000 'g' is copyright sign
+COMMENT $000B music from the rom
+COMMENT $000D hight, width, rel y, rel x (from 0,0)
+COMMENT $0011 some game information, ending with $80
+COMMENT $0024 end of game header
+COMMENT_LINE $0025 ***************************************************************************
+COMMENT_LINE $0025 CODE SECTION
+COMMENT_LINE $0025 ***************************************************************************
+COMMENT_LINE $0025 here the cartridge program starts off
+COMMENT_LINE $0039 mod
+COMMENT $003E DP to RAM
+COMMENT $0041 get some music, here music1
+COMMENT $0044 and init new notes
+COMMENT_LINE $0047 recal
+COMMENT $0047 Vectrex BIOS recalibration
+COMMENT $004A do actual sound loading to AY
+COMMENT $004D Sets the intensity of the
+COMMENT $0050 get button status
+COMMENT $0053 is a button pressed?
+COMMENT $0055 no, than go on
+COMMENT_LINE $0057 vector beam to $5f
+COMMENT_LINE $0057 raster malban
+COMMENT $0057 Text position relative Y
+COMMENT $0059 Text position relative X
+COMMENT $005E Vectrex BIOS print routine
+COMMENT_LINE $0061 malban writing
+COMMENT $0061 address of list
+COMMENT $0064 Text position relative Y
+COMMENT $0066 Text position relative X
+COMMENT $0068 in x position of list
+COMMENT $006A scale positioning
+COMMENT $006C scale move in list
+COMMENT_LINE $0074 ; cube
+COMMENT $0074 scalefactor
+COMMENT $0079 position relative Y
+COMMENT $007B position relative X
+COMMENT $007D sets up VIA control register after a wait recal
+COMMENT $0080 scalefactor
+COMMENT $0085 current animation frame
+COMMENT $0088 times two since it is a word pointer
+COMMENT $0089 address of data
+COMMENT $008E Vectrex BIOS print routine
+COMMENT $00A8 go back to main loop
+COMMENT $00B9 ; load pattern to loop from
+COMMENT_LINE $00D1 different ayfx setups
+COMMENT_LINE $00D1 ; scroller setup
+COMMENT_LINE $00D4 direct   $C8
+COMMENT $00D4 load default text height & width
+COMMENT $00D7 poke it to ram location
+COMMENT_LINE $00DA just for show a little scroll text...
+COMMENT_LINE $00DA scrolltext destroys a whole load of valuable
+COMMENT_LINE $00DA ram space...
+COMMENT_LINE $00DA had to use some ram twice...
+COMMENT $00DA y position of scroller
+COMMENT $00DC store it
+COMMENT $00DF left boundary
+COMMENT $00E1 store it
+COMMENT $00E4 right boundary
+COMMENT $00E6 store it
+COMMENT $00E9 scroll speed (going from right to left)
+COMMENT $00EB store it
+COMMENT $00EE and intensity of scroll text
+COMMENT $00F0 store it
+COMMENT_LINE $00FC ;;
+COMMENT_LINE $00FC AYFX setup
+COMMENT $0102 init sfx vars
+COMMENT_LINE $0117 ; animation
+COMMENT $0122 Vectrex BIOS recalibration
+COMMENT $0125 Sets the intensity of the
+COMMENT_LINE $012B animation playing
+COMMENT $012B current animation frame
+COMMENT $012E times two since it is a word pointer
+COMMENT $012F address of data
+COMMENT $0134 Text position relative Y
+COMMENT $0136 Text position relative X
+COMMENT $0138 in x position of list
+COMMENT $013A scale positioning
+COMMENT $013C scale move in list
+COMMENT $013E Vectrex BIOS print routine
+COMMENT $015E loop default
+COMMENT $0165 get button status
+COMMENT $0168 is a button pressed?
+COMMENT $016A no, than go on
+COMMENT $016C play sfx_effect
+COMMENT $0179 is a button pressed?
+COMMENT $017B no, than go on
+COMMENT $017D play sfx_effect
+COMMENT $018A is a button pressed?
+COMMENT $018C no, than go on
+COMMENT $018E play sfx_effect
+COMMENT $019B is a button pressed?
+COMMENT_LINE $01A4 ***************************************************************************
+COMMENT_LINE $01A4 DATA SECTION
+COMMENT_LINE $01A4 ***************************************************************************
+COMMENT_LINE $01A4 ; this hand optmized raster routine for this image is about 14000 cycles faster than the "normal" templated one!
+COMMENT_LINE $01A4 expects width strength to be = to the default bios location Vec_Text_Width
+COMMENT_LINE $01A4 expects height strength to be = to the default bios location Vec_Text_Height
+COMMENT_LINE $01A4 address of raster data is expected in U
+COMMENT_LINE $01A4 print is done to current screen location
+COMMENT_LINE $01A4 uses bios ram-locations  Vec_Counter_1,  Vec_Counter_2,  Vec_Counter_3
+COMMENT_LINE $01A4 as temporary storages
+COMMENT_LINE $01A4 zero delay is needed for zeroing to work correctly
+COMMENT_LINE $01A4 depends on the distance of the current integrator position to actual zero point
+COMMENT_LINE $01A4 experiment with my vectri:
+COMMENT_LINE $01A4 ZERO ing the integrators takes time. Measures at my vectrex show e.g.:
+COMMENT_LINE $01A4 If you move the beam with a to x = -127 and y = -127 at diffferent scale values, the time to reach zero:
+COMMENT_LINE $01A4 - scale $ff -> zero 110 cycles
+COMMENT_LINE $01A4 - scale $7f -> zero 75 cycles
+COMMENT_LINE $01A4 - scale $40 -> zero 57 cycles
+COMMENT_LINE $01A4 - scale $20 -> zero 53 cycles
+COMMENT_LINE $01A4 put move position on stack put it so, that we can load "d" directly from stack
+COMMENT $01A8 load line counter
+COMMENT $01AA height counter
+COMMENT $01AD load line width
+COMMENT $01AF width counter
+COMMENT $01B2 width counter (work)
+COMMENT_LINE $01B5 setup VIA raster routine
+COMMENT_LINE $01B5 setup rampin with auxControl
+COMMENT $01B5 reload line width
+COMMENT_LINE $01BB zero
+COMMENT $01BB zero the integrators
+COMMENT $01BD store zeroing values to cntl
+COMMENT $01BF and wait for zeroing to be actually done
+COMMENT_LINE $01C1 reset integrators
+COMMENT $01C1 reset integrator offset
+COMMENT_LINE $01C5 wait that zeroing surely has the desired effect!
+COMMENT $01C5 while waiting, zero offsets
+COMMENT_LINE $01CC unzero is done by moveto_d
+COMMENT_LINE $01D2 jsr      Moveto_d
+COMMENT_LINE $01D2 ;;;;; move to d as direct code start
+COMMENT $01D2 Store Y in D/A register
+COMMENT $01D4 Blank low, zero high?
+COMMENT $01D9 Enable mux
+COMMENT $01DB Clear shift regigster
+COMMENT $01DD Disable mux
+COMMENT $01DF Store X in D/A register
+COMMENT $01E1 enable timer
+COMMENT $01E3 optimized correct adder for next scan line
+COMMENT $01E5 done befor wait loop of move to d
+COMMENT $01E9 preload next scale
+COMMENT_LINE $01F1 ;;;;; move to d as direct code end
+COMMENT_LINE $01F3 ensure y int does nothing
+COMMENT $01F3 mux disabled, mux sel = y int
+COMMENT $01F5 to via b
+COMMENT $01F7 ensure dac is 0
+COMMENT $01F9 enable mux
+COMMENT $01FB delay
+COMMENT $01FC disable mux
+COMMENT $01FE a = $18,
+COMMENT $0200 $18: T1 OneSHotMode WITHOUT Ramp control, Shift out under System clock
+COMMENT $0202 get width
+COMMENT $0205 Send it to the D/A
+COMMENT $0207 a = $01
+COMMENT $0209 Enable RAMP, disable mux
+COMMENT_LINE $020B output is ongoing! (RAMP is enabled)
+COMMENT $020B [5]
+COMMENT $020E [2] wait
+COMMENT $020F [2] wait
+COMMENT $0210 [6] get bitmap (shiftreg-data) from raster table
+COMMENT $0212 [4] This loop needs to have exactly 18 cycles (8*2+2)
+COMMENT_LINE $0214 one complete shiftreg output takes 16 cycles (8*2) + 2 cycles since VIA needs some rest
+COMMENT $0214 [3]
+COMMENT $0216 [2]
+COMMENT $0217 [3] go back if not done for line
+COMMENT $0219 [2] delay 2 to finish last shiftout
+COMMENT $021A [4] b is 0 now, switch of shift
+COMMENT_LINE $021C don't bother about ramp and dac, in the next round all will be resetted
+COMMENT $021C EXIT routine
+COMMENT $021E T1->PB7 enabled
+COMMENT $0220 check for last row
+COMMENT $0223 branch if not last row
+COMMENT $0225 all done, correct stack
+COMMENT $022A forward
+COMMENT $022E forward
+COMMENT $0232 forward
+COMMENT $0236 forward
+COMMENT $023A forward
+COMMENT $023E forward
+COMMENT $0242 forward
+COMMENT $0246 forward
+COMMENT $024A forward
+COMMENT $024E forward
+COMMENT $0252 forward
+COMMENT $0256 forward
+COMMENT $025A forward
+COMMENT $025E forward
+COMMENT $0262 forward
+COMMENT $0266 forward
+COMMENT $026A forward
+COMMENT $026E forward
+COMMENT $0272 forward
+COMMENT $0276 forward
+COMMENT $027A forward
+COMMENT $027E forward
+COMMENT $0282 forward
+COMMENT $0286 forward
+COMMENT $028A forward
+COMMENT $028E forward
+COMMENT $0292 forward
+COMMENT $0296 forward
+COMMENT $029A forward
+COMMENT $029E forward
+COMMENT $02A2 forward
+COMMENT $02A6 forward
+COMMENT $02AA forward
+COMMENT $02AE forward
+COMMENT $02B2 forward
+COMMENT $02B6 forward
+COMMENT $02BA forward
+COMMENT $02BE forward
+COMMENT $02C2 forward
+COMMENT $02C6 forward
+COMMENT $02CA forward
+COMMENT $02CE forward
+COMMENT $02D2 forward
+COMMENT $02D6 forward
+COMMENT $02DA forward
+COMMENT $02DE forward
+COMMENT $02E2 forward
+COMMENT $02E6 forward
+COMMENT $02EA forward
+COMMENT $02EE forward
+COMMENT_LINE $02F2 ZERO ing the integrators takes time. Measures at my vectrex show e.g.:
+COMMENT_LINE $02F2 If you move the beam with a to x = -127 and y = -127 at diffferent scale values, the time to reach zero:
+COMMENT_LINE $02F2 - scale $ff -> zero 110 cycles
+COMMENT_LINE $02F2 - scale $7f -> zero 75 cycles
+COMMENT_LINE $02F2 - scale $40 -> zero 57 cycles
+COMMENT_LINE $02F2 - scale $20 -> zero 53 cycles
+COMMENT_LINE $02F2 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $02F2 U = address of vectorlist
+COMMENT_LINE $02F2 X = (y,x) position of vectorlist (this will be point 0,0), positioning on screen
+COMMENT_LINE $02F2 A = scalefactor "Move" (after sync)
+COMMENT_LINE $02F2 B = scalefactor "Vector" (vectors in vectorlist)
+COMMENT_LINE $02F2 mode, rel y, rel x,
+COMMENT_LINE $02F2 mode, rel y, rel x,
+COMMENT_LINE $02F2 .      .      .
+COMMENT_LINE $02F2 .      .      .
+COMMENT_LINE $02F2 mode, rel y, rel x,
+COMMENT_LINE $02F2 0x02
+COMMENT_LINE $02F2 where mode has the following meaning:
+COMMENT_LINE $02F2 negative draw line
+COMMENT_LINE $02F2 0 move to specified endpoint
+COMMENT_LINE $02F2 1 sync (and move to list start and than to place in vectorlist)
+COMMENT_LINE $02F2 2 end
+COMMENT_LINE $02F2 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT $02F2 remember out different scale factors
+COMMENT_LINE $02F6 first list entry (first will be a sync + moveto_d, so we just stay here!)
+COMMENT $02F6 this will be a "1"
+COMMENT $02F8 test if real sync - or end of list (2)
+COMMENT $02F9 if end of list -> jump
+COMMENT_LINE $02FB zero integrators
+COMMENT $02FB zero the integrators
+COMMENT $02FD store zeroing values to cntl
+COMMENT $02FF and wait for zeroing to be actually done
+COMMENT_LINE $0301 reset integrators
+COMMENT $0301 reset integrator offset
+COMMENT_LINE $0305 wait that zeroing surely has the desired effect!
+COMMENT $0305 while waiting, zero offsets
+COMMENT_LINE $0308 bne      zeroLoop_sl
+COMMENT_LINE $030A unzero is done by moveto_d
+COMMENT $030A scalefactor move
+COMMENT $030C to timer t1 (lo=
+COMMENT $030E load our coordinates of "entry" of vectorlist
+COMMENT_LINE $0310 jsr      Moveto_d                     ; move there
+COMMENT $0310 we must delay some more because of zeroing
+COMMENT_LINE $0315 ;;;;; move to d as direct code start
+COMMENT $0315 Store Y in D/A register
+COMMENT $0317 Blank low, zero high?
+COMMENT $031C Enable mux
+COMMENT $031E Clear shift regigster
+COMMENT $0320 Disable mux
+COMMENT $0322 Store X in D/A register
+COMMENT $0324 enable timer
+COMMENT $0328 scale factor vector
+COMMENT_LINE $032E ;;;;; move to d as direct code end
+COMMENT $032E to timer T1 (lo)
+COMMENT $0330 do our "internal" moveto d
+COMMENT $0332 there was a move 0,0, if so
+COMMENT_LINE $0334 jsr      Moveto_d
+COMMENT_LINE $0334 ;;;;; move to d as direct code start
+COMMENT $0334 Store Y in D/A register
+COMMENT $0336 Blank low, zero high?
+COMMENT $033B Enable mux
+COMMENT $033D Clear shift regigster
+COMMENT $033F Disable mux
+COMMENT $0341 Store X in D/A register
+COMMENT $0343 enable timer
+COMMENT_LINE $034B ;;;;; move to d as direct code end
+COMMENT $034B load next "mode" byte
+COMMENT $034D if 0, than we should move somewhere
+COMMENT $034F if still positive it is a 1 pr 2 _> goto sync
+COMMENT_LINE $0351 now we should draw a vector
+COMMENT $0351 Get next coordinate pair
+COMMENT $0353 Send Y to A/D
+COMMENT $0355 Enable mux
+COMMENT $0357 Get pattern byte
+COMMENT $0359 Disable mux
+COMMENT $035B Send X to A/D
+COMMENT $035D B-reg = T1 interrupt bit
+COMMENT $035F Clear T1H
+COMMENT $0361 Store pattern in shift register
+COMMENT $0363 Wait for T1 to time out
+COMMENT $0365 wait till line is finished
+COMMENT $0367 switch the light off (for sure)
+COMMENT $036B correct stack and go back
+COMMENT $036E sync and move to y, x
+COMMENT $0371 draw, y, x
+COMMENT $0374 draw, y, x
+COMMENT $0377 draw, y, x
+COMMENT $037A draw, y, x
+COMMENT $037D draw, y, x
+COMMENT $0380 draw, y, x
+COMMENT $0383 sync and move to y, x
+COMMENT $0386 draw, y, x
+COMMENT $0389 draw, y, x
+COMMENT $038C draw, y, x
+COMMENT $038F draw, y, x
+COMMENT $0392 draw, y, x
+COMMENT $0395 draw, y, x
+COMMENT $0398 draw, y, x
+COMMENT $039B draw, y, x
+COMMENT $039E draw, y, x
+COMMENT $03A1 draw, y, x
+COMMENT $03A4 draw, y, x
+COMMENT $03A7 draw, y, x
+COMMENT $03AA draw, y, x
+COMMENT $03AD draw, y, x
+COMMENT $03B0 draw, y, x
+COMMENT $03B3 draw, y, x
+COMMENT $03B6 draw, y, x
+COMMENT $03B9 draw, y, x
+COMMENT $03BC sync and move to y, x
+COMMENT $03BF draw, y, x
+COMMENT $03C2 draw, y, x
+COMMENT $03C5 draw, y, x
+COMMENT $03C8 draw, y, x
+COMMENT $03CB draw, y, x
+COMMENT $03CE draw, y, x
+COMMENT $03D1 draw, y, x
+COMMENT $03D4 draw, y, x
+COMMENT $03D7 draw, y, x
+COMMENT $03DA draw, y, x
+COMMENT $03DD draw, y, x
+COMMENT $03E0 draw, y, x
+COMMENT $03E3 draw, y, x
+COMMENT $03E6 draw, y, x
+COMMENT $03E9 draw, y, x
+COMMENT $03EC draw, y, x
+COMMENT $03EF sync and move to y, x
+COMMENT $03F2 draw, y, x
+COMMENT $03F5 draw, y, x
+COMMENT $03F8 draw, y, x
+COMMENT $03FB draw, y, x
+COMMENT $03FE draw, y, x
+COMMENT $0401 draw, y, x
+COMMENT $0404 draw, y, x
+COMMENT $0407 draw, y, x
+COMMENT $040A draw, y, x
+COMMENT $040D draw, y, x
+COMMENT $0410 draw, y, x
+COMMENT $0413 draw, y, x
+COMMENT $0416 draw, y, x
+COMMENT $0419 draw, y, x
+COMMENT $041C draw, y, x
+COMMENT $041F draw, y, x
+COMMENT $0422 draw, y, x
+COMMENT $0425 sync and move to y, x
+COMMENT $0428 draw, y, x
+COMMENT $042B draw, y, x
+COMMENT $042E draw, y, x
+COMMENT $0431 draw, y, x
+COMMENT $0434 draw, y, x
+COMMENT $0437 draw, y, x
+COMMENT $043A draw, y, x
+COMMENT $043D draw, y, x
+COMMENT $0440 draw, y, x
+COMMENT $0443 draw, y, x
+COMMENT $0446 sync and move to y, x
+COMMENT $0449 draw, y, x
+COMMENT $044C draw, y, x
+COMMENT $044F draw, y, x
+COMMENT $0452 draw, y, x
+COMMENT $0455 draw, y, x
+COMMENT $0458 draw, y, x
+COMMENT $045B sync and move to y, x
+COMMENT $045E draw, y, x
+COMMENT $0461 draw, y, x
+COMMENT $0464 draw, y, x
+COMMENT $0467 draw, y, x
+COMMENT $046A sync and move to y, x
+COMMENT $046D draw, y, x
+COMMENT $0470 draw, y, x
+COMMENT $0473 draw, y, x
+COMMENT $0476 draw, y, x
+COMMENT $0479 draw, y, x
+COMMENT $047C endmarker
+COMMENT $047D vectrex function includes
+COMMENT_LINE $047D defines
+COMMENT_LINE $047D following code is apart from one slight modification a copy of the original
+COMMENT_LINE $047D vectrex rom music play routine
+COMMENT_LINE $047D support for a �silence value: note $3f
+COMMENT_LINE $047D also for a ADSR and TWANG table for each channel!
+COMMENT $047D Test sound active flag
+COMMENT $047F Continue sound if active
+COMMENT $0481 Return if sound not active
+COMMENT $0484 Save pointer to frequency table
+COMMENT $0489 Set sound active flag
+COMMENT $048D Save address of ADSR table
+COMMENT $0491 Save address of twang table
+COMMENT $0495 Save pointer to music data
+COMMENT $0497 Initialize music buffer
+COMMENT $049D Init ADSR timers of chans 2 & 3
+COMMENT $04A2 Clear frequency of channel 2
+COMMENT $04A4 Clear frequency of channel 3
+COMMENT $04A6 Count for three channels
+COMMENT_LINE $04AC Continue currently playing sound here
+COMMENT $04AC Get address of ADSR timers
+COMMENT $04AF Count for three channels
+COMMENT $04B4 Get the channel's ADSR timer
+COMMENT $04B8 Skip if at maximum
+COMMENT $04BA Else increment the timer
+COMMENT $04BC Go back for the other channels
+COMMENT $04C1 pointer to "counter, current TWANG" for each channel (3*2 bytes)
+COMMENT $04C4 07 ;Twang limit is 6-8 depending on channel
+COMMENT $04C6 increment twang counter
+COMMENT $04C8 Check against limit
+COMMENT $04CC Clear it if limit exceeded
+COMMENT $04CE Get twang count
+COMMENT $04D0 Mask out low 3 bits
+COMMENT $04D2 Get twang value from table
+COMMENT $04D4 Update current twang value
+COMMENT $04D6 for next channel use next twang table
+COMMENT $04D8 three twangs done -> jump
+COMMENT_LINE $04DC inca ;increment twang limit
+COMMENT_LINE $04DC cmpa #$09
+COMMENT $04DC Go back until all three channels done
+COMMENT $04DE decrement the duration timer
+COMMENT $04E0 Update ADSR while note still playing
+COMMENT_LINE $04E4 from here start reading the next note and start "playing" it
+COMMENT $04E4 pointer to "counter, current TWANG" for each channel (3*2 bytes)
+COMMENT $04E7 start each twang at 0
+COMMENT $04ED Go to next music channel
+COMMENT $04F0 If < 0, set it to 2
+COMMENT $04F6 Get next byte of music data
+COMMENT $04FC if it's a 3F, set the ADSR timer to end (silence)
+COMMENT $0500 reload, since we destroyed with SIL test
+COMMENT $0504 Clear ADSR timer for this channel
+COMMENT $0509 If $40 bit of music data set,
+COMMENT $050B we're going to make some noise
+COMMENT $050D Get bit mask for this channel
+COMMENT $0512 Turn channel bit off for register 7
+COMMENT $0516 Set current channel bit in register 7
+COMMENT $0520 Mask off low 5 bits of music data
+COMMENT $0522 and store in register 6
+COMMENT $0526 If $40 bit of music data was cleared,
+COMMENT $0529 Get bit mask for this channel
+COMMENT $052B Turn channel bit off for register 7
+COMMENT $052F Set current channel bit in register 7
+COMMENT $0539 Get $C855 * 2 + 3
+COMMENT $053E Point U-reg to #$C861 + $C855 * 2
+COMMENT $0540 Mask off low 6 bits of music data,
+COMMENT $0542 multiply by 2
+COMMENT $0543 Get pointer to note-to-frequency table
+COMMENT $0545 Get note table data
+COMMENT $0547 Store in word at $C861-$C866
+COMMENT $0549 Re-get byte of music data
+COMMENT $054D Update music data pointer
+COMMENT $0550 If byte>=$80, advance to next channel
+COMMENT $0552 Get second byte of music data
+COMMENT $0554 If >=$80, (terminator)
+COMMENT $0556 clear music buffer,
+COMMENT $0559 clear music flag,
+COMMENT $055B and exit
+COMMENT $055C Update music data pointer
+COMMENT $055E Duration in low 6 bits of second byte
+COMMENT $0560 Store duration counter
+COMMENT $0562 Get pointer to ADSR table
+COMMENT $0565 Point to ADSR timer table
+COMMENT $056B Count for three channels
+COMMENT $056D Get channel timer?
+COMMENT $056F Test low bit of ADSR index
+COMMENT $0573 If odd, divide ADSR index by by 2
+COMMENT $0574 Get low nibble from ADSR table
+COMMENT $057A If even, divide ADSR index by 2
+COMMENT $057B Get high nibble from ADSR table
+COMMENT $0581 Store ADSR value in regs 10-12
+COMMENT $0583 each channel has a adsr, they rare 16 byte apart
+COMMENT $0586 decrement channel counter
+COMMENT $0587 Go back for next channel
+COMMENT $0589 Point to base frequency table
+COMMENT $058C Point to shadow registers of PSG for frequency
+COMMENT $058F Get next base frequency
+COMMENT $0591 Test twang value
+COMMENT $0595 If <0, negate twang table entry
+COMMENT $0597 Subtract negated value from frequency
+COMMENT $0599 Propagate borrow to high byte
+COMMENT $059B Un-negate twang entry
+COMMENT $059F If >0 add twang to base frequency
+COMMENT $05A1 Propagate carry to high byte
+COMMENT $05A3 Store freq in regs 5/4, 3/2, 1/0
+COMMENT $05AB vectrex function includes
+COMMENT_LINE $05AB --- music data [created with VIDE: Mod2Vectrex v1.08 - 02.01.2011 by Wolf, additions by Nitro/NCE, PAS to Java by Malban] ---
+COMMENT $05AB channel 2
+COMMENT $05BB channel 1
+COMMENT $05CB channel 0
+COMMENT $05DB channel 2
+COMMENT $05E3 channel 1
+COMMENT $05EB channel 0
+COMMENT_LINE $05F3 Player identifier values
+COMMENT_LINE $05F3 Instrument mapping
+COMMENT_LINE $05F3 _05                        ;  Note     :  Tracked of'coz by      -> Note
+COMMENT_LINE $05F3 _07                        ;  Note     :  in the year of 1993!   -> Note
+COMMENT_LINE $05F3 Note mapping
+COMMENT_LINE $05F3 Song values
+COMMENT_LINE $05F3 Pattern
+COMMENT $0611 $00
+COMMENT $0615 $01
+COMMENT $0618 $02
+COMMENT $061C $03
+COMMENT $061F $04
+COMMENT $0623 $05
+COMMENT $0627 $06
+COMMENT $062B $07
+COMMENT $062F $08
+COMMENT $0633 $09
+COMMENT $0636 $0A
+COMMENT $063A $0B
+COMMENT $063D $0C
+COMMENT $0641 $0D
+COMMENT $0645 $0E
+COMMENT $0649 $0F
+COMMENT $064C $10
+COMMENT $0650 $11
+COMMENT $0653 $12
+COMMENT $0657 $13
+COMMENT $065A $14
+COMMENT $065E $15
+COMMENT $0662 $16
+COMMENT $0666 $17
+COMMENT $066A $18
+COMMENT $066E $19
+COMMENT $0671 $1A
+COMMENT $0675 $1B
+COMMENT $0678 $1C
+COMMENT $067C $1D
+COMMENT $0680 $1E
+COMMENT $0684 $1F
+COMMENT $0688 $20
+COMMENT $068C $21
+COMMENT $068F $22
+COMMENT $0693 $23
+COMMENT $0696 $24
+COMMENT $069A $25
+COMMENT $069E $26
+COMMENT $06A2 $27
+COMMENT $06A6 $28
+COMMENT $06AA $29
+COMMENT $06AD $2A
+COMMENT $06B1 $2B
+COMMENT $06B4 $2C
+COMMENT $06B8 $2D
+COMMENT $06BC $2E
+COMMENT $06C0 $2F
+COMMENT $06C3 $30
+COMMENT $06C7 $31
+COMMENT $06CA $32
+COMMENT $06CE $33
+COMMENT $06D1 $34
+COMMENT $06D5 $35
+COMMENT $06D9 $36
+COMMENT $06DD $37
+COMMENT $06E1 $38
+COMMENT $06E5 $39
+COMMENT $06E8 $3A
+COMMENT $06EC $3B
+COMMENT $06EF $3C
+COMMENT $06F3 $3D
+COMMENT $06F7 $3E
+COMMENT $06FB $3F
+COMMENT $06FF end-marker
+COMMENT $0705 $00
+COMMENT $0709 $01
+COMMENT $070C $02
+COMMENT $0710 $03
+COMMENT $0713 $04
+COMMENT $0717 $05
+COMMENT $071B $06
+COMMENT $071F $07
+COMMENT $0723 $08
+COMMENT $0727 $09
+COMMENT $072A $0A
+COMMENT $072E $0B
+COMMENT $0731 $0C
+COMMENT $0735 $0D
+COMMENT $0739 $0E
+COMMENT $073D $0F
+COMMENT $0740 $10
+COMMENT $0744 $11
+COMMENT $0747 $12
+COMMENT $074B $13
+COMMENT $074E $14
+COMMENT $0752 $15
+COMMENT $0756 $16
+COMMENT $075A $17
+COMMENT $075E $18
+COMMENT $0762 $19
+COMMENT $0765 $1A
+COMMENT $0769 $1B
+COMMENT $076C $1C
+COMMENT $0770 $1D
+COMMENT $0774 $1E
+COMMENT $0778 $1F
+COMMENT $077B $20
+COMMENT $077F $21
+COMMENT $0782 $22
+COMMENT $0786 $23
+COMMENT $0789 $24
+COMMENT $078D $25
+COMMENT $0791 $26
+COMMENT $0795 $27
+COMMENT $0799 $28
+COMMENT $079D $29
+COMMENT $07A0 $2A
+COMMENT $07A4 $2B
+COMMENT $07A7 $2C
+COMMENT $07AB $2D
+COMMENT $07AF $2E
+COMMENT $07B3 $2F
+COMMENT $07B6 $30
+COMMENT $07BA $31
+COMMENT $07BD $32
+COMMENT $07C1 $33
+COMMENT $07C4 $34
+COMMENT $07C8 $35
+COMMENT $07CC $36
+COMMENT $07D0 $37
+COMMENT $07D4 $38
+COMMENT $07D8 $39
+COMMENT $07DB $3A
+COMMENT $07DF $3B
+COMMENT $07E2 $3C
+COMMENT $07E6 $3D
+COMMENT $07EA $3E
+COMMENT $07EE $3F
+COMMENT $07F2 end-marker
+COMMENT $07F8 $00
+COMMENT $07FC $01
+COMMENT $07FF $02
+COMMENT $0803 $03
+COMMENT $0806 $04
+COMMENT $080A $05
+COMMENT $080E $06
+COMMENT $0812 $07
+COMMENT $0816 $08
+COMMENT $081A $09
+COMMENT $081D $0A
+COMMENT $0821 $0B
+COMMENT $0824 $0C
+COMMENT $0828 $0D
+COMMENT $082C $0E
+COMMENT $0830 $0F
+COMMENT $0833 $10
+COMMENT $0837 $11
+COMMENT $083A $12
+COMMENT $083E $13
+COMMENT $0841 $14
+COMMENT $0845 $15
+COMMENT $0849 $16
+COMMENT $084D $17
+COMMENT $0851 $18
+COMMENT $0855 $19
+COMMENT $0858 $1A
+COMMENT $085C $1B
+COMMENT $085F $1C
+COMMENT $0863 $1D
+COMMENT $0867 $1E
+COMMENT $086B $1F
+COMMENT $086F $20
+COMMENT $0873 $21
+COMMENT $0876 $22
+COMMENT $087A $23
+COMMENT $087D $24
+COMMENT $0881 $25
+COMMENT $0885 $26
+COMMENT $0889 $27
+COMMENT $088D $28
+COMMENT $0891 $29
+COMMENT $0894 $2A
+COMMENT $0898 $2B
+COMMENT $089B $2C
+COMMENT $089F $2D
+COMMENT $08A3 $2E
+COMMENT $08A7 $2F
+COMMENT $08AA $30
+COMMENT $08AE $31
+COMMENT $08B1 $32
+COMMENT $08B5 $33
+COMMENT $08B8 $34
+COMMENT $08BC $35
+COMMENT $08C0 $36
+COMMENT $08C4 $37
+COMMENT $08C8 $38
+COMMENT $08CC $39
+COMMENT $08CF $3A
+COMMENT $08D3 $3B
+COMMENT $08D6 $3C
+COMMENT $08DA $3D
+COMMENT $08DE $3E
+COMMENT $08E2 $3F
+COMMENT $08E6 end-marker
+COMMENT $08EC $00
+COMMENT $08F0 $01
+COMMENT $08F3 $02
+COMMENT $08F7 $03
+COMMENT $08FA $04
+COMMENT $08FE $05
+COMMENT $0902 $06
+COMMENT $0906 $07
+COMMENT $090A $08
+COMMENT $090E $09
+COMMENT $0911 $0A
+COMMENT $0915 $0B
+COMMENT $0918 $0C
+COMMENT $091C $0D
+COMMENT $0920 $0E
+COMMENT $0924 $0F
+COMMENT $0927 $10
+COMMENT $092B $11
+COMMENT $092E $12
+COMMENT $0932 $13
+COMMENT $0935 $14
+COMMENT $0939 $15
+COMMENT $093D $16
+COMMENT $0941 $17
+COMMENT $0945 $18
+COMMENT $0949 $19
+COMMENT $094C $1A
+COMMENT $0950 $1B
+COMMENT $0953 $1C
+COMMENT $0957 $1D
+COMMENT $095B $1E
+COMMENT $095F $1F
+COMMENT $0962 $20
+COMMENT $0966 $21
+COMMENT $0969 $22
+COMMENT $096D $23
+COMMENT $0970 $24
+COMMENT $0974 $25
+COMMENT $0978 $26
+COMMENT $097C $27
+COMMENT $0980 $28
+COMMENT $0984 $29
+COMMENT $0987 $2A
+COMMENT $098B $2B
+COMMENT $098E $2C
+COMMENT $0992 $2D
+COMMENT $0996 $2E
+COMMENT $099A $2F
+COMMENT $099D $30
+COMMENT $09A1 $31
+COMMENT $09A4 $32
+COMMENT $09A8 $33
+COMMENT $09AB $34
+COMMENT $09AF $35
+COMMENT $09B3 $36
+COMMENT $09B7 $37
+COMMENT $09BB $38
+COMMENT $09BF $39
+COMMENT $09C2 $3A
+COMMENT $09C6 $3B
+COMMENT $09C9 $3C
+COMMENT $09CD $3D
+COMMENT $09D1 $3E
+COMMENT $09D5 $3F
+COMMENT $09D9 end-marker
+COMMENT $09DF $00
+COMMENT $09E3 $01
+COMMENT $09E6 $02
+COMMENT $09EA $03
+COMMENT $09ED $04
+COMMENT $09F1 $05
+COMMENT $09F5 $06
+COMMENT $09F9 $07
+COMMENT $09FD $08
+COMMENT $0A01 $09
+COMMENT $0A04 $0A
+COMMENT $0A08 $0B
+COMMENT $0A0B $0C
+COMMENT $0A0F $0D
+COMMENT $0A13 $0E
+COMMENT $0A17 $0F
+COMMENT $0A1A $10
+COMMENT $0A1E $11
+COMMENT $0A21 $12
+COMMENT $0A25 $13
+COMMENT $0A28 $14
+COMMENT $0A2C $15
+COMMENT $0A30 $16
+COMMENT $0A34 $17
+COMMENT $0A38 $18
+COMMENT $0A3C $19
+COMMENT $0A3F $1A
+COMMENT $0A43 $1B
+COMMENT $0A46 $1C
+COMMENT $0A4A $1D
+COMMENT $0A4E $1E
+COMMENT $0A52 $1F
+COMMENT $0A56 $20
+COMMENT $0A5A $21
+COMMENT $0A5D $22
+COMMENT $0A61 $23
+COMMENT $0A64 $24
+COMMENT $0A68 $25
+COMMENT $0A6C $26
+COMMENT $0A70 $27
+COMMENT $0A74 $28
+COMMENT $0A78 $29
+COMMENT $0A7B $2A
+COMMENT $0A7F $2B
+COMMENT $0A82 $2C
+COMMENT $0A86 $2D
+COMMENT $0A8A $2E
+COMMENT $0A8E $2F
+COMMENT $0A91 $30
+COMMENT $0A95 $31
+COMMENT $0A98 $32
+COMMENT $0A9C $33
+COMMENT $0A9F $34
+COMMENT $0AA3 $35
+COMMENT $0AA7 $36
+COMMENT $0AAB $37
+COMMENT $0AAF $38
+COMMENT $0AB3 $39
+COMMENT $0AB6 $3A
+COMMENT $0ABA $3B
+COMMENT $0ABD $3C
+COMMENT $0AC1 $3D
+COMMENT $0AC5 $3E
+COMMENT $0AC9 $3F
+COMMENT $0ACD end-marker
+COMMENT $0AD3 $00
+COMMENT $0AD7 $01
+COMMENT $0ADA $02
+COMMENT $0ADE $03
+COMMENT $0AE1 $04
+COMMENT $0AE5 $05
+COMMENT $0AE9 $06
+COMMENT $0AED $07
+COMMENT $0AF1 $08
+COMMENT $0AF5 $09
+COMMENT $0AF8 $0A
+COMMENT $0AFC $0B
+COMMENT $0AFF $0C
+COMMENT $0B03 $0D
+COMMENT $0B07 $0E
+COMMENT $0B0B $0F
+COMMENT $0B0E $10
+COMMENT $0B12 $11
+COMMENT $0B15 $12
+COMMENT $0B19 $13
+COMMENT $0B1C $14
+COMMENT $0B20 $15
+COMMENT $0B24 $16
+COMMENT $0B28 $17
+COMMENT $0B2C $18
+COMMENT $0B30 $19
+COMMENT $0B33 $1A
+COMMENT $0B37 $1B
+COMMENT $0B3A $1C
+COMMENT $0B3E $1D
+COMMENT $0B42 $1E
+COMMENT $0B46 $1F
+COMMENT $0B49 $20
+COMMENT $0B4D $21
+COMMENT $0B50 $22
+COMMENT $0B54 $23
+COMMENT $0B57 $24
+COMMENT $0B5B $25
+COMMENT $0B5F $26
+COMMENT $0B63 $27
+COMMENT $0B67 $28
+COMMENT $0B6B $29
+COMMENT $0B6E $2A
+COMMENT $0B72 $2B
+COMMENT $0B75 $2C
+COMMENT $0B79 $2D
+COMMENT $0B7D $2E
+COMMENT $0B81 $2F
+COMMENT $0B84 $30
+COMMENT $0B88 $31
+COMMENT $0B8B $32
+COMMENT $0B8F $33
+COMMENT $0B92 $34
+COMMENT $0B96 $35
+COMMENT $0B9A $36
+COMMENT $0B9E $37
+COMMENT $0BA2 $38
+COMMENT $0BA6 $39
+COMMENT $0BA9 $3A
+COMMENT $0BAD $3B
+COMMENT $0BB0 $3C
+COMMENT $0BB4 $3D
+COMMENT $0BB8 $3E
+COMMENT $0BBC $3F
+COMMENT $0BC0 end-marker
+COMMENT $0BC6 $00
+COMMENT $0BCA $01
+COMMENT $0BCD $02
+COMMENT $0BD1 $03
+COMMENT $0BD4 $04
+COMMENT $0BD8 $05
+COMMENT $0BDC $06
+COMMENT $0BE0 $07
+COMMENT $0BE4 $08
+COMMENT $0BE8 $09
+COMMENT $0BEB $0A
+COMMENT $0BEF $0B
+COMMENT $0BF2 $0C
+COMMENT $0BF6 $0D
+COMMENT $0BFA $0E
+COMMENT $0BFE $0F
+COMMENT $0C01 $10
+COMMENT $0C05 $11
+COMMENT $0C08 $12
+COMMENT $0C0C $13
+COMMENT $0C0F $14
+COMMENT $0C13 $15
+COMMENT $0C17 $16
+COMMENT $0C1B $17
+COMMENT $0C1F $18
+COMMENT $0C23 $19
+COMMENT $0C26 $1A
+COMMENT $0C2A $1B
+COMMENT $0C2D $1C
+COMMENT $0C31 $1D
+COMMENT $0C35 $1E
+COMMENT $0C39 $1F
+COMMENT $0C3D $20
+COMMENT $0C41 $21
+COMMENT $0C44 $22
+COMMENT $0C48 $23
+COMMENT $0C4B $24
+COMMENT $0C4F $25
+COMMENT $0C53 $26
+COMMENT $0C57 $27
+COMMENT $0C5B $28
+COMMENT $0C5F $29
+COMMENT $0C62 $2A
+COMMENT $0C66 $2B
+COMMENT $0C69 $2C
+COMMENT $0C6D $2D
+COMMENT $0C71 $2E
+COMMENT $0C75 $2F
+COMMENT $0C78 $30
+COMMENT $0C7C $31
+COMMENT $0C7F $32
+COMMENT $0C83 $33
+COMMENT $0C86 $34
+COMMENT $0C8A $35
+COMMENT $0C8E $36
+COMMENT $0C92 $37
+COMMENT $0C96 $38
+COMMENT $0C9A $39
+COMMENT $0C9D $3A
+COMMENT $0CA1 $3B
+COMMENT $0CA4 $3C
+COMMENT $0CA8 $3D
+COMMENT $0CAC $3E
+COMMENT $0CB0 $3F
+COMMENT $0CB4 end-marker
+COMMENT $0CBA $00
+COMMENT $0CBE $01
+COMMENT $0CC1 $02
+COMMENT $0CC5 $03
+COMMENT $0CC8 $04
+COMMENT $0CCC $05
+COMMENT $0CD0 $06
+COMMENT $0CD4 $07
+COMMENT $0CD8 $08
+COMMENT $0CDC $09
+COMMENT $0CDF $0A
+COMMENT $0CE3 $0B
+COMMENT $0CE6 $0C
+COMMENT $0CEA $0D
+COMMENT $0CEE $0E
+COMMENT $0CF2 $0F
+COMMENT $0CF5 $10
+COMMENT $0CF9 $11
+COMMENT $0CFC $12
+COMMENT $0D00 $13
+COMMENT $0D03 $14
+COMMENT $0D07 $15
+COMMENT $0D0B $16
+COMMENT $0D0F $17
+COMMENT $0D13 $18
+COMMENT $0D17 $19
+COMMENT $0D1A $1A
+COMMENT $0D1E $1B
+COMMENT $0D21 $1C
+COMMENT $0D25 $1D
+COMMENT $0D29 $1E
+COMMENT $0D2D $1F
+COMMENT $0D30 $20
+COMMENT $0D34 $21
+COMMENT $0D37 $22
+COMMENT $0D3B $23
+COMMENT $0D3E $24
+COMMENT $0D42 $25
+COMMENT $0D46 $26
+COMMENT $0D4A $27
+COMMENT $0D4E $28
+COMMENT $0D52 $29
+COMMENT $0D55 $2A
+COMMENT $0D59 $2B
+COMMENT $0D5C $2C
+COMMENT $0D60 $2D
+COMMENT $0D64 $2E
+COMMENT $0D68 $2F
+COMMENT $0D6B $30
+COMMENT $0D6F $31
+COMMENT $0D72 $32
+COMMENT $0D76 $33
+COMMENT $0D79 $34
+COMMENT $0D7D $35
+COMMENT $0D81 $36
+COMMENT $0D85 $37
+COMMENT $0D89 $38
+COMMENT $0D8D $39
+COMMENT $0D90 $3A
+COMMENT $0D94 $3B
+COMMENT $0D97 $3C
+COMMENT $0D9B $3D
+COMMENT $0D9F $3E
+COMMENT $0DA3 $3F
+COMMENT $0DA7 end-marker
+COMMENT $0DAD $00
+COMMENT $0DB0 $01
+COMMENT $0DB2 $02
+COMMENT $0DB6 $03
+COMMENT $0DB8 $04
+COMMENT $0DBB $05
+COMMENT $0DBF $06
+COMMENT $0DC2 $07
+COMMENT $0DC5 $08
+COMMENT $0DC9 $09
+COMMENT $0DCB $0A
+COMMENT $0DCF $0B
+COMMENT $0DD1 $0C
+COMMENT $0DD5 $0D
+COMMENT $0DD8 $0E
+COMMENT $0DDC $0F
+COMMENT $0DDF $10
+COMMENT $0DE2 $11
+COMMENT $0DE5 $12
+COMMENT $0DE9 $13
+COMMENT $0DEB $14
+COMMENT $0DEE $15
+COMMENT $0DF2 $16
+COMMENT $0DF5 $17
+COMMENT $0DF8 $18
+COMMENT $0DFC $19
+COMMENT $0DFE $1A
+COMMENT $0E02 $1B
+COMMENT $0E04 $1C
+COMMENT $0E08 $1D
+COMMENT $0E0B $1E
+COMMENT $0E0F $1F
+COMMENT $0E13 $20
+COMMENT $0E17 $21
+COMMENT $0E1A $22
+COMMENT $0E1E $23
+COMMENT $0E20 $24
+COMMENT $0E23 $25
+COMMENT $0E27 $26
+COMMENT $0E2A $27
+COMMENT $0E2D $28
+COMMENT $0E31 $29
+COMMENT $0E33 $2A
+COMMENT $0E37 $2B
+COMMENT $0E39 $2C
+COMMENT $0E3D $2D
+COMMENT $0E40 $2E
+COMMENT $0E44 $2F
+COMMENT $0E47 $30
+COMMENT $0E4A $31
+COMMENT $0E4C $32
+COMMENT $0E50 $33
+COMMENT $0E52 $34
+COMMENT $0E55 $35
+COMMENT $0E59 $36
+COMMENT $0E5C $37
+COMMENT $0E5F $38
+COMMENT $0E63 $39
+COMMENT $0E65 $3A
+COMMENT $0E69 $3B
+COMMENT $0E6B $3C
+COMMENT $0E6F $3D
+COMMENT $0E73 $3E
+COMMENT $0E76 $3F
+COMMENT $0E7A end-marker
+COMMENT $0E80 $00
+COMMENT $0E84 $01
+COMMENT $0E87 $02
+COMMENT $0E8B $03
+COMMENT $0E8D $04
+COMMENT $0E91 $05
+COMMENT $0E95 $06
+COMMENT $0E99 $07
+COMMENT $0E9D $08
+COMMENT $0EA1 $09
+COMMENT $0EA4 $0A
+COMMENT $0EA8 $0B
+COMMENT $0EAA $0C
+COMMENT $0EAE $0D
+COMMENT $0EB1 $0E
+COMMENT $0EB5 $0F
+COMMENT $0EB7 $10
+COMMENT $0EBB $11
+COMMENT $0EBE $12
+COMMENT $0EC2 $13
+COMMENT $0EC4 $14
+COMMENT $0EC8 $15
+COMMENT $0ECB $16
+COMMENT $0ECF $17
+COMMENT $0ED2 $18
+COMMENT $0ED6 $19
+COMMENT $0ED9 $1A
+COMMENT $0EDD $1B
+COMMENT $0EDF $1C
+COMMENT $0EE3 $1D
+COMMENT $0EE6 $1E
+COMMENT $0EEA $1F
+COMMENT $0EEC $20
+COMMENT $0EF0 $21
+COMMENT $0EF3 $22
+COMMENT $0EF7 $23
+COMMENT $0EF9 $24
+COMMENT $0EFD $25
+COMMENT $0F00 $26
+COMMENT $0F04 $27
+COMMENT $0F07 $28
+COMMENT $0F0B $29
+COMMENT $0F0E $2A
+COMMENT $0F12 $2B
+COMMENT $0F14 $2C
+COMMENT $0F18 $2D
+COMMENT $0F1B $2E
+COMMENT $0F1F $2F
+COMMENT $0F21 $30
+COMMENT $0F25 $31
+COMMENT $0F28 $32
+COMMENT $0F2C $33
+COMMENT $0F2E $34
+COMMENT $0F32 $35
+COMMENT $0F35 $36
+COMMENT $0F39 $37
+COMMENT $0F3C $38
+COMMENT $0F40 $39
+COMMENT $0F43 $3A
+COMMENT $0F47 $3B
+COMMENT $0F49 $3C
+COMMENT $0F4D $3D
+COMMENT $0F50 $3E
+COMMENT $0F54 $3F
+COMMENT $0F58 end-marker
+COMMENT $0F5E $00
+COMMENT $0F62 $01
+COMMENT $0F65 $02
+COMMENT $0F69 $03
+COMMENT $0F6C $04
+COMMENT $0F70 $05
+COMMENT $0F74 $06
+COMMENT $0F78 $07
+COMMENT $0F7C $08
+COMMENT $0F80 $09
+COMMENT $0F83 $0A
+COMMENT $0F87 $0B
+COMMENT $0F8A $0C
+COMMENT $0F8E $0D
+COMMENT $0F92 $0E
+COMMENT $0F96 $0F
+COMMENT $0F99 $10
+COMMENT $0F9D $11
+COMMENT $0FA0 $12
+COMMENT $0FA4 $13
+COMMENT $0FA7 $14
+COMMENT $0FAB $15
+COMMENT $0FAF $16
+COMMENT $0FB3 $17
+COMMENT $0FB7 $18
+COMMENT $0FBB $19
+COMMENT $0FBE $1A
+COMMENT $0FC2 $1B
+COMMENT $0FC5 $1C
+COMMENT $0FC9 $1D
+COMMENT $0FCD $1E
+COMMENT $0FD1 $1F
+COMMENT $0FD5 $20
+COMMENT $0FD9 $21
+COMMENT $0FDC $22
+COMMENT $0FE0 $23
+COMMENT $0FE3 $24
+COMMENT $0FE7 $25
+COMMENT $0FEB $26
+COMMENT $0FEF $27
+COMMENT $0FF3 $28
+COMMENT $0FF7 $29
+COMMENT $0FFA $2A
+COMMENT $0FFE $2B
+COMMENT $1001 $2C
+COMMENT $1005 $2D
+COMMENT $1009 $2E
+COMMENT $100D $2F
+COMMENT $1010 $30
+COMMENT $1012 $31
+COMMENT $1014 $32
+COMMENT $1016 $33
+COMMENT $1018 $34
+COMMENT $101A $35
+COMMENT $101C $36
+COMMENT $101E $37
+COMMENT $1020 $38
+COMMENT $1022 $39
+COMMENT $1024 $3A
+COMMENT $1026 $3B
+COMMENT $1028 $3C
+COMMENT $102A $3D
+COMMENT $102C $3E
+COMMENT $102E $3F
+COMMENT $1030 end-marker
+COMMENT $1036 $00
+COMMENT $103A $01
+COMMENT $103E $02
+COMMENT $1040 $03
+COMMENT $1044 $04
+COMMENT $1048 $05
+COMMENT $104A $06
+COMMENT $104E $07
+COMMENT $1050 $08
+COMMENT $1054 $09
+COMMENT $1057 $0A
+COMMENT $105A $0B
+COMMENT $105D $0C
+COMMENT $1060 $0D
+COMMENT $1063 $0E
+COMMENT $1065 $0F
+COMMENT $1067 $10
+COMMENT $1069 $11
+COMMENT $106B $12
+COMMENT $106D $13
+COMMENT $106F $14
+COMMENT $1071 $15
+COMMENT $1073 $16
+COMMENT $1075 $17
+COMMENT $1077 $18
+COMMENT $1079 $19
+COMMENT $107B $1A
+COMMENT $107D $1B
+COMMENT $107F $1C
+COMMENT $1081 $1D
+COMMENT $1083 $1E
+COMMENT $1085 $1F
+COMMENT $1087 $20
+COMMENT $1089 $21
+COMMENT $108B $22
+COMMENT $108D $23
+COMMENT $108F $24
+COMMENT $1091 $25
+COMMENT $1093 $26
+COMMENT $1095 $27
+COMMENT $1097 $28
+COMMENT $1099 $29
+COMMENT $109B $2A
+COMMENT $109D $2B
+COMMENT $109F $2C
+COMMENT $10A1 $2D
+COMMENT $10A3 $2E
+COMMENT $10A5 $2F
+COMMENT $10A7 $30
+COMMENT $10A9 $31
+COMMENT $10AB $32
+COMMENT $10AD $33
+COMMENT $10AF $34
+COMMENT $10B1 $35
+COMMENT $10B3 $36
+COMMENT $10B5 $37
+COMMENT $10B7 $38
+COMMENT $10B9 $39
+COMMENT $10BB $3A
+COMMENT $10BD $3B
+COMMENT $10BF $3C
+COMMENT $10C1 $3D
+COMMENT $10C3 $3E
+COMMENT $10C5 $3F
+COMMENT $10C7 end-marker
+COMMENT $10C9 vectrex function includes
+COMMENT_LINE $10C9 ***************************************************************************
+COMMENT_LINE $10C9 Variable / RAM SECTION
+COMMENT_LINE $10C9 ***************************************************************************
+COMMENT_LINE $10C9 insert your variables (RAM usage) in the BSS section
+COMMENT_LINE $10C9 user RAM starts at $c880
+COMMENT $C88B start of our ram space
+COMMENT_LINE $C880 ***************************************************************************
+COMMENT_LINE $C880 DATA SECTION
+COMMENT_LINE $C880 ***************************************************************************
+COMMENT $10C9 list of all single vectorlists in this
+COMMENT $1143 list of all single vectorlists in this
+COMMENT $11BD move to y, x
+COMMENT $11C0 mode, y, x
+COMMENT $11C3 mode, y, x
+COMMENT $11C6 mode, y, x
+COMMENT $11C9 mode, y, x
+COMMENT $11CC mode, y, x
+COMMENT $11CF mode, y, x
+COMMENT $11D2 mode, y, x
+COMMENT $11D5 mode, y, x
+COMMENT $11D8 mode, y, x
+COMMENT $11DB mode, y, x
+COMMENT $11DE mode, y, x
+COMMENT $11E1 mode, y, x
+COMMENT $11E4 mode, y, x
+COMMENT $11E7 mode, y, x
+COMMENT $11EA mode, y, x
+COMMENT $11ED mode, y, x
+COMMENT $11F0 endmarker (1)
+COMMENT $11F1 move to y, x
+COMMENT $11F4 mode, y, x
+COMMENT $11F7 mode, y, x
+COMMENT $11FA mode, y, x
+COMMENT $11FD mode, y, x
+COMMENT $1200 mode, y, x
+COMMENT $1203 mode, y, x
+COMMENT $1206 mode, y, x
+COMMENT $1209 mode, y, x
+COMMENT $120C mode, y, x
+COMMENT $120F mode, y, x
+COMMENT $1212 mode, y, x
+COMMENT $1215 mode, y, x
+COMMENT $1218 mode, y, x
+COMMENT $121B mode, y, x
+COMMENT $121E mode, y, x
+COMMENT $1221 mode, y, x
+COMMENT $1224 endmarker (1)
+COMMENT $1225 move to y, x
+COMMENT $1228 mode, y, x
+COMMENT $122B mode, y, x
+COMMENT $122E mode, y, x
+COMMENT $1231 mode, y, x
+COMMENT $1234 mode, y, x
+COMMENT $1237 mode, y, x
+COMMENT $123A mode, y, x
+COMMENT $123D mode, y, x
+COMMENT $1240 mode, y, x
+COMMENT $1243 mode, y, x
+COMMENT $1246 mode, y, x
+COMMENT $1249 mode, y, x
+COMMENT $124C mode, y, x
+COMMENT $124F mode, y, x
+COMMENT $1252 mode, y, x
+COMMENT $1255 mode, y, x
+COMMENT $1258 endmarker (1)
+COMMENT $1259 move to y, x
+COMMENT $125C mode, y, x
+COMMENT $125F mode, y, x
+COMMENT $1262 mode, y, x
+COMMENT $1265 mode, y, x
+COMMENT $1268 mode, y, x
+COMMENT $126B mode, y, x
+COMMENT $126E mode, y, x
+COMMENT $1271 mode, y, x
+COMMENT $1274 mode, y, x
+COMMENT $1277 mode, y, x
+COMMENT $127A mode, y, x
+COMMENT $127D mode, y, x
+COMMENT $1280 mode, y, x
+COMMENT $1283 mode, y, x
+COMMENT $1286 mode, y, x
+COMMENT $1289 mode, y, x
+COMMENT $128C endmarker (1)
+COMMENT $128D move to y, x
+COMMENT $1290 mode, y, x
+COMMENT $1293 mode, y, x
+COMMENT $1296 mode, y, x
+COMMENT $1299 mode, y, x
+COMMENT $129C mode, y, x
+COMMENT $129F mode, y, x
+COMMENT $12A2 mode, y, x
+COMMENT $12A5 mode, y, x
+COMMENT $12A8 mode, y, x
+COMMENT $12AB mode, y, x
+COMMENT $12AE mode, y, x
+COMMENT $12B1 mode, y, x
+COMMENT $12B4 mode, y, x
+COMMENT $12B7 mode, y, x
+COMMENT $12BA mode, y, x
+COMMENT $12BD mode, y, x
+COMMENT $12C0 endmarker (1)
+COMMENT $12C1 move to y, x
+COMMENT $12C4 mode, y, x
+COMMENT $12C7 mode, y, x
+COMMENT $12CA mode, y, x
+COMMENT $12CD mode, y, x
+COMMENT $12D0 mode, y, x
+COMMENT $12D3 mode, y, x
+COMMENT $12D6 mode, y, x
+COMMENT $12D9 mode, y, x
+COMMENT $12DC mode, y, x
+COMMENT $12DF mode, y, x
+COMMENT $12E2 mode, y, x
+COMMENT $12E5 mode, y, x
+COMMENT $12E8 mode, y, x
+COMMENT $12EB mode, y, x
+COMMENT $12EE mode, y, x
+COMMENT $12F1 mode, y, x
+COMMENT $12F4 endmarker (1)
+COMMENT $12F5 move to y, x
+COMMENT $12F8 mode, y, x
+COMMENT $12FB mode, y, x
+COMMENT $12FE mode, y, x
+COMMENT $1301 mode, y, x
+COMMENT $1304 mode, y, x
+COMMENT $1307 mode, y, x
+COMMENT $130A mode, y, x
+COMMENT $130D mode, y, x
+COMMENT $1310 mode, y, x
+COMMENT $1313 mode, y, x
+COMMENT $1316 mode, y, x
+COMMENT $1319 mode, y, x
+COMMENT $131C mode, y, x
+COMMENT $131F mode, y, x
+COMMENT $1322 mode, y, x
+COMMENT $1325 mode, y, x
+COMMENT $1328 endmarker (1)
+COMMENT $1329 move to y, x
+COMMENT $132C mode, y, x
+COMMENT $132F mode, y, x
+COMMENT $1332 mode, y, x
+COMMENT $1335 mode, y, x
+COMMENT $1338 mode, y, x
+COMMENT $133B mode, y, x
+COMMENT $133E mode, y, x
+COMMENT $1341 mode, y, x
+COMMENT $1344 mode, y, x
+COMMENT $1347 mode, y, x
+COMMENT $134A mode, y, x
+COMMENT $134D mode, y, x
+COMMENT $1350 mode, y, x
+COMMENT $1353 mode, y, x
+COMMENT $1356 mode, y, x
+COMMENT $1359 mode, y, x
+COMMENT $135C endmarker (1)
+COMMENT $135D move to y, x
+COMMENT $1360 mode, y, x
+COMMENT $1363 mode, y, x
+COMMENT $1366 mode, y, x
+COMMENT $1369 mode, y, x
+COMMENT $136C mode, y, x
+COMMENT $136F mode, y, x
+COMMENT $1372 mode, y, x
+COMMENT $1375 mode, y, x
+COMMENT $1378 mode, y, x
+COMMENT $137B mode, y, x
+COMMENT $137E mode, y, x
+COMMENT $1381 mode, y, x
+COMMENT $1384 mode, y, x
+COMMENT $1387 mode, y, x
+COMMENT $138A mode, y, x
+COMMENT $138D mode, y, x
+COMMENT $1390 endmarker (1)
+COMMENT $1391 move to y, x
+COMMENT $1394 mode, y, x
+COMMENT $1397 mode, y, x
+COMMENT $139A mode, y, x
+COMMENT $139D mode, y, x
+COMMENT $13A0 mode, y, x
+COMMENT $13A3 mode, y, x
+COMMENT $13A6 mode, y, x
+COMMENT $13A9 mode, y, x
+COMMENT $13AC mode, y, x
+COMMENT $13AF mode, y, x
+COMMENT $13B2 mode, y, x
+COMMENT $13B5 mode, y, x
+COMMENT $13B8 mode, y, x
+COMMENT $13BB mode, y, x
+COMMENT $13BE mode, y, x
+COMMENT $13C1 mode, y, x
+COMMENT $13C4 endmarker (1)
+COMMENT $13C5 move to y, x
+COMMENT $13C8 mode, y, x
+COMMENT $13CB mode, y, x
+COMMENT $13CE mode, y, x
+COMMENT $13D1 mode, y, x
+COMMENT $13D4 mode, y, x
+COMMENT $13D7 mode, y, x
+COMMENT $13DA mode, y, x
+COMMENT $13DD mode, y, x
+COMMENT $13E0 mode, y, x
+COMMENT $13E3 mode, y, x
+COMMENT $13E6 mode, y, x
+COMMENT $13E9 mode, y, x
+COMMENT $13EC mode, y, x
+COMMENT $13EF mode, y, x
+COMMENT $13F2 mode, y, x
+COMMENT $13F5 mode, y, x
+COMMENT $13F8 endmarker (1)
+COMMENT $13F9 move to y, x
+COMMENT $13FC mode, y, x
+COMMENT $13FF mode, y, x
+COMMENT $1402 mode, y, x
+COMMENT $1405 mode, y, x
+COMMENT $1408 mode, y, x
+COMMENT $140B mode, y, x
+COMMENT $140E mode, y, x
+COMMENT $1411 mode, y, x
+COMMENT $1414 mode, y, x
+COMMENT $1417 mode, y, x
+COMMENT $141A mode, y, x
+COMMENT $141D mode, y, x
+COMMENT $1420 mode, y, x
+COMMENT $1423 mode, y, x
+COMMENT $1426 mode, y, x
+COMMENT $1429 mode, y, x
+COMMENT $142C endmarker (1)
+COMMENT $142D move to y, x
+COMMENT $1430 mode, y, x
+COMMENT $1433 mode, y, x
+COMMENT $1436 mode, y, x
+COMMENT $1439 mode, y, x
+COMMENT $143C mode, y, x
+COMMENT $143F mode, y, x
+COMMENT $1442 mode, y, x
+COMMENT $1445 mode, y, x
+COMMENT $1448 mode, y, x
+COMMENT $144B mode, y, x
+COMMENT $144E mode, y, x
+COMMENT $1451 mode, y, x
+COMMENT $1454 mode, y, x
+COMMENT $1457 mode, y, x
+COMMENT $145A mode, y, x
+COMMENT $145D mode, y, x
+COMMENT $1460 endmarker (1)
+COMMENT $1461 move to y, x
+COMMENT $1464 mode, y, x
+COMMENT $1467 mode, y, x
+COMMENT $146A mode, y, x
+COMMENT $146D mode, y, x
+COMMENT $1470 mode, y, x
+COMMENT $1473 mode, y, x
+COMMENT $1476 mode, y, x
+COMMENT $1479 mode, y, x
+COMMENT $147C mode, y, x
+COMMENT $147F mode, y, x
+COMMENT $1482 mode, y, x
+COMMENT $1485 mode, y, x
+COMMENT $1488 mode, y, x
+COMMENT $148B mode, y, x
+COMMENT $148E mode, y, x
+COMMENT $1491 mode, y, x
+COMMENT $1494 endmarker (1)
+COMMENT $1495 move to y, x
+COMMENT $1498 mode, y, x
+COMMENT $149B mode, y, x
+COMMENT $149E mode, y, x
+COMMENT $14A1 mode, y, x
+COMMENT $14A4 mode, y, x
+COMMENT $14A7 mode, y, x
+COMMENT $14AA mode, y, x
+COMMENT $14AD mode, y, x
+COMMENT $14B0 mode, y, x
+COMMENT $14B3 mode, y, x
+COMMENT $14B6 mode, y, x
+COMMENT $14B9 mode, y, x
+COMMENT $14BC mode, y, x
+COMMENT $14BF mode, y, x
+COMMENT $14C2 mode, y, x
+COMMENT $14C5 endmarker (1)
+COMMENT $14C6 move to y, x
+COMMENT $14C9 mode, y, x
+COMMENT $14CC mode, y, x
+COMMENT $14CF mode, y, x
+COMMENT $14D2 mode, y, x
+COMMENT $14D5 mode, y, x
+COMMENT $14D8 mode, y, x
+COMMENT $14DB mode, y, x
+COMMENT $14DE mode, y, x
+COMMENT $14E1 mode, y, x
+COMMENT $14E4 mode, y, x
+COMMENT $14E7 mode, y, x
+COMMENT $14EA mode, y, x
+COMMENT $14ED mode, y, x
+COMMENT $14F0 mode, y, x
+COMMENT $14F3 mode, y, x
+COMMENT $14F6 endmarker (1)
+COMMENT $14F7 move to y, x
+COMMENT $14FA mode, y, x
+COMMENT $14FD mode, y, x
+COMMENT $1500 mode, y, x
+COMMENT $1503 mode, y, x
+COMMENT $1506 mode, y, x
+COMMENT $1509 mode, y, x
+COMMENT $150C mode, y, x
+COMMENT $150F mode, y, x
+COMMENT $1512 mode, y, x
+COMMENT $1515 mode, y, x
+COMMENT $1518 mode, y, x
+COMMENT $151B mode, y, x
+COMMENT $151E mode, y, x
+COMMENT $1521 mode, y, x
+COMMENT $1524 mode, y, x
+COMMENT $1527 mode, y, x
+COMMENT $152A mode, y, x
+COMMENT $152D endmarker (1)
+COMMENT $152E move to y, x
+COMMENT $1531 mode, y, x
+COMMENT $1534 mode, y, x
+COMMENT $1537 mode, y, x
+COMMENT $153A mode, y, x
+COMMENT $153D mode, y, x
+COMMENT $1540 mode, y, x
+COMMENT $1543 mode, y, x
+COMMENT $1546 mode, y, x
+COMMENT $1549 mode, y, x
+COMMENT $154C mode, y, x
+COMMENT $154F mode, y, x
+COMMENT $1552 mode, y, x
+COMMENT $1555 mode, y, x
+COMMENT $1558 mode, y, x
+COMMENT $155B mode, y, x
+COMMENT $155E mode, y, x
+COMMENT $1561 mode, y, x
+COMMENT $1564 endmarker (1)
+COMMENT $1565 move to y, x
+COMMENT $1568 mode, y, x
+COMMENT $156B mode, y, x
+COMMENT $156E mode, y, x
+COMMENT $1571 mode, y, x
+COMMENT $1574 mode, y, x
+COMMENT $1577 mode, y, x
+COMMENT $157A mode, y, x
+COMMENT $157D mode, y, x
+COMMENT $1580 mode, y, x
+COMMENT $1583 mode, y, x
+COMMENT $1586 mode, y, x
+COMMENT $1589 mode, y, x
+COMMENT $158C mode, y, x
+COMMENT $158F mode, y, x
+COMMENT $1592 mode, y, x
+COMMENT $1595 mode, y, x
+COMMENT $1598 mode, y, x
+COMMENT $159B endmarker (1)
+COMMENT $159C move to y, x
+COMMENT $159F mode, y, x
+COMMENT $15A2 mode, y, x
+COMMENT $15A5 mode, y, x
+COMMENT $15A8 mode, y, x
+COMMENT $15AB mode, y, x
+COMMENT $15AE mode, y, x
+COMMENT $15B1 mode, y, x
+COMMENT $15B4 mode, y, x
+COMMENT $15B7 mode, y, x
+COMMENT $15BA mode, y, x
+COMMENT $15BD mode, y, x
+COMMENT $15C0 mode, y, x
+COMMENT $15C3 mode, y, x
+COMMENT $15C6 mode, y, x
+COMMENT $15C9 mode, y, x
+COMMENT $15CC mode, y, x
+COMMENT $15CF mode, y, x
+COMMENT $15D2 endmarker (1)
+COMMENT $15D3 move to y, x
+COMMENT $15D6 mode, y, x
+COMMENT $15D9 mode, y, x
+COMMENT $15DC mode, y, x
+COMMENT $15DF mode, y, x
+COMMENT $15E2 mode, y, x
+COMMENT $15E5 mode, y, x
+COMMENT $15E8 mode, y, x
+COMMENT $15EB mode, y, x
+COMMENT $15EE mode, y, x
+COMMENT $15F1 mode, y, x
+COMMENT $15F4 mode, y, x
+COMMENT $15F7 mode, y, x
+COMMENT $15FA mode, y, x
+COMMENT $15FD mode, y, x
+COMMENT $1600 mode, y, x
+COMMENT $1603 mode, y, x
+COMMENT $1606 mode, y, x
+COMMENT $1609 endmarker (1)
+COMMENT $160A move to y, x
+COMMENT $160D mode, y, x
+COMMENT $1610 mode, y, x
+COMMENT $1613 mode, y, x
+COMMENT $1616 mode, y, x
+COMMENT $1619 mode, y, x
+COMMENT $161C mode, y, x
+COMMENT $161F mode, y, x
+COMMENT $1622 mode, y, x
+COMMENT $1625 mode, y, x
+COMMENT $1628 mode, y, x
+COMMENT $162B mode, y, x
+COMMENT $162E mode, y, x
+COMMENT $1631 mode, y, x
+COMMENT $1634 mode, y, x
+COMMENT $1637 mode, y, x
+COMMENT $163A mode, y, x
+COMMENT $163D mode, y, x
+COMMENT $1640 endmarker (1)
+COMMENT $1641 move to y, x
+COMMENT $1644 mode, y, x
+COMMENT $1647 mode, y, x
+COMMENT $164A mode, y, x
+COMMENT $164D mode, y, x
+COMMENT $1650 mode, y, x
+COMMENT $1653 mode, y, x
+COMMENT $1656 mode, y, x
+COMMENT $1659 mode, y, x
+COMMENT $165C mode, y, x
+COMMENT $165F mode, y, x
+COMMENT $1662 mode, y, x
+COMMENT $1665 mode, y, x
+COMMENT $1668 mode, y, x
+COMMENT $166B mode, y, x
+COMMENT $166E mode, y, x
+COMMENT $1671 mode, y, x
+COMMENT $1674 mode, y, x
+COMMENT $1677 endmarker (1)
+COMMENT $1678 move to y, x
+COMMENT $167B mode, y, x
+COMMENT $167E mode, y, x
+COMMENT $1681 mode, y, x
+COMMENT $1684 mode, y, x
+COMMENT $1687 mode, y, x
+COMMENT $168A mode, y, x
+COMMENT $168D mode, y, x
+COMMENT $1690 mode, y, x
+COMMENT $1693 mode, y, x
+COMMENT $1696 mode, y, x
+COMMENT $1699 mode, y, x
+COMMENT $169C mode, y, x
+COMMENT $169F mode, y, x
+COMMENT $16A2 mode, y, x
+COMMENT $16A5 mode, y, x
+COMMENT $16A8 mode, y, x
+COMMENT $16AB endmarker (1)
+COMMENT $16AC move to y, x
+COMMENT $16AF mode, y, x
+COMMENT $16B2 mode, y, x
+COMMENT $16B5 mode, y, x
+COMMENT $16B8 mode, y, x
+COMMENT $16BB mode, y, x
+COMMENT $16BE mode, y, x
+COMMENT $16C1 mode, y, x
+COMMENT $16C4 mode, y, x
+COMMENT $16C7 mode, y, x
+COMMENT $16CA mode, y, x
+COMMENT $16CD mode, y, x
+COMMENT $16D0 mode, y, x
+COMMENT $16D3 mode, y, x
+COMMENT $16D6 mode, y, x
+COMMENT $16D9 mode, y, x
+COMMENT $16DC mode, y, x
+COMMENT $16DF endmarker (1)
+COMMENT $16E0 move to y, x
+COMMENT $16E3 mode, y, x
+COMMENT $16E6 mode, y, x
+COMMENT $16E9 mode, y, x
+COMMENT $16EC mode, y, x
+COMMENT $16EF mode, y, x
+COMMENT $16F2 mode, y, x
+COMMENT $16F5 mode, y, x
+COMMENT $16F8 mode, y, x
+COMMENT $16FB mode, y, x
+COMMENT $16FE mode, y, x
+COMMENT $1701 mode, y, x
+COMMENT $1704 mode, y, x
+COMMENT $1707 mode, y, x
+COMMENT $170A mode, y, x
+COMMENT $170D mode, y, x
+COMMENT $1710 mode, y, x
+COMMENT $1713 endmarker (1)
+COMMENT $1714 move to y, x
+COMMENT $1717 mode, y, x
+COMMENT $171A mode, y, x
+COMMENT $171D mode, y, x
+COMMENT $1720 mode, y, x
+COMMENT $1723 mode, y, x
+COMMENT $1726 mode, y, x
+COMMENT $1729 mode, y, x
+COMMENT $172C mode, y, x
+COMMENT $172F mode, y, x
+COMMENT $1732 mode, y, x
+COMMENT $1735 mode, y, x
+COMMENT $1738 mode, y, x
+COMMENT $173B mode, y, x
+COMMENT $173E mode, y, x
+COMMENT $1741 mode, y, x
+COMMENT $1744 mode, y, x
+COMMENT $1747 endmarker (1)
+COMMENT $1748 move to y, x
+COMMENT $174B mode, y, x
+COMMENT $174E mode, y, x
+COMMENT $1751 mode, y, x
+COMMENT $1754 mode, y, x
+COMMENT $1757 mode, y, x
+COMMENT $175A mode, y, x
+COMMENT $175D mode, y, x
+COMMENT $1760 mode, y, x
+COMMENT $1763 mode, y, x
+COMMENT $1766 mode, y, x
+COMMENT $1769 mode, y, x
+COMMENT $176C mode, y, x
+COMMENT $176F mode, y, x
+COMMENT $1772 mode, y, x
+COMMENT $1775 mode, y, x
+COMMENT $1778 mode, y, x
+COMMENT $177B endmarker (1)
+COMMENT $177C move to y, x
+COMMENT $177F mode, y, x
+COMMENT $1782 mode, y, x
+COMMENT $1785 mode, y, x
+COMMENT $1788 mode, y, x
+COMMENT $178B mode, y, x
+COMMENT $178E mode, y, x
+COMMENT $1791 mode, y, x
+COMMENT $1794 mode, y, x
+COMMENT $1797 mode, y, x
+COMMENT $179A mode, y, x
+COMMENT $179D mode, y, x
+COMMENT $17A0 mode, y, x
+COMMENT $17A3 mode, y, x
+COMMENT $17A6 mode, y, x
+COMMENT $17A9 mode, y, x
+COMMENT $17AC mode, y, x
+COMMENT $17AF endmarker (1)
+COMMENT $17B0 move to y, x
+COMMENT $17B3 mode, y, x
+COMMENT $17B6 mode, y, x
+COMMENT $17B9 mode, y, x
+COMMENT $17BC mode, y, x
+COMMENT $17BF mode, y, x
+COMMENT $17C2 mode, y, x
+COMMENT $17C5 mode, y, x
+COMMENT $17C8 mode, y, x
+COMMENT $17CB mode, y, x
+COMMENT $17CE mode, y, x
+COMMENT $17D1 mode, y, x
+COMMENT $17D4 mode, y, x
+COMMENT $17D7 mode, y, x
+COMMENT $17DA mode, y, x
+COMMENT $17DD mode, y, x
+COMMENT $17E0 mode, y, x
+COMMENT $17E3 endmarker (1)
+COMMENT $17E4 move to y, x
+COMMENT $17E7 mode, y, x
+COMMENT $17EA mode, y, x
+COMMENT $17ED mode, y, x
+COMMENT $17F0 mode, y, x
+COMMENT $17F3 mode, y, x
+COMMENT $17F6 mode, y, x
+COMMENT $17F9 mode, y, x
+COMMENT $17FC mode, y, x
+COMMENT $17FF mode, y, x
+COMMENT $1802 mode, y, x
+COMMENT $1805 mode, y, x
+COMMENT $1808 mode, y, x
+COMMENT $180B mode, y, x
+COMMENT $180E mode, y, x
+COMMENT $1811 endmarker (1)
+COMMENT $1812 move to y, x
+COMMENT $1815 mode, y, x
+COMMENT $1818 mode, y, x
+COMMENT $181B mode, y, x
+COMMENT $181E mode, y, x
+COMMENT $1821 mode, y, x
+COMMENT $1824 mode, y, x
+COMMENT $1827 mode, y, x
+COMMENT $182A mode, y, x
+COMMENT $182D mode, y, x
+COMMENT $1830 mode, y, x
+COMMENT $1833 mode, y, x
+COMMENT $1836 mode, y, x
+COMMENT $1839 mode, y, x
+COMMENT $183C mode, y, x
+COMMENT $183F endmarker (1)
+COMMENT $1840 move to y, x
+COMMENT $1843 mode, y, x
+COMMENT $1846 mode, y, x
+COMMENT $1849 mode, y, x
+COMMENT $184C mode, y, x
+COMMENT $184F mode, y, x
+COMMENT $1852 mode, y, x
+COMMENT $1855 mode, y, x
+COMMENT $1858 mode, y, x
+COMMENT $185B mode, y, x
+COMMENT $185E mode, y, x
+COMMENT $1861 mode, y, x
+COMMENT $1864 mode, y, x
+COMMENT $1867 mode, y, x
+COMMENT $186A mode, y, x
+COMMENT $186D endmarker (1)
+COMMENT $186E move to y, x
+COMMENT $1871 mode, y, x
+COMMENT $1874 mode, y, x
+COMMENT $1877 mode, y, x
+COMMENT $187A mode, y, x
+COMMENT $187D mode, y, x
+COMMENT $1880 mode, y, x
+COMMENT $1883 mode, y, x
+COMMENT $1886 mode, y, x
+COMMENT $1889 mode, y, x
+COMMENT $188C mode, y, x
+COMMENT $188F mode, y, x
+COMMENT $1892 mode, y, x
+COMMENT $1895 mode, y, x
+COMMENT $1898 mode, y, x
+COMMENT $189B endmarker (1)
+COMMENT $189C move to y, x
+COMMENT $189F mode, y, x
+COMMENT $18A2 mode, y, x
+COMMENT $18A5 mode, y, x
+COMMENT $18A8 mode, y, x
+COMMENT $18AB mode, y, x
+COMMENT $18AE mode, y, x
+COMMENT $18B1 mode, y, x
+COMMENT $18B4 mode, y, x
+COMMENT $18B7 mode, y, x
+COMMENT $18BA mode, y, x
+COMMENT $18BD mode, y, x
+COMMENT $18C0 mode, y, x
+COMMENT $18C3 mode, y, x
+COMMENT $18C6 mode, y, x
+COMMENT $18C9 endmarker (1)
+COMMENT $18CA move to y, x
+COMMENT $18CD mode, y, x
+COMMENT $18D0 mode, y, x
+COMMENT $18D3 mode, y, x
+COMMENT $18D6 mode, y, x
+COMMENT $18D9 mode, y, x
+COMMENT $18DC mode, y, x
+COMMENT $18DF mode, y, x
+COMMENT $18E2 mode, y, x
+COMMENT $18E5 mode, y, x
+COMMENT $18E8 mode, y, x
+COMMENT $18EB mode, y, x
+COMMENT $18EE mode, y, x
+COMMENT $18F1 mode, y, x
+COMMENT $18F4 mode, y, x
+COMMENT $18F7 endmarker (1)
+COMMENT $18F8 move to y, x
+COMMENT $18FB mode, y, x
+COMMENT $18FE mode, y, x
+COMMENT $1901 mode, y, x
+COMMENT $1904 mode, y, x
+COMMENT $1907 mode, y, x
+COMMENT $190A mode, y, x
+COMMENT $190D mode, y, x
+COMMENT $1910 mode, y, x
+COMMENT $1913 mode, y, x
+COMMENT $1916 mode, y, x
+COMMENT $1919 mode, y, x
+COMMENT $191C mode, y, x
+COMMENT $191F mode, y, x
+COMMENT $1922 mode, y, x
+COMMENT $1925 mode, y, x
+COMMENT $1928 mode, y, x
+COMMENT $192B endmarker (1)
+COMMENT $192C move to y, x
+COMMENT $192F mode, y, x
+COMMENT $1932 mode, y, x
+COMMENT $1935 mode, y, x
+COMMENT $1938 mode, y, x
+COMMENT $193B mode, y, x
+COMMENT $193E mode, y, x
+COMMENT $1941 mode, y, x
+COMMENT $1944 mode, y, x
+COMMENT $1947 mode, y, x
+COMMENT $194A mode, y, x
+COMMENT $194D mode, y, x
+COMMENT $1950 mode, y, x
+COMMENT $1953 mode, y, x
+COMMENT $1956 mode, y, x
+COMMENT $1959 mode, y, x
+COMMENT $195C mode, y, x
+COMMENT $195F endmarker (1)
+COMMENT $1960 move to y, x
+COMMENT $1963 mode, y, x
+COMMENT $1966 mode, y, x
+COMMENT $1969 mode, y, x
+COMMENT $196C mode, y, x
+COMMENT $196F mode, y, x
+COMMENT $1972 mode, y, x
+COMMENT $1975 mode, y, x
+COMMENT $1978 mode, y, x
+COMMENT $197B mode, y, x
+COMMENT $197E mode, y, x
+COMMENT $1981 mode, y, x
+COMMENT $1984 mode, y, x
+COMMENT $1987 mode, y, x
+COMMENT $198A mode, y, x
+COMMENT $198D mode, y, x
+COMMENT $1990 mode, y, x
+COMMENT $1993 endmarker (1)
+COMMENT $1994 move to y, x
+COMMENT $1997 mode, y, x
+COMMENT $199A mode, y, x
+COMMENT $199D mode, y, x
+COMMENT $19A0 mode, y, x
+COMMENT $19A3 mode, y, x
+COMMENT $19A6 mode, y, x
+COMMENT $19A9 mode, y, x
+COMMENT $19AC mode, y, x
+COMMENT $19AF mode, y, x
+COMMENT $19B2 mode, y, x
+COMMENT $19B5 mode, y, x
+COMMENT $19B8 mode, y, x
+COMMENT $19BB mode, y, x
+COMMENT $19BE mode, y, x
+COMMENT $19C1 mode, y, x
+COMMENT $19C4 mode, y, x
+COMMENT $19C7 endmarker (1)
+COMMENT $19C8 move to y, x
+COMMENT $19CB mode, y, x
+COMMENT $19CE mode, y, x
+COMMENT $19D1 mode, y, x
+COMMENT $19D4 mode, y, x
+COMMENT $19D7 mode, y, x
+COMMENT $19DA mode, y, x
+COMMENT $19DD mode, y, x
+COMMENT $19E0 mode, y, x
+COMMENT $19E3 mode, y, x
+COMMENT $19E6 mode, y, x
+COMMENT $19E9 mode, y, x
+COMMENT $19EC mode, y, x
+COMMENT $19EF mode, y, x
+COMMENT $19F2 mode, y, x
+COMMENT $19F5 mode, y, x
+COMMENT $19F8 mode, y, x
+COMMENT $19FB endmarker (1)
+COMMENT $19FC move to y, x
+COMMENT $19FF mode, y, x
+COMMENT $1A02 mode, y, x
+COMMENT $1A05 mode, y, x
+COMMENT $1A08 mode, y, x
+COMMENT $1A0B mode, y, x
+COMMENT $1A0E mode, y, x
+COMMENT $1A11 mode, y, x
+COMMENT $1A14 mode, y, x
+COMMENT $1A17 mode, y, x
+COMMENT $1A1A mode, y, x
+COMMENT $1A1D mode, y, x
+COMMENT $1A20 mode, y, x
+COMMENT $1A23 mode, y, x
+COMMENT $1A26 mode, y, x
+COMMENT $1A29 mode, y, x
+COMMENT $1A2C endmarker (1)
+COMMENT $1A2D move to y, x
+COMMENT $1A30 mode, y, x
+COMMENT $1A33 mode, y, x
+COMMENT $1A36 mode, y, x
+COMMENT $1A39 mode, y, x
+COMMENT $1A3C mode, y, x
+COMMENT $1A3F mode, y, x
+COMMENT $1A42 mode, y, x
+COMMENT $1A45 mode, y, x
+COMMENT $1A48 mode, y, x
+COMMENT $1A4B mode, y, x
+COMMENT $1A4E mode, y, x
+COMMENT $1A51 mode, y, x
+COMMENT $1A54 mode, y, x
+COMMENT $1A57 mode, y, x
+COMMENT $1A5A endmarker (1)
+COMMENT $1A5B move to y, x
+COMMENT $1A5E mode, y, x
+COMMENT $1A61 mode, y, x
+COMMENT $1A64 mode, y, x
+COMMENT $1A67 mode, y, x
+COMMENT $1A6A mode, y, x
+COMMENT $1A6D mode, y, x
+COMMENT $1A70 mode, y, x
+COMMENT $1A73 mode, y, x
+COMMENT $1A76 mode, y, x
+COMMENT $1A79 mode, y, x
+COMMENT $1A7C mode, y, x
+COMMENT $1A7F mode, y, x
+COMMENT $1A82 mode, y, x
+COMMENT $1A85 mode, y, x
+COMMENT $1A88 endmarker (1)
+COMMENT $1A89 move to y, x
+COMMENT $1A8C mode, y, x
+COMMENT $1A8F mode, y, x
+COMMENT $1A92 mode, y, x
+COMMENT $1A95 mode, y, x
+COMMENT $1A98 mode, y, x
+COMMENT $1A9B mode, y, x
+COMMENT $1A9E mode, y, x
+COMMENT $1AA1 mode, y, x
+COMMENT $1AA4 mode, y, x
+COMMENT $1AA7 mode, y, x
+COMMENT $1AAA mode, y, x
+COMMENT $1AAD mode, y, x
+COMMENT $1AB0 mode, y, x
+COMMENT $1AB3 mode, y, x
+COMMENT $1AB6 mode, y, x
+COMMENT $1AB9 mode, y, x
+COMMENT $1ABC endmarker (1)
+COMMENT $1ABD move to y, x
+COMMENT $1AC0 mode, y, x
+COMMENT $1AC3 mode, y, x
+COMMENT $1AC6 mode, y, x
+COMMENT $1AC9 mode, y, x
+COMMENT $1ACC mode, y, x
+COMMENT $1ACF mode, y, x
+COMMENT $1AD2 mode, y, x
+COMMENT $1AD5 mode, y, x
+COMMENT $1AD8 mode, y, x
+COMMENT $1ADB mode, y, x
+COMMENT $1ADE mode, y, x
+COMMENT $1AE1 mode, y, x
+COMMENT $1AE4 mode, y, x
+COMMENT $1AE7 mode, y, x
+COMMENT $1AEA endmarker (1)
+COMMENT $1AEB move to y, x
+COMMENT $1AEE mode, y, x
+COMMENT $1AF1 mode, y, x
+COMMENT $1AF4 mode, y, x
+COMMENT $1AF7 mode, y, x
+COMMENT $1AFA mode, y, x
+COMMENT $1AFD mode, y, x
+COMMENT $1B00 mode, y, x
+COMMENT $1B03 mode, y, x
+COMMENT $1B06 mode, y, x
+COMMENT $1B09 mode, y, x
+COMMENT $1B0C mode, y, x
+COMMENT $1B0F mode, y, x
+COMMENT $1B12 mode, y, x
+COMMENT $1B15 mode, y, x
+COMMENT $1B18 endmarker (1)
+COMMENT $1B19 move to y, x
+COMMENT $1B1C mode, y, x
+COMMENT $1B1F mode, y, x
+COMMENT $1B22 mode, y, x
+COMMENT $1B25 mode, y, x
+COMMENT $1B28 mode, y, x
+COMMENT $1B2B mode, y, x
+COMMENT $1B2E mode, y, x
+COMMENT $1B31 mode, y, x
+COMMENT $1B34 mode, y, x
+COMMENT $1B37 mode, y, x
+COMMENT $1B3A mode, y, x
+COMMENT $1B3D mode, y, x
+COMMENT $1B40 mode, y, x
+COMMENT $1B43 mode, y, x
+COMMENT $1B46 endmarker (1)
+COMMENT $1B47 move to y, x
+COMMENT $1B4A mode, y, x
+COMMENT $1B4D mode, y, x
+COMMENT $1B50 mode, y, x
+COMMENT $1B53 mode, y, x
+COMMENT $1B56 mode, y, x
+COMMENT $1B59 mode, y, x
+COMMENT $1B5C mode, y, x
+COMMENT $1B5F mode, y, x
+COMMENT $1B62 mode, y, x
+COMMENT $1B65 mode, y, x
+COMMENT $1B68 mode, y, x
+COMMENT $1B6B mode, y, x
+COMMENT $1B6E mode, y, x
+COMMENT $1B71 mode, y, x
+COMMENT $1B74 endmarker (1)
+COMMENT $1B75 move to y, x
+COMMENT $1B78 mode, y, x
+COMMENT $1B7B mode, y, x
+COMMENT $1B7E mode, y, x
+COMMENT $1B81 mode, y, x
+COMMENT $1B84 mode, y, x
+COMMENT $1B87 mode, y, x
+COMMENT $1B8A mode, y, x
+COMMENT $1B8D mode, y, x
+COMMENT $1B90 mode, y, x
+COMMENT $1B93 mode, y, x
+COMMENT $1B96 mode, y, x
+COMMENT $1B99 mode, y, x
+COMMENT $1B9C mode, y, x
+COMMENT $1B9F endmarker (1)
+COMMENT $1BA0 move to y, x
+COMMENT $1BA3 mode, y, x
+COMMENT $1BA6 mode, y, x
+COMMENT $1BA9 mode, y, x
+COMMENT $1BAC mode, y, x
+COMMENT $1BAF mode, y, x
+COMMENT $1BB2 mode, y, x
+COMMENT $1BB5 mode, y, x
+COMMENT $1BB8 mode, y, x
+COMMENT $1BBB mode, y, x
+COMMENT $1BBE mode, y, x
+COMMENT $1BC1 mode, y, x
+COMMENT $1BC4 mode, y, x
+COMMENT $1BC7 mode, y, x
+COMMENT $1BCA mode, y, x
+COMMENT $1BCD endmarker (1)
+COMMENT $1BCE move to y, x
+COMMENT $1BD1 mode, y, x
+COMMENT $1BD4 mode, y, x
+COMMENT $1BD7 mode, y, x
+COMMENT $1BDA mode, y, x
+COMMENT $1BDD mode, y, x
+COMMENT $1BE0 mode, y, x
+COMMENT $1BE3 mode, y, x
+COMMENT $1BE6 mode, y, x
+COMMENT $1BE9 mode, y, x
+COMMENT $1BEC mode, y, x
+COMMENT $1BEF mode, y, x
+COMMENT $1BF2 mode, y, x
+COMMENT $1BF5 mode, y, x
+COMMENT $1BF8 mode, y, x
+COMMENT $1BFB endmarker (1)
+COMMENT $1BFC move to y, x
+COMMENT $1BFF mode, y, x
+COMMENT $1C02 mode, y, x
+COMMENT $1C05 mode, y, x
+COMMENT $1C08 mode, y, x
+COMMENT $1C0B mode, y, x
+COMMENT $1C0E mode, y, x
+COMMENT $1C11 mode, y, x
+COMMENT $1C14 mode, y, x
+COMMENT $1C17 mode, y, x
+COMMENT $1C1A mode, y, x
+COMMENT $1C1D mode, y, x
+COMMENT $1C20 mode, y, x
+COMMENT $1C23 mode, y, x
+COMMENT $1C26 mode, y, x
+COMMENT $1C29 endmarker (1)
+COMMENT $1C2A move to y, x
+COMMENT $1C2D mode, y, x
+COMMENT $1C30 mode, y, x
+COMMENT $1C33 mode, y, x
+COMMENT $1C36 mode, y, x
+COMMENT $1C39 mode, y, x
+COMMENT $1C3C mode, y, x
+COMMENT $1C3F mode, y, x
+COMMENT $1C42 mode, y, x
+COMMENT $1C45 mode, y, x
+COMMENT $1C48 mode, y, x
+COMMENT $1C4B mode, y, x
+COMMENT $1C4E mode, y, x
+COMMENT $1C51 mode, y, x
+COMMENT $1C54 mode, y, x
+COMMENT $1C57 endmarker (1)
+COMMENT $1C58 move to y, x
+COMMENT $1C5B mode, y, x
+COMMENT $1C5E mode, y, x
+COMMENT $1C61 mode, y, x
+COMMENT $1C64 mode, y, x
+COMMENT $1C67 mode, y, x
+COMMENT $1C6A mode, y, x
+COMMENT $1C6D mode, y, x
+COMMENT $1C70 mode, y, x
+COMMENT $1C73 mode, y, x
+COMMENT $1C76 mode, y, x
+COMMENT $1C79 mode, y, x
+COMMENT $1C7C mode, y, x
+COMMENT $1C7F mode, y, x
+COMMENT $1C82 mode, y, x
+COMMENT $1C85 endmarker (1)
+COMMENT $1C86 move to y, x
+COMMENT $1C89 mode, y, x
+COMMENT $1C8C mode, y, x
+COMMENT $1C8F mode, y, x
+COMMENT $1C92 mode, y, x
+COMMENT $1C95 mode, y, x
+COMMENT $1C98 mode, y, x
+COMMENT $1C9B mode, y, x
+COMMENT $1C9E mode, y, x
+COMMENT $1CA1 mode, y, x
+COMMENT $1CA4 mode, y, x
+COMMENT $1CA7 mode, y, x
+COMMENT $1CAA mode, y, x
+COMMENT $1CAD mode, y, x
+COMMENT $1CB0 mode, y, x
+COMMENT $1CB3 endmarker (1)
+COMMENT $1CB4 move to y, x
+COMMENT $1CB7 mode, y, x
+COMMENT $1CBA mode, y, x
+COMMENT $1CBD mode, y, x
+COMMENT $1CC0 mode, y, x
+COMMENT $1CC3 mode, y, x
+COMMENT $1CC6 mode, y, x
+COMMENT $1CC9 mode, y, x
+COMMENT $1CCC mode, y, x
+COMMENT $1CCF mode, y, x
+COMMENT $1CD2 mode, y, x
+COMMENT $1CD5 mode, y, x
+COMMENT $1CD8 mode, y, x
+COMMENT $1CDB mode, y, x
+COMMENT $1CDE mode, y, x
+COMMENT $1CE1 endmarker (1)
+COMMENT $1CE2 move to y, x
+COMMENT $1CE5 mode, y, x
+COMMENT $1CE8 mode, y, x
+COMMENT $1CEB mode, y, x
+COMMENT $1CEE mode, y, x
+COMMENT $1CF1 mode, y, x
+COMMENT $1CF4 mode, y, x
+COMMENT $1CF7 mode, y, x
+COMMENT $1CFA mode, y, x
+COMMENT $1CFD mode, y, x
+COMMENT $1D00 mode, y, x
+COMMENT $1D03 mode, y, x
+COMMENT $1D06 mode, y, x
+COMMENT $1D09 mode, y, x
+COMMENT $1D0C mode, y, x
+COMMENT $1D0F endmarker (1)
+COMMENT $1D10 move to y, x
+COMMENT $1D13 mode, y, x
+COMMENT $1D16 mode, y, x
+COMMENT $1D19 mode, y, x
+COMMENT $1D1C mode, y, x
+COMMENT $1D1F mode, y, x
+COMMENT $1D22 mode, y, x
+COMMENT $1D25 mode, y, x
+COMMENT $1D28 mode, y, x
+COMMENT $1D2B mode, y, x
+COMMENT $1D2E mode, y, x
+COMMENT $1D31 mode, y, x
+COMMENT $1D34 mode, y, x
+COMMENT $1D37 mode, y, x
+COMMENT $1D3A mode, y, x
+COMMENT $1D3D endmarker (1)
+COMMENT $1D3E move to y, x
+COMMENT $1D41 mode, y, x
+COMMENT $1D44 mode, y, x
+COMMENT $1D47 mode, y, x
+COMMENT $1D4A mode, y, x
+COMMENT $1D4D mode, y, x
+COMMENT $1D50 mode, y, x
+COMMENT $1D53 mode, y, x
+COMMENT $1D56 mode, y, x
+COMMENT $1D59 mode, y, x
+COMMENT $1D5C mode, y, x
+COMMENT $1D5F mode, y, x
+COMMENT $1D62 mode, y, x
+COMMENT $1D65 mode, y, x
+COMMENT $1D68 mode, y, x
+COMMENT $1D6B endmarker (1)
+COMMENT $1D6C move to y, x
+COMMENT $1D6F mode, y, x
+COMMENT $1D72 mode, y, x
+COMMENT $1D75 mode, y, x
+COMMENT $1D78 mode, y, x
+COMMENT $1D7B mode, y, x
+COMMENT $1D7E mode, y, x
+COMMENT $1D81 mode, y, x
+COMMENT $1D84 mode, y, x
+COMMENT $1D87 endmarker (1)
+COMMENT $1D88 vectrex function includes
+COMMENT_LINE $1D88 uses 166 byte RAM!
+COMMENT_LINE $C89F ds   780
+COMMENT_LINE $1D88 ***************************************************************************
+COMMENT $0000 a = reg, b = data
+COMMENT $0000 store register select byte
+COMMENT $0000 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $0000 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $0000 read sound chip status (?)
+COMMENT $0000 store data byte
+COMMENT $0000 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $0000 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT_LINE $0000 expects u to point to shadow area
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $1D8F store register select byte
+COMMENT $1D91 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $1D95 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1D99 read sound chip status (?)
+COMMENT $1D9B store data byte
+COMMENT $1D9D sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $1DA1 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1DA9 store register select byte
+COMMENT $1DAB sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $1DAF sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1DB3 read sound chip status (?)
+COMMENT $1DB5 store data byte
+COMMENT $1DB7 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $1DBB sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1DC3 store register select byte
+COMMENT $1DC5 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $1DC9 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1DCD read sound chip status (?)
+COMMENT $1DCF store data byte
+COMMENT $1DD1 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $1DD5 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1DDD store register select byte
+COMMENT $1DDF sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $1DE3 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1DE7 read sound chip status (?)
+COMMENT $1DE9 store data byte
+COMMENT $1DEB sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $1DEF sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1DF7 store register select byte
+COMMENT $1DF9 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $1DFD sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E01 read sound chip status (?)
+COMMENT $1E03 store data byte
+COMMENT $1E05 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $1E09 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E11 store register select byte
+COMMENT $1E13 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $1E17 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E1B read sound chip status (?)
+COMMENT $1E1D store data byte
+COMMENT $1E1F sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $1E23 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E2B store register select byte
+COMMENT $1E2D sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $1E31 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E35 read sound chip status (?)
+COMMENT $1E37 store data byte
+COMMENT $1E39 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $1E3D sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E45 store register select byte
+COMMENT $1E47 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $1E4B sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E4F read sound chip status (?)
+COMMENT $1E51 store data byte
+COMMENT $1E53 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $1E57 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E5F store register select byte
+COMMENT $1E61 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $1E65 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E69 read sound chip status (?)
+COMMENT $1E6B store data byte
+COMMENT $1E6D sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $1E71 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E79 store register select byte
+COMMENT $1E7B sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $1E7F sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E83 read sound chip status (?)
+COMMENT $1E85 store data byte
+COMMENT $1E87 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $1E8B sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E93 store register select byte
+COMMENT $1E95 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $1E99 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $1E9D read sound chip status (?)
+COMMENT $1E9F store data byte
+COMMENT $1EA1 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $1EA5 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT_LINE $1EAA ***************************************************************************
+COMMENT_LINE $1EAA ***************************************************************************
+COMMENT $1EAA load start address of ram buffer for YM play
+COMMENT $1EAD load length of buffer
+COMMENT $1EB0 clear buffer
+COMMENT $1EB3 count of registers that are used by the player - reset
+COMMENT $1EB6 first load start of all data to y
+COMMENT $1EB9 load vbl_len to d
+COMMENT $1EBB and store it to len reset
+COMMENT $1EBE and store it to current data pointer
+COMMENT $1EC1 load number of next register to work on
+COMMENT $1EC3 count the registers we actually use
+COMMENT $1EC6 and store the register of the current data
+COMMENT $1EC8 load location of translation map to y
+COMMENT $1ECB and store it
+COMMENT $1ECE load location of phrases
+COMMENT $1ED1 and store it
+COMMENT $1ED4 load location of RLE data
+COMMENT $1ED7 and store it
+COMMENT $1EDA add structure length to x
+COMMENT $1EDC load number of next register to work on
+COMMENT $1EDE if negative than we are done
+COMMENT_LINE $1EE4 ***************************************************************************
+COMMENT_LINE $1EE4 No shadowing
+COMMENT $1EE4 load current VBL Counter
+COMMENT $1EE7 if 0, than we are done
+COMMENT $1EE9 otherwise remember we are doing one byte now
+COMMENT $1EEC and store it
+COMMENT $1EEF get the number of regs we are working on
+COMMENT $1EF2 and remember them as current counter
+COMMENT $1EF5 load RAM start address of our wokring structur
+COMMENT_LINE $1EFC U pointer to data structure
+COMMENT_LINE $1EFC A number of register
+COMMENT_LINE $1EFC do we have a byte that is valid?
+COMMENT_LINE $1F00 yep... use current byte
+COMMENT $1F04 length of phrase
+COMMENT $1F08 this is the current byte
+COMMENT_LINE $1F1D in b the current value for register
+COMMENT_LINE $1F1D A PSG reg
+COMMENT $1F1D load current register
+COMMENT $1F1F to sound shadow register
+COMMENT_LINE $1F21 or direct
+COMMENT_LINE $1F21 WRITE_PSG_REG
+COMMENT $1F21 go to next "register" of sound data
+COMMENT $1F23 but only if we are not done yet, if counter is zero
+COMMENT $1F26 we do not branch :-)
+COMMENT_LINE $1F28 if not written directly...
+COMMENT_LINE $1F28 - done in main  jsr unshadow_sound
+COMMENT_LINE $1F29 ***************************************************************************
+COMMENT_LINE $1F29 no we must look at the bits
+COMMENT_LINE $1F29 a will be our bit register
+COMMENT_LINE $1F29 ;;;;;;;;;;;;;;;;;; GET_BIT START
+COMMENT_LINE $1F2D load a new byte
+COMMENT_LINE $1F39 bit position correct here
+COMMENT_LINE $1F39 remember we use one bit now!
+COMMENT_LINE $1F3B is the bit at the current position set?
+COMMENT_LINE $1F3D ;;;;;;;;;;;;;;;;;; GET_BIT END
+COMMENT_LINE $1F3D zero flag show bit
+COMMENT_LINE $1F3D A is 1 or zero
+COMMENT_LINE $1F41 must be zero
+COMMENT_LINE $1F41 1 is allways only 8 bit...
+COMMENT $1F4C increase used bits
+COMMENT_LINE $1F4F ;;;;;;;;;;; GET_BIT_START
+COMMENT_LINE $1F53 load a new byte
+COMMENT_LINE $1F5F bit position correct here
+COMMENT_LINE $1F5F remember we use one bit now!
+COMMENT_LINE $1F61 is the bit at the current position set?
+COMMENT $1F63 and if non zero
+COMMENT_LINE $1F68 ;;;;;;;;;;; GET_BIT_END
+COMMENT_LINE $1F68 we load one complete = of mapper index, bits, coder, map-value
+COMMENT $1F6C load bits from map
+COMMENT $1F6E map out phrases
+COMMENT $1F70 neu
+COMMENT $1F73 neu
+COMMENT $1F77 load coder-byte
+COMMENT $1F7E load current mapped byte!
+COMMENT_LINE $1F80 in b is the byte value we sought
+COMMENT_LINE $1F80 test for phrase
+COMMENT $1F80 load bits from map
+COMMENT $1F82 map in phrases only
+COMMENT_LINE $1F86 if phrase, than in b the count of the phrase used
+COMMENT_LINE $1FA2 non single byte here... must decode
+COMMENT_LINE $1FA2 first we look for how many bits the RLE counter spreads
+COMMENT_LINE $1FA2 we already encountered a 1
+COMMENT_LINE $1FA2 and we allways use + 2
+COMMENT_LINE $1FAA ;;;;;;;;;;;;;;;;;; GET_BIT START
+COMMENT_LINE $1FAE load a new byte
+COMMENT_LINE $1FBA bit position correct here
+COMMENT_LINE $1FBA remember we use one bit now!
+COMMENT_LINE $1FBC is the bit at the current position set?
+COMMENT_LINE $1FBE ;;;;;;;;;;;;;;;;;; GET_BIT END
+COMMENT_LINE $1FC0 in temp is the # of bits for the counter
+COMMENT_LINE $1FC0 the following '#temp' bits represent the RLE count
+COMMENT_LINE $1FC0 lsb first
+COMMENT $1FC0 we start at 1, since zero is an
+COMMENT_LINE $1FC1 'own' 'subroutine',
+COMMENT_LINE $1FC1 which doesn't manipulate the temps
+COMMENT $1FC1 bit counter for shifting
+COMMENT $1FC4 bit counter for shifting
+COMMENT_LINE $1FC7 ;;;;;;;;;;;;;;;;;; GET_BIT START
+COMMENT_LINE $1FCB load a new byte
+COMMENT_LINE $1FD7 bit position correct here
+COMMENT_LINE $1FD7 remember we use one bit now!
+COMMENT_LINE $1FD9 is the bit at the current position set?
+COMMENT_LINE $1FDD return 1
+COMMENT_LINE $1FDF ;;;;;;;;;;;;;;;;;; GET_BIT END
+COMMENT_LINE $1FDF in D now one bit at the right position for the RLE counter
+COMMENT_LINE $1FE1 the first 3 (here only the first one) rounds
+COMMENT_LINE $1FE1 we need not check for temp, since it is at least 3...
+COMMENT_LINE $1FE1 ;;;;;;;;;;;;;;;;;; GET_BIT START
+COMMENT_LINE $1FE5 load a new byte
+COMMENT_LINE $1FF1 bit position correct here
+COMMENT_LINE $1FF1 remember we use one bit now!
+COMMENT_LINE $1FF3 is the bit at the current position set?
+COMMENT_LINE $1FF7 return 1
+COMMENT $1FFA LSR A
+COMMENT $1FFB LSR B
+COMMENT $1FFC if no carry, than exit
+COMMENT $1FFE otherwise underflow from A to 7bit of B
+COMMENT_LINE $2005 in D now one bit at the right position for the RLE counter
+COMMENT_LINE $2017 now the current counter should be set
+COMMENT_LINE $2017 we still need to dechifer the following byte...
+COMMENT $201A vbl_len
+COMMENT_LINE $201C translation data
+COMMENT_LINE $201C DB $13; bytes follow
+COMMENT_LINE $201C bits used, code, real 'byte'
+COMMENT $201C 1696
+COMMENT $201F 2610
+COMMENT $2022 480
+COMMENT $2025 1440
+COMMENT $2028 160
+COMMENT $202B 324
+COMMENT $202E 384
+COMMENT $2031 42
+COMMENT $2034 46
+COMMENT $2037 5
+COMMENT $203A 4
+COMMENT $203D 5
+COMMENT $2040 10
+COMMENT $2043 11
+COMMENT $2046 2
+COMMENT $2049 2
+COMMENT $204C 2
+COMMENT $204F 2
+COMMENT $2052 2
+COMMENT_LINE $2055 phrases follow
+COMMENT $2055 2610
+COMMENT $2065 1440
+COMMENT $2075 324
+COMMENT $2079 480
+COMMENT $2084 42
+COMMENT $208C 384
+COMMENT $2095 46
+COMMENT_LINE $2098 data follows
+COMMENT $225A flushed
+COMMENT_LINE $225F translation data
+COMMENT_LINE $225F DB $0B; bytes follow
+COMMENT_LINE $225F bits used, code, real 'byte'
+COMMENT $225F 1689
+COMMENT $2262 2448
+COMMENT $2265 2610
+COMMENT $2268 324
+COMMENT $226B 42
+COMMENT $226E 46
+COMMENT $2271 8
+COMMENT $2274 11
+COMMENT $2277 12
+COMMENT $227A 2
+COMMENT $227D 2
+COMMENT_LINE $2280 phrases follow
+COMMENT $2280 2610
+COMMENT $2290 324
+COMMENT $2294 42
+COMMENT $229C 46
+COMMENT_LINE $229F data follows
+COMMENT $2489 flushed
+COMMENT_LINE $248C translation data
+COMMENT_LINE $248C DB $AB; bytes follow
+COMMENT_LINE $248C bits used, code, real 'byte'
+COMMENT $248C 282
+COMMENT $248F 312
+COMMENT $2492 320
+COMMENT $2495 390
+COMMENT $2498 390
+COMMENT $249B 390
+COMMENT $249E 780
+COMMENT $24A1 112
+COMMENT $24A4 168
+COMMENT $24A7 242
+COMMENT $24AA 272
+COMMENT $24AD 272
+COMMENT $24B0 280
+COMMENT $24B3 390
+COMMENT $24B6 390
+COMMENT $24B9 60
+COMMENT $24BC 96
+COMMENT $24BF 100
+COMMENT $24C2 107
+COMMENT $24C5 108
+COMMENT $24C8 110
+COMMENT $24CB 112
+COMMENT $24CE 133
+COMMENT $24D1 179
+COMMENT $24D4 224
+COMMENT $24D7 24
+COMMENT $24DA 36
+COMMENT $24DD 39
+COMMENT $24E0 48
+COMMENT $24E3 50
+COMMENT $24E6 56
+COMMENT $24E9 60
+COMMENT $24EC 72
+COMMENT $24EF 110
+COMMENT $24F2 110
+COMMENT $24F5 16
+COMMENT $24F8 20
+COMMENT $24FB 40
+COMMENT $24FE 42
+COMMENT $2501 56
+COMMENT $2504 56
+COMMENT $2507 7
+COMMENT $250A 8
+COMMENT $250D 11
+COMMENT $2510 17
+COMMENT $2513 20
+COMMENT $2516 20
+COMMENT $2519 24
+COMMENT $251C 4
+COMMENT $251F 4
+COMMENT $2522 4
+COMMENT $2525 5
+COMMENT $2528 5
+COMMENT $252B 6
+COMMENT $252E 6
+COMMENT $2531 6
+COMMENT $2534 6
+COMMENT $2537 6
+COMMENT $253A 7
+COMMENT $253D 7
+COMMENT $2540 12
+COMMENT $2543 12
+COMMENT $2546 2
+COMMENT $2549 2
+COMMENT $254C 2
+COMMENT $254F 2
+COMMENT $2552 2
+COMMENT $2555 2
+COMMENT $2558 3
+COMMENT $255B 3
+COMMENT $255E 3
+COMMENT $2561 3
+COMMENT $2564 3
+COMMENT $2567 3
+COMMENT $256A 3
+COMMENT $256D 3
+COMMENT $2570 3
+COMMENT $2573 3
+COMMENT $2576 3
+COMMENT $2579 3
+COMMENT $257C 4
+COMMENT $257F 4
+COMMENT $2582 4
+COMMENT $2585 4
+COMMENT $2588 5
+COMMENT $258B 5
+COMMENT $258E 5
+COMMENT $2591 5
+COMMENT $2594 1
+COMMENT $2597 1
+COMMENT $259A 1
+COMMENT $259D 1
+COMMENT $25A0 1
+COMMENT $25A3 1
+COMMENT $25A6 1
+COMMENT $25A9 1
+COMMENT $25AC 1
+COMMENT $25AF 1
+COMMENT $25B2 1
+COMMENT $25B5 1
+COMMENT $25B8 1
+COMMENT $25BB 1
+COMMENT $25BE 1
+COMMENT $25C1 2
+COMMENT $25C4 2
+COMMENT $25C7 2
+COMMENT $25CA 2
+COMMENT $25CD 2
+COMMENT $25D0 2
+COMMENT $25D3 2
+COMMENT $25D6 2
+COMMENT $25D9 2
+COMMENT $25DC 2
+COMMENT $25DF 2
+COMMENT $25E2 2
+COMMENT $25E5 2
+COMMENT $25E8 2
+COMMENT $25EB 2
+COMMENT $25EE 2
+COMMENT $25F1 2
+COMMENT $25F4 2
+COMMENT $25F7 2
+COMMENT $25FA 2
+COMMENT $25FD 3
+COMMENT $2600 3
+COMMENT $2603 1
+COMMENT $2606 1
+COMMENT $2609 1
+COMMENT $260C 1
+COMMENT $260F 1
+COMMENT $2612 1
+COMMENT $2615 1
+COMMENT $2618 1
+COMMENT $261B 1
+COMMENT $261E 1
+COMMENT $2621 1
+COMMENT $2624 1
+COMMENT $2627 1
+COMMENT $262A 1
+COMMENT $262D 1
+COMMENT $2630 1
+COMMENT $2633 1
+COMMENT $2636 1
+COMMENT $2639 1
+COMMENT $263C 1
+COMMENT $263F 1
+COMMENT $2642 1
+COMMENT $2645 1
+COMMENT $2648 1
+COMMENT $264B 1
+COMMENT $264E 1
+COMMENT $2651 1
+COMMENT $2654 1
+COMMENT $2657 1
+COMMENT $265A 1
+COMMENT $265D 1
+COMMENT $2660 1
+COMMENT $2663 1
+COMMENT $2666 1
+COMMENT $2669 1
+COMMENT $266C 1
+COMMENT $266F 1
+COMMENT $2672 1
+COMMENT $2675 1
+COMMENT $2678 1
+COMMENT $267B 1
+COMMENT $267E 1
+COMMENT $2681 1
+COMMENT $2684 1
+COMMENT $2687 1
+COMMENT $268A 1
+COMMENT_LINE $268D phrases follow
+COMMENT $268D 780
+COMMENT $269D 390
+COMMENT $26AD 390
+COMMENT $26BD 390
+COMMENT $26CD 390
+COMMENT $26DD 390
+COMMENT $26ED 312
+COMMENT $26FA 280
+COMMENT $26FF 168
+COMMENT $2704 320
+COMMENT $270D 272
+COMMENT $2716 112
+COMMENT $271B 110
+COMMENT $2721 60
+COMMENT $2725 50
+COMMENT $2728 108
+COMMENT $2732 42
+COMMENT $2736 112
+COMMENT $273F 56
+COMMENT $2744 56
+COMMENT $2749 96
+COMMENT $2752 110
+COMMENT $275E 110
+COMMENT $276A 72
+COMMENT $2777 40
+COMMENT $277C 24
+COMMENT $2781 24
+COMMENT $2788 48
+COMMENT $2795 36
+COMMENT $279F 20
+COMMENT $27A5 56
+COMMENT $27B4 12
+COMMENT $27B8 12
+COMMENT $27BC 20
+COMMENT_LINE $27C2 data follows
+COMMENT $2ABA flushed
+COMMENT_LINE $2AC2 translation data
+COMMENT_LINE $2AC2 DB $0E; bytes follow
+COMMENT_LINE $2AC2 bits used, code, real 'byte'
+COMMENT $2AC2 520
+COMMENT $2AC5 728
+COMMENT $2AC8 823
+COMMENT $2ACB 891
+COMMENT $2ACE 224
+COMMENT $2AD1 272
+COMMENT $2AD4 466
+COMMENT $2AD7 630
+COMMENT $2ADA 648
+COMMENT $2ADD 908
+COMMENT $2AE0 936
+COMMENT $2AE3 105
+COMMENT $2AE6 28
+COMMENT $2AE9 28
+COMMENT_LINE $2AEC phrases follow
+COMMENT $2AEC 936
+COMMENT $2AF9 728
+COMMENT $2B08 520
+COMMENT $2B13 224
+COMMENT_LINE $2B18 data follows
+COMMENT $2E42 flushed
+COMMENT_LINE $2E49 translation data
+COMMENT_LINE $2E49 DB $2F; bytes follow
+COMMENT_LINE $2E49 bits used, code, real 'byte'
+COMMENT $2E49 1328
+COMMENT $2E4C 2578
+COMMENT $2E4F 308
+COMMENT $2E52 420
+COMMENT $2E55 420
+COMMENT $2E58 544
+COMMENT $2E5B 150
+COMMENT $2E5E 198
+COMMENT $2E61 240
+COMMENT $2E64 272
+COMMENT $2E67 68
+COMMENT $2E6A 100
+COMMENT $2E6D 126
+COMMENT $2E70 33
+COMMENT $2E73 34
+COMMENT $2E76 37
+COMMENT $2E79 71
+COMMENT $2E7C 80
+COMMENT $2E7F 18
+COMMENT $2E82 28
+COMMENT $2E85 29
+COMMENT $2E88 31
+COMMENT $2E8B 44
+COMMENT $2E8E 53
+COMMENT $2E91 5
+COMMENT $2E94 8
+COMMENT $2E97 9
+COMMENT $2E9A 18
+COMMENT $2E9D 3
+COMMENT $2EA0 5
+COMMENT $2EA3 2
+COMMENT $2EA6 2
+COMMENT $2EA9 2
+COMMENT $2EAC 2
+COMMENT $2EAF 3
+COMMENT $2EB2 3
+COMMENT $2EB5 3
+COMMENT $2EB8 3
+COMMENT $2EBB 1
+COMMENT $2EBE 1
+COMMENT $2EC1 1
+COMMENT $2EC4 1
+COMMENT $2EC7 1
+COMMENT $2ECA 2
+COMMENT $2ECD 2
+COMMENT $2ED0 1
+COMMENT $2ED3 1
+COMMENT_LINE $2ED6 phrases follow
+COMMENT $2ED6 1328
+COMMENT $2EDF 420
+COMMENT $2EEF 420
+COMMENT $2EFF 308
+COMMENT $2F0E 198
+COMMENT $2F18 544
+COMMENT $2F21 272
+COMMENT $2F2A 240
+COMMENT $2F33 150
+COMMENT $2F43 126
+COMMENT $2F4B 100
+COMMENT $2F51 44
+COMMENT $2F54 80
+COMMENT_LINE $2F5D data follows
+COMMENT $3165 flushed
+COMMENT_LINE $316D translation data
+COMMENT_LINE $316D DB $03; bytes follow
+COMMENT_LINE $316D bits used, code, real 'byte'
+COMMENT $316D 4580
+COMMENT $3170 2559
+COMMENT $3173 28
+COMMENT_LINE $3176 phrases follow
+COMMENT_LINE $3176 data follows
+COMMENT_LINE $31DA flushed
+COMMENT_LINE $31DA translation data
+COMMENT_LINE $31DA DB $18; bytes follow
+COMMENT_LINE $31DA bits used, code, real 'byte'
+COMMENT $31DA 1346
+COMMENT $31DD 2160
+COMMENT $31E0 2608
+COMMENT $31E3 192
+COMMENT $31E6 160
+COMMENT $31E9 192
+COMMENT $31EC 240
+COMMENT $31EF 280
+COMMENT $31F2 3
+COMMENT $31F5 7
+COMMENT $31F8 2
+COMMENT $31FB 2
+COMMENT $31FE 2
+COMMENT $3201 2
+COMMENT $3204 2
+COMMENT $3207 2
+COMMENT $320A 3
+COMMENT $320D 3
+COMMENT $3210 3
+COMMENT $3213 3
+COMMENT $3216 1
+COMMENT $3219 2
+COMMENT $321C 2
+COMMENT $321F 1
+COMMENT_LINE $3222 phrases follow
+COMMENT $3222 2608
+COMMENT $322B 2160
+COMMENT $323B 280
+COMMENT $3244 240
+COMMENT $324D 192
+COMMENT_LINE $325A data follows
+COMMENT $3444 flushed
+COMMENT_LINE $344A translation data
+COMMENT_LINE $344A DB $0D; bytes follow
+COMMENT_LINE $344A bits used, code, real 'byte'
+COMMENT $344A 1080
+COMMENT $344D 793
+COMMENT $3450 1045
+COMMENT $3453 1434
+COMMENT $3456 1992
+COMMENT $3459 246
+COMMENT $345C 288
+COMMENT $345F 56
+COMMENT $3462 144
+COMMENT $3465 18
+COMMENT $3468 24
+COMMENT $346B 48
+COMMENT $346E 14
+COMMENT_LINE $3471 phrases follow
+COMMENT $3471 1080
+COMMENT_LINE $3481 data follows
+COMMENT $37AB flushed
+COMMENT_LINE $37B3 translation data
+COMMENT_LINE $37B3 DB $0D; bytes follow
+COMMENT_LINE $37B3 bits used, code, real 'byte'
+COMMENT $37B3 1440
+COMMENT $37B6 2304
+COMMENT $37B9 2565
+COMMENT $37BC 288
+COMMENT $37BF 300
+COMMENT $37C2 40
+COMMENT $37C5 30
+COMMENT $37C8 40
+COMMENT $37CB 65
+COMMENT $37CE 86
+COMMENT $37D1 14
+COMMENT $37D4 20
+COMMENT $37D7 28
+COMMENT_LINE $37DA phrases follow
+COMMENT $37DA 2304
+COMMENT $37E3 2565
+COMMENT $37F3 1440
+COMMENT $3803 300
+COMMENT_LINE $3813 data follows
+COMMENT $39FD flushed
+COMMENT_LINE $3A01 translation data
+COMMENT_LINE $3A01 DB $16; bytes follow
+COMMENT_LINE $3A01 bits used, code, real 'byte'
+COMMENT $3A01 900
+COMMENT $3A04 364
+COMMENT $3A07 1280
+COMMENT $3A0A 2170
+COMMENT $3A0D 217
+COMMENT $3A10 480
+COMMENT $3A13 752
+COMMENT $3A16 112
+COMMENT $3A19 240
+COMMENT $3A1C 312
+COMMENT $3A1F 48
+COMMENT $3A22 54
+COMMENT $3A25 128
+COMMENT $3A28 134
+COMMENT $3A2B 20
+COMMENT $3A2E 24
+COMMENT $3A31 11
+COMMENT $3A34 12
+COMMENT $3A37 2
+COMMENT $3A3A 2
+COMMENT $3A3D 2
+COMMENT $3A40 2
+COMMENT_LINE $3A43 phrases follow
+COMMENT $3A43 2170
+COMMENT $3A52 1280
+COMMENT $3A5B 900
+COMMENT $3A66 752
+COMMENT $3A6F 312
+COMMENT $3A7C 240
+COMMENT $3A87 112
+COMMENT $3A90 480
+COMMENT $3AA0 364
+COMMENT_LINE $3AAF data follows
+COMMENT $3C8F flushed
+COMMENT_LINE $3C97 translation data
+COMMENT_LINE $3C97 DB $1A; bytes follow
+COMMENT_LINE $3C97 bits used, code, real 'byte'
+COMMENT $3C97 2184
+COMMENT $3C9A 770
+COMMENT $3C9D 1256
+COMMENT $3CA0 258
+COMMENT $3CA3 360
+COMMENT $3CA6 471
+COMMENT $3CA9 544
+COMMENT $3CAC 87
+COMMENT $3CAF 176
+COMMENT $3CB2 192
+COMMENT $3CB5 224
+COMMENT $3CB8 240
+COMMENT $3CBB 81
+COMMENT $3CBE 128
+COMMENT $3CC1 168
+COMMENT $3CC4 15
+COMMENT $3CC7 23
+COMMENT $3CCA 26
+COMMENT $3CCD 11
+COMMENT $3CD0 14
+COMMENT $3CD3 15
+COMMENT $3CD6 18
+COMMENT $3CD9 6
+COMMENT $3CDC 6
+COMMENT $3CDF 6
+COMMENT $3CE2 3
+COMMENT_LINE $3CE5 phrases follow
+COMMENT $3CE5 2184
+COMMENT $3CF3 770
+COMMENT $3CFB 544
+COMMENT $3D04 360
+COMMENT $3D14 240
+COMMENT $3D24 224
+COMMENT $3D33 192
+COMMENT $3D40 176
+COMMENT $3D4C 128
+COMMENT $3D55 168
+COMMENT_LINE $3D62 data follows
+COMMENT $3FBA flushed
+COMMENT_LINE $401B plays a ayfx to psg shadow
+COMMENT_LINE $401B ors 7
+COMMENT $401B point to shadow memory
+COMMENT $401E check if sfx to play
+COMMENT $4026 check if sfx to play
+COMMENT $402E check if sfx to play
+COMMENT_LINE $4037 ;;;;;;;;;;;;;;;
+COMMENT_LINE $4037 ;;;;;;;;;;;;;;;
+COMMENT $4037 get current frame pointer
+COMMENT $403C check first flag byte D0
+COMMENT $403E no match - continue to process frame
+COMMENT $4042 check second flag byte 20
+COMMENT $4044 match - end of effect found so stop playing
+COMMENT $4046 init Y as pointer to next data or flag byte
+COMMENT $4048 check if need to set tone freq
+COMMENT $404A if bit 5 of B is set
+COMMENT $404C skip as no tone freq data
+COMMENT $404E get next data byte and copy to tone freq reg0
+COMMENT $4052 set tone freq
+COMMENT $4054 get next data byte and copy to tone freq reg1
+COMMENT $4058 set tone freq
+COMMENT $405A increment pointer to next data/flag byte
+COMMENT $405C check if need to set noise freq
+COMMENT $405E if bit 6 of B is only set
+COMMENT $4060 skip as no noise freq data
+COMMENT $4062 get next data byte and copy to noise freq reg
+COMMENT $4066 set noise freq
+COMMENT $4068 increment pointer to next flag byte
+COMMENT $406A set volume on channel 1
+COMMENT $406C get volume from bits 0-3
+COMMENT $406E set reg8
+COMMENT $4070 Set volume
+COMMENT $4072 check disable tone channel 1
+COMMENT $4074 if bit 4 of B is set disable the tone
+COMMENT $4078 set bit0 in reg7
+COMMENT $407F disable tone
+COMMENT $4083 clear bit0 in reg7
+COMMENT $408A enable tone
+COMMENT $408C check disable noise
+COMMENT $408E if bit7 of B is set disable noise
+COMMENT $4092 set bit3 in reg7
+COMMENT $4099 disable noise
+COMMENT $409D clear bit3 in reg 7
+COMMENT $40A4 enable noise
+COMMENT $40A6 update frame pointer to next flag byte in Y
+COMMENT $40AB set volume off channel 0
+COMMENT $40AD set reg1sf0
+COMMENT $40AF Set volume
+COMMENT $40B1 reset sfx
+COMMENT_LINE $40BB ;;;;;;;;;;;;;;;
+COMMENT_LINE $40BB ;;;;;;;;;;;;;;;
+COMMENT $40BB get current frame pointer
+COMMENT $40C0 check first flag byte D0
+COMMENT $40C2 no match - continue to process frame
+COMMENT $40C6 check second flag byte 20
+COMMENT $40C8 match - end of effect found so stop playing
+COMMENT $40CA init Y as pointer to next data or flag byte
+COMMENT $40CC check if need to set tone freq
+COMMENT $40CE if bit 5 of B is set
+COMMENT $40D0 skip as no tone freq data
+COMMENT $40D2 get next data byte and copy to tone freq reg2
+COMMENT $40D6 set tone freq
+COMMENT $40D8 get next data byte and copy to tone freq reg3
+COMMENT $40DC set tone freq
+COMMENT $40DE increment pointer to next data/flag byte
+COMMENT $40E0 check if need to set noise freq
+COMMENT $40E2 if bit 6 of B is only set
+COMMENT $40E4 skip as no noise freq data
+COMMENT $40E6 get next data byte and copy to noise freq reg
+COMMENT $40EA set noise freq
+COMMENT $40EC increment pointer to next flag byte
+COMMENT $40EE set volume on channel 2
+COMMENT $40F0 get volume from bits 0-3
+COMMENT $40F2 set reg9
+COMMENT $40F4 Set volume
+COMMENT $40F6 check disable tone channel 2
+COMMENT $40F8 if bit 4 of B is set disable the tone
+COMMENT $40FC set bit1 in reg7
+COMMENT $4103 disable tone
+COMMENT $4107 clear bit1 in reg7
+COMMENT $410E enable tone
+COMMENT $4110 check disable noise
+COMMENT $4112 if bit7 of B is set disable noise
+COMMENT $4116 set bit4 in reg7
+COMMENT $411D disable noise
+COMMENT $4121 clear bit4 in reg 7
+COMMENT $4128 enable noise
+COMMENT $412A update frame pointer to next flag byte in Y
+COMMENT $412F set volume off channel 2
+COMMENT $4131 set reg1sf0
+COMMENT $4133 Set volume
+COMMENT $4135 reset sfx
+COMMENT_LINE $413F ;;;;;;;;;;;;;;;
+COMMENT_LINE $413F ;;;;;;;;;;;;;;;
+COMMENT $413F set volume off channel 3
+COMMENT $4141 set reg1sf0
+COMMENT $4143 Set volume
+COMMENT $4145 reset sfx
+COMMENT $414F get current frame pointer
+COMMENT $4154 check first flag byte D0
+COMMENT $4156 no match - continue to process frame
+COMMENT $415A check second flag byte 20
+COMMENT $415C match - end of effect found so stop playing
+COMMENT $415E init Y as pointer to next data or flag byte
+COMMENT $4160 check if need to set tone freq
+COMMENT $4162 if bit 5 of B is set
+COMMENT $4164 skip as no tone freq data
+COMMENT $4166 get next data byte and copy to tone freq reg4
+COMMENT $416A set tone freq
+COMMENT $416C get next data byte and copy to tone freq reg5
+COMMENT $4170 set tone freq
+COMMENT $4172 increment pointer to next data/flag byte
+COMMENT $4174 check if need to set noise freq
+COMMENT $4176 if bit 6 of B is only set
+COMMENT $4178 skip as no noise freq data
+COMMENT $417A get next data byte and copy to noise freq reg
+COMMENT $417E set noise freq
+COMMENT $4180 increment pointer to next flag byte
+COMMENT $4182 set volume on channel 3
+COMMENT $4184 get volume from bits 0-3
+COMMENT $4186 set reg10
+COMMENT $4188 Set volume
+COMMENT $418A check disable tone channel 3
+COMMENT $418C if bit 4 of B is set disable the tone
+COMMENT $4190 set bit2 in reg7
+COMMENT $4197 disable tone
+COMMENT $419B clear bit2 in reg7
+COMMENT $41A2 enable tone
+COMMENT $41A4 check disable noise
+COMMENT $41A6 if bit7 of B is set disable noise
+COMMENT $41AA set bit5 in reg7
+COMMENT $41B1 disable noise
+COMMENT $41B5 clear bit5 in reg 7
+COMMENT $41BC enable noise
+COMMENT $41BE update frame pointer to next flag byte in Y
+COMMENT $41C3 set volume off channel 3
+COMMENT $41C5 set reg1sf0
+COMMENT $41C7 Set volume
+COMMENT $41C9 reset sfx
+COMMENT_LINE $41D3 AYFX - Data of file: "projects/RasterTest/aleste_1.afx"
+COMMENT_LINE $4266 AYFX - Data of file: "projects/RasterTest/druid_5.afx"
+COMMENT_LINE $43AD AYFX - Data of file: "projects/RasterTest/nemesis_17.afx"
+COMMENT_LINE $4440 ***************************************************************************
+COMMENT_LINE $4440 SUBROUTINE SECTION
+COMMENT_LINE $4440 ***************************************************************************
+COMMENT_LINE $4440 ZERO ing the integrators takes time. Measures at my vectrex show e.g.:
+COMMENT_LINE $4440 If you move the beam with a to x = -127 and y = -127 at diffferent scale values, the time to reach zero:
+COMMENT_LINE $4440 - scale $ff -> zero 110 cycles
+COMMENT_LINE $4440 - scale $7f -> zero 75 cycles
+COMMENT_LINE $4440 - scale $40 -> zero 57 cycles
+COMMENT_LINE $4440 - scale $20 -> zero 53 cycles
+COMMENT_LINE $4440 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $4440 U = address of vectorlist
+COMMENT_LINE $4440 X = (y,x) position of vectorlist (this will be point 0,0), positioning on screen
+COMMENT_LINE $4440 A = scalefactor "Move" (after sync)
+COMMENT_LINE $4440 B = scalefactor "Vector" (vectors in vectorlist)
+COMMENT_LINE $4440 mode, rel y, rel x,
+COMMENT_LINE $4440 mode, rel y, rel x,
+COMMENT_LINE $4440 .      .      .
+COMMENT_LINE $4440 .      .      .
+COMMENT_LINE $4440 mode, rel y, rel x,
+COMMENT_LINE $4440 0x02
+COMMENT_LINE $4440 where mode has the following meaning:
+COMMENT_LINE $4440 negative draw line
+COMMENT_LINE $4440 0 move to specified endpoint
+COMMENT_LINE $4440 1 sync (and move to list start and than to place in vectorlist)
+COMMENT_LINE $4440 2 end
+COMMENT_LINE $4440 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT $4440 remember out different scale factors
+COMMENT_LINE $4444 first list entry (first will be a sync + moveto_d, so we just stay here!)
+COMMENT $4444 this will be a "1"
+COMMENT $4446 test if real sync - or end of list (2)
+COMMENT $4447 if end of list -> jump
+COMMENT_LINE $4449 zero integrators
+COMMENT $4449 zero the integrators
+COMMENT $444B store zeroing values to cntl
+COMMENT $444D and wait for zeroing to be actually done
+COMMENT_LINE $444F reset integrators
+COMMENT $444F reset integrator offset
+COMMENT_LINE $4453 wait that zeroing surely has the desired effect!
+COMMENT $4453 while waiting, zero offsets
+COMMENT_LINE $445A unzero is done by moveto_d
+COMMENT $445A scalefactor move
+COMMENT $445C to timer t1 (lo=
+COMMENT $445E load our coordinates of "entry" of vectorlist
+COMMENT $4460 move there
+COMMENT $4463 scale factor vector
+COMMENT $4465 to timer T1 (lo)
+COMMENT $4467 do our "internal" moveto d
+COMMENT $4469 there was a move 0,0, if so
+COMMENT $446E load next "mode" byte
+COMMENT $4470 if 0, than we should move somewhere
+COMMENT $4472 if still positive it is a 1 pr 2 _> goto sync
+COMMENT_LINE $4474 now we should draw a vector
+COMMENT $4474 Get next coordinate pair
+COMMENT $4476 Send Y to A/D
+COMMENT $4478 Enable mux
+COMMENT $447A Get pattern byte
+COMMENT $447C Disable mux
+COMMENT $447E Send X to A/D
+COMMENT $4480 B-reg = T1 interrupt bit
+COMMENT $4482 Clear T1H
+COMMENT $4484 Store pattern in shift register
+COMMENT $4486 Wait for T1 to time out
+COMMENT $4488 wait till line is finished
+COMMENT $448A switch the light off (for sure)
+COMMENT $448E correct stack and go back
+COMMENT_LINE $4491 ***************************************************************************
+COMMENT_LINE $4491 DATA SECTION
+COMMENT_LINE $4491 ******************
+COMMENT $4491 list of all single vectorlists in this
+COMMENT $44AD sync and move to y, x
+COMMENT $44B0 move to y, x
+COMMENT $44B3 draw, y, x
+COMMENT $44B6 draw, y, x
+COMMENT $44B9 draw, y, x
+COMMENT $44BC sync and move to y, x
+COMMENT $44BF draw, y, x
+COMMENT $44C2 draw, y, x
+COMMENT $44C5 draw, y, x
+COMMENT $44C8 sync and move to y, x
+COMMENT $44CB draw, y, x
+COMMENT $44CE draw, y, x
+COMMENT $44D1 draw, y, x
+COMMENT $44D4 sync and move to y, x
+COMMENT $44D7 draw, y, x
+COMMENT $44DA draw, y, x
+COMMENT $44DD draw, y, x
+COMMENT $44E0 sync and move to y, x
+COMMENT $44E3 move to y, x
+COMMENT $44E6 draw, y, x
+COMMENT $44E9 draw, y, x
+COMMENT $44EC sync and move to y, x
+COMMENT $44EF draw, y, x
+COMMENT $44F2 draw, y, x
+COMMENT $44F5 draw, y, x
+COMMENT $44F8 draw, y, x
+COMMENT $44FB sync and move to y, x
+COMMENT $44FE move to y, x
+COMMENT $4501 draw, y, x
+COMMENT $4504 draw, y, x
+COMMENT $4507 draw, y, x
+COMMENT $450A draw, y, x
+COMMENT $450D sync and move to y, x
+COMMENT $4510 draw, y, x
+COMMENT $4513 draw, y, x
+COMMENT $4516 draw, y, x
+COMMENT $4519 draw, y, x
+COMMENT $451C sync and move to y, x
+COMMENT $451F draw, y, x
+COMMENT $4522 draw, y, x
+COMMENT $4525 sync and move to y, x
+COMMENT $4528 move to y, x
+COMMENT $452B draw, y, x
+COMMENT $452E draw, y, x
+COMMENT $4531 draw, y, x
+COMMENT $4534 endmarker
+COMMENT $4535 sync and move to y, x
+COMMENT $4538 move to y, x
+COMMENT $453B draw, y, x
+COMMENT $453E draw, y, x
+COMMENT $4541 draw, y, x
+COMMENT $4544 sync and move to y, x
+COMMENT $4547 draw, y, x
+COMMENT $454A draw, y, x
+COMMENT $454D draw, y, x
+COMMENT $4550 draw, y, x
+COMMENT $4553 sync and move to y, x
+COMMENT $4556 move to y, x
+COMMENT $4559 draw, y, x
+COMMENT $455C draw, y, x
+COMMENT $455F draw, y, x
+COMMENT $4562 sync and move to y, x
+COMMENT $4565 move to y, x
+COMMENT $4568 draw, y, x
+COMMENT $456B draw, y, x
+COMMENT $456E draw, y, x
+COMMENT $4571 draw, y, x
+COMMENT $4574 sync and move to y, x
+COMMENT $4577 draw, y, x
+COMMENT $457A draw, y, x
+COMMENT $457D draw, y, x
+COMMENT $4580 sync and move to y, x
+COMMENT $4583 draw, y, x
+COMMENT $4586 draw, y, x
+COMMENT $4589 draw, y, x
+COMMENT $458C draw, y, x
+COMMENT $458F sync and move to y, x
+COMMENT $4592 draw, y, x
+COMMENT $4595 draw, y, x
+COMMENT $4598 draw, y, x
+COMMENT $459B sync and move to y, x
+COMMENT $459E draw, y, x
+COMMENT $45A1 draw, y, x
+COMMENT $45A4 draw, y, x
+COMMENT $45A7 draw, y, x
+COMMENT $45AA sync and move to y, x
+COMMENT $45AD draw, y, x
+COMMENT $45B0 draw, y, x
+COMMENT $45B3 draw, y, x
+COMMENT $45B6 sync and move to y, x
+COMMENT $45B9 draw, y, x
+COMMENT $45BC draw, y, x
+COMMENT $45BF draw, y, x
+COMMENT $45C2 endmarker
+COMMENT $45C3 sync and move to y, x
+COMMENT $45C6 move to y, x
+COMMENT $45C9 draw, y, x
+COMMENT $45CC draw, y, x
+COMMENT $45CF sync and move to y, x
+COMMENT $45D2 draw, y, x
+COMMENT $45D5 draw, y, x
+COMMENT $45D8 draw, y, x
+COMMENT $45DB sync and move to y, x
+COMMENT $45DE draw, y, x
+COMMENT $45E1 draw, y, x
+COMMENT $45E4 sync and move to y, x
+COMMENT $45E7 draw, y, x
+COMMENT $45EA draw, y, x
+COMMENT $45ED draw, y, x
+COMMENT $45F0 sync and move to y, x
+COMMENT $45F3 move to y, x
+COMMENT $45F6 draw, y, x
+COMMENT $45F9 draw, y, x
+COMMENT $45FC sync and move to y, x
+COMMENT $45FF move to y, x
+COMMENT $4602 draw, y, x
+COMMENT $4605 draw, y, x
+COMMENT $4608 draw, y, x
+COMMENT $460B sync and move to y, x
+COMMENT $460E draw, y, x
+COMMENT $4611 draw, y, x
+COMMENT $4614 sync and move to y, x
+COMMENT $4617 draw, y, x
+COMMENT $461A draw, y, x
+COMMENT $461D draw, y, x
+COMMENT $4620 sync and move to y, x
+COMMENT $4623 draw, y, x
+COMMENT $4626 draw, y, x
+COMMENT $4629 sync and move to y, x
+COMMENT $462C move to y, x
+COMMENT $462F draw, y, x
+COMMENT $4632 draw, y, x
+COMMENT $4635 draw, y, x
+COMMENT $4638 sync and move to y, x
+COMMENT $463B move to y, x
+COMMENT $463E draw, y, x
+COMMENT $4641 draw, y, x
+COMMENT $4644 sync and move to y, x
+COMMENT $4647 draw, y, x
+COMMENT $464A draw, y, x
+COMMENT $464D draw, y, x
+COMMENT $4650 sync and move to y, x
+COMMENT $4653 draw, y, x
+COMMENT $4656 draw, y, x
+COMMENT $4659 sync and move to y, x
+COMMENT $465C draw, y, x
+COMMENT $465F draw, y, x
+COMMENT $4662 draw, y, x
+COMMENT $4665 sync and move to y, x
+COMMENT $4668 draw, y, x
+COMMENT $466B draw, y, x
+COMMENT $466E draw, y, x
+COMMENT $4671 sync and move to y, x
+COMMENT $4674 draw, y, x
+COMMENT $4677 draw, y, x
+COMMENT $467A draw, y, x
+COMMENT $467D endmarker
+COMMENT $467E sync and move to y, x
+COMMENT $4681 move to y, x
+COMMENT $4684 draw, y, x
+COMMENT $4687 draw, y, x
+COMMENT $468A draw, y, x
+COMMENT $468D draw, y, x
+COMMENT $4690 sync and move to y, x
+COMMENT $4693 draw, y, x
+COMMENT $4696 draw, y, x
+COMMENT $4699 sync and move to y, x
+COMMENT $469C draw, y, x
+COMMENT $469F draw, y, x
+COMMENT $46A2 draw, y, x
+COMMENT $46A5 sync and move to y, x
+COMMENT $46A8 draw, y, x
+COMMENT $46AB draw, y, x
+COMMENT $46AE sync and move to y, x
+COMMENT $46B1 draw, y, x
+COMMENT $46B4 draw, y, x
+COMMENT $46B7 draw, y, x
+COMMENT $46BA sync and move to y, x
+COMMENT $46BD move to y, x
+COMMENT $46C0 draw, y, x
+COMMENT $46C3 draw, y, x
+COMMENT $46C6 sync and move to y, x
+COMMENT $46C9 draw, y, x
+COMMENT $46CC draw, y, x
+COMMENT $46CF draw, y, x
+COMMENT $46D2 sync and move to y, x
+COMMENT $46D5 draw, y, x
+COMMENT $46D8 draw, y, x
+COMMENT $46DB sync and move to y, x
+COMMENT $46DE draw, y, x
+COMMENT $46E1 draw, y, x
+COMMENT $46E4 draw, y, x
+COMMENT $46E7 sync and move to y, x
+COMMENT $46EA move to y, x
+COMMENT $46ED draw, y, x
+COMMENT $46F0 draw, y, x
+COMMENT $46F3 sync and move to y, x
+COMMENT $46F6 move to y, x
+COMMENT $46F9 draw, y, x
+COMMENT $46FC draw, y, x
+COMMENT $46FF draw, y, x
+COMMENT $4702 sync and move to y, x
+COMMENT $4705 draw, y, x
+COMMENT $4708 draw, y, x
+COMMENT $470B sync and move to y, x
+COMMENT $470E draw, y, x
+COMMENT $4711 draw, y, x
+COMMENT $4714 draw, y, x
+COMMENT $4717 sync and move to y, x
+COMMENT $471A draw, y, x
+COMMENT $471D draw, y, x
+COMMENT $4720 sync and move to y, x
+COMMENT $4723 draw, y, x
+COMMENT $4726 draw, y, x
+COMMENT $4729 draw, y, x
+COMMENT $472C endmarker
+COMMENT $472D sync and move to y, x
+COMMENT $4730 move to y, x
+COMMENT $4733 draw, y, x
+COMMENT $4736 draw, y, x
+COMMENT $4739 draw, y, x
+COMMENT $473C draw, y, x
+COMMENT $473F sync and move to y, x
+COMMENT $4742 draw, y, x
+COMMENT $4745 draw, y, x
+COMMENT $4748 draw, y, x
+COMMENT $474B draw, y, x
+COMMENT $474E sync and move to y, x
+COMMENT $4751 draw, y, x
+COMMENT $4754 draw, y, x
+COMMENT $4757 draw, y, x
+COMMENT $475A draw, y, x
+COMMENT $475D sync and move to y, x
+COMMENT $4760 draw, y, x
+COMMENT $4763 draw, y, x
+COMMENT $4766 sync and move to y, x
+COMMENT $4769 move to y, x
+COMMENT $476C draw, y, x
+COMMENT $476F draw, y, x
+COMMENT $4772 draw, y, x
+COMMENT $4775 sync and move to y, x
+COMMENT $4778 move to y, x
+COMMENT $477B draw, y, x
+COMMENT $477E draw, y, x
+COMMENT $4781 draw, y, x
+COMMENT $4784 draw, y, x
+COMMENT $4787 sync and move to y, x
+COMMENT $478A draw, y, x
+COMMENT $478D draw, y, x
+COMMENT $4790 sync and move to y, x
+COMMENT $4793 draw, y, x
+COMMENT $4796 draw, y, x
+COMMENT $4799 draw, y, x
+COMMENT $479C sync and move to y, x
+COMMENT $479F move to y, x
+COMMENT $47A2 draw, y, x
+COMMENT $47A5 draw, y, x
+COMMENT $47A8 draw, y, x
+COMMENT $47AB draw, y, x
+COMMENT $47AE sync and move to y, x
+COMMENT $47B1 draw, y, x
+COMMENT $47B4 draw, y, x
+COMMENT $47B7 sync and move to y, x
+COMMENT $47BA draw, y, x
+COMMENT $47BD draw, y, x
+COMMENT $47C0 draw, y, x
+COMMENT $47C3 sync and move to y, x
+COMMENT $47C6 draw, y, x
+COMMENT $47C9 endmarker
+COMMENT $47CA sync and move to y, x
+COMMENT $47CD move to y, x
+COMMENT $47D0 draw, y, x
+COMMENT $47D3 draw, y, x
+COMMENT $47D6 draw, y, x
+COMMENT $47D9 draw, y, x
+COMMENT $47DC sync and move to y, x
+COMMENT $47DF draw, y, x
+COMMENT $47E2 draw, y, x
+COMMENT $47E5 draw, y, x
+COMMENT $47E8 draw, y, x
+COMMENT $47EB sync and move to y, x
+COMMENT $47EE draw, y, x
+COMMENT $47F1 draw, y, x
+COMMENT $47F4 draw, y, x
+COMMENT $47F7 draw, y, x
+COMMENT $47FA sync and move to y, x
+COMMENT $47FD draw, y, x
+COMMENT $4800 draw, y, x
+COMMENT $4803 sync and move to y, x
+COMMENT $4806 draw, y, x
+COMMENT $4809 draw, y, x
+COMMENT $480C draw, y, x
+COMMENT $480F sync and move to y, x
+COMMENT $4812 move to y, x
+COMMENT $4815 draw, y, x
+COMMENT $4818 draw, y, x
+COMMENT $481B draw, y, x
+COMMENT $481E draw, y, x
+COMMENT $4821 sync and move to y, x
+COMMENT $4824 move to y, x
+COMMENT $4827 draw, y, x
+COMMENT $482A draw, y, x
+COMMENT $482D sync and move to y, x
+COMMENT $4830 draw, y, x
+COMMENT $4833 draw, y, x
+COMMENT $4836 draw, y, x
+COMMENT $4839 sync and move to y, x
+COMMENT $483C draw, y, x
+COMMENT $483F draw, y, x
+COMMENT $4842 draw, y, x
+COMMENT $4845 draw, y, x
+COMMENT $4848 sync and move to y, x
+COMMENT $484B draw, y, x
+COMMENT $484E draw, y, x
+COMMENT $4851 sync and move to y, x
+COMMENT $4854 draw, y, x
+COMMENT $4857 draw, y, x
+COMMENT $485A draw, y, x
+COMMENT $485D endmarker
+COMMENT $485E sync and move to y, x
+COMMENT $4861 move to y, x
+COMMENT $4864 draw, y, x
+COMMENT $4867 draw, y, x
+COMMENT $486A draw, y, x
+COMMENT $486D sync and move to y, x
+COMMENT $4870 draw, y, x
+COMMENT $4873 draw, y, x
+COMMENT $4876 draw, y, x
+COMMENT $4879 draw, y, x
+COMMENT $487C sync and move to y, x
+COMMENT $487F move to y, x
+COMMENT $4882 draw, y, x
+COMMENT $4885 draw, y, x
+COMMENT $4888 draw, y, x
+COMMENT $488B sync and move to y, x
+COMMENT $488E draw, y, x
+COMMENT $4891 draw, y, x
+COMMENT $4894 draw, y, x
+COMMENT $4897 draw, y, x
+COMMENT $489A sync and move to y, x
+COMMENT $489D move to y, x
+COMMENT $48A0 draw, y, x
+COMMENT $48A3 draw, y, x
+COMMENT $48A6 draw, y, x
+COMMENT $48A9 sync and move to y, x
+COMMENT $48AC draw, y, x
+COMMENT $48AF draw, y, x
+COMMENT $48B2 draw, y, x
+COMMENT $48B5 draw, y, x
+COMMENT $48B8 sync and move to y, x
+COMMENT $48BB draw, y, x
+COMMENT $48BE draw, y, x
+COMMENT $48C1 draw, y, x
+COMMENT $48C4 sync and move to y, x
+COMMENT $48C7 draw, y, x
+COMMENT $48CA draw, y, x
+COMMENT $48CD draw, y, x
+COMMENT $48D0 draw, y, x
+COMMENT $48D3 endmarker
+COMMENT $48D4 sync and move to y, x
+COMMENT $48D7 move to y, x
+COMMENT $48DA draw, y, x
+COMMENT $48DD draw, y, x
+COMMENT $48E0 draw, y, x
+COMMENT $48E3 sync and move to y, x
+COMMENT $48E6 draw, y, x
+COMMENT $48E9 draw, y, x
+COMMENT $48EC draw, y, x
+COMMENT $48EF draw, y, x
+COMMENT $48F2 sync and move to y, x
+COMMENT $48F5 draw, y, x
+COMMENT $48F8 draw, y, x
+COMMENT $48FB draw, y, x
+COMMENT $48FE sync and move to y, x
+COMMENT $4901 draw, y, x
+COMMENT $4904 draw, y, x
+COMMENT $4907 draw, y, x
+COMMENT $490A draw, y, x
+COMMENT $490D sync and move to y, x
+COMMENT $4910 move to y, x
+COMMENT $4913 draw, y, x
+COMMENT $4916 draw, y, x
+COMMENT $4919 draw, y, x
+COMMENT $491C sync and move to y, x
+COMMENT $491F draw, y, x
+COMMENT $4922 draw, y, x
+COMMENT $4925 draw, y, x
+COMMENT $4928 draw, y, x
+COMMENT $492B sync and move to y, x
+COMMENT $492E draw, y, x
+COMMENT $4931 draw, y, x
+COMMENT $4934 draw, y, x
+COMMENT $4937 sync and move to y, x
+COMMENT $493A draw, y, x
+COMMENT $493D draw, y, x
+COMMENT $4940 draw, y, x
+COMMENT $4943 draw, y, x
+COMMENT $4946 endmarker
+COMMENT $4947 sync and move to y, x
+COMMENT $494A move to y, x
+COMMENT $494D draw, y, x
+COMMENT $4950 draw, y, x
+COMMENT $4953 draw, y, x
+COMMENT $4956 draw, y, x
+COMMENT $4959 sync and move to y, x
+COMMENT $495C draw, y, x
+COMMENT $495F draw, y, x
+COMMENT $4962 draw, y, x
+COMMENT $4965 draw, y, x
+COMMENT $4968 sync and move to y, x
+COMMENT $496B draw, y, x
+COMMENT $496E draw, y, x
+COMMENT $4971 draw, y, x
+COMMENT $4974 draw, y, x
+COMMENT $4977 sync and move to y, x
+COMMENT $497A draw, y, x
+COMMENT $497D draw, y, x
+COMMENT $4980 draw, y, x
+COMMENT $4983 draw, y, x
+COMMENT $4986 sync and move to y, x
+COMMENT $4989 move to y, x
+COMMENT $498C draw, y, x
+COMMENT $498F draw, y, x
+COMMENT $4992 draw, y, x
+COMMENT $4995 draw, y, x
+COMMENT $4998 sync and move to y, x
+COMMENT $499B draw, y, x
+COMMENT $499E draw, y, x
+COMMENT $49A1 draw, y, x
+COMMENT $49A4 draw, y, x
+COMMENT $49A7 sync and move to y, x
+COMMENT $49AA draw, y, x
+COMMENT $49AD draw, y, x
+COMMENT $49B0 draw, y, x
+COMMENT $49B3 draw, y, x
+COMMENT $49B6 sync and move to y, x
+COMMENT $49B9 draw, y, x
+COMMENT $49BC draw, y, x
+COMMENT $49BF draw, y, x
+COMMENT $49C2 draw, y, x
+COMMENT $49C5 endmarker
+COMMENT $49C6 sync and move to y, x
+COMMENT $49C9 move to y, x
+COMMENT $49CC draw, y, x
+COMMENT $49CF draw, y, x
+COMMENT $49D2 draw, y, x
+COMMENT $49D5 draw, y, x
+COMMENT $49D8 sync and move to y, x
+COMMENT $49DB draw, y, x
+COMMENT $49DE draw, y, x
+COMMENT $49E1 draw, y, x
+COMMENT $49E4 draw, y, x
+COMMENT $49E7 sync and move to y, x
+COMMENT $49EA move to y, x
+COMMENT $49ED draw, y, x
+COMMENT $49F0 draw, y, x
+COMMENT $49F3 draw, y, x
+COMMENT $49F6 draw, y, x
+COMMENT $49F9 sync and move to y, x
+COMMENT $49FC draw, y, x
+COMMENT $49FF draw, y, x
+COMMENT $4A02 draw, y, x
+COMMENT $4A05 draw, y, x
+COMMENT $4A08 sync and move to y, x
+COMMENT $4A0B draw, y, x
+COMMENT $4A0E draw, y, x
+COMMENT $4A11 draw, y, x
+COMMENT $4A14 draw, y, x
+COMMENT $4A17 sync and move to y, x
+COMMENT $4A1A draw, y, x
+COMMENT $4A1D draw, y, x
+COMMENT $4A20 draw, y, x
+COMMENT $4A23 draw, y, x
+COMMENT $4A26 sync and move to y, x
+COMMENT $4A29 draw, y, x
+COMMENT $4A2C draw, y, x
+COMMENT $4A2F draw, y, x
+COMMENT $4A32 draw, y, x
+COMMENT $4A35 sync and move to y, x
+COMMENT $4A38 draw, y, x
+COMMENT $4A3B draw, y, x
+COMMENT $4A3E sync and move to y, x
+COMMENT $4A41 draw, y, x
+COMMENT $4A44 draw, y, x
+COMMENT $4A47 draw, y, x
+COMMENT $4A4A endmarker
+COMMENT $4A4B sync and move to y, x
+COMMENT $4A4E move to y, x
+COMMENT $4A51 draw, y, x
+COMMENT $4A54 draw, y, x
+COMMENT $4A57 draw, y, x
+COMMENT $4A5A draw, y, x
+COMMENT $4A5D sync and move to y, x
+COMMENT $4A60 draw, y, x
+COMMENT $4A63 draw, y, x
+COMMENT $4A66 sync and move to y, x
+COMMENT $4A69 draw, y, x
+COMMENT $4A6C draw, y, x
+COMMENT $4A6F draw, y, x
+COMMENT $4A72 sync and move to y, x
+COMMENT $4A75 draw, y, x
+COMMENT $4A78 draw, y, x
+COMMENT $4A7B sync and move to y, x
+COMMENT $4A7E draw, y, x
+COMMENT $4A81 draw, y, x
+COMMENT $4A84 draw, y, x
+COMMENT $4A87 sync and move to y, x
+COMMENT $4A8A draw, y, x
+COMMENT $4A8D draw, y, x
+COMMENT $4A90 sync and move to y, x
+COMMENT $4A93 draw, y, x
+COMMENT $4A96 draw, y, x
+COMMENT $4A99 draw, y, x
+COMMENT $4A9C sync and move to y, x
+COMMENT $4A9F move to y, x
+COMMENT $4AA2 draw, y, x
+COMMENT $4AA5 draw, y, x
+COMMENT $4AA8 draw, y, x
+COMMENT $4AAB draw, y, x
+COMMENT $4AAE sync and move to y, x
+COMMENT $4AB1 draw, y, x
+COMMENT $4AB4 draw, y, x
+COMMENT $4AB7 sync and move to y, x
+COMMENT $4ABA draw, y, x
+COMMENT $4ABD draw, y, x
+COMMENT $4AC0 draw, y, x
+COMMENT $4AC3 sync and move to y, x
+COMMENT $4AC6 draw, y, x
+COMMENT $4AC9 draw, y, x
+COMMENT $4ACC sync and move to y, x
+COMMENT $4ACF draw, y, x
+COMMENT $4AD2 draw, y, x
+COMMENT $4AD5 draw, y, x
+COMMENT $4AD8 sync and move to y, x
+COMMENT $4ADB draw, y, x
+COMMENT $4ADE draw, y, x
+COMMENT $4AE1 sync and move to y, x
+COMMENT $4AE4 draw, y, x
+COMMENT $4AE7 draw, y, x
+COMMENT $4AEA draw, y, x
+COMMENT $4AED endmarker
+COMMENT $4AEE sync and move to y, x
+COMMENT $4AF1 move to y, x
+COMMENT $4AF4 draw, y, x
+COMMENT $4AF7 draw, y, x
+COMMENT $4AFA draw, y, x
+COMMENT $4AFD draw, y, x
+COMMENT $4B00 sync and move to y, x
+COMMENT $4B03 draw, y, x
+COMMENT $4B06 draw, y, x
+COMMENT $4B09 draw, y, x
+COMMENT $4B0C draw, y, x
+COMMENT $4B0F sync and move to y, x
+COMMENT $4B12 draw, y, x
+COMMENT $4B15 draw, y, x
+COMMENT $4B18 draw, y, x
+COMMENT $4B1B draw, y, x
+COMMENT $4B1E sync and move to y, x
+COMMENT $4B21 draw, y, x
+COMMENT $4B24 draw, y, x
+COMMENT $4B27 sync and move to y, x
+COMMENT $4B2A draw, y, x
+COMMENT $4B2D draw, y, x
+COMMENT $4B30 draw, y, x
+COMMENT $4B33 sync and move to y, x
+COMMENT $4B36 draw, y, x
+COMMENT $4B39 draw, y, x
+COMMENT $4B3C draw, y, x
+COMMENT $4B3F draw, y, x
+COMMENT $4B42 sync and move to y, x
+COMMENT $4B45 move to y, x
+COMMENT $4B48 draw, y, x
+COMMENT $4B4B draw, y, x
+COMMENT $4B4E sync and move to y, x
+COMMENT $4B51 draw, y, x
+COMMENT $4B54 draw, y, x
+COMMENT $4B57 draw, y, x
+COMMENT $4B5A sync and move to y, x
+COMMENT $4B5D draw, y, x
+COMMENT $4B60 draw, y, x
+COMMENT $4B63 draw, y, x
+COMMENT $4B66 draw, y, x
+COMMENT $4B69 sync and move to y, x
+COMMENT $4B6C draw, y, x
+COMMENT $4B6F draw, y, x
+COMMENT $4B72 sync and move to y, x
+COMMENT $4B75 draw, y, x
+COMMENT $4B78 draw, y, x
+COMMENT $4B7B draw, y, x
+COMMENT $4B7E sync and move to y, x
+COMMENT $4B81 draw, y, x
+COMMENT $4B84 endmarker
+COMMENT $4B85 sync and move to y, x
+COMMENT $4B88 move to y, x
+COMMENT $4B8B draw, y, x
+COMMENT $4B8E draw, y, x
+COMMENT $4B91 sync and move to y, x
+COMMENT $4B94 draw, y, x
+COMMENT $4B97 draw, y, x
+COMMENT $4B9A draw, y, x
+COMMENT $4B9D sync and move to y, x
+COMMENT $4BA0 draw, y, x
+COMMENT $4BA3 draw, y, x
+COMMENT $4BA6 sync and move to y, x
+COMMENT $4BA9 draw, y, x
+COMMENT $4BAC draw, y, x
+COMMENT $4BAF draw, y, x
+COMMENT $4BB2 sync and move to y, x
+COMMENT $4BB5 draw, y, x
+COMMENT $4BB8 draw, y, x
+COMMENT $4BBB sync and move to y, x
+COMMENT $4BBE draw, y, x
+COMMENT $4BC1 draw, y, x
+COMMENT $4BC4 draw, y, x
+COMMENT $4BC7 sync and move to y, x
+COMMENT $4BCA draw, y, x
+COMMENT $4BCD draw, y, x
+COMMENT $4BD0 sync and move to y, x
+COMMENT $4BD3 draw, y, x
+COMMENT $4BD6 draw, y, x
+COMMENT $4BD9 draw, y, x
+COMMENT $4BDC sync and move to y, x
+COMMENT $4BDF draw, y, x
+COMMENT $4BE2 draw, y, x
+COMMENT $4BE5 sync and move to y, x
+COMMENT $4BE8 move to y, x
+COMMENT $4BEB draw, y, x
+COMMENT $4BEE draw, y, x
+COMMENT $4BF1 draw, y, x
+COMMENT $4BF4 sync and move to y, x
+COMMENT $4BF7 move to y, x
+COMMENT $4BFA draw, y, x
+COMMENT $4BFD draw, y, x
+COMMENT $4C00 sync and move to y, x
+COMMENT $4C03 draw, y, x
+COMMENT $4C06 draw, y, x
+COMMENT $4C09 draw, y, x
+COMMENT $4C0C sync and move to y, x
+COMMENT $4C0F draw, y, x
+COMMENT $4C12 draw, y, x
+COMMENT $4C15 sync and move to y, x
+COMMENT $4C18 draw, y, x
+COMMENT $4C1B draw, y, x
+COMMENT $4C1E draw, y, x
+COMMENT $4C21 sync and move to y, x
+COMMENT $4C24 draw, y, x
+COMMENT $4C27 draw, y, x
+COMMENT $4C2A sync and move to y, x
+COMMENT $4C2D draw, y, x
+COMMENT $4C30 draw, y, x
+COMMENT $4C33 draw, y, x
+COMMENT $4C36 sync and move to y, x
+COMMENT $4C39 draw, y, x
+COMMENT $4C3C endmarker
+COMMENT $4C3D sync and move to y, x
+COMMENT $4C40 move to y, x
+COMMENT $4C43 draw, y, x
+COMMENT $4C46 draw, y, x
+COMMENT $4C49 draw, y, x
+COMMENT $4C4C sync and move to y, x
+COMMENT $4C4F draw, y, x
+COMMENT $4C52 draw, y, x
+COMMENT $4C55 draw, y, x
+COMMENT $4C58 draw, y, x
+COMMENT $4C5B sync and move to y, x
+COMMENT $4C5E draw, y, x
+COMMENT $4C61 draw, y, x
+COMMENT $4C64 draw, y, x
+COMMENT $4C67 sync and move to y, x
+COMMENT $4C6A move to y, x
+COMMENT $4C6D draw, y, x
+COMMENT $4C70 draw, y, x
+COMMENT $4C73 draw, y, x
+COMMENT $4C76 draw, y, x
+COMMENT $4C79 sync and move to y, x
+COMMENT $4C7C draw, y, x
+COMMENT $4C7F draw, y, x
+COMMENT $4C82 draw, y, x
+COMMENT $4C85 sync and move to y, x
+COMMENT $4C88 draw, y, x
+COMMENT $4C8B draw, y, x
+COMMENT $4C8E draw, y, x
+COMMENT $4C91 draw, y, x
+COMMENT $4C94 sync and move to y, x
+COMMENT $4C97 draw, y, x
+COMMENT $4C9A draw, y, x
+COMMENT $4C9D draw, y, x
+COMMENT $4CA0 draw, y, x
+COMMENT $4CA3 sync and move to y, x
+COMMENT $4CA6 draw, y, x
+COMMENT $4CA9 draw, y, x
+COMMENT $4CAC draw, y, x
+COMMENT $4CAF draw, y, x
+COMMENT $4CB2 endmarker
+COMMENT $4CB3 vectrex function includes
+COMMENT_LINE $4CB3 ***************************************************************************
+COMMENT $0000 pretty for optimizing to use a makro :-)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 pretty for optimizing to use a makro :-)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 divides D by tmp1, result in B
+COMMENT_LINE $0000 uses divide_tmp as storage
+COMMENT_LINE $0000 only 8 bit in tmp1, but must be manually poked to tmp1 + 1
+COMMENT_LINE $0000 sign is correctly handled
+COMMENT_LINE $0000 can probably be optimized like hell
+COMMENT_LINE $0000 perhaps only nearing the result
+COMMENT_LINE $0000 using 2 shifts and a plus
+COMMENT_LINE $0000 might be worth a try,
+COMMENT_LINE $0000 see vectrex emulator for algorithm...
+COMMENT_LINE $0000 could be implemented with a tabel, which in turn
+COMMENT_LINE $0000 could be caclulated on the fly... (upon startup)
+COMMENT_LINE $0000 this makro divides exact, but slow
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 /BLANK low and /ZERO low
+COMMENT $0000 a = $18, b = $83 disable RAMP, muxsel=false, channel 1 (integrators offsets)
+COMMENT $0000 Clear D/A output
+COMMENT $0000 set mux to channel 1, leave mux disabled
+COMMENT $0000 enable mux, reset integrator offset values
+COMMENT $0000 /BLANK low and /ZERO low
+COMMENT $0000 Disable mux
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 /BLANK low and /ZERO low
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 move to time 1 lo, this means scaling
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 scale for placing first point
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 the local directive doesn't work here ???
+COMMENT_LINE $0000 I think because it is a makro using makro...
+COMMENT $0000 Decrement line count
+COMMENT $0000 Go back for more points
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 defines 'LF3F4' as a local variable
+COMMENT $0000 Send Y to A/D
+COMMENT $0000 Enable mux
+COMMENT_LINE $0000 the followin two instructions might be optimized
+COMMENT_LINE $0000 but there is something about 18 cycles :-)
+COMMENT $0000 Point to next coordinate pair
+COMMENT $0000 Wait a moment
+COMMENT $0000 Disable mux
+COMMENT $0000 Send X to A/D
+COMMENT $0000 Shift reg=$FF (solid line), T1H=0
+COMMENT $0000 Put pattern in shift register
+COMMENT $0000 Set T1H (scale factor?)
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Wait for T1 to time out
+COMMENT $0000 Wait a moment more
+COMMENT $0000 Clear shift register (blank output)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 defines 'LF3F4' as a local variable
+COMMENT $0000 Send Y to A/D
+COMMENT $0000 Enable mux
+COMMENT_LINE $0000 the followin two instructions might be optimized
+COMMENT_LINE $0000 but there is something about 18 cycles :-)
+COMMENT $0000 Wait a moment
+COMMENT $0000 Disable mux
+COMMENT $0000 Send X to A/D
+COMMENT $0000 Shift reg=$FF (solid line), T1H=0
+COMMENT $0000 Put pattern in shift register
+COMMENT $0000 Set T1H (scale factor?)
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Wait for T1 to time out
+COMMENT $0000 Wait a moment more
+COMMENT $0000 Clear shift register (blank output)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 the following makro ...
+COMMENT_LINE $0000 they search for a better (faster) scale/DAC relation and use
+COMMENT_LINE $0000 the scaling thus found, it should be somewhat faster that way...
+COMMENT_LINE $0000 per round we save approxematly: ? cycles
+COMMENT_LINE $0000 both destroy X and D
+COMMENT_LINE $0000 SCALE factor is changed
+COMMENT_LINE $0000 forget it !!!
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 optimzed, tweaked not perfect... 'MOVE TO D' makro
+COMMENT_LINE $0000 NOT DONE:
+COMMENT_LINE $0000 what should be done:
+COMMENT_LINE $0000 s = $ff / max(abs(a),abs(b))
+COMMENT_LINE $0000 a = a * s
+COMMENT_LINE $0000 b = b * s
+COMMENT_LINE $0000 scaling = scaling / s
+COMMENT_LINE $0000 that would give the most efficient positioning
+COMMENT_LINE $0000 bother it takes more time to calculate the above,
+COMMENT_LINE $0000 than it saves
+COMMENT_LINE $0000 with every positioning via this routine now,
+COMMENT_LINE $0000 it takes SCALE_FACTOR_GAME + const (of another 100+) cycles
+COMMENT_LINE $0000 to do one simple positioning!!!
+COMMENT_LINE $0000 that is probably about 300 cycles per positioning
+COMMENT_LINE $0000 this is done about 30-40 times per round
+COMMENT_LINE $0000 alone the positioning takes thus about over 10000 cycles
+COMMENT_LINE $0000 and we haven't drawn a single line yet!!!
+COMMENT $0000 Store Y in D/A register
+COMMENT $0000 Blank low, zero high?
+COMMENT $0000 Enable mux
+COMMENT $0000 Clear shift regigster
+COMMENT $0000 Disable mux
+COMMENT $0000 Store X in D/A register
+COMMENT $0000 enable timer
+COMMENT $0000 Don't reset the zero reference yet
+COMMENT $0000 Get the next mode byte
+COMMENT_LINE $0000 ;;;;
+COMMENT_LINE $0000 ;                    MY_MOVE_TO_D
+COMMENT $0000 Store Y in D/A register
+COMMENT $0000 Enable mux
+COMMENT $0000 Clear shift regigster
+COMMENT $0000 Disable mux
+COMMENT $0000 Store X in D/A register
+COMMENT $0000 enable timer
+COMMENT_LINE $0000 LDB      #$40                         ;
+COMMENT_LINE $0000 LF33D_2:
+COMMENT_LINE $0000 BITB     <VIA_int_flags               ;
+COMMENT_LINE $0000 BEQ      LF33D_2                        ;
+COMMENT_LINE $0000 ;;;
+COMMENT_LINE $0000 NOP 3
+COMMENT_LINE $0000 with small scale factor we do not really need to wait at all
+COMMENT_LINE $0000 DRAW_LINE_D_no_x
+COMMENT_LINE $0000 ;;
+COMMENT $0000 Send Y to A/D
+COMMENT $0000 Enable mux
+COMMENT $0000 Disable mux
+COMMENT $0000 Store X in D/A register
+COMMENT $0000 Shift reg=$FF (solid line), T1H=0
+COMMENT $0000 Put pattern in shift register
+COMMENT $0000 Set T1H (scale factor?)
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Wait for T1 to time out
+COMMENT $0000 Clear shift register (blank output)
+COMMENT_LINE $0000 ;;;;
+COMMENT_LINE $0000 if above is 1, than positioning of letters is relative to first letter
+COMMENT_LINE $0000 if != 1 than each letter is poisitioned individually
+COMMENT_LINE $0000 a "RESET" to ZERO and of the offsets
+COMMENT_LINE $0000 is done befor drawing of each letter
+COMMENT_LINE $0000 this is a bit slower, but perhaps results in a more
+COMMENT_LINE $0000 stable display!
+COMMENT_LINE $0000 Scroller of text (normal vectrex text format)
+COMMENT_LINE $0000 using vector chartable
+COMMENT_LINE $0000 the chars 0,0
+COMMENT_LINE $0000 (start is allways = end!)
+COMMENT_LINE $0000 all letters are drawn in "SCROLL_SCALE_FACTOR"
+COMMENT_LINE $0000 positioning is done in "SCALE_FACTOR_GAME"
+COMMENT_LINE $0000 two routines,
+COMMENT_LINE $0000 a) set_up_scrolling() need parameter = to RAM addresses (see function head)
+COMMENT_LINE $0000 expectes dp = $c8
+COMMENT_LINE $0000 b) do_one_scroll_step() no parameters
+COMMENT_LINE $0000 expectes dp = $d0
+COMMENT_LINE $0000 macros for MOV and DRAW_MODE
+COMMENT_LINE $0000 can be replaced with BIOS to save more space (althogh slower)
+COMMENT_LINE $0000 setup uses MACRO DIV
+COMMENT_LINE $0000 RAM start must be = to SCROLL_RAM_START
+COMMENT $C952 start of our ram space
+COMMENT $C88B this is fix for one scroll, the start of the original text
+COMMENT $C88D this is the current scroller start position in text
+COMMENT $C88F speed of scroll, should be negative
+COMMENT $C890 current y pos of scroll (allways the same) (SCALE_FACTOR_GAME)
+COMMENT $C891 current x pos of first (top left) char in the scrolling display (SCALE_FACTOR_GAME)
+COMMENT $C892 left position, lower than this and a char is "discarded"
+COMMENT $C893 new chars start (more or less) here
+COMMENT $C894 calculated, this is the offset between two chars in the scroller (SCALE_FACTOR_GAME)
+COMMENT $C895 only set once upon every "scroll"
+COMMENT $C896 counte, used to count the currently drawn chars, initiates with NUMBER_OF_SCROLL_LETTERS and is brought to zero
+COMMENT $C897 used as a storage for yx position, and during setup in MUL
+COMMENT $C899 used in setup for DIV
+COMMENT_LINE $4CB3 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $4CB3 scroll subroutines used in the startup screen                             ;
+COMMENT_LINE $4CB3 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $4CB3 ***************************************************************************
+COMMENT_LINE $4CB3 below are all subroutines for scroll text
+COMMENT_LINE $4CB3 scrolling from right to left!
+COMMENT_LINE $4CB3 (only two) set_up_scrolling(), do_one_scroll_step()
+COMMENT_LINE $4CB3 scroll text ends with $80
+COMMENT_LINE $4CB3 this restarts scrolling...
+COMMENT_LINE $4CB3 ***************************************************************************
+COMMENT_LINE $4CB3 expects text address in X register
+COMMENT_LINE $4CB3 scroll_y:                  the y coordinate (signed byte value)
+COMMENT_LINE $4CB3 scroll_x_left              (signed byte value)
+COMMENT_LINE $4CB3 scroll_x_right             (signed byte value)
+COMMENT_LINE $4CB3 scroll_speed               (signed byte value) must be negative
+COMMENT_LINE $4CB3 scroll_intensity           (byte value)
+COMMENT_LINE $4CB3 NUMBER_OF_SCROLL_LETTERS
+COMMENT_LINE $4CB3 uses tmp1, tmp2
+COMMENT $4CB3 remember address of first letter
+COMMENT $4CB5 and store it as current address
+COMMENT $4CB7 how many letters are at most to be displayed at once?
+COMMENT $4CBA remember that value in tmp1 (16 bit)
+COMMENT $4CBC load right boundary
+COMMENT $4CBE subtract left boundary
+COMMENT $4CC0 SEX it, this is the 16 bit width 'in pixel'
+COMMENT $4CC1 divide it by the number of letters to be displayed
+COMMENT $4CE2 remember that as the scroll step...
+COMMENT $4CE4 and screen address where last letter will appear
+COMMENT $4CE6 here our first char will be displayed
+COMMENT $4CE8 bye bye...
+COMMENT_LINE $4CE9 ***************************************************************************
+COMMENT_LINE $4CE9 does one scroll step of text initialized with the above function
+COMMENT_LINE $4CE9 does also all printing...
+COMMENT_LINE $4CE9 expects dp = to d0
+COMMENT_LINE $4CE9 sets intensity and trashs beam position (as well as everything else...)
+COMMENT_LINE $4CE9 destroys tmp1
+COMMENT $4CE9 load intensity
+COMMENT $4CEF at least one reset int the begining!
+COMMENT $4CEF setup counter of chars to be displayed
+COMMENT $4CF4 get address of current letter
+COMMENT $4CF8 load x coordinate
+COMMENT $4CFB add to scroll speed (x coordinate that is)
+COMMENT $4CFE is on left side out of bounds?
+COMMENT $4D01 if not go on... REALLY get the char
+COMMENT $4D03 other wise correct x position
+COMMENT $4D06 the start of X now should point to the NEXT char, whoch is one "width" away
+COMMENT $4D09 and remember it
+COMMENT $4D0C increment char pointer to scrolltext by one
+COMMENT $4D0E and store it back
+COMMENT_LINE $4D12 init new letter here
+COMMENT $4D12 load the current letter to B
+COMMENT $4D14 compare to $80, end marker
+COMMENT $4D16 if not set, go on
+COMMENT $4D18 otherwise load start address of text
+COMMENT $4D1C store it as current
+COMMENT $4D20 load y, x coordinate
+COMMENT $4D23 add to B (x coordinate that is)
+COMMENT $4D26 store the new x position
+COMMENT $4D29 this will be our next MOV, the first mov actually moves to
+COMMENT_LINE $4D2C start position of scroller, all subsequent moves only to the "width" of one scroll char!
+COMMENT $4D2C and load the first letter of the text to B (and inc y)
+COMMENT $4D2E compare to $80, end marker
+COMMENT $4D30 if not set, go on
+COMMENT $4D32 otherwise load start address of text
+COMMENT $4D36 and load the first letter of the text to B
+COMMENT_LINE $4D38 here we certainly have a correct 'letter'- value in B register
+COMMENT $4D38 really correct? isn't it a SPACE
+COMMENT $4D3A no? than go on...
+COMMENT $4D3C otherwise zero everything, pointer to vector list
+COMMENT $4D3F go on
+COMMENT $4D41 is it even a 'fullstop'
+COMMENT $4D43 if not... go on
+COMMENT $4D45 if it is load vectorlist addres to X
+COMMENT $4D48 and go on
+COMMENT $4D4A is it even a 'turtle' :-)
+COMMENT $4D4C if not... go on
+COMMENT $4D4E if it is load vectorlist addres to X
+COMMENT $4D51 and go on
+COMMENT_LINE $4D53 no it should be a 'real' letter (CAPITAL!!!)
+COMMENT_LINE $4D53 lets calculate the abc-table offset...
+COMMENT $4D53 subtract smallest letter, so A has 0 offset
+COMMENT $4D55 multiply by two, since addresses are 16 bit
+COMMENT $4D56 SEX it :-)
+COMMENT $4D57 and add the abc (table of vector list address of the alphabet's letters)
+COMMENT $4D5A get that into an index register (X)
+COMMENT $4D5C load the letters address from the table
+COMMENT $4D5E draw each letter with a move from zero, perhaps more stable!
+COMMENT $4D60 /BLANK low and /ZERO low
+COMMENT $4D62 a = $18, b = $83 disable RAMP, muxsel=false, channel 1 (integrators offsets)
+COMMENT $4D64 Clear D/A output
+COMMENT $4D66 set mux to channel 1, leave mux disabled
+COMMENT $4D68 enable mux, reset integrator offset values
+COMMENT $4D6C /BLANK low and /ZERO low
+COMMENT $4D6E Disable mux
+COMMENT $4D70 everything we do with "positioning" is scale SCALE_FACTOR_GAME
+COMMENT $4D70 scale for placing first point
+COMMENT $4D72 move to time 1 lo, this means scaling
+COMMENT $4D74 the current move vector
+COMMENT $4D77 as a macro
+COMMENT_LINE $4D77 optimzed, tweaked not perfect... 'MOVE TO D' makro
+COMMENT_LINE $4D77 NOT DONE:
+COMMENT_LINE $4D77 what should be done:
+COMMENT_LINE $4D77 s = $ff / max(abs(a),abs(b))
+COMMENT_LINE $4D77 a = a * s
+COMMENT_LINE $4D77 b = b * s
+COMMENT_LINE $4D77 scaling = scaling / s
+COMMENT_LINE $4D77 that would give the most efficient positioning
+COMMENT_LINE $4D77 bother it takes more time to calculate the above,
+COMMENT_LINE $4D77 than it saves
+COMMENT_LINE $4D77 with every positioning via this routine now,
+COMMENT_LINE $4D77 it takes SCALE_FACTOR_GAME + const (of another 100+) cycles
+COMMENT_LINE $4D77 to do one simple positioning!!!
+COMMENT_LINE $4D77 that is probably about 300 cycles per positioning
+COMMENT_LINE $4D77 this is done about 30-40 times per round
+COMMENT_LINE $4D77 alone the positioning takes thus about over 10000 cycles
+COMMENT_LINE $4D77 and we haven't drawn a single line yet!!!
+COMMENT $4D77 Store Y in D/A register
+COMMENT $4D79 Blank low, zero high?
+COMMENT $4D7E Enable mux
+COMMENT $4D80 Clear shift regigster
+COMMENT $4D82 Disable mux
+COMMENT $4D84 Store X in D/A register
+COMMENT $4D86 enable timer
+COMMENT_LINE $4D8E in X is the current pointer to the to be drawn char
+COMMENT $4D8E drawing of letters is done in SCROLL_SCALE_FACTOR
+COMMENT $4D8E scale for placing first point
+COMMENT $4D90 move to time 1 lo, this means scaling
+COMMENT $4D92 Don't reset the zero reference yet
+COMMENT $4D95 Get the next mode byte
+COMMENT_LINE $4D9B ;;;;
+COMMENT_LINE $4D9B ;                    MY_MOVE_TO_D
+COMMENT $4D9B Store Y in D/A register
+COMMENT $4D9E Enable mux
+COMMENT $4DA0 Clear shift regigster
+COMMENT $4DA2 Disable mux
+COMMENT $4DA4 Store X in D/A register
+COMMENT $4DA6 enable timer
+COMMENT_LINE $4DA8 LDB      #$40                         ;
+COMMENT_LINE $4DA8 LF33D_2:
+COMMENT_LINE $4DA8 BITB     <VIA_int_flags               ;
+COMMENT_LINE $4DA8 BEQ      LF33D_2                        ;
+COMMENT_LINE $4DA8 ;;;
+COMMENT_LINE $4DA8 NOP 3
+COMMENT_LINE $4DA8 with small scale factor we do not really need to wait at all
+COMMENT_LINE $4DAF DRAW_LINE_D_no_x
+COMMENT_LINE $4DAF ;;
+COMMENT $4DAF Send Y to A/D
+COMMENT $4DB2 Enable mux
+COMMENT $4DB4 Disable mux
+COMMENT $4DB6 Store X in D/A register
+COMMENT $4DB8 Shift reg=$FF (solid line), T1H=0
+COMMENT $4DBB Put pattern in shift register
+COMMENT $4DBD Set T1H (scale factor?)
+COMMENT $4DBF B-reg = T1 interrupt bit
+COMMENT $4DC1 Wait for T1 to time out
+COMMENT $4DC6 Clear shift register (blank output)
+COMMENT_LINE $4DC8 ;;;;
+COMMENT $4DCA setup next move as y = 0
+COMMENT $4DCA and width of one scroll "char"
+COMMENT $4DCA store to temp
+COMMENT $4DCA and width of one scroll "char"
+COMMENT $4DD0 store to temp
+COMMENT $4DD3 are we done yet?
+COMMENT $4DDA ok, that was our scroll step :-)
+COMMENT_LINE $4DDB ***************************************************************************
+COMMENT_LINE $4DDB used variables and constants...
+COMMENT_LINE $4DDB SCROLL_SCALE_FACTOR             EQU    $6
+COMMENT_LINE $4DDB NUMBER_OF_SCROLL_LETTERS        EQU    10
+COMMENT_LINE $4DDB scroll_text_address_start       EQU    scroll_variables_start
+COMMENT_LINE $4DDB scroll_text_address_current     EQU    scroll_text_address_start + 2
+COMMENT_LINE $4DDB scroll_speed                    EQU    scroll_text_address_current + 2
+COMMENT_LINE $4DDB scroll_y                        EQU    scroll_speed + 1
+COMMENT_LINE $4DDB scroll_left_boundary            EQU    scroll_y + 1
+COMMENT_LINE $4DDB scroll_right_boundary           EQU    scroll_left_boundary + 1
+COMMENT_LINE $4DDB scroll_step_width               EQU    scroll_right_boundary + 1
+COMMENT_LINE $4DDB scroll_intensity                EQU    scroll_step_width + 1
+COMMENT_LINE $4DDB scroll_objects                  EQU    scroll_intensity + 1
+COMMENT_LINE $4DDB scroll_objects_end              EQU    (scroll_objects+(5*NUMBER_OF_SCROLL_LETTERS)+1)
+COMMENT_LINE $4DDB scroll_variables_end            EQU    scroll_objects_end
+COMMENT_LINE $4DDB ***************************************************************************
+COMMENT_LINE $4DDB all letters start at the bottom left and end at the bottom right
+COMMENT_LINE $4DDB hight of font is 9
+COMMENT_LINE $4DDB width is 5 + 1 space == 6
+COMMENT_LINE $4DDB (Turtle is wider!)
+COMMENT $4DDB list of all single vectorlists in this
+COMMENT $4E0F dot
+COMMENT $4E11 turtle
+COMMENT $4E13 space
+COMMENT $4E15 mode, y, x
+COMMENT $4E18 mode, y, x
+COMMENT $4E1B mode, y, x
+COMMENT $4E1E mode, y, x
+COMMENT $4E21 mode, y, x
+COMMENT $4E24 mode, y, x
+COMMENT $4E27 mode, y, x
+COMMENT $4E2A mode, y, x
+COMMENT $4E2D endmarker (1)
+COMMENT $4E2E mode, y, x
+COMMENT $4E31 mode, y, x
+COMMENT $4E34 mode, y, x
+COMMENT $4E37 mode, y, x
+COMMENT $4E3A mode, y, x
+COMMENT $4E3D mode, y, x
+COMMENT $4E40 mode, y, x
+COMMENT $4E43 endmarker (1)
+COMMENT $4E44 mode, y, x
+COMMENT $4E47 mode, y, x
+COMMENT $4E4A mode, y, x
+COMMENT $4E4D mode, y, x
+COMMENT $4E50 mode, y, x
+COMMENT $4E53 mode, y, x
+COMMENT $4E56 mode, y, x
+COMMENT $4E59 mode, y, x
+COMMENT $4E5C mode, y, x
+COMMENT $4E5F endmarker (1)
+COMMENT $4E60 mode, y, x
+COMMENT $4E63 mode, y, x
+COMMENT $4E66 mode, y, x
+COMMENT $4E69 mode, y, x
+COMMENT $4E6C mode, y, x
+COMMENT $4E6F mode, y, x
+COMMENT $4E72 mode, y, x
+COMMENT $4E75 endmarker (1)
+COMMENT $4E76 mode, y, x
+COMMENT $4E79 mode, y, x
+COMMENT $4E7C mode, y, x
+COMMENT $4E7F mode, y, x
+COMMENT $4E82 mode, y, x
+COMMENT $4E85 mode, y, x
+COMMENT $4E88 mode, y, x
+COMMENT $4E8B mode, y, x
+COMMENT $4E8E endmarker (1)
+COMMENT_LINE $4E8F DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x F
+COMMENT $4E8F mode, y, x
+COMMENT $4E92 mode, y, x
+COMMENT $4E95 mode, y, x
+COMMENT $4E98 mode, y, x
+COMMENT $4E9B mode, y, x
+COMMENT $4E9E mode, y, x
+COMMENT $4EA1 endmarker (1)
+COMMENT_LINE $4EA2 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x G
+COMMENT $4EA2 mode, y, x
+COMMENT $4EA5 mode, y, x
+COMMENT $4EA8 mode, y, x
+COMMENT $4EAB mode, y, x
+COMMENT $4EAE mode, y, x
+COMMENT $4EB1 mode, y, x
+COMMENT $4EB4 mode, y, x
+COMMENT $4EB7 mode, y, x
+COMMENT $4EBA mode, y, x
+COMMENT $4EBD mode, y, x
+COMMENT $4EC0 mode, y, x
+COMMENT $4EC3 endmarker (1)
+COMMENT_LINE $4EC4 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x H
+COMMENT $4EC4 mode, y, x
+COMMENT $4EC7 mode, y, x
+COMMENT $4ECA mode, y, x
+COMMENT $4ECD mode, y, x
+COMMENT $4ED0 mode, y, x
+COMMENT $4ED3 mode, y, x
+COMMENT $4ED6 endmarker (1)
+COMMENT_LINE $4ED7 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4ED7 mode, y, x
+COMMENT $4EDA mode, y, x
+COMMENT $4EDD mode, y, x
+COMMENT $4EE0 mode, y, x
+COMMENT $4EE3 mode, y, x
+COMMENT $4EE6 mode, y, x
+COMMENT $4EE9 endmarker (1)
+COMMENT_LINE $4EEA DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4EEA mode, y, x
+COMMENT $4EED mode, y, x
+COMMENT $4EF0 mode, y, x
+COMMENT $4EF3 mode, y, x
+COMMENT $4EF6 mode, y, x
+COMMENT $4EF9 mode, y, x
+COMMENT $4EFC mode, y, x
+COMMENT $4EFF endmarker (1)
+COMMENT_LINE $4F00 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4F00 mode, y, x
+COMMENT $4F03 mode, y, x
+COMMENT $4F06 mode, y, x
+COMMENT $4F09 mode, y, x
+COMMENT $4F0C mode, y, x
+COMMENT $4F0F mode, y, x
+COMMENT $4F12 endmarker (1)
+COMMENT_LINE $4F13 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4F13 mode, y, x
+COMMENT $4F16 mode, y, x
+COMMENT $4F19 mode, y, x
+COMMENT $4F1C mode, y, x
+COMMENT $4F1F endmarker (1)
+COMMENT_LINE $4F20 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4F20 mode, y, x
+COMMENT $4F23 mode, y, x
+COMMENT $4F26 mode, y, x
+COMMENT $4F29 mode, y, x
+COMMENT $4F2C mode, y, x
+COMMENT $4F2F mode, y, x
+COMMENT $4F32 endmarker (1)
+COMMENT_LINE $4F33 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4F33 mode, y, x
+COMMENT $4F36 mode, y, x
+COMMENT $4F39 mode, y, x
+COMMENT $4F3C mode, y, x
+COMMENT $4F3F endmarker (1)
+COMMENT_LINE $4F40 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4F40 mode, y, x
+COMMENT $4F43 mode, y, x
+COMMENT $4F46 mode, y, x
+COMMENT $4F49 mode, y, x
+COMMENT $4F4C mode, y, x
+COMMENT $4F4F mode, y, x
+COMMENT $4F52 mode, y, x
+COMMENT $4F55 mode, y, x
+COMMENT $4F58 mode, y, x
+COMMENT $4F5B mode, y, x
+COMMENT $4F5E endmarker (1)
+COMMENT_LINE $4F5F DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4F5F mode, y, x
+COMMENT $4F62 mode, y, x
+COMMENT $4F65 mode, y, x
+COMMENT $4F68 mode, y, x
+COMMENT $4F6B mode, y, x
+COMMENT $4F6E mode, y, x
+COMMENT $4F71 mode, y, x
+COMMENT $4F74 endmarker (1)
+COMMENT_LINE $4F75 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4F75 mode, y, x
+COMMENT $4F78 mode, y, x
+COMMENT $4F7B mode, y, x
+COMMENT $4F7E mode, y, x
+COMMENT $4F81 mode, y, x
+COMMENT $4F84 mode, y, x
+COMMENT $4F87 mode, y, x
+COMMENT $4F8A mode, y, x
+COMMENT $4F8D mode, y, x
+COMMENT $4F90 mode, y, x
+COMMENT $4F93 mode, y, x
+COMMENT $4F96 mode, y, x
+COMMENT $4F99 endmarker (1)
+COMMENT_LINE $4F9A DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4F9A mode, y, x
+COMMENT $4F9D mode, y, x
+COMMENT $4FA0 mode, y, x
+COMMENT $4FA3 mode, y, x
+COMMENT $4FA6 mode, y, x
+COMMENT $4FA9 mode, y, x
+COMMENT $4FAC mode, y, x
+COMMENT $4FAF mode, y, x
+COMMENT $4FB2 mode, y, x
+COMMENT $4FB5 endmarker (1)
+COMMENT_LINE $4FB6 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4FB6 mode, y, x
+COMMENT $4FB9 mode, y, x
+COMMENT $4FBC mode, y, x
+COMMENT $4FBF mode, y, x
+COMMENT $4FC2 mode, y, x
+COMMENT $4FC5 mode, y, x
+COMMENT $4FC8 mode, y, x
+COMMENT $4FCB mode, y, x
+COMMENT $4FCE mode, y, x
+COMMENT $4FD1 mode, y, x
+COMMENT $4FD4 mode, y, x
+COMMENT $4FD7 mode, y, x
+COMMENT $4FDA mode, y, x
+COMMENT $4FDD endmarker (1)
+COMMENT_LINE $4FDE DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4FDE mode, y, x
+COMMENT $4FE1 mode, y, x
+COMMENT $4FE4 mode, y, x
+COMMENT $4FE7 mode, y, x
+COMMENT $4FEA mode, y, x
+COMMENT $4FED endmarker (1)
+COMMENT_LINE $4FEE DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $4FEE mode, y, x
+COMMENT $4FF1 mode, y, x
+COMMENT $4FF4 mode, y, x
+COMMENT $4FF7 mode, y, x
+COMMENT $4FFA mode, y, x
+COMMENT $4FFD mode, y, x
+COMMENT $5000 mode, y, x
+COMMENT $5003 endmarker (1)
+COMMENT_LINE $5004 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $5004 mode, y, x
+COMMENT $5007 mode, y, x
+COMMENT $500A mode, y, x
+COMMENT $500D mode, y, x
+COMMENT $5010 mode, y, x
+COMMENT $5013 endmarker (1)
+COMMENT_LINE $5014 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $5014 mode, y, x
+COMMENT $5017 mode, y, x
+COMMENT $501A mode, y, x
+COMMENT $501D mode, y, x
+COMMENT $5020 mode, y, x
+COMMENT $5023 mode, y, x
+COMMENT $5026 mode, y, x
+COMMENT $5029 endmarker (1)
+COMMENT_LINE $502A DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $502A mode, y, x
+COMMENT $502D mode, y, x
+COMMENT $5030 mode, y, x
+COMMENT $5033 mode, y, x
+COMMENT $5036 endmarker (1)
+COMMENT_LINE $5037 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $5037 mode, y, x
+COMMENT $503A mode, y, x
+COMMENT $503D mode, y, x
+COMMENT $5040 mode, y, x
+COMMENT $5043 mode, y, x
+COMMENT $5046 mode, y, x
+COMMENT $5049 endmarker (1)
+COMMENT_LINE $504A DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $504A mode, y, x
+COMMENT $504D mode, y, x
+COMMENT $5050 mode, y, x
+COMMENT $5053 mode, y, x
+COMMENT $5056 mode, y, x
+COMMENT $5059 endmarker (1)
+COMMENT_LINE $505A DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $505A mode, y, x
+COMMENT $505D mode, y, x
+COMMENT $5060 mode, y, x
+COMMENT $5063 mode, y, x
+COMMENT $5066 endmarker (1)
+COMMENT_LINE $5067 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $5067 mode, y, x
+COMMENT $506A mode, y, x
+COMMENT $506D mode, y, x
+COMMENT $5070 mode, y, x
+COMMENT $5073 mode, y, x
+COMMENT $5076 mode, y, x
+COMMENT $5079 mode, y, x
+COMMENT $507C mode, y, x
+COMMENT $507F mode, y, x
+COMMENT $5082 mode, y, x
+COMMENT $5085 mode, y, x
+COMMENT $5088 mode, y, x
+COMMENT $508B mode, y, x
+COMMENT $508E mode, y, x
+COMMENT $5091 mode, y, x
+COMMENT $5094 mode, y, x
+COMMENT $5097 mode, y, x
+COMMENT $509A mode, y, x
+COMMENT $509D mode, y, x
+COMMENT $50A0 mode, y, x
+COMMENT $50A3 mode, y, x
+COMMENT $50A6 mode, y, x
+COMMENT $50A9 mode, y, x
+COMMENT $50AC mode, y, x
+COMMENT $50AF mode, y, x
+COMMENT $50B2 mode, y, x
+COMMENT $50B5 endmarker (1)
+COMMENT_LINE $50B6 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT_LINE $50B6 DB $00, +BLOWUP*$00, +BLOWUP*$06 ; mode, y, x
+COMMENT $50B6 endmarker (1)
+RANGE $00FB-$047C DP $D0
+RANGE $047C-$05AA DP $C8
+RANGE $05AA-$4CB2 DP $FF
+RANGE $4CB2-$4CE8 DP $C8
+RANGE $4CE8-$50B6 DP $D0
+RANGE $0000-$000B DB_DATA
+RANGE $000B-$000D DW_DATA
+RANGE $000D-$0025 DB_DATA
+RANGE $0025-$0038 CODE
+RANGE $0039-$0228 CODE
+RANGE $0228-$02F2 DB_DATA
+RANGE $02F2-$036E CODE
+RANGE $036E-$047D DB_DATA
+RANGE $047D-$05AB CODE
+RANGE $05AB-$05F3 DB_DATA
+RANGE $05F3-$0611 DW_DATA
+RANGE $0611-$0701 DB_DATA
+RANGE $0701-$0705 DW_DATA
+RANGE $0705-$07F4 DB_DATA
+RANGE $07F4-$07F8 DW_DATA
+RANGE $07F8-$08E8 DB_DATA
+RANGE $08E8-$08EC DW_DATA
+RANGE $08EC-$09DB DB_DATA
+RANGE $09DB-$09DF DW_DATA
+RANGE $09DF-$0ACF DB_DATA
+RANGE $0ACF-$0AD3 DW_DATA
+RANGE $0AD3-$0BC2 DB_DATA
+RANGE $0BC2-$0BC6 DW_DATA
+RANGE $0BC6-$0CB6 DB_DATA
+RANGE $0CB6-$0CBA DW_DATA
+RANGE $0CBA-$0DA9 DB_DATA
+RANGE $0DA9-$0DAD DW_DATA
+RANGE $0DAD-$0E7C DB_DATA
+RANGE $0E7C-$0E80 DW_DATA
+RANGE $0E80-$0F5A DB_DATA
+RANGE $0F5A-$0F5E DW_DATA
+RANGE $0F5E-$1032 DB_DATA
+RANGE $1032-$1036 DW_DATA
+RANGE $1036-$10C9 DB_DATA
+RANGE $10C9-$11BD DW_DATA
+RANGE $11BD-$1D88 DB_DATA
+RANGE $1D88-$201A CODE
+RANGE $201A-$201C DW_DATA
+RANGE $201C-$3FBE DB_DATA
+RANGE $3FBE-$3FC0 DW_DATA
+RANGE $3FC0-$3FC1 DB_DATA
+RANGE $3FC1-$3FC7 DW_DATA
+RANGE $3FC7-$3FC8 DB_DATA
+RANGE $3FC8-$3FCE DW_DATA
+RANGE $3FCE-$3FCF DB_DATA
+RANGE $3FCF-$3FD5 DW_DATA
+RANGE $3FD5-$3FD6 DB_DATA
+RANGE $3FD6-$3FDC DW_DATA
+RANGE $3FDC-$3FDD DB_DATA
+RANGE $3FDD-$3FE3 DW_DATA
+RANGE $3FE3-$3FE4 DB_DATA
+RANGE $3FE4-$3FEA DW_DATA
+RANGE $3FEA-$3FEB DB_DATA
+RANGE $3FEB-$3FF1 DW_DATA
+RANGE $3FF1-$3FF2 DB_DATA
+RANGE $3FF2-$3FF8 DW_DATA
+RANGE $3FF8-$3FF9 DB_DATA
+RANGE $3FF9-$3FFF DW_DATA
+RANGE $3FFF-$4000 DB_DATA
+RANGE $4000-$4006 DW_DATA
+RANGE $4006-$4007 DB_DATA
+RANGE $4007-$400D DW_DATA
+RANGE $400D-$401B DB_DATA
+RANGE $401B-$41D3 CODE
+RANGE $41D3-$4440 DB_DATA
+RANGE $4440-$4491 CODE
+RANGE $4491-$44AD DW_DATA
+RANGE $44AD-$4CB3 DB_DATA
+RANGE $4CB3-$4DDB CODE
+RANGE $4DDB-$4E15 DW_DATA
+RANGE $4E15-$512A DB_DATA
+

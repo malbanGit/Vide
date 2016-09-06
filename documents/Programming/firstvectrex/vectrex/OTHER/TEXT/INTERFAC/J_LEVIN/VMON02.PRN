@@ -1,0 +1,670 @@
+Microware OS-9 Assembler RS Version 01.00.00    02/06/87 05:56:48    Page 001
+VECTREX MONITOR VERSION 1.02 - by R. Albers & J. Lavin
+
+00001        *********************************************************
+00002        *                                                       *
+00003        *             VECTREX MONITOR Version 1.02              *
+00004        *                                                       *
+00005        *         1986 (C) Richard Albers & Jeff Lavin          *
+00006        *                                                       *
+00007        *    Generic monitor program for the 6809 processor     *
+00008        *       Designed for debugging Vectrex programs         *
+00009        *                                                       *
+00010        *********************************************************
+00011        
+00012        * Rev 1.00                       Initial version 12/18/86
+00013        * Rev 1.01                       Added .G .R .V  12/28/86
+00014        * Rev 1.02                       Added SWI & IRQ 02/04/87
+00015        
+00016                            NAM   VECTREX MONITOR VERSION 1.02 
+00017                            TTL   by R. Albers & J. Lavin 
+00018                            OPT   D66 
+00019                            OPT   W80 
+00020                            OPT   M 
+00021                            OPT   E 
+00022        
+00023        ***  SYSTEM RAM  ***
+00024        
+00025   C826            FRAME    EQU   $C826 
+00026   C83D            FRMTIM   EQU   $C83D      ;Defaults to 20 msec.
+00027        
+00028   C9E2                     ORG   $C9E2 
+00029        
+00030   C9E2            SUBPTR   RMB   2          ;Indirect JSR ptr
+00031        
+00032   C9E4            TECHO    RMB   1          ;Set bit 7 for echo
+00033   C9E5            LSTCOM   RMB   1          ;Last command
+00034   C9E6            ADDR     RMB   2          ;Last address
+00035   C9E8            CKSM     RMB   2          ;Checksum
+00036   C9EA            PSCR     RMB   1          ;Scratch
+00037        
+00038   C9EB            PARMS    RMB   1          ;Parameter count
+00039   C9EC            PARM1    RMB   2          ;Command parameters
+00040   C9EE            PARM2    RMB   2 
+00041   C9F0            PARM3    RMB   2 
+00042        
+00043   C9F2            CCR      RMB   1          ;Register save area
+00044   C9F3            AR       RMB   1 
+00045   C9F4            BR       RMB   1 
+00046   C9F5            DPR      RMB   1 
+00047   C9F6            XR       RMB   2 
+00048   C9F8            YR       RMB   2 
+00049   C9FA            SR       RMB   2 
+00050   C9FC            PCR      RMB   2 
+00051   C9FE            UR       RMB   2 
+00052        
+00053   CA00            FREE     RMB   $100 
+00054        
+00055   CBEA                     ORG   $CBEA 
+00056        
+00057   CBEA            STACK    RMB   1 
+00058   CBEB            HISCOR   RMB   7 
+00059        
+00060   CBF2            VSWI2    RMB   3          ;SWI3 & SWI2
+
+
+
+Microware OS-9 Assembler RS Version 01.00.00    02/06/87 05:56:58    Page 002
+VECTREX MONITOR VERSION 1.02 - by R. Albers & J. Lavin
+
+00061   CBF5            VFIRQ    RMB   3          ;FIRQ
+00062   CBF8            VIRQ     RMB   3          ;IRQ
+00063   CBFB            VSWI     RMB   3          ;NMI & SWI1
+00064        
+00065        ***  ACIA  ***
+00066        
+00067   3800            ACIA     EQU   $3800      ;6551
+00068   3800            DATA     EQU   ACIA       ;Write Xmit/read Recieve
+00069   3801            STAT     EQU   ACIA+1     ;Status reg
+00070   3802            COMM     EQU   ACIA+2     ;Command reg
+00071   3803            CONT     EQU   ACIA+3     ;Control reg
+00072        
+00073        ***  VIA  ***
+00074        
+00075   D000            VIA      EQU   $D000 
+00076   D000            CNTRL    EQU   VIA        ;ORB
+00077   D001            DAC      EQU   VIA+1      ;ORA
+00078   D002            DCNTRL   EQU   VIA+2      ;DDRB
+00079   D003            DDAC     EQU   VIA+3      ;DDRA
+00080   D004            T1LOLC   EQU   VIA+4      ;Timer 1, counter/latch low
+00081   D005            T1HOC    EQU   VIA+5      ;Timer 1, counter high
+00082   D006            T1LOL    EQU   VIA+6      ;Timer 1, latch low
+00083   D007            T1HOL    EQU   VIA+7      ;Timer 1, latch high
+00084   D008            T2LOLC   EQU   VIA+8      ;Timer 2, counter/latch low
+00085   D009            T2HOC    EQU   VIA+9      ;Timer 2, counter high
+00086   D00A            SHIFT    EQU   VIA+10     ;Shift register
+00087   D00B            ACTR     EQU   VIA+11     ;Auxiliary ctrl register
+00088   D00C            PCTR     EQU   VIA+12     ;Peripheral ctrl reg
+00089   D00D            IFR      EQU   VIA+13     ;Interrupt flag reg
+00090   D00E            IER      EQU   VIA+14     ;Interrupt enable reg
+00091        
+00092   0040            T1TIMO   EQU   %01000000  ;Timer 1 interrupt
+00093   0020            T2TIMO   EQU   %00100000  ;Timer 2 interrupt
+00094   0080            SETINT   EQU   %10000000  ;Enable interrupts
+00095        
+00096        ***  EXEC EQUATES ***
+00097        
+00098   F192            FRWAIT   EQU   $F192      ;Wait for frame boundary
+00099   F1AA            DPIO     EQU   $F1AA      ;Set DP=$D0
+00100   F2A5            INT3Q    EQU   $F2A5      ;Set 3/4 intensity
+00101   F2E6            DEFLOK   EQU   $F2E6      ;Prevent scan collapse
+00102   F373            RSTSIZ   EQU   $F373      ;Display text string
+00103   F385            TXTSIZ   EQU   $F385      ;Display mult text
+00104        
+00105        ***  OTHER EQUATES  ***
+00106        
+00107   0001            CARRY    EQU   %00000001  ;Processor flags
+00108   0002            OVERFL   EQU   %00000010 
+00109   0004            ZERO     EQU   %00000100 
+00110   0010            INTRPT   EQU   %00010000 
+00111   0080            ENTIRE   EQU   %10000000 
+00112        
+00113   0000            CART     EQU   $0000 
+00114   2000            RAMST    EQU   $2000 
+00115   27FF            RAMEND   EQU   RAMST+$07FF 
+00116   FEF8            FFARE1   EQU   $FEF8      ;Vectrex resident tune
+00117        
+00118   0000                     ORG   CART 
+00119 D 00D0                     SETDP $D0 
+00120        
+
+
+
+Microware OS-9 Assembler RS Version 01.00.00    02/06/87 05:57:09    Page 003
+VECTREX MONITOR VERSION 1.02 - by R. Albers & J. Lavin
+
+00121   0000 67                  FCB   $67        VECTREX ;Text & tune
+00122   0001 20474345            FCC   ' GCE 1986' 
+00123   000A 80                  FCB   $80 
+00124   000B FEF8                FDB   FFARE1     ;Address of tune
+00125   000D F940       TITLE    FDB   $F940      ;Raster size
+00126   000F 00C8                FDB   $00C8      ;Position, Y:X
+00127   0011 564D4F4E            FCC   'VMON  REV 1.02' ;Title
+00128   001F 80                  FCB   $80 
+00129   0020 FD30                FDB   $FD30 
+00130   0022 D0B0                FDB   $D0B0 
+00131   0024 67                  FCB   $67        ;Copyright
+00132   0025 20313938            FCC   ' 1987 R.ALBERS/J.LAVIN' 
+00133   003B 8000                FCB   $80,0 
+00134        
+00135   003D 3401       SAVER    PSHS  CC         ;Save all regs
+00136 W 003F FFC9FE              STU   UR 
+00137   0042 CEC9FE              LDU   #UR 
+00138   0045 3501                PULS  CC 
+00139   0047 36FF                PSHU  CC,A,B,DP,X,Y,S,PC 
+00140        
+00141 W 0049 BD0333     ENTRY    JSR   INIT 
+00142 W 004C 7E0181              JMP   GETCOM 
+00143        
+00144        ***  SUBROUTINES  ***
+00145        
+00146   004F 8608       INTCHR   LDA   #$08       ;Get input char
+00147 W 0051 B53801     ILOOK    BITA  STAT       ;Wait for one
+00148   0054 27FB                BEQ   ILOOK 
+00149 W 0056 B63800              LDA   DATA 
+00150   0059 847F                ANDA  #$7F       ;Mask bit 7
+00151 W 005B 7DC9E4              TST   TECHO      ;Echo?
+00152   005E 2B1F                BMI   OUTCHR     ;Branch if yes
+00153   0060 39                  RTS
+00154        
+00155   0061 8D00       CRLF2    BSR   CRLF       ;Output 2 newlines
+00156   0063 860D       CRLF     LDA   #$0D       ;Print CR + LF
+00157   0065 8D18                BSR   OUTCHR 
+00158   0067 860A                LDA   #$0A 
+00159   0069 2014                BRA   OUTCHR 
+00160        
+00161   006B 8656       PROMPT   LDA   #'V        ;Print a prompt
+00162   006D 8D10                BSR   OUTCHR 
+00163   006F 863A                LDA   #': 
+00164   0071 200C                BRA   OUTCHR 
+00165        
+00166   0073 863F       OUTQM    LDA   #'? 
+00167   0075 2008                BRA   OUTCHR 
+00168        
+00169   0077 862C       COMMA    LDA   #', 
+00170   0079 2004                BRA   OUTCHR 
+00171        
+00172   007B 8D00       SPC2     BSR   SPACE      ;Print 2 spaces
+00173   007D 8620       SPACE    LDA   #$20       ;Print a space
+00174        
+00175   007F 3404       OUTCHR   PSHS  B          ;Print a char
+00176   0081 C610                LDB   #$10       ;Wait 'til ACIA ready
+00177 W 0083 F53801     OLOOK    BITB  STAT 
+00178   0086 27FB                BEQ   OLOOK 
+00179 W 0088 B73800              STA   DATA 
+00180   008B 3584                PULS  B,PC 
+
+
+
+Microware OS-9 Assembler RS Version 01.00.00    02/06/87 05:57:17    Page 004
+VECTREX MONITOR VERSION 1.02 - by R. Albers & J. Lavin
+
+00181        
+00182 W 008D BD004F     INBYTE   JSR   INTCHR     ;Input a hex byte
+00183   0090 8D23                BSR   ASCNIB 
+00184   0092 2510                BCS   INB0       ;Branch of not hex
+00185   0094 48                  ASLA             ;Move to
+00186   0095 48                  ASLA             ; hi nibble
+00187   0096 48                  ASLA
+00188   0097 48                  ASLA
+00189   0098 3402                PSHS  A 
+00190 W 009A BD004F              JSR   INTCHR     ;Get next ASCII
+00191   009D 8D16                BSR   ASCNIB 
+00192   009F 250F                BCS   INB2       ;Branch if not hex
+00193   00A1 AAE0                ORA   ,S+        ;Combine nibbles
+00194   00A3 39                  RTS
+00195        
+00196   00A4 813A       INB0     CMPA  #':        ;Want ASCII char?
+00197   00A6 2603                BNE   INB1 
+00198 W 00A8 7E004F              JMP   INTCHR     ;Yes, get it
+00199        
+00200   00AB 810D       INB1     CMPA  #$0D       ;CR?
+00201   00AD 1A01                ORCC  #CARRY 
+00202   00AF 39                  RTS
+00203        
+00204   00B0 3261       INB2     LEAS  1,S        ;Clean stack
+00205   00B2 1A03                ORCC  #CARRY+OVERFL 
+00206   00B4 39                  RTS
+00207        
+00208   00B5 8130       ASCNIB   CMPA  #'0        ;Convert ASCII to
+00209   00B7 251B                BLO   NOTHEX     ; binary nibble
+00210   00B9 8139                CMPA  #'9        ;Numeric?
+00211   00BB 2312                BLS   CONVN      ;Branch if yes
+00212   00BD 8141                CMPA  #'A        ;Hex alpha?
+00213   00BF 2513                BLO   NOTHEX     ;Branch if no
+00214   00C1 8146                CMPA  #'F 
+00215   00C3 2308                BLS   CONVA      ;Branch if yes
+00216   00C5 8161                CMPA  #'a        ;Lowercase?
+00217   00C7 250B                BLO   NOTHEX     ;Branch if no
+00218   00C9 8166                CMPA  #'f 
+00219   00CB 2207                BHI   NOTHEX     ;Branch if no
+00220   00CD 8007       CONVA    SUBA  #$07       ;Convert alpha
+00221   00CF 840F       CONVN    ANDA  #$0F       ;Make hex
+00222   00D1 1CFE                ANDCC #$FF-CARRY 
+00223   00D3 39                  RTS
+00224        
+00225   00D4 1A01       NOTHEX   ORCC  #CARRY 
+00226   00D6 39                  RTS
+00227        
+00228 W 00D7 BD00DC     OUTADR   JSR   OUTBYT     ;Output ADH
+00229   00DA 1F98                TFR   B,A        ;Output ADL
+00230   00DC 3402       OUTBYT   PSHS  A          ;Output a hex byte
+00231   00DE 44                  LSRA
+00232   00DF 44                  LSRA
+00233   00E0 44                  LSRA
+00234   00E1 44                  LSRA
+00235   00E2 8D0C                BSR   NIBASC 
+00236 W 00E4 BD007F              JSR   OUTCHR 
+00237   00E7 3502                PULS  A 
+00238   00E9 840F                ANDA  #$0F 
+00239   00EB 8D03                BSR   NIBASC 
+00240 W 00ED 7E007F              JMP   OUTCHR 
+
+
+
+Microware OS-9 Assembler RS Version 01.00.00    02/06/87 05:57:26    Page 005
+VECTREX MONITOR VERSION 1.02 - by R. Albers & J. Lavin
+
+00241        
+00242   00F0 8B30       NIBASC   ADDA  #$30       ;Convert nibble to ASCII
+00243   00F2 8139                CMPA  #$39 
+00244   00F4 2F02                BLE   NIBA0 
+00245   00F6 8B07                ADDA  #$07 
+00246   00F8 39         NIBA0    RTS
+00247        
+00248   00F9 8D57       GETPAR   BSR   ZERPAR     ;Get command parameter(s)
+00249 W 00FB BD004F     GP0      JSR   INTCHR     ;Get 1st nibble
+00250 W 00FE BD00B5              JSR   ASCNIB     ;Convert it
+00251   0101 2520                BCS   GP1        ;Branch if not hex
+00252   0103 3402                PSHS  A 
+00253 W 0105 FCC9EC              LDD   PARM1      ;Shift old
+00254   0108 58                  ASLB             ; parameter
+00255   0109 49                  ROLA             ; nibble(s)
+00256   010A 58                  ASLB             ; to left
+00257   010B 49                  ROLA
+00258   010C 58                  ASLB
+00259   010D 49                  ROLA
+00260   010E 58                  ASLB
+00261   010F 49                  ROLA
+00262   0110 EAE0                ORB   ,S+        ;Add in new nibble
+00263 W 0112 FDC9EC              STD   PARM1 
+00264 W 0115 F6C9EA              LDB   PSCR       ;PSCR is
+00265   0118 5C                  INCB             ; one less than
+00266 W 0119 F1C9EB              CMPB  PARMS      ; parm count
+00267   011C 27DD                BEQ   GP0        ; after first hex
+00268 W 011E F7C9EB              STB   PARMS      ; nibble is input
+00269   0121 20D8                BRA   GP0 
+00270        
+00271   0123 810D       GP1      CMPA  #$0D       ;End of input?
+00272   0125 2603                BNE   GP2 
+00273   0127 1CFE                ANDCC #$FF-CARRY 
+00274   0129 39                  RTS
+00275        
+00276   012A 812C       GP2      CMPA  #',        ;Start next parm?
+00277   012C 2708                BEQ   DELIM      ;/,/-/ / valid delimiters
+00278   012E 812D                CMPA  #'- 
+00279   0130 2704                BEQ   DELIM 
+00280   0132 8120                CMPA  #$20 
+00281   0134 2619                BNE   GP3 
+00282 W 0136 FCC9EE     DELIM    LDD   PARM2      ;Yes, move up
+00283 W 0139 FDC9F0              STD   PARM3      ; any we
+00284 W 013C FCC9EC              LDD   PARM1      ; now have
+00285 W 013F FDC9EE              STD   PARM2 
+00286   0142 4F                  CLRA             ; and clear for
+00287   0143 5F                  CLRB             ; next input
+00288 W 0144 FDC9EC              STD   PARM1 
+00289 W 0147 7CC9EB              INC   PARMS      ;Count parms
+00290 W 014A 7CC9EA              INC   PSCR 
+00291   014D 20AC                BRA   GP0 
+00292        
+00293   014F 1A01       GP3      ORCC  #CARRY     ;Non-hex
+00294   0151 39                  RTS
+00295        
+00296   0152 3406       ZERPAR   PSHS  A,B        ;Clear parameter area
+00297   0154 4F                  CLRA
+00298   0155 5F                  CLRB
+00299 W 0156 FDC9EA              STD   PSCR 
+00300 W 0159 FDC9EC              STD   PARM1 
+
+
+
+Microware OS-9 Assembler RS Version 01.00.00    02/06/87 05:57:38    Page 006
+VECTREX MONITOR VERSION 1.02 - by R. Albers & J. Lavin
+
+00301 W 015C FDC9EE              STD   PARM2 
+00302 W 015F FDC9F0              STD   PARM3 
+00303   0162 3586                PULS  A,B,PC 
+00304        
+00305        ***  ENTRY POINT FOR SWI  ***
+00306        
+00307   0164 CEC9F8     SWIENT   LDU   #YR 
+00308   0167 3536                PULS  D,X,Y      ;CC,A,B,DP,X
+00309   0169 3636                PSHU  D,X,Y      ;Save in user regs
+00310   016B 3536                PULS  D,X,Y      ;Y,U,PC
+00311 W 016D 10FFC9FA            STS   SR 
+00312 W 0171 BFC9FE              STX   UR 
+00313 W 0174 BFC9F8              STX   YR 
+00314   0177 1F20                TFR   Y,D        ;PC to D
+00315   0179 830001              SUBD  #1         ;Backup for .G command
+00316 W 017C FDC9FC              STD   PCR 
+00317   017F 1C7F                ANDCC #$FF-ENTIRE ;Clear [E] & fall thru
+00318        
+00319        ***  GET COMMAND ROUTINE  ***
+00320        
+00321 W 0181 BD0063     GETCOM   JSR   CRLF       ;Get a command
+00322 W 0184 BD006B              JSR   PROMPT     ;Print "V:"
+00323 W 0187 BD004F              JSR   INTCHR     ; from user
+00324   018A 810D                CMPA  #$0D       ;CR ?
+00325   018C 27F3                BEQ   GETCOM 
+00326   018E 8161                CMPA  #'a 
+00327   0190 2F02                BLE   GET1 
+00328   0192 8020                SUBA  #$20       ;Make uppercase
+00329   0194 1F89       GET1     TFR   A,B        ;Save [A]
+00330 W 0196 BD007D              JSR   SPACE 
+00331   0199 1F98                TFR   B,A 
+00332 W 019B B7C9E5              STA   LSTCOM     ;Save
+00333   019E 814D                CMPA  #'M        ;Memory exam?
+00334   01A0 2712                BEQ   MEMX 
+00335   01A2 8147                CMPA  #'G        ;Go?
+00336   01A4 2777                BEQ   GOX 
+00337   01A6 8152                CMPA  #'R        ;Register exam?
+00338   01A8 102700A2            LBEQ  RGX 
+00339   01AC 8156                CMPA  #'V        ;Verify?
+00340   01AE 10270106            LBEQ  VRX 
+00341   01B2 26CD                BNE   GETCOM     ;Invalid, ignore
+00342        
+00343        ***  EXECUTE BLOCKS START HERE  ***
+00344        
+00345        ***  MEMORY EXAMINE / MODIFY  ***
+00346        
+00347 W 01B4 BD00F9     MEMX     JSR   GETPAR     ;Get any parms
+00348   01B7 2508                BCS   MEMRET     ;Non-hex parm, exit
+00349 W 01B9 F6C9EB              LDB   PARMS 
+00350   01BC 270B                BEQ   MEMZP      ;No parms, use last addr
+00351   01BE 5A                  DECB
+00352   01BF 2702                BEQ   MEMP1      ;1 parm, new addr
+00353   01C1 20BE       MEMRET   BRA   GETCOM     ;Return
+00354        
+00355 W 01C3 BEC9EC     MEMP1    LDX   PARM1      ;Get new address
+00356 W 01C6 BFC9E6     MEMRS    STX   ADDR       ;Save address
+00357 W 01C9 BEC9E6     MEMZP    LDX   ADDR 
+00358 W 01CC BD0063     MEMLP    JSR   CRLF 
+00359   01CF 1F10                TFR   X,D        ;Print Address
+00360 W 01D1 BD00D7              JSR   OUTADR 
+
+
+
+Microware OS-9 Assembler RS Version 01.00.00    02/06/87 05:57:47    Page 007
+VECTREX MONITOR VERSION 1.02 - by R. Albers & J. Lavin
+
+00361 W 01D4 BD0077              JSR   COMMA 
+00362   01D7 A684                LDA   ,X         ;Get address contents
+00363 W 01D9 BD00DC              JSR   OUTBYT     ;Print it
+00364 W 01DC BD0077              JSR   COMMA 
+00365 W 01DF BD008D              JSR   INBYTE     ;Hex or M's command?
+00366   01E2 250B                BCS   MCOM       ;Branch if non-hex
+00367   01E4 A780       MEMST    STA   ,X+        ;Store new hex
+00368   01E6 A11F                CMPA  -1,X       ;Did it take?
+00369   01E8 27DC                BEQ   MEMRS      ;Yes, do next
+00370 W 01EA BD0073              JSR   OUTQM      ;No, show it
+00371   01ED 20D7                BRA   MEMRS 
+00372        
+00373   01EF 29DB       MCOM     BVS   MEMLP      ;2nd nibble non-hex
+00374   01F1 810D                CMPA  #$0D       ;Exit?
+00375   01F3 27CC                BEQ   MEMRET     ;Yes, else fall thru
+00376        
+00377   01F5 813C       MC0      CMPA  #'<        ;Back-up one?
+00378   01F7 2604                BNE   MC1 
+00379   01F9 301F                LEAX  -1,X 
+00380   01FB 20C9                BRA   MEMRS 
+00381   01FD 812D       MC1      CMPA  #'-        ;Back-up 16?
+00382   01FF 2604                BNE   MC2 
+00383   0201 3010                LEAX  -16,X 
+00384   0203 20C1                BRA   MEMRS 
+00385   0205 812B       MC2      CMPA  #'+        ;Forward 16?
+00386   0207 2605                BNE   MC3 
+00387   0209 308810              LEAX  16,X 
+00388   020C 20B8                BRA   MEMRS 
+00389   020E 8121       MC3      CMPA  #'!        ;"OR" char with $80?
+00390   0210 2607                BNE   MC4 
+00391 W 0212 BD004F              JSR   INTCHR     ;Get char
+00392   0215 8A80                ORA   #$80        ;Set bit 7
+00393   0217 20CB                BRA   MEMST      ; & store it
+00394   0219 3001       MC4      LEAX  1,X        ;Else, next address
+00395   021B 20A9                BRA   MEMRS 
+00396        
+00397        ***  GO TO SUBROUTINE  ***
+00398        
+00399 W 021D BD00F9     GOX      JSR   GETPAR     ;Get any parms
+00400   0220 250B                BCS   GORET      ;Non-hex, exit
+00401 W 0222 BD0063              JSR   CRLF 
+00402 W 0225 F6C9EB              LDB   PARMS      ;Only 0 or 1
+00403   0228 270C                BEQ   GOPZ       ;0 parms, use PC
+00404   022A 5A                  DECB
+00405   022B 2703                BEQ   GOP1       ;1 parm, use new addr
+00406 W 022D 7E0181     GORET    JMP   GETCOM 
+00407 W 0230 FCC9EC     GOP1     LDD   PARM1      ;Get addr
+00408 W 0233 FDC9FC              STD   PCR        ;New destination
+00409   0236 CC003D     GOPZ     LDD   #SAVER     ;Return addr
+00410 W 0239 10FEC9FA            LDS   SR         ;Initialize stack
+00411   023D 3406                PSHS  D          ;Put return addr on stack
+00412 W 023F BEC9FC              LDX   PCR        ;Use existing addr
+00413 W 0242 FCC9FE              LDD   UR         ;Save
+00414   0245 CEC9F2              LDU   #CCR       ;Point to reg save area
+00415   0248 3416                PSHS  D,X        ;Push PC,U
+00416   024A 373F                PULU  CC,D,DP,X,Y ;Get regs
+00417   024C 35C0                PULS  U,PC       ; and go
+00418        
+00419        ***  REGISTER EXAMINE / MODIFY  ***
+00420        
+
+
+
+Microware OS-9 Assembler RS Version 01.00.00    02/06/87 05:57:59    Page 008
+VECTREX MONITOR VERSION 1.02 - by R. Albers & J. Lavin
+
+00421   024E 108E02A6   RGX      LDY   #RGNAM 
+00422   0252 8EC9F2              LDX   #CCR 
+00423 W 0255 BD0063     NXTREG   JSR   CRLF 
+00424   0258 A6A0                LDA   ,Y+ 
+00425 W 025A BD007F              JSR   OUTCHR     ;1st char of name
+00426   025D A6A0                LDA   ,Y+ 
+00427 W 025F B7C9EA              STA   PSCR       ;Save sign
+00428   0262 847F                ANDA  #$7F       ;Clr for term
+00429 W 0264 BD007F              JSR   OUTCHR     ;2nd char of name
+00430 W 0267 BD007D              JSR   SPACE 
+00431   026A A680                LDA   ,X+ 
+00432 W 026C BD00DC              JSR   OUTBYT     ;1st byte of reg
+00433 W 026F 7DC9EA              TST   PSCR       ;8 or 16 bit
+00434   0272 2A05                BPL   SBRG       ;Branch if 8
+00435   0274 A680                LDA   ,X+ 
+00436 W 0276 BD00DC              JSR   OUTBYT     ;2nd byte of reg
+00437 W 0279 BD0077     SBRG     JSR   COMMA 
+00438 W 027C BD008D              JSR   INBYTE     ;Get 1st replacement
+00439   027F 251F                BCS   RGCHK      ;Branch if not hex
+00440 W 0281 7DC9EA              TST   PSCR       ;8 or 16 bit
+00441   0284 2B04                BMI   DBRG       ;Branch if 16
+00442   0286 A71F                STA   -1,X       ;Store in reg
+00443   0288 200F                BRA   XRCHK      ;Get next
+00444 W 028A B7C9EA     DBRG     STA   PSCR       ;Save hi-byte
+00445 W 028D BD008D              JSR   INBYTE     ;Get 2nd replacement
+00446   0290 250E                BCS   RGCHK      ;Branch if not hex
+00447   0292 1F89                TFR   A,B        ;Xfer to lo
+00448 W 0294 B6C9EA              LDA   PSCR       ;Get hi back
+00449   0297 ED1E                STD   -2,X       ;Store in reg
+00450   0299 8CCA00     XRCHK    CMPX  #UR+2      ;Reached end?
+00451   029C 24B0                BHS   RGX        ;Yes, reset
+00452   029E 25B5                BLO   NXTREG     ;No, get next
+00453        
+00454   02A0 1027FEDD   RGCHK    LBEQ  GETCOM     ;Return if CR
+00455   02A4 26F3                BNE   XRCHK      ;If anything else
+00456        
+00457   02A6 4343       RGNAM    FCC   'CC' 
+00458   02A8 2041                FCC   ' A' 
+00459   02AA 2042                FCC   ' B' 
+00460   02AC 4450                FCC   'DP' 
+00461   02AE 20D8                FCS   ' X'       ;+$80
+00462   02B0 20D9                FCS   ' Y'       ;+$80
+00463   02B2 20D3                FCS   ' S'       ;+$80
+00464   02B4 50C3                FCS   'PC'       ;+$80
+00465   02B6 20D5                FCS   ' U'       ;+$80
+00466        
+00467        ***  VERIFY MEMORY  ***
+00468        
+00469 W 02B8 7FC9E8     VRX      CLR   CKSM       ;Zero checksum
+00470 W 02BB 7FC9E9              CLR   CKSM+1 
+00471 W 02BE BD00F9              JSR   GETPAR     ;Get any parms
+00472   02C1 250D                BCS   VERET      ;Non-hex parm, exit
+00473 W 02C3 F6C9EB              LDB   PARMS 
+00474   02C6 2720                BEQ   VERZP      ;No parms, use last address
+00475   02C8 C101                CMPB  #1 
+00476   02CA 2716                BEQ   VERP1      ;1 parm, new address
+00477   02CC C102                CMPB  #2 
+00478   02CE 2703                BEQ   VERP2      ;2 parms: SA-EA
+00479   02D0 16FEAE     VERET    LBRA  GETCOM 
+00480        
+
+
+
+Microware OS-9 Assembler RS Version 01.00.00    02/06/87 05:58:11    Page 009
+VECTREX MONITOR VERSION 1.02 - by R. Albers & J. Lavin
+
+00481 W 02D3 BEC9EE     VERP2    LDX   PARM2      ;Get start address
+00482   02D6 3410                PSHS  X 
+00483 W 02D8 BEC9EC              LDX   PARM1      ;Get end address
+00484 W 02DB BFC9EE              STX   PARM2 
+00485   02DE 3510                PULS  X 
+00486   02E0 2003                BRA   VERRS 
+00487 W 02E2 BEC9EC     VERP1    LDX   PARM1      ;Get new address
+00488 W 02E5 BFC9E6     VERRS    STX   ADDR       ;Save address
+00489 W 02E8 BEC9E6     VERZP    LDX   ADDR 
+00490   02EB 1F10                TFR   X,D 
+00491   02ED C3000F              ADDD  #$000F 
+00492 W 02F0 FDC9F0              STD   PARM3      ;End of line
+00493 W 02F3 BD0063              JSR   CRLF 
+00494   02F6 1F10                TFR   X,D        ;Print address
+00495 W 02F8 BD00D7              JSR   OUTADR 
+00496 W 02FB BD007D     VERNXT   JSR   SPACE 
+00497   02FE A680                LDA   ,X+        ;Get address contents
+00498   0300 3402                PSHS  A          ;Save byte
+00499 W 0302 BD00DC              JSR   OUTBYT     ;Print it
+00500   0305 3502                PULS  A 
+00501   0307 1F89                TFR   A,B        ;Move to lo-nibble
+00502   0309 4F                  CLRA             ;Clear hi-nibble
+00503 W 030A F3C9E8              ADDD  CKSM       ;Add to existing
+00504 W 030D FDC9E8              STD   CKSM       ; and store
+00505 W 0310 B6C9EB              LDA   PARMS 
+00506   0313 8102                CMPA  #2         ;If 1 parm
+00507   0315 2605                BNE   VER1P      ; check line only
+00508 W 0317 BCC9EE              CMPX  PARM2      ;At end of block?
+00509   031A 2209                BHI   VCHKSM     ;Yes, print checksum
+00510 W 031C BCC9F0     VER1P    CMPX  PARM3      ;At end of line?
+00511   031F 23DA                BLS   VERNXT     ;No, do next byte
+00512   0321 8102                CMPA  #2         ;2 parms?
+00513   0323 27C0                BEQ   VERRS      ;Yes do next line
+00514        
+00515 W 0325 BD0063     VCHKSM   JSR   CRLF 
+00516 W 0328 BD007D              JSR   SPACE 
+00517 W 032B FCC9E8              LDD   CKSM 
+00518 W 032E BD00D7              JSR   OUTADR     ;Print 16 bit checksum
+00519   0331 209D                BRA   VERET 
+00520        
+00521        ***  INITIALIZATION  ***
+00522        
+00523   0333 861E       INIT     LDA   #$1E       ;Initialize ACIA
+00524 W 0335 B73801              STA   STAT       ;Reset
+00525 W 0338 B73803              STA   CONT       ;9600 baud
+00526   033B 868B                LDA   #$8B       ;8-N-1
+00527 W 033D B73802              STA   COMM 
+00528        
+00529   0340 8680                LDA   #$80 
+00530 W 0342 B7C9E4              STA   TECHO      ;Setup for echo
+00531        
+00532   0345 867E                LDA   #$7E       ;JMP
+00533 W 0347 B7CBFB              STA   VSWI 
+00534 W 034A B7CBF8              STA   VIRQ 
+00535   034D CC0164              LDD   #SWIENT    ;Setup SWI service
+00536 W 0350 FDCBFC              STD   VSWI+1 
+00537   0353 CC0370              LDD   #IRQSRV    ;Setup IRQ service
+00538 W 0356 FDCBF9              STD   VIRQ+1 
+00539        
+00540   0359 CC0366              LDD   #DSPTTL    ;Set pointer
+
+
+
+Microware OS-9 Assembler RS Version 01.00.00    02/06/87 05:58:20    Page 010
+VECTREX MONITOR VERSION 1.02 - by R. Albers & J. Lavin
+
+00541 W 035C FDC9E2              STD   SUBPTR 
+00542        
+00543   035F 86A0                LDA   #SETINT+T2TIMO 
+00544   0361 970E                STA   IER        ;Enable TIMER2 only
+00545   0363 1CEF                ANDCC #$FF-INTRPT ;Enable interrupts
+00546   0365 39                  RTS
+00547        
+00548 W 0366 BDF2A5     DSPTTL   JSR   INT3Q      ;3/4 intensity
+00549   0369 CE000D              LDU   #TITLE     ;Set pointer
+00550 W 036C BDF385              JSR   TXTSIZ     ;Display title
+00551   036F 39                  RTS
+00552        
+00553        *** IRQ SERVICE ROUTINE ***
+00554        
+00555 D 00D0                     SETDP $D0 
+00556        
+00557 W 0370 BDF1AA     IRQSRV   JSR   DPIO 
+00558   0373 8620                LDA   #T2TIMO    ;Check if interrupt
+00559   0375 950E                BITA  IER        ; came from TIMR2
+00560   0377 2714                BEQ   IRQRET     ;If not, exit
+00561 W 0379 BDF2E6              JSR   DEFLOK     ;Overcome scan collapse
+00562 W 037C BEC825              LDX   FRAME-1 
+00563   037F 301F                LEAX  -1,X 
+00564 W 0381 BFC825              STX   FRAME-1 
+00565 W 0384 FCC83D              LDD   FRMTIM 
+00566   0387 DD08                STD   T2LOLC 
+00567 W 0389 AD9FC9E2            JSR   [SUBPTR] 
+00568   038D 3B         IRQRET   RTI
+00569        
+00570   038D            VEND     EQU   *-1 
+00571                            END
+
+00000 error(s)
+$038E 00910 program bytes generated
+$0132 00306 data bytes allocated
+
+E=External, D=Data, L=Label
+
+3800 E ACIA     D00B E ACTR     C9E6 D ADDR     C9F3 D AR       00B5 L ASCNIB
+C9F4 D BR       0001 E CARRY    0000 E CART     C9F2 D CCR      C9E8 D CKSM
+D000 E CNTRL    3802 E COMM     0077 L COMMA    3803 E CONT     00CD L CONVA 
+00CF L CONVN    0063 L CRLF     0061 L CRLF2    D001 E DAC      3800 E DATA
+028A L DBRG     D002 E DCNTRL   D003 E DDAC     F2E6 E DEFLOK   0136 L DELIM 
+F1AA E DPIO     C9F5 D DPR      0366 L DSPTTL   0080 E ENTIRE   0049 L ENTRY 
+FEF8 E FFARE1   C826 E FRAME    CA00 D FREE     C83D E FRMTIM   F192 E FRWAIT
+0194 L GET1     0181 L GETCOM   00F9 L GETPAR   0230 L GOP1     0236 L GOPZ
+022D L GORET    021D L GOX      00FB L GP0      0123 L GP1      012A L GP2
+014F L GP3      CBEB D HISCOR   D00E E IER      D00D E IFR      0051 L ILOOK 
+00A4 L INB0     00AB L INB1     00B0 L INB2     008D L INBYTE   0333 L INIT
+F2A5 E INT3Q    004F L INTCHR   0010 E INTRPT   038D L IRQRET   0370 L IRQSRV
+C9E5 D LSTCOM   01F5 L MC0      01FD L MC1      0205 L MC2      020E L MC3
+0219 L MC4      01EF L MCOM     01CC L MEMLP    01C3 L MEMP1    01C1 L MEMRET
+01C6 L MEMRS    01E4 L MEMST    01B4 L MEMX     01C9 L MEMZP    00F8 L NIBA0 
+00F0 L NIBASC   00D4 L NOTHEX   0255 L NXTREG   0083 L OLOOK    00D7 L OUTADR
+00DC L OUTBYT   007F L OUTCHR   0073 L OUTQM    0002 E OVERFL   C9EC D PARM1 
+C9EE D PARM2    C9F0 D PARM3    C9EB D PARMS    C9FC D PCR      D00C E PCTR
+006B L PROMPT   C9EA D PSCR     27FF E RAMEND   2000 E RAMST    02A0 L RGCHK 
+02A6 L RGNAM    024E L RGX      F373 E RSTSIZ   003D L SAVER    0279 L SBRG
+0080 E SETINT   D00A E SHIFT    007D L SPACE    007B L SPC2     C9FA D SR
+CBEA D STACK    3801 E STAT     C9E2 D SUBPTR   0164 L SWIENT   D005 E T1HOC 
+
+
+
+Microware OS-9 Assembler RS Version 01.00.00    02/06/87 05:58:31    Page 011
+VECTREX MONITOR VERSION 1.02 - by R. Albers & J. Lavin
+
+D007 E T1HOL    D006 E T1LOL    D004 E T1LOLC   0040 E T1TIMO   D009 E T2HOC 
+D008 E T2LOLC   0020 E T2TIMO   C9E4 D TECHO    000D L TITLE    F385 E TXTSIZ
+C9FE D UR       0325 L VCHKSM   038D E VEND     031C L VER1P    02D0 L VERET 
+02FB L VERNXT   02E2 L VERP1    02D3 L VERP2    02E5 L VERRS    02E8 L VERZP 
+CBF5 D VFIRQ    D000 E VIA      CBF8 D VIRQ     02B8 L VRX      CBFB D VSWI
+CBF2 D VSWI2    C9F6 D XR       0299 L XRCHK    C9F8 D YR       0004 E ZERO
+0152 L ZERPAR

@@ -573,12 +573,12 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                     .addComponent(jButtonLoad)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
-                .addComponent(jTabbedPane1))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     
-    String lastImagePath = "";
+    String lastImagePath = ".";
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
 
 
@@ -668,7 +668,9 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         mainFrame.addPanel(p);
         mainFrame.setMainPanel(p);
         CSAInternalFrame frame = mainFrame.windowMe(p, 800, 600, VeccyPanel.SID);
-        
+        p.setVPanel(this);
+        setVeccy(p);
+
         p.setCurrentVectorList(singleVectorPanel1.getForegroundVectorList().clone());
         
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -768,11 +770,20 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     // End of variables declaration//GEN-END:variables
 
     VeccyPanel veccy=null;
+    public void setVeccy(VeccyPanel vp)
+    {
+        veccy = vp;
+    }
+    
     public static void showModPanelNoModal(VeccyPanel v)
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         VectorJPanel panel = new VectorJPanel();
-        panel.veccy = v;
+        if (v != null)
+        {
+            v.setVPanel(panel);
+            panel.veccy = v;
+        }
         
        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1080, 800, panel.getMenuItem().getText());

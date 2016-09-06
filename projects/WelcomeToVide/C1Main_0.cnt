@@ -1,0 +1,2436 @@
+BANK 0
+LABEL $C800 Vec_Snd_Shadow
+COMMENT_LABEL $C800 Shadow of sound chip registers (15 bytes)
+LABEL $C824 Vec_0Ref_Enable
+COMMENT_LABEL $C824 Check0Ref enable flag
+LABEL $C82A Vec_Text_HW
+COMMENT_LABEL $C82A Default text height and width
+LABEL $C82B Vec_Text_Width
+COMMENT_LABEL $C82B Default text width
+LABEL $C82E Vec_Counter_1
+COMMENT_LABEL $C82E First  counter byte
+LABEL $C82F Vec_Counter_2
+COMMENT_LABEL $C82F Second counter byte
+LABEL $C830 Vec_Counter_3
+COMMENT_LABEL $C830 Third  counter byte
+LABEL $D000 VIA_port_b
+COMMENT_LABEL $D000 VIA port B data I/O register
+LABEL $D001 VIA_port_a
+COMMENT_LABEL $D001 VIA port A data I/O register (handshaking)
+LABEL $D003 VIA_DDR_a
+COMMENT_LABEL $D003 VIA port A data direction register (0=input 1=output)
+LABEL $D004 VIA_t1_cnt_lo
+COMMENT_LABEL $D004 VIA timer 1 count register lo (scale factor)
+LABEL $D005 VIA_t1_cnt_hi
+COMMENT_LABEL $D005 VIA timer 1 count register hi
+LABEL $D00A VIA_shift_reg
+COMMENT_LABEL $D00A VIA shift register
+LABEL $D00B VIA_aux_cntl
+COMMENT_LABEL $D00B VIA auxiliary control register
+LABEL $D00C VIA_cntl
+COMMENT_LABEL $D00C VIA control register
+LABEL $D00D VIA_int_flags
+COMMENT_LABEL $D00D VIA interrupt flags register
+LABEL $F192 Wait_Recal
+LABEL $F1AA DP_to_D0
+LABEL $F1AF DP_to_C8
+LABEL $F1BA Read_Btns
+LABEL $F2A9 Intensity_7F
+LABEL $F2AB Intensity_a
+LABEL $F548 Clear_x_d
+LABEL $FD0D music1
+EQU $20 SCALE_MOVE
+EQU -$60 XPOS
+EQU $7F YPOS
+EQU $02 VOX_STARTED
+EQU $03 VOX_STARTING
+LABEL $C880 voxStart
+LABEL $C881 scrollRestart
+LABEL $C882 scrollRestart_last
+LABEL $C883 turtle_visible
+LABEL $C884 SCROLL_RAM_START
+LABEL $C898 music_ram
+LABEL $C898 ym_ram
+LABEL $35EF vox_init
+LABEL $F160 NORMAL_TEXT_SIZE
+COMMENT_LABEL $F160 big text that is
+LABEL $0080 SCALE_FACTOR_GAME
+LABEL $C889 scroll_y
+LABEL $C88B scroll_x_left
+LABEL $C88C scroll_x_right
+LABEL $C888 scroll_speed
+LABEL $C88E scroll_intensity
+LABEL $3660 scroll_text
+LABEL $3176 set_up_scrolling
+EQU $56 startYM
+LABEL $3121 SONG_DATA
+LABEL $0355 init_ym_sound
+EQU $5C main
+LABEL $0071 noVoxStart
+LABEL $361D speechData
+LABEL $C894 vox_addr
+LABEL $C8A0 ym_data_current
+LABEL $31AC do_one_scroll_step
+LABEL $0094 norestartscroll
+LABEL $038F do_ym_sound
+LABEL $0169 C1_data
+LABEL $00E9 draw_raster_image
+LABEL $00AF no_hush
+LABEL $00BA hushNow
+LABEL $0233 unshadow_sound
+COMMENT_LABEL $0233 only regs 0 - 10
+LABEL $3600 vox_speak
+LABEL $00C5 nostore1
+LABEL $00CD nostore2
+LABEL $00D5 nostore3
+EQU $01 ZERO_DELAY
+COMMENT_LABEL $01 delay 7 counter is exactly 111 cycles delay between zero SETTING and zero unsetting (in moveto_d)
+LABEL $00FE next_line
+LABEL $010E zeroLoop
+LABEL $0130 m2d
+LABEL $0151 oneShiftOutForward
+LABEL $0157 dummy1
+EQU $00 INFO_START
+EQU $00 BYTE_POS
+EQU $02 BIT_POS
+EQU $03 CBYTE
+EQU $04 CU_BYTE
+EQU $05 CRLE_COUNTER
+EQU $07 CRLE_MAPPER
+EQU $09 CIS_PHRASE
+EQU $0B CP_BYTE
+EQU $0C CP_START
+EQU $0E REG_USED
+EQU $0F INFO_END
+EQU $0F STRUCT_LEN
+LABEL $C899 temp
+LABEL $C89A temp2
+LABEL $C89B temp3
+LABEL $C89C calc_coder
+LABEL $C89D calc_bits
+LABEL $C89E ym_len
+LABEL $C8A2 ym_name
+LABEL $C8A4 ym_regs_used
+LABEL $C8A5 ym_regs_count
+LABEL $C8A6 ym_data_start
+LABEL $036E nreg_init
+LABEL $03D3 ymsodone
+LABEL $03A7 next_reg
+LABEL $03A7 get_cbyte
+LABEL $03D4 nv_byte
+LABEL $03C1 no_p
+LABEL $03C6 cnotmone
+LABEL $03E4 bready_1
+LABEL $044D ns_byte
+LABEL $03EE dechifer
+LABEL $03F4 tn_bit
+LABEL $040A bready
+LABEL $0413 no_add
+LABEL $0415 sagain
+LABEL $0444 no_p_d
+LABEL $043D pfound
+LABEL $0436 nphrase
+LABEL $0452 mbits
+LABEL $0465 bready_2
+LABEL $0482 bready_3
+LABEL $048A ehere_3
+LABEL $048C go_on_2
+LABEL $049C bready_4
+LABEL $04A4 ehere_4
+LABEL $04A5 snotydone
+LABEL $04AB no_carry
+LABEL $04C5 _start
+LABEL $04C7 _reg_0
+LABEL $063E _pd_0
+LABEL $0725 _reg_0_data
+LABEL $0C89 _reg_1
+LABEL $0CC2 _pd_1
+LABEL $0D26 _reg_1_data
+LABEL $1035 _reg_2
+LABEL $12AB _pd_2
+LABEL $1361 _reg_2_data
+LABEL $1C80 _reg_3
+LABEL $1C9E _pd_3
+LABEL $1CB5 _reg_3_data
+LABEL $1DD7 _reg_4
+LABEL $1F1B _pd_4
+LABEL $2086 _reg_4_data
+LABEL $2460 _reg_5
+LABEL $2490 _pd_5
+LABEL $24BB _reg_5_data
+LABEL $28AB _reg_6
+LABEL $28C9 _pd_6
+LABEL $28E1 _reg_6_data
+LABEL $2A14 _reg_7
+LABEL $2A29 _pd_7
+LABEL $2A4F _reg_7_data
+LABEL $2C29 _reg_8
+LABEL $2C4A _pd_8
+LABEL $2C5E _reg_8_data
+LABEL $2CCD _reg_9
+LABEL $2CF4 _pd_9
+LABEL $2D1C _reg_9_data
+LABEL $2EA9 _reg_10
+LABEL $2EDF _pd_10
+LABEL $2F1F _reg_10_data
+LABEL $3121 _data
+EQU $00 USE_RELATIVE_POSITIONING
+EQU $0C SCROLL_SCALE_FACTOR
+EQU $0D NUMBER_OF_SCROLL_LETTERS
+LABEL $C884 scroll_text_address_start
+LABEL $C886 scroll_text_address_current
+LABEL $C88A scroll_x
+LABEL $C88D scroll_step_width
+LABEL $C88F counter
+LABEL $C890 tmp1
+LABEL $C892 divide_tmp
+LABEL $C891 mov_x
+LABEL $31A3 divide_by_zero23
+LABEL $319D divide_next23
+LABEL $3192 divide_next123
+LABEL $31A5 divide_end23
+LABEL $31E3 getNextChar_start
+LABEL $31E3 scroll_text_not_over_yet
+LABEL $31EF getNextChar
+LABEL $3200 no_text_end
+LABEL $3209 no_scroll_space
+LABEL $3584 ABC_28
+LABEL $322C load_x_with_letter_address_done
+LABEL $3212 no_scroll_fullstop
+LABEL $3528 ABC_26
+LABEL $3221 no_scroll_0
+LABEL $3535 ABC_27
+LABEL $32A9 _abc
+LABEL $3258 LF33D_27
+LABEL $3263 next_VListByte
+LABEL $3278 draw_one_line
+LABEL $3298 done_Draw
+LABEL $328F LF3F4
+EQU $0C BLOWUP
+COMMENT_LABEL $0C max = 126
+LABEL $32E3 ABC_0
+LABEL $32FC ABC_1
+LABEL $3312 ABC_2
+LABEL $332E ABC_3
+LABEL $3344 ABC_4
+LABEL $335D ABC_5
+LABEL $3370 ABC_6
+LABEL $3392 ABC_7
+LABEL $33A5 ABC_8
+LABEL $33B8 ABC_9
+LABEL $33CE ABC_10
+LABEL $33E1 ABC_11
+LABEL $33EE ABC_12
+LABEL $3401 ABC_13
+LABEL $340E ABC_14
+LABEL $342D ABC_15
+LABEL $3443 ABC_16
+LABEL $3468 ABC_17
+LABEL $3484 ABC_18
+LABEL $34AC ABC_19
+LABEL $34BC ABC_20
+LABEL $34D2 ABC_21
+LABEL $34E2 ABC_22
+LABEL $34F8 ABC_23
+LABEL $3505 ABC_24
+LABEL $3518 ABC_25
+LABEL $9C00 SER_BITTIME
+COMMENT_LABEL $9C00 $009c = 156 cycles = 9615 baud
+LABEL $3585 ser_txbyte
+LABEL $35E0 ser_txbit
+LABEL $35B2 sertx_loop
+LABEL $35C0 ser_tx1
+LABEL $35C6 sertx_next
+LABEL $35E2 sertxbit_loop
+LABEL $00EF VOX_DATAMASK
+COMMENT_LABEL $00EF bit mask for data line
+EQU $20 VOX_STATUSMASK
+COMMENT_LABEL $20 bit mask for status line
+LABEL $00FF VOX_TERM
+COMMENT_LABEL $00FF speech string terminator
+LABEL $361B vox_silence
+LABEL $361A vox_exit
+LABEL $0080 IY
+COMMENT_LABEL $0080 See, Even, Feed
+LABEL $0081 IH
+COMMENT_LABEL $0081 Sit, Fix, Pin
+LABEL $0082 EY
+COMMENT_LABEL $0082 Hair, Gate, Beige
+LABEL $0083 EH
+COMMENT_LABEL $0083 Met, Check, Red
+LABEL $0085 AX
+COMMENT_LABEL $0085 Cotten
+LABEL $0086 UX
+COMMENT_LABEL $0086 Luck, Up, Uncle
+LABEL $0088 AW
+COMMENT_LABEL $0088 Father, Fall
+LABEL $008C MM
+COMMENT_LABEL $008C Milk, Famous,
+LABEL $008E NO
+COMMENT_LABEL $008E No, Snow, On
+LABEL $0091 LE
+COMMENT_LABEL $0091 Lake, Alarm, Lapel
+LABEL $0093 WW
+COMMENT_LABEL $0093 Wool, Sweat
+LABEL $0094 RR
+COMMENT_LABEL $0094 Ray, Brain, Over
+LABEL $009D OHIH
+COMMENT_LABEL $009D Sky, Five, I
+LABEL $009F EHLL
+COMMENT_LABEL $009F Saddle, Angle, Spell
+LABEL $00A2 IHWW
+COMMENT_LABEL $00A2 Two, New, Zoo
+LABEL $00A6 VV
+COMMENT_LABEL $00A6 Vest, Even,
+LABEL $00A9 DH
+COMMENT_LABEL $00A9 There, That, This
+LABEL $00AE DE
+COMMENT_LABEL $00AE Deep, Date, Divide
+LABEL $00B3 GO
+COMMENT_LABEL $00B3 Got, Glue, Goo
+LABEL $00BB SE
+COMMENT_LABEL $00BB See, Vest, Plus
+LABEL $00BF TT
+COMMENT_LABEL $00BF Part, Little, Sit
+LABEL $00C2 KE
+COMMENT_LABEL $00C2 Can't, Clown, Key
+LABEL $00C3 KO
+COMMENT_LABEL $00C3 Comb, Quick, Fox
+LABEL $00C7 PO
+COMMENT_LABEL $00C7 Paw, Copy
+LABEL $00FC M0
+COMMENT_LABEL $00FC Sonar Ping
+LABEL $00FD M1
+COMMENT_LABEL $00FD Pistol Shot (actually, sounds more like a snare drum)
+LABEL $00FE M2
+COMMENT_LABEL $00FE WOW [*]
+EQU $02 PAUSE2
+COMMENT_LABEL $02 Pause 2 (200ms, don't wait for silence)
+EQU $05 PAUSE5
+COMMENT_LABEL $05 Pause 5 (60ms, wait for silence)
+LABEL $00FF EOP
+COMMENT_LABEL $00FF End of Phrase
+EQU $08 SLOW
+COMMENT_LABEL $08 Play Next Sound Slow
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 DEFINE SECTION
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 load vectrex bios routine definitions
+COMMENT $0000 vectrex function includes
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 this file contains includes for vectrex BIOS functions and variables      ;
+COMMENT_LINE $0000 it was written by Bruce Tomlin, slighte changed by Malban                 ;
+COMMENT_LINE $0000 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $0000 $C839   ;Pointer to copyright string during startup
+COMMENT_LINE $0000 $C83B   ;High score cold-start flag (=0 if valid)
+COMMENT_LINE $0000 $C83C   ;temp byte
+COMMENT_LINE $0000 $C843   ;        register 9
+COMMENT_LINE $0000 $C844   ;        register 8
+COMMENT_LINE $0000 $C848   ;        register 4
+COMMENT_LINE $0000 $C849   ;        register 3
+COMMENT_LINE $0000 $C84A   ;        register 2
+COMMENT_LINE $0000 $C84C   ;        register 0
+COMMENT_LINE $0000 $C85E   ;Scratch 'score' storage for Display_Option (7 bytes)
+COMMENT_LINE $0000 $C868...$C876   ;Unused?
+COMMENT_LINE $0000 $C878   ;Unused?
+COMMENT_LINE $0000 $C880 - $CBEA is user RAM  ;
+COMMENT_LINE $0000 0 sample/hold (0=enable  mux 1=disable mux)
+COMMENT_LINE $0000 1 mux sel 0
+COMMENT_LINE $0000 2 mux sel 1
+COMMENT_LINE $0000 3 sound BC1
+COMMENT_LINE $0000 4 sound BDIR
+COMMENT_LINE $0000 5 comparator input
+COMMENT_LINE $0000 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $0000 7 /RAMP
+COMMENT_LINE $0000 0 PA latch enable
+COMMENT_LINE $0000 1 PB latch enable
+COMMENT_LINE $0000 2 \                     110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $0000 3  > shift register control     (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $0000 4 /
+COMMENT_LINE $0000 5 0=t2 one shot                 1=t2 free running
+COMMENT_LINE $0000 6 0=t1 one shot                 1=t1 free running
+COMMENT_LINE $0000 7 0=t1 disable PB7 output       1=t1 enable PB7 output
+COMMENT_LINE $0000 0 CA1 control     CA1 -> SW7    0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 1 \
+COMMENT_LINE $0000 2  > CA2 control  CA2 -> /ZERO  110=low 111=high
+COMMENT_LINE $0000 3 /
+COMMENT_LINE $0000 4 CB1 control     CB1 -> NC     0=IRQ on low 1=IRQ on high
+COMMENT_LINE $0000 5 \
+COMMENT_LINE $0000 6  > CB2 control  CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $0000 7 /
+COMMENT_LINE $0000 bit                             cleared by
+COMMENT_LINE $0000 0 CA2 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 1 CA1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $0000 3 CB2 interrupt flag            reading or writing port B I/O
+COMMENT_LINE $0000 4 CB1 interrupt flag            reading or writing port A I/O
+COMMENT_LINE $0000 5 timer 2 interrupt flag        read t2 low or write t2 high
+COMMENT_LINE $0000 6 timer 1 interrupt flag        read t1 count low or write t1 high
+COMMENT_LINE $0000 7 IRQ status flag               write logic 0 to IER or IFR bit
+COMMENT_LINE $0000 0 CA2 interrupt enable
+COMMENT_LINE $0000 1 CA1 interrupt enable
+COMMENT_LINE $0000 2 shift register interrupt enable
+COMMENT_LINE $0000 3 CB2 interrupt enable
+COMMENT_LINE $0000 4 CB1 interrupt enable
+COMMENT_LINE $0000 5 timer 2 interrupt enable
+COMMENT_LINE $0000 6 timer 1 interrupt enable
+COMMENT_LINE $0000 7 IER set/clear control
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 Variable / RAM SECTION
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 insert your variables (RAM usage) in the BSS section
+COMMENT_LINE $0000 user RAM starts at $c880
+COMMENT $0000 start of our ram space
+COMMENT_LINE $C880 ***************************************************************************
+COMMENT_LINE $C880 HEADER SECTION
+COMMENT_LINE $C880 ***************************************************************************
+COMMENT_LINE $C880 The cartridge ROM starts at address 0
+COMMENT_LINE $0000 the first few bytes are mandatory, otherwise the BIOS will not load
+COMMENT_LINE $0000 the ROM file, and will start MineStorm instead
+COMMENT $0000 'g' is copyright sign
+COMMENT $000B music from the rom
+COMMENT $000D hight, width, rel y, rel x (from 0,0)
+COMMENT $0011 some game information, ending with $80
+COMMENT $0020 end of game header
+COMMENT_LINE $0021 ***************************************************************************
+COMMENT_LINE $0021 CODE SECTION
+COMMENT_LINE $0021 ***************************************************************************
+COMMENT_LINE $0021 here the cartridge program starts off
+COMMENT $0021 VecVox: initialize variables
+COMMENT $0027 direct $C8
+COMMENT $0027 load default text height & width
+COMMENT $002A poke it to ram location
+COMMENT $002C y position of scroller
+COMMENT $002E store it
+COMMENT $0031 left boundary
+COMMENT $0033 store it
+COMMENT $0036 right boundary
+COMMENT $0038 store it
+COMMENT $003B scroll speed (going from right to left)
+COMMENT $003D store it
+COMMENT $0040 and intensity of scroll text
+COMMENT $0042 store it
+COMMENT $006E start speaking demo_string4
+COMMENT $0074 loop default
+COMMENT $0076 Vectrex BIOS recalibration
+COMMENT $0079 Sets the intensity of the
+COMMENT_LINE $009A vector beam to $5f
+COMMENT $009D Text position relative Y
+COMMENT $009F Text position relative X
+COMMENT $00A4 Vectrex BIOS print routine
+COMMENT $00B2 read joystick buttons
+COMMENT $00B5 VecVox: output speech data
+COMMENT_LINE $00E9 ***************************************************************************
+COMMENT_LINE $00E9 DATA SECTION
+COMMENT_LINE $00E9 ***************************************************************************
+COMMENT_LINE $00E9 ; this hand optmized raster routine for this image is about 14000 cycles faster than the "normal" templated one!
+COMMENT_LINE $00E9 expects width strength to be = to the default bios location Vec_Text_Width
+COMMENT_LINE $00E9 expects height strength to be = to the default bios location Vec_Text_Height
+COMMENT_LINE $00E9 address of raster data is expected in U
+COMMENT_LINE $00E9 print is done to current screen location
+COMMENT_LINE $00E9 uses bios ram-locations  Vec_Counter_1,  Vec_Counter_2,  Vec_Counter_3
+COMMENT_LINE $00E9 as temporary storages
+COMMENT_LINE $00E9 zero delay is needed for zeroing to work correctly
+COMMENT_LINE $00E9 depends on the distance of the current integrator position to actual zero point
+COMMENT_LINE $00E9 experiment with my vectri:
+COMMENT_LINE $00E9 ZERO ing the integrators takes time. Measures at my vectrex show e.g.:
+COMMENT_LINE $00E9 If you move the beam with a to x = -127 and y = -127 at diffferent scale values, the time to reach zero:
+COMMENT_LINE $00E9 - scale $ff -> zero 110 cycles
+COMMENT_LINE $00E9 - scale $7f -> zero 75 cycles
+COMMENT_LINE $00E9 - scale $40 -> zero 57 cycles
+COMMENT_LINE $00E9 - scale $20 -> zero 53 cycles
+COMMENT_LINE $00E9 put move position on stack put it so, that we can load "d" directly from stack
+COMMENT $00F1 load line counter
+COMMENT $00F3 height counter
+COMMENT $00F6 load line width
+COMMENT $00F8 width counter
+COMMENT $00FB width counter (work)
+COMMENT_LINE $00FE setup VIA raster routine
+COMMENT_LINE $00FE setup rampin with auxControl
+COMMENT $00FE reload line width
+COMMENT_LINE $0104 zero
+COMMENT $0104 zero the integrators
+COMMENT $0106 store zeroing values to cntl
+COMMENT $0108 and wait for zeroing to be actually done
+COMMENT_LINE $010A reset integrators
+COMMENT $010A reset integrator offset
+COMMENT_LINE $010E wait that zeroing surely has the desired effect!
+COMMENT $010E while waiting, zero offsets
+COMMENT_LINE $0117 ;;;;; move to d as direct code start
+COMMENT $0117 Store Y in D/A register
+COMMENT $0119 Blank low, zero high?
+COMMENT $011E Enable mux
+COMMENT $0120 Clear shift regigster
+COMMENT $0122 Disable mux
+COMMENT $0124 Store X in D/A register
+COMMENT $0126 enable timer
+COMMENT $0128 optimized correct adder for next scan line
+COMMENT $012A done befor wait loop of move to d
+COMMENT_LINE $0134 ;;;;; move to d as direct code end
+COMMENT_LINE $0134 ensure y int does nothing
+COMMENT $0134 mux disabled, mux sel = y int
+COMMENT $0136 to via b
+COMMENT $0138 ensure dac is 0
+COMMENT $013A enable mux
+COMMENT $013C delay
+COMMENT $013D disable mux
+COMMENT $013F a = $18,
+COMMENT $0141 $18: T1 OneSHotMode WITHOUT Ramp control, Shift out under System clock
+COMMENT $0143 get width
+COMMENT $0146 Send it to the D/A
+COMMENT $0148 a = $01
+COMMENT $014A Enable RAMP, disable mux
+COMMENT_LINE $014C output is ongoing! (RAMP is enabled)
+COMMENT $014C [5]
+COMMENT $014F [2] wait
+COMMENT $0150 [2] wait
+COMMENT $0151 [6] get bitmap (shiftreg-data) from raster table
+COMMENT $0153 [4] This loop needs to have exactly 18 cycles (8*2+2)
+COMMENT_LINE $0155 one complete shiftreg output takes 16 cycles (8*2) + 2 cycles since VIA needs some rest
+COMMENT $0155 [3]
+COMMENT $0157 [2]
+COMMENT $0158 [3] go back if not done for line
+COMMENT $015A [2] delay 2 to finish last shiftout
+COMMENT $015B [4] b is 0 now, switch of shift
+COMMENT_LINE $015D don't bother about ramp and dac, in the next round all will be resetted
+COMMENT $015D EXIT routine
+COMMENT $015F T1->PB7 enabled
+COMMENT $0161 check for last row
+COMMENT $0164 branch if not last row
+COMMENT $0166 all done, correct stack
+COMMENT $016B forward
+COMMENT $016F forward
+COMMENT $0173 forward
+COMMENT $0177 forward
+COMMENT $017B forward
+COMMENT $017F forward
+COMMENT $0183 forward
+COMMENT $0187 forward
+COMMENT $018B forward
+COMMENT $018F forward
+COMMENT $0193 forward
+COMMENT $0197 forward
+COMMENT $019B forward
+COMMENT $019F forward
+COMMENT $01A3 forward
+COMMENT $01A7 forward
+COMMENT $01AB forward
+COMMENT $01AF forward
+COMMENT $01B3 forward
+COMMENT $01B7 forward
+COMMENT $01BB forward
+COMMENT $01BF forward
+COMMENT $01C3 forward
+COMMENT $01C7 forward
+COMMENT $01CB forward
+COMMENT $01CF forward
+COMMENT $01D3 forward
+COMMENT $01D7 forward
+COMMENT $01DB forward
+COMMENT $01DF forward
+COMMENT $01E3 forward
+COMMENT $01E7 forward
+COMMENT $01EB forward
+COMMENT $01EF forward
+COMMENT $01F3 forward
+COMMENT $01F7 forward
+COMMENT $01FB forward
+COMMENT $01FF forward
+COMMENT $0203 forward
+COMMENT $0207 forward
+COMMENT $020B forward
+COMMENT $020F forward
+COMMENT $0213 forward
+COMMENT $0217 forward
+COMMENT $021B forward
+COMMENT $021F forward
+COMMENT $0223 forward
+COMMENT $0227 forward
+COMMENT $022B forward
+COMMENT $022F forward
+COMMENT $0233 vectrex function includes
+COMMENT_LINE $0233 uses 166 byte RAM!
+COMMENT_LINE $C898 ds   780
+COMMENT_LINE $0233 ***************************************************************************
+COMMENT $0000 a = reg, b = data
+COMMENT $0000 store register select byte
+COMMENT $0000 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $0000 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $0000 read sound chip status (?)
+COMMENT $0000 store data byte
+COMMENT $0000 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $0000 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT_LINE $0000 expects u to point to shadow area
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $023A store register select byte
+COMMENT $023C sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $0240 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $0244 read sound chip status (?)
+COMMENT $0246 store data byte
+COMMENT $0248 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $024C sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $0254 store register select byte
+COMMENT $0256 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $025A sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $025E read sound chip status (?)
+COMMENT $0260 store data byte
+COMMENT $0262 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $0266 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $026E store register select byte
+COMMENT $0270 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $0274 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $0278 read sound chip status (?)
+COMMENT $027A store data byte
+COMMENT $027C sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $0280 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $0288 store register select byte
+COMMENT $028A sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $028E sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $0292 read sound chip status (?)
+COMMENT $0294 store data byte
+COMMENT $0296 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $029A sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $02A2 store register select byte
+COMMENT $02A4 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $02A8 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $02AC read sound chip status (?)
+COMMENT $02AE store data byte
+COMMENT $02B0 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $02B4 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $02BC store register select byte
+COMMENT $02BE sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $02C2 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $02C6 read sound chip status (?)
+COMMENT $02C8 store data byte
+COMMENT $02CA sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $02CE sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $02D6 store register select byte
+COMMENT $02D8 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $02DC sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $02E0 read sound chip status (?)
+COMMENT $02E2 store data byte
+COMMENT $02E4 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $02E8 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $02F0 store register select byte
+COMMENT $02F2 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $02F6 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $02FA read sound chip status (?)
+COMMENT $02FC store data byte
+COMMENT $02FE sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $0302 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $030A store register select byte
+COMMENT $030C sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $0310 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $0314 read sound chip status (?)
+COMMENT $0316 store data byte
+COMMENT $0318 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $031C sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $0324 store register select byte
+COMMENT $0326 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $032A sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $032E read sound chip status (?)
+COMMENT $0330 store data byte
+COMMENT $0332 sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $0336 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $033E store register select byte
+COMMENT $0340 sound BDIR on, BC1 on, mux off _ LATCH
+COMMENT $0344 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT $0348 read sound chip status (?)
+COMMENT $034A store data byte
+COMMENT $034C sound BDIR on, BC1 off, mux off - WRITE
+COMMENT $0350 sound BDIR off, BC1 off, mux off - INACTIVE
+COMMENT_LINE $0355 ***************************************************************************
+COMMENT_LINE $0355 ***************************************************************************
+COMMENT $0355 load start address of ram buffer for YM play
+COMMENT $0358 load length of buffer
+COMMENT $035B clear buffer
+COMMENT $035E count of registers that are used by the player - reset
+COMMENT $0361 first load start of all data to y
+COMMENT $0364 load vbl_len to d
+COMMENT $0366 and store it to len reset
+COMMENT $0369 and store it to current data pointer
+COMMENT $036C load number of next register to work on
+COMMENT $036E count the registers we actually use
+COMMENT $0371 and store the register of the current data
+COMMENT $0373 load location of translation map to y
+COMMENT $0376 and store it
+COMMENT $0379 load location of phrases
+COMMENT $037C and store it
+COMMENT $037F load location of RLE data
+COMMENT $0382 and store it
+COMMENT $0385 add structure length to x
+COMMENT $0387 load number of next register to work on
+COMMENT $0389 if negative than we are done
+COMMENT_LINE $038F ***************************************************************************
+COMMENT_LINE $038F No shadowing
+COMMENT $038F load current VBL Counter
+COMMENT $0392 if 0, than we are done
+COMMENT $0394 otherwise remember we are doing one byte now
+COMMENT $0397 and store it
+COMMENT $039A get the number of regs we are working on
+COMMENT $039D and remember them as current counter
+COMMENT $03A0 load RAM start address of our wokring structur
+COMMENT_LINE $03A7 U pointer to data structure
+COMMENT_LINE $03A7 A number of register
+COMMENT_LINE $03A7 do we have a byte that is valid?
+COMMENT_LINE $03AB yep... use current byte
+COMMENT $03AF length of phrase
+COMMENT $03B3 this is the current byte
+COMMENT_LINE $03C8 in b the current value for register
+COMMENT_LINE $03C8 A PSG reg
+COMMENT $03C8 load current register
+COMMENT $03CA to sound shadow register
+COMMENT_LINE $03CC or direct
+COMMENT_LINE $03CC WRITE_PSG_REG
+COMMENT $03CC go to next "register" of sound data
+COMMENT $03CE but only if we are not done yet, if counter is zero
+COMMENT $03D1 we do not branch :-)
+COMMENT_LINE $03D3 if not written directly...
+COMMENT_LINE $03D3 - done in main  jsr unshadow_sound
+COMMENT_LINE $03D4 ***************************************************************************
+COMMENT_LINE $03D4 no we must look at the bits
+COMMENT_LINE $03D4 a will be our bit register
+COMMENT_LINE $03D4 ;;;;;;;;;;;;;;;;;; GET_BIT START
+COMMENT_LINE $03D8 load a new byte
+COMMENT_LINE $03E4 bit position correct here
+COMMENT_LINE $03E4 remember we use one bit now!
+COMMENT_LINE $03E6 is the bit at the current position set?
+COMMENT_LINE $03E8 ;;;;;;;;;;;;;;;;;; GET_BIT END
+COMMENT_LINE $03E8 zero flag show bit
+COMMENT_LINE $03E8 A is 1 or zero
+COMMENT_LINE $03EC must be zero
+COMMENT_LINE $03EC 1 is allways only 8 bit...
+COMMENT $03F7 increase used bits
+COMMENT_LINE $03FA ;;;;;;;;;;; GET_BIT_START
+COMMENT_LINE $03FE load a new byte
+COMMENT_LINE $040A bit position correct here
+COMMENT_LINE $040A remember we use one bit now!
+COMMENT_LINE $040C is the bit at the current position set?
+COMMENT $040E and if non zero
+COMMENT_LINE $0413 ;;;;;;;;;;; GET_BIT_END
+COMMENT_LINE $0413 we load one complete = of mapper index, bits, coder, map-value
+COMMENT $0417 load bits from map
+COMMENT $0419 map out phrases
+COMMENT $041B neu
+COMMENT $041E neu
+COMMENT $0422 load coder-byte
+COMMENT $0429 load current mapped byte!
+COMMENT_LINE $042B in b is the byte value we sought
+COMMENT_LINE $042B test for phrase
+COMMENT $042B load bits from map
+COMMENT $042D map in phrases only
+COMMENT_LINE $0431 if phrase, than in b the count of the phrase used
+COMMENT_LINE $044D non single byte here... must decode
+COMMENT_LINE $044D first we look for how many bits the RLE counter spreads
+COMMENT_LINE $044D we already encountered a 1
+COMMENT_LINE $044D and we allways use + 2
+COMMENT_LINE $0455 ;;;;;;;;;;;;;;;;;; GET_BIT START
+COMMENT_LINE $0459 load a new byte
+COMMENT_LINE $0465 bit position correct here
+COMMENT_LINE $0465 remember we use one bit now!
+COMMENT_LINE $0467 is the bit at the current position set?
+COMMENT_LINE $0469 ;;;;;;;;;;;;;;;;;; GET_BIT END
+COMMENT_LINE $046B in temp is the # of bits for the counter
+COMMENT_LINE $046B the following '#temp' bits represent the RLE count
+COMMENT_LINE $046B lsb first
+COMMENT $046B we start at 1, since zero is an
+COMMENT_LINE $046C 'own' 'subroutine',
+COMMENT_LINE $046C which doesn't manipulate the temps
+COMMENT $046C bit counter for shifting
+COMMENT $046F bit counter for shifting
+COMMENT_LINE $0472 ;;;;;;;;;;;;;;;;;; GET_BIT START
+COMMENT_LINE $0476 load a new byte
+COMMENT_LINE $0482 bit position correct here
+COMMENT_LINE $0482 remember we use one bit now!
+COMMENT_LINE $0484 is the bit at the current position set?
+COMMENT_LINE $0488 return 1
+COMMENT_LINE $048A ;;;;;;;;;;;;;;;;;; GET_BIT END
+COMMENT_LINE $048A in D now one bit at the right position for the RLE counter
+COMMENT_LINE $048C the first 3 (here only the first one) rounds
+COMMENT_LINE $048C we need not check for temp, since it is at least 3...
+COMMENT_LINE $048C ;;;;;;;;;;;;;;;;;; GET_BIT START
+COMMENT_LINE $0490 load a new byte
+COMMENT_LINE $049C bit position correct here
+COMMENT_LINE $049C remember we use one bit now!
+COMMENT_LINE $049E is the bit at the current position set?
+COMMENT_LINE $04A2 return 1
+COMMENT $04A5 LSR A
+COMMENT $04A6 LSR B
+COMMENT $04A7 if no carry, than exit
+COMMENT $04A9 otherwise underflow from A to 7bit of B
+COMMENT_LINE $04B0 in D now one bit at the right position for the RLE counter
+COMMENT_LINE $04C2 now the current counter should be set
+COMMENT_LINE $04C2 we still need to dechifer the following byte...
+COMMENT $04C5 vbl_len
+COMMENT_LINE $04C7 translation data
+COMMENT_LINE $04C7 DB $7D; bytes follow
+COMMENT_LINE $04C7 bits used, code, real 'byte'
+COMMENT $04C7 711
+COMMENT $04CA 384
+COMMENT $04CD 395
+COMMENT $04D0 504
+COMMENT $04D3 648
+COMMENT $04D6 756
+COMMENT $04D9 1341
+COMMENT $04DC 155
+COMMENT $04DF 162
+COMMENT $04E2 264
+COMMENT $04E5 264
+COMMENT $04E8 285
+COMMENT $04EB 306
+COMMENT $04EE 324
+COMMENT $04F1 360
+COMMENT $04F4 72
+COMMENT $04F7 75
+COMMENT $04FA 81
+COMMENT $04FD 108
+COMMENT $0500 116
+COMMENT $0503 120
+COMMENT $0506 48
+COMMENT $0509 48
+COMMENT $050C 54
+COMMENT $050F 84
+COMMENT $0512 108
+COMMENT $0515 136
+COMMENT $0518 143
+COMMENT $051B 16
+COMMENT $051E 24
+COMMENT $0521 25
+COMMENT $0524 26
+COMMENT $0527 27
+COMMENT $052A 28
+COMMENT $052D 34
+COMMENT $0530 36
+COMMENT $0533 44
+COMMENT $0536 68
+COMMENT $0539 69
+COMMENT $053C 11
+COMMENT $053F 11
+COMMENT $0542 12
+COMMENT $0545 12
+COMMENT $0548 15
+COMMENT $054B 16
+COMMENT $054E 16
+COMMENT $0551 17
+COMMENT $0554 17
+COMMENT $0557 18
+COMMENT $055A 18
+COMMENT $055D 23
+COMMENT $0560 24
+COMMENT $0563 5
+COMMENT $0566 6
+COMMENT $0569 6
+COMMENT $056C 6
+COMMENT $056F 6
+COMMENT $0572 6
+COMMENT $0575 6
+COMMENT $0578 8
+COMMENT $057B 8
+COMMENT $057E 8
+COMMENT $0581 8
+COMMENT $0584 8
+COMMENT $0587 9
+COMMENT $058A 9
+COMMENT $058D 10
+COMMENT $0590 12
+COMMENT $0593 12
+COMMENT $0596 2
+COMMENT $0599 2
+COMMENT $059C 3
+COMMENT $059F 3
+COMMENT $05A2 3
+COMMENT $05A5 3
+COMMENT $05A8 4
+COMMENT $05AB 4
+COMMENT $05AE 4
+COMMENT $05B1 4
+COMMENT $05B4 4
+COMMENT $05B7 4
+COMMENT $05BA 4
+COMMENT $05BD 4
+COMMENT $05C0 4
+COMMENT $05C3 4
+COMMENT $05C6 5
+COMMENT $05C9 5
+COMMENT $05CC 7
+COMMENT $05CF 8
+COMMENT $05D2 1
+COMMENT $05D5 1
+COMMENT $05D8 1
+COMMENT $05DB 1
+COMMENT $05DE 2
+COMMENT $05E1 2
+COMMENT $05E4 2
+COMMENT $05E7 2
+COMMENT $05EA 2
+COMMENT $05ED 2
+COMMENT $05F0 2
+COMMENT $05F3 2
+COMMENT $05F6 2
+COMMENT $05F9 2
+COMMENT $05FC 2
+COMMENT $05FF 2
+COMMENT $0602 2
+COMMENT $0605 2
+COMMENT $0608 3
+COMMENT $060B 3
+COMMENT $060E 1
+COMMENT $0611 1
+COMMENT $0614 1
+COMMENT $0617 1
+COMMENT $061A 1
+COMMENT $061D 1
+COMMENT $0620 1
+COMMENT $0623 1
+COMMENT $0626 1
+COMMENT $0629 1
+COMMENT $062C 1
+COMMENT $062F 1
+COMMENT $0632 1
+COMMENT $0635 1
+COMMENT $0638 1
+COMMENT $063B 1
+COMMENT_LINE $063E phrases follow
+COMMENT $063E 1341
+COMMENT $0648 756
+COMMENT $0652 711
+COMMENT $065C 648
+COMMENT $0666 504
+COMMENT $0670 384
+COMMENT $0679 395
+COMMENT $067F 324
+COMMENT $0689 306
+COMMENT $0693 360
+COMMENT $0697 285
+COMMENT $069B 155
+COMMENT $06A1 120
+COMMENT $06A7 264
+COMMENT $06B4 264
+COMMENT $06C1 162
+COMMENT $06CB 136
+COMMENT $06D4 108
+COMMENT $06DE 108
+COMMENT $06E8 75
+COMMENT $06F8 72
+COMMENT $0702 54
+COMMENT $070C 84
+COMMENT $0710 81
+COMMENT $0714 24
+COMMENT $0721 48
+COMMENT_LINE $0725 data follows
+COMMENT_LINE $0C89 flushed
+COMMENT_LINE $0C89 translation data
+COMMENT_LINE $0C89 DB $13; bytes follow
+COMMENT_LINE $0C89 bits used, code, real 'byte'
+COMMENT $0C89 1104
+COMMENT $0C8C 668
+COMMENT $0C8F 1232
+COMMENT $0C92 2025
+COMMENT $0C95 310
+COMMENT $0C98 864
+COMMENT $0C9B 1077
+COMMENT $0C9E 118
+COMMENT $0CA1 196
+COMMENT $0CA4 300
+COMMENT $0CA7 320
+COMMENT $0CAA 480
+COMMENT $0CAD 72
+COMMENT $0CB0 23
+COMMENT $0CB3 15
+COMMENT $0CB6 4
+COMMENT $0CB9 2
+COMMENT $0CBC 1
+COMMENT $0CBF 1
+COMMENT_LINE $0CC2 phrases follow
+COMMENT $0CC2 2025
+COMMENT $0CCC 1077
+COMMENT $0CD0 1232
+COMMENT $0CD9 864
+COMMENT $0CE3 480
+COMMENT $0CEC 320
+COMMENT $0CF7 196
+COMMENT $0D06 310
+COMMENT $0D11 300
+COMMENT $0D1C 72
+COMMENT_LINE $0D26 data follows
+COMMENT $1032 flushed
+COMMENT_LINE $1035 translation data
+COMMENT_LINE $1035 DB $D2; bytes follow
+COMMENT_LINE $1035 bits used, code, real 'byte'
+COMMENT $1035 540
+COMMENT $1038 808
+COMMENT $103B 169
+COMMENT $103E 174
+COMMENT $1041 180
+COMMENT $1044 192
+COMMENT $1047 192
+COMMENT $104A 198
+COMMENT $104D 256
+COMMENT $1050 272
+COMMENT $1053 288
+COMMENT $1056 320
+COMMENT $1059 87
+COMMENT $105C 95
+COMMENT $105F 96
+COMMENT $1062 109
+COMMENT $1065 126
+COMMENT $1068 126
+COMMENT $106B 129
+COMMENT $106E 132
+COMMENT $1071 132
+COMMENT $1074 144
+COMMENT $1077 144
+COMMENT $107A 162
+COMMENT $107D 162
+COMMENT $1080 168
+COMMENT $1083 189
+COMMENT $1086 192
+COMMENT $1089 252
+COMMENT $108C 252
+COMMENT $108F 38
+COMMENT $1092 43
+COMMENT $1095 51
+COMMENT $1098 66
+COMMENT $109B 68
+COMMENT $109E 69
+COMMENT $10A1 76
+COMMENT $10A4 78
+COMMENT $10A7 83
+COMMENT $10AA 87
+COMMENT $10AD 108
+COMMENT $10B0 108
+COMMENT $10B3 128
+COMMENT $10B6 128
+COMMENT $10B9 18
+COMMENT $10BC 19
+COMMENT $10BF 22
+COMMENT $10C2 25
+COMMENT $10C5 27
+COMMENT $10C8 27
+COMMENT $10CB 28
+COMMENT $10CE 28
+COMMENT $10D1 34
+COMMENT $10D4 35
+COMMENT $10D7 35
+COMMENT $10DA 36
+COMMENT $10DD 39
+COMMENT $10E0 41
+COMMENT $10E3 44
+COMMENT $10E6 45
+COMMENT $10E9 8
+COMMENT $10EC 10
+COMMENT $10EF 12
+COMMENT $10F2 13
+COMMENT $10F5 13
+COMMENT $10F8 13
+COMMENT $10FB 13
+COMMENT $10FE 14
+COMMENT $1101 14
+COMMENT $1104 14
+COMMENT $1107 15
+COMMENT $110A 15
+COMMENT $110D 16
+COMMENT $1110 16
+COMMENT $1113 16
+COMMENT $1116 16
+COMMENT $1119 19
+COMMENT $111C 19
+COMMENT $111F 20
+COMMENT $1122 21
+COMMENT $1125 23
+COMMENT $1128 24
+COMMENT $112B 26
+COMMENT $112E 26
+COMMENT $1131 5
+COMMENT $1134 5
+COMMENT $1137 5
+COMMENT $113A 6
+COMMENT $113D 6
+COMMENT $1140 6
+COMMENT $1143 6
+COMMENT $1146 6
+COMMENT $1149 6
+COMMENT $114C 6
+COMMENT $114F 7
+COMMENT $1152 7
+COMMENT $1155 7
+COMMENT $1158 7
+COMMENT $115B 8
+COMMENT $115E 8
+COMMENT $1161 8
+COMMENT $1164 8
+COMMENT $1167 8
+COMMENT $116A 8
+COMMENT $116D 8
+COMMENT $1170 9
+COMMENT $1173 9
+COMMENT $1176 10
+COMMENT $1179 10
+COMMENT $117C 10
+COMMENT $117F 10
+COMMENT $1182 11
+COMMENT $1185 12
+COMMENT $1188 12
+COMMENT $118B 14
+COMMENT $118E 14
+COMMENT $1191 17
+COMMENT $1194 18
+COMMENT $1197 3
+COMMENT $119A 3
+COMMENT $119D 3
+COMMENT $11A0 3
+COMMENT $11A3 3
+COMMENT $11A6 3
+COMMENT $11A9 3
+COMMENT $11AC 3
+COMMENT $11AF 3
+COMMENT $11B2 3
+COMMENT $11B5 3
+COMMENT $11B8 3
+COMMENT $11BB 3
+COMMENT $11BE 4
+COMMENT $11C1 4
+COMMENT $11C4 4
+COMMENT $11C7 4
+COMMENT $11CA 4
+COMMENT $11CD 4
+COMMENT $11D0 4
+COMMENT $11D3 4
+COMMENT $11D6 4
+COMMENT $11D9 4
+COMMENT $11DC 4
+COMMENT $11DF 4
+COMMENT $11E2 5
+COMMENT $11E5 5
+COMMENT $11E8 5
+COMMENT $11EB 5
+COMMENT $11EE 5
+COMMENT $11F1 5
+COMMENT $11F4 6
+COMMENT $11F7 6
+COMMENT $11FA 6
+COMMENT $11FD 6
+COMMENT $1200 7
+COMMENT $1203 7
+COMMENT $1206 8
+COMMENT $1209 8
+COMMENT $120C 1
+COMMENT $120F 2
+COMMENT $1212 2
+COMMENT $1215 2
+COMMENT $1218 2
+COMMENT $121B 2
+COMMENT $121E 2
+COMMENT $1221 2
+COMMENT $1224 2
+COMMENT $1227 2
+COMMENT $122A 2
+COMMENT $122D 2
+COMMENT $1230 2
+COMMENT $1233 2
+COMMENT $1236 2
+COMMENT $1239 2
+COMMENT $123C 2
+COMMENT $123F 2
+COMMENT $1242 2
+COMMENT $1245 3
+COMMENT $1248 3
+COMMENT $124B 3
+COMMENT $124E 3
+COMMENT $1251 3
+COMMENT $1254 3
+COMMENT $1257 3
+COMMENT $125A 3
+COMMENT $125D 3
+COMMENT $1260 3
+COMMENT $1263 3
+COMMENT $1266 3
+COMMENT $1269 1
+COMMENT $126C 1
+COMMENT $126F 1
+COMMENT $1272 1
+COMMENT $1275 1
+COMMENT $1278 1
+COMMENT $127B 1
+COMMENT $127E 1
+COMMENT $1281 1
+COMMENT $1284 1
+COMMENT $1287 1
+COMMENT $128A 1
+COMMENT $128D 1
+COMMENT $1290 1
+COMMENT $1293 1
+COMMENT $1296 1
+COMMENT $1299 1
+COMMENT $129C 1
+COMMENT $129F 1
+COMMENT $12A2 1
+COMMENT $12A5 1
+COMMENT $12A8 1
+COMMENT_LINE $12AB phrases follow
+COMMENT $12AB 808
+COMMENT $12B4 540
+COMMENT $12BE 320
+COMMENT $12C7 288
+COMMENT $12D0 272
+COMMENT $12D9 256
+COMMENT $12E2 252
+COMMENT $12EC 252
+COMMENT $12F0 192
+COMMENT $12F9 192
+COMMENT $1302 192
+COMMENT $130B 198
+COMMENT $130F 180
+COMMENT $1313 162
+COMMENT $1317 162
+COMMENT $131B 144
+COMMENT $131F 126
+COMMENT $1323 69
+COMMENT $1327 108
+COMMENT $1331 108
+COMMENT $133B 144
+COMMENT $1344 128
+COMMENT $134D 128
+COMMENT $1356 95
+COMMENT $135C 68
+COMMENT_LINE $1361 data follows
+COMMENT $1C7B flushed
+COMMENT_LINE $1C80 translation data
+COMMENT_LINE $1C80 DB $0A; bytes follow
+COMMENT_LINE $1C80 bits used, code, real 'byte'
+COMMENT $1C80 5384
+COMMENT $1C83 808
+COMMENT $1C86 1320
+COMMENT $1C89 218
+COMMENT $1C8C 612
+COMMENT $1C8F 54
+COMMENT $1C92 141
+COMMENT $1C95 170
+COMMENT $1C98 30
+COMMENT $1C9B 5
+COMMENT_LINE $1C9E phrases follow
+COMMENT $1C9E 808
+COMMENT $1CA7 612
+COMMENT $1CB1 141
+COMMENT_LINE $1CB5 data follows
+COMMENT_LINE $1DD7 flushed
+COMMENT_LINE $1DD7 translation data
+COMMENT_LINE $1DD7 DB $6C; bytes follow
+COMMENT_LINE $1DD7 bits used, code, real 'byte'
+COMMENT $1DD7 378
+COMMENT $1DDA 1092
+COMMENT $1DDD 1800
+COMMENT $1DE0 495
+COMMENT $1DE3 832
+COMMENT $1DE6 138
+COMMENT $1DE9 192
+COMMENT $1DEC 247
+COMMENT $1DEF 273
+COMMENT $1DF2 352
+COMMENT $1DF5 364
+COMMENT $1DF8 64
+COMMENT $1DFB 84
+COMMENT $1DFE 98
+COMMENT $1E01 140
+COMMENT $1E04 160
+COMMENT $1E07 224
+COMMENT $1E0A 234
+COMMENT $1E0D 30
+COMMENT $1E10 49
+COMMENT $1E13 50
+COMMENT $1E16 52
+COMMENT $1E19 66
+COMMENT $1E1C 69
+COMMENT $1E1F 70
+COMMENT $1E22 78
+COMMENT $1E25 81
+COMMENT $1E28 84
+COMMENT $1E2B 90
+COMMENT $1E2E 91
+COMMENT $1E31 110
+COMMENT $1E34 132
+COMMENT $1E37 14
+COMMENT $1E3A 19
+COMMENT $1E3D 23
+COMMENT $1E40 32
+COMMENT $1E43 33
+COMMENT $1E46 35
+COMMENT $1E49 36
+COMMENT $1E4C 39
+COMMENT $1E4F 42
+COMMENT $1E52 55
+COMMENT $1E55 60
+COMMENT $1E58 10
+COMMENT $1E5B 10
+COMMENT $1E5E 14
+COMMENT $1E61 14
+COMMENT $1E64 17
+COMMENT $1E67 18
+COMMENT $1E6A 18
+COMMENT $1E6D 19
+COMMENT $1E70 19
+COMMENT $1E73 22
+COMMENT $1E76 24
+COMMENT $1E79 29
+COMMENT $1E7C 4
+COMMENT $1E7F 5
+COMMENT $1E82 6
+COMMENT $1E85 6
+COMMENT $1E88 6
+COMMENT $1E8B 7
+COMMENT $1E8E 8
+COMMENT $1E91 8
+COMMENT $1E94 9
+COMMENT $1E97 9
+COMMENT $1E9A 10
+COMMENT $1E9D 10
+COMMENT $1EA0 10
+COMMENT $1EA3 12
+COMMENT $1EA6 12
+COMMENT $1EA9 3
+COMMENT $1EAC 3
+COMMENT $1EAF 3
+COMMENT $1EB2 3
+COMMENT $1EB5 4
+COMMENT $1EB8 4
+COMMENT $1EBB 4
+COMMENT $1EBE 4
+COMMENT $1EC1 4
+COMMENT $1EC4 4
+COMMENT $1EC7 4
+COMMENT $1ECA 5
+COMMENT $1ECD 5
+COMMENT $1ED0 5
+COMMENT $1ED3 6
+COMMENT $1ED6 6
+COMMENT $1ED9 6
+COMMENT $1EDC 1
+COMMENT $1EDF 1
+COMMENT $1EE2 2
+COMMENT $1EE5 2
+COMMENT $1EE8 2
+COMMENT $1EEB 2
+COMMENT $1EEE 2
+COMMENT $1EF1 2
+COMMENT $1EF4 2
+COMMENT $1EF7 2
+COMMENT $1EFA 2
+COMMENT $1EFD 2
+COMMENT $1F00 2
+COMMENT $1F03 3
+COMMENT $1F06 3
+COMMENT $1F09 1
+COMMENT $1F0C 1
+COMMENT $1F0F 1
+COMMENT $1F12 1
+COMMENT $1F15 1
+COMMENT $1F18 1
+COMMENT_LINE $1F1B phrases follow
+COMMENT $1F1B 1800
+COMMENT $1F2B 1092
+COMMENT $1F39 832
+COMMENT $1F42 495
+COMMENT $1F52 352
+COMMENT $1F5B 378
+COMMENT $1F6A 364
+COMMENT $1F79 224
+COMMENT $1F82 273
+COMMENT $1F90 247
+COMMENT $1F9E 234
+COMMENT $1FAC 192
+COMMENT $1FB5 160
+COMMENT $1FBE 132
+COMMENT $1FCB 110
+COMMENT $1FD6 64
+COMMENT $1FDF 90
+COMMENT $1FEF 98
+COMMENT $1FFE 91
+COMMENT $200C 84
+COMMENT $201B 84
+COMMENT $202A 50
+COMMENT $2035 70
+COMMENT $2044 39
+COMMENT $2052 32
+COMMENT $205B 42
+COMMENT $2062 140
+COMMENT $2068 81
+COMMENT $206C 55
+COMMENT $2072 60
+COMMENT $2077 78
+COMMENT $207B 33
+COMMENT $207F 12
+COMMENT_LINE $2086 data follows
+COMMENT $245A flushed
+COMMENT_LINE $2460 translation data
+COMMENT_LINE $2460 DB $10; bytes follow
+COMMENT_LINE $2460 bits used, code, real 'byte'
+COMMENT $2460 969
+COMMENT $2463 1047
+COMMENT $2466 1066
+COMMENT $2469 1344
+COMMENT $246C 1800
+COMMENT $246F 245
+COMMENT $2472 462
+COMMENT $2475 503
+COMMENT $2478 149
+COMMENT $247B 204
+COMMENT $247E 294
+COMMENT $2481 324
+COMMENT $2484 93
+COMMENT $2487 104
+COMMENT $248A 114
+COMMENT $248D 42
+COMMENT_LINE $2490 phrases follow
+COMMENT $2490 1800
+COMMENT $24A0 1066
+COMMENT $24AE 324
+COMMENT $24B1 204
+COMMENT $24B8 104
+COMMENT_LINE $24BB data follows
+COMMENT $28A3 flushed
+COMMENT_LINE $28AB translation data
+COMMENT_LINE $28AB DB $0A; bytes follow
+COMMENT_LINE $28AB bits used, code, real 'byte'
+COMMENT $28AB 6051
+COMMENT $28AE 1428
+COMMENT $28B1 1190
+COMMENT $28B4 10
+COMMENT $28B7 35
+COMMENT $28BA 8
+COMMENT $28BD 8
+COMMENT $28C0 4
+COMMENT $28C3 4
+COMMENT $28C6 6
+COMMENT_LINE $28C9 phrases follow
+COMMENT $28C9 1190
+COMMENT $28D4 1428
+COMMENT_LINE $28E1 data follows
+COMMENT $2A0D flushed
+COMMENT_LINE $2A14 translation data
+COMMENT_LINE $2A14 DB $07; bytes follow
+COMMENT_LINE $2A14 bits used, code, real 'byte'
+COMMENT $2A14 5086
+COMMENT $2A17 540
+COMMENT $2A1A 1440
+COMMENT $2A1D 1638
+COMMENT $2A20 35
+COMMENT $2A23 9
+COMMENT $2A26 9
+COMMENT_LINE $2A29 phrases follow
+COMMENT $2A29 1440
+COMMENT $2A36 1638
+COMMENT $2A45 540
+COMMENT_LINE $2A4F data follows
+COMMENT $2C25 flushed
+COMMENT_LINE $2C29 translation data
+COMMENT_LINE $2C29 DB $0B; bytes follow
+COMMENT_LINE $2C29 bits used, code, real 'byte'
+COMMENT $2C29 6912
+COMMENT $2C2C 441
+COMMENT $2C2F 628
+COMMENT $2C32 161
+COMMENT $2C35 342
+COMMENT $2C38 64
+COMMENT $2C3B 83
+COMMENT $2C3E 86
+COMMENT $2C41 7
+COMMENT $2C44 8
+COMMENT $2C47 8
+COMMENT_LINE $2C4A phrases follow
+COMMENT $2C4A 6912
+COMMENT $2C54 342
+COMMENT_LINE $2C5E data follows
+COMMENT $2CCC flushed
+COMMENT_LINE $2CCD translation data
+COMMENT_LINE $2CCD DB $0D; bytes follow
+COMMENT_LINE $2CCD bits used, code, real 'byte'
+COMMENT $2CCD 1241
+COMMENT $2CD0 612
+COMMENT $2CD3 1141
+COMMENT $2CD6 1512
+COMMENT $2CD9 2541
+COMMENT $2CDC 431
+COMMENT $2CDF 531
+COMMENT $2CE2 207
+COMMENT $2CE5 229
+COMMENT $2CE8 270
+COMMENT $2CEB 5
+COMMENT $2CEE 18
+COMMENT $2CF1 20
+COMMENT_LINE $2CF4 phrases follow
+COMMENT $2CF4 1512
+COMMENT $2CFE 612
+COMMENT $2D08 531
+COMMENT $2D12 270
+COMMENT_LINE $2D1C data follows
+COMMENT $2EA2 flushed
+COMMENT_LINE $2EA9 translation data
+COMMENT_LINE $2EA9 DB $12; bytes follow
+COMMENT_LINE $2EA9 bits used, code, real 'byte'
+COMMENT $2EA9 1680
+COMMENT $2EAC 3094
+COMMENT $2EAF 628
+COMMENT $2EB2 812
+COMMENT $2EB5 480
+COMMENT $2EB8 840
+COMMENT $2EBB 1144
+COMMENT $2EBE 25
+COMMENT $2EC1 39
+COMMENT $2EC4 7
+COMMENT $2EC7 8
+COMMENT $2ECA 9
+COMMENT $2ECD 9
+COMMENT $2ED0 1
+COMMENT $2ED3 1
+COMMENT $2ED6 2
+COMMENT $2ED9 1
+COMMENT $2EDC 1
+COMMENT_LINE $2EDF phrases follow
+COMMENT $2EDF 3094
+COMMENT $2EED 1680
+COMMENT $2EFC 480
+COMMENT $2F01 840
+COMMENT $2F10 812
+COMMENT_LINE $2F1F data follows
+COMMENT $311D flushed
+COMMENT $3176 vectrex function includes
+COMMENT_LINE $3176 ***************************************************************************
+COMMENT $0000 pretty for optimizing to use a makro :-)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 pretty for optimizing to use a makro :-)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 divides D by tmp1, result in B
+COMMENT_LINE $0000 uses divide_tmp as storage
+COMMENT_LINE $0000 only 8 bit in tmp1, but must be manually poked to tmp1 + 1
+COMMENT_LINE $0000 sign is correctly handled
+COMMENT_LINE $0000 can probably be optimized like hell
+COMMENT_LINE $0000 perhaps only nearing the result
+COMMENT_LINE $0000 using 2 shifts and a plus
+COMMENT_LINE $0000 might be worth a try,
+COMMENT_LINE $0000 see vectrex emulator for algorithm...
+COMMENT_LINE $0000 could be implemented with a tabel, which in turn
+COMMENT_LINE $0000 could be caclulated on the fly... (upon startup)
+COMMENT_LINE $0000 this makro divides exact, but slow
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 /BLANK low and /ZERO low
+COMMENT $0000 a = $18, b = $83 disable RAMP, muxsel=false, channel 1 (integrators offsets)
+COMMENT $0000 Clear D/A output
+COMMENT $0000 set mux to channel 1, leave mux disabled
+COMMENT $0000 enable mux, reset integrator offset values
+COMMENT $0000 /BLANK low and /ZERO low
+COMMENT $0000 Disable mux
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 /BLANK low and /ZERO low
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 move to time 1 lo, this means scaling
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 scale for placing first point
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 the local directive doesn't work here ???
+COMMENT_LINE $0000 I think because it is a makro using makro...
+COMMENT $0000 Decrement line count
+COMMENT $0000 Go back for more points
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 defines 'LF3F4' as a local variable
+COMMENT $0000 Send Y to A/D
+COMMENT $0000 Enable mux
+COMMENT_LINE $0000 the followin two instructions might be optimized
+COMMENT_LINE $0000 but there is something about 18 cycles :-)
+COMMENT $0000 Point to next coordinate pair
+COMMENT $0000 Wait a moment
+COMMENT $0000 Disable mux
+COMMENT $0000 Send X to A/D
+COMMENT $0000 Shift reg=$FF (solid line), T1H=0
+COMMENT $0000 Put pattern in shift register
+COMMENT $0000 Set T1H (scale factor?)
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Wait for T1 to time out
+COMMENT $0000 Wait a moment more
+COMMENT $0000 Clear shift register (blank output)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT $0000 defines 'LF3F4' as a local variable
+COMMENT $0000 Send Y to A/D
+COMMENT $0000 Enable mux
+COMMENT_LINE $0000 the followin two instructions might be optimized
+COMMENT_LINE $0000 but there is something about 18 cycles :-)
+COMMENT $0000 Wait a moment
+COMMENT $0000 Disable mux
+COMMENT $0000 Send X to A/D
+COMMENT $0000 Shift reg=$FF (solid line), T1H=0
+COMMENT $0000 Put pattern in shift register
+COMMENT $0000 Set T1H (scale factor?)
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Wait for T1 to time out
+COMMENT $0000 Wait a moment more
+COMMENT $0000 Clear shift register (blank output)
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 the following makro ...
+COMMENT_LINE $0000 they search for a better (faster) scale/DAC relation and use
+COMMENT_LINE $0000 the scaling thus found, it should be somewhat faster that way...
+COMMENT_LINE $0000 per round we save approxematly: ? cycles
+COMMENT_LINE $0000 both destroy X and D
+COMMENT_LINE $0000 SCALE factor is changed
+COMMENT_LINE $0000 forget it !!!
+COMMENT_LINE $0000 ***************************************************************************
+COMMENT_LINE $0000 optimzed, tweaked not perfect... 'MOVE TO D' makro
+COMMENT_LINE $0000 NOT DONE:
+COMMENT_LINE $0000 what should be done:
+COMMENT_LINE $0000 s = $ff / max(abs(a),abs(b))
+COMMENT_LINE $0000 a = a * s
+COMMENT_LINE $0000 b = b * s
+COMMENT_LINE $0000 scaling = scaling / s
+COMMENT_LINE $0000 that would give the most efficient positioning
+COMMENT_LINE $0000 bother it takes more time to calculate the above,
+COMMENT_LINE $0000 than it saves
+COMMENT_LINE $0000 with every positioning via this routine now,
+COMMENT_LINE $0000 it takes SCALE_FACTOR_GAME + const (of another 100+) cycles
+COMMENT_LINE $0000 to do one simple positioning!!!
+COMMENT_LINE $0000 that is probably about 300 cycles per positioning
+COMMENT_LINE $0000 this is done about 30-40 times per round
+COMMENT_LINE $0000 alone the positioning takes thus about over 10000 cycles
+COMMENT_LINE $0000 and we haven't drawn a single line yet!!!
+COMMENT $0000 Store Y in D/A register
+COMMENT $0000 Blank low, zero high?
+COMMENT $0000 Enable mux
+COMMENT $0000 Clear shift regigster
+COMMENT $0000 Disable mux
+COMMENT $0000 Store X in D/A register
+COMMENT $0000 enable timer
+COMMENT $0000 Don't reset the zero reference yet
+COMMENT $0000 Get the next mode byte
+COMMENT_LINE $0000 ;;;;
+COMMENT_LINE $0000 ;                    MY_MOVE_TO_D
+COMMENT $0000 Store Y in D/A register
+COMMENT $0000 Enable mux
+COMMENT $0000 Clear shift regigster
+COMMENT $0000 Disable mux
+COMMENT $0000 Store X in D/A register
+COMMENT $0000 enable timer
+COMMENT_LINE $0000 LDB      #$40                         ;
+COMMENT_LINE $0000 LF33D_2:
+COMMENT_LINE $0000 BITB     <VIA_int_flags               ;
+COMMENT_LINE $0000 BEQ      LF33D_2                        ;
+COMMENT_LINE $0000 ;;;
+COMMENT_LINE $0000 NOP 3
+COMMENT_LINE $0000 with small scale factor we do not really need to wait at all
+COMMENT_LINE $0000 DRAW_LINE_D_no_x
+COMMENT_LINE $0000 ;;
+COMMENT $0000 Send Y to A/D
+COMMENT $0000 Enable mux
+COMMENT $0000 Disable mux
+COMMENT $0000 Store X in D/A register
+COMMENT $0000 Shift reg=$FF (solid line), T1H=0
+COMMENT $0000 Put pattern in shift register
+COMMENT $0000 Set T1H (scale factor?)
+COMMENT $0000 B-reg = T1 interrupt bit
+COMMENT $0000 Wait for T1 to time out
+COMMENT $0000 Clear shift register (blank output)
+COMMENT_LINE $0000 ;;;;
+COMMENT_LINE $0000 if above is 1, than positioning of letters is relative to first letter
+COMMENT_LINE $0000 if != 1 than each letter is poisitioned individually
+COMMENT_LINE $0000 a "RESET" to ZERO and of the offsets
+COMMENT_LINE $0000 is done befor drawing of each letter
+COMMENT_LINE $0000 this is a bit slower, but perhaps results in a more
+COMMENT_LINE $0000 stable display!
+COMMENT_LINE $0000 Scroller of text (normal vectrex text format)
+COMMENT_LINE $0000 using vector chartable
+COMMENT_LINE $0000 the chars 0,0
+COMMENT_LINE $0000 (start is allways = end!)
+COMMENT_LINE $0000 all letters are drawn in "SCROLL_SCALE_FACTOR"
+COMMENT_LINE $0000 positioning is done in "SCALE_FACTOR_GAME"
+COMMENT_LINE $0000 two routines,
+COMMENT_LINE $0000 a) set_up_scrolling() need parameter = to RAM addresses (see function head)
+COMMENT_LINE $0000 expectes dp = $c8
+COMMENT_LINE $0000 b) do_one_scroll_step() no parameters
+COMMENT_LINE $0000 expectes dp = $d0
+COMMENT_LINE $0000 macros for MOV and DRAW_MODE
+COMMENT_LINE $0000 can be replaced with BIOS to save more space (althogh slower)
+COMMENT_LINE $0000 setup uses MACRO DIV
+COMMENT_LINE $0000 RAM start must be = to SCROLL_RAM_START
+COMMENT $C94B start of our ram space
+COMMENT $C884 this is fix for one scroll, the start of the original text
+COMMENT $C886 this is the current scroller start position in text
+COMMENT $C888 speed of scroll, should be negative
+COMMENT $C889 current y pos of scroll (allways the same) (SCALE_FACTOR_GAME)
+COMMENT $C88A current x pos of first (top left) char in the scrolling display (SCALE_FACTOR_GAME)
+COMMENT $C88B left position, lower than this and a char is "discarded"
+COMMENT $C88C new chars start (more or less) here
+COMMENT $C88D calculated, this is the offset between two chars in the scroller (SCALE_FACTOR_GAME)
+COMMENT $C88E only set once upon every "scroll"
+COMMENT $C88F counte, used to count the currently drawn chars, initiates with NUMBER_OF_SCROLL_LETTERS and is brought to zero
+COMMENT $C890 used as a storage for yx position, and during setup in MUL
+COMMENT $C892 used in setup for DIV
+COMMENT_LINE $3176 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $3176 scroll subroutines used in the startup screen                             ;
+COMMENT_LINE $3176 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $3176 ***************************************************************************
+COMMENT_LINE $3176 below are all subroutines for scroll text
+COMMENT_LINE $3176 scrolling from right to left!
+COMMENT_LINE $3176 (only two) set_up_scrolling(), do_one_scroll_step()
+COMMENT_LINE $3176 scroll text ends with $80
+COMMENT_LINE $3176 this restarts scrolling...
+COMMENT_LINE $3176 ***************************************************************************
+COMMENT_LINE $3176 expects text address in X register
+COMMENT_LINE $3176 scroll_y:                  the y coordinate (signed byte value)
+COMMENT_LINE $3176 scroll_x_left              (signed byte value)
+COMMENT_LINE $3176 scroll_x_right             (signed byte value)
+COMMENT_LINE $3176 scroll_speed               (signed byte value) must be negative
+COMMENT_LINE $3176 scroll_intensity           (byte value)
+COMMENT_LINE $3176 NUMBER_OF_SCROLL_LETTERS
+COMMENT_LINE $3176 uses tmp1, tmp2
+COMMENT $3176 remember address of first letter
+COMMENT $3178 and store it as current address
+COMMENT $317A how many letters are at most to be displayed at once?
+COMMENT $317D remember that value in tmp1 (16 bit)
+COMMENT $317F load right boundary
+COMMENT $3181 subtract left boundary
+COMMENT $3183 SEX it, this is the 16 bit width 'in pixel'
+COMMENT $3184 divide it by the number of letters to be displayed
+COMMENT $31A5 remember that as the scroll step...
+COMMENT $31A7 and screen address where last letter will appear
+COMMENT $31A9 here our first char will be displayed
+COMMENT $31AB bye bye...
+COMMENT_LINE $31AC ***************************************************************************
+COMMENT_LINE $31AC does one scroll step of text initialized with the above function
+COMMENT_LINE $31AC does also all printing...
+COMMENT_LINE $31AC expects dp = to d0
+COMMENT_LINE $31AC sets intensity and trashs beam position (as well as everything else...)
+COMMENT_LINE $31AC destroys tmp1
+COMMENT $31AC load intensity
+COMMENT $31B2 at least one reset int the begining!
+COMMENT $31B2 setup counter of chars to be displayed
+COMMENT $31B7 get address of current letter
+COMMENT $31BB load x coordinate
+COMMENT $31BE add to scroll speed (x coordinate that is)
+COMMENT $31C1 is on left side out of bounds?
+COMMENT $31C4 if not go on... REALLY get the char
+COMMENT $31C6 other wise correct x position
+COMMENT $31C9 the start of X now should point to the NEXT char, whoch is one "width" away
+COMMENT $31CC and remember it
+COMMENT $31CF increment char pointer to scrolltext by one
+COMMENT $31D1 and store it back
+COMMENT_LINE $31D5 init new letter here
+COMMENT $31D5 load the current letter to B
+COMMENT $31D7 compare to $80, end marker
+COMMENT $31D9 if not set, go on
+COMMENT $31DB otherwise load start address of text
+COMMENT $31DF store it as current
+COMMENT $31E3 load y, x coordinate
+COMMENT $31E6 add to B (x coordinate that is)
+COMMENT $31E9 store the new x position
+COMMENT $31EC this will be our next MOV, the first mov actually moves to
+COMMENT_LINE $31EF start position of scroller, all subsequent moves only to the "width" of one scroll char!
+COMMENT $31EF and load the first letter of the text to B (and inc y)
+COMMENT $31F1 compare to $80, end marker
+COMMENT $31F3 if not set, go on
+COMMENT $31F5 otherwise load start address of text
+COMMENT $31F9 and load the first letter of the text to B
+COMMENT_LINE $3200 here we certainly have a correct 'letter'- value in B register
+COMMENT $3200 really correct? isn't it a SPACE
+COMMENT $3202 no? than go on...
+COMMENT $3204 otherwise zero everything, pointer to vector list
+COMMENT $3207 go on
+COMMENT $3209 is it even a 'fullstop'
+COMMENT $320B if not... go on
+COMMENT $320D if it is load vectorlist addres to X
+COMMENT $3210 and go on
+COMMENT $3212 is it even a 'turtle' :-)
+COMMENT $3214 if not... go on
+COMMENT $321C if it is load vectorlist addres to X
+COMMENT $321F and go on
+COMMENT_LINE $3221 no it should be a 'real' letter (CAPITAL!!!)
+COMMENT_LINE $3221 lets calculate the abc-table offset...
+COMMENT $3221 subtract smallest letter, so A has 0 offset
+COMMENT $3223 multiply by two, since addresses are 16 bit
+COMMENT $3224 SEX it :-)
+COMMENT $3225 and add the abc (table of vector list address of the alphabet's letters)
+COMMENT $3228 get that into an index register (X)
+COMMENT $322A load the letters address from the table
+COMMENT $322C draw each letter with a move from zero, perhaps more stable!
+COMMENT $322E /BLANK low and /ZERO low
+COMMENT $3230 a = $18, b = $83 disable RAMP, muxsel=false, channel 1 (integrators offsets)
+COMMENT $3232 Clear D/A output
+COMMENT $3234 set mux to channel 1, leave mux disabled
+COMMENT $3236 enable mux, reset integrator offset values
+COMMENT $323A /BLANK low and /ZERO low
+COMMENT $323C Disable mux
+COMMENT $323E everything we do with "positioning" is scale SCALE_FACTOR_GAME
+COMMENT $323E scale for placing first point
+COMMENT $3240 move to time 1 lo, this means scaling
+COMMENT $3242 the current move vector
+COMMENT $3245 as a macro
+COMMENT_LINE $3245 optimzed, tweaked not perfect... 'MOVE TO D' makro
+COMMENT_LINE $3245 NOT DONE:
+COMMENT_LINE $3245 what should be done:
+COMMENT_LINE $3245 s = $ff / max(abs(a),abs(b))
+COMMENT_LINE $3245 a = a * s
+COMMENT_LINE $3245 b = b * s
+COMMENT_LINE $3245 scaling = scaling / s
+COMMENT_LINE $3245 that would give the most efficient positioning
+COMMENT_LINE $3245 bother it takes more time to calculate the above,
+COMMENT_LINE $3245 than it saves
+COMMENT_LINE $3245 with every positioning via this routine now,
+COMMENT_LINE $3245 it takes SCALE_FACTOR_GAME + const (of another 100+) cycles
+COMMENT_LINE $3245 to do one simple positioning!!!
+COMMENT_LINE $3245 that is probably about 300 cycles per positioning
+COMMENT_LINE $3245 this is done about 30-40 times per round
+COMMENT_LINE $3245 alone the positioning takes thus about over 10000 cycles
+COMMENT_LINE $3245 and we haven't drawn a single line yet!!!
+COMMENT $3245 Store Y in D/A register
+COMMENT $3247 Blank low, zero high?
+COMMENT $324C Enable mux
+COMMENT $324E Clear shift regigster
+COMMENT $3250 Disable mux
+COMMENT $3252 Store X in D/A register
+COMMENT $3254 enable timer
+COMMENT_LINE $325C in X is the current pointer to the to be drawn char
+COMMENT $325C drawing of letters is done in SCROLL_SCALE_FACTOR
+COMMENT $325C scale for placing first point
+COMMENT $325E move to time 1 lo, this means scaling
+COMMENT $3260 Don't reset the zero reference yet
+COMMENT $3263 Get the next mode byte
+COMMENT_LINE $3269 ;;;;
+COMMENT_LINE $3269 ;                    MY_MOVE_TO_D
+COMMENT $3269 Store Y in D/A register
+COMMENT $326C Enable mux
+COMMENT $326E Clear shift regigster
+COMMENT $3270 Disable mux
+COMMENT $3272 Store X in D/A register
+COMMENT $3274 enable timer
+COMMENT_LINE $3276 LDB      #$40                         ;
+COMMENT_LINE $3276 LF33D_2:
+COMMENT_LINE $3276 BITB     <VIA_int_flags               ;
+COMMENT_LINE $3276 BEQ      LF33D_2                        ;
+COMMENT_LINE $3276 ;;;
+COMMENT_LINE $3276 NOP 3
+COMMENT_LINE $3276 with small scale factor we do not really need to wait at all
+COMMENT_LINE $327D DRAW_LINE_D_no_x
+COMMENT_LINE $327D ;;
+COMMENT $327D Send Y to A/D
+COMMENT $3280 Enable mux
+COMMENT $3282 Disable mux
+COMMENT $3284 Store X in D/A register
+COMMENT $3286 Shift reg=$FF (solid line), T1H=0
+COMMENT $3289 Put pattern in shift register
+COMMENT $328B Set T1H (scale factor?)
+COMMENT $328D B-reg = T1 interrupt bit
+COMMENT $328F Wait for T1 to time out
+COMMENT $3294 Clear shift register (blank output)
+COMMENT_LINE $3296 ;;;;
+COMMENT $3298 setup next move as y = 0
+COMMENT $3298 and width of one scroll "char"
+COMMENT $3298 store to temp
+COMMENT $3298 and width of one scroll "char"
+COMMENT $329E store to temp
+COMMENT $32A1 are we done yet?
+COMMENT $32A8 ok, that was our scroll step :-)
+COMMENT_LINE $32A9 ***************************************************************************
+COMMENT_LINE $32A9 used variables and constants...
+COMMENT_LINE $32A9 SCROLL_SCALE_FACTOR             EQU    $6
+COMMENT_LINE $32A9 NUMBER_OF_SCROLL_LETTERS        EQU    10
+COMMENT_LINE $32A9 scroll_text_address_start       EQU    scroll_variables_start
+COMMENT_LINE $32A9 scroll_text_address_current     EQU    scroll_text_address_start + 2
+COMMENT_LINE $32A9 scroll_speed                    EQU    scroll_text_address_current + 2
+COMMENT_LINE $32A9 scroll_y                        EQU    scroll_speed + 1
+COMMENT_LINE $32A9 scroll_left_boundary            EQU    scroll_y + 1
+COMMENT_LINE $32A9 scroll_right_boundary           EQU    scroll_left_boundary + 1
+COMMENT_LINE $32A9 scroll_step_width               EQU    scroll_right_boundary + 1
+COMMENT_LINE $32A9 scroll_intensity                EQU    scroll_step_width + 1
+COMMENT_LINE $32A9 scroll_objects                  EQU    scroll_intensity + 1
+COMMENT_LINE $32A9 scroll_objects_end              EQU    (scroll_objects+(5*NUMBER_OF_SCROLL_LETTERS)+1)
+COMMENT_LINE $32A9 scroll_variables_end            EQU    scroll_objects_end
+COMMENT_LINE $32A9 ***************************************************************************
+COMMENT_LINE $32A9 all letters start at the bottom left and end at the bottom right
+COMMENT_LINE $32A9 hight of font is 9
+COMMENT_LINE $32A9 width is 5 + 1 space == 6
+COMMENT_LINE $32A9 (Turtle is wider!)
+COMMENT $32A9 list of all single vectorlists in this
+COMMENT $32DD dot
+COMMENT $32DF turtle
+COMMENT $32E1 space
+COMMENT $32E3 mode, y, x
+COMMENT $32E6 mode, y, x
+COMMENT $32E9 mode, y, x
+COMMENT $32EC mode, y, x
+COMMENT $32EF mode, y, x
+COMMENT $32F2 mode, y, x
+COMMENT $32F5 mode, y, x
+COMMENT $32F8 mode, y, x
+COMMENT $32FB endmarker (1)
+COMMENT $32FC mode, y, x
+COMMENT $32FF mode, y, x
+COMMENT $3302 mode, y, x
+COMMENT $3305 mode, y, x
+COMMENT $3308 mode, y, x
+COMMENT $330B mode, y, x
+COMMENT $330E mode, y, x
+COMMENT $3311 endmarker (1)
+COMMENT $3312 mode, y, x
+COMMENT $3315 mode, y, x
+COMMENT $3318 mode, y, x
+COMMENT $331B mode, y, x
+COMMENT $331E mode, y, x
+COMMENT $3321 mode, y, x
+COMMENT $3324 mode, y, x
+COMMENT $3327 mode, y, x
+COMMENT $332A mode, y, x
+COMMENT $332D endmarker (1)
+COMMENT $332E mode, y, x
+COMMENT $3331 mode, y, x
+COMMENT $3334 mode, y, x
+COMMENT $3337 mode, y, x
+COMMENT $333A mode, y, x
+COMMENT $333D mode, y, x
+COMMENT $3340 mode, y, x
+COMMENT $3343 endmarker (1)
+COMMENT $3344 mode, y, x
+COMMENT $3347 mode, y, x
+COMMENT $334A mode, y, x
+COMMENT $334D mode, y, x
+COMMENT $3350 mode, y, x
+COMMENT $3353 mode, y, x
+COMMENT $3356 mode, y, x
+COMMENT $3359 mode, y, x
+COMMENT $335C endmarker (1)
+COMMENT_LINE $335D DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x F
+COMMENT $335D mode, y, x
+COMMENT $3360 mode, y, x
+COMMENT $3363 mode, y, x
+COMMENT $3366 mode, y, x
+COMMENT $3369 mode, y, x
+COMMENT $336C mode, y, x
+COMMENT $336F endmarker (1)
+COMMENT_LINE $3370 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x G
+COMMENT $3370 mode, y, x
+COMMENT $3373 mode, y, x
+COMMENT $3376 mode, y, x
+COMMENT $3379 mode, y, x
+COMMENT $337C mode, y, x
+COMMENT $337F mode, y, x
+COMMENT $3382 mode, y, x
+COMMENT $3385 mode, y, x
+COMMENT $3388 mode, y, x
+COMMENT $338B mode, y, x
+COMMENT $338E mode, y, x
+COMMENT $3391 endmarker (1)
+COMMENT_LINE $3392 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x H
+COMMENT $3392 mode, y, x
+COMMENT $3395 mode, y, x
+COMMENT $3398 mode, y, x
+COMMENT $339B mode, y, x
+COMMENT $339E mode, y, x
+COMMENT $33A1 mode, y, x
+COMMENT $33A4 endmarker (1)
+COMMENT_LINE $33A5 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $33A5 mode, y, x
+COMMENT $33A8 mode, y, x
+COMMENT $33AB mode, y, x
+COMMENT $33AE mode, y, x
+COMMENT $33B1 mode, y, x
+COMMENT $33B4 mode, y, x
+COMMENT $33B7 endmarker (1)
+COMMENT_LINE $33B8 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $33B8 mode, y, x
+COMMENT $33BB mode, y, x
+COMMENT $33BE mode, y, x
+COMMENT $33C1 mode, y, x
+COMMENT $33C4 mode, y, x
+COMMENT $33C7 mode, y, x
+COMMENT $33CA mode, y, x
+COMMENT $33CD endmarker (1)
+COMMENT_LINE $33CE DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $33CE mode, y, x
+COMMENT $33D1 mode, y, x
+COMMENT $33D4 mode, y, x
+COMMENT $33D7 mode, y, x
+COMMENT $33DA mode, y, x
+COMMENT $33DD mode, y, x
+COMMENT $33E0 endmarker (1)
+COMMENT_LINE $33E1 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $33E1 mode, y, x
+COMMENT $33E4 mode, y, x
+COMMENT $33E7 mode, y, x
+COMMENT $33EA mode, y, x
+COMMENT $33ED endmarker (1)
+COMMENT_LINE $33EE DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $33EE mode, y, x
+COMMENT $33F1 mode, y, x
+COMMENT $33F4 mode, y, x
+COMMENT $33F7 mode, y, x
+COMMENT $33FA mode, y, x
+COMMENT $33FD mode, y, x
+COMMENT $3400 endmarker (1)
+COMMENT_LINE $3401 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $3401 mode, y, x
+COMMENT $3404 mode, y, x
+COMMENT $3407 mode, y, x
+COMMENT $340A mode, y, x
+COMMENT $340D endmarker (1)
+COMMENT_LINE $340E DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $340E mode, y, x
+COMMENT $3411 mode, y, x
+COMMENT $3414 mode, y, x
+COMMENT $3417 mode, y, x
+COMMENT $341A mode, y, x
+COMMENT $341D mode, y, x
+COMMENT $3420 mode, y, x
+COMMENT $3423 mode, y, x
+COMMENT $3426 mode, y, x
+COMMENT $3429 mode, y, x
+COMMENT $342C endmarker (1)
+COMMENT_LINE $342D DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $342D mode, y, x
+COMMENT $3430 mode, y, x
+COMMENT $3433 mode, y, x
+COMMENT $3436 mode, y, x
+COMMENT $3439 mode, y, x
+COMMENT $343C mode, y, x
+COMMENT $343F mode, y, x
+COMMENT $3442 endmarker (1)
+COMMENT_LINE $3443 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $3443 mode, y, x
+COMMENT $3446 mode, y, x
+COMMENT $3449 mode, y, x
+COMMENT $344C mode, y, x
+COMMENT $344F mode, y, x
+COMMENT $3452 mode, y, x
+COMMENT $3455 mode, y, x
+COMMENT $3458 mode, y, x
+COMMENT $345B mode, y, x
+COMMENT $345E mode, y, x
+COMMENT $3461 mode, y, x
+COMMENT $3464 mode, y, x
+COMMENT $3467 endmarker (1)
+COMMENT_LINE $3468 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $3468 mode, y, x
+COMMENT $346B mode, y, x
+COMMENT $346E mode, y, x
+COMMENT $3471 mode, y, x
+COMMENT $3474 mode, y, x
+COMMENT $3477 mode, y, x
+COMMENT $347A mode, y, x
+COMMENT $347D mode, y, x
+COMMENT $3480 mode, y, x
+COMMENT $3483 endmarker (1)
+COMMENT_LINE $3484 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $3484 mode, y, x
+COMMENT $3487 mode, y, x
+COMMENT $348A mode, y, x
+COMMENT $348D mode, y, x
+COMMENT $3490 mode, y, x
+COMMENT $3493 mode, y, x
+COMMENT $3496 mode, y, x
+COMMENT $3499 mode, y, x
+COMMENT $349C mode, y, x
+COMMENT $349F mode, y, x
+COMMENT $34A2 mode, y, x
+COMMENT $34A5 mode, y, x
+COMMENT $34A8 mode, y, x
+COMMENT $34AB endmarker (1)
+COMMENT_LINE $34AC DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $34AC mode, y, x
+COMMENT $34AF mode, y, x
+COMMENT $34B2 mode, y, x
+COMMENT $34B5 mode, y, x
+COMMENT $34B8 mode, y, x
+COMMENT $34BB endmarker (1)
+COMMENT_LINE $34BC DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $34BC mode, y, x
+COMMENT $34BF mode, y, x
+COMMENT $34C2 mode, y, x
+COMMENT $34C5 mode, y, x
+COMMENT $34C8 mode, y, x
+COMMENT $34CB mode, y, x
+COMMENT $34CE mode, y, x
+COMMENT $34D1 endmarker (1)
+COMMENT_LINE $34D2 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $34D2 mode, y, x
+COMMENT $34D5 mode, y, x
+COMMENT $34D8 mode, y, x
+COMMENT $34DB mode, y, x
+COMMENT $34DE mode, y, x
+COMMENT $34E1 endmarker (1)
+COMMENT_LINE $34E2 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $34E2 mode, y, x
+COMMENT $34E5 mode, y, x
+COMMENT $34E8 mode, y, x
+COMMENT $34EB mode, y, x
+COMMENT $34EE mode, y, x
+COMMENT $34F1 mode, y, x
+COMMENT $34F4 mode, y, x
+COMMENT $34F7 endmarker (1)
+COMMENT_LINE $34F8 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $34F8 mode, y, x
+COMMENT $34FB mode, y, x
+COMMENT $34FE mode, y, x
+COMMENT $3501 mode, y, x
+COMMENT $3504 endmarker (1)
+COMMENT_LINE $3505 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $3505 mode, y, x
+COMMENT $3508 mode, y, x
+COMMENT $350B mode, y, x
+COMMENT $350E mode, y, x
+COMMENT $3511 mode, y, x
+COMMENT $3514 mode, y, x
+COMMENT $3517 endmarker (1)
+COMMENT_LINE $3518 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $3518 mode, y, x
+COMMENT $351B mode, y, x
+COMMENT $351E mode, y, x
+COMMENT $3521 mode, y, x
+COMMENT $3524 mode, y, x
+COMMENT $3527 endmarker (1)
+COMMENT_LINE $3528 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $3528 mode, y, x
+COMMENT $352B mode, y, x
+COMMENT $352E mode, y, x
+COMMENT $3531 mode, y, x
+COMMENT $3534 endmarker (1)
+COMMENT_LINE $3535 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT $3535 mode, y, x
+COMMENT $3538 mode, y, x
+COMMENT $353B mode, y, x
+COMMENT $353E mode, y, x
+COMMENT $3541 mode, y, x
+COMMENT $3544 mode, y, x
+COMMENT $3547 mode, y, x
+COMMENT $354A mode, y, x
+COMMENT $354D mode, y, x
+COMMENT $3550 mode, y, x
+COMMENT $3553 mode, y, x
+COMMENT $3556 mode, y, x
+COMMENT $3559 mode, y, x
+COMMENT $355C mode, y, x
+COMMENT $355F mode, y, x
+COMMENT $3562 mode, y, x
+COMMENT $3565 mode, y, x
+COMMENT $3568 mode, y, x
+COMMENT $356B mode, y, x
+COMMENT $356E mode, y, x
+COMMENT $3571 mode, y, x
+COMMENT $3574 mode, y, x
+COMMENT $3577 mode, y, x
+COMMENT $357A mode, y, x
+COMMENT $357D mode, y, x
+COMMENT $3580 mode, y, x
+COMMENT $3583 endmarker (1)
+COMMENT_LINE $3584 DB $00, +BLOWUP*$00, +BLOWUP*$00 ; move to y, x
+COMMENT_LINE $3584 DB $00, +BLOWUP*$00, +BLOWUP*$06 ; mode, y, x
+COMMENT $3584 endmarker (1)
+COMMENT_LINE $3585 Vec Vox routines
+COMMENT $3585 VecVox output routines
+COMMENT_LINE $3585 VECVOX.I
+COMMENT_LINE $3585 Copyright (c) 2004 Alex Herbert
+COMMENT_LINE $3585 Include the serial driver
+COMMENT_LINE $3585 SER_JI.I - Serial Output on Joystick port, Inverted
+COMMENT_LINE $3585 Copyright (c) Alex Herbert 2002
+COMMENT_LINE $3585 This code assumes that the following constant have been declared.
+COMMENT_LINE $3585 If not... un-comment them!
+COMMENT_LINE $3585 VIA_port_b   equ     $d000
+COMMENT_LINE $3585 VIA_port_a     equ     $d001
+COMMENT_LINE $3585 VIA_DDR_a    equ     $d003
+COMMENT_LINE $3585 VIA_t1_cnt_lo  equ     $d004
+COMMENT_LINE $3585 VIA_aux_cntl  equ     $d00b
+COMMENT_LINE $3585 VIA_int_flags   equ     $d00d
+COMMENT_LINE $3585 0 sample/hold (0=enable mux 1=disable mux)
+COMMENT_LINE $3585 1 mux sel 0
+COMMENT_LINE $3585 2 mux sel 1
+COMMENT_LINE $3585 3 sound BC1
+COMMENT_LINE $3585 4 sound BDIR
+COMMENT_LINE $3585 5 comparator input
+COMMENT_LINE $3585 6 external device (slot pin 35) initialized to input
+COMMENT_LINE $3585 7 /RAMP
+COMMENT_LINE $3585 0 PA latch enable
+COMMENT_LINE $3585 1 PB latch enable
+COMMENT_LINE $3585 2 \ 110=output to CB2 under control of phase 2 clock
+COMMENT_LINE $3585 3 > shift register control (110 is the only mode used by the Vectrex ROM)
+COMMENT_LINE $3585 4 /
+COMMENT_LINE $3585 5 0=t2 one shot 1=t2 free running
+COMMENT_LINE $3585 6 0=t1 one shot 1=t1 free running
+COMMENT_LINE $3585 7 0=t1 disable PB7 output 1=t1 enable PB7 output
+COMMENT_LINE $3585 0 CA1 control CA1 -> SW7 0=IRQ on low 1=IRQ on high
+COMMENT_LINE $3585 1 \
+COMMENT_LINE $3585 2 > CA2 control CA2 -> /ZERO 110=low 111=high
+COMMENT_LINE $3585 3 /
+COMMENT_LINE $3585 4 CB1 control CB1 -> NC 0=IRQ on low 1=IRQ on high
+COMMENT_LINE $3585 5 \
+COMMENT_LINE $3585 6 > CB2 control CB2 -> /BLANK 110=low 111=high
+COMMENT_LINE $3585 7 /
+COMMENT_LINE $3585 bit cleared by
+COMMENT_LINE $3585 0 CA2 interrupt flag reading or writing port A I/O
+COMMENT_LINE $3585 1 CA1 interrupt flag reading or writing port A I/O
+COMMENT_LINE $3585 2 shift register interrupt flag reading or writing shift register
+COMMENT_LINE $3585 3 CB2 interrupt flag reading or writing port B I/O
+COMMENT_LINE $3585 4 CB1 interrupt flag reading or writing port A I/O
+COMMENT_LINE $3585 5 timer 2 interrupt flag read t2 low or write t2 high
+COMMENT_LINE $3585 6 timer 1 interrupt flag read t1 count low or write t1 high
+COMMENT_LINE $3585 7 IRQ status flag write logic 0 to IER or IFR bit
+COMMENT_LINE $3585 0 CA2 interrupt enable
+COMMENT_LINE $3585 1 CA1 interrupt enable
+COMMENT_LINE $3585 2 shift register interrupt enable
+COMMENT_LINE $3585 3 CB2 interrupt enable
+COMMENT_LINE $3585 4 CB1 interrupt enable
+COMMENT_LINE $3585 5 timer 2 interrupt enable
+COMMENT_LINE $3585 6 timer 1 interrupt enable
+COMMENT_LINE $3585 7 IER set/clear control
+COMMENT_LINE $3585 Baud rate setting
+COMMENT_LINE $3585 Subroutines
+COMMENT $3585 assume dp = $d0
+COMMENT_LINE $3585 ser_txbyte
+COMMENT_LINE $3585 ----------
+COMMENT_LINE $3585 Function:
+COMMENT_LINE $3585 transmit byte serially (8n1, inverted) via joystick ports.
+COMMENT_LINE $3585 On entry:
+COMMENT_LINE $3585 a = byte to transmit
+COMMENT_LINE $3585 dp = $d0
+COMMENT_LINE $3585 On exit:
+COMMENT_LINE $3585 d,cc = corrupted
+COMMENT_LINE $3585 Stack usage:
+COMMENT_LINE $3585 5 bytes (7 if you include the return address)
+COMMENT $3585 put data on stack
+COMMENT_LINE $358A load PSG latch address with (BC1 + BDIR = 11)
+COMMENT $358A PSG register 7
+COMMENT $358F T1 mode = free-run, no output on RAMP (PB7)
+COMMENT $3591 PSG inactive (BC1 + BDIR = 00)
+COMMENT $3596 set and start timer (T1)
+COMMENT $359B 6522 I/O port data direction = input
+COMMENT $359D enable PSG reading (BC1 + BDIR = 01)
+COMMENT $359F loop counter (here for timing)
+COMMENT $35A1 read PSG register 7
+COMMENT $35A3 save PSG R7 and loop counter on stack
+COMMENT $35A5 set bit 6, meaning this will be our "zero" start bit
+COMMENT_LINE $35A7 bit 6 set means that portA is in output mode
+COMMENT_LINE $35A7 output of "Output Data portA" which is "$ef"
+COMMENT_LINE $35A7 which is a 1 for all but bit 4
+COMMENT_LINE $35A7 bit 4 is our vecVoice "dataline"
+COMMENT $35A7 store data for PSG write (to DAC)
+COMMENT $35AC disable PSG reading (BC1 + BDIR = 00)
+COMMENT $35AE 6522 I/O direction = output (ff = all bits)
+COMMENT $35B0 transmit start bit [0] hey
+COMMENT $35B2 shift next data bit into carry
+COMMENT $35BA store data for PSG write
+COMMENT $35BC transmit data bit [0]
+COMMENT $35C2 store data for PSG write
+COMMENT $35C4 transmit data bit [1]
+COMMENT $35C6 decrement loop counter
+COMMENT $35C8 loop if more bits to send
+COMMENT $35CC store data for PSG write
+COMMENT $35CE tansmit stop bit [1]
+COMMENT $35D2 T1 = single-shot, no output on RAMP (PB7)
+COMMENT $35D7 force T1 timeout
+COMMENT $35DB T1 = single-shot, RAMP output (PB7) enabled
+COMMENT $35DD restore stack
+COMMENT $35E2 test T1 interrupt flag
+COMMENT $35E4 loop until T1 timeout
+COMMENT $35E6 (BC1 + BDIR = 10)
+COMMENT $35E8 enable PSG register write
+COMMENT $35EA latch data (BC1 + BDIR = 00)
+COMMENT $35EC clear T1 interrupt flag
+COMMENT_LINE $35EF Constants
+COMMENT_LINE $35EF Variables
+COMMENT_LINE $35EF These routines require 2 bytes of RAM for the following variable:
+COMMENT_LINE $35EF vox_addr - 16-bit pointer to next byte in speech string.
+COMMENT_LINE $35EF You may wish to comment out the following lines and declare vox_addr
+COMMENT_LINE $35EF elsewhere in your code.
+COMMENT_LINE $C896 Subroutines
+COMMENT_LINE $35EF vox_init
+COMMENT_LINE $35EF --------
+COMMENT_LINE $35EF Function:
+COMMENT_LINE $35EF Prepare joystick port for serial transmission and initialize
+COMMENT_LINE $35EF speech string pointer.
+COMMENT_LINE $35EF Usage:
+COMMENT_LINE $35EF Call vox_init once at the start of your program.
+COMMENT_LINE $35EF Note:
+COMMENT_LINE $35EF This routine writes $ef to PSG register 14 by calling Exec ROM
+COMMENT_LINE $35EF routine WRREG ($f256).  This is to mask serial output from all
+COMMENT_LINE $35EF joystick pins except the data line. (Port 2, pin 1.)
+COMMENT_LINE $35EF Care should be taken to not overwrite this register.  (There's
+COMMENT_LINE $35EF normally no reason to do so.)
+COMMENT_LINE $35EF Caution:
+COMMENT_LINE $35EF The dp register will be = to $d0.
+COMMENT $35F1 dp = $d0
+COMMENT $35F6 WRREG (write data mask to PSG reg 14)
+COMMENT $35FC point to 'silence' speech string
+COMMENT_LINE $3600 vox_speak
+COMMENT_LINE $3600 ---------
+COMMENT_LINE $3600 Function:
+COMMENT_LINE $3600 Sends speech data to the VecVox.
+COMMENT_LINE $3600 Usage:
+COMMENT_LINE $3600 Call vox_speak once per frame. (I.e. stick it in your main loop)
+COMMENT_LINE $3600 See note below.
+COMMENT_LINE $3600 Then, just store the start address of a speech string in
+COMMENT_LINE $3600 vox_addr when you want the VecVox to speak, and let this
+COMMENT_LINE $3600 routine do the work!
+COMMENT_LINE $3600 To abort speech in progress, point vox_addr at vox_silence or
+COMMENT_LINE $3600 call vox_init2 (which does exactly that).
+COMMENT_LINE $3600 Note:
+COMMENT_LINE $3600 1. This subroutine requires that the current joystick button
+COMMENT_LINE $3600 status is held at RAM address $c80f (TRIGGR).  This is usually
+COMMENT_LINE $3600 = by calling the Executive ROM routine INPUT (a.k.a.
+COMMENT_LINE $3600 read_switches2) at $F1BA.
+COMMENT_LINE $3600 2. Speech strings should be terminated with VOX_TERM. ($ff)
+COMMENT_LINE $3600 Caution:
+COMMENT_LINE $3600 Contents of the dp register may (or may not) be = to $d0.
+COMMENT $3600 get joystick buttons (TRIGGR)
+COMMENT $3603 mask "buffer full" status
+COMMENT $3605 exit if no room in buffer
+COMMENT $3607 get speech pointer
+COMMENT $360A read next byte
+COMMENT $360C end of string?
+COMMENT $360E ...if so, exit
+COMMENT $3610 store speech pointer
+COMMENT $3615 direct page = $d0
+COMMENT $3617 send byte
+COMMENT_LINE $361A lda      #VOX_DONE
+COMMENT_LINE $361A sta      voxStart
+COMMENT_LINE $361B Silence string
+COMMENT_LINE $361B Initial speech string.  Point vox_addr here to abort speech
+COMMENT_LINE $361B in progress.
+COMMENT_LINE $361D Speech strings
+COMMENT $361D vectrex function includes
+COMMENT_LINE $361D /* vim: = filetype=dasm: */
+COMMENT_LINE $361D jetphones.inc
+COMMENT_LINE $361D V0.9: B. Watson 20060621
+COMMENT_LINE $361D Useful constants for developing AtariVox applications with DASM.
+COMMENT_LINE $361D This is basically a DASM-readable version of pages 15 and 16 of the
+COMMENT_LINE $361D SpeakJet manual. The phoneme names were taken straight from the manual.
+COMMENT_LINE $361D The pause and control code names were assigned by me, but they're
+COMMENT_LINE $361D pretty obvious. Also, I'm adding descriptive aliases for the non-speech
+COMMENT_LINE $361D noises (e.g. SHOT = M1 (the "Pistol Shot").
+COMMENT_LINE $361D See "phrases.inc" for example usage.
+COMMENT_LINE $361D Phonemes/allophones:
+COMMENT_LINE $361D Various noises, non-speech:
+COMMENT_LINE $361D R0-R9: Robot
+COMMENT_LINE $361D R0 - R9 make up a musical scale of sorts.
+COMMENT_LINE $361D None of these are affected by the PITCH command,
+COMMENT_LINE $361D though they are affected by SPEED and BEND.
+COMMENT_LINE $361D I can't come up with good descriptions for 235 or 237, try them yourself
+COMMENT_LINE $361D Only those marked with [*] are affected by the PITCH command.
+COMMENT_LINE $361D The manual lists these as:
+COMMENT_LINE $361D A0-A9: Alarm
+COMMENT_LINE $361D B0-B9: Beeps
+COMMENT_LINE $361D C0-C9: Biological
+COMMENT_LINE $361D M0-M2: Miscellaneous
+COMMENT_LINE $361D Convenient names for some of the weird noises:
+COMMENT_LINE $361D DTMF (Touch tone) phone tones:
+COMMENT_LINE $361D Pauses of various durations:
+COMMENT_LINE $361D Control codes:
+COMMENT_LINE $361D These need a parameter equ  (X) to follow them:
+COMMENT_LINE $361D ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+COMMENT_LINE $361D The rest of this file was copied and pasted from speakjetmanual.pdf.
+COMMENT_LINE $361D I didn't bother to format it nicely :)
+COMMENT_LINE $361D 24  PortCtr, X
+COMMENT_LINE $361D 25  Port, X
+COMMENT_LINE $361D 26  Repeat, X
+COMMENT_LINE $361D 28  Call Phrase, X
+COMMENT_LINE $361D 29  Goto Phrase, X
+COMMENT_LINE $361D Control Codes Details:
+COMMENT_LINE $361D 0 - 6 = Pauses.
+COMMENT_LINE $361D Pauses of various durations, these will cause the volume to ramp down, wait a specified
+COMMENT_LINE $361D amount of time and the ramp back up.  1, 2 & 3, ramp the volume while the format
+COMMENT_LINE $361D frequencies are being changed. 4, 5 & 6 wait for silence before changing the format
+COMMENT_LINE $361D frequencies.
+COMMENT_LINE $361D 0 = 0ms   1 = 100ms   2 = 200ms  3 = 700ms
+COMMENT_LINE $361D 4 = 30ms    5 = 60ms   6 = 90ms
+COMMENT_LINE $361D 7 = Fast.
+COMMENT_LINE $361D Plays the next phoneme at 1/2 the time it normally would play.
+COMMENT_LINE $361D 8 = Slow
+COMMENT_LINE $361D Plays the next phoneme at 1 and 1/2 the time it normally would play.
+COMMENT_LINE $361D 14 = Stress.
+COMMENT_LINE $361D Plays the next phoneme with a small amount of stress in the voice.
+COMMENT_LINE $361D 15 = Relax
+COMMENT_LINE $361D Plays the next phoneme with a small amount of relaxation in the voice.
+COMMENT_LINE $361D 16 = Wait
+COMMENT_LINE $361D This command will stop the voicing and wait for a start command.  The Start command
+COMMENT_LINE $361D can be issued by either sending the SCP start command or by changing the state of one
+COMMENT_LINE $361D of the input lines that has been previously = to do a Start.
+COMMENT_LINE $361D 20 = Volume, X
+COMMENT_LINE $361D This command sets the master volume level.  A value will need to be sent after the
+COMMENT_LINE $361D volume command that specifies the desired volume. Volume levels can range from 0 to
+COMMENT_LINE $361D 127.  The default is 96.
+COMMENT_LINE $361D 21 = Speed, X
+COMMENT_LINE $361D This command sets the play speed.  A value will need to be sent after the speed
+COMMENT_LINE $361D command that specifies the desired speed.  Speeds can range from 0 to 127. The
+COMMENT_LINE $361D default is 114.
+COMMENT_LINE $361D 22 = Pitch, X
+COMMENT_LINE $361D This command sets the Vocalization Pitch in Hertz.  A value will need to be sent after
+COMMENT_LINE $361D the pitch command that specifies the desired pitch. The vocalization pitch is what makes
+COMMENT_LINE $361D a voice sound High pitched or Low pitched.  For singing, the pitch has a range of 3 full
+COMMENT_LINE $361D octaves (32Hz to 240hz).  The Vocalization Pitch works only on sounds that are voiced.
+COMMENT_LINE $361D Pitches can range from 0 to 255.  The default is 88. Note that anything under 30 starts
+COMMENT_LINE $361D to sound like clicks instead of a voice.  Also Note that a value of 0 = 0 Hz and thusly, will
+COMMENT_LINE $361D not actually vocalize.
+COMMENT_LINE $361D 23 = Bend, X
+COMMENT_LINE $361D This command sets the frequency Bend.  A value will need to be sent after the Bend
+COMMENT_LINE $361D command that specifies the desired Bend. The frequency Bend adjusts the output
+COMMENT_LINE $361D frequencies of the oscillators. This will change the voicing from a deep-hollow sounding
+COMMENT_LINE $361D voice to a High-metallic sounding voice. Bends can range from 0 to 15.  The default is 5.
+COMMENT_LINE $361D 24 = PortCtr, X
+COMMENT_LINE $361D This command sets the Port Control Value.  A value will need to be sent after the
+COMMENT_LINE $361D PortCtr command that specifies the desired function of the output lines.  The Output line
+COMMENT_LINE $361D control bits are binaurally encoded where a 1 indicates that the output function is chip
+COMMENT_LINE $361D controlled and a 0 indicates that the output function is user controlled. Bit 0 corresponds
+COMMENT_LINE $361D to OUT0, etc... PortCtr values can range from 0 to 7.  The default is 7.
+COMMENT_LINE $361D 25 = Port, X
+COMMENT_LINE $361D This command sets the Port Output Value.  A value will need to be sent after the Port
+COMMENT_LINE $361D command that specifies the desired state of the output lines. When the Output line
+COMMENT_LINE $361D control bits are = to 0, the corresponding port bit is represented on the output line. Bit
+COMMENT_LINE $361D 0 corresponds to OUT0, etc... Port values can range from 0 to 7.  The default is 0.
+COMMENT_LINE $361D 26 = Repeat, X
+COMMENT_LINE $361D This command sets a number of times to Repeat the next code.  A value will need to be
+COMMENT_LINE $361D sent after the Repeat command that specifies the number of times to repeat the next
+COMMENT_LINE $361D command.
+COMMENT_LINE $361D The Repeat range is from 0 to 255.
+COMMENT_LINE $361D 28 = Call Phrase, X
+COMMENT_LINE $361D This command specifies which EEPROM phrase to play then to return from.
+COMMENT_LINE $361D This can be nested 3 deep maximum.
+COMMENT_LINE $361D 29 = Goto Phrase, X
+COMMENT_LINE $361D This command specifies which EEPROM phrase to play.
+COMMENT_LINE $361D 30 = Delay, X
+COMMENT_LINE $361D This command specifies the number of 10ms intervals to delay before continuing
+COMMENT_LINE $361D on to the next code. The Delay range is from 0 to 255.
+COMMENT_LINE $361D 31 = Reset
+COMMENT_LINE $361D This command resets the Volume, Speed, Pitch and Bend to the default values.
+RANGE $0027-$004E DP $C8
+RANGE $004E-$3176 DP $D0
+RANGE $3176-$31AC DP $C8
+RANGE $31AC-$35EF DP $D0
+RANGE $0000-$000B DB_DATA
+RANGE $000B-$000D DW_DATA
+RANGE $000D-$0021 DB_DATA
+RANGE $0021-$0169 CODE
+RANGE $0169-$0233 DB_DATA
+RANGE $0233-$04C5 CODE
+RANGE $04C5-$04C7 DW_DATA
+RANGE $04C7-$3121 DB_DATA
+RANGE $3121-$3123 DW_DATA
+RANGE $3123-$3124 DB_DATA
+RANGE $3124-$312A DW_DATA
+RANGE $312A-$312B DB_DATA
+RANGE $312B-$3131 DW_DATA
+RANGE $3131-$3132 DB_DATA
+RANGE $3132-$3138 DW_DATA
+RANGE $3138-$3139 DB_DATA
+RANGE $3139-$313F DW_DATA
+RANGE $313F-$3140 DB_DATA
+RANGE $3140-$3146 DW_DATA
+RANGE $3146-$3147 DB_DATA
+RANGE $3147-$314D DW_DATA
+RANGE $314D-$314E DB_DATA
+RANGE $314E-$3154 DW_DATA
+RANGE $3154-$3155 DB_DATA
+RANGE $3155-$315B DW_DATA
+RANGE $315B-$315C DB_DATA
+RANGE $315C-$3162 DW_DATA
+RANGE $3162-$3163 DB_DATA
+RANGE $3163-$3169 DW_DATA
+RANGE $3169-$316A DB_DATA
+RANGE $316A-$3170 DW_DATA
+RANGE $3170-$3176 DB_DATA
+RANGE $3176-$32A9 CODE
+RANGE $32A9-$32E3 DW_DATA
+RANGE $32E3-$3585 DB_DATA
+RANGE $3585-$361B CODE
+RANGE $361B-$371B DB_DATA
+

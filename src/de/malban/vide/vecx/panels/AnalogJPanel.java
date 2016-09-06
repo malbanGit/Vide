@@ -11,6 +11,7 @@ import de.malban.vide.vecx.VecXPanel;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.vecx.Breakpoint;
 import de.malban.vide.vecx.E8910State;
@@ -34,6 +35,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{
     public boolean isLoadSettings() { return true; }
     private CSAView mParent = null;
+    public VideConfig config = VideConfig.getConfig();
     private javax.swing.JMenuItem mParentMenuItem = null;
     private int mClassSetting=0;
     private VecXPanel vecxPanel = null; // needed for vectrex memory access
@@ -328,7 +330,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         
         
 
-        int calc_x = (int)state.alg_curr_x-VecXStatics.ALG_MAX_X/2;
+        int calc_x = (int)state.alg_curr_x-config.ALG_MAX_X/2;
         boolean neg = calc_x<0;
         int pos = Math.abs(calc_x)&0x0ffff;
         if (neg)
@@ -352,7 +354,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         jLabel20.setToolTipText("decimal: "+x_int);
         */
         
-        int cacl_y = (int)state.alg_curr_y-VecXStatics.ALG_MAX_Y/2;
+        int cacl_y = (int)state.alg_curr_y-config.ALG_MAX_Y/2;
         neg = cacl_y<0;
         pos = Math.abs(cacl_y)&0x0ffff;
         if (neg)

@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx;
 
+import de.malban.Global;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -93,7 +94,11 @@ import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
+import java.nio.FloatBuffer;
 import javax.swing.DefaultComboBoxModel;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
 
 /**
  *
@@ -383,6 +388,11 @@ public class VecXPanel extends javax.swing.JPanel
 
         jLabelFPS.setFont(new java.awt.Font("Geneva", 0, 8)); // NOI18N
         jLabelFPS.setText("0");
+        jLabelFPS.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelFPSMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -433,10 +443,11 @@ public class VecXPanel extends javax.swing.JPanel
                             .addComponent(jButtonDebug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton2)
-                                    .addComponent(jButton1)))
-                            .addComponent(jLabelFPS, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jButton2)
+                                        .addComponent(jButton1))
+                                    .addComponent(jLabelFPS, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
@@ -601,6 +612,15 @@ public class VecXPanel extends javax.swing.JPanel
         
         jTextFieldstart.setText("");
     }
+    public void startBin(String path)
+    {
+        startTypeRun = START_TYPE_RUN;
+        if (image == null)
+            resetGfx();
+        jTextFieldstart.setText(path);
+        cartProp = true;
+        jButtonStartActionPerformed(null);
+    }
 
     public boolean loadOverlay(String name)
     {
@@ -724,10 +744,14 @@ public class VecXPanel extends javax.swing.JPanel
         overlayImageOrg = null;
     }//GEN-LAST:event_jButtonStopActionPerformed
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+        forceResize();
+    }//GEN-LAST:event_formComponentResized
+    public void forceResize()
+    {
         resetGfx();
         paint(vecx.getDisplayList());
         repaint();
-    }//GEN-LAST:event_formComponentResized
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (stop) return;
         if (!isPausing())
@@ -741,21 +765,87 @@ public class VecXPanel extends javax.swing.JPanel
                     Logger.getLogger(VecXPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            vecx.saveStateToFile("");
+            CompleteState state = vecx.getState();
+            
+            if (vecx.joyport[0]!=null)
+            {
+                if (vecx.joyport[0].getDevice()!=null)
+                {
+                    state.deviceID0 = vecx.joyport[0].getDevice().getDeviceID();
+                    state.deviceName0 = vecx.joyport[0].getDevice().getDeviceName();
+                    
+                }
+            }
+            if (vecx.joyport[1]!=null)
+            {
+                if (vecx.joyport[1].getDevice()!=null)
+                {
+                    state.deviceID1 = vecx.joyport[1].getDevice().getDeviceID();
+                    state.deviceName1 = vecx.joyport[1].getDevice().getDeviceName();
+                    
+                }
+            }
+            CSAMainFrame.serialize(state, "serialize"+File.separator+"StateSaveTest.ser");
             cont();
             return;
         }
-        vecx.saveStateToFile("");
+        CompleteState state = vecx.getState();
+        CSAMainFrame.serialize(state, "serialize"+File.separator+"StateSaveTest.ser");
 
     }//GEN-LAST:event_jButton1ActionPerformed
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         stop();
         dissiInit = false;
-        if (!vecx.loadStateFromFile("")) return;
-        
-        initJoyportsFromEmulation();
-        
-        
+
+        CompleteState state = (CompleteState) CSAMainFrame.deserialize("serialize"+File.separator+"StateSaveTest.ser");
+        if (!vecx.putState(state)) return;
+//        if (!vecx.loadStateFromFile("")) return;
+
+        mClassSetting++;
+        if (state.deviceID0 != -1)
+        {
+            JoyportDevice device = getDevice(state.deviceID0, state.deviceName0);
+            vecx.joyport[0].plugIn(device);
+            if (device == null)
+            {
+                jComboBoxJoyport0.setSelectedIndex(-1);
+            }
+            else
+            {
+                jComboBoxJoyport0.setSelectedItem(device);
+            }
+        }
+        if (state.deviceID1 != -1)
+        {
+            JoyportDevice device1;
+            if (state.deviceID1 == DEVICE_IMAGER)
+            {
+                device1 = vecx.joyport[1].getDevice();
+                if (device1 != null)
+                {
+                    if (device1 instanceof Imager3dDevice)
+                    {
+                        replaceDeviceInList(device1);
+                        jComboBoxJoyport1.setSelectedItem(vecx.joyport[1].getDevice());
+                    }
+                }
+            }
+            else
+            {
+                device1 = getDevice(state.deviceID1, state.deviceName1);
+                vecx.joyport[1].plugIn(device1);
+            }
+            if (device1 == null)
+            {
+                jComboBoxJoyport1.setSelectedIndex(-1);
+            }
+            else
+            {
+                jComboBoxJoyport1.setSelectedItem(device1);
+            }
+        }
+        mClassSetting--;
+
         
         jTextFieldstart.setText(vecx.romName);
         overlayImageOrg = null;
@@ -991,6 +1081,13 @@ public class VecXPanel extends javax.swing.JPanel
     private void jButtonDebugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDebugActionPerformed
         ensureMyDissi();
     }//GEN-LAST:event_jButtonDebugActionPerformed
+
+    boolean toggleDisplay = true;
+    private void jLabelFPSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelFPSMouseClicked
+        // TODO add your handling code here:
+        if (!Global.LWJGL_ENABLE) return;
+        toggleDisplay = !toggleDisplay;
+    }//GEN-LAST:event_jLabelFPSMouseClicked
 
     public void setUpdateAllways(boolean b)
     {
@@ -1645,6 +1742,11 @@ public class VecXPanel extends javax.swing.JPanel
     // greater than 255 is "spilled" to neighbouring pixels!
     public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved, int alg_vector_speed, int alg_leftEye, int alg_rightEye)
     {
+        if (!toggleDisplay)
+        {
+            addGLLineSegment(x0,y0, x1, y1);
+            return;
+        }
         if (phosphor[phosphorDraw]==null) return;
         Graphics2D g2 = phosphor[phosphorDraw].createGraphics();
 
@@ -1673,6 +1775,7 @@ public class VecXPanel extends javax.swing.JPanel
     StringBuilder sh = new StringBuilder();
     synchronized private void paint(VectrexDisplayVectors vList)
     {
+        if (!toggleDisplay) return;
         if (image == null) return;
         doubleCheck.clear();
 
@@ -2010,8 +2113,8 @@ public class VecXPanel extends javax.swing.JPanel
         // build an image in the size of this component
         // with vectors on it
         // representing the vectrex vectors
-        scaleWidth = ((double)vectrexDisplayWidth)/((double)ALG_MAX_X);
-        scaleHeight = ((double)vectrexDisplayheight)/((double)ALG_MAX_Y);
+        scaleWidth = ((double)vectrexDisplayWidth)/((double)config.ALG_MAX_X);
+        scaleHeight = ((double)vectrexDisplayheight)/((double)config.ALG_MAX_Y);
 
         
         if ((overlayImageOrg != null)&& (config.overlayEnabled))
@@ -2022,6 +2125,8 @@ public class VecXPanel extends javax.swing.JPanel
     @Override public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
+        if (!toggleDisplay) return;
+
         if (image != null)
         {
             g.drawImage(image, 0, jPanel1.getHeight(), null);
@@ -2050,8 +2155,8 @@ public class VecXPanel extends javax.swing.JPanel
                     int offsetY = jPanel1.getHeight();
                     int width = image.getWidth();
                     int height = image.getHeight();
-                    double scaleWidth = ((double)width)/((double)ALG_MAX_X);
-                    double scaleHeight = ((double)height)/((double)ALG_MAX_Y);
+                    double scaleWidth = ((double)width)/((double)config.ALG_MAX_X);
+                    double scaleHeight = ((double)height)/((double)config.ALG_MAX_Y);
                     
                     
                     double distance = Double.MAX_VALUE;
@@ -2062,8 +2167,8 @@ public class VecXPanel extends javax.swing.JPanel
                         
                         x =Scaler.unscaleDoubleToInt(x, scaleWidth);
                         y =Scaler.unscaleDoubleToInt(y, scaleHeight);
-                        x -=ALG_MAX_X/2;
-                        y -=ALG_MAX_Y/2;
+                        x -=config.ALG_MAX_X/2;
+                        y -=config.ALG_MAX_Y/2;
                         y =-y;
 
                         vinfi.setMouseCoordinates( x,  y);
@@ -2728,12 +2833,12 @@ public class VecXPanel extends javax.swing.JPanel
     public int getXIntegratorValue()
     {
         if (vecx==null) return 0;
-        return (int)vecx.alg_curr_x-VecXStatics.ALG_MAX_X/2;
+        return (int)vecx.alg_curr_x-config.ALG_MAX_X/2;
     }
     public int getYIntegratorValue()
     {
         if (vecx==null) return 0;
-        return (int)vecx.alg_curr_y-VecXStatics.ALG_MAX_Y/2;
+        return (int)vecx.alg_curr_y-config.ALG_MAX_Y/2;
     }
     
     public VecXState getVecXState()
@@ -2876,8 +2981,8 @@ public class VecXPanel extends javax.swing.JPanel
     }
     public void vectorScreenshot()
     {
-        double exportScaleWidth = ((double)255)/((double)ALG_MAX_X);
-        double exportScaleHeight = ((double)255)/((double)ALG_MAX_Y);
+        double exportScaleWidth = ((double)255)/((double)config.ALG_MAX_X);
+        double exportScaleHeight = ((double)255)/((double)config.ALG_MAX_Y);
 
         VectrexDisplayVectors currentVectors = vecx.getDisplayList();
         GFXVectorList list = new GFXVectorList();
@@ -2983,9 +3088,11 @@ public class VecXPanel extends javax.swing.JPanel
                 deviceList.add(JInputSpinnerDevice.getDevice(cConfig)); // 13++
         }
         
+        ArrayList<JoyportDevice> deviceList0 = (ArrayList<JoyportDevice>)deviceList.clone();
+        deviceList0.remove(DEVICE_IMAGER);
+        deviceList0.add(DEVICE_IMAGER, new NullDevice());
         
-        
-        jComboBoxJoyport0.setModel((new DefaultComboBoxModel(deviceList.toArray())) );
+        jComboBoxJoyport0.setModel((new DefaultComboBoxModel(deviceList0.toArray())) );
         jComboBoxJoyport1.setModel((new DefaultComboBoxModel(deviceList.toArray())) );
     }
     
@@ -3064,6 +3171,19 @@ public class VecXPanel extends javax.swing.JPanel
         jComboBoxJoyport1.setSelectedIndex(sel1);
         mClassSetting--;
     }
+    JoyportDevice getDevice(int id, String name)
+    {
+        if (id < DEVICE_JINPUT_JOYSTICK)
+        {
+            return deviceList.get(id);
+        }
+        for (JoyportDevice device : deviceList)
+        {
+            if ((device.getDeviceID() == id) && (device.getDeviceName().equals(name)))
+                return device;
+        }
+        return null;
+    }
     private void initJoyportsFromEmulation()
     {
         if (vecx == null) return;
@@ -3121,9 +3241,6 @@ public class VecXPanel extends javax.swing.JPanel
             }
         }
         mClassSetting--;
-        
-
-        
     }
 
     public void setDissi(DissiPanel d)
@@ -3354,6 +3471,8 @@ public class VecXPanel extends javax.swing.JPanel
     
     boolean isLWJGL = false;
     GLWindow w = null;
+    float scaleWidthGL = ((float)1)/((float)config.ALG_MAX_X)*2;
+    float scaleHeightGL = ((float)1)/((float)config.ALG_MAX_Y)*2;
     void initLWGL()
     {
         isLWJGL = LWJGLSupport.isLWJGLSupported();
@@ -3366,14 +3485,51 @@ public class VecXPanel extends javax.swing.JPanel
         }
     }
 
-    public void render()
+    float[] data = new float[VECTOR_CNT];
+    public int render(GLWindow w)
     {
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);        
-        vecx.getDisplayList();
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-        glfwSwapBuffers(w.window); // swap the color buffers
-    }
+        if (toggleDisplay) return 0;
+        if (config.useRayGun)
+        {
+            int ret = lsCounter;
+            
+            
+            w.DataBuffer.put(dataRay, 0, lsCounter);//put all the data in the buffer, position at the end of the data
+            
+            lsCounter = 0;
+            return ret;
+        }
+        
+        VectrexDisplayVectors list = vecx.getDisplayList();
 
+        ////////////////Prepare the Data////////////////
+        int dCount = 0;
+        
+//        float[] data = new float[list.count*4];
+        for (int v = 0; v < list.count; v++) 
+        {
+            vector_t vector = list.vectrexVectors[v];
+            data[dCount++] =Scaler.scaleFloatToFloat(vector.x0-config.ALG_MAX_X/2, scaleWidthGL);
+            data[dCount++] =Scaler.scaleFloatToFloat(-(vector.y0-config.ALG_MAX_Y/2), scaleHeightGL);
+            data[dCount++] =Scaler.scaleFloatToFloat(vector.x1-config.ALG_MAX_X/2, scaleWidthGL);
+            data[dCount++] =Scaler.scaleFloatToFloat(-(vector.y1-config.ALG_MAX_Y/2), scaleHeightGL);
+        }        
+        //DataBuffer.put(data, 0,dCount );//put all the data in the buffer, position at the end of the data
+
+        w.DataBuffer.put(data, 0, dCount);//put all the data in the buffer, position at the end of the data
+        return dCount;
+
+    }
+    int lsCounter = 0;
+    float[] dataRay = new float[200000];
+    void addGLLineSegment(int x0, int y0, int x1, int y1)
+    {
+        if (lsCounter>200000-4) return;
+        dataRay[lsCounter++] =Scaler.scaleFloatToFloat(x0-config.ALG_MAX_X/2, scaleWidthGL);
+        dataRay[lsCounter++] =Scaler.scaleFloatToFloat(-(y0-config.ALG_MAX_Y/2), scaleHeightGL);
+        dataRay[lsCounter++] =Scaler.scaleFloatToFloat(x1-config.ALG_MAX_X/2, scaleWidthGL);
+        dataRay[lsCounter++] =Scaler.scaleFloatToFloat(-(y1-config.ALG_MAX_Y/2), scaleHeightGL);
+    }
     public void lwjglExit()
     {
         jButtonStopActionPerformed(null);

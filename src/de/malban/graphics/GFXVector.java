@@ -35,6 +35,7 @@ public class GFXVector
     private transient int oldCloneUID = -1; // uid that this vector was clones from
     private static int UID = 0;
     public int uid = ++UID;
+    public int load_uid=0;
     boolean relativ = false;
     public boolean is3d = false;
     
@@ -239,7 +240,8 @@ public class GFXVector
         g = xmlSupport.getIntElement("g", xml);errorCode|=xmlSupport.errorCode;
         b = xmlSupport.getIntElement("b", xml);errorCode|=xmlSupport.errorCode;
         a = xmlSupport.getIntElement("a", xml);errorCode|=xmlSupport.errorCode;
-        uid= xmlSupport.getIntElement("id", xml);errorCode|=xmlSupport.errorCode;
+        load_uid= xmlSupport.getIntElement("id", xml);errorCode|=xmlSupport.errorCode;
+        
         order= xmlSupport.getIntElement("order", xml);errorCode|=xmlSupport.errorCode;
         uid_start_connect= xmlSupport.getIntElement("start_neighbour_id", xml);errorCode|=xmlSupport.errorCode;
         uid_end_connect= xmlSupport.getIntElement("end_neighbour_id", xml);errorCode|=xmlSupport.errorCode;

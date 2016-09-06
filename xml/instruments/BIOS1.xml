@@ -1,0 +1,8 @@
+<Instrument>
+<name>
+BIOS1</name>
+<adsr>
+$EE, $FF, $FF, $EE, $EE, $DD, $CC, $BB, $AA, $99, $88, $88, $88, $88, $88, $88</adsr>
+<twang>
+$00, $00, $00, $00, $00, $00, $00, $00</twang>
+</Instrument>

@@ -1,0 +1,133 @@
+Addr    Name            DP      Inreg   Outreg  Trashreg
+----    --------------- ---     ------- ------- --------
+F000    Start           --              --      --
+F06C    Warm_Start      --              --      --
+F14C    INIT_VIA        =D0             DP      D,X
+F164    Init_OS_RAM     =C8             DP      D,X
+F18B    Init_OS         =D0             DP      D,X
+F192    Wait_Recal      =D0             DP      D,X
+F1A2    Set_Refresh     D0                      D
+F1AA    DP_to_D0        =D0             A,DP
+F1AF    DP_to_C8        =C8             A,DP
+F1B4    Read_Btns_Mask  D0      A       A       B,X
+F1BA    Read_Btns       D0              A       B,X
+F1F5    Joy_Analog      D0                      D,X
+F1F8    Joy_Digital     D0                      D,X
+F256    Sound_Byte      D0              X       D
+F259    Sound_Byte_x    D0      A,B,X           D
+F25B    Sound_Byte_raw  D0
+F272    Clear_Sound     D0                      D,X
+F27D    Sound_Bytes     D0      U               D,X,U
+F284    Sound_Bytes_x   D0      X,U             D,X,U
+F289    Do_Sound        D0                      D,X,U
+F28C    Do_Sound_x      D0                      D,X,U
+F29D    Intensity_1F    D0                      D
+F2A1    Intensity_3F    D0                      D
+F2A5    Intensity_5F    D0                      D
+F2A9    Intensity_7F    D0                      D
+F2AB    Intensity_a     D0      A               D
+F2BE    Dot_ix_b        D0      B,X             D
+F2C1    Dot_ix          D0      X               D
+F2C3    Dot_d           D0      A,B             D
+F2C5    Dot_here        D0                      D
+F2D5    Dot_List        D0      X       X       D
+F2DE    Dot_List_Reset  D0      X       X       D
+F2E6    Recalibrate     D0                      D,X
+F2F2    Moveto_x_7F     D0      X               D
+F2FC    Moveto_d_7F     D0      A,B             D
+F308    Moveto_ix_FF    D0      X       X       D
+F30C    Moveto_ix_7F    D0      X       X       D
+F30E    Moveto_ix_a     D0      X,A     X       D
+F310    Moveto_ix       D0      X       X       D
+F312    Moveto_d        D0              A,B     D
+F34A    Reset0Ref_D0    =D0             DP      D
+F34F    Check0Ref       D0                      D
+F354    Reset0Ref       D0                      D
+F35B    Reset_Pen       D0                      D
+F36B    Reset0Int       D0                      D
+F373    Print_Str_hwyx  D0      U       U       D,X
+F378    Print_Str_yx    D0      U       U       D,X
+F37A    Print_Str_d     D0      A,B,U   U       D,X
+F385    Print_List_hw   D0      U       U       D,X
+F38A    Print_List      D0      U       U       D,X
+F38C    Print_List_chk  D0      U       U       D,X
+F391    Print_Ships_x   D0      A,B,X           D,X,U
+F393    Print_Ships     D0      A,B,X           D,X,U
+F3AD    Mov_Draw_VLc_a  D0      X       X       D       count y x y x ...
+F3B1    Mov_Draw_VL_b   D0      B,X     X       D       y x y x ...
+F3B5    Mov_Draw_VLcs   D0      X       X       D       count scale y x ...
+F3B7    Mov_Draw_VL_ab  D0      A,B,X   X       D       y x y x ...
+F3B9    Mov_Draw_VL_a   D0      A,X     X       D       y x y x ...
+F3BC    Mov_Draw_VL     D0      X       X       D       y x y x ...
+F3BE    Mov_Draw_VL_d   D0      D,X     X       D       y x y x ...
+F3CE    Draw_VLc        D0      X       X       D       count y x y x ...
+F3D2    Draw_VL_b       D0      B,X     X       D       y x y x ...
+F3D6    Draw_VLcs       D0      X       X       D       count scale y x ...
+F3D8    Draw_VL_ab      D0      A,B,X   X       D       y x y x ...
+F3DA    Draw_VL_a       D0      A,X     X       D       y x y x ...
+F3DD    Draw_VL         D0      X       X       D       y x y x ...
+F3DF    Draw_Line_d     D0      A,B     X       D       y x y x ...
+F404    Draw_VLp_FF     D0      X       X       D       pat y x ... $01
+F408    Draw_VLp_7F     D0      X       X       D       pat y x ... $01
+F40C    Draw_VLp_scale  D0      X       X       D       scale pat y x ... $01
+F40E    Draw_VLp_b      D0      B,X     X       D       pat y x ... $01
+F410    Draw_VLp        D0      X       X       D       pat y x ... $01
+F434    Draw_Pat_VL_a   D0      A,X     X       D       y x y x ...
+F437    Draw_Pat_VL     D0      X       X       D       y x y x ...
+F439    Draw_Pat_VL_d   D0      D,X     X       D       y x y x ...
+F46E    Draw_VL_mode    D0      X       X       D       mode y x ... $01
+F495    Print_Str       D0      U       U       D,X
+F511    Random_3        --              A
+F517    Random          --              A
+F533    Init_Music_Buf  --                      D,X
+F53F    Clear_x_b       --      B,X     D
+F542    Clear_C8_RAM    --              D,X
+F545    Clear_x_256     --      X       D
+F548    Clear_x_d       --      D,X     D
+F550    Clear_x_b_80    --      B,X     A,B
+F552    Clear_x_b_a     --      A,B,X   B
+F55A    Dec_3_Counters  --              X,B
+F55E    Dec_6_Counters  --              X,B
+F563    Dec_Counters    --      B,X     B
+F56D    Delay_3         --              B               30 cycles
+F571    Delay_2         --              B               25 cycles
+F575    Delay_1         --              B               20 cycles
+F579    Delay_0         --              B               12 cycles
+F57A    Delay_b         --      B       B               5*B + 10 cycles
+F57D    Delay_RTS       --                              5 cycles
+F57E    Bitmask_a       --      A       A       X
+F584    Abs_a_b         --      A,B     A,B
+F58B    Abs_b           --      B       B
+F593    Rise_Run_Angle  C8      A,B     A,B
+F5D9    Get_Rise_Idx    --      A       A,B     X
+F5DB    Get_Run_Idx     --      A       A,B     X
+F5EF    Rise_Run_Idx    C8                      D
+F5FF    Rise_Run_X      C8      A,B
+F601    Rise_Run_Y      C8      A,B
+F603    Rise_Run_Len    C8      A,B     A,B
+F610    Rot_VL_ab       =C8     A,B,X,U DP,X,U  D       y x y x ...
+F616    Rot_VL          =C8     X,U     DP,X,U  D       y x y x ...
+F61F    Rot_VL_Mode     C8      A,X,U   X,U     D       mode y x ... $01
+F62B    Rot_VL_M_dft    C8      X,U     X,U     D       mode y x ... $01
+F65B    Xform_Run_a     C8      A       A       B
+F65D    Xform_Run       C8              A       B
+F661    Xform_Rise_a    C8      A       A       B
+F663    Xform_Rise      C8              A       B
+F67F    Move_Mem_a_1    --      A,X,U   A,B
+F683    Move_Mem_a      --      A,X,U   A,B
+F687    Init_Music_chk  C8      U               D,X,Y,U
+F68D    Init_Music      C8      U               D,X,Y,U
+F692    Init_Music_dft  C8      U               D,X,Y,U
+F7A9    Select_Game     =C8     A,B     DP      D,X,Y
+F835    Display_Option  D0      A,Y             D,X,U
+F84F    Clear_Score     --      X               D
+F85E    Add_Score_a     --      A,X,U           D
+F87C    Add_Score_d     --      D,X,U           D
+F8B7    Strip_Zeros     --      B,X             D
+F8C7    Compare_Score   --      X,U     A       B
+F8D8    New_High_Score  --      X,U             X,U,D
+F8E5    Obj_Will_Hit_u  --      D,X,Y,U C-flag
+F8F3    Obj_Will_Hit    --      D,X,Y,U C-flag
+F8FF    Obj_Hit         --      D,X,Y   C-flag
+F92E    Explosion_Snd   C8      U               D,X
+FF9F    Draw_Grid_VL    D0      X,Y     X,Y     D

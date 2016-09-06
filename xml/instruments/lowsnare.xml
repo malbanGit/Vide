@@ -1,0 +1,8 @@
+<Instrument>
+<name>
+lowsnare</name>
+<adsr>
+$AB, $BB, $88, $76, $55, $55, $43, $33, $32, $22, $11, $10, $00, $00, $00, $00</adsr>
+<twang>
+$10, $00, $10, $00, $10, $00, $10, $00</twang>
+</Instrument>

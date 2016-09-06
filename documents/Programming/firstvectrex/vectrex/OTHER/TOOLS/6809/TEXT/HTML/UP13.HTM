@@ -1,0 +1,228 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 13</H2>
+<H3>Assembly Code Programming</H3>
+         Until now we have been writing programs in Machine Code - that is
+         the actual binary codes which the computer can understand and
+         execute directly.  Actually we have been using the hexadecimal
+         equivalent of the instructions to save typing long strings of
+         ones and zeros.  In the lab when we type in a hex instruction
+         there is a program running which converts the hex code into the
+         appropriate binary and stores it in memory.  Thus we have been
+         using a very simple translation program to make life easier for
+         ourselves.  Early computers did not even have that and programming
+         was done on a row of switches, one for each bit.  
+<P>
+         If we can get the computer to do a simple translation like hex to
+         binary then we can get it to do a slightly more useful
+         translation of mnemonics to machine code.  The mnemonics are
+         easily remembered shorthand versions of the instructions which we
+         have already met LDA, LSR, ADDA etc.  A program which converts
+         mnemonics to machine code is called an Assembler and the language
+         based on these mnemonics is known as Assembly Code.
+<P>
+         The Assembler uses a look-up table to convert each mnemonic into
+         the appropriate code.  An instruction like DECA is simple the code
+         is 4A.  With an instruction like LDA, however, there are many
+         possible codes depending upon the addressing mode.  The program
+         must obviously specify which mode should be used.
+<PRE>
+                    LDA #$FF     -    Immediate addressing      86
+                    LDA <$56     -    Direct Page addressing    96
+                    LDA $FE00    -    Extended addressing       B6
+                    LDA $0F,X    -    Indexed addressing        A6
+                    LDA [$2020]  -    Indirect addressing       A6
+</PRE>
+         Thus there is a precise format for the 'address' part of the
+         instruction which indicates which mode to use. In the last two
+         cases the instruction code is the same but the 'post-byte' or
+         second byte of the instruction is different.
+<P>
+         So the first thing we can get the assembler to do is to look up
+         the instruction codes for us - but in fact it can do a great deal
+         more.
+<P>
+         We have all had problems with the relative addressing used in
+         Branch instructions even though it is really a fairly simple
+         calculation.  The assembler can do this calculation for us.
+<PRE>
+                        Assembler Input         Assembler Output
+                         (Source Code)            (Object Code)
+
+                      $0030     LDX #$C646           8E C6 46
+                      $0033     LEAX -1,X            30 1F
+                      $0035     BNE $0033            26 FC
+</PRE>
+          By now this will be a very familiar loop. The assembler will work
+          out the twos complement of the difference between the address of
+          the next instruction and the destination address.  Moreover the
+          assembler will use the normal or short branch instruction with an
+          8 bit offset or the long branch if the offset is outside the
+          range -128 to +127.
+<P>
+          The next thing we can get the assembler to do is to keep track of
+          all the addresses in the program.  Rather than specifying the
+          destination of a branch explicitly as an address we can give the
+          appropriate location a name and simply refer to the name from
+          then on. The assembler works out what actual address the name
+          corresponds to and works out the offset accordingly.
+<PRE>
+                           ORG   $0030    ;Program starts at $0030
+                           LDX   #$C646
+                 LOOP      LEAX  -1,X
+                           BNE    LOOP
+</PRE>
+          The Assembler works out that the address of the instruction
+          labelled LOOP is $0033 and uses this number in the calculation of
+          the offset.  This makes editing the program a great deal easier
+          since we can add lines and the assembler will work out all the
+          new addresses.  We can have as many labels like this as we like
+          and they can refer to instruction locations as shown here,
+          or any other locations in memory.
+<PRE>
+                  ORB      EQU  $FE00
+                  INA      EQU  $FE01
+                  DDRB     EQU  $FE02
+                  DDRA     EQU  $FE03
+
+                           ORG $0020
+                           LDA  #$FF
+                           STA  DDRB
+                  LOOP1    LDA  INA
+                           STA  ORB
+                           BRA  LOOP1
+</PRE>
+          The first four statements simply equate the label to the value so
+          that whenever that label is encountered again the appropriate
+          value is substituted.  This means that labels can be defined just
+          once at the beginning of the program.  If we wish to change the
+          actual addresses then we only have to change the definition
+          statements and re-asssemble the program for it all to work
+          correctly.
+<P>
+         The assembler works by reading the source code program and
+         building up a symbol table which lists all the labels and their
+         equivalent values.  This causes no problems with the programs
+         listed so far, but we often want to refer to locations by label
+         before they have been encountered.
+<PRE>
+                         ADDA 0,X
+                         BCC NOCARRY
+                         INC MSBYTE
+              NOCARRY    DECB
+                         etc.
+</PRE>
+         Here the label  NOCARRY is encountered by the assembler before it
+         has been given  a value. In addition the assembler does not know
+         whether the offset will fit into 8 bits or 16 bits which in turn
+         affects the addresses of all subsequent instructions and indeed
+         the address of NOCARRY itself.  To overcome this the assembler
+         will read through the program a number of times.  The first time
+         it builds up the symbol table assuming a 16 bit offset will be
+         required in a situation like that above.  It then reads through
+         again knowing the actual addresses and correcting the symbol
+         table as necessary to take account of the fact that only an 8 bit
+         offset is needed.  It is of course possible that this shortening
+         of the program brings offsets into 8 bit range that were not
+         previously.  So the assembler must keep on reading through until
+         no further shortening is possible.  It then does a final read
+         through translating all the codes using the final version of the
+         symbol table.
+<P>
+         The assembler is therefore a fairly sophisticated software
+         package.  In some cases it is possible for the assembler to run on
+         the computer system it is assembling programs for.  E.g. the BBC
+         microcomputer had a built in assembler.  In the case of the simple lab
+         kits there is not nearly enough memory to run such a large
+         program, and so if we want to run an assembler we have to do it
+         on a different computer system.  In this case it is referred to as
+         a Cross-Assembler.  The assembler we have runs on the PCs on the Novell network
+         and is such a cross-assembler.  It is one produced by Motorola and
+         the format of the source code conforms to the standard Motorola
+         format which you may find in a number of books on the subject.
+
+<H3>Assembler Directives</H3>
+         The majority of lines of the source code will consist of
+         instructions to the processor LDA, DECA etc. each of which will
+         result in an instruction output in the object code.  There are
+         also lines of input which are instructions to the assembler
+         telling it how to interpret the source code.  These are known as
+         assembler directives.
+<CENTER>
+<TABLE WIDTH=60%>
+<TR>
+<TD WIDTH=20%><TD WIDTH=80%></TR>
+<TR>
+		<TD>ORG $1234     <TD>Tells the assembler to enter the next
+                                   instruction (or data byte) at the
+                                   location $1234.
+<TR>
+                <TD>END           <TD>Marks end of source code.
+<TR>
+                <TD>EQU           <TD>Equates a symbol to a value.
+<TR>
+                <TD>FCB $0F       <TD>Form a Constant Byte - Allocates a
+                                   memory location and enters the data
+                                   specified.  Can be used to create tables
+                                   of values in memory.
+<TR>
+                <TD>FDB $1234     <TD>Form a Double Byte - Allocates a pair of
+                                   memory locations and enters the data
+                                   specified - MSByte first.
+<TR>
+                <TD>FCC 'Message' <TD>Form Constant Characters - Allocates
+                                   sufficient memory bytes to hold the
+                                   string enclosed in quotation marks.
+				   The ASCII values of the characters 
+				   are entered into the following locations.
+<TR>
+                <TD>RMB $20       <TD>Reserve Memory Bytes - Reserves the
+                                   specified number of memory locations
+                                   without entering any data into them.
+<TR>
+                <TD>;             <TD>Whatever follows on the line is a
+                                   comment and should be ignored.
+</TABLE></CENTER>
+<P>
+          In addition most assemblers will allow simple arithmetic to be
+          carried out using the symbols and basic operators.
+<PRE>
+                    VIA   EQU $FE00
+                    ORB   EQU VIA
+                    INA   EQU VIA+1
+                    DDRB  EQU VIA+2
+                    DDRA  EQU VIA+3
+                    etc.
+</PRE>
+          Here we are defining the address at which the VIA is located and
+          then defining the addresses of all the registers in the VIA with
+          reference to that starting address.  This means that if we want
+          the software to run on a different system with the VIA at a
+          different address all we have to do is change one line in the
+          program and re-assemble it.
+<PRE>
+                    VIA EQU $8008
+</PRE>
+          Or if we have a table of values and wish to have a location which
+          stores the number of entries in the table:-
+<PRE>
+                    TABLE     FCB $0A
+                              FCB $15
+
+
+                    ENDTAB    FCB $7B
+                    NUMBER    FCB ENDTAB-TABLE
+</PRE>
+
+<hr>
+See <A HREF="assemblr.htm">notes on using the assembler</A> on the Novell network
+and on downloading programs assembled by this program to the M6809 lab kits.
+<hr>
+<A HREF="micros.htm">Back</A>
+
+</BODY>
+</HTML> 
+

@@ -1,7 +1,7 @@
 :title Sound / PSG Chip
  
 :h2 Programming/accessing PSG
-\- not done yet - 
+See programming section...
 ~~
 For  a glimpse look at Joysport devices, since they are accessed via PSG.
 

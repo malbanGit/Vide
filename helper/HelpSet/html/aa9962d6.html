@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511232928" />
+<meta name="date" content="20160906151831" />
 <!-- created with HelpSetMaker, ID=aa9962d6 -->
 <title>Export</title>
 </head>
@@ -42,7 +42,7 @@
 </li><li>
 <p>if a runnable source is generated, the button <img src="pics/control_play_blue.png" alt="control_play_blue.png" /> is enabled, and by pressing it you start your generated vectrex binary in the emulator.</p>
 </li><li>
-<p>you can also change the source in the editor an run it than. If "nothing" happened you entered a syntax error (check the log). If that is so, better copy and paste the text into vedi, there you can access error messages of assi directly</p>
+<p>you can also change the source in the editor an run it afterwards. If "nothing" happened you entered a syntax error (check the log). If that is so, better copy and paste the text into vedi, there you can access error messages of assi directly</p>
 </li></ul>
 
 <p>Following types of exports are supported (if possible):<br />
@@ -145,6 +145,58 @@ The formats: Draw&nbsp;VLx have no way to "place" the vectorlist. The vectorlist
 
 <p><b>Note:</b>!<br />
 In order to be able to export an animation be sure the "original" single vectors are exportable in the format you wish.</p>
+
+<p><tt><b>Draw sync list</b><br />
+     </tt>                                                                                                             This routine does not have BIOS pendant, with this type of list output of large non linear vectorlists can be achieved, which additionally are not prone (not very) to vectrex drift.</p>
+
+<p>The list look a lot like the Draw_VL_mode format: <tt>                                                              <br />
+                                                                       <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mode, rel y, rel x,                                             <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mode, rel y, rel x,                                             <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.      .      .                                                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.      .      .                                                <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mode, rel y, rel x,                                             <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0x02 </tt></p>
+
+<p>But the behaviour is a bit different. Following mode bytes are supported:
+<ul><li>
+<p>"0x00" move to the y, x (relative) </p>
+</li><li>
+<p>"0xff" draw to the y, x (relative) </p>
+</li><li>
+<p>"0x01" zero the integrators, reset offset, move to the designated start of the vectorlist and from there move to the y, x (relative) </p>
+</li><li>
+<p>"0x02" end marker</p>
+</li></ul>
+</p>
+
+<p>As you see with this list it is possible to "resync" the beam in between drawing of the vectorlist. </p>
+
+<p>For the above mentioned resync to be possible the call to the routine must provide additional information, as:<br />
+
+<ul><li>
+<p>U register, address of vectorlist</p>
+</li><li>
+<p>X register, the "absolut" position of the vectorlist to be drawn at</p>
+</li><li>
+<p>A register, the scalefactor for the positioning to the above start point</p>
+</li><li>
+<p>B register, the scalefactor the vectorlist itself will be drawn with</p>
+</li></ul>
+</p>
+
+<p>Examples (runnable) for this type of vectorlist can be generated as for all others.</p>
+
+<p><b>Note:</b><br />
+The vectorlists build in vecci automatically resync at points in the list which are not connected. One additional parameter can be given to the generation of the list (textfield right beside the button). This is the maximum of vectors that are drawn without a resync (or -1, if only resyncs should be inserted at non connected vectors).</p>
+
+<p>An example of the differences of a synced and not synced vectorlist:</p>
+<br/><p align="center">
+<img src="pics/FrogNotSynced.png" width="469" height="639" /><br/>
+<em>Not synced</em></p><br/>
+<br/><p align="center">
+<img src="pics/frogSynced.png" width="459" height="639" /><br/>
+<em>synced</em></p><br/>
 <h2>Vectorlist export</h2>
 
 <p>Look above...</p>
@@ -168,7 +220,7 @@ In order to be able to export an animation be sure the "original" single vectors
 
 <p>Code export has the same prerequisites than the text - "Move..." export. Apart from that it differs greatly from text export.</p>
 
-<p>Using the code export options allows you to export your vectors not as DATA statements, but as code, which actually draws vectors directly. If you are old enought to know the concept behind a library called Xlib (from DOS days) than you might recognize this as a <i>relative</i> to compiled bitmaps (although obviously these are no bitmaps!).</p>
+<p>Using the code export options allows you to export your vectors not as DATA statements, but as code, which actually draws vectors directly. If you are old enough to know the concept behind a library called Xlib (from DOS days) than you might recognize this as a <i>relative</i> to compiled bitmaps (although obviously these are no bitmaps!).</p>
 
 <p>The general logic for the codeexport goes like this:
 <ul><li>
@@ -210,5 +262,8 @@ Following templates are used:
 <p>%UID% - each call to a template is done with a unique ID, that way you can insure the use of different branch addresses  </p>
 </li></ul>
 </p>
+<h2>User export</h2>
+
+<p>Here a user can configure (meaning program) his own export routines. A simple example is given, as of now I will not elaborate these settings.</p>
 </body>
 </html>

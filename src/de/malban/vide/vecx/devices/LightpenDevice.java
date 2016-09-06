@@ -22,6 +22,10 @@ public class LightpenDevice extends AbstractDevice
     {
         return DEVICE_LIGHTPEN;
     }
+    public String getDeviceName()
+    {
+        return "lightpen";
+    }
     public LightpenDevice()
     {
     }

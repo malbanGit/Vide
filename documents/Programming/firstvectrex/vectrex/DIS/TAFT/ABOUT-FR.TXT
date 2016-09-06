@@ -1,0 +1,28 @@
+
+From: fred@hpcvlx (Fred Taft)
+Subject: 6809 Disassembler
+Date: Fri, 19 Aug 1994 16:00:48 GMT
+
+When I first got my Vectrex, I spent Thanksgiving weekend writing a
+disassembler for the 6809.  I then dumped the contents of several of
+the games (including the built-in OS/minestorm rom), and ran them
+through the disassembler; worked like a champ!  Then I began the task
+of interpreting what I saw.  I actually succeeded in reverse engineering
+the following games:
+
+   Art Master
+   Mine Storm
+   Star Castle
+   OS and utilities
+   Memory map of OS and Mine Storm usage
+
+I even went so far as building a plug-in card for my HP Integral Computer,
+which also attached to the Vectrex.  I could compile my tests on the
+Integral, download the bits to the card, and then turn on the Vectrex;
+worked great!  The assembler I was using I picked up for free off of the
+net, and it had a few bugs.  Unfortunately, none of this stuff has been
+touched for probably 8 years.
+
+Fred Taft
+fred@hp-pcd.cv.hp.com
+

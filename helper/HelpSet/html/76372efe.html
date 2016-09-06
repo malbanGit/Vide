@@ -5,16 +5,17 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511232928" />
+<meta name="date" content="20160906151831" />
 <!-- created with HelpSetMaker, ID=76372efe -->
 <title>vedi</title>
 </head>
 <body class="doc">
 <h1>vedi</h1>
 <br/><p align="center">
-<img src="pics/vedi.png" width="1007" height="739" /><br/>
+<img src="pics/vedi.png" width="963" height="801" /><br/>
 <em>vedi window</em></p><br/>
 <h2>Editor</h2>
+<h3>some "highlights":</h3>
 
 <ul><li>
 <p>double click on a  "include" tries to load the denoted file in an editor tab</p>
@@ -23,15 +24,65 @@
 </li><li>
 <p>tab, shiftab works as "indent"</p>
 </li><li>
+<p>middle mousebutton double click on a label/macro/variable jumps to the definition of that entity</p>
+</li><li>
 <p>there is a "pretty print" button for 6809 sources (only)</p>
+</li><li>
+<p>you can define and use up to 10 bookmarks</p>
+</li><li>
+<p>you can configure you syntax coloring settings</p>
 </li></ul>
+<h2>Buttons</h2>
+
+<p><img src="pics/new.png" alt="new.png" /><br />
+Create a new project or create an empty file.<br />
+</p>
+
+<p>Special:<br />
+If in file system view pressing "shift"-new will create a "default" project on the current selected assembler file.</p>
+
+<p><img src="pics/arrow_refresh.png" alt="arrow_refresh.png" /><br />
+Refresh the current display tree (if you externally added files - e.g.).<br />
+</p>
+
+<p>Special:<br />
+Pressing "shift"- refresh will switch the tree to a filesystem view within the Vide directory.</p>
+
+<p><img src="pics/page_go.png" alt="page_go.png" /> Load a file.<br />
+Pressing shift with the button, will reload the current edited file.</p>
+
+<p><img src="pics/page_save.png" alt="page_save.png" /> Save the current file.<br />
+Pressing shift with the button, will "save as" - opens a file dialog.</p>
+
+<p><img src="pics/text_columns.png" alt="text_columns.png" /><br />
+Pretty print the current source (assembler only).</p>
 <h2>Assembling</h2>
 
-<p>Pressing the button: <img src="pics/control_play_blue.png" alt="control_play_blue.png" />  starts the assembler with the current active file as input (file is automatically saved). If successfull, vecxi will automatically be started.<br />
+<p>Pressing the button: <img src="pics/control_play_blue.png" alt="control_play_blue.png" /> <br />
+<b>starts</b> the assembler with the current active file as input (file is automatically saved). If successfull, vecxi will automatically be started.<br />
 The messages of assi can be viewed in the bottom tab called "ASM messages":</p>
 <br/><p align="center">
 <img src="pics/vediAss.png" width="987" height="596" /><br/>
 <em>message window</em></p><br/>
+
+<p>Pressing the button: <img src="pics/bug_go.png" alt="bug_go.png" /> <br />
+starts <b> debugging</b> the assembler with the current active file as input (file is automatically saved). If successfull, vecxi will automatically be started.<br />
+The messages of assi can be viewed in the bottom tab called "ASM messages". A breakpoint will be set automatically to the first valid instruction of the cartridge - dissi will popup and you can debug right away.</p>
+
+<p>Pressing the button: <img src="pics/server_go.png" alt="server_go.png" /> <br />
+starts the assembler with the current active file as input (file is automatically saved)  and if successfull (and a vecxi instance is already running) <b>injects</b> the built binary file into the currently running vecxi. Vecxi is not reset while doing this, you just âchangeâ the cartridge ROM while running. You can thus experiment with changes to your bin file on the fly without losing RAM data, PC address or breakpoints.</p>
+<h2>Ask/F1</h2>
+
+<ol><li>
+<p>You can enter simple "expression" and use the ask field as a small calculator. Conversion between decimal, binary and hex is also supported.</p>
+</li><li>
+<p>You can enter names of (Bruce Tomlin - defined) BIOS routines, and a (stay on top) window displays a small help</p>
+</li><li>
+<p>You can enter Assembler mnemonics, and a help for the directive will be displayed</p>
+</li></ol>
+
+<p>Placing the cursor over such a "text" within the source, will do the same. </p>
+<h3>Messages</h3>
 
 <ul><li>
 <p>error messages are colored red</p>
@@ -70,7 +121,20 @@ Line 2: Where did it happen?<br />
 <br/><p align="center">
 <img src="pics/syntax.png" width="589" height="170" /><br/>
 <em>syntax example window</em></p><br/>
+<h2>Other features</h2>
+<h3>Bookmarks</h3>
 
-<p>I would like to enhance syntax highlighting further about the knowledge of macros and labels/variables. I will try that when I do "projects" in VIDE.</p>
+<p>Using SHIFT and CTRL (windows/linux) or CMD (apple) "1"-"0" you can define bookmarks. Using CTRL (windows/linux) or CMD (apple) "1"-"0" you can jump to defined bookmarks.</p>
+
+<p>Bookmarks can be used "accross" files.</p>
+<h3>Jump</h3>
+
+<p>CTRL (windows/linux) or CMD (apple) "J" jumps to a line number.</p>
+<h3>Recolor</h3>
+
+<p>CTRL (windows/linux) or CMD (apple) "R" reapplies syntax highlighting. </p>
+<h3>Run/Debug</h3>
+
+<p>F5 runs the current project/file, F6 debugs the current project/file (same as the buttons).</p>
 </body>
 </html>

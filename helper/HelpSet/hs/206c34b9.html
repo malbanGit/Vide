@@ -8,6 +8,7 @@
 <br><p align="center">
 <img src="pics/NewProject.png" width="704" height="627"><br>
 <em>new project window</em></p><br>
+<h3>What are projects?</h3>
 
 <p>Projects regarding VIDE are in the simplest of terms directories which serve as a binding element for a bunch of files.</p>
 
@@ -22,12 +23,14 @@
 <p>if you build a project, the main file is always used as the starting point</p>
 </li></ul>
 </p>
+<h3>Load</h3>
 
 <p>Projects are represented by a XML-File with the name of the project in the directory of the project.</p>
 
 <p>If you want to load a project - you have to load the corresponding XML file.</p>
+<h3>New</h3>
 
-<p>Projects can be created using the "New" button in the main vedi window. After selecting new project, the above window is displayed and you can enter your project configuration. The name and the directory in which the project resides can not be altered later!</p>
+<p>Projects can be created using the <img src="pics/new.png" alt="new.png"> button in the main vedi window. After selecting new project, the above window is displayed and you can enter your project configuration. The name and the directory in which the project resides can not be altered later!</p>
 
 <p>In the directory given, a new directory with the name of the project will be created! After the creation process has finished the project files are displayed in a tree view on the right side of the window.</p>
 
@@ -36,7 +39,9 @@
 </li><li>
 <p>you can chose to create code for each bank</p>
 </li><li>
-<p>(not completely done!) each "main" - bank file is treated as such, upon project build the general idea is to create each bank seperatly and than join them to create a file vecxy will recognize as "bankswitchable" </p>
+<p>each "main" - bank file is treated as such, upon project build the general idea is to create each bank seperatly and than join them to create a file vecxi will recognize as "bankswitchable" </p>
+</li><li>
+<p>each main file can support a "define" variable, that way you can "reuse" one main file and use assembler pseudo opcode "if" to define different sections for each bank in only one file</p>
 </li></ul>
 
 <p><b>Tree</b><br>

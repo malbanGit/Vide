@@ -13,6 +13,7 @@ import de.malban.gui.components.CSATableModel;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.components.DoubleClickAction;
 import de.malban.gui.components.ModalInternalFrame;
+import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.QuickHelpModal;
 import de.malban.gui.dialogs.ShowErrorDialog;
 import de.malban.gui.panels.LogPanel;
@@ -33,8 +34,10 @@ import javax.sound.sampled.AudioInputStream;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 
@@ -70,6 +73,7 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
     @Override
     public void closing()
     {
+        deinit();
     }
     @Override
     public void setParentWindow(CSAView jpv)
@@ -220,14 +224,13 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
                 if (col == 4) instrumentHandles.get(row).vectrex = (VectrexInstrument)aValue;
         }
     }
-    /**
-     * Creates new form SampleJPanel
-     */
-    public ModJPanel(String filename, TinyLogInterface tl) 
+    void deinit()
     {
-        initComponents();
-        tinyLog = tl;
-        // check if is a file or a dir
+        iBXMPlayerJPanel1.stop();
+    }
+
+    void initModFile(String filename)
+    {
         File file = new File(filename);
         if (file.isDirectory())
         {
@@ -236,8 +239,10 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         else
         {
             pathOnly = file.getParent();
+            if (pathOnly==null) pathOnly ="";
             currentModFile = filename;
         }
+        if (pathOnly.length()!=0) pathOnly+=File.separator;
         iBXMPlayerJPanel1.setModfile(currentModFile);
         cSATablePanel1.setTableStyleSwitchingEnabled(false);
 
@@ -246,23 +251,34 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         TableCellEditor editor = new DefaultCellEditor(comboBox);
         
         Vector<String> in = iBXMPlayerJPanel1.getInstruments();
-        for(int i=0; i< in.size(); i++)
+        if (currentModFile.length()!=0)
         {
-            InstrumentHandle ins = new InstrumentHandle();
-            ins.name = in.elementAt(i).substring(4);
-            ins.no = DASM6809.toNumber(in.elementAt(i).substring(0,3));
-            ins.vectrex = SILENCE;
-            Sample sample = iBXMPlayerJPanel1.getInstrumentSample(ins.no);
-            ins.length = sample.getSampleData().length*2; // in byte
-            instrumentHandles.add(ins);
-        }
-        Mod2Vectrex infoCollector = new Mod2Vectrex();
-        infoCollector.collectInfo(filename, instrumentHandles);
+            for(int i=0; i< in.size(); i++)
+            {
+                InstrumentHandle ins = new InstrumentHandle();
+                ins.name = in.elementAt(i).substring(4);
+                ins.no = DASM6809.toNumber(in.elementAt(i).substring(0,3));
+                ins.vectrex = SILENCE;
+                Sample sample = iBXMPlayerJPanel1.getInstrumentSample(ins.no);
+                ins.length = sample.getSampleData().length*2; // in byte
+                instrumentHandles.add(ins);
+            }
+            Mod2Vectrex infoCollector = new Mod2Vectrex();
+            infoCollector.collectInfo(filename, instrumentHandles);
 
-        jLabelv1.setText(""+getVoiceUsage(instrumentHandles,0));
-        jLabelv2.setText(""+getVoiceUsage(instrumentHandles,1));
-        jLabelv3.setText(""+getVoiceUsage(instrumentHandles,2));
-        jLabelv4.setText(""+getVoiceUsage(instrumentHandles,3));
+            jLabelv1.setText(""+getVoiceUsage(instrumentHandles,0));
+            jLabelv2.setText(""+getVoiceUsage(instrumentHandles,1));
+            jLabelv3.setText(""+getVoiceUsage(instrumentHandles,2));
+            jLabelv4.setText(""+getVoiceUsage(instrumentHandles,3));        
+        }
+        else
+        {
+            jLabelv1.setText("");
+            jLabelv2.setText("");
+            jLabelv3.setText("");
+            jLabelv4.setText("");        
+        }
+
         
         csaModel = CSATableModel.buildTableModel(new ModTableModel());
         cSATablePanel1.setModel(csaModel);
@@ -276,8 +292,29 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
                 if (rows.length>0) playInstrument(rows[0]);
             }
         });
-        updateVoicePlay();
+        if (currentModFile.length()!=0)
+            updateVoicePlay();
         
+    }
+    /**
+     * Creates new form SampleJPanel
+     */
+    public ModJPanel(String filename, TinyLogInterface tl) 
+    {
+        initComponents();
+        initInstrumentCombo();
+        tinyLog = tl;
+        // check if is a file or a dir
+        if (filename != null)
+        {
+            jPanel3.setVisible(false);
+            initModFile(filename);
+        }
+        else
+        {
+            filename = "";
+            initModFile(filename);
+        }
         cSATablePanel1.getTable().setFont(new java.awt.Font("Courier New", 1, 10));
         cSATablePanel1.setColumnWidth(0, 5);
         cSATablePanel1.setColumnWidth(1, 100);
@@ -285,6 +322,7 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         cSATablePanel1.setColumnWidth(3, 160);
         cSATablePanel1.setColumnWidth(4, 60);
         cSATablePanel1.setColumnWidth(5, 5);
+
     }
     int getVoiceUsage(ArrayList<InstrumentHandle> instrumentHandles, int voice)
     {
@@ -366,9 +404,9 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         jRadioButton11 = new javax.swing.JRadioButton();
         jRadioButton12 = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldADSR1 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jTextFieldTWANG1 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabelv1 = new javax.swing.JLabel();
         jLabelv2 = new javax.swing.JLabel();
@@ -380,8 +418,26 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         jCheckBoxV4 = new javax.swing.JCheckBox();
         jLabel9 = new javax.swing.JLabel();
         jCheckBoxIndirectOutput = new javax.swing.JCheckBox();
+        jLabel6 = new javax.swing.JLabel();
+        jTextFieldADSR2 = new javax.swing.JTextField();
+        jTextFieldADSR3 = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jComboBox2 = new javax.swing.JComboBox();
+        jComboBox3 = new javax.swing.JComboBox();
+        jLabel11 = new javax.swing.JLabel();
+        jTextFieldTWANG2 = new javax.swing.JTextField();
+        jTextFieldTWANG3 = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         cSATablePanel1 = new de.malban.gui.components.CSATablePanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jButtonLoad = new javax.swing.JButton();
 
         jButtonCreate.setText("create source");
         jButtonCreate.setName("create"); // NOI18N
@@ -459,20 +515,20 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         buttonGroup3.add(jRadioButton12);
         jRadioButton12.setText("mod 4");
 
-        jLabel5.setText("ADSR (32 nibble):");
+        jLabel5.setText("ADSR (32 nibble) 1:");
 
-        jTextField1.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        jTextField1.setText("$ff,$ed,$cb,$a9,$87,$65,$43,$21,$00,$00,$00,$00,$00,$00,$00,$00");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldADSR1.setFont(new java.awt.Font("Courier New", 1, 10)); // NOI18N
+        jTextFieldADSR1.setText("$ff,$ed,$cb,$a9,$87,$65,$43,$21,$00,$00,$00,$00,$00,$00,$00,$00");
+        jTextFieldADSR1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextFieldADSR1ActionPerformed(evt);
             }
         });
 
-        jLabel7.setText("TWANG (8 byte):");
+        jLabel7.setText("TWANG (8 byte) 1:");
 
-        jTextField3.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        jTextField3.setText("$ff,$ff,$00,$00,$00,$00,$00,$00");
+        jTextFieldTWANG1.setFont(new java.awt.Font("Courier New", 1, 10)); // NOI18N
+        jTextFieldTWANG1.setText("$ff,$ff,$00,$00,$00,$00,$00,$00");
 
         jLabel8.setText("voice usages:");
 
@@ -522,126 +578,271 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
             }
         });
 
+        jLabel6.setText("ADSR (32 nibble) 2:");
+
+        jTextFieldADSR2.setFont(new java.awt.Font("Courier New", 1, 10)); // NOI18N
+        jTextFieldADSR2.setText("$ff,$ed,$cb,$a9,$87,$65,$43,$21,$00,$00,$00,$00,$00,$00,$00,$00");
+        jTextFieldADSR2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldADSR2ActionPerformed(evt);
+            }
+        });
+
+        jTextFieldADSR3.setFont(new java.awt.Font("Courier New", 1, 10)); // NOI18N
+        jTextFieldADSR3.setText("$ff,$ed,$cb,$a9,$87,$65,$43,$21,$00,$00,$00,$00,$00,$00,$00,$00");
+        jTextFieldADSR3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldADSR3ActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("ADSR (32 nibble) 3:");
+
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("TWANG (8 byte) 2:");
+
+        jTextFieldTWANG2.setFont(new java.awt.Font("Courier New", 1, 10)); // NOI18N
+        jTextFieldTWANG2.setText("$ff,$ff,$00,$00,$00,$00,$00,$00");
+
+        jTextFieldTWANG3.setFont(new java.awt.Font("Courier New", 1, 10)); // NOI18N
+        jTextFieldTWANG3.setText("$ff,$ff,$00,$00,$00,$00,$00,$00");
+
+        jLabel12.setText("TWANG (8 byte) 3:");
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/ipod.png"))); // NOI18N
+        jButton7.setText("instrument edit");
+        jButton7.setPreferredSize(new java.awt.Dimension(72, 20));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/wand.png"))); // NOI18N
+        jButton2.setToolTipText("refresh (after configuration)");
+        jButton2.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jButton2.setPreferredSize(new java.awt.Dimension(37, 20));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setText("default speed:");
+
+        jTextField1.setText("10");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton4))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton8))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jRadioButton9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton10)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(129, 129, 129)
+                                    .addComponent(jTextFieldTWANG3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel12))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton12))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelv1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBoxV1))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelv2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBoxV2))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelv3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBoxV3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBoxV4)
-                                    .addComponent(jLabelv4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jTextFieldTWANG1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldTWANG2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jCheckBoxIndirectOutput))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
-                                .addComponent(jCheckBoxIndirectOutput)))))
-                .addGap(24, 24, 24))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jRadioButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jRadioButton2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jRadioButton3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jRadioButton4))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jRadioButton5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jRadioButton6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jRadioButton7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jRadioButton8))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel8)
+                                            .addComponent(jLabel9))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jRadioButton9)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jRadioButton10)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jRadioButton11)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jRadioButton12))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabelv1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jCheckBoxV1))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabelv2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jCheckBoxV2))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabelv3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jCheckBoxV3))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jCheckBoxV4)
+                                                    .addComponent(jLabelv4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(148, 148, 148)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(80, 80, 80))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextFieldADSR2))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTextFieldADSR1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldADSR3, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jComboBox3, 0, 146, Short.MAX_VALUE)
+                                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 10, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jRadioButton1)
                     .addComponent(jRadioButton2)
                     .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jRadioButton4)
+                    .addComponent(jLabel13)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jRadioButton5)
                     .addComponent(jRadioButton6)
                     .addComponent(jRadioButton7)
                     .addComponent(jRadioButton8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jRadioButton9)
                     .addComponent(jRadioButton10)
                     .addComponent(jRadioButton11)
                     .addComponent(jRadioButton12))
+                .addGap(0, 0, 0)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabelv1)
+                            .addComponent(jLabelv2)
+                            .addComponent(jLabelv3)
+                            .addComponent(jLabelv4))
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBoxV1)
+                            .addComponent(jCheckBoxV2)
+                            .addComponent(jCheckBoxV3)
+                            .addComponent(jCheckBoxV4)
+                            .addComponent(jLabel9)))
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabelv1)
-                    .addComponent(jLabelv2)
-                    .addComponent(jLabelv3)
-                    .addComponent(jLabelv4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(jTextFieldADSR1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxV1)
-                    .addComponent(jCheckBoxV2)
-                    .addComponent(jCheckBoxV3)
-                    .addComponent(jCheckBoxV4)
-                    .addComponent(jLabel9))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6)
+                        .addComponent(jTextFieldADSR2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(jTextFieldADSR3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jTextFieldTWANG1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
+                    .addComponent(jLabel11)
+                    .addComponent(jTextFieldTWANG2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(jTextFieldTWANG3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxIndirectOutput))
-                .addGap(0, 0, 0))
+                .addGap(2, 2, 2))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -652,14 +853,43 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(cSATablePanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(cSATablePanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+        );
+
+        jLabel14.setText("load image file");
+
+        jButtonLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
+        jButtonLoad.setToolTipText("load YM");
+        jButtonLoad.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoadActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonLoad)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonLoad)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 3, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(iBXMPlayerJPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -668,11 +898,15 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
                 .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(iBXMPlayerJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(iBXMPlayerJPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(iBXMPlayerJPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -698,19 +932,19 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
     
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
         iBXMPlayerJPanel1.stop();
-        
+        Mod2Vectrex.DEFAULT_SPEED = (byte) DASM6809.toNumber(jTextField1.getText());
         
         createSource();
     }//GEN-LAST:event_jButtonCreateActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 
-        QuickHelpModal.showHelpHtmlFile("documents"+File.separator+"help"+File.separator+"mod.html");
+        QuickHelpModal.showHelpHtmlFile("help"+File.separator+"mod.html");
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextFieldADSR1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldADSR1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextFieldADSR1ActionPerformed
 
     private void jCheckBoxV1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxV1ActionPerformed
         updateVoicePlay();
@@ -732,6 +966,111 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxIndirectOutputActionPerformed
 
+    private void jTextFieldADSR2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldADSR2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldADSR2ActionPerformed
+
+    private void jTextFieldADSR3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldADSR3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldADSR3ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        InstrumentEditor.showInstrumentPanelNoModal(tinyLog);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        initInstrumentCombo();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        if (mClassSetting>0) return;
+        if (jComboBox1.getSelectedIndex()==-1) return;
+        String selname = jComboBox1.getSelectedItem().toString();
+        ArrayList<String> list = Instrument.getInstrumentList();
+        for (String name: list)
+        {
+            String comboName = de.malban.util.UtilityString.replace(name.toLowerCase(), ".xml", "");
+            if (selname.equals(comboName))
+            {
+                Instrument ins = Instrument.getInstrument(comboName);
+                jTextFieldADSR1.setText(ins.getADSRAsString());
+                jTextFieldTWANG1.setText(ins.getTWANGAsString());
+                return;
+            }
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        if (mClassSetting>0) return;
+        if (jComboBox2.getSelectedIndex()==-1) return;
+        String selname = jComboBox2.getSelectedItem().toString();
+        ArrayList<String> list = Instrument.getInstrumentList();
+        for (String name: list)
+        {
+            String comboName = de.malban.util.UtilityString.replace(name.toLowerCase(), ".xml", "");
+            if (selname.equals(comboName))
+            {
+                Instrument ins = Instrument.getInstrument(comboName);
+                jTextFieldADSR2.setText(ins.getADSRAsString());
+                jTextFieldTWANG2.setText(ins.getTWANGAsString());
+                return;
+            }
+        }
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        if (mClassSetting>0) return;
+        if (jComboBox3.getSelectedIndex()==-1) return;
+        String selname = jComboBox3.getSelectedItem().toString();
+        ArrayList<String> list = Instrument.getInstrumentList();
+        for (String name: list)
+        {
+            String comboName = de.malban.util.UtilityString.replace(name.toLowerCase(), ".xml", "");
+            if (selname.equals(comboName))
+            {
+                Instrument ins = Instrument.getInstrument(comboName);
+                jTextFieldADSR3.setText(ins.getADSRAsString());
+                jTextFieldTWANG3.setText(ins.getTWANGAsString());
+                return;
+            }
+        }
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+            // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    String lastImagePath = ".";
+    private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
+
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setMultiSelectionEnabled(true);
+        if (lastImagePath.length()==0)
+        {
+        }
+        else
+        {
+            fc.setCurrentDirectory(new java.io.File(lastImagePath));
+        }
+        FileNameExtensionFilter  filter = new  FileNameExtensionFilter("Mod-Files", "mod");
+        fc.setFileFilter(filter);
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        File[] files = fc.getSelectedFiles();
+        String fullPath;
+        if ((files == null) || (files.length == 1))
+        {
+            fullPath = fc.getSelectedFile().getAbsolutePath();
+        }
+        else // add multiple images
+        {
+            fullPath = files[0].getAbsolutePath();
+        }
+        lastImagePath =fullPath;
+        initModFile(fullPath);
+    }//GEN-LAST:event_jButtonLoadActionPerformed
+
     boolean[] voicePlay = new boolean[4];
     void updateVoicePlay()
     {
@@ -749,19 +1088,31 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.ButtonGroup buttonGroup3;
     private de.malban.gui.components.CSATablePanel cSATablePanel1;
     private de.malban.vide.vedi.sound.ibxm.IBXMPlayerJPanel iBXMPlayerJPanel1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonCreate;
+    private javax.swing.JButton jButtonLoad;
     private javax.swing.JCheckBox jCheckBoxIndirectOutput;
     private javax.swing.JCheckBox jCheckBoxV1;
     private javax.swing.JCheckBox jCheckBoxV2;
     private javax.swing.JCheckBox jCheckBoxV3;
     private javax.swing.JCheckBox jCheckBoxV4;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox jComboBox3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -771,6 +1122,7 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JLabel jLabelv4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton10;
     private javax.swing.JRadioButton jRadioButton11;
@@ -784,7 +1136,12 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JRadioButton jRadioButton8;
     private javax.swing.JRadioButton jRadioButton9;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextFieldADSR1;
+    private javax.swing.JTextField jTextFieldADSR2;
+    private javax.swing.JTextField jTextFieldADSR3;
+    private javax.swing.JTextField jTextFieldTWANG1;
+    private javax.swing.JTextField jTextFieldTWANG2;
+    private javax.swing.JTextField jTextFieldTWANG3;
     // End of variables declaration//GEN-END:variables
 
     JInternalFrame modelDialog;
@@ -812,9 +1169,14 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
     }        
     public static void showModPanelNoModal(String fileName, TinyLogInterface tl)
     {
+        showModPanelNoModal( fileName,  tl, false);
+    }        
+    boolean standalone = false;
+    public static void showModPanelNoModal(String fileName, TinyLogInterface tl, boolean sa)
+    {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         ModJPanel panel = new ModJPanel(fileName, tl);
-        
+        panel.standalone = sa;
         ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         eb.add(panel.jButtonCancel);
@@ -825,10 +1187,25 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
     void createSource()
     {
         
-        String pathOnly = Paths.get(currentModFile).getParent().toString();
-        if (pathOnly.length()!=0)pathOnly+=File.separator;
+        if (standalone)
+        {
+            // ask where to save!
+            InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+            fc.setDialogTitle("Select save directory");
+            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+            int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+            if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+            String lastPath = fc.getSelectedFile().getAbsolutePath();
+
+            Path p = Paths.get(lastPath);
+            String newName = p.toString();
+            if (!newName.endsWith(File.separator)) newName+=File.separator;
+            pathOnly = newName;
+        }
         
-        String nameOnly = Paths.get(currentModFile).getFileName().toString();;
+        String nameOnly = Paths.get(currentModFile).getFileName().toString();
         int li = nameOnly.lastIndexOf(".");
         if (li>=0) 
             nameOnly = nameOnly.substring(0,li);
@@ -847,7 +1224,10 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         m2v.vectrexModMapping[1] = v1;
         m2v.vectrexModMapping[2] = v2;
         
-        String result = m2v.doIt(currentModFile, instrumentHandles, jTextField1.getText(), jTextField3.getText(), jCheckBoxIndirectOutput.isSelected());
+        
+        String currentOut = pathOnly+Paths.get(currentModFile).getFileName().toString();
+        
+        String result = m2v.doIt(currentModFile, currentOut, instrumentHandles, jTextFieldADSR1.getText(),jTextFieldADSR2.getText(),jTextFieldADSR3.getText(), jTextFieldTWANG1.getText(),jTextFieldTWANG2.getText(),jTextFieldTWANG3.getText(), jCheckBoxIndirectOutput.isSelected());
         tinyLog.printMessage(result);
 
         Path include = Paths.get(".", "template", "VECTREX.I");
@@ -867,8 +1247,52 @@ public class ModJPanel extends javax.swing.JPanel implements Windowable
         {
             ((VediPanel)tinyLog).returnFromModPanel(true);
         }
+        if (standalone)
+        {
+            VediPanel.openInVedi(pathOnly+nameOnly+"Main.asm");
+        }
     }
 
     
+    void initInstrumentCombo()
+    {
+        ArrayList<String> list = Instrument.getInstrumentList();
+        mClassSetting++;
+        jComboBox1.removeAllItems();
+        jComboBox2.removeAllItems();
+        jComboBox3.removeAllItems();
+        int selIndex1 = -1;
+        int selIndex2 = -1;
+        int selIndex3 = -1;
+        int index = 0;
+        String nameSel1="";
+        if (jComboBox1.getSelectedIndex()!=-1)
+            nameSel1 = jComboBox1.getSelectedItem().toString();
+        String nameSel2="";
+        if (jComboBox2.getSelectedIndex()!=-1)
+            nameSel2 = jComboBox2.getSelectedItem().toString();
+        String nameSel3="";
+        if (jComboBox3.getSelectedIndex()!=-1)
+            nameSel3 = jComboBox3.getSelectedItem().toString();
+        for (String name: list)
+        {
+            String comboName = de.malban.util.UtilityString.replace(name.toLowerCase(), ".xml", "");
+            jComboBox1.addItem(comboName);
+            if (comboName.equals(nameSel1.toLowerCase()))
+                selIndex1 = index; 
+            jComboBox2.addItem(comboName);
+            if (comboName.equals(nameSel2.toLowerCase()))
+                selIndex2 = index; 
+            jComboBox3.addItem(comboName);
+            if (comboName.equals(nameSel3.toLowerCase()))
+                selIndex3 = index; 
+            index++;
+        }
+        jComboBox1.setSelectedIndex(selIndex1);
+        jComboBox2.setSelectedIndex(selIndex2);
+        jComboBox3.setSelectedIndex(selIndex3);
+        mClassSetting--;
+        
+    }
 
 }

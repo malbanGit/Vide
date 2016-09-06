@@ -1,0 +1,138 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 9</H2>
+<H3>Counters and Shift Registers</H2>
+The 6522 timers are similar to those found on purpose-made
+counter-timer (CTC) chips.
+<P>
+There are 2 x 16-bit timers (TIMER 1 and TIMER 2).   These operate by being preset
+to the required count and then they count DOWN to zero.
+<P>
+A flag is set when zero is reached.   This may cause an interrupt if the
+respective enable bits are set.
+<P>
+The counters have two parts, the counter (T1C) and its latch (T1L).
+<H3>Timer 1</H3>
+<CENTER>
+<IMG SRC="up09a.gif">
+</CENTER>
+<P>
+Since our 8-bit microprocessor can only load one half of the counter at a
+time and since two successive writes may be around 10 microseconds apart,
+then there would be problems in setting the counter to a precise value 
+as it is usually decrementing all the time.
+<P>
+So a mode is provided where the latch may be written without affecting the
+counter.
+<P>
+In this way, T1L-L (the low order 8-bits of the latch) is written first.
+Then when T1L-H is written to, T1C-H is simultaneously loaded and T1C-L
+is loaded from T1L-L (mode 0101).  
+Thus a 16-bit parallel load of the counter is achieved.
+
+<H4>Loading the latches only</H4>
+In another mode, the latches may be written to at any time without disturbing
+the counter.
+<P>
+When the counter reaches zero, it can automatically reload itself with the
+value held in the latches.
+
+<H3>Timer 1 options</H3>
+These are set from the <A HREF="up08.htm#ACR">Auxiliary Control Register</A> (ACR) 
+bits ACR6 and ACR7.
+<P>
+When Timer 1 reaches zero, it sets the flag IFR6 and this will generate an
+interrupt if IER6 is also set.
+<P>
+At this point, the timer may be disabled (i.e. generates no further interrupts)
+or it may reload itself from the latches and continue to decrement.   This option
+may be used to generate equally spaced interrupts (e.g. for use as a real-time
+clock).
+<P>
+Also, each time Timer 1 reaches zero, PB7 may be programmed to change state.
+This can be used to generate a clock signal on PB7.
+<CENTER>
+<IMG SRC="up09b.gif">
+</CENTER>
+
+<H3>Timer 2</H3>
+This operates in a 'one-shot' mode only (i.e. not continuous) and
+is controlled by <A HREF="up08.htm#ACR">ACR5</A>.
+<PRE>
+	ACR5 = 0;	interval timer, interrupt on reaching zero
+	ACR5 = 1;	uses PB6 as a clock input and decrements
+			on each negative transition with an
+			interrupt on reaching zero.
+</PRE>
+
+<H3>Shift Register</H3>
+This can perform a shift-in of serial data arriving on CB2 or a shift-out
+of data, also using CB2.
+<CENTER>
+<IMG SRC="up09c.gif">
+</CENTER>
+In each case, an interrupt is generated after 8 shifts.
+The shift register is controlled by <A HREF="up08.htm#ACR">ACR2,3 & 4</A>.
+<P>
+The shift clock has three possible sources:<br>
+(a) Timer 2 timeout<br>
+(b) system clock (E)<br>
+(c) external clock on CB1
+
+<H3>Example of PIA use</H3>
+This example shows the use of the PIA as a 4 x 4 keypad using push-switches
+which make connections at the intersections of a switch matrix.
+<CENTER>
+<IMG SRC="up09d.gif">
+</CENTER>
+
+With no keys pressed, normally PA0-3 are at a '1' state due to the
+pull-up resistors.   Thus a READ of PORT A would give $F on the
+lowest 4 bits.
+<P>
+If PA4-7 are set to zero, then any key pressed in the matrix will pull
+the corresponding input line LOW<br>
+i.e. a READ from PORT A will no longer give $F on the lowest 4 bits.
+In addition, with the NAND gate shown, any key pressed will cause an
+interrupt to be generated via CA1 input.   This will alert the
+microprocessor to read Port A to determine which switch has been pressed.
+<P>
+e.g. if switch '8' is pressed,<br>
+PORT A reads	00001011 = $0B
+<P>
+This tells us that a key has been pressed and in this case, it is one
+of the keys in column '2'.
+<P>
+Generally, more than one key may have been pressed and more than one
+column may read as zero.
+<P>
+To identify the exact key (or keys) pressed, we must poll the individual
+rows of the matrix.
+<P>
+e.g. writing 0111 to PA7-4, polls keys 1,2,3,0<br>
+If any of these keys are pressed, PA3-0 does not read '1111'.
+<P>
+Then if 1011 is written to PA7-4, keys 4,5,6,F are polled,<br>
+when 1101 is written to PA7-4, keys 7,8,9,E are polled<br>
+and finally when 1110 is written to PA7-4, keys A,B,C,D are polled.
+<P>
+In our example for switch '8', when PA7-4 contains 1101 then PA3-0
+reads as 1011.   The code in Port A (11011011) identifies that
+key '8' is pressed.
+A look-up table will normally be used to convert this number into
+a meaningful key number.   This is preferred to a series of
+CMP and BRANCH instructions.
+<P>
+There are practical problems not dealt with here.   For example, switch bounce
+is a real problem.   It is normal, when a key has been identified as being 
+pressed, to generate a software delay and to read the key again to reduce
+the effects of noise.
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up10.htm">Next</A> |</CENTER>
+
+</BODY>
+</HTML>

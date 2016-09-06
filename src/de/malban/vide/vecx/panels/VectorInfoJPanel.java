@@ -11,6 +11,7 @@ import de.malban.vide.vecx.VecXPanel;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.VecXStatics;
@@ -28,6 +29,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class VectorInfoJPanel extends javax.swing.JPanel implements
         Windowable, Stateable{
+    public VideConfig config = VideConfig.getConfig();
     public boolean isLoadSettings() { return true; }
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
@@ -209,10 +211,10 @@ public class VectorInfoJPanel extends javax.swing.JPanel implements
             pc = v.callStack.get(v.callStack.size()-1);
         }
 
-        x0 = v.x0-VecXStatics.ALG_MAX_X/2;
-        y0 = -(v.y0-VecXStatics.ALG_MAX_Y/2);
-        x1 = v.x1-VecXStatics.ALG_MAX_X/2;
-        y1 = -(v.y1-VecXStatics.ALG_MAX_Y/2);
+        x0 = v.x0-config.ALG_MAX_X/2;
+        y0 = -(v.y0-config.ALG_MAX_Y/2);
+        x1 = v.x1-config.ALG_MAX_X/2;
+        y1 = -(v.y1-config.ALG_MAX_Y/2);
         color = v.color;
         
         jTable1.tableChanged(null);

@@ -77,6 +77,8 @@ public class UpdateRunner implements Runnable {
 			long lastUpdate = System.nanoTime();
 			//keep running until told to stop
 			while (this.running.get()) {
+try
+{
 				//check the time
 				long currTime = System.nanoTime();
 				//accrue frames
@@ -128,6 +130,13 @@ public class UpdateRunner implements Runnable {
 					Thread.sleep(1);
 				} catch (InterruptedException e) {}
 			}
+catch (Throwable ex)
+        {
+        // even if something internal is happening, do not "fuck up!
+        }
 		}
+                        
+                }
+                
 		
 	}

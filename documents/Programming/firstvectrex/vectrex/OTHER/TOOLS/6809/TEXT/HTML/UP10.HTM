@@ -1,0 +1,132 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 10</H2>
+<H2>Analogue to Digital Conversion</H2>
+In addition to the role of the microprocessor in computing,
+a common usage is in equipment.
+<P>
+Analogue to Digital converters (ADC) and 
+Digital to Analogue Converters (DAC) are required to convert
+between the various physical quantities (via transducers)
+and the TTL or CMOS-compatible signals of the microprocessor.
+<H3>Analogue to Digital</H3>
+First, the analogue quantity to be measured is applied to a
+transducer which converts it into an analogue voltage (usually).
+<PRE>
+			         transducer	
+	analogue quantity  ---------------------> electrical value
+</PRE>
+The analogue quantity may be converted into an electrical
+signal as shown in the table:
+<PRE>
+	temperature	->	thermocouple
+	weight		->	strain gauge
+	fluid flow	->	flow meter
+	velocity	->	tachograph
+	etc.
+</PRE>
+The outputs of the transducers above may be very small (microvolts)
+or very large (volts).
+<P>
+Therefore, before converting to a digital value using the ADC, the
+transducer output must be <I>processed</I>.
+<P>
+The output of the transducer may be:
+<UL>
+<LI>amplified / attenuated
+<LI>scaled (to a convenient range, by the addition of an offset)
+<LI>filtered (to reduce noise)
+</UL>
+Usually, after processing, we arrive at a voltage between 0V and
+5V.   The maximum and minimum expected values of the signal fall
+within this 0 - 5 volt range.
+<P>
+ADCs are commonly available in a range of specifications from cheap, 8-bit
+converters (costing less than 2 pounds) to high precision, low-noise, fast
+converters costing many hundreds of pounds.
+<P>
+An 8-bit ADC takes the input range (0 - 5 V) which represents
+the minimum and maximum values of the signal and divides this up
+into 256 equal parts.
+<PRE>
+	minimum value	= 0000 0000 B ($00)
+	maximum value	= 1111 1111 B ($FF)
+</PRE>
+ADCs usually have a built-in microprocessor interface:
+<UL>
+<LI>tri-state data outputs
+<LI>/CE input
+<LI>Start Conversion input (or write a bit in the Control Register)
+<LI>End conversion interrupt output
+</UL>
+Alternatively, an 8-bit ADC may be interfaced to a PIA.
+<PRE>
+	e.g.	CA1 input	= conversion done
+		CA2 output	= start conversion
+</PRE>
+
+<FONT COLOR="RED"><H3>Revision material</H3>
+Revision material on A-to-D converters and D-to-A converters can
+be found <A HREF="adcdac.htm">here</A>.   The way in which ADCs
+and DACs operate is not part of this course.</FONT>
+
+<H2>Digital to Analogue</H2>
+This is obviously the converse of the ADC operation.
+It is typically used so that a microprocessor system can drive a
+physical device.
+<PRE>
+	e.g.	8-bit digital signal --------> analogue signal
+</PRE>
+At this stage, the analogue signal is normally in the range
+0 to 5 volts.
+<P>
+To meet the required analogue signal level, the signal may be:
+<UL>
+<LI>amplified / attenuated
+<LI>scaled
+</UL>
+in order to achieve the voltage range required for the <I>transducer</I>.
+The transducer will convert the voltage into:
+<PRE>
+	frequency
+	motor speed
+	etc.
+</PRE>
+DACs are normally microprocessor-compatible but they may also be
+driven from the PIA (as in the ADC above).
+<hr>
+<H2>Memory mapped I/O and Ports</H2>
+So far, all peripheral devices have been treated as memory-mapped
+I/O (input/output) devices.   That is, these devices contain registers
+which appear at a certain address.
+<P>
+There is an alternative way to access peripheral devices which some
+manufacturers have adopted.   This is through the use of
+<I>I/O mapped ports</I>.   For example, the Z80 microprocessor and
+the 80x86 family of processors adopt this method.
+<P>
+In the Z80, for example, there are 256 ports with addresses
+Port0 to Port255.
+<P>
+These ports are accessed using the normal address and data buses
+but there is an additional control signal which distinguishes
+<I>memory</I> accesses from <I>port</I> accesses.
+<P>
+For the Z80, this signal is called /MREQ which is '0' for memory
+accesses and '1' for port accesses.
+<P>
+To activate /MREQ, there are special Z80 instructions called
+<I>IN</I> and <I>OUT</I>.
+<P>
+In this way, the Z80 has 64k bytes of addressing space and 256 bytes
+of I/O space in addition.   If more than 256 bytes of I/O is required,
+then a Z80 system can use memory-mapped I/O as well.
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up11.htm">Next</A> |</CENTER>
+
+</BODY>
+</HTML>

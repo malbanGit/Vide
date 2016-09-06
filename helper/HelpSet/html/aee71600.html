@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="style.css" type="text/css"></link>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="date" content="20160906151831" />
+<!-- created with HelpSetMaker, ID=aee71600 -->
+<title>Emulation: VecFlash</title>
+</head>
+<body class="doc">
+<h1>Emulation: VecFlash</h1>
+<h2>Bankswitch Scheme 2 (VecFlash)</h2>
+
+<ul><li>
+<p>64 banks available</p>
+</li><li>
+<p>switch is implemented again by use of high/low of VIA ORB PB6</p>
+</li><li>
+<p>switching is usually done by setting the corresponding DDR register to input (PB6 goes high automatically) or output (PB6 goes low automatically)</p>
+</li><li>
+<p>switch routine in general works this way:
+<ul><li>
+<p>first time when PB6 (external line from cartridge point of view) is set to high from low (after a LONG time... (&gt;2000 cycles?) bank is resetted to 0</p>
+</li><li>
+<p>if another switch from high to low occurs within a short (but not too short) time (about 1500 cycles) bank is increased by one</p>
+</li><li>
+<p>so to reach "higher" banks we have to loop thru all lower banks...</p>
+</li></ul>
+</p>
+</li><li>
+<p>the routine which does the bankswitching must not reside in flash memory, thus the actual switching routine must run in RAM-memory!</p>
+</li></ul>
+
+<p>As long as not another PB6 using external device is emulated, VecFlash is detected automatically (this may change when EPROM RAM is implemented)</p>
+</body>
+</html>

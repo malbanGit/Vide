@@ -9,7 +9,10 @@ import de.malban.Global;
 import de.malban.config.Configuration;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
+import static de.malban.vide.vecx.VecXStatics.VECTOR_CNT;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import org.lwjgl.opengl.*;
@@ -22,6 +25,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class LWJGLSupport 
 {
+    
     public int updateEachMs = 20;
 
     boolean init = false;
@@ -33,11 +37,17 @@ public class LWJGLSupport
         public long window=0;
         public GLCapabilities caps=null;
         
-        int x = 0;
-        int y = 0;
-        int width = 0;
-        int height = 0;
-        String name="";
+        public int x = 0;
+        public int y = 0;
+        public int width = 0;
+        public int height = 0;
+        public String name="";
+        
+        public boolean resized=false;
+//        public FloatBuffer DataBuffer= BufferUtils.createFloatBuffer(VECTOR_CNT);
+  
+        // ray test
+        public FloatBuffer DataBuffer= BufferUtils.createFloatBuffer(200000);
     }
     
     private ArrayList<GLWindow> windows = new ArrayList<GLWindow>();
@@ -100,12 +110,28 @@ public class LWJGLSupport
                 glfwDefaultWindowHints(); // optional, the current window hints are already the default
                 glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
                 glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
-
+// Mac needed?
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
                 glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
                 glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
                 
+                
+                
+                // see also : http://http.developer.nvidia.com/GPUGems2/gpugems2_chapter22.html
+                // http://www.java-gaming.org/topics/lwjgl-antialiased-lines/30894/msg/285878/view.html#msg285878
+                // sort of antialiaze
+                glfwWindowHint(GLFW_STENCIL_BITS, 4);
+glfwWindowHint(GLFW_SAMPLES, 4);
+                
+// http://www.opengl-tutorial.org/
+//http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-10-transparency/
+
+//different cxolors: http://www.opengl-tutorial.org/beginners-tutorials/tutorial-4-a-colored-cube/
+//glow:
+//blur
+  //      and use additive blending
+
             }
             catch (Throwable e)
             {
@@ -117,8 +143,7 @@ public class LWJGLSupport
         }   
         return isSupported;
     }
-    
-    
+    int shader;
     // any thread
     public GLWindow addWindow(int x, int y, int width, int height, String name, LWJGLRenderer renderer)
     {
@@ -167,11 +192,12 @@ public class LWJGLSupport
     public void deliverMainThread()
     {
         if (!isLWJGLSupported()) return;
+
+     
         while (!exit)
         {
             try
             {
-                
                 glfwPollEvents();
                 long cc = glfwGetCurrentContext();
 
@@ -179,6 +205,11 @@ public class LWJGLSupport
                 {
                     for (GLWindow w: windows)
                     {
+                        if (w.resized){
+                            GL11.glViewport(0, 0, w.width, w.height);
+                            w.resized = false;
+                        }
+                        
                         glfwMakeContextCurrent(w.window);
                         GL.setCapabilities(w.caps);
 
@@ -188,16 +219,35 @@ public class LWJGLSupport
                             {
                                 removeWindowPending = w;
                             }
-                            break;
+                            continue;
                         }
-                        else
-                        {
-                            if (w.renderer != null)
-                            {
+                        if (w.renderer == null) continue;
 
-                                w.renderer.render();
-                            }
-                        }
+        w.DataBuffer.clear();
+                        int lines = w.renderer.render(w);
+        w.DataBuffer.flip();//set the limit at the position=end of the data(ie no effect right now),and sets the position at 0 again 
+        int buffer = GL15.glGenBuffers();
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, buffer);
+        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, w.DataBuffer, GL15.GL_STATIC_DRAW);
+        
+                        
+                        if (lines == 0) continue;
+                        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+                        GL20.glUseProgram(shader);
+  
+                        int position=GL20.glGetAttribLocation(shader, "position");
+                        GL20.glEnableVertexAttribArray(position);
+                        GL20.glVertexAttribPointer(position, 2, GL11.GL_FLOAT, false, 0, 0);
+                        GL11.glDrawArrays(GL11.GL_LINES, 0, lines);
+GL15.glDeleteBuffers(buffer);
+
+                        
+                        // cleanup
+                        GL20.glDisableVertexAttribArray(position);
+                        GL20.glUseProgram(0);
+
+                        glfwSwapBuffers(w.window); // swap the color buffers
+
                     }
                 }
                 try
@@ -237,6 +287,13 @@ public class LWJGLSupport
         // Get the resolution of the primary monitor
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
+        // Center our window
+        glfwSetWindowPos(
+                w.window,
+                (vidmode.width() - w.width) / 2,
+                (vidmode.height() - w.height) / 2
+        );
+        
         GLFWKeyCallbackI i = new GLFWKeyCallbackI()
         {
 
@@ -246,12 +303,27 @@ public class LWJGLSupport
                 if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                     glfwSetWindowShouldClose(window, true); // We will detect this in our rendering loop            
             }
-            
         };
         glfwSetKeyCallback(w.window, i);
         
+        GLFWWindowSizeCallbackI windowSizeCallback;
+        glfwSetWindowSizeCallback(w.window, windowSizeCallback = new GLFWWindowSizeCallbackI() 
+            {
+                @Override
+                public void invoke(long window, int width, int height) 
+                {
+                    w.resized=true;
+                    w.width=width;
+                    w.height=height;
+                }
+            });            
         
         glfwMakeContextCurrent(w.window);
+        
+        // Enable v-sync
+        glfwSwapInterval(1);
+        glfwShowWindow(w.window);  
+
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
         // LWJGL detects the context that is current in the current thread,
@@ -259,19 +331,36 @@ public class LWJGLSupport
         // bindings available for use.
         w.caps = GL.createCapabilities();
 
-        // Set the clear color
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);        
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-            
-        // glfwSwapInterval(1);
+        
 
-        glfwShowWindow(w.window);  
-        // Center our window
-        glfwSetWindowPos(
-                w.window,
-                (vidmode.width() - w.width) / 2,
-                (vidmode.height() - w.height) / 2
-        );
+        ////////////////Prepare the Shader////////////////
+        String vert=
+                "#version 330                                \n"+
+                "in vec2 position;                            \n"+
+                "void main(){                                \n"+
+                "    gl_Position = vec4(position, 0.0f,1.0f);        \n"+
+                "}                                            \n";
+        String frag=
+                "#version 330                                \n"+
+                "out vec4 out_color;                        \n"+
+                "void main(){                                \n"+
+                "    out_color = vec4(1.0f, 0.0f, 0.0f, 0.5f);        \n"+
+                "}                                            \n";
+        shader = createShaderProgramme(new int[]{
+                GL20.GL_VERTEX_SHADER, GL20.GL_FRAGMENT_SHADER
+        }, new String[]{
+                vert, frag
+        });
+
+        ////////////////End////////////////                    
+
+        
+        // Set the clear color
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);        
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+                glLineWidth(1);
+
+        
         
         synchronized (windows)
         {
@@ -301,5 +390,55 @@ public class LWJGLSupport
         if (r != null)
             r.lwjglExit();
     }
+    int CreateShader(int shadertype,String shaderString)
+    {
+         int shader = GL20.glCreateShader(shadertype);
+         GL20.glShaderSource(shader, shaderString);
+         GL20.glCompileShader(shader);
+         int status = GL20.glGetShaderi(shader, GL20.GL_COMPILE_STATUS);
+         if (status == GL11.GL_FALSE){
+
+             String error=GL20.glGetShaderInfoLog(shader);
+
+             String ShaderTypeString = null;
+             switch(shadertype)
+             {
+             case GL20.GL_VERTEX_SHADER: ShaderTypeString = "vertex"; break;
+             case GL32.GL_GEOMETRY_SHADER: ShaderTypeString = "geometry"; break;
+             case GL20.GL_FRAGMENT_SHADER: ShaderTypeString = "fragment"; break;
+             }
+
+             System.err.println( "Compile failure in " +ShaderTypeString + " shader:\n" + error);
+         }
+         return shader;
+     }
+
+     public int createShaderProgramme(int[] shadertypes, String[] shaders){
+         int[] shaderids = new int[shaders.length];
+         for (int i = 0; i < shaderids.length; i++) {
+             shaderids[i] = CreateShader(shadertypes[i], shaders[i]);
+         }
+         return createShaderProgramme(shaderids);
+     }
+
+     public int createShaderProgramme(int[] shaders){
+         int program = GL20.glCreateProgram();
+         for (int i = 0; i < shaders.length; i++) {
+             GL20.glAttachShader(program, shaders[i]);
+         }
+         GL20.glLinkProgram(program);
+
+         // link status seem not to be a valid parameter for GL20
+         // WRONG! IN EXAMPLE
+        int status =                  GL20.glGetProgrami(program, GL20.GL_LINK_STATUS);
+         if (status == GL11.GL_FALSE){
+             String error = GL20.glGetProgramInfoLog(program);
+             System.err.println( "Linker failure: "+error);
+         }
+         for (int i = 0; i < shaders.length; i++) {
+             GL20.glDetachShader(program, shaders[i]);
+         }
+         return program;
+     }   
 }
 // see: https://github.com/LWJGL/lwjgl3/blob/master/modules/core/src/test/java/org/lwjgl/demo/glfw/MultipleWindows.java

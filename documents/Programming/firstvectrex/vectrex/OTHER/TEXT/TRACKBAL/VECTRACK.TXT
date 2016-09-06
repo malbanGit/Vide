@@ -1,0 +1,760 @@
+Please view this document in a maximized window to prevent word-
+wrapping.
+
+Description:
+
+   The Atari Trackball CX80 has 2 modes. (A switch on the back
+   changes the mode.)  In Joystick Emulation Mode it acts like
+   an 8 direction joystick . In Trackball Mode it acts like a
+   true trackball, providing both direction and speed of
+   movement.
+
+   The adapter described in this document allows an Atari CX80
+   Trackball in Joystick Emulation Mode to be used as an 8
+   direction controller on the Vectrex. Hyperchase is the only
+   Vectrex game that will not work with this adapter.
+   (Hyperchase requires an analog controller.)
+     =
+
+Risks:
+
+   This is my first ever electronics project. All I know is that
+   using this adapter has not burned-up my Vec or my trackball
+   . . . YET!
+   =
+
+   Build it and use it at your own risk.
+
+Background:
+
+   I saw the Atari Trackball in a close-out store, and I bought
+   it with the intention of using it on my Vectrex. I then
+   started surfing the net and posting notes on various user-
+   groups to figure out how to do it.
+   =
+
+   After finding my answers, I built and tested it on a
+   breadboard. I had it working 2 hours after I started. I
+   thought I was home free. Then I tried building it on a
+   Printed Circuit Board (PCB) by soldering. Two days and
+   several ruined circuit boards later I was still trying.
+   That's when I switched to Wire Wrapping. Wire Wrapping is
+   tedious, but it's easy to correct mistakes without chucking
+   the whole project and starting over. (After testing, it is
+   very easy to solder the Wire Wrapped connections.)
+
+Credits:
+
+   Jay Tilton:
+   =
+
+      The circuit described here is designed by Jay. People
+      experienced with electronics can find all they need on
+      Jay's page:
+      =
+
+      http://fbox.vt.edu:10021/J/jtilton/games/tech/index.html
+      See the design for the "Vectrex Digital Stick Adapter".
+      =
+
+   Bojay:
+   =
+
+      I posted a note on the Atari User Group asking for a
+      wiring diagram for the trackball. Bojay gave me the
+      trackball's original factory service manual. He wouldn't
+      even let me pay the $3 postage.
+      =
+
+   Tony Price:
+   =
+
+      Tony gave me a break on a damaged Vectrex controller that
+      I had intended to use for parts.
+   =
+
+   Brian Holscher:
+   =
+
+      Brian sent me a copy of his plans for building an adapter
+      to use a Sega Genesis Controller on the Vectrex.
+
+
+Please Help:
+
+   Send any corrections and suggestions to lshaker@flash.net
+   I'll re-post this document after including any improvements.
+   =
+
+   If you have a Vectrex Webpage, please include this document.
+   =
+
+   If you can manufacture these adapters, you have my
+   permission.
+   Please get Jay Tilton's permission.
+   You assume all risks.
+
+Note: I am NOT trying to push Radio Shack. Their prices range
+     from reasonable to rather high. But, they are national and
+     they have most of the parts.(Parts with a catalog number
+     starting with RSU must be ordered.)
+
+
+                          Parts & Supplies
+                          =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+                   Source                              =
+
+    Item       Qt  Catalog Number                   Notes
+                y  (Qty) Price
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Atari          1   MPJA                  The Atari Trackball CX22
+Trackball          (800) 652-6733        should also work. But I do
+CX80               www.mpja.com          not have one to test.
+                   Catalog: 6465MI       =
+
+                   (1) $1.95             MPJA has a $15.00 Minimum
+                                         Order.
+                   American Science &    They had 1293 in stock as
+                   Surplus               of Jan 30, 1998.
+                   (847) 982-0870        =
+
+                   www.sciplus.com       American Science has a
+                   Catalog #: 27407      $10.00 Minimum Order. They
+                   (1)  $7.50            had 30 in stock as of Jan
+                                         29, 1998.
+                                         =
+
+-------------  --  --------------------  ---------------------------
+Project Box    1   Radio Shack           Pro:
+Circuit        1   270-283               Ideally sized project box.
+Board          2   (1)  $3.99            Custom fit circuit board.
+Board                                    Built-in board mounts.
+Standoffs                                =
+
+                                         Black plastic matches
+                                         Vectrex & Trackball.
+                                         =
+
+                                         Con:
+                                         Requires reinforcement
+                                         behind
+                                         9-pin connectors.
+                                         Bigger box would be easier
+                                         for beginners.
+-------------  --  --------------------  ---------------------------
+Scrap Sheet                              Only required if using
+Metal                                    plastic project box.
+                                         Used inside box to
+                                         reinforce walls that have
+                                         been cut to mount the 9-pin
+                                         connectors.
+                                         I cut-up an aluminum
+                                         project box I had purchased
+                                         as an alternate.
+-------------  --  --------------------  ---------------------------
+D-sub 9 Pin    2   Radio Shack           =
+
+Male               276-1537              =
+
+                   (1)  $0.99
+-------------  --  --------------------  ---------------------------
+D-sub 9 Pin    1   Radio Shack           =
+
+Female             276-1538              =
+
+                   (1)  $1.29
+-------------  --  --------------------  ---------------------------
+9 Conductor    1F  Electronics Supply    =
+
+Cable          t   (1 Ft)  $0.35         =
+
+               =
+
+-------------  --  --------------------  ---------------------------
+Machine        6   Radio Shack           =
+
+Screws             64-3011               =
+
+                   (42)      $1.49
+-------------  --  --------------------  ---------------------------
+Machine Hex    6   Radio Shack           =
+
+Nuts               64-3018               =
+
+                   (30)      $1.49
+-------------  --  --------------------  ---------------------------
+PCB Terminals  9   Radio Shack           The adapter requires 9
+                   276-1388              terminals.
+                   (8)  $2.29            The Radio Shack product has
+                                         4  stackable 2 terminal
+                                         blocks.
+-------------  --  --------------------  ---------------------------
+1 Inch long    9                         Wire like that at the ends
+Uninsulated                              of resisters.
+Wire                                     Will be used to convert PCB
+                                         Terminals to "Wire Wrap PCB
+                                         Terminals".
+                                         I got the wires by raiding
+                                         my breadboard jumper wires.
+
+-------------  --  --------------------  ---------------------------
+16 Pin Wire    2   Radio Shack           =
+
+Wrap Sockets       276-1994              =
+
+                   (2)  $1.69
+-------------  --  --------------------  ---------------------------
+4052 IC        2   Radio Shack           =
+
+                   RSU 11392198          =
+
+                   (1)  $1.29
+-------------  --  --------------------  ---------------------------
+=BC Watt-10K     6   Radio Shack           =
+
+Ohm                RSU 11346061          =
+
+Resister           (5)  $0.99
+-------------  --  --------------------  ---------------------------
+=BC Watt-4.7K    2   Radio Shack           =
+
+Ohm                RSU 11345949          =
+
+Resister           (5)  $.099
+-------------  --  --------------------  ---------------------------
+Rosin Core     1   Radio Shack           Enough solder is included
+Solder             64-006                in the Radio Shack Basic
+                                         Soldering Kit (64-2802)for
+                                         this project.
+-------------  --  --------------------  ---------------------------
+Wrapping Wire      Radio Shack           1 Spool is more than enough
+   Red         1   278-501               for this project. But the
+   White       1   278-502               variety of colors makes
+   Blue        1   278-503               checking your work a lot
+                   (50 Ft) $2.99         easier.
+-------------  --  --------------------  ---------------------------
+Sega Genesis   1   Toys-R-Us or          The Vectrex Controller Port
+Controller         WWW.SEGA.COM          is a standard 9-pin male
+Extension          (1)  $9.99            connector, but it is in a
+Cord                                     deeper than standard
+                                         socket. The Genesis
+                                         Controller Extension Cord's
+                                         head can be easily trimmed
+                                         to fit the Vectrex. Some
+                                         other cords may also work,
+                                         but I know this one will.
+                                         (This info found on the
+                                         Jay Tilton's webpage.)
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+
+
+
+                                Tools
+                                =3D=3D=3D=3D=3D
+               Source                                =
+
+    Item       Catalog Number                     Notes
+               Price
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Wire Wrapping  Radio Shack           =
+
+Tool           276-1570
+               $7.49
+-------------  --------------------  --------------------------------
+Soldering      Radio Shack           =
+
+Iron           64-2802
+               $7.99
+-------------  --------------------  --------------------------------
+Desoldering    Radio Shack           =
+
+Bulb           64-2086
+               $2.79
+-------------  --------------------  --------------------------------
+Helping Hands  Radio Shack           A stand with moveable arms and
+               64-2063               alligator clip hands. A
+               $9.99                 necessity if using solder-on 9-
+                                     pin Connectors.
+-------------  --------------------  --------------------------------
+Multi-Meter    Radio Shack           I bought a no-name meter at a
+               22-166                local store for $20. I've seen
+               $39.99                'em for $10.
+-------------  --------------------  --------------------------------
+Wire           Radio Shack           =
+
+Stripper/Cutt  64-1952
+er             $4.59
+-------------  --------------------  --------------------------------
+Screwdrivers:  Radio Shack           =
+
+   #0          64-1959
+Phillips       $4.79
+   1/8 Slot
+-------------  --------------------  --------------------------------
+Drill +                              =
+
+1/8 & 3/8
+Bits
+-------------  --------------------  --------------------------------
+Small File or                        Used to enlarge drill holes for
+Nibbling Tool  Radio Shack           mounting 9-pin connectors.
+               64-823                Small Course File will work
+               $10.99                fine, Nibbling Tool will speed
+                                     up work on Sheet Metal.
+-------------  --------------------  --------------------------------
+IC extractor   Radio Shack           Optional: A small flat blade
+               276-1581              screwdriver can be used to
+               $7.49                 remove ICs.
+                                     Be gentle, pry the IC up a
+                                     little at time from the ends.
+-------------  --------------------  --------------------------------
+Breadboard     Radio Shack           Optional: Get only if you want
+               276-169               to verify you understand the
+               $21.99                wiring before building the
+                                     adapter.
+-------------  --------------------  --------------------------------
+Jumper Wires   Radio Shack           Optional: Get only if you want
+               276-173               to verify you understand the
+               $5.49                 wiring before building the
+                                     adapter.
+-------------  --------------------  --------------------------------
+Pin Crimping   Radio Shack           Optional: Get only if you use
+Tool           276-1595              crimp-on
+               $9.99                 9-pin connectors rather than the
+                                     solder-on connectors listed
+                                     above.
+                                     After using this tool I had to
+                                     use a pliers to finish each
+                                     crimp.
+                                     Solder-on connectors are easy to
+                                     use if you have the Helping Hand
+                                     tool.
+-------------  --------------------  --------------------------------
+Pin Insertion  Radio Shack           Optional: Get only if you use
+& Extraction   276-1426              crimp-on
+Tool           $2.99                 9-pin connectors.
+                                     =
+
+                                     =
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+Note: These instructions assume that you are using Radio Shack
+Project Box/Circuit Board 270-283.
+
+1. Prepare Project Box
+   =
+
+   The 9-pin connectors must be mounted from the outside.  I
+   mounted them as shown:
+   =
+
+   Top View:
+                              +-----+ Female 9-Pin
+                              |     | (Vectrex)
+                  +------------------------------+
+                  |                              |
+                  |                              |
+                +-|                              |-+
+     Male 9-Pin | |                              | | Male 9-Pin
+    (Buttons)   | |                              | |(Trackball)
+                +-|                              |-+
+                  |                              |
+                  |                              |
+                  +------------------------------+
+   =
+
+   To allow maximum clearance for the components, mount the
+   connectors close to the top of the box. (The metal side is
+   the bottom.)
+   =
+
+   a) Cut out holes for 9-Pin connectors. Holes should be just
+      large enough for the back side of the plug to fit though.
+      Drill a 3/8" hole and enlarge with a small file or
+      nibbler.
+      =
+
+   b) Cut 1 piece of sheet metal to fit inside the box against
+      each side with a connector. They should slide between the
+      mounting posts and the sides of the box. When pushed into
+      place they should not extend beyond the circuit board
+      mounting posts (the shorter posts).
+      =
+
+   c) Cut holes in sheet metal parts to match the connector
+      mounting holes in the project box.
+      =
+
+   d) Use the connectors as guides to drill the 1/8" holes for
+      the machine screws in the project box & sheet metal parts.
+      =
+
+2. Wire 9-Pin Connectors
+   =
+
+   Vectrex Controller & Port Connections:
+        =
+
+        Pin 1: Button 1
+        Pin 2: Button 2
+        Pin 3: Button 3
+        Pin 4: Button 4
+        Pin 5: Joystick: Horizontal
+        Pin 6: Joystick: Vertical
+        Pin 7: +5V
+        Pin 8: Ground
+        Pin 9: -5V
+        =
+
+   Trackball Connections:
+   =
+
+        Pin 1: Up
+        Pin 2: Down
+        Pin 3: Left
+        Pin 4: Right
+        Pin 5: ----
+        Pin 6: Fire Button
+        Pin 7: +5V
+        Pin 8: Ground
+        Pin 9: ----
+        =
+
+   The 9-Pin Connectors' solder connectors are numbered. (You
+   may need a good light and a magnifying glass to see them.)
+   Remember that the pin numbers on the male and female
+   connectors are mirror images.
+   =
+
+   a) Cut the 9 conductor cable to get 3 - 3" segments.
+      Use a small screwdriver to poke-out the inner wires.
+   =
+
+   b) Assign a wire color to each pin number & WRITE THEM
+      DOWN!!!
+      =
+
+      Here's the colors I used, but your wire colors may vary:
+   =
+
+        Pin 1: White
+        Pin 2: White Stripe
+        Pin 3: Red
+        Pin 4: Red Stripe
+        Pin 5: Green
+        Pin 6: Green Stripe
+        Pin 7: Blue
+        Pin 8: Orange
+        Pin 9: Black
+   =
+
+   Wire your connectors using your color chart.
+      =
+
+      Strip about 1/8" from each end of the wires before
+      soldering. (I know: Duhh!)
+      =
+
+      After soldering check all connections. If you have spare
+      connectors: plug in a mating connector then use you multi-
+      meter to check the connection from the wire to the spare
+      connectors matching solder terminal.)
+   =
+
+   c) Solder a wire to every pin on the Vectrex Connector
+      (9-Pin Female).
+   =
+
+   d) Solder wires to the following pins on the Trackball
+      Connector (9-Pin Male): 1, 2, 3, 4, 6, 7, 8
+   =
+
+   e) Solder a wire to pin 8 of the Button Connector (9-Pin
+      Male).
+   =
+
+   f) Mount the Vectrex Connector and Trackball Connector in the
+      project box and fasten with machine screws and machine
+      nuts.
+   =
+
+   g) Pull the Vectrex Connectors wires 1, 2, 3 & 4 and
+      Trackball Connector's wire 6 through the hole for the
+      Buttons Connector.
+   =
+
+   h) Cut the Vectrex Connectors wires 1, 2, 3 & 4 and Trackball
+      Connector's wire 6 just so they are just long enough so
+      that you can solder them to the Buttons Connector from the
+      outside the Project Box.
+   =
+
+   i) Solder the wires to the Buttons Connector as follows:
+   =
+
+   Pin 1: Vectrex Connector Wire 1
+      Pin 2: Vectrex Connector Wire 2
+      Pin 3: Vectrex Connector Wire 3
+      Pin 4: Vectrex Connector Wire 4 and
+             Trackball Connector Wire 6
+      =
+
+      Wiring the Trackball Fire Button (Connector Wire 6) in
+      with the Vectrex Button 4 (Connector Wire 4) will allow
+      the buttons on the Trackball as additional Button 4s.
+   =
+
+   j) Mount the Buttons Connector in the project box and fasten
+      with machine screws and machine nuts.
+      =
+
+3. Make a Wire Wrap PCB Terminal
+   =
+
+   I could not find PCB Terminals made for wire wrapping, so I
+   adapted the standard PCB Terminals.
+   =
+
+   9 Terminals are needed. The terminals I bought were in blocks
+   of two that attached to each other by a "sliding dovetail
+   joint" (I may not know much about electronics, but I know my
+   woodworking terms!)
+   =
+
+   a) Slide terminals together to make a strip of 10.
+   =
+
+   b) Bend each of the 9 1-inch stiff wires into an L.
+   =
+
+   c) In each terminal: insert a short leg of the "L", with the
+      long leg sticking down and tighten the screw.
+      =
+
+4. Mount the components on the circuit board.
+
+   The circuit board has copper solder rings around each hole on
+   one side of the board. For soldering: the components should
+   be mounted on the side opposite the solder rings. For wire
+   wrapping: the components should be mounted on the side with
+   the solder rings. (This will reduce the chance of a loose
+   first wire wrap loop from shorting out to a neighboring wire
+   wrap post.)
+   =
+
+   I fooled around for an hour to figure out a layout that
+   spaced the components as widely as possible and did not bump
+   into the connectors when the circuit board was installed in
+   the circuit board. Here's my layout:
+   =
+
+            +-----------------------------------+
+            | +-----+ . . -=3D=3D4.7K=3D- . . +-\_/-+ |
+   +--------+ |     | . . . . . . . . . |     | +--------+
+   |  | . | . |  4  | . . -=3D=3D10K=3D=3D- . . |  4  | . | . |  |
+   | |1|.|1|. |  0  | . . . . . . . . . |  0  | .|1|.|1| |
+   | |0|.|0|. |  5  | . . -=3D=3D10K=3D=3D- . . |  5  | .|0|.|0| |
+   | |K|.|K|. |  2  | . . . . . . . . . |  2  | .|K|.|K| |
+   | | |.| |. |  _  | . . -=3D=3D4.7K=3D- . . |     | .| |.| | |
+   |  | . | . +-/ \-+ . . . . . . . . . +-----+ . | . |  |
+   |  . . . . . . . . . . . . . . . . . . . . . . . . .  |
+   |  . . . . . . . . . . . . . . . . . . . . . . . . .  |
+   |  . . .+--------------------------------------+ . .  |
+   |  . . .|0   1   2   3   4   5   6   7   8   9 | . .  |
+   |  . . .+--------------------------------------+ . .  |
+   +--------+ . . . . . . . . . . . . . . . . . +--------+
+            | . . . . . . . . . . . . . . . . . |
+            +-----------------------------------+
+   =
+
+   The notch on the 4052's sockets represents the top of the IC.
+   =
+
+   The Wire Wrap PCB Terminal is represented by the long
+   component numbered 0 - 9. Mount the terminal strip on the
+   circuit board with the long legs of the "L"'s extending down
+   through the circuit board. The PCB Terminals wire holes
+   should be mounted pointing away from the other components.
+
+   After mounting the components, tuck the wires up in the
+   project box and test fit the circuit board into the project
+   box. (The Wire Wrap Posts and leads will stick out the bottom
+   of the box, they will be trimmed later.)
+
+5. Wire Wrap it.
+     =
+
+   a)   The remaining 9-Pin Connector Wires will be fastened to the
+      PCB terminals at the end of the project. Now it's time to assign
+      a function to each of the PCB Terminals and WRITE THEM DOWN. Here
+      is my list:
+      =
+
+      Terminal 0: Vectrex Joystick: Horizontal
+      Terminal 1: Vectrex Joystick: Vertical
+      Terminal 2: Vectrex +5V and
+                  Atari   +5V
+      Terminal 3: Vectrex Ground and
+                  Trackball Ground and
+                  Buttons Ground
+      Terminal 4: Vectrex -5V
+      Terminal 5: Trackball Up
+      Terminal 6: Trackball Down
+      Terminal 7: Trackball Left
+      Terminal 8: Trackball Right
+      =
+
+   b) Wire Wrap the circuits.
+   =
+
+   The circuit design is by Jay Tilton. Jay designed the circuit
+   to use an Atari 2600 Joystick on the Vec. I found that it
+   also works the Atari Trackballs.
+   =
+
+   I E-mailed Jay to request permission to reproduce his design,
+   but he did not reply.
+   =
+
+   You can find the component wiring design on Jay's page:
+   http://fbox.vt.edu:10021/J/jtilton/games/tech/index.html
+   See the design for the "Vectrex Digital Stick Adapter".
+   =
+
+   Before wrapping trim the resistor leads so that the Wire Wrap
+   Tool can reach lead's bottom.
+   =
+
+   Use the different wrapping wire colors to distinguish the
+   circuits. I had three colors, so I wrapped the Ground Circuit
+   with white, the +5 V Circuit with red, and everything else
+   with blue.
+   =
+
+   Multiple connections are made on one wire wrap post or lead
+   by stacking one wire wrap connection on top of another. In
+   this design, it is never necessary to wrap one post or lead
+   more than twice.
+   =
+
+   To make the circuits, chain the connections together. If A, B
+   & C must be connected to ground. Wrap a wire from the ground
+   PCB terminal to A, a second wire from A to B, and a third
+   wire from B to C.
+   =
+
+   When wiring the sockets, remember that you are working from
+   the bottom. Depending on how you flipped the circuit board,
+   the connections are flipped either upside-down or side-to-
+   side.
+   =
+
+   After each circuit is completed (EX: All ground connections),
+   use the multi-meter to verify that electricity flows and
+   check for shorts. (+5V and -5V ARE connected through 29.4K
+   Ohms of resisters.)
+     =
+
+6. Connect It
+     =
+
+   The Vectrex Controller Port is a standard 9-pin male
+   connector, but it is in a deeper than standard socket. Trim
+   the Genesis Controller Extension Cord's head with a utility
+   knife to fit the Vectrex's port.
+   =
+
+   End View:
+      Before:           After:
+      +-----------+     +-----------+
+      |  -------  |     |  -------  |
+      |  \=3D=3D=3D=3D=3D/  |     |  \=3D=3D=3D=3D=3D/  |
+      |   -----   |      \  -----   /
+      +-----------+       \--------/
+     =
+
+7. Test it!
+
+   a) Using your Connector Wire Color Chart and your PCB
+      Terminal Function Chart, connect the 9-pin connector wires
+      to the PCB Terminals. Where there is more than 1 wire
+      connected to 1 PCB Terminal, twist the wires ends
+      together.
+      =
+
+   b) Plug the ICs into the sockets. Be sure to orient the ICs
+      correctly, the little dimple at one end of the IC marks
+      the top of the IC.
+   =
+
+   c) Make sure the Trackball is in Joystick Emulation Mode. The
+      switch is located on the back of the trackball next to the
+      cable.
+      =
+
+   d) Hook-it up!
+      =
+
+      If you have a Multi-cart, use the TEST program to check
+      out it's operation. If not, use a program that uses all 8
+      joystick directions.
+      =
+
+      Good Luck ! ! !
+     =
+
+8. Solder it
+
+   Note: Soldering is not required, but it is highly
+        recommended.
+
+   a) Remove the ICs from the sockets.
+   =
+
+   b) Disconnect the 9-pin connector wires from the PCB
+      Terminals.
+   =
+
+   c) Use a wire cutters to trim the Wire Wrap Posts and leads
+      just above the wrapping wire.
+   =
+
+   d) Solder all the connections by holding the soldering gun to
+      one side of each Wire Wrap Post and the solder to the
+      opposite side of the post. You will get a good connection
+      if the solder is melted from the heat of the component,
+      not by direct contact to the soldering iron.
+
+9. Box It
+
+   a) Trim the 9-pin connector wires so they are just long
+      enough to connect to the appropriate PCB Terminal. Then re-
+      strip the ends and reconnect the wires to the PCB
+      Terminals.
+      =
+
+   b) Remount the ICs in the sockets.
+      =
+
+   c) Mount the circuit board in the project box.
+      =
+
+   d) Verify the Wire Wrap Posts and leads will not contact the
+      metal bottom of the project box. Trim or bend any
+      offending posts or leads.
+   =
+
+   e) Attach the project box bottom.
+
+10.   Play it !!!

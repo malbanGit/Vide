@@ -5,7 +5,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="date" content="20160511232928" />
+<meta name="date" content="20160906151831" />
 <!-- created with HelpSetMaker, ID=a0d1a1a6 -->
 <title>Configuration</title>
 </head>
@@ -36,37 +36,7 @@ Due to Vide being 100% pure java and trying to emulate vectrex as precisley as I
 
 <p>I know that I still am not able to emulate the old brute 100% - but god knows I have put much effort into the emulation - and I am quite certain that at the time beeing - emulation in VIDE is the most exact vectrex emulation around.</p>
 
-<p>Always depending on the options you have chosen.</p>
-
-<p>There is also some hardware I have not put effort into emulating, for various reasons:
-<ul><li>
-<p>I do not have the hardware</p>
-</li><li>
-<p>it is down on my priority list</p>
-</li><li>
-<p>or any other reason</p>
-</li></ul>
-</p>
-
-<p>Well known hardware not emulated yet include:
-<ul><li>
-<p>Animaction RAM</p>
-</li><li>
-<p>3d Imager</p>
-</li><li>
-<p>VecMulti (haven't got one)</p>
-</li><li>
-<p>VecVox</p>
-</li><li>
-<p>Lightpen (port 1)</p>
-</li><li>
-<p>RA Spectrum</p>
-</li><li>
-<p>high score RAM thingy... ...</p>
-</li></ul>
-</p>
-
-<p>None the less - here some descriptions of what is emulated, and how you may alter emulation with configuration: </p>
+<p>Always depending on the options you have chosen. Here some descriptions of what is emulated, and how you may alter emulation with configuration: </p>
 <h1>Emulator</h1>
 <br/><p align="center">
 <img src="pics/config1.png" width="557" height="1089" /><br/>
@@ -211,6 +181,8 @@ Implemented, but as of yet no use found (1/100 cycle exact)!</p>
 <p><b> Vectrex generation </b><br />
 To my knowledge there are at least 3 different versions of vectrex hardware. It seems to me, that at least in my two vectri there are different DACs used. This can be seen by sample programs which try cycle exact DAC settings (usually with DAC changes while RAMP is enabled).  Therefor &rarr; the "generation" setting hides in reality a <b>DAC-Delay</b> which seems to be different for these generations.<br />
 I have not tested this extensivly, but implemented is a fixed DAC delay of 2 cycles for 3. generation, and 4 cycles for 1-2 generation (and none for "Off"). The volume of generated sound for digitized music seems to be reduced on new vectri.</p>
+
+<p>Also... the generation influences at what value via "stall" when shiftreg is updated befor the magic 18 cycles (off never stalls).</p>
 <h2>Thoughts</h2>
 
 <p>I am still not 100% certain, that all these delays are correct emulations or are just a lucky hunch which looks like they works - but rather I should be fiddling with something entirely different. I tried many different things - but nothing else comes close to these results - so take them - or find something better :-)! (end tell me!)</p>
@@ -244,7 +216,7 @@ Just one of those not really useful, but cool options. Lets you see in what dire
 Not implemented yet - to get a glimps of what this could look like, play with the "blank delay" option. </p>
 
 <p><b>paint integrator position</b><br />
-This started as an unneccessary "cool" option - but actually I use it pretty often. With this enabled, vecxy draws a little red circle at the current vector beam postion, this is a great option to help "visualize" debugging (obviously there is a speed impact). </p>
+This started as an unneccessary "cool" option - but actually I use it pretty often. With this enabled, vecxi draws a little red circle at the current vector beam postion, this is a great option to help "visualize" debugging (obviously there is a speed impact). </p>
 
 <p><b>MultiStep delay</b><br />
 The delay in milliseconds dissi waits between multi step - steps.</p>
@@ -280,6 +252,79 @@ Well this is realy self explaining - isn't it?</p>
 If checked, vedi scans files for the entities, this allows displaying / coloring of defined and undefined variables/macros and allows the "right/doubleclick" on such an entity to jump to its definition.</p>
 
 <p><b>scan for vectorlists ...</b><br />
-If checked, vecxy scans while running, whether BIOS vectrex routines draw a vectorlist, if so - vecxy saves the list in XML format, under the cartridge name.</p>
+If checked, vecxi scans while running, whether BIOS vectrex routines draw a vectorlist, if so - vecxi saves the list in XML format, under the cartridge name.</p>
+<h1>Keyboard</h1>
+
+<p>All kind of keyboard inputs can be defined/altered here (editor, and vectrex emulator input controls).<br />
+</p>
+
+<p>Follow the instructions given on the TAB. <br />
+<br />
+Note:<br />
+For Joytick simulations your have to configure both "Pressed" and "Released" events!</p>
+<h1>Theme/Color</h1>
+
+<p>Follow the instructions given on the TAB.</p>
+<h1>Input</h1>
+<br/><p align="center">
+<img src="pics/jinput.png" width="582" height="948" /><br/>
+<em>input settings</em></p><br/>
+
+<p>Here you can configure additional input settings for different inout "hardware" for use with the emulator. The code is based on the "JInput" library.</p>
+
+<p>The tab is split into two halfs, the upper half representing the vectrex "side" the lower half representing the input device parameters.</p>
+
+<p>There are at the moment two types of vectrex input types:
+<ol><li>
+<p>Joystick</p>
+</li><li>
+<p>spinner (like atari driving paddle)</p>
+</li></ol>
+</p>
+
+<p>Pressing one button on the vectrex half enables "input chosing" - pressing (or moving) the actual hardware of the selected "real" input device - connects the two sides.</p>
+
+<p>Pressing <img src="pics/add.png" alt="add.png" /> saves the configuration (after a valid name was entered.</p>
+
+<p>Upon the next start of a vecxi window, the new input settings will be appear in the Joyport selection boxes.</p>
+
+<p>Devices will be remembered for the next vide-sessions, however should the device not be available, it won't appear in the combobox.</p>
+<br />
+
+<p><b>Note</b>:<br />
+There is a global setting for spinner emulation: "minimum cycles bewteen spinner events". Following an explanaition where this value is derived from, and when you might want to change it:</p>
+
+<p>The driving atari-controller works thus, that the state of two switches form a 2 bit value, the actual spinner "rotates" the switch states 00 01 10 11 (binary).</p>
+
+<p>The direction of rotation is computed via two of such states:<br />
+
+<ul><li>
+<p>left direction is computed when following states succeed each other:<br />
+ 00 &rarr; 01 <br />
+ 01 &rarr; 11 <br />
+ 10 &rarr; 00 <br />
+ 11 &rarr; 10  </p>
+</li><li>
+<p>right direction is computed when following states succeed each other: <br />
+ 00 &rarr; 10 <br />
+ 01 &rarr; 00 <br />
+ 10 &rarr; 11 <br />
+ 11 &rarr; 01</p>
+</li></ul>
+</p>
+
+<p>All other succeeding "pairs" of states are "illegal" or no "movements" and are as such taken as "no movement".</p>
+
+<p>The emulated paddle sets these paddle "button" values (button 1+2 of the used joyport) in the correct order at "fixed" intervalls. The minimum intervall these values are set is the cycle count given in the parameter "minimum cycles bewteen spinner events".<br />
+(if you use analog emulation as input, than "slower" spinning is a multiple of that value)</p>
+
+<p>So...<br />
+If your vectrex game, refreshes once each 30000 cycles and you call the paddle "read"-routine every 30000 cycles everything is fine (default setting).</p>
+
+<p>But if your game refreshes each 20000 and also reads paddle values each 20000 cylces the above state-order will "hickup" and some states will be read as "no movement".</p>
+
+<p>Same happens if you read more paddle events per update round.</p>
+
+<p>I think for most games the 30000 will be ok, but with the value "minimum cycles bewteen spinner events" you can actually alter the emulation of the paddle to accomodate possible slower games or multiple update readings.</p>
 </body>
 </html>

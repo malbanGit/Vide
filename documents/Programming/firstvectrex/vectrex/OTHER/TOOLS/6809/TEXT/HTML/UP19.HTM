@@ -1,0 +1,234 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 19</H2>
+<H3>16/32-bit microprocessors and features</H3>
+<H3>Limitations of the M6809 Processor</H3>
+<OL>
+<LI>Eight-bit architecture; Many applications require greater
+              precision than is provided by eight bits.  Analogue data
+              is usually represented by 12-14 bits.  Whilst multi-byte
+              arithmetic is possible it immediately introduces a large
+              reduction in speed.
+
+<LI>Limited address space; The 16-bit address bus limits memory
+              space to 64kBytes.  This can be increased using bank
+              switching but this is not an elegant solution and still
+              limits the size of individual programs.  It is not uncommon
+              for computer systems to have 8MBytes of memory now that
+              reductions in cost of memory devices has made this economic.
+
+<LI>Limited number of data registers; Only having 2 data
+              registers means that data being manipulated often resides in
+              memory.  The resulting memory accesses degrade the
+              performance.
+
+<LI>Limited address registers; Only having 2 address registers
+              can be a problem where manipulating tables of data is
+              concerned.
+
+<LI>No effective interrupt vectoring.  While there are three
+              different interrupt inputs each offering different
+              characteristics and each having their own vectors they are
+              not flexible and most systems would have more devices each
+              requiring the same type of interrupt handling.
+
+<LI>No base-register addressing; Base register addressing is the
+              most effective way of allowing position independent
+              programming.  Programs are written as if they will be used
+              from location zero upwards.  When they run, however, the
+              contents of a base register is added to all addesses.  Thus
+              if the program is loaded into memory at location $2000 then
+              setting the base register to $2000 would make the program
+              work correctly.  This is very similar to indexed addressing
+              and the difference is subtle but important.  In indexed
+              addressing the initial value of the index register is known
+              when the program is written and assembled.  Variable
+              increments and offsets are added which are determined when
+              the program runs.  In base register addressing the offsets
+              are known when the program is written (load data from
+              location $100 i.e. offset of $100) and assembled, but the
+              base address is not known until the operating system loads
+              the the program into a convenient area of memory prior to
+              running it.
+</OL>
+         There are of course other more detailed limitations some of which
+         you may have encountered e.g. you can't add the two accumulators
+         together which seems plain silly!
+
+<H2>M68000 Register Set</H2>
+
+         We will now turn our attention to the M68000 to see how some of
+         these limitations are overcome.  The registers are:-
+<PRE>
+         8	32-bit Data registers DO-D7
+         7	32-bit Address registers AO-A7
+         2 	32-bit stack pointers
+                24-bit Program counter
+                16-bit Status register
+</PRE>
+         We immediately see that the internal architecture of the
+         processor is 32-bit.  This means whenever an internal arithmetic
+         operation is carried out then 32 bits are added, subtracted,
+         anded, shifted or whatever.  Thus the limitations of 8-bit
+         arithmetic are overcome.
+<P>
+         There are now 8 general purpose data registers so that many more
+         values can be kept in the processor registers reducing the
+         frequency of memory accesses.  All these data registers are
+         equivalent to the accumulators in the 6809 and can be used for
+         all arithmetic and logical instructions.  In addition data values
+         can be specified to be short (8-bit) normal (16-bit) or long (32-
+         bit) in order to optimise the processing speed when the full 32-bit
+	 length is not required.
+<P>
+         All registers handling addresses are incresed in length to at
+         least 24-bits thus allowing 16MBytes of memory to be addressed.
+         Since arithmetic operations can be carried out on the general
+         address registers they are made 32-bit for compatibility with the
+         data registers.  The stack pointer is effectively the eighth
+         address register (and is addressed as such) but it can be
+         switched from system to user and has the special functions
+         associated with a stack pointer.
+<P>
+         The number of address registers, which can be used as base
+         registers, index registers etc means that a number of pointers to
+         tables can be kept in the processor at a time.
+
+<H2>M68000 Bus arrangement</H2>
+
+         Although the 68000 is internally a 32-bit processor, externally
+         it is only 16-bit.  Thus the data bus has 16 connections and all
+         transfers to and from memory occur in 16-bit chunks.  The
+         addresses, however are in terms of bytes to maintain
+         compatibility with 8-bit interface devices.  Thus address $000000
+         refers to byte 0 in memory and address $000001 refers to byte 1.
+         A normal read on location $000000 will read both bytes in one
+         memory read cycle.  All instruction addresses must start on an
+         even address and will be multiples of 16 bits.  Since two bytes
+         are always read the address bus does not have address line AO but
+         are special control lines UDS and LDS which can be used to select
+         upper and lower data bytes.
+<P>
+         The 6809 has a synchronous bus transfer mechanism which leads to
+         simple system design but means that the whole system runs at the
+         rate of the slowest devices.  Synchronous means that transfers are
+         controlled by a clock and that devices must be able to generate
+         or receive data within a clock period.  If a device takes longer
+         than a clock period to respond then the system will not work.  All
+         devices in the system are therefore chosen to have similar access
+         times.  In a 68000 system access times can vary thus allowing
+         greater flexibility in system design. for example very fast,
+         high-cost memory can be used where access is frequent while
+         cheaper slower memory can be used for infrequently accessed
+         areas.  To enable this to work the 68000 has an asynchronous bus.
+<P>
+         The asynchronous bus works using two control signals in the same
+         sort of handshaking arrangement that we saw using the VIA.  If we
+         take a memory write cycle as an example; the-processor sets R/W
+         low to indicate a write cycle, sets the address on the address
+         bus and the data on the data bus.  The AS (address strobe), UDS
+         (upper data strobe) and LDS (lower data strobe) all go low to
+         indicate valid data on the address bus, and on both halves of the
+         data bus.  The processor then waits for a low signal on DTACK
+         (data transfer acknowledge) which is generated at by the memory
+         device when it has received and latched the data.  The processor
+         proceeds on the following clock pulse.  A transfer like this can
+         take anything from 4 clock cycles upwards depending on the speed
+         of the memory.  The clock rate depends on the version of the
+         processor 4,6,8,10,12.5 and 16 MHz versions have been made.  The
+         'standard' at present is 10MHz so each clock period is 100ns.
+<P>
+<IMG SRC = "68kbus.gif">
+<P>
+         This type of bus arrangement has many advantages in terms of
+         speed but it increases the complexity of the system because there
+         are more control signals and memory has to generate the
+         acknowledge signal.  There is also a problem which arises when an
+         invalid address is output i.e. one where no memory is present.  In
+         a 6809 system the data lines float high and the value $FF is
+         read.  In 68000 system no DTACK will be generated and so the
+         processor will wait indefinitely.  Clearly this cannot be allowed
+         to happen and so a 'watchdog' timer must be included which
+         monitors the length of time that elapses before DTACK is
+         generated.  If no DTACK appears for, say, 10 ms then a BERR (bus
+         error) signal is sent to the processor.  This is effectively an
+         interrupt which has its own restart address and allows the
+         monitor program or operating system to take appropriate action
+         such as generating an error message.  Again this makes the system
+         more complex but has the added advantage that this situation is
+         detected where in a 6809 system it would not be.
+<P>
+         In order to allow standard interface chips, such as VIA or PIA to
+         be used a synchronous bus control is also permitted where the
+         processor generates an E signal.  When such a device is addressed
+         it tells the processor it is such a device by taking VPA (valid
+         peripheral address) low.  The transfer is then synchronised to the
+         E clock.
+
+<H2>M68000 Instructions</H2>
+
+         The 68000 has a fairly limited list of basic instruction types
+         which can be used on a wide rdnge of registers and with a variety
+         of data types.  For example the MOVE instruction moves data from
+         one place to another.  It may be from one data register to
+         another, or from memory to data register or data register to
+         memory or immediate data to data register or can even be used to
+         move a range of registers or to push or pull registers on the
+         stack.  Thus it replaces all the LOAD, STORE, PSH, and PUL
+         instructions in the 6809.
+<P>
+         Similarly ADD can be used with data or address registers and with
+         small numbers coded in the instruction.  It thus replaces all
+         increment instructions as well as ADD instructions in the 6809.
+         The same applies to subtract instructions which replace
+         decrement.
+<P>
+         In addition to the unsigned multiply instruction available in the
+         6809 there is signed multiplication of up to 32-bitdata as well
+         as both signed and unsigned division.  Clearly multiplication of
+         32-bit numbers can generate a 64-bit result which has to be
+         stored in two data registers and would require 4 16-bit memory
+         locations.
+<P>
+         Most of these instructions can be used with byte, word, or long
+         word data formats and in some cases bits as well.  In addition
+         there are 14 addressing modes which can be used with most
+         instructions that reference memory.
+
+<H2>Some addressing modes</H2>
+
+         Absolute - The address is specified in the instruction -
+         equivalent to extended
+<P>
+         Immediate - as in M6809
+<P>
+         Address register indirect - the address is contained in an
+         address register - equivalent to indexed.  Is provided with
+         postincrement and predecrement as in 6809
+<P>
+         Address register indirect with displacement - The address is
+         computed from the contents of an address register with a fixed
+         displacement added.  This is base register addressing which has
+         some similarities with the indexed addressing in 6809.
+<P>
+         Address register indirect with index - This allows base register
+         addressing to be used in conjunction with indexed addressing.
+         This is essential if real base register addressing is to be
+         implemented.
+<P>
+         Program counter with displacement - This is equivalent to
+         relative addressing and provides an alternative to base register.
+<P>
+         Program counter with index - Relative addressing with indexed -
+         again essential for truly relocatable programs.
+
+
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up20.htm">Next</A> |</CENTER>
+
+</BODY>
+</HTML>

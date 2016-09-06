@@ -52,6 +52,12 @@ public class VecLinkV2Device extends AbstractDevice
             return "VecLinkV2 left";
         return "VecLinkV2 right";
     }
+    public String getDeviceName()
+    {
+        if (side == 0)
+            return "VecLinkV2 left";
+        return "VecLinkV2 right";
+    }
     
     static volatile boolean sync[] = new boolean [2];
     static volatile boolean syncDone[] = new boolean [2];

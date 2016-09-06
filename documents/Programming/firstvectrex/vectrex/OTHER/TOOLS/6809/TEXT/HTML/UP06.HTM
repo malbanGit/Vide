@@ -1,0 +1,408 @@
+<HTML>
+<HEAD><TITLE>MICROPROCESSORS</TITLE>
+</HEAD>
+<BODY>
+
+<H2>Microprocessors Lecture 6</H2>
+<H3>The 6809 Stacks</H3>
+
+   The 6809 provides two stacks.  One is pointed at by the S register (16
+   bits long) and is known as the system stack pointer, and the other is
+   pointed at by U, being known as the user stack pointer.     All subroutine
+   calls and interrupts use the system stack pointer, leaving the user stack
+   pointer at the disposal of the user.       We may use U as an index register
+   (rather more powerful than X or Y) or use it to implement a second stack,
+   wnicn is useful for a variety of purposes.     Alternatively, the two stacks
+   may be reserved for the use of an operating system or monitor, and the
+   user himself (the O.S. uses EXG to swap them over).
+<P>
+   Both stacks in the 6809 build downwards and pop upwards.        At any time the
+   stack pointer points at the location above that into which the next byte
+   will be pushed.    So, the push sequence is; decrement the stack pointer,
+   then enter the byte where the pointer now points.        The    pull (or pop)
+   sequence is the direct opposite; the byte is read from the location
+   pointed at by the pointer, and then the pointer is incremented,
+<P>
+   e.g. the following are equivalent in function:
+<PRE>
+                            STA     ,-S        =>      PSHS  A
+                            LDA     ,S+        =>      PULS  A
+</PRE>
+   Any information on the stack may be accessed using the indexed addressing
+   mode.   The top of the stack may always be looked at using the operand S
+   (or U).    Other bytes (or words) on the stack may be accessed using an
+   offset from S or U.     This offset may be a constant or be held in a
+   register, A, B or D (a sixteen bit register pair),
+<br>
+   e.g:
+<PRE>
+                            LDA      4,S           ; 5th byte down on stack
+                            LDA      B,U           ; U offset by B
+</PRE>
+   The stack pointers themselves may be manipulated using the LEAS and LEAU
+   instructions, which take only the indexed addressing mode.  Either stack
+   pointer may be incremented or decremented using these instructions:
+<PRE>
+                            LEAS      ,S+          ; Increments S
+                            LEAU     4,U           ; Adds 4 to U
+</PRE>
+   Many operations may be done directly on data stored on the stack, using
+   the indexed mode, with U or S as the base register (after the comma).  To
+   write re-entrant code which uses locations in memory to store temporary
+   variables, it is necessary to allocate this space on the stack to ensure
+   that each invocation of the routine gets a new area of memory for its
+   variables.  Variables whose space is allocated  way are called
+   "automatic" variables because the actual locations used are automatically
+   allocated each time the routine is called.
+<P>
+   The stack may also be used to pass parameters to a routine and to receive
+   the results.    The calling routine must allocate space on the stack for
+   the parameters and then call the subroutine.     The subroutine then picks
+   up the parameters from the stack, processes them and returns. The
+   calling routine must then fiddle the stack, using LEAS, to restore the
+   stack to its original state.   If results are required, the calling
+   routine must also allocate space on the stack for them, and deallocate the
+   space when the subroutine has returned, as for the parameters.  The
+   locations for the parameters and results are then reached via a constant
+   offset from S.
+<hr>
+<H2>Making the Most of your Stack</H2>
+
+           The stack has many uses, the most obvious of which is as a
+           Last-In First-Out storage area for subroutine return
+           addresses.  It is also very useful for temporarily storing
+           data, to free registers for other uses.  Another use of the
+           stack is to enable subroutines to be written which call
+           themselves. Before doing this, the routine must store
+           away any data to be preserved, and then execute the call.
+           On returning from itself (!) it can restore the saved
+           registers by popping them off the stack again.  The example
+           which follows illustrates one application of this method.
+
+<H3>Example</H3>
+
+           In computing, it is often necessary to print out a number
+           in decimal format.  As numbers are stored inside the
+           processor in binary form, some kind of conversion is
+           required before the number may be printed.  The standard
+           way of converting a number into a string of digits is by
+           successive division by the radix (in this case, 10).  The
+           remainders yielded by these divisions are the digits of
+           the converted  number, e.g.
+<PRE>
+                   Number to be converted:       $3F5A
+                   Divide by ten:                 $655  remainder 8
+                   Divide by ten again:            $A2  remainder 1
+                   Divide by ten yet again:        $1O  remainder 2
+                   Divide by ten one more time:     $1  remainder 6
+                   Positively the last time:        $O  remainder 1
+
+                   So $3F5A, when converted to decimal is 16218
+</PRE>
+           The major drawback to this method is that the digits are
+           not generated in a convenient order.  We would like them to
+           be generated most significant digit first, so that we can
+           print them as we produce them, but this method yields the
+           least significant digit first.  So we need to reverse the
+           order of the digits before printing them.  Needless to say
+           there are many different ways of achieving this end; we
+           could store the digits as a list in memory and then print
+           them out in reverse order, for example.  
+<P>
+	   Another way would
+           be to push the digits onto the stack as we generate them
+           and then pop them off for printing when all the digits
+           have been produced.  Both these methods require that we
+           maintain a digit counter to keep track of the number of
+           digits we have generated, and the first method also
+           requires a reserved area of memory for the use of the
+           conversion routine.  A third method will be explained
+           below.
+
+<H3>Recursive Binary to Decimal Routine</H3>
+
+        This is the most elegant way of performing this conversion
+        as it relies only on the stack and registers, and requires
+        no digit counter, nor does it set any limit on the number
+        of digits (beyond that set by the number of bits in a
+        double register).  In addition, it automatically gets rid
+        of leading zeros in the number which may be generated by a
+        routine wnich handles a fixed number of digits.
+<P>
+        The routine first divides the number by ten and stacks the
+        resulting digit.  It then calls itself to print the more
+        significant digits beiore unstacking and printing its own
+        digit.  For instance, let us print the decimal number 145
+        (in binary within the 6809 of course).  The routine first
+        divides by ten to yield 14 and a remainder of 5, which it
+        stacks.  It then calls itself, passing 14 as the number.
+        The cailed routine divides 14 by ten to yield 1 and a
+        remainder of 4, which it stacks.  The third calling of the
+        routine divides 1 by ten to get 0 and a remainder of 1. As
+        the number is now zero, it prints the 1 and returns to its
+        cailer.  The caller pops 4, which it stacked previously and
+        prints it before returning to its caller, which pops and
+        prints 5. The first called routine then returns to the
+        routine which originally called it, the task having been
+        accomplished.
+<P>
+<H3>The Program</H3>
+<PRE>
+;               Recursive Binary to Decimal Conversion routine.
+;               The number to be converted is passed in X.
+;               X returns as zero and A is destroyed.
+;               The existence of 'divten' and 'outdigit' is assumed
+;               but the routines are not given here. 'divten'
+;               divides X by ten, returning the result in X
+;               and the remainder in A.  'outdigit' outputs the digit
+;               in A to the terminal or whatever.
+
+bintodec:       jsr      divten     ; divide X by 10
+                pshs     a          ; save remainder
+                cmpx     #0         ; finished?
+                beq      print      ; if so, print digits
+                jsr      bintodec   ; not done, get next digit
+print:          puls     a          ; retrieve digit
+                jsr      outdigit   ; print it
+                rts                 ; and return
+</PRE>
+                Some features of this program are worth noting:<br>
+                a) If the number in X is less than 10
+                   a single digit is printed, as required.<br>
+                b) If the number is zero, a single 0 is printed.<br>
+                c) For longer numbers, no leading zeros are printed.<br>
+                d) No memory, apart from the stack, is used
+                   by this program, so no memory need be reserved
+                   for it.<br>
+                e) It's nice and simple. No digit counters or fancy
+                   are required.  The cost... the extra effort of working
+                   out a more involved algorithm (you have the recursion to
+                   cope with).       
+
+<H3>Use of the stack in subroutines</H3>
+<I>The following notes are for information only.  They do not form part of the course</I>
+<P>
+         When you start writing real programs, particularly in
+         Machine/Assembly Code you soon discover the need for subroutines.
+         These are sections of code which you want to use over and over
+         again in much the same way that you use procedures in high level
+         languages.
+<P>
+         For example in the lab task to write software for the Pelican
+         Crossing you need a delay routine as written in lab session 1
+<PRE>
+                              Set traffic lights to AMBER
+
+                                   Delay for 10 secs
+
+                               Set traffic lights to RED
+
+                                   Delay for 2 secs
+
+                          Set CROSS lights on and beeper on
+
+                                   Delay for 30 secs
+                                            
+                                          etc.
+</PRE>
+         Obviously it would be wasteful in terms of programming time and
+         memory to write out the delay routine each time it is required -
+         ideally we want to write it out once and call it up as needed.
+         This is exactly what we mean by a subroutine.
+<P>
+         Jumping to the start of a subroutine is no problem at all - we
+         have seen how branch and jump instructions can be implemented.
+         The problem comes at the end of the subroutine when control has
+         to return to the section of program from which it came.
+<PRE>
+                              Set traffic lights to AMBER
+
+                                 Call DELAY subroutine
+
+                               Set traffic lights to RED
+
+                                 Call DELAY subroutine
+                                            
+                                          etc.
+</PRE>
+         This means that when a subroutine is called the processor must
+         somehow store the address to which control should return - in
+         other words the address of the instruction which follows the call
+         subroutine instruction.  There are many ways in which this problem
+         has been tackled.
+<OL>
+<LI>Using programmed instructions - The programmer writes
+               instructions before the jump to a subroutine which store
+               away the contents of the program counter (with a correction
+               added).  At the end of the subroutine an instruction which
+               causes a jump to this stored address is used.  The problem
+               with this is that the programmer has to remember to do this
+               and it results in a lot 6f repeated program steps. (Used in
+               a number of early computers).</LI>
+
+<LI>Dedicated Processor Register - The processor has a special
+               register which stores the return address.  This is a simple
+               approach which means the programmer doesn't have to worry at
+               all about it.  A special instruction 'Jump to subroutine'
+               stores the program counter and jumps to the  address
+               specified.  Another special instruction 'Return  from
+               subroutine, simply copies the return address back into the
+               program counter.  The major disadvantage is that you cannot
+               have nested subroutines, i.e. subroutines calling other
+               subroutines, which in practice you find you frequently want
+               to. To do this you have to store the return address register
+               and then load it again.  This is effectively returning to
+               method 1. (Used in TMS1000, 3870 and F8).</LI>
+
+<LI>Processor Register Stack - The way round the problem of
+               method 2 is to have a number of return address registers in
+               the processor working as a Last in First Out memory (LIFO).
+               In order to implement this an aditional register is needed
+               which keeps track of which register is the next to be used.
+               For example if the processor has 8 such registers then a 3
+               bit pointer register is required.  This will initially
+               contain 000 indicating that register 0 should be used.  When
+               a JSR is executed the return address is stored in register
+               000 and the pointer incremented to 001.  When an RTS
+               instruction is executed the pointer is first decremented and
+               then the return address retrieved.
+<PRE>
+                     1000 JSR $1200             000        0000
+                     1003 Next Inst                        0000
+                          :                                0000
+			  :
+
+
+                     1200 Start of SR1          001        1003
+                          :                                0000
+                          :                                0000
+                     122A JSR $13A0
+                     122D Next Inst             001        1003
+                          :                                0000
+                     1235 RTS                              0000
+
+                     13A0 Start of SR2          002        1003
+                          :                                122D
+                          :                                0000
+                     13D8 RTS
+</PRE>
+                  The disadvantage of this approach is the that no matter how
+                  many registers are provided people will always want more and
+                  it adds to the processor complexity.  The advantage is that
+                  it is fast since all transfers are internal to the
+                  processor. (A number of Intel processors such as 8048 have
+                  used this approach).</LI>
+
+<LI>Stack in Memory - This approach is very similar to the
+                  previous one except that instead of using internal registers
+                  the return addresses are stored in memory registers.  The
+                  pointer (3 bit in the above example) becomes 16 bits (or the
+                  appropriate number for an address register). At the
+                  beginning of the program the Stack Pointer is loaded with
+                  the address of the start of the memory area which is to be
+                  used for this purpose.  In fact, for no discernable reason,
+                  the stack pointer works down in memory rather than up so the
+                  stack pointer should be set to the top or highest address of
+                  the stack area. Obviously this must be in RAM for the system
+                  to work.
+<P>
+                  Since addresses are 16 bits and memory locations in 6809 can
+                  only store 8 bits two locations are need to store each
+                  return address. The exact sequence of events when a JSR is
+                  executed are.  E.g. If SP is initialised to $2000
+<PRE>
+                         (SP)-1  ->     SP          $2000-1 = $1FFF  ->      SP
+                         (PCL)   ->     (SP)        $03 -> $1FFF
+                         (SP)-1  ->     SP          $1FFF-1 = $1FFE  ->      SP
+                         (PCH)   ->     (SP)        $10 -> $1FFE
+</PRE>
+                  When an RTS is executed the reverse process takes place
+<PRE>
+                         ((SP))  ->     PCH         ($1FFE)      = $10   ->  PCH
+                         (SP)+l  ->     SP          $1FFE + 1    = $1FFF ->  SP
+                         ((SP))  ->     PCL         ($1FFF)      = $03   ->  PCL
+                         (SP)+l  ->     SP          $1FFF + 1    = $2000 ->  SP
+</PRE>
+                  Using this technique the user can allocate as much space as
+                  is necessary for the return address stack.  Notice, though
+                  that there are no set boundaries so that if you had:-
+<PRE>
+                         $1000 JSR $1000
+</PRE>
+                  The whole of memory would be quickly used up by the stack.
+                  This is an obvious situation which can be easily avoided but
+                  there are more subtle ones which can have the same effect.
+<P>
+                  There is no standardisation between processors as to the
+                  order in which the H and L bytes of the PC are stored.  Nor
+                  is the pre-decrement, post increment for JSR and RTS fixed.
+<P>
+                  Nevertheless this is the method of handling return addresses
+                  which is used in all 8 & 16 bit processors these days.  Its
+                  only disadvantage is the length of time it takes to store
+                  the address bytes in external memory,</LI>
+</OL>
+<H3>Other uses of the Stack</H3>
+          There is another problem that we encounter as soon as we start
+          using subroutines and this is that subroutines usually use the
+          accumulators and other registers in the processor to accomplish
+          their tasks.  This means that when control returns to the main
+          program the register contents is different.  Although the
+          programmer can often take account of this it would be much more
+          convenient if the subroutine didn't corrupt the register values.
+<P>
+          One solution is for the subroutine to store away the register
+          contents in set memory locations before using them and to
+          retrieve these values before returning.  The problem is where
+          should these values be stored?  Ideally we are writing subroutines
+          which can be used in many different programs or we may even be
+          using other peoples or commercially available routines.  If set
+          memory locations are used they may clash with program or data
+          areas in another application.
+<P>
+          A better solution is to use the stack which the user always sets
+          to be in an unwanted area of memory.  At the start of the routine
+          the contents of any registers which will be changed is stored on
+          the stack and they are retrieved before the RTS is executed.
+          Putting data onto the stack is known as Pushing data and
+          retrieving it is known as Pulling.  The 6809 has instructions for
+          doing this known as Push (PSH) and Pull (PUL) - the codes for
+          these are 34 and 35.  Each of these has an additional instruction
+          byte which indicates which registers are to be stored or
+          retrieved as follows:-
+<PRE>
+                    LSBit 0   -  Condition Code Register
+                          1   -  Accumulator A
+                          2   -  Accumulator B
+                          3   -  Direct Page Register
+                          4   -  Index Register X
+                          5   -  Index Register Y
+                          6   -  Stack Pointer
+                    MSBit 7   -  Program Counter
+</PRE>
+          Notice that the first  four are 8 bit registers requiring only one
+          byte to be stored and that the last four are 16 bit registers
+          requiring two bytes to be stored.
+<P>
+          It is rarely necessary to store the PC and SP on the stack and
+          obviously the more registers stored the longer the instruction
+          takes (It's 5 cycles + 1 for each byte - 17 max).
+<PRE>
+               34 Pushes all registers        34 Pushes A and X
+               FF                             12
+</PRE>
+         Clearly the number of bytes pushed at the start of the subroutine
+         must equal the number of bytes pulled at the end otherwise the
+         return address will not be correct and the program will crash.  To
+         avoid this happening the 6809 provides two stack pointers U and
+         S, the User and System stack pointers.  The JSR and RTS always use
+         the S pointer but the Push and Pull instructions can use either.
+         If the User stack is always used then there is little chance of
+         the return address being corrupted.  The codes given are for the
+         system stack but the user stack works in the same way.
+
+<hr><CENTER>
+| <A HREF="micros.htm">Back</A> | <A HREF="up07.htm">Next</A> |</CENTER>
+
+</BODY>
+</HTML>

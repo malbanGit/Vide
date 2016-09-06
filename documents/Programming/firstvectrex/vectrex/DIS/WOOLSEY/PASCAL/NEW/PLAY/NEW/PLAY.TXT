@@ -1,0 +1,4 @@
+This is a modified version. It outputs the chosen music as
+DB... data statements for use in sourcecodes.
+
+Malban

@@ -1,0 +1,52 @@
+Thema:  I fixed my Vec !!! - for all interested
+Datum:  31 Dec 1997 02:03:05 GMT
+
+A (long) while ago I posted my busted Vecs symptoms and since then I've
+received many emails asking me to post when I found a solution. Briefly:
+the problem was the screen initially condensed into one vertical line, and
+after opening the unit up a reseating the few chips I could reach without
+major disassembly, the screen expanded to a full screen. However, the
+screen was very unstable, and would waver very badly. Someone suggested I
+replace the video chip, the 6522.
+
+ Well, I FINALLY had a weekend free and my brother and I rolled up our
+sleeves and got into the Vec. We actually were able to find an electronics
+supplier that could sell us a 6522 chip. (I'll post the source later, if
+anyone's interested). Anyway, we open up the darn thing, pry out the old
+6522, and replace it, and guess what; same damn problem! So we know two
+things, one the 6522 we bought is compatible, and two the 6522 is NOT the
+problem.
+
+By this time, we're pretty frustrated, and figure we got nothing to loose.
+So, as a last ditch effort we try to reseat all of the chips on the one
+main board. What I call the main board is the board with the CPU, the 6522
+and the memory. So, we take the Vec apart just enough so we can get at all
+the chips. We found the least destructive way is to take out the four (I
+think ?) screws that hold the board to rest of the case. There is one thick
+wire that connects the two main boards inside the Vec that we HAD to cut.
+After the screws are removed and the wire cut, there is just enough slack
+in the rest of the connecting wires such that the board can be pulled out
+of the Vec and held horizontally(Note, the joystick ports and reset switch
+(with the know removed!) pull though the back of the panel). With my bother
+holding the back of the board for support, I (carefully!!!) pried all the
+chips out of their sockets and reseated them. For a few of the chips, I
+needed to use another chip as a lever to insert the tiny screwdriver into
+the notch, so I used a piece of cloth to make sure I didn't damage the
+other chip. After painstakingly going through all the chips, we reinstalled
+the board. My brother, with his impressive soldering skill, soldered in a
+plug connection where the hardwiring was, between the two boards, just in
+case we need to remove it again.
+
+So, anyway, after reassembling the whole shebang, I'll be damned if the Vec
+doesn't work! A nice stable screen, even after we left in on for the rest
+of the afternoon.
+
+Hopefully, these directions will help someone whose Vec is suffering from
+the same malady. Now if only we can get our hands on a legitimate Vectrex
+controller!!! (Ours came sans controller).
+
+The next project is to convert a Sega pad to Vec duty, however, I'd still
+like an authentic controller. If anyone can help me here, I'd like to hear
+about it! I'll keep looking!
+
+paul123@mail.eclipse.net

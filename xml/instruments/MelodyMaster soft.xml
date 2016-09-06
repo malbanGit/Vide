@@ -1,0 +1,8 @@
+<Instrument>
+<name>
+MelodyMaster soft</name>
+<adsr>
+$DD, $DD, $CC, $CC, $BB, $BB, $AA, $AA, $00, $00, $00, $00, $00, $00, $00, $00</adsr>
+<twang>
+$00, $00, $00, $00, $00, $00, $00, $00</twang>
+</Instrument>
