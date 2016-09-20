@@ -49,7 +49,9 @@ import de.malban.vide.vecx.panels.StarterJPanel;
 import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import de.malban.vide.vecx.panels.WheelEdit;
+import de.malban.vide.vedi.Vec32Panel;
 import de.malban.vide.vedi.VediPanel;
+import de.malban.vide.vedi.VediPanel32;
 import de.malban.vide.vedi.raster.RasterPanel;
 import de.malban.vide.vedi.raster.VectorJPanel;
 import de.malban.vide.vedi.sound.InstrumentEditor;
@@ -321,44 +323,10 @@ public class CSAMainFrame extends javax.swing.JFrame
         jMenuItemCartridgeEdit = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItemVec32 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItemConfig = new javax.swing.JMenuItem();
         jMenuLibrary = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu7 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem13 = new javax.swing.JMenuItem();
-        jMenuItem14 = new javax.swing.JMenuItem();
-        jMenuItem17 = new javax.swing.JMenuItem();
-        jMenuItem18 = new javax.swing.JMenuItem();
-        jMenuItem19 = new javax.swing.JMenuItem();
-        jMenuItem20 = new javax.swing.JMenuItem();
-        jMenuItem21 = new javax.swing.JMenuItem();
-        jMenuItem22 = new javax.swing.JMenuItem();
-        jMenuItem23 = new javax.swing.JMenuItem();
-        jMenuItem37 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem24 = new javax.swing.JMenuItem();
-        jMenuItem25 = new javax.swing.JMenuItem();
-        jMenuItem26 = new javax.swing.JMenuItem();
-        jMenuItem27 = new javax.swing.JMenuItem();
-        jMenuItem34 = new javax.swing.JMenuItem();
-        jMenuItem35 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem28 = new javax.swing.JMenuItem();
-        jMenuItem29 = new javax.swing.JMenuItem();
-        jMenuItem36 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
-        jMenuItem30 = new javax.swing.JMenuItem();
-        jMenuItem31 = new javax.swing.JMenuItem();
-        jMenuItem32 = new javax.swing.JMenuItem();
-        jMenuItem33 = new javax.swing.JMenuItem();
         windowMenu = new javax.swing.JMenu();
         windowMenu = new JM();
         jMenuItemCloseWin = new javax.swing.JMenuItem();
@@ -584,6 +552,14 @@ public class CSAMainFrame extends javax.swing.JFrame
         jMenu8.add(jMenuItem3);
 
         toolsMenu.add(jMenu8);
+
+        jMenuItemVec32.setText("Vec32 Terminal");
+        jMenuItemVec32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemVec32ActionPerformed(evt);
+            }
+        });
+        toolsMenu.add(jMenuItemVec32);
         toolsMenu.add(jSeparator3);
 
         jMenuItemConfig.setText("Configuration");
@@ -597,285 +573,6 @@ public class CSAMainFrame extends javax.swing.JFrame
         menuBar.add(toolsMenu);
 
         jMenuLibrary.setText("Library");
-
-        jMenu1.setText("Hardware");
-
-        jMenu7.setText("Original");
-
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem6.setText("MC6809 Motorola");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem6);
-
-        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem8.setText("MC6809 Motorola");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem8);
-
-        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem7.setText("VIA 6552A");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem7);
-
-        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem9.setText("PSG AY-3-891X");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem9);
-
-        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem10.setText("LF 147");
-        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem10ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem10);
-
-        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem11.setText("LF 153");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem11);
-
-        jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem13.setText("SN74LS32");
-        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem13ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem13);
-
-        jMenuItem14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem14.setText("SN54/74LS00");
-        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem14ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem14);
-
-        jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem17.setText("MC34004P");
-        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem17ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem17);
-
-        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem18.setText("DAC0808");
-        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem18ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem18);
-
-        jMenuItem19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem19.setText("LF353");
-        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem19ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem19);
-
-        jMenuItem20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem20.setText("74HC4066 (MUX)");
-        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem20ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem20);
-
-        jMenuItem21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem21.setText("4052B");
-        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem21ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem21);
-
-        jMenuItem22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem22.setText("2114 RAM");
-        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem22ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem22);
-
-        jMenu1.add(jMenu7);
-
-        jMenuItem23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/html.png"))); // NOI18N
-        jMenuItem23.setText("Lecture CPU");
-        jMenuItem23.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem23ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem23);
-
-        jMenuItem37.setText("Lightpen FAQ");
-        jMenu1.add(jMenuItem37);
-
-        jMenuLibrary.add(jMenu1);
-
-        jMenu3.setText("Games");
-        jMenuLibrary.add(jMenu3);
-
-        jMenu4.setText("Programming");
-
-        jMenuItem24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem24.setText("Vectrex Programmers Manual Vol 1");
-        jMenuItem24.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem24ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem24);
-
-        jMenuItem25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_white_acrobat.png"))); // NOI18N
-        jMenuItem25.setText("Vectrex Programmers Manual Vol 2");
-        jMenuItem25.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem25ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem25);
-
-        jMenuItem26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder.png"))); // NOI18N
-        jMenuItem26.setText("Vectrex BIOS Original");
-        jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem26ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem26);
-
-        jMenuItem27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/text_dropcaps.png"))); // NOI18N
-        jMenuItem27.setText("Tutorial - Christopher Tumber");
-        jMenuItem27.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem27ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem27);
-
-        jMenuItem34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem34.setText("Bios (Tomlin)");
-        jMenuItem34.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem34ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem34);
-
-        jMenuItem35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/html.png"))); // NOI18N
-        jMenuItem35.setText("Tutorial Malban");
-        jMenuItem35.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem35ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem35);
-
-        jMenuLibrary.add(jMenu4);
-
-        jMenu5.setText("Repair");
-
-        jMenuItem28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/html.png"))); // NOI18N
-        jMenuItem28.setText("Service Manual");
-        jMenuItem28.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem28ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem28);
-
-        jMenuItem29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem29.setText("Vectrex Troubleshooting guide");
-        jMenuItem29.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem29ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem29);
-
-        jMenuItem36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem36.setText("Service Manual");
-        jMenuItem36.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem36ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem36);
-
-        jMenuLibrary.add(jMenu5);
-
-        jMenu6.setText("Miscellaneous");
-
-        jMenuItem30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem30.setText("Patent Vectrex Housing");
-        jMenuItem30.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem30ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem30);
-
-        jMenuItem31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem31.setText("Patent Cartridge");
-        jMenuItem31.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem31ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem31);
-
-        jMenuItem32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem32.setText("Patent Self contained arcade");
-        jMenuItem32.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem32ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem32);
-
-        jMenuItem33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/gui/Adobe_PDF_file_icon_24x24.png"))); // NOI18N
-        jMenuItem33.setText("Patent Circuitry CRT beam");
-        jMenuItem33.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem33ActionPerformed(evt);
-            }
-        });
-        jMenu6.add(jMenuItem33);
-
-        jMenuLibrary.add(jMenu6);
-
         menuBar.add(jMenuLibrary);
 
         windowMenu.setForeground(Color.black);
@@ -1074,114 +771,6 @@ public class CSAMainFrame extends javax.swing.JFrame
         catch (Throwable ex) { }
     }//GEN-LAST:event_jMenuItemCodiActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"m6809pm.rev0.pdf"));
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
-
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"6522AP.pdf"));
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
-
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"6809.pdf"));
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
-
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"AY_3_8913.pdf"));
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
-
-    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"2151.PDF"));
-    }//GEN-LAST:event_jMenuItem10ActionPerformed
-
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"2153.PDF"));
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
-
-    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"SN74LS32N.pdf"));
-    }//GEN-LAST:event_jMenuItem13ActionPerformed
-
-    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"SN54LS00.pdf"));
-    }//GEN-LAST:event_jMenuItem14ActionPerformed
-
-    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"MC34004P.pdf"));
-    }//GEN-LAST:event_jMenuItem17ActionPerformed
-
-    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"MC1408P8.pdf"));
-    }//GEN-LAST:event_jMenuItem18ActionPerformed
-
-    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"LF353.pdf"));
-    }//GEN-LAST:event_jMenuItem19ActionPerformed
-
-    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"4066.pdf"));
-    }//GEN-LAST:event_jMenuItem20ActionPerformed
-
-    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"4052B.pdf"));
-    }//GEN-LAST:event_jMenuItem21ActionPerformed
-
-    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"original"+File.separator+"2114 RAM.pdf"));
-    }//GEN-LAST:event_jMenuItem22ActionPerformed
-
-    private void jMenuItem23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem23ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"hardware"+File.separator+"LectureCPU"+File.separator+"MICROS.HTM"));
-    }//GEN-LAST:event_jMenuItem23ActionPerformed
-
-    private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"programming"+File.separator+"VectrexVol1.pdf"));
-    }//GEN-LAST:event_jMenuItem24ActionPerformed
-
-    private void jMenuItem25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem25ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"programming"+File.separator+"VectrexVol2.pdf"));
-    }//GEN-LAST:event_jMenuItem25ActionPerformed
-
-    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"programming"+File.separator+"exec.pdf"));
-    }//GEN-LAST:event_jMenuItem26ActionPerformed
-
-    private void jMenuItem27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem27ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"programming"+File.separator+"TUTORIAL.TXT"));
-    }//GEN-LAST:event_jMenuItem27ActionPerformed
-
-    private void jMenuItem28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem28ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"repair"+File.separator+"ServiceManual"+File.separator+"SERVICE.HTM"));
-    }//GEN-LAST:event_jMenuItem28ActionPerformed
-
-    private void jMenuItem29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem29ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"repair"+File.separator+"vecguid.pdf"));
-    }//GEN-LAST:event_jMenuItem29ActionPerformed
-
-    private void jMenuItem30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem30ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"miscellaneous"+File.separator+"Patent - Video arcade game and display housing.pdf"));
-    }//GEN-LAST:event_jMenuItem30ActionPerformed
-
-    private void jMenuItem31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem31ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"miscellaneous"+File.separator+"Patent - Video Game Cartridge recognition and security system.pdf"));
-    }//GEN-LAST:event_jMenuItem31ActionPerformed
-
-    private void jMenuItem32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem32ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"miscellaneous"+File.separator+"Patent - Self contained arcade game apparatus for object generation.pdf"));
-    }//GEN-LAST:event_jMenuItem32ActionPerformed
-
-    private void jMenuItem33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem33ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"miscellaneous"+File.separator+"Patent - Circuitry for controlling a CRT beam.pdf"));
-    }//GEN-LAST:event_jMenuItem33ActionPerformed
-
-    private void jMenuItem34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem34ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"programming"+File.separator+"BIOS.ASM.pdf"));
-    }//GEN-LAST:event_jMenuItem34ActionPerformed
-
-    private void jMenuItem35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem35ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"programming"+File.separator+"secondvectrex"+File.separator+"toc.htm"));
-    }//GEN-LAST:event_jMenuItem35ActionPerformed
-
     private void jMenuItemHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemHelpActionPerformed
         String helpHS = "main.hs";
         HelpSet hs;
@@ -1226,10 +815,6 @@ public class CSAMainFrame extends javax.swing.JFrame
             }
 
         }    }//GEN-LAST:event_jMenuItemHelpActionPerformed
-
-    private void jMenuItem36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem36ActionPerformed
-        invokeSystemFile(new File("documents"+File.separator+"repair"+File.separator+"vecman.pdf"));
-    }//GEN-LAST:event_jMenuItem36ActionPerformed
 
     private void jMenuItemStarterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStarterActionPerformed
         Windowable p = getStarter();
@@ -1357,6 +942,16 @@ public class CSAMainFrame extends javax.swing.JFrame
         WheelEdit.showWheelEdit();
     }//GEN-LAST:event_jMenuItem44ActionPerformed
 
+    private void jMenuItemVec32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVec32ActionPerformed
+        Windowable p = getVec32();
+        CSAInternalFrame frame = getInternalFrame(p);
+        try
+        {
+            if (frame.isIcon()) frame.setIcon(false);
+        }
+        catch (Throwable ex) { }
+    }//GEN-LAST:event_jMenuItemVec32ActionPerformed
+
     boolean gameMode = false;
     de.malban.event.MasterEventListener keyListener = null;    
     
@@ -1452,44 +1047,13 @@ public class CSAMainFrame extends javax.swing.JFrame
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
-    private javax.swing.JMenuItem jMenuItem17;
-    private javax.swing.JMenuItem jMenuItem18;
-    private javax.swing.JMenuItem jMenuItem19;
-    private javax.swing.JMenuItem jMenuItem20;
-    private javax.swing.JMenuItem jMenuItem21;
-    private javax.swing.JMenuItem jMenuItem22;
-    private javax.swing.JMenuItem jMenuItem23;
-    private javax.swing.JMenuItem jMenuItem24;
-    private javax.swing.JMenuItem jMenuItem25;
-    private javax.swing.JMenuItem jMenuItem26;
-    private javax.swing.JMenuItem jMenuItem27;
-    private javax.swing.JMenuItem jMenuItem28;
-    private javax.swing.JMenuItem jMenuItem29;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem30;
-    private javax.swing.JMenuItem jMenuItem31;
-    private javax.swing.JMenuItem jMenuItem32;
-    private javax.swing.JMenuItem jMenuItem33;
-    private javax.swing.JMenuItem jMenuItem34;
-    private javax.swing.JMenuItem jMenuItem35;
-    private javax.swing.JMenuItem jMenuItem36;
-    private javax.swing.JMenuItem jMenuItem37;
     private javax.swing.JMenuItem jMenuItem38;
     private javax.swing.JMenuItem jMenuItem39;
     private javax.swing.JMenuItem jMenuItem4;
@@ -1500,10 +1064,6 @@ public class CSAMainFrame extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItem44;
     private javax.swing.JMenuItem jMenuItem45;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItemAssi;
     private javax.swing.JMenuItem jMenuItemCartridgeEdit;
     private javax.swing.JMenuItem jMenuItemCloseWin;
@@ -1513,6 +1073,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItemDissy;
     private javax.swing.JMenuItem jMenuItemHelp;
     private javax.swing.JMenuItem jMenuItemStarter;
+    private javax.swing.JMenuItem jMenuItemVec32;
     private javax.swing.JMenuItem jMenuItemVeccy;
     private javax.swing.JMenuItem jMenuItemVecxi;
     private javax.swing.JMenuItem jMenuItemVedi;
@@ -2667,6 +2228,39 @@ public class CSAMainFrame extends javax.swing.JFrame
         addAsWindow(p, 600, 600, p.SID);
         return p;
     }
+    
+    public VediPanel32 getVec32()
+    {
+        VediPanel32 v =checkVec32();
+        if (v == null) v = createVec32();
+        return v;
+    }
+    public VediPanel32 checkVec32()
+    {
+        // get any panel that is called by name dissi
+        for (JPanel p: mPanels )
+        {
+            if (p instanceof Stateable)
+            {
+                if (((Stateable)p).getID().equals(VediPanel32.SID))
+                    return (VediPanel32)p;
+            }
+        }
+        for(JInternalFrame frame: mFrames)
+        {
+            CSAInternalFrame f = (CSAInternalFrame)frame;
+            if (!(f.getPanel() instanceof Stateable)) continue;
+            if (((Stateable)f.getPanel()).getID().equals(VediPanel32.SID))
+                return (VediPanel32)f.getPanel();
+        }
+        return null;
+    }
+    public VediPanel32 createVec32()
+    {
+        VediPanel32 p = new VediPanel32();        
+        addAsWindow(p, 600, 600, p.SID);
+        return p;
+    }
 
     // returns the "first" found vecxy panel or creates a new one!
     public AnalogJPanel getAni()
@@ -3137,6 +2731,7 @@ public class CSAMainFrame extends javax.swing.JFrame
                     if (id.equals(PSGJPanel.SID)) getAyi();
                     if (id.equals(StarterJPanel.SID)) getStarter();
                     if (id.equals(VeccyPanel.SID)) getVeccy();
+                    if (id.equals(VediPanel32.SID)) getVec32();
                     
                 }
             }

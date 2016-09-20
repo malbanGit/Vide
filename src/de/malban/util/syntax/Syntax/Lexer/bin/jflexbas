@@ -1,0 +1,36 @@
+#! /bin/bash 
+#
+#     JFlex start script $Revision$
+#
+# if Java is not in your binary path, you need to supply its
+# location in this script. The script automatically finds 
+# JFLEX_HOME when called directly, via binary path, or symbolic
+# link. 
+#
+# Site wide installation: simply make a symlink from e.g.
+# /usr/bin/jflex to this script at its original position
+#
+#===================================================================
+#
+# configurables:
+
+# path to the java interpreter
+JAVA=java
+
+# end configurables
+#
+#===================================================================
+#
+
+# calculate true location
+
+JFLEX_HOME=/Users/chrissalo/NetBeansProjects/Vide/helper/jflex-1.6.1/ 
+
+
+# --------------------------------------------------------------------
+
+$JAVA -Xmx128m -jar $JFLEX_HOME/lib/jflex-1.6.1.jar BASICLexer.lex
+
+mv BASICLexer.java ..
+
+

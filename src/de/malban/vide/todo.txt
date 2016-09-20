@@ -438,7 +438,16 @@ Done:
 - done: dissi BIOS disasm is allways taken from SYSTEM.IMG
 
 
+- bugfix
+ cnt files for BIOS corrected
+ jump in dissi works again
+ direct labels corrected
+
 todo:
+
+FAQ
+Manu Pärssinen The solution is here: https://java.com/en/download/manual.jsp - you need to download (also) the 64-bit version of Java, and it's not the 'normal' download that they offer on the front page.
+
 - library load
 - Explosion?
 - doc prebuilt/postbuild scripts

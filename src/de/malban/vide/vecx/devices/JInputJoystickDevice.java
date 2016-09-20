@@ -11,6 +11,7 @@ import de.malban.input.EventController;
 import de.malban.input.SystemController;
 import de.malban.vide.ControllerConfig;
 import static de.malban.vide.vecx.VecXPanel.DEVICE_JINPUT_JOYSTICK;
+import static de.malban.vide.vecx.VecXStatics.JOYSTICK_CENTER;
 import net.java.games.input.Controller;
 
 /**
@@ -98,10 +99,10 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
         if (vectrexTarget.equals("3")) joyport.setButton3(!e.currentButtonState, true); 
         if (vectrexTarget.equals("4")) joyport.setButton4(!e.currentButtonState, true); 
         
-        if (vectrexTarget.equals("left"))  joyport.setHorizontal((e.currentButtonState)?0x00:0x80, true);
-        if (vectrexTarget.equals("right"))  joyport.setHorizontal((e.currentButtonState)?0xff:0x80, true);
-        if (vectrexTarget.equals("down"))  joyport.setVertical((e.currentButtonState)?0x00:0x80, true);
-        if (vectrexTarget.equals("up"))  joyport.setVertical((e.currentButtonState)?0xff:0x80, true);
+        if (vectrexTarget.equals("left"))  joyport.setHorizontal((e.currentButtonState)?0x00:JOYSTICK_CENTER, true);
+        if (vectrexTarget.equals("right"))  joyport.setHorizontal((e.currentButtonState)?0xff:JOYSTICK_CENTER, true);
+        if (vectrexTarget.equals("down"))  joyport.setVertical((e.currentButtonState)?0x00:JOYSTICK_CENTER, true);
+        if (vectrexTarget.equals("up"))  joyport.setVertical((e.currentButtonState)?0xff:JOYSTICK_CENTER, true);
 
         if (vectrexTarget.equals("vertical"))  
         {

@@ -15,8 +15,8 @@ import java.io.IOException;
  */
 public class ImagePanel extends javax.swing.JPanel {
 
-    VediPanel parent;
-    public void setParent(VediPanel p)
+    VEdiFoundationPanel parent;
+    public void setParent(VEdiFoundationPanel p)
     {
         parent = p;
     }

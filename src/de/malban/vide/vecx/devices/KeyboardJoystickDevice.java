@@ -8,6 +8,7 @@ package de.malban.vide.vecx.devices;
 import de.malban.gui.HotKey;
 import de.malban.vide.vecx.VecXPanel;
 import static de.malban.vide.vecx.VecXPanel.DEVICE_KEYBOARD_JOYSTICK0;
+import static de.malban.vide.vecx.VecXStatics.JOYSTICK_CENTER;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
@@ -54,10 +55,10 @@ public class KeyboardJoystickDevice extends AbstractDevice
             new HotKey("Joy1_Up_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0xff, true); }}, panel);
             new HotKey("Joy1_Down_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0, true); }}, panel);
 
-            new HotKey("Joy1_Left_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0x80, true); }}, panel);
-            new HotKey("Joy1_Right_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0x80, true); }}, panel);
-            new HotKey("Joy1_Up_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0x80, true); }}, panel);
-            new HotKey("Joy1_Down_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0x80, true); }}, panel);        
+            new HotKey("Joy1_Left_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(JOYSTICK_CENTER, true); }}, panel);
+            new HotKey("Joy1_Right_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(JOYSTICK_CENTER, true); }}, panel);
+            new HotKey("Joy1_Up_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(JOYSTICK_CENTER, true); }}, panel);
+            new HotKey("Joy1_Down_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(JOYSTICK_CENTER, true); }}, panel);        
         }
         else if (keySet == 1)
         {
@@ -76,10 +77,10 @@ public class KeyboardJoystickDevice extends AbstractDevice
             new HotKey("Joy2_Up_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0xff, true); }}, panel);
             new HotKey("Joy2_Down_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0, true); }}, panel);
 
-            new HotKey("Joy2_Left_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0x80, true); }}, panel);
-            new HotKey("Joy2_Right_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0x80, true); }}, panel);
-            new HotKey("Joy2_Up_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0x80, true); }}, panel);
-            new HotKey("Joy2_Down_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0x80, true); }}, panel);        
+            new HotKey("Joy2_Left_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(JOYSTICK_CENTER, true); }}, panel);
+            new HotKey("Joy2_Right_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(JOYSTICK_CENTER, true); }}, panel);
+            new HotKey("Joy2_Up_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(JOYSTICK_CENTER, true); }}, panel);
+            new HotKey("Joy2_Down_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(JOYSTICK_CENTER, true); }}, panel);        
         }
     }   
 

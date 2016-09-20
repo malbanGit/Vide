@@ -1063,6 +1063,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
 
         if (evt.getClickCount() == 2) 
         {
+            mClassSetting++;
             if (currentDissi.model.convertViewToModel(col) == 8) // zeiger auf adresse
             {
                 MemoryInformation memInfo = currentDissi.model.getValueAt(row);
@@ -1092,6 +1093,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 if (KeyboardListener.isShiftDown())
                     currentDissi.vecxPanel.setDumpToAddress(memInfo.address);
             }
+            mClassSetting--;
             if (currentDissi.model.convertViewToModel(col) == 3) // zeiger auf mnemonic
             {
                 
@@ -1104,7 +1106,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 MemoryInformation memInfo = currentDissi.model.getValueAt(row);
                 
                 String op = memInfo.disassembledOperand;
-                if (op == null) return;
+                if (op == null) 
+                    return;
                 op = op.toLowerCase();
                 op = de.malban.util.UtilityString.replace(op, "<", "");
                 op = de.malban.util.UtilityString.replace(op, ">", "");
@@ -1114,7 +1117,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 VediPanel.displayHelp(op);
             }
             
-            
+           
         }
         else if (evt.getClickCount() == 1) 
         {
@@ -1126,8 +1129,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
             currentDissi.model.setHighliteClick(clicky);
             updateTableOnly();
+            selectionChanged();
         }
-        selectionChanged();
 
         
     }//GEN-LAST:event_jTableSourceMousePressed
@@ -1905,7 +1908,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
     }//GEN-LAST:event_jMenuItemLabelAsDataActionPerformed
 
     private void jTableSourceMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSourceMouseReleased
-        selectionChanged();
+  //      selectionChanged();
     }//GEN-LAST:event_jTableSourceMouseReleased
 
     private void jTableSourceMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSourceMouseDragged
@@ -4030,6 +4033,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
     }
     public void selectionChanged()
     {
+        if (mClassSetting>0) return;
         MemoryDumpPanel dumpi = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).checkDumpy();
         if (dumpi == null) return;
         int[] selected = jTableSource.getSelectedRows();

@@ -88,11 +88,6 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
             return true;
         }
     }     
-    public static String SID = "vedi";
-    public String getID()
-    {
-        return SID;
-    }
     public Serializable getAdditionalStateinfo(){return null;}
     public void setAdditionalStateinfo(Serializable ser){}
     @Override
@@ -279,13 +274,17 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         btnClose.addCloseListerner(new VediPanel.MyCloseListener(name, jTabbedPane1) );
     }
 
+    public String getSettingsName()
+    {
+        return "Vedi.ser";
+    }
     protected boolean loadSettings()
     {
         if (!isLoadSettings()) return true;
         VediSettings s;
         try
         {
-            s = (VediSettings) CSAMainFrame.deserialize("serialize"+File.separator+"Vedi.ser");
+            s = (VediSettings) CSAMainFrame.deserialize("serialize"+File.separator+getSettingsName());
             settings = s;
             if (settings == null) return false;
         }
@@ -304,7 +303,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         if (!isLoadSettings()) return true;
         try
         {
-            CSAMainFrame.serialize(settings, "serialize"+File.separator+"Vedi.ser");
+            CSAMainFrame.serialize(settings, "serialize"+File.separator+getSettingsName());
         }
         catch (Throwable e)
         {
@@ -318,6 +317,16 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
     abstract public void printASMList(String s, int type);
     abstract public void printASMMessage(String s, int type);
     abstract protected boolean closeRequested(String tabName);
+    
+    abstract public void doQuickHelp(String s, String f2);
+    abstract public void tabChanged(boolean b);
+    abstract public void changeFileName(String s, String f2);
+    abstract public void processIncludeLine(String s);
+    abstract public void processWord(String s);
+    abstract public void requestSearchFocus();
+    abstract public void run();
+    abstract public void debug();
+    
 
     public static final int ASM_MESSAGE_INFO = 0;
     public static final int ASM_MESSAGE_ERROR = 1;

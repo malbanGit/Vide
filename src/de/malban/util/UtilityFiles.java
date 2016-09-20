@@ -43,6 +43,11 @@ public class UtilityFiles
     // only FILES ending with ".xml"
     public static ArrayList<String> getXMLFileList(String filePath)
     {
+        return getFilesWith(filePath,".xml" );
+    }
+    
+    public static ArrayList<String> getFilesWith(String filePath, String contain)
+    {
         ArrayList<String> files= new ArrayList<String>();
         File directory = new File(filePath);
         if (!directory.isDirectory())
@@ -57,11 +62,12 @@ public class UtilityFiles
         for (File file : fList) 
         {
             if (file.isDirectory()) continue;
-            if (!file.getName().contains(".xml")) continue;
+            if (!file.getName().contains(contain)) continue;
             files.add(file.getName());
         }
         return files;
     }
+    
     static class DeleteDirectoryVisitor extends SimpleFileVisitor<Path> 
     {
         public Path notme = null;

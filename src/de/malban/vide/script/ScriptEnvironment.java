@@ -8,6 +8,7 @@ import bsh.Interpreter;
 import de.malban.config.Configuration;
 import de.malban.vide.veccy.VeccyPanel;
 import de.malban.vide.codi.CodeLibraryPanel;
+import de.malban.vide.vedi.VEdiFoundationPanel;
 import de.malban.vide.vedi.VediPanel;
 import java.awt.Frame;
 import java.io.OutputStream;
@@ -61,10 +62,10 @@ public class ScriptEnvironment {
     VeccyPanel vecci;    
     Frame frame;
     
-    VediPanel vedi;
+    VEdiFoundationPanel vedi;
     CodeLibraryPanel codi;
     ExecutionDescriptor ed;
-    public void setData(VediPanel ise, Frame f, ExecutionDescriptor e_d)
+    public void setData(VEdiFoundationPanel ise, Frame f, ExecutionDescriptor e_d)
     {
         frame = f;
         vedi = ise;

@@ -55,8 +55,8 @@ public class EditorPanel extends EditorPanelFoundation
     private HighlightedDocument editorPaneDocument;
     //private Document editorPaneDocument;
 
-    VediPanel parent;
-    public void setParent(VediPanel p)
+    VEdiFoundationPanel parent;
+    public void setParent(VEdiFoundationPanel p)
     {
         parent = p;
     }
@@ -191,6 +191,8 @@ public class EditorPanel extends EditorPanelFoundation
             assume6809Asm = true;
             editorPaneDocument.setHighlightStyle(HighlightedDocument.M6809_STYLE, false);
         }
+        else if (getFilename().toLowerCase().endsWith(".bas"))
+                editorPaneDocument.setHighlightStyle(HighlightedDocument.BASIC_STYLE);
         else if (getFilename().toLowerCase().endsWith(".java"))
                 editorPaneDocument.setHighlightStyle(HighlightedDocument.JAVA_STYLE);
         else if (getFilename().toLowerCase().endsWith(".js"))
@@ -455,7 +457,7 @@ public class EditorPanel extends EditorPanelFoundation
                 if (line != -1)
                 {
                     if (parent != null)
-                        parent.processIncludeLine(getLine(jTextPane1, line));
+                            parent.processIncludeLine(getLine(jTextPane1, line));
                 }
             }
         }        

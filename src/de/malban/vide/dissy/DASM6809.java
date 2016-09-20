@@ -2120,6 +2120,7 @@ public class DASM6809 extends DASMStatics {
         if (line.toUpperCase().startsWith("RANGE"))
         {
             line = line.substring(5).trim().replaceAll("-", " ");
+            line = de.malban.util.UtilityString.replace(line, "  ", " ");
             String s[] = line.split(" ");
             if (s.length<3) return;
             int rangeStart = toNumber(s[0]);
@@ -2138,6 +2139,7 @@ public class DASM6809 extends DASMStatics {
         {
             // label
             line = line.substring(3).trim();
+            line = de.malban.util.UtilityString.replace(line, "  ", " ");
             String s[] = line.split(" ");
             String address = s[0]; 
             String label = line.substring(address.length()).trim();
@@ -2162,6 +2164,7 @@ public class DASM6809 extends DASMStatics {
         {
             // label
             line = line.substring(12).trim();
+            line = de.malban.util.UtilityString.replace(line, "  ", " ");
             String s[] = line.split(" ");
             if (s.length<3) return;
             String label = s[2];
@@ -2186,6 +2189,7 @@ public class DASM6809 extends DASMStatics {
         {
             // label
             line = line.substring(5).trim();
+            line = de.malban.util.UtilityString.replace(line, "  ", " ");
             String s[] = line.split(" ");
             String address = s[0]; 
             String label = line.substring(address.length()).trim();
@@ -2305,6 +2309,7 @@ public class DASM6809 extends DASMStatics {
         {
             int max = 4;
             line = line.substring(5).trim();
+            line = de.malban.util.UtilityString.replace(line, "  ", " ");
             String s[] = line.split(" ");
             String address1 = s[0];
             String address2; 
@@ -2341,6 +2346,7 @@ public class DASM6809 extends DASMStatics {
             
             int max = 4;
             line = line.substring(5).trim();
+            line = de.malban.util.UtilityString.replace(line, "  ", " ");
             String s[] = line.split(" ");
             String address1 = s[0];
             String address2; 
@@ -2377,6 +2383,7 @@ public class DASM6809 extends DASMStatics {
         {
             int max = 1;
             line = line.substring(5).trim();
+            line = de.malban.util.UtilityString.replace(line, "  ", " ");
             String s[] = line.split(" ");
             String address1 = s[0];
             String address2; 

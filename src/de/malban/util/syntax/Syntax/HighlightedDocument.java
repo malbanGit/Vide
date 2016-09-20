@@ -33,6 +33,7 @@ import javax.swing.SwingUtilities;
  */
 public class HighlightedDocument extends DefaultStyledDocument 
 {
+	public static final Object BASIC_STYLE = BASICLexer.class;
 	public static final Object C_STYLE = CLexer.class;
 	public static final Object HTML_STYLE = HTMLLexer.class;
 	public static final Object HTML_KEY_STYLE = HTMLLexer1.class;

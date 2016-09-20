@@ -124,6 +124,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     static ArrayList<VediPanel> listVedi = new ArrayList<VediPanel>();
     Path currentStartPath = Paths.get(".");
 
+    public static String SID = "Vedi";
+    public String getID()
+    {
+        return SID;
+    }
     
     int startTypeRun = START_TYPE_RUN;
 
@@ -2517,7 +2522,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         doQuickHelp(command, command);
     }//GEN-LAST:event_jTextFieldCommandActionPerformed
     
-    void doQuickHelp(String word, String integer)
+    public void doQuickHelp(String word, String integer)
     {
         if (!displayHelp(word))
             doCalculator(integer);
@@ -2783,7 +2788,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     // mainly update position info
     // on true, the tab "really" changed, than a recolor
     // is done, since global variable might have changed
-    void tabChanged(boolean really)
+    public void tabChanged(boolean really)
     {
         // correct button enables
         if (getSelectedEditor() == null)
@@ -2861,7 +2866,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     
     // figure out filename and line, - if possible
-    void processIncludeLine(String lineString)
+    public void processIncludeLine(String lineString)
     {
         // if something is not as expected... well just do nothing
         lineString = convertSeperator(lineString);
@@ -3114,7 +3119,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     // expects full path name(s)
     // exchanges in a node the path to another name
     // called from a save as
-    void changeFileName(String oldFileName, String newFileName)
+    public void changeFileName(String oldFileName, String newFileName)
     {
         try
         {
@@ -3491,7 +3496,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
         updateList();
     }
-    void processWord(String word)
+    public void processWord(String word)
     {
         EntityDefinition entity = LabelSink.knownGlobalVariables.get(word.toLowerCase());
         if (entity == null)

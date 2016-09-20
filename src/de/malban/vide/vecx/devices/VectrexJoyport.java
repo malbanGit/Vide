@@ -8,6 +8,7 @@ package de.malban.vide.vecx.devices;
 import de.malban.vide.vecx.Breakpoint;
 import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.VecXPanel;
+import static de.malban.vide.vecx.VecXStatics.JOYSTICK_CENTER;
 import de.malban.vide.vecx.devices.JoyportDevice;
 
 /**
@@ -21,8 +22,8 @@ public class VectrexJoyport
     
     private boolean outputFromVectrexButton[] = new boolean[4];
     private boolean outputFromDeviceButton[] = new boolean[4];
-    private int horizontal = 0x80; // left = 0, right = 0xff
-    private int vertical = 0x80; // down = 0, up = 0xff
+    private int horizontal = JOYSTICK_CENTER; // left = 0, right = 0xff
+    private int vertical = JOYSTICK_CENTER; // down = 0, up = 0xff
 
     // if input == true,
     // than values of states are set FROM device
@@ -60,8 +61,8 @@ public class VectrexJoyport
         outputFromDeviceButton[1] = true;
         outputFromDeviceButton[2] = true;
         outputFromDeviceButton[3] = true;
-        horizontal = 0x80; // left = 0, right = 0xff
-        vertical = 0x80; // down = 0, up = 0xff
+        horizontal = JOYSTICK_CENTER; // left = 0, right = 0xff
+        vertical = JOYSTICK_CENTER; // down = 0, up = 0xff
     }
     
     public void plugIn(JoyportDevice d)

@@ -8,6 +8,7 @@ import de.malban.vide.codi.CodeLibraryPanel;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_PROJECT_POST;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_VECCY_EXPORT;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_VECCY_IMPORT;
+import de.malban.vide.vedi.VEdiFoundationPanel;
 import de.malban.vide.vedi.VediPanel;
 import java.util.Collection;
 import java.util.Collections;
@@ -540,7 +541,7 @@ document.start();
         jComboBoxName.setSelectedItem(n);
     }
 
-    public static boolean executeScript(String c, String n, VediPanel l, ExecutionDescriptor ed)
+    public static boolean executeScript(String c, String n, VEdiFoundationPanel l, ExecutionDescriptor ed)
     {
         if ((c==null) || (n==null)) return true;
         if ((c.length()==0) || (n.length()==0)) return true;

@@ -2022,6 +2022,16 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         });
 
         jTextFieldstart.setName("vecxy"); // NOI18N
+        jTextFieldstart.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldstartFocusLost(evt);
+            }
+        });
+        jTextFieldstart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldstartActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -3232,6 +3242,20 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jTextFieldstart.setText(name);
         config.startFile = name;
     }//GEN-LAST:event_jButtonFileSelect1ActionPerformed
+
+    private void jTextFieldstartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldstartActionPerformed
+        if (jTextFieldstart.getText() == null)
+            config.startFile = "";
+        else
+            config.startFile = jTextFieldstart.getText();
+    }//GEN-LAST:event_jTextFieldstartActionPerformed
+
+    private void jTextFieldstartFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldstartFocusLost
+        if (jTextFieldstart.getText() == null)
+            config.startFile = "";
+        else
+            config.startFile = jTextFieldstart.getText();
+    }//GEN-LAST:event_jTextFieldstartFocusLost
 
     void setSizes()
     {

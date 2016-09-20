@@ -33,8 +33,8 @@ public class BinaryPanel extends javax.swing.JPanel {
     boolean initError = false;
     byte[] data;        
     
-    VediPanel parent;
-    public void setParent(VediPanel p)
+    VEdiFoundationPanel parent;
+    public void setParent(VEdiFoundationPanel p)
     {
         parent = p;
     }

@@ -1193,4 +1193,11 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         
         return cart;
     }
+    public void run(){}
+    public void debug(){}
+    public void doQuickHelp(String s, String f2){}
+    public void tabChanged(boolean b){}
+    public void changeFileName(String s, String f2){}
+    public void processIncludeLine(String s){}
+    public void processWord(String s){}
 }

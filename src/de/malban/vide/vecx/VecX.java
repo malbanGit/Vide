@@ -2200,20 +2200,21 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         switch (via_orb & 0x06) 
         {
             case 0x00:
-                if (joyport[0] != null) alg_jsh = joyport[0].getHorizontal(); else alg_jsh = 0x80;
+                if (joyport[0] != null) alg_jsh = joyport[0].getHorizontal(); else alg_jsh = JOYSTICK_CENTER;
                 break;
             case 0x02:
-                if (joyport[0] != null) alg_jsh = joyport[0].getVertical(); else alg_jsh = 0x80;
+                if (joyport[0] != null) alg_jsh = joyport[0].getVertical(); else alg_jsh = JOYSTICK_CENTER;
                 break;
             case 0x04:
-                if (joyport[1] != null) alg_jsh = joyport[1].getHorizontal(); else alg_jsh = 0x80;
+                if (joyport[1] != null) alg_jsh = joyport[1].getHorizontal(); else alg_jsh = JOYSTICK_CENTER;
                 break;
             case 0x06:
-                if (joyport[1] != null) alg_jsh = joyport[1].getVertical(); else alg_jsh = 0x80;
+                if (joyport[1] != null) alg_jsh = joyport[1].getVertical(); else alg_jsh = JOYSTICK_CENTER;
                 break;
         }                
         
         /* compare the current joystick direction with a reference */        
+//        int com = (via_ora^0x80);
         if ((alg_jsh) > (via_ora^0x80)) // current DAC , here ORA, the XSH can't be used, since it will be set by timer
         {
             alg_compare = 0x20;// bit 5 of ORB

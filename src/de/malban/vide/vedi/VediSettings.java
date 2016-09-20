@@ -19,6 +19,8 @@ public class VediSettings implements Serializable
 {
     public int pos1 = 0;
     public int pos2 = 0;
+    public String vec32PortName = "";
+    public String vec32UsbMount = "";
     public HashMap <Integer, Bookmark> bookmarks = new HashMap<Integer, Bookmark>();
     public static class P implements Serializable
     {

@@ -30,6 +30,7 @@ public abstract interface VecXStatics
     public static final int TIMER_MUX_SEL_CHANGE = 11;
     public static final int TIMER_DAC_CHANGE = 12;
     
+    public static int JOYSTICK_CENTER = 0x7f; // for whatever reason Debris does not like $80, $7f is ok though - is that a emulator test?
     
     
     public static boolean PARA = false;
