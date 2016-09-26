@@ -320,5 +320,19 @@ public class GFXVector
         }
     }
     
+    public boolean contains(Vertex v)
+    {
+        if (v==null) return false;
+        if (start != null)
+        {
+            if (start.uid == v.uid) return true;
+        }
+        if (end != null)
+        {
+            if (end.uid == v.uid) return true;
+        }
+
+        return false;
+    }
     
 }

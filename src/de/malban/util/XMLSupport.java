@@ -80,12 +80,22 @@ public class XMLSupport
     // to be consistent with naming
     public String getStringElement(String tag, StringBuilder xml)
     {
-        return getElement(tag, xml);
+        return getStringElement(tag, xml, true);
+    }
+    // to be consistent with naming
+    public String getStringElement(String tag, StringBuilder xml, boolean doWarn)
+    {
+        return getElement(tag, xml, doWarn);
     }
     // element is "decoded"
     public String getElement(String tag, StringBuilder xml)
     {
-        StringBuilder element = getXMLElement(tag, xml);
+        return getElement( tag, xml, true );
+    }
+    // element is "decoded"
+    public String getElement(String tag, StringBuilder xml, boolean doWarn)
+    {
+        StringBuilder element = getXMLElement(tag, xml, doWarn);
         if (element != null)
             return UtilityString.fromXML(element.toString().trim());
         return null;
@@ -94,12 +104,19 @@ public class XMLSupport
     // xmlBuffer is reduced 
     public StringBuilder getXMLElement(String tag, StringBuilder xml)
     {
+        return getXMLElement( tag,  xml, true);
+    }
+    public StringBuilder getXMLElement(String tag, StringBuilder xml, boolean doWarn)
+    {
         int startPos = xml.toString().toUpperCase().indexOf("<"+tag.toUpperCase()+">");
         int startElementLength = ("<"+tag.toUpperCase()+">").length(); 
         if (startPos<0)
         {
             errorCode+=ELEMENT_START_NOT_FOUND;
-            log.addLog("getXMLElement(): StartTag not found: "+tag, INFO);
+            if (doWarn)
+            {
+                log.addLog("getXMLElement(): StartTag not found: "+tag, INFO);
+            }
             return null;
         }
         

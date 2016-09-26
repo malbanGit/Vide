@@ -1,4 +1,93 @@
 START_BANK                    $00
+
+LABEL   $C800 Vec_Snd_Shadow    
+LABEL   $C80F Vec_Btn_State     
+LABEL   $C810 Vec_Prev_Btns     
+LABEL   $C811 Vec_Buttons       
+LABEL   $C812 Vec_Button_1_1    
+LABEL   $C813 Vec_Button_1_2    
+LABEL   $C814 Vec_Button_1_3    
+LABEL   $C815 Vec_Button_1_4    
+LABEL   $C816 Vec_Button_2_1    
+LABEL   $C817 Vec_Button_2_2    
+LABEL   $C818 Vec_Button_2_3    
+LABEL   $C819 Vec_Button_2_4    
+LABEL   $C81A Vec_Joy_Resltn    
+LABEL   $C81B Vec_Joy_1_X       
+LABEL   $C81C Vec_Joy_1_Y       
+LABEL   $C81D Vec_Joy_2_X       
+LABEL   $C81E Vec_Joy_2_Y       
+LABEL   $C81F Vec_Joy_Mux       
+LABEL   $C81F Vec_Joy_Mux_1_X   
+LABEL   $C820 Vec_Joy_Mux_1_Y   
+LABEL   $C821 Vec_Joy_Mux_2_X   
+LABEL   $C822 Vec_Joy_Mux_2_Y   
+LABEL   $C823 Vec_Misc_Count    
+LABEL   $C824 Vec_0Ref_Enable   
+LABEL   $C825 Vec_Loop_Count    
+LABEL   $C827 Vec_Brightness    
+LABEL   $C828 Vec_Dot_Dwell     
+LABEL   $C829 Vec_Pattern       
+LABEL   $C82A Vec_Text_HW       
+LABEL   $C82A Vec_Text_Height   
+LABEL   $C82B Vec_Text_Width    
+LABEL   $C82C Vec_Str_Ptr       
+LABEL   $C82E Vec_Counters      
+LABEL   $C82E Vec_Counter_1     
+LABEL   $C82F Vec_Counter_2     
+LABEL   $C830 Vec_Counter_3     
+LABEL   $C831 Vec_Counter_4     
+LABEL   $C832 Vec_Counter_5     
+LABEL   $C833 Vec_Counter_6     
+LABEL   $C834 Vec_RiseRun_Tmp   
+LABEL   $C836 Vec_Angle         
+LABEL   $C837 Vec_Run_Index     
+LABEL   $C839 Vec_Rise_Index    
+LABEL   $C83B Vec_RiseRun_Len   
+LABEL   $C83D Vec_Rfrsh         
+LABEL   $C83D Vec_Rfrsh_lo      
+LABEL   $C83E Vec_Rfrsh_hi      
+LABEL   $C83F Vec_Music_Work    
+LABEL   $C842 Vec_Music_Wk_A    
+LABEL   $C845 Vec_Music_Wk_7    
+LABEL   $C846 Vec_Music_Wk_6    
+LABEL   $C847 Vec_Music_Wk_5    
+LABEL   $C84B Vec_Music_Wk_1    
+LABEL   $C84D Vec_Freq_Table    
+LABEL   $C84F Vec_Max_Players   
+LABEL   $C850 Vec_Max_Games     
+LABEL   $C84F Vec_ADSR_Table   
+LABEL   $C851 Vec_Twang_Table   
+LABEL   $C853 Vec_Music_Ptr     
+LABEL   $C853 Vec_Expl_ChanA    
+LABEL   $C854 Vec_Expl_Chans    
+LABEL   $C855 Vec_Music_Chan    
+LABEL   $C856 Vec_Music_Flag    
+LABEL   $C857 Vec_Duration      
+LABEL   $C858 Vec_Music_Twang   
+LABEL   $C858 Vec_Expl_1        
+LABEL   $C859 Vec_Expl_2        
+LABEL   $C85A Vec_Expl_3        
+LABEL   $C85B Vec_Expl_4        
+LABEL   $C85C Vec_Expl_Chan     
+LABEL   $C85D Vec_Expl_ChanB    
+LABEL   $C85E Vec_ADSR_Timers   
+LABEL   $C861 Vec_Music_Freq    
+LABEL   $C867 Vec_Expl_Flag     
+LABEL   $C877 Vec_Expl_Timer    
+LABEL   $C879 Vec_Num_Players   
+LABEL   $C87A Vec_Num_Game      
+LABEL   $C87B Vec_Seed_Ptr      
+LABEL   $C87D Vec_Random_Seed   
+LABEL   $CBEA Vec_Default_Stk   
+LABEL   $CBEB Vec_High_Score    
+LABEL   $CBF2 Vec_SWI3_Vector   
+LABEL   $CBF2 Vec_SWI2_Vector   
+LABEL   $CBF5 Vec_FIRQ_Vector   
+LABEL   $CBF8 Vec_IRQ_Vector    
+LABEL   $CBFB Vec_SWI_Vector    
+LABEL   $CBFB Vec_NMI_Vector    
+LABEL   $CBFE Vec_Cold_Flag     
 LABEL                    $E000                              _E000
 LABEL                    $E019                              _E019
 LABEL                    $E030                              _E030
@@ -1372,50 +1461,95 @@ DIRECT_LABEL $D0 $0B VIA_aux_cntl
 DIRECT_LABEL $D0 $0C VIA_cntl
 DIRECT_LABEL $D0 $0D VIA_int_flags
 DIRECT_LABEL $D0 $0E VIA_int_enable
-DIRECT_LABEL $C8 $45 Vec_Music_Wk_7
-DIRECT_LABEL $C8 $46 Vec_Music_Wk_6
-DIRECT_LABEL $C8 $4D Vec_Freq_Table
-DIRECT_LABEL $C8 $4F Vec_ADSR_Table
-DIRECT_LABEL $C8 $0F Vec_Btn_State
-DIRECT_LABEL $C8 $50 Vec_Max_Games
-DIRECT_LABEL $C8 $51 Vec_Twang_Table
-DIRECT_LABEL $C8 $12 Vec_Button_1_1
-DIRECT_LABEL $C8 $53 Vec_Expl_ChanA
-DIRECT_LABEL $C8 $13 Vec_Button_1_2
-DIRECT_LABEL $C8 $54 Vec_Expl_Chans
-DIRECT_LABEL $C8 $14 Vec_Button_1_3
-DIRECT_LABEL $C8 $55 Vec_Music_Chan
-DIRECT_LABEL $C8 $15 Vec_Button_1_4
-DIRECT_LABEL $C8 $56 Vec_Music_Flag
-DIRECT_LABEL $C8 $57 Vec_Duration
-DIRECT_LABEL $C8 $58 Vec_Expl_1
-DIRECT_LABEL $C8 $59 Vec_Expl_2
-DIRECT_LABEL $C8 $5A Vec_Expl_3
-DIRECT_LABEL $C8 $5B Vec_Expl_4
-DIRECT_LABEL $C8 $5C Vec_Expl_Chan
-DIRECT_LABEL $C8 $5D Vec_Expl_ChanB
-DIRECT_LABEL $C8 $1F Vec_Joy_Mux
-DIRECT_LABEL $C8 $21 Vec_Joy_Mux_2_X
-DIRECT_LABEL $C8 $23 Vec_Misc_Count
-DIRECT_LABEL $C8 $24 Vec_0Ref_Enable
-DIRECT_LABEL $C8 $25 Vec_Loop_Count
-DIRECT_LABEL $C8 $26 _C826
-DIRECT_LABEL $C8 $67 Vec_Expl_Flag
-DIRECT_LABEL $C8 $28 Vec_Dot_Dwell
-DIRECT_LABEL $C8 $29 Vec_Pattern
-DIRECT_LABEL $C8 $2A Vec_Text_Height
-DIRECT_LABEL $C8 $2E Vec_Counters
-DIRECT_LABEL $C8 $2F Vec_Counter_2
-DIRECT_LABEL $C8 $34 Vec_RiseRun_Tmp
-DIRECT_LABEL $C8 $36 Vec_Angle
-DIRECT_LABEL $C8 $37 Vec_Run_Index
-DIRECT_LABEL $C8 $77 Vec_Expl_Timer
-DIRECT_LABEL $C8 $39 Vec_Rise_Index
-DIRECT_LABEL $C8 $79 Vec_Num_Players
-DIRECT_LABEL $C8 $7A Vec_Num_Game
-DIRECT_LABEL $C8 $7B Vec_Seed_Ptr
-DIRECT_LABEL $C8 $3B Vec_RiseRun_Len
-DIRECT_LABEL $C8 $7D Vec_Random_Seed
-DIRECT_LABEL $C8 $3D Vec_Rfrsh
+DIRECT_LABEL $C8  $00   Vec_Snd_Shadow  
+DIRECT_LABEL $C8  $0F   Vec_Btn_State   
+DIRECT_LABEL $C8  $10   Vec_Prev_Btns   
+DIRECT_LABEL $C8  $11   Vec_Buttons     
+DIRECT_LABEL $C8  $12   Vec_Button_1_1  
+DIRECT_LABEL $C8  $13   Vec_Button_1_2  
+DIRECT_LABEL $C8  $14   Vec_Button_1_3  
+DIRECT_LABEL $C8  $15   Vec_Button_1_4  
+DIRECT_LABEL $C8  $16   Vec_Button_2_1  
+DIRECT_LABEL $C8  $17   Vec_Button_2_2  
+DIRECT_LABEL $C8  $18   Vec_Button_2_3  
+DIRECT_LABEL $C8  $19   Vec_Button_2_4  
+DIRECT_LABEL $C8  $1A   Vec_Joy_Resltn  
+DIRECT_LABEL $C8  $1B   Vec_Joy_1_X     
+DIRECT_LABEL $C8  $1C   Vec_Joy_1_Y     
+DIRECT_LABEL $C8  $1D   Vec_Joy_2_X     
+DIRECT_LABEL $C8  $1E   Vec_Joy_2_Y     
+DIRECT_LABEL $C8  $1F   Vec_Joy_Mux     
+DIRECT_LABEL $C8  $1F   Vec_Joy_Mux_1_X 
+DIRECT_LABEL $C8  $20   Vec_Joy_Mux_1_Y 
+DIRECT_LABEL $C8  $21   Vec_Joy_Mux_2_X 
+DIRECT_LABEL $C8  $22   Vec_Joy_Mux_2_Y 
+DIRECT_LABEL $C8  $23   Vec_Misc_Count  
+DIRECT_LABEL $C8  $24   Vec_0Ref_Enable 
+DIRECT_LABEL $C8  $25   Vec_Loop_Count  
+DIRECT_LABEL $C8  $27   Vec_Brightness  
+DIRECT_LABEL $C8  $28   Vec_Dot_Dwell   
+DIRECT_LABEL $C8  $29   Vec_Pattern     
+DIRECT_LABEL $C8  $2A   Vec_Text_HW     
+DIRECT_LABEL $C8  $2A   Vec_Text_Height 
+DIRECT_LABEL $C8  $2B   Vec_Text_Width  
+DIRECT_LABEL $C8  $2C   Vec_Str_Ptr     
+DIRECT_LABEL $C8  $2E   Vec_Counters    
+DIRECT_LABEL $C8  $2E   Vec_Counter_1   
+DIRECT_LABEL $C8  $2F   Vec_Counter_2   
+DIRECT_LABEL $C8  $30   Vec_Counter_3   
+DIRECT_LABEL $C8  $31   Vec_Counter_4   
+DIRECT_LABEL $C8  $32   Vec_Counter_5   
+DIRECT_LABEL $C8  $33   Vec_Counter_6   
+DIRECT_LABEL $C8  $34   Vec_RiseRun_Tmp 
+DIRECT_LABEL $C8  $36   Vec_Angle       
+DIRECT_LABEL $C8  $37   Vec_Run_Index   
+DIRECT_LABEL $C8  $39   Vec_Rise_Index  
+DIRECT_LABEL $C8  $3B   Vec_RiseRun_Len 
+DIRECT_LABEL $C8  $3D   Vec_Rfrsh       
+DIRECT_LABEL $C8  $3D   Vec_Rfrsh_lo    
+DIRECT_LABEL $C8  $3E   Vec_Rfrsh_hi    
+DIRECT_LABEL $C8  $3F   Vec_Music_Work  
+DIRECT_LABEL $C8  $42   Vec_Music_Wk_A  
+DIRECT_LABEL $C8  $45   Vec_Music_Wk_7  
+DIRECT_LABEL $C8  $46   Vec_Music_Wk_6  
+DIRECT_LABEL $C8  $47   Vec_Music_Wk_5  
+DIRECT_LABEL $C8  $4B   Vec_Music_Wk_1  
+DIRECT_LABEL $C8  $4D   Vec_Freq_Table  
+DIRECT_LABEL $C8  $4F   Vec_Max_Players 
+DIRECT_LABEL $C8  $50   Vec_Max_Games   
+DIRECT_LABEL $C8  $4F   Vec_ADSR_Table  
+DIRECT_LABEL $C8  $51   Vec_Twang_Table 
+DIRECT_LABEL $C8  $53   Vec_Music_Ptr   
+DIRECT_LABEL $C8  $53   Vec_Expl_ChanA  
+DIRECT_LABEL $C8  $54   Vec_Expl_Chans  
+DIRECT_LABEL $C8  $55   Vec_Music_Chan  
+DIRECT_LABEL $C8  $56   Vec_Music_Flag  
+DIRECT_LABEL $C8  $57   Vec_Duration    
+DIRECT_LABEL $C8  $58   Vec_Music_Twang 
+DIRECT_LABEL $C8  $58   Vec_Expl_1      
+DIRECT_LABEL $C8  $59   Vec_Expl_2      
+DIRECT_LABEL $C8  $5A   Vec_Expl_3      
+DIRECT_LABEL $C8  $5B   Vec_Expl_4      
+DIRECT_LABEL $C8  $5C   Vec_Expl_Chan   
+DIRECT_LABEL $C8  $5D   Vec_Expl_ChanB  
+DIRECT_LABEL $C8  $5E   Vec_ADSR_Timers 
+DIRECT_LABEL $C8  $61   Vec_Music_Freq  
+DIRECT_LABEL $C8  $67   Vec_Expl_Flag   
+DIRECT_LABEL $C8  $77   Vec_Expl_Timer  
+DIRECT_LABEL $C8  $79   Vec_Num_Players 
+DIRECT_LABEL $C8  $7A   Vec_Num_Game    
+DIRECT_LABEL $C8  $7B   Vec_Seed_Ptr    
+DIRECT_LABEL $C8  $7D   Vec_Random_Seed 
+DIRECT_LABEL $C8  $EA   Vec_Default_Stk 
+DIRECT_LABEL $C8  $EB   Vec_High_Score  
+DIRECT_LABEL $C8  $F2   Vec_SWI3_Vector 
+DIRECT_LABEL $C8  $F2   Vec_SWI2_Vector 
+DIRECT_LABEL $C8  $F5   Vec_FIRQ_Vector 
+DIRECT_LABEL $C8  $F8   Vec_IRQ_Vector  
+DIRECT_LABEL $C8  $FB   Vec_SWI_Vector  
+DIRECT_LABEL $C8  $FB   Vec_NMI_Vector  
+DIRECT_LABEL $C8  $FE   Vec_Cold_Flag   
+DIRECT_LABEL $C8                        
+DIRECT_LABEL $C8                        
 END_BANK                    $00
 

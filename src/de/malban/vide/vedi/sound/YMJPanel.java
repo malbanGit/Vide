@@ -19,10 +19,8 @@ import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.E8910;
 import static de.malban.vide.vecx.VecX.SOUNDBUFFER_SIZE;
-import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
-import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
-import static de.malban.vide.vecx.panels.PSGJPanel.REC_YM;
 import de.malban.vide.vedi.VediPanel;
+import de.malban.vide.vedi.VediPanel32;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
@@ -38,8 +36,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -313,7 +309,12 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         // check if is a file or a dir
         if (filename == null) filename = "";
         File file = new File(filename);
-        if (filename.length()!=0)
+        
+        if (file.isDirectory())
+        {
+            pathOnly = filename;
+        }
+        else if (filename.length()!=0)
             pathOnly = file.getParent();
         currentYMFile = filename;
         
@@ -3062,7 +3063,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3090,7 +3091,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(1, 1, 1)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                             .addComponent(jButtonAddRow)))
                     .addGroup(layout.createSequentialGroup()
@@ -3955,6 +3956,11 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         panel.standalone = sa;
        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1024, 600, panel.getMenuItem().getText());
+       
+       if (tl instanceof VediPanel32)
+       {
+           panel.initBASIC();
+       }
     }        
     void createSource()
     {
@@ -3991,6 +3997,16 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         {
             
         }
+        if (isBASIC)
+        {
+            Path p = Paths.get(startPath);
+            String newName = p.toString();
+            if (!newName.endsWith(File.separator)) newName+=File.separator;
+            File f = new File(currentYMFile);
+            String nameOnly = f.getName();
+            newName = newName + nameOnly;
+            currentYMFile = newName;
+        }
         
         if (two != null) return;
         ymSaveName = "";
@@ -4003,16 +4019,12 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         Path p = Paths.get(currentYMFile);
         if(p== null) return;
         pathFull = p.toString();
-        if (pathOnly.length() != 0)
-            pathOnly = p.getParent().toString();
+        pathOnly = p.getParent().toString();
         if ((pathOnly.length()>0) && (!pathOnly.endsWith(File.separator)))
             pathOnly+= File.separator;
         
-        
         filenameOnly = p.getFileName().toString();
         filenameBaseOnly = filenameOnly.substring(0,filenameOnly.length()-3);
-        
-        
         
         boolean pic = false;
         if (filenameOnly.toLowerCase().endsWith(".ym")) pic = true;
@@ -4023,6 +4035,79 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
            // return;
         }
         String saveNameOnly ="";
+        if (isBASIC)
+        {
+            try
+            {
+                StringBuilder out = new StringBuilder();
+                int start = 0;
+                int end = ymSound.vbl_len;
+
+                boolean started = false;
+                
+
+                out.append("\n");
+                out.append("function initYMData()\n" +"return   { _\n");
+                for (int i=start; i<end; i++)
+                {
+                    String o = "";
+                    if (started)
+                    {
+                        out.append("}, _\n");
+                    }
+                    started = true;
+                    boolean firstInLine = false;
+                    for (int r=0; r< 14; r++)
+                    {
+                        byte value = ymSound.out_buf[r][i];
+
+                        if (firstInLine) o+=", ";
+                        o+="$"+String.format("%02X",value);
+                        firstInLine = true;
+                    }                            
+                    out.append("        { ").append(o);
+                }
+                out.append("} _\n}\nendfunction\n");
+                
+                String exampleMain ="";
+                if (jCheckBoxCreatePlayer.isSelected())
+                {
+
+                    Path template = Paths.get(".", "template", "playYMRaw.bas");
+                    exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                }
+                String complete = exampleMain+out.toString();
+
+                
+                complete = de.malban.util.UtilityString.replace(complete, "\n", "\r\n");
+                de.malban.util.UtilityFiles.createTextFile(pathOnly+filenameBaseOnly+".bas", complete);
+                tinyLog.printMessage("Creating file: "+pathOnly+filenameBaseOnly+".bas");
+                
+/*                
+                File file = new File(pathOnly+filenameBaseOnly+".bas");
+                saveNameOnly = filenameBaseOnly+".bas";
+                FileWriter fw;
+                BufferedWriter bw;
+                fw = new FileWriter(file.getAbsoluteFile());
+                bw = new BufferedWriter(fw);        
+s
+                bw.close();
+*/        
+            }
+            catch (Throwable e)
+            {
+                log.addLog(e, WARN);
+                log.addLog("YM - Error openening output file! ('"+pathOnly+filenameBaseOnly+".bas"+"').", WARN);
+                tinyLog.printError("Error creating file: "+pathOnly+filenameBaseOnly+".bas");
+            }
+            if (tinyLog instanceof VediPanel)
+                ((VediPanel)tinyLog).refreshTree();
+            if (standalone)
+            {
+                VediPanel.openInVedi(pathOnly+filenameOnly.substring(0,filenameOnly.length()-3)+"Main.asm");
+            }            
+            return;
+        }
         if (jCheckBoxDontCompress.isSelected())
         {
             File file = new File(pathOnly+filenameBaseOnly+".asm");
@@ -4209,6 +4294,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     final E8910 e8910 = new E8910();
     void startYM()
     {
+        if (ymSound == null) return;
+        if (ymSound.vbl_len==0) return;
         if (playingYM) return;
         // paranoia!
         if (three != null) return;
@@ -4950,19 +5037,10 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         
         return true;
     }
+    boolean isBASIC = false;
+    void initBASIC()
+    {
+        isBASIC = true;
+    }
 
 }
-/*
-TODO
-- done: load YM
-- done: save YM
-- done: add one register line
-- done: PSG register view
-- done: save selection as ym
-- done: insert file
-- done: copy
-- done: paste
-- copy / paste columns
-- player for non compressed
-
-*/

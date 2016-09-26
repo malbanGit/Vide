@@ -20,6 +20,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -160,8 +162,13 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
                         if (started)
                             timer.addTrigger(tt, animDelay, 0, null);
                     }
-                    
-                    repaint();
+                    SwingUtilities.invokeLater(new Runnable()
+                    {
+                        public void run()
+                        {
+                            repaint();
+                        }
+                    } );
                 }
             };
             timer.addTrigger(tt, animDelay, 0, null);
@@ -369,7 +376,9 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
 
             lastDisplayList = vars.foregroundVectors.clone();
             int count = 0;
-            for (GFXVector v: vars.foregroundVectors.list)
+           // for (GFXVector v: vars.foregroundVectors.list)
+            HashMap<Vertex, Vertex> noDouble = new HashMap<Vertex, Vertex>();
+            for (GFXVector v: lastDisplayList.list)
             {
                 double x0,x1,y0,y1, z0, z1;
                 // vectrex y coordinate has opposite "direction"
@@ -378,40 +387,43 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
                 Vertex p1 = v.start;
                 Vertex p2 = v.end;
 
+                if (noDouble.get(p1) == null)
+                {
+                    noDouble.put(p1,p1);
+                    p1 = trans.multiply(p1);
+                    p1 = rotx.multiply(p1);
+                    p1 = roty.multiply(p1);
+                    p1 = rotz.multiply(p1);
+                    p1 = rotax.multiply(p1);
+                    p1 = rotay.multiply(p1);
+                    p1 = rotaz.multiply(p1);
+                    p1.coords[0] = Math.round(p1.coords[0]);
+                    p1.coords[1] = Math.round(p1.coords[1]);
+                    p1.coords[2] = Math.round(p1.coords[2]);
+                    v.start.set(p1);
+                }
+                if (noDouble.get(p2) == null)
+                {
+                    noDouble.put(p2,p2);
+                    p2 = trans.multiply(p2);
+                    p2 = rotx.multiply(p2);
+                    p2 = roty.multiply(p2);
+                    p2 = rotz.multiply(p2);
+                    p2 = rotax.multiply(p2);
+                    p2 = rotay.multiply(p2);
+                    p2 = rotaz.multiply(p2);
+                    p2.coords[0] = Math.round(p2.coords[0]);
+                    p2.coords[1] = Math.round(p2.coords[1]);
+                    p2.coords[2] = Math.round(p2.coords[2]);
+                    v.end.set(p2);
+                }
 
 
-
-                p1 = trans.multiply(p1);
-                p2 = trans.multiply(p2);
-
-
-
-                p1 = rotx.multiply(p1);
-                p2 = rotx.multiply(p2);
-                p1 = roty.multiply(p1);
-                p2 = roty.multiply(p2);
-                p1 = rotz.multiply(p1);
-                p2 = rotz.multiply(p2);
-
-
-                p1 = rotax.multiply(p1);
-                p2 = rotax.multiply(p2);
-                p1 = rotay.multiply(p1);
-                p2 = rotay.multiply(p2);
-                p1 = rotaz.multiply(p1);
-                p2 = rotaz.multiply(p2);
-
-
-                p1.coords[0] = Math.round(p1.coords[0]);
-                p1.coords[1] = Math.round(p1.coords[1]);
-                p1.coords[2] = Math.round(p1.coords[2]);
-
-                p2.coords[0] = Math.round(p2.coords[0]);
-                p2.coords[1] = Math.round(p2.coords[1]);
-                p2.coords[2] = Math.round(p2.coords[2]);
-
-                lastDisplayList.list.get(count).start = p1;
-                lastDisplayList.list.get(count).end = p2;
+                
+                
+                
+      //          lastDisplayList.list.get(count).start = p1;
+      //          lastDisplayList.list.get(count).end = p2;
 
 
                 x0 = Scaler.scaleDoubleToInt(p1.x(), scale);            

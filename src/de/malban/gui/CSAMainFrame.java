@@ -49,7 +49,6 @@ import de.malban.vide.vecx.panels.StarterJPanel;
 import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import de.malban.vide.vecx.panels.WheelEdit;
-import de.malban.vide.vedi.Vec32Panel;
 import de.malban.vide.vedi.VediPanel;
 import de.malban.vide.vedi.VediPanel32;
 import de.malban.vide.vedi.raster.RasterPanel;

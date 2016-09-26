@@ -586,6 +586,9 @@ public class Cartridge implements Serializable
                 else
                     cart[bank][i] = data[i];
             }
+            
+            
+            
         }
         catch (Throwable e)
         {

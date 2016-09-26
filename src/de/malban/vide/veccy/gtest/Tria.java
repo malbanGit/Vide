@@ -1,4 +1,4 @@
-package de.malban.gtest;
+package de.malban.vide.veccy.gtest;
 // Tria.java: Triangle represented by its vertex numbers.
 
 // Copied from Section 6.3 of

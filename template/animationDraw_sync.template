@@ -1,7 +1,4 @@
-; Note!
-; The Scenario and Animation example routines use a signed 8 bit counter!
-; This means, if an animation or scenario consists of more than 63 vectorlists
-; the below offset to "X" (register A) must be expanded to 16 bit (register D)
+
 
 ;***************************************************************************
 ; DEFINE SECTION
@@ -60,11 +57,12 @@ main:
                     JSR      Intensity_5F         ; Sets the intensity of the 
                                                   ; vector beam to $5f 
                
-
-                    LDA      animationCounter     ; current animation frame
-                    ASLA                          ; times two since it is a word pointer
+ CLRA
+                    LDB      animationCounter     ; current animation frame
+                    ASLB                          ; times two since it is a word pointer
+ ROLA
                     LDU      #vData               ; address of data 
-                    LDU      a,U
+                    LDU      d,U
 
  LDA      #$0                          ; Text position relative Y 
                     LDB      #-$0                        ; Text position relative X 

@@ -1,4 +1,4 @@
-package de.malban.gtest;
+package de.malban.vide.veccy.gtest;
 // Polygon3D.java: Polygon in 3D, represented by vertex numbers 
 //                 referring to coordinates stored in an Obj3D object.
 // Uses: Point2D (Section 1.5), Tools2D (Section 2.13), 

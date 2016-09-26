@@ -1,4 +1,4 @@
-package de.malban.gtest;
+package de.malban.vide.veccy.gtest;
 // HLines.java: Perspective drawing with hidden-line elimination.
 // Uses: Point2D (Section 1.5), Point3D (Section 3.9), 
 //       Tools2D (Section 2.13),
@@ -8,150 +8,84 @@ package de.malban.gtest;
 //    Ammeraal, L. (1998) Computer Graphics for Java Programmers,
 //       Chichester: John Wiley.
 
+import de.malban.graphics.GFXVector;
+import de.malban.graphics.GFXVectorList;
+import de.malban.graphics.Vertex;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.*;
-import java.io.*;
 
-public class HLines extends Frame
-{  public static void main(String[] args)
-   {  new HLines(args.length > 0 ? args[0] : null);
-   }
-   private MenuItem open, exportHPGL, exit, eyeUp, eyeDown, 
-      eyeLeft, eyeRight, incrDist, decrDist;
-   private CvHLines cv;
-   private String sDir;
+public class HLines 
+{  
+    public static int CALC_SCALE = 1000;
    
-   public HLines(String argFileName)
-   {  super("Hidden-lines algorithm");
-      cv = new CvHLines();
-      addWindowListener(new WindowAdapter()
-         {public void windowClosing(WindowEvent e){System.exit(0);}});
-
-      MenuBar mBar = new MenuBar();
-      setMenuBar(mBar);
-      Menu mF = new Menu("File"), mV = new Menu("View");
-      mBar.add(mF); mBar.add(mV);
-
-      open = new MenuItem("Open", new MenuShortcut(KeyEvent.VK_O));
-      exportHPGL = new MenuItem("Export HP-GL");
-      exit = new MenuItem("Exit", new MenuShortcut(KeyEvent.VK_Q));
-      eyeDown = new MenuItem("Viewpoint Down",
-         new MenuShortcut(KeyEvent.VK_DOWN));
-      eyeUp = new MenuItem("Viewpoint Up",
-         new MenuShortcut(KeyEvent.VK_UP));
-      eyeLeft = new MenuItem("Viewpoint to Left", 
-         new MenuShortcut(KeyEvent.VK_LEFT));
-      eyeRight = new MenuItem("Viewpoint to Right",
-         new MenuShortcut(KeyEvent.VK_RIGHT));
-
-      incrDist = new MenuItem("Increase viewing distance",
-         new MenuShortcut(KeyEvent.VK_INSERT));
-      decrDist = new MenuItem("Decrease viewing distance",
-         new MenuShortcut(KeyEvent.VK_DELETE));
-      mF.add(open); mF.add(exportHPGL); mF.add(exit); 
-      mV.add(eyeDown); mV.add(eyeUp); 
-      mV.add(eyeLeft); mV.add(eyeRight); 
-      mV.add(incrDist); mV.add(decrDist);
-      MenuCommands mListener = new MenuCommands();
-      open.addActionListener(mListener);
-      exportHPGL.addActionListener(mListener);
-      exit.addActionListener(mListener);
-      eyeDown.addActionListener(mListener);
-      eyeUp.addActionListener(mListener);
-      eyeLeft.addActionListener(mListener);
-      eyeRight.addActionListener(mListener);
-      incrDist.addActionListener(mListener);
-      decrDist.addActionListener(mListener);
-      add("Center", cv);
-      Dimension dim = getToolkit().getScreenSize();
-      setSize(dim.width/2, dim.height/2);
-      setLocation(dim.width/4, dim.height/4);
-      if (argFileName != null) 
-      {  Obj3D obj = new Obj3D();
-         if (obj.read(argFileName)){cv.setObj(obj); cv.repaint();}
-      }
-      show();
-   }
-   
-   void vp(float dTheta, float dPhi, float fRho) // Viewpoint
-   {  Obj3D obj = cv.getObj();
-      if (obj == null || !obj.vp(cv, dTheta, dPhi, fRho))
-         Toolkit.getDefaultToolkit().beep();
-   }
-
-   class MenuCommands implements ActionListener
-   {  public void actionPerformed(ActionEvent ae)
-      {  if (ae.getSource() instanceof MenuItem)
-         {  MenuItem mi = (MenuItem)ae.getSource();
-            if (mi == open)
-            {  FileDialog fDia = new FileDialog(HLines.this, 
-                  "Open", FileDialog.LOAD);
-               fDia.setDirectory(sDir);
-               fDia.setFile("*.dat");
-               fDia.show();	
-               String sDir1 = fDia.getDirectory();
-               String sFile = fDia.getFile();
-               String fName = sDir1 + sFile;
-               Obj3D obj = new Obj3D();
-               if (obj.read(fName))
-               {  sDir = sDir1;
-                  cv.setObj(obj);
-                  cv.repaint(); 
-               }
-            }  
-            else
-            if (mi == exportHPGL)
-            {  Obj3D obj = cv.getObj();
-               if (obj != null)
-               {  cv.setHPGL(new HPGL(obj));
-                  cv.repaint();
-               }
-               else 
-                  Toolkit.getDefaultToolkit().beep();
-            } 
-            else
-            if (mi == exit) System.exit(0); else
-            if (mi == eyeDown) vp(0, .1F, 1); else
-            if (mi == eyeUp) vp(0, -.1F, 1); else
-            if (mi == eyeLeft) vp(-.1F, 0, 1); else
-            if (mi == eyeRight) vp(.1F, 0, 1); else
-            if (mi == incrDist) vp(0, 0, 2); else
-            if (mi == decrDist) vp(0, 0, .5F);
-         }
-      }
-   } 
-}
-
-// Class CvHLines:
-// ===============
-
-class CvHLines extends Canvas
-{  private int maxX, maxY, centerX, centerY, nTria, nVertices;
+   private int maxX, maxY, centerX, centerY, nTria, nVertices;
    private Obj3D obj;    
    private Point2D imgCenter;
    private Tria[] tr;
-   private HPGL hpgl;
    private int[] refPol;
    private int[][] connect;
    private int[] nConnect;
    private int chunkSize = 4;
    private double hLimit;
    private Vector polyList;
-   private float maxScreenRange;
 
    Obj3D getObj(){return obj;}
    void setObj(Obj3D obj){this.obj = obj;}
-   void setHPGL(HPGL hpgl){this.hpgl = hpgl;}
+   
+   public HLines()
+   {  
+   }
 
-   public void paint(Graphics g) 
-   {  if (obj == null) return;
+    public boolean setVectorlist(GFXVectorList vlist)
+    {
+        Obj3D obj = new Obj3D();
+        obj.setVectorlist(vlist);
+        setObj(obj);
+        return true;
+    }
+    public GFXVectorList processVectorlist(GFXVectorList vlist)
+    {
+        GFXVectorList vl = new GFXVectorList();
+        Obj3D obj = new Obj3D();
+        obj.setVectorlist(vlist);
+        setObj(obj);
+        process(vl); 
+        
+        for (GFXVector vector: vl.list)
+        {
+            Vertex start = vector.start;
+            if (start != null)
+            {
+                start.x(((int)(start.x()/CALC_SCALE)));
+                start.y(((int)(start.y()/CALC_SCALE)));
+                start.z(((int)(start.z()/CALC_SCALE)));
+            }
+            Vertex end = vector.end;
+            if (end != null)
+            {
+                end.x(((int)(end.x()/CALC_SCALE)));
+                end.y(((int)(end.y()/CALC_SCALE)));
+                end.z(((int)(end.z()/CALC_SCALE)));
+            }
+        }        
+        vl.removePoints();
+        vl.removeDoubles();
+        vl.doOrder();
+        vl.connectWherePossible(false);
+        return vl;
+    }
+
+   public void process(GFXVectorList vl)    
+   {
+       if (obj == null) return;
       Vector polyList = obj.getPolyList();
       if (polyList == null) return;
       int nFaces = polyList.size();
       if (nFaces == 0) return;
       float xe, ye, ze;
-      Dimension dim = getSize();
+      Dimension dim = new Dimension();
+      dim.width = HLines.CALC_SCALE;
+      dim.height = HLines.CALC_SCALE;
       maxX = dim.width - 1; maxY = dim.height - 1;
       centerX = maxX/2; centerY = maxY/2;
       // ze-axis towards eye, so ze-coordinates of
@@ -176,11 +110,12 @@ class CvHLines extends Canvas
 
       // Every Tria value consists of the three vertex
       // numbers A, B and C.
-      maxScreenRange = obj.eyeAndScreen(dim);
+      obj.eyeAndScreen(dim, false);
       imgCenter = obj.getImgCenter();
       obj.planeCoeff();      // Compute a, b, c and h.
 
       hLimit = -1e-6 * obj.getRho(); 
+   
       buildLineSet();
 
       // Construct an array of triangles in
@@ -193,6 +128,7 @@ class CvHLines extends Canvas
          {  pol.triangulate(obj); 
             nTria += pol.getT().length;
          }
+
       }
       tr = new Tria[nTria];    // Triangles of all polygons
       refPol = new int[nTria]; // tr[i] belongs to polygon refPol[i]
@@ -209,17 +145,48 @@ class CvHLines extends Canvas
             }
          }
       }
+      
       Point3D[] e = obj.getE();
       Point2D[] vScr = obj.getVScr();
       for (int i=0; i<nVertices; i++)
       {  for (int j=0; j<nConnect[i]; j++)
          {  int jj = connect[i][j];
-            lineSegment(g, e[i], e[jj], vScr[i], vScr[jj], i, jj, 0);
+            lineSegment(e[i], e[jj], vScr[i], vScr[jj], i, jj, 0, vl);
          }
       }
-      hpgl = null;
+      
+      
+        HashMap<Vertex, Integer> noDoubles = new HashMap<Vertex, Integer>();
+      float unscaler = obj.getD();
+        for (GFXVector vector: vl.list)
+        {
+            Vertex start = vector.start;
+            if (start != null)
+            {
+                if (noDoubles.get(start) == null)
+                {
+                    noDoubles.put(start, new Integer(1));
+                    double x = -start.y()/obj.getD()*obj.getRho();
+                    double y = start.x()/obj.getD()*obj.getRho();
+                   start.x(x);
+                   start.y(y);
+                }
+            }
+            Vertex end = vector.end;
+            if (end != null)
+            {
+                if (noDoubles.get(end) == null)
+                {
+                    noDoubles.put(end, new Integer(1));
+                    double x = -end.y()/obj.getD()*obj.getRho();
+                    double y = end.x()/obj.getD()*obj.getRho();
+                   end.x(x);
+                   end.y(y);
+                }
+            }
+        }      
+      
    }
-
    private void buildLineSet()
    {  // Build the array
       // 'connect' of int arrays, where
@@ -267,35 +234,8 @@ class CvHLines extends Canvas
    int iX(float x){return Math.round(centerX + x - imgCenter.x);}
    int iY(float y){return Math.round(centerY - y + imgCenter.y);}
 
-   private String toString(float t) 
-   // From screen device units (pixels) to HP-GL units (0-10000):
-   {  int i = Math.round(5000 + t * 9000/maxScreenRange);
-      String s = "";
-      int n = 1000;
-      for (int j=3; j>=0; j--)
-      {  s += i/n;
-         i %= n;
-         n /= 10;
-      }
-      return s;
-   }
-
-   private String hpx(float x){return toString(x - imgCenter.x);}
-   private String hpy(float y){return toString(y - imgCenter.y);}
-  
-   private void drawLine(Graphics g, float x1, float y1, 
-      float x2, float y2)
-   {  if (x1 != x2 || y1 != y2)
-      {  g.drawLine(iX(x1), iY(y1), iX(x2), iY(y2));
-         if (hpgl != null)
-         {  hpgl.write("PU;PA" + hpx(x1) + "," + hpy(y1));
-            hpgl.write("PD;PA" + hpx(x2) + "," + hpy(y2) + "\n");
-         }
-      }
-   }
-
-   private void lineSegment(Graphics g, Point3D Pe, Point3D Qe,
-      Point2D PScr, Point2D QScr, int iP, int iQ, int iStart)
+   private void lineSegment(Point3D Pe, Point3D Qe,
+      Point2D PScr, Point2D QScr, int iP, int iQ, int iStart, GFXVectorList vl)
    {  double u1 = QScr.x - PScr.x, u2 = QScr.y - PScr.y;
       double minPQx = Math.min(PScr.x, QScr.x);
       double maxPQx = Math.max(PScr.x, QScr.x);
@@ -330,13 +270,11 @@ class CvHLines extends Canvas
          // 4. Do P and Q (in 2D) lie in a half plane defined
          //    by line AB, on the side other than that of C?
          //    Similar for the edges BC and CA.
-         double eps = 0.1; // Relative to numbers of pixels
-         if (Tools2D.area2(AScr, BScr, PScr) < eps && 
-             Tools2D.area2(AScr, BScr, QScr) < eps ||
-             Tools2D.area2(BScr, CScr, PScr) < eps && 
-             Tools2D.area2(BScr, CScr, QScr) < eps ||
-             Tools2D.area2(CScr, AScr, PScr) < eps && 
-             Tools2D.area2(CScr, AScr, QScr) < eps) continue;
+         double eps = 0.001; // Relative to numbers of pixels
+         if ((Tools2D.area2(AScr, BScr, PScr) < eps &&  Tools2D.area2(AScr, BScr, QScr) < eps) ||
+             (Tools2D.area2(BScr, CScr, PScr) < eps &&  Tools2D.area2(BScr, CScr, QScr) < eps) ||
+             (Tools2D.area2(CScr, AScr, PScr) < eps &&  Tools2D.area2(CScr, AScr, QScr) < eps))
+             continue;
 
          // 5. Test (2D) if A, B and C lie on the same side
          //    of the infinite line through P and Q:
@@ -416,8 +354,8 @@ class CvHLines extends Canvas
             if (a * xI + b * yI + c * zI > h1) continue;
             Point2D IScr = new Point2D((float)IScrx, (float)IScry);
             if (Tools2D.distance2(IScr, PScr) >= 1.0)
-               lineSegment(g, Pe, new Point3D(xI, yI, zI), PScr, 
-                  IScr, iP, -1, i + 1);  
+               lineSegment(Pe, new Point3D(xI, yI, zI), PScr, 
+                  IScr, iP, -1, i + 1, vl);  
          }
          if (!QInside && lambdaMax < 0.999) 
          {  double JScrx = PScr.x + lambdaMax * u1,
@@ -425,40 +363,31 @@ class CvHLines extends Canvas
             double zJ = 
                1/(lambdaMax/zQ + (1 - lambdaMax)/zP),
                   xJ = -zJ * JScrx / d, yJ = -zJ * JScry / d;
-            if (a * xJ + b * yJ + c * zJ > h1) continue;
+            double number = a * xJ + b * yJ + c * zJ;
+            if (number > h1) continue;
             Point2D JScr = new Point2D((float)JScrx, (float)JScry);
             if (Tools2D.distance2(JScr, QScr) >= 1.0) 
-               lineSegment(g, Qe, new Point3D(xJ, yJ, zJ),
-                  QScr, JScr, iQ, -1, i + 1);  
+               lineSegment(Qe, new Point3D(xJ, yJ, zJ),
+                  QScr, JScr, iQ, -1, i + 1, vl);  
          }
          return; 
             // if no continue-statement has been executed
       }
-      drawLine(g, PScr.x, PScr.y, QScr.x, QScr.y);
+      if (vl != null)
+        addVector(vl, PScr.x, PScr.y, QScr.x, QScr.y);
    }
+    void addVector(GFXVectorList vl, float x0, float y0, float x1, float y1)
+    {
+        GFXVector v = new GFXVector();
+        Vertex start = new Vertex();
+        start.x(x0);
+        start.y(y0);
+        Vertex end = new Vertex();
+        end.x(x1);
+        end.y(y1);
+        v.start = start;
+        v.end = end;
+        vl.add(v);
+    }
 }
 
-// Class for HP-GL output:
-// =======================
-
-class HPGL
-{  FileWriter fw;
-   HPGL(Obj3D obj)
-   {  String plotFileName = "", fName = obj.getFName();
-      for (int i=0; i<fName.length(); i++)
-      {  char ch = fName.charAt(i);
-         if (ch == '.') break;
-         plotFileName += ch;
-      }
-      plotFileName += ".plt";
-      try
-      {  fw = new FileWriter(plotFileName);
-         fw.write("IN;SP1;\n");
-      }
-      catch (IOException ioe){}
-   }
-
-   void write(String s)
-   {  try {fw.write(s); fw.flush();}catch (IOException ioe){}
-   }
-}

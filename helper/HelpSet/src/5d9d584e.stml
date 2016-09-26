@@ -1,7 +1,7 @@
 :title Cartridges
 :image CartProps.png|Cartridge configuration
 
-Cartridges are the "main" input to Vecx (even if not fully implemented yet).
+Cartridges are the "main" input to vecxi.
 
 Cartridges can be configured with all kinds of properties - some emulation relevant, some only for documentation or history reasons.
 

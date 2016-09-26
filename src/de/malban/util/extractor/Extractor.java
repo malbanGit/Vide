@@ -7,7 +7,7 @@ package de.malban.util.extractor;
 
 /**
  *
- * @author salchr
+ * @author malban
  */
 public class Extractor {
     

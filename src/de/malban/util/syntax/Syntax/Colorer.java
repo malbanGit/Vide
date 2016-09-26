@@ -156,6 +156,7 @@ class Colorer extends Thread
     // in case of e.g. many undos redos
     public void colorAll() 
     {
+        if (!isStarted()) return;
         try
         {
             HighlightedDocument doc = (HighlightedDocument) document.get();
@@ -171,6 +172,7 @@ class Colorer extends Thread
     public void colorAllDirect() 
     {
         HighlightedDocument doc = (HighlightedDocument) document.get();
+        
         if(doc == null) return;
         boolean old = mBreak;
 
@@ -194,6 +196,7 @@ class Colorer extends Thread
         // so that the process event actually DOES something!
         mBreak = false;
         processEvent(0, doc.getLength(), false);            
+        events.clear();
         mBreak = old;
     }
     public void color(int position, int adjustment) 
@@ -206,13 +209,19 @@ class Colorer extends Thread
     }
     public boolean isStarted()
     {
-        return !mBreak;
+        return !mBreak && !broken;
     }
 
     public void start()
     {
-        mBreak = false;
-        super.start();
+        SwingUtilities.invokeLater(new Runnable(){
+        
+            public void run()
+            {
+                mBreak = false;
+                Colorer.super.start();
+            }
+        });
     }
     /**
      * Tell the Syntax Highlighting thread to take another look at this
@@ -221,10 +230,8 @@ class Colorer extends Thread
      */
     private void color(int position, int adjustment, boolean allowReset) 
     {
-        if (mBreak) 
-        {
-            return;
-        }
+        if (!isStarted()) return;
+
 //System.out.println("Color > 1, start:"+position+" adjustment: "+adjustment+" allow Recoler: "+allowReset);
         // figure out if this adjustment effects the current run.
         // if it does, then adjust the place in the document
@@ -287,39 +294,37 @@ class Colorer extends Thread
     boolean broken = true;
     public void run() 
     {
-        try
+        broken = false;
+        while(!mBreak) 
         {
-            broken = false;
-            while(!mBreak) 
+            try 
             {
-                try 
+                RecolorEvent re=null;
+                synchronized (eventsLock) 
                 {
-                    RecolorEvent re=null;
-                    synchronized (eventsLock) 
+                    // get the next event to process - stalling until the
+                    // event becomes available
+                    while ((events.isEmpty() && document.get() != null) && (!mBreak)) 
                     {
-                        // get the next event to process - stalling until the
-                        // event becomes available
-                        while ((events.isEmpty() && document.get() != null) && (!mBreak)) 
-                        {
-                            // stop waiting after a second in case document
-                            // has been cleared.
-                            eventsLock.wait(1000);
-                        }
-                        if (mBreak) continue;
-                        if (events.size()>0)
-                        re = (RecolorEvent) events.removeFirst();
+                        // stop waiting after a second in case document
+                        // has been cleared.
+                        eventsLock.wait(1000);
                     }
-                    if (re != null)
-                        processEvent(re.position, re.adjustment, re.allowReset);
-                } catch(InterruptedException e) { }
+                    if (mBreak) continue;
+                    if (events.size()>0)
+                    re = (RecolorEvent) events.removeFirst();
+                    eventsLock.notifyAll();
+                }
+                if (re != null)
+                    processEvent(re.position, re.adjustment, re.allowReset);
+            } catch(InterruptedException e) { }
+
+            catch (Throwable ee)
+            {
+                log.addLog(ee, WARN);
             }
-            broken = true;
         }
-        catch (Throwable ee)
-        {
-            log.addLog(ee, WARN);
-            ee.printStackTrace();
-        }
+        broken = true;
     }
 
     private void processEvent(int position, int adjustment, boolean varCheck)

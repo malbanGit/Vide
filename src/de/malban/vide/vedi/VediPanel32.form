@@ -16,14 +16,6 @@
             <Property name="text" type="java.lang.String" value="new file"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemVectrexFile">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="new vectrex file"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemVectrexFileActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemNewFile">
               <Properties>
                 <Property name="text" type="java.lang.String" value="new empty file"/>
@@ -207,7 +199,9 @@
                   <Component id="jButtonPrettyPrint" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                   <Component id="jButtonAssemble" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
+                  <Component id="jButtonShowPSG" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel7" min="-2" pref="35" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jTextFieldCommand" min="-2" pref="245" max="-2" attributes="0"/>
@@ -242,9 +236,10 @@
                           <Component id="jTextFieldCommand" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jButtonShowPSG" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                  <Component id="jSplitPane1" pref="752" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+                  <Component id="jSplitPane1" pref="753" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                   <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -372,7 +367,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/malban/vide/images/control_play_blue.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Assemble current file, if project is loaded, build project and run it (if so defined in config)."/>
+            <Property name="toolTipText" type="java.lang.String" value="Save and run current file in Vectrex 32"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 1, 0, -1]"/>
             </Property>
@@ -432,8 +427,8 @@
                       </AuxValues>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                          <JTabbedPaneConstraints tabName="Project">
-                            <Property name="tabTitle" type="java.lang.String" value="Project"/>
+                          <JTabbedPaneConstraints tabName="Files">
+                            <Property name="tabTitle" type="java.lang.String" value="Files"/>
                           </JTabbedPaneConstraints>
                         </Constraint>
                       </Constraints>
@@ -498,6 +493,8 @@
                       <SubComponents>
                         <Component class="javax.swing.JEditorPane" name="jEditorLog">
                           <Events>
+                            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jEditorLogMousePressed"/>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jEditorLogMouseClicked"/>
                             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jEditorLogKeyTyped"/>
                           </Events>
                         </Component>
@@ -514,7 +511,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/malban/vide/images/new.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="new Project"/>
+            <Property name="toolTipText" type="java.lang.String" value="new file"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 1, 0, -1]"/>
             </Property>
@@ -529,7 +526,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/malban/vide/images/text_columns.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Pretty print (as9 only)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Syntax highlight restart"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 1, 0, -1]"/>
             </Property>
@@ -812,6 +809,20 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JButton" name="jButtonShowPSG">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/de/malban/vide/images/sound_add.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="YM Window"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[0, 1, 0, -1]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonShowPSGActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel6">
@@ -878,6 +889,7 @@
                 <StringItem index="3" value="Item 4"/>
               </StringArray>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Chose available serial connection for Vectrex 32"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
@@ -888,6 +900,7 @@
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
             <Property name="text" type="java.lang.String" value="connect"/>
+            <Property name="toolTipText" type="java.lang.String" value="Connect to Vectrex 32 using the given parameters"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
@@ -898,6 +911,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/malban/vide/images/arrow_refresh.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Refresh serial connections provided by the OS"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
@@ -919,6 +933,7 @@
         <Component class="javax.swing.JButton" name="jButtonFileSelect1">
           <Properties>
             <Property name="text" type="java.lang.String" value="..."/>
+            <Property name="toolTipText" type="java.lang.String" value="Chose the &quot;mountpoint&quot; of the Vectrex 32 USB-drive"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 1, 0, -1]"/>
             </Property>

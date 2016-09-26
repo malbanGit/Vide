@@ -5,6 +5,8 @@
  */
 package de.malban.vide.veccy;
 
+import de.malban.graphics.Face;
+import javax.swing.table.AbstractTableModel;
 import de.malban.config.Configuration;
 import de.malban.graphics.GFXVectorAnimation;
 import de.malban.event.EditMouseEvent;
@@ -25,6 +27,7 @@ import de.malban.gui.components.CSAView;
 import de.malban.gui.Scaler;
 import de.malban.gui.Stateable;
 import de.malban.gui.components.CSAInternalFrame;
+import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
@@ -33,16 +36,17 @@ import de.malban.vide.assy.Asmj;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.script.ExportFrame;
 import de.malban.vide.script.ImportFrame;
+import de.malban.vide.veccy.gtest.HLines;
 import de.malban.vide.vecx.VecXPanel;
-import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_LIST;
-import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_MESSAGE_ERROR;
 import de.malban.vide.vedi.VediPanel;
 import de.malban.vide.vedi.raster.VectorJPanel;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.Serializable;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,6 +61,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 
 
@@ -79,6 +84,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     public static GFXVectorList buffer = new GFXVectorList();
     GFXVectorAnimation history = new GFXVectorAnimation();
+    ArrayList<Face> faces = new ArrayList<Face>();
     int historyPos = 0;
     boolean historyAdded = false; // drag only one history
     public void preVectorChange()
@@ -89,6 +95,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     {
         fillStatus();
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
+        verifyFaces();
     }
     void addHistory()
     {
@@ -114,6 +121,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         historyPos--;
         GFXVectorList list = history.get(historyPos);
         singleVectorPanel1.setForegroundVectorList(list.clone());
+        initFaces();
         jButtonUndo.setEnabled(historyPos>0);
         jButtonRedo.setEnabled(historyPos<history.size()-1);
     }
@@ -123,6 +131,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         historyPos++;
         GFXVectorList list = history.get(historyPos);
         singleVectorPanel1.setForegroundVectorList(list.clone());
+        initFaces();
         jButtonUndo.setEnabled(historyPos>0);
         jButtonRedo.setEnabled(historyPos<history.size()-1);
     }
@@ -240,6 +249,22 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel17.setForeground(Color.GREEN);
         jLabel18.setForeground(Color.MAGENTA);
         
+        FaceTableModel faceModel = new FaceTableModel();
+        if (faceModel != null)
+        {
+            jTableFace.setModel(faceModel);
+            resetFaceTable();
+        }
+        ListSelectionModel faceSelectionModel = jTableFace.getSelectionModel();
+
+        faceSelectionModel.addListSelectionListener(new ListSelectionListener() 
+        {
+              public void valueChanged(ListSelectionEvent e) {
+                faceSelectionChanged();
+              }
+        });        
+
+        
         MyTableModel model = singleVectorPanel1.getTableModel();
         if (model != null)
         {
@@ -248,6 +273,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jTable1.getColumnModel().getColumn(2).setMaxWidth(50);
             jTable1.tableChanged(new TableModelEvent(model));
         }
+
+        
+        
+        
         // 2d
         jButton2dAxisActionPerformed(null);        
 
@@ -431,13 +460,19 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonMirrorHorizontally = new javax.swing.JButton();
         jLabel50 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
         jButtonOneForwardSelection2 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jTextFieldBaseSize = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jButtonCube = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPanel37 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTableFace = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jLabel55 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel9 = new javax.swing.JPanel();
         jRadioButtonSetPoint = new javax.swing.JRadioButton();
@@ -461,6 +496,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonShrink = new javax.swing.JButton();
         jButtonEnlarge = new javax.swing.JButton();
         jTextFieldScaleFactor = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
         jPanel36 = new javax.swing.JPanel();
         jTextFieldScaleFactor1 = new javax.swing.JTextField();
         jButtonEnlarge1 = new javax.swing.JButton();
@@ -489,6 +525,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButton4 = new javax.swing.JButton();
         jCheckBoxScaleToByte = new javax.swing.JCheckBox();
         jLabel33 = new javax.swing.JLabel();
+        jCheckBox5 = new javax.swing.JCheckBox();
         jPanel24 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jTextFieldMorphSteps = new javax.swing.JTextField();
@@ -574,6 +611,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonInterprete = new javax.swing.JButton();
         jLabel49 = new javax.swing.JLabel();
         jCheckBoxMulti = new javax.swing.JCheckBox();
+        jPanel38 = new javax.swing.JPanel();
+        jLabel56 = new javax.swing.JLabel();
+        jButtonLoad2 = new javax.swing.JButton();
         jPanel15 = new javax.swing.JPanel();
         jButtonExport1 = new javax.swing.JButton();
         jPanel26 = new javax.swing.JPanel();
@@ -594,6 +634,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jTextFieldLabelListname = new javax.swing.JTextField();
         jButtonDraw_syncList = new javax.swing.JButton();
         jTextFieldResync = new javax.swing.JTextField();
+        jCheckBoxVec32 = new javax.swing.JCheckBox();
         jPanel30 = new javax.swing.JPanel();
         jButtonMov_Draw_VLc_aAnim = new javax.swing.JButton();
         jButtonDraw_VLcAnim = new javax.swing.JButton();
@@ -659,8 +700,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel41 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel55 = new javax.swing.JLabel();
         jLabelMaxY = new javax.swing.JLabel();
         jLabelY0 = new javax.swing.JLabel();
         jLabelMinY = new javax.swing.JLabel();
@@ -1075,7 +1114,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addComponent(jTextFieldPattern, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabelPattern)))
-                        .addGap(0, 90, Short.MAX_VALUE))
+                        .addGap(0, 251, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonSetStyle, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1097,7 +1136,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPattern1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addComponent(jButtonSetStyle, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1142,8 +1181,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel53.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jLabel53.setText("around x-axis");
 
-        jLabel32.setText("factor");
-
         jButtonOneForwardSelection2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/images.png"))); // NOI18N
         jButtonOneForwardSelection2.setText("image to vector");
         jButtonOneForwardSelection2.setToolTipText("image to vector");
@@ -1163,23 +1200,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addContainerGap()
                 .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel35Layout.createSequentialGroup()
+                        .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButtonMirrorVertically, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                            .addComponent(jButtonRotate2d, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(20, 20, 20)
                         .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel35Layout.createSequentialGroup()
-                                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButtonMirrorVertically, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButtonRotate2d, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(jPanel35Layout.createSequentialGroup()
-                                .addGap(52, 52, 52)
-                                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(70, 70, 70)))
-                        .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                            .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+                            .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                             .addGroup(jPanel35Layout.createSequentialGroup()
                                 .addComponent(jTextFieldRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 117, Short.MAX_VALUE))))
+                                .addGap(0, 258, Short.MAX_VALUE))))
                     .addGroup(jPanel35Layout.createSequentialGroup()
                         .addComponent(jButtonOneForwardSelection2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -1199,11 +1230,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel53))
-                .addGap(15, 15, 15)
-                .addComponent(jLabel32)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(42, 42, 42)
                 .addComponent(jButtonOneForwardSelection2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("2d-Tools", jPanel35);
@@ -1241,7 +1270,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jTextFieldBaseSize, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonCube, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(237, Short.MAX_VALUE))
+                .addContainerGap(398, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1254,10 +1283,83 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButtonCube, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addContainerGap(129, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Figure", jPanel11);
+
+        jTableFace.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableFace.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableFace.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                jTableFaceComponentResized(evt);
+            }
+        });
+        jScrollPane7.setViewportView(jTableFace);
+
+        jButton1.setText("add selected as face");
+        jButton1.setToolTipText("<html> \nUse the current selected points and add the thus defined \"face\" to the facelist.<BR>\n<BR>\nThe points must all lie in the same plane (they must be coplanar).<BR>\n</html>");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("delete from face list");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("execute HLR");
+        jButton3.setToolTipText("<html>\nThe current angle settings for DISPLAY is taken,<BR>\nand a hidden line removal is executed to the vectorlist.<BR>\n(provided faces are defined)\n\n</html>");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel37Layout = new javax.swing.GroupLayout(jPanel37);
+        jPanel37.setLayout(jPanel37Layout);
+        jPanel37Layout.setHorizontalGroup(
+            jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addGroup(jPanel37Layout.createSequentialGroup()
+                .addGroup(jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton7))
+        );
+        jPanel37Layout.setVerticalGroup(
+            jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel37Layout.createSequentialGroup()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton7))
+                    .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addGap(0, 5, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Faces", jPanel37);
 
         buttonGroup1.add(jRadioButtonSetPoint);
         jRadioButtonSetPoint.setSelected(true);
@@ -1367,7 +1469,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jCheckBoxPosition)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxMoves)))
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Mode/Select", jPanel9);
@@ -1463,6 +1565,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldScaleFactor.setText("1.5");
 
+        jLabel32.setText("factor");
+
         javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
         jPanel27.setLayout(jPanel27Layout);
         jPanel27Layout.setHorizontalGroup(
@@ -1488,7 +1592,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonEnlarge)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel27Layout.setVerticalGroup(
@@ -1517,8 +1623,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButtonShrink)
                         .addComponent(jButtonEnlarge))
-                    .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel32)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("shortcut list", jPanel27);
@@ -1579,7 +1687,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         );
         jPanel36Layout.setVerticalGroup(
             jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 233, Short.MAX_VALUE)
+            .addGap(0, 209, Short.MAX_VALUE)
             .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel36Layout.createSequentialGroup()
                     .addGap(92, 92, 92)
@@ -1592,7 +1700,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jButtonShrink1)
                             .addComponent(jButtonEnlarge1))
                         .addComponent(jTextFieldScaleFactor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(93, Short.MAX_VALUE)))
+                    .addContainerGap(73, Short.MAX_VALUE)))
         );
 
         jTabbedPane4.addTab("shortcut collection", jPanel36);
@@ -1688,14 +1796,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabel33.setText("steps");
 
+        jCheckBox5.setText("apply HLR");
+        jCheckBox5.setToolTipText("<html>\nApply hidden line removal on result.<BR>\nThe result will be a 2d list only.\n</html>");
+
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
         jPanel23Layout.setHorizontalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel23Layout.createSequentialGroup()
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel23Layout.createSequentialGroup()
                         .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCheckBox2)
                             .addComponent(jCheckBox3)
@@ -1716,14 +1827,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addComponent(jTextFieldRotateZ, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jCheckBoxScaleToByte, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 39, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
+                    .addGroup(jPanel23Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
-                                .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldRotateSteps, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldRotateSteps, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel23Layout.createSequentialGroup()
+                        .addComponent(jCheckBox5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel23Layout.setVerticalGroup(
@@ -1746,13 +1858,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jTextFieldRotateY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(2, 2, 2)
                 .addComponent(jCheckBoxScaleToByte)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGap(29, 29, 29)
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldRotateSteps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel33))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox5))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Rotation", jPanel23);
@@ -1811,7 +1925,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel21)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTextFieldMorphSteps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1844,7 +1958,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonPathsAsScenario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Scenario", jPanel14);
@@ -1869,48 +1983,47 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabelDelay, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldDelay, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jToggleButtonPlayAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addComponent(jLabelAnim)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addGap(4, 4, 4)
+                            .addComponent(jLabelDelay, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldDelay, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jToggleButtonPlayAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSliderSourceScale1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(single3dDisplayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabelAnim)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(single3dDisplayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTabbedPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addComponent(jTabbedPane2))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabelAnim)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(single3dDisplayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSliderSourceScale1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jToggleButtonPlayAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldDelay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelDelay)))
-                    .addComponent(jTabbedPane6, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane2)
-                    .addComponent(jTabbedPane4))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jTabbedPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jTabbedPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabelAnim)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(single3dDisplayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jSliderSourceScale1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jToggleButtonPlayAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldDelay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelDelay)))))
+                .addGap(5, 5, 5))
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("vectorlist"));
@@ -1927,6 +2040,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTable1MousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jCheckBox1.setSelected(true);
@@ -1941,7 +2059,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 821, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jCheckBox1)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -2386,13 +2504,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabelDelay1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxDisplayAxis)))
-                .addContainerGap(504, Short.MAX_VALUE))
+                .addContainerGap(533, Short.MAX_VALUE))
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel21Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelDelay1)
@@ -2400,7 +2518,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addContainerGap(83, Short.MAX_VALUE))
         );
 
-        jTabbedPane5.addTab("3d axis settings", jPanel21);
+        jTabbedPane5.addTab("3d settings", jPanel21);
 
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
@@ -2499,7 +2617,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5)
                         .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(81, Short.MAX_VALUE))
+                        .addContainerGap(110, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -2579,6 +2697,40 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTabbedPane7.addTab("text import", jPanel3);
 
+        jLabel56.setText("File");
+
+        jButtonLoad2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
+        jButtonLoad2.setToolTipText("load YM");
+        jButtonLoad2.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoad2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoad2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel38Layout = new javax.swing.GroupLayout(jPanel38);
+        jPanel38.setLayout(jPanel38Layout);
+        jPanel38Layout.setHorizontalGroup(
+            jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel38Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonLoad2)
+                .addContainerGap(771, Short.MAX_VALUE))
+        );
+        jPanel38Layout.setVerticalGroup(
+            jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel38Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonLoad2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(280, Short.MAX_VALUE))
+        );
+
+        jTabbedPane7.addTab("Wavefront *.obj", jPanel38);
+
         jButtonExport1.setText("User Import");
         jButtonExport1.setPreferredSize(new java.awt.Dimension(91, 19));
         jButtonExport1.addActionListener(new java.awt.event.ActionListener() {
@@ -2594,7 +2746,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(691, Short.MAX_VALUE))
+                .addContainerGap(720, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2693,6 +2845,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jTextFieldResync.setText("20");
         jTextFieldResync.setToolTipText("maximum resync size");
 
+        jCheckBoxVec32.setToolTipText("Vectrex32 BASIC output");
+
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
         jPanel29.setLayout(jPanel29Layout);
         jPanel29Layout.setHorizontalGroup(
@@ -2704,16 +2858,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jButtonMov_Draw_VLc_a, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonDraw_VL_mode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonDraw_syncList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel29Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
+                        .addComponent(jCheckBoxVec32)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldResync, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel37)
@@ -2736,9 +2891,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jButtonDraw_VLp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel35))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonDraw_VL_mode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel36))
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonDraw_VL_mode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel36))
+                    .addComponent(jCheckBoxVec32))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -2928,7 +3085,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 100, Short.MAX_VALUE))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
@@ -3096,7 +3253,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonEditInVedi1)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel32Layout.setVerticalGroup(
@@ -3135,7 +3292,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(683, Short.MAX_VALUE))
+                .addContainerGap(712, Short.MAX_VALUE))
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3240,13 +3397,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel43.setFont(new java.awt.Font("Geneva", 1, 14)); // NOI18N
         jLabel43.setText("This is an information tab, changing checkboxes here is a waste of time!");
 
-        jButton1.setText("are selected points coplanar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
         jPanel28.setLayout(jPanel28Layout);
         jPanel28Layout.setHorizontalGroup(
@@ -3299,15 +3449,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jCheckBoxVectorClosedPolygon, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jCheckBoxVectorOrderedClosedPolygon, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(36, 36, 36)
-                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel40)
                             .addComponent(jLabel39)
-                            .addGroup(jPanel28Layout.createSequentialGroup()
-                                .addComponent(jLabel41)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel41)))
                     .addGroup(jPanel28Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jCheckBoxSameIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -3317,7 +3462,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel28Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jCheckBox2dOnly, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
         jPanel28Layout.setVerticalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3339,14 +3484,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGap(1, 1, 1)
                 .addComponent(jCheckBoxOnePath)
                 .addGap(0, 0, 0)
-                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
-                        .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jCheckBoxVectorsContinuous)
-                        .addComponent(jLabel41)))
-                .addGap(0, 0, 0)
+                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBoxVectorsContinuous)
+                    .addComponent(jLabel41))
+                .addGap(4, 4, 4)
                 .addComponent(jCheckBoxVectorClosedPolygon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxVectorOrderedClosedPolygon)
@@ -3393,7 +3534,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane5)
+            .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3524,7 +3665,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel31.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButtonSelectAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/asterisk_orange.png"))); // NOI18N
-        jButtonSelectAll.setToolTipText("select all");
+        jButtonSelectAll.setToolTipText("select all (vectors)");
         jButtonSelectAll.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonSelectAll.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonSelectAll.setPreferredSize(new java.awt.Dimension(65, 19));
@@ -3799,11 +3940,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(applyCurrent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(applyCurrent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -3891,15 +4030,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jRadioButtonSelectLineActionPerformed
 
     private void jCheckBoxGridItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxGridItemStateChanged
-        singleVectorPanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.Int0(jTextFieldGridWidth.getText()));
+        singleVectorPanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.IntX(jTextFieldGridWidth.getText(),1));
     }//GEN-LAST:event_jCheckBoxGridItemStateChanged
 
     private void jTextFieldGridWidthFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldGridWidthFocusLost
-        singleVectorPanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.Int0(jTextFieldGridWidth.getText()));
+        singleVectorPanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.IntX(jTextFieldGridWidth.getText(),1));
     }//GEN-LAST:event_jTextFieldGridWidthFocusLost
 
     private void jTextFieldGridWidthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldGridWidthActionPerformed
-        singleVectorPanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.Int0(jTextFieldGridWidth.getText()));
+        singleVectorPanel1.setGrid(jCheckBoxGrid.isSelected(), de.malban.util.UtilityString.IntX(jTextFieldGridWidth.getText(),1));
     }//GEN-LAST:event_jTextFieldGridWidthActionPerformed
 
     private void jCheckBoxContinueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxContinueActionPerformed
@@ -4448,6 +4587,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         singleVectorPanel1.deleteSelectedVector();
         jTable1.tableChanged(null);
         fillStatus();
+        initFaces();
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jMenuItemLineDeleteActionPerformed
 
@@ -4463,6 +4603,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         addHistory();
         singleVectorPanel1.clearVectors();
         jTable1.tableChanged(null);
+        initFaces();
         fillStatus();
     }//GEN-LAST:event_jButtonOneForwardSelection1ActionPerformed
 
@@ -4714,12 +4855,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
 //        copy.setRelativeWherePossible();
         setCurrentVectorList(copy);
         singleVectorPanel1.sharedRepaint();
+        initFaces();
         fillStatus();
     }//GEN-LAST:event_jButtonClearAnimationActionPerformed
 
     private void jMenuItemDeleteNotSelectedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDeleteNotSelectedActionPerformed
         addHistory();
         singleVectorPanel1.deleteNotSelectedVector();
+        initFaces();
         fillStatus();
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
         
@@ -4834,49 +4977,16 @@ public class VeccyPanel extends javax.swing.JPanel implements
         addHistory();
         GFXVectorList listNow = singleVectorPanel1.getForegroundVectorList();
         
-        // remove non selected!
-        ArrayList<GFXVector> toRemove = new ArrayList<GFXVector>();
+        listNow.removePoints();
         
-        for (int i=0; i<listNow.size(); i++)
-        {
-            GFXVector v = listNow.get(i);
-            if ((v.start.x() == v.end.x()) && (v.start.y() == v.end.y()))
-            {
-                if ((v.start_connect != null) && (v.end_connect!=null))
-                {
-                    
-                    v.start_connect.end_connect = v.end_connect;
-                    v.start_connect.uid_end_connect = v.uid_end_connect;
-
-                    v.end_connect.start_connect = v.start_connect;
-                    v.end_connect.uid_start_connect = v.uid_start_connect;
-                }
-                else if (v.start_connect != null)
-                {
-                    v.start_connect.end_connect = null;
-                    v.start_connect.uid_end_connect = -1;
-                    v.start_connect.setRelativ(false);
-                }
-                else if (v.end_connect != null)
-                {
-                    v.end_connect.start_connect = null;
-                    v.end_connect.uid_start_connect = -1;
-                    v.end_connect.setRelativ(false);
-                }
-                toRemove.add(v);
-            }
-                
-                
-        }
-        for (GFXVector v: toRemove)
-            listNow.remove(v);
-
+        
         singleVectorPanel1.sharedRepaint();
         
         mClassSetting++;
         jTable1.tableChanged(null);
         mClassSetting--;
         setSelectedInTable();
+        verifyFaces();
         fillStatus();
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonRemoveDotsActionPerformed
@@ -4949,6 +5059,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         addHistory();
         centerVectorList();
         fillStatus();
+        verifyFaces();
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -4956,6 +5067,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         addHistory();
         fitByteRange();
         fillStatus();
+        verifyFaces();
         singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
@@ -5053,6 +5165,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         singleVectorPanel1.setForegroundVectorList(vl);
         singleVectorPanel1.sharedRepaint();
+        initFaces();
         jTable1.tableChanged(null);
         fillStatus();
         
@@ -5093,6 +5206,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         vl.scaleAll(scale, safetyMap);
         singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
+        verifyFaces();
         fillStatus();
 
     }//GEN-LAST:event_jButtonEnlargeActionPerformed
@@ -5107,6 +5221,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
         singleVectorPanel1.sharedRepaint();
         jTable1.tableChanged(null);
+        verifyFaces();
         fillStatus();
     }//GEN-LAST:event_jButtonShrinkActionPerformed
 
@@ -5214,6 +5329,22 @@ public class VeccyPanel extends javax.swing.JPanel implements
         GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         String name = jTextFieldLabelListname.getText();
         if (name.trim().length() == 0) name = "VectorList";
+        if (jCheckBoxVec32.isSelected())
+        {
+            String text = vl.createASMDraw_VL_modeBASIC(name);
+            copy(text);
+            
+            if (jCheckBoxRunnable.isSelected())
+            {
+                text = "function getVectorList()\n" + text + "\n     return VectorList\nendfunction\n";
+                Path template = Paths.get(".", "template", "drawVectorlist.bas");
+                String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                text = main +"\n"+text;
+            }
+            
+            jTextAreaResult.setText(text);
+            return;
+        }
         String text = vl.createASMDraw_VL_mode(name, false, jCheckBoxAddFactor.isSelected());
         if (jCheckBoxAddFactor.isSelected())
         {
@@ -5562,6 +5693,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             v.end = p2;            
         }
         singleVectorPanel1.sharedRepaint();
+        verifyFaces();
         jTable1.repaint();
         fillStatus();
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
@@ -5604,6 +5736,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
         singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
+        verifyFaces();
         fillStatus();
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonMirrorVerticallyActionPerformed
@@ -5642,6 +5775,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
         singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
+        verifyFaces();
         fillStatus();
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jButtonMirrorHorizontallyActionPerformed
@@ -5777,7 +5911,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         SingleVectorPanel.displayLen = jCheckBox1.isSelected();
         jTable1.tableChanged(null);
     }//GEN-LAST:event_jCheckBox1ActionPerformed
-ArrayList<Vertex> getCurrentSelectedPoints()
+    
+    ArrayList<Vertex> getCurrentSelectedPoints()
     {
         ArrayList<Vertex> listOfPoints = new ArrayList<Vertex>();
         ArrayList<GFXVector> toTranslocate = singleVectorPanel1.getSelectedPointVectors();
@@ -5805,145 +5940,133 @@ ArrayList<Vertex> getCurrentSelectedPoints()
         }
         return listOfPoints;
     }
-    int getA(Vertex p1, Vertex p2, Vertex p3)
-    {
-        int x1 = (int)p1.x();
-        int y1 = (int)p1.y();
-        int z1 = (int)p1.z();
-        int x2 = (int)p2.x();
-        int y2 = (int)p2.y();
-        int z2 = (int)p2.z();
-        int x3 = (int)p3.x();
-        int y3 = (int)p3.y();
-        int z3 = (int)p3.z();
-        int A = y1*(z2-z3) + y2*(z3-z1)+y3*(z1-z2);
-        return A;
-    }
-    int getB(Vertex p1, Vertex p2, Vertex p3)
-    {
-        int x1 = (int)p1.x();
-        int y1 = (int)p1.y();
-        int z1 = (int)p1.z();
-        int x2 = (int)p2.x();
-        int y2 = (int)p2.y();
-        int z2 = (int)p2.z();
-        int x3 = (int)p3.x();
-        int y3 = (int)p3.y();
-        int z3 = (int)p3.z();
-        int B = z1*(x2-x3) + z2*(x3-x1)+z3*(x1-x2);
-        return B;
-    }
-    int getC(Vertex p1, Vertex p2, Vertex p3)
-    {
-        int x1 = (int)p1.x();
-        int y1 = (int)p1.y();
-        int z1 = (int)p1.z();
-        int x2 = (int)p2.x();
-        int y2 = (int)p2.y();
-        int z2 = (int)p2.z();
-        int x3 = (int)p3.x();
-        int y3 = (int)p3.y();
-        int z3 = (int)p3.z();
-        int C = x1*(y2-y3) + x2*(y3-y1)+x3*(y1-y2);
-        return C;
-    }
-    int getD(Vertex p1, Vertex p2, Vertex p3)
-    {
-        int x1 = (int)p1.x();
-        int y1 = (int)p1.y();
-        int z1 = (int)p1.z();
-        int x2 = (int)p2.x();
-        int y2 = (int)p2.y();
-        int z2 = (int)p2.z();
-        int x3 = (int)p3.x();
-        int y3 = (int)p3.y();
-        int z3 = (int)p3.z();
-        int D =-( x1*(y2*z3 - y3*z2) +x2*(y3*z1-y1*z3) +x3*(y1*z2-y2*z1));
-        return D;
-    }
-
-    // if possible find a set of non colinear points, tha
-    // determine a plane
-    ArrayList<Vertex> getPlaneDefinition(ArrayList<Vertex> listOfPoints)
-    {
-        if (listOfPoints.size()<3) return null;
-        for (int p1 =0; p1<listOfPoints.size();p1++)
-        {
-            for (int p2 =1; p2<listOfPoints.size();p2++)
-            {
-                for (int p3 =2; p3<listOfPoints.size();p3++)
-                {
-                    int A = getA(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
-                    int B = getB(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
-                    int C = getC(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
-                    int D = getD(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
-
-                    // if the points are colinear,  ABC = 0!
-                    if (!((A==0) && (B==0) && (C==0)))
-                    {
-                        ArrayList<Vertex> list = new ArrayList<Vertex>();
-                        list.add(listOfPoints.get(p1));
-                        list.add(listOfPoints.get(p2));
-                        list.add(listOfPoints.get(p3));
-                        return list;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-    
-    
-    boolean isCoplanar(ArrayList<Vertex> listOfPoints)
-    {
-        if (listOfPoints.size()<=3)
-        {
-            // trivial
-            return true;
-        }
-        ArrayList<Vertex> plane = getPlaneDefinition(listOfPoints);
-        // all points lie on a line
-        if (plane == null)
-        {
-            // nearly trivial
-            return true;
-        }
-        // plane defining determinats
-        int A = getA(plane.get(0), plane.get(1), plane.get(2));
-        int B = getB(plane.get(0), plane.get(1), plane.get(2));
-        int C = getC(plane.get(0), plane.get(1), plane.get(2));
-        int D = getD(plane.get(0), plane.get(1), plane.get(2));
-
-        // test all points
-        for (Vertex p:listOfPoints)
-        {
-            int test = A*((int)p.x()) + B*((int)p.y()) + C*((int)p.z()) +D;
-            if (test != 0)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         // coplanar check, see: http://paulbourke.net/geometry/pointlineplane/
-        ArrayList<Vertex> listOfPoints = getCurrentSelectedPoints();
+        ArrayList<Vertex> listOfPoints =  singleVectorPanel1.getPointSelectionOrder();
+        //ArrayList<Vertex> listOfPoints = getCurrentSelectedPoints();
         ArrayList<Vertex> plane = getPlaneDefinition(listOfPoints);
         if (plane == null)
         {
             jLabel55.setText("not even a plane");
         }
-        if (isCoplanar(listOfPoints))
+        else if (isCoplanar(listOfPoints))
         {
             jLabel55.setText("coplanar");
+            addFace((ArrayList<Vertex>)listOfPoints.clone()); // shallow copy!
         }
         else
         {
             jLabel55.setText("not coplanar");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        HLines hlines = new HLines();
+        
+        GFXVectorList vl = single3dDisplayPanel.getDisplayVectorList();
+        
+        GFXVectorList pvl = hlines.processVectorlist(vl);
+        
+        pvl.resetDisplay();
+        currentAnimation.add(pvl);
+//        selectedAnimationFrameUID = pvl.uid;
+//        preSelectedAnimationFrameUID = pvl.uid;
+//        setCurrentListFromUID(selectedAnimationFrameUID, true);
+        redrawAnimation();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        removeFaces();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jTableFaceComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTableFaceComponentResized
+        resetFaceTable();
+    }//GEN-LAST:event_jTableFaceComponentResized
+
+    private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
+        JTable table =(JTable) evt.getSource();
+        Point p = evt.getPoint();
+        int row = table.rowAtPoint(p);
+        int col = table.columnAtPoint(p);
+        if (!jRadioButtonSelectPoint.isSelected()) return;
+
+        if (evt.getButton() == MouseEvent.BUTTON1)
+        {
+            Vertex selected = null;
+            GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
+            if (row <0) return;
+            if (row >= vl.size()) return;
+            GFXVector vector = vl.get(row);
+            if ((col>=1) && (col <=3)) // start vertex
+                selected = vector.start;
+            else if ((col>=4) && (col <=6)) // end vertex
+                selected = vector.end;
+            if (selected == null) return;
+            
+            if (evt.isShiftDown())
+            {
+                singleVectorPanel1.addToSelectedVPoint(selected);
+            }
+            else
+            {
+                singleVectorPanel1.setToSelectedVPoint(selected);
+            }
+        }
+        if (evt.getButton() == MouseEvent.BUTTON2)
+        {
+            Vertex selected = null;
+            GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
+            if (row <0) return;
+            if (row >= vl.size()) return;
+            GFXVector vector = vl.get(row);
+            if ((col>=1) && (col <=3)) // start vertex
+                selected = vector.start;
+            else if ((col>=4) && (col <=6)) // end vertex
+                selected = vector.end;
+            if (selected == null) return;
+            
+            if (evt.isShiftDown())
+            {
+                singleVectorPanel1.removeToSelectedVPoint(selected);
+            }
+            singleVectorPanel1.sharedRepaint();
+        }
+        jTable1.repaint();
+    }//GEN-LAST:event_jTable1MousePressed
+
+    String lastImagePath = "";
+    private void jButtonLoad2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoad2ActionPerformed
+
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setMultiSelectionEnabled(true);
+        if (lastImagePath.length()==0)
+        {
+            lastImagePath="."+File.separator;
+            fc.setCurrentDirectory(new java.io.File(lastImagePath));
+        }
+        else
+        {
+            fc.setCurrentDirectory(new java.io.File(lastImagePath));
+        }
+        FileNameExtensionFilter  filter = new  FileNameExtensionFilter("Wavefront", "obj");
+        fc.setFileFilter(filter);
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        File[] files = fc.getSelectedFiles();
+        String fullPath;
+        if ((files == null) || (files.length == 1))
+        {
+            fullPath = fc.getSelectedFile().getAbsolutePath();
+        }
+        else // add multiple images
+        {
+            fullPath = files[0].getAbsolutePath();
+        }
+        lastImagePath =fullPath;
+        loadObject(fullPath);
+    }//GEN-LAST:event_jButtonLoad2ActionPerformed
 
     // interface function for communication of events with singleVectorPanel
     public void pressed(EditMouseEvent evt)
@@ -6189,6 +6312,7 @@ ArrayList<Vertex> getCurrentSelectedPoints()
                     }
                 }
                 jTable1.tableChanged(null);
+                verifyFaces();
             }
             if ((jRadioButtonSelectLine.isSelected())&& (!svp.isSelecting()))
             {
@@ -6225,6 +6349,7 @@ ArrayList<Vertex> getCurrentSelectedPoints()
                 }    
                 
                 jTable1.tableChanged(null);
+                verifyFaces();
             }
             setSelectedInTable();
             jTable1.repaint();
@@ -6269,10 +6394,12 @@ ArrayList<Vertex> getCurrentSelectedPoints()
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton2dAxis;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton3dAxis;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButtonAddCurrent;
     private javax.swing.JButton jButtonAddCurrent1;
     private javax.swing.JButton jButtonAnimCodeGen;
@@ -6311,6 +6438,7 @@ ArrayList<Vertex> getCurrentSelectedPoints()
     private javax.swing.JButton jButtonLeft;
     private javax.swing.JButton jButtonLoad;
     private javax.swing.JButton jButtonLoad1;
+    private javax.swing.JButton jButtonLoad2;
     private javax.swing.JButton jButtonMirrorHorizontally;
     private javax.swing.JButton jButtonMirrorVertically;
     private javax.swing.JButton jButtonMov_Draw_VLc_a;
@@ -6343,6 +6471,7 @@ ArrayList<Vertex> getCurrentSelectedPoints()
     private javax.swing.JCheckBox jCheckBox2dOnly;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
+    private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JCheckBox jCheckBoxAddFactor;
     private javax.swing.JCheckBox jCheckBoxArrows;
     private javax.swing.JCheckBox jCheckBoxAutoApply;
@@ -6368,6 +6497,7 @@ ArrayList<Vertex> getCurrentSelectedPoints()
     private javax.swing.JCheckBox jCheckBoxSameIntensity;
     private javax.swing.JCheckBox jCheckBoxSamePattern;
     private javax.swing.JCheckBox jCheckBoxScaleToByte;
+    private javax.swing.JCheckBox jCheckBoxVec32;
     private javax.swing.JCheckBox jCheckBoxVectorClosedPolygon;
     private javax.swing.JCheckBox jCheckBoxVectorOrderedClosedPolygon;
     private javax.swing.JCheckBox jCheckBoxVectorsContinuous;
@@ -6423,6 +6553,7 @@ ArrayList<Vertex> getCurrentSelectedPoints()
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -6485,6 +6616,8 @@ ArrayList<Vertex> getCurrentSelectedPoints()
     private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -6506,6 +6639,7 @@ ArrayList<Vertex> getCurrentSelectedPoints()
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSlider jSliderFront;
     private javax.swing.JSlider jSliderFront1;
     private javax.swing.JSlider jSliderFrontTranslocationX;
@@ -6526,6 +6660,7 @@ ArrayList<Vertex> getCurrentSelectedPoints()
     private javax.swing.JTabbedPane jTabbedPane7;
     private javax.swing.JTabbedPane jTabbedPane8;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableFace;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextAreaResult;
@@ -6615,6 +6750,8 @@ ArrayList<Vertex> getCurrentSelectedPoints()
     public void clearVectors()
     {
         singleVectorPanel1.clearVectors();
+        initFaces();
+        resetFaceTable();
         jTable1.tableChanged(null);
     }
     public boolean saveCurrentList(String filename)
@@ -6831,6 +6968,7 @@ ArrayList<Vertex> getCurrentSelectedPoints()
         singleVectorPanel1.clearVectors();
         singleVectorPanel1.addForegroundVectorList(vl.list);
         jTable1.tableChanged(null);
+        initFaces();
         fillStatus();
         single3dDisplayPanel.repaint();
     }
@@ -7073,36 +7211,60 @@ ArrayList<Vertex> getCurrentSelectedPoints()
             Matrix4x4 roty = Matrix4x4.getRotationY(Math.toRadians(angleY));
             Matrix4x4 rotz = Matrix4x4.getRotationZ(Math.toRadians(angleZ));
          
+            HashMap<Vertex, Vertex> noDouble = new HashMap<Vertex, Vertex>();
             for (int c = 0; c <newList.size(); c++)
             {
                 GFXVector v = newList.get(c);
+ 
+                // transformation
                 Vertex p1 = v.start;
                 Vertex p2 = v.end;
 
-                p1 = rotx.multiply(p1);
-                p2 = rotx.multiply(p2);
-                p1 = roty.multiply(p1);
-                p2 = roty.multiply(p2);
-                p1 = rotz.multiply(p1);
-                p2 = rotz.multiply(p2);
-
-                p1.coords[0] = Math.round(p1.coords[0]);
-                p1.coords[1] = Math.round(p1.coords[1]);
-                p1.coords[2] = Math.round(p1.coords[2]);
-
-                p2.coords[0] = Math.round(p2.coords[0]);
-                p2.coords[1] = Math.round(p2.coords[1]);
-                p2.coords[2] = Math.round(p2.coords[2]);
-
-                v.start = p1;
-                v.end = p2;            
+                if (noDouble.get(p1) == null)
+                {
+                    noDouble.put(p1,p1);
+                    p1 = rotx.multiply(p1);
+                    p1 = roty.multiply(p1);
+                    p1 = rotz.multiply(p1);
+                    p1.coords[0] = Math.round(p1.coords[0]);
+                    p1.coords[1] = Math.round(p1.coords[1]);
+                    p1.coords[2] = Math.round(p1.coords[2]);
+                    v.start.set(p1);
+                }
+                if (noDouble.get(p2) == null)
+                {
+                    noDouble.put(p2,p2);
+                    p2 = rotx.multiply(p2);
+                    p2 = roty.multiply(p2);
+                    p2 = rotz.multiply(p2);
+                    p2.coords[0] = Math.round(p2.coords[0]);
+                    p2.coords[1] = Math.round(p2.coords[1]);
+                    p2.coords[2] = Math.round(p2.coords[2]);
+                    v.end.set(p2);
+                }
             }
             newList.resetDisplay();
 
+            if (jCheckBox5.isSelected())
+            {
+                // hidden line removal
+                HLines hlines = new HLines();
+                GFXVectorList newListHLR = hlines.processVectorlist(newList.clone());
+                newListHLR.resetDisplay();
+                currentAnimation.add(newListHLR);
+                selectedAnimationFrameUID = newListHLR.uid;
+                preSelectedAnimationFrameUID = selectedAnimationFrameUID;
+            }
+            else
+            {
+                currentAnimation.add(newList);
+                selectedAnimationFrameUID = newList.uid;
+                preSelectedAnimationFrameUID = selectedAnimationFrameUID;
+            }
+                
             
-            currentAnimation.add(newList);
-            selectedAnimationFrameUID = newList.uid;
-            preSelectedAnimationFrameUID = selectedAnimationFrameUID;
+            
+            
             
             angleX+=incX;
             angleY+=incY;
@@ -7316,6 +7478,7 @@ ArrayList<Vertex> getCurrentSelectedPoints()
         newVl.connectWherePossible(false);
         singleVectorPanel1.setForegroundVectorList(newVl);
         singleVectorPanel1.sharedRepaint();
+        initFaces();
         jTable1.tableChanged(null);
     }
     
@@ -7379,6 +7542,7 @@ ArrayList<Vertex> getCurrentSelectedPoints()
         
         singleVectorPanel1.sharedRepaint();
         jTable1.repaint();
+        verifyFaces();
     }
     void fitByteRange()
     {
@@ -7391,8 +7555,8 @@ ArrayList<Vertex> getCurrentSelectedPoints()
             double mul = 127.0/max;
             HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
             vl.scaleAll(mul, safetyMap);
-            return;
         }
+        verifyFaces();
     }
     void doScenario()
     {
@@ -7532,8 +7696,9 @@ ArrayList<Vertex> getCurrentSelectedPoints()
             single3dDisplayPanel1.setAnimation(new GFXVectorAnimation());
             single3dDisplayPanel1.setForegroundVectorList(newList);
             single3dDisplayPanel1.setDelay(-1);
-
             singleVectorPanel1.setForegroundVectorList(newList);
+            initFaces();
+
             jTable1.tableChanged(null);
         }
     }
@@ -7671,6 +7836,14 @@ ArrayList<Vertex> getCurrentSelectedPoints()
             jButtonDraw_VLc.setEnabled(false);
         }
         if (!jCheckBoxVectorsContinuous.isSelected())
+        {
+            jButtonMov_Draw_VLc_a.setEnabled(false);
+            jButtonDraw_VLc.setEnabled(false);
+            jButtonDraw_VLp.setEnabled(false);
+            jButtonDraw_VL_mode.setEnabled(false);
+            jButtonCodeGen.setEnabled(false);
+        }
+        if (!vl.testOrdered())
         {
             jButtonMov_Draw_VLc_a.setEnabled(false);
             jButtonDraw_VLc.setEnabled(false);
@@ -7837,6 +8010,654 @@ ArrayList<Vertex> getCurrentSelectedPoints()
         }
         redrawAnimation();
     }    
+    int getA(Vertex p1, Vertex p2, Vertex p3)
+    {
+        int x1 = (int)p1.x();
+        int y1 = (int)p1.y();
+        int z1 = (int)p1.z();
+        int x2 = (int)p2.x();
+        int y2 = (int)p2.y();
+        int z2 = (int)p2.z();
+        int x3 = (int)p3.x();
+        int y3 = (int)p3.y();
+        int z3 = (int)p3.z();
+        int A = y1*(z2-z3) + y2*(z3-z1)+y3*(z1-z2);
+        return A;
+    }
+    int getB(Vertex p1, Vertex p2, Vertex p3)
+    {
+        int x1 = (int)p1.x();
+        int y1 = (int)p1.y();
+        int z1 = (int)p1.z();
+        int x2 = (int)p2.x();
+        int y2 = (int)p2.y();
+        int z2 = (int)p2.z();
+        int x3 = (int)p3.x();
+        int y3 = (int)p3.y();
+        int z3 = (int)p3.z();
+        int B = z1*(x2-x3) + z2*(x3-x1)+z3*(x1-x2);
+        return B;
+    }
+    int getC(Vertex p1, Vertex p2, Vertex p3)
+    {
+        int x1 = (int)p1.x();
+        int y1 = (int)p1.y();
+        int z1 = (int)p1.z();
+        int x2 = (int)p2.x();
+        int y2 = (int)p2.y();
+        int z2 = (int)p2.z();
+        int x3 = (int)p3.x();
+        int y3 = (int)p3.y();
+        int z3 = (int)p3.z();
+        int C = x1*(y2-y3) + x2*(y3-y1)+x3*(y1-y2);
+        return C;
+    }
+    int getD(Vertex p1, Vertex p2, Vertex p3)
+    {
+        int x1 = (int)p1.x();
+        int y1 = (int)p1.y();
+        int z1 = (int)p1.z();
+        int x2 = (int)p2.x();
+        int y2 = (int)p2.y();
+        int z2 = (int)p2.z();
+        int x3 = (int)p3.x();
+        int y3 = (int)p3.y();
+        int z3 = (int)p3.z();
+        int D =-( x1*(y2*z3 - y3*z2) +x2*(y3*z1-y1*z3) +x3*(y1*z2-y2*z1));
+        return D;
+    }
+
+    // if possible find a set of non colinear points, that
+    // determine a plane
+    ArrayList<Vertex> getPlaneDefinition(ArrayList<Vertex> listOfPoints)
+    {
+        if (listOfPoints.size()<3) return null;
+        for (int p1 =0; p1<listOfPoints.size();p1++)
+        {
+            for (int p2 =1; p2<listOfPoints.size();p2++)
+            {
+                for (int p3 =2; p3<listOfPoints.size();p3++)
+                {
+                    int A = getA(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
+                    int B = getB(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
+                    int C = getC(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
+                    int D = getD(listOfPoints.get(p1), listOfPoints.get(p2), listOfPoints.get(p3));
+
+                    // if the points are colinear,  ABC = 0!
+                    if (!((A==0) && (B==0) && (C==0)))
+                    {
+                        ArrayList<Vertex> list = new ArrayList<Vertex>();
+                        list.add(listOfPoints.get(p1));
+                        list.add(listOfPoints.get(p2));
+                        list.add(listOfPoints.get(p3));
+                        return list;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    
+    boolean isCoplanar(ArrayList<Vertex> listOfPoints)
+    {
+        if (listOfPoints.size()<=3)
+        {
+            // trivial
+            return true;
+        }
+        ArrayList<Vertex> plane = getPlaneDefinition(listOfPoints);
+        // all points lie on a line
+        if (plane == null)
+        {
+            // nearly trivial
+            return true;
+        }
+        // plane defining determinats
+        int A = getA(plane.get(0), plane.get(1), plane.get(2));
+        int B = getB(plane.get(0), plane.get(1), plane.get(2));
+        int C = getC(plane.get(0), plane.get(1), plane.get(2));
+        int D = getD(plane.get(0), plane.get(1), plane.get(2));
+
+        // test all points
+        for (Vertex p:listOfPoints)
+        {
+            int test = A*((int)p.x()) + B*((int)p.y()) + C*((int)p.z()) +D;
+            if (test != 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }    
+    void addFace(ArrayList<Vertex> listOfPoints)
+    {
+        Face face = new Face();
+        int newId = getNewFaceId();
+        face.faceID = newId;
+        
+        String id = ""+newId;
+        int pos = 0;
+        for (Vertex v: listOfPoints)
+        {
+            v.face.add(id+"|"+pos);
+            pos++;
+        }
+        face.vertice = (ArrayList<Vertex>) listOfPoints;
+        
+        String idString = face.getPointsString();
+        
+        boolean doubleFace = false;
+        
+        for (Face otherFace: faces)
+        {
+            String otherIdString = otherFace.getPointsString();
+            if (idString.equals(otherIdString))
+            {
+                doubleFace = true;
+                break;
+            }
+        }
+        if (doubleFace) return;
+        faces.add(face);
+        resetFaceTable();
+    }
+    public class FaceTableModel extends AbstractTableModel
+    {
+        public final String[] NAMES = new String[] {"id","uids", "points"};
+        @Override
+        public int getColumnCount() { return 3;}
+        @Override
+        public int getRowCount() { return faces.size();}
+        @Override
+        public Object getValueAt(int row, int col) { 
+          if (col == 0) return faces.get(row).faceID;
+          if (col == 1) return faces.get(row).getUidsString();
+          if (col == 2) return faces.get(row).getPointsString();
+          return "-";
+        }
+        
+        @Override
+        public boolean isCellEditable(int row, int col) {
+            return false;
+        }
+        
+        @Override
+        public Class<?> getColumnClass(int col) 
+        {
+            if (col == 0) return Integer.class;
+            if (col == 1) return String.class;
+            if (col == 2) return String.class;
+            return Object.class;
+        }
+        
+        public void setValueAt(Object aValue, int row, int col)
+        {
+        }
+        
+        public String getColumnName(int col) 
+        {
+          return NAMES[col];
+        }
+    };    
+
+    
+    void verifyFaces()
+    {
+        boolean removed = false;
+        ArrayList<Face> toRemove = new ArrayList<Face>();
+        for (Face f: faces)
+        {
+            if (!isCoplanar(f.vertice))
+            {
+                toRemove.add(f);
+            }
+            for (Vertex v: f.vertice)
+            {
+                if (!singleVectorPanel1.getForegroundVectorList().contains(v))
+                {
+                    toRemove.add(f);
+                    break;
+                }
+            }
+            
+        }
+        for (Face f: toRemove)
+        {
+            removeFace(f);
+            removed = true;
+        }
+        if (removed)
+            resetFaceTable();
+        else
+            jTableFace.repaint();
+    }
+    // removes in table selected face "lines"
+    void removeFaces()
+    {
+        boolean removed = false;
+        ArrayList<Face> toRemove = new ArrayList<Face>();
+        int[] selected = jTableFace.getSelectedRows();
+        for (int i=selected.length-1; i>=0; i--)
+        {
+            toRemove.add(faces.get(selected[i]));
+        }
+        for (Face f: toRemove)
+        {
+            removeFace(f);
+            removed = true;
+        }
+        if (removed)
+            resetFaceTable();
+    }
+    
+    // alters arraylist "faces"
+    void removeFace(Face face)
+    {
+        faces.remove(face);
+        int pos = 0;
+        for (Vertex v: face.vertice)
+        {
+            v.face.remove(""+face.faceID+"|"+pos);
+            pos++;
+        }
+    }
+    int getNewFaceId()
+    {
+        int id = 0;
+        boolean faceIdunique=true;
+        
+        do 
+        {
+            id++;
+            faceIdunique = true;
+            for (Face f: faces)
+            {
+                if (f.faceID == id) 
+                {
+                    faceIdunique=false;
+                    break;
+                }
+            }
+            
+        }while (!faceIdunique);
+        
+        return id;
+    }
+    
+    void initFaces()
+    {
+        faces = singleVectorPanel1.getForegroundVectorList().buildFacelist();
+        verifyFaces();
+        resetFaceTable();
+    }
+    void resetFaceTable()
+    {
+        int widthAll = jTableFace.getWidth();
+        jTableFace.tableChanged(null);
+        jTableFace.getColumnModel().getColumn(0).setMaxWidth(40);
+        jTableFace.getColumnModel().getColumn(1).setMaxWidth(200);
+        jTableFace.getColumnModel().getColumn(2).setMaxWidth(widthAll-40-200);
+        jTableFace.repaint();
+    }
+    
+    void faceSelectionChanged()
+    {
+        // todo select points of face (when in point mode)
+        if (!jRadioButtonSelectPoint.isSelected()) return;
+        
+        // deleselect all
+        GFXVectorList listNow = singleVectorPanel1.getForegroundVectorList();
+        for (int i=0; i<listNow.size(); i++)
+        {
+            GFXVector v = listNow.get(i);
+            v.selected = false;
+            if (v.start != null)
+                v.start.selected = false;
+            if (v.end != null)
+                v.end.selected = false;
+        }
+        
+        // select vertice
+        int[] selected = jTableFace.getSelectedRows();
+        for (int i=selected.length-1; i>=0; i--)
+        {
+            Face face = faces.get(selected[i]);
+            for (Vertex v: face.vertice)
+            {
+                v.selected = true;
+            }
+        }
+        jTable1.repaint();
+        singleVectorPanel1.sharedRepaint();
+    }
+    void loadObject(String fullPath)
+    {
+        boolean ok = false;
+        
+        ArrayList<Vertex> vertexList = new ArrayList<Vertex>();
+        ArrayList<Face> faceList = new ArrayList<Face>();        
+        try 
+        {
+            BufferedReader br = new BufferedReader(new FileReader(fullPath));
+            try 
+            {
+                StringBuilder sb = new StringBuilder();
+                String line = br.readLine();
+                while (line != null) 
+                {
+                    doOneObjectLine(line, vertexList, faceList);
+                    line = br.readLine();
+                }
+                ok = true;
+            } 
+            catch (Throwable ex)
+            {
+                // ignore
+                log.addLog(ex, WARN);
+            }
+            finally 
+            {
+                br.close();
+            }        
+        } 
+        catch (Throwable ex)
+        {
+            // ignore
+            ok = false;
+        }
+        if (!ok) return;
+        
+        
+        addHistory();
+        singleVectorPanel1.clearVectors();
+        
+        scaleAndRound(faceList, 127);
+        
+        GFXVectorList vlist = buildVectorList(faceList);
+        
+        vlist.removeDoubles();
+        singleVectorPanel1.setForegroundVectorList(vlist);
+        
+        jTable1.tableChanged(null);
+        initFaces();
+        fillStatus();
+    }
+    void doOneObjectLine(String line, ArrayList<Vertex> vertexList, ArrayList<Face> faceList)
+    {
+        // easy - ignore all lines that do not start with 'v' (vertec) or 'f' (face)
+        line = line.toLowerCase().trim();
+        line = de.malban.util.UtilityString.replaceWhiteSpaces(line, " ");
+        line = de.malban.util.UtilityString.replace(line,"  "," ");
+        
+        // no vertex when faces have begun!
+        if (line.startsWith("v ")) 
+        {
+            //if (faceList.size()>0) return; // stay in for relative references
+            line = line.substring(2).trim(); // remove "v "
+            String[] coords = line.split(" ");
+            if (coords.length<3) 
+            {
+                log.addLog("Load OBJ, v line with less than 3 parameters", WARN);
+                return; // at least three coordinates
+            }
+            Vertex vertex = new Vertex();
+            vertex.x(de.malban.util.UtilityString.DoubleX(coords[0], 0));
+            vertex.y(de.malban.util.UtilityString.DoubleX(coords[1], 0));
+            vertex.z(de.malban.util.UtilityString.DoubleX(coords[2], 0));
+//System.out.println("Vertex read: "+coords[0]+", "+coords[1]+", "+coords[2]);            
+//System.out.println("Vertex value: "+vertex);            
+            vertexList.add(vertex);
+        }
+        else if (line.startsWith("f "))
+        {
+            line = line.substring(2).trim(); // remove "f "
+            String[] vertexNo = line.split(" ");
+            Face face = new Face();
+            face.type = Face.FACE;
+            for (int i=0; i<vertexNo.length; i++)
+            {
+                String no = vertexNo[i];
+                if (no.contains("/"))
+                {
+                    no = no.substring(0, no.indexOf("/"));
+                }
+                int noI = de.malban.util.UtilityString.Int0(no.trim());
+                if (noI==0) 
+                {
+                    log.addLog("Load OBJ, f with 0 (zero) vertex reference", WARN);
+                    continue; // something is wrong
+                }
+                else if (noI>0)
+                {
+                    if (noI>vertexList.size()) 
+                    {
+                        log.addLog("Load OBJ, f with to large vertex reference ("+noI+")", WARN);
+                        continue; // something is wrong
+                    }
+                    noI--; // start at 1
+                    face.vertice.add(vertexList.get(noI));
+                }
+                else if (noI<0)
+                {
+                    noI = vertexList.size()-noI;
+                    if (noI<0) 
+                    {
+                        log.addLog("Load OBJ, f with out of bounds relative reference ("+noI+")", WARN);
+                        continue; // something is wrong
+                    }
+                    face.vertice.add(vertexList.get(noI));
+                }
+            }
+            faceList.add(face);
+        }
+        else if (line.startsWith("p "))
+        {
+            line = line.substring(2).trim(); // remove "p "
+            String[] vertexNo = line.split(" ");
+            Face face = new Face();
+            face.type = Face.POINT;
+            for (int i=0; i<vertexNo.length; i++)
+            {
+                String no = vertexNo[i];
+                if (no.contains("/"))
+                {
+                    no = no.substring(0, no.indexOf("/"));
+                }
+                int noI = de.malban.util.UtilityString.Int0(no.trim());
+                if (noI==0) 
+                {
+                    log.addLog("Load OBJ, p with 0 (zero) vertex reference", WARN);
+                    continue; // something is wrong
+                }
+                else if (noI>0)
+                {
+                    if (noI>vertexList.size()) 
+                    {
+                        log.addLog("Load OBJ, p with to large vertex reference ("+noI+")", WARN);
+                        continue; // something is wrong
+                    }
+                    noI--; // start at 1
+                    face.vertice.add(vertexList.get(noI));
+                }
+                else if (noI<0)
+                {
+                    noI = vertexList.size()-noI;
+                    if (noI<0) 
+                    {
+                        log.addLog("Load OBJ, p with out of bounds relative reference ("+noI+")", WARN);
+                        continue; // something is wrong
+                    }
+                    face.vertice.add(vertexList.get(noI));
+                }
+            }
+            faceList.add(face);
+        }    
+        else if (line.startsWith("l "))
+        {
+            line = line.substring(2).trim(); // remove "l "
+            String[] vertexNo = line.split(" ");
+            Face face = new Face();
+            face.type = Face.LINE;
+            for (int i=0; i<vertexNo.length; i++)
+            {
+                String no = vertexNo[i];
+                if (no.contains("/"))
+                {
+                    no = no.substring(0, no.indexOf("/"));
+                }
+                int noI = de.malban.util.UtilityString.Int0(no.trim());
+                if (noI==0) 
+                {
+                    log.addLog("Load OBJ, l with 0 (zero) vertex reference", WARN);
+                    continue; // something is wrong
+                }
+                else if (noI>0)
+                {
+                    if (noI>vertexList.size()) 
+                    {
+                        log.addLog("Load OBJ, l with to large vertex reference ("+noI+")", WARN);
+                        continue; // something is wrong
+                    }
+                    noI--; // start at 1
+                    face.vertice.add(vertexList.get(noI));
+                }
+                else if (noI<0)
+                {
+                    noI = vertexList.size()-noI;
+                    if (noI<0) 
+                    {
+                        log.addLog("Load OBJ, l with out of bounds relative reference ("+noI+")", WARN);
+                        continue; // something is wrong
+                    }
+                    face.vertice.add(vertexList.get(noI));
+                }
+            }
+            faceList.add(face);
+        }    
+    }
+    GFXVectorList buildVectorList(ArrayList<Face> faceList)
+    {
+        GFXVectorList vlist = new GFXVectorList();
+        int faceCounter = 0;
+        for (Face face : faceList)
+        {
+            int vertexCount = 0;
+            faceCounter++;
+            Vertex lastVertex = null;
+            GFXVector lastVector = null;
+            for (Vertex vertex: face.vertice)
+            {
+                if (face.type == Face.POINT)
+                {
+                    GFXVector vector = new GFXVector();
+                    vector.start = vertex;
+                    vector.end = vertex;
+                    vlist.add(vector);
+                    continue;
+                }
+                if (face.type == Face.LINE)
+                {
+                    if (lastVertex == null)
+                    {
+                        lastVertex = vertex;
+                        continue;
+                    }
+                    
+                    GFXVector vector = new GFXVector();
+                    vector.start = lastVertex;
+                    vector.end = vertex;
+                    lastVertex = vertex;
+                    vector.start.face.add(""+faceCounter+"|"+0);
+                    vector.end.face.add(""+faceCounter+"|"+1);
+                    faceCounter++; // lines each have an own "face"
+                    if (lastVector!=null)
+                    {
+                        vector.start_connect = lastVector;
+                        vector.uid_start_connect = lastVector.uid;
+                        lastVector.end_connect = vector;
+                        lastVector.uid_end_connect = vector.uid;
+                    }
+                    lastVector = vector;
+                    vlist.add(vector);
+                    continue;
+                }
+                if (face.type == Face.FACE)
+                {
+                    if (lastVertex == null)
+                    {
+                        vertex.face.add(""+faceCounter+"|"+(vertexCount++));
+                        lastVertex = vertex;
+                        continue;
+                    }
+                    vertex.face.add(""+faceCounter+"|"+(vertexCount++));
+                    
+                    GFXVector vector = new GFXVector();
+                    vector.start = lastVertex;
+                    vector.end = vertex;
+                    lastVertex = vertex;
+                    if (lastVector!=null)
+                    {
+                        vector.start_connect = lastVector;
+                        vector.uid_start_connect = lastVector.uid;
+                        lastVector.end_connect = vector;
+                        lastVector.uid_end_connect = vector.uid;
+                    }
+                    lastVector = vector;
+                    vlist.add(vector);
+                    continue;
+                }            
+            }
+            // add a connection from last point to first point of a face
+            if (face.type == Face.FACE)
+            {
+                GFXVector vector = new GFXVector();
+                vector.start = lastVertex;
+                vector.end = face.vertice.get(0);
+                {
+                    vector.start_connect = lastVector;
+                    vector.uid_start_connect = lastVector.uid;
+                    lastVector.end_connect = vector;
+                    lastVector.uid_end_connect = vector.uid;
+                }
+                vlist.add(vector);
+            }
+            
+            
+        }
+        return vlist;
+    }
+    // scale the loaded floats to "maxVal" and round to "integer"
+    void scaleAndRound(ArrayList<Face> faceList, int maxVal)
+    {
+        double max = 0;
+        for (Face face : faceList)
+        {
+            for (Vertex vertex: face.vertice)
+            {
+                if (Math.abs(vertex.x())>max) max = vertex.x();
+                if (Math.abs(vertex.y())>max) max = vertex.y();
+                if (Math.abs(vertex.z())>max) max = vertex.z();
+            }
+        }
+        HashMap<Vertex, Vertex> safety = new HashMap<Vertex, Vertex>();
+        double scale = ((double)maxVal)/max;
+        for (Face face : faceList)
+        {
+            for (Vertex vertex: face.vertice)
+            {
+                if (safety.get(vertex)==null)
+                {
+                    safety.put(vertex,vertex);
+                    vertex.x((int)(vertex.x()*scale));
+                    vertex.y((int)(vertex.y()*scale));
+                    vertex.z((int)(vertex.z()*scale));
+                }
+            }
+        }
+        
+    }
+
 }
 
 

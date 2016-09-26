@@ -1,4 +1,4 @@
-package de.malban.gtest;
+package de.malban.vide.veccy.gtest;
 // Point2D.java: Class for points in logical coordinates.
 
 // Copied from Section 1.5 of

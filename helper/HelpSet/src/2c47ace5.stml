@@ -12,6 +12,6 @@ All other (child) windows are opened from the "main" windows.
 
 :h3 Navigation
 - Each window is accessable (uniconify/bring to front), via the window menu
-- Using CTRL/TAB gives access to a “quick” Window switcher
+- Using CTRL/TAB gives access to a "quick" Window switcher
 - Windows can be iconified to the desktop
 - Thru tinylaf, themes are supported

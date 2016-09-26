@@ -371,3 +371,30 @@ The button "image to vector" is explained in its own "Vector image" section.
 
 :h3 Figure
 Ignore these for now...
+
+:h3 Faces- Hidden line removal
+:image faces.png|Faces
+Vecci is capable of doing a HLR (Hidden line removal) from the display of 3d-"figures".
+In order to do HLR following steps have to be considered:
+- the result of a HLR is a two dimensional vector list, which usually is unordered, not a polygon and not continous, so the export possibilities are somewhat restrained
+- a HLR only makes sense on a 3d "object"
+- to hide anything, there must be something where it can be hidden BEHIND, behind a line or a linesegment nothing can be hidden. Therefor the "objects" must have "faces" which represents a surface, plane, region, zone or whatever you want to call it
+- under the tab "faces" you can define, delete and see all faces that are currently defined
+- the only way to define a face (apart from loading a file) is to select "points" in your vectorlist and press "add selected as face"
+- the selected points must all lie within one plane (coplanar), otherwise they will not be accepted as a face
+- the selected points must be sufficient to //define// a plane (at least three points which are not colinear), otherwise they will not be accepted as a face
+- in order to define faces you must be in mode "POINT" (otherwise you can not select points)
+- you can select points either in the vector editing "grids" or in the table. Clicking in the table on one of the columns that displays a point - selects that point
+- multiple selection (as always) is possible holding SHIFT (also in table)
+- deselecting a point is also possible using the middle mouse button (on multi selection remember to keep shift pressed) (also in table)
+- Note: The table (due to using shift and the resulting multi selects in the table) does not display the selection corretly. Look at the editor grids to see which points are actually currently selected
+
+
+Moving points of a face can "destroy" the face. A face gets deleted automatically from the face list, when its points are no longer coplanar.
+
+The HLR is executed with the 3d-settings which result in the DISPLAY image (that enables the user to chose the point of view to on the figure - see tab 3d-settings).
+
+The result of the HLR is added to the animation/scenario list.
+
+
+

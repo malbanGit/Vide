@@ -409,6 +409,11 @@
 <Title>... a demo written</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
+<DocumentNode>
+<Filename>f4bb2ad3</Filename>
+<Title>Vectrex32</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
 </DocumentNode>
 <DocumentNode>
 <Filename>d89a00cd</Filename>
@@ -487,7 +492,7 @@
 </DocumentNode>
 <DocumentNode>
 <Filename>6fa35300</Filename>
-<Title>Other: Copyrights and Licenses...</Title>
+<Title>Code: Copyrights and Licenses...</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
@@ -832,6 +837,12 @@
 <Width>1232</Width>
 <Height>385</Height>
 </Image>
+<Image Name="Vec32Help.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1474485854000</Timestamp>
+<Width>1239</Width>
+<Height>983</Height>
+</Image>
 <Image Name="VecLink.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
 <Timestamp>1471351504000</Timestamp>
@@ -951,6 +962,24 @@
 <Timestamp>1463000622000</Timestamp>
 <Width>1070</Width>
 <Height>747</Height>
+</Image>
+<Image Name="VideNameBig.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1473167530000</Timestamp>
+<Width>1092</Width>
+<Height>500</Height>
+</Image>
+<Image Name="VideNameNormal.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1473167755000</Timestamp>
+<Width>546</Width>
+<Height>250</Height>
+</Image>
+<Image Name="Violine.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1474838180000</Timestamp>
+<Width>926</Width>
+<Height>310</Height>
 </Image>
 <Image Name="WheelEdit1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1329,6 +1358,12 @@
 <Timestamp>1468950462000</Timestamp>
 <Width>951</Width>
 <Height>1277</Height>
+</Image>
+<Image Name="faces.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1474910758000</Timestamp>
+<Width>1491</Width>
+<Height>870</Height>
 </Image>
 <Image Name="folder_go.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
@@ -1797,6 +1832,7 @@
 <ThumbName Image="SpudsterExample.png">bdc09cf9</ThumbName>
 <ThumbName Image="ThrustShipExample.png">02672c43</ThumbName>
 <ThumbName Image="VaboomExample.png">5289f79b</ThumbName>
+<ThumbName Image="Vec32Help.png">cf6e8727</ThumbName>
 <ThumbName Image="VecLink.png">c65a1f10</ThumbName>
 <ThumbName Image="VecSpeech.png">2448b746</ThumbName>
 <ThumbName Image="VecVoxCodeGen0.png">7cca829c</ThumbName>
@@ -1817,6 +1853,9 @@
 <ThumbName Image="VectorImageCodeGen4.png">006398a9</ThumbName>
 <ThumbName Image="VectorImageCodeGen5.png">0d309497</ThumbName>
 <ThumbName Image="VectorPanel.png">2744932f</ThumbName>
+<ThumbName Image="VideNameBig.png">ae557053</ThumbName>
+<ThumbName Image="VideNameNormal.png">8dd47803</ThumbName>
+<ThumbName Image="Violine.png">31123a6e</ThumbName>
 <ThumbName Image="WheelEdit1.png">5592027c</ThumbName>
 <ThumbName Image="YMCodeGen0.png">15242f11</ThumbName>
 <ThumbName Image="YMCodeGen1.png">9aefb652</ThumbName>
@@ -1880,6 +1919,7 @@
 <ThumbName Image="eEprom2.png">4a0341cf</ThumbName>
 <ThumbName Image="eEprom3.png">d9432b52</ThumbName>
 <ThumbName Image="eEprom4.png">85b31845</ThumbName>
+<ThumbName Image="faces.png">72f5fc58</ThumbName>
 <ThumbName Image="folder_go.png">f93f3c91</ThumbName>
 <ThumbName Image="frogSynced.png">44a12649</ThumbName>
 <ThumbName Image="gameLoop2.png">118930dd</ThumbName>

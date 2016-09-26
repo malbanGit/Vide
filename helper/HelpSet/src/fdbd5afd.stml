@@ -3,10 +3,15 @@
 
 :h2 What java version do you need to start/use VIDE?
 I do all development with the - at the time - newest java version. I was told, that you need at least Java 1.8.~~ An exception:~~
-//Exception in thread "main" java.lang.UnsupportedClassVersionError: de/malban/VideMain : Unsupported major.minor version 52.0~~
+//Exception in thread "main" java.lang.UnsupportedClassVersionError: de/malban/VideMain: Unsupported major.minor version 52.0~~
 at java.lang.ClassLoader.defineClass1(Native Method)~~
 ...~~//
 will occur if your java version is to old.
+
+:h2 I (try) to run Vide under Win 10 and it is REALLY slow!
+Apparently this has to do with the correct/incorrect java version. I myself do not have a windows 10 system available. But "Manu" discovered, that under under windows 10 [Quote]:~~::~~
+"The solution is here: [[https://java.com/en/download/manual.jsp]] - you need to download (also) the 64-bit version of Java, and it's not the >normal< download that they offer on the front page."::
+
 
 :h2 How do I enter new cartridges to the Starter?
 - Open the cartridge panel (menu: File->Extra->EditCartridgeInfo)

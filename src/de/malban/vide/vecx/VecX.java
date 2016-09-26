@@ -2245,7 +2245,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
     /* perform a single cycle worth of analog emulation */
     
-    int THRES = 200;
+ //   int THRES = 200;
     long noiseCycles = 0;
     void analogStep()
     {
@@ -2259,31 +2259,42 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
              * calculate distance to origin and use that as dx,dy.
              */
 
-            sig_dx = (config.ALG_MAX_X / 2 - (int)alg_curr_x);
-            sig_dy = (config.ALG_MAX_Y / 2 - (int)alg_curr_y);
-/* Doing the below threshold does not reset zero fast enough
-            // this can be seen most in berzerk arena, labyrinht drawin
-            // zeroing there is very optimized!
             
-            // this is just fun - not real!
-            THRES -= 2;
-            if (THRES<10) THRES =10;
-            if ((ALG_MAX_X / 2 - (int)alg_curr_x)>THRES*THRES ) sig_dx = THRES*THRES;
-            else if ((ALG_MAX_X / 2 - (int)alg_curr_x)<-THRES*THRES ) sig_dx = -THRES*THRES;
-            else sig_dx = (ALG_MAX_X / 2 - (int)alg_curr_x);
+
+            if (alg_curr_x<config.ALG_MAX_X/2)
+            {
+                // smaller 0
+                sig_dx+= ((config.ALG_MAX_X/2)-alg_curr_x)/2;
+            }
+            else if (alg_curr_x>config.ALG_MAX_X/2)
+            {
+                // greater 0
+                sig_dx-= (alg_curr_x-(config.ALG_MAX_X/2))/2;
+            }
+            if (alg_curr_y<config.ALG_MAX_Y/2)
+            {
+                // smaller 0
+                sig_dy+= ((config.ALG_MAX_Y/2)-alg_curr_y)/2;
+            }
+            else if (alg_curr_x>config.ALG_MAX_Y/2)
+            {
+                // greater 0
+                sig_dy-= (alg_curr_y-(config.ALG_MAX_Y/2))/2;
+            }
             
-            if ((ALG_MAX_Y / 2 - (int)alg_curr_y)>THRES*THRES ) sig_dy = THRES*THRES;
-            else if ((ALG_MAX_Y / 2 - (int)alg_curr_y)<-THRES*THRES ) sig_dy = -THRES*THRES;
-            else sig_dy = (ALG_MAX_Y / 2 - (int)alg_curr_y);
-            */
+            sig_dx = (config.ALG_MAX_X / 2 - (int)alg_curr_x)/4;
+            sig_dy = (config.ALG_MAX_Y / 2 - (int)alg_curr_y)/4;
+            
+            
         } 
-        else 
+        //else 
+        // no else anymore, integrating can be done WHILE zeroing (see my discussion in forum Vectrex32)
         {
-            THRES = 60;
+//            THRES = 60;
             if (sig_ramp.intValue== 0) 
             {
-                sig_dx = alg_xsh.intValue;
-                sig_dy = -alg_ysh.intValue;
+                sig_dx += alg_xsh.intValue;
+                sig_dy += -alg_ysh.intValue;
                 
                 //fraction = false;
                 if (rampOnFraction)
@@ -2319,8 +2330,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         alg_vector_y1 = (int)alg_curr_y;
                     }        
                 }
-                sig_dx = 0;
-                sig_dy = 0;
+             //  sig_dx = 0;
+             //   sig_dy = 0;
             }
         }
 
@@ -2428,7 +2439,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             } 
             
             
-            else if (imagerColorChanged || xChanged || yChanged || alg_zsh.intValue != alg_vector_color ||  (sig_zero.intValue == 0) || ((sig_ramp.intValue== 0) != alg_ramping) ) 
+            else if (imagerColorChanged || xChanged || yChanged || alg_zsh.intValue != alg_vector_color /*||  (sig_zero.intValue == 0)*/ || ((sig_ramp.intValue== 0) != alg_ramping) ) 
             {
                 /* the parameters of the vectoring processing has changed.
                  * so end the current line.
@@ -2509,7 +2520,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             double yTest = alg_curr_y - (config.ALG_MAX_Y / 2);
 
             double xPercent = Math.abs( xTest / (config.ALG_MAX_X / 2) );
-            double yPercent = Math.abs( xTest / (config.ALG_MAX_X / 2) );
+            double yPercent = Math.abs( yTest / (config.ALG_MAX_Y / 2) );
 
             double xEfficience = 1.0-(xPercent)/config.efficiency;
             double yEfficience = 1.0-(yPercent)/config.efficiency;
@@ -2523,13 +2534,28 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             alg_curr_x += sig_dx;
             alg_curr_y += sig_dy;
         }        
-/*        
-        if (alg_curr_x<(ALG_MAX_X / 2)) alg_curr_x += Math.abs(config.drift_x);
-        else alg_curr_x -= Math.abs(config.drift_x);
-        
-        if (alg_curr_y<(ALG_MAX_Y / 2)) alg_curr_y += Math.abs(config.drift_y);
-        else alg_curr_y -= Math.abs(config.drift_y);
-*/
+/* drift to only zero not working well        
+        if (alg_curr_x<config.ALG_MAX_X/2)
+        {
+            // smaller 0
+            alg_curr_x+= Math.abs(config.drift_x);
+        }
+        else if (alg_curr_x>config.ALG_MAX_X/2)
+        {
+            // greater 0
+            alg_curr_x-= Math.abs(config.drift_x);
+        }
+        if (alg_curr_y<config.ALG_MAX_Y/2)
+        {
+            // smaller 0
+            alg_curr_y+= Math.abs(config.drift_y);
+        }
+        else if (alg_curr_y>config.ALG_MAX_Y/2)
+        {
+            // greater 0
+            alg_curr_y-= Math.abs(config.drift_y);
+        }
+        */
         
         alg_curr_x-= config.drift_x;
         alg_curr_y-= config.drift_y;

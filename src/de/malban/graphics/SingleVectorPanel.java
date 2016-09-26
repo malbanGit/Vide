@@ -49,6 +49,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         boolean continueMode = false;
         Vertex continueStart = new Vertex();
         Vertex hightLightVPoint = null;
+        ArrayList<Vertex> selectedVertexOrder = new ArrayList<Vertex>();
         GFXVector hightLightVector = null;
     
         int xOffset = 0;
@@ -406,6 +407,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     public void clearForegroundVectorList()
     {
         vars.foregroundVectors.clear();
+        clearSelectedVertice();
         sharedRepaint();
     }
     public void joinAllPointsAtHighlight()
@@ -428,6 +430,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     public void clearVectors()
     {
         vars.foregroundVectors.clear();
+        clearSelectedVertice();
         sharedRepaint();
     }
     public void deleteHighlitedVector()
@@ -446,6 +449,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
             vars.hightLightVector.end_connect.setRelativ(false);
         }
         vars.hightLightVector = null;
+        clearSelectedVertice();
         sharedRepaint();
     }
     
@@ -478,6 +482,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         }
         vars.foregroundVectors.remove(vars.hightLightVector);
         vars.hightLightVector = null;
+        clearSelectedVertice();
         sharedRepaint();
     }
     public void deleteNotSelectedVector()
@@ -518,6 +523,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     public void setForegroundVectorList(GFXVectorList fv)
     {
         vars.foregroundVectors.clear();
+        clearSelectedVertice();
         addForegroundVectorList(fv.list);
     }
     public void addForegroundVectorList(GFXVectorList fv)
@@ -575,6 +581,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     }
     public void setGrid(boolean g, int w)
     {
+        if (w<=0) w=1;
         vars.displayGrid=g;
         vars.gridWidth = w;
         sharedRepaint();
@@ -1355,6 +1362,8 @@ public class SingleVectorPanel extends javax.swing.JPanel
             vars.hightLightVPoint.selected = true;
             sharedRepaint();
             vars.selecting = false;
+            clearSelectedVertice();
+            addVertexSelection(vars.hightLightVPoint);
            return true;
         }
         vars.selecting = true;
@@ -1368,6 +1377,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         {
             vars.hightLightVPoint.selected = true;
             sharedRepaint();
+            addVertexSelection(vars.hightLightVPoint);
             vars.selecting = false;
             return true;
         }
@@ -1375,12 +1385,42 @@ public class SingleVectorPanel extends javax.swing.JPanel
         sharedRepaint();
         return false;
     }
+    public boolean setToSelectedVPoint(Vertex point)
+    {
+        unselectAll();
+        point.selected = true;
+        vars.selecting = true;
+        clearSelectedVertice();
+        addVertexSelection(point);
+        sharedRepaint();
+        return false;
+    }
+    
+    //
+    public boolean addToSelectedVPoint(Vertex point)
+    {
+        point.selected = true;
+        vars.selecting = true;
+        addVertexSelection(point);
+        sharedRepaint();
+        return false;
+    }
+    public boolean removeToSelectedVPoint(Vertex point)
+    {
+        point.selected = false;
+        vars.selecting = true;
+        sharedRepaint();
+        removeVertexSelection(point);
+        return false;
+    }
+    
     // 
     public boolean removeHighlightedToSelectedVPoint()
     {
         if (vars.hightLightVPoint != null)
         {
             vars.hightLightVPoint.selected = false;
+            removeVertexSelection(vars.hightLightVPoint);
         }
         sharedRepaint();
         return true;
@@ -1520,6 +1560,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
                 v.end.selected = false;
                 v.selected = false;
             }
+            clearSelectedVertice();
         }
         sharedRepaint();
     }
@@ -1693,7 +1734,8 @@ public class SingleVectorPanel extends javax.swing.JPanel
         double maxY = startVec.coord()[verticalAxis]; // vectrex coordinates in Y switch min Max!
         double minY = endVec.coord()[verticalAxis];
         
-        
+        clearSelectedVertice();
+
         if (vars.workingMode == SVP_SELECT_POINT)
         {
             synchronized (vars.foregroundVectors.list)
@@ -1704,6 +1746,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
                          (v.start.coord()[verticalAxis]> minY) && (v.start.coord()[verticalAxis]< maxY) ) 
                     {
                         v.start.selected=true;
+                        addVertexSelection(v.start);
                     }
                     else
                     {
@@ -1713,6 +1756,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
                          (v.end.coord()[verticalAxis]> minY) && (v.end.coord()[verticalAxis]< maxY) ) 
                     {
                         v.end.selected=true;
+                        addVertexSelection(v.end);
                     }
                     else
                     {
@@ -2150,6 +2194,28 @@ public class SingleVectorPanel extends javax.swing.JPanel
         g.setColor(c);
         
     }
+    
+    void clearSelectedVertice()
+    {
+        vars.selectedVertexOrder.clear();
+    }
+    void addVertexSelection(Vertex v)
+    {
+        if (v == null) return;
+        vars.selectedVertexOrder.remove(v); // allow doubles for a closed poligon?
+        vars.selectedVertexOrder.add(v);
+    }
+    void removeVertexSelection(Vertex v)
+    {
+        if (v == null) return;
+        vars.selectedVertexOrder.remove(v);
+    }
+    
+    public ArrayList<Vertex> getPointSelectionOrder()
+    {
+        return vars.selectedVertexOrder;
+    }
+    
 }
 
 

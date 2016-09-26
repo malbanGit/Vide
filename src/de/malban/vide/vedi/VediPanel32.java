@@ -21,9 +21,6 @@ import de.malban.util.KeyboardListener;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.util.UtilityString;
 import de.malban.util.syntax.entities.ASM6809FileInfo;
-import de.malban.util.syntax.entities.EntityDefinition;
-import de.malban.util.syntax.entities.LabelSink;
-import de.malban.util.syntax.entities.MacroSink;
 import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DASM6809;
 import static de.malban.vide.dissy.DissiPanel.eval;
@@ -75,13 +72,11 @@ import javax.swing.tree.TreePath;
  *
  * @author malban
  * 
- * Sytanx strategy
- * - load text file
- * - scan textfile for includes/macros/labels
- * - enable syntax checker
- * - update all definitions while editing
+ * See: http://fazecast.github.io/jSerialComm/
  * 
  * 
+ * Vectrex32 vectorlists wants data X,Y and "non" relative
+ * vectrex32 files must use windows style textfiles (0x0d + 0x0a at the end of a line)
  * 
  * 
  */
@@ -291,6 +286,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
                     }
                     else
                     {
+                        edi.setBasic(true);
                         lastLoadedFile = fn;
                     }
                 }
@@ -426,7 +422,6 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             String settingsAbs = de.malban.util.Utility.makeAbsolut(fullPathname);
             if (settings.currentOpenFiles.contains(settingsAbs))
             {
-                
                 return null;
             }
             if (settings.currentOpenFiles.contains(settingsRel))
@@ -447,6 +442,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         if (addToSettings)
             settings.currentOpenFiles.add(fullPathname);
         edi.setParent(this);
+        edi.setBasic(true);
         return edi;
     }
     ImagePanel addImageDisplay(String fullPathname, boolean addToSettings)
@@ -513,7 +509,6 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuNewFileMenu = new javax.swing.JMenu();
-        jMenuItemVectrexFile = new javax.swing.JMenuItem();
         jMenuItemNewFile = new javax.swing.JMenuItem();
         jPopupMenuTree = new javax.swing.JPopupMenu();
         jMenuItemFileProperties = new javax.swing.JMenuItem();
@@ -570,6 +565,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         jButtonRefresh = new javax.swing.JButton();
         jTextFieldCommand = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jButtonShowPSG = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jComboBoxSerial = new javax.swing.JComboBox();
@@ -587,14 +583,6 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         });
 
         jMenuNewFileMenu.setText("new file");
-
-        jMenuItemVectrexFile.setText("new vectrex file");
-        jMenuItemVectrexFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemVectrexFileActionPerformed(evt);
-            }
-        });
-        jMenuNewFileMenu.add(jMenuItemVectrexFile);
 
         jMenuItemNewFile.setText("new empty file");
         jMenuItemNewFile.addActionListener(new java.awt.event.ActionListener() {
@@ -765,7 +753,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         });
 
         jButtonAssemble.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_play_blue.png"))); // NOI18N
-        jButtonAssemble.setToolTipText("Assemble current file, if project is loaded, build project and run it (if so defined in config).");
+        jButtonAssemble.setToolTipText("Save and run current file in Vectrex 32");
         jButtonAssemble.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonAssemble.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -801,7 +789,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         });
         jScrollPane1.setViewportView(jTree1);
 
-        jTabbedPane2.addTab("Project", jScrollPane1);
+        jTabbedPane2.addTab("Files", jScrollPane1);
 
         jSplitPane2.setLeftComponent(jTabbedPane2);
 
@@ -813,6 +801,14 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             }
         });
 
+        jEditorLog.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jEditorLogMousePressed(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jEditorLogMouseClicked(evt);
+            }
+        });
         jEditorLog.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jEditorLogKeyTyped(evt);
@@ -836,7 +832,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         jSplitPane1.setBottomComponent(jPanel2);
 
         jButtonNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/new.png"))); // NOI18N
-        jButtonNew.setToolTipText("new Project");
+        jButtonNew.setToolTipText("new file");
         jButtonNew.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonNew.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -850,7 +846,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         });
 
         jButtonPrettyPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/text_columns.png"))); // NOI18N
-        jButtonPrettyPrint.setToolTipText("Pretty print (as9 only)");
+        jButtonPrettyPrint.setToolTipText("Syntax highlight restart");
         jButtonPrettyPrint.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonPrettyPrint.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1049,6 +1045,15 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         jLabel7.setText("ask:");
         jLabel7.setEnabled(false);
 
+        jButtonShowPSG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/sound_add.png"))); // NOI18N
+        jButtonShowPSG.setToolTipText("YM Window");
+        jButtonShowPSG.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonShowPSG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonShowPSGActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1077,7 +1082,9 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
                 .addComponent(jButtonPrettyPrint)
                 .addGap(46, 46, 46)
                 .addComponent(jButtonAssemble)
-                .addGap(108, 108, 108)
+                .addGap(77, 77, 77)
+                .addComponent(jButtonShowPSG)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1106,9 +1113,10 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
                     .addComponent(jButtonRefresh)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7)))
-                .addGap(2, 2, 2)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 752, Short.MAX_VALUE)
+                        .addComponent(jLabel7))
+                    .addComponent(jButtonShowPSG))
+                .addGap(1, 1, 1)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -1116,10 +1124,12 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         jLabel8.setText("serial");
 
         jComboBoxSerial.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxSerial.setToolTipText("Chose available serial connection for Vectrex 32");
 
         jLabel9.setText("filesystem");
 
         jButton1.setText("connect");
+        jButton1.setToolTipText("Connect to Vectrex 32 using the given parameters");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -1127,6 +1137,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_refresh.png"))); // NOI18N
+        jButton2.setToolTipText("Refresh serial connections provided by the OS");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -1139,6 +1150,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         jTextFieldPath.setFocusable(false);
 
         jButtonFileSelect1.setText("...");
+        jButtonFileSelect1.setToolTipText("Chose the \"mountpoint\" of the Vectrex 32 USB-drive");
         jButtonFileSelect1.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonFileSelect1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1219,7 +1231,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
         EditorPanel edi = getSelectedEditor();
         if (edi == null) return;
-        
+        edi.setODOA(true);
         edi.save(KeyboardListener.isShiftDown());
         printMessage("\""+getSelectedEditor().getFilename()+"\" saved.");
     }//GEN-LAST:event_jButtonSaveActionPerformed
@@ -1305,7 +1317,18 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         // just compile current
         EditorPanel edit = getSelectedEditor();
         if (edit == null) return;
+        edit.setODOA(true);
         edit.save(false);
+        
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (Throwable ex)
+        {
+            
+        }
+        
         printMessage("\""+getSelectedEditor().getFilename()+"\" saved.");
         String fname = getSelectedEditor().getFilename();
         if (fname == null) return;
@@ -1479,120 +1502,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     private void jButtonPrettyPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrettyPrintActionPerformed
 
         if (getSelectedEditor()==null) return;
-        StringBuilder b = new StringBuilder();
-        String orgText = getSelectedEditor().getText();
-        String[] lines = orgText.split("\n");
-        for (String line: lines)
-        {
-            boolean doSeperator = false;
-            boolean inComment = false;
-            int c = 0;
-            int w = 0;
-            if ((line.contains("\"")) || (line.contains("\'")))
-            {
-                int commentPos = line.indexOf(";");
-                int q1 = line.indexOf("\"");
-                int q2 = line.indexOf("'");
-                if (q1 == -1) q1 = Integer.MAX_VALUE;
-                if (q2 == -1) q2 = Integer.MAX_VALUE;
-                if (commentPos == -1) commentPos = Integer.MAX_VALUE;
-                
-                if (!((commentPos<q1) && (commentPos<q2)))
-                {
-                    b.append(prettyQuoteLine(line)).append("\n"); // 
-                    continue;
-                }
-            }
-            if (line.trim().length()==0) continue;
-            if (line.charAt(0)==';')
-            {
-                b.append(line).append("\n"); // leave them for now
-                continue;
-            }
-            line = UtilityString.replace(line, "\t", " ");
-            String[] words = line.split(" ");
-
-            if (!UtilityString.isWordBoundry(line.charAt(0)))
-            {
-                b.append(words[w]).append(" ");
-                c+=words[w].length()+1;
-                w++;
-            }
-            if (w>=words.length)
-            {
-                b.append("\n"); 
-                continue;
-            }
-            c = spaceTo(b, c, TAB_MNEMONIC);
-            while (words[w].length()==0) w++;
-            b.append(words[w]).append(" ");
-            
-            if (words[w].toLowerCase().equals("rts")) doSeperator = true;
-            if (words[w].toLowerCase().equals("jmp")) doSeperator = true;
-            if (words[w].toLowerCase().equals("bra")) doSeperator = true;
-            if (words[w].toLowerCase().equals("lbra")) doSeperator = true;
-            
-            c+=words[w].length()+1;
-            w++;
-
-            if (!(line.toString().trim().startsWith(";")))
-                c = spaceTo(b, c, TAB_OP);
-            for (;w<words.length;w++)
-            {
-                if (words[w].length()!=0)
-                {
-                    b.append(words[w]).append(" ");
-                    c+=words[w].length()+1;
-                }
-            }
-            b.append("\n");
-            if (doSeperator)
-                b.append("\n");
-        }
-        String text = b.toString();
-        b = new StringBuilder();
-        lines = text.split("\n");
-        for (String line: lines)
-        {
-            boolean inComment = false;
-            int c = 0;
-            int w = 0;
-            int commentPos = -1;
-            if ((line.contains("\"")) || (line.contains("\'")))
-            {
-                
-                commentPos = line.indexOf(";");
-                int q1 = line.indexOf("\"");
-                int q2 = line.indexOf("'");
-                if (q1 == -1) q1 = Integer.MAX_VALUE;
-                if (q2 == -1) q2 = Integer.MAX_VALUE;
-                if (commentPos == -1) commentPos = Integer.MAX_VALUE;
-                
-                if (!((commentPos<q1) && (commentPos<q2)))
-                {
-                    commentPos = getFirstnonQuoteComment(line);
-                }
-            }
-            else
-            {
-                
-                commentPos = line.indexOf(";");
-            }
-            if (commentPos <= 0)
-            {
-                b.append(line).append("\n"); // 
-                continue;
-            }
-            String preComment = UtilityString.trimEnd(line.substring(0, commentPos));
-            String comment = line.substring(commentPos);
-            b.append(preComment);
-            c = preComment.length();
-            c = spaceTo(b, c, TAB_COMMENT);
-            b.append(comment).append("\n");
-        }
-        text = b.toString();
         getSelectedEditor().stopColoring();
-        getSelectedEditor().setText(text);
         getSelectedEditor().startColoring();
     }//GEN-LAST:event_jButtonPrettyPrintActionPerformed
 
@@ -1600,6 +1510,10 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
 
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
         
+        if (lastPath.length()==0)
+        {
+            lastPath = jTextFieldPath.getText();
+        }
         if (lastPath.length()==0)
         {
             fc.setCurrentDirectory(new java.io.File("."+File.separator));
@@ -1648,49 +1562,6 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         if (KeyboardListener.isShiftDown()) return;
         jPopupMenu1.show(jButtonNew, evt.getX()-20,evt.getY()-20);
     }//GEN-LAST:event_jButtonNewMousePressed
-
-    private void jMenuItemVectrexFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVectrexFileActionPerformed
-        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
-        
-        if (lastPath.length()==0)
-        {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
-        }
-        else
-        {
-            fc.setCurrentDirectory(new java.io.File(lastPath));
-        }
-        
-        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
-        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
-        lastPath = fc.getSelectedFile().getAbsolutePath();
-        
-        File newFile = new File(lastPath);
-        if (newFile.exists())
-        {
-            JOptionPane pane = new JOptionPane("The file already exists, do you really want\nto create a new file?\n\nAll previous data will be lost!", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
-            int answer = JOptionPaneDialog.show(pane);
-            if (answer == JOptionPane.YES_OPTION)
-                System.out.println("YES");
-            else
-            {
-                System.out.println("NO");
-                return;
-            }
-        }
-        
-        Path template = Paths.get(".", "template", "vectrexMain.template");
-        de.malban.util.UtilityFiles.copyOneFile(template.toString(), lastPath);
-        Path include = Paths.get(".", "template", "VECTREX.I");
-        
-        
-        Path p = Paths.get(lastPath);
-        File includeFile = new File(p.getParent().toString()+File.separator+ "VECTREX.I");
-        de.malban.util.UtilityFiles.copyOneFile(include.toString(), includeFile.toString());
-        
-        addEditor(lastPath, true);        
-        oneTimeTab = null;
-    }//GEN-LAST:event_jMenuItemVectrexFileActionPerformed
 
     private void jMenuItemFilePropertiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFilePropertiesActionPerformed
         doFileProperties(selectedTreeEntry);
@@ -1762,6 +1633,10 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         refreshTree();
     }//GEN-LAST:event_jMenuItemDuplicateActionPerformed
 
+    public void processIncludeLine(String s)
+    {
+        
+    }
      
     
     private void jMenuItemActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemActionActionPerformed
@@ -1809,19 +1684,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     }//GEN-LAST:event_jMenuItemRasterActionPerformed
 
     private void jMenuItemYMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemYMActionPerformed
-        // check for a property file!
-        String type ="";
-        String pathFull ="";
-        String pathOnly ="";
-        String filenameOnly ="";
-        String filenameBaseOnly ="";
-        Path p = Paths.get(selectedTreeEntry.pathAndName.toString());
-        pathFull = p.toString();
-        pathOnly = p.getParent().toString();
-        filenameOnly = p.getFileName().toString();
-        YMJPanel.showYMPanelNoModal(pathFull, this);
-
-
+        YMJPanel.showYMPanelNoModal(currentStartPath.toString(), this);
     }//GEN-LAST:event_jMenuItemYMActionPerformed
     boolean fileView = true;
     private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
@@ -1957,6 +1820,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     }//GEN-LAST:event_jTree1MousePressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        currentStartPath = Paths.get(jTextFieldPath.getText());
         connect();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -1984,6 +1848,31 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         refreshTree();
 
     }//GEN-LAST:event_jButtonFileSelect1ActionPerformed
+
+    private void jEditorLogMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jEditorLogMousePressed
+        if (evt.getClickCount() == 2) 
+        {
+            Point pt = new Point(evt.getX(), evt.getY());
+            int pos = jEditorLog.viewToModel(pt);
+            int line = getLineOfPos(jEditorLog, pos);
+            if (line != -1)
+            {
+                String lineString = getLine(jEditorLog, line);
+                if (!lineString.contains("At line ")) 
+                    return;
+                processErrorLine(lineString);
+            }
+        }
+    }//GEN-LAST:event_jEditorLogMousePressed
+
+    private void jEditorLogMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jEditorLogMouseClicked
+        pos = getCursorPos();
+    }//GEN-LAST:event_jEditorLogMouseClicked
+
+    private void jButtonShowPSGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonShowPSGActionPerformed
+        YMJPanel.showYMPanelNoModal(currentStartPath.toString(), this);
+
+    }//GEN-LAST:event_jButtonShowPSGActionPerformed
     
     public void doQuickHelp(String word, String integer)
     {
@@ -2014,7 +1903,8 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     {
         try
         {
-            return comp.getDocument().getText(0, comp.getDocument().getLength()).split("\n")[pos];
+            String s[] = comp.getDocument().getText(0, comp.getDocument().getLength()).split("\n");
+            return s[pos];
         }
         catch (Throwable e)
         {
@@ -2070,6 +1960,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     private javax.swing.JButton jButtonSaveAll;
     private javax.swing.JButton jButtonSearchNext;
     private javax.swing.JButton jButtonSearchPrevious;
+    private javax.swing.JButton jButtonShowPSG;
     private javax.swing.JButton jButtonUndo;
     private javax.swing.JCheckBox jCheckBoxIgnoreCase;
     private javax.swing.JComboBox jComboBoxSerial;
@@ -2093,7 +1984,6 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     private javax.swing.JMenuItem jMenuItemRaster;
     private javax.swing.JMenuItem jMenuItemRename;
     private javax.swing.JMenuItem jMenuItemVector;
-    private javax.swing.JMenuItem jMenuItemVectrexFile;
     private javax.swing.JMenuItem jMenuItemYM;
     private javax.swing.JMenu jMenuNewFileMenu;
     private javax.swing.JPanel jPanel1;
@@ -2245,17 +2135,9 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         // if something is not as expected... well just do nothing
         try
         {
-            int lineNumberStart = lineString.indexOf("(")+1;
-            int lineNumberEnd = lineString.indexOf(")");
-
-            String lineNumberString = lineString.substring(lineNumberStart,lineNumberEnd);
-            int lineNumber = Integer.parseInt(lineNumberString);
-            lineString = de.malban.util.UtilityString.replace(lineString, "MACRO-EXPAND from ", "").trim();
-            String filename = lineString.substring(0, lineString.indexOf("("));
-            
-//            filename = convertASMFilename(filename);
-            
-            jumpToEdit(filename, lineNumber);
+            String num = lineString.substring(8, lineString.indexOf(",")).trim();
+            int l = Integer.parseInt(num);
+            jumpToEdit(l);
         }
         catch (Throwable e)
         {
@@ -2263,41 +2145,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         }
     }
     
-    // figure out filename and line, - if possible
-    public void processIncludeLine(String lineString)
-    {
-        // if something is not as expected... well just do nothing
-        lineString = convertSeperator(lineString);
-        try
-        {
-            int start = lineString.toLowerCase().indexOf("include");
-            if (start <0) return;
-            String line = lineString.substring(start+7).trim();
-            String[] parts = line.split("\"");
-            String name = "";
-            if (parts.length<=1) 
-                parts = line.split("'");
-            if (parts.length<=1) 
-                parts = line.split(" ");
-            if (parts.length<=1) 
-                return;
-            String filename = parts[0].trim();
-            if (filename.length()==0)filename = parts[1].trim();
-            if (filename.length()==0)return;
-            String path = getSelectedEditor().getPath();
-            String nameToLoad = "";
-            if (path != null)
-            {
-                nameToLoad=path+File.separator;
-            }
-            nameToLoad+=filename;
-            jumpToEdit(nameToLoad, 0);
-        }
-        catch (Throwable e)
-        {
-            
-        }
-    }
+    
     EditorPanel getEditor(String filename)
     {
         String name = "edi";
@@ -2321,16 +2169,17 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         }
         
         EditorPanel edi = addEditor(filename, true);
+        edi.setBasic(true);
         oneTimeTab = null;
         return edi;
     }
     
-    private void jumpToEdit(String filename, int lineNumber)
+    private void jumpToEdit(int lineNumber)
     {
-        EditorPanel edi = getEditor(filename);
+        EditorPanel edi = getSelectedEditor();
         if (edi == null)
         {
-            printError("Could not access editor for: \""+filename+"\"");
+            return;
         }
         
         edi.goLine(lineNumber);
@@ -2452,6 +2301,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
 
         // get all the files from a directory
         File[] fList = directory.listFiles();
+        if (fList == null) return true;
         for (File file : fList) 
         {
             TreeEntry newEntry = new TreeEntry(Paths.get(basePath.toString(), file.getName()));
@@ -2680,41 +2530,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     
     public void processWord(String word)
     {
-        EntityDefinition entity = LabelSink.knownGlobalVariables.get(word.toLowerCase());
-        if (entity == null)
-        {
-            entity = MacroSink.knownGlobalMacros.get(word.toLowerCase());        
-        }
-        if (entity == null) 
-        {
-            printWarning("no definition found for: \""+word+"\"");
-            return;
-        }
-        StringBuilder message = new StringBuilder();
-        message.append("\"").append(word).append("\":");
-        if (entity.getType() == EntityDefinition.TYP_LABEL) message.append(" label");
-        else message.append(" macro");
-        message.append("\n");
-        message.append("defined at: ").append(entity.getFile().toString()).append("(").append(entity.getLineNumber()).append(")");
-        printMessage(message.toString());
-
-        try
-        {
-            final String filename = entity.getFile().toString();
-            if (filename.length()==0)return;
-            final int line = entity.getLineNumber();
-            SwingUtilities.invokeLater(new Runnable()
-            {
-                public void run()
-                {
-                    jumpToEdit(filename, line);
-                }
-            });                    
-        }
-        catch (Throwable e)
-        {
-            
-        }    
+        
     }
     private void closeAllEditors()
     {
@@ -3030,27 +2846,109 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     
     SerialPort ubxPort = null;
     SerialPort[] ports;
+    boolean directMode = false;
+    String lastSend = "";
     void handleTerminalKey(char t)
     {
-        typed = (byte)t;
-        if (ubxPort!=null)
-        {
-            byte[] buffer = new byte[1];
-            if (typed == 10) // lf
-                typed = 0x0d; // cr
-            buffer[0] = typed;
-            ubxPort.writeBytes(buffer, 1);
-
-            if (typed == 03) // CTRL / C
+//        SwingUtilities.invokeLater(new Runnable(){
+//            public void run()
             {
-                buffer[0] = 0x0d;
-                ubxPort.writeBytes(buffer, 1);
+                if (directMode)
+                {
+                    typed = (byte)t;
+                    if (ubxPort!=null)
+                    {
+                        byte[] buffer = new byte[1];
+                        if (typed == 10) // lf
+                            typed = 0x0d; // cr
+                        buffer[0] = typed;
+                        ubxPort.writeBytes(buffer, 1);
+
+                        if (typed == 03) // CTRL / C
+                        {
+                            buffer[0] = 0x0d;
+                            ubxPort.writeBytes(buffer, 1);
+                        }
+                    }
+                }
+                else
+                {
+                    typed = (byte)t;
+                    if (ubxPort!=null)
+                    {
+                        lastSend = "";
+                        byte[] buffer = new byte[1];
+                        if (typed == 03) // CTRL / C
+                        {
+                            String useString=""+(char)typed;
+                            toCard(useString+"\n");
+                        }
+                        else if (typed == 10) // lf
+                        {
+                            String useString = getLine(jEditorLog, pos.y-1);
+
+                            //String useString = lineString.substring(0, pos.x-1);
+                            toCard(useString+"\n");
+                            lastSend = useString;
+                        }
+                        /*
+                        if (isPrintable(typed))
+                        {
+                            int cp = jEditorLog.getCaretPosition();
+                            
+                            
+
+                            ((DefaultStyledDocument)jEditorLog.getDocument()).setCharacterAttributes(cp, 1, TokenStyles.getStyle("editLogMessage"), false);                            
+                            
+                        }
+                                */
+                    }
+                }
+                pos = getCursorPos();                
             }
-                
-        }
-        
+  //      });
+    }
+
+    boolean isPrintable(byte c)
+    {
+        String test = "abcdefghijklmnopqrstuvwxyz1234567890öäüß!\"§$%&/()=?#'@€^°`*+,.-;:_|<>";
+        String t = ""+((char)c);
+        return test.contains(t.toLowerCase());
     }
     
+    
+    Point pos= new Point(0,0);
+    public Point getCursorPos()
+    {
+        Point p = new Point(1,1);
+        String[] splitter;
+        try
+        {
+         splitter = jEditorLog.getDocument().getText(0, jEditorLog.getDocument().getLength()).split("\n");
+            
+        }
+        catch (Throwable e)
+        {
+            return p;
+        }
+        int pos = jEditorLog.getCaretPosition();
+        
+        int count =0;
+        for (String split: splitter)
+        {
+            if (count + split.length() >=pos)
+            {
+                p.x = pos - count+1;
+                break;
+            }
+            count+=split.length();
+            count++; // plus one because of "/n"
+            p.y++;
+        }
+        
+        return p;
+    }
+
     void fillSerial()
     {
         ports = SerialPort.getCommPorts();
@@ -3088,35 +2986,67 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         jTextFieldPath.setText(settings.vec32UsbMount);
         mClassSetting--;
     }
+    
+    StringBuilder fromCard = new StringBuilder();
     SerialPortDataListener listener = new SerialPortDataListener() 
     {
         @Override
         public int getListeningEvents() { return SerialPort.LISTENING_EVENT_DATA_AVAILABLE; }
         @Override
-        public void serialEvent(SerialPortEvent event)
+        synchronized public void serialEvent(SerialPortEvent event)
         {
-            StringBuilder builder = new StringBuilder();
             SerialPort comPort = event.getSerialPort();
             int available = comPort.bytesAvailable();
             if (available<0) return;
             byte[] newData = new byte[available];
             int numRead = comPort.readBytes(newData, newData.length);
-            if (numRead == 1) 
+//System.out.println("Read " + numRead + " bytes.");
+            if (directMode) if (numRead == 1) 
             {
                 if (typed == newData[0]) return;
             }
             for (byte d: newData)
             {
-                builder.append((char )d);
+                fromCard.append((char )d);
             }
-            
-        try
-        {
-            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), builder.toString()+"", TokenStyles.getStyle("editLogMessage"));
-        } catch (Throwable e) { }
-        jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
-            
-//System.out.println("Read " + numRead + " bytes.");
+
+            if (directMode)
+            {
+                try
+                {
+                    jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), fromCard.toString()+"", TokenStyles.getStyle("editLogMessage"));
+                } 
+                catch (Throwable e) { }
+                fromCard = new StringBuilder();
+                jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
+            }
+            else
+            {
+                if (lastSend.length()>0)
+                {
+                    if (!fromCard.toString().startsWith(lastSend))
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        fromCard.delete(0, lastSend.length());
+                        lastSend="";
+                    }
+                }
+                
+                try
+                {
+                    int p = jEditorLog.getCaretPosition();
+                    jEditorLog.getDocument().insertString(jEditorLog.getCaretPosition(), fromCard.toString()+"", TokenStyles.getStyle("editLogMessage"));
+                    jEditorLog.setCaretPosition(p+available);
+                    fromCard = new StringBuilder();
+                    
+                } 
+                catch (Throwable e) { }
+            }
+           
+
         }
     };
    
@@ -3154,6 +3084,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         ubxPort.addDataListener(listener);
         jLabel10.setText("connected");
         jLabel10.setForeground(Color.green);
+        refreshTree();
     }
     void runBas(String fname)
     {
@@ -3162,23 +3093,43 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             printError("Not Connected!");
             return;
         }
-        
-        // first a CTRL c
-        byte[] buffer = new byte[2];
-        buffer[0] = 03;
-        buffer[1] = 0x0d;
-        toCard(buffer);
-        
-        toCard("\n");
-        // stop whatever currently is running
-        toCard("stop\n");
+        try
+        {
 
-        toCard("load \""+fname+"\"\n");
-        toCard("run\n");
+            // first a CTRL c
+            byte[] buffer = new byte[2];
+            buffer[0] = 03;
+            buffer[1] = 0x0d;
+            toCard(buffer);
+
+            toCard("\n");
+            Thread.sleep(10);
+            // stop whatever currently is running
+            toCard("stop\n");
+            Thread.sleep(10);
+
+            toCard("load \""+fname+"\"\n");
+            Thread.sleep(200);
+
+            toCard("run\n");
+        }
+        catch (Throwable e)
+        {
+            
+        }
     }
+    ArrayList<Byte> queue = new ArrayList<Byte>();
     void toCard(byte[] buffer)
     {
-        ubxPort.writeBytes(buffer, buffer.length);
+        try
+        {
+            ubxPort.writeBytes(buffer, buffer.length);
+            ubxPort.getOutputStream().flush();
+        }
+        catch (Throwable e)
+        {
+            
+        }
     }
     void toCard(String buffer)
     {

@@ -438,15 +438,43 @@ Done:
 - done: dissi BIOS disasm is allways taken from SYSTEM.IMG
 
 
+- do new YM routine
+
+- vecci save settings for grid, byteframe, scales
+
+- done fix to split
+- done fix to order
+- done fix to fill gaps
 - bugfix
- cnt files for BIOS corrected
- jump in dissi works again
- direct labels corrected
+done cnt files for BIOS corrected
+done jump in dissi works again
+done direct labels corrected
+- done zero + integrator 
+no error large paste -> no coloring - WAit!
+-done auto apply
+
+done row count in editor is not updated
+
+- done reduce hline
+- done do ym for BASIC
+
+done deadlock in animation vecci
+
+
+done selection of single points in table of vecci
+done select and shift select (strange with table - but working)
+- done: fitbyte -> repaint face table
+- done new -> delete faces
+
+
+done FAQ Manu Pärssinen The solution is here: https://java.com/en/download/manual.jsp - you need to download (also) the 64-bit version of Java, and it's not the 'normal' download that they offer on the front page.
 
 todo:
-
-FAQ
-Manu Pärssinen The solution is here: https://java.com/en/download/manual.jsp - you need to download (also) the 64-bit version of Java, and it's not the 'normal' download that they offer on the front page.
+- hiddenline to history
+- figure -> delete faces
+- todo insert vectorlist -> insert faces
+ what happens to non face vectors?
+- delete non selected - faces not correct anymore
 
 - library load
 - Explosion?
@@ -498,6 +526,10 @@ possible future games:
 - pitfall
 - Warblade
 - release
+            new files
+            vecci user conversion
+
+zeroing effect, see Vectrex32 site
 
 - vecvox - no emulation of: Microchip 24LC256 (see i.rtf)
 

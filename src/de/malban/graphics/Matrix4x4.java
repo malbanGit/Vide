@@ -105,6 +105,20 @@ public class Matrix4x4 {
         r.w(m[0][3]*v.x() + m[1][3]*v.y() + m[2][3]*v.z() + m[3][3]*v.w());
         return r;
     }
+    // variant
+    public Vertex multiplyVariant(Vertex v)
+    {
+        Vertex r = new Vertex(v);
+        r.x(m[0][0]*v.x() + m[1][0]*v.y() + m[2][0]*v.z() + m[3][0]*v.w());
+        r.y(m[0][1]*v.x() + m[1][1]*v.y() + m[2][1]*v.z() + m[3][1]*v.w());
+        r.z(m[0][2]*v.x() + m[1][2]*v.y() + m[2][2]*v.z() + m[3][2]*v.w());
+        r.w(m[0][3]*v.x() + m[1][3]*v.y() + m[2][3]*v.z() + m[3][3]*v.w());
+        
+        v.x(r.x());
+        v.y(r.y());
+        v.z(r.z());
+        return v;
+    }
     
     // invariant
     public GFXVector multiply(GFXVector v)

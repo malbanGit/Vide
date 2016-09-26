@@ -1,4 +1,4 @@
-package de.malban.gtest;
+package de.malban.vide.veccy.gtest;
 // Tools2D.java: Class to be used in other program files.
 // Uses: Point2D (Section 1.5) and Triangle (discussed above).
 
@@ -8,7 +8,9 @@ package de.malban.gtest;
 
 class Tools2D
 {  static float area2(Point2D A, Point2D B, Point2D C)
-   {  return (A.x - C.x) * (B.y - C.y) - (A.y - C.y) * (B.x - C.x);
+   {  
+       float pixels = (A.x - C.x) * (B.y - C.y) - (A.y - C.y) * (B.x - C.x);
+       return pixels;
    }
 
    static boolean insideTriangle(Point2D A, Point2D B, Point2D C, 

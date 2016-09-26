@@ -1,4 +1,4 @@
-package de.malban.gtest;
+package de.malban.vide.veccy.gtest;
 // Point3D.java: Representation of a point in 3D space.
 
 // Copied from Section 3.9 of

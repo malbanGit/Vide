@@ -169,6 +169,7 @@ Comment2=("'"[^\r\n]*)
 LongSuffix=(([lL][uU]?)|([uU][lL]?))
 DecimalNum=(([0]|{NonZeroDigit}{Digit}*){LongSuffix}?)
 HexNum=([0]([x]|[X]){HexDigit}{HexDigit}*{LongSuffix}?)
+HexNum2=(([$]){HexDigit}{HexDigit}*{LongSuffix}?)
 
 Sign=([\+\-])
 SignedInt=({Sign}?{Digit}+)
@@ -198,7 +199,7 @@ keywordsBASIC=("bp"|"call"|"clear"|"chain"|"continue"|"dim"|"dir"
 |"exit"|"for"|"repeat"|"while"
 |"next"|"function"|"endfunction"|"if"|"then"|"else"|"elseif"
 |"endif"|"let"|"load"|"mem"|"print"|"return"|"reload"|"rerun"|"until"|"rem"
-|"run"|"step"|"sub"|"endsub"|"tron"|"troff"|"endwhile")
+|"run"|"step"|"sub"|"stop"|"endsub"|"tron"|"troff"|"endwhile")
 
 constantsVec32=("controller1"|"controller2"|"controllernone"|"joystickanalog"|"joystickdigital"
 |"joysticknone"|"joystickx"|"joysticky"|"drawto"|"moveto")
@@ -208,12 +209,12 @@ constants={constantsVec32}|{constantsBASIC}
 functionBASIC=("abs"|"acos"|"appendarrays"|"asin"|"atan"|"chr"|"copyarray"|"cos"
 |"dir"|"float"|"int"|"left"|"len"|"max"|"mid"|"min"|"rand"
 |"randomize"|"right"|"round"|"sin"|"sqrt"|"strcomp"|"tan"
-|"tolower" |"toupper" |"truncate" |"right" |"ubound")
+|"tolower"|"toupper"|"truncate"|"right"|"ubound")
 functionVec32=("abc"|"clearscreen"|"distance"|"dotssprite"|"dumpsprite"|"dumpsprites"|"getframerate"|"intensitysprite"
 |"linessprite"|"movesprite"|"music"|"musicisplaying"|"offset"|"peek"|"play"|"ptinrect"|"putspriteafter"
 |"putspritebefore"|"regularpolygon"|"removesprite"|"returntooriginsprite"|"scalesprite"|"setframerate"|"spriteclip"
-|"spriteenable" |"spritegetrotation" |"spriteintensity" |"spritemove" |"spriterotate"
-|spritescale" |"spritesetmagnification" |"spritesetrotation" |"spritetranslate" |"textlistsprite"|textsizesprite" |"textsprite" |"version" |"waitforframe" )
+|"spriteenable"|"spritegetrotation"|"spriteintensity"|"spritemove"|"spriterotate"
+|"spritescale"|"spritesetmagnification"|"spritesetrotation"|"spritetranslate"|"textlistsprite"|"textsizesprite"|"textsprite"|"version"|"waitforframe")
 functions={functionBASIC}|{functionVec32}
 %% 
 
@@ -280,6 +281,14 @@ functions={functionBASIC}|{functionVec32}
     return (t);
 }
 <YYINITIAL, MIDDLE_OF_LINE> {HexNum} {
+    nextState = MIDDLE_OF_LINE;
+    lastToken = BASICToken.LITERAL_INTEGER_HEXIDECIMAL;
+    String text = yytext();
+	BASICToken t = (new BASICToken(lastToken,text,yyline,yychar,yychar+text.length(),nextState));
+    yybegin(nextState);
+    return (t);
+}
+<YYINITIAL, MIDDLE_OF_LINE> {HexNum2} {
     nextState = MIDDLE_OF_LINE;
     lastToken = BASICToken.LITERAL_INTEGER_HEXIDECIMAL;
     String text = yytext();

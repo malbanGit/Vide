@@ -25,6 +25,14 @@ Again there are (at least) two options, for both - open vedi and:
 + click on the Open File button, select the source you have. It will open in a new editor
 + click the assemble/run button
 
+:h2 Assi is not optimizing as good as my older assembler.
+Yep that might be true. Optimizing is sometimes tricky. And since I did not develope the core code of assi myself, I felt sometimes restrained to change the very core of it (or in other words I did not dare). Anyway I think a good solution is to let the programmer do optimization - I don't think any assembler (or compiler) can be as good as a programmer.
+
+:h2 But... even a extended addressing is sometimes not translated to direct addressing even when possible!
+Yes. If you use extended addressing with a variable (ram location e.g.) that is defined further down the source (or an include file loaded at a later stage), that address is not optimized to direct addressing. This also has to do with the inner working of assi. The decision whether an instruction is direct or extended is made in pass 1. In pass 1 also the includes and variables are evaluated. If a variable comes later down the line it is at that stage "unkown" and a decision whether the DP-register is the correct one can not be made. Doing extended addressing is the save path. The correct way for assi would be to do a pass in between and try to assert all "fixed" variables so at least they can be evaluated - I have not done that yet! Two fixes are possible for that particular "optimization":
+- do not use variables before they are declared!
+- "force" direct addressing with the "<" prefix
+
 :h2 My sources are spread over several files, how do I assemble them?
 Look at the answer to the last question, both work.
 - build a project and select add and all files, set the "main" as main
@@ -56,3 +64,4 @@ shovels the current file to as09 (which is expected to be in the same directory,
 There are actually two easy ways:
 - generate the data in vecci, all data is after generation available in the system clipboard, so you after generation you can PASTE the data
 - in vedi go to the place you want to insert the data, right click with the mouse in the editor and select "insert vectorlist". A filechoser appears where you can chose any saved vectorlist. If it is exportable you can chose the export method and the generated code is inserted to the selected position in vedi.
+

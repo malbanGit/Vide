@@ -134,7 +134,6 @@ public class HighlightedDocument extends DefaultStyledDocument
             {
                 colorAllDirect();
                 colorer.start();
-    //            colorAll();
             }
         }
         public void deinit()
@@ -147,7 +146,6 @@ public class HighlightedDocument extends DefaultStyledDocument
         }
         public void startColoring()
         {
-//            editorPaneDocument.startColoring();
             colorer = new Colorer(this);
             colorAllDirect();
             colorer.start();
@@ -231,6 +229,28 @@ public class HighlightedDocument extends DefaultStyledDocument
 	//
 	public void insertString(int offs, String str, AttributeSet a)
 			throws BadLocationException {
+            /*
+                // if a large chunck is changed at once, (e.g. deleting half a file)
+                // colorer in a THREAD does really hickup
+                // we leave the thread and do it out of the thread
+                // it is bad - I know!
+            if (str.length()>50)
+            {
+                stopColoring();
+                try
+                {
+                    synchronized (docLock) {
+			super.insertString(offs, str, a);
+                    }
+                }
+                catch (Throwable e)
+                {
+                    
+                }
+                startColoring();
+                return;
+            }
+            */
 		synchronized (docLock) {
                     try
                     {
@@ -265,25 +285,14 @@ public class HighlightedDocument extends DefaultStyledDocument
                 
                 
                 stopColoring();
-                super.remove(offs, len); // wtach that belwo!
-                /*
-                synchronized (docLock) 
+                try
                 {
-                    do
-                    {
-                        Element elem=getParagraphElement(offs);
-                        int start=elem.getStartOffset();
-                        int len2=Math.min(elem.getEndOffset()-offs,len);
-                        if(len2>0)
-                        {
-                           super.remove(offs, len2);
-                           documentReader.update(offs, -len2);
-                        }
-                        if (len2 <= 0) len2=1;
-                        len-=len2;
-                    } while (len > 0);
+                    super.remove(offs, len); // wtach that belwo!
                 }
-                */
+                catch (Throwable e)
+                {
+                    
+                }
                 startColoring();
                 return;
             }
@@ -305,56 +314,10 @@ public class HighlightedDocument extends DefaultStyledDocument
                     if (len2 <= 0) len2=1;
                     len-=len2;
                 } while (len > 0);
-
-           //     color(offs, -lenOrg);
-//                    documentReader.update(offs, -lenOrg);
             }
                 
 	}
-	public void remove_(int offs, int len) throws BadLocationException {
-// * OLD Excpeiton upon UNDO
-  
-            synchronized (docLock) {
-                try
-                {
-                    super.remove(offs, len);
-                    color(offs, -len);
-                    documentReader.update(offs, -len);
-		}
-                catch (Throwable e)
-                {
-                    e.printStackTrace();
-System.out.println("Super Buh!");
-                }
-            }
-            
-/*            
-            
-                int lenOrg = len;
-                // Malban see: https://community.oracle.com/thread/1486098
-		synchronized (docLock) 
-                {
-                    do
-                    {
-                        Element elem=getParagraphElement(offs);
-                        int start=elem.getStartOffset();
-                        int len2=Math.min(elem.getEndOffset()-offs,len);
-                        if(len2>0)
-                        {
-                           super.remove(offs, len2);
-                        }
-                        if (len2 <= 0) len2=1;
-                        len-=len2;
-                    } while (len > 0);
-                     
-               //     color(offs, -lenOrg);
-                    documentReader.update(offs, -lenOrg);
-                    
-                     
-                }
-                */
-                
-	}
+        
 
 	// methods for Colorer to retrieve information
 	DocumentReader getDocumentReader() { return documentReader; }

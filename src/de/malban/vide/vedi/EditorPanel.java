@@ -48,7 +48,7 @@ public class EditorPanel extends EditorPanelFoundation
 
     // indicator whether rows must be counted anew
     int rowCount = -1;
-    
+    boolean isBasic = false;
     boolean hasChanged = false;
     boolean assume6809Asm = false;
     
@@ -425,6 +425,7 @@ public class EditorPanel extends EditorPanelFoundation
 
     private void jTextPane1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextPane1MousePressed
 
+        if (isBasic) return;
         Point pt = new Point(evt.getX(), evt.getY());
         int pos = jTextPane1.viewToModel(pt);
 
@@ -1015,14 +1016,18 @@ public class EditorPanel extends EditorPanelFoundation
         }
         return oldDim;
     }
-    
+    boolean _0d0a = false;
+    public void setODOA(boolean b)
+    {
+        _0d0a = b;
+    }
     // todo save as
     // save as not done
     public boolean save(boolean saveAs)
     {
         boolean ret = true;
-            String newFilename = filename;            
-            String oldFilename = filename;
+        String newFilename = filename;            
+        String oldFilename = filename;
         
         if (saveAs)
         {
@@ -1036,6 +1041,24 @@ public class EditorPanel extends EditorPanelFoundation
 
             
             filename = newFilename;
+        }
+        if (_0d0a)
+        {
+            if (saveAs)
+                parent.changeFileName(oldFilename, newFilename);
+            try
+            {
+                String text = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength());
+                text = de.malban.util.UtilityString.replace(text, "\n", "\r\n");
+                de.malban.util.UtilityFiles.createTextFile(filename, text);
+            }
+            catch (Throwable e)
+            {
+                tinyLog.printError("Error saving file: "+ filename);
+                tinyLog.printError(de.malban.util.Utility.getCurrentStackTrace());
+ 
+            }
+            return ret;
         }
         
         FileWriter writer =null;
@@ -1196,5 +1219,15 @@ public class EditorPanel extends EditorPanelFoundation
         String word = getWordOfPos(jTextPane1, pos);
         String integer = getIntOfPos(jTextPane1, pos);
         parent.doQuickHelp(word, integer);
+    }
+    
+    public void setBasic(boolean b)
+    {
+        isBasic = b;
+    }
+    public void fireEditorChanged(int type)
+    {
+        super.fireEditorChanged(type);
+        jTable1.repaint();
     }
 }

@@ -2933,6 +2933,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (edi == null)
         {
             printError("Could not access editor for: \""+filename+"\"");
+            return;
         }
         
         edi.goLine(lineNumber);

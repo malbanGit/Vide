@@ -6,12 +6,13 @@
 package de.malban.graphics;
 
 import de.malban.util.XMLSupport;
+import java.util.ArrayList;
 
 /**
  *
  * @author malban
  */
-public class Vertex {
+public class Vertex implements Comparable{
     
     private static int UID = 0;
     public int uid = ++UID;
@@ -27,6 +28,8 @@ public class Vertex {
     // helper for editing!
     public boolean selected = false;
     public boolean highlight = false;
+        
+    public ArrayList<String> face=new ArrayList<String>(); // the string is FaceNo|FacePos (faceNo >=1, FacePos >= 0)
     
     public void resetSelection()
     {
@@ -70,8 +73,6 @@ public class Vertex {
         set(p);
     }
     
-    
-    
     // "clone"
     // clone even, if set to "self"
     public final void set(Vertex p)
@@ -92,6 +93,13 @@ public class Vertex {
         highlight = p.highlight;
         coords = c; 
         usage = u; 
+        
+        ArrayList<String> faceNew =new ArrayList<String>();
+        for (String f: p.face)
+        {
+            faceNew.add(f);
+        }
+        face = faceNew; // does that make sense?
     }
     
     public String toString()
@@ -167,6 +175,16 @@ public class Vertex {
         ok = ok & XMLSupport.addElement(s, "use_y", usage[ARRAY_Y]);
         ok = ok & XMLSupport.addElement(s, "use_z", usage[ARRAY_Z]);
         ok = ok & XMLSupport.addElement(s, "use_w", usage[ARRAY_W]);
+
+       
+        for(String f: face)
+        {
+            ok = ok & XMLSupport.addElement(s, "face", f);
+        }
+        
+        
+        
+        
         s.append("</").append(tag).append(">\n");
         return ok;        
     }
@@ -181,7 +199,34 @@ public class Vertex {
         usage[ARRAY_Y] = xmlSupport.getBooleanElement("use_y", xml);errorCode|=xmlSupport.errorCode;
         usage[ARRAY_Z] = xmlSupport.getBooleanElement("use_z", xml);errorCode|=xmlSupport.errorCode;
         usage[ARRAY_W] = xmlSupport.getBooleanElement("use_w", xml);errorCode|=xmlSupport.errorCode;
+
+        face = new ArrayList<String>(); 
+        do
+        {
+            String faceInt = xmlSupport.getStringElement("face", xml, false);
+            if (xmlSupport.errorCode != 0) 
+            {
+                break;
+            }
+            face.add(faceInt);
+        } while (true);
+        
         if (errorCode!= 0) return false;
         return true;
+    }
+    
+    public int compareTo(Object o)
+    {
+        return this.toString().compareTo((o).toString());
+    }
+    
+    public String buildCompareId()
+    {
+        String id = toString();
+        for (String s: face)
+        {
+            id+=s;
+        }
+        return id;
     }
 }

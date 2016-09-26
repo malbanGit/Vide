@@ -12,3 +12,11 @@ AUTOMATIC TRANSLATION OF ENGLISH TEXT TO PHONETICS~~
 BY MEANS OF LETTER-TO-SOUND RULES~~
 ~~
 My implementation is based on the code found in the file: "Avox_text2speech2.zip" by a guy called "batari" in the forums of [[http://atariage.com/forums/index.php]], "Speak To Me".
+
+
+::
+Book: Computer Graphics for Java Programmers~~
+--------------------------------------------~~
+By Leen Ammeraal and Kan Zhang~~
+~~
+The discussed algorithms were used to implement hidden line removal to vecci.

@@ -1,4 +1,4 @@
-package de.malban.gtest;
+package de.malban.vide.veccy.gtest;
 // Triangle.java: Class to store a triangle;
 //    vertices in logical coordinates.
 // Uses: Point2D (Section 1.5).
