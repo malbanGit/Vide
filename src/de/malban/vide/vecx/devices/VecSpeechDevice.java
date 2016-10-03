@@ -731,39 +731,45 @@ public class VecSpeechDevice extends AbstractDevice implements Serializable
             soundCycles = 50000;
             if (line == null)
             {
-                line = TinySound.getOutStream();
-                if (line == null) return;
-                line.start();
-                if (!SPO256AL2)
+                if (TinySound.isInitialized())
                 {
-                    line.setVolume(getSpVolume());
+                    line = TinySound.getOutStream();
+                    if (line == null) return;
+                    line.start();
+                    if (!SPO256AL2)
+                    {
+                        line.setVolume(getSpVolume());
+                    }
                 }
             }
-            synchronized (line)
+            if (line != null)
             {
-                int soundLength = line.available();
-//                int lineWant = soundLength;
-                soundLength = fillSoundBuffer(soundLength);
-                soundLength = soundLength >soundBytes.length ? soundBytes.length : soundLength;
-
-//System.out.println("Line wants: "+lineWant+", line got: "+soundLength);                
-                if (soundLength>=0)
+                synchronized (line)
                 {
-// debug                    output = concat(output, soundBytes, soundLength);
-                    line.write(soundBytes, 0, soundLength);
-                }
-                /* all debug
-                // saving wave file makes sense if length = 0, 
-                // this usually means we just finished playing a seqeunce of 
-                // speech commands
-                if (soundLength==0)
-                {
-                    saveWaveCollector();
-                    resetWaveCollector();
+                    int soundLength = line.available();
+    //                int lineWant = soundLength;
+                    soundLength = fillSoundBuffer(soundLength);
+                    soundLength = soundLength >soundBytes.length ? soundBytes.length : soundLength;
 
-// DEBUG                    ((StreamStreamWav1Channel)line).writeCollection();
+    //System.out.println("Line wants: "+lineWant+", line got: "+soundLength);                
+                    if (soundLength>=0)
+                    {
+    // debug                    output = concat(output, soundBytes, soundLength);
+                        line.write(soundBytes, 0, soundLength);
+                    }
+                    /* all debug
+                    // saving wave file makes sense if length = 0, 
+                    // this usually means we just finished playing a seqeunce of 
+                    // speech commands
+                    if (soundLength==0)
+                    {
+                        saveWaveCollector();
+                        resetWaveCollector();
+
+    // DEBUG                    ((StreamStreamWav1Channel)line).writeCollection();
+                    }
+                    */
                 }
-                */
             }
         }        
     }    
@@ -1431,7 +1437,8 @@ needed, one in front of each of the phonemes.
         if (getSpCommand() == 20) // master volume
         {
             spVolume = (((double)(param & 0x7f)) / 127.0);
-            line.setVolume(getSpVolume());
+            if (line != null)
+                line.setVolume(getSpVolume());
         }
         else if (getSpCommand() == 21) // tempo 
         {
@@ -1627,7 +1634,8 @@ needed, one in front of each of the phonemes.
             spPitch = 88;
             spTempo = 114;
             spBend = 5;
-            line.setVolume(getSpVolume());
+            if (line != null)
+                line.setVolume(getSpVolume());
             blendEnable = true;
             afterPause = true;
             blendLen = BLEND_DEFAULT;

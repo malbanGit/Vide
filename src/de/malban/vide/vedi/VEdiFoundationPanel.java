@@ -66,9 +66,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
                 // TODO ask if save is needed etc
                 if (VEdiFoundationPanel.this.closeRequested(tabName))
                 {
-                    
-                    
-                    Component comp = jTabbedPane1.getComponentAt(0);
+                    Component comp = jTabbedPane1.getComponentAt(index);
                     if (comp instanceof EditorPanel)
                     {
                         EditorPanel edi = (EditorPanel) comp;

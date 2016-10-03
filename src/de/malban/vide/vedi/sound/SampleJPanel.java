@@ -1084,7 +1084,13 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         
         if (lastPath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File(pathOnly));
+            if (pathOnly == null)
+            {
+                lastPath = "."+File.separator;
+                fc.setCurrentDirectory(new java.io.File(lastPath));
+            }
+            else
+                fc.setCurrentDirectory(new java.io.File(pathOnly));
         }
         else
         {

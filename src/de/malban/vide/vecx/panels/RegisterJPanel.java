@@ -212,38 +212,38 @@ public class RegisterJPanel extends javax.swing.JPanel implements
         if (e6809.reg_a != reg_a) jLabel11.setForeground(Color.red);
         else jLabel11.setForeground(Color.black);
         reg_a = e6809.reg_a&0xff;
-        jLabel11.setToolTipText("decimal: "+reg_a+", binary: %"+printbinary(reg_a));
+        jLabel11.setToolTipText("decimal: "+reg_a+"("+((reg_a>127)?(reg_a-256):(reg_a))+"), binary: %"+printbinary(reg_a));
         
         jLabel12.setText("$"+String.format("%02X", e6809.reg_b));
         if (e6809.reg_b != reg_b) jLabel12.setForeground(Color.red);
         else jLabel12.setForeground(Color.black);
         reg_b = e6809.reg_b&0xff;
-        jLabel12.setToolTipText("decimal: "+reg_b+", binary: %"+printbinary(reg_b));
+        jLabel12.setToolTipText("decimal: "+reg_b+"("+((reg_b>127)?(reg_b-256):(reg_b))+"), binary: %"+printbinary(reg_b));
         
         int d = ((reg_a << 8)&0xff00) | (reg_b & 0xff);
         jLabel15.setText("$"+String.format("%04X", d));
         if (reg_d != d) jLabel15.setForeground(Color.red);
         else jLabel15.setForeground(Color.black);
         reg_d = d&0xffff;
-        jLabel15.setToolTipText("decimal: "+d+", binary: %"+printbinary(reg_a)+ " " + printbinary(reg_b));
+        jLabel15.setToolTipText("decimal: "+d+"("+((reg_d>32767)?(reg_d-65536):(reg_d))+"), binary: %"+printbinary(reg_a)+ " " + printbinary(reg_b));
         
         jLabel14.setText("$"+String.format("%04X", e6809.reg_x&0xffff));
         if (e6809.reg_x != reg_x) jLabel14.setForeground(Color.red);
         else jLabel14.setForeground(Color.black);
         reg_x = e6809.reg_x&0xffff;
-        jLabel14.setToolTipText("decimal: "+reg_x+", binary: %"+printbinary((reg_x>>8)&0xff)+ " " + printbinary(reg_x&0xff));
+        jLabel14.setToolTipText("decimal: "+reg_x+"("+((reg_x>32767)?(reg_x-65536):(reg_x))+"), binary: %"+printbinary((reg_x>>8)&0xff)+ " " + printbinary(reg_x&0xff));
 
         jLabel13.setText("$"+String.format("%04X", e6809.reg_y&0xffff));
         if (e6809.reg_y != reg_y) jLabel13.setForeground(Color.red);
         else jLabel13.setForeground(Color.black);
         reg_y = e6809.reg_y&0xffff;
-        jLabel13.setToolTipText("decimal: "+reg_y+", binary: %"+printbinary((reg_y>>8)&0xff)+ " " + printbinary(reg_y&0xff));
+        jLabel13.setToolTipText("decimal: "+reg_y+"("+((reg_y>32767)?(reg_y-65536):(reg_y))+"), binary: %"+printbinary((reg_y>>8)&0xff)+ " " + printbinary(reg_y&0xff));
 
         jLabel16.setText("$"+String.format("%04X", e6809.reg_u.intValue&0xffff));
         if (e6809.reg_u.intValue != reg_u) jLabel16.setForeground(Color.red);
         else jLabel16.setForeground(Color.black);
         reg_u = e6809.reg_u.intValue&0xffff;
-        jLabel16.setToolTipText("decimal: "+reg_u+", binary: %"+printbinary((reg_u>>8)&0xff)+ " " + printbinary(reg_u&0xff));
+        jLabel16.setToolTipText("decimal: "+reg_u+"("+((reg_u>32767)?(reg_u-65536):(reg_u))+"), binary: %"+printbinary((reg_u>>8)&0xff)+ " " + printbinary(reg_u&0xff));
 
         jLabel17.setText("$"+String.format("%04X", e6809.reg_pc&0xffff));
         if ((e6809.reg_pc&0xffff) != reg_pc) jLabel17.setForeground(Color.red);
@@ -274,13 +274,27 @@ public class RegisterJPanel extends javax.swing.JPanel implements
         if (e6809.reg_cc != reg_cc) jLabel19.setForeground(Color.red);
         else jLabel19.setForeground(Color.black);
         reg_cc = e6809.reg_cc;
-        jLabel19.setToolTipText("decimal: "+reg_cc+", hex: $"+String.format("%02X", reg_cc));
+        String html = "<html>";
+        html += "decimal: "+reg_cc+", hex: $"+String.format("%02X", reg_cc)+"<BR>";
+        html +="<ol>";
+        html +="<li>Carry "+(((reg_cc&0x01) == 0x01)?"is set":"is clear")+"</li>";
+        html +="<li>Overflow "+(((reg_cc&0x02) == 0x02)?"is set":"is clear")+"</li>";
+        html +="<li>Zero "+(((reg_cc&0x04) == 0x04)?"is set":"is clear")+"</li>";
+        html +="<li>Negative "+(((reg_cc&0x08) == 0x08)?"is set":"is clear")+"</li>";
+        html +="<li>IRQ Mask "+(((reg_cc&0x10) == 0x10)?"is set":"is clear")+"</li>";
+        html +="<li>Half Carry "+(((reg_cc&0x20) == 0x20)?"is set":"is clear")+"</li>";
+        html +="<li>FIRQ Mask "+(((reg_cc&0x40) == 0x40)?"is set":"is clear")+"</li>";
+        html +="<li>Entire Flag "+(((reg_cc&0x80) == 0x80)?"is set":"is clear")+"</li>";
+        html +="</ol>";
+        html += "</html>";
+        
+        jLabel19.setToolTipText(html);
         
         jLabel20.setText("$"+String.format("%04X", e6809.reg_s.intValue));
         if (e6809.reg_s.intValue != reg_u) jLabel20.setForeground(Color.red);
         else jLabel20.setForeground(Color.black);
         reg_s = e6809.reg_s.intValue;
-        jLabel20.setToolTipText("decimal: "+reg_s+", binary: %"+printbinary((reg_s>>8)&0xff)+ " " + printbinary(reg_s&0xff));
+        jLabel20.setToolTipText("decimal: "+reg_s+"("+((reg_s>32767)?(reg_s-65536):(reg_s))+"), binary: %"+printbinary((reg_s>>8)&0xff)+ " " + printbinary(reg_s&0xff));
         
         
     }

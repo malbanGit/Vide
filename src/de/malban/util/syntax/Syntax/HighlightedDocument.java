@@ -25,7 +25,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import de.malban.util.syntax.Syntax.Lexer.*;
 import de.malban.util.syntax.entities.ASM6809FileInfo;
-import javax.swing.SwingUtilities;
 
 /**
  * A <a href="http://ostermiller.org/syntax/editor.html">demonstration text
@@ -47,11 +46,12 @@ public class HighlightedDocument extends DefaultStyledDocument
 	public static final Object M6809_STYLE = M6809Lexer.class;
 
         ASM6809FileInfo fileInfo = null;
+        String knownFilename = null;
 	/**
 	 * A reader wrapped around the document so that the document can be fed into
 	 * the lexer.
 	 */
-	private DocumentReader documentReader;
+	private final DocumentReader documentReader;
 	
 	/** If non-null, all is drawn with this style (no lexing). */
 	private AttributeSet globalStyle = null;
@@ -70,7 +70,7 @@ public class HighlightedDocument extends DefaultStyledDocument
 	 * A lock for modifying the document, or for actions that depend on the
 	 * document not being modified.
 	 */
-	private Object docLock = new Object();
+	private final Object docLock = new Object();
 
 	/**
 	 * Create a new Demo
@@ -102,7 +102,6 @@ public class HighlightedDocument extends DefaultStyledDocument
         // a m6809 doc is assumed!
         // than a scan of the document and its
         // includes is done to know about macros, labels an includes
-        String knownFilename = null;
         public void start(String filename)
         {
             if (filename != null)
@@ -146,6 +145,7 @@ public class HighlightedDocument extends DefaultStyledDocument
         }
         public void startColoring()
         {
+            if (colorer != null) colorer.stopIt();
             colorer = new Colorer(this);
             colorAllDirect();
             colorer.start();
@@ -227,6 +227,7 @@ public class HighlightedDocument extends DefaultStyledDocument
 	//
 	// Intercept inserts and removes to color them.
 	//
+        @Override
 	public void insertString(int offs, String str, AttributeSet a)
 			throws BadLocationException {
             /*
@@ -260,18 +261,20 @@ public class HighlightedDocument extends DefaultStyledDocument
                     }
                     catch (Throwable e)
                     {
-                        
+                        e.printStackTrace();
                     }
 		}
 	}
         
         // only to prevent neverending exceptions on undo!
+        @Override
         public void getText(int offset, int length, Segment txt) throws BadLocationException
         {
             if (length <0) length = 0;
             super.getText( offset,  length,  txt);
         }
 
+        @Override
         public void remove(int offs, int len) throws BadLocationException {
 
   
@@ -281,9 +284,6 @@ public class HighlightedDocument extends DefaultStyledDocument
                 // colorer in a THREAD does really hickup
                 // we leave the thread and do it out of the thread
                 // it is bad - I know!
-
-                
-                
                 stopColoring();
                 try
                 {

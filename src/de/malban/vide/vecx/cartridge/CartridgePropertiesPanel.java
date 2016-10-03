@@ -839,6 +839,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jCheckBox19.setText("RAM Logo");
         jCheckBox19.setMargin(new java.awt.Insets(0, 2, 1, 0));
 
+        jComboBoxImager.setToolTipText("imager default wheel for the cartridge");
+
         jTextFieldPath12.setToolTipText("Bin file for extreme multi (in case of \"a la big apple\")");
         jTextFieldPath12.setEnabled(false);
 

@@ -1,0 +1,29 @@
+:title YM vectrex generator
+With the supplied ym utility you can generate different YM data files (and players). Following is a list of these formats.
+
+:h2 Uncompressed
+The data is written in without any compressing to data statements - this is very easy understandable. (for comparisson, playing speed ~ 1700 cycles)
+
+:h2 YMSound (historic)
+This output is 100% compatible to the tool I released about 15 years ago. The structure of the generated ym file is explained in YM-Conversion I.
+
+:h2 YMSound (opimized speed)
+This is still in basic the same as YMSound, but with a few ehancements. The data between these two are NOT compatible.
+
+The generated data uses a little bit more space (10% more ~ about). The //average// unpacking speed is about the same amount faster (a little bit more than 10%), but the main aspect is, that the "peaks" are reduced.
+
+With my given example file, peaks by playing using the old routines were up to nearly 20000 cycles (average 3200 cycles).
+The new routines have a maximum peak of less thean 7500 cycles (in the whole song only 3 times) - and an average of about 2400 cycles.
+
+Changes to YMSound historic:
+- single bytes are not shannon encoded (since searching for the shannon code takes longer the more codes are generated, and the savings for single bytes using shannon was only a small benefit)
+- RLE encoding changed from LSB first to MSB first, this made decoding the RLE length more performat
+- the phrase length is not held befor the phrase structure but directly in the phrase mapping, I can calculate the phrase offset now while searching the phrase
+- the RAM structure is 1 byte longer per register, the current phrase length is also kept in the data structure now
+- only the used bits per register are encoded (e.g. amplitude registers only 4 bits...) this made up quite some of the lost space due to the shannon/byte changes
+- some internal changes to optimzed "little" stuff
+- all "subroutines" were macro'ed
+- I advise to change the subroutine, to output to shadow registers, rather than to PSG registeres directly, that way you can "overwrite" values with sound effects!
+
+:h2 Streamed
+(not completed yet)

@@ -436,40 +436,46 @@ Done:
 - done: vecxi input devces not saved with game information
 - done: vecxi configureable: width heigth max 
 - done: dissi BIOS disasm is allways taken from SYSTEM.IMG
+- done: vecci fix to split
+- done: vecci fix to order
+- done: vecci fix to fill gaps
+- done: dissicnt files for BIOS corrected
+- done: dissi jump in dissi works again
+- done: dissi direct labels corrected
+- done: vecxi zero + integrator 
+- done: vedi no error large paste -> no coloring - WAit!
+- done: vecci auto apply
+- done: vecci reduce hline
+- done: vec32 do ym for BASIC
+- done: vedi row count in editor is not updated
+- done: vecci deadlock in animation vecci
+- done: vecci selection of single points in table of vecci
+- done: vecci select and shift select (strange with table - but working)
+- done: vecci fitbyte -> repaint face table
+- done: vecci new -> delete faces
+- done: doc FAQ Manu Pärssinen The solution is here: https://java.com/en/download/manual.jsp - you need to download (also) the 64-bit version of Java, and it's not the 'normal' download that they offer on the front page.
 
 
-- do new YM routine
-
-- vecci save settings for grid, byteframe, scales
-
-- done fix to split
-- done fix to order
-- done fix to fill gaps
-- bugfix
-done cnt files for BIOS corrected
-done jump in dissi works again
-done direct labels corrected
-- done zero + integrator 
-no error large paste -> no coloring - WAit!
--done auto apply
-
-done row count in editor is not updated
-
-- done reduce hline
-- done do ym for BASIC
-
-done deadlock in animation vecci
+newdone
+- average in recal
+- new ym routine
+- error in "order" veccy - exports were always disabled!
+- done? paste in editor, still messes up syntax highlighting
+- done psg emulation for psg envelopes seems to be broken
+- done in new player ym reg 13 in player -> ignore 0xff
+- done ym record , if 13 not changed -> write ff
+- done: also ensure that 13 is 8 bit
+- done in ym shiftcklick sets complete column
+- done save corrected for reg 13
 
 
-done selection of single points in table of vecci
-done select and shift select (strange with table - but working)
-- done: fitbyte -> repaint face table
-- done new -> delete faces
 
-
-done FAQ Manu Pärssinen The solution is here: https://java.com/en/download/manual.jsp - you need to download (also) the 64-bit version of Java, and it's not the 'normal' download that they offer on the front page.
 
 todo:
+- faq copied "vectors" does not work with paste -> mode must be vectors!
+
+- do new YM routine
+- vecci save settings for grid, byteframe, scales
 - hiddenline to history
 - figure -> delete faces
 - todo insert vectorlist -> insert faces
@@ -550,10 +556,6 @@ zeroing effect, see Vectrex32 site
 - vecxi when exiting a windows (vecx be sure to shut everything down!)
 - viai in via if a signal is active color it "orange"?
 - command line paramters for assi and vecxi alone!
-
-
-
-
 - vecxi drift allways toward zero? (nope, but still needs more testing)
 - to test: is drift ramp / ref depenended?
 - vedi on delete of files, also delete files in vedi settings

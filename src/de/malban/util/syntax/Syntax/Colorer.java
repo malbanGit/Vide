@@ -109,7 +109,7 @@ class Colorer extends Thread
      * we will synchronize on this object to ensure that we don't get unsafe
      * thread behavior.
      */
-    private Object eventsLock = new Object();
+    private final Object eventsLock = new Object();
 
     /**
      * The amount of change that has occurred before the place in the
@@ -136,6 +136,7 @@ class Colorer extends Thread
 
     public void stopIt()
     {
+        if (mBreak) return;
         synchronized (eventsLock)
         {
             mBreak=true;
@@ -175,6 +176,8 @@ class Colorer extends Thread
         
         if(doc == null) return;
         boolean old = mBreak;
+        if (old == false)
+            System.out.println("Strange");
 
         // process label changes "by hand"
         // since in process event we color here without vars!
@@ -212,10 +215,12 @@ class Colorer extends Thread
         return !mBreak && !broken;
     }
 
+    @Override
     public void start()
     {
         SwingUtilities.invokeLater(new Runnable(){
         
+            @Override
             public void run()
             {
                 mBreak = false;
@@ -280,7 +285,7 @@ class Colorer extends Thread
             }
             RecolorEvent ev = new RecolorEvent(position, adjustment, allowReset);
 
-            ev.whereFrom = de.malban.util.Utility.getCurrentStackTrace();
+            //ev.whereFrom = de.malban.util.Utility.getCurrentStackTrace();
             events.add(ev);
             eventsLock.notifyAll();
         }
@@ -292,6 +297,7 @@ class Colorer extends Thread
      * should be interrupted every time there is something for it to do.
      */
     boolean broken = true;
+    @Override
     public void run() 
     {
         broken = false;
@@ -312,7 +318,7 @@ class Colorer extends Thread
                     }
                     if (mBreak) continue;
                     if (events.size()>0)
-                    re = (RecolorEvent) events.removeFirst();
+                        re = (RecolorEvent) events.removeFirst();
                     eventsLock.notifyAll();
                 }
                 if (re != null)

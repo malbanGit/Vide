@@ -227,8 +227,8 @@ public class PSGJPanel extends javax.swing.JPanel implements
         if (now.PSG.Attack != last.PSG.Attack) jLabel16.setForeground(Color.red);
         else jLabel16.setForeground(Color.black);
         
-        jLabel17.setText( ""+(now.PSG.Holding) );
-        if (now.PSG.Holding != last.PSG.Holding) jLabel17.setForeground(Color.red);
+        jLabel17.setText( ""+(now.PSG.Continue) );
+        if (now.PSG.Continue != last.PSG.Continue) jLabel17.setForeground(Color.red);
         else jLabel17.setForeground(Color.black);
         
         jLabel18.setText( ""+(now.PSG.RNG) );

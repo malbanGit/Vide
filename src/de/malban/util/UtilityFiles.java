@@ -62,7 +62,7 @@ public class UtilityFiles
         for (File file : fList) 
         {
             if (file.isDirectory()) continue;
-            if (!file.getName().contains(contain)) continue;
+            if (!file.getName().toLowerCase().contains(contain.toLowerCase())) continue;
             files.add(file.getName());
         }
         return files;

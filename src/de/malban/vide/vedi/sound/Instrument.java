@@ -31,34 +31,34 @@ public class Instrument  implements Serializable{
     {
         StringBuilder s = new StringBuilder();
         
-        s.append("$").append(String.format("%01X", adsr[0])).append(String.format("%01X", adsr[1])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[2])).append(String.format("%01X", adsr[3])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[4])).append(String.format("%01X", adsr[5])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[6])).append(String.format("%01X", adsr[7])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[8])).append(String.format("%01X", adsr[9])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[10])).append(String.format("%01X", adsr[11])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[12])).append(String.format("%01X", adsr[13])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[14])).append(String.format("%01X", adsr[15])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[16])).append(String.format("%01X", adsr[17])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[18])).append(String.format("%01X", adsr[19])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[20])).append(String.format("%01X", adsr[21])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[22])).append(String.format("%01X", adsr[23])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[24])).append(String.format("%01X", adsr[25])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[26])).append(String.format("%01X", adsr[27])).append(", ");
-        s.append("$").append(String.format("%01X", adsr[28])).append(String.format("%01X", adsr[29])).append(", ");
+        s.append("$").append(String.format("%01X", adsr[0])).append(String.format("%01X", adsr[1])).append(",");
+        s.append("$").append(String.format("%01X", adsr[2])).append(String.format("%01X", adsr[3])).append(",");
+        s.append("$").append(String.format("%01X", adsr[4])).append(String.format("%01X", adsr[5])).append(",");
+        s.append("$").append(String.format("%01X", adsr[6])).append(String.format("%01X", adsr[7])).append(",");
+        s.append("$").append(String.format("%01X", adsr[8])).append(String.format("%01X", adsr[9])).append(",");
+        s.append("$").append(String.format("%01X", adsr[10])).append(String.format("%01X", adsr[11])).append(",");
+        s.append("$").append(String.format("%01X", adsr[12])).append(String.format("%01X", adsr[13])).append(",");
+        s.append("$").append(String.format("%01X", adsr[14])).append(String.format("%01X", adsr[15])).append(",");
+        s.append("$").append(String.format("%01X", adsr[16])).append(String.format("%01X", adsr[17])).append(",");
+        s.append("$").append(String.format("%01X", adsr[18])).append(String.format("%01X", adsr[19])).append(",");
+        s.append("$").append(String.format("%01X", adsr[20])).append(String.format("%01X", adsr[21])).append(",");
+        s.append("$").append(String.format("%01X", adsr[22])).append(String.format("%01X", adsr[23])).append(",");
+        s.append("$").append(String.format("%01X", adsr[24])).append(String.format("%01X", adsr[25])).append(",");
+        s.append("$").append(String.format("%01X", adsr[26])).append(String.format("%01X", adsr[27])).append(",");
+        s.append("$").append(String.format("%01X", adsr[28])).append(String.format("%01X", adsr[29])).append(",");
         s.append("$").append(String.format("%01X", adsr[30])).append(String.format("%01X", adsr[31])).append("");
         return s.toString();
     }
     String getTWANGAsString()
     {
         StringBuilder s = new StringBuilder();
-        s.append("$").append(String.format("%02X", twang[0])).append(", ");
-        s.append("$").append(String.format("%02X", twang[1])).append(", ");
-        s.append("$").append(String.format("%02X", twang[2])).append(", ");
-        s.append("$").append(String.format("%02X", twang[3])).append(", ");
-        s.append("$").append(String.format("%02X", twang[4])).append(", ");
-        s.append("$").append(String.format("%02X", twang[5])).append(", ");
-        s.append("$").append(String.format("%02X", twang[6])).append(", ");
+        s.append("$").append(String.format("%02X", twang[0])).append(",");
+        s.append("$").append(String.format("%02X", twang[1])).append(",");
+        s.append("$").append(String.format("%02X", twang[2])).append(",");
+        s.append("$").append(String.format("%02X", twang[3])).append(",");
+        s.append("$").append(String.format("%02X", twang[4])).append(",");
+        s.append("$").append(String.format("%02X", twang[5])).append(",");
+        s.append("$").append(String.format("%02X", twang[6])).append(",");
         s.append("$").append(String.format("%02X", twang[7])).append("");
         return s.toString();
     }

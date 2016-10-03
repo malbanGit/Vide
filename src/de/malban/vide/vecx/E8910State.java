@@ -11,19 +11,18 @@ import java.io.Serializable;
  *
  * @author malban
  */
-public class E8910State implements Serializable{
+public class E8910State implements Serializable, E8910Statics{
     
-    public int[] snd_regs = new int[16];
+    public AY8910 PSG = new AY8910();
     public int portAOut = 0;
     public int portAIn = 0;
-    public AY8910 PSG = new AY8910();
+    public int[] snd_regs = new int[16];
 
     public static void deepCopy(E8910State from, E8910State to)
     {
         System.arraycopy(from.snd_regs, 0, to.snd_regs, 0, from.snd_regs.length);
         to.portAOut = from.portAOut;
         to.portAIn = from.portAIn;
-        System.arraycopy(from.PSG.VolTable, 0, to.PSG.VolTable, 0, from.PSG.VolTable.length);
         to.PSG.index =from.PSG.index;
         to.PSG.ready =from.PSG.ready;
         to.PSG.PeriodA =from.PSG.PeriodA;
@@ -52,8 +51,40 @@ public class E8910State implements Serializable{
         to.PSG.Hold =from.PSG.Hold;
         to.PSG.Alternate =from.PSG.Alternate;
         to.PSG.Attack =from.PSG.Attack;
-        to.PSG.Holding =from.PSG.Holding;
+        to.PSG.Continue =from.PSG.Continue;
         to.PSG.RNG =from.PSG.RNG;    
     }
+    public boolean NOISE_ENABLEQ (int _chan)
+    {
+        return ((snd_regs[AY_ENABLE] >> (3 + _chan)) & 1)!=0;
+    }
+    public boolean TONE_ENABLEQ (int _chan)
+    {
+        return ((snd_regs[AY_ENABLE] >> (_chan)) & 1)!=0;
+    }
+    public int TONE_PERIOD (int _chan)
+    {
+        return snd_regs[(_chan) << 1] | ((snd_regs[((_chan) << 1) | 1] & 0x0f) << 8);
+    }
+    public int NOISE_PERIOD()
+    {
+        return snd_regs[AY_NOISEPER] & 0x1f;
+    }
+    public int TONE_VOLUME (int _chan)
+    {
+        return snd_regs[AY_AVOL + (_chan)] & 0x0f;
+    }
+    public int TONE_ENVELOPE (int _chan)
+    {
+        return (snd_regs[AY_AVOL + (_chan)] >> 4) & 0x01;
+    }
+    public int ENVELOPE_PERIOD()
+    {
+        return snd_regs[AY_EFINE] | (snd_regs[AY_ECOARSE]<<8);
+    }
+    public boolean NOISE_OUTPUT()
+    {
+        return (PSG.RNG & 1)!=0;
+    }        
     
 }

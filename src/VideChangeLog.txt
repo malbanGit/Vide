@@ -1,0 +1,70 @@
+3rd of October 2016
+-------------------
+Version 1.04
+new:
+ - dissi: added 2 complement to register tooltip in reggi
+ - dissi: added enhanced tooltip to CC in reggi
+ - ym: added "player" mode
+ - ym: shift double click on columne textfield, sets the value to the complete (register) column
+ - allow of envelopes in YM-file generation (in general)
+
+bugfixes:
+ - vedi: <again> seemingly fixed a bug, where the coloror was disabled
+ - ym: possible Nullpointer Exception fixed
+ - corrected ym-file generation output to respect reg13 as 0xff if no changes happened
+ - corrected ym player in respect to that as well (both on the java side in YMSound and asm player in generation (only the new one))
+ - corrected PSG emulation to correctly emulate envelope generation
+   (although someday I have to enhance sample rates, as it is it emulation sounds quite terrible!)
+
+1st of October 2016
+-------------------
+Version 1.03
+new:
+ - tracki: now also shows the average of the current timings
+ - ym: added a new mode to export, this one is the new preffered export "module"
+       also did bugfixing
+       "preprocessing" of ym files as options, default is off, whether it is worth switching these
+       on depends on the ym files themself
+
+bugfixes:
+- vecci: the last fixes disabled most of the source exports, this had to be fixed :-)
+
+27th of Septmber 2016
+---------------------
+Version 1.02
+new:
+- vec32: added a "utility" window to support editing/saving/running of Vectres32 (BASIC) programs
+         including editor (+ syntax highlighting) and a terminal
+- vecci: added support to import Wavefront OBJ files
+- vecci: support for hidden line removal and definition of faces
+- vecci: points can be selected (deselected) by clicking on the corresponding columns in the vectorlist table
+- vecci: export status reflects order of vectorlists
+- vecci: added export for vectorlists to BASIC (Draw_VL_Mode only)
+- vecxi: added emulation for the phenomenon, that integration is possible during "zero enable",
+         also added emulation that zeroing is not spontanous but a going down to zero over time
+- ym: added support to export data to BASIC (uncompressed only, and only "all" registers)
+- doc: documentaion for most of the mentioned changes/enhancements
+- template: updated vectorlist templates to handle vectorlists > 8bit (length)
+- template: templates for BASIC YM-Play and vectorlist display
+
+bugfixes:
+- vecci: deadlock in animation fixed
+- vecci: shortcut buttons "order", "split", "connect" do not produce garbage when called with "deformed" vectorlists
+         (deformed here: vertice that are "relative"- used by more than two vectors)
+- dissi: CNT files a bit more robust in respect to "SPACES"
+- vedi: possibly solved another deadlock with syntax highlighting
+- vedi: bug where line numbering was not updated after "pasting" 
+- sound: added log output to TinySound
+- vecx: checks that TinySound is initialized (befor null pointer exceptions were thrown)
+
+
+7th of Septmber 2016
+--------------------
+Version 1.01
+bugfixes:
+- dissi: double click on address row for small 16bit addresses did not work as intended
+
+
+6th of September 2016
+---------------------
+Vide version 1.0 release

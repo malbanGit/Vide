@@ -213,8 +213,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         e8910.e8910_init_sound();
         for (int i=0; i<Breakpoint.BP_TARGET_COUNT; i++)
             breakpoints[i] = new ArrayList<Breakpoint>();
-        line = TinySound.getOutStreamVectrex();
-        line.start();
+        if (TinySound.isInitialized())
+        {
+            line = TinySound.getOutStreamVectrex();
+            line.start();
+        }
     }
     void deinit()
     {
@@ -3339,12 +3342,25 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             if (recordData == null) return;
             byte[] psgData = new byte[16];
             recordData.add(psgData);
+            
+            int lastReg13 = 256;
+            if (recordData.size()>0)
+            {
+                lastReg13 = recordData.get(recordData.size()-1)[13];
+            }
+            
             for (int i=0; i<16; i++)
             {
-                psgData[i] = (byte) (e8910.read(i)&0xff);
+                byte value = (byte) (e8910.read(i)&0xff);
+                if (i == 13)
+                {
+                    if (value == lastReg13) value = (byte)0xff;
+                }
+                psgData[i] = value;
             }
         }
     }
+    
     
     // is a "fast" interupt initiated (from device port 0 Button 4)
     // only == 0 or !=0 is relevant

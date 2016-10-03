@@ -835,7 +835,7 @@ public class GFXVectorList {
         StringBuilder newUID = new StringBuilder();
         count =0;
         for (GFXVector v: clone.list)
-             oldUID.append("(").append(count++).append(")").append(v.uid).append("_").append(v.start.uid).append("_").append(v.end.uid);
+             newUID.append("(").append(count++).append(")").append(v.uid).append("_").append(v.start.uid).append("_").append(v.end.uid);
         boolean ret = newUID.toString().equals(oldUID.toString());
         if (!ret)
         {

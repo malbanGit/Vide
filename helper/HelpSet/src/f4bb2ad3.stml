@@ -6,10 +6,10 @@ From the announcement of the author:~~
 :div code
 I have created a new cartridge for the Vectrex that effectively upgrades it to 32 bits and allows you to write Vectrex games in interactive interpreted BASIC.
 
-The cartridge, which I call the Vectrex32 SmartCart, is based on the Microchip PIC32. It’s a 32 bit microcontroller that runs at 200 MHz, has a floating point unit, 2MB of flash, and 512KB of RAM. By comparison, the Vectrex’s 6809 is an 8/16 bit processor with 8KB of ROM and 1K of RAM.
+The cartridge, which I call the Vectrex32 SmartCart, is based on the Microchip PIC32. It's a 32 bit microcontroller that runs at 200 MHz, has a floating point unit, 2MB of flash, and 512KB of RAM. By comparison, the Vectrex's 6809 is an 8/16 bit processor with 8KB of ROM and 1K of RAM.
 
 
-The BASIC interpreter and the game run on the PIC32. There’s a dual-port memory chip readable and writable by both the PIC32 and the 6809. The PIC32 writes 6809 machine code into the dual-port memory and the 6809 runs it. Thirty times per second, the PIC32 writes the instructions needed to draw the screen, play sounds, and read the controller. Since the game logic is running on the PIC32, games can be far more sophisticated than anything the Vectrex could do alone.
+The BASIC interpreter and the game run on the PIC32. There's a dual-port memory chip readable and writable by both the PIC32 and the 6809. The PIC32 writes 6809 machine code into the dual-port memory and the 6809 runs it. Thirty times per second, the PIC32 writes the instructions needed to draw the screen, play sounds, and read the controller. Since the game logic is running on the PIC32, games can be far more sophisticated than anything the Vectrex could do alone.
 
 
 The SmartCart also has a USB interface. When connected to a PC, it appears as a mass storage drive and a serial port. The drive holds BASIC programs and the serial port can be used with a terminal emulator. You can interactively debug a BASIC program (my version of BASIC supports breakpoints, single-stepping, printing out variables, and more). You can also interactively change things on the screen, e.g. you can experiment to get your shapes looking right and moving right.
@@ -32,7 +32,7 @@ You can access the Vec32 Terminal under the menu tools. If you do so, a window s
 :image Vec32Help.png|Vec32 Terminal
 
 In the upper region of the window you must define the Vectrex32 device parameters
-a) give the serial port, the ##arrow_refresh.png## rescans the available ports (in case you switched on vectrex "later" 
+a) give the serial port, the ##arrow_refresh.png## rescans the available ports (in case you switched on vectrex "later")
 b) the location of the usb drive
 
 :h3 serial connection
@@ -41,7 +41,7 @@ The combobox gives you all currently available serial ports. Please chose the co
 The serial port selection was tested with //Windows 7//, //Mac OSX// and //Linux Ubuntu//. If there is any problem establishing a connection, you may try reaching out to Malban.
 
 **Note:**~~
-Under my linux installation it was neccessary to change to change file system permissions for the tty.
+Under my linux installation it was neccessary to change file system permissions for the tty.
 You may need to do so too. With my system following line was neccessary:~~ ~~
 ::sudo chmod 666 /dev/ttyACM0~~::
 
@@ -56,7 +56,7 @@ The contents of the drive will be displayed in the treeview to the left.
 Only if that location is chosen correctly the transport of your edited files to the Vectrex32 cart will succeed!
 
 :h2 Connect
-If you selected the above to entities, press "connect" to connect to the Vectrex 32 device.
+If you selected the above two entities, press "connect" to connect to the Vectrex 32 device.
 If the connection was successfull a green "connected" will appear next to the button (a red "not connected" otherwise).
 
 The device settings will be stored. But can naturally only be used if the Vectrex 32 device is connected and switched on.
@@ -88,13 +88,13 @@ In order to do that following "terminal"-commands are send:
 (breaks any currently running Vectrex 32 programs)
 - ::STOP::~~
 (stops any currently running Vectrex 32 programs)
-- ::LOAD “currentFile“::~~
+- ::LOAD "currentFile"::~~
 (tries to load the just saved program)
 - ::RUN::~~
 (... and starts it)
 
 :h2 The tree
-If "initialization" of Vectrex 32 went allright, than the tree shows the files which are stored on the Vectrex 32 usb device. Clicking on such a file will open it in the editor to the right. There are no popup menus (yet).
+If "initialization" of Vectrex 32 went alright, than the tree shows the files which are stored on the Vectrex 32 usb device. Clicking on such a file will open it in the editor to the right. There are no popup menus (yet).
 
 :h2 Editor
 The editor is basically the same as vide, with a different syntax highlighting. Inserting vectorlists and quickhelp is **not** available.
@@ -111,7 +111,7 @@ Hitting CTRL/C will send a "CTRL/C" to the device.
 Letters are **not** send when typed - they are only send after hitting "return" (CTRL/C being an exception).
 
 **Caveats**~~
-The terminal "emulation" is not as "clean" as I would like. Since the serial device is both an input and an output device, some communications (sometimes) when printing to the used jEditorPane (Java thingy) seem to "overlap". Everything works alright but the some letters are sometimes printed in the wrong place.
+The terminal "emulation" is not as "clean" as I would like. Since the serial device is both an input and an output device, some communications (sometimes) when printing to the used jEditorPane (Java thingy) seem to "overlap". Everything works alright but some letters are sometimes printed in the wrong place.
 
 Without doing a completely different "thing" I don't think this can be changed easily (I //tried! //).
 What I usually do when "talking" to the device is, "CTRL/A" + delete to clear the screen and start fresh (or just press the little "sun" button).
@@ -119,11 +119,11 @@ What I usually do when "talking" to the device is, "CTRL/A" + delete to clear th
 I also noticed, that sometimes the "CTRL/C" is not accepted immediatly, if that is the case, press "return" after the "CTRL/C".
 
 After implementing the "terminal" emulation - I have not used any "real" terminal with Vectrex 32, so I don't know if the next behaviour does also exist in the "normal" environment.~~
-Sometimes, when running a BASIC program the serial communication seems to "stumble". The 5 different parts are executed right after another (SAVE, CTRL/C, STOP, LOAD RUN), sometimes it seems, that the filesystem transfer is not finished, when the "LOAD" is commited to the device. Than the BASIC program is loaded in an "unfinished state" - which results in any kind of BASIC error. If a totally unexpected error happens, just try another "RUN".(YES, I already implemented a delay after the saveing...) 
+Sometimes, when running a BASIC program the serial communication seems to "stumble". The 5 different parts are executed right after another (SAVE, CTRL/C, STOP, LOAD, RUN), sometimes it seems, that the filesystem transfer is not finished, when the "LOAD" is commited to the device. Than the BASIC program is loaded in an "unfinished state" - which results in any kind of BASIC error. If a totally unexpected error happens, just try another "RUN"(YES, I already implemented a delay after the saving...).
  
 
 :h2 Vecci support
-Vectorlists that are build in vecci and are exportable as "Draw_VL_mode" can also be exported in BASIC format. To do that check the little checkbox at the side of the corresponding button. If done a vectorlist usable in BASIC programs will be generated.
+Vectorlists that are build in vecci and are exportable as "Draw\_VL\_mode" can also be exported in BASIC format. To do that check the little checkbox at the side of the corresponding button. If done, a vectorlist usable in BASIC programs will be generated.
 Example:~~
 ::
 VectorList={_~~
@@ -142,7 +142,7 @@ If you also check the "runnable" button, a Vectrex 32 runable BASIC program whic
 To transport the generated vectorlist to your own BASIC program you (as of now) must use copy/paste from vecci to Vec32.
 
 :h2 YM support
-At the middle of the icon bar is a "YM"-button, with that you can call the YM-editor and load and convert YM-data to BASIC.~~
+In the middle of the iconbar is a "YM"-button, with that you can call the YM-editor and load and convert YM-data to BASIC.~~
 The only output option as of now is UNPACKED (and not switchable). 
 ~~Beware, that the storage space of the Vectrex32 is "only" 430KB and that can be easily filled with a moderatly long YM files and its BASIC data output.~~
 A BASIC ym-player can also be generated.
@@ -153,4 +153,4 @@ A BASIC ym-player can also be generated.
 Following facts can be confusing when using Vectrex 32:
 - the BASIC text files must be "windows" like, thus a line must end with  0x0d + 0x0a characters (vide does that for you)
 - all vectorlists have the coordinates switched to "usual" vectrex usage, thus a vectorlist is stored with x, y as coordinates, **not** y, x
-- coordinates wihtin a vectorlist are "absolut" not relative
+- coordinates within a vectorlist are "absolut" not relative

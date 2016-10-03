@@ -7835,7 +7835,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jButtonMov_Draw_VLc_a.setEnabled(false);
             jButtonDraw_VLc.setEnabled(false);
         }
-        if (!jCheckBoxVectorsContinuous.isSelected())
+        if (!jCheckBoxVectorsContinuous.isSelected() || !jCheckBoxOnePath.isSelected())
         {
             jButtonMov_Draw_VLc_a.setEnabled(false);
             jButtonDraw_VLc.setEnabled(false);

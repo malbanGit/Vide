@@ -24,12 +24,9 @@ public class E8910 extends E8910State implements E8910Statics
     ***************************************************************************/
 
     VideConfig config = VideConfig.getConfig();
-
-
     transient int MAX_DIGIT_BUFFER = 60000;
     transient int[] digitByte = new int[MAX_DIGIT_BUFFER];
     transient int digitByteCounter =0;       
-
     transient VectrexJoyport[] joyport;
     
     
@@ -137,7 +134,6 @@ public class E8910 extends E8910State implements E8910Statics
 //        return 0xff;
     }
     
-    
     public void e8910_write(int r, int v)
     {
         int old;
@@ -209,8 +205,8 @@ public class E8910 extends E8910State implements E8910Statics
             case AY_ACOARSE:
                 snd_regs[AY_ACOARSE] &= 0x0f;
                 old = PSG.PeriodA;
-                PSG.PeriodA = (snd_regs[AY_AFINE] + 256 * snd_regs[AY_ACOARSE]) * STEP3;
-                if (PSG.PeriodA == 0) PSG.PeriodA = STEP3;
+                PSG.PeriodA = (snd_regs[AY_AFINE] + 256 * snd_regs[AY_ACOARSE])+STEP3;
+                if (PSG.PeriodA == 0) PSG.PeriodA =STEP3;
                 PSG.CountA += PSG.PeriodA - old;
                 if (PSG.CountA <= 0) PSG.CountA = 1;
                 break;
@@ -218,7 +214,7 @@ public class E8910 extends E8910State implements E8910Statics
             case AY_BCOARSE:
                 snd_regs[AY_BCOARSE] &= 0x0f;
                 old = PSG.PeriodB;
-                PSG.PeriodB = (snd_regs[AY_BFINE] + 256 * snd_regs[AY_BCOARSE]) * STEP3;
+                PSG.PeriodB = (snd_regs[AY_BFINE] + 256 * snd_regs[AY_BCOARSE])*STEP3;
                 if (PSG.PeriodB == 0) PSG.PeriodB = STEP3;
                 PSG.CountB += PSG.PeriodB - old;
                 if (PSG.CountB <= 0) PSG.CountB = 1;
@@ -227,7 +223,7 @@ public class E8910 extends E8910State implements E8910Statics
             case AY_CCOARSE:
                 snd_regs[AY_CCOARSE] &= 0x0f;
                 old = PSG.PeriodC;
-                PSG.PeriodC = (snd_regs[AY_CFINE] + 256 * snd_regs[AY_CCOARSE]) * STEP3;
+                PSG.PeriodC = (snd_regs[AY_CFINE] + 256 * snd_regs[AY_CCOARSE])*STEP3;
                 if (PSG.PeriodC == 0) PSG.PeriodC = STEP3;
                 PSG.CountC += PSG.PeriodC - old;
                 if (PSG.CountC <= 0) PSG.CountC = 1;
@@ -243,23 +239,22 @@ public class E8910 extends E8910State implements E8910Statics
             case AY_AVOL:
                 snd_regs[AY_AVOL] &= 0x1f;
                 PSG.EnvelopeA = snd_regs[AY_AVOL] & 0x10;
-                PSG.VolA = (PSG.EnvelopeA!=0) ? PSG.VolE : PSG.VolTable[(snd_regs[AY_AVOL]!=0) ? snd_regs[AY_AVOL]*2+1 : 0];
+                PSG.VolA = (PSG.EnvelopeA!=0) ? PSG.VolE : PSG.VolTable[(snd_regs[AY_AVOL]!=0) ? snd_regs[AY_AVOL] : 0];
                 break;
             case AY_BVOL:
                 snd_regs[AY_BVOL] &= 0x1f;
                 PSG.EnvelopeB = snd_regs[AY_BVOL] & 0x10;
-                PSG.VolB = (PSG.EnvelopeB!=0) ? PSG.VolE : PSG.VolTable[(snd_regs[AY_BVOL]!=0) ? snd_regs[AY_BVOL]*2+1 : 0];
+                PSG.VolB = (PSG.EnvelopeB!=0) ? PSG.VolE : PSG.VolTable[(snd_regs[AY_BVOL]!=0) ? snd_regs[AY_BVOL] : 0];
                 break;
             case AY_CVOL:
                 snd_regs[AY_CVOL] &= 0x1f;
                 PSG.EnvelopeC = snd_regs[AY_CVOL] & 0x10;
-                PSG.VolC = (PSG.EnvelopeC!=0) ? PSG.VolE : PSG.VolTable[(snd_regs[AY_CVOL]!=0) ? snd_regs[AY_CVOL]*2+1 : 0];
+                PSG.VolC = (PSG.EnvelopeC!=0) ? PSG.VolE : PSG.VolTable[(snd_regs[AY_CVOL]!=0) ? snd_regs[AY_CVOL] : 0];
                 break;
             case AY_EFINE:
             case AY_ECOARSE:
                 old = PSG.PeriodE;
-                PSG.PeriodE = ((snd_regs[AY_EFINE] + 256 * snd_regs[AY_ECOARSE])) * STEP3;
-                //if (PSG.PeriodE == 0) PSG.PeriodE = STEP3 / 2;
+                PSG.PeriodE = ((snd_regs[AY_EFINE] + 256 * snd_regs[AY_ECOARSE]))* STEP3;
                 if (PSG.PeriodE == 0) PSG.PeriodE = STEP3;
                 PSG.CountE += PSG.PeriodE - old;
                 if (PSG.CountE <= 0) PSG.CountE = 1;
@@ -292,7 +287,7 @@ public class E8910 extends E8910State implements E8910Statics
                  just a smoother curve, we always use the YM2149 behaviour.
                  */
                 snd_regs[AY_ESHAPE] &= 0x0f;
-                PSG.Attack = ((snd_regs[AY_ESHAPE] & 0x04)!=0) ? 0x1f : 0x00;
+                PSG.Attack = ((snd_regs[AY_ESHAPE] & 0x04)!=0) ? 0x0f : 0x00;
                 if ((snd_regs[AY_ESHAPE] & 0x08) == 0)
                 {
                     /* if Continue = 0, map the shape to the equivalent one which has Continue = 1 */
@@ -305,12 +300,15 @@ public class E8910 extends E8910State implements E8910Statics
                     PSG.Alternate = snd_regs[AY_ESHAPE] & 0x02;
                 }
                 PSG.CountE = PSG.PeriodE;
-                PSG.CountEnv = 0x1f;
-                PSG.Holding = 0;
+                PSG.CountEnv = 0x0f;
+                PSG.Continue = 0;
                 PSG.VolE = PSG.VolTable[PSG.CountEnv ^ PSG.Attack];
-                if (PSG.EnvelopeA!=0) PSG.VolA = PSG.VolE;
-                if (PSG.EnvelopeB!=0) PSG.VolB = PSG.VolE;
-                if (PSG.EnvelopeC!=0) PSG.VolC = PSG.VolE;
+                if (PSG.EnvelopeA!=0) 
+                    PSG.VolA = PSG.VolE;
+                if (PSG.EnvelopeB!=0) 
+                    PSG.VolB = PSG.VolE;
+                if (PSG.EnvelopeC!=0) 
+                    PSG.VolC = PSG.VolE;
                 break;
             case AY_ENABLE:
             {
@@ -322,14 +320,10 @@ public class E8910 extends E8910State implements E8910Statics
 
                     if  ((snd_regs[AY_ENABLE] & 0x40 ) == 0) // input mode
                     {
-//                        portAOut = snd_regs[14]; // remember, in case we need it (we dont)
-                        
-                        // ATT
                         readDataToPSGFromPortA();
                     }
                     else // output mode
                     {
-//                        snd_regs[14] = portAOut;
                         writeDataFromPSGToPortA();
                     }
                 }
@@ -352,7 +346,7 @@ public class E8910 extends E8910State implements E8910Statics
             for (int i=0; i< length;i++)stream[i]=0;
             return;
         }
-        length = length * 2;
+//        length = length * 2;
 
         /* The 8910 has three outputs, each output is the mix of one of the three */
         /* tone generators and of the (single) noise generator. The two are mixed */
@@ -446,12 +440,12 @@ public class E8910 extends E8910State implements E8910Statics
                             if (PSG.OutputA!=0) 
                                 vola += PSG.PeriodA;
                             break;
-                    }
+                        }
                         PSG.CountA += PSG.PeriodA;
                         vola += PSG.PeriodA;
                     }
-                        if (PSG.OutputA!=0) 
-                            vola -= PSG.CountA;
+                    if (PSG.OutputA!=0) 
+                        vola -= PSG.CountA;
                 }
                 else
                 {
@@ -568,14 +562,20 @@ public class E8910 extends E8910State implements E8910Statics
             } while (left > 0);
 
             /* update envelope */
-            if (PSG.Holding == 0)
+            // this continue is NOT the PSG envelope flag continue
+            // since the "real" continue is "changed" to reflect the corresponding other
+            // attacks
+            // this continue is a flag whether a continue state was REACHED
+            if (PSG.Continue == 0)
             {
-                PSG.CountE -= STEP;
+PSG.CountE -= STEP;
+//PSG.CountE -= 1;
                 if (PSG.CountE <= 0)
                 {
                     do
                     {
                         PSG.CountEnv--;
+//PSG.CountEnv--;
                         PSG.CountE += PSG.PeriodE;
                     } while (PSG.CountE <= 0);
 
@@ -585,42 +585,52 @@ public class E8910 extends E8910State implements E8910Statics
                         if (PSG.Hold!=0)
                         {
                             if (PSG.Alternate!=0)
-                                PSG.Attack ^= 0x1f;
-                            PSG.Holding = 1;
+//                                PSG.Attack ^= 0x1f;
+                                PSG.Attack ^= 0x0f;
+                            PSG.Continue = 1;
                             PSG.CountEnv = 0;
                         }
                         else
                         {
                             /* if CountEnv has looped an odd number of times (usually 1), */
                             /* invert the output. */
-                            if ((PSG.Alternate!=0) && ((PSG.CountEnv & 0x20)!=0))
-                                PSG.Attack ^= 0x1f;
+//     ??? 20?                       if ((PSG.Alternate!=0) && ((PSG.CountEnv & 0x20)!=0))
+                            if ((PSG.Alternate!=0) && ((PSG.CountEnv & 0x10)!=0))
+//                                PSG.Attack ^= 0x1f;
+                                PSG.Attack ^= 0x0f;
 
-                            PSG.CountEnv &= 0x1f;
+//                            PSG.CountEnv &= 0x1f;
+                            PSG.CountEnv &= 0x0f;
                         }
-                   }
-
+                    }
                     PSG.VolE = PSG.VolTable[PSG.CountEnv ^ PSG.Attack];
                     /* reload volume */
-                    if (PSG.EnvelopeA!=0) PSG.VolA = PSG.VolE;
-                    if (PSG.EnvelopeB!=0) PSG.VolB = PSG.VolE;
-                    if (PSG.EnvelopeC!=0) PSG.VolC = PSG.VolE;
+                    if (PSG.EnvelopeA!=0) 
+                        PSG.VolA = PSG.VolE;
+                    if (PSG.EnvelopeB!=0) 
+                        PSG.VolB = PSG.VolE;
+                    if (PSG.EnvelopeC!=0) 
+                        PSG.VolC = PSG.VolE;
                 }
             }
+//System.out.println("VolE: "+PSG.VolE);
             
             int enableA = 0;
             int enableB = 0;
             int enableC = 0;
-            if (((snd_regs[AY_ENABLE] & 0x01) == 0) || ( (snd_regs[AY_ENABLE] & 0x08) == 0) )enableA = 1;
-            if (((snd_regs[AY_ENABLE] & 0x02) == 0) || ( (snd_regs[AY_ENABLE] & 0x10) == 0) )enableB = 1;
-            if (((snd_regs[AY_ENABLE] & 0x04) == 0) || ( (snd_regs[AY_ENABLE] & 0x20) == 0) )enableC = 1;
+            if ((((snd_regs[AY_ENABLE] & 0x01) == 0) || ( (snd_regs[AY_ENABLE] & 0x08) == 0) ))enableA = 1;
+            if ((((snd_regs[AY_ENABLE] & 0x02) == 0) || ( (snd_regs[AY_ENABLE] & 0x10) == 0) ))enableB = 1;
+            if ((((snd_regs[AY_ENABLE] & 0x04) == 0) || ( (snd_regs[AY_ENABLE] & 0x20) == 0) ))enableC = 1;
             
             
-            vol = (enableA*vola * PSG.VolA + enableB*volb * PSG.VolB + enableC*volc * PSG.VolC) / (3 * STEP);
+//            vol = (enableA*vola * PSG.VolA + enableB*volb * PSG.VolB + enableC*volc * PSG.VolC) / (3);
+            vol = (vola*enableA * PSG.VolA + volb*enableB * PSG.VolB + volc*enableC * PSG.VolC) / (3*STEP);
+//System.out.println("vola: "+vola+"*"+PSG.VolA +"="+(enableA*vola * PSG.VolA));            
             // vol is 12 bit positive volume! (max 4095)
             // PSG output is signed
             // but allways positive!
-            if ((--length & 1) !=0)
+//            if ((--length & 1) !=0)
+            if (--length !=0)
             {
                 int vol8BitSigned = ((vol >> 5))&0xff;
                 if (config.psgSound)
@@ -665,23 +675,6 @@ public class E8910 extends E8910State implements E8910Statics
     }
     int maxpsg = -1;
     
-    void e8910_build_mixer_table()
-    {
-        int i;
-        double out;
-
-        /* calculate the volume->voltage conversion table */
-        /* The AY-3-8910 has 16 levels, in a logarithmic scale (3dB per STEP) */
-        /* The YM2149 still has 16 levels for the tone generators, but 32 for */
-        /* the envelope generator (1.5dB per STEP). */
-        out = MAX_OUTPUT;
-        for (i = 31;i > 0;i--)
-        {
-            PSG.VolTable[i] = (int) (out + 0.5);	/* round to nearest */
-            out /= 1.188502227;	/* = 10 ^ (1.5/20) = 1.5dB */
-        }
-        PSG.VolTable[0] = 0;
-    }
     public void e8910_init_sound()
     {
         PSG.RNG  = 1;
@@ -689,7 +682,6 @@ public class E8910 extends E8910State implements E8910Statics
         PSG.OutputB = 0;
         PSG.OutputC = 0;
         PSG.OutputN = 0xff;
-        e8910_build_mixer_table();
         PSG.ready = 1;
     }
     void e8910_done_sound()

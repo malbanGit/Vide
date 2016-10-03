@@ -1,4 +1,14 @@
 /*
+Ideas for further optmization of space usage
+
+- preprocess ym files, and use sematic knowlegde to leave out registers as a whole
+- e.g if amplitude = 0, no noise/frequency must be set at all!
+- if noise and tone = disabled, none of the other registers of that voice need be processed
+
+*/
+
+
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -21,6 +31,7 @@ import de.malban.vide.vecx.E8910;
 import static de.malban.vide.vecx.VecX.SOUNDBUFFER_SIZE;
 import de.malban.vide.vedi.VediPanel;
 import de.malban.vide.vedi.VediPanel32;
+import static de.malban.vide.vedi.sound.YmSound.enableAmlitude5thBit;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
@@ -35,6 +46,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -248,12 +264,13 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         
         initYM(filename);
         startPath = pathOnly;
+        lastPath = startPath;
+
         jTable1.setModel(new YMTableModel());
         jTable2.setModel(new YMCountTableModel());
         JScrollBar sBar1 = jScrollPane1.getVerticalScrollBar();
         JScrollBar sBar2 = jScrollPane2.getVerticalScrollBar();
         sBar2.setModel(sBar1.getModel()); //<--------------synchronize   
-        
         jTable1.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
         {
             @Override
@@ -301,7 +318,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 }
                 return this;
             }   
-        });                
+        });       
+        initLister();
     }
 
     boolean initYM(String filename)
@@ -379,34 +397,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jTextFieldYMVersion = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        jTextFieldAttributes = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        jTextFieldFrequencyComputer = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        jTextFieldLoop = new javax.swing.JTextField();
-        jCheckBoxPacked = new javax.swing.JCheckBox();
-        jLabel21 = new javax.swing.JLabel();
-        jTextFieldFrequencyPlayer = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
-        jTextFieldFutureData = new javax.swing.JTextField();
-        jTextFieldComment = new javax.swing.JTextField();
-        jTextFieldAuthor = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
-        jTextFieldSongName = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
-        jTextFieldSamples = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jComboBoxInterleaved = new javax.swing.JComboBox();
         jComboBox1 = new javax.swing.JComboBox();
         jLabel20 = new javax.swing.JLabel();
-        jCheckBoxDontCompress = new javax.swing.JCheckBox();
-        jCheckBoxCreatePlayer = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jTextField16a = new javax.swing.JTextField();
         jTextField1a = new javax.swing.JTextField();
@@ -587,21 +579,71 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jLabelPSG14 = new javax.swing.JLabel();
         jLabelPSG13 = new javax.swing.JLabel();
         jLabelPSG12 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jButtonLoad1 = new javax.swing.JButton();
-        jButtonSave1 = new javax.swing.JButton();
-        jCheckBox19 = new javax.swing.JCheckBox();
-        jCheckBox22 = new javax.swing.JCheckBox();
-        jPanel7 = new javax.swing.JPanel();
-        jButtonLoad2 = new javax.swing.JButton();
-        jButtonSave2 = new javax.swing.JButton();
-        jCheckBox17 = new javax.swing.JCheckBox();
-        jCheckBox20 = new javax.swing.JCheckBox();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel142 = new javax.swing.JLabel();
+        jLabel140 = new javax.swing.JLabel();
+        jLabel139 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jTextFieldYMVersion = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jTextFieldAttributes = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jTextFieldFrequencyComputer = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jTextFieldLoop = new javax.swing.JTextField();
+        jCheckBoxPacked = new javax.swing.JCheckBox();
+        jLabel21 = new javax.swing.JLabel();
+        jTextFieldFrequencyPlayer = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        jTextFieldFutureData = new javax.swing.JTextField();
+        jTextFieldComment = new javax.swing.JTextField();
+        jTextFieldAuthor = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jTextFieldSongName = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jTextFieldSamples = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jComboBoxInterleaved = new javax.swing.JComboBox();
+        jLabel112 = new javax.swing.JLabel();
+        jLabel141 = new javax.swing.JLabel();
+        jLabel138 = new javax.swing.JLabel();
+        jLabel137 = new javax.swing.JLabel();
+        jLabel136 = new javax.swing.JLabel();
+        jLabel135 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jButtonLoad3 = new javax.swing.JButton();
         jButtonSave3 = new javax.swing.JButton();
         jCheckBox18 = new javax.swing.JCheckBox();
         jCheckBox21 = new javax.swing.JCheckBox();
+        jLabel148 = new javax.swing.JLabel();
+        jLabel147 = new javax.swing.JLabel();
+        jLabel146 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jButtonLoad2 = new javax.swing.JButton();
+        jButtonSave2 = new javax.swing.JButton();
+        jCheckBox17 = new javax.swing.JCheckBox();
+        jCheckBox20 = new javax.swing.JCheckBox();
+        jLabel144 = new javax.swing.JLabel();
+        jCheckBoxCreatePlayer = new javax.swing.JCheckBox();
+        jComboBox2 = new javax.swing.JComboBox();
+        jPanel6 = new javax.swing.JPanel();
+        jButtonLoad1 = new javax.swing.JButton();
+        jButtonSave1 = new javax.swing.JButton();
+        jCheckBox19 = new javax.swing.JCheckBox();
+        jCheckBox22 = new javax.swing.JCheckBox();
+        jLabel143 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel145 = new javax.swing.JLabel();
+        jCheckBox23 = new javax.swing.JCheckBox();
+        jCheckBox24 = new javax.swing.JCheckBox();
+        jCheckBox25 = new javax.swing.JCheckBox();
 
         setPreferredSize(new java.awt.Dimension(960, 537));
 
@@ -855,147 +897,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         jLabel10.setText("Song:");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("YM file"));
-
-        jLabel11.setText("version:");
-
-        jTextFieldYMVersion.setEnabled(false);
-
-        jLabel12.setText("attributes:");
-
-        jTextFieldAttributes.setEnabled(false);
-
-        jLabel13.setText("frequency:");
-
-        jTextFieldFrequencyComputer.setEnabled(false);
-
-        jLabel14.setText("loop at:");
-
-        jCheckBoxPacked.setEnabled(false);
-
-        jLabel21.setText("packed:");
-
-        jTextFieldFrequencyPlayer.setEnabled(false);
-
-        jLabel22.setText("# future data:");
-
-        jTextFieldFutureData.setEnabled(false);
-
-        jLabel18.setText("comment:");
-
-        jLabel17.setText("author:");
-
-        jTextFieldSamples.setEnabled(false);
-
-        jLabel15.setText("# samples:");
-
-        jLabel19.setText("format:");
-
-        jLabel16.setText("name:");
-
-        jComboBoxInterleaved.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "interleaved", "non interleaved" }));
-        jComboBoxInterleaved.setPreferredSize(new java.awt.Dimension(59, 19));
-        jComboBoxInterleaved.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxInterleavedActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel14)
-                                .addComponent(jLabel13)
-                                .addComponent(jLabel12)
-                                .addComponent(jLabel11)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 17, Short.MAX_VALUE)))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-                        .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldAuthor)
-                    .addComponent(jTextFieldComment)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldSamples, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldFutureData, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextFieldFrequencyComputer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextFieldFrequencyPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextFieldYMVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(75, 75, 75)
-                                .addComponent(jLabel21)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBoxPacked)))
-                        .addGap(0, 52, Short.MAX_VALUE))
-                    .addComponent(jTextFieldSongName)
-                    .addComponent(jTextFieldAttributes)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jComboBoxInterleaved, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxPacked, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel11)
-                        .addComponent(jTextFieldYMVersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel21)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jTextFieldAttributes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jTextFieldFrequencyComputer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFrequencyPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(jTextFieldLoop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22)
-                    .addComponent(jTextFieldFutureData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldSamples, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(jTextFieldSongName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(jTextFieldAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(jTextFieldComment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel19)
-                    .addComponent(jComboBoxInterleaved, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "50 Hz", "60 Hz" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1004,12 +905,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         });
 
         jLabel20.setText("speed:");
-
-        jCheckBoxDontCompress.setText("don't compress");
-        jCheckBoxDontCompress.setToolTipText("If you don't compress, than only data files of pure YM data will be generated...");
-
-        jCheckBoxCreatePlayer.setSelected(true);
-        jCheckBoxCreatePlayer.setText("create player");
 
         jPanel4.setLayout(null);
 
@@ -2823,121 +2718,179 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel6.setBackground(new java.awt.Color(255, 204, 204));
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Channel C - AYFX"));
+        jLabel142.setText("bitstream dictionary");
 
-        jButtonLoad1.setBackground(new java.awt.Color(204, 204, 255));
-        jButtonLoad1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
-        jButtonLoad1.setToolTipText("load AFX to pos");
-        jButtonLoad1.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonLoad1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel140.setText("0");
+
+        jLabel139.setText("distinct bitstream lines");
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("YM file"));
+
+        jLabel11.setText("version:");
+
+        jTextFieldYMVersion.setEnabled(false);
+
+        jLabel12.setText("attributes:");
+
+        jTextFieldAttributes.setEnabled(false);
+
+        jLabel13.setText("frequency:");
+
+        jTextFieldFrequencyComputer.setEnabled(false);
+
+        jLabel14.setText("loop at:");
+
+        jCheckBoxPacked.setEnabled(false);
+
+        jLabel21.setText("packed:");
+
+        jTextFieldFrequencyPlayer.setEnabled(false);
+
+        jLabel22.setText("# future data:");
+
+        jTextFieldFutureData.setEnabled(false);
+
+        jLabel18.setText("comment:");
+
+        jLabel17.setText("author:");
+
+        jTextFieldSamples.setEnabled(false);
+
+        jLabel15.setText("# samples:");
+
+        jLabel19.setText("format:");
+
+        jLabel16.setText("name:");
+
+        jComboBoxInterleaved.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "interleaved", "non interleaved" }));
+        jComboBoxInterleaved.setPreferredSize(new java.awt.Dimension(59, 19));
+        jComboBoxInterleaved.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLoad1ActionPerformed(evt);
+                jComboBoxInterleavedActionPerformed(evt);
             }
         });
 
-        jButtonSave1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
-        jButtonSave1.setToolTipText("save as AYFX");
-        jButtonSave1.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonSave1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSave1ActionPerformed(evt);
-            }
-        });
+        jLabel112.setText("individual: ");
 
-        jCheckBox19.setBackground(new java.awt.Color(255, 204, 204));
-        jCheckBox19.setText("only selection");
-        jCheckBox19.setToolTipText("save only selection");
+        jLabel141.setText("0");
 
-        jCheckBox22.setBackground(new java.awt.Color(255, 204, 204));
-        jCheckBox22.setText("overwrite");
-        jCheckBox22.setToolTipText("load ... or insert (new rows)");
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jButtonLoad1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonSave1)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox22, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel11))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel112, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldAuthor)
+                    .addComponent(jTextFieldComment)
+                    .addComponent(jTextFieldSongName)
+                    .addComponent(jTextFieldAttributes)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jTextFieldFutureData, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldSamples, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jTextFieldFrequencyComputer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldFrequencyPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jTextFieldYMVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(75, 75, 75)
+                                        .addComponent(jLabel21)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jCheckBoxPacked))
+                                    .addComponent(jComboBoxInterleaved, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel141, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonLoad1)
-                    .addComponent(jButtonSave1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jCheckBox22)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxPacked, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11)
+                        .addComponent(jTextFieldYMVersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel21)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox19)
-                .addContainerGap())
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jTextFieldAttributes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jTextFieldFrequencyComputer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldFrequencyPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14)
+                    .addComponent(jTextFieldLoop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel22)
+                    .addComponent(jTextFieldFutureData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldSamples, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(jTextFieldSongName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(jTextFieldAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(jTextFieldComment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel19)
+                    .addComponent(jComboBoxInterleaved, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel112))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel141))))
         );
 
-        jPanel7.setBackground(new java.awt.Color(204, 204, 255));
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Channel A - AYFX"));
+        jLabel138.setText("0");
 
-        jButtonLoad2.setBackground(new java.awt.Color(204, 204, 255));
-        jButtonLoad2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
-        jButtonLoad2.setToolTipText("load AFX to pos");
-        jButtonLoad2.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonLoad2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLoad2ActionPerformed(evt);
-            }
-        });
+        jLabel137.setText("bitStream length");
 
-        jButtonSave2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
-        jButtonSave2.setToolTipText("save as AYFX");
-        jButtonSave2.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonSave2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSave2ActionPerformed(evt);
-            }
-        });
+        jLabel136.setText("0");
 
-        jCheckBox17.setBackground(new java.awt.Color(204, 204, 255));
-        jCheckBox17.setText("only selection");
-        jCheckBox17.setToolTipText("save only selection");
-
-        jCheckBox20.setBackground(new java.awt.Color(204, 204, 255));
-        jCheckBox20.setText("overwrite");
-        jCheckBox20.setToolTipText("load ... or insert (new rows)");
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jButtonLoad2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonSave2)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox20, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox17, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonLoad2)
-                    .addComponent(jButtonSave2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jCheckBox20)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox17)
-                .addContainerGap())
-        );
+        jLabel135.setText("data length:");
 
         jPanel8.setBackground(new java.awt.Color(255, 204, 255));
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Channel B - AYFX"));
@@ -2997,73 +2950,372 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 .addContainerGap())
         );
 
+        jLabel148.setText("     ");
+
+        jLabel147.setText("     ");
+
+        jLabel146.setText("     ");
+
+        jPanel7.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Channel A - AYFX"));
+
+        jButtonLoad2.setBackground(new java.awt.Color(204, 204, 255));
+        jButtonLoad2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
+        jButtonLoad2.setToolTipText("load AFX to pos");
+        jButtonLoad2.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoad2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoad2ActionPerformed(evt);
+            }
+        });
+
+        jButtonSave2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
+        jButtonSave2.setToolTipText("save as AYFX");
+        jButtonSave2.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonSave2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSave2ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox17.setBackground(new java.awt.Color(204, 204, 255));
+        jCheckBox17.setText("only selection");
+        jCheckBox17.setToolTipText("save only selection");
+
+        jCheckBox20.setBackground(new java.awt.Color(204, 204, 255));
+        jCheckBox20.setText("overwrite");
+        jCheckBox20.setToolTipText("load ... or insert (new rows)");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jButtonLoad2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonSave2)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox20, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox17, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonLoad2)
+                    .addComponent(jButtonSave2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jCheckBox20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox17)
+                .addContainerGap())
+        );
+
+        jLabel144.setText("encoding");
+
+        jCheckBoxCreatePlayer.setSelected(true);
+        jCheckBoxCreatePlayer.setText("create player");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "uncompressed", "YMSound (historic)", "YMSound optimized speed", "streamed" }));
+        jComboBox2.setSelectedIndex(2);
+
+        jPanel6.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Channel C - AYFX"));
+
+        jButtonLoad1.setBackground(new java.awt.Color(204, 204, 255));
+        jButtonLoad1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
+        jButtonLoad1.setToolTipText("load AFX to pos");
+        jButtonLoad1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoad1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoad1ActionPerformed(evt);
+            }
+        });
+
+        jButtonSave1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
+        jButtonSave1.setToolTipText("save as AYFX");
+        jButtonSave1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonSave1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSave1ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox19.setBackground(new java.awt.Color(255, 204, 204));
+        jCheckBox19.setText("only selection");
+        jCheckBox19.setToolTipText("save only selection");
+
+        jCheckBox22.setBackground(new java.awt.Color(255, 204, 204));
+        jCheckBox22.setText("overwrite");
+        jCheckBox22.setToolTipText("load ... or insert (new rows)");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jButtonLoad1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonSave1)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox22, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonLoad1)
+                    .addComponent(jButtonSave1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jCheckBox22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox19)
+                .addContainerGap())
+        );
+
+        jLabel143.setText("0");
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel144)
+                            .addComponent(jCheckBoxCreatePlayer))
+                        .addGap(133, 133, 133)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel147, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel148, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel135, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel136, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel137, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel142, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel139)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel143, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel140, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel138, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel146, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel135)
+                    .addComponent(jLabel136)
+                    .addComponent(jLabel137)
+                    .addComponent(jLabel138, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel139)
+                    .addComponent(jLabel140))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel142)
+                    .addComponent(jLabel143))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addComponent(jLabel144)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel146))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBoxCreatePlayer)
+                    .addComponent(jLabel148))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel147)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Programmer", jPanel10);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTable3MousePressed(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTable3);
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Lister", jPanel9);
+
+        jLabel145.setText("Preprocess");
+
+        jCheckBox23.setText("amplitude");
+        jCheckBox23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox23ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox24.setText("tone");
+        jCheckBox24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox24ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox25.setText("noise");
+        jCheckBox25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox25ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel145)
+                    .addComponent(jCheckBox25, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jCheckBox23, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCheckBox24, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(289, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel145)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBox25)
+                .addContainerGap(399, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("more configuration", jPanel11);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(930, 930, 930)
+                .addComponent(jButtonCancel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButtonAddRow))
+                    .addComponent(jButtonCopy)
+                    .addComponent(jButtonPaste)
+                    .addComponent(jButtonCut)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonInsertYM)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonSaveSelection)))
+                .addGap(0, 0, 0)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButtonAddRow))
-                            .addComponent(jButtonCopy)
-                            .addComponent(jButtonPaste)
-                            .addComponent(jButtonCut)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonInsertYM)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonSaveSelection)))
-                        .addGap(0, 0, 0)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxDontCompress)
-                    .addComponent(jCheckBoxCreatePlayer)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(198, 198, 198)
-                            .addComponent(jButtonCancel))
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jButtonPlaySample)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButtonStop2)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(30, 30, 30)
-                                    .addComponent(jButtonStop3)
-                                    .addGap(53, 53, 53)
-                                    .addComponent(jButtonLoad)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButtonSave)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButtonNewYM)
-                                    .addGap(22, 22, 22)
-                                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButtonPlaySample)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonStop2)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addComponent(jButtonStop3)
+                                        .addGap(53, 53, 53)
+                                        .addComponent(jButtonLoad)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonSave)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonNewYM)
+                                        .addGap(22, 22, 22)
+                                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(17, 17, 17))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jTabbedPane1)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3091,8 +3343,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(1, 1, 1)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2)))
                             .addComponent(jButtonAddRow)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -3109,21 +3361,12 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                                 .addComponent(jButtonSave)
                                 .addComponent(jButtonNewYM))
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(7, 7, 7)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBoxDontCompress)
-                        .addGap(4, 4, 4)
-                        .addComponent(jCheckBoxCreatePlayer)
+                        .addComponent(jTabbedPane1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonCreate)
-                            .addComponent(jButtonCancel))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jButtonCancel))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -3147,6 +3390,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         usedRegs[13] = jCheckBox14.isSelected();
         usedRegs[14] = jCheckBox15.isSelected();
         usedRegs[15] = jCheckBox16.isSelected();
+        
+        if (usedRegs[13]) YmSound.enableAmlitude5thBit = usedRegs[13];
     }
     
     private void jButtonCancelActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
@@ -3159,7 +3404,14 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
     
     private void jButtonCreateActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
-        doYM_part1();
+
+        preprocess();
+        if (jComboBox2.getSelectedIndex() == 3)
+        {
+            //checkSameLines();
+        }
+        else
+            doYM_part1();
     }//GEN-LAST:event_jButtonCreateActionPerformed
 
     long loopStart = -1;
@@ -3321,6 +3573,10 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
             JTextField f = (JTextField)evt.getSource();
             int count = DASM6809.toNumber(f.getName());
             int value = DASM6809.toNumber(f.getText());
+            if (evt.isShiftDown())
+            {
+                completeColumnToValue(count, value);
+            }
             e8910.e8910_write(count, value);
             updatePSG();
         }
@@ -3365,7 +3621,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         if (copyBuf==null) return;
         insertYM(copyBuf, copyBuf[0].length);
     }//GEN-LAST:event_jButtonPasteActionPerformed
-    String lastPath =".";
+    String lastPath ="."+File.separator;
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
 
         if (jTable1.isEditing()) jTable1.getCellEditor().stopCellEditing();        
@@ -3373,6 +3629,10 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         if (lastPath.length()==0)
         {
+            if (pathOnly.length()==0)
+            {
+                pathOnly =  "."+File.separator;
+            }
             fc.setCurrentDirectory(new java.io.File(pathOnly));
         }
         else
@@ -3393,6 +3653,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTable2.tableChanged(null);
         jTable1.repaint();
         jTable2.repaint();
+        initLister();
     }//GEN-LAST:event_jButtonLoadActionPerformed
     // 32 bit int as byte array in big endian
     byte[] getLongBytes(int l)
@@ -3489,19 +3750,20 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                             if (r == 10) toWrite = (byte) (toWrite & 0x1f);
                             if (r == 11) toWrite = (byte) (toWrite & 0xff);
                             if (r == 12) toWrite = (byte) (toWrite & 0xff);
-                            if (r == 13) toWrite = (byte) (toWrite & 0x0f);
-                            if (r == 14) toWrite = (byte) (toWrite & 0x1f);
+                            if (r == 14) toWrite = 0;
                             if (r == 15) toWrite = 0;
-                            if (r == 16) toWrite = 0;
                             if (r == 13) 
                             {
                                 if (i>0)
                                 {
-                                    if (toWrite == (byte) ((ymSound.out_buf[r][i-1]) & 0x0f))
-                                        toWrite = (byte)0xff;
+                                    if (toWrite != (byte) 0xff)
+                                    {
+                                        toWrite = (byte) (toWrite & 0x0f);
+                                        if (toWrite == (byte) ((ymSound.out_buf[r][i-1]) & 0x0f))
+                                            toWrite = (byte)0xff;
+                                        
+                                    }
                                 }
-                                else
-                                    toWrite = (byte)0xff;
                             }                  
                             output.write(toWrite);
                         }
@@ -3561,7 +3823,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
             log.addLog(ex, WARN);
             return false;
         }
-        ((VediPanel)tinyLog).refreshTree();   
+        if (tinyLog instanceof VediPanel)
+            ((VediPanel)tinyLog).refreshTree();   
         return true;
     }
 
@@ -3679,6 +3942,22 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         saveAYFX(jCheckBox18.isSelected(), "B");
     }//GEN-LAST:event_jButtonSave3ActionPerformed
 
+    private void jCheckBox23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox23ActionPerformed
+        preprocAmp = jCheckBox23.isSelected();
+    }//GEN-LAST:event_jCheckBox23ActionPerformed
+
+    private void jCheckBox24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox24ActionPerformed
+        preprocTone = jCheckBox24.isSelected();
+    }//GEN-LAST:event_jCheckBox24ActionPerformed
+
+    private void jCheckBox25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox25ActionPerformed
+        preprocNoise = jCheckBox25.isSelected();
+    }//GEN-LAST:event_jCheckBox25ActionPerformed
+
+    private void jTable3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MousePressed
+        tableClicked(evt);
+    }//GEN-LAST:event_jTable3MousePressed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -3719,6 +3998,9 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JCheckBox jCheckBox20;
     private javax.swing.JCheckBox jCheckBox21;
     private javax.swing.JCheckBox jCheckBox22;
+    private javax.swing.JCheckBox jCheckBox23;
+    private javax.swing.JCheckBox jCheckBox24;
+    private javax.swing.JCheckBox jCheckBox25;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
@@ -3727,7 +4009,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JCheckBox jCheckBox9;
     private javax.swing.JCheckBox jCheckBoxCreatePlayer;
-    private javax.swing.JCheckBox jCheckBoxDontCompress;
     private javax.swing.JCheckBox jCheckBoxModeA;
     private javax.swing.JCheckBox jCheckBoxModeB;
     private javax.swing.JCheckBox jCheckBoxModeC;
@@ -3739,6 +4020,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JCheckBox jCheckBoxToneB;
     private javax.swing.JCheckBox jCheckBoxToneC;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JComboBox jComboBoxEnvelope;
     private javax.swing.JComboBox jComboBoxInterleaved;
     private javax.swing.JComboBox jComboBoxNotesA;
@@ -3759,6 +4041,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel110;
     private javax.swing.JLabel jLabel111;
+    private javax.swing.JLabel jLabel112;
     private javax.swing.JLabel jLabel113;
     private javax.swing.JLabel jLabel114;
     private javax.swing.JLabel jLabel115;
@@ -3783,7 +4066,21 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JLabel jLabel132;
     private javax.swing.JLabel jLabel133;
     private javax.swing.JLabel jLabel134;
+    private javax.swing.JLabel jLabel135;
+    private javax.swing.JLabel jLabel136;
+    private javax.swing.JLabel jLabel137;
+    private javax.swing.JLabel jLabel138;
+    private javax.swing.JLabel jLabel139;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel140;
+    private javax.swing.JLabel jLabel141;
+    private javax.swing.JLabel jLabel142;
+    private javax.swing.JLabel jLabel143;
+    private javax.swing.JLabel jLabel144;
+    private javax.swing.JLabel jLabel145;
+    private javax.swing.JLabel jLabel146;
+    private javax.swing.JLabel jLabel147;
+    private javax.swing.JLabel jLabel148;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -3894,6 +4191,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JLabel jLabelPSG8;
     private javax.swing.JLabel jLabelPSG9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3901,14 +4200,18 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSlider jSliderAmplidtudeA;
     private javax.swing.JSlider jSliderAmplidtudeB;
     private javax.swing.JSlider jSliderAmplidtudeC;
     private javax.swing.JSlider jSliderNoise;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField10a;
     private javax.swing.JTextField jTextField11a;
     private javax.swing.JTextField jTextField12a;
@@ -3955,7 +4258,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         YMJPanel panel = new YMJPanel(fileName, tl);
         panel.standalone = sa;
        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1024, 600, panel.getMenuItem().getText());
+       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1024, 700, panel.getMenuItem().getText());
        
        if (tl instanceof VediPanel32)
        {
@@ -3969,6 +4272,11 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
     void doYM_part1()
     {
+        boolean uncompressed = false;
+        int selectedMode = jComboBox2.getSelectedIndex();
+        if (selectedMode == 0) // uncompressd
+            uncompressed = true;
+        
         if (standalone)
         {
             // ask where to save!
@@ -4102,13 +4410,9 @@ s
             }
             if (tinyLog instanceof VediPanel)
                 ((VediPanel)tinyLog).refreshTree();
-            if (standalone)
-            {
-                VediPanel.openInVedi(pathOnly+filenameOnly.substring(0,filenameOnly.length()-3)+"Main.asm");
-            }            
             return;
         }
-        if (jCheckBoxDontCompress.isSelected())
+        if (uncompressed)
         {
             File file = new File(pathOnly+filenameBaseOnly+".asm");
             saveNameOnly = filenameBaseOnly+".asm";
@@ -4198,6 +4502,20 @@ s
     
     void doYM_part2()
     {
+        boolean ymhistoric = false;
+        boolean ymoptimized = false;
+        int selectedMode = jComboBox2.getSelectedIndex();
+        if (selectedMode == 1) // 
+        {
+            ymhistoric = true;
+            YmSound.dontShanonSingleByteUsages = false;        
+        }
+        if (selectedMode == 2) // 
+        {
+            ymoptimized = true;
+            YmSound.dontShanonSingleByteUsages = true;        
+        }
+
         String type ="";
         String pathFull ="";
         String pathOnly ="";
@@ -4215,16 +4533,38 @@ s
 
         if (jCheckBoxCreatePlayer.isSelected())
         {
-            Path include = Paths.get(".", "template", "VECTREX.I");
-            de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
-            Path digital = Paths.get(".", "template", "ymPlayer.i");
-            de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "ymPlayer.i");
+            if (ymhistoric)
+            {
+                Path include = Paths.get(".", "template", "VECTREX.I");
+                de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
+                Path digital = Paths.get(".", "template", "ymPlayer.i");
+                de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "ymPlayer.i");
 
-            Path template = Paths.get(".", "template", "ymPlayMain.template");
-            String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                Path template = Paths.get(".", "template", "ymPlayMain.template");
+                String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
 
-            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YM_DATA#", saveNameOnly);
-            de.malban.util.UtilityFiles.createTextFile(pathOnly+filenameOnly.substring(0,filenameOnly.length()-3)+"Main.asm", exampleMain);     
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YM_DATA#", saveNameOnly);
+                de.malban.util.UtilityFiles.createTextFile(pathOnly+filenameOnly.substring(0,filenameOnly.length()-3)+"Main.asm", exampleMain);     
+            }
+            if (ymoptimized)
+            {
+                Path include = Paths.get(".", "template", "VECTREX.I");
+                de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
+                Path digital = Paths.get(".", "template", "ymPlayerNoByteShannon.template");
+                de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "ymPlayer.i");
+
+                Path template = Paths.get(".", "template", "ymPlayMain.template");
+                String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YM_DATA#", saveNameOnly);
+                
+                if (YmSound.enableAmlitude5thBit)
+                {
+                    String rep = "\nUSE_ENVELOPES = 1\n"+ "                    include  \"ymPlayer.i\"";
+                    exampleMain = de.malban.util.UtilityString.replace(exampleMain,"include  \"ymPlayer.i\"", rep);
+                }
+                de.malban.util.UtilityFiles.createTextFile(pathOnly+filenameOnly.substring(0,filenameOnly.length()-3)+"Main.asm", exampleMain);     
+            }
         }
         
 
@@ -4249,6 +4589,15 @@ s
         {
             public void run() 
             {
+                int selectedMode = jComboBox2.getSelectedIndex();
+                if (selectedMode == 1) // 
+                {
+                    YmSound.dontShanonSingleByteUsages = false;        
+                }
+                if (selectedMode == 2) // 
+                {
+                    YmSound.dontShanonSingleByteUsages = true;        
+                }
                 String saveName = currentYMFile;
                 //if (!standalone)
                 {
@@ -4263,8 +4612,8 @@ s
                         String name = new File (ymSaveName).getName();
                         
                         
-        de.malban.util.UtilityFiles.move(ymSaveName, startPath+name);
-        ymSaveName =startPath+name;
+                        de.malban.util.UtilityFiles.move(ymSaveName, startPath+name);
+                        ymSaveName =startPath+name;
                     }
                     
 
@@ -4312,13 +4661,21 @@ s
 
         for (int r=0; r< 15; r++)
         {
+            if (!usedRegs[r]) continue;
             byte value = ymSound.out_buf[r][ympos];
             byte poker = value;
             int i=r;
             if ((i==1)||(i==3)||(i==5)) poker   &= 0x0f;
             if ((i==6) ) poker                  &= 0x1f;
             if  (i==7) poker                    &= 0x3f;
-            if ((i==8)||(i==9)||(i==10)) poker  &= 0x0f;
+            
+            if (ymSound.enableAmlitude5thBit)
+                if ((i==8)||(i==9)||(i==10)) poker  &= 0x1f;
+            else
+                if ((i==8)||(i==9)||(i==10)) poker  &= 0x0f;
+            if (i == 13) if (poker == 0xff) 
+                continue;
+            
             e8910.e8910_write(r,  poker&0xff);
             workBuf[r] = (byte)e8910.snd_regs[r];
         }                
@@ -4344,7 +4701,8 @@ s
         {
             public void run() 
             {
-
+                if (ymSound.vbl_len == 0) return;
+                
                 byte[] soundBytes = new byte[SOUNDBUFFER_SIZE];
                 
                 line.start();
@@ -4355,6 +4713,7 @@ s
                 long lastTime = 0;
                 while (playingYM)
                 {
+                    if (ymSound.vbl_len == 0) break;
                     long endTime = System.nanoTime();
                     long durationMilli = (endTime - lastTime)/1000000;
                     if (durationMilli>=compareMilli)
@@ -4376,8 +4735,10 @@ s
                             if (i==7)
                                 poker &= 1+2+4+8+16+32;
                             // for vectrex
-                            if ((i==8)||(i==9)||(i==10))
-                                poker &= 1+2+4+8;
+                            if (ymSound.enableAmlitude5thBit)
+                                if ((i==8)||(i==9)||(i==10)) poker  &= 0x1f;
+                            else
+                                if ((i==8)||(i==9)||(i==10)) poker  &= 0x0f;
                             
                             e8910.e8910_write(r,  poker&0xff);
                             workBuf[r] = (byte)e8910.snd_regs[r];
@@ -4459,6 +4820,7 @@ s
                     
                     
                 }
+                playingYM = false;
                 line.stop();
                 three = null;
                 line.unload();
@@ -4471,15 +4833,21 @@ s
     byte[] workBuf = new byte[16];
     void workBufToSelection()
     {
+        if (ymSound == null) return;
+        if (ymSound.out_buf == null) return;
         for (int r=0; r< 15; r++)
         {
+            if (!usedRegs[r]) continue;
             byte value = ymSound.out_buf[r][ympos];
             byte poker = value;
             int i=r;
             if ((i==1)||(i==3)||(i==5)) poker   &= 0x0f;
             if ((i==6) ) poker                  &= 0x1f;
             if  (i==7) poker                    &= 0x3f;
-            if ((i==8)||(i==9)||(i==10)) poker  &= 0x0f;
+            if (ymSound.enableAmlitude5thBit)
+                if ((i==8)||(i==9)||(i==10)) poker  &= 0x1f;
+            else
+                if ((i==8)||(i==9)||(i==10)) poker  &= 0x0f;
             workBuf[r] = (byte)poker;
         }                
         
@@ -4875,7 +5243,8 @@ s
             log.addLog(ex, WARN);
             return false;
         }
-        ((VediPanel)tinyLog).refreshTree();   
+        if (tinyLog instanceof VediPanel)
+            ((VediPanel)tinyLog).refreshTree();   
         return true;    
     }
     boolean loadAYFX(String channel, boolean overwrite)
@@ -5042,5 +5411,842 @@ s
     {
         isBASIC = true;
     }
+    void checkSameLines()
+    {
+        HashMap<String, String> test = new HashMap<String, String>();
+        updateCheckBoxes();
+        int size=0;
+        int start = 0;
+        int end = ymSound.vbl_len;
+        for (int i=start; i<end; i++)
+        {
+            String o = "";
+            for (int r=0; r< 14; r++)
+            {
+                byte value = ymSound.out_buf[r][i];
+                if  (usedRegs[r])
+                {
+                    size++;
+                    o+="$"+String.format("%02X",value);
+                }
+            }                            
+            test.put(o, o);
+        }
+        jLabel141.setText(""+test.size());
+        jLabel136.setText(""+size);
+        Dictionary dictionary = buildYMBitStream();
+        
+        dictionary.decodeBitStream();
+        
+        String bitOutput = dictionary.bitStream.toString();
+        jLabel138.setText(""+(bitOutput.length()+7)/8);
+        jLabel140.setText(""+dictionary.datalines.size());
+        jLabel143.setText(""+dictionary.getRawByteDataSize());
+        
+      //  warum braucht der ym unpack so große peaks?
+    }
+    class Dictionary
+    {
+        ArrayList<OneDataLine> datalines = new ArrayList<OneDataLine>();
+        StringBuilder bitStream = new StringBuilder();
+        
+        int getRawByteDataSize()
+        {
+            int size = 0;
+            for (OneDataLine dline: datalines)
+            {
+                size+=dline.bytes.size();
+            }
+            return size;
+        }
+        boolean outputRegs(int[] regs, int line, String comment)
+        {
+            System.out.print(" "+String.format("%04d", line)+":");
+            boolean error = false;
+            for (int i=0; i<11;i++)
+            {
+                System.out.print(" $"+String.format("%02X", (regs[i]&0xff)));
+                if ((ymSound.out_buf[i][line]&0xff) != (regs[i]&0xff))
+                {
+                    System.out.println("\n ERROR ");
+                    error = true;
+                }
+                    
+            }
+            System.out.println(" ; "+comment);
+            return error;
+        }
+        
+        void decodeBitStream()
+        {
+            int[] regsLast=new int[16];
+            int[] regs=new int[16];
+            StringBitStream stream = new StringBitStream();
+            stream.s = bitStream.toString();
+            int line = 0;
+            boolean error = false;
+            while (!stream.eof)
+            {
+                // if bit == 0, than completely same than last reg
+                // do nothing...
+                if (stream.nextBit())
+                {
+                    // do no voice 0, if next bit is 0
+                    if (stream.nextBit())
+                    {
+                        // do voice 0
+                        if (stream.nextBit())
+                        {
+                            // do amplitude
+                            regs[8] = stream.read(4); // read 4 bit value
+                        }
+                        boolean noise = stream.nextBit();
+                        if (noise)
+                        {
+                            regs[7] = setBit(regs[7], 3, false); // noise is zero active bit 3
+                        }
+                        else
+                        {
+                            regs[7] = setBit(regs[7], 3, true); // noise is zero active bit 3
+                        }
+                        boolean tone = stream.nextBit();
+                        if (tone)
+                        {
+                            regs[7] = setBit(regs[7], 0, false); // tone is zero active bit 0
+                        }
+                        else
+                        {
+                            regs[7] = setBit(regs[7], 0, true); // tone is zero active bit 0
+                        }
+                        if (stream.nextBit())
+                        {
+                            // read low frequency
+                            regs[0] = stream.read(8); // read 8 bit value
+                        }
+                        if (stream.nextBit())
+                        {
+                            // read hi frequency
+                            regs[1] = stream.read(4); // read 4 bit value
+                        }
+                    }
+                    // do no voice 1, if next bit is 0
+                    if (stream.nextBit())
+                    {
+                        // do voice 1
+                        if (stream.nextBit())
+                        {
+                            // do amplitude
+                            regs[9] = stream.read(4); // read 4 bit value
+                        }
+                        boolean noise = stream.nextBit();
+                        if (noise)
+                        {
+                            regs[7] = setBit(regs[7], 4, false); // noise is zero active bit 4
+                        }
+                        else
+                        {
+                            regs[7] = setBit(regs[7], 4, true); // noise is zero active bit 4
+                        }
+                        boolean tone = stream.nextBit();
+                        if (tone)
+                        {
+                            regs[7] = setBit(regs[7], 1, false); // tone is zero active bit 1
+                        }
+                        else
+                        {
+                            regs[7] = setBit(regs[7], 1, true); // tone is zero active bit 1
+                        }
+                        if (stream.nextBit())
+                        {
+                            // read low frequency
+                            regs[2] = stream.read(8); // read 8 bit value
+                        }
+                        if (stream.nextBit())
+                        {
+                            // read hi frequency
+                            regs[3] = stream.read(4); // read 4 bit value
+                        }
+                    }
+                    // do no voice 2, if next bit is 0
+                    if (stream.nextBit())
+                    {
+                        // do voice 2
+                        if (stream.nextBit())
+                        {
+                            // do amplitude
+                            regs[10] = stream.read(4); // read 4 bit value
+                        }
+                        boolean noise = stream.nextBit();
+                        if (noise)
+                        {
+                            regs[7] = setBit(regs[7], 5, false); // noise is zero active bit 5
+                        }
+                        else
+                        {
+                            regs[7] = setBit(regs[7], 5, true); // noise is zero active bit 5
+                        }
+                        boolean tone = stream.nextBit();
+                        if (tone)
+                        {
+                            regs[7] = setBit(regs[7], 2, false); // tone is zero active bit 2
+                        }
+                        else
+                        {
+                            regs[7] = setBit(regs[7], 2, true); // tone is zero active bit 2
+                        }
+                        if (stream.nextBit())
+                        {
+                            // read low frequency
+                            regs[4] = stream.read(8); // read 8 bit value
+                        }
+                        if (stream.nextBit())
+                        {
+                            // read hi frequency
+                            regs[5] = stream.read(4); // read 4 bit value
+                        }
+                    }                    
+                    if (stream.nextBit())
+                    {
+                        // do noise
+                        regs[6] = stream.read(5); // read 5 bit value
+                    }
+                }
+                error = error || outputRegs(regs, line++, stream.comment);
+                stream.comment = "";
+                for (int i=0;i<regs.length; i++)
+                    regsLast[i] = regs[i];
+            }
+            if (error)
+                System.out.println("Error verifying!");
+            else
+                System.out.println("Verifying ok!");
+        }
+    }
 
+    class StringBitStream
+    {
+        public String comment ="";
+        public String s;
+        int pos=0;
+        public boolean eof = false;
+        boolean nextBit()
+        {
+            pos++;
+            if (pos >= s.length())
+            {
+                eof = true;
+                return false;
+            }
+            comment+=s.substring(pos-1, pos);
+            return s.substring(pos-1, pos).equals("1");
+        }
+        int read(int bits) // read x bit as int
+        {
+            int v = 0;
+            for (int i=0; i<bits; i++)
+            {
+                v=v<<1;
+                if (nextBit()) v+=1;
+            }
+            return v;
+        }
+    }
+    
+    class OneDataLine
+    {
+        String bitStream;
+        int usage;
+        ArrayList<Byte> bytes = new ArrayList<Byte>();
+        OneDataLine(String b, int u)
+        {
+            bitStream = b;
+            usage = u;
+            
+            String bit8 = bitStream;
+            do 
+            {
+                String currentByte;
+                if (bit8.length()<=8) 
+                {
+                    currentByte = bit8;
+                    bit8 = "";
+                }
+                else
+                {
+                    currentByte = bit8.substring(0, 8);
+                    bit8 = bit8.substring(8);
+                }
+                int bi = Integer.parseInt(currentByte, 2);
+                bytes.add((byte) (bi &0xff));
+
+            } while (bit8.length()>0);
+        }
+        public String toString()
+        {
+            String ret = bitStream+"->";
+            for (Byte b: bytes)
+            {
+                ret += "$"+String.format("%02X", (b&0xff))+" ";
+            }
+            return ret+"; usage: "+usage;
+        }
+    }
+
+    StringBuilder appendbitsLSBFirst(StringBuilder out, int value, int bitCount)
+    {
+        int compare = 1;
+        for (int i=0; i<bitCount; i++)
+        {
+            if ((value & compare) == compare) 
+                out.append("1");
+            else
+                out.append("0");
+            compare *= 2;
+        }
+        return out;
+    }
+    StringBuilder appendbitsMSBFirst(StringBuilder out, int value, int bitCount)
+    {
+        int compare = 1;
+        compare = compare << (bitCount-1);
+        for (int i=0; i<bitCount; i++)
+        {
+            if ((value & compare) == compare) 
+                out.append("1");
+            else
+                out.append("0");
+            compare = compare >> 1;
+        }
+        return out;
+    }
+    
+    // zero based
+    boolean readBit(int reg, int bit)
+    {
+       int compare = 1;
+       compare = compare << bit;
+       return (reg & compare) == compare;
+    }
+    int setBit(int reg, int bit, boolean state)
+    {
+       int compare = 1;
+       compare = compare << bit;
+       if (state) // set bit
+       {
+           reg = reg | compare;
+       }
+       else
+       {
+           reg = reg & (255 - compare);
+       }
+       return reg;
+    }   
+    boolean isTone(int voice, int row)
+    {
+        if (row <0) return false;
+        boolean tone = false;
+        
+        // tone is zero active
+        if (voice == 0) tone = !readBit(ymSound.out_buf[7][row],0);
+        if (voice == 1) tone = !readBit(ymSound.out_buf[7][row],1);
+        if (voice == 2) tone = !readBit(ymSound.out_buf[7][row],2);
+            
+        return tone;
+    }
+    boolean isNoise(int voice, int row)
+    {
+        if (row <0) return false;
+        boolean noise = false;
+        // noise is zero active
+        if (voice == 0) noise = !readBit(ymSound.out_buf[7][row],3);
+        if (voice == 1) noise = !readBit(ymSound.out_buf[7][row],4);
+        if (voice == 2) noise = !readBit(ymSound.out_buf[7][row],5);
+
+        return noise;
+    }
+    boolean anyNoise(int row)
+    {
+        if (row <0) return false;
+        boolean anyNoise = false;
+        if ((getAmplitude(0, row) >0) && isNoise(0,row)) anyNoise = true;
+        if ((getAmplitude(1, row) >0) && isNoise(1,row)) anyNoise = true;
+        if ((getAmplitude(2, row) >0) && isNoise(2,row)) anyNoise = true;
+        
+        return anyNoise;
+    }
+    int getAmplitude(int voice, int row)
+    {
+        if (row <0) return 0;
+        int amplitude = 0;
+        if (voice == 0) amplitude = ymSound.out_buf[8][row] &0x0f;
+        if (voice == 1) amplitude = ymSound.out_buf[9][row] &0x0f;
+        if (voice == 2) amplitude = ymSound.out_buf[10][row] &0x0f;
+        return amplitude;
+    }
+    int getOldAmplitude(int voice)
+    {
+        int amplitude = 0;
+        if (voice == 0) amplitude = oldRegs[8] &0x0f;
+        if (voice == 1) amplitude = oldRegs[9] &0x0f;
+        if (voice == 2) amplitude = oldRegs[10] &0x0f;
+        return amplitude;
+    }
+    int getFrequency(int voice, int row)
+    {
+        if (row <0 ) return -1;
+        int frequency = 0;
+        if (voice == 0) frequency = ymSound.out_buf[0][row] &0xff;
+        if (voice == 1) frequency = ymSound.out_buf[2][row] &0xff;
+        if (voice == 2) frequency = ymSound.out_buf[4][row] &0xff;
+        if (voice == 0) frequency += (ymSound.out_buf[1][row] &0x0f)<<8;
+        if (voice == 1) frequency += (ymSound.out_buf[3][row] &0x0f)<<8;
+        if (voice == 2) frequency += (ymSound.out_buf[5][row] &0x0f)<<8;
+        return frequency;
+    }
+    int getOldFrequency(int voice)
+    {
+        int frequency = 0;
+        if (voice == 0) frequency = oldRegs[0] &0xff;
+        if (voice == 1) frequency = oldRegs[2] &0xff;
+        if (voice == 2) frequency = oldRegs[4] &0xff;
+        if (voice == 0) frequency += (oldRegs[1] &0x0f)<<8;
+        if (voice == 1) frequency += (oldRegs[3] &0x0f)<<8;
+        if (voice == 2) frequency += (oldRegs[5] &0x0f)<<8;
+        return frequency;
+    }
+    int getNoisePeriod(int row)
+    {
+        newRegs[6]=ymSound.out_buf[6][row] &0x1f;
+        return ymSound.out_buf[6][row] &0x1f;
+    }
+    int getOldNoisePeriod(int row)
+    {
+        return oldRegs[6] &0x1f;
+    }
+    // build a COMPLETE voice bitstram
+    String buildVoice(int voice, int row)
+    {
+        HashMap<String, Integer> dictionary = new HashMap<String, Integer>();
+        StringBuilder voiceStream = new StringBuilder();
+        int amplitude = getAmplitude(voice, row);
+        boolean tone = isTone(voice, row);
+        boolean noise = isNoise(voice, row);
+        int frequency = getFrequency(voice, row);
+        int fLow = frequency&0xff;
+        int fhi = (frequency>>8) & 0x0f;
+        boolean oldtone = isTone(voice, row-1);
+        boolean oldnoise = isNoise(voice, row-1);
+
+        int oldamplitude =getOldAmplitude(voice);
+        int oldfrequency = getOldFrequency(voice);
+        int oldfLow = oldfrequency&0xff;
+        int oldfhi = (oldfrequency>>8) & 0x0f;
+        
+
+        // check tone / noise
+        // it is (falsly) assumed, that when neiter tone, not noise is enabled, that the voice
+        // is supposedly switched off
+        // that is (as written) in the PSG manual not correct, only amplitude can switch a channel off
+        // nonetheless - we take it for YM files as given
+        // first amplitude
+        if (amplitude==oldamplitude)
+        {
+            appendbitsMSBFirst(voiceStream, 0, 1).toString();
+        }
+        else
+        {
+            appendbitsMSBFirst(voiceStream, 1, 1).toString();
+            appendbitsMSBFirst(voiceStream, amplitude, 4);
+        }
+
+        // for ym we take it that noise has precedence over tone - we only use 1 bit to represent the state!
+        if (noise) 
+            voiceStream.append("1");
+        else
+            voiceStream.append("0");
+        if (tone) 
+            voiceStream.append("1");
+        else
+            voiceStream.append("0");
+        
+        // only if voice has a tone, tone is output
+//        if (tone)
+        {
+            if (fLow==oldfLow)
+            {
+                appendbitsMSBFirst(voiceStream,0,1);
+            }
+            else
+            {
+                appendbitsMSBFirst(voiceStream,1,1);
+                appendbitsMSBFirst(voiceStream, fLow, 8);
+            }
+            if (fhi==oldfhi)
+            {
+                appendbitsMSBFirst(voiceStream,0,1);
+            }
+            else
+            {
+                appendbitsMSBFirst(voiceStream,1,1);
+                appendbitsMSBFirst(voiceStream, fhi, 4);
+            }
+            
+        }
+        return voiceStream.toString();
+    }
+    // non usage 
+
+    int[] oldRegs = new int[16]; 
+    int[] newRegs = new int[16]; 
+    Dictionary buildYMBitStream()
+    {
+        Dictionary d = new Dictionary();
+        if (ymSound.vbl_len<=1) return d;
+        HashMap<String, Integer> dictionary = new HashMap<String, Integer>();
+        d.bitStream = new StringBuilder();
+        updateCheckBoxes();
+        if (!usedRegs[7]) return d;
+        if ((!usedRegs[8]) && (usedRegs[9]) && (usedRegs[10])) return d;
+        
+        for (int i=0; i< 16; i++)
+        {
+            oldRegs[i] = -1;
+        }
+        
+        int start = 0;
+        int end = ymSound.vbl_len;
+        String lastvoice1 = "";
+        String lastvoice2 = "";
+        String lastvoice3 = "";
+        String lastOut ="";
+        String lastnoise = "";
+        
+        for (int i=start; i<end; i++)
+        {
+            String voice1 = buildVoice(0, i);
+            String voice2 = buildVoice(1, i);
+            String voice3 = buildVoice(2, i);
+            String noise = appendbitsMSBFirst(new StringBuilder(), getNoisePeriod(i), 5).toString();
+            boolean hasNoise = anyNoise(i);
+            
+            String newOut = voice1+voice2+voice3;
+            if (hasNoise) 
+            {
+                newOut+="1";
+                newOut+=noise;
+            }
+            else 
+                newOut+="0";
+            
+            StringBuilder nextLine = new StringBuilder();
+            // now a complete line is done
+            // check if we can optimize further
+            // this means checking if the line (or parts)
+            // are the same as last line!
+            
+            if (newOut.equals(lastOut))
+            {
+                // complete line is the same, than
+                // we output only 1 bit == 0
+                nextLine.append("0");
+            }
+            else
+            {
+                nextLine.append("1"); // indicate line changed
+
+                // something in the line differs
+                // now we output each part seperately
+                // Voice1, Voice2, Voice3, noise
+                if (voice1.equals(lastvoice1))
+                {
+                    // voice1 is the same, than also only a 0
+                    nextLine.append("0");
+                }
+                else
+                {
+                    nextLine.append("1"); // indicate voice changed
+                    nextLine.append(voice1); 
+                }
+                if (voice2.equals(lastvoice2))
+                {
+                    // voice2 is the same, than also only a 0
+                    nextLine.append("0");
+                }
+                else
+                {
+                    nextLine.append("1"); // indicate voice changed
+                    nextLine.append(voice2); 
+                }
+                if (voice3.equals(lastvoice3))
+                {
+                    // voice3 is the same, than also only a 0
+                    nextLine.append("0");
+                }
+                else
+                {
+                    nextLine.append("1"); // indicate voice changed
+                    nextLine.append(voice3); 
+                }
+                //if (hasNoise)
+                {
+                    if (noise.equals(lastnoise))
+                    {
+                        // noise is the same, than also only a 0
+                        nextLine.append("0");
+                    }
+                    else
+                    {
+                        nextLine.append("1"); // indicate noise changed
+                        nextLine.append(noise); 
+                    }
+                }
+                
+            }
+            for (int ii=0; ii< 16; ii++) oldRegs[ii] = ymSound.out_buf[ii][i];
+System.out.println(nextLine);
+            d.bitStream.append(nextLine); 
+            
+            Integer usage = 1;
+            if (dictionary.containsKey(nextLine.toString()))
+            {
+                usage = dictionary.get(nextLine.toString())+1;
+            }
+            dictionary.put(nextLine.toString(), usage);     
+            
+            lastOut = newOut;
+            lastvoice1 = voice1;
+            lastvoice2 = voice2;
+            lastvoice3 = voice3;
+            lastnoise = noise;
+        }        
+        Set entries = dictionary.entrySet();
+        Iterator it = entries.iterator();
+        while (it.hasNext())
+        {
+            Map.Entry entry = (Map.Entry) it.next();
+            Integer usage = (Integer) entry.getValue();
+            String bits = (String) entry.getKey();
+            d.datalines.add(new OneDataLine(bits, usage));
+        }
+        
+        return d;
+    }
+    
+    void preprocess()
+    {
+        if (ymSound.vbl_len<=1) return;
+        updateCheckBoxes();
+        if (!usedRegs[7]) return;
+        if ((!usedRegs[8]) && (usedRegs[9]) && (usedRegs[10])) return;
+        
+        
+        int start = 0;
+        int end = ymSound.vbl_len;
+        int aCount = 0;
+        int nCount = 0;
+        int nfCount = 0;
+        for (int row=start; row<end; row++)
+        {
+            boolean hasNoise = false;
+            for (int voice=0;voice<3;voice++)
+            {
+                int amplitude = getAmplitude(voice, row);
+                boolean tone = isTone(voice, row);
+                boolean noise = isNoise(voice, row);
+                if (amplitude == 0) 
+                {
+                    aCount++;
+                    if (preprocAmp)
+                    {
+                        if (voice == 0) ymSound.out_buf[0][row] =0;
+                        if (voice == 0) ymSound.out_buf[1][row] =0;
+                        if (voice == 1) ymSound.out_buf[2][row] =0;
+                        if (voice == 1) ymSound.out_buf[3][row] =0;
+                        if (voice == 2) ymSound.out_buf[4][row] =0;
+                        if (voice == 2) ymSound.out_buf[5][row] =0;
+                    }
+                }
+                
+                if (noise) hasNoise=noise;
+                if (!tone)
+                {
+                    if (preprocTone)
+                    {
+                        if (voice == 0) ymSound.out_buf[0][row] =0;
+                        if (voice == 0) ymSound.out_buf[1][row] =0;
+                        if (voice == 1) ymSound.out_buf[2][row] =0;
+                        if (voice == 1) ymSound.out_buf[3][row] =0;
+                        if (voice == 2) ymSound.out_buf[4][row] =0;
+                        if (voice == 2) ymSound.out_buf[5][row] =0;
+                    }
+                    nfCount++;
+                }
+            
+            }
+            if (!hasNoise) 
+            {
+                if (preprocNoise)
+                    ymSound.out_buf[6][row] =0;
+                nCount++;
+            }
+            
+        }        
+        jLabel146.setText(""+aCount);
+        jLabel148.setText(""+nfCount);
+        jLabel147.setText(""+nCount);
+    }
+
+    boolean preprocNoise = false;
+    boolean preprocTone = false;
+    boolean preprocAmp = false;
+           
+    /*
+     ym packing rules
+     - first register 7
+     - if tone for voice disabled - no frequency for that voice
+     - if no noise at all - no noise gen
+     - if no amplitude for voice (0) than no frequency for that voice
+     - frequency is 12 bits
+     - noise is 4 bit
+     - amplitude is 5 bit
+     - enable is 6 bit (highest bits should be 1)
+
+     - each channel is packed seperately 
+    
+     - optimization:
+       1) amplitude only 4 lower bits, since bit 5 is a mode bit, and I don't know any ym that make use of that
+       2) noise and tone are assumed to be not played at the same time (although PSG alows it), they are represented as:
+          1= noise, 0 = tone
+    
+    
+    
+     - save LINES of so generated registers
+     - use RLE to decode line number
+     - 0 - 0 changes do not have a line, they are just that - 0 changes!
+     !!!
+    
+    */
+    
+    class ListerEntry
+    {
+        String fileName="";
+        String completePath="";
+        long size = 0;
+    }
+    String[] listerColumns = {"Name", "Size"};
+    ArrayList<ListerEntry> listerArray = new ArrayList<ListerEntry>();
+    ListerTableModel listerModel = new ListerTableModel();
+    public class ListerTableModel extends AbstractTableModel
+    {    
+        @Override
+        public String getColumnName(int col) {
+            return listerColumns[col];
+        }
+        @Override
+        public int getRowCount() {
+            return listerArray.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return listerColumns.length;
+        }
+        @Override
+        public Object getValueAt(int row, int col) {
+            if (col == 0) return listerArray.get(row).fileName;
+            if (col == 1) return listerArray.get(row).size;
+            return "";
+        }
+        @Override
+        public Class<?> getColumnClass(int col) 
+        {
+            if (col == 0) return String.class;
+            if (col == 1) return long.class;
+            return Object.class;
+        }
+        @Override
+        public boolean isCellEditable(int row, int col) 
+        {
+            return false;
+        }
+    }
+    void initLister()
+    {
+        listerArray.clear();
+
+        ArrayList<String> filenames = de.malban.util.UtilityFiles.getFilesWith(pathOnly, ".ym");
+        
+        if (pathOnly.length()>0) if (!pathOnly.endsWith(File.separator)) pathOnly+= File.separator;
+        for (String f: filenames)
+        {
+            try
+            {
+                ListerEntry entry = new ListerEntry();
+                entry.fileName = f;
+                entry.completePath = pathOnly+f;
+                File ff = new File(entry.completePath);
+                entry.size = ff.length();
+                listerArray.add(entry);
+            }
+            catch (Throwable e)
+            {
+                
+            }
+        }
+        
+        jTable3.setModel(listerModel);
+        jTable3.tableChanged(null);
+    }
+    private void tableClicked(java.awt.event.MouseEvent evt) 
+    {             
+        if (evt.getClickCount() == 2) 
+        {
+            Point p = evt.getPoint();
+            int row = jTable3.rowAtPoint(p);
+            int col = jTable3.columnAtPoint(p);
+            if (row <0) return;
+            if (row >listerArray.size()-1) return;
+
+            if (playingYM)
+            {
+                playingYM = false;
+                try
+                {
+                    while (three != null)
+                    {
+                        Thread.sleep(5);
+                    }
+                }
+                catch (Throwable e)
+                {
+                }
+            }
+
+            initYM( listerArray.get(row).completePath);
+
+            ympos = 0;
+            workBufToSelection();
+            jTable1.tableChanged(null);
+            jTable2.tableChanged(null);
+            jTable1.repaint();
+            jTable2.repaint();
+        
+            loopStart = -1;
+            loopEnd = -1;
+            int[] rows = jTable1.getSelectedRows();
+            if (rows.length >1)
+            {
+                loopStart = rows[0];
+                loopEnd = rows[rows.length-1];
+            }
+            startYM();
+        }
+    }               
+    void completeColumnToValue(int reg, int value)
+    {
+        for (int row = 0; row <ymSound.vbl_len; row++)
+            ymSound.out_buf[reg][row] = (byte)(value & 0xff);
+        jTable1.repaint();
+    }
+    
 }

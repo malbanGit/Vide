@@ -8,6 +8,7 @@ package de.malban.vide.vedi.sound;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.WARN;
 import static de.malban.vide.vedi.sound.DoubleLinkedList.*;
 import java.io.BufferedInputStream;
@@ -268,7 +269,7 @@ public class YmSound {
         }
         return null;
     }
-
+int bitsSaved = 0;
     public String buildASM(boolean[] regsUsed)
     {
         if (!init) return null;
@@ -320,6 +321,7 @@ public class YmSound {
             // pack register
             tl.printMessageSU("Start packing data...");
             int ym_register;
+            bitsSaved=0;
             for (ym_register=ENCODE_START; ym_register< ENCODE_END; ym_register++)
             {
                 if (!regsUsed[ym_register]) continue;
@@ -355,7 +357,10 @@ public class YmSound {
                 {
                     if (!regsUsed[ym_register]) continue;
                     outFile.write(" DB $"+String.format("%02X",ym_register)+"\n");
-                    outFile.write(" DW "+file_name+"_reg_"+ym_register+"-3");
+                    if (dontShanonSingleByteUsages) 
+                        outFile.write(" DW "+file_name+"_reg_"+ym_register+"");
+                    else
+                       outFile.write(" DW "+file_name+"_reg_"+ym_register+"-3");
                     outFile.write(", "+file_name+"_pd_"+ym_register+"");
                     outFile.write(", "+file_name+"_reg_"+ym_register+"_data\n" );
                 }
@@ -451,11 +456,18 @@ public class YmSound {
 
                 if (i==7)
                     poker &= 1+2+4+8+16+32;
-
+/*
                   // for vectrex
                 if ((i==8)||(i==9)||(i==10))
-                    poker &= 1+2+4+8;
-                outer[out_counter] = poker;
+                {
+                    if (enableAmlitude5thBit)
+                        poker &= 1+2+4+8+16;
+                    else
+                        poker &= 1+2+4+8;
+                }
+                */
+                if (out_counter<outer.length)
+                    outer[out_counter] = poker;
             }
             out_counter++;
             pos++;
@@ -565,10 +577,18 @@ public class YmSound {
 
                    if (i==7)
                        poker &= 1+2+4+8+16+32;
+/*                   
                // for vectrex
                    if ((i==8)||(i==9)||(i==10))
-                       poker &= 1+2+4+8;
-                   outer[out_counter] = poker;
+                    {
+                        if (enableAmlitude5thBit)
+                            poker &= 1+2+4+8+16;
+                        else
+                            poker &= 1+2+4+8;
+                    }
+*/        
+                    if (out_counter<outer.length)
+                       outer[out_counter] = poker;
                }
                out_counter++;
                pos++;
@@ -593,9 +613,17 @@ public class YmSound {
 
                    if (i==7)
                        poker &= 1+2+4+8+16+32;
+/*                   
                // for vectrex
                    if ((i==8)||(i==9)||(i==10))
-                       poker &= 1+2+4+8;
+                    {
+                        if (enableAmlitude5thBit)
+                            poker &= 1+2+4+8+16;
+                        else
+                            poker &= 1+2+4+8;
+                    }
+*/        
+                if (out_counter<outer.length)
                    outer[out_counter] = poker;
                }
                out_counter++;
@@ -716,9 +744,17 @@ public class YmSound {
 
                     if (i==7)
                         poker &= 1+2+4+8+16+32;
+/*                    
                     // for vectrex
                     if ((i==8)||(i==9)||(i==10))
-                        poker &= 1+2+4+8;
+                    {
+                        if (enableAmlitude5thBit)
+                            poker &= 1+2+4+8+16;
+                        else
+                            poker &= 1+2+4+8;
+                    }
+*/        
+                if (out_counter<outer.length)
                     outer[out_counter] = poker;
                 }
                 out_counter++;
@@ -736,18 +772,26 @@ public class YmSound {
                {
                    byte poker = in_buf[pos++];
                    byte[] outer = out_buf[i];
-                   if ((i==1)||(i==3)||(i==5))
+                    if ((i==1)||(i==3)||(i==5))
                        poker &= 1+2+4+8;
 
-                   if ((i==6) )
+                    if ((i==6) )
                        poker &= 1+2+4+8+16;
 
-                   if (i==7)
+                    if (i==7)
                        poker &= 1+2+4+8+16+32;
+/*                    
                // for vectrex
-                   if ((i==8)||(i==9)||(i==10))
-                       poker &= 1+2+4+8;
-                   outer[out_counter] = poker;
+                    if ((i==8)||(i==9)||(i==10))
+                    {
+                        if (enableAmlitude5thBit)
+                            poker &= 1+2+4+8+16;
+                        else
+                            poker &= 1+2+4+8;
+                    }
+*/        
+                    if (out_counter<outer.length)
+                       outer[out_counter] = poker;
                }
                out_counter++;
                todo--;
@@ -803,6 +847,7 @@ public class YmSound {
     // second half gets bit cleared
     void shannon(int from_index, int to_index, int bit_count, int coder, int set_count, int[] bytes_used_array, int[] map, Code[] code)
     {
+        
         if (from_index == to_index)
         {
           code[map[from_index]].bit_count = bit_count + 1;
@@ -1006,6 +1051,7 @@ public class YmSound {
         return -1;
     }
 
+    // lsb of count is first bit that is output (meaning lsb bit is in MSB position!)
     long get_RLE_code(int counter)
     {
         long ret = 0;
@@ -1025,6 +1071,29 @@ public class YmSound {
             if ((counter & (ander) ) != 0)
                 ret++;
             ander<<=1;
+        }
+        return ret;
+    }    
+    long get_RLE_code_msb(int counter)
+    {
+        long ret = 0;
+        int bits_for_counter = get_bits_for_counter(counter);
+        int i;
+        int ander = 1;
+        ander = ander << (bits_for_counter-1);
+        for (i=0; i<bits_for_counter-2; i++)
+        {
+            ret<<=1;
+            ret++;
+        }
+        ret<<=1;
+
+        for (i=0; i<bits_for_counter; i++)
+        {
+            ret<<=1;
+            if ((counter & (ander) ) != 0)
+                ret++;
+            ander>>=1;
         }
         return ret;
     }    
@@ -1451,8 +1520,8 @@ public class YmSound {
                   data[i].type = VALID_ENCODED_PHRASE;
                   if (buffer.code[data[i].phrase_used+256].code>255)
                   {
-                      System.out.println("encode error!");
-                      System.exit(1);
+                      log.addLog("Encode error, Huffman code > 255, bigger than 1 byte - exiting!", ERROR);
+                      return;
                   }
                   data[i].ENCODED_code = buffer.code[data[i].phrase_used+256].code;
                   data[i].bit_length_ENCODED = buffer.code[data[i].phrase_used+256].bit_count;
@@ -1479,8 +1548,11 @@ public class YmSound {
                   data[i].type = VALID_ENCODED_BYTE;
                   if (buffer.code[data[i].original_data&0xff].code>255)
                   {
-                      System.out.println("encode error!");
-                      System.exit(1);
+                      if (!dontShanonSingleByteUsages)
+                      {
+                        log.addLog("Encode error, Shannon byte code > 255, bigger than 1 byte - exiting!", ERROR);
+                        return;
+                      }
                   }
                   data[i].ENCODED_code = buffer.code[data[i].original_data&0xff].code;
                   data[i].bit_length_ENCODED = buffer.code[data[i].original_data&0xff].bit_count;
@@ -1490,8 +1562,8 @@ public class YmSound {
                   data[i].type = VALID_ENCODED_PHRASE;
                   if (buffer.code[data[i].phrase_used+256].code>255)
                   {
-                      System.out.println("encode error!");
-                      System.exit(1);
+                      log.addLog("Encode error, Shannon phrase code > 255, bigger than 1 byte - exiting!", ERROR);
+                      return;
                   }
                   data[i].ENCODED_code = buffer.code[data[i].phrase_used+256].code;
                   data[i].bit_length_ENCODED = buffer.code[data[i].phrase_used+256].bit_count;
@@ -1596,7 +1668,10 @@ public class YmSound {
 
                 if ((data[pos].type == VALID_ENCODED_BYTE) || (data[pos].type == VALID_ENCODED_PHRASE))
                 {
-                   data[pos].RLE_code = get_RLE_code(counter);
+                    if (dontShanonSingleByteUsages)
+                       data[pos].RLE_code = get_RLE_code_msb(counter);
+                    else
+                        data[pos].RLE_code = get_RLE_code(counter);
                    data[pos].bit_length_RLE = bits_for_counter - 1 + bits_for_counter;
                    data[pos].count = counter;
                    if (data[pos].type == VALID_ENCODED_BYTE)
@@ -1608,7 +1683,10 @@ public class YmSound {
                 {
                     if ((data[pos].type == VALID_BYTE) || (data[pos].type == VALID_PHRASE))
                     {
-                        data[pos].RLE_code = get_RLE_code(counter);
+                        if (dontShanonSingleByteUsages)
+                           data[pos].RLE_code = get_RLE_code_msb(counter);
+                        else
+                            data[pos].RLE_code = get_RLE_code(counter);
                         data[pos].bit_length_RLE = bits_for_counter - 1 + bits_for_counter;
                         data[pos].count = counter;
                         if (data[pos].type == VALID_BYTE)
@@ -1741,6 +1819,7 @@ public class YmSound {
         int i = 0;
         int j = 0;
         BufferedWriter outFile = get_dbOutFile();
+        sorted_codes[] sorted = abstract_sort_code_with_bits(buffer);
         if ((buffer.kind == ENCODED) || (buffer.kind == RLE_ENCODED))
         {
            if (outFile != null)
@@ -1750,7 +1829,7 @@ public class YmSound {
                 fprintf(outFile,"; bits used, code, real 'byte' \n");
                 fprintf(outFile,""+file_name+"_reg_"+current_working_register+": \n");
             }
-            sorted_codes[] sorted = abstract_sort_code_with_bits(buffer);
+            int iCount = 0;
             for(i=0;i<buffer.different_codes_used;i++)
             {
                 int bit_count =  (sorted[i].bits);
@@ -1766,50 +1845,123 @@ public class YmSound {
                     count = buffer.codes_used_array[256+code];
                 else
                     count = buffer.codes_used_array[code];
+                
+                if (dontShanonSingleByteUsages)// && ((data[i].bit_length_ENCODED >= 8) && ((int)data[i].RLE_code == 0)))
+                {
+                    if (bit_count<=128)
+                    {
+                        count=0;
+                    }
+                    
+                }
                 if (count > 0)
                 {
-                    if (outFile != null)
-                         fprintf(outFile," DB $"+String.format("%02X",bit_count&0xff)
-                                 +", $"+String.format("%02X",sorted[i].code&0xff)   
-                                 +", $"+String.format("%02X",code&0xff)
-                                 +" ;"+count+" \n");
+                    if (dontShanonSingleByteUsages)
+                    {
+                        if (outFile != null)
+                             fprintf(outFile," DB $"+String.format("%02X",bit_count&0x7f)
+                                     +", $"+String.format("%02X",sorted[i].code&0xff)   
+               //                      +", $"+String.format("%02X",iCount&0xff)
+                                     +", $"+String.format("%02X",buffer.phrases[code].len & 0xff)
+                                     +" ;"+count+" \n");
+                        iCount++;
+                    }
+                    else
+                    {
+                        if (outFile != null)
+                             fprintf(outFile," DB $"+String.format("%02X",bit_count&0xff)
+                                     +", $"+String.format("%02X",sorted[i].code&0xff)   
+                                     +", $"+String.format("%02X",code&0xff)
+                                     +" ;"+count+" \n");
+                    }
                 }
             }
             if (USE_PHRASE)
             {
-                if (outFile != null)
+                if (dontShanonSingleByteUsages)
                 {
-                    fprintf(outFile,"; phrases follow \n");
-                    fprintf(outFile,file_name+"_pd_"+current_working_register+": \n");
+                    if (outFile != null)
+                     {
+                         fprintf(outFile,"; phrases follow \n");
+                         fprintf(outFile,file_name+"_pd_"+current_working_register+": \n");
+                     }
+                     for(i=0;i<buffer.different_codes_used;i++)
+                     {
+                         int bit_count =  (sorted[i].bits);
+                         int code = (sorted[i].value);
+
+
+
+                         if (sorted[i].map >=256)
+                         {
+                             if (buffer.codes_used_array[code+256]>0)
+                             {
+                                 if (outFile != null)
+                                 {
+                                     fprintf(outFile," DB ");
+                                 }
+                                 boolean first = true;
+                                 for (j=0; j<buffer.phrases[code].len; j++)
+                                 {
+                                     // for now only unpacked data == bytes
+                                     int outer = (buffer.phrases[code].phrase[j]);
+                                     if (outFile != null)
+                                     {
+                                         if (first)
+                                             fprintf(outFile,"$"+String.format("%02X",outer & 0xff));
+                                        else
+                                             fprintf(outFile,", $"+String.format("%02X",outer & 0xff));
+                                         first = false;
+                                     }
+                                 }
+                                 if (j!=0)
+                                 {
+                                     if (outFile != null)
+                                     {
+                                         fprintf(outFile,"; "+buffer.codes_used_array[code+256]+" \n");
+                                     }
+                                 }
+                             }
+                         }
+                     }
                 }
-                i=0;
-                while (buffer.phrases[i].len != 0)
+                else
                 {
-                    if (buffer.codes_used_array[i+256]>0)
+                    if (outFile != null)
                     {
-                        if (outFile != null)
-                        {
-                            fprintf(outFile," DB $"+String.format("%02X",buffer.phrases[i].len & 0xff) );
-                        }
-                        for (j=0; j<buffer.phrases[i].len; j++)
-                        {
-                            // for now only unpacked data == bytes
-                            int outer = (buffer.phrases[i].phrase[j]);
-                            if (outFile != null)
-                            {
-                                fprintf(outFile,", $"+String.format("%02X",outer & 0xff));
-                            }
-                        }
-                        if (j!=0)
-                        {
-                            if (outFile != null)
-                            {
-                                fprintf(outFile,"; "+buffer.codes_used_array[i+256]+" \n");
-                            }
-                        }
+                        fprintf(outFile,"; phrases follow \n");
+                        fprintf(outFile,file_name+"_pd_"+current_working_register+": \n");
                     }
-                    i++;
+                    i=0;
+                    while (buffer.phrases[i].len != 0)
+                    {
+                        if (buffer.codes_used_array[i+256]>0)
+                        {
+                            if (outFile != null)
+                            {
+                                fprintf(outFile," DB $"+String.format("%02X",buffer.phrases[i].len & 0xff) );
+                            }
+                            for (j=0; j<buffer.phrases[i].len; j++)
+                            {
+                                // for now only unpacked data == bytes
+                                int outer = (buffer.phrases[i].phrase[j]);
+                                if (outFile != null)
+                                {
+                                    fprintf(outFile,", $"+String.format("%02X",outer & 0xff));
+                                }
+                            }
+                            if (j!=0)
+                            {
+                                if (outFile != null)
+                                {
+                                    fprintf(outFile,"; "+buffer.codes_used_array[i+256]+" \n");
+                                }
+                            }
+                        }
+                        i++;
+                    }                    
                 }
+ 
             }
         }
         if (outFile != null)
@@ -1860,13 +2012,61 @@ public class YmSound {
 
             if (data[i].type == VALID_ENCODED_RLE_BYTE)
             {
-                bits_out_bit_code(data[i].bit_length_RLE, (int)data[i].RLE_code);
-                bits_out_bit_code(data[i].bit_length_ENCODED, data[i].ENCODED_code);
+//System.out.println("RLE byte -> count: "+data[i].count+ ", data: "+String.format("%02X",((byte) (data[i].original_data)&0xff))+" phrasew used"+data[i].phrase_used);
+               
+                if (dontShanonSingleByteUsages) 
+                {
+                    int max_reg_data_len = 8;
+                    if ((current_working_register==8) || (current_working_register==9) || (current_working_register==10))
+                    {
+                        if (enableAmlitude5thBit)
+                        {
+                            bitsSaved += 3;
+                            max_reg_data_len = 5;
+                        }
+                        else
+                        {
+                            bitsSaved += 4;
+                            max_reg_data_len = 4;
+                        }
+                    }
+                    else if ((current_working_register==1) || (current_working_register==3) || (current_working_register==5))
+                    {
+                        bitsSaved += 4;
+                        max_reg_data_len = 4;
+                    }
+                    else if (current_working_register==6)
+                    {
+                        bitsSaved += 3;
+                        max_reg_data_len = 5;
+                    }
+                    else if (current_working_register==7)
+                    {
+                        bitsSaved += 2;
+                        max_reg_data_len = 6;
+                    }
+                    else if (current_working_register==13)
+                    {
+                        // not doing a ff for a skip but a 1f
+                        bitsSaved += 3;
+                        max_reg_data_len = 5;
+                    }
+                    bits_out_bit_code(data[i].bit_length_RLE, (int)data[i].RLE_code);
+                    bits_out_bit_code(1, 0); // no shannon
+                    bits_out_bit_code(max_reg_data_len, (byte)data[i].original_data);
+                }
+                else
+                {
+                    bits_out_bit_code(data[i].bit_length_RLE, (int)data[i].RLE_code);
+                    bits_out_bit_code(data[i].bit_length_ENCODED, data[i].ENCODED_code);
+                }
             }
 
             if (data[i].type == VALID_ENCODED_RLE_PHRASE)
             {
                 bits_out_bit_code(data[i].bit_length_RLE, (int)data[i].RLE_code);
+                if (dontShanonSingleByteUsages) 
+                    bits_out_bit_code(1, 1); // shannon
                 bits_out_bit_code(data[i].bit_length_ENCODED, data[i].ENCODED_code);
             }
             i+=data[i].length_in_abstract_data_elements_of_single_element;
@@ -2403,5 +2603,6 @@ public class YmSound {
     //////// ABSTRACT.C - END ////////////
     //////////////////////////////////////
 
-
+    public static boolean dontShanonSingleByteUsages = true;
+    public static boolean enableAmlitude5thBit = false;
 }

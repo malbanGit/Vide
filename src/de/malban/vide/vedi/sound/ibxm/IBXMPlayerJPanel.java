@@ -79,6 +79,7 @@ public class IBXMPlayerJPanel extends javax.swing.JPanel {
         boolean wasPlaying = playing;
         if( playing ) stop();
         
+        if (ibxm == null) return;
         ibxm.setVoicePlay(voicePlay);
         
         if (wasPlaying) play();

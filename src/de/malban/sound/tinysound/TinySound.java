@@ -26,6 +26,9 @@
  */
 package de.malban.sound.tinysound;
 
+import de.malban.config.Configuration;
+import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.WARN;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -104,13 +107,15 @@ public class TinySound {
 		DataLine.Info info = new DataLine.Info(SourceDataLine.class,
 				TinySound.FORMAT);
 		if (!AudioSystem.isLineSupported(info)) {
-		    System.err.println("Unsupported output format!");
+//		    System.err.println("Unsupported output format!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Unsupported output format!", WARN);
 		    return;
 		}
 		TinySound.outLine = TinySound.tryGetLine();
 		if (TinySound.outLine == null) {
-		    System.err.println("Output line unavailable!");
-		    return;
+//		    System.err.println("Output line unavailable!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Output line unavailable!", WARN);
+                return;
 		}
 		//start the line and finish initialization
 		TinySound.outLine.start();
@@ -238,7 +243,7 @@ public class TinySound {
 	public static Music loadMusic(String name, boolean streamFromFile) {
 		//check if the system is initialized
 		if (!TinySound.inited) {
-			System.err.println("TinySound not initialized!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: TinySound not initialized!", WARN);
 			return null;
 		}
 		//check for failure
@@ -252,7 +257,7 @@ public class TinySound {
 		URL url = TinySound.class.getResource(name);
 		//check for failure to find resource
 		if (url == null) {
-			System.err.println("Unable to find resource " + name + "!");
+                        ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: "+"Unable to find resource " + name + "!", WARN);
 			return null;
 		}
 		return TinySound.loadMusic(url, streamFromFile);
@@ -277,7 +282,7 @@ public class TinySound {
 	public static Music loadMusic(File file, boolean streamFromFile) {
 		//check if the system is initialized
 		if (!TinySound.inited) {
-			System.err.println("TinySound not initialized!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: TinySound not initialized!", WARN);
 			return null;
 		}
 		//check for failure
@@ -288,7 +293,7 @@ public class TinySound {
 		try {
 			url = file.toURI().toURL();
 		} catch (MalformedURLException e) {
-			System.err.println("Unable to find file " + file + "!");
+                        ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: "+"Unable to find resource " + file + "!", WARN);
 			return null;
 		}
 		return TinySound.loadMusic(url, streamFromFile);
@@ -313,7 +318,7 @@ public class TinySound {
 	public static Music loadMusic(URL url, boolean streamFromFile) {
 		//check if the system is initialized
 		if (!TinySound.inited) {
-			System.err.println("TinySound not initialized!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: TinySound not initialized!", WARN);
 			return null;
 		}
 		//check for failure
@@ -345,7 +350,7 @@ public class TinySound {
 				sm = new StreamMusic(info.URL, info.NUM_BYTES_PER_CHANNEL,
 						TinySound.mixer);
 			} catch (IOException e) {
-				System.err.println("Failed to create StreamMusic!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Failed to create StreamMusic!", WARN);
 			}
 			return sm;
 		}
@@ -374,7 +379,7 @@ public class TinySound {
 	public static Sound loadSound(String name, boolean streamFromFile) {
 		//check if the system is initialized
 		if (!TinySound.inited) {
-			System.err.println("TinySound not initialized!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: TinySound not initialized!", WARN);
 			return null;
 		}
 		//check for failure
@@ -388,7 +393,7 @@ public class TinySound {
 		URL url = TinySound.class.getResource(name);
 		//check for failure to find resource
 		if (url == null) {
-			System.err.println("Unable to find resource " + name + "!");
+                        ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: "+"Unable to find resource " + name + "!", WARN);
 			return null;
 		}
 		return TinySound.loadSound(url, streamFromFile);
@@ -414,7 +419,7 @@ public class TinySound {
 	public static Sound loadSound(File file, boolean streamFromFile) {
 		//check if the system is initialized
 		if (!TinySound.inited) {
-			System.err.println("TinySound not initialized!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: TinySound not initialized!", WARN);
 			return null;
 		}
 		//check for failure
@@ -425,7 +430,7 @@ public class TinySound {
 		try {
 			url = file.toURI().toURL();
 		} catch (MalformedURLException e) {
-			System.err.println("Unable to find file " + file + "!");
+                        ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: "+"Unable to find file " + file + "!", WARN);
 			return null;
 		}
 		return TinySound.loadSound(url, streamFromFile);
@@ -450,7 +455,7 @@ public class TinySound {
 	public static Sound loadSound(URL url, boolean streamFromFile) {
 		//check if the system is initialized
 		if (!TinySound.inited) {
-			System.err.println("TinySound not initialized!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: TinySound not initialized!", WARN);
 			return null;
 		}
 		//check for failure
@@ -465,7 +470,7 @@ public class TinySound {
 	public static Sound loadSound(AudioInputStream audioStream, boolean streamFromFile) 
         {
             if (!TinySound.inited) {
-                    System.err.println("TinySound not initialized!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: TinySound not initialized!", WARN);
                     return null;
             }
             audioStream = ensureFormat(audioStream);
@@ -494,7 +499,7 @@ public class TinySound {
                                         TinySound.mixer, TinySound.soundCount);
                         TinySound.soundCount++;
                 } catch (IOException e) {
-                        System.err.println("Failed to create StreamSound!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Failed to create StreamSound!", WARN);
                 }
                 return ss;
             }
@@ -544,7 +549,7 @@ public class TinySound {
 			data = TinySound.readAllBytesTwoChannel(stream);
 		}
 		else { //wtf?
-			System.err.println("Unable to read " + numChannels + " channels!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Unable to read " + numChannels + " channels!", WARN);
 		}
 		return data;
 	}
@@ -561,7 +566,7 @@ public class TinySound {
 			data = TinySound.getBytes(stream);
 		}
 		catch (IOException e) {
-			System.err.println("Error reading all bytes from stream!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Error reading all bytes from stream!", WARN);
 			return null;
 		}
 		finally {
@@ -594,7 +599,7 @@ public class TinySound {
 			data[1] = right;
 		}
 		catch (IOException e) {
-			System.err.println("Error reading all bytes from stream!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Error reading all bytes from stream!", WARN);
 			return null;
 		}
 		finally {
@@ -617,13 +622,12 @@ public class TinySound {
                 return audioStream;
             }
             catch (UnsupportedAudioFileException e) {
-                    System.err.println("Unsupported audio resource!\n" +
-                                    e.getMessage());
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Unsupported audio resource!\n" +e.getMessage(), WARN);
                     return null;
             }
             catch (IOException e) 
             {
-                System.err.println("Error getting resource stream!\n" + e.getMessage());
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Error getting resource stream!\n" +e.getMessage(), WARN);
             }
             return null;
         }
@@ -674,9 +678,7 @@ public class TinySound {
 				audioStream = TinySound.convertMono8Bit(audioStream);
 			} //it's time to give up
 			else {
-				System.err.println("Unable to convert audio resource!");
-				System.err.println(audioStream);
-				System.err.println(streamFormat);
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound:Unable to convert audio resource!\n"+audioStream+"\n"+streamFormat, WARN);
 				audioStream.close();
 				return null;
 			}
@@ -684,14 +686,13 @@ public class TinySound {
 			long frameLength = audioStream.getFrameLength();
 			//too long
 			if (frameLength > Integer.MAX_VALUE) {
-				System.err.println("Audio resource too long!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Audio resource too long!", WARN);
 				return null;
 			}
 		}
 		catch (IOException e) 
                 {
-			System.err.println("Error getting resource stream!\n" +
-					e.getMessage());
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Error getting resource stream!\n" +e.getMessage(), WARN);
 			return null;
 		}
 		return audioStream;
@@ -711,7 +712,7 @@ public class TinySound {
 			int newNumBytes = data.length * 2;
 			//check if size overflowed
 			if (newNumBytes < 0) {
-				System.err.println("Audio resource too long!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Audio resource too long!", WARN);
 				return null;
 			}
 			newData = new byte[newNumBytes];
@@ -733,7 +734,7 @@ public class TinySound {
 			}
 		}
 		catch (IOException e) {
-			System.err.println("Error reading all bytes from stream!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Error reading all bytes from stream!", WARN);
 			return null;
 		}
 		finally {
@@ -759,7 +760,7 @@ public class TinySound {
 			int newNumBytes = data.length * 2 * 2;
 			//check if size overflowed
 			if (newNumBytes < 0) {
-				System.err.println("Audio resource too long!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Audio resource too long!", WARN);
 				return null;
 			}
 			newData = new byte[newNumBytes];
@@ -793,7 +794,7 @@ public class TinySound {
 			}
 		}
 		catch (IOException e) {
-			System.err.println("Error reading all bytes from stream!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Error reading all bytes from stream!", WARN);
 			return null;
 		}
 		finally {
@@ -841,7 +842,7 @@ public class TinySound {
 			//make sure this file will be deleted on exit
 			temp.deleteOnExit();
 		} catch (IOException e) {
-			System.err.println("Failed to create file for streaming!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Failed to create file for streaming!", WARN);
 			return null;
 		}
 		//see if we can get the URL for this file
@@ -849,7 +850,7 @@ public class TinySound {
 		try {
 			url = temp.toURI().toURL();
 		} catch (MalformedURLException e1) {
-			System.err.println("Failed to get URL for stream file!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Failed to get URL for stream file!", WARN);
 			return null;
 		}
 		//we have the file, now we want to be able to write to it
@@ -858,7 +859,7 @@ public class TinySound {
 			out = new BufferedOutputStream(new FileOutputStream(temp),
 					(512 * 1024)); //buffer 512kb
 		} catch (FileNotFoundException e) {
-			System.err.println("Failed to open stream file for writing!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Failed to open stream file for writing!", WARN);
 			return null;
 		}
 		//write the bytes to the file
@@ -873,7 +874,7 @@ public class TinySound {
 				}
 				catch (IOException e) {
 					//hmm
-					System.err.println("Failed writing bytes to stream file!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Failed writing bytes to stream file!", WARN);
 					return null;
 				}
 			}
@@ -883,7 +884,7 @@ public class TinySound {
 				out.close();
 			} catch (IOException e) {
 				//what?
-				System.err.println("Failed closing stream file after writing!");
+                    ((LogPanel) Configuration.getConfiguration().getDebugEntity()).addLog("TinySound: Failed closing stream file after writing!", WARN);
 			}
 		}
 		return new StreamInfo(url, data[0].length);

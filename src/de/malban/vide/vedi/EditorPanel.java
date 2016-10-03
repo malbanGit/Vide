@@ -17,10 +17,8 @@ import de.malban.vide.veccy.VectorListFileChoserJPanel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
@@ -51,20 +49,18 @@ public class EditorPanel extends EditorPanelFoundation
     boolean isBasic = false;
     boolean hasChanged = false;
     boolean assume6809Asm = false;
+
+    TinyLogInterface tinyLog = null;
+    private String filename = "";
+    boolean initError = false;
+    VEdiFoundationPanel parent;
     
     private HighlightedDocument editorPaneDocument;
-    //private Document editorPaneDocument;
 
-    VEdiFoundationPanel parent;
     public void setParent(VEdiFoundationPanel p)
     {
         parent = p;
     }
-    
-    TinyLogInterface tinyLog = null;
-    private String filename = "";
-    boolean initError = false;
-    
     public void resetDocument()
     {
         editorPaneDocument = new HighlightedDocument();
@@ -138,11 +134,12 @@ public class EditorPanel extends EditorPanelFoundation
         {
             // Override getScrollableTracksViewportWidth
             // to preserve the full width of the text
+            @Override
             public boolean getScrollableTracksViewportWidth() {
               Component parent = getParent();
-              ComponentUI ui = getUI();
+              ComponentUI uii = getUI();
 
-              return parent != null ? (ui.getPreferredSize(this).width <= parent
+              return parent != null ? (uii.getPreferredSize(this).width <= parent
                   .getSize().width) : true;
             }
             
@@ -287,6 +284,7 @@ public class EditorPanel extends EditorPanelFoundation
         viewport.addChangeListener(
                 new ChangeListener()
                 {
+                    @Override
                     public void stateChanged(ChangeEvent e)
                     {
                         JViewport viewport = jScrollPane2.getViewport();
@@ -412,7 +410,7 @@ public class EditorPanel extends EditorPanelFoundation
 
     private void jTextPane1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPane1KeyTyped
         rowCount = -1;
-        fireEditorChanged(EditorEvent.EV_TEXT_CHANGED);
+        fireEditorChanged(EditorEvent.EV_KEY_TYPED);
     }//GEN-LAST:event_jTextPane1KeyTyped
 
     private void jTextPane1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextPane1CaretUpdate
@@ -494,8 +492,8 @@ public class EditorPanel extends EditorPanelFoundation
 
     private void jMenuItemAddVectorlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAddVectorlistActionPerformed
        
-        String filename ="xml"+File.separator+"vectorlist";
-        String text = VectorListFileChoserJPanel.showLoadPanel(filename,"Load Vectorlist", false, true);
+        String filenameI ="xml"+File.separator+"vectorlist";
+        String text = VectorListFileChoserJPanel.showLoadPanel(filenameI,"Load Vectorlist", false, true);
         stopColoring();
         
         try
@@ -513,8 +511,8 @@ public class EditorPanel extends EditorPanelFoundation
 
     private void jMenuItemAddAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAddAnimActionPerformed
 
-        String filename ="xml"+File.separator+"vectoranimation";
-        String text = VectorListFileChoserJPanel.showLoadPanel(filename,"Load Vector-Animation", true, true);
+        String filenameI ="xml"+File.separator+"vectoranimation";
+        String text = VectorListFileChoserJPanel.showLoadPanel(filenameI,"Load Vector-Animation", true, true);
         stopColoring();
         
         try
@@ -528,6 +526,7 @@ public class EditorPanel extends EditorPanelFoundation
         
         startColoring();
     }//GEN-LAST:event_jMenuItemAddAnimActionPerformed
+    // returns the line number of the given position
     int getLineOfPos(JTextPane comp, int pos)
     {
         int ret = -1;
@@ -548,6 +547,8 @@ public class EditorPanel extends EditorPanelFoundation
         }
         return ret;
     }
+    // returns the position of the start of the word
+    // that the given pos points to (can point to any position of that word)
     int getStartOfWord(JTextPane comp, int pos)
     {
         int word =-1;
@@ -572,7 +573,8 @@ public class EditorPanel extends EditorPanelFoundation
         }
         return word;
     }    
-    
+    // get the word, that pos is pointing to
+    // pos can be at "any" position of that word
     String getWordOfPos(JTextPane comp, int pos)
     {
         String word ="";
@@ -603,6 +605,10 @@ public class EditorPanel extends EditorPanelFoundation
         }
         return word;
     }    
+    // returns a String representation of an integer
+    // that the position points to
+    // position can be "any" position within that integer
+    // if no integer is found at position, an empty string is returned
     String getIntOfPos(JTextPane comp, int pos)
     {
         String word ="";
@@ -633,6 +639,8 @@ public class EditorPanel extends EditorPanelFoundation
         }
         return word;
     }    
+    // returns the position within the text
+    // which represents the start of the given line number
     public int getPosOfLineStart(int line)
     {
         int pos = 0;
@@ -653,11 +661,12 @@ public class EditorPanel extends EditorPanelFoundation
         }
         return pos;
     }
-    public String getLine(JTextPane comp, int pos)
+    // returns the # line within the text as string (or empty string)
+    public String getLine(JTextPane comp, int line)
     {
         try
         {
-            return comp.getDocument().getText(0, comp.getDocument().getLength()).split("\n")[pos];
+            return comp.getDocument().getText(0, comp.getDocument().getLength()).split("\n")[line];
         }
         catch (Throwable e)
         {
@@ -694,12 +703,14 @@ public class EditorPanel extends EditorPanelFoundation
         }
         catch (Throwable e)
         {
-            e.printStackTrace();
             tinyLog.printError(de.malban.util.Utility.getStackTrace(e));
             return null;
         }
         return path;
     }
+    // returns the curosur postion within the text
+    // cursor position y = line number, x = column within that line
+    // x is at maximum the corresponding line length, not the "screen" position (column)
     public Point getCursorPos()
     {
         Point p = new Point(1,1);
@@ -785,24 +796,30 @@ public class EditorPanel extends EditorPanelFoundation
     }
     public class LineTableModel extends AbstractTableModel
     {
+        @Override
         public int getRowCount()
         {
             return getTextpaneRowCount();
         }
+        @Override
         public int getColumnCount()
         {
             return 1;
         }
+        @Override
         public Object getValueAt(int row, int col)
         {
             return row+1;
         }
+        @Override
         public String getColumnName(int column) {
             return "";
         }
+        @Override
         public Class<?> getColumnClass(int columnIndex) {
             return Integer.class;
         }
+        @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
             return false;
         }
@@ -818,6 +835,8 @@ public class EditorPanel extends EditorPanelFoundation
             return null; // default
         }
     }
+    // search from the current cursor position the next instance of "to search"
+    // and scroll to position and set carret (and set selection)
     public boolean goNext(String toSearch, boolean ignoreCase)
     {
         try
@@ -1017,6 +1036,10 @@ public class EditorPanel extends EditorPanelFoundation
         return oldDim;
     }
     boolean _0d0a = false;
+    // sets a flag if the current document should be "forceably" saved
+    // with line endings "0xd0 0xa0"
+    // setting this to false STILL saves
+    // the text with the OS defaults (Windows - "0xd0 0xa0")
     public void setODOA(boolean b)
     {
         _0d0a = b;
@@ -1098,6 +1121,7 @@ public class EditorPanel extends EditorPanelFoundation
     String TAB_STRING = "    ";
     AbstractAction tabAction = new AbstractAction()
     {
+        @Override
         public void actionPerformed(ActionEvent e)
         {
             try
@@ -1134,6 +1158,7 @@ public class EditorPanel extends EditorPanelFoundation
     };
     AbstractAction shiftTabAction = new AbstractAction()
     {
+        @Override
         public void actionPerformed(ActionEvent e)
         {
             try
@@ -1173,6 +1198,7 @@ public class EditorPanel extends EditorPanelFoundation
         }
         
     };
+    @Override
     protected void editActionChanged()
     {
         if (parent == null) return;
@@ -1225,6 +1251,7 @@ public class EditorPanel extends EditorPanelFoundation
     {
         isBasic = b;
     }
+    @Override
     public void fireEditorChanged(int type)
     {
         super.fireEditorChanged(type);
