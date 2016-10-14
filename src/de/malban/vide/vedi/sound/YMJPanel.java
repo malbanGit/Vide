@@ -28,10 +28,8 @@ import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.E8910;
-import static de.malban.vide.vecx.VecX.SOUNDBUFFER_SIZE;
 import de.malban.vide.vedi.VediPanel;
 import de.malban.vide.vedi.VediPanel32;
-import static de.malban.vide.vedi.sound.YmSound.enableAmlitude5thBit;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
@@ -222,6 +220,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
             
         }
         initComponents();
+jCheckBox26.setVisible(false);
         tinyLog = tl;
         
         
@@ -644,6 +643,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jCheckBox23 = new javax.swing.JCheckBox();
         jCheckBox24 = new javax.swing.JCheckBox();
         jCheckBox25 = new javax.swing.JCheckBox();
+        jCheckBox26 = new javax.swing.JCheckBox();
+        jButtonSaveSelection1 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(960, 537));
 
@@ -910,7 +911,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         jTextField16a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField16a.setText("$00");
-        jTextField16a.setToolTipText("double click rites value to PSG emulation");
+        jTextField16a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField16a.setName("15"); // NOI18N
         jTextField16a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField16a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -939,7 +940,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField1a.setBackground(new java.awt.Color(204, 204, 255));
         jTextField1a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField1a.setText("$00");
-        jTextField1a.setToolTipText("double click rites value to PSG emulation");
+        jTextField1a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField1a.setName("0"); // NOI18N
         jTextField1a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField1a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -968,7 +969,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField2a.setBackground(new java.awt.Color(204, 204, 255));
         jTextField2a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField2a.setText("$00");
-        jTextField2a.setToolTipText("double click rites value to PSG emulation");
+        jTextField2a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField2a.setName("1"); // NOI18N
         jTextField2a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField2a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -997,7 +998,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField3a.setBackground(new java.awt.Color(255, 204, 255));
         jTextField3a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField3a.setText("$00");
-        jTextField3a.setToolTipText("double click rites value to PSG emulation");
+        jTextField3a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField3a.setName("2"); // NOI18N
         jTextField3a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField3a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1026,7 +1027,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField4a.setBackground(new java.awt.Color(255, 204, 255));
         jTextField4a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField4a.setText("$00");
-        jTextField4a.setToolTipText("double click rites value to PSG emulation");
+        jTextField4a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField4a.setName("3"); // NOI18N
         jTextField4a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField4a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1055,7 +1056,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField5a.setBackground(new java.awt.Color(255, 204, 204));
         jTextField5a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField5a.setText("$00");
-        jTextField5a.setToolTipText("double click rites value to PSG emulation");
+        jTextField5a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField5a.setName("4"); // NOI18N
         jTextField5a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField5a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1084,7 +1085,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField6a.setBackground(new java.awt.Color(255, 204, 204));
         jTextField6a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField6a.setText("$00");
-        jTextField6a.setToolTipText("double click rites value to PSG emulation");
+        jTextField6a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField6a.setName("5"); // NOI18N
         jTextField6a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField6a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1113,7 +1114,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField7a.setBackground(new java.awt.Color(204, 204, 204));
         jTextField7a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField7a.setText("$00");
-        jTextField7a.setToolTipText("double click rites value to PSG emulation");
+        jTextField7a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField7a.setName("6"); // NOI18N
         jTextField7a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField7a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1141,7 +1142,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         jTextField8a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField8a.setText("$00");
-        jTextField8a.setToolTipText("double click rites value to PSG emulation");
+        jTextField8a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField8a.setName("7"); // NOI18N
         jTextField8a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField8a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1170,7 +1171,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField9a.setBackground(new java.awt.Color(204, 204, 255));
         jTextField9a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField9a.setText("$00");
-        jTextField9a.setToolTipText("double click rites value to PSG emulation");
+        jTextField9a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField9a.setName("8"); // NOI18N
         jTextField9a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField9a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1199,7 +1200,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField10a.setBackground(new java.awt.Color(255, 204, 255));
         jTextField10a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField10a.setText("$00");
-        jTextField10a.setToolTipText("double click rites value to PSG emulation");
+        jTextField10a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField10a.setName("9"); // NOI18N
         jTextField10a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField10a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1228,7 +1229,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jTextField11a.setBackground(new java.awt.Color(255, 204, 204));
         jTextField11a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField11a.setText("$00");
-        jTextField11a.setToolTipText("double click rites value to PSG emulation");
+        jTextField11a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField11a.setName("10"); // NOI18N
         jTextField11a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField11a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1256,7 +1257,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         jTextField12a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField12a.setText("$00");
-        jTextField12a.setToolTipText("double click rites value to PSG emulation");
+        jTextField12a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField12a.setName("11"); // NOI18N
         jTextField12a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField12a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1284,7 +1285,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         jTextField13a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField13a.setText("$00");
-        jTextField13a.setToolTipText("double click rites value to PSG emulation");
+        jTextField13a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField13a.setName("12"); // NOI18N
         jTextField13a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField13a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1312,7 +1313,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         jTextField14a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField14a.setText("$00");
-        jTextField14a.setToolTipText("double click rites value to PSG emulation");
+        jTextField14a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField14a.setName("13"); // NOI18N
         jTextField14a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField14a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -1340,7 +1341,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         jTextField15a.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextField15a.setText("$00");
-        jTextField15a.setToolTipText("double click rites value to PSG emulation");
+        jTextField15a.setToolTipText("double click writes value to PSG emulation, shift double click to complete column");
         jTextField15a.setName("14"); // NOI18N
         jTextField15a.setPreferredSize(new java.awt.Dimension(30, 18));
         jTextField15a.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -3020,7 +3021,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jCheckBoxCreatePlayer.setText("create player");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "uncompressed", "YMSound (historic)", "YMSound optimized speed", "streamed" }));
-        jComboBox2.setSelectedIndex(2);
 
         jPanel6.setBackground(new java.awt.Color(255, 204, 204));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Channel C - AYFX"));
@@ -3192,7 +3192,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Lister", jPanel9);
@@ -3245,19 +3245,26 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 .addComponent(jCheckBox24)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox25)
-                .addContainerGap(399, Short.MAX_VALUE))
+                .addContainerGap(417, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("more configuration", jPanel11);
+
+        jCheckBox26.setText("8 bit");
+
+        jButtonSaveSelection1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/drive_user.png"))); // NOI18N
+        jButtonSaveSelection1.setToolTipText("insert data from a text file (db statements)");
+        jButtonSaveSelection1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonSaveSelection1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveSelection1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(930, 930, 930)
-                .addComponent(jButtonCancel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -3267,7 +3274,10 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButtonAddRow))
-                    .addComponent(jButtonCopy)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonCopy)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonSaveSelection1))
                     .addComponent(jButtonPaste)
                     .addComponent(jButtonCut)
                     .addGroup(layout.createSequentialGroup()
@@ -3283,9 +3293,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -3310,7 +3317,14 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jCheckBox26)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                                .addComponent(jButtonCancel)))
                         .addGap(17, 17, 17))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -3326,7 +3340,9 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonCopy)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonCopy)
+                                    .addComponent(jButtonSaveSelection1))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonPaste)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3366,7 +3382,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonCreate)
-                            .addComponent(jButtonCancel))))
+                            .addComponent(jButtonCancel)
+                            .addComponent(jCheckBox26))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -3404,11 +3421,40 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
     
     private void jButtonCreateActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
+        if (standalone)
+        {
+            // ask where to save!
+            InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+            fc.setDialogTitle("Select save directory");
+            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+            int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+            if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+            String lastPath = fc.getSelectedFile().getAbsolutePath();
+
+            Path p = Paths.get(lastPath);
+            String newName = p.toString();
+            if (!newName.endsWith(File.separator)) newName+=File.separator;
+            File f = new File(currentYMFile);
+            String nameOnly = f.getName();
+            newName = newName + nameOnly;
+            currentYMFile = newName;
+            
+            startPath = fc.getSelectedFile().toString();
+            if (!startPath.endsWith(File.separator)) startPath+=File.separator;
+            
+        }
+        else
+        {
+            
+        }
 
         preprocess();
         if (jComboBox2.getSelectedIndex() == 3)
         {
-            //checkSameLines();
+            
+            doStreamCode();
         }
         else
             doYM_part1();
@@ -3958,6 +4004,35 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         tableClicked(evt);
     }//GEN-LAST:event_jTable3MousePressed
 
+    private void jButtonSaveSelection1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveSelection1ActionPerformed
+
+        if (jTable1.isEditing()) jTable1.getCellEditor().stopCellEditing();        
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+
+        if (lastPath.length()==0)
+        {
+            if (pathOnly.length()==0)
+            {
+                pathOnly =  "."+File.separator;
+            }
+            fc.setCurrentDirectory(new java.io.File(pathOnly));
+        }
+        else
+        {
+            fc.setCurrentDirectory(new java.io.File(lastPath));
+        }
+
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        lastPath = fc.getSelectedFile().getAbsolutePath();
+
+        
+        byte[][] buf = readStatements(lastPath);
+        
+        if (buf != null)
+            insertYM(buf, buf[0].length);
+    }//GEN-LAST:event_jButtonSaveSelection1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -3981,6 +4056,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JButton jButtonSave2;
     private javax.swing.JButton jButtonSave3;
     private javax.swing.JButton jButtonSaveSelection;
+    private javax.swing.JButton jButtonSaveSelection1;
     private javax.swing.JButton jButtonStop2;
     private javax.swing.JButton jButtonStop3;
     private javax.swing.JCheckBox jCheckBox1;
@@ -4001,6 +4077,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JCheckBox jCheckBox23;
     private javax.swing.JCheckBox jCheckBox24;
     private javax.swing.JCheckBox jCheckBox25;
+    private javax.swing.JCheckBox jCheckBox26;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
@@ -4277,34 +4354,6 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         if (selectedMode == 0) // uncompressd
             uncompressed = true;
         
-        if (standalone)
-        {
-            // ask where to save!
-            InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
-            fc.setDialogTitle("Select save directory");
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
-            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-            int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
-            if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
-            String lastPath = fc.getSelectedFile().getAbsolutePath();
-
-            Path p = Paths.get(lastPath);
-            String newName = p.toString();
-            if (!newName.endsWith(File.separator)) newName+=File.separator;
-            File f = new File(currentYMFile);
-            String nameOnly = f.getName();
-            newName = newName + nameOnly;
-            currentYMFile = newName;
-            
-            startPath = fc.getSelectedFile().toString();
-            if (!startPath.endsWith(File.separator)) startPath+=File.separator;
-            
-        }
-        else
-        {
-            
-        }
         if (isBASIC)
         {
             Path p = Paths.get(startPath);
@@ -4649,8 +4698,9 @@ s
         // paranoia!
         if (three != null) return;
         
+        e8910.is16Bit = !jCheckBox26.isSelected();
         
-        final Stream line = TinySound.getOutStreamVectrex();
+//        final Stream line = E8910.getVectrexLine();
 
         e8910.e8910_init_sound();
         // setupPSG once with a complete reigster set!
@@ -4703,9 +4753,9 @@ s
             {
                 if (ymSound.vbl_len == 0) return;
                 
-                byte[] soundBytes = new byte[SOUNDBUFFER_SIZE];
+//                byte[] soundBytes = new byte[E8910.getSoundBufferSize()];
                 
-                line.start();
+//                line.start();
                 currentHz = jComboBox1.getSelectedIndex()==0?50:60;
                 compareMilli = 1000/currentHz;
 
@@ -4735,7 +4785,7 @@ s
                             if (i==7)
                                 poker &= 1+2+4+8+16+32;
                             // for vectrex
-                            if (ymSound.enableAmlitude5thBit)
+                            if (YmSound.enableAmlitude5thBit)
                                 if ((i==8)||(i==9)||(i==10)) poker  &= 0x1f;
                             else
                                 if ((i==8)||(i==9)||(i==10)) poker  &= 0x0f;
@@ -4798,14 +4848,19 @@ s
 
                         lastTime = endTime;
 
+                        e8910.updateSound();
+                        /*
                         int soundLength = line.available();
-                        soundLength = soundLength >soundBytes.length ? soundBytes.length : soundLength;
+                        int bufLength = soundBytes.length;
+                        if (E8910.is16Bit) bufLength/=2;
+                        soundLength = soundLength >bufLength ? bufLength : soundLength;
                         if (soundLength>=0)
                         {
+//                            soundLength = 2048-96-96-96;
                             e8910.e8910_callback(soundBytes, soundLength);
                             line.write(soundBytes, 0, soundLength);
                         }
-                    
+                    */
                     }
                     
 
@@ -4821,9 +4876,10 @@ s
                     
                 }
                 playingYM = false;
-                line.stop();
+                e8910.e8910_done_sound();
+//                line.stop();
                 three = null;
-                line.unload();
+//                line.unload();
             }  
         };
         playingYM = true;
@@ -5411,7 +5467,7 @@ s
     {
         isBASIC = true;
     }
-    void checkSameLines()
+    void doStreamCode()
     {
         HashMap<String, String> test = new HashMap<String, String>();
         updateCheckBoxes();
@@ -5436,19 +5492,178 @@ s
         jLabel136.setText(""+size);
         Dictionary dictionary = buildYMBitStream();
         
-        dictionary.decodeBitStream();
+//        dictionary.decodeBitStream();
         
         String bitOutput = dictionary.bitStream.toString();
         jLabel138.setText(""+(bitOutput.length()+7)/8);
         jLabel140.setText(""+dictionary.datalines.size());
         jLabel143.setText(""+dictionary.getRawByteDataSize());
         
-      //  warum braucht der ym unpack so große peaks?
+        // do the output now
+        
+        ymSaveName = "";
+        // check for a property file!
+        String type ="";
+        String pathFull ="";
+        String pathOnly ="";
+        String filenameOnly ="";
+        String filenameBaseOnly ="";
+        Path p = Paths.get(currentYMFile);
+        if(p== null) return;
+        pathFull = p.toString();
+        pathOnly = p.getParent().toString();
+        if ((pathOnly.length()>0) && (!pathOnly.endsWith(File.separator)))
+            pathOnly+= File.separator;
+        
+        filenameOnly = p.getFileName().toString();
+        filenameBaseOnly = filenameOnly.substring(0,filenameOnly.length()-3);
+        
+        boolean pic = false;
+        if (filenameOnly.toLowerCase().endsWith(".ym")) pic = true;
+        if (!pic) 
+        {
+            tinyLog.printWarning("Selected entry does not have a known ym extension - using 'name' to create a file...");
+            filenameBaseOnly = jTextFieldSongName.getText();
+           // return;
+        }
+        String saveNameOnly ="";
+        File file = new File(pathOnly+filenameBaseOnly+".asm");
+        saveNameOnly = filenameBaseOnly+".asm";
+        FileWriter fw;
+        BufferedWriter bw;
+        try
+        {
+            fw = new FileWriter(file.getAbsoluteFile());
+            bw = new BufferedWriter(fw);        
+            start = 0;
+            end = ymSound.vbl_len;
+            boolean started = false;
+
+
+            
+            if (dictionary.sConfig.hasSomeNoise)
+                bw.write("HAS_SOME_NOISE = 1\n");
+            if (dictionary.sConfig.hasVoice[0])
+                bw.write("HAS_VOICE0 = 1\n");
+            if (dictionary.sConfig.hasVoice[1])
+                bw.write("HAS_VOICE1 = 1\n");
+            if (dictionary.sConfig.hasVoice[2])
+                bw.write("HAS_VOICE2 = 1\n");
+            
+            if (dictionary.sConfig.hasNoise[0])
+                bw.write("HAS_NOISE0 = 1\n");
+            if (dictionary.sConfig.hasNoise[1])
+                bw.write("HAS_NOISE1 = 1\n");
+            if (dictionary.sConfig.hasNoise[2])
+                bw.write("HAS_NOISE2 = 1\n");
+            
+            if (!dictionary.sConfig.allToneSame[0])
+                bw.write("HAS_DIF_TONE0 = 1\n");
+            if (!dictionary.sConfig.allToneSame[1])
+                bw.write("HAS_DIF_TONE1 = 1\n");
+            if (!dictionary.sConfig.allToneSame[2])
+                bw.write("HAS_DIF_TONE2 = 1\n");
+            
+            if (dictionary.sConfig.hasTone[0])
+                bw.write("HAS_TONE0 = 1\n");
+            if (dictionary.sConfig.hasTone[1])
+                bw.write("HAS_TONE1 = 1\n");
+            if (dictionary.sConfig.hasTone[2])
+                bw.write("HAS_TONE2 = 1\n");
+            
+            bw.write("FIRST7 = $"+String.format("%02X",(dictionary.sConfig.first7))+"\n");
+            
+            bw.write("\n");
+            bw.write("SONG_DATA = ymlen\n");
+            bw.write("\n");
+            bw.write("ymlen:\n dw ");
+            bw.write("$"+String.format("%04X",(end-start)));
+
+            bw.write("\nymData:\n");
+
+            
+            dictionary.bitStreamStart();
+            
+            int dataCount = 0;
+            while (!dictionary.eof)
+            {
+                if (dataCount == 0)
+                    bw.write(" db ");
+                else
+                    bw.write(", ");
+                int b = dictionary.getNextByte();
+                bw.write("$"+String.format("%02X",(b&0xff)));
+                dataCount++;
+                if (dataCount == 10)
+                {
+                    bw.write("\n");
+                    dataCount = 0;
+                }
+            }
+            
+            bw.close();
+
+            if (jCheckBoxCreatePlayer.isSelected())
+            {
+                Path include = Paths.get(".", "template", "VECTREX.I");
+                de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
+                Path digital = Paths.get(".", "template", "ymStreamedPlayer.i");
+                de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "ymStreamedPlayer.i");
+
+                Path template = Paths.get(".", "template", "ymPlayStreamedMain.template");
+                String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YM_DATA#", saveNameOnly);
+                de.malban.util.UtilityFiles.createTextFile(pathOnly+filenameOnly.substring(0,filenameOnly.length()-3)+"Main.asm", exampleMain);     
+            }
+        }
+        catch (Throwable e)
+        {
+            log.addLog("YM - Error openening output file! ('"+pathOnly+filenameBaseOnly+".asm"+"').", WARN);
+            tinyLog.printError("Error creating file: "+pathOnly+filenameBaseOnly+".asm");
+        }
+        if (tinyLog instanceof VediPanel)
+            ((VediPanel)tinyLog).refreshTree();
+        if (standalone)
+        {
+            VediPanel.openInVedi(pathOnly+filenameOnly.substring(0,filenameOnly.length()-3)+"Main.asm");
+        }
     }
     class Dictionary
     {
         ArrayList<OneDataLine> datalines = new ArrayList<OneDataLine>();
         StringBuilder bitStream = new StringBuilder();
+        StreamConfig sConfig = new StreamConfig();
+        
+        StringBitStream stream = new StringBitStream();
+        int pos;
+        boolean eof = false;
+        void bitStreamStart()
+        {
+            pos = 0;
+            eof = false;
+            stream.s = bitStream.toString();
+            stream.reset();
+        }
+        
+        int getNextByte()
+        {
+            int b=0;
+            for (int i=0;i<8; i++)
+            {
+                b = b <<1;
+                if (!stream.eof)
+                {
+                    if (stream.nextBit())
+                        b++;
+                }
+                else
+                {
+                    eof = true;
+                }
+            }
+            return b;
+        }
         
         int getRawByteDataSize()
         {
@@ -5477,11 +5692,13 @@ s
             return error;
         }
         
+        // not up to date anymore, doesn't handle the "ifs"
         void decodeBitStream()
         {
             int[] regsLast=new int[16];
             int[] regs=new int[16];
             StringBitStream stream = new StringBitStream();
+            stream.doComments = true;
             stream.s = bitStream.toString();
             int line = 0;
             boolean error = false;
@@ -5629,6 +5846,7 @@ s
         public String s;
         int pos=0;
         public boolean eof = false;
+        boolean doComments = false;
         boolean nextBit()
         {
             pos++;
@@ -5637,6 +5855,7 @@ s
                 eof = true;
                 return false;
             }
+            if (doComments)
             comment+=s.substring(pos-1, pos);
             return s.substring(pos-1, pos).equals("1");
         }
@@ -5649,6 +5868,12 @@ s
                 if (nextBit()) v+=1;
             }
             return v;
+        }
+        void reset()
+        {
+            pos = 0;
+            eof = false;
+            comment = "";
         }
     }
     
@@ -5824,7 +6049,7 @@ s
         return oldRegs[6] &0x1f;
     }
     // build a COMPLETE voice bitstram
-    String buildVoice(int voice, int row)
+    String buildVoice(int voice, int row, StreamConfig sConfig)
     {
         HashMap<String, Integer> dictionary = new HashMap<String, Integer>();
         StringBuilder voiceStream = new StringBuilder();
@@ -5860,14 +6085,26 @@ s
         }
 
         // for ym we take it that noise has precedence over tone - we only use 1 bit to represent the state!
-        if (noise) 
-            voiceStream.append("1");
-        else
-            voiceStream.append("0");
-        if (tone) 
-            voiceStream.append("1");
-        else
-            voiceStream.append("0");
+        if (sConfig.hasSomeNoise)
+        {
+            if (sConfig.hasNoise[voice])
+            {
+                if (noise) 
+                    voiceStream.append("1");
+                else
+                    voiceStream.append("0");
+            }
+        }
+        if (!sConfig.allToneSame[voice])
+        {
+            if (sConfig.hasTone[voice])
+            {
+                if (tone) 
+                    voiceStream.append("1");
+                else
+                    voiceStream.append("0");
+            }
+        }
         
         // only if voice has a tone, tone is output
 //        if (tone)
@@ -5898,9 +6135,118 @@ s
 
     int[] oldRegs = new int[16]; 
     int[] newRegs = new int[16]; 
+    
+    class StreamConfig
+    {
+        boolean[] hasVoice = new boolean[3];
+        boolean hasEnvelope;
+        boolean hasSomeNoise;
+        boolean[] hasNoise = new boolean[3];
+        boolean[] hasTone = new boolean[3];
+        boolean[] usedRegs = new boolean[14];
+        boolean[] allToneSame = new boolean[3];
+        int first7 = 0;
+    }
+    
+    
     Dictionary buildYMBitStream()
     {
+        int start = 0;
+        int end = ymSound.vbl_len;
+        // build config
+        StreamConfig sConfig = new StreamConfig();
+        for (int i=0; i<14; i++)
+            sConfig.usedRegs[i] = usedRegs[i];
+        sConfig.hasVoice[0] = true;
+        sConfig.hasVoice[1] = true;
+        sConfig.hasVoice[2] = true;
+        sConfig.hasTone[0] = false;
+        sConfig.hasTone[1] = false;
+        sConfig.hasTone[2] = false;
+        long sumAmp0 = 0;
+        long sumAmp1 = 0;
+        long sumAmp2 = 0;
+        if ((!sConfig.usedRegs[0]) && (!sConfig.usedRegs[1])) sConfig.hasVoice[0] = false;
+        if (!sConfig.usedRegs[8]) sConfig.hasVoice[0] = false;
+        if ((!sConfig.usedRegs[2]) && (!sConfig.usedRegs[3])) sConfig.hasVoice[0] = false;
+        if (!sConfig.usedRegs[9]) sConfig.hasVoice[0] = false;
+        if ((!sConfig.usedRegs[4]) && (!sConfig.usedRegs[5])) sConfig.hasVoice[0] = false;
+        if (!sConfig.usedRegs[10]) sConfig.hasVoice[0] = false;
+        for (int i=start;i<end; i++)
+        {
+            sumAmp0 += ymSound.out_buf[8][i];
+            sumAmp1 += ymSound.out_buf[9][i];
+            sumAmp2 += ymSound.out_buf[10][i];
+        }
+        if (sumAmp0==0) sConfig.hasVoice[0] = false;
+        if (sumAmp1==0) sConfig.hasVoice[1] = false;
+        if (sumAmp2==0) sConfig.hasVoice[2] = false;
+
+        sConfig.allToneSame[0] = sConfig.hasVoice[0];
+        sConfig.allToneSame[1] = sConfig.hasVoice[1];
+        sConfig.allToneSame[2] = sConfig.hasVoice[2];
+        
+        boolean starting = true;
+        boolean tone0=true;
+        boolean tone1=true;
+        boolean tone2=true;
+        
+        for (int i=start;i<end; i++)
+        {
+            if (starting)
+            {
+                tone0 = (ymSound.out_buf[7][start]&0x01)==1;
+                tone1 = (ymSound.out_buf[7][start]&0x02)==2;
+                tone2 = (ymSound.out_buf[7][start]&0x04)==4;
+                sConfig.first7 = ymSound.out_buf[7][start];
+            }
+            
+            if ((sConfig.hasVoice[0]) && (ymSound.out_buf[8][i]>=16)) sConfig.hasEnvelope = true;
+            if ((sConfig.hasVoice[1]) && (ymSound.out_buf[9][i]>=16)) sConfig.hasEnvelope = true;
+            if ((sConfig.hasVoice[2]) && (ymSound.out_buf[10][i]>=16)) sConfig.hasEnvelope = true;
+
+            if ((sConfig.hasVoice[0]) && ((ymSound.out_buf[7][i]&0x08) == 0)) 
+            {
+                sConfig.hasSomeNoise = true;
+                sConfig.hasNoise[0] = true;
+            }
+            if ((sConfig.hasVoice[1]) && ((ymSound.out_buf[7][i]&0x10) == 0)) 
+            {
+                sConfig.hasSomeNoise = true;
+                sConfig.hasNoise[1] = true;
+            }
+            if ((sConfig.hasVoice[2]) && ((ymSound.out_buf[7][i]&0x20) == 0))
+            {
+                sConfig.hasSomeNoise = true;
+                sConfig.hasNoise[2] = true;
+            }
+
+            if ((sConfig.hasVoice[0]) && ((ymSound.out_buf[7][i]&0x01) == 0)) 
+            {
+                sConfig.hasTone[0] = true;
+            }
+            if ((sConfig.hasVoice[1]) && ((ymSound.out_buf[7][i]&0x2) == 0)) 
+            {
+                sConfig.hasTone[1] = true;
+            }
+            if ((sConfig.hasVoice[2]) && ((ymSound.out_buf[7][i]&0x4) == 0))
+            {
+                sConfig.hasTone[2] = true;
+            }
+            
+            if ((tone0) != ((ymSound.out_buf[7][i]&0x01)==1)) sConfig.allToneSame[0] = false;
+            if ((tone1) != ((ymSound.out_buf[7][i]&0x02)==2)) sConfig.allToneSame[1] = false;
+            if ((tone2) != ((ymSound.out_buf[7][i]&0x04)==4)) sConfig.allToneSame[2] = false;
+            
+        }
+        if (!sConfig.hasVoice[0]) sConfig.allToneSame[0] = true;
+        if (!sConfig.hasVoice[1]) sConfig.allToneSame[1] = true;
+        if (!sConfig.hasVoice[2]) sConfig.allToneSame[2] = true;
+        
+        
+        ////
         Dictionary d = new Dictionary();
+        d.sConfig = sConfig;
         if (ymSound.vbl_len<=1) return d;
         HashMap<String, Integer> dictionary = new HashMap<String, Integer>();
         d.bitStream = new StringBuilder();
@@ -5913,8 +6259,6 @@ s
             oldRegs[i] = -1;
         }
         
-        int start = 0;
-        int end = ymSound.vbl_len;
         String lastvoice1 = "";
         String lastvoice2 = "";
         String lastvoice3 = "";
@@ -5923,20 +6267,29 @@ s
         
         for (int i=start; i<end; i++)
         {
-            String voice1 = buildVoice(0, i);
-            String voice2 = buildVoice(1, i);
-            String voice3 = buildVoice(2, i);
-            String noise = appendbitsMSBFirst(new StringBuilder(), getNoisePeriod(i), 5).toString();
-            boolean hasNoise = anyNoise(i);
-            
+            String voice1 = "";
+            if (sConfig.hasVoice[0]) voice1 = buildVoice(0, i, sConfig);
+            String voice2 = "";
+            if (sConfig.hasVoice[1]) voice2 = buildVoice(1, i, sConfig);
+            String voice3 = "";
+            if (sConfig.hasVoice[2]) voice3 = buildVoice(2, i, sConfig);
+
             String newOut = voice1+voice2+voice3;
-            if (hasNoise) 
+            String noise ="";
+            if (sConfig.hasSomeNoise) 
             {
-                newOut+="1";
-                newOut+=noise;
+                noise = appendbitsMSBFirst(new StringBuilder(), getNoisePeriod(i), 5).toString();
+                boolean hasNoise = anyNoise(i);
+
+                if (hasNoise) 
+                {
+                    newOut+="1";
+                    newOut+=noise;
+                }
+                else 
+                    newOut+="0";
             }
-            else 
-                newOut+="0";
+                
             
             StringBuilder nextLine = new StringBuilder();
             // now a complete line is done
@@ -5954,40 +6307,49 @@ s
             {
                 nextLine.append("1"); // indicate line changed
 
-                // something in the line differs
-                // now we output each part seperately
-                // Voice1, Voice2, Voice3, noise
-                if (voice1.equals(lastvoice1))
+                if (sConfig.hasVoice[0])
                 {
-                    // voice1 is the same, than also only a 0
-                    nextLine.append("0");
+                    // something in the line differs
+                    // now we output each part seperately
+                    // Voice1, Voice2, Voice3, noise
+                    if (voice1.equals(lastvoice1))
+                    {
+                        // voice1 is the same, than also only a 0
+                        nextLine.append("0");
+                    }
+                    else
+                    {
+                        nextLine.append("1"); // indicate voice changed
+                        nextLine.append(voice1); 
+                    }
                 }
-                else
+                if (sConfig.hasVoice[1])
                 {
-                    nextLine.append("1"); // indicate voice changed
-                    nextLine.append(voice1); 
-                }
-                if (voice2.equals(lastvoice2))
+                    if (voice2.equals(lastvoice2))
+                    {
+                        // voice2 is the same, than also only a 0
+                        nextLine.append("0");
+                    }
+                    else
+                    {
+                        nextLine.append("1"); // indicate voice changed
+                        nextLine.append(voice2); 
+                    }
+                }                
+                if (sConfig.hasVoice[2])
                 {
-                    // voice2 is the same, than also only a 0
-                    nextLine.append("0");
+                    if (voice3.equals(lastvoice3))
+                    {
+                        // voice3 is the same, than also only a 0
+                        nextLine.append("0");
+                    }
+                    else
+                    {
+                        nextLine.append("1"); // indicate voice changed
+                        nextLine.append(voice3); 
+                    }
                 }
-                else
-                {
-                    nextLine.append("1"); // indicate voice changed
-                    nextLine.append(voice2); 
-                }
-                if (voice3.equals(lastvoice3))
-                {
-                    // voice3 is the same, than also only a 0
-                    nextLine.append("0");
-                }
-                else
-                {
-                    nextLine.append("1"); // indicate voice changed
-                    nextLine.append(voice3); 
-                }
-                //if (hasNoise)
+                if (sConfig.hasSomeNoise) 
                 {
                     if (noise.equals(lastnoise))
                     {
@@ -6003,7 +6365,7 @@ s
                 
             }
             for (int ii=0; ii< 16; ii++) oldRegs[ii] = ymSound.out_buf[ii][i];
-System.out.println(nextLine);
+//System.out.println(nextLine);
             d.bitStream.append(nextLine); 
             
             Integer usage = 1;
@@ -6247,6 +6609,66 @@ System.out.println(nextLine);
         for (int row = 0; row <ymSound.vbl_len; row++)
             ymSound.out_buf[reg][row] = (byte)(value & 0xff);
         jTable1.repaint();
+    }
+    byte[][] readStatements(String file)
+    {
+        int lineLength=0;
+        String text = de.malban.util.UtilityString.readTextFileToOneString(new File (file));
+
+        String[] lines = text.split("\n");
+        ArrayList<String> lineArray = new ArrayList<String>();
+        for (String line: lines)
+        {
+            line = line.trim();
+        line = de.malban.util.UtilityString.replace(line, "\r", " ");
+        line = de.malban.util.UtilityString.replace(line, "\t", " ");
+        line = de.malban.util.UtilityString.replace(line, ",", " ");
+        line = de.malban.util.UtilityString.replace(line, "0x", "$");
+        line = de.malban.util.UtilityString.replace(line, "  ", " ");
+            if (line.length() != 0)
+            {
+                lineArray.add(line);
+            }
+        }
+        int lineCount = lineArray.size();
+        if (lineCount==0) return null;
+        
+        String textLine = lineArray.get(0);
+        String[] values = textLine.split(" ");
+        ArrayList<String> valueArray = new ArrayList<String>();
+        for (String value: values)
+        {
+            value = value.trim();
+            if (value.length() != 0)
+            {
+                valueArray.add(value);
+            }
+        }
+        int regCount = valueArray.size();
+        if (regCount==0) return null;
+        
+        byte[][] buf = new byte[16][lineCount];
+        
+        int l = 0;
+        for (String line: lineArray)
+        {
+            int r = 0;
+            String[] regs = line.split(" ");
+            for (String reg: regs)
+            {
+                reg = reg.trim();
+                if (reg.length() != 0)
+                {
+                    buf[r++][l] = (byte) ((DASM6809.toNumber(reg))&0xff);
+                }
+            }
+            if (r != regCount) return null;
+            l++;
+//            System.out.println(""+l+"/"+lineCount);
+        }
+        
+        
+        return buf;
     }
     
 }

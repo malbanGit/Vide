@@ -20,6 +20,66 @@ import java.util.HashMap;
  * @author malban
  */
 public class GFXVectorList {
+    
+    public static boolean hex = true;
+    public static boolean db = true;
+    
+    public static String getDW()
+    {
+        if (db) return "DW";
+        return "fdb";
+    }
+    public static String getDB()
+    {
+        if (db) return "DB";
+        return "fcb";
+    }
+    
+    // signed number
+    static String hex(int b)
+    {
+        String s="";
+        int idata = b;
+        idata = idata & 0xff;
+        if (idata>=128)
+        {
+            idata -= 256;
+            idata *= -1;
+            s+="-";
+        }
+        else
+        {
+            s+="+";
+        }
+        if (hex)
+        {
+            s+="$";
+            s+=String.format("%02X",idata);
+        }
+        else
+        {
+            s+=idata;
+        }
+        return s;
+    }
+    // unsigend number
+    static String hexU(int b)
+    {
+        String s="";
+        int idata = b;
+        idata = idata & 0xff;
+        if (hex)
+        {
+            s+="$";
+            s+=String.format("%02X",idata);
+        }
+        else
+        {
+            return hex(b);
+        }
+        return s;
+    }
+    
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     private static int UID = 0;
     public int load_uid;
@@ -1272,36 +1332,7 @@ public class GFXVectorList {
         list = newList;
     }
     
-    
-    
-    String hex(int b)
-    {
-        String s="";
-        int idata = b;
-        idata = idata & 0xff;
-        if (idata>=128)
-        {
-            idata -= 256;
-            idata *= -1;
-            s+="-";
-        }
-        else
-        {
-            s+="+";
-        }
-        s+="$";
-        s+=String.format("%02X",idata);
-        return s;
-    }
-    String hexU(int b)
-    {
-        String s="";
-        int idata = b;
-        idata = idata & 0xff;
-        s+="$";
-        s+=String.format("%02X",idata);
-        return s;
-    }
+
     
     // assuming list is ordered
     // and vectors are continuous!
@@ -1477,7 +1508,7 @@ public class GFXVectorList {
         if (!includeMove) count--;
         
         s.append(name).append(":\n");
-        s.append(" DB ").append(hex(count)).append(" ; number of lines to draw\n");
+        s.append(" "+GFXVectorList.getDB()+" ").append(hex(count)).append(" ; number of lines to draw\n");
 
         boolean init = includeMove;
         for (GFXVector v : vl.list)
@@ -1486,9 +1517,9 @@ public class GFXVectorList {
             {
                 init = false;
                 if (!( (((int)v.start.y()) == 0) && (((int)v.start.x()) == 0)))
-                    s.append(" DB ").append(hex((int)v.start.y())).append(", ").append(hex((int)v.start.x())).append(" ; move to y, x\n");
+                    s.append(" "+GFXVectorList.getDB()+" ").append(hex((int)v.start.y())).append(", ").append(hex((int)v.start.x())).append(" ; move to y, x\n");
             }
-            s.append(" DB ").append(getRelativeCoordString(v, factor)).append(" ; draw to y, x\n");
+            s.append(" "+GFXVectorList.getDB()+" ").append(getRelativeCoordString(v, factor)).append(" ; draw to y, x\n");
             
         }
         String text = s.toString();
@@ -1513,7 +1544,7 @@ public class GFXVectorList {
                 warn = true;
                 pattern +=128; // high byte is forcible set!
             }
-            s.append(" DB ").append(hexU(pattern)).append(", ");
+            s.append(" "+GFXVectorList.getDB()+" ").append(hexU(pattern)).append(", ");
             s.append(getRelativeCoordString(v, factor));
             if (warn)
                 s.append(" ; WARN pattern high byte set!\n");
@@ -1521,7 +1552,7 @@ public class GFXVectorList {
                 s.append(" ; pattern, y, x\n");
                 
         }
-        s.append(" DB ").append(hexU(1)).append(" ; endmarker (hight byte in pattern not set)\n");
+        s.append(" "+GFXVectorList.getDB()+" ").append(hexU(1)).append(" ; endmarker (hight byte in pattern not set)\n");
         
         String text = s.toString();
         return text;
@@ -1541,7 +1572,7 @@ public class GFXVectorList {
             {
                 init = false;
                 if (!( (((int)v.start.y()) == 0) && (((int)v.start.x()) == 0)))
-                    s.append(" DB ").append(hexU(0)).append(", ").append(hex((int)v.start.y())).append(", ").append(hex((int)v.start.x())).append(" ; move to y, x\n");
+                    s.append(" "+GFXVectorList.getDB()+" ").append(hexU(0)).append(", ").append(hex((int)v.start.y())).append(", ").append(hex((int)v.start.x())).append(" ; move to y, x\n");
             }
 
             boolean warn = false;
@@ -1561,12 +1592,12 @@ public class GFXVectorList {
             
             
             
-            s.append(" DB ").append(hexU(mode)).append(", ");
+            s.append(" "+GFXVectorList.getDB()+" ").append(hexU(mode)).append(", ");
             s.append(getRelativeCoordString(v, factor));
             s.append(" ; mode, y, x\n");
                 
         }
-        s.append(" DB ").append(hexU(1)).append(" ; endmarker (1)\n");
+        s.append(" "+GFXVectorList.getDB()+" ").append(hexU(1)).append(" ; endmarker (1)\n");
         
         String text = s.toString();
         return text;
@@ -1968,35 +1999,35 @@ public class GFXVectorList {
                         {
                             // sync moves are not "blown up"
                             if (first)
-                                s.append(" DB ").append(hexU(1)).append(", ").append(hex(useY)).append("").append(", ").append(hex(useX)).append("").append(" ; sync and move to y, x\n");
+                                s.append(" "+GFXVectorList.getDB()+" ").append(hexU(1)).append(", ").append(hex(useY)).append("").append(", ").append(hex(useX)).append("").append(" ; sync and move to y, x\n");
                             else
-                                s.append(" DB ").append(hexU(0)).append(", ").append(hex(useY)).append("*BLOW_UP").append(", ").append(hex(useX)).append("*BLOW_UP").append(" ; move to y, x\n");
+                                s.append(" "+GFXVectorList.getDB()+" ").append(hexU(0)).append(", ").append(hex(useY)).append("*BLOW_UP").append(", ").append(hex(useX)).append("*BLOW_UP").append(" ; move to y, x\n");
                         }
                         else
                         {
                             if (first)
-                                s.append(" DB ").append(hexU(1)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(" ; sync and move to y, x\n");
+                                s.append(" "+GFXVectorList.getDB()+" ").append(hexU(1)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(" ; sync and move to y, x\n");
                             else
-                                s.append(" DB ").append(hexU(0)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(" ; move to y, x\n");
+                                s.append(" "+GFXVectorList.getDB()+" ").append(hexU(0)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(" ; move to y, x\n");
                         }
                         first = false;
                     } while (((y!=0) || (x!=0)));
                 }
                 if (pattern == 0) // move
                 {
-                    s.append(" DB ").append(hexU(0)).append(", ");
+                    s.append(" "+GFXVectorList.getDB()+" ").append(hexU(0)).append(", ");
                     s.append(getRelativeCoordString(vector, factor));
                     s.append(" ; mode, y, x\n");
                 }
                 else  // draw
                 {
-                    s.append(" DB ").append(hexU(255)).append(", ");
+                    s.append(" "+GFXVectorList.getDB()+" ").append(hexU(255)).append(", ");
                     s.append(getRelativeCoordString(vector, factor));
                     s.append(" ; draw, y, x\n");
                 }
             }
         }
-        s.append(" DB ").append(hexU(2)).append(" ; endmarker \n");
+        s.append(" "+GFXVectorList.getDB()+" ").append(hexU(2)).append(" ; endmarker \n");
         String text = s.toString();
         
         return text;

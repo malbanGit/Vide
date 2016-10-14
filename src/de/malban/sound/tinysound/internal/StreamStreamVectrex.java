@@ -3,10 +3,10 @@ package de.malban.sound.tinysound.internal;
 
 
 import de.malban.sound.tinysound.Stream;
-import static de.malban.vide.vecx.VecX.SOUNDBUFFER_SIZE;
+import de.malban.vide.vecx.E8910;
 
 /**
- * Thes StreamSound class is an implementation of the Stream interface that
+ * The StreamSound class is an implementation of the Stream interface that
  * streams audio data from a temporary file to reduce memory overhead.
  * 
  * @author 
@@ -92,8 +92,14 @@ public class StreamStreamVectrex implements Stream {
 		private double volume;
 		private double pan;
 		private byte[] buf;
-                private byte[] inbuffer = new byte[SOUNDBUFFER_SIZE];
-                byte[] outBuffer = new byte[4408];
+                private byte[] inbuffer = new byte[882*4];
+                byte[] outBuffer = new byte[4*1102];
+                
+                
+		// == 1102 for default TinytSound int maxFramesPerUpdate =  (int)((TinySound.FORMAT.getFrameRate() / 1000) * 25);
+                // for Vectrex Frame = 4 bytes per frame 
+                // -> outbuffer = 4*1102
+                
                 int outBufferAvailable = 0; // in real bytes
                 int inbufferUsed = 0;       // in real bytes
                 private int bytesInBuffer;  // in real bytes

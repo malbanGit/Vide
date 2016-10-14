@@ -11,6 +11,7 @@ import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.WARN;
 import static de.malban.gui.panels.LogPanel.INFO;
 import de.malban.util.DownloaderPanel;
+import de.malban.vide.vecx.DisplayerInterface;
 import de.malban.vide.vecx.VecX;
 import java.io.File;
 import java.io.Serializable;
@@ -41,6 +42,7 @@ public class Cartridge implements Serializable
     public static int FLAG_DUALVEC1 = 4096; // 
     public static int FLAG_DUALVEC2 = 8192; // 
     public static int FLAG_LOGO = 16384; // 
+    public static int FLAG_XMAS = 32768; // 
 
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     // load transient stuff after save state
@@ -67,6 +69,7 @@ public class Cartridge implements Serializable
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0) ret+="DualVec1  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0) ret+="DualVec2  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0) ret+="$8000 8k extra RAM  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0) ret+="XMas LED  ";
         ret = ret.trim();
         ret = de.malban.util.UtilityString.replace(ret, "  ", ", ");
         return ret;
@@ -93,8 +96,10 @@ public class Cartridge implements Serializable
     boolean extraRam2000_2800_2k_Enabled = false;
     boolean extraRam8000_8800_2k_Enabled = false;
     boolean extraRam6000_7fff_8k_Enabled = false;
+    boolean isXmas = false;
     boolean isDualVec = false;
     DualVec dualvec = null;
+    XMasLED xMasLED = null;
     boolean extremeMulti = false;
     byte spectrumByte = 0;
     
@@ -456,7 +461,7 @@ public class Cartridge implements Serializable
         extraRam2000_2800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0;
         extraRam8000_8800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0;
         extraRam6000_7fff_8k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0;
-
+        isXmas =  ((cartProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0);
         isDualVec = (  ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0) || ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0));
         extremeMulti = (cartProp.getTypeFlags()&Cartridge.FLAG_EXTREME_MULTI)!=0;
         if (extraRam2000_2800_2k_Enabled)
@@ -483,6 +488,12 @@ public class Cartridge implements Serializable
             if (dualvec != null) dualvec.setCartridge(null);
             dualvec = null;
         }
+        if (isXmas)
+        {
+            xMasLED = new XMasLED();
+            xMasLED.setCartridge(this);
+        }
+
         return true;
     }    
     public boolean inject(CartridgeProperties cartProp)
@@ -772,7 +783,10 @@ public class Cartridge implements Serializable
         {
             dualvec.setLine(pb6);
         }
-        
+        if (isXmas)
+        {
+            xMasLED.setLine(pb6);
+        }
     }
     // is set from device
     public void setPB6FromCarrtridge(boolean b)
@@ -816,6 +830,11 @@ public class Cartridge implements Serializable
             microchip.reset();
         }
         
+    }
+    public DisplayerInterface getDisplay()
+    {
+        if (vecx==null) return null;
+        return vecx.getDisplay();
     }
 
 }

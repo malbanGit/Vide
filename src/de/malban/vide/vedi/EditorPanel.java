@@ -49,7 +49,16 @@ public class EditorPanel extends EditorPanelFoundation
     boolean isBasic = false;
     boolean hasChanged = false;
     boolean assume6809Asm = false;
-
+    boolean addToSettings = true;   
+    void setAddToSettings(boolean b)
+    {
+        addToSettings = b;
+    }
+    boolean isAddToSettings()
+    {
+        return addToSettings;
+    }
+    
     TinyLogInterface tinyLog = null;
     private String filename = "";
     boolean initError = false;

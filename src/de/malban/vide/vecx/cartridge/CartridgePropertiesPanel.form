@@ -339,36 +339,30 @@
                                       </Group>
                                       <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jCheckBox18" min="-2" pref="122" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                  </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="jTextFieldPath12" min="-2" pref="106" max="-2" attributes="0"/>
-                                              <EmptySpace pref="11" max="32767" attributes="0"/>
-                                              <Component id="jButtonFileSelect15" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jCheckBox19" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
-                                                  <Component id="jComboBoxImager" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jCheckBox11" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="jCheckBox13" min="-2" max="-2" attributes="0"/>
                                           <Component id="jCheckBox12" min="-2" max="-2" attributes="0"/>
                                           <Component id="jCheckBox14" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="singleImagePanel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jComboBoxImager" alignment="0" min="-2" pref="106" max="-2" attributes="0"/>
+                                          <Component id="jCheckBoxXmas" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jTextFieldPath12" min="-2" pref="106" max="-2" attributes="0"/>
+                                      <EmptySpace pref="11" max="32767" attributes="0"/>
+                                      <Component id="jButtonFileSelect15" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jCheckBox18" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox19" min="-2" pref="122" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -408,15 +402,15 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jCheckBox19" min="-2" pref="13" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jCheckBoxXmas" min="-2" pref="13" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                              <Component id="jComboBoxImager" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jComboBoxImager" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jTextFieldPath12" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jButtonFileSelect15" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonFileSelect15" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldPath12" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                               <Component id="singleImagePanel3" min="-2" pref="191" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jCheckBox11" min="-2" max="-2" attributes="0"/>
@@ -631,6 +625,17 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Homebrew"/>
                       </Properties>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBoxXmas">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="XMas LED"/>
+                        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                          <Insets value="[0, 2, 1, 0]"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxXmasActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

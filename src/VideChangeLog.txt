@@ -1,3 +1,32 @@
+14th of October 2016
+--------------------
+Version 1.05
+new:
+- vecx: psg emulation, changed internal data generation to 16 bit + oversampling
+- vecx: sound "lines" now inherent to psg section, not vecx, this makes it 
+        easier to update the output to the lines directly when psg registers change,
+        should be more acurate 
+- ym: added "import" of ym data lines (from ascii file)
+- dissi: added an ym 'line' to ayi
+- vecx: added all neccessary code to implement the LED of "BinaryStars" Xmas Cart 2015
+        to actually see the emulation, you need a ROM dump of the card, the "free" version does
+        not contain the corresponding code sections.
+- dissi: added to "hey dissi" #reg to print registers, e.g.: hey dissi "print #a #b", also $intx and $inty
+- ym: added asm vectrex player for "streamed" data, also enhanced coder,
+      streamed coder now analyses ym data and only encodes needed data, player is configured
+      to only decode needed data with "if" statements.
+      The player is without doubt the fastest, but also the one that does not - NOT pack very well...
+- vecci: added a button for an extra editor window, that window displays the standard "editor" and is resizable, so
+      larger editor areas are now available
+- vecci: settings are now persistent (grid and scale)
+- vecci: added a small scroll button section, you can now "move" in the editor window
+      sideways (displacement width = gridwidth)
+- all: allow open of multiple instances of vedi/codi/vecci (shift menu entry)
+- vecci: included settings for output, db/fcb, hex/dec
+
+BugFix:
+- vedi: the list of last opened files could get scrambled - fixed
+
 3rd of October 2016
 -------------------
 Version 1.04
@@ -5,7 +34,7 @@ new:
  - dissi: added 2 complement to register tooltip in reggi
  - dissi: added enhanced tooltip to CC in reggi
  - ym: added "player" mode
- - ym: shift double click on columne textfield, sets the value to the complete (register) column
+ - ym: shift double click on column textfield, sets the value to the complete (register) column
  - allow of envelopes in YM-file generation (in general)
 
 bugfixes:
@@ -43,7 +72,7 @@ new:
 - vecxi: added emulation for the phenomenon, that integration is possible during "zero enable",
          also added emulation that zeroing is not spontanous but a going down to zero over time
 - ym: added support to export data to BASIC (uncompressed only, and only "all" registers)
-- doc: documentaion for most of the mentioned changes/enhancements
+- doc: documentation for most of the mentioned changes/enhancements
 - template: updated vectorlist templates to handle vectorlists > 8bit (length)
 - template: templates for BASIC YM-Play and vectorlist display
 
@@ -56,7 +85,6 @@ bugfixes:
 - vedi: bug where line numbering was not updated after "pasting" 
 - sound: added log output to TinySound
 - vecx: checks that TinySound is initialized (befor null pointer exceptions were thrown)
-
 
 7th of Septmber 2016
 --------------------

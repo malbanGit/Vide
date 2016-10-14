@@ -367,7 +367,7 @@ public class GFXVectorAnimation
         int count = 0;
         for (GFXVectorList vl : al.list)
         {
-            table.append(" DW "+name+"_"+count);
+            table.append(" "+GFXVectorList.getDW()+" "+name+"_"+count);
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
@@ -397,7 +397,7 @@ public class GFXVectorAnimation
         int count = 0;
         for (GFXVectorList vl : al.list)
         {
-            table.append(" DW "+name+"_"+count);
+            table.append(" "+GFXVectorList.getDW()+" "+name+"_"+count);
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
@@ -427,7 +427,7 @@ public class GFXVectorAnimation
         int count = 0;
         for (GFXVectorList vl : al.list)
         {
-            table.append(" DW "+name+"_"+count);
+            table.append(" "+GFXVectorList.getDW()+" "+name+"_"+count);
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
@@ -460,7 +460,7 @@ public class GFXVectorAnimation
         int count = 0;
         for (GFXVectorList vl : al.list)
         {
-            table.append(" DW "+name+"_"+count);
+            table.append(" "+GFXVectorList.getDW()+" "+name+"_"+count);
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
@@ -490,7 +490,7 @@ public class GFXVectorAnimation
         int count = 0;
         for (GFXVectorList vl : al.list)
         {
-            table.append(" DW "+name+"_"+count);
+            table.append(" "+GFXVectorList.getDW()+" "+name+"_"+count);
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
@@ -521,7 +521,7 @@ public class GFXVectorAnimation
         int count = 0;
         for (GFXVectorList vl : al.list)
         {
-            table.append(" DW "+name+"_"+count);
+            table.append(" "+GFXVectorList.getDW()+" "+name+"_"+count);
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");

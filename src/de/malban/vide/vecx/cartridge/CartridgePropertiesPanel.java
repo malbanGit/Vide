@@ -359,6 +359,9 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jCheckBox17.setSelected((flag&FLAG_DUALVEC1)!=0);
         jCheckBox18.setSelected((flag&FLAG_DUALVEC2)!=0);
         jCheckBox19.setSelected((flag&FLAG_LOGO)!=0);
+        jCheckBoxXmas.setSelected((flag&FLAG_XMAS)!=0);
+        
+        
 
         jComboBoxImager.setSelectedIndex(-1);
         if ((flag&FLAG_IMAGER) != 0)
@@ -517,8 +520,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         if (jCheckBox17.isSelected()) flag+=FLAG_DUALVEC1;
         if (jCheckBox18.isSelected()) flag+=FLAG_DUALVEC2;
         if (jCheckBox19.isSelected()) flag+=FLAG_LOGO;
-        
-        
+        if (jCheckBoxXmas.isSelected()) flag+=FLAG_XMAS;
+                
 	mCartridgeProperties.mTypeFlags=flag;
         
 // direct edit thru model	mCartridgeProperties.mFullFilename=new Vector<String>();
@@ -579,6 +582,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jCheckBox12 = new javax.swing.JCheckBox();
         jCheckBox13 = new javax.swing.JCheckBox();
         jCheckBox14 = new javax.swing.JCheckBox();
+        jCheckBoxXmas = new javax.swing.JCheckBox();
         jButtonFileSelect1 = new javax.swing.JButton();
         jTextFieldPath = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -876,6 +880,14 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
         jCheckBox14.setText("Homebrew");
 
+        jCheckBoxXmas.setText("XMas LED");
+        jCheckBoxXmas.setMargin(new java.awt.Insets(0, 2, 1, 0));
+        jCheckBoxXmas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxXmasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -903,28 +915,25 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                             .addComponent(jCheckBox17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(5, 5, 5))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jCheckBox18, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jTextFieldPath12, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                                .addComponent(jButtonFileSelect15))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBoxImager, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jCheckBox11)
                             .addComponent(jCheckBox13)
                             .addComponent(jCheckBox12)
                             .addComponent(jCheckBox14)
-                            .addComponent(singleImagePanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(singleImagePanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxImager, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBoxXmas, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jTextFieldPath12, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addComponent(jButtonFileSelect15)
+                        .addContainerGap())
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox18, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -960,13 +969,14 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBoxXmas, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(jComboBoxImager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jComboBoxImager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldPath12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButtonFileSelect15))
-                .addGap(18, 18, 18)
+                    .addComponent(jButtonFileSelect15)
+                    .addComponent(jTextFieldPath12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
                 .addComponent(singleImagePanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox11)
@@ -980,7 +990,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         );
 
         jPanel3.add(jPanel5);
-        jPanel5.setBounds(360, 0, 160, 612);
+        jPanel5.setBounds(360, 0, 160, 618);
 
         jButtonFileSelect1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_link.png"))); // NOI18N
         jButtonFileSelect1.setToolTipText("opens system browser to homepage");
@@ -2094,6 +2104,10 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jTextFieldPath12.setEnabled(jCheckBox6.isSelected());
     }//GEN-LAST:event_jCheckBox6ActionPerformed
 
+    private void jCheckBoxXmasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxXmasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxXmasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDelete;
@@ -2138,6 +2152,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JCheckBox jCheckBox9;
+    private javax.swing.JCheckBox jCheckBoxXmas;
     private javax.swing.JComboBox jComboBoxImager;
     private javax.swing.JComboBox jComboBoxKlasse;
     private javax.swing.JComboBox jComboBoxName;

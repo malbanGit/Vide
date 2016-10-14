@@ -35,6 +35,20 @@ import javax.swing.table.AbstractTableModel;
 public class SingleVectorPanel extends javax.swing.JPanel 
 {
     public static int ARR_SIZE = 10;
+    private boolean usePrivateOffset = false;
+    private boolean usePrivateScale = false;
+    public void setUsePrivateOffset(boolean b)
+    {
+        usePrivateOffset = b;
+    }
+    public void setUsePrivateScale(boolean b)
+    {
+        usePrivateScale = b;
+    }
+    double scale = 1.0;
+    int xOffset = 0;
+    int yOffset = 0;
+    
     public class SharedVars
     {
         ArrayList<SingleVectorPanel> siblings = new ArrayList<SingleVectorPanel>();
@@ -147,6 +161,11 @@ public class SingleVectorPanel extends javax.swing.JPanel
     }
     int selWidth = 0;
     int selHeight = 0;
+    
+    public int getGridWidth()
+    {
+        return vars.gridWidth;
+    }
     public void setSharedVars(SharedVars vv)
     {
         vars=vv;
@@ -570,13 +589,52 @@ public class SingleVectorPanel extends javax.swing.JPanel
         return vars.shiftPressed;
     }
     
+    public int getXOffset()
+    {
+        if (!usePrivateOffset) return vars.xOffset;
+        return xOffset;
+    }
+    public int getYOffset()
+    {
+        if (!usePrivateOffset) return vars.yOffset;
+        return yOffset;
+    }
+    public void setOffsets(int x, int y)
+    {
+        if (!usePrivateOffset)  
+        {
+            vars.xOffset = x;
+            vars.yOffset = y;
+            xOffset = x;
+            yOffset = y;
+            sharedRepaint();
+            return;
+        }
+        xOffset = x;
+        yOffset = y;
+        repaint();
+    }
+    public double getScale()
+    {
+        if (!usePrivateScale) return vars.scale;
+        return scale;
+    }
     public void setScale(double s)
     {
         if (inSetting>0) return;
         inSetting++;
         vars.isScale = true;
-        vars.scale = (double) s;
-        sharedRepaint();
+        if (!usePrivateScale)
+        {
+            scale= (double) s;
+            vars.scale = (double) s;
+            sharedRepaint();
+        }
+        else
+        {
+            scale= (double) s;
+            repaint();
+        }
         inSetting--;
     }
     public void setGrid(boolean g, int w)
@@ -840,6 +898,10 @@ public class SingleVectorPanel extends javax.swing.JPanel
             
             vars.shiftPressed = KeyboardListener.isShiftDown();
         }
+        
+                
+        
+        
         fireMousePressed(evt);
         vars.crossColor = vars.CROSS_DRAG_COLOR;
         sharedRepaint();
@@ -946,19 +1008,31 @@ public class SingleVectorPanel extends javax.swing.JPanel
         int x_1;
         int y_0;
         int y_1;
+        
+        int usedxOff = usePrivateOffset?xOffset:vars.xOffset;
+        int usedyOff = usePrivateOffset?yOffset:vars.yOffset;
+
+        // offset is in vectrex coords
+        x0 += usedxOff;
+        x1 += usedxOff;
+        y0 += usedyOff;
+        y1 += usedyOff;
+        
+        
         if (vars.isScale)
         {
-            x_0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
-            x_1 = x0Offset+Scaler.scaleDoubleToInt(x1, vars.scale);
-            y_0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
-            y_1 = y0Offset+Scaler.scaleDoubleToInt(y1, vars.scale);
+            double scaleUse = usePrivateScale?scale:vars.scale;
+            x_0 = x0Offset+Scaler.scaleDoubleToInt(x0, scaleUse);
+            x_1 = x0Offset+Scaler.scaleDoubleToInt(x1, scaleUse);
+            y_0 = y0Offset+Scaler.scaleDoubleToInt(y0, scaleUse);
+            y_1 = y0Offset+Scaler.scaleDoubleToInt(y1, scaleUse);
         }
         else
         {
             x_0 = x0Offset+x0;
             x_1 = x0Offset+x1;
-            y_0 = x0Offset+y0;
-            y_1 = x0Offset+y1;
+            y_0 = y0Offset+y0;
+            y_1 = y0Offset+y1;
         }
         
         if (!vars.realyBigEnd)
@@ -1051,13 +1125,22 @@ public class SingleVectorPanel extends javax.swing.JPanel
     // mouse event in relation to this panel in "p"
     public Vertex convertToVectrex(Vertex p)
     {
+        double scaleUse = usePrivateScale?scale:vars.scale;
         Vertex np = new Vertex();
 
         np.coord()[horizontalAxis] = p.coords[horizontalAxis] - x0Offset;
         np.coord()[verticalAxis] = y0Offset - p.coords[verticalAxis];
 
-        np.coord()[horizontalAxis] = Scaler.unscaleDoubleToDouble(np.coord()[horizontalAxis], vars.scale);
-        np.coord()[verticalAxis] = Scaler.unscaleDoubleToDouble(np.coord()[verticalAxis], vars.scale);
+        np.coord()[horizontalAxis] = Scaler.unscaleDoubleToDouble(np.coord()[horizontalAxis], scaleUse);
+        np.coord()[verticalAxis] = Scaler.unscaleDoubleToDouble(np.coord()[verticalAxis], scaleUse);
+        
+        int usedxOff = usePrivateOffset?xOffset:vars.xOffset;
+        int usedyOff = usePrivateOffset?yOffset:vars.yOffset;
+
+        np.coord()[horizontalAxis] -= usedxOff;
+        np.coord()[verticalAxis] += usedyOff;
+        
+        
         return np;
     }
     
@@ -1066,13 +1149,34 @@ public class SingleVectorPanel extends javax.swing.JPanel
     // 
     public Vertex convertFromVectrex(Vertex p)
     {
+        double scaleUse = usePrivateScale?scale:vars.scale;
         Vertex np = new Vertex();
-        np.coord()[horizontalAxis] = Scaler.scaleDoubleToInt(p.coord()[horizontalAxis], vars.scale);
-        np.coord()[verticalAxis] = Scaler.scaleDoubleToInt(p.coord()[verticalAxis], vars.scale);
+        
+        int usedxOff = usePrivateOffset?xOffset:vars.xOffset;
+        int usedyOff = usePrivateOffset?yOffset:vars.yOffset;
+        
+        np.coord()[horizontalAxis] = Scaler.scaleDoubleToInt(p.coord()[horizontalAxis]+usedxOff, scaleUse);
+        np.coord()[verticalAxis] = Scaler.scaleDoubleToInt(p.coord()[verticalAxis]-usedyOff, scaleUse);
 
         np.coord()[horizontalAxis] = np.coords[horizontalAxis] + x0Offset;
         np.coord()[verticalAxis] = -np.coords[verticalAxis] + y0Offset;
         return np;
+    }
+    public double convertFromVectrexX(int x)
+    {
+        double scaleUse = usePrivateScale?scale:vars.scale;
+        double newX = 0;
+        newX = Scaler.scaleDoubleToInt(x, scaleUse);
+
+        return newX;
+    }
+    public double convertFromVectrexY(int y)
+    {
+        double scaleUse = usePrivateScale?scale:vars.scale;
+        double newY = 0;
+        newY = Scaler.scaleDoubleToInt(y, scaleUse);
+
+        return newY;
     }
 
     
@@ -1268,6 +1372,9 @@ public class SingleVectorPanel extends javax.swing.JPanel
             mYPressStart = lastCrossY;
         }
         
+        e.translocationInVectrexPoint = getDragTranslocation(e.dragOriginX, e.dragOriginY, e.dragNowX, e.dragNowY);
+
+        e.currentVectrexPoint =  convertToVectrex(getCurrentPoint());
         
         e.highlightedPoint = vars.hightLightVPoint;
         e.highlightedVector = vars.hightLightVector;
@@ -1280,7 +1387,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     // input are like two mouse coordinates (cross)
     // the points are converted to Vertex points
     // and the differnce is given back
-    public Vertex getDragTranslocation(int x0, int y0, int x1, int y1)
+    private Vertex getDragTranslocation(int x0, int y0, int x1, int y1)
     {
         Vertex p1 = new Vertex();
         p1.coord()[horizontalAxis] = x0;
@@ -1307,6 +1414,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         e.evt = evt;
         e.panel = this;
         e.shiftPressed = vars.shiftPressed;
+        e.lastClickedVectrexPoint = convertToVectrex(getLastClickPoint());
         for (int i=0; i<vars.mPressedListener.size(); i++)
         {
             vars.mPressedListener.elementAt(i).pressed(e);
@@ -1327,6 +1435,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     public void unsetImage()
     {
         vars.scale = 1.0;
+        scale= (double) 1.0;
         inSetting = 0;
         vars.crossColor = Color.ORANGE;
         mX=0;
@@ -1798,11 +1907,25 @@ public class SingleVectorPanel extends javax.swing.JPanel
     
     public void addYOffset(int v)    
     {
+        if (usePrivateOffset)
+        {
+            yOffset+=v;
+            repaint();
+            return;
+        }
+        yOffset+=v;
         vars.yOffset+=v;
         sharedRepaint();
     }
     public void addXOffset(int v)    
     {
+        if (usePrivateOffset)
+        {
+            xOffset+=v;
+            repaint();
+            return;
+        }
+        xOffset+=v;
         vars.xOffset+=v;
         sharedRepaint();
     }
@@ -1832,6 +1955,9 @@ public class SingleVectorPanel extends javax.swing.JPanel
     
     private void doPaint(Graphics2D g)
     {
+        int usedxOff = usePrivateOffset?xOffset:vars.xOffset;
+        int usedyOff = usePrivateOffset?yOffset:vars.yOffset;
+        
         // save original color
         Color c = g.getColor();
 
@@ -1885,44 +2011,66 @@ public class SingleVectorPanel extends javax.swing.JPanel
         
         // draw the grid
         g.setColor(vars.GRID_COLOR);
-        int xg0 = Scaler.unscaleDoubleToInt(x0Offset, vars.scale);
-        int xg1 = Scaler.unscaleDoubleToInt(-x0Offset, vars.scale);
-        int yg0 = Scaler.unscaleDoubleToInt(y0Offset, vars.scale);
-        int yg1 = Scaler.unscaleDoubleToInt(-y0Offset, vars.scale);
-        int counter = 0;
-        int GRID_NOW = 1;
-        if (vars.displayGrid)
-            GRID_NOW = vars.gridWidth;
+        double scaleUse = usePrivateScale?scale:vars.scale;
+        int xg0 = Scaler.unscaleDoubleToInt((x0Offset), scaleUse)-usedxOff;
+        int xg1 = Scaler.unscaleDoubleToInt(-(x0Offset), scaleUse)-usedxOff;
+        int yg0 = Scaler.unscaleDoubleToInt((y0Offset), scaleUse)-usedyOff;
+        int yg1 = Scaler.unscaleDoubleToInt(-(y0Offset), scaleUse)-usedyOff;
 
         // befor vectors, so we can check against cross variables
-        do
+        if (vars.displayGrid)
         {
-            int xPositive = Scaler.scaleDoubleToInt((+(counter*GRID_NOW)), vars.scale)+x0Offset;
-            int xNegative = Scaler.scaleDoubleToInt((-(counter*GRID_NOW)), vars.scale)+x0Offset;
-            int yPositive = Scaler.scaleDoubleToInt((+(counter*GRID_NOW)), vars.scale)+y0Offset;
-            int yNegative = Scaler.scaleDoubleToInt((-(counter*GRID_NOW)), vars.scale)+y0Offset;
-
-            if (Math.abs(xPositive - mX) < Math.abs(potentialCrossX)) potentialCrossX = xPositive- mX;
-            if (Math.abs(xNegative - mX) < Math.abs(potentialCrossX)) potentialCrossX = xNegative- mX;
-            if (Math.abs(yPositive - mY) < Math.abs(potentialCrossY)) potentialCrossY = yPositive- mY;
-            if (Math.abs(yNegative - mY) < Math.abs(potentialCrossY)) potentialCrossY = yNegative- mY;
-
-
-            if (vars.displayGrid)
+            int counter = 0;
+            int GRID_NOW = vars.gridWidth;
+            do
             {
+                int yPositive = y0Offset+Scaler.scaleDoubleToInt((+(counter*GRID_NOW))+usedyOff, scaleUse);
+
+                if (Math.abs(yPositive - mY) < Math.abs(potentialCrossY)) potentialCrossY = yPositive- mY;
+                // horizontal line
+                // y+
+                drawVectrexScaledLine(g,xg0, +(counter*GRID_NOW), xg1, +(counter*GRID_NOW), false, null, false, false, 0, null);
+                counter++;
+            } while (y0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedyOff, scaleUse)<getHeight());
+            counter = 0;
+            do
+            {
+                int yNegative = y0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedyOff, scaleUse);
+
+                if (Math.abs(yNegative - mY) < Math.abs(potentialCrossY)) potentialCrossY = yNegative- mY;
+                // horizontal line
+                // y-
+                drawVectrexScaledLine(g,xg0, -(counter*GRID_NOW), xg1, -(counter*GRID_NOW), false, null, false, false, 0, null);
+
+                counter++;
+            } while (y0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedyOff, scaleUse)>0);
+            
+            counter = 0;
+            do
+            {
+                int xPositive = x0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedxOff, scaleUse);
+
+                if (Math.abs(xPositive - mX) < Math.abs(potentialCrossX)) potentialCrossX = xPositive- mX;
+                // vertical line
                 // x+
                 drawVectrexScaledLine(g,+(counter*GRID_NOW), yg0, +(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
+
+                counter++;
+            } while (x0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedxOff, scaleUse)<getWidth());            
+            counter = 0;
+            do
+            {
+                int xNegative = x0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedxOff, scaleUse);
+
+                if (Math.abs(xNegative - mX) < Math.abs(potentialCrossX)) potentialCrossX = xNegative- mX;
+                // vertical line
                 // x-
                 drawVectrexScaledLine(g,-(counter*GRID_NOW), yg0, -(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
 
-                // y+
-                drawVectrexScaledLine(g,xg0, +(counter*GRID_NOW), xg1, +(counter*GRID_NOW), false, null, false, false, 0, null);
-                // y-
-                drawVectrexScaledLine(g,xg0, -(counter*GRID_NOW), xg1, -(counter*GRID_NOW), false, null, false, false, 0, null);
-            }
-
-            counter++;
-        } while (x0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW), vars.scale)<getWidth());
+                counter++;
+            } while (x0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedxOff, scaleUse)>0);            
+            
+        }
         // Grid done
         
         if (vars.drawByteFrame)
@@ -1988,18 +2136,20 @@ public class SingleVectorPanel extends javax.swing.JPanel
 
             } // Foreground Vectors done
         }
+        
+        
         // draw highlighted points (mouse is on them)
         if (vars.hightLightVPoint != null) 
         {
             if (vars.hightLightVPoint.highlight)
             {
-                double x0=vars.hightLightVPoint.coord()[horizontalAxis];
-                double y0=vars.hightLightVPoint.coord()[verticalAxis]*-1;
-                
+                double x0=vars.hightLightVPoint.coord()[horizontalAxis]+usedxOff;
+                double y0=(vars.hightLightVPoint.coord()[verticalAxis]-usedyOff)*-1;
+
                 if (vars.isScale)
                 {
-                    x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
-                    y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
+                    x0 = x0Offset+Scaler.scaleDoubleToInt(x0, scaleUse);
+                    y0 = y0Offset+Scaler.scaleDoubleToInt(y0, scaleUse);
                 }
                 else
                 {
@@ -2016,17 +2166,17 @@ public class SingleVectorPanel extends javax.swing.JPanel
         {
             if (vars.hightLightVector.highlight)
             {
-                double x0=vars.hightLightVector.start.coord()[horizontalAxis];
-                double y0=vars.hightLightVector.start.coord()[verticalAxis]*-1;
-                double x1=vars.hightLightVector.end.coord()[horizontalAxis];
-                double y1=vars.hightLightVector.end.coord()[verticalAxis]*-1;
+                double x0=vars.hightLightVector.start.coord()[horizontalAxis]+usedxOff;
+                double y0=(vars.hightLightVector.start.coord()[verticalAxis]-usedyOff)*-1;
+                double x1=vars.hightLightVector.end.coord()[horizontalAxis]+usedxOff;
+                double y1=(vars.hightLightVector.end.coord()[verticalAxis]-usedyOff)*-1;
                 
                 if (vars.isScale)
                 {
-                    x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
-                    y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
-                    x1 = x0Offset+Scaler.scaleDoubleToInt(x1, vars.scale);
-                    y1 = y0Offset+Scaler.scaleDoubleToInt(y1, vars.scale);
+                    x0 = x0Offset+Scaler.scaleDoubleToInt(x0, scaleUse);
+                    y0 = y0Offset+Scaler.scaleDoubleToInt(y0, scaleUse);
+                    x1 = x0Offset+Scaler.scaleDoubleToInt(x1, scaleUse);
+                    y1 = y0Offset+Scaler.scaleDoubleToInt(y1, scaleUse);
                 }
                 else
                 {
@@ -2074,18 +2224,18 @@ public class SingleVectorPanel extends javax.swing.JPanel
                 // draw selected vectors
                 if (v.selected)
                 {
-
-                    double x0=v.start.coord()[horizontalAxis];
-                    double y0=v.start.coord()[verticalAxis]*-1;
-                    double x1=v.end.coord()[horizontalAxis];
-                    double y1=v.end.coord()[verticalAxis]*-1;
+                    
+                    double x0=v.start.coord()[horizontalAxis]+usedxOff;
+                    double y0=(v.start.coord()[verticalAxis]-usedyOff)*-1;
+                    double x1=v.end.coord()[horizontalAxis]+usedxOff;
+                    double y1=(v.end.coord()[verticalAxis]-usedyOff)*-1;
 
                     if (vars.isScale)
                     {
-                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
-                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
-                        x1 = x0Offset+Scaler.scaleDoubleToInt(x1, vars.scale);
-                        y1 = y0Offset+Scaler.scaleDoubleToInt(y1, vars.scale);
+                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, scaleUse);
+                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, scaleUse);
+                        x1 = x0Offset+Scaler.scaleDoubleToInt(x1, scaleUse);
+                        y1 = y0Offset+Scaler.scaleDoubleToInt(y1, scaleUse);
                     }
                     else
                     {
@@ -2126,13 +2276,13 @@ public class SingleVectorPanel extends javax.swing.JPanel
                 Vertex s = v.start;
                 if (s.selected)
                 {
-                    double x0=s.coord()[horizontalAxis];
-                    double y0=s.coord()[verticalAxis]*-1;
+                    double x0=s.coord()[horizontalAxis]+usedxOff;
+                    double y0=(s.coord()[verticalAxis]-usedyOff)*-1;
 
                     if (vars.isScale)
                     {
-                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
-                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
+                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, scaleUse);
+                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, scaleUse);
                     }
                     else
                     {
@@ -2145,13 +2295,13 @@ public class SingleVectorPanel extends javax.swing.JPanel
                 s = v.end;
                 if (s.selected)
                 {
-                    double x0=s.coord()[horizontalAxis];
-                    double y0=s.coord()[verticalAxis]*-1;
+                    double x0=s.coord()[horizontalAxis]+usedxOff;
+                    double y0=(s.coord()[verticalAxis]-usedyOff)*-1;
 
                     if (vars.isScale)
                     {
-                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, vars.scale);
-                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, vars.scale);
+                        x0 = x0Offset+Scaler.scaleDoubleToInt(x0, scaleUse);
+                        y0 = y0Offset+Scaler.scaleDoubleToInt(y0, scaleUse);
                     }
                     else
                     {
@@ -2215,7 +2365,10 @@ public class SingleVectorPanel extends javax.swing.JPanel
     {
         return vars.selectedVertexOrder;
     }
-    
+    public boolean isGrid()
+    {
+        return vars.displayGrid;
+    }
 }
 
 

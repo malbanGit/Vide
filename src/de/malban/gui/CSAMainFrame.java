@@ -59,6 +59,7 @@ import de.malban.vide.vedi.sound.SampleJPanel;
 import de.malban.vide.vedi.sound.VecSpeechPanel;
 import de.malban.vide.vedi.sound.YMJPanel;
 import java.awt.*;
+import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.io.File;
@@ -653,7 +654,15 @@ public class CSAMainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     private void jMenuItemVeccyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVeccyActionPerformed
-        Windowable p = getVeccy();
+        Windowable p;
+        if ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK)
+        {
+            p = createVeccy();
+        }
+        else
+        {
+            p = getVeccy();
+        }
         CSAInternalFrame frame = getInternalFrame(p);
         try
         {
@@ -727,7 +736,16 @@ public class CSAMainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_formWindowClosing
 
     private void jMenuItemVediActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVediActionPerformed
-        Windowable p = getVedi();
+        Windowable p;
+        if ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK)
+        {
+            p = createVedi();
+        }
+        else
+        {
+            p = getVedi();
+        }
+        
         CSAInternalFrame frame = getInternalFrame(p);
         try
         {
@@ -761,7 +779,16 @@ public class CSAMainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItemCodiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCodiActionPerformed
-        Windowable p = getCodi();
+        Windowable p;
+        if ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK)
+        {
+            p = createCodi();
+        }
+        else
+        {
+            p = getCodi();
+        }
+
         CSAInternalFrame frame = getInternalFrame(p);
         try
         {
@@ -2634,7 +2661,6 @@ public class CSAMainFrame extends javax.swing.JFrame
                     p.setAdditionalStateinfo(ser);
                 }
             }
-            
         }
         catch (Throwable e)
         {

@@ -3055,6 +3055,11 @@ public class DissiPanel extends javax.swing.JPanel  implements
             if (commands[i].trim().length()==0) continue;
             if (!commands[i].startsWith("$")) 
             {
+                if (commands[i].startsWith("#"))
+                {
+                    bp.printInfo.add(commands[i]);
+                    continue;
+                }
                 bp.printInfo.add(commands[i]); // print verbatim all strings which do not start with $
                 continue;
             }
@@ -3142,9 +3147,43 @@ public class DissiPanel extends javax.swing.JPanel  implements
         StringBuilder message = new StringBuilder();
         for (String c: bp.printInfo)
         {
+            String out = "";
             if (!c.startsWith("$")) 
             {
-                message.append(c).append(" ");
+                if (c.startsWith("#")) 
+                {
+                    String reg = c.substring(1).toLowerCase();
+                    if (reg.equals("a"))
+                        out+= String.format("$%02X",currentDissi.vecxPanel.getAReg()&0xff);
+                    if (reg.equals("b"))
+                        out+= String.format("$%02X",currentDissi.vecxPanel.getBReg()&0xff);
+                    if (reg.equals("dp"))
+                        out+= String.format("$%02X",currentDissi.vecxPanel.getDPReg()&0xff);
+                    if (reg.equals("cc"))
+                        out+= String.format("$%02X",currentDissi.vecxPanel.getCCReg()&0xff);
+                    if (reg.equals("pc"))
+                        out+= String.format("$%04X",currentDissi.vecxPanel.getPCReg()&0xffff);
+                    if (reg.equals("x"))
+                        out+= String.format("$%04X",currentDissi.vecxPanel.getXReg()&0xffff);
+                    if (reg.equals("y"))
+                        out+= String.format("$%04X",currentDissi.vecxPanel.getYReg()&0xffff);
+                    if (reg.equals("s"))
+                        out+= String.format("$%04X",currentDissi.vecxPanel.getSReg()&0xffff);
+                    if (reg.equals("u"))
+                        out+= String.format("$%04X",currentDissi.vecxPanel.getUReg()&0xffff);
+                    if (reg.equals("d"))
+                        out+= String.format("$%04X",currentDissi.vecxPanel.getDReg()&0xffff);
+                    if (out.length()>0)
+                    {
+                        out+=" ";
+                        message.append(out);
+                        continue;
+                    }
+
+                }
+                
+                out+=" ";
+                message.append(c).append(out);
                 continue;
             }
             if (c.equals("$intx"))

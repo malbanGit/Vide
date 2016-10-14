@@ -29,7 +29,6 @@ import static de.malban.gui.panels.LogPanel.INFO;
 import de.malban.lwgl.LWJGLRenderer;
 import de.malban.lwgl.LWJGLSupport;
 import de.malban.lwgl.LWJGLSupport.GLWindow;
-import static de.malban.lwgl.LWJGLSupport.isLWJGLSupported;
 
 import de.malban.util.KeyboardListener;
 import de.malban.vide.ControllerConfig;
@@ -574,6 +573,7 @@ public class VecXPanel extends javax.swing.JPanel
         dissiInit = true;
         stop = true;
         dissi.processHeyDissis();
+        setLED(0);
         resetGfx();
         updatePorts();
         if (startTypeRun != START_TYPE_INJECT)
@@ -2322,8 +2322,51 @@ public class VecXPanel extends javax.swing.JPanel
             g.drawLine(((int) x0), ((int) y0)+jPanel1.getHeight(), ((int) x1),((int) y1)+jPanel1.getHeight());
             directDrawVector = null;
         }
-            
+        if (ledState)
+        {
+            if (ledDir)
+            {
+                for (int i=22; i>12;i-=2)
+                {
+                    int alpha = 250-((i-12)*20)-ledStep*2;
+                    Color c = new Color(210,210,255,alpha);
+                    g.setColor(c);
+                    g.fillOval(this.getWidth()-30-i, this.getHeight()-30-i, (i-10)*2, (i-10)*2);
+//                    if (i >= 16) i-=2;
+                }
+                Color c = new Color(255,255,255,255);
+                g.setColor(c);
+                g.fillOval(this.getWidth()-30-12, this.getHeight()-30-12, 4, 4);
+                 c = new Color(255,255,200,255-ledStep);
+                g.setColor(c);
+                g.fillOval(this.getWidth()-30-11, this.getHeight()-30-11, 2, 2);
+                ledStep++;
+                if (ledStep >= 15)ledDir = false;
+            }
+            else if (!ledDir)
+            {
+                for (int i=22; i>12;i-=2)
+                {
+                    int alpha = 250-((i-12)*20)-ledStep*2;
+                    Color c = new Color(210,210,255,alpha);
+                    g.setColor(c);
+                    g.fillOval(this.getWidth()-30-i, this.getHeight()-30-i, (i-10)*2, (i-10)*2);
+//                    if (i >= 16) i-=2;
+                }
+                Color c = new Color(255,255,255,255-ledStep);
+                g.setColor(c);
+                g.fillOval(this.getWidth()-30-12, this.getHeight()-30-12, 4, 4);
+                 c = new Color(255,255,200,255);
+                g.setColor(c);
+                g.fillOval(this.getWidth()-30-11, this.getHeight()-30-11, 2, 2);
+                ledStep--;
+                if (ledStep <= 0)ledDir = true;
+            }
+        }
     }
+    boolean ledDir = true;
+    int ledStep = 0;
+    
     public void breakpointUpdateDissi()
     {
         if (dissi != null)
@@ -3375,6 +3418,30 @@ public class VecXPanel extends javax.swing.JPanel
     {
         return vecx.e6809.reg_u.intValue;
     }
+    public int getDReg()
+    {
+        return vecx.e6809.reg_a<<8+vecx.e6809.reg_b;
+    }
+    public int getAReg()
+    {
+        return vecx.e6809.reg_a;
+    }
+    public int getBReg()
+    {
+        return vecx.e6809.reg_b;
+    }
+    public int getPCReg()
+    {
+        return vecx.e6809.reg_pc;
+    }
+    public int getDPReg()
+    {
+        return vecx.e6809.reg_dp;
+    }
+    public int getCCReg()
+    {
+        return vecx.e6809.reg_cc;
+    }
     public void setJoyportDevice(int port, JoyportDevice d)
     {
         mClassSetting++;
@@ -3535,6 +3602,12 @@ public class VecXPanel extends javax.swing.JPanel
         jButtonStopActionPerformed(null);
         ((CSAMainFrame)mParent).removePanel(this, true);
     }
+    
+    boolean ledState = false;
+    public void setLED(int state)
+    {
+        ledState = (state == 1);
+    }// 0 = invisible, 1 = on, 2 = off
     
 }
 

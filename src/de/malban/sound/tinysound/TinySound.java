@@ -508,18 +508,22 @@ public class TinySound {
             return new MemSound(data[0], data[1], TinySound.mixer, TinySound.soundCount);
         }
 
+        // 8bit, 1 channel, signed
         public static Stream getOutStreamVectrex()        
         {
             return new StreamStreamVectrex( TinySound.mixer, TinySound.soundCount++, 0);
         }
+        // 16bit, 2 channel, signed [big Endian]
         public static Stream getOutStreamMod()        
         {
             return new StreamStreamMod( TinySound.mixer, TinySound.soundCount++, 0);
         }
+        // 16 bit, 1 channel, signed [little Endian]
         public static Stream getOutStream()        
         {
             return new StreamStreamWav1Channel( TinySound.mixer, TinySound.soundCount++, 0);
         }
+        // 16bit, 2 channel, signed [little Endian]
         public static Stream getOutStream2()        
         {
             return new StreamStreamWav2Channel( TinySound.mixer, TinySound.soundCount++, 0);

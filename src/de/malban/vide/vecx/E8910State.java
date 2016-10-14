@@ -13,14 +13,28 @@ import java.io.Serializable;
  */
 public class E8910State implements Serializable, E8910Statics{
     
+    public boolean is16Bit = true;
+    public int  MAX_OUTPUT = is16Bit?0x7fff:0x0fff;
+
+    public int STEP=2;
+    public int STEP3=1;
+
     public AY8910 PSG = new AY8910();
     public int portAOut = 0;
     public int portAIn = 0;
     public int[] snd_regs = new int[16];
+    public int[] VolTable = new int[32];
 
     public static void deepCopy(E8910State from, E8910State to)
     {
         System.arraycopy(from.snd_regs, 0, to.snd_regs, 0, from.snd_regs.length);
+        System.arraycopy(from.VolTable, 0, to.VolTable, 0, from.VolTable.length);
+
+        to.is16Bit = from.is16Bit;
+        to.STEP = from.STEP;
+        to.STEP3 = from.STEP3;
+        to.MAX_OUTPUT = from.MAX_OUTPUT;
+        
         to.portAOut = from.portAOut;
         to.portAIn = from.portAIn;
         to.PSG.index =from.PSG.index;

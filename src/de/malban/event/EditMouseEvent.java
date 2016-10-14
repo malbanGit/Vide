@@ -15,17 +15,26 @@ import javax.swing.JPanel;
  * @author malban
  */
 public class EditMouseEvent {
+    
+    // vecci uses only vectrex coordinates to handle vectors!
+    
+    // mouse coordinates are only used to display the popupmenu
     public MouseEvent evt;
     public JPanel panel;
     public boolean dragging = false;
     public boolean shiftPressed = false;
     public boolean mouseExited = false;
-    public Vertex highlightedPoint = null;
-    public Vertex selectedPoint = null;
-    public GFXVector highlightedVector = null;
-    public GFXVector selectedVector = null;
     public int dragOriginX = 0;
     public int dragOriginY = 0;
     public int dragNowX = 0;
     public int dragNowY = 0;
+    // all above in gui mouse coordinates
+    // all following in vectrex coordinates
+    public GFXVector highlightedVector = null;
+    public GFXVector selectedVector = null;
+    public Vertex highlightedPoint = null;
+    public Vertex selectedPoint = null;
+    public Vertex translocationInVectrexPoint = new Vertex();
+    public Vertex lastClickedVectrexPoint = new Vertex();
+    public Vertex currentVectrexPoint = new Vertex();
 }

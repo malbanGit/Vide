@@ -11,9 +11,6 @@ package de.malban.vide.vecx;
  */
 public interface E8910Statics 
 {
-    public static final int  MAX_OUTPUT = 0x0fff;
-    public static final int   STEP3=1;
-    public static final int   STEP=2;
 
 /* register id's */
     public static final int  AY_AFINE	= (0);

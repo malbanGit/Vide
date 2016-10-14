@@ -163,6 +163,41 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>XMAS 2015 F</Name>
+		<CartName>XMAS 2015 F Dump</CartName>
+		<Author>Binary Star</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>32768</TypeFlags>
+		<FullFilenames>
+			<FullFilename>XMAS_2015_FREE.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile>documents\games\XMAS 2015_instructions.txt</InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/XMAS 20153075319102346050241.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Amen Break</Name>
 		<CartName>Amen Break</CartName>
 		<Author>Binary Star</Author>
@@ -875,6 +910,41 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Demo>true</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>XMAS 2015 D</Name>
+		<CartName>XMAS 2015 CartDump</CartName>
+		<Author>Binary Star</Author>
+		<Year>2015</Year>
+		<CRC>0</CRC>
+		<TypeFlags>32768</TypeFlags>
+		<FullFilenames>
+			<FullFilename>XmasCart2015v1.0.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile>documents\games\XMAS 2015_instructions.txt</InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/XMAS 20153075319102346050241.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
 	</CartridgeProperties>

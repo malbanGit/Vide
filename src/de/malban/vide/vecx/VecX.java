@@ -49,7 +49,6 @@ meaning, processor excat cacle emulation, in between fetch read execute processo
 */
 
 
-import de.malban.vide.vecx.devices.VecSpeechDevice;
 import de.malban.vide.vecx.devices.VectrexJoyport;
 import de.malban.Global;
 import de.malban.vide.VideConfig;
@@ -69,8 +68,6 @@ import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.VERBOSE;
 import static de.malban.gui.panels.LogPanel.WARN;
-import de.malban.sound.tinysound.Stream;
-import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.veccy.VectorListScanner;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2430A;
@@ -140,9 +137,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
     transient E8910 e8910 = null;
     transient E6809 e6809 = null;
-    transient Stream line=null;
-    public static int SOUNDBUFFER_SIZE = 882*4;
-    transient byte[] soundBytes = new byte[SOUNDBUFFER_SIZE];
+
     transient int[] rom = new int[8192];
 
     transient static int RING_BUFFER_SIZE = 2000;
@@ -163,7 +158,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public transient VectrexJoyport[] joyport= new VectrexJoyport[2];
      
     // dummy displayer, which does nothing!
-    public transient DisplayerInterface displayer = new DisplayerInterface(){public void breakpointRemove(Breakpoint bp){}public void switchDisplay(){}public void updateDisplay(){} public void directDraw(vector_t v){}public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved, int alg_vector_speed, int alg_leftEye, int alg_rightEye){}public void setJoyportDevice(int port, JoyportDevice d){}};
+    public transient DisplayerInterface displayer = new DisplayerDummy();
         
     
     transient VectrexDisplayVectors[] vectorDisplay = new VectrexDisplayVectors[2];
@@ -213,30 +208,39 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         e8910.e8910_init_sound();
         for (int i=0; i<Breakpoint.BP_TARGET_COUNT; i++)
             breakpoints[i] = new ArrayList<Breakpoint>();
+/*
         if (TinySound.isInitialized())
         {
-            line = TinySound.getOutStreamVectrex();
+            soundBytes = new byte[E8910.getSoundBufferSize()];
+            line = E8910.getVectrexLine();
+            //line = E8910.getVectrexLine(); //TinySound.getOutStreamVectrex();
             line.start();
         }
+*/        
     }
     void deinit()
     {
-        deinitAudio();
+        if (e8910 != null)
+        {
+            e8910.e8910_done_sound();
+        }
+//        deinitAudio();
         joyport[0].deinit();
         joyport[1].deinit();
         displayer = null;
     }
-
+/*
     void deinitAudio()
     {
         if (line != null)
             line.unload();
         line = null;
     }
-    
+    */
     public void setDisplayer(DisplayerInterface d)
     {
         displayer = d;
+        displayer.setLED(0);
     }
     
     public void setPB6FromExternal(boolean b)
@@ -876,6 +880,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     void vecx_reset(boolean clearBreakpoints)
     {
         int r;
+        if (displayer != null)
+            displayer.setLED(0);
 
         /* ram */
         for (r = 0; r < 1024; r++) 
@@ -979,7 +985,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         if (cart!= null) cart.reset();
     }
 
-// called befor VIA is changed
+    // called befor VIA is changed
     // so we have access to old via data
 
     // returns state of PB6
@@ -1626,26 +1632,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             // no sound while debugging (cycledOrg == 1)
             if (soundCycles<=0)
             {
-                soundCycles = 50000;
-                if ((line != null) && (cyclesOrg>1))
+                soundCycles = 30000; // Hz 50
+                if (cyclesOrg>1)
                 {
-                    synchronized (line)
-                    {
-                        if (line != null)
-                        {
-                            
-                            double v =  ((double) config.psgVolume)/(double)255.0;                            
-                            line.setVolume(v);
-                            int soundLength = line.available();
-                            e8910.e8910_callback(soundBytes, soundLength);
-                            soundLength = soundLength >soundBytes.length ? soundBytes.length : soundLength;
-                            if (soundLength>=0)
-                            {
-                               //orgLine.write(soundBytes, 0, soundLength);
-                                line.write(soundBytes, 0, soundLength);
-                            }
-                        }
-                    }
+                    e8910.updateSound();
                 }
             }
             if (config.scanForVectorLists)
@@ -3438,6 +3428,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     {
         imagerMode = im;
     }
-    
+    public DisplayerInterface getDisplay()
+    {
+        return displayer;
+    }
 }
 

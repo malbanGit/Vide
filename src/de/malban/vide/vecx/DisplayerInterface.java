@@ -19,6 +19,5 @@ public interface DisplayerInterface {
     public void rayMove(int x0,int y0, int x1, int y1, int color, int dwell, boolean curved, int alg_vector_speed, int alg_leftEye, int alg_rightEye);
     public void setJoyportDevice(int port, JoyportDevice d);
     public void breakpointRemove(Breakpoint bp);
-    
-    
+    public void setLED(int state); // 0 = invisible, 1 = on, 2 = off
 }

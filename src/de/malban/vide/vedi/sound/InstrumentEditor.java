@@ -15,14 +15,11 @@ import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.sound.tinysound.Stream;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.dissy.DASM6809;
-import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.E8910;
-import static de.malban.vide.vecx.VecX.SOUNDBUFFER_SIZE;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -1488,22 +1485,16 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
     int compareMilli = 1000/50;
     
     final E8910 e8910 = new E8910();    
-//    Thread three = null;
-//    public byte[][] out_buf = new byte[16][32];
 
     void startYM(final byte[][] out_buf )
     {
         if (out_buf==null) return;
         final E8910 e8910 = new E8910();    
-        
-        
-        final Stream line = TinySound.getOutStreamVectrex();
 
         e8910.e8910_init_sound();
         // setupPSG once with a complete reigster set!
         // if not every register is setup once,
         // the emulation may decide to do an endless loop!
-
 
         Thread three = new Thread("Play YM") 
         {
@@ -1523,10 +1514,6 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
                     if ((i==8)||(i==9)||(i==10)) poker  &= 0x0f;
                     e8910.e8910_write(r,  poker&0xff);
                 }                
-
-                byte[] soundBytes = new byte[SOUNDBUFFER_SIZE];
-
-                line.start();
                 currentHz = 50;
                 compareMilli = 1000/currentHz;
 
@@ -1561,13 +1548,8 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
                         }
                         ympos+=1;
                         lastTime = endTime;
-                        int soundLength = line.available();
-                        soundLength = soundLength >soundBytes.length ? soundBytes.length : soundLength;
-                        if (soundLength>=0)
-                        {
-                            e8910.e8910_callback(soundBytes, soundLength);
-                            line.write(soundBytes, 0, soundLength);
-                        }
+                        
+                        e8910.updateSound();
                     }
                     try
                     {
@@ -1587,18 +1569,10 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
                     catch (Throwable e)
                     {
                     }
-                    int soundLength = line.available();
-                    soundLength = soundLength >soundBytes.length ? soundBytes.length : soundLength;
-                    if (soundLength>=0)
-                    {
-                        e8910.e8910_callback(soundBytes, soundLength);
-                        line.write(soundBytes, 0, soundLength);
-                    }
+                    e8910.updateSound();
                     f++;
                 }
-                
-                line.stop();
-                line.unload();
+                e8910.e8910_done_sound();
             }  
         };
         three.start();           

@@ -451,6 +451,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         }
         EditorPanel edi = new EditorPanel(fullPathname, this);
+        edi.setAddToSettings(addToSettings);
         if (edi.isInitError()) return null;
         jTabbedPane1.addTab(name, edi);
         oneTimeTab = name;
@@ -2830,10 +2831,13 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         {
             EditorPanel edit = (EditorPanel)jTabbedPane1.getComponentAt(found);
             // todo check and ask for save!
-
             settings.currentOpenFiles.remove(edit.getFilename());
-            settings.recentOpenFiles.remove(edit.getFilename()); // no doubles
-            settings.recentOpenFiles.add(edit.getFilename());
+            if (edit.isAddToSettings())
+            {
+                settings.recentOpenFiles.remove(edit.getFilename()); // no doubles
+                settings.recentOpenFiles.add(edit.getFilename());
+                updateList();
+            }
             edit.deinit();
         }
         
@@ -3159,7 +3163,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 EditorPanel edit = (EditorPanel)jTabbedPane1.getComponentAt(found);
                 settings.currentOpenFiles.remove(oldFileName);
                 settings.currentOpenFiles.add(newFileName);
-                edit.replaceFilename(newFileName);
+                updateList();
+               edit.replaceFilename(newFileName);
             }
             
         }

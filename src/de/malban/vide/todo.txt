@@ -469,9 +469,23 @@ newdone
 - done save corrected for reg 13
 
 
+Stream:
+TEST
+- has voice 0
+- has voice 1
+- has voice 2
+- has noise
+- has envelope not done
+- has "any reg" no changes
+
 
 
 todo:
+
+- vecci -> Single Vector Panel to working
+
+- in ymplayer, do not set regs to psg, if not changed!
+
 - faq copied "vectors" does not work with paste -> mode must be vectors!
 
 - do new YM routine
@@ -597,3 +611,5 @@ serial usb to vectrex
 
 Controller:
 Vectrosis
+
+
