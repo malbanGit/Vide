@@ -71,6 +71,7 @@ import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.vide.veccy.VectorListScanner;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2430A;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2431;
 import de.malban.vide.vecx.devices.Imager3dDevice;
 import de.malban.vide.vecx.devices.JoyportDevice;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
@@ -559,11 +560,13 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         break;
                     case 0xa:
                         data = via_sr;
+                        addTimerItem(new TimerItem(data, null, TIMER_SHIFT_READ));
                         
-                        if (shouldStall((int)(cyclesRunning - lastShiftTriggered)))
+/*                        
+s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggered)))
                         {
                             via_stalling = true;
-                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                            via_ifr &= 0xfb; /* remove shift register interrupt flag * /
                             via_srclk = 1;
                             int_update ();
 //                            // dunno if "stalling" cycle counter should reset...
@@ -574,11 +577,12 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             via_stalling = false;
 
                             lastShiftTriggered = cyclesRunning;
-                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                            via_ifr &= 0xfb; /* remove shift register interrupt flag * /
                             via_srb = 0;
                             via_srclk = 1;
                             int_update ();
                         }
+                        */
                         break;
                     case 0xb:
                         data = via_acr;
@@ -675,7 +679,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             via_cb2h = 0;
                             addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
                         }
-                        doCheckRamp();
+                        doCheckRamp(true);
+
                         break;
                     case 0x1:
                         /* register 1 also performs handshakes if necessary */
@@ -715,11 +720,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         break;
                     case 0x5:
                         /* T1 high order counter */
-                        via_t1lh = data;
-                        via_t1c = (via_t1lh << 8) | via_t1ll;
-                        via_ifr &= 0xbf; /* remove timer 1 interrupt flag */
-                        via_t1on = 1; /* timer 1 starts running */
-                        via_t1int = 1;
+                        
+            addTimerItem(new TimerItem(data,null, TIMER_T1));
+/*
+                        via_t1on = 1; / * timer 1 starts running * /
 
                         if ((via_acr & 0x80)!=0)  
                         {
@@ -729,9 +733,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         via_t1pb7 = 0;
                         
                         
-                        
-                        doCheckRamp();
+                        doCheckRamp(false);
                         int_update ();
+*/                        
                         break;
                     case 0x6:
                         /* T1 low order latch */
@@ -758,6 +762,12 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         break;
                     case 0xa:
                  
+                        addTimerItem(new TimerItem(data, via_shift, TIMER_SHIFT_WRITE));
+                        
+                        
+                        
+                        
+/*                        
                         if (via_stalling)
                         {
                             via_ifr &= 0xfb; // * remove shift register interrupt flag * /
@@ -767,34 +777,38 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             
                         }
                         else
-/*                        
-                        if (shouldStall((int)(cyclesRunning - lastShiftTriggered)))
-                        {
-                            
-                            via_stalling = true;
-                           // via_sr = 0; // DUnno!
-                            via_ifr &= 0xfb; // * remove shift register interrupt flag * /
-                           // via_srb = 0;
-                            via_srclk = 1;
-                            int_update ();
-                            // dunno if "stalling" cycle counter should reset...
-                        }
-                        else
-*/                            
                         {
                             // do normal - exactly as above
-//                            via_stalling = false;
                             lastShiftTriggered = cyclesRunning;
                             via_sr = data;
-                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                            via_ifr &= 0xfb; /* remove shift register interrupt flag * /
                             via_srb = 0;
                             via_srclk = 1;
                             int_update ();
                         }
+*/
                         break;
                     case 0xb:
+                        if ((via_acr & 0x1c) != (data & 0x1c))
+                        {
+                            // new CSA
+                            if ((data & 0x1c) == 0) // shift reg is switched off - so take the manual value
+                            {
+                                addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                            }
+                            else // use the last shift
+                            {
+    //                            addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
+                                addTimerItem(new TimerItem(0, sig_blank, TIMER_BLANK_CHANGE));
+                            }
+                        }
+                        if ((via_acr & 0xc0) != (data & 0xc0))
+                        {
+                            via_acr = data;
+                            doCheckRamp(!((via_acr&0x80) == 0x80));
+                        }
+                        
                         via_acr = data;
-                        doCheckRamp();
                         break;
                     case 0xc:
                         via_pcr = data;
@@ -812,19 +826,24 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             via_ca2 = 1;
                             addTimerItem(new TimerItem(via_ca2,sig_zero, TIMER_ZERO));
                         }
-                        if ((via_pcr & 0xe0) == 0xc0) 
+                        // new CSA - it seems manually setting blank
+                        // only works if shift is disabled
+                        if ((via_acr & 0x1c) == 0)
                         {
-                            /* cb2 is outputting low */
-                            via_cb2h = 0;
-                            addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
-                        } 
-                        else 
-                        {
-                            /* cb2 is disabled or is in pulse mode or is
-                             * outputting high.
-                             */
-                            via_cb2h = 1;
-                            addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                            if ((via_pcr & 0xe0) == 0xc0) 
+                            {
+                                /* cb2 is outputting low */
+                                via_cb2h = 0;
+                                addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                            } 
+                            else 
+                            {
+                                /* cb2 is disabled or is in pulse mode or is
+                                 * outputting high.
+                                 */
+                                via_cb2h = 1;
+                                addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                            }
                         }
                         break;
                     case 0xd:
@@ -870,6 +889,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         else
         {
             log.addLog("RAM access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", e6809.reg_pc), VERBOSE);
+            checkROMBreakPoint(address, data);
         }
     }
 
@@ -1073,18 +1093,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         {
             pb6_out = 00;
         }
-        /*
-        // MALBAN
-        if (orbInitiated)
-        {
-            if (pb6_out == 0x40)
-            {
-                if ((via_ddrb & 0x40) == 0x40) // output mode
-                    pb6_pulseCounter = 50;
-            }
-            
-        }
-        */
         return pb6;
     }
     int pb6_pulseCounter = 0;
@@ -1093,29 +1101,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
      */
     void via_sstep0 ()
     {
-        /*
-        if (pb6_pulseCounter>0)
-        {
-            pb6_pulseCounter--;
-            if (pb6_pulseCounter == 0)
-            if (pb6_out == 0x40)
-            {
-                if ((via_ddrb & 0x40) == 0x40) // output mode
-                {
-                    pb6_out = 0;
-                    cart.setPB6FromVectrex(false);
-                }
-
-            }
-            
-        }
-        */
-        
         int t2shift;
         if (via_t1on!=0) 
         {
             via_t1c--;
-            if ((via_t1c & 0xffff) == 0xffff) 
+            if ((via_t1c & 0xffff) == 0xffff) // two cycle "MORE" since in via manual it says timer runs 1,5 cycles to long
             {
                 /* counter just rolled over */
                 if ((via_acr & 0x40) != 0)
@@ -1131,7 +1121,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             checkVIABreakpoint(0, via_orb, via_orb+0x80); 
                     }
                     via_t1pb7 = 0x80 - via_t1pb7;
-                    doCheckRamp();
+                    doCheckRamp(false);
                     /* reload counter */
                     via_t1c = (via_t1lh << 8) | via_t1ll;
                 } 
@@ -1148,7 +1138,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                                 checkVIABreakpoint(0, via_orb, via_orb+0x80); 
                         }
                         via_t1pb7 = 0x80;
-                        doCheckRamp();
+                        doCheckRamp(false);
                         via_t1int = 0;
                     }
                 }
@@ -1158,7 +1148,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         if ((via_t2on!=0) && (via_acr & 0x20) == 0x00) 
         {
             via_t2c--;
-            if ((via_t2c & 0xffff) == 0xffff) 
+            if ((via_t2c & 0xffff) == 0xffff) // two cycle "MORE" since in via manual it says timer runs 1,5 cycles to long
             {
                 /* one shot mode */
                 if (via_t2int!=0) 
@@ -1192,6 +1182,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             t2shift = 0;
         }
 
+        /*
+        * NOTE!
+        TODO:
+        SHIFTING every two steps should also be implemented for non system clock shifting - didn't do yet!
+        */
         if (via_srb < 8) 
         {
             switch (via_acr & 0x1c) 
@@ -1240,11 +1235,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 case 0x18:
 /*                    
                     // shift out under system clock control 
-                    via_cb2s = (via_sr >> 7) & 1;
-                    via_sr <<= 1;
-                    via_sr |= via_cb2s;
-                    addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
-                    via_srb++;
 */                    
                     // System Time -> look at hardware manual
                     // only every SECOND cycle!
@@ -1257,40 +1247,44 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
                         via_srb++;
                     }
-                    
-                    // todo should stall here not only for last bit,
-                    // but that probably doesn't matter
-                    
-                    
-                    
                     break;
                 case 0x1c:
                     // shift out under cb1 control 
                     break;
             }
-
-            if ((via_srb == 8) && (alternate))
+            
+            if (via_srb == 8)
             {
-                via_ifr |= 0x04;
-                int_update ();
-                lastShift = via_cb2s;
+                    via_ifr |= 0x04;
+                    int_update ();
+                    lastShift = via_cb2s;
             }
-// last shift is repeated, 18 cycles 
-            if (via_srb == 9) 
+        }
+        else
+        {
+            if (config.viaShift9BugEnabled)
             {
-                alternate = !alternate;
-                if (alternate)
+                if ((via_acr & 0x1c) ==0x18)
                 {
-                    via_cb2s = lastShift;
-                    addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
-                    if (!via_stalling)
-                        via_srb++;
-                }
-
+                    if (via_srb==8)
+                    {
+                        alternate = !alternate;
+                        if (alternate)
+                        {
+                            via_srb=9;
+                        }
+                    }
+                    // last shift is repeated, -> 18 cycles 
+                    if (via_srb == 9) 
+                    {
+                        via_cb2s = lastShift;
+                        addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
+                            via_srb++;
+                    }                
+                }                
             }
         }
     }
-    int lastShift = 0;
     /* perform the second part of the via emulation */
     void via_sstep1()
     {
@@ -1426,7 +1420,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         {
             if (cart != null) cart.cartStep(cyclesRunning);
             via_sstep0();
-            timerStep();
+            doTimerStep();
             // timer after via, to make sure befor analog step, that 0 timers are respected!
             analogStep();
             if (joyport[0] != null) joyport[0].step();
@@ -1519,7 +1513,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             {
                 if (cart != null) cart.cartStep(cyclesRunning);
                 via_sstep0();
-                timerStep();
+                doTimerStep();
                 // timer after via, to make sure befor analog step, that 0 timers are respected!
                 analogStep();
                 if (joyport[0] != null) joyport[0].step();
@@ -1742,6 +1736,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public boolean init(CartridgeProperties cartProp)
     {
         ds2430Enabled = false;
+        ds2431Enabled = false;
         microchipEnabled = false;
         extraRam2000_2800Enabled = false;
         extraRam8000_8800Enabled = false;
@@ -1765,6 +1760,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 return false;
             }
             ds2430Enabled = (cartProp.getTypeFlags()&FLAG_DS2430A)!=0;
+            ds2431Enabled = (cartProp.getTypeFlags()&FLAG_DS2431)!=0;
             microchipEnabled = (cartProp.getTypeFlags()&Cartridge.FLAG_MICROCHIP)!=0;
             extraRam2000_2800Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0;
             extraRam8000_8800Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0;
@@ -1793,6 +1789,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     {
         cart = new Cartridge();
         ds2430Enabled = false;
+        ds2431Enabled = false;
         microchipEnabled = false;
         extraRam2000_2800Enabled = false;
         extraRam8000_8800Enabled = false;
@@ -2065,7 +2062,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         return -1;
     }  
     
-    void timerStep()
+    void doTimerStep()
     {
         ticksRunning++;
         ArrayList<VecX.TimerItem> timerItemListClone = (ArrayList<VecX.TimerItem>)timerItemList.clone();
@@ -2075,9 +2072,75 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             t.countDown--;
             if (t.countDown <=0)
             {
-                if (t.whereToSet != null)   
+                if (t.type == TIMER_SHIFT_READ)
                 {
-                    if (t.type == TIMER_RAMP_OFF_CHANGE) 
+                    
+                    alternate = true;
+                    if (shouldStall((int)(cyclesRunning - lastShiftTriggered)))
+                    {
+                        via_stalling = true;
+                        via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                        via_srclk = 1;
+                        int_update ();
+                        lastShiftTriggered = cyclesRunning;
+                    }
+                    else
+                    {
+                        via_stalling = false;
+
+                        lastShiftTriggered = cyclesRunning;
+                        via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                        via_srb = 0;
+                        via_srclk = 1;
+                        int_update ();
+                    }
+                    
+                } 
+                else if (t.type == TIMER_T1)
+                {
+                    via_t1on = 1; /* timer 1 starts running */
+                    via_t1lh = (t.valueToSet & 0xff);
+                    via_t1c = (via_t1lh << 8) | via_t1ll;
+                    via_ifr &= 0xbf; /* remove timer 1 interrupt flag */
+                    via_t1int = 1;
+
+                    if ((via_acr & 0x80)!=0)  
+                    {
+                        if (via_t1pb7!=0)
+                            checkVIABreakpoint(0, via_orb, via_orb-via_t1pb7);                  
+                    }
+                    via_t1pb7 = 0;
+                    doCheckRamp(false);
+                    int_update ();
+                }
+                else if (t.whereToSet != null)   
+                {
+                    if (t.type == TIMER_SHIFT_WRITE)
+                    {
+                        alternate = true;
+
+                        if (via_stalling)
+                        {
+                            via_ifr &= 0xfb; // * remove shift register interrupt flag * /
+                           // via_srb = 0;
+                            via_srclk = 1;
+                            int_update ();
+                            
+                        }
+                        else
+                        {
+                            // do normal - exactly as above
+//                            via_stalling = false;
+                            lastShiftTriggered = cyclesRunning;
+                            via_sr = t.valueToSet & 0xff;
+                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                            via_srb = 0;
+                            via_srclk = 1;
+                            int_update ();
+                        }                        
+                        
+                    }
+                    else if (t.type == TIMER_RAMP_OFF_CHANGE) 
                     {
                         // difference of 3 is to much, but we have no "smaller" unit than
                         // cycles ticks
@@ -2090,7 +2153,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             rampOffFraction = true;
                         }
                     }
-                    if (t.type == TIMER_RAMP_CHANGE) 
+                    else if (t.type == TIMER_RAMP_CHANGE) 
                     {
                         // difference of 3 is to much, but we have no "smaller" unit than
                         // cycles ticks
@@ -2218,27 +2281,31 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }        
         
     }    
-    void doCheckRamp()
+    void doCheckRamp(boolean fromOrbWrite)
     {
-        if ((via_acr & 0x80)!=0) 
+        if (!fromOrbWrite)
         {
-            if (via_t1pb7==0)
-                addTimerItem(new TimerItem(via_t1pb7, sig_ramp, TIMER_RAMP_CHANGE));
-            else
-                addTimerItem(new TimerItem(via_t1pb7, sig_ramp, TIMER_RAMP_OFF_CHANGE));
-        } 
+            if ((via_acr & 0x80)!=0) 
+            {
+                if (via_t1pb7==0)
+                    addTimerItem(new TimerItem(via_t1pb7, sig_ramp, TIMER_RAMP_CHANGE));
+                else
+                    addTimerItem(new TimerItem(via_t1pb7, sig_ramp, TIMER_RAMP_OFF_CHANGE));
+            } 
+        }
         else
         {
-            if ((via_orb & 0x80) == 0)
-                addTimerItem(new TimerItem(via_orb & 0x80 , sig_ramp, TIMER_RAMP_CHANGE));
-            else
-                addTimerItem(new TimerItem(via_orb & 0x80, sig_ramp, TIMER_RAMP_OFF_CHANGE));
+            if ((via_acr & 0x80)==0) 
+            {
+                if ((via_orb & 0x80) == 0)
+                    addTimerItem(new TimerItem(via_orb & 0x80 , sig_ramp, TIMER_RAMP_CHANGE));
+                else
+                    addTimerItem(new TimerItem(via_orb & 0x80, sig_ramp, TIMER_RAMP_OFF_CHANGE));
+            }
         }
     }
 
     /* perform a single cycle worth of analog emulation */
-    
- //   int THRES = 200;
     long noiseCycles = 0;
     void analogStep()
     {
@@ -2283,7 +2350,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         //else 
         // no else anymore, integrating can be done WHILE zeroing (see my discussion in forum Vectrex32)
         {
-//            THRES = 60;
             if (sig_ramp.intValue== 0) 
             {
                 sig_dx += alg_xsh.intValue;
@@ -2323,8 +2389,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         alg_vector_y1 = (int)alg_curr_y;
                     }        
                 }
-             //  sig_dx = 0;
-             //   sig_dy = 0;
             }
         }
 
@@ -2526,33 +2590,22 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         
             alg_curr_x += sig_dx;
             alg_curr_y += sig_dy;
+            
         }        
-/* drift to only zero not working well        
-        if (alg_curr_x<config.ALG_MAX_X/2)
-        {
-            // smaller 0
-            alg_curr_x+= Math.abs(config.drift_x);
-        }
-        else if (alg_curr_x>config.ALG_MAX_X/2)
-        {
-            // greater 0
-            alg_curr_x-= Math.abs(config.drift_x);
-        }
-        if (alg_curr_y<config.ALG_MAX_Y/2)
-        {
-            // smaller 0
-            alg_curr_y+= Math.abs(config.drift_y);
-        }
-        else if (alg_curr_y>config.ALG_MAX_Y/2)
-        {
-            // greater 0
-            alg_curr_y-= Math.abs(config.drift_y);
-        }
-        */
-        
-        alg_curr_x-= config.drift_x;
-        alg_curr_y-= config.drift_y;
 
+        // drift only, when not integrating - or?
+        if (sig_ramp.intValue != 0)
+        {
+            alg_curr_x-= config.drift_x;
+            alg_curr_y-= config.drift_y;
+        }
+        else
+        {
+            alg_curr_x-= config.drift_x/5.0;
+            alg_curr_y-= config.drift_y/5.0;
+        }
+            
+        
         if (config.emulateIntegrationOverflow)
         {
             double xOverflow = ((double)sig_dx) / config.overflowFactor;
@@ -2636,11 +2689,15 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }
         
         
-        if ((sig_ramp.intValue== 1) || (sig_blank.intValue == 0)/*|| (sig_zero.intValue == 0)*/)
+        if ((sig_ramp.intValue== 1) || (sig_blank.intValue == 0))
         {
             alg_curved = false;
         }
     }
+    
+    
+    
+    
     static final int WR_UNKOWN = 0;
     static final int WR_FIRST_FOUND = 1;
     int wrStatus = WR_UNKOWN;
@@ -2748,6 +2805,29 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             }                 
         }
     }
+    void checkROMBreakPoint(int address, int data)
+    {
+        if (!config.breakpointsActive) return;
+        synchronized (breakpoints[Breakpoint.BP_TARGET_MEMORY])
+        {
+            for (Breakpoint bp: breakpoints[Breakpoint.BP_TARGET_MEMORY])
+            {
+                if ((bp.type & Breakpoint.BP_WRITE) == Breakpoint.BP_WRITE)
+                {
+                    if ((bp.targetSubType & Breakpoint.BP_SUBTARGET_MEMORY_ROM) == Breakpoint.BP_SUBTARGET_MEMORY_ROM)
+                    {
+                        if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                        {
+                            tmp.add(bp);
+                        }
+                        activeBreakpoint.add(bp);
+                        if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                    }
+                }
+            }                
+        }    
+    }
+
     void checkMemWriteBreakpoint(int address, int data)
     {
         if (!config.breakpointsActive) return;
@@ -2986,6 +3066,22 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             }
         }
         viaBreakpoints.add(bp);
+        return true;
+    }
+    // true on add
+    protected boolean toggleROMBreakpoint(Breakpoint bp)
+    {
+        ArrayList<Breakpoint> romBreakpoints = breakpoints[bp.targetType];
+
+        for (Breakpoint bpAvailable: romBreakpoints)
+        {
+            if (bpAvailable.equals(bp))
+            {
+                romBreakpoints.remove(bpAvailable);
+                return false;
+            }
+        }
+        romBreakpoints.add(bp);
         return true;
     }
     protected void addBreakpoint(Breakpoint bp)
@@ -3431,6 +3527,15 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public DisplayerInterface getDisplay()
     {
         return displayer;
+    }
+    public int getPC()
+    {
+        return e6809.reg_pc;
+    }
+    
+    public ArrayList<Integer> getCallstack()
+    {
+        return e6809.callStack;
     }
 }
 

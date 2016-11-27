@@ -756,7 +756,7 @@ public class CSAMainFrame extends javax.swing.JFrame
 
     private void jMenuItemConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConfigActionPerformed
         ConfigJPanel configi = new ConfigJPanel();
-        addAsWindow(configi, 331, 514, ConfigJPanel.SID);
+        addAsWindow(configi, 655, 875, ConfigJPanel.SID);
     }//GEN-LAST:event_jMenuItemConfigActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -1159,10 +1159,12 @@ public class CSAMainFrame extends javax.swing.JFrame
 
                 public void internalFrameIconified(InternalFrameEvent ife) {
                     doZOrder();
+                    frame.iconified();
                 }
 
                 public void internalFrameDeiconified(InternalFrameEvent ife) {
                     doZOrder();
+                    frame.deIconified();
                 }
 
                 public void internalFrameActivated(InternalFrameEvent ife) {

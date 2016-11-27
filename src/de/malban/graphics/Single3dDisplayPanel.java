@@ -262,11 +262,11 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
 
     @Override
     public void sharedRepaint() {
-        updateAndRepaint();
         if (singleRepaint)
         {
             return;
         }
+
         updateAndRepaint();
         super.sharedRepaint(); //To change body of generated methods, choose Tools | Templates.
 
@@ -436,7 +436,7 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
                 double x1v = x0Offset + x1;
                 double y1v = y0Offset + y1;
 
-
+                if ((v.a>255) || (v.a<0)) v.a = 127;
                 g.setColor(new Color(v.r, v.g, v.b, v.a));
                 // g.setColor(Color.white);
                 if (v.highlight)

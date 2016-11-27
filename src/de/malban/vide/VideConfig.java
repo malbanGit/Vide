@@ -36,27 +36,27 @@ public class VideConfig  implements Serializable{
 
     public static transient ArrayList<ControllerConfig> controllerConfigs = null;
 
-    public int ALG_MAX_X		= 38000;
+    public int ALG_MAX_X		= 41000;
     public int ALG_MAX_Y		= 41000;
     public String startFile = "";
     
-    public int[] delays = {0,5,0,9,8,0,0,0,11,0,13, 4}; // full delays, ramp on and off have partials!
+    public int[] delays = {0,5,0,15,12,0,0,0,17,0,17, 4, 5, 5}; // full delays, ramp on and off have partials!
     public double[] partialDelays = {0,0,0,0,0,0,0,0,0,0, 0}; // this is not used!
-    public String[] delaysDisplay = {"-", "ZERO", "BLANK", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL"};
-    public double rampOffFractionValue = 0.0; // only implemented "partial" delay for ramp off
-    public double rampOnFractionValue = 0.9; // only implemented "partial" delay for ramp off
+    public String[] delaysDisplay = {"-", "ZERO", "BLANK", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1"};
+    public double rampOffFractionValue = 0.8; // only implemented "partial" delay for ramp off
+    public double rampOnFractionValue = 0.0; // only implemented "partial" delay for ramp off
     public double blankOnDelay = 0; // look at an M or a W, that would not be possible!
     public double reverseBlankLeak = 0.0; // not used anymorew ! look at an M or a W, that would not be possible!
     public boolean drawBlanks = false; // not implemented
     public boolean cycleExactEmulation = true;
     public boolean breakpointsActive = true;
     public boolean enableBankswitch = true;
-    public boolean codeScanActive = true;
-    public boolean ringbufferActive = true;
+    public boolean codeScanActive = false;
+    public boolean ringbufferActive = false;
     public double warmup = 0; // resolution 0.01
     public double cooldown = 0; // resolution 0.01
     public String usedSystemRom="system"+File.separator+"FASTBOOT.IMG";
-    public double drift_x = .1; // resolution 0.01
+    public double drift_x = .09; // resolution 0.01
     public double drift_y = -.02; // resolution 0.01
     public boolean useRayGun = false;
     public boolean autoSync = true;
@@ -70,6 +70,7 @@ public class VideConfig  implements Serializable{
     public boolean noise = false;
     public int masterVolume = 255;
     public int psgVolume = 180;
+    public  boolean viaShift9BugEnabled = false;
 
     public double overflowFactor = 150;
     public boolean emulateIntegrationOverflow = false;
@@ -86,6 +87,7 @@ public class VideConfig  implements Serializable{
     
     /// ASSI CONFIG
     public boolean expandBranches=true;
+    public boolean supportUnusedSymbols = false;
     
     // this one is really dangerous, default is OFF!
     public boolean enable8bitExtendedToDirect = false; // if set, even when no DP is set, asmj uses direct addressen, when value is 8bit
@@ -297,6 +299,8 @@ public class VideConfig  implements Serializable{
         to.warmup = from.warmup; // resolution 0.01
         to.cooldown = from.cooldown; // resolution 0.01
         to.usedSystemRom=from.usedSystemRom;
+        
+        
         to.drift_x = from.drift_x; // resolution 0.01
         to.drift_y = from.drift_y; // resolution 0.01
         to.useRayGun = from.useRayGun;
@@ -315,10 +319,12 @@ public class VideConfig  implements Serializable{
         to.psgVolume = from.psgVolume;
         to.speedLimit = from.speedLimit;
         to.imagerAutoOnDefault = from.imagerAutoOnDefault;
+        to.viaShift9BugEnabled = from.viaShift9BugEnabled;
         
 
         /// ASSI CONFIG
         to.expandBranches = from.expandBranches;
+        to.supportUnusedSymbols=from.supportUnusedSymbols;
         to.enable8bitExtendedToDirect = from.enable8bitExtendedToDirect;
         to.excludeJumpsToDirect = from.excludeJumpsToDirect;
         to.beLaxWithHashTagAndImmediate = from.beLaxWithHashTagAndImmediate;

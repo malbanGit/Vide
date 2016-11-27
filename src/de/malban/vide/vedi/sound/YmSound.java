@@ -819,7 +819,10 @@ int bitsSaved = 0;
             new_out_buf[i] = new byte[out_buf[i].length+1];
             if (row >0)
                 System.arraycopy(out_buf[i], 0, new_out_buf[i], 0, row);
-            new_out_buf[i][row] = 0;
+            if (i != 7)
+                new_out_buf[i][row] = 0;
+            else
+                new_out_buf[i][row] = 255-128-64;
             System.arraycopy(out_buf[i], row, new_out_buf[i], row+1, out_buf[i].length-row);
             out_buf[i] = new_out_buf[i];
         }

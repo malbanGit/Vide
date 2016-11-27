@@ -140,7 +140,8 @@ public class DS2430A implements Serializable
     public static final int DS2430_VALKEY = 0xa5;
     public static final int DS2430_NOT_SUPPORTED = -1;
     
-    
+    int FAMILY_CODE = 0x14; 
+    int SERIAL_NUMBER = 0; // 48 bit
     
 /*
 
@@ -188,6 +189,11 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         if (current2430Command == DS2430_COPYSP) return "COPYSP";
         if (current2430Command == DS2430_VALKEY) return "VALKEY";
         return "NOT SUPPORTED ($"+String.format("$%02X", (current2430Command&0xff) )+")";
+    }
+    public void init()
+    {
+        if (log == null)
+            log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     }
 
     public boolean isInputToDS()

@@ -454,42 +454,102 @@ Done:
 - done: vecci fitbyte -> repaint face table
 - done: vecci new -> delete faces
 - done: doc FAQ Manu Pärssinen The solution is here: https://java.com/en/download/manual.jsp - you need to download (also) the 64-bit version of Java, and it's not the 'normal' download that they offer on the front page.
+- done: vecci corrected cloning in Vectorlist (again)
+- done: dissi average in recal
+- done: ym new ym routine
+- done: vecci error in "order" veccy - exports were always disabled!
+- done: vedi paste in editor, still messes up syntax highlighting
+- done: vecxi psg emulation for psg envelopes seems to be broken
+- done: ym in new player ym reg 13 in player -> ignore 0xff
+- done: ym record , if 13 not changed -> write ff
+- done: ym also ensure that 13 is 8 bit
+- done: ym in ym shiftcklick sets complete column
+- done: ym save corrected for reg 13
+- done: vecci select in Mon does not update VList or Raster!
+- done: vecci BUG - Absturz anim edit (lock?)
+- done: vecxi bug - if shift reg is enabled, the manual blank does nothing!
+- done: vecxi drift only while NOT integrating?
+- done: ym do new YM routine
+- done: vecci save settings for grid, byteframe, scales
+- done: ym (some) in ymplayer, do not set regs to psg, if not changed!
+- done: vecxi SHIFT REG DELAY? -> 2/3 cycles it seems in the schematics!
+- done: vecci hidden line removal
+
+Frogger: (count starting at 1)
+ok 1. Level > 27100: ok (4 houses)
+ok 2. Level > 29400: 28d (4 houses + fly)
+ok 3. Level > 28600: 27800 (4 houses + croco + girl)
+ok 4. Level > 28000: ok (4 houses + fly + girl)
+ok 5. Level > 28800: 27800 (4 houses + fly + girl)
+ok 6. Level > 29200: 27500 (4 houses + fly + girl)
+ok 7. Level > 29400: 28100 (4 houses + croco + girl) 
+ok 8. Level > 29600: 27500 (4 houses + croco + girl + otter) 
+ok 9. Level > 30200: 28500 ! < 30000 ! non arcade conform 30138!
+ok 10. Level > 28700: 28270 non arcade conform
+ok 11. Level > 29200: 28100 non arcade conform (and 1 car reduced)
+ok 12. Level > 29000: 27800 non arcade conform 
+ok 13. Level > 29300: 27400 non arcade conform very difficult
+ok 14. Level > 28000: 27900 non arcade conform 
+ok 15. Level > 29500: 28400 non arcade conform  very difficult
+ok 16. Level > 29500: 28300 non arcade conform 
+
+Frogger:
+- score must reset when new game beings (even on continue)
+
+Death wrong
+done: Girl not displayed correctly
+done: level 4(5?) timer error (not possible!
+- two player
+- options frogger -> training mode (with continue)
+- hardmode w/o continue
+- highscores
+
+- if 0 or 1 or 2 houses are occupied -> gymick sprite somewhere!
+
+done: check if frogger 10000 +1 life still works
+
+done: Frogger car big right - step -1?
+
+optimize print string as much as possible
+above +2000!
+
+done: level >10 Darstellung
+done: ABSTURZ LEVEL 8
+done: Zeichensatz mit 5 punkten
+done: move parts of the "move frog" stuff to "in move" possible 50-60 cycles to spare
+done: Frogger Crash on real machine after one level!
+done: Level start music now 1 to soft! (on real vectrex)
+
++ 200 and + 200 display when in level done! (over frog)
+
+example code for 2431
+
+Frogger Absturz bei reach home
+
+Knapp Timeout?
+timer doubled - adjust levels!
+
+girl -> "jumping"
 
 
-newdone
-- average in recal
-- new ym routine
-- error in "order" veccy - exports were always disabled!
-- done? paste in editor, still messes up syntax highlighting
-- done psg emulation for psg envelopes seems to be broken
-- done in new player ym reg 13 in player -> ignore 0xff
-- done ym record , if 13 not changed -> write ff
-- done: also ensure that 13 is 8 bit
-- done in ym shiftcklick sets complete column
-- done save corrected for reg 13
 
 
-Stream:
-TEST
-- has voice 0
-- has voice 1
-- has voice 2
-- has noise
-- has envelope not done
-- has "any reg" no changes
+document recent vecci changes
+VecKey - PS/2 Keyboard
+done: hey dissi break once
+DRIFT - see DRIFT pic
+- BUG
+- done: (unsused symbols...) Teilweise fehlen labels (FonTRow1 - aber nicht 2-7
+- done: Frogger BUG, stepping off on the edge of the middle allows frog to go over to the other side
 
+- BUG
+ save in game does not work (e.g. while in frogger game)
+- BUG
+ joystikc information is lost after loading save game
 
-
-todo:
-
-- vecci -> Single Vector Panel to working
-
-- in ymplayer, do not set regs to psg, if not changed!
-
+- bug:
 - faq copied "vectors" does not work with paste -> mode must be vectors!
 
-- do new YM routine
-- vecci save settings for grid, byteframe, scales
 - hiddenline to history
 - figure -> delete faces
 - todo insert vectorlist -> insert faces
@@ -499,7 +559,6 @@ todo:
 - library load
 - Explosion?
 - doc prebuilt/postbuild scripts
-- vecci hidden line removal
 - vecci 3d vectors "real" (with z disortion) and option to remove "back" vectors
 - vecci with DOT-Lists
 - vecxi all kins of breakpoints

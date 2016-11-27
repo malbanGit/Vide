@@ -426,7 +426,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/malban/vide/images/page_go.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Open file"/>
+            <Property name="toolTipText" type="java.lang.String" value="Open file (+Shift -&gt; reload current file)"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 1, 0, -1]"/>
             </Property>

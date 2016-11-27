@@ -53,38 +53,46 @@ public class TimingTriggerer
                         sleep(resolution);
                         if (!stop)
                         {
-                            synchronized (mTriggers)
+                            Vector <Trigger> tmpTriggers;
+                            Vector <Trigger> removed = new Vector <Trigger>();
+                                
+                            minRes = 100000;
+                            for (int i = mTriggers.size()-1; i>=0 ; i--)
                             {
-                                minRes = 100000;
-                                for (int i = mTriggers.size()-1; i>=0 ; i--)
+                                Trigger trigger = mTriggers.elementAt(i);
+                                trigger.timing-=resolution;
+                                if (trigger.timing <=0)
                                 {
-                                    Trigger trigger = mTriggers.elementAt(i);
-                                    trigger.timing-=resolution;
-                                    if (trigger.timing <=0)
-                                    {
-                                        mTriggers.removeElement(trigger);
-                                        trigger.trigger.doIt(trigger.state, trigger.o);
-                                    }
-                                    else
-                                    {
-                                        if (minRes >trigger.timing)
-                                        {
-                                            minRes = trigger.timing;
-                                        }
-                                    }
-                                }
-                                if (mTriggers.isEmpty())
-                                {
-                                    stop=true;
-                                    if (autoResolutionEnabled)
-                                        setResolution(DEFAULT_RESOLUTION);
+                                    mTriggers.removeElement(trigger);
+                                    removed.add(trigger);
+// synchronize failure
+//                                        trigger.trigger.doIt(trigger.state, trigger.o);
                                 }
                                 else
                                 {
-                                    if (autoResolutionEnabled)
+                                    if (minRes >trigger.timing)
                                     {
-                                        setResolution(minRes);
+                                        minRes = trigger.timing;
                                     }
+                                }
+                            }
+                            for (int i = removed.size()-1; i>=0 ; i--)
+                            {
+                                Trigger trigger = removed.elementAt(i);
+                                trigger.trigger.doIt(trigger.state, trigger.o);
+                            }                                
+
+                            if (mTriggers.isEmpty())
+                            {
+                                stop=true;
+                                if (autoResolutionEnabled)
+                                    setResolution(DEFAULT_RESOLUTION);
+                            }
+                            else
+                            {
+                                if (autoResolutionEnabled)
+                                {
+                                    setResolution(minRes);
                                 }
                             }
                         }

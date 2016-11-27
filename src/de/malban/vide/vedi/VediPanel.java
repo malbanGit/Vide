@@ -99,6 +99,7 @@ import javax.swing.tree.TreePath;
  */
 public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, EditorListener
 {
+    public static String SID = "Vedi";
     VideConfig config = VideConfig.getConfig();
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     String oneTimeTab = null; 
@@ -124,7 +125,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     static ArrayList<VediPanel> listVedi = new ArrayList<VediPanel>();
     Path currentStartPath = Paths.get(".");
 
-    public static String SID = "Vedi";
     public String getID()
     {
         return SID;
@@ -857,7 +857,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
 
         jButtonLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
-        jButtonLoad.setToolTipText("Open file");
+        jButtonLoad.setToolTipText("Open file (+Shift -> reload current file)");
         jButtonLoad.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2058,7 +2058,26 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         oneTimeTab = null;
     }//GEN-LAST:event_jMenuItemVectrexFileActionPerformed
 
+    
+    protected void deselectInTree(String tabName)
+    {
+        if (jTree1 == null) return;
+        if (jTree1.getSelectionPath() == null) return;
+        DefaultMutableTreeNode node =  (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent() ;
+        if (node == null) return;
+        TreeEntry entry = (TreeEntry) node.getUserObject();
+        if (entry == null) return;
+        if (tabName.equals(entry.name))
+        {
+            mClassSetting++;
+            jTree1.clearSelection();
+            mClassSetting--;
+        }
+            
+    }
+    
     private void jTree1ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTree1ValueChanged
+        if (mClassSetting>0) return;
         if (!(((DefaultMutableTreeNode)evt.getPath().getLastPathComponent()).getUserObject() instanceof TreeEntry)) return;
         closeOneTimeTab();
         possibleProject = null;
@@ -4060,9 +4079,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     boolean tabExistsSwitch(TreeEntry entry)
     {
         String tabname = entry.pathAndName.getFileName().toString();
-
         return tabExistsSwitch(tabname);
     }
+    
     boolean tabExistsSwitch(String tabname)
     {
         int count = jTabbedPane1.getTabCount();

@@ -1200,4 +1200,18 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     public void changeFileName(String s, String f2){}
     public void processIncludeLine(String s){}
     public void processWord(String s){}
+    protected void deselectInTree(String tabName)
+    {
+        DefaultMutableTreeNode node =  (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent() ;
+        if (node == null) return;
+        TreeEntry entry = (TreeEntry) node.getUserObject();
+        if (entry == null) return;
+        if (tabName.equals(tabName))
+        {
+            mClassSetting++;
+            jTree1.clearSelection();
+            mClassSetting--;
+        }
+            
+    }
 }

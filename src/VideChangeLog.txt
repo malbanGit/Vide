@@ -1,3 +1,72 @@
+27th of November 2016
+---------------------
+Version 1.09
+
+new: 
+- vecci: Added menu entry "switch orientation" for a selected vector
+- vecci: Split where needed with need edit value
+- vecci: remove point (join two neighbouring vectors)
+- tracki: added delete button
+- tracki: added view to current cycle count (number based)
+- tracki: now ignores "0" minimum values, also skips unrealistic high values in min/max/avg
+- ym: three convenient buttons, to swap voices from one channel to another
+- ym: added option to multiply an amplitude of a channel
+- regi: added output of current running cycle count
+- dissi: added breakpoint ability in write access to ROM (only from CLI in dissi)
+- dissi: added to 'hey dissi "break"' an optional additional parameter 'once' -> 'hey dissi "break once"'
+- assi: option to output unsued (but defined) symbols to CNT file
+- vecxi: added emulation of DS2431
+
+BugFix:
+- vecci: saving of vectorlist did not correctly respect double/single usage of vertex
+         using seperate vertex with the same position resulted in a single vertex after load -> fixed
+         (Vertex have now an ID tag in the xml - due to processing loading of xml files without id tag
+          takes a bit longer)
+- dissi: enlarging from iconified state sometimes did not update the table (== crooked display)
+         -> possibly fixed 
+- vecci: another bug fixed with vectorlist loaded, where different single vertex with the same coordinates
+         were falsely connected after a load from file
+- vecxi: corrected false state loading, where Keyboard 0 could be unset
+
+14th of November 2016
+---------------------
+Version 1.08
+
+BugFix:
+- vecci: Bug where joining of vectors could lose some vectors 
+
+14th of November 2016
+---------------------
+Version 1.07
+
+new: 
+- vecxi: added timing parameters for T1 and SHIFT - I am getting more and more unhappy with the current delay emulation features (see blog).
+         With the current emulation NOT in all circumstances (the more timing critical the more inaccurate) the results are like the real machine!
+- config: window is now scrollable
+- vecxi: HotKey Buttons "P" Pause/Unpause and "O" Overlay on/off
+- library: added/changed some documents
+
+BugFix:
+- vecci: removed <another> possible deadlock scenarion in vecci with the animation preview (Thread) - damn that is annoying 
+- vecci: fixed another vectorlist clone bug (vecci), that prevented (upon other things) to do a correct preview in the monitor
+- vecxi: "manual" setting of CB2 through the via control register is only possible if shift is not output to PB2, this
+         was not correctly emulated before
+- vecxi: changed drift emulation slightly
+- vecxi: efficiency emulation is now switched on per default
+
+18th of October 2016
+--------------------
+Version 1.06
+new: 
+- vedi: upon closing of an editor, the corresponding file in the tree gets unselected
+
+BugFix:
+- vecci: images converted to vector, had a bad "border", when only a partial image was used
+- vecci: HLR z = -z
+- vecci: fixed bug, where "join here" resulted in a "lost" vertex
+- ym: fix to playing AYFX with disabled noise (was choppy) 
+- ym: streaming detecting of voice usage was flawd (always using 0 as target)
+
 14th of October 2016
 --------------------
 Version 1.05

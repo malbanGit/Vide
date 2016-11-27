@@ -302,7 +302,10 @@ public class VeccyInterpreter {
                     v = vl.get(0);
                 v.pattern = 0;
                 s.append(hex(data.get(pos)));
-                v.end.y(data.get(pos++));
+                int yval = data.get(pos++)&0xff;
+                if (yval>127)yval-=256;
+                
+                v.end.y(yval);
                 vl.remove(v);
                 vl.add(v);
             }
@@ -315,7 +318,13 @@ public class VeccyInterpreter {
                     v = vl.get(0);
                 v.pattern = 0;
                 s.append(hex(data.get(pos)));
-                v.end.x(data.get(pos++));
+                
+                int xval = data.get(pos++)&0xff;
+                if (xval>127)xval-=256;
+                
+                v.end.x(xval);
+                
+                
                 vl.remove(v);
                 vl.add(v);
             }
@@ -373,13 +382,19 @@ public class VeccyInterpreter {
                 {
                     relative = true;
                     s.append(hex(data.get(pos)));
-                    v.end.y(data.get(pos++));
+                    int yval = data.get(pos++)&0xff;
+                    if (yval>127)yval-=256;
+                    v.end.y(yval);
                 }
                 else if (p.equals("X"))
                 {
                     relative = true;
                     s.append(hex(data.get(pos)));
-                    v.end.x(data.get(pos++));
+
+                    int xval = data.get(pos++)&0xff;
+                    if (xval>127)xval-=256;
+                    v.end.x(xval);
+                    
                 }
                 else if (p.equals("Y0"))
                 {

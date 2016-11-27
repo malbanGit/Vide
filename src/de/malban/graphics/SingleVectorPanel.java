@@ -417,7 +417,8 @@ public class SingleVectorPanel extends javax.swing.JPanel
     public void sharedRepaint()
     {
         if (!vars.shareRepaintEnabled) return;
-        for (SingleVectorPanel svp: vars.siblings) svp.updateAndRepaint();
+        for (SingleVectorPanel svp: vars.siblings) 
+            svp.updateAndRepaint();
     }
     public GFXVectorList getForegroundVectorList()
     {

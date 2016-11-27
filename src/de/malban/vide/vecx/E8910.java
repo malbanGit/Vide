@@ -176,6 +176,8 @@ public class E8910 extends E8910State implements E8910Statics
             if (digitByteCounter>=MAX_DIGIT_BUFFER) return;
             if (digitByteCounter==-1) digitByteCounter =0; // -1 means digitizing active, but buffer was reset
             digitByte[digitByteCounter++] = v;
+           
+            
             return;
         }
         int oldReg = snd_regs[r];
@@ -774,312 +776,316 @@ public class E8910 extends E8910State implements E8910Statics
     
     
     
-    
+    // length in words
     private void e8910_callback_16(byte[] stream, int length)
     {
 //System.out.println(""+length);
         int lengthOrg = length;
   	int positionInOutputArray = 0;
-        int maxSampleLength = length * OVERSAMPLE;
-        int sampleDivider = 3*OVERSAMPLE;
-        int volaEnableMul = 1;
-        int volbEnableMul = 1;
-        int volcEnableMul = 1;
-        /*
-        if (this.muteChannelA)
+        if ((digitByteCounter<15) )
         {
-          volaEnableMul = 0;
-          n -= OVERSAMPLE;
-        }
-        if (this.muteChannelB)
-        {
-          volbEnableMul = 0;
-          n -= OVERSAMPLE;
-        }
-        if (this.muteChannelC)
-        {
-          volcEnableMul = 0;
-          n -= OVERSAMPLE;
-        }
-                */
-        if (sampleDivider == 0) 
-        {
-            sampleDivider = 1;
-        }
-        
-        if (((snd_regs[AY_AFINE] | snd_regs[AY_ACOARSE]) == 0) && ((snd_regs[AY_AVOL] & 0x10) == 0) && ((snd_regs[AY_ENABLE] & 0x9) == 8)) 
-        {
-            volaEnableMul = 0;
-        }
-        if (((snd_regs[AY_BFINE] | snd_regs[AY_BCOARSE]) == 0) && ((snd_regs[AY_BVOL] & 0x10) == 0) && ((snd_regs[AY_ENABLE] & 0x12) == 16)) 
-        {
-            volbEnableMul = 0;
-        }
-        if (((snd_regs[AY_CFINE] | snd_regs[AY_CCOARSE]) == 0) && ((snd_regs[AY_CVOL] & 0x10) == 0) && ((snd_regs[AY_ENABLE] & 0x24) == 32)) 
-        {
-            volcEnableMul = 0;
-        }
-        int volaPSG = PSG.VolA * volaEnableMul; // 
-        int volbPSG = PSG.VolB * volbEnableMul; // 
-        int volcPSG = PSG.VolC * volcEnableMul; // 
-        if ((snd_regs[AY_ENABLE] & 0x1) != 0)
-        {
-            if (PSG.CountA <= maxSampleLength) 
+            
+            int maxSampleLength = length * OVERSAMPLE;
+            int sampleDivider = 3*OVERSAMPLE;
+            int volaEnableMul = 1;
+            int volbEnableMul = 1;
+            int volcEnableMul = 1;
+            /*
+            if (this.muteChannelA)
+            {
+              volaEnableMul = 0;
+              n -= OVERSAMPLE;
+            }
+            if (this.muteChannelB)
+            {
+              volbEnableMul = 0;
+              n -= OVERSAMPLE;
+            }
+            if (this.muteChannelC)
+            {
+              volcEnableMul = 0;
+              n -= OVERSAMPLE;
+            }
+                    */
+            if (sampleDivider == 0) 
+            {
+                sampleDivider = 1;
+            }
+
+            if (((snd_regs[AY_AFINE] | snd_regs[AY_ACOARSE]) == 0) && ((snd_regs[AY_AVOL] & 0x10) == 0) && ((snd_regs[AY_ENABLE] & 0x9) == 8)) 
+            {
+                volaEnableMul = 0;
+            }
+            if (((snd_regs[AY_BFINE] | snd_regs[AY_BCOARSE]) == 0) && ((snd_regs[AY_BVOL] & 0x10) == 0) && ((snd_regs[AY_ENABLE] & 0x12) == 16)) 
+            {
+                volbEnableMul = 0;
+            }
+            if (((snd_regs[AY_CFINE] | snd_regs[AY_CCOARSE]) == 0) && ((snd_regs[AY_CVOL] & 0x10) == 0) && ((snd_regs[AY_ENABLE] & 0x24) == 32)) 
+            {
+                volcEnableMul = 0;
+            }
+            int volaPSG = PSG.VolA * volaEnableMul; // 
+            int volbPSG = PSG.VolB * volbEnableMul; // 
+            int volcPSG = PSG.VolC * volcEnableMul; // 
+            if ((snd_regs[AY_ENABLE] & 0x1) != 0)
+            {
+                if (PSG.CountA <= maxSampleLength) 
+                {
+                    PSG.CountA += maxSampleLength;
+                }
+                PSG.OutputA = 1;
+            }
+            else if ((snd_regs[AY_AVOL] == 0) && (PSG.CountA <= maxSampleLength))
             {
                 PSG.CountA += maxSampleLength;
             }
-            PSG.OutputA = 1;
-        }
-        else if ((snd_regs[AY_AVOL] == 0) && (PSG.CountA <= maxSampleLength))
-        {
-            PSG.CountA += maxSampleLength;
-        }
-        if ((snd_regs[AY_ENABLE] & 0x2) != 0)
-        {
-            if (PSG.CountB <= maxSampleLength) 
+            if ((snd_regs[AY_ENABLE] & 0x2) != 0)
+            {
+                if (PSG.CountB <= maxSampleLength) 
+                {
+                    PSG.CountB += maxSampleLength;
+                }
+                PSG.OutputB = 1;
+            }
+            else if ((snd_regs[AY_BVOL] == 0) && (PSG.CountB <= maxSampleLength))
             {
                 PSG.CountB += maxSampleLength;
             }
-            PSG.OutputB = 1;
-        }
-        else if ((snd_regs[AY_BVOL] == 0) && (PSG.CountB <= maxSampleLength))
-        {
-            PSG.CountB += maxSampleLength;
-        }
-        if ((snd_regs[AY_ENABLE] & 0x4) != 0)
-        {
-            if (PSG.CountC <= maxSampleLength) 
+            if ((snd_regs[AY_ENABLE] & 0x4) != 0)
+            {
+                if (PSG.CountC <= maxSampleLength) 
+                {
+                    PSG.CountC += maxSampleLength;
+                }
+                PSG.OutputC = 1;
+            }
+            else if ((snd_regs[AY_CVOL] == 0) && (PSG.CountC <= maxSampleLength))
             {
                 PSG.CountC += maxSampleLength;
             }
-            PSG.OutputC = 1;
-        }
-        else if ((snd_regs[AY_CVOL] == 0) && (PSG.CountC <= maxSampleLength))
-        {
-            PSG.CountC += maxSampleLength;
-        }
-        if (((snd_regs[AY_ENABLE] & 0x38) == 56) && (PSG.CountN <= maxSampleLength)) 
-        {
-            PSG.CountN += maxSampleLength;
-        }
-        int outn = PSG.OutputN | snd_regs[AY_ENABLE];
-        while (length > 0)
-        {
-            int volASamples = 0;
-            int volBSamples = 0;
-            int volCSamples = 0;
-            int left = OVERSAMPLE;
-            do
+            if (((snd_regs[AY_ENABLE] & 0x38) == 56) && (PSG.CountN <= maxSampleLength)) 
             {
-                int nextEvent = PSG.CountN < left ? PSG.CountN : left; // 
-
-                if ((outn & 0x08)!=0)
-                { 
-                    if (PSG.OutputA!=0) 
-                        volASamples += PSG.CountA;
-                    PSG.CountA -= nextEvent;
-
-                    /* PeriodA is the half period of the square wave. Here, in each */
-                    /* loop I add PeriodA twice, so that at the end of the loop the */
-                    /* square wave is in the same status (0 or 1) it was at the start. */
-                    /* vola is also incremented by PeriodA, since the wave has been 1 */
-                    /* exactly half of the time, regardless of the initial position. */
-                    /* If we exit the loop in the middle, OutputA has to be inverted */
-                    /* and vola incremented only if the exit status of the square */
-                    /* wave is 1. */
-                    while (PSG.CountA <= 0)
-                    {
-                        PSG.CountA += PSG.PeriodA;
-                        if (PSG.CountA > 0)
-                        {
-                            PSG.OutputA ^= 1;
-                            if (PSG.OutputA!=0) 
-                                volASamples += PSG.PeriodA;
-                            break;
-                        }
-                        PSG.CountA += PSG.PeriodA;
-                        volASamples += PSG.PeriodA;
-                    }
-                    if (PSG.OutputA!=0) 
-                        volASamples -= PSG.CountA;
-                }
-                else
-                {
-                    PSG.CountA -= nextEvent;
-                    while (PSG.CountA <= 0)
-                    {
-                        PSG.CountA += PSG.PeriodA;
-                        if (PSG.CountA > 0)
-                        {
-                            PSG.OutputA ^= 1;
-                            break;
-                        }
-                        PSG.CountA += PSG.PeriodA;
-                    }
-                }
-
-                if ((outn & 0x10)!=0)
-                {
-                    if (PSG.OutputB!=0) 
-                        volBSamples += PSG.CountB;
-                    PSG.CountB -= nextEvent;
-                    while (PSG.CountB <= 0)
-                    {
-                        PSG.CountB += PSG.PeriodB;
-                        if (PSG.CountB > 0)
-                        {
-                            PSG.OutputB ^= 1;
-                            if (PSG.OutputB!=0) 
-                                volBSamples += PSG.PeriodB;
-                            break;
-                        }
-                        PSG.CountB += PSG.PeriodB;
-                        volBSamples += PSG.PeriodB;
-                    }
-                    if (PSG.OutputB!=0) 
-                        volBSamples -= PSG.CountB;
-                }
-                else
-                {
-                    PSG.CountB -= nextEvent;
-                    while (PSG.CountB <= 0)
-                    {
-                        PSG.CountB += PSG.PeriodB;
-                        if (PSG.CountB > 0)
-                        {
-                            PSG.OutputB ^= 1;
-                            break;
-                        }
-                        PSG.CountB += PSG.PeriodB;
-                    }
-                }
-
-                if ((outn & 0x20)!=0)
-                {
-                    if (PSG.OutputC!=0) 
-                        volCSamples += PSG.CountC;
-                    PSG.CountC -= nextEvent;
-                    while (PSG.CountC <= 0)
-                    {
-                        PSG.CountC += PSG.PeriodC;
-                        if (PSG.CountC > 0)
-                        {
-                            PSG.OutputC ^= 1;
-                            if (PSG.OutputC!=0) 
-                                volCSamples += PSG.PeriodC;
-                            break;
-                        }
-                        PSG.CountC += PSG.PeriodC;
-                        volCSamples += PSG.PeriodC;
-                    }
-                    if (PSG.OutputC!=0) 
-                        volCSamples -= PSG.CountC;
-                }
-                else
-                {
-                    PSG.CountC -= nextEvent;
-                    while (PSG.CountC <= 0)
-                    {
-                        PSG.CountC += PSG.PeriodC;
-                        if (PSG.CountC > 0)
-                        {
-                            PSG.OutputC ^= 1;
-                            break;
-                        }
-                        PSG.CountC += PSG.PeriodC;
-                    }
-                }        
-                PSG.CountN -= nextEvent;
-                if (PSG.CountN <= 0)
-                {
-                    /* Is noise output going to change? */
-                    if (((PSG.RNG + 1) & 2)!=0)	/* (bit0^bit1)? */
-                    {
-                        PSG.OutputN = ~PSG.OutputN;
-                        outn = (PSG.OutputN | snd_regs[AY_ENABLE]);
-                    }
-
-                    /* The Random Number Generator of the 8910 is a 17-bit shift */
-                    /* register. The input to the shift register is bit0 XOR bit3 */
-                    /* (bit0 is the output). This was verified on AY-3-8910 and YM2149 chips. */
-
-                    /* The following is a fast way to compute bit17 = bit0^bit3. */
-                    /* Instead of doing all the logic operations, we only check */
-                    /* bit0, relying on the fact that after three shifts of the */
-                    /* register, what now is bit3 will become bit0, and will */
-                    /* invert, if necessary, bit14, which previously was bit17. */
-                    if ((PSG.RNG & 1)!=0) 
-                        PSG.RNG ^= 0x24000; /* This version is called the "Galois configuration". */
-                    PSG.RNG >>= 1;
-                    PSG.CountN += PSG.PeriodN;
-                }
-                left -= nextEvent;
-            } while (left > 0);
-
-            if (PSG.Continue==0)
-            {
-                PSG.CountE -= OVERSAMPLE;
-                if (PSG.CountE <= 0)
-                {
-                    do
-                    {
-                        PSG.CountEnv -= 1;
-                        PSG.CountE += PSG.PeriodE;
-                    } while (PSG.CountE <= 0);
-
-                    /* check envelope current position */
-                    if (PSG.CountEnv < 0)
-                    {
-                        if (PSG.Hold!=0)
-                        {
-                            if (PSG.Alternate!=0)
-                                PSG.Attack ^= 0x1f;
-                            PSG.Continue = 1;
-                            PSG.CountEnv = 0;
-                        }
-                        else
-                        {
-                            /* if CountEnv has looped an odd number of times (usually 1), */
-                            /* invert the output. */
-                            if ((PSG.Alternate!=0) && ((PSG.CountEnv & 0x20)!=0))
-                                PSG.Attack ^= 0x1f;
-
-                            PSG.CountEnv &= 0x1f;
-                        }
-                    }
-        // DIF
-                    PSG.VolE = VolTable[PSG.CountEnv ^ PSG.Attack]; // org
-        //          PSG.VolE = PSG.VolTable[PSG.CountEnv]; // para
-                            /* check envelope current position */
-                    if (PSG.EnvelopeA != 0)
-                    {
-                        PSG.VolA = PSG.VolE;
-                        volaPSG = PSG.VolE * volaEnableMul;
-                    }
-                    if (PSG.EnvelopeB != 0)
-                    {
-                        PSG.VolB = PSG.VolE;
-                        volbPSG = PSG.VolE * volbEnableMul;
-                    }
-                    if (PSG.EnvelopeC != 0)
-                    {
-                        PSG.VolC = PSG.VolE;
-                        volcPSG = PSG.VolE * volcEnableMul;
-                    }
-                }
+                PSG.CountN += maxSampleLength;
             }
+            int outn = PSG.OutputN | snd_regs[AY_ENABLE];
+            while (length > 0)
+            {
+                int volASamples = 0;
+                int volBSamples = 0;
+                int volCSamples = 0;
+                int left = OVERSAMPLE;
+                do
+                {
+                    int nextEvent = PSG.CountN < left ? PSG.CountN : left; // 
 
-            int oneSample16Bit = (volASamples * volaPSG + volBSamples * volbPSG + volCSamples * volcPSG) / sampleDivider;
-            
-            stream[(positionInOutputArray++)] = (byte)(oneSample16Bit&0xff);
-            stream[(positionInOutputArray++)] = (byte)((oneSample16Bit>>8)&0xff);
+                    if ((outn & 0x08)!=0)
+                    { 
+                        if (PSG.OutputA!=0) 
+                            volASamples += PSG.CountA;
+                        PSG.CountA -= nextEvent;
 
-            length--;
+                        /* PeriodA is the half period of the square wave. Here, in each */
+                        /* loop I add PeriodA twice, so that at the end of the loop the */
+                        /* square wave is in the same status (0 or 1) it was at the start. */
+                        /* vola is also incremented by PeriodA, since the wave has been 1 */
+                        /* exactly half of the time, regardless of the initial position. */
+                        /* If we exit the loop in the middle, OutputA has to be inverted */
+                        /* and vola incremented only if the exit status of the square */
+                        /* wave is 1. */
+                        while (PSG.CountA <= 0)
+                        {
+                            PSG.CountA += PSG.PeriodA;
+                            if (PSG.CountA > 0)
+                            {
+                                PSG.OutputA ^= 1;
+                                if (PSG.OutputA!=0) 
+                                    volASamples += PSG.PeriodA;
+                                break;
+                            }
+                            PSG.CountA += PSG.PeriodA;
+                            volASamples += PSG.PeriodA;
+                        }
+                        if (PSG.OutputA!=0) 
+                            volASamples -= PSG.CountA;
+                    }
+                    else
+                    {
+                        PSG.CountA -= nextEvent;
+                        while (PSG.CountA <= 0)
+                        {
+                            PSG.CountA += PSG.PeriodA;
+                            if (PSG.CountA > 0)
+                            {
+                                PSG.OutputA ^= 1;
+                                break;
+                            }
+                            PSG.CountA += PSG.PeriodA;
+                        }
+                    }
+
+                    if ((outn & 0x10)!=0)
+                    {
+                        if (PSG.OutputB!=0) 
+                            volBSamples += PSG.CountB;
+                        PSG.CountB -= nextEvent;
+                        while (PSG.CountB <= 0)
+                        {
+                            PSG.CountB += PSG.PeriodB;
+                            if (PSG.CountB > 0)
+                            {
+                                PSG.OutputB ^= 1;
+                                if (PSG.OutputB!=0) 
+                                    volBSamples += PSG.PeriodB;
+                                break;
+                            }
+                            PSG.CountB += PSG.PeriodB;
+                            volBSamples += PSG.PeriodB;
+                        }
+                        if (PSG.OutputB!=0) 
+                            volBSamples -= PSG.CountB;
+                    }
+                    else
+                    {
+                        PSG.CountB -= nextEvent;
+                        while (PSG.CountB <= 0)
+                        {
+                            PSG.CountB += PSG.PeriodB;
+                            if (PSG.CountB > 0)
+                            {
+                                PSG.OutputB ^= 1;
+                                break;
+                            }
+                            PSG.CountB += PSG.PeriodB;
+                        }
+                    }
+
+                    if ((outn & 0x20)!=0)
+                    {
+                        if (PSG.OutputC!=0) 
+                            volCSamples += PSG.CountC;
+                        PSG.CountC -= nextEvent;
+                        while (PSG.CountC <= 0)
+                        {
+                            PSG.CountC += PSG.PeriodC;
+                            if (PSG.CountC > 0)
+                            {
+                                PSG.OutputC ^= 1;
+                                if (PSG.OutputC!=0) 
+                                    volCSamples += PSG.PeriodC;
+                                break;
+                            }
+                            PSG.CountC += PSG.PeriodC;
+                            volCSamples += PSG.PeriodC;
+                        }
+                        if (PSG.OutputC!=0) 
+                            volCSamples -= PSG.CountC;
+                    }
+                    else
+                    {
+                        PSG.CountC -= nextEvent;
+                        while (PSG.CountC <= 0)
+                        {
+                            PSG.CountC += PSG.PeriodC;
+                            if (PSG.CountC > 0)
+                            {
+                                PSG.OutputC ^= 1;
+                                break;
+                            }
+                            PSG.CountC += PSG.PeriodC;
+                        }
+                    }        
+                    PSG.CountN -= nextEvent;
+                    if (PSG.CountN <= 0)
+                    {
+                        /* Is noise output going to change? */
+                        if (((PSG.RNG + 1) & 2)!=0)	/* (bit0^bit1)? */
+                        {
+                            PSG.OutputN = ~PSG.OutputN;
+                            outn = (PSG.OutputN | snd_regs[AY_ENABLE]);
+                        }
+
+                        /* The Random Number Generator of the 8910 is a 17-bit shift */
+                        /* register. The input to the shift register is bit0 XOR bit3 */
+                        /* (bit0 is the output). This was verified on AY-3-8910 and YM2149 chips. */
+
+                        /* The following is a fast way to compute bit17 = bit0^bit3. */
+                        /* Instead of doing all the logic operations, we only check */
+                        /* bit0, relying on the fact that after three shifts of the */
+                        /* register, what now is bit3 will become bit0, and will */
+                        /* invert, if necessary, bit14, which previously was bit17. */
+                        if ((PSG.RNG & 1)!=0) 
+                            PSG.RNG ^= 0x24000; /* This version is called the "Galois configuration". */
+                        PSG.RNG >>= 1;
+                        PSG.CountN += PSG.PeriodN;
+                    }
+                    left -= nextEvent;
+                } while (left > 0);
+
+                if (PSG.Continue==0)
+                {
+                    PSG.CountE -= OVERSAMPLE;
+                    if (PSG.CountE <= 0)
+                    {
+                        do
+                        {
+                            PSG.CountEnv -= 1;
+                            PSG.CountE += PSG.PeriodE;
+                        } while (PSG.CountE <= 0);
+
+                        /* check envelope current position */
+                        if (PSG.CountEnv < 0)
+                        {
+                            if (PSG.Hold!=0)
+                            {
+                                if (PSG.Alternate!=0)
+                                    PSG.Attack ^= 0x1f;
+                                PSG.Continue = 1;
+                                PSG.CountEnv = 0;
+                            }
+                            else
+                            {
+                                /* if CountEnv has looped an odd number of times (usually 1), */
+                                /* invert the output. */
+                                if ((PSG.Alternate!=0) && ((PSG.CountEnv & 0x20)!=0))
+                                    PSG.Attack ^= 0x1f;
+
+                                PSG.CountEnv &= 0x1f;
+                            }
+                        }
+            // DIF
+                        PSG.VolE = VolTable[PSG.CountEnv ^ PSG.Attack]; // org
+            //          PSG.VolE = PSG.VolTable[PSG.CountEnv]; // para
+                                /* check envelope current position */
+                        if (PSG.EnvelopeA != 0)
+                        {
+                            PSG.VolA = PSG.VolE;
+                            volaPSG = PSG.VolE * volaEnableMul;
+                        }
+                        if (PSG.EnvelopeB != 0)
+                        {
+                            PSG.VolB = PSG.VolE;
+                            volbPSG = PSG.VolE * volbEnableMul;
+                        }
+                        if (PSG.EnvelopeC != 0)
+                        {
+                            PSG.VolC = PSG.VolE;
+                            volcPSG = PSG.VolE * volcEnableMul;
+                        }
+                    }
+                }
+
+                int oneSample16Bit = (volASamples * volaPSG + volBSamples * volbPSG + volCSamples * volcPSG) / sampleDivider;
+
+                stream[(positionInOutputArray++)] = (byte)(oneSample16Bit&0xff);
+                stream[(positionInOutputArray++)] = (byte)((oneSample16Bit>>8)&0xff);
+
+                length--;
+            }
         }
         // small sample counts are ignored!
-        if ((digitByteCounter>15) ) // are there any samples?
+        else //if ((digitByteCounter>15) ) // are there any samples?
         {
-            double sampleScale = (((double)digitByteCounter) / ((double) lengthOrg)); // 2 because 16 bit
+            double sampleScale = (((double)digitByteCounter) / ((double) lengthOrg)); // length is counter of buffer in words, samples are in bytes - so in this case they are equal
             int i=0;
             // we fill the needed sample buffer
             // with as many samples as we have
@@ -1095,11 +1101,12 @@ public class E8910 extends E8910State implements E8910Statics
             // PSG out
             double volDigital = 1.0;
             if (config.generation==3) volDigital = 0.2;
-            while (i/2<lengthOrg) 
+            while (i<lengthOrg*2) // i in bytes, length in words
             {
-                double signed8BitSampleVolumne = digitByte[(int)sampleCounter]*volDigital*256;
+                double signed8BitSampleVolumne = digitByte[(int)sampleCounter];
                 sampleCounter += sampleScale; // 
-                int oneSample16Bit = (int)signed8BitSampleVolumne;
+                int oneSample16Bit = (int)signed8BitSampleVolumne*256;
+                oneSample16Bit = (int)((double)(((double)oneSample16Bit)*volDigital));
                 stream[(i++)] = (byte)(oneSample16Bit&0xff);
                 stream[(i++)] = (byte)((oneSample16Bit>>8)&0xff);
             }

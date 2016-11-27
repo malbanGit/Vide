@@ -179,6 +179,8 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_M, 0, "Joy2_Down_pressed", false);
             HotKey.addMap(KeyEvent.VK_M, 0, "Joy2_Down_released", true);
             
+            HotKey.addMap(KeyEvent.VK_P, 0, "Pause/Toggle", "Vecxi");
+            HotKey.addMap(KeyEvent.VK_O, 0, "Overlay/Toggle", "Vecxi");
             
         }
     }

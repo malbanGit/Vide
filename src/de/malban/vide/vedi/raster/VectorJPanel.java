@@ -907,7 +907,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             }
             
             // read data to point lists
-            Features features = readJSONData(outFilename, orgImage.getWidth(), orgImage.getHeight());
+            Features features = readJSONData(outFilename, filteredImage.getWidth(), filteredImage.getHeight());
             
             // now process the result
             features = cullBorders(features);

@@ -16,6 +16,7 @@ public class Vertex implements Comparable{
     
     private static int UID = 0;
     public int uid = ++UID;
+    public int load_uid=0;
     
     public static int ARRAY_X = 0;
     public static int ARRAY_Y = 1;
@@ -176,15 +177,12 @@ public class Vertex implements Comparable{
         ok = ok & XMLSupport.addElement(s, "use_z", usage[ARRAY_Z]);
         ok = ok & XMLSupport.addElement(s, "use_w", usage[ARRAY_W]);
 
-       
+        ok = ok & XMLSupport.addElement(s, "id", uid);
         for(String f: face)
         {
             ok = ok & XMLSupport.addElement(s, "face", f);
         }
-        
-        
-        
-        
+
         s.append("</").append(tag).append(">\n");
         return ok;        
     }
@@ -199,6 +197,10 @@ public class Vertex implements Comparable{
         usage[ARRAY_Y] = xmlSupport.getBooleanElement("use_y", xml);errorCode|=xmlSupport.errorCode;
         usage[ARRAY_Z] = xmlSupport.getBooleanElement("use_z", xml);errorCode|=xmlSupport.errorCode;
         usage[ARRAY_W] = xmlSupport.getBooleanElement("use_w", xml);errorCode|=xmlSupport.errorCode;
+
+        // no error to support
+        // backwards compatability
+        load_uid = xmlSupport.getIntElement("id", xml);/*errorCode|=xmlSupport.errorCode;*/
 
         face = new ArrayList<String>(); 
         do
@@ -227,6 +229,6 @@ public class Vertex implements Comparable{
         {
             id+=s;
         }
-        return id;
+        return id+load_uid;
     }
 }

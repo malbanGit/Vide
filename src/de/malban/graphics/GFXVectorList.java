@@ -154,8 +154,8 @@ public class GFXVectorList {
         {
             GFXVector oldv = list.get(i);
             GFXVector newv = ret.list.get(i);
-            ret.setCloneStart(newv, oldv.uid_start_connect);
-            ret.setCloneEnd(newv, oldv.uid_end_connect);
+            ret.setCloneStart(newv, oldv.uid_start_connect, oldv);
+            ret.setCloneEnd(newv, oldv.uid_end_connect, oldv);
         }
         return ret;
     }
@@ -173,7 +173,8 @@ public class GFXVectorList {
             v.resetDisplay();
         }
     }
-    private void setCloneStart(GFXVector vec, int oldCloneId)
+    // vec must be element of list
+    private void setCloneStart(GFXVector vec, int oldCloneId, GFXVector oldv)
     {
         if (oldCloneId == -1) return;
         for (GFXVector v : list)
@@ -182,12 +183,16 @@ public class GFXVectorList {
             {
                 vec.uid_start_connect = v.uid;
                 vec.start_connect = v;
-                vec.start = v.end;
+                if (oldv.start.equals(v.start))
+                    vec.start = v.start;
+                if (oldv.start.equals(v.end))
+                    vec.start = v.end;
                 return;
             }
         }
     }
-    private void setCloneEnd(GFXVector vec, int oldCloneId)
+    // vec must be element of list
+    private void setCloneEnd(GFXVector vec, int oldCloneId, GFXVector oldv)
     {
         if (oldCloneId == -1) return;
         for (GFXVector v : list)
@@ -196,7 +201,10 @@ public class GFXVectorList {
             {
                 vec.uid_end_connect = v.uid;
                 vec.end_connect = v;
-                vec.end = v.start;
+                if (oldv.end.equals(v.end))
+                    vec.end = v.end;
+                if (oldv.end.equals(v.start))
+                    vec.end = v.start;
                 return;
             }
         }
@@ -272,6 +280,7 @@ public class GFXVectorList {
 
         HashMap<String, Vertex> noDoubles = new HashMap<String, Vertex>();
         // if Vertex are the same -> unify
+        // new! -> respect load_uid
         for(GFXVector v: list)
         {
             if (v.start != null)
@@ -389,15 +398,60 @@ public class GFXVectorList {
         {
             v.start_connect = getVectorID(v.uid_start_connect);
             if (v.start_connect != null)
-                v.start = v.start_connect.end;
+            {
+                if (v.start.equals(v.start_connect.end))
+                    v.start = v.start_connect.end;
+                else if (v.start.equals(v.start_connect.start))
+                    v.start = v.start_connect.start;
+            }
             v.end_connect = getVectorID(v.uid_end_connect);
             if (v.end_connect != null)
-                v.end = v.end_connect.start;
+            {
+                if (v.end.equals(v.end_connect.start))
+                    v.end = v.end_connect.start;
+                else if (v.end.equals(v.end_connect.start))
+                    v.end = v.end_connect.end;
+            }
         }           
         for(GFXVector v: list)
         {
             v.setRelativ(((v.uid_end_connect != -1) && (v.uid_start_connect != -1)));
         }           
+        
+        // for compatibility with old saves - ensure, that if a vector IS used double
+        // and no connections are set, that that vector is "singled" again
+        for(GFXVector v: list)
+        {
+            Vertex start = v.start;
+            if ((v.uid_start_connect == -1) || (v.start_connect == null))
+            {
+                // see if used otherwise
+                for(GFXVector v2: list)
+                {
+                    if (v.uid != v2.uid) // only other Vectors
+                    {
+                        if (v2.end.uid == start.uid)
+                        {
+                            v.uid_start_connect = -1;
+                            v.start_connect = null;
+                            v2.uid_end_connect = -1;
+                            v2.end_connect = null;
+                            v2.end = new Vertex(v2.end);
+                        }
+                        if (v2.start.uid == start.uid)
+                        {
+                            v.uid_start_connect = -1;
+                            v.start_connect = null;
+                            v2.uid_end_connect = -1;
+                            v2.start_connect = null;
+                            v2.start = new Vertex(v2.start);
+                        }
+                    }
+                }
+            }
+            
+        }
+        
     }
     private GFXVector getVectorID(int id)
     {
@@ -1109,7 +1163,7 @@ public class GFXVectorList {
         }
         list = newList;    
         
-        splitWhereNeeded();
+        splitWhereNeeded(127);
     }
     /*
     public void polygon(boolean doLine)
@@ -1542,17 +1596,17 @@ public class GFXVectorList {
             if (pattern < 128)
             {
                 warn = true;
-                pattern +=128; // high byte is forcible set!
+                pattern +=128; // high bit is forcible set!
             }
             s.append(" "+GFXVectorList.getDB()+" ").append(hexU(pattern)).append(", ");
             s.append(getRelativeCoordString(v, factor));
             if (warn)
-                s.append(" ; WARN pattern high byte set!\n");
+                s.append(" ; WARN pattern high bit set!\n");
             else
                 s.append(" ; pattern, y, x\n");
                 
         }
-        s.append(" "+GFXVectorList.getDB()+" ").append(hexU(1)).append(" ; endmarker (hight byte in pattern not set)\n");
+        s.append(" "+GFXVectorList.getDB()+" ").append(hexU(1)).append(" ; endmarker (high bit in pattern not set)\n");
         
         String text = s.toString();
         return text;
@@ -1730,9 +1784,9 @@ public class GFXVectorList {
         }
     }
 
-    public void splitWhereNeeded()
+    public void splitWhereNeeded(int splitValue)
     {
-        int splitValue = 127;
+//        int splitValue = 127;
         for (int i=0; i< list.size(); i++)
         {
             boolean didSplit;
@@ -1942,7 +1996,7 @@ public class GFXVectorList {
             vectorlist = optimizeMove(vectorlist);
 
             // split where needed
-            vectorlist.splitWhereNeeded();
+            vectorlist.splitWhereNeeded(127);
          
             for (GFXVector vector: vectorlist.list)
             {
@@ -2156,5 +2210,135 @@ public class GFXVectorList {
             if (v1.contains(v)) return true;
         }
         return false;
+    }
+    
+    public void changeOrientation(GFXVector v)
+    {
+        Vertex oldStart = v.start;
+        Vertex oldEnd = v.end;
+        v.end = oldStart;
+        v.start = oldEnd;
+        
+        GFXVector oldEndVector = v.end_connect;
+        GFXVector oldStartVector = v.start_connect;
+        v.end_connect = oldStartVector;
+        v.start_connect = oldEndVector;
+        
+        int old_uid_start = v.uid_start_connect;
+        int old_uid_end = v.uid_end_connect;
+        v.uid_start_connect = old_uid_end;
+        v.uid_end_connect = old_uid_start;
+    }
+    // there must be exactly 2 vectors given and they must be neighbors
+    // the point in the middle will be removed,
+    // from two vectors there will remain only one
+
+    // assumes that there are NO other connections in the
+    // vectorlist that connect to vector 2
+    public void joinVectors(ArrayList<GFXVector> vlist)
+    {
+        if (vlist.size() != 2) return;
+        GFXVector v1 = vlist.get(0);
+        GFXVector v2 = vlist.get(1);
+        
+        if ((v1.end_connect!=null)&&(v1.end_connect.uid == v2.uid))
+        {
+            list.remove(v2);
+            if (v1.end.uid == v2.start.uid)
+            {
+                GFXVector newEnd = v2.end_connect;
+                v1.end = v2.end;
+                v1.uid_end_connect = v2.uid_end_connect;
+                v1.end_connect = v2.end_connect;
+                
+                if ((newEnd.start_connect!=null) && (newEnd.start_connect.uid == v2.uid))
+                {
+                    newEnd.start_connect = v2.start_connect;
+                    newEnd.start = v1.end;
+                    newEnd.uid_start_connect = v2.uid_start_connect;
+                }
+                if ((newEnd.end_connect!=null)&&(newEnd.end_connect.uid == v2.uid))
+                {
+                    newEnd.end_connect = v2.start_connect;
+                    newEnd.end = v1.end;
+                    newEnd.uid_end_connect = v2.uid_start_connect;
+                }
+                
+            }
+
+            else if (v1.end.uid == v2.end.uid)
+            {
+                GFXVector newEnd = v2.start_connect;
+                v1.end = v2.start;
+                v1.uid_end_connect = v2.uid_start_connect;
+                v1.end_connect = v2.start_connect;
+                
+                if ((newEnd.start_connect!=null) &&(newEnd.start_connect.uid == v2.uid))
+                {
+                    newEnd.start_connect = v2.start_connect;
+                    newEnd.start = v1.end;
+                    newEnd.uid_start_connect = v2.uid_start_connect;
+                }
+                if ((newEnd.end_connect!=null) &&(newEnd.end_connect.uid == v2.uid))
+                {
+                    newEnd.end_connect = v2.start_connect;
+                    newEnd.end = v1.end;
+                    newEnd.uid_end_connect = v2.uid_start_connect;
+                }
+                
+            }
+        
+        
+        
+        
+        
+        }
+        else
+        if ((v1.start_connect!=null) &&(v1.start_connect.uid == v2.uid))
+        {
+            list.remove(v2);
+            if (v1.start.uid == v2.start.uid)
+            {
+                GFXVector newEnd = v2.end_connect;
+                v1.start = v2.end;
+                v1.uid_start_connect = v2.uid_end_connect;
+                v1.start_connect = v2.end_connect;
+                
+                if ((newEnd.start_connect!=null) &&(newEnd.start_connect.uid == v2.uid))
+                {
+                    newEnd.start_connect = v2.start_connect;
+                    newEnd.start = v1.start;
+                    newEnd.uid_start_connect = v2.uid_start_connect;
+                }
+                if ((newEnd.end_connect!=null) &&(newEnd.end_connect.uid == v2.uid))
+                {
+                    newEnd.end_connect = v2.start_connect;
+                    newEnd.end = v1.start;
+                    newEnd.uid_end_connect = v2.uid_start_connect;
+                }
+                
+            }
+
+            else if (v1.start.uid == v2.end.uid)
+            {
+                GFXVector newEnd = v2.start_connect;
+                v1.start = v2.start;
+                v1.uid_start_connect = v2.uid_start_connect;
+                v1.start_connect = v2.start_connect;
+                
+                if ((newEnd.start_connect!=null) &&(newEnd.start_connect.uid == v2.uid))
+                {
+                    newEnd.start_connect = v2.start_connect;
+                    newEnd.start = v1.start;
+                    newEnd.uid_start_connect = v2.uid_start_connect;
+                }
+                if ((newEnd.end_connect!=null) &&(newEnd.end_connect.uid == v2.uid))
+                {
+                    newEnd.end_connect = v2.start_connect;
+                    newEnd.end = v1.start;
+                    newEnd.uid_end_connect = v2.uid_start_connect;
+                }
+            }
+        }
     }
 }

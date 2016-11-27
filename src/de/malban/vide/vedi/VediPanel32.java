@@ -3137,4 +3137,18 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         buffer = de.malban.util.UtilityString.replace(buffer, "\n", ret);
         toCard(buffer.getBytes());
     }
+    protected void deselectInTree(String tabName)
+    {
+        DefaultMutableTreeNode node =  (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent() ;
+        if (node == null) return;
+        VediPanel.TreeEntry entry = (VediPanel.TreeEntry) node.getUserObject();
+        if (entry == null) return;
+        if (tabName.equals(tabName))
+        {
+            mClassSetting++;
+            jTree1.clearSelection();
+            mClassSetting--;
+        }
+            
+    }
 }

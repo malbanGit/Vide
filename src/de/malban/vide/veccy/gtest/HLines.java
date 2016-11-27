@@ -35,7 +35,7 @@ public class HLines
    public HLines()
    {  
    }
-
+/*
     public boolean setVectorlist(GFXVectorList vlist)
     {
         Obj3D obj = new Obj3D();
@@ -43,8 +43,33 @@ public class HLines
         setObj(obj);
         return true;
     }
+   */
     public GFXVectorList processVectorlist(GFXVectorList vlist)
     {
+        vlist = vlist.clone();
+        HashMap<Vertex, Vertex> safety = new HashMap<Vertex, Vertex>();
+        for (GFXVector vector: vlist.list)
+        {
+            Vertex start = vector.start;
+            if (start != null)
+            {
+                if (safety.get(start) == null)
+                {
+                    start.z(-start.z());
+                    safety.put(start, start);
+                }
+            }
+            Vertex end = vector.end;
+            if (end != null)
+            {
+                if (safety.get(end) == null)
+                {
+                    end.z(-end.z());
+                    safety.put(end, end);
+                }
+            }
+        }        
+        
         GFXVectorList vl = new GFXVectorList();
         Obj3D obj = new Obj3D();
         obj.setVectorlist(vlist);

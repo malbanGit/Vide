@@ -20,7 +20,7 @@ public class KeyboardJoystickDevice extends AbstractDevice
 {
     public int getDeviceID()
     {
-        return DEVICE_KEYBOARD_JOYSTICK0;
+        return DEVICE_KEYBOARD_JOYSTICK0+keySet;
     }
     public String getDeviceName()
     {

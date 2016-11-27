@@ -72,14 +72,13 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
                         EditorPanel edi = (EditorPanel) comp;
                         edi.stopColoring();
                     }
-                    
+                    deselectInTree(getTabName());
                     
                     jTabbedPane1.removeTabAt(index);
                     // It would probably be worthwhile getting the source
                     // casting it back to a JButton and removing
                     // the action handler reference ;)
                     evt.source.removeCloseListerner(this);
-                            
                 }
 
             }
@@ -322,6 +321,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
     abstract public void processIncludeLine(String s);
     abstract public void processWord(String s);
     abstract public void requestSearchFocus();
+    abstract protected void deselectInTree(String name);
     abstract public void run();
     abstract public void debug();
     

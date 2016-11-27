@@ -16,6 +16,7 @@ import de.malban.graphics.GFXVector;
 import de.malban.graphics.GFXVectorList;
 import de.malban.graphics.SingleVectorPanel;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.HotKey;
 import de.malban.gui.ImageCache;
 import de.malban.gui.Scaler;
 import de.malban.gui.Stateable;
@@ -44,6 +45,7 @@ import static de.malban.vide.vecx.VecXStatics.EMU_TIMER;
 import static de.malban.vide.vecx.VecXStatics.VECTREX_MHZ;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import de.malban.vide.vecx.cartridge.DS2430A;
+import de.malban.vide.vecx.cartridge.DS2431;
 import de.malban.vide.vecx.cartridge.DualVec;
 import de.malban.vide.vecx.cartridge.Microchip11AA010;
 import de.malban.vide.vecx.devices.AbstractDevice;
@@ -93,7 +95,9 @@ import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
+import java.awt.event.ActionEvent;
 import java.nio.FloatBuffer;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -241,6 +245,11 @@ public class VecXPanel extends javax.swing.JPanel
         updatePorts();
         resetGfx();
         initLWGL();
+        
+        
+        
+        new HotKey("Pause/Toggle", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jButtonPauseActionPerformed(null); }}, this);
+        new HotKey("Overlay/Toggle", new AbstractAction() { public void actionPerformed(ActionEvent e) { config.overlayEnabled = !config.overlayEnabled; }}, this);
     }
 
     /**
@@ -259,8 +268,8 @@ public class VecXPanel extends javax.swing.JPanel
         jButtonStop = new javax.swing.JButton();
         jButtonPause = new javax.swing.JButton();
         jButtonStart = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonSaveState = new javax.swing.JButton();
+        jButtonLoadState = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jComboBoxJoyport1 = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
@@ -338,21 +347,21 @@ public class VecXPanel extends javax.swing.JPanel
             }
         });
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
-        jButton1.setToolTipText("save state");
-        jButton1.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSaveState.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
+        jButtonSaveState.setToolTipText("save state");
+        jButtonSaveState.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonSaveState.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonSaveStateActionPerformed(evt);
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
-        jButton2.setToolTipText("load state");
-        jButton2.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonLoadState.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
+        jButtonLoadState.setToolTipText("load state");
+        jButtonLoadState.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoadState.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonLoadStateActionPerformed(evt);
             }
         });
 
@@ -424,9 +433,9 @@ public class VecXPanel extends javax.swing.JPanel
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonStop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(jButtonSaveState)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(jButtonLoadState)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonDebug))
                     .addComponent(jComboBoxJoyport0, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -444,8 +453,8 @@ public class VecXPanel extends javax.swing.JPanel
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButton2)
-                                        .addComponent(jButton1))
+                                        .addComponent(jButtonLoadState)
+                                        .addComponent(jButtonSaveState))
                                     .addComponent(jLabelFPS, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -752,8 +761,35 @@ public class VecXPanel extends javax.swing.JPanel
         paint(vecx.getDisplayList());
         repaint();
     }
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (stop) return;
+    private void jButtonSaveStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveStateActionPerformed
+        if (stop) 
+        {
+            if (debuging)
+            {
+                CompleteState state = vecx.getState();
+                if (vecx.joyport[0]!=null)
+                {
+                    if (vecx.joyport[0].getDevice()!=null)
+                    {
+                        state.deviceID0 = vecx.joyport[0].getDevice().getDeviceID();
+                        state.deviceName0 = vecx.joyport[0].getDevice().getDeviceName();
+
+                    }
+                }
+                if (vecx.joyport[1]!=null)
+                {
+                    if (vecx.joyport[1].getDevice()!=null)
+                    {
+                        state.deviceID1 = vecx.joyport[1].getDevice().getDeviceID();
+                        state.deviceName1 = vecx.joyport[1].getDevice().getDeviceName();
+
+                    }
+                }
+                CSAMainFrame.serialize(state, "serialize"+File.separator+"StateSaveTest.ser");
+                
+            }
+            return;
+        } 
         if (!isPausing())
         {
             pause();
@@ -790,10 +826,28 @@ public class VecXPanel extends javax.swing.JPanel
             return;
         }
         CompleteState state = vecx.getState();
+        if (vecx.joyport[0]!=null)
+        {
+            if (vecx.joyport[0].getDevice()!=null)
+            {
+                state.deviceID0 = vecx.joyport[0].getDevice().getDeviceID();
+                state.deviceName0 = vecx.joyport[0].getDevice().getDeviceName();
+
+            }
+        }
+        if (vecx.joyport[1]!=null)
+        {
+            if (vecx.joyport[1].getDevice()!=null)
+            {
+                state.deviceID1 = vecx.joyport[1].getDevice().getDeviceID();
+                state.deviceName1 = vecx.joyport[1].getDevice().getDeviceName();
+
+            }
+        }
         CSAMainFrame.serialize(state, "serialize"+File.separator+"StateSaveTest.ser");
 
-    }//GEN-LAST:event_jButton1ActionPerformed
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonSaveStateActionPerformed
+    private void jButtonLoadStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadStateActionPerformed
         stop();
         dissiInit = false;
 
@@ -870,7 +924,7 @@ public class VecXPanel extends javax.swing.JPanel
         checkWindows();
         resetGfx();
         start();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonLoadStateActionPerformed
     public void debugUndoAction()
     {
         if (!isDebuging())
@@ -1226,11 +1280,11 @@ public class VecXPanel extends javax.swing.JPanel
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonDebug;
     private javax.swing.JButton jButtonFileSelect1;
+    private javax.swing.JButton jButtonLoadState;
     private javax.swing.JButton jButtonPause;
+    private javax.swing.JButton jButtonSaveState;
     private javax.swing.JButton jButtonStart;
     private javax.swing.JButton jButtonStop;
     private javax.swing.JComboBox jComboBoxJoyport0;
@@ -2779,6 +2833,12 @@ public class VecXPanel extends javax.swing.JPanel
         if (breaki != null) breaki.updateValues(true);
         return b;
     }
+    public boolean breakpointROMToggle(Breakpoint bp)
+    {
+        boolean b = vecx.toggleROMBreakpoint(bp);
+        if (breaki != null) breaki.updateValues(true);
+        return b;
+    }
     public boolean breakpointVIAToggle(Breakpoint bp)
     {
         boolean b = vecx.toggleViaBreakpoint(bp);
@@ -2828,6 +2888,7 @@ public class VecXPanel extends javax.swing.JPanel
     public void setCyclesRunning(long n)
     {
         vecx.cyclesRunning = n;
+        if (regi != null) regi.updateValues(true);
     }
     public void breakpointClearAll()
     {
@@ -3523,6 +3584,11 @@ public class VecXPanel extends javax.swing.JPanel
     {
         if (vecx.ds2430Enabled == false) return null;
         return vecx.cart.ds2430;
+    }
+    public DS2431 getDS2431()
+    {
+        if (vecx.ds2431Enabled == false) return null;
+        return vecx.cart.ds2431;
     }
     public VectrexJoyport[] getJoyportDevices()
     {

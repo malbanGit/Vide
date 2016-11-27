@@ -43,12 +43,16 @@ public class Cartridge implements Serializable
     public static int FLAG_DUALVEC2 = 8192; // 
     public static int FLAG_LOGO = 16384; // 
     public static int FLAG_XMAS = 32768; // 
+    public static int FLAG_DS2431 = 65536; // Thomas one wire eEprom
 
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     // load transient stuff after save state
     public void init()
     {
         log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+        if (ds2431 != null) ds2431.init();
+        if (ds2430 != null) ds2430.init();
+        if (microchip != null) microchip.init();
     }
     public String getTypInfoString()
     {
@@ -68,20 +72,38 @@ public class Cartridge implements Serializable
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_MICROCHIP)!=0) ret+="eEprom MICROCHIP  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0) ret+="DualVec1  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0) ret+="DualVec2  ";
-        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0) ret+="$8000 8k extra RAM  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0) ret+="$6000 8k extra RAM  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0) ret+="XMas LED  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DS2431)!=0) ret+="eEprom DS2431  ";
         ret = ret.trim();
         ret = de.malban.util.UtilityString.replace(ret, "  ", ", ");
         return ret;
     }
     public DS2430A ds2430 = new DS2430A(this);
+    public DS2431 ds2431 = new DS2431(this);
     public Microchip11AA010 microchip = new Microchip11AA010(this);
     transient VecX vecx;
     public void setVecx(VecX v)
     {
         vecx = v;
     }
-    
+    String getPC()
+    {
+        if (vecx==null) return "";
+        
+        ArrayList<Integer> stack = vecx.getCallstack();
+        
+        String ret ="";
+        
+        for (int i=0; i< stack.size(); i++)
+        {
+            ret+="$"+String.format("%04X", stack.get(i))+"->";
+        }
+        
+        ret += "$"+String.format("%04X", vecx.getPC());
+        return ret;
+        
+    }
     int typeFlags=0;
     public long crc=0;
     // default
@@ -210,6 +232,12 @@ public class Cartridge implements Serializable
                 {
                     // do no cartridge event we are in an active serial communication
                     if (ds2430.isActive()) // otherwise the emulation may slow down dramatically!
+                        return;
+                }
+                if (vecx.ds2431Enabled)
+                {
+                    // do no cartridge event we are in an active serial communication
+                    if (ds2431.isActive()) // otherwise the emulation may slow down dramatically!
                         return;
                 }
             }
@@ -674,6 +702,8 @@ public class Cartridge implements Serializable
     {
         to.ds2430 = from.ds2430.clone();
         to.ds2430.cart = to;
+        to.ds2431 = from.ds2431.clone();
+        to.ds2431.cart = to;
 
         to.microchip = from.microchip.clone();
         to.microchip.cart = to;
@@ -761,6 +791,10 @@ public class Cartridge implements Serializable
         {
             ds2430.lineIn(pb6);
         }
+        if (vecx.ds2431Enabled)
+        {
+            ds2431.lineIn(pb6);
+        }
         if (vecx.microchipEnabled)
         {
             microchip.lineIn(pb6);
@@ -809,6 +843,10 @@ public class Cartridge implements Serializable
         {
             ds2430.step(cycles);
         }
+        if (vecx.ds2431Enabled)
+        {
+            ds2431.step(cycles);
+        }
         if (vecx.microchipEnabled)
         {
             microchip.step(cycles);
@@ -825,6 +863,10 @@ public class Cartridge implements Serializable
         {
             ds2430.reset();
         }
+        if (vecx.ds2431Enabled)
+        {
+            ds2431.reset();
+        }
         if (vecx.microchipEnabled)
         {
             microchip.reset();
@@ -838,48 +880,3 @@ public class Cartridge implements Serializable
     }
 
 }
-/*
-
-alternative: 
- switch PB6 to out
- and work with writing to ORB PB6
-
-input in y
-
-switchroutineROM:
-switch:
-frome line art          
-
-		ldb #$9f            ; setup ddrb, in bits 1001 1111, which means
-                                    ; one means the corresponding bit in orb is set to OUTPUT
-                                    ; zero means the corresponding bit in orb is set to INPUT
-                                    ; 
-                                    ; on INPUT the LINE goes than to HIGH (1)
-                                    ; on OUT the LINE goes than to LOW (0) // until set otherwise
-                                    ; this is sort of a "~" behavior
-	
-                stb <VIA_DDR_b      ; so, what this actually does 
-                                    ; supply vecflash with an 5 Volt signal on PB6
-                                    ; EXTERNAL LINE = 1
-
-		leay -1,y           ; in y is the bank number to be switched to
-                                    ; for each bank between 0 and the bank number we want to go
-
-                clrb                ; b = 0
-delay:	        decb                ; b = -1 which is $ff
-		bne delay           ; this loop delays for xx cycles
-                                    ; aboz 1300 cycles, pretty close to 1ms 
-
-		ldb #$df            
-		stb <VIA_DDR_b      ; change PB6 to OUTPUT and effectivly provide the xternal line with 0 volt, pulling it down
-                                    ; EXTERNAL LINE = 0
-		nop                 ; delay
-		nop
-		cmpy #0             ; have we switched enough? are we at the bank we want to go to?
-		bne switch          ; no, continue switching
-fastboot:
-		jsr waitrecal
-		jsr waitrecal
-		jmp flashstart  
-*/
-

@@ -122,6 +122,11 @@ public class Microchip11AA010  implements Serializable{
         return epromData.data;
     }
     
+    public void init()
+    {
+        if (log == null)
+            log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
+    }
     
     // low level states
     public transient static final int LL_NONE = 0;

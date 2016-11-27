@@ -53,7 +53,7 @@ public class VecXState implements Serializable
         TimerItem(int value, IntegerPointer destination, int t)
         {
             
-            countDown = VideConfig.getConfig().delays[t];
+            countDown = VideConfig.getConfig().delays[(t&0xff)];
             valueToSet = value;
             whereToSet = destination;
             type = t; 
@@ -120,6 +120,9 @@ public class VecXState implements Serializable
      public IntegerPointer alg_ysh = new IntegerPointer();  /* y sample and hold */
      public IntegerPointer alg_zsh = new IntegerPointer();  /* z sample and hold */
      public IntegerPointer alg_ssh = new IntegerPointer();  /* s sample and hold */
+
+     public IntegerPointer via_shift = new IntegerPointer();  /*  */
+     
      
      public int alg_oldzsh = 0;   
      public int alg_oldRamp = 0;
@@ -134,6 +137,7 @@ public class VecXState implements Serializable
      public double alg_old_y; /* old y position */
      public double alg_curr_x; /* current x position */
      public double alg_curr_y; /* current y position */
+     public int lastShift = 0;
      
      public boolean alg_curved = false;
      public boolean alg_ramping = false;
@@ -160,6 +164,7 @@ public class VecXState implements Serializable
     public int currentBank = 0;
     public long cyclesRunning=0;
     public boolean ds2430Enabled = false;
+    public boolean ds2431Enabled = false;
     public boolean microchipEnabled = false;
     public boolean extraRam2000_2800Enabled = false; // animaction
     public boolean extraRam8000_8800Enabled = false; // spectrum RA
@@ -185,11 +190,14 @@ public class VecXState implements Serializable
         
         Cartridge.deepCopy(from.cart, to.cart, doRam, doTimer);
         to.ds2430Enabled = from.ds2430Enabled;
+        to.ds2431Enabled = from.ds2431Enabled;
         to.microchipEnabled = from.microchipEnabled;
         to.extraRam2000_2800Enabled = from.extraRam2000_2800Enabled;
         to.extraRam8000_8800Enabled = from.extraRam8000_8800Enabled;
         to.extraRam6000_7fff_8k_Enabled = from.extraRam6000_7fff_8k_Enabled;
         
+        
+        to.lastShift = from.lastShift;
         to.isDualVec = from.isDualVec;
         to.imagerMode = from.imagerMode;
         to.leftEyeColor = from.leftEyeColor;
@@ -246,6 +254,10 @@ public class VecXState implements Serializable
         to.alg_ysh.intValue= from.alg_ysh.intValue;  
         to.alg_zsh.intValue= from.alg_zsh.intValue;  
         to.alg_ssh.intValue= from.alg_ssh.intValue;  
+        
+        to.via_shift.intValue= from.via_shift.intValue;  
+        
+        
         to.alg_jsh= from.alg_jsh;   
         to.alg_compare= from.alg_compare;   
         to.alg_curr_x= from.alg_curr_x;   
@@ -278,8 +290,6 @@ public class VecXState implements Serializable
             if (from.directDrawVector.callStack != null)
                 for (int cs: from.directDrawVector.callStack)
                     to.directDrawVector.callStack.add(cs);
-
-
         }
 
        to.alg_vectoring= from.alg_vectoring;   

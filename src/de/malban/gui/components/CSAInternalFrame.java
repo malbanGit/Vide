@@ -11,6 +11,9 @@
 
 package de.malban.gui.components;
 
+import de.malban.vide.dissy.DissiPanel;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author Malban
@@ -91,6 +94,34 @@ public class CSAInternalFrame extends javax.swing.JInternalFrame {
     public javax.swing.JPanel getPanel()
     {
         return mPanel;
+    }
+    public void iconified()
+    {
+    }
+    public void deIconified()
+    {
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                doLayout();
+                invalidate();
+                validate();
+                repaint();
+                mPanel.doLayout();
+                mPanel.invalidate();
+                mPanel.validate();
+                mPanel.repaint();
+
+                if (mPanel instanceof DissiPanel)
+                {
+                    DissiPanel dp = (DissiPanel)mPanel;
+                    dp.updateForced();
+                }
+                CSAInternalFrame.this.setBounds(CSAInternalFrame.this.getBounds().x, CSAInternalFrame.this.getBounds().y, CSAInternalFrame.this.getBounds().width+1, CSAInternalFrame.this.getBounds().height);
+;                CSAInternalFrame.this.setBounds(CSAInternalFrame.this.getBounds().x, CSAInternalFrame.this.getBounds().y, CSAInternalFrame.this.getBounds().width+1, CSAInternalFrame.this.getBounds().height);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

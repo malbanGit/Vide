@@ -1,0 +1,411 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package de.malban.vide.vecx;
+
+/**
+ *
+ * @author malban
+ */
+public class Via6522 
+{
+    VecX vecx;
+    
+    /* the via 6522 registers */
+    public int via_orb;  // 0 bits seperate on occasion (vectrex analog handling)
+    public int via_ora;  // 1 (15) complete (vectrex complete)
+    public int via_ddrb; // 2 complete
+    public int via_ddra; // 3 complete
+    public int via_t1ll; // 4 complete t1 latch low
+    public int via_t1lh; // 5 complete t1 latch high
+    public int via_t1c;  // 6+7 complete timer 1 
+    public int via_t2ll; // 8 t2 complete write latch low / counter low
+    public int via_t2c;  // 8+9 complete timer 2
+    public int via_sr;   // 10 complete shift reg
+    public int via_acr; // 11 complete ACR
+    public int via_pcr; // 12 complete PCR
+    public int via_ifr; // 13 complete IFR
+    public int via_ier; // 14 complete IER
+
+    public int via_t1on;  /* is timer 1 on? */
+    public int via_t1int; /* are timer 1 interrupts allowed? */
+
+    public int via_t1pb7; /* timer 1 controlled version of pb7 */
+    public int via_t2on;  /* is timer 2 on? */
+    public int via_t2int; /* are timer 2 interrupts allowed? */
+    public int via_srb;   /* number of bits shifted so far */
+    public int via_src;   /* shift counter */
+    public int via_srclk;
+    public int via_ca1;
+    public int old_via_ca1; 
+    public int via_ca2;
+    public int via_cb2h;  /* basic handshake version of cb2 */
+    public int via_cb2s;  /* version of cb2 controlled by the shift register */
+    public int pb6_in = 0x40; // reg 0, bit 6 - 0 or 0x40 in from external
+    public int pb6_out = 0x40; // reg 0, bit 6 -          out from vectrex
+    public boolean old_pb6 = false;
+
+
+    public long lastShiftTriggered = 0;
+    public boolean via_stalling = false;
+    
+    public void updateAnalog()
+    {
+        
+    }
+    
+    public void writeReg(int reg, int data)
+    {
+        reg = reg & 0x0f;
+        
+                switch (reg) 
+                {
+                    case 0x0:
+                        vecx.checkVIABreakpoint(0, via_orb, data);                  
+
+                        setPB6FromVectrex(data, via_ddrb, true);
+                        if ((data & 0x7) != (via_orb & 0x07)) // check if state of mux sel changed
+                        {
+                            addTimerItem(new TimerItem(data, alg_sel, TIMER_MUX_SEL_CHANGE));
+                        }
+                        
+                        // for old times sake, variable via_orb allways carries the vectrex "out" state of pb6
+                        via_orb = data;
+                        vecx.snd_update(true);
+                        
+                        if ((via_pcr & 0xe0) == 0x80) 
+                        {
+                            /* if cb2 is in pulse mode or handshake mode, then it
+                             * goes low whenever orb is written.
+                             */
+                            via_cb2h = 0;
+                            addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                        }
+                        vecx.doCheckRamp();
+                        break;
+                    case 0x1:
+                        /* register 1 also performs handshakes if necessary */
+                        if ((via_pcr & 0x0e) == 0x08) 
+                        {
+                            /* if ca2 is in pulse mode or handshake mode, then it
+                             * goes low whenever ora is written.
+                             */
+                            via_ca2 = 0;
+                            addTimerItem(new TimerItem(via_ca2,sig_zero, TIMER_ZERO));
+                        }
+                        via_ifr = via_ifr & (0xff-0x02); // clear ca1 interrupt
+                    /* fall through */
+                    case 0xf:
+                        /* output of port a feeds directly into the dac which then
+                         * feeds the x axis sample and hold.
+                         */
+                        addTimerItem(new TimerItem(getDACDelay((byte)(via_ora&0xff),(byte)( data&0xff)), data, alg_DAC, TIMER_DAC_CHANGE));
+                        via_ora = data;
+                        
+                        snd_update(false);
+                        break;
+                    case 0x2:
+                        boolean pb6_2 = setPB6FromVectrex(via_orb, data, false);
+                        via_ddrb = data;
+                        if (cart != null)
+                        {
+                            cart.setPB6InputEnabledFromExternal(!((data&0x40)==0x40));
+                        }
+                        break;
+                    case 0x3:
+                        via_ddra = data;
+                        break;
+                    case 0x4:
+                        /* T1 low order counter */
+                        via_t1ll = data;
+                        break;
+                    case 0x5:
+                        /* T1 high order counter */
+                        via_t1lh = data;
+                        via_t1c = (via_t1lh << 8) | via_t1ll;
+                        via_ifr &= 0xbf; /* remove timer 1 interrupt flag */
+                        via_t1on = 1; /* timer 1 starts running */
+                        via_t1int = 1;
+
+                        if ((via_acr & 0x80)!=0)  
+                        {
+                            if (via_t1pb7!=0)
+                                checkVIABreakpoint(0, via_orb, via_orb-via_t1pb7);                  
+                        }
+                        via_t1pb7 = 0;
+                        
+                        
+                        
+                        doCheckRamp();
+                        int_update ();
+                        break;
+                    case 0x6:
+                        /* T1 low order latch */
+                        via_t1ll = data;
+                        break;
+                    case 0x7:
+                        /* T1 high order latch */
+                        // Malban: check, should that not rather be exactly the same as reg 5?
+                        // in fact should reg 5 not load into t1lh and "fall through" to reg 7 which
+                        // than loads t1lh to t1c and t1ll also... triggering in effect the counter?
+                        via_t1lh = data;
+                        break;
+                    case 0x8:
+                        /* T2 low order latch */
+                        via_t2ll = data;
+                        break;
+                    case 0x9:
+                        /* T2 high order latch/counter */
+                        via_t2c = (data << 8) | via_t2ll;
+                        via_ifr &= 0xdf;
+                        via_t2on = 1; /* timer 2 starts running */
+                        via_t2int = 1;
+                        int_update ();
+                        break;
+                    case 0xa:
+                 
+                        if (via_stalling)
+                        {
+                            via_ifr &= 0xfb; // * remove shift register interrupt flag * /
+                           // via_srb = 0;
+                            via_srclk = 1;
+                            int_update ();
+                            
+                        }
+                        else
+/*                        
+                        if (shouldStall((int)(cyclesRunning - lastShiftTriggered)))
+                        {
+                            
+                            via_stalling = true;
+                           // via_sr = 0; // DUnno!
+                            via_ifr &= 0xfb; // * remove shift register interrupt flag * /
+                           // via_srb = 0;
+                            via_srclk = 1;
+                            int_update ();
+                            // dunno if "stalling" cycle counter should reset...
+                        }
+                        else
+*/                            
+                        {
+                            // do normal - exactly as above
+//                            via_stalling = false;
+                            lastShiftTriggered = cyclesRunning;
+                            via_sr = data;
+                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                            via_srb = 0;
+                            via_srclk = 1;
+                            int_update ();
+                        }
+                        break;
+                    case 0xb:
+                        via_acr = data;
+                        doCheckRamp();
+                        break;
+                    case 0xc:
+                        via_pcr = data;
+                        if ((via_pcr & 0x0e) == 0x0c) 
+                        {
+                            /* ca2 is outputting low */
+                            via_ca2 = 0;
+                            addTimerItem(new TimerItem(via_ca2,sig_zero, TIMER_ZERO));
+                        } 
+                        else 
+                        {
+                            /* ca2 is disabled or in pulse mode or is
+                             * outputting high.
+                             */
+                            via_ca2 = 1;
+                            addTimerItem(new TimerItem(via_ca2,sig_zero, TIMER_ZERO));
+                        }
+                        if ((via_pcr & 0xe0) == 0xc0) 
+                        {
+                            /* cb2 is outputting low */
+                            via_cb2h = 0;
+                            addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                        } 
+                        else 
+                        {
+                            /* cb2 is disabled or is in pulse mode or is
+                             * outputting high.
+                             */
+                            via_cb2h = 1;
+                            addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                        }
+                        break;
+                    case 0xd:
+                        /* interrupt flag register */
+                        via_ifr &= ~(data & 0x7f);
+                        int_update ();
+                        break;
+                    case 0xe:
+                        /* interrupt enable register */
+                        if ((data & 0x80) !=0)
+                        {
+                            via_ier |= data & 0x7f;
+                        } 
+                        else 
+                        {
+                            via_ier &= ~(data & 0x7f);
+                        }
+                        int_update ();
+                        break;
+                }
+    }
+    
+    public int readReg(int reg)
+    {
+        return 0;
+    }
+    
+    public void step()
+    {
+    }
+    
+    public int getCB1()
+    {
+        return 0;
+    }
+    public int getCB2()
+    {
+        return 0;
+    }
+    public int getCA1()
+    {
+        return 0;
+    }
+    public int getCA2()
+    {
+        return 0;
+    }
+    
+    public void reset()
+    {
+    
+    }
+    /* update IRQ and bit-7 of the ifr register after making an adjustment to
+     * ifr.
+     */
+     void int_update ()
+    {
+	if ( (((via_ifr & 0x7f) & (via_ier & 0x7f))) != 0   ) 
+        {
+            via_ifr |= 0x80;
+        } 
+        else 
+        {
+            via_ifr &= 0x7f;
+        }
+    }
+    // called befor VIA is changed
+    // so we have access to old via data
+
+    // returns state of PB6
+    // calls cart on line change
+    private boolean setPB6FromVectrex(int tobe_via_orb, int tobe_via_ddrb, boolean orbInitiated)
+    {
+        // below we do output to all bits
+        // we are only really interested in PB6
+        // and rather interested in the LINE EXTERNAL
+        
+        // LINE EXTERNAL has some odd behavior, it
+        // automatically switches to a state when the corresponding DDRB register is set to out/in
+        
+        // when the bit 6 of DDRB is cleared (INPUT mode) 
+        // LINE EXTERNAL GOES HIGH
+        
+        // when the bit 6 of DDRB is set (OUTPUT mode) 
+        // LINE EXTERNAL GOES LOW
+        
+        // once set to output, PB6 can be "controlled", by setting it 
+        // in (through) ORB
+        
+        // so basically there are two methods to control the state of the xternal line
+        // below oring and exoring considers that
+        // the cart which might be efrected by the line change 
+        // e.g. bankswitching test is than only called
+        // if the state of the EXTERNAL LINE has changed
+        
+        
+        // it can happen, that "nothing" changes 
+        // if that is the case pb6 should ALSO not change
+        // this is not obvious,
+        // if ddrb is set as input
+        // input changed pb6 to low
+        // and than ddrb is AGAIN set as input, pb6 should NOT change to high, since 
+        // really nothing changed!
+        // if we don't test this, in the example pb6 would go high!
+        if ((via_orb == tobe_via_orb) && (via_ddrb == tobe_via_ddrb))
+        {
+            return pb6_out != 0;
+        }
+
+        // get output value of via b NOW
+        int viaOutNow = ((via_orb&(0xff-0x40))|pb6_out) | (via_ddrb ^ 0xFFFFFFFF) & 0xFF;
+
+        
+        boolean pb6 = pb6_out != 0;
+        
+        if ((tobe_via_orb != viaOutNow) || (tobe_via_ddrb != via_ddrb))
+        {
+            // get output of changed port b
+            int viaOutTobe = tobe_via_orb |((tobe_via_ddrb ^ 0xFFFFFFFF) & 0xFF);
+            
+            if (!orbInitiated)
+            {
+                if ((tobe_via_ddrb &0x40) == 0x40)
+                    viaOutTobe = viaOutTobe & (0xff-0x40);
+                else
+                    viaOutTobe = viaOutTobe | 0x40;
+            }
+            pb6 = (viaOutTobe&0x40) == 0x40;
+            vecx.cart.setPB6FromVectrex(pb6);
+            vecx.checkExternalLineBreakpoint(pb6);
+            old_pb6 = pb6;
+        }
+        if (pb6)
+        {
+            pb6_out = 0x40;
+          
+            
+            // sort of bad to a access 
+            // vecx here, but I believe
+            // the behaviour is influenced from the
+            // cartridge which is inserted, via a pullup resistor
+            // might add a variable "pullupPB6" to emulate
+            // the beaviour internally
+            if (!vecx.isDualVec)
+            {
+                if (!vecx.extraRam8000_8800Enabled)
+                {
+                    if (orbInitiated)
+                        if ((via_ddrb & 0x40) == 0x40)
+                            pb6_in = pb6_out; // pull up?
+                    if (!orbInitiated)
+                        if ((tobe_via_ddrb & 0x40) == 0x40)
+                            pb6_in = pb6_out; // pull up?
+                    pb6_in = pb6_out; // pull up?
+                }
+            }
+        }
+        else
+        {
+            pb6_out = 00;
+        }
+        /*
+        // MALBAN
+        if (orbInitiated)
+        {
+            if (pb6_out == 0x40)
+            {
+                if ((via_ddrb & 0x40) == 0x40) // output mode
+                    pb6_pulseCounter = 50;
+            }
+            
+        }
+        */
+        return pb6;
+    }
+}

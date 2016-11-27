@@ -1103,7 +1103,9 @@ public class Asmj {
         for (int i=0; i< symbols.size(); i++)
         {
             Symbol sy = (Symbol) symbols.elementAt(i);
-            if (!sy.isUsed()) continue;
+            
+            if (!config.supportUnusedSymbols)
+                if (!sy.isUsed()) continue;
             boolean equDone = false;
             int typ = sy.usageType;
 //            if (sy.name.equals("x_hit_loop"))

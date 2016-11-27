@@ -28,7 +28,15 @@ public abstract interface VecXStatics
     public static final int TIMER_LIGHTPEN = 9;
     public static final int TIMER_RAMP_OFF_CHANGE = 10;
     public static final int TIMER_MUX_SEL_CHANGE = 11;
-    public static final int TIMER_DAC_CHANGE = 12;
+    public static final int TIMER_SHIFT = 12;
+    public static final int TIMER_T1 = 13;
+    
+    
+    public static final int TIMER_DAC_CHANGE = 14;
+    
+    public static final int TIMER_SHIFT_WRITE = TIMER_SHIFT+1024;
+    public static final int TIMER_SHIFT_READ = TIMER_SHIFT+2048;
+    
     
     public static int JOYSTICK_CENTER = 0x7f; // for whatever reason Debris does not like $80, $7f is ok though - is that a emulator test?
     

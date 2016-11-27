@@ -44,39 +44,50 @@ public class Breakpoint
     public static String[] bp_target={"Memory", "CPU", "Analog", "VIA", "PSG", "CARTRIDGE", "PORT"};
 
     public static String[][] bp_subtarget={
-        /* Memory*/     {""}, 
-        /* CPU*/        {"PC","A", "B", "D","X", "Y","U","S", "CC", "DP", "CYCLES", "SPECIAL" }, 
-        /* Analog*/     {""}, 
-        /* VIA*/        {"ORB","CA1"}, 
-        /* PSG*/        {""}, 
-        /* CARTRIDGE*/  {"BANKSWITCH", "PB6"}, 
-        /* PORT*/       {"IN", "OUT"}
+        /* Memory*/     {"none","RAM","ROM"}, 
+        /* CPU*/        {"none","PC","A", "B", "D","X", "Y","U","S", "CC", "DP", "CYCLES", "SPECIAL" }, 
+        /* Analog*/     {"none","RAMP"}, 
+        /* VIA*/        {"none","ORB","CA1"}, 
+        /* PSG*/        {"none","PSG 0"}, 
+        /* CARTRIDGE*/  {"none","BANKSWITCH", "PB6"}, 
+        /* PORT*/       {"none","IN", "OUT"}
     };
     
+    public static int BP_SUBTARGET_MEMORY_NONE = 0; // 
+    public static int BP_SUBTARGET_MEMORY_RAM = 1; // 
+    public static int BP_SUBTARGET_MEMORY_ROM = 2; // 
     
-    public static int BP_SUBTARGET_CPU_PC = 0; // only one implemented
-    public static int BP_SUBTARGET_CPU_A = 1;
-    public static int BP_SUBTARGET_CPU_B = 2;
-    public static int BP_SUBTARGET_CPU_D = 3;
-    public static int BP_SUBTARGET_CPU_X = 4;
-    public static int BP_SUBTARGET_CPU_Y = 5;
-    public static int BP_SUBTARGET_CPU_U = 6;
-    public static int BP_SUBTARGET_CPU_S = 7;
-    public static int BP_SUBTARGET_CPU_CC = 8;
-    public static int BP_SUBTARGET_CPU_DP = 9;
-    public static int BP_SUBTARGET_CPU_CYCLES = 10;
-    public static int BP_SUBTARGET_CPU_SPECIAL = 11;
+    public static int BP_SUBTARGET_CPU_NONE = 0; // only one implemented
+    public static int BP_SUBTARGET_CPU_PC = 1; // only one implemented
+    public static int BP_SUBTARGET_CPU_A = 2;
+    public static int BP_SUBTARGET_CPU_B = 3;
+    public static int BP_SUBTARGET_CPU_D = 4;
+    public static int BP_SUBTARGET_CPU_X = 5;
+    public static int BP_SUBTARGET_CPU_Y = 6;
+    public static int BP_SUBTARGET_CPU_U = 7;
+    public static int BP_SUBTARGET_CPU_S = 8;
+    public static int BP_SUBTARGET_CPU_CC = 9;
+    public static int BP_SUBTARGET_CPU_DP = 10;
+    public static int BP_SUBTARGET_CPU_CYCLES = 11;
+    public static int BP_SUBTARGET_CPU_SPECIAL = 12;
     
-    public static int BP_SUBTARGET_ANALOG_RAMP = 0; // .. not implemented
-    public static int BP_SUBTARGET_VIA_ORB = 0; // 
-    public static int BP_SUBTARGET_VIA_CA1 = 1; // 
-    public static int BP_SUBTARGET_PSG_0 = 0; // .. not implemented
+    public static int BP_SUBTARGET_ANALOG_NONE = 0; // .. not implemented
+    public static int BP_SUBTARGET_ANALOG_RAMP = 1; // .. not implemented
 
-    public static int BP_SUBTARGET_CARTRIDGE_BANKSWITCH = 0;
-    public static int BP_SUBTARGET_CARTRIDGE_PB6 = 1;
+    public static int BP_SUBTARGET_VIA_NONE = 0; // 
+    public static int BP_SUBTARGET_VIA_ORB = 1; // 
+    public static int BP_SUBTARGET_VIA_CA1 = 2; // 
     
-    public static int BP_SUBTARGET_PORT_IN = 0;
-    public static int BP_SUBTARGET_PORT_OUT = 1;
+    public static int BP_SUBTARGET_PSG_NONE = 0; // .. not implemented
+    public static int BP_SUBTARGET_PSG_0 = 1; // .. not implemented
+
+    public static int BP_SUBTARGET_CARTRIDGE_NONE = 0;
+    public static int BP_SUBTARGET_CARTRIDGE_BANKSWITCH = 1;
+    public static int BP_SUBTARGET_CARTRIDGE_PB6 = 2;
+    
+    public static int BP_SUBTARGET_PORT_NONE = 0;
+    public static int BP_SUBTARGET_PORT_IN = 1;
+    public static int BP_SUBTARGET_PORT_OUT = 2;
     
     
     

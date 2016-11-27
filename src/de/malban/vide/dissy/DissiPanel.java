@@ -282,10 +282,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jButtonShowLabels = new javax.swing.JButton();
         jButtonShowPSG = new javax.swing.JButton();
         jButtonShowBreakpoints = new javax.swing.JButton();
-        jButtonApplyCodeScan = new javax.swing.JButton();
-        jButtonVectrorScreenshot = new javax.swing.JButton();
-        jButtonCNTOutput = new javax.swing.JButton();
-        jButtonDASMOutput = new javax.swing.JButton();
         jButtonAdressBack = new javax.swing.JButton();
         jButtonAdressForward = new javax.swing.JButton();
         jToggleButton1 = new javax.swing.JToggleButton();
@@ -306,6 +302,10 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jEditorPane1 = new javax.swing.JEditorPane();
         jTextFieldCommand = new javax.swing.JTextField();
         jCheckBox3 = new javax.swing.JCheckBox();
+        jButtonApplyCodeScan = new javax.swing.JButton();
+        jButtonCNTOutput = new javax.swing.JButton();
+        jButtonDASMOutput = new javax.swing.JButton();
+        jButtonVectrorScreenshot = new javax.swing.JButton();
 
         jPopupMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -692,42 +692,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         });
 
-        jButtonApplyCodeScan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/exclamation.png"))); // NOI18N
-        jButtonApplyCodeScan.setToolTipText("Reset dissi, do everything from start. This mainly makes sense in combination with\n \"codescan\".");
-        jButtonApplyCodeScan.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonApplyCodeScan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonApplyCodeScanActionPerformed(evt);
-            }
-        });
-
-        jButtonVectrorScreenshot.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/vectorCam.png"))); // NOI18N
-        jButtonVectrorScreenshot.setToolTipText("vector-screenshot");
-        jButtonVectrorScreenshot.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonVectrorScreenshot.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonVectrorScreenshotActionPerformed(evt);
-            }
-        });
-
-        jButtonCNTOutput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_code.png"))); // NOI18N
-        jButtonCNTOutput.setToolTipText("save gathered information to CNT-file");
-        jButtonCNTOutput.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonCNTOutput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCNTOutputActionPerformed(evt);
-            }
-        });
-
-        jButtonDASMOutput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
-        jButtonDASMOutput.setToolTipText("save dissi as asm file");
-        jButtonDASMOutput.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonDASMOutput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDASMOutputActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelDebugLayout = new javax.swing.GroupLayout(jPanelDebug);
         jPanelDebug.setLayout(jPanelDebugLayout);
         jPanelDebugLayout.setHorizontalGroup(
@@ -762,43 +726,28 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 .addComponent(jButtonShowPSG)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonShowBreakpoints)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jButtonDASMOutput)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonCNTOutput)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonVectrorScreenshot)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonApplyCodeScan)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanelDebugLayout.setVerticalGroup(
             jPanelDebugLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanelDebugLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(jButtonViai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonDump1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonDebug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonStepOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonOverstep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonsetBreakpoint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonMultiStep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonDebugStep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonRingbufferRedo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonRinbufferUndo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonWRTracker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonShowVars, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonShowLabels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonShowPSG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonShowBreakpoints, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(jPanelDebugLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelDebugLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonDASMOutput, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonCNTOutput, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonApplyCodeScan, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonVectrorScreenshot, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGroup(jPanelDebugLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonViai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonDump1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonDebug, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonStepOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonOverstep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonsetBreakpoint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonMultiStep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonDebugStep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonRingbufferRedo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonRinbufferUndo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonWRTracker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonShowVars, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonShowLabels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonShowPSG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonShowBreakpoints, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jButtonAdressBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/resultset_previous.png"))); // NOI18N
@@ -997,6 +946,42 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         });
 
+        jButtonApplyCodeScan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/exclamation.png"))); // NOI18N
+        jButtonApplyCodeScan.setToolTipText("Reset dissi, do everything from start. This mainly makes sense in combination with\n \"codescan\".");
+        jButtonApplyCodeScan.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonApplyCodeScan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApplyCodeScanActionPerformed(evt);
+            }
+        });
+
+        jButtonCNTOutput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_code.png"))); // NOI18N
+        jButtonCNTOutput.setToolTipText("save gathered information to CNT-file");
+        jButtonCNTOutput.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonCNTOutput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCNTOutputActionPerformed(evt);
+            }
+        });
+
+        jButtonDASMOutput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
+        jButtonDASMOutput.setToolTipText("save dissi as asm file");
+        jButtonDASMOutput.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonDASMOutput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDASMOutputActionPerformed(evt);
+            }
+        });
+
+        jButtonVectrorScreenshot.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/vectorCam.png"))); // NOI18N
+        jButtonVectrorScreenshot.setToolTipText("vector-screenshot");
+        jButtonVectrorScreenshot.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonVectrorScreenshot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVectrorScreenshotActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -1010,7 +995,15 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 .addComponent(jButtonAdressForward)
                 .addGap(33, 33, 33)
                 .addComponent(jPanelDebug, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonDASMOutput)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonCNTOutput)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonVectrorScreenshot)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonApplyCodeScan)
+                .addGap(18, 18, 18)
                 .addComponent(jCheckBox3)
                 .addGap(6, 6, 6)
                 .addComponent(jCheckBox1)
@@ -1030,7 +1023,11 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jCheckBox1)
                         .addComponent(jCheckBox2)
-                        .addComponent(jCheckBox3)))
+                        .addComponent(jCheckBox3))
+                    .addComponent(jButtonDASMOutput, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonCNTOutput, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonApplyCodeScan, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonVectrorScreenshot, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
                 .addGap(2, 2, 2)
@@ -2953,6 +2950,14 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jTextFieldCommand.getActionMap().put("command previous", new AbstractAction() { public void actionPerformed(ActionEvent e) {  commandHistoryPrevious(); }});
     }   
 
+    // CALLED FROM UNICONIFY
+    public void updateForced()
+    {
+        jTableSource.tableChanged(null);
+        jTableSource.repaint();
+        correctModel();
+    }
+
     public void updateValues(boolean forceUpdate)
     {
         if (!forceUpdate)
@@ -3116,15 +3121,28 @@ public class DissiPanel extends javax.swing.JPanel  implements
     }
     void addHeyDissiBreak(int address, int bank, String[] commands, int parameterStart)
     {
+        boolean once = false;
+        if (parameterStart<commands.length)
+        {
+            // there is another "command"
+            if (commands[parameterStart].toLowerCase().equals("once"))
+            {
+                once = true;
+            }
+        }
+        
         // no conditionals yet, just break
         Breakpoint bp = new Breakpoint();
         bp.targetAddress = address;
         bp.targetBank = bank;
         bp.targetType = Breakpoint.BP_TARGET_CPU;
         bp.targetSubType = Breakpoint.BP_SUBTARGET_CPU_PC;
-        bp.type = Breakpoint.BP_COMPARE | Breakpoint.BP_MULTI|Breakpoint.BP_HEY;
+
+        if (!once)
+            bp.type = Breakpoint.BP_COMPARE | Breakpoint.BP_MULTI|Breakpoint.BP_HEY;
+        else
+            bp.type = Breakpoint.BP_COMPARE | Breakpoint.BP_ONCE|Breakpoint.BP_HEY;
         bp.exitType = EMU_EXIT_BREAKPOINT_BREAK;
-        
         currentDissi.vecxPanel.breakpointMemorySet(bp);
     }
     
@@ -3213,7 +3231,11 @@ public class DissiPanel extends javax.swing.JPanel  implements
         try
         {
             jEditorPane1.getDocument().insertString(jEditorPane1.getDocument().getLength(), s+"\n", TokenStyles.getStyle(type));
-        } catch (Throwable e) { }
+        } 
+        catch (Throwable e) 
+        { 
+            System.out.println("Error messaging from dissi");
+        }
         jEditorPane1.setCaretPosition(jEditorPane1.getDocument().getLength());
     }
     
@@ -3387,6 +3409,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 int num = DASM6809.toNumber(param1);
                 currentDissi.vecxPanel.setCyclesRunning(num);
                 printMessage("Vecx cycle count set to: "+currentDissi.vecxPanel.getCyclesRunning(), MESSAGE_INFO);
+
+                
                 break;
             }
             case Command.D_CMD_RUN_CYCLES:
@@ -3499,6 +3523,20 @@ public class DissiPanel extends javax.swing.JPanel  implements
                     boolean added = currentDissi.vecxPanel.breakpointVIAToggle(bp);
                     if (added) printMessage("Breakpoint for via orb bit "+bp.compareValue+" added.", MESSAGE_INFO);
                     else printMessage("Breakpoint for via orb bit "+bp.compareValue+" removed.", MESSAGE_INFO);
+                    break;
+                }
+                else if (param1.toLowerCase().contains("ROM".toLowerCase()))
+                {
+                    Breakpoint bp = new Breakpoint();
+//                    bp.compareValue = Math.abs(DASM6809.toNumber(param2)%8); // ensure bit0-7
+//                    bp.targetBank = getCurrentBank();
+                    bp.name = "ROM write bit ";
+                    bp.targetType = Breakpoint.BP_TARGET_MEMORY;
+                    bp.targetSubType = Breakpoint.BP_SUBTARGET_MEMORY_ROM;
+                    bp.type = Breakpoint.BP_MULTI | Breakpoint.BP_WRITE;
+                    boolean added = currentDissi.vecxPanel.breakpointROMToggle(bp);
+                    if (added) printMessage("Breakpoint for ROM write added.", MESSAGE_INFO);
+                    else printMessage("Breakpoint for ROM write added removed.", MESSAGE_INFO);
                     break;
                 }
                 
