@@ -22,10 +22,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import de.muntjak.tinylookandfeel.Theme;
+import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -135,6 +140,7 @@ public class VarJPanel extends javax.swing.JPanel implements
     }
     public void deinit()
     {
+        removeUIListerner();
     }
 
     /**
@@ -175,6 +181,8 @@ public class VarJPanel extends javax.swing.JPanel implements
                 return this;
             }   
         });       
+        UIManager.addPropertyChangeListener(pListener);
+        updateMyUI(); 
         correctTable();    
     }
     private void update()
@@ -308,12 +316,11 @@ public class VarJPanel extends javax.swing.JPanel implements
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButtonAddVariable)
-                        .addComponent(jCheckBox1)))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonAddVariable, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -642,5 +649,23 @@ public class VarJPanel extends javax.swing.JPanel implements
 
             }
         }        
+    }
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+    {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+            updateMyUI();
+        }
+    };
+    void updateMyUI()
+    {
+        SwingUtilities.updateComponentTreeUI(jPopupMenu1);
+        int fontSize = Theme.textFieldFont.getFont().getSize();
+        int rowHeight = fontSize+3;
+        jTable1.setRowHeight(rowHeight);
     }
 }

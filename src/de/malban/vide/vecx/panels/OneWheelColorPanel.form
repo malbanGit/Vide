@@ -29,8 +29,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButtonColor1" min="-2" pref="18" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jLabelRight" alignment="0" min="-2" pref="55" max="-2" attributes="0"/>
-                  <Component id="jLabelLeft" alignment="0" min="-2" pref="55" max="-2" attributes="0"/>
+                  <Component id="jLabelRight" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabelLeft" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
           </Group>

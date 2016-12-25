@@ -11,23 +11,15 @@
 
 package de.malban.config;
 
-import de.malban.config.sound.SoundMap;
-import de.malban.config.sound.SoundMapPool;
-import de.malban.config.theme.ThemeDataPanel;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.ImageCache;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
-import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.ImageCacheWatchFrame;
-import de.malban.gui.Scaler;
 import de.malban.sound.PlayClip;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Vector;
 /**
  *
  * @author Malban
@@ -101,7 +93,8 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
         jCheckBoxDebugFileOnly.setSelected(C.isDebugFileOnly());
 
         jTextFieldImageCache.setText("");
-
+        ImageCache.cacheActive = C.getCacheActive();
+        jCheckBoxCacheActive.setSelected(ImageCache.cacheActive);
         mClassSetting--;
     }
 
@@ -171,6 +164,7 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
         jTextFieldHintsCache = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
         jButtonCacheWatch = new javax.swing.JButton();
+        jCheckBoxCacheActive = new javax.swing.JCheckBox();
         jButtonSave = new javax.swing.JButton();
 
         jTabbedPane1.setName("jTabbedPane1"); // NOI18N
@@ -396,6 +390,14 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
             }
         });
 
+        jCheckBoxCacheActive.setText("cache active");
+        jCheckBoxCacheActive.setName("jCheckBoxCacheActive"); // NOI18N
+        jCheckBoxCacheActive.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxCacheActiveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -425,8 +427,11 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel18)
                     .addComponent(jCheckBoxScriptCache)
-                    .addComponent(jButtonCacheWatch))
-                .addContainerGap(501, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jButtonCacheWatch)
+                        .addGap(37, 37, 37)
+                        .addComponent(jCheckBoxCacheActive)))
+                .addContainerGap(360, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -436,7 +441,8 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
                     .addComponent(jLabel5)
                     .addComponent(jButtonImageCache)
                     .addComponent(jTextFieldImageCache, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonCacheWatch))
+                    .addComponent(jButtonCacheWatch)
+                    .addComponent(jCheckBoxCacheActive))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
@@ -536,6 +542,13 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
         C.clearDebugLog();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jCheckBoxCacheActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCacheActiveActionPerformed
+        ImageCache.cacheActive = jCheckBoxCacheActive.isSelected();
+        ImageCache.clearCache();
+        Configuration C = Configuration.getConfiguration();
+        C.setCacheActive(ImageCache.cacheActive);
+    }//GEN-LAST:event_jCheckBoxCacheActiveActionPerformed
+
     ImageCacheWatchFrame imageCacheWatchFrame=null;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -548,6 +561,7 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JButton jButtonSave;
     private javax.swing.JButton jButtonScriptCache;
     private javax.swing.JCheckBox jCheckBoxAutoSave;
+    private javax.swing.JCheckBox jCheckBoxCacheActive;
     private javax.swing.JCheckBox jCheckBoxDebugFileOnly;
     private javax.swing.JCheckBox jCheckBoxDebugOff;
     private javax.swing.JCheckBox jCheckBoxDebugTiming;

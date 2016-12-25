@@ -181,9 +181,22 @@ public class HotKey implements Serializable
             
             HotKey.addMap(KeyEvent.VK_P, 0, "Pause/Toggle", "Vecxi");
             HotKey.addMap(KeyEvent.VK_O, 0, "Overlay/Toggle", "Vecxi");
+            HotKey.addMap(KeyEvent.VK_1, 0, "VecX QuickSave", "Vecxi");
+            HotKey.addMap(KeyEvent.VK_2, 0, "VecX QuickLoad", "Vecxi");
+            HotKey.addMap(KeyEvent.VK_B, 0, "RingbufferToggle", "Vecxi");
             
+            
+            
+            HotKey.addMap(KeyEvent.VK_F3, 0, "Search next", "Editor");
+            HotKey.addMap(KeyEvent.VK_F3, Event.SHIFT_MASK, "Search previous", "Editor");
+
+            HotKey.addMap(KeyEvent.VK_S, Event.META_MASK, "SaveMac", "Editor");
+            HotKey.addMap(KeyEvent.VK_S, Event.CTRL_MASK, "SaveWin", "Editor");
         }
     }
+    
+    
+    
     public String getKeyString() 
     {
         return getKeyStroke().toString();

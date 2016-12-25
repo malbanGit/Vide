@@ -30,6 +30,26 @@ public class ASM6809FileInfo
     public static final int ENTITY_CHANGED = 1;
     public static final int ENTITY_DELETED = -1;
 
+    public static void resetDefinitions()
+    {
+        LabelSink.knownGlobalVariables = new HashMap<String, EntityDefinition>();
+        MacroSink.knownGlobalMacros = new HashMap<String, EntityDefinition>();
+        HashMap<String, ASM6809FileInfo> oldAllFileMap = allFileMap;
+        allFileMap = null;
+        allFileMap = new HashMap<String, ASM6809FileInfo>();;
+
+        Set entries = oldAllFileMap.entrySet();
+        Iterator it = entries.iterator();
+        while (it.hasNext())
+        {
+            Map.Entry entry = (Map.Entry) it.next();
+            ASM6809FileInfo value = (ASM6809FileInfo) entry.getValue();
+            String key = (String) entry.getKey();
+            
+            ASM6809FileInfo.handleFile(value.fullName, null);
+        }
+    }
+    
     private ASM6809FileInfo(){}
     
     public static void replaceFileName(String oldFileName, String newFileName)

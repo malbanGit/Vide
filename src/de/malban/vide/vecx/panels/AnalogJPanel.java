@@ -20,12 +20,17 @@ import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.VecXState;
 import de.malban.vide.vecx.VecXStatics;
 import de.malban.vide.vecx.devices.VectrexJoyport;
+import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  *
@@ -98,12 +103,15 @@ public class AnalogJPanel extends javax.swing.JPanel implements
     }
     public void deinit()
     {
+        removeUIListerner();
     }
     /**
      * Creates new form RegisterJPanel
      */
     public AnalogJPanel() {
         initComponents();
+        UIManager.addPropertyChangeListener(pListener);
+        updateMyUI(); 
     }
 
 
@@ -1128,6 +1136,21 @@ public class AnalogJPanel extends javax.swing.JPanel implements
     public void setUpdateEnabled(boolean b)
     {
         updateEnabled = b;
+    }
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+    {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+            updateMyUI();
+        }
+    };
+    void updateMyUI()
+    {
+        SwingUtilities.updateComponentTreeUI(jPopupMenu1);
     }
     
 

@@ -9,6 +9,7 @@ import de.malban.config.sound.SoundEffect;
 import de.malban.config.sound.SoundMap;
 import de.malban.config.sound.SoundMapPool;
 import de.malban.config.theme.Theme;
+import de.malban.gui.ImageCache;
 import de.malban.gui.ResizeListener;
 import de.malban.gui.ScaleListener;
 import de.malban.gui.components.ModalInternalFrame;
@@ -113,6 +114,16 @@ public final class Configuration
             mDebugPanel = new DummyLog();
         }
     }
+    
+    public void setCacheActive(boolean b)
+    {
+        mData.mPassAutoOnEmptyStack=b;
+    }
+    public boolean getCacheActive()
+    {
+        return mData.mPassAutoOnEmptyStack;
+    }
+
     public boolean isSoundQuiet()
     {
         return mData.mNoSound;
@@ -218,6 +229,10 @@ public final class Configuration
             mDebugPanel.setTrackTime(mData.mDebugTiming);
             mDebugPanel.setFiletracking(!mData.mDisableFileLogs);
             mLogPanel.setFiletracking(!mData.mDisableFileLogs);
+            
+             ImageCache.cacheActive = getCacheActive();
+       
+            
         }
     }
 
@@ -226,6 +241,7 @@ public final class Configuration
 //        Audio.setAllVolumne(mData.mSoundVolumne);
         mDebugPanel.setFiletracking(!mData.mDisableFileLogs);
         mLogPanel.setFiletracking(!mData.mDisableFileLogs);
+             ImageCache.cacheActive = getCacheActive();
     }
 
     public void save()
@@ -240,6 +256,7 @@ public final class Configuration
         mDebugPanel.setTrackTime(mData.mDebugTiming);
         mDebugPanel.setFiletracking(!mData.mDisableFileLogs);
         mLogPanel.setFiletracking(!mData.mDisableFileLogs);
+             ImageCache.cacheActive = getCacheActive();
         fireConfigChanged();
     }
 

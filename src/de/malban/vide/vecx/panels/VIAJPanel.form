@@ -101,16 +101,16 @@
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Component id="jPanel19" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jTextFieldiput" min="-2" pref="55" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldoutput" min="-2" pref="55" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jPanel21" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jTextFieldoutput" pref="66" max="32767" attributes="0"/>
+                                  <Component id="jTextFieldiput" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -145,7 +145,7 @@
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="122" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -208,7 +208,7 @@
                       <Component id="jTextFieldoutput" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="117" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -433,42 +433,63 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="~MUX active"/>
             <Property name="toolTipText" type="java.lang.String" value="Switch Control, enables/disables the analog multiplexer. AKA sample/hold."/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Mux select"/>
             <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;pre&gt;&#xa;        The other two inputs SEL0 and SEL1, again from PORT B of the 6522&#xa;        Bits 1 &amp; 2 respectively. These bits are used to form a 2 bit number&#xa;        in the range 0-3, and when the multiplexer is active (see above)&#xa;        these inputs are used to decide which ouput pin is connected to&#xa;        the input pin. The Pin/Channel numbers for the Vector multiplexer&#xa;        are given below:&#xa;&#xa;                0 - Y Axis integrator channel&#xa;&#xa;                1 - X,Y Axis integrator offset&#xa;&#xa;                2 - Z Axis (Vector Brightness) level&#xa;&#xa;                3 - Connected to sound output line via divider network&#xa;&lt;/pre&gt;&#xa;&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="BC1"/>
             <Property name="toolTipText" type="java.lang.String" value="Chip Select Signal for the AY-3-8192 Sound Chip"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Compare"/>
             <Property name="toolTipText" type="java.lang.String" value="Feedback from the OP-AMP that does the comparison                     for calculation of analog joystick positions."/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="BDIR"/>
             <Property name="toolTipText" type="java.lang.String" value="Read/Write Signal for the AY-3-8192 Sound Chip"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="~Ramp"/>
             <Property name="toolTipText" type="java.lang.String" value="This line controls part of the vector drawing. It is an active LOW signal."/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="external"/>
           </Properties>
         </Component>
@@ -2281,30 +2302,45 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel22">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="PA"/>
             <Property name="toolTipText" type="java.lang.String" value="0 Disable latching, 1 enable latching"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel23">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="PB"/>
             <Property name="toolTipText" type="java.lang.String" value="0 Disable latching, 1 enable latching"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel26">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Shift Control"/>
             <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&lt;pre&gt;&#xa;+-+-+-+-----------------------------------+&#xa;|4|3|2| OPERATION                         |&#xa;+-+-+-+-----------------------------------+&#xa;|0|0|0| DISABLED                          |&#xa;+-+-+-+-----------------------------------+&#xa;|0|0|1| SHIFT IN UNDER COMTROL OF T2      |&#xa;+-+-+-+-----------------------------------+&#xa;|0|1|0| SHIFT IN UNDER CONTROL OF 02      |&#xa;+-+-+-+-----------------------------------+&#xa;|0|1|1| SHIFT IN UNDER CONTROL OF EXT.CLK |&#xa;+-+-+-+-----------------------------------+&#xa;|1|0|0| SHIFT OUT FREE-RUNNING AT T2 RATE |&#xa;+-+-+-+-----------------------------------+&#xa;|1|0|1| SHIFT OUT UNDER CONTROL OF T2     |&#xa;+-+-+-+-----------------------------------+&#xa;|1|1|0| SHIFT OUT UNDER CONTROL OF 02     |&#xa;+-+-+-+-----------------------------------+&#xa;|1|1|1| SHIFT OUT UNDER CONTROL OF EXT.CLK|&#xa;+-+-+-+-----------------------------------+&#xa;&lt;/pre&gt;&#xa;&lt;/html&gt;&#xa;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel27">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="T1 Timer Control"/>
             <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;pre&gt;&#xa;      T1 TIMER CONTROL ---+   &#xa;+-+-+----------------+-------+&#xa;|7|6|OPERATION       | PB7   |&#xa;+-+-+----------------+-------+&#xa;|0|0|TIMED INTERRUPT |       |&#xa;| | |EACH TIME T1 IS |       |&#xa;| | |LOADED          |DISABLE|&#xa;+-+-+----------------+       |&#xa;|0|1|CONTINUOUS      |       |&#xa;| | |INTERRUPTS      |       |&#xa;+-+-+----------------+-------+&#xa;|1|0|TIMED INTERRUPT |ONE-   |&#xa;| | |EACH TIME T1 IS |SHOT   |&#xa;| | |LOADED          |OUTPUT |&#xa;+-+-+----------------+-------+&#xa;|1|1|CONTINUOUS      |SQUARE |&#xa;| | |INTERRUPTS      |WAVE   |&#xa;| | |                |OUTPUT |&#xa;+-+-+----------------+-------+&#xa;&#xa;&lt;/pre&gt;&#xa;&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel28">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="T2 Timer Control"/>
             <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;pre&gt;&#xa;T2 TIMER CONTROL -&#xa;+-+-----------------+&#xa;|5| OPERATION       |&#xa;+-+-----------------+&#xa;|0| TIMED INTERRUPT |&#xa;+-+-----------------+&#xa;|1| COUNT DOWN WITH |&#xa;| | PULSES ON PB6   |&#xa;+-+-----------------+&#xa;&lt;/pre&gt;&#xa;&lt;/html&gt;"/>
           </Properties>
@@ -2501,24 +2537,36 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel48">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="CA1 IRQ Control"/>
             <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;PRE&gt;&#xa;    +- CA1 INTERRUPT CONTROL&#xa;+--------------------------+&#xa;| 0 = NEGATIVE ACTIVE EDGE |&#xa;| 1 = POSITIVE ACTIVE EDGE |&#xa;+--------------------------+&#xa;&lt;/pre&gt;&#xa;&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel50">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="CA2 IRQ Control"/>
             <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;pre&gt;&#xa; +---- CA2 INTERRUPT CONTROL     &#xa;  +-+-+-+------------------------+&#xa;  |3|2|1| OPERATION              |&#xa;  +-+-+-+------------------------+&#xa;  |0|0|0| INPUT NEG. ACTIVE EDGE |&#xa;  +-+-+-+------------------------+&#xa;  |0|0|1| INDEPENDENT INTERRUPT  |&#xa;  | | | | INPUT NEGATIVE EDGE    |&#xa;  +-+-+-+------------------------+&#xa;  |0|1|0| INPUT POS. ACTIVE EDGE |&#xa;  +-+-+-+------------------------+&#xa;  |0|1|1| INDEPENDENT INTERRUPT  |&#xa;  | | | | INPUT POSITIVE EDGE    |&#xa;  +-+-+-+------------------------+&#xa;  |1|0|0| HANDSHAKE OUTPUT       |&#xa;  +-+-+-+------------------------+&#xa;  |1|0|1| PULSE OUTPUT           |&#xa;  +-+-+-+------------------------+&#xa;  |1|1|0| LOW OUTPUT             |&#xa;  +-+-+-+------------------------+&#xa;  |1|1|1| HIGH OUTPUT            |&#xa;  +-+-+-+------------------------+&#xa;&lt;/pre&gt;&#xa;&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel51">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="CB2 Control"/>
             <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;pre&gt;&#xa;         CB2 CONTROL -----+      &#xa;+-+-+-+------------------------+ &#xa;|7|6|5| OPERATION              | &#xa;+-+-+-+------------------------+ &#xa;|0|0|0| INPUT NEG. ACTIVE EDGE | &#xa;+-+-+-+------------------------+ &#xa;|0|0|1| INDEPENDENT INTERRUPT  | &#xa;| | | | INPUT NEGATIVE EDGE    | &#xa;+-+-+-+------------------------+ &#xa;|0|1|0| INPUT POS. ACTIVE EDGE | &#xa;+-+-+-+------------------------+ &#xa;|0|1|1| INDEPENDENT INTERRUPT  | &#xa;| | | | INPUT POSITIVE EDGE    | &#xa;+-+-+-+------------------------+ &#xa;|1|0|0| HANDSHAKE OUTPUT       | &#xa;+-+-+-+------------------------+ &#xa;|1|0|1| PULSE OUTPUT           | &#xa;+-+-+-+------------------------+ &#xa;|1|1|0| LOW OUTPUT             | &#xa;+-+-+-+------------------------+ &#xa;|1|1|1| HIGH OUTPUT            | &#xa;+-+-+-+------------------------+ &#xa;&#xa;&lt;/pre&gt;&#xa;&lt;/html&gt;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel52">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Courier" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="CB1 IRQ Control"/>
             <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;pre&gt;&#xa;    CB1 INTERRUPT CONTROL ---&#xa;+--------------------------+ &#xa;| 0 = NEGATIVE ACTIVE EDGE | &#xa;| 1 = POSITIVE ACTIVE EDGE | &#xa;+--------------------------+ &#xa;&lt;/pre&gt; &lt;/html&gt; "/>
           </Properties>

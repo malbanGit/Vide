@@ -125,6 +125,11 @@ public class FontChooserComponent extends JComponent
         this(DEFAULT_FONT_SIZE_STRINGS);
     }
 
+    public void setSizeEnabled(boolean b)
+    {
+        fontSizeTextField.setEnabled(b);
+        fontSizeList.setEnabled(b);
+    }
     /**
      * Constructs a <code>JFontChooser</code> object using the given font size array.
      * @param fontSizeStrings  the array of font size string.

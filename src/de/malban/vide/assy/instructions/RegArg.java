@@ -27,8 +27,10 @@ import de.malban.vide.assy.exceptions.SymbolDoesNotExistException;
 
 public class RegArg extends InstructionGroup {
 	ArgumentMemoryLocation m;
-
 	public boolean parse( String arg ) throws ParseException {
+//            if (source.inputLine.contains("ZAHLEN_MAX,X"))
+//                    //if (pline.lineNumber ==282)
+//                        System.out.println("BU");
 		m = new ArgumentMemoryLocation(arg,symtab,this);
 		switch (m.getMode()) {
 			case Argument6809.IMMEDIATE_MODE:
@@ -42,8 +44,7 @@ public class RegArg extends InstructionGroup {
 				break;
 			case Argument6809.INDEXED_MODE:
 				//System.out.println("  m.getMode() INDEXED");
-				setLength( getOpcodeLength()
-				       + m.getNumPostbytes() );
+				setLength( getOpcodeLength() + m.getNumPostbytes() );
 				opcode += 0x20;
 				break;
 			case Argument6809.EXTENDED_MODE:
@@ -60,6 +61,11 @@ public class RegArg extends InstructionGroup {
 	public boolean evalArgs() throws SymbolDoesNotExistException {
 		m.eval(symtab); // throws SymbolDoesNotExistException
                // malban
+
+            if (source.inputLine.contains("font_count,X"))
+                    //if (pline.lineNumber ==282)
+                        System.out.println("BU");
+                        
                 if (m.getMode() == EXTENDED_MODE)
                 {
                     int pc = address + 2; // 2 size of short branch (bra), this is what our base is!

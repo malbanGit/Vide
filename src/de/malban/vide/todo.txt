@@ -475,6 +475,11 @@ Done:
 - done: vecxi SHIFT REG DELAY? -> 2/3 cycles it seems in the schematics!
 - done: vecci hidden line removal
 
+
+
+ - editor messages to big!
+- asm generate doe data how many per line -> groupinh infos
+
 Frogger: (count starting at 1)
 ok 1. Level > 27100: ok (4 houses)
 ok 2. Level > 29400: 28d (4 houses + fly)
@@ -484,70 +489,144 @@ ok 5. Level > 28800: 27800 (4 houses + fly + girl)
 ok 6. Level > 29200: 27500 (4 houses + fly + girl)
 ok 7. Level > 29400: 28100 (4 houses + croco + girl) 
 ok 8. Level > 29600: 27500 (4 houses + croco + girl + otter) 
-ok 9. Level > 30200: 28500 ! < 30000 ! non arcade conform 30138!
+30200 - ok 9. Level > 30200: 28500 ! < 30000 ! non arcade conform 30138!
 ok 10. Level > 28700: 28270 non arcade conform
 ok 11. Level > 29200: 28100 non arcade conform (and 1 car reduced)
-ok 12. Level > 29000: 27800 non arcade conform 
+30300 - ok 12. Level > 29000: 27800 non arcade conform 
 ok 13. Level > 29300: 27400 non arcade conform very difficult
 ok 14. Level > 28000: 27900 non arcade conform 
 ok 15. Level > 29500: 28400 non arcade conform  very difficult
-ok 16. Level > 29500: 28300 non arcade conform 
+30100 - ok 16. Level > 29500: 28300 non arcade conform 
 
-Frogger:
-- score must reset when new game beings (even on continue)
 
-Death wrong
+BUG
+
+Mario clone 1 way scroller, turrican?
+
+done: VecVox not working? _ T 1 delay!
+
+Font Sizes... (scaleable Vide)
+
+Document in Vide
+3) I think the A is alright - or at least as it is "intended" - I propably could edit it a bit more... but now you see it is handmade :-).
+Honestly - it is not easy to do a bitmap that looks alright.
+See the vectrex uses the VIA 6522 and the models of VIA it uses has some bugs. One of its bugs is, that a complete shift cycle does not 
+shift 8 times for one byte, but 8+1. The last shifted value is repeated.
+So that e.g.
+0101 0101 [e.g. part of a bitmap]
+
+results in an output like:
+
+0101 01011
+
+In the normal "text" routines you do not see that, since letters always end with a "0" and a double "00" result just in a little bit more space between letters.
+In a "continues" bitmap you must align or tweak the bitmap thus, that you do not (or only barely) see bit doubles.
+
+I already did that (to some extend) to the title bitmap - and I thought I did a good job :-(.
+It certainly is even more difficult to do if you are working with "diagonals", since you can not get rid of a double step.
+
+Nonetheless, I will see if I can realign the complete bitmap, so that perhaps the "A"s - or at least the diagonals are not on a byte border.
+
+
+
+intro
+Level in Original Frogger are band 3+4 same direction!
+- if 0 or 1 or 2 houses are occupied -> gymick sprite somewhere!
+Knapp Timeout? -> timer doubled - adjust levels!
+
+BUG in assi
+
+ MACRO constant ZAHLEN = 18
+-> leax ZAHLEN,x  -> leax >$0012,x
+-> leax 18,x  -> leax <$12,x
+
+Dumpi:
+Change mem in Table
+
+Dissi 16 bit values print
+
+Watches (add watch)
+
+Variables table -> sortable
+
+
+BUG
+ b/w images in vectorizer
+
+BUG
+poke in dissi -> update memory dump!
+
+- and also some vectror trash (upper left on vectrex hw)
+done:  record and play an attraxct mode
+
+done:  last sprite dont unloop -> saving
+
+done: - removed game + pause todo
+done: edit high score
+
+
+done: Level 9 or 10, bitten by snake with a few homes filled -> wobble
+done: diving turtle death not correct
+done: frogger timer death = lane
+done: Frogger: rest string when printing +200!!!
+done: Music: should not reset always!
+done: Deathsprite in unlooper!
+done: options
+done: 2player
+done: saving
+done: score must reset when new game beings (even on continue)
+done: show TIMER in frog reached home in middle band!
 done: Girl not displayed correctly
 done: level 4(5?) timer error (not possible!
-- two player
-- options frogger -> training mode (with continue)
-- hardmode w/o continue
-- highscores
-
-- if 0 or 1 or 2 houses are occupied -> gymick sprite somewhere!
-
 done: check if frogger 10000 +1 life still works
-
 done: Frogger car big right - step -1?
-
-optimize print string as much as possible
-above +2000!
-
+done: optimize print string as much as possible above +2000!
 done: level >10 Darstellung
 done: ABSTURZ LEVEL 8
 done: Zeichensatz mit 5 punkten
 done: move parts of the "move frog" stuff to "in move" possible 50-60 cycles to spare
 done: Frogger Crash on real machine after one level!
 done: Level start music now 1 to soft! (on real vectrex)
-
-+ 200 and + 200 display when in level done! (over frog)
+done: + 200 and + 200 display when in level done! (over frog)
+done: Frogger Absturz bei reach home
+done: girl -> "jumping"
+done: still sometimes gltiches when printing +200
+done: init joystick vars with new frog!
 
 example code for 2431
 
-Frogger Absturz bei reach home
-
-Knapp Timeout?
-timer doubled - adjust levels!
-
-girl -> "jumping"
 
 
-
-
+- install BIOS as internal source, and jump on double click there
+- vedi, periodically in the background, re - check "jumps" to known labels, since after a time of editing they get "off"
 document recent vecci changes
 VecKey - PS/2 Keyboard
 done: hey dissi break once
 DRIFT - see DRIFT pic
+
+
+BUG Thrust 3 Gen does not work!
+
+BUG vec Vox / VecVoice not starting right?
+
+RESCAN VARS
+
+
 - BUG
 - done: (unsused symbols...) Teilweise fehlen labels (FonTRow1 - aber nicht 2-7
 - done: Frogger BUG, stepping off on the edge of the middle allows frog to go over to the other side
 
-- BUG
- save in game does not work (e.g. while in frogger game)
-- BUG
- joystikc information is lost after loading save game
+- BUG?
+In projects (like Frogger) some vars are still read?
+ -> e.g. Level.i
+ -> vars are not properly read!
+ -> also... look at refreshing var positions automatically! (in edited files)
 
-- bug:
+- BUG
+ done: not replicable save in game does not work (e.g. while in frogger game)
+- BUG
+ done: joystikc information is lost after loading save game
+
 - faq copied "vectors" does not work with paste -> mode must be vectors!
 
 - hiddenline to history

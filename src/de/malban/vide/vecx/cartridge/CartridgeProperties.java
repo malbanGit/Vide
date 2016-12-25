@@ -1,6 +1,8 @@
 package de.malban.vide.vecx.cartridge;
 
+import de.malban.gui.ImageCache;
 import de.malban.util.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
 import java.io.*;
 import javax.swing.*;
@@ -144,33 +146,17 @@ public class  CartridgeProperties implements Serializable
 	{
 		mInstructionFile=InstructionFile;
 	}
-	public String getFrontImage()
-	{
-		return mFrontImage;
-	}
 	public void setFrontImage(String FrontImage)
 	{
 		mFrontImage=FrontImage;
-	}
-	public String getBackImage()
-	{
-		return mBackImage;
 	}
 	public void setBackImage(String BackImage)
 	{
 		mBackImage=BackImage;
 	}
-	public String getOverlay()
-	{
-		return mOverlay;
-	}
 	public void setOverlay(String Overlay)
 	{
 		mOverlay=Overlay;
-	}
-	public String getInGameImage()
-	{
-		return mInGameImage;
 	}
 	public void setInGameImage(String InGameImage)
 	{
@@ -231,10 +217,6 @@ public class  CartridgeProperties implements Serializable
 	public void setPDFFile(String PDFFile)
 	{
 		mPDFFile=PDFFile;
-	}
-	public String getCartridgeImage()
-	{
-		return mCartridgeImage;
 	}
 	public void setCartridgeImage(String CartridgeImage)
 	{
@@ -384,5 +366,66 @@ public class  CartridgeProperties implements Serializable
 			JOptionPane.showMessageDialog(null, e.toString() ,"CartridgeProperties Load Error...",  JOptionPane.INFORMATION_MESSAGE);
 		}
 		return filters;
+	}
+	public String getOverlay()
+	{
+		return mOverlay;
+	}
+	public String getCartridgeImage()
+	{
+		return mCartridgeImage;
+	}
+	public String getFrontImage()
+	{
+		return mFrontImage;
+	}
+	public String getBackImage()
+	{
+		return mBackImage;
+	}
+	public String getInGameImage()
+	{
+		return mInGameImage;
+	}
+        BufferedImage getImage(String filename, int w, int h)
+        {
+            File f = new File(filename);
+            if (!f.exists()) return null;
+            BufferedImage org = ImageCache.getImageCache().getImage(filename);
+            return ImageCache.getImageCache().getDerivatScale(org, w, h);
+        }
+        public static String convertSeperator(String filename)
+        {
+            String ret = de.malban.util.UtilityString.replace(filename, "/", File.separator);
+            ret = de.malban.util.UtilityString.replace(ret, "\\", File.separator);
+            return ret;
+        }
+        transient BufferedImage mSmallCartridgeImage = null;
+        transient BufferedImage mSmallFrontImage = null;
+        transient BufferedImage mSmallBackImage = null;
+        transient BufferedImage mSmallInGameImage = null;
+        public BufferedImage getSmallCartridgeImage()
+	{
+            if (mSmallCartridgeImage == null)
+                mSmallCartridgeImage = getImage(convertSeperator(getCartridgeImage()), 100,100);
+            return mSmallCartridgeImage;
+	}
+	public BufferedImage getSmallFrontImage()
+	{
+            if (mSmallFrontImage == null)
+                mSmallFrontImage = getImage(convertSeperator(getFrontImage()), 60,100);
+		return mSmallFrontImage;
+	}
+	public BufferedImage getSmallBackImage()
+	{
+            if (mSmallBackImage == null)
+                mSmallBackImage = getImage(convertSeperator(getBackImage()), 60,100);
+		return mSmallBackImage;
+	}
+	public BufferedImage getSmallInGameImage()
+	{
+            if (mSmallInGameImage == null)
+                mSmallInGameImage = getImage(convertSeperator(getInGameImage()), 60,100);
+		return mSmallInGameImage;
 	}
 }

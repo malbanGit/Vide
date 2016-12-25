@@ -26,6 +26,11 @@ import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.SwingUtilities;
+import de.muntjak.tinylookandfeel.Theme;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.UIManager;
 
 /**
  *
@@ -144,6 +149,7 @@ public class LabelJPanel extends javax.swing.JPanel implements
     }
     public void deinit()
     {
+        removeUIListerner();
     }
     /**
      * Creates new form LabelJPanel
@@ -183,6 +189,8 @@ public class LabelJPanel extends javax.swing.JPanel implements
                 return this;
             }   
         });       
+        UIManager.addPropertyChangeListener(pListener);
+        updateMyUI(); 
         correctTable();    
     }
     /**
@@ -249,9 +257,9 @@ public class LabelJPanel extends javax.swing.JPanel implements
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE))
         );
@@ -442,6 +450,23 @@ public class LabelJPanel extends javax.swing.JPanel implements
             return null; // default
         }
         
+    }
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+    {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+            updateMyUI();
+        }
+    };
+    void updateMyUI()
+    {
+        int fontSize = Theme.textFieldFont.getFont().getSize();
+        int rowHeight = fontSize+3;
+        jTable1.setRowHeight(rowHeight);
     }
 
 }

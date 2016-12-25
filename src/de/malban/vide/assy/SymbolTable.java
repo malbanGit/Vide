@@ -9,11 +9,12 @@ package de.malban.vide.assy;
 
 import static de.malban.vide.assy.Symbol.SYMBOL_DEFINE_UNKOWN;
 import java.io.PrintStream;
+import java.util.HashMap;
 import java.util.Vector;
 
 public class SymbolTable {
 	public static final int NO_LINE_NUMBER = -2;
-
+        HashMap<Integer, Symbol> symbolsByAddress = new HashMap<Integer, Symbol>();
 	Vector /* of Symbol */ symbols;
 
         public Vector getSymbols()
@@ -50,6 +51,7 @@ public class SymbolTable {
             s.definedHow = definedHow;
             if (definedHow == Symbol.SYMBOL_DEFINE_CODE)
             {
+                symbolsByAddress.put(value, s);
                 s.used = true;
                 s.labelUsage = true;
                 
@@ -94,6 +96,10 @@ public class SymbolTable {
 			if (s.getName().equals(name)) { return s; }
 		}
 		return null;
+	}
+	// returns null if no Symbol with that name is found
+	public Symbol find( int value ) {
+		return symbolsByAddress.get(value);
 	}
 
 	public void dump( PrintStream out ) {

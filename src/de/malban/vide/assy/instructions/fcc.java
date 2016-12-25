@@ -1,6 +1,7 @@
 package de.malban.vide.assy.instructions;
 
 import de.malban.vide.assy.Asmj;
+import static de.malban.vide.assy.Asmj.LI_STRING;
 import de.malban.vide.assy.expressions.Expression;
 import de.malban.vide.assy.expressions.ExpressionList;
 import de.malban.vide.assy.Memory;
@@ -37,6 +38,7 @@ public class fcc extends PseudoOp
     for (int i = 0; i < this.length; i++) {
       paramMemory.write(this.address + i, this.data.getItem(i) & 0xFF, Memory.MEM_CHAR_DATA);
     }
+    Asmj.addLineInfo(this.address, this.length, LI_STRING);
     return true;
   }
   

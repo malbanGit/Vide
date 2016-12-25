@@ -15,12 +15,16 @@ import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.VecXStatics;
+import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Point;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -124,12 +128,15 @@ public class VectorInfoJPanel extends javax.swing.JPanel implements
     }
     public void deinit()
     {
+        removeUIListerner();
     }
     /**
      * Creates new form RegisterJPanel
      */
     public VectorInfoJPanel() {
         initComponents();
+        UIManager.addPropertyChangeListener(pListener);
+        updateMyUI(); 
         jTable1.setTableHeader(null);
     }
 
@@ -434,11 +441,10 @@ public class VectorInfoJPanel extends javax.swing.JPanel implements
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jToggleButton1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelCount)
-                        .addComponent(jLabel6)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelCount, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -524,4 +530,21 @@ public class VectorInfoJPanel extends javax.swing.JPanel implements
     public Serializable getAdditionalStateinfo(){return null;}
     public void setAdditionalStateinfo(Serializable ser){}
 
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+    {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+            updateMyUI();
+        }
+    };
+    void updateMyUI()
+    {
+        int fontSize = Theme.textFieldFont.getFont().getSize();
+        int rowHeight = fontSize+3;
+        jTable1.setRowHeight(rowHeight);
+    }
  }

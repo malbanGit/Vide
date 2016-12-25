@@ -89,7 +89,7 @@ public class VecSpeechDevice extends AbstractDevice implements Serializable
     int lastCommand = -1;                       // last command that was "executed"
     boolean isVoiced = false;                   // VecVox, was the last sample "voiced", if not pitch change should not be done
 
-    transient static byte[] nullBuffer = new byte[20];
+    //transient static byte[] nullBuffer = new byte[20];
 
     
     

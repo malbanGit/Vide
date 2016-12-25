@@ -1,6 +1,7 @@
 package de.malban.vide.assy.instructions;
 
 import de.malban.vide.assy.Asmj;
+import static de.malban.vide.assy.Asmj.LI_WORD;
 import de.malban.vide.assy.expressions.Expression;
 import de.malban.vide.assy.expressions.ExpressionList;
 import de.malban.vide.assy.Memory;
@@ -64,6 +65,7 @@ public class fdb
     for (int j = 0; j < i; j++) {
       paramMemory.write(this.address + 2 * j, this.data.getItem(j), 2, true, Memory.MEM_WORD_DATA);
     }
+    Asmj.addLineInfo(this.address, i*2, LI_WORD);
     return true;
   }
   

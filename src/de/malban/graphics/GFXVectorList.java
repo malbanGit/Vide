@@ -1957,13 +1957,16 @@ public class GFXVectorList {
         for (GFXVector v: vl2.list) vl.remove(v);
         
         // correct possible circle
-        if (vl2.get(vl2.size()-1).end_connect != null)
+        if (vl2.size()>0)
         {
-            if (vl2.get(vl2.size()-1).end_connect == vl.get(0).start_connect)
+            if (vl2.get(vl2.size()-1).end_connect != null)
             {
-                vl.get(0).start_connect = null;
-                vl.get(0).start = new Vertex(vl.get(0).start);
-                vl2.get(vl2.size()-1).end_connect = null;
+                if (vl2.get(vl2.size()-1).end_connect == vl.get(0).start_connect)
+                {
+                    vl.get(0).start_connect = null;
+                    vl.get(0).start = new Vertex(vl.get(0).start);
+                    vl2.get(vl2.size()-1).end_connect = null;
+                }
             }
         }
         splitList(vl, maxResync, subLists);

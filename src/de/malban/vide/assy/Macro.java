@@ -200,6 +200,13 @@ public class Macro {
         for (int i=0; i<source.size(); i++) 
         {
             p0 = (SourceLine)source.elementAt(i);
+            
+//            if (p0.inputLine.contains("font_count,X"))
+//                    //if (pline.lineNumber ==282)
+//                        System.out.println("BU");
+            
+            
+            
             p1 = expandSourceLine( p0, args );
             p1.setMacroDepth( depth );
             p1.endOfLineComment = p0.endOfLineComment;

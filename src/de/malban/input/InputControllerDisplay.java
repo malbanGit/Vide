@@ -18,6 +18,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.Serializable;
 import java.util.ArrayList;
+import static javax.swing.BorderFactory.createLineBorder;
+import static javax.swing.BorderFactory.createTitledBorder;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -159,7 +161,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
-        jPanelHatSwitch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(165, 163, 151)), "Hat Switch", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Geneva", 0, 11), new java.awt.Color(0, 51, 204))); // NOI18N
+        jPanelHatSwitch.setBorder(javax.swing.BorderFactory.createTitledBorder("Hat Switch"));
 
         javax.swing.GroupLayout jPanelHatSwitchLayout = new javax.swing.GroupLayout(jPanelHatSwitch);
         jPanelHatSwitch.setLayout(jPanelHatSwitchLayout);
@@ -172,7 +174,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
             .addGap(0, 112, Short.MAX_VALUE)
         );
 
-        jPanelButtons.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(165, 163, 151)), "Buttons", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Geneva", 0, 11), new java.awt.Color(0, 51, 204))); // NOI18N
+        jPanelButtons.setBorder(javax.swing.BorderFactory.createTitledBorder("Buttons"));
 
         javax.swing.GroupLayout jPanelButtonsLayout = new javax.swing.GroupLayout(jPanelButtons);
         jPanelButtons.setLayout(jPanelButtonsLayout);
@@ -185,7 +187,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jPanelAxes.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(165, 163, 151)), "Axes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Geneva", 0, 11), new java.awt.Color(0, 51, 204))); // NOI18N
+        jPanelAxes.setBorder(javax.swing.BorderFactory.createTitledBorder("Axes"));
 
         jLabelXYAxis.setText("X Axis / Y Axis");
 
@@ -264,6 +266,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
                     .addComponent(jPanel_forAxis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+        jComboBox_controllers.setPreferredSize(new java.awt.Dimension(28, 21));
         jComboBox_controllers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_controllersActionPerformed(evt);
@@ -271,6 +274,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         });
 
         jButton1.setText("reScan");
+        jButton1.setPreferredSize(new java.awt.Dimension(65, 21));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -287,7 +291,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jComboBox_controllers, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -305,16 +309,15 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jComboBox_controllers))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_controllers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
                 .addComponent(jPanelAxes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelHatSwitch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

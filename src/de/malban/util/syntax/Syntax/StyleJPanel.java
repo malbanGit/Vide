@@ -8,8 +8,11 @@ package de.malban.util.syntax.Syntax;
 import de.malban.gui.dialogs.FontChooserComponent;
 import de.malban.gui.dialogs.FontChooserPanel;
 import de.malban.gui.dialogs.InternalColorChooserDialog;
+import de.malban.util.syntax.Syntax.TokenStyles.MyStyle;
+import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -34,6 +37,8 @@ public class StyleJPanel extends javax.swing.JPanel {
     int mClassSetting=0;
     public StyleJPanel() {
         initComponents();
+        jButtonFontPlus.setVisible(false);
+        jButtonFontMinus.setVisible(false);
         model = new KeyTableModel();
         jTable1.setModel(model);
         ListSelectionModel cellSelectionModel = jTable1.getSelectionModel();
@@ -59,7 +64,7 @@ public class StyleJPanel extends javax.swing.JPanel {
          cModel.getColumn(3).setWidth(100);
          cModel.getColumn(4).setWidth(10);
          cModel.getColumn(5).setWidth(10);
-         cModel.getColumn(6).setWidth(10);
+//         cModel.getColumn(6).setWidth(10);
         
     }
 
@@ -75,14 +80,15 @@ public class StyleJPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
+        jButtonFontPlus = new javax.swing.JButton();
+        jButtonFontMinus = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -101,19 +107,15 @@ public class StyleJPanel extends javax.swing.JPanel {
         jButton1.setText("use");
         jButton1.setEnabled(false);
         jButton1.setMargin(new java.awt.Insets(0, 2, 0, 2));
+        jButton1.setPreferredSize(new java.awt.Dimension(25, 21));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel4.setText("New bindings are activated with the next recoloring. ");
-
-        jLabel5.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel5.setText("NOT immediate!");
-
         jTextField1.setEnabled(false);
+        jTextField1.setPreferredSize(new java.awt.Dimension(6, 21));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/font.png"))); // NOI18N
         jButton2.setEnabled(false);
@@ -153,51 +155,80 @@ public class StyleJPanel extends javax.swing.JPanel {
         jTextPane1.setText("Lorem ipsum dolor sit amet, ...");
         jScrollPane3.setViewportView(jTextPane1);
 
+        jButtonFontPlus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
+        jButtonFontPlus.setToolTipText("update size of all fonts");
+        jButtonFontPlus.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonFontPlus.setPreferredSize(new java.awt.Dimension(19, 19));
+        jButtonFontPlus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFontPlusActionPerformed(evt);
+            }
+        });
+
+        jButtonFontMinus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
+        jButtonFontMinus.setToolTipText("update size of all fonts");
+        jButtonFontMinus.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonFontMinus.setPreferredSize(new java.awt.Dimension(19, 19));
+        jButtonFontMinus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFontMinusActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel1.setText("New bindings are activated with the next recoloring. Not immediate!");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4))
-                .addContainerGap(179, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(5, 5, 5)
+                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonFontPlus, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonFontMinus, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonFontMinus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(5, 5, 5)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonFontPlus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addGap(0, 0, 0)
-                .addComponent(jLabel5)
-                .addGap(2, 2, 2)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -219,7 +250,7 @@ public class StyleJPanel extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (currentStyle == null) return;
-        FontChooserComponent fontChooser = FontChooserPanel.showFontChoserDialog("Font Chooser", currentStyle);
+        FontChooserComponent fontChooser = FontChooserPanel.showFontChoserDialog("Font Chooser", currentStyle, false);
         jTextField1.setText(fontChooser.getSelectedFontFamily());
         StyleConstants.setFontFamily(currentStyle,fontChooser.getSelectedFontFamily());
         StyleConstants.setFontSize(currentStyle, fontChooser.getSelectedFontSize());
@@ -246,14 +277,27 @@ public class StyleJPanel extends javax.swing.JPanel {
         restyle();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButtonFontPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFontPlusActionPerformed
+        increaseFontSize();
+        restyle();
+        jTable1.repaint();
+    }//GEN-LAST:event_jButtonFontPlusActionPerformed
+
+    private void jButtonFontMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFontMinusActionPerformed
+        decreaseFontSize();
+        restyle();
+        jTable1.repaint();
+    }//GEN-LAST:event_jButtonFontMinusActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JButton jButtonFontMinus;
+    private javax.swing.JButton jButtonFontPlus;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
@@ -271,7 +315,7 @@ public class StyleJPanel extends javax.swing.JPanel {
     }
     public class KeyTableModel extends AbstractTableModel
     {    
-        String[] columns = {"Name", "FG color", "BG Color", "Font", "size", "bold", "italic"};
+        String[] columns = {"Name", "FG color", "BG Color", "Font"/*, "size" */,"bold", "italic"};
 
         @Override
         public String getColumnName(int col) {
@@ -292,9 +336,9 @@ public class StyleJPanel extends javax.swing.JPanel {
             if (col==1) return getColor(StyleConstants.getForeground(TokenStyles.styleList.get(row)));
             if (col==2) return getColor(StyleConstants.getBackground(TokenStyles.styleList.get(row)));
             if (col==3) return StyleConstants.getFontFamily(TokenStyles.styleList.get(row));
-            if (col==4) return StyleConstants.getFontSize(TokenStyles.styleList.get(row));
-            if (col==5) return StyleConstants.isBold(TokenStyles.styleList.get(row));
-            if (col==6) return StyleConstants.isItalic(TokenStyles.styleList.get(row));
+//            if (col==4) return StyleConstants.getFontSize(TokenStyles.styleList.get(row));
+            if (col==4) return StyleConstants.isBold(TokenStyles.styleList.get(row));
+            if (col==5) return StyleConstants.isItalic(TokenStyles.styleList.get(row));
             return "";
         }
         public Class<?> getColumnClass(int col) 
@@ -303,9 +347,9 @@ public class StyleJPanel extends javax.swing.JPanel {
             if (col==1) return Color.class;
             if (col==2) return Color.class;
             if (col==3) return String.class;
-            if (col==4) return Integer.class;
+//            if (col==4) return Integer.class;
+            if (col==4) return Boolean.class;
             if (col==5) return Boolean.class;
-            if (col==6) return Boolean.class;
             return Object.class;
         }
         public boolean isCellEditable(int row, int col) 
@@ -342,9 +386,63 @@ public class StyleJPanel extends javax.swing.JPanel {
         jTextPane1.setText(text);
         int e=doc.getLength();
         int s=0;
-        doc.setCharacterAttributes(s, e,currentStyle , true);
+        if (currentStyle != null)
+            doc.setCharacterAttributes(s, e,currentStyle , true);
         jTextPane1.repaint();
     }
+    void increaseFontSize()
+    {
+        ArrayList<MyStyle> cloneStyleList = TokenStyles.styleList;
+        TokenStyles.reset();
+        
+        for (TokenStyles.MyStyle style: cloneStyleList)
+        {
+            TokenStyles.addStyle(
+                style.name,
+                StyleConstants.getBackground(style),
+                StyleConstants.getForeground(style), 
+                StyleConstants.isBold(style),
+                StyleConstants.isItalic(style),
+                StyleConstants.getFontSize(style)+1,
+                StyleConstants.getFontFamily(style)
+                );
+        }
+        
+        if (currentStyle != null)
+        {
+            currentStyle = (MyStyle) TokenStyles.getStyle(currentName);
+        }
+    }
+    void decreaseFontSize()
+    {
+        ArrayList<MyStyle> cloneStyleList = TokenStyles.styleList;
+        TokenStyles.reset();
+        
+        for (TokenStyles.MyStyle style: cloneStyleList)
+        {
+            TokenStyles.addStyle(
+                style.name,
+                StyleConstants.getBackground(style),
+                StyleConstants.getForeground(style), 
+                StyleConstants.isBold(style),
+                StyleConstants.isItalic(style),
+                StyleConstants.getFontSize(style)-1,
+                StyleConstants.getFontFamily(style)
+                );
+        }
+        if (currentStyle != null)
+        {
+            currentStyle = (MyStyle) TokenStyles.getStyle(currentName);
+        }
+        
 
+    }
+    public void updateMyUI()
+    {
+        int fontSize = Theme.textFieldFont.getFont().getSize();
+        int rowHeight = fontSize+3;
+        jTable1.setRowHeight(rowHeight);
+    }
+            
 
 }

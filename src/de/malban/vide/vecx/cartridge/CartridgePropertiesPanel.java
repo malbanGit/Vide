@@ -15,6 +15,7 @@ import de.malban.util.DownloaderPanel;
 import de.malban.util.UtilityImage;
 import static de.malban.vide.vecx.cartridge.Cartridge.*;
 import de.malban.vide.vedi.project.FileChooserCellEditor;
+import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -22,6 +23,8 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -31,6 +34,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import javax.imageio.ImageIO;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 
@@ -166,6 +170,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     public void deinit()
     {
         init = false;
+        removeUIListerner();
     }
     /** Creates new form CartridgePropertiesPanel */
     public CartridgePropertiesPanel() {
@@ -179,6 +184,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         singleImagePanel3.setBounds(singleImagePanel3.getBounds().x, singleImagePanel3.getBounds().y,138, 198);
         resetConfigPool(true, "Cartridge");
         init = true;
+        UIManager.addPropertyChangeListener(pListener);
+        updateMyUI(); 
     }
     private void updateTable()
     {
@@ -581,10 +588,6 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jTextFieldPath12 = new javax.swing.JTextField();
         jButtonFileSelect15 = new javax.swing.JButton();
         singleImagePanel3 = new de.malban.graphics.SingleImagePanel();
-        jCheckBox11 = new javax.swing.JCheckBox();
-        jCheckBox12 = new javax.swing.JCheckBox();
-        jCheckBox13 = new javax.swing.JCheckBox();
-        jCheckBox14 = new javax.swing.JCheckBox();
         jCheckBoxXmas = new javax.swing.JCheckBox();
         jCheckBox20 = new javax.swing.JCheckBox();
         jButtonFileSelect1 = new javax.swing.JButton();
@@ -606,6 +609,10 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jButtonFileSelect10 = new javax.swing.JButton();
         jButtonFileSelect11 = new javax.swing.JButton();
         jButtonDownloadConfig = new javax.swing.JButton();
+        jCheckBox11 = new javax.swing.JCheckBox();
+        jCheckBox12 = new javax.swing.JCheckBox();
+        jCheckBox13 = new javax.swing.JCheckBox();
+        jCheckBox14 = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jTextFieldPath4 = new javax.swing.JTextField();
@@ -660,14 +667,14 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
         jComboBoxKlasse.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cartridge" }));
         jComboBoxKlasse.setEnabled(false);
-        jComboBoxKlasse.setPreferredSize(new java.awt.Dimension(28, 19));
+        jComboBoxKlasse.setPreferredSize(new java.awt.Dimension(130, 21));
         jComboBoxKlasse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxKlasseActionPerformed(evt);
             }
         });
 
-        jComboBoxName.setPreferredSize(new java.awt.Dimension(28, 19));
+        jComboBoxName.setPreferredSize(new java.awt.Dimension(130, 21));
         jComboBoxName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxNameActionPerformed(evt);
@@ -678,11 +685,15 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
         jLabel4.setText("Class");
 
+        jTextFieldName.setPreferredSize(new java.awt.Dimension(110, 21));
+
         jTextFieldKlasse.setText("Cartridge");
         jTextFieldKlasse.setEnabled(false);
+        jTextFieldKlasse.setPreferredSize(new java.awt.Dimension(110, 21));
 
         jButtonNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/new.png"))); // NOI18N
         jButtonNew.setText("New");
+        jButtonNew.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNewActionPerformed(evt);
@@ -691,6 +702,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
         jButtonSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/disk.png"))); // NOI18N
         jButtonSave.setText("Save");
+        jButtonSave.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSaveActionPerformed(evt);
@@ -698,7 +710,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         });
 
         jButtonSaveAsNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/disk_add.png"))); // NOI18N
-        jButtonSaveAsNew.setText("Save as new");
+        jButtonSaveAsNew.setText("Save new");
+        jButtonSaveAsNew.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonSaveAsNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSaveAsNewActionPerformed(evt);
@@ -707,6 +720,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
         jButtonDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/cross.png"))); // NOI18N
         jButtonDelete.setText("Delete");
+        jButtonDelete.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDeleteActionPerformed(evt);
@@ -723,75 +737,79 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                         .addGap(6, 6, 6)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldKlasse, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldKlasse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxKlasse, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBoxKlasse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxName, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBoxName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonSave)
-                    .addComponent(jButtonNew))
+                    .addComponent(jButtonSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonSaveAsNew)
-                    .addComponent(jButtonDelete))
+                    .addComponent(jButtonSaveAsNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonNew)
-                    .addComponent(jButtonDelete)
+                    .addComponent(jButtonNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxKlasse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxKlasse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextFieldKlasse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldKlasse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel4)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButtonSave)
-                        .addComponent(jButtonSaveAsNew)))
+                        .addComponent(jButtonSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonSaveAsNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(11, 11, 11))
         );
 
         jPanel3.setLayout(null);
 
         jLabel1.setText("Author");
+        jLabel1.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel3.add(jLabel1);
-        jLabel1.setBounds(10, 40, 74, 15);
+        jLabel1.setBounds(10, 40, 100, 21);
         jPanel3.add(jTextField1);
-        jTextField1.setBounds(88, 37, 145, 19);
+        jTextField1.setBounds(110, 40, 145, 21);
+
+        jTextField2.setPreferredSize(new java.awt.Dimension(6, 21));
         jPanel3.add(jTextField2);
-        jTextField2.setBounds(88, 11, 145, 19);
+        jTextField2.setBounds(110, 10, 145, 21);
 
         jLabel2.setText("Cart name");
+        jLabel2.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel3.add(jLabel2);
-        jLabel2.setBounds(10, 14, 66, 15);
+        jLabel2.setBounds(10, 14, 100, 21);
 
         jLabel5.setText("Year");
         jPanel3.add(jLabel5);
-        jLabel5.setBounds(249, 40, 36, 15);
+        jLabel5.setBounds(270, 40, 40, 21);
         jPanel3.add(jTextField3);
-        jTextField3.setBounds(295, 37, 59, 19);
+        jTextField3.setBounds(310, 40, 59, 21);
 
         jLabel6.setText("CRC");
         jPanel3.add(jLabel6);
-        jLabel6.setBounds(249, 14, 36, 15);
+        jLabel6.setBounds(270, 10, 40, 21);
         jPanel3.add(jTextField4);
-        jTextField4.setBounds(295, 11, 59, 19);
+        jTextField4.setBounds(310, 10, 59, 21);
 
         jCheckBox1.setText("VecVoice");
         jCheckBox1.setToolTipText("1. Generation Voice device, based on SPO256-AL2");
@@ -827,10 +845,10 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
 
-        jCheckBox7.setText("Bankswitch Dondzila");
+        jCheckBox7.setText("BS Dondzila");
         jCheckBox7.setMargin(new java.awt.Insets(0, 2, 1, 0));
 
-        jCheckBox8.setText("Bankswitch VecFlash");
+        jCheckBox8.setText("BS VecFlash");
         jCheckBox8.setMargin(new java.awt.Insets(0, 2, 1, 0));
 
         jCheckBox9.setText("RAM Animaction");
@@ -849,16 +867,18 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jCheckBox17.setText("DualVec1");
         jCheckBox17.setMargin(new java.awt.Insets(0, 2, 1, 0));
 
-        jCheckBox18.setText("DualVec2");
+        jCheckBox18.setText("2");
         jCheckBox18.setMargin(new java.awt.Insets(0, 2, 1, 0));
 
         jCheckBox19.setText("RAM Logo");
         jCheckBox19.setMargin(new java.awt.Insets(0, 2, 1, 0));
 
         jComboBoxImager.setToolTipText("imager default wheel for the cartridge");
+        jComboBoxImager.setPreferredSize(new java.awt.Dimension(28, 21));
 
         jTextFieldPath12.setToolTipText("Bin file for extreme multi (in case of \"a la big apple\")");
         jTextFieldPath12.setEnabled(false);
+        jTextFieldPath12.setPreferredSize(new java.awt.Dimension(6, 21));
 
         jButtonFileSelect15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
         jButtonFileSelect15.setEnabled(false);
@@ -877,20 +897,12 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         singleImagePanel3.setLayout(singleImagePanel3Layout);
         singleImagePanel3Layout.setHorizontalGroup(
             singleImagePanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 138, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         singleImagePanel3Layout.setVerticalGroup(
             singleImagePanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 219, Short.MAX_VALUE)
         );
-
-        jCheckBox11.setText("Complete game");
-
-        jCheckBox12.setText("Demo");
-
-        jCheckBox13.setText("Snippet");
-
-        jCheckBox14.setText("Homebrew");
 
         jCheckBoxXmas.setText("XMas LED");
         jCheckBoxXmas.setMargin(new java.awt.Insets(0, 2, 1, 0));
@@ -913,103 +925,98 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCheckBox8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCheckBox17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
+                            .addComponent(jCheckBox1)
+                            .addComponent(jCheckBox2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox20)
+                            .addComponent(jCheckBox15)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox11)
-                            .addComponent(jCheckBox13)
-                            .addComponent(jCheckBox12)
-                            .addComponent(jCheckBox14)
-                            .addComponent(singleImagePanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxImager, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBoxXmas, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jCheckBox10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jCheckBox16, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
-                                .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBox15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jCheckBox6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBox4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBox3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jComboBoxImager, 0, 180, Short.MAX_VALUE)
+                                .addComponent(singleImagePanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jTextFieldPath12, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonFileSelect15))
-                            .addComponent(jCheckBox18, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 20, Short.MAX_VALUE))
+                                .addComponent(jButtonFileSelect15))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox7)
+                            .addComponent(jCheckBox6)
+                            .addComponent(jCheckBox5)
+                            .addComponent(jCheckBox4)
+                            .addComponent(jCheckBox3)
+                            .addComponent(jCheckBox10)
+                            .addComponent(jCheckBox9)
+                            .addComponent(jCheckBox16)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBox19)
+                                    .addComponent(jCheckBox17)
+                                    .addComponent(jCheckBox8))
+                                .addGap(4, 4, 4)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBox18)
+                                    .addComponent(jCheckBoxXmas))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox20, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox16, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox17, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox18, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox19, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxXmas, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox15))
+                .addGap(0, 0, 0)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox2)
+                    .addComponent(jCheckBox20))
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox16)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox9)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox10)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox3)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox4)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox5)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox6)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox7)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox8)
+                .addGap(0, 0, 0)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox17)
+                    .addComponent(jCheckBox18))
+                .addGap(0, 0, 0)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox19)
+                    .addComponent(jCheckBoxXmas))
+                .addGap(4, 4, 4)
                 .addComponent(jComboBoxImager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonFileSelect15)
                     .addComponent(jTextFieldPath12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
-                .addComponent(singleImagePanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox14)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(singleImagePanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
         );
 
         jPanel3.add(jPanel5);
-        jPanel5.setBounds(360, 0, 170, 618);
+        jPanel5.setBounds(380, 0, 260, 590);
 
         jButtonFileSelect1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_link.png"))); // NOI18N
         jButtonFileSelect1.setToolTipText("opens system browser to homepage");
@@ -1020,21 +1027,23 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel3.add(jButtonFileSelect1);
-        jButtonFileSelect1.setBounds(333, 63, 20, 20);
+        jButtonFileSelect1.setBounds(350, 70, 21, 21);
         jPanel3.add(jTextFieldPath);
-        jTextFieldPath.setBounds(88, 63, 234, 19);
+        jTextFieldPath.setBounds(110, 70, 234, 21);
 
         jLabel7.setText("Homepage");
+        jLabel7.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel3.add(jLabel7);
-        jLabel7.setBounds(10, 66, 60, 15);
+        jLabel7.setBounds(10, 70, 100, 21);
 
         jLabel8.setText("Binary link");
+        jLabel8.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel3.add(jLabel8);
-        jLabel8.setBounds(10, 93, 60, 15);
+        jLabel8.setBounds(10, 100, 100, 21);
 
         jTextFieldPath1.setToolTipText("As of now only links for ONE file can be added.\nI know of no multi bank downloadable files for vectrex yet.");
         jPanel3.add(jTextFieldPath1);
-        jTextFieldPath1.setBounds(88, 90, 234, 19);
+        jTextFieldPath1.setBounds(110, 100, 234, 21);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1059,17 +1068,19 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jScrollPane2.setViewportView(jTable1);
 
         jPanel3.add(jScrollPane2);
-        jScrollPane2.setBounds(88, 117, 266, 99);
+        jScrollPane2.setBounds(110, 130, 266, 99);
 
         jLabel9.setText("Filename(s)");
+        jLabel9.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel3.add(jLabel9);
-        jLabel9.setBounds(10, 117, 74, 15);
+        jLabel9.setBounds(10, 130, 100, 21);
 
         jLabel10.setText("Overlay");
+        jLabel10.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel3.add(jLabel10);
-        jLabel10.setBounds(10, 225, 60, 15);
+        jLabel10.setBounds(10, 233, 100, 21);
         jPanel3.add(jTextFieldPath2);
-        jTextFieldPath2.setBounds(89, 222, 233, 19);
+        jTextFieldPath2.setBounds(110, 233, 233, 21);
 
         jButtonFileSelect3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
         jButtonFileSelect3.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -1079,22 +1090,24 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel3.add(jButtonFileSelect3);
-        jButtonFileSelect3.setBounds(333, 222, 20, 20);
+        jButtonFileSelect3.setBounds(350, 233, 21, 21);
 
         jLabel11.setText("Rights");
+        jLabel11.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel3.add(jLabel11);
-        jLabel11.setBounds(10, 252, 60, 15);
+        jLabel11.setBounds(10, 260, 100, 21);
         jPanel3.add(jTextFieldPath3);
-        jTextFieldPath3.setBounds(89, 249, 265, 19);
+        jTextFieldPath3.setBounds(110, 260, 265, 21);
 
         jScrollPane1.setViewportView(jTextPane1);
 
         jPanel3.add(jScrollPane1);
-        jScrollPane1.setBounds(88, 275, 265, 329);
+        jScrollPane1.setBounds(110, 290, 265, 200);
 
         jLabel12.setText("Licence");
+        jLabel12.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel3.add(jLabel12);
-        jLabel12.setBounds(10, 275, 60, 15);
+        jLabel12.setBounds(10, 290, 100, 21);
 
         jButtonFileSelect10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
         jButtonFileSelect10.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -1104,7 +1117,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel3.add(jButtonFileSelect10);
-        jButtonFileSelect10.setBounds(49, 142, 20, 20);
+        jButtonFileSelect10.setBounds(80, 160, 21, 21);
 
         jButtonFileSelect11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
         jButtonFileSelect11.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -1114,7 +1127,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel3.add(jButtonFileSelect11);
-        jButtonFileSelect11.setBounds(49, 169, 20, 20);
+        jButtonFileSelect11.setBounds(80, 180, 21, 21);
 
         jButtonDownloadConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_link.png"))); // NOI18N
         jButtonDownloadConfig.setToolTipText("if link to a binary is given, the link the binary is downloaded");
@@ -1125,11 +1138,29 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel3.add(jButtonDownloadConfig);
-        jButtonDownloadConfig.setBounds(333, 90, 20, 20);
+        jButtonDownloadConfig.setBounds(350, 100, 21, 21);
+
+        jCheckBox11.setText("Complete game");
+        jPanel3.add(jCheckBox11);
+        jCheckBox11.setBounds(110, 490, 120, 23);
+
+        jCheckBox12.setText("Demo");
+        jPanel3.add(jCheckBox12);
+        jCheckBox12.setBounds(110, 510, 120, 23);
+
+        jCheckBox13.setText("Snippet");
+        jPanel3.add(jCheckBox13);
+        jCheckBox13.setBounds(230, 490, 140, 23);
+
+        jCheckBox14.setText("Homebrew");
+        jPanel3.add(jCheckBox14);
+        jCheckBox14.setBounds(230, 510, 140, 23);
 
         jTabbedPane1.addTab("General", jPanel3);
 
         jLabel13.setText("Textfile");
+
+        jTextFieldPath4.setPreferredSize(new java.awt.Dimension(6, 21));
 
         jButtonFileSelect4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
         jButtonFileSelect4.setToolTipText("select text file");
@@ -1144,6 +1175,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
         jLabel19.setText("PDFLink");
 
+        jTextFieldPath8.setPreferredSize(new java.awt.Dimension(6, 21));
+
         jButtonFileSelect8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_link.png"))); // NOI18N
         jButtonFileSelect8.setToolTipText("link to a downloadable pdf");
         jButtonFileSelect8.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -1154,6 +1187,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         });
 
         jLabel20.setText("PDFFile");
+
+        jTextFieldPath9.setPreferredSize(new java.awt.Dimension(6, 21));
 
         jButtonFileSelect9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
         jButtonFileSelect9.setToolTipText("select pdf file");
@@ -1182,10 +1217,10 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 .addGap(12, 12, 12))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel20))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -1202,7 +1237,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                         .addComponent(jButtonFileSelect9)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonFileSelect12)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1224,7 +1259,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                     .addComponent(jButtonFileSelect9)
                     .addComponent(jButtonFileSelect12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1238,7 +1273,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         );
         singleImagePanel4Layout.setVerticalGroup(
             singleImagePanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 559, Short.MAX_VALUE)
+            .addGap(0, 542, Short.MAX_VALUE)
         );
 
         jButtonNew3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/paste_plain.png"))); // NOI18N
@@ -1259,6 +1294,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
 
+        jTextFieldPath10.setPreferredSize(new java.awt.Dimension(6, 21));
+
         jLabel21.setText("File");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -1270,9 +1307,9 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(singleImagePanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldPath10, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+                        .addComponent(jTextFieldPath10, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonFileSelect13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1298,6 +1335,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
         jLabel14.setText("File");
 
+        jTextFieldPath5.setPreferredSize(new java.awt.Dimension(6, 21));
+
         jButtonFileSelect5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
         jButtonFileSelect5.setToolTipText("select picture of box front");
         jButtonFileSelect5.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -1315,7 +1354,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         );
         singleImagePanel1Layout.setVerticalGroup(
             singleImagePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 559, Short.MAX_VALUE)
+            .addGap(0, 542, Short.MAX_VALUE)
         );
 
         jButtonNew1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/paste_plain.png"))); // NOI18N
@@ -1335,9 +1374,9 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldPath5, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+                        .addComponent(jTextFieldPath5, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonFileSelect5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1363,6 +1402,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
         jLabel15.setText("File");
 
+        jTextFieldPath6.setPreferredSize(new java.awt.Dimension(6, 21));
+
         jButtonFileSelect6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
         jButtonFileSelect6.setToolTipText("select picture of box back");
         jButtonFileSelect6.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -1380,7 +1421,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         );
         singleImagePanel2Layout.setVerticalGroup(
             singleImagePanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 559, Short.MAX_VALUE)
+            .addGap(0, 542, Short.MAX_VALUE)
         );
 
         jButtonNew2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/paste_plain.png"))); // NOI18N
@@ -1400,9 +1441,9 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldPath6, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+                        .addComponent(jTextFieldPath6, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonFileSelect6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1428,6 +1469,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
         jLabel16.setText("File");
 
+        jTextFieldPath7.setPreferredSize(new java.awt.Dimension(6, 21));
+
         jButtonFileSelect7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
         jButtonFileSelect7.setToolTipText("select text file");
         jButtonFileSelect7.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -1447,9 +1490,9 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldPath7, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                        .addComponent(jTextFieldPath7, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonFileSelect7))
                     .addComponent(jScrollPane4))
@@ -1465,7 +1508,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                         .addComponent(jLabel16)
                         .addComponent(jTextFieldPath7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1524,7 +1567,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel18)
                         .addGap(264, 264, 264)
-                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                        .addComponent(jLabel22)
                         .addGap(110, 110, 110))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1545,14 +1588,14 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 .addContainerGap()
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(jLabel22))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonFileSelect14)
@@ -1569,7 +1612,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2272,6 +2315,26 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             jComboBoxImager.addItem(de.malban.util.UtilityString.replace(name.toLowerCase(), ".xml", ""));
         }
         jComboBoxImager.setSelectedIndex(-1);
+    }
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+    {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+            updateMyUI();
+        }
+    };
+    void updateMyUI()
+    {
+        // SwingUtilities.updateComponentTreeUI(jPopupMenu1);
+        // SwingUtilities.updateComponentTreeUI(jPopupMenuTree);
+        // SwingUtilities.updateComponentTreeUI(jPopupMenuProjectProperties);
+        int fontSize = Theme.textFieldFont.getFont().getSize();
+        int rowHeight = fontSize+2;
+        jTable1.setRowHeight(rowHeight);
     }
 }
 

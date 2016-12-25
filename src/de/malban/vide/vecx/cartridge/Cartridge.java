@@ -521,6 +521,7 @@ public class Cartridge implements Serializable
             xMasLED = new XMasLED();
             xMasLED.setCartridge(this);
         }
+        log.addLog("cart: init " + toString(cartProp), INFO);
 
         return true;
     }    
@@ -586,6 +587,7 @@ public class Cartridge implements Serializable
                 bankFileNames[bank] = romName;
             }
         }
+        log.addLog("cart: inject " + toString(cartProp), INFO);
         return true;
     }    
     
@@ -877,6 +879,10 @@ public class Cartridge implements Serializable
     {
         if (vecx==null) return null;
         return vecx.getDisplay();
+    }
+    String toString(CartridgeProperties prop)
+    {
+        return "\nTypes: "+getTypInfoString();
     }
 
 }

@@ -197,6 +197,7 @@ public class Asmj {
     String mainFile = "";
     public Asmj( String filename, OutputStream errOut, OutputStream listOut, OutputStream symOut, OutputStream infoOut , String defines) 
     {
+        clearLineInfo();
         mainFile = filename;
         ps_error_add=errOut;
         ps_info_add=infoOut;
@@ -331,6 +332,7 @@ public class Asmj {
      
     public Asmj( String argv[] ) 
     {
+        clearLineInfo();
         bank = 0;
 
         SymbolTable symtab;
@@ -465,6 +467,7 @@ public class Asmj {
             PrintStream listing, PrintStream errors, PrintStream symtab,
             String symbols[], int values[] )
     {
+        clearLineInfo();
         bank = 0;
 
         initProcessor();
@@ -660,8 +663,6 @@ public class Asmj {
             Conditional c = ctx.getTopConditional();
             ctx.current = pline;
             
-                    //if (pline.lineNumber ==282)
-                      //  System.out.println("BU");
                     
 
             // If skipping over the 'false' branch of an if/else,
@@ -1043,7 +1044,10 @@ public class Asmj {
         boolean oomDone = false;
         for (pline=ctx.first; pline!=null; pline=pline.getNext()) 
         {
-            //System.out.println("2line: "+pline.inputLine);
+//            if (pline.inputLine.contains("ZAHLEN_MAX,X"))
+//                    //if (pline.lineNumber ==282)
+//                        System.out.println("BU");
+
             instr = pline.getInstruction();
             if (instr == null) { continue; }
             if (ctx.currentStruct == null)
@@ -1052,10 +1056,10 @@ public class Asmj {
             symtab.define("*", address, SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_UNKOWN);
 
             if (mem.current!=null)
-            if (mem.current.length > 32767)
+            if (mem.current.length > 32768)
             {
                 if (!oomDone)
-                Asmj.error( pline, "Resulting binary is larger than 32767 bytes, it can not run on a vectrex!" );
+                Asmj.error( pline, "Resulting binary is larger than 32768 bytes, it can not run on a vectrex!" );
                 oomDone = true;
             }
             
@@ -1256,27 +1260,50 @@ public class Asmj {
         for (int i=mem.current.base; i< mem.current.base+ mem.current.length; )
         {
             int type = mem.current.getType(i);
-            int len = getConsecutiveType(mem.current, i, type);
+            int len = getConsecutiveType(mem.current, i, type, symtab);
 
+            if (correctDataOption)
+            {
+                // out
+                if ((type == Memory.MEM_BYTE_DATA))
+                {
+                    buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" DB_DATA "+len+"\n");
+                }
+                else if ((type == Memory.MEM_CHAR_DATA))
+                {
+                    buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" CHAR_DATA "+len+"\n");
+                }
+                else if ((type == Memory.MEM_WORD_DATA))
+                {
+                    buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" DW_DATA "+(len/2)+"\n");
+                }
+                else if ((type == Memory.MEM_CODE))
+                {
+                    buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" CODE"+"\n");
+                }
+            }
+            else
+            {
+                // out
+                if ((type == Memory.MEM_BYTE_DATA))
+                {
+                    buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" DB_DATA"+"\n");
+                }
+                else if ((type == Memory.MEM_CHAR_DATA))
+                {
+                    buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" CHAR_DATA"+"\n");
+                }
+                else if ((type == Memory.MEM_WORD_DATA))
+                {
+                    buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" DW_DATA"+"\n");
+                }
+                else if ((type == Memory.MEM_CODE))
+                {
+                    buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" CODE"+"\n");
+                }
+            }
             
-            
-            // out
-            if ((type == Memory.MEM_BYTE_DATA))
-            {
-                buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" DB_DATA"+"\n");
-            }
-            else if ((type == Memory.MEM_CHAR_DATA))
-            {
-                buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" CHAR_DATA"+"\n");
-            }
-            else if ((type == Memory.MEM_WORD_DATA))
-            {
-                buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" DW_DATA"+"\n");
-            }
-            else if ((type == Memory.MEM_CODE))
-            {
-                buf.append("RANGE "+String.format("$%04X", (i&0xffff))+"-"+String.format("$%04X", ((i+len)&0xffff))+" CODE"+"\n");
-            }
+
             i+= len;
         }
         try
@@ -1292,28 +1319,6 @@ public class Asmj {
         }
         
         return true;
-    }
-    int getConsecutiveType(MemorySegment mem, int address, int type)
-    {
-        int len = 0;
-        if (type == Memory.MEM_CODE_POSTBYTE) type = Memory.MEM_CODE;
-        int newType;
-        do
-        {
-            len++;
-            address++;
-            newType = mem.getType(address);
-            if (type == Memory.MEM_CODE)
-            {
-                if (newType == Memory.MEM_CODE_POSTBYTE)
-                {
-                    newType = Memory.MEM_CODE;
-                }
-            }
-        }
-        while  (type == newType);
-        
-        return len;
     }
     
     
@@ -1564,6 +1569,83 @@ public class Asmj {
     {
         return cmapping;
     }
+    
+    public static int LI_UNKOWN = 0;
+    public static int LI_BYTE = 1;
+    public static int LI_WORD = 3;
+    public static int LI_STRING = 4;
+    static class LineInfo
+    {
+        int startAddress=0;
+        int lenInBytes = 0;
+        int type = LI_UNKOWN;
+        LineInfo(int a, int l, int t)
+        {
+            startAddress = a;
+            lenInBytes = l;
+            type = t;
+            
+        }
+    }
+    static HashMap<Integer, LineInfo> lineInfos;
+    static boolean correctDataOption = true;
+    public static void clearLineInfo()
+    {
+        lineInfos = new HashMap<Integer, LineInfo>();
+    }
+    public static void addLineInfo(int address, int lengthInByte, int type)
+    {
+        LineInfo li = new LineInfo(address, lengthInByte, type);
+        lineInfos.put(address, li);
+    }
 
+    
+    static int maxData = 8;
+    int getConsecutiveType(MemorySegment mem, int address, int type, SymbolTable symtab)
+    {
+        int addressOrg = address;
+        int len = 0;
+        if (type == Memory.MEM_CODE_POSTBYTE) type = Memory.MEM_CODE;
+        int newType;
+        do
+        {
+            len++;
+            address++;
+            newType = mem.getType(address);
+            if (type == Memory.MEM_CODE)
+            {
+                if (newType == Memory.MEM_CODE_POSTBYTE)
+                {
+                    newType = Memory.MEM_CODE;
+                }
+            }
+        }
+        while  (type == newType);
+
+        if ((!correctDataOption) || (type == Memory.MEM_CODE))
+            return len;
+        LineInfo li = lineInfos.get(addressOrg);
+        if (li == null)
+        {
+            // whatever comes first
+            // len = 8
+            // another LI
+            // a label definition
+            for (int i=1; i<len; i++)
+            {
+                li = lineInfos.get(addressOrg+i);
+                if (li != null) return i;
+                if (hasLabelDefinition(addressOrg+i, symtab)) return i;
+            }
+            if (len > maxData) return maxData;
+            return len;
+        }
+        return li.lenInBytes;
+    }
+    static boolean hasLabelDefinition(int address, SymbolTable symtab)
+    {
+        return symtab.find(address) != null;
+    }
+    
 }
 

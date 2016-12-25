@@ -5,8 +5,16 @@
  */
 package de.malban.vide.vedi;
 
+import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -21,10 +29,17 @@ public class CloseButton extends javax.swing.JPanel {
     public static  final int CB_PRESSED = 2;
     
     public int state = CB_NORMAL;
-    
+    int sizeFontOrg = 11;
     public Color background;
-    
+    Dimension orgSize = new Dimension(6,15);
     private ArrayList<CloseListener> mListener= new ArrayList<CloseListener>();
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+                {
+                    public void propertyChange(PropertyChangeEvent evt)
+                    {
+                        uiUpdate();
+                    }
+                };
     /**
      * Creates new form CloseButton
      */
@@ -32,8 +47,63 @@ public class CloseButton extends javax.swing.JPanel {
         initComponents();
         background = getBackground();
         setStateDisplay();
+        orgSize = getSize();
+        sizeFontOrg = getFont().getSize();
+        
+        UIManager.addPropertyChangeListener(pListener);
+        uiUpdate();
     }
 
+    public void uiUpdate()
+    {
+        
+        int fs=    Theme.labelFont.getFont().getSize();
+        Dimension newSize = new Dimension(fs+2,fs+2);
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                int xWidth = newSize.width-11+6;
+                int xHeight = newSize.height-11+14;
+                Rectangle bound = getBounds();
+                setBounds(getBounds().x, getBounds().y, newSize.width, newSize.height);
+
+
+
+                setSize(newSize.width, newSize.height);
+                setPreferredSize(newSize);
+                setMinimumSize(newSize);
+                setMaximumSize(newSize);
+
+
+                int startX = fs/2-xWidth/2;
+                int startY = fs/2-xHeight/2;
+
+                int var =1;
+                if (fs ==18) var = 1;
+                if (fs ==17) var = 1;
+                if (fs ==16) var = 1;
+                if (fs ==15) var = 2;
+                if (fs ==14) var = 2;
+                if (fs ==13) var = 2;
+                if (fs ==12) var = 3;
+                if (fs ==11) var = 3;
+                if (fs ==10) var = 3;
+                
+                Rectangle boundl = jLabel1.getBounds();
+                jLabel1.setBounds(startX+3, startY+var, fs, fs);
+
+                invalidate();
+                validate();
+                repaint();
+            }
+        });                    
+    }
+
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -145,6 +215,8 @@ public class CloseButton extends javax.swing.JPanel {
             setBackground(background);
         repaint();
     }
+    
+    
     private void fireClosePressed()
     {
         boolean close = true;

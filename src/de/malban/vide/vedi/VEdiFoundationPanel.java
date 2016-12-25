@@ -72,6 +72,11 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
                         EditorPanel edi = (EditorPanel) comp;
                         edi.stopColoring();
                     }
+                    if (comp instanceof BinaryPanel)
+                    {
+                        BinaryPanel edi = (BinaryPanel) comp;
+                        edi.deinit();
+                    }
                     deselectInTree(getTabName());
                     
                     jTabbedPane1.removeTabAt(index);
@@ -79,6 +84,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
                     // casting it back to a JButton and removing
                     // the action handler reference ;)
                     evt.source.removeCloseListerner(this);
+                    evt.source.removeUIListerner();
                 }
 
             }

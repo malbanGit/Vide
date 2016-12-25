@@ -228,6 +228,7 @@ public class ArgumentMemoryLocation extends Argument6809
         try 
         {
             offsetExpression = Expression.parse(s,st);
+            
             constantOffset = true;
         } 
         catch (ParseException x) 
@@ -505,6 +506,8 @@ public class ArgumentMemoryLocation extends Argument6809
             {
                 // Cannot evaluate offset yet;
                 // cannot infer shorter length.
+                if ((!reallyShort) && (!force8bit) && (!force16bit) && (!prettyShort))
+                    Asmj.warning(instr.getSource(), "Symbol with undefined size found, using 16bit per default - can be perhaps manually be shortend!");
             }
 
             if ((force8bit) && (reallyShort)) 

@@ -64,41 +64,41 @@ public class BreakpointAddPanel extends javax.swing.JPanel {
 
         jLabel1.setText("target");
         add(jLabel1);
-        jLabel1.setBounds(4, 4, 40, 15);
+        jLabel1.setBounds(4, 4, 33, 15);
 
         jLabel2.setText("subsystem");
         add(jLabel2);
-        jLabel2.setBounds(220, 4, 76, 15);
+        jLabel2.setBounds(220, 4, 58, 15);
 
         jLabel3.setText("type");
         add(jLabel3);
-        jLabel3.setBounds(4, 80, 40, 15);
+        jLabel3.setBounds(4, 80, 24, 15);
 
         jLabel4.setText("target address");
         add(jLabel4);
-        jLabel4.setBounds(4, 30, 93, 15);
+        jLabel4.setBounds(4, 30, 79, 15);
         add(jTextFieldAddress);
         jTextFieldAddress.setBounds(100, 26, 115, 19);
 
         jLabel5.setText("compare value");
         add(jLabel5);
-        jLabel5.setBounds(4, 50, 93, 15);
+        jLabel5.setBounds(4, 50, 77, 15);
         add(jTextFieldCompare);
         jTextFieldCompare.setBounds(100, 50, 115, 19);
 
         jLabel6.setText("counter");
         add(jLabel6);
-        jLabel6.setBounds(220, 50, 67, 15);
+        jLabel6.setBounds(220, 50, 40, 15);
         add(jTextFieldCounter);
         jTextFieldCounter.setBounds(320, 50, 37, 19);
 
         jLabel7.setText("bank");
         add(jLabel7);
-        jLabel7.setBounds(220, 30, 67, 15);
+        jLabel7.setBounds(220, 30, 25, 15);
 
         jLabel8.setText("exit");
         add(jLabel8);
-        jLabel8.setBounds(370, 30, 33, 15);
+        jLabel8.setBounds(370, 30, 20, 15);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
         jComboBox1.setPreferredSize(new java.awt.Dimension(59, 19));

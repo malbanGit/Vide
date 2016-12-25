@@ -18,7 +18,7 @@ import javax.swing.text.StyleConstants;
 
 /**
  *
- * @author chrissalo
+ * @author malban
  */
 public class FontChooserPanel extends javax.swing.JPanel {
 
@@ -75,14 +75,14 @@ public class FontChooserPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButtonOk;
     // End of variables declaration//GEN-END:variables
     JInternalFrame modelDialog;
-    public static de.malban.gui.dialogs.FontChooserComponent showFontChoserDialog(String title, SimpleAttributeSet style)
+    public static de.malban.gui.dialogs.FontChooserComponent showFontChoserDialog(String title, SimpleAttributeSet style, boolean enableSize)
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         FontChooserPanel panel = new FontChooserPanel();
         panel.fontChooserComponent1.setSelectedFontFamily(StyleConstants.getFontFamily(style));
         panel.fontChooserComponent1.setSelectedFontSize(StyleConstants.getFontSize(style));
         panel.fontChooserComponent1.setSelectedFontStyle( (StyleConstants.isBold(style)?Font.BOLD:0)+(StyleConstants.isItalic(style)?Font.ITALIC:0));
-        
+        panel.fontChooserComponent1.setSizeEnabled(enableSize);
         
         
         ArrayList<JButton> eb= new ArrayList<JButton>();

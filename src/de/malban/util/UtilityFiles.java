@@ -5,7 +5,10 @@
  */
 package de.malban.util;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
+import de.malban.config.Logable;
+import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
@@ -440,6 +443,176 @@ public class UtilityFiles
         ret = de.malban.util.UtilityString.replace(ret, "\\", File.separator);
         return ret;
     }
+    // helper class to get messages from exec commands
+    static class StreamGobbler extends Thread
+    {
+        InputStream is;
+        String type;
+        StringBuffer allErrors=new StringBuffer();;
+        StringBuffer allMessages=new StringBuffer();;
+        StreamGobbler(InputStream is, String type)
+        {
+            this.is = is;
+            this.type = type;
+        }
 
-    
+        public void run()
+        {
+            Logable log = Configuration.getConfiguration().getDebugEntity();
+            try
+            {
+                InputStreamReader isr = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(isr);
+                String line=null;
+                while ( (line = br.readLine()) != null)
+                {
+                    if (type.equals("ERROR"))
+                    {
+                        allErrors.append(line);
+                        log.addLog(line, WARN);
+                    }
+                    else// (type.equals("OUTPUT"))
+                    {
+                        allMessages.append(line);
+                        log.addLog(line, INFO);
+                    }
+                }
+            } 
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();  
+            }
+        }
+    }    
+    public static boolean executeOSCommand(String [] cmd)
+    {
+        // any errors
+        StreamGobbler errorGobbler=null;            
+        // any output?
+        StreamGobbler outputGobbler=null;
+        try
+        {
+            Process p = Runtime.getRuntime().exec(cmd);
+            // any errors
+             errorGobbler = new  StreamGobbler(p.getErrorStream(), "ERROR");            
+            // any output?
+             outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
+
+                
+            // kick them off
+            errorGobbler.start();
+            outputGobbler.start();          
+ 
+            p.waitFor();
+        }
+        catch (Throwable e)
+        {
+            Logable log = Configuration.getConfiguration().getDebugEntity();
+            log.addLog(e, WARN);
+            return false;
+        }        
+        return true;
+        
+    }        
+    public static boolean executeOSCommandInDir(String [] cmd, String dir)
+    {
+        // any errors
+        StreamGobbler errorGobbler=null;            
+        // any output?
+        StreamGobbler outputGobbler=null;
+        try
+        {
+            Process p = Runtime.getRuntime().exec(cmd, new String[0], new File(convertSeperator(dir)));
+            // any errors
+             errorGobbler = new  StreamGobbler(p.getErrorStream(), "ERROR");            
+            // any output?
+             outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
+
+                
+            // kick them off
+            errorGobbler.start();
+            outputGobbler.start();          
+ 
+            p.waitFor();
+        }
+        catch (Throwable e)
+        {
+            Logable log = Configuration.getConfiguration().getDebugEntity();
+            log.addLog(e, WARN);
+            return false;
+        }        
+        return true;
+        
+    }    
+    static boolean isMac = Global.getOSName().toUpperCase().contains("MAC");
+    static boolean isWin = Global.getOSName().toUpperCase().contains("WIN");
+    static boolean isLinux = Global.getOSName().toUpperCase().contains("LIN");
+    public static boolean ejectVolume(String path)
+    {
+        try
+        {
+            if (isMac)
+            {
+                return ejectVolumeMac( path);
+            }
+            if (isWin)
+            {
+                return ejectVolumeWin( path);
+            }
+            if (isLinux)
+            {
+                return ejectVolumeLin( path);
+            }
+            
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        return false;
+    }
+    private static boolean ejectVolumeMac(String path)
+    {
+        Logable log = Configuration.getConfiguration().getDebugEntity();
+        String filepath = "diskutil";
+        
+        String [] cmd = new String[3];
+        cmd[0] = filepath;
+        cmd[1] = "eject";   
+        cmd[2] = path;   
+        
+        log.addLog("Trying to eject: "+path, INFO);
+        return executeOSCommand(cmd);
+    }
+    private static boolean ejectVolumeLin(String path)
+    {
+        Logable log = Configuration.getConfiguration().getDebugEntity();
+        log.addLog("Ejecting devices programmatically is not implemented in VIDE yet. Working example code appreciated...", WARN);
+        return false;
+    }
+    private static boolean ejectVolumeWin(String path)
+    {
+        Logable log = Configuration.getConfiguration().getDebugEntity();
+        //int bits = Global.getOSBit();
+        //String osDir = "win"+bits;
+        try
+        {
+            path = path.substring(0,2);
+
+            String filepath = "externalTools"+File.separator+"removeDrive"+File.separator+"Win32"+File.separator+"RemoveDrive.exe";
+
+            String [] cmd = new String[2];
+            cmd[0] = filepath;
+            cmd[1] = path;   
+
+
+            log.addLog("Trying to eject: "+path, INFO);
+            return executeOSCommand(cmd);
+        }
+        catch (Throwable e)
+        {
+        }
+        log.addLog("Ejecting failed: "+path, WARN);
+        return false;
+    }
 }

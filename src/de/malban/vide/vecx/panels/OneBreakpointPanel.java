@@ -58,64 +58,79 @@ public class OneBreakpointPanel extends javax.swing.JPanel {
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
         setLayout(null);
 
+        jLabel1.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jLabel1.setText("target");
         add(jLabel1);
-        jLabel1.setBounds(2, 4, 93, 15);
+        jLabel1.setBounds(2, 4, 33, 15);
 
         jTextFieldTarget.setEditable(false);
+        jTextFieldTarget.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         add(jTextFieldTarget);
         jTextFieldTarget.setBounds(90, 2, 101, 19);
 
+        jLabel2.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jLabel2.setText("subsystem");
         add(jLabel2);
-        jLabel2.setBounds(227, 4, 76, 15);
+        jLabel2.setBounds(227, 4, 58, 15);
 
         jTextFieldsub.setEditable(false);
+        jTextFieldsub.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         add(jTextFieldsub);
         jTextFieldsub.setBounds(308, 2, 142, 19);
 
+        jLabel3.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jLabel3.setText("type");
         add(jLabel3);
-        jLabel3.setBounds(2, 29, 93, 15);
+        jLabel3.setBounds(2, 29, 24, 15);
 
         jTextFieldType.setEditable(false);
+        jTextFieldType.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         add(jTextFieldType);
         jTextFieldType.setBounds(90, 27, 360, 19);
 
+        jLabel4.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jLabel4.setText("target address");
         add(jLabel4);
-        jLabel4.setBounds(2, 54, 93, 15);
+        jLabel4.setBounds(2, 54, 79, 15);
 
         jTextFieldAddress.setEditable(false);
+        jTextFieldAddress.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         add(jTextFieldAddress);
         jTextFieldAddress.setBounds(90, 52, 101, 19);
 
         jTextFieldBank.setEditable(false);
+        jTextFieldBank.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jTextFieldBank.setToolTipText("bank");
         add(jTextFieldBank);
         jTextFieldBank.setBounds(195, 52, 20, 19);
 
+        jLabel5.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jLabel5.setText("compare value");
         add(jLabel5);
-        jLabel5.setBounds(2, 79, 93, 15);
+        jLabel5.setBounds(2, 79, 77, 15);
 
         jTextFieldCompare.setEditable(false);
+        jTextFieldCompare.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         add(jTextFieldCompare);
         jTextFieldCompare.setBounds(90, 77, 101, 19);
 
+        jLabel6.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jLabel6.setText("counter");
         add(jLabel6);
-        jLabel6.setBounds(227, 79, 50, 15);
+        jLabel6.setBounds(227, 79, 40, 15);
 
         jTextFieldCounter.setEditable(false);
+        jTextFieldCounter.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         add(jTextFieldCounter);
         jTextFieldCounter.setBounds(270, 77, 37, 19);
 
+        jLabel8.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jLabel8.setText("exit");
         add(jLabel8);
-        jLabel8.setBounds(315, 79, 30, 15);
+        jLabel8.setBounds(315, 79, 20, 15);
 
         jTextFieldExit.setEditable(false);
+        jTextFieldExit.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         add(jTextFieldExit);
         jTextFieldExit.setBounds(350, 77, 40, 19);
 
@@ -129,11 +144,13 @@ public class OneBreakpointPanel extends javax.swing.JPanel {
         add(jButtonFileSelect11);
         jButtonFileSelect11.setBounds(430, 75, 20, 20);
 
+        jLabel9.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jLabel9.setText("name");
         add(jLabel9);
-        jLabel9.setBounds(227, 54, 30, 15);
+        jLabel9.setBounds(227, 54, 28, 15);
 
         jTextFieldName.setEditable(false);
+        jTextFieldName.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
         jTextFieldName.setToolTipText("bank");
         add(jTextFieldName);
         jTextFieldName.setBounds(270, 50, 180, 19);

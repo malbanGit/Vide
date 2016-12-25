@@ -145,7 +145,11 @@ class Colorer extends Thread
         }
         try
         {
-            while (!broken) Thread.sleep(10);
+            while (!broken) 
+            {
+//System.out.println("Thread unbroken: " + this);
+                Thread.sleep(10);
+            }
 
         }
         catch (Throwable e)

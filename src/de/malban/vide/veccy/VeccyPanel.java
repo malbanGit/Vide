@@ -40,10 +40,13 @@ import de.malban.vide.veccy.gtest.HLines;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vedi.VediPanel;
 import de.malban.vide.vedi.raster.VectorJPanel;
+import de.muntjak.tinylookandfeel.Theme;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -58,6 +61,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
@@ -425,6 +429,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         single3dDisplayPanel1.setAxisAngleX(0);
         single3dDisplayPanel1.setAxisAngleY(0);
         single3dDisplayPanel1.setAxisAngleZ(0);
+        UIManager.addPropertyChangeListener(pListener);
+        updateMyUI(); 
     }
     VectorJPanel vPanel = null;
     public void deinit()
@@ -434,6 +440,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             vPanel.setVeccy(null);
             vPanel = null;
         }
+        removeUIListerner();
     }
     public void setVPanel(VectorJPanel v)
     {
@@ -467,31 +474,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         buttonGroup3 = new javax.swing.ButtonGroup();
         buttonGroup4 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        applyCurrent = new javax.swing.JPanel();
-        jButtonOneForward = new javax.swing.JButton();
-        jTextFieldCurrentNo = new javax.swing.JTextField();
-        jLabelImageNow = new javax.swing.JLabel();
-        jTextFieldCount = new javax.swing.JTextField();
-        jLabelImageCount = new javax.swing.JLabel();
-        jButtonApplyCurrent = new javax.swing.JButton();
-        jLabelSelSize = new javax.swing.JLabel();
-        jButtonReverse = new javax.swing.JButton();
-        jButtonDeleteOne = new javax.swing.JButton();
-        jButtonSave2 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jPanelIMageCollection = new javax.swing.JPanel();
-        jPanel12 = new javax.swing.JPanel();
-        jPanel13 = new javax.swing.JPanel();
-        jButtonAddCurrent = new javax.swing.JButton();
-        jButtonLoad1 = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jButtonAddCurrent1 = new javax.swing.JButton();
-        jButtonClearAnimation = new javax.swing.JButton();
-        jButtonOneBack = new javax.swing.JButton();
-        jButtonJoin = new javax.swing.JButton();
-        jCheckBoxAutoEdit = new javax.swing.JCheckBox();
-        jCheckBoxAutoApply = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel10 = new javax.swing.JPanel();
@@ -510,6 +492,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel50 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
         jButtonOneForwardSelection2 = new javax.swing.JButton();
+        jLabel32 = new javax.swing.JLabel();
+        jButtonShrink = new javax.swing.JButton();
+        jButtonEnlarge = new javax.swing.JButton();
+        jTextFieldScaleFactor = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jTextFieldBaseSize = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
@@ -542,10 +528,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jCheckBoxFraktion = new javax.swing.JCheckBox();
         jCheckBoxLine = new javax.swing.JCheckBox();
         jButtonOrderSplitWhereNeeded = new javax.swing.JButton();
-        jButtonShrink = new javax.swing.JButton();
-        jButtonEnlarge = new javax.swing.JButton();
-        jTextFieldScaleFactor = new javax.swing.JTextField();
-        jLabel32 = new javax.swing.JLabel();
         jTextFieldNeedSplit = new javax.swing.JTextField();
         jPanel36 = new javax.swing.JPanel();
         jTextFieldScaleFactor1 = new javax.swing.JTextField();
@@ -752,6 +734,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel41 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
+        jLabel54 = new javax.swing.JLabel();
         jLabelMaxY = new javax.swing.JLabel();
         jLabelY0 = new javax.swing.JLabel();
         jLabelMinY = new javax.swing.JLabel();
@@ -792,6 +775,31 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonOneForwardSelection1 = new javax.swing.JButton();
         jLabelMode = new javax.swing.JLabel();
         jButtonSingleEditor = new javax.swing.JButton();
+        jPanel39 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanelIMageCollection = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        jButtonOneForward = new javax.swing.JButton();
+        jTextFieldCurrentNo = new javax.swing.JTextField();
+        jLabelImageNow = new javax.swing.JLabel();
+        jTextFieldCount = new javax.swing.JTextField();
+        jLabelImageCount = new javax.swing.JLabel();
+        jButtonApplyCurrent = new javax.swing.JButton();
+        jLabelSelSize = new javax.swing.JLabel();
+        jButtonReverse = new javax.swing.JButton();
+        jButtonDeleteOne = new javax.swing.JButton();
+        jButtonSave2 = new javax.swing.JButton();
+        jButtonAddCurrent = new javax.swing.JButton();
+        jButtonLoad1 = new javax.swing.JButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jButtonAddCurrent1 = new javax.swing.JButton();
+        jButtonClearAnimation = new javax.swing.JButton();
+        jButtonOneBack = new javax.swing.JButton();
+        jButtonJoin = new javax.swing.JButton();
+        jCheckBoxAutoEdit = new javax.swing.JCheckBox();
+        jCheckBoxAutoApply = new javax.swing.JCheckBox();
 
         jPopupMenuPoint.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -898,259 +906,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         setName("veccy"); // NOI18N
 
-        applyCurrent.setBorder(javax.swing.BorderFactory.createTitledBorder("vectorlists collection"));
-        applyCurrent.setEnabled(false);
-        applyCurrent.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                applyCurrentComponentResized(evt);
-            }
-        });
-        applyCurrent.setLayout(null);
-
-        jButtonOneForward.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_right.png"))); // NOI18N
-        jButtonOneForward.setToolTipText("Select next, +SHIFT moves selected vectorlist one to the right.");
-        jButtonOneForward.setPreferredSize(new java.awt.Dimension(35, 19));
-        jButtonOneForward.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonOneForwardActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jButtonOneForward);
-        jButtonOneForward.setBounds(580, 35, 40, 20);
-
-        jTextFieldCurrentNo.setToolTipText("Number of the current selected image.");
-        applyCurrent.add(jTextFieldCurrentNo);
-        jTextFieldCurrentNo.setBounds(120, 13, 30, 20);
-
-        jLabelImageNow.setText("now");
-        applyCurrent.add(jLabelImageNow);
-        jLabelImageNow.setBounds(90, 16, 30, 14);
-
-        jTextFieldCount.setText("0");
-        jTextFieldCount.setToolTipText("Count of images.");
-        applyCurrent.add(jTextFieldCount);
-        jTextFieldCount.setBounds(47, 13, 30, 20);
-
-        jLabelImageCount.setText("Count");
-        applyCurrent.add(jLabelImageCount);
-        jLabelImageCount.setBounds(10, 16, 40, 14);
-
-        jButtonApplyCurrent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_square_go.png"))); // NOI18N
-        jButtonApplyCurrent.setText("apply");
-        jButtonApplyCurrent.setToolTipText("apply changes to vectorlist to current selected animation \"frame\"");
-        jButtonApplyCurrent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonApplyCurrent.setPreferredSize(new java.awt.Dimension(90, 19));
-        jButtonApplyCurrent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonApplyCurrentActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jButtonApplyCurrent);
-        jButtonApplyCurrent.setBounds(240, 35, 110, 20);
-
-        jLabelSelSize.setText(" ");
-        applyCurrent.add(jLabelSelSize);
-        jLabelSelSize.setBounds(320, 40, 50, 14);
-
-        jButtonReverse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_refresh_small.png"))); // NOI18N
-        jButtonReverse.setText("Reverse");
-        jButtonReverse.setToolTipText("Reverses the order of all vectorlists.");
-        jButtonReverse.setPreferredSize(new java.awt.Dimension(69, 19));
-        jButtonReverse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonReverseActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jButtonReverse);
-        jButtonReverse.setBounds(511, 10, 110, 20);
-
-        jButtonDeleteOne.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/exclamation.png"))); // NOI18N
-        jButtonDeleteOne.setText("delete");
-        jButtonDeleteOne.setToolTipText("Deletes selected vectorlist.");
-        jButtonDeleteOne.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonDeleteOne.setPreferredSize(new java.awt.Dimension(62, 19));
-        jButtonDeleteOne.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDeleteOneActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jButtonDeleteOne);
-        jButtonDeleteOne.setBounds(630, 10, 110, 20);
-
-        jButtonSave2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
-        jButtonSave2.setToolTipText("save animation");
-        jButtonSave2.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonSave2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSave2ActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jButtonSave2);
-        jButtonSave2.setBounds(36, 35, 21, 21);
-
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-        jPanelIMageCollection.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanelIMageCollection.setMinimumSize(new java.awt.Dimension(15, 62));
-        jPanelIMageCollection.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING));
-
-        jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel12.setPreferredSize(new java.awt.Dimension(52, 52));
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
-
-        jPanelIMageCollection.add(jPanel12);
-
-        jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel13.setPreferredSize(new java.awt.Dimension(52, 52));
-
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
-        );
-
-        jPanelIMageCollection.add(jPanel13);
-
-        jScrollPane2.setViewportView(jPanelIMageCollection);
-
-        applyCurrent.add(jScrollPane2);
-        jScrollPane2.setBounds(10, 70, 1170, 83);
-
-        jButtonAddCurrent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
-        jButtonAddCurrent.setText("add current");
-        jButtonAddCurrent.setToolTipText("add current \"work\" vectorlist to the end of the animation");
-        jButtonAddCurrent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonAddCurrent.setPreferredSize(new java.awt.Dimension(90, 19));
-        jButtonAddCurrent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAddCurrentActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jButtonAddCurrent);
-        jButtonAddCurrent.setBounds(240, 10, 110, 20);
-
-        jButtonLoad1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
-        jButtonLoad1.setToolTipText("load animation");
-        jButtonLoad1.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonLoad1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLoad1ActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jButtonLoad1);
-        jButtonLoad1.setBounds(10, 35, 21, 21);
-
-        buttonGroup2.add(jRadioButton1);
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("animation");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jRadioButton1);
-        jRadioButton1.setBounds(160, 10, 71, 23);
-
-        buttonGroup2.add(jRadioButton2);
-        jRadioButton2.setText("scenario");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jRadioButton2);
-        jRadioButton2.setBounds(160, 30, 65, 23);
-
-        jButtonAddCurrent1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
-        jButtonAddCurrent1.setText("add view");
-        jButtonAddCurrent1.setToolTipText("add current \"work\" vectorlist to the end of the animation");
-        jButtonAddCurrent1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonAddCurrent1.setPreferredSize(new java.awt.Dimension(90, 19));
-        jButtonAddCurrent1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAddCurrent1ActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jButtonAddCurrent1);
-        jButtonAddCurrent1.setBounds(360, 10, 110, 20);
-
-        jButtonClearAnimation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/new.png"))); // NOI18N
-        jButtonClearAnimation.setText("clear");
-        jButtonClearAnimation.setToolTipText("new Animation (clears all)");
-        jButtonClearAnimation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonClearAnimation.setPreferredSize(new java.awt.Dimension(62, 19));
-        jButtonClearAnimation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonClearAnimationActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jButtonClearAnimation);
-        jButtonClearAnimation.setBounds(630, 35, 110, 20);
-
-        jButtonOneBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_left.png"))); // NOI18N
-        jButtonOneBack.setToolTipText("Select previous, +SHIFT moves selected vectorlist one to the left.");
-        jButtonOneBack.setPreferredSize(new java.awt.Dimension(35, 19));
-        jButtonOneBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonOneBackActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jButtonOneBack);
-        jButtonOneBack.setBounds(511, 35, 40, 20);
-
-        jButtonJoin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/vector_add.png"))); // NOI18N
-        jButtonJoin.setText("join");
-        jButtonJoin.setToolTipText("<html>\n<body>\nif \"edit on select\" selected:<BR>\nJoins all vectorlist to one in current edit<BR>\nif \"edit on select\" NOT selected:<BR>\nJoins current selected frame to the current edit<BR>\n</body>\n</html>\n");
-        jButtonJoin.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonJoin.setPreferredSize(new java.awt.Dimension(62, 19));
-        jButtonJoin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonJoinActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jButtonJoin);
-        jButtonJoin.setBounds(750, 10, 110, 20);
-
-        jCheckBoxAutoEdit.setSelected(true);
-        jCheckBoxAutoEdit.setText("edit on select");
-        jCheckBoxAutoEdit.setMargin(new java.awt.Insets(0, 2, 0, 2));
-        jCheckBoxAutoEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBoxAutoEditActionPerformed(evt);
-            }
-        });
-        applyCurrent.add(jCheckBoxAutoEdit);
-        jCheckBoxAutoEdit.setBounds(60, 37, 100, 16);
-
-        jCheckBoxAutoApply.setText("auto apply");
-        applyCurrent.add(jCheckBoxAutoApply);
-        jCheckBoxAutoApply.setBounds(360, 37, 77, 23);
-
         jCheckBoxHasPattern.setText("has pattern byte");
 
         jTextFieldPattern.setText("51");
+        jTextFieldPattern.setPreferredSize(new java.awt.Dimension(60, 21));
 
         jLabelPattern.setText("pattern byte (dec, bin, hex)");
 
         jCheckBoxHasIntensity.setText("has intensity");
 
         jTextFieldIntensity.setText("127");
+        jTextFieldIntensity.setPreferredSize(new java.awt.Dimension(60, 21));
 
         jLabelPattern1.setText("intensity (0-127)");
 
@@ -1158,7 +924,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonSetStyle.setText("set to selected");
         jButtonSetStyle.setToolTipText("Moves selected image one to the right.");
         jButtonSetStyle.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonSetStyle.setPreferredSize(new java.awt.Dimension(110, 19));
+        jButtonSetStyle.setPreferredSize(new java.awt.Dimension(150, 21));
         jButtonSetStyle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSetStyleActionPerformed(evt);
@@ -1173,22 +939,21 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jTextFieldIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelPattern1))
-                            .addComponent(jCheckBoxHasIntensity)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jTextFieldPattern, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelPattern)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jCheckBoxHasPattern)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonSetStyle, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBoxHasPattern))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jCheckBoxHasIntensity)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jTextFieldPattern, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelPattern))
+                            .addComponent(jButtonSetStyle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jTextFieldIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelPattern1)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1205,9 +970,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPattern1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(jButtonSetStyle, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(30, 30, 30)
+                .addComponent(jButtonSetStyle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Line", jPanel10);
@@ -1215,7 +980,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonRotate2d.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_rotate_anticlockwise.png"))); // NOI18N
         jButtonRotate2d.setText("2d rotate (z-axis)");
         jButtonRotate2d.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonRotate2d.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonRotate2d.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonRotate2d.setPreferredSize(new java.awt.Dimension(160, 21));
         jButtonRotate2d.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonRotate2dActionPerformed(evt);
@@ -1223,11 +989,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jTextFieldRotate2d.setText("90");
+        jTextFieldRotate2d.setPreferredSize(new java.awt.Dimension(20, 21));
 
         jButtonMirrorVertically.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_flip_horizontal.png"))); // NOI18N
         jButtonMirrorVertically.setText("mirror vertically");
         jButtonMirrorVertically.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonMirrorVertically.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonMirrorVertically.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonMirrorVertically.setPreferredSize(new java.awt.Dimension(160, 21));
         jButtonMirrorVertically.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonMirrorVerticallyActionPerformed(evt);
@@ -1237,29 +1005,53 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonMirrorHorizontally.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_flip_vertical.png"))); // NOI18N
         jButtonMirrorHorizontally.setText("mirror horizontally");
         jButtonMirrorHorizontally.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonMirrorHorizontally.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonMirrorHorizontally.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonMirrorHorizontally.setPreferredSize(new java.awt.Dimension(160, 21));
         jButtonMirrorHorizontally.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonMirrorHorizontallyActionPerformed(evt);
             }
         });
 
-        jLabel50.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel50.setForeground(new java.awt.Color(102, 102, 102));
         jLabel50.setText("around y-axis");
 
-        jLabel53.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel53.setForeground(new java.awt.Color(102, 102, 102));
         jLabel53.setText("around x-axis");
 
         jButtonOneForwardSelection2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/images.png"))); // NOI18N
         jButtonOneForwardSelection2.setText("image to vector");
         jButtonOneForwardSelection2.setToolTipText("image to vector");
         jButtonOneForwardSelection2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonOneForwardSelection2.setPreferredSize(new java.awt.Dimension(134, 19));
+        jButtonOneForwardSelection2.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonOneForwardSelection2.setPreferredSize(new java.awt.Dimension(160, 21));
         jButtonOneForwardSelection2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonOneForwardSelection2ActionPerformed(evt);
             }
         });
+
+        jLabel32.setText("factor");
+
+        jButtonShrink.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
+        jButtonShrink.setToolTipText("shrink vectorlist");
+        jButtonShrink.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonShrink.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonShrinkActionPerformed(evt);
+            }
+        });
+
+        jButtonEnlarge.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
+        jButtonEnlarge.setToolTipText("expand vectorlist");
+        jButtonEnlarge.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonEnlarge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEnlargeActionPerformed(evt);
+            }
+        });
+
+        jTextFieldScaleFactor.setText("1.5");
 
         javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
         jPanel35.setLayout(jPanel35Layout);
@@ -1269,20 +1061,25 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addContainerGap()
                 .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel35Layout.createSequentialGroup()
-                        .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButtonMirrorVertically, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                            .addComponent(jButtonRotate2d, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonOneForwardSelection2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonMirrorVertically, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20)
                         .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel35Layout.createSequentialGroup()
-                                .addComponent(jTextFieldRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jLabel50)
+                            .addComponent(jLabel53)
+                            .addComponent(jTextFieldRotate2d, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel35Layout.createSequentialGroup()
-                        .addComponent(jButtonOneForwardSelection2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(jLabel32)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonShrink)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonEnlarge)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel35Layout.setVerticalGroup(
             jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1299,19 +1096,26 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonMirrorHorizontally, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel53))
-                .addGap(42, 42, 42)
+                .addGap(20, 20, 20)
                 .addComponent(jButtonOneForwardSelection2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel32)
+                    .addComponent(jButtonShrink)
+                    .addComponent(jButtonEnlarge)
+                    .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("2d-Tools", jPanel35);
 
         jTextFieldBaseSize.setText("1");
+        jTextFieldBaseSize.setPreferredSize(new java.awt.Dimension(13, 21));
 
         jLabel19.setText("base size");
 
         jButtonCube.setText("cube");
-        jButtonCube.setPreferredSize(new java.awt.Dimension(53, 19));
+        jButtonCube.setPreferredSize(new java.awt.Dimension(71, 21));
         jButtonCube.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCubeActionPerformed(evt);
@@ -1319,7 +1123,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jButton2.setText("pyramid");
-        jButton2.setPreferredSize(new java.awt.Dimension(71, 19));
+        jButton2.setPreferredSize(new java.awt.Dimension(71, 21));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -1332,13 +1136,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel11Layout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldBaseSize, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButtonCube, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonCube, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
@@ -1352,10 +1156,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButtonCube, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Figure", jPanel11);
+
+        jScrollPane7.setPreferredSize(new java.awt.Dimension(300, 402));
 
         jTableFace.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1376,8 +1182,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
         jScrollPane7.setViewportView(jTableFace);
 
-        jButton1.setText("add selected as face");
+        jButton1.setText("add as face");
         jButton1.setToolTipText("<html> \nUse the current selected points and add the thus defined \"face\" to the facelist.<BR>\n<BR>\nThe points must all lie in the same plane (they must be coplanar).<BR>\n</html>");
+        jButton1.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButton1.setPreferredSize(new java.awt.Dimension(150, 21));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -1385,14 +1193,20 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jButton7.setText("delete from face list");
+        jButton7.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButton7.setPreferredSize(new java.awt.Dimension(150, 21));
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
 
+        jLabel55.setPreferredSize(new java.awt.Dimension(150, 21));
+
         jButton3.setText("execute HLR");
         jButton3.setToolTipText("<html>\nThe current angle settings for DISPLAY is taken,<BR>\nand a hidden line removal is executed to the vectorlist.<BR>\n(provided faces are defined)\n\n</html>");
+        jButton3.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButton3.setPreferredSize(new java.awt.Dimension(150, 21));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -1403,29 +1217,30 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel37.setLayout(jPanel37Layout);
         jPanel37Layout.setHorizontalGroup(
             jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel37Layout.createSequentialGroup()
                 .addGroup(jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton7))
+                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 35, Short.MAX_VALUE))
         );
         jPanel37Layout.setVerticalGroup(
             jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel37Layout.createSequentialGroup()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
-                        .addComponent(jButton7))
-                    .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 5, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Faces", jPanel37);
@@ -1511,11 +1326,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jCheckBoxPointsOk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBoxContinue)
+                        .addComponent(jCheckBoxContinue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jCheckBoxPosition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jCheckBoxArrows, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jCheckBoxMoves, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(48, Short.MAX_VALUE))
+                    .addComponent(jCheckBoxMoves, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1538,14 +1353,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jCheckBoxPosition)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxMoves)))
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Mode/Select", jPanel9);
 
         jButton5.setText("center vectorlist");
         jButton5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton5.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButton5.setPreferredSize(new java.awt.Dimension(175, 21));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -1554,7 +1369,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jButtonConnectWherePossible.setText("connect where possible");
         jButtonConnectWherePossible.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonConnectWherePossible.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonConnectWherePossible.setPreferredSize(new java.awt.Dimension(175, 21));
         jButtonConnectWherePossible.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonConnectWherePossibleActionPerformed(evt);
@@ -1563,7 +1378,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jButtonOrderVectorlist.setText("order vectorlist");
         jButtonOrderVectorlist.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonOrderVectorlist.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonOrderVectorlist.setPreferredSize(new java.awt.Dimension(175, 21));
         jButtonOrderVectorlist.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonOrderVectorlistActionPerformed(evt);
@@ -1573,7 +1388,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonFillGaps.setText("fill gaps");
         jButtonFillGaps.setToolTipText("<html>\n\nThis also implies:<BR>\n<OL>\n<LI>\"connect where possible\"     </LI>\n<LI> \"order vectorlist\"</LI>\n</OL>\nAnd than creates \"move\" vectors (pattern = 0) between all gaps (except vStart and vEnd).\n</html>");
         jButtonFillGaps.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonFillGaps.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonFillGaps.setPreferredSize(new java.awt.Dimension(175, 21));
         jButtonFillGaps.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonFillGapsActionPerformed(evt);
@@ -1582,7 +1397,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jButtonRemoveDots.setText("remove dots");
         jButtonRemoveDots.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonRemoveDots.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonRemoveDots.setPreferredSize(new java.awt.Dimension(175, 21));
         jButtonRemoveDots.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonRemoveDotsActionPerformed(evt);
@@ -1591,7 +1406,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jButtonFitByteRange.setText("fit byte");
         jButtonFitByteRange.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonFitByteRange.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonFitByteRange.setPreferredSize(new java.awt.Dimension(175, 21));
         jButtonFitByteRange.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonFitByteRangeActionPerformed(evt);
@@ -1607,36 +1422,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jButtonOrderSplitWhereNeeded.setText("split where needed");
         jButtonOrderSplitWhereNeeded.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonOrderSplitWhereNeeded.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonOrderSplitWhereNeeded.setPreferredSize(new java.awt.Dimension(175, 21));
         jButtonOrderSplitWhereNeeded.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonOrderSplitWhereNeededActionPerformed(evt);
             }
         });
 
-        jButtonShrink.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
-        jButtonShrink.setToolTipText("shrink vectorlist");
-        jButtonShrink.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonShrink.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonShrinkActionPerformed(evt);
-            }
-        });
-
-        jButtonEnlarge.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
-        jButtonEnlarge.setToolTipText("expand vectorlist");
-        jButtonEnlarge.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonEnlarge.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEnlargeActionPerformed(evt);
-            }
-        });
-
-        jTextFieldScaleFactor.setText("1.5");
-
-        jLabel32.setText("factor");
-
         jTextFieldNeedSplit.setText("127");
+        jTextFieldNeedSplit.setPreferredSize(new java.awt.Dimension(27, 21));
         jTextFieldNeedSplit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNeedSplitActionPerformed(evt);
@@ -1649,44 +1443,34 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonOrderSplitWhereNeeded, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonConnectWherePossible, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonOrderVectorlist, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonFitByteRange, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonRemoveDots, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonFillGaps, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel27Layout.createSequentialGroup()
-                        .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButtonOrderSplitWhereNeeded, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                            .addComponent(jButtonConnectWherePossible, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonOrderVectorlist, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonFitByteRange, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonRemoveDots, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonFillGaps, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBoxLine, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBoxFraktion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldNeedSplit, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel27Layout.createSequentialGroup()
-                        .addComponent(jButtonShrink)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonEnlarge)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                    .addComponent(jCheckBoxLine)
+                    .addComponent(jCheckBoxFraktion, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldNeedSplit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel27Layout.setVerticalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(jButtonConnectWherePossible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonOrderVectorlist, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonOrderSplitWhereNeeded, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldNeedSplit, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldNeedSplit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonFillGaps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1697,20 +1481,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonFitByteRange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxFraktion))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButtonShrink)
-                        .addComponent(jButtonEnlarge))
-                    .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextFieldScaleFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel32)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("shortcut list", jPanel27);
 
         jTextFieldScaleFactor1.setText("1.5");
+        jTextFieldScaleFactor1.setPreferredSize(new java.awt.Dimension(23, 21));
 
         jButtonEnlarge1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
         jButtonEnlarge1.setToolTipText("expand vectorlist");
@@ -1732,7 +1509,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jButtonFitByteRange1.setText("fit byte");
         jButtonFitByteRange1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonFitByteRange1.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonFitByteRange1.setPreferredSize(new java.awt.Dimension(74, 21));
         jButtonFitByteRange1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonFitByteRange1ActionPerformed(evt);
@@ -1747,39 +1524,34 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel36.setLayout(jPanel36Layout);
         jPanel36Layout.setHorizontalGroup(
             jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 281, Short.MAX_VALUE)
-            .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel36Layout.createSequentialGroup()
-                    .addGap(11, 11, 11)
-                    .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel36Layout.createSequentialGroup()
-                            .addComponent(jButtonFitByteRange1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jCheckBoxFraktion1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel36Layout.createSequentialGroup()
-                            .addComponent(jButtonShrink1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButtonEnlarge1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextFieldScaleFactor1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(11, 11, 11)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel36Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel36Layout.createSequentialGroup()
+                        .addComponent(jButtonShrink1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonEnlarge1))
+                    .addGroup(jPanel36Layout.createSequentialGroup()
+                        .addComponent(jButtonFitByteRange1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldScaleFactor1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBoxFraktion1)))
+                .addGap(139, 139, 139))
         );
         jPanel36Layout.setVerticalGroup(
             jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 209, Short.MAX_VALUE)
-            .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel36Layout.createSequentialGroup()
-                    .addGap(92, 92, 92)
-                    .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButtonFitByteRange1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jCheckBoxFraktion1))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonShrink1)
-                            .addComponent(jButtonEnlarge1))
-                        .addComponent(jTextFieldScaleFactor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(73, Short.MAX_VALUE)))
+            .addGroup(jPanel36Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonFitByteRange1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBoxFraktion1)
+                    .addComponent(jTextFieldScaleFactor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonShrink1)
+                    .addComponent(jButtonEnlarge1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("shortcut collection", jPanel36);
@@ -1812,7 +1584,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jToggleButtonPlayAnim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_play_blue.png"))); // NOI18N
         jToggleButtonPlayAnim.setToolTipText("Animates through all images, animation is looped. Given delay is taken.");
-        jToggleButtonPlayAnim.setPreferredSize(new java.awt.Dimension(49, 19));
+        jToggleButtonPlayAnim.setPreferredSize(new java.awt.Dimension(21, 21));
         jToggleButtonPlayAnim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButtonPlayAnimActionPerformed(evt);
@@ -1820,6 +1592,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jTextFieldDelay.setText("80");
+        jTextFieldDelay.setPreferredSize(new java.awt.Dimension(6, 21));
         jTextFieldDelay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldDelayActionPerformed(evt);
@@ -1840,14 +1613,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel1.setText("to angle");
 
         jTextFieldRotateZ.setText("360");
+        jTextFieldRotateZ.setPreferredSize(new java.awt.Dimension(0, 21));
 
         jLabel2.setText("to angle");
 
         jTextFieldRotateX.setText("0");
+        jTextFieldRotateX.setPreferredSize(new java.awt.Dimension(0, 21));
 
         jLabel3.setText("to angle");
 
         jTextFieldRotateY.setText("0");
+        jTextFieldRotateY.setPreferredSize(new java.awt.Dimension(0, 21));
         jTextFieldRotateY.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldRotateYActionPerformed(evt);
@@ -1856,11 +1632,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldRotateSteps.setText("12");
         jTextFieldRotateSteps.setToolTipText("<html>\nNumber of steps <b>BETWEEN</b> the original and the final angle.<BR>\nThis means step count of 0 (zero) results in 2 added animation frames, one for the original, \nand one frame for the rotated angle given.<BR>\nThis also means if the final angle is 360 degrees the first and the last added frame have the same rotation angle!\n</html>");
+        jTextFieldRotateSteps.setPreferredSize(new java.awt.Dimension(0, 21));
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/accept.png"))); // NOI18N
         jButton4.setText("do it");
         jButton4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton4.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButton4.setPreferredSize(new java.awt.Dimension(80, 21));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -1872,6 +1649,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jCheckBoxScaleToByte.setToolTipText("... if resulting rotated list is larger than byte values...");
         jCheckBoxScaleToByte.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jCheckBoxScaleToByte.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jCheckBoxScaleToByte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxScaleToByteActionPerformed(evt);
+            }
+        });
 
         jLabel33.setText("steps");
 
@@ -1884,38 +1666,28 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel23Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel23Layout.createSequentialGroup()
-                        .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox4))
-                        .addGap(33, 33, 33)
-                        .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel23Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldRotateY, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel23Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldRotateX, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel23Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldRotateZ, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jCheckBoxScaleToByte, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 39, Short.MAX_VALUE))
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox5)
+                    .addComponent(jCheckBox4)
+                    .addComponent(jCheckBox3)
+                    .addComponent(jCheckBox2))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel23Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldRotateSteps, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel23Layout.createSequentialGroup()
-                        .addComponent(jCheckBox5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel33)
+                            .addComponent(jCheckBoxScaleToByte)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(5, 5, 5)
+                        .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldRotateSteps, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldRotateY, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldRotateX, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldRotateZ, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         jPanel23Layout.setVerticalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1924,27 +1696,27 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox2)
                     .addComponent(jLabel1)
-                    .addComponent(jTextFieldRotateZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
+                    .addComponent(jTextFieldRotateZ, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox3)
                     .addComponent(jLabel2)
-                    .addComponent(jTextFieldRotateX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
+                    .addComponent(jTextFieldRotateX, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox4)
                     .addComponent(jLabel3)
-                    .addComponent(jTextFieldRotateY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
+                    .addComponent(jTextFieldRotateY, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
                 .addComponent(jCheckBoxScaleToByte)
-                .addGap(29, 29, 29)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldRotateSteps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldRotateSteps, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel33))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox5))
+                .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox5)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1953,11 +1725,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel7.setText("steps");
 
         jTextFieldMorphSteps.setText("12");
+        jTextFieldMorphSteps.setPreferredSize(new java.awt.Dimension(20, 21));
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/accept.png"))); // NOI18N
         jButton6.setText("do it");
         jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButton6.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButton6.setPreferredSize(new java.awt.Dimension(80, 21));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -1980,17 +1753,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addContainerGap()
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldMorphSteps, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel24Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldMorphSteps, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel24Layout.setVerticalGroup(
@@ -2004,19 +1775,18 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel21)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldMorphSteps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextFieldMorphSteps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(82, 82, 82))
         );
 
         jTabbedPane1.addTab("Morphing", jPanel24);
 
         jButtonPathsAsScenario.setText("seperate paths as scenario entries");
-        jButtonPathsAsScenario.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonPathsAsScenario.setPreferredSize(new java.awt.Dimension(74, 21));
         jButtonPathsAsScenario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonPathsAsScenarioActionPerformed(evt);
@@ -2029,15 +1799,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonPathsAsScenario, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addComponent(jButtonPathsAsScenario, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                .addContainerGap(96, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonPathsAsScenario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Scenario", jPanel14);
@@ -2050,59 +1820,59 @@ public class VeccyPanel extends javax.swing.JPanel implements
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         jTabbedPane6.addTab("build animation", jPanel22);
 
-        jLabelAnim.setText("DISPLAY/Animation/Scenario");
+        jLabelAnim.setText("DISPLAY");
+        jLabelAnim.setToolTipText("Animation/Scenario");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelAnim)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel5Layout.createSequentialGroup()
-                            .addGap(4, 4, 4)
-                            .addComponent(jLabelDelay, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextFieldDelay, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jToggleButtonPlayAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(single3dDisplayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSliderSourceScale1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(single3dDisplayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabelDelay)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldDelay, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jToggleButtonPlayAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabelAnim))
+                .addGap(5, 5, 5)
+                .addComponent(jTabbedPane6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addComponent(jTabbedPane2))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTabbedPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(jTabbedPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                            .addComponent(jLabelAnim)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(single3dDisplayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jSliderSourceScale1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jTabbedPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabelAnim)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(single3dDisplayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSliderSourceScale1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jToggleButtonPlayAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jToggleButtonPlayAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jTextFieldDelay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabelDelay)))))
-                .addGap(5, 5, 5))
+                                .addComponent(jLabelDelay))))
+                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(3, 3, 3))
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("vectorlist"));
@@ -2138,7 +1908,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jCheckBox1)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -2147,7 +1917,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
                 .addGap(12, 12, 12))
@@ -2173,7 +1943,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         );
 
         jPanel16.add(singleImagePanel2);
-        singleImagePanel2.setBounds(309, 13, 300, 300);
+        singleImagePanel2.setBounds(309, 15, 300, 300);
 
         singleImagePanel3.setMaximumSize(new java.awt.Dimension(300, 300));
         singleImagePanel3.setMinimumSize(new java.awt.Dimension(300, 300));
@@ -2191,22 +1961,22 @@ public class VeccyPanel extends javax.swing.JPanel implements
         );
 
         jPanel16.add(singleImagePanel3);
-        singleImagePanel3.setBounds(0, 13, 300, 300);
+        singleImagePanel3.setBounds(0, 15, 300, 300);
 
         jLabelY.setText("<- Y(z) ->");
         jPanel16.add(jLabelY);
-        jLabelY.setBounds(0, 319, 70, 14);
+        jLabelY.setBounds(0, 319, 130, 20);
 
         jLabelZ.setText("<- Z(x) ->");
         jPanel16.add(jLabelZ);
-        jLabelZ.setBounds(550, 320, 70, 14);
+        jLabelZ.setBounds(480, 320, 130, 20);
 
         jTextFieldExpandYZ.setText("1");
         jPanel16.add(jTextFieldExpandYZ);
-        jTextFieldExpandYZ.setBounds(80, 320, 30, 20);
+        jTextFieldExpandYZ.setBounds(280, 320, 30, 19);
 
         jButtonExpandDimensionYZ.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_out.png"))); // NOI18N
-        jButtonExpandDimensionYZ.setText("expand dimension");
+        jButtonExpandDimensionYZ.setText("expand");
         jButtonExpandDimensionYZ.setToolTipText("Deletes selected vectorlist.");
         jButtonExpandDimensionYZ.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonExpandDimensionYZ.setPreferredSize(new java.awt.Dimension(62, 21));
@@ -2216,11 +1986,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         jPanel16.add(jButtonExpandDimensionYZ);
-        jButtonExpandDimensionYZ.setBounds(120, 320, 160, 21);
+        jButtonExpandDimensionYZ.setBounds(140, 320, 130, 21);
 
         jCheckBoxDragVectors.setText("drag vectors");
         jPanel16.add(jCheckBoxDragVectors);
-        jCheckBoxDragVectors.setBounds(290, 320, 120, 23);
+        jCheckBoxDragVectors.setBounds(320, 320, 150, 19);
 
         jTabbedPane5.addTab("Y/Z", jPanel16);
 
@@ -2255,8 +2025,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jTextFieldSide.setText("0");
+        jTextFieldSide.setPreferredSize(new java.awt.Dimension(13, 21));
 
         jTextFieldTop.setText("0");
+        jTextFieldTop.setPreferredSize(new java.awt.Dimension(13, 21));
 
         jLabel10.setText("X-axis");
 
@@ -2265,6 +2037,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel13.setText("Z-axis");
 
         jTextFieldFront.setText("0");
+        jTextFieldFront.setPreferredSize(new java.awt.Dimension(13, 21));
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -2282,15 +2055,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSliderTop, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                    .addComponent(jSliderTop, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                     .addComponent(jSliderFront, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jSliderSide, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextFieldFront, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(jTextFieldSide)
-                    .addComponent(jTextFieldTop))
-                .addContainerGap(40, Short.MAX_VALUE))
+                    .addComponent(jTextFieldSide, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2322,7 +2095,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addGroup(jPanel8Layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
                                 .addComponent(jTextFieldTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 54, Short.MAX_VALUE))
+                .addGap(0, 149, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("object angle", jPanel8);
@@ -2367,10 +2140,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jTextFieldFront1.setText("0");
+        jTextFieldFront1.setPreferredSize(new java.awt.Dimension(13, 21));
 
         jTextFieldSide1.setText("0");
+        jTextFieldSide1.setPreferredSize(new java.awt.Dimension(13, 21));
 
         jTextFieldTop1.setText("0");
+        jTextFieldTop1.setPreferredSize(new java.awt.Dimension(13, 21));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -2388,14 +2164,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSliderFrontTranslocationZ, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                    .addComponent(jSliderFrontTranslocationZ, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                     .addComponent(jSliderFrontTranslocationX, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jSliderFrontTranslocationY, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextFieldFront1, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(jTextFieldSide1)
-                    .addComponent(jTextFieldTop1))
+                    .addComponent(jTextFieldSide1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldTop1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -2470,13 +2246,16 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jTextFieldFront2.setText("38");
+        jTextFieldFront2.setPreferredSize(new java.awt.Dimension(20, 21));
 
         jTextFieldSide2.setText("49");
+        jTextFieldSide2.setPreferredSize(new java.awt.Dimension(20, 21));
 
         jTextFieldTop2.setText("31");
+        jTextFieldTop2.setPreferredSize(new java.awt.Dimension(20, 21));
 
         jButton2dAxis.setText("axis 2d");
-        jButton2dAxis.setPreferredSize(new java.awt.Dimension(67, 19));
+        jButton2dAxis.setPreferredSize(new java.awt.Dimension(20, 21));
         jButton2dAxis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2dAxisActionPerformed(evt);
@@ -2484,7 +2263,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jButton3dAxis.setText("axis 3d");
-        jButton3dAxis.setPreferredSize(new java.awt.Dimension(67, 19));
+        jButton3dAxis.setPreferredSize(new java.awt.Dimension(20, 21));
         jButton3dAxis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3dAxisActionPerformed(evt);
@@ -2508,21 +2287,21 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jButton2dAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3dAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSliderTop1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                            .addComponent(jSliderTop1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                             .addComponent(jSliderFront1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jSliderSide1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextFieldFront2, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                            .addComponent(jTextFieldSide2)
-                            .addComponent(jTextFieldTop2))
-                        .addContainerGap(40, Short.MAX_VALUE))))
+                            .addComponent(jTextFieldSide2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextFieldTop2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(114, Short.MAX_VALUE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButton3dAxis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2dAxis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2555,10 +2334,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addGap(26, 26, 26)
                                 .addComponent(jTextFieldTop2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2dAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3dAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 23, Short.MAX_VALUE))
+                .addComponent(jButton2dAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3dAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 90, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("axis angles", jPanel7);
@@ -2578,23 +2357,23 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel21Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel21Layout.createSequentialGroup()
                         .addComponent(jLabelDelay1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxDisplayAxis)))
-                .addContainerGap(531, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel21Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelDelay1)
-                    .addComponent(jCheckBoxDisplayAxis))
-                .addContainerGap(83, Short.MAX_VALUE))
+                    .addComponent(jLabelDelay1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jCheckBoxDisplayAxis, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
 
         jTabbedPane5.addTab("3d settings", jPanel21);
@@ -2631,7 +2410,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel24.setText("display");
 
         jComboBoxPatterns.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxPatterns.setPreferredSize(new java.awt.Dimension(59, 19));
+        jComboBoxPatterns.setPreferredSize(new java.awt.Dimension(180, 21));
         jComboBoxPatterns.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxPatternsActionPerformed(evt);
@@ -2645,9 +2424,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel27.setText("last line");
 
         jTextField8.setText("%C");
+        jTextField8.setPreferredSize(new java.awt.Dimension(180, 21));
+
+        jTextField9.setPreferredSize(new java.awt.Dimension(180, 21));
 
         jTextField10.setText("%Y %X");
+        jTextField10.setPreferredSize(new java.awt.Dimension(180, 21));
 
+        jTextFieldPatternName.setPreferredSize(new java.awt.Dimension(180, 21));
         jTextFieldPatternName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldPatternNameActionPerformed(evt);
@@ -2692,35 +2476,32 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel23)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel25)
+                            .addComponent(jLabel26)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jButtonInterprete, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonSave3)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel49)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jCheckBoxMulti)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
-                        .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(108, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jButtonInterprete, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButtonSave3)))
-                                .addGap(8, 8, 8))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel49, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBoxMulti)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldPatternName, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxPatterns, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel24)
+                            .addComponent(jLabel27))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldPatternName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxPatterns, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2730,7 +2511,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2743,35 +2524,29 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addComponent(jButtonInterprete))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jComboBoxPatterns, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(7, 7, 7))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jCheckBoxMulti)
-                                        .addGap(6, 6, 6)))
+                                    .addComponent(jComboBoxPatterns, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBoxMulti))
+                                .addGap(6, 6, 6)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jTextFieldPatternName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButtonSave3))))
                         .addGap(6, 6, 6)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel27))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel25))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel26))
-                                .addGap(25, 25, 25)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel25))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel26))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel27)
+                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel24)
-                            .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 21, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(single3dDisplayPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel24))))
+                .addGap(0, 0, 0))
         );
 
         jTabbedPane7.addTab("text import", jPanel3);
@@ -2793,10 +2568,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel38Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel56)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonLoad2)
-                .addContainerGap(769, Short.MAX_VALUE))
+                .addContainerGap(805, Short.MAX_VALUE))
         );
         jPanel38Layout.setVerticalGroup(
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2805,13 +2580,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonLoad2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(280, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
 
         jTabbedPane7.addTab("Wavefront *.obj", jPanel38);
 
         jButtonExport1.setText("User Import");
-        jButtonExport1.setPreferredSize(new java.awt.Dimension(91, 19));
+        jButtonExport1.setPreferredSize(new java.awt.Dimension(91, 21));
         jButtonExport1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonExport1ActionPerformed(evt);
@@ -2824,15 +2599,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonExport1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(718, Short.MAX_VALUE))
+                .addComponent(jButtonExport1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(665, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(286, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
 
         jTabbedPane7.addTab("user import", jPanel15);
@@ -2860,7 +2635,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonMov_Draw_VLc_a.setText("Mov_Draw_VLc_a");
         jButtonMov_Draw_VLc_a.setToolTipText("<html>\n<B>Mov_Draw_VLc_a</B>        <BR>                                  \n                                                <BR>                            \nThis routine moves to the first location specified in vector list,    <BR>     \nand then draws lines between the rest of coordinates in the list.    <BR>      \nThe number of vectors to draw is specified as the first byte in the   <BR>     \nvector list.  The current scale factor is used.  The vector list has  <BR>     \nthe following format:                                                 <BR>     \n                                       <BR>                                  \n<PRE>\n   count, rel y, rel x, rel y, rel x, ... \n</PRE>\n<BR>     \n</html>");
         jButtonMov_Draw_VLc_a.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonMov_Draw_VLc_a.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonMov_Draw_VLc_a.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonMov_Draw_VLc_a.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonMov_Draw_VLc_a.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonMov_Draw_VLc_aActionPerformed(evt);
@@ -2870,7 +2646,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonDraw_VLc.setText("Draw_VLc");
         jButtonDraw_VLc.setToolTipText("<html>\n<B>Draw_VLc</B>        <BR>                                  \n                                                <BR>                            \nThis routine draws vectors between the set of (y,x) points pointed    <BR>     \nto by the X register.  The number of vectors to draw is specified     <BR>     \nas the first byte in the vector list.  The current scale factor is    <BR>     \nused.  The vector list has the following format:                      <BR>  \n<BR>\n<PRE>\n   count, rel y, rel x, rel y, rel x, ... \n</PRE>\n<BR>     \n</html>\n\n\n   \n");
         jButtonDraw_VLc.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonDraw_VLc.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_VLc.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonDraw_VLc.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonDraw_VLc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDraw_VLcActionPerformed(evt);
@@ -2880,7 +2657,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonDraw_VLp.setText("Draw_VLp");
         jButtonDraw_VLp.setToolTipText("<html>\n<B>Draw_VLp</B>        <BR>                                  \n                                                <BR>                            \nThis routine draws patterned lines using the vector list pointed to   <BR>\nby the X-register.  The current scale factor is used.  The vector   <BR>\nlist has the following format: <BR>\n<BR>\n<PRE>\n      pattern, rel y, rel x                                           \n      pattern, rel y, rel x                                           \n         .      .      .                                              \n         .      .      .                                              \n      pattern, rel y, rel x                                           \n      0x01 \n</PRE>\n<BR>     \n</html>\n");
         jButtonDraw_VLp.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonDraw_VLp.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_VLp.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonDraw_VLp.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonDraw_VLp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDraw_VLpActionPerformed(evt);
@@ -2890,31 +2668,39 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonDraw_VL_mode.setText("Draw_VL_mode");
         jButtonDraw_VL_mode.setToolTipText("<html>\n<B>Draw_VL_mode</B>        <BR>                                  \n                                                <BR>                            \nThis routine processes the vector list pointed to by the X register.  <BR> \nThe current scale factor is used.  The vector list has the following  <BR> \nformat: <BR> \n<BR>\n<PRE>\n     mode, rel y, rel x,                                             \n     mode, rel y, rel x,                                             \n     .      .      .                                                \n     .      .      .                                                \n     mode, rel y, rel x,                                             \n     0x01  \n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n< 0  use the pattern in $C829        <BR>                           \n= 0  move to specified endpoint      <BR>                           \n= 1  end of list, so return         <BR>                            \n> 1  draw to specified endpoint <BR>\n<BR>     \n</html>\n");
         jButtonDraw_VL_mode.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonDraw_VL_mode.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_VL_mode.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonDraw_VL_mode.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonDraw_VL_mode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDraw_VL_modeActionPerformed(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel4.setText("Only modes are available which can");
+        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel4.setText("Only modes, which can");
+        jLabel4.setPreferredSize(new java.awt.Dimension(210, 21));
 
-        jLabel34.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel34.setText("be used to draw the current type of");
+        jLabel34.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel34.setText("be used by type of");
+        jLabel34.setPreferredSize(new java.awt.Dimension(210, 21));
 
-        jLabel35.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel35.setText("vectorlist (see tab: vectorlist status).");
+        jLabel35.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel35.setText("vectorlist (see: vectorlist status).");
+        jLabel35.setPreferredSize(new java.awt.Dimension(210, 21));
 
-        jLabel36.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel36.setText("(vectorlist is assumed to be ordered!)");
+        jLabel36.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel36.setText("(vectorlist must be ordered!)");
+        jLabel36.setPreferredSize(new java.awt.Dimension(210, 21));
 
         jLabel37.setText("Label name:");
+
+        jTextFieldLabelListname.setPreferredSize(new java.awt.Dimension(6, 21));
 
         jButtonDraw_syncList.setText("Draw sync list");
         jButtonDraw_syncList.setToolTipText("<html>\n<B>Draw sync list</B>        <BR>                                  \n                                                <BR>                            \nFormat developed by Malban, this format describes a \"large\".  <BR> \nVectorlist, which can be synced while drawing. Synced means,   <BR> \nthe beam is zeroed and moved to the next location.   <BR> \nVide automatically inserts a \"sync\" when vectors are not connected. <BR> \n<BR>\nThe Sync point is always the \"displayed\" point 0, 0, after a sync the beam is moved<BR>\nthe vectorlist 0, 0 and from there to the next displayed vector.<BR>\nformat: <BR> \n\nMethod to draw:\nU = address of vectorlist\nX = (y,x) position of vectorlist (this will be point 0,0), positioning\nA = scalefactor \"Move\" (after sync)\nB = scalefactor \"Vector\" (vectors in vectorlist)\n\n<BR>\n<PRE>\n     mode, rel y, rel x,                                             \n     mode, rel y, rel x,                                             \n     .      .      .                                                \n     .      .      .                                                \n     mode, rel y, rel x,                                             \n     0xff, 0xffff \n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n0xff draw line        <BR>                           \n0  move to specified endpoint      <BR>                           \n1  sync (and move to specified endpoint)        <BR>     \n\n<BR>     \n</html>\n\n");
         jButtonDraw_syncList.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonDraw_syncList.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_syncList.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonDraw_syncList.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonDraw_syncList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDraw_syncListActionPerformed(evt);
@@ -2923,6 +2709,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldResync.setText("20");
         jTextFieldResync.setToolTipText("maximum resync size");
+        jTextFieldResync.setPreferredSize(new java.awt.Dimension(20, 21));
 
         jCheckBoxVec32.setToolTipText("Vectrex32 BASIC output");
 
@@ -2931,59 +2718,59 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel29Layout.setHorizontalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel29Layout.createSequentialGroup()
-                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButtonDraw_VLp, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(jButtonDraw_VLc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonMov_Draw_VLc_a, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonDraw_VL_mode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonDraw_syncList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonDraw_VL_mode, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDraw_VLp, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDraw_VLc, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonMov_Draw_VLc_a, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDraw_syncList, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel29Layout.createSequentialGroup()
                         .addComponent(jCheckBoxVec32)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel29Layout.createSequentialGroup()
+                            .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel29Layout.createSequentialGroup()
                         .addComponent(jTextFieldResync, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(12, 12, 12)
                         .addComponent(jLabel37)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldLabelListname, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGap(12, 12, 12)
+                        .addComponent(jTextFieldLabelListname, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
         jPanel29Layout.setVerticalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel29Layout.createSequentialGroup()
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonMov_Draw_VLc_a, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonDraw_VLc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel34))
+                    .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonDraw_VLp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel35))
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDraw_VLp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonDraw_VL_mode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel36))
+                        .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jCheckBoxVec32))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel37)
-                        .addComponent(jTextFieldLabelListname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextFieldLabelListname, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonDraw_syncList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextFieldResync, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(5, 5, 5))
+                        .addComponent(jTextFieldResync, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel30.setBorder(javax.swing.BorderFactory.createTitledBorder("Animation/Scenario"));
@@ -2991,7 +2778,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonMov_Draw_VLc_aAnim.setText("Mov_Draw_VLc_a");
         jButtonMov_Draw_VLc_aAnim.setToolTipText("<html>\n<B>Mov_Draw_VLc_a</B>        <BR>                                  \n                                                <BR>                            \nThis routine moves to the first location specified in vector list,    <BR>     \nand then draws lines between the rest of coordinates in the list.    <BR>      \nThe number of vectors to draw is specified as the first byte in the   <BR>     \nvector list.  The current scale factor is used.  The vector list has  <BR>     \nthe following format:                                                 <BR>     \n                                       <BR>                                  \n<PRE>\n   count, rel y, rel x, rel y, rel x, ... \n</PRE>\n<BR>     \n</html>");
         jButtonMov_Draw_VLc_aAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonMov_Draw_VLc_aAnim.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonMov_Draw_VLc_aAnim.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonMov_Draw_VLc_aAnim.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonMov_Draw_VLc_aAnim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonMov_Draw_VLc_aAnimActionPerformed(evt);
@@ -3001,7 +2789,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonDraw_VLcAnim.setText("Draw_VLc");
         jButtonDraw_VLcAnim.setToolTipText("<html>\n<B>Draw_VLc</B>        <BR>                                  \n                                                <BR>                            \nThis routine draws vectors between the set of (y,x) points pointed    <BR>     \nto by the X register.  The number of vectors to draw is specified     <BR>     \nas the first byte in the vector list.  The current scale factor is    <BR>     \nused.  The vector list has the following format:                      <BR>  \n<BR>\n<PRE>\n   count, rel y, rel x, rel y, rel x, ... \n</PRE>\n<BR>     \n</html>\n\n\n   \n");
         jButtonDraw_VLcAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonDraw_VLcAnim.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_VLcAnim.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonDraw_VLcAnim.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonDraw_VLcAnim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDraw_VLcAnimActionPerformed(evt);
@@ -3011,7 +2800,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonDraw_VLpAnim.setText("Draw_VLp");
         jButtonDraw_VLpAnim.setToolTipText("<html>\n<B>Draw_VLp</B>        <BR>                                  \n                                                <BR>                            \nThis routine draws patterned lines using the vector list pointed to   <BR>\nby the X-register.  The current scale factor is used.  The vector   <BR>\nlist has the following format: <BR>\n<BR>\n<PRE>\n      pattern, rel y, rel x                                           \n      pattern, rel y, rel x                                           \n         .      .      .                                              \n         .      .      .                                              \n      pattern, rel y, rel x                                           \n      0x01 \n</PRE>\n<BR>     \n</html>\n");
         jButtonDraw_VLpAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonDraw_VLpAnim.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_VLpAnim.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonDraw_VLpAnim.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonDraw_VLpAnim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDraw_VLpAnimActionPerformed(evt);
@@ -3021,28 +2811,35 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonDraw_VL_modeAnim.setText("Draw_VL_mode");
         jButtonDraw_VL_modeAnim.setToolTipText("<html>\n<B>Draw_VL_mode</B>        <BR>                                  \n                                                <BR>                            \nThis routine processes the vector list pointed to by the X register.  <BR> \nThe current scale factor is used.  The vector list has the following  <BR> \nformat: <BR> \n<BR>\n<PRE>\n     mode, rel y, rel x,                                             \n     mode, rel y, rel x,                                             \n     .      .      .                                                \n     .      .      .                                                \n     mode, rel y, rel x,                                             \n     0x01  \n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n< 0  use the pattern in $C829        <BR>                           \n= 0  move to specified endpoint      <BR>                           \n= 1  end of list, so return         <BR>                            \n> 1  draw to specified endpoint <BR>\n<BR>     \n</html>\n");
         jButtonDraw_VL_modeAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonDraw_VL_modeAnim.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_VL_modeAnim.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonDraw_VL_modeAnim.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonDraw_VL_modeAnim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDraw_VL_modeAnimActionPerformed(evt);
             }
         });
 
+        jTextFieldAnimName.setPreferredSize(new java.awt.Dimension(6, 21));
+
         jLabel38.setText("Label name:");
 
-        jLabel44.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel44.setForeground(new java.awt.Color(102, 102, 102));
         jLabel44.setText("Note: For Draw_VLc and Draw_VLp");
+        jLabel44.setPreferredSize(new java.awt.Dimension(230, 21));
 
-        jLabel45.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel45.setForeground(new java.awt.Color(102, 102, 102));
         jLabel45.setText("animations only make sense if all ");
+        jLabel45.setPreferredSize(new java.awt.Dimension(230, 21));
 
-        jLabel46.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel46.setForeground(new java.awt.Color(102, 102, 102));
         jLabel46.setText("frames share the same starting point!");
+        jLabel46.setPreferredSize(new java.awt.Dimension(230, 21));
 
         jButtonDraw_syncListAnim.setText("Draw sync list");
         jButtonDraw_syncListAnim.setToolTipText("<html>\n<B>Draw sync list</B>        <BR>                                  \n                                                <BR>                            \nFormat developed by Malban, this format describes a \"large\".  <BR> \nVectorlist, which can be synced while drawing. Synced means,   <BR> \nthe beam is zeroed and moved to the next location.   <BR> \nVide automatically inserts a \"sync\" when vectors are not connected. <BR> \n<BR>\nThe Sync point is always the \"displayed\" point 0, 0, after a sync the beam is moved<BR>\nthe vectorlist 0, 0 and from there to the next displayed vector.<BR>\nformat: <BR> \n\nMethod to draw:\nU = address of vectorlist\nX = (y,x) position of vectorlist (this will be point 0,0), positioning\nA = scalefactor \"Move\" (after sync)\nB = scalefactor \"Vector\" (vectors in vectorlist)\n\n<BR>\n<PRE>\n     mode, rel y, rel x,                                             \n     mode, rel y, rel x,                                             \n     .      .      .                                                \n     .      .      .                                                \n     mode, rel y, rel x,                                             \n     0xff, 0xffff \n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n0xff draw line        <BR>                           \n0  move to specified endpoint      <BR>                           \n1  sync (and move to specified endpoint)        <BR>     \n\n<BR>     \n</html>\n\n");
         jButtonDraw_syncListAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonDraw_syncListAnim.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_syncListAnim.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonDraw_syncListAnim.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonDraw_syncListAnim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDraw_syncListAnimActionPerformed(evt);
@@ -3051,6 +2848,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldResyncAnim.setText("20");
         jTextFieldResyncAnim.setToolTipText("maximum resync size");
+        jTextFieldResyncAnim.setPreferredSize(new java.awt.Dimension(20, 21));
 
         javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
         jPanel30.setLayout(jPanel30Layout);
@@ -3058,52 +2856,51 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel30Layout.createSequentialGroup()
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonMov_Draw_VLc_aAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDraw_VLcAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDraw_VLpAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDraw_VL_modeAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDraw_syncListAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel30Layout.createSequentialGroup()
-                        .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButtonDraw_VLpAnim, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonDraw_VLcAnim, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonMov_Draw_VLc_aAnim, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonDraw_VL_modeAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel46, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel30Layout.createSequentialGroup()
-                        .addComponent(jButtonDraw_syncListAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldResyncAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58)
+                        .addGap(12, 12, 12)
                         .addComponent(jLabel38)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldAnimName, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(6, 6, 6))
+                        .addGap(12, 12, 12)
+                        .addComponent(jTextFieldAnimName, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel46, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 89, Short.MAX_VALUE))
         );
         jPanel30Layout.setVerticalGroup(
             jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel30Layout.createSequentialGroup()
                 .addComponent(jButtonMov_Draw_VLc_aAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonDraw_VLcAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel44))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonDraw_VLpAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel45))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonDraw_VL_modeAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel46))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel30Layout.createSequentialGroup()
+                        .addComponent(jButtonDraw_VLcAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDraw_VLpAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDraw_VL_modeAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel30Layout.createSequentialGroup()
+                        .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(6, 6, 6)
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel38)
-                        .addComponent(jTextFieldAnimName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextFieldAnimName, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonDraw_syncListAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextFieldResyncAnim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jTextFieldResyncAnim, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jCheckBoxRunnable.setText("runnable");
@@ -3174,11 +2971,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel19Layout.setHorizontalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGap(0, 0, 0)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addComponent(jCheckBoxRunnable)
@@ -3187,41 +2983,41 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonEditInVedi)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBoxAddFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCheckBoxAddFactor)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5)
+                    .addGroup(jPanel19Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(40, 40, 40)
                         .addComponent(jRadioButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButton6)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane5))
-                .addContainerGap())
+                        .addContainerGap(157, Short.MAX_VALUE))))
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBoxRunnable, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonAssemble, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonEditInVedi, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jCheckBoxAddFactor)
-                                .addComponent(jRadioButton3)
-                                .addComponent(jRadioButton4)
-                                .addComponent(jRadioButton5)
-                                .addComponent(jRadioButton6)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxAddFactor)
+                    .addComponent(jButtonEditInVedi)
+                    .addComponent(jButtonAssemble)
+                    .addComponent(jCheckBoxRunnable))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton3)
+                    .addComponent(jRadioButton4)
+                    .addComponent(jRadioButton5)
+                    .addComponent(jRadioButton6))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel19Layout.createSequentialGroup()
+                .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane8.addTab("text export", jPanel19);
@@ -3263,20 +3059,22 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonCodeGen.setText("Moves & Draws");
         jButtonCodeGen.setToolTipText("");
         jButtonCodeGen.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonCodeGen.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonCodeGen.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonCodeGen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCodeGenActionPerformed(evt);
             }
         });
 
-        jLabel47.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel47.setForeground(new java.awt.Color(102, 102, 102));
         jLabel47.setText("To change the code generation,  ");
 
-        jLabel48.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel48.setForeground(new java.awt.Color(102, 102, 102));
         jLabel48.setText("edit the used templates!");
 
         jLabel51.setText("Label name:");
+
+        jTextFieldLabelListname1.setPreferredSize(new java.awt.Dimension(6, 21));
 
         javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
         jPanel33.setLayout(jPanel33Layout);
@@ -3284,31 +3082,32 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel33Layout.createSequentialGroup()
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButtonCodeGen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel33Layout.createSequentialGroup()
+                            .addComponent(jLabel51)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldLabelListname1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel33Layout.createSequentialGroup()
-                        .addComponent(jButtonCodeGen, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
+                        .addGap(75, 75, 75)
                         .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel48, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)))
-                    .addGroup(jPanel33Layout.createSequentialGroup()
-                        .addComponent(jLabel51)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldLabelListname1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                            .addComponent(jLabel48)
+                            .addComponent(jLabel47))))
+                .addGap(107, 107, 107))
         );
         jPanel33Layout.setVerticalGroup(
             jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel33Layout.createSequentialGroup()
-                .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCodeGen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel47))
+                .addComponent(jButtonCodeGen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel47)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel48)
-                .addGap(57, 57, 57)
+                .addGap(21, 21, 21)
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel51)
-                    .addComponent(jTextFieldLabelListname1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 13, Short.MAX_VALUE))
+                    .addComponent(jTextFieldLabelListname1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 11, Short.MAX_VALUE))
         );
 
         jPanel34.setBorder(javax.swing.BorderFactory.createTitledBorder("Animation/Scenario"));
@@ -3316,12 +3115,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonAnimCodeGen.setText("Moves & Draws");
         jButtonAnimCodeGen.setToolTipText("");
         jButtonAnimCodeGen.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jButtonAnimCodeGen.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonAnimCodeGen.setPreferredSize(new java.awt.Dimension(140, 21));
         jButtonAnimCodeGen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAnimCodeGenActionPerformed(evt);
             }
         });
+
+        jTextFieldAnimName1.setPreferredSize(new java.awt.Dimension(6, 21));
 
         jLabel52.setText("Label name:");
 
@@ -3330,23 +3131,23 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel34Layout.setHorizontalGroup(
             jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel34Layout.createSequentialGroup()
-                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonAnimCodeGen, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel34Layout.createSequentialGroup()
+                .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonAnimCodeGen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel34Layout.createSequentialGroup()
                         .addComponent(jLabel52)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldAnimName1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(227, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel34Layout.setVerticalGroup(
             jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel34Layout.createSequentialGroup()
                 .addComponent(jButtonAnimCodeGen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74)
+                .addGap(76, 76, 76)
                 .addGroup(jPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel52)
-                    .addComponent(jTextFieldAnimName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jTextFieldAnimName1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
@@ -3356,8 +3157,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel32Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel32Layout.createSequentialGroup()
@@ -3367,13 +3168,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonEditInVedi1)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6))
                 .addContainerGap())
         );
         jPanel32Layout.setVerticalGroup(
             jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel32Layout.createSequentialGroup()
-                .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel32Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3381,18 +3182,19 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addComponent(jButtonEditInVedi1)
                             .addComponent(jCheckBoxRunnable1, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane6))
                     .addGroup(jPanel32Layout.createSequentialGroup()
                         .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
         jTabbedPane8.addTab("code export", jPanel32);
 
         jButtonExport.setText("User Export");
-        jButtonExport.setPreferredSize(new java.awt.Dimension(90, 19));
+        jButtonExport.setPreferredSize(new java.awt.Dimension(150, 21));
         jButtonExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonExportActionPerformed(evt);
@@ -3405,15 +3207,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonExport, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(710, Short.MAX_VALUE))
+                .addComponent(jButtonExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(705, Short.MAX_VALUE))
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(282, Short.MAX_VALUE))
+                .addContainerGap(298, Short.MAX_VALUE))
         );
 
         jTabbedPane8.addTab("user export", jPanel20);
@@ -3426,7 +3228,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         );
         jPanel26Layout.setVerticalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 342, Short.MAX_VALUE)
+            .addComponent(jTabbedPane8)
         );
 
         jTabbedPane5.addTab("export", jPanel26);
@@ -3446,9 +3248,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldXMaxLength.setEditable(false);
         jTextFieldXMaxLength.setText("0");
+        jTextFieldXMaxLength.setPreferredSize(new java.awt.Dimension(50, 21));
 
         jTextFieldYMaxLength.setEditable(false);
         jTextFieldYMaxLength.setText("0");
+        jTextFieldYMaxLength.setPreferredSize(new java.awt.Dimension(50, 21));
 
         jLabel6.setText("Y length max");
 
@@ -3462,28 +3266,35 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldYMin.setEditable(false);
         jTextFieldYMin.setText("0");
+        jTextFieldYMin.setPreferredSize(new java.awt.Dimension(50, 21));
 
         jTextFieldXMin.setEditable(false);
         jTextFieldXMin.setText("0");
+        jTextFieldXMin.setPreferredSize(new java.awt.Dimension(50, 21));
 
         jTextFieldXMax.setEditable(false);
         jTextFieldXMax.setText("0");
+        jTextFieldXMax.setPreferredSize(new java.awt.Dimension(50, 21));
 
         jTextFieldYMax.setEditable(false);
         jTextFieldYMax.setText("0");
+        jTextFieldYMax.setPreferredSize(new java.awt.Dimension(50, 21));
 
         jLabel30.setText("Z length max");
 
         jTextFieldZMaxLength.setEditable(false);
         jTextFieldZMaxLength.setText("0");
+        jTextFieldZMaxLength.setPreferredSize(new java.awt.Dimension(50, 21));
 
         jLabel31.setText("Z min/max");
 
         jTextFieldZMin.setEditable(false);
         jTextFieldZMin.setText("0");
+        jTextFieldZMin.setPreferredSize(new java.awt.Dimension(50, 21));
 
         jTextFieldZMax.setEditable(false);
         jTextFieldZMax.setText("0");
+        jTextFieldZMax.setPreferredSize(new java.awt.Dimension(50, 21));
 
         jCheckBoxVectorOrderedClosedPolygon.setText("ordered closed polygon");
 
@@ -3496,122 +3307,111 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
-        jLabel39.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel39.setText("if disabled, so are export to: Draw_VLc and Mov_Draw_VLc_a");
+        jLabel39.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel39.setText("if disabled, so are export: (Mov_)Draw_VLc");
 
-        jLabel40.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel40.setText("if disabled, so are export to: Draw_VLp");
+        jLabel40.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel40.setText("if disabled, so are export: Draw_VLp");
 
-        jLabel41.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel41.setForeground(new java.awt.Color(102, 102, 102));
         jLabel41.setText("if disabled, so all exports");
 
-        jLabel42.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
-        jLabel42.setText("if any max length is greater 127, than all exports are disabled");
+        jLabel42.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel42.setText("if any max length is greater 127,");
 
-        jLabel43.setFont(new java.awt.Font("Geneva", 1, 14)); // NOI18N
+        jLabel43.setFont(jLabel43.getFont().deriveFont(jLabel43.getFont().getStyle() | java.awt.Font.BOLD, jLabel43.getFont().getSize()+3));
         jLabel43.setText("This is an information tab, changing checkboxes here is a waste of time!");
+
+        jLabel54.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel54.setText("than all exports are disabled");
 
         javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
         jPanel28.setLayout(jPanel28Layout);
         jPanel28Layout.setHorizontalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel28Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel43)
                     .addGroup(jPanel28Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel28Layout.createSequentialGroup()
-                                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jTextFieldXMin, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldYMin, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBoxSamePattern)
+                                    .addComponent(jCheckBoxHighPattern)
+                                    .addComponent(jCheckBoxVectorsContinuous))
+                                .addGap(10, 10, 10)
                                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextFieldYMax, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldXMax, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel28Layout.createSequentialGroup()
-                                .addComponent(jTextFieldZMin, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldZMax, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(67, 67, 67)
+                                    .addComponent(jLabel39, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                                    .addComponent(jLabel40, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jCheckBoxOnePath)
+                            .addComponent(jCheckBoxSameIntensity)
+                            .addComponent(jCheckBox2dOnly)
+                            .addComponent(jCheckBoxVectorClosedPolygon)
+                            .addComponent(jCheckBoxVectorOrderedClosedPolygon))
+                        .addGap(15, 15, 15)
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6))
-                            .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(5, 5, 5)
-                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldYMaxLength, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-                            .addComponent(jTextFieldXMaxLength, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-                            .addComponent(jTextFieldZMaxLength)))
-                    .addGroup(jPanel28Layout.createSequentialGroup()
-                        .addGap(345, 345, 345)
-                        .addComponent(jLabel42))
-                    .addGroup(jPanel28Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel43))
-                    .addGroup(jPanel28Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                            .addComponent(jLabel30)
+                            .addComponent(jLabel31)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel29)
+                            .addComponent(jLabel28)
+                            .addComponent(jLabel6))
+                        .addGap(12, 12, 12)
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBoxSamePattern, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBoxHighPattern, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBoxVectorsContinuous, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBoxVectorClosedPolygon, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBoxVectorOrderedClosedPolygon, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36)
+                            .addComponent(jTextFieldXMin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldYMin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldZMin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldZMaxLength, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldXMaxLength, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldYMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel40)
-                            .addComponent(jLabel39)
-                            .addComponent(jLabel41)))
-                    .addGroup(jPanel28Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jCheckBoxSameIntensity, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel28Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jCheckBoxOnePath, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel28Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jCheckBox2dOnly, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jTextFieldYMax, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldXMax, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldZMax, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel42, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                        .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(0, 0, 0))
         );
         jPanel28Layout.setVerticalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel28Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(6, 6, 6)
                 .addComponent(jLabel43)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBoxSameIntensity)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBoxSamePattern)
-                    .addComponent(jLabel39))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBoxHighPattern)
-                    .addComponent(jLabel40))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox2dOnly)
-                .addGap(1, 1, 1)
-                .addComponent(jCheckBoxOnePath)
-                .addGap(0, 0, 0)
-                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBoxVectorsContinuous)
-                    .addComponent(jLabel41))
-                .addGap(4, 4, 4)
-                .addComponent(jCheckBoxVectorClosedPolygon)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxVectorOrderedClosedPolygon)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel28)
                     .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jCheckBoxSameIntensity)
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBoxSamePattern)
+                            .addComponent(jLabel39))
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBoxHighPattern)
+                            .addComponent(jLabel40))
+                        .addGap(0, 0, 0)
+                        .addComponent(jCheckBox2dOnly)
+                        .addGap(0, 0, 0)
+                        .addComponent(jCheckBoxOnePath)
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBoxVectorsContinuous)
+                            .addComponent(jLabel41))
+                        .addGap(0, 0, 0)
+                        .addComponent(jCheckBoxVectorClosedPolygon)
+                        .addGap(0, 0, 0)
+                        .addComponent(jCheckBoxVectorOrderedClosedPolygon))
+                    .addGroup(jPanel28Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel28Layout.createSequentialGroup()
-                                .addComponent(jTextFieldXMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextFieldXMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel28))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jTextFieldYMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3624,22 +3424,24 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextFieldZMin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextFieldZMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel31)))
-                    .addGroup(jPanel28Layout.createSequentialGroup()
-                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jTextFieldXMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel31))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextFieldYMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldXMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel30)
-                            .addComponent(jTextFieldZMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldYMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldZMaxLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel30))))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel42)
-                .addGap(49, 49, 49))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel54)
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         jTabbedPane5.addTab("vectorlist status", jPanel28);
@@ -3648,11 +3450,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jTabbedPane5)
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane5)
         );
 
         jLabelMaxY.setText("128");
@@ -3749,43 +3551,49 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabelStartInX.setText("start point:");
         jPanel18.add(jLabelStartInX);
-        jLabelStartInX.setBounds(13, 1, 90, 14);
+        jLabelStartInX.setBounds(13, 1, 140, 15);
 
         jLabelCurrent.setText("current:");
         jPanel18.add(jLabelCurrent);
-        jLabelCurrent.setBounds(173, 1, 80, 14);
+        jLabelCurrent.setBounds(173, 1, 80, 15);
 
         jTextFieldStartX.setText("80");
+        jTextFieldStartX.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel18.add(jTextFieldStartX);
-        jTextFieldStartX.setBounds(10, 20, 40, 20);
+        jTextFieldStartX.setBounds(10, 20, 40, 21);
 
         jTextFieldCurrentZ.setText("80");
+        jTextFieldCurrentZ.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel18.add(jTextFieldCurrentZ);
-        jTextFieldCurrentZ.setBounds(270, 20, 40, 20);
+        jTextFieldCurrentZ.setBounds(270, 20, 40, 21);
 
         jTextFieldCurrentY.setText("80");
+        jTextFieldCurrentY.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel18.add(jTextFieldCurrentY);
-        jTextFieldCurrentY.setBounds(220, 20, 40, 20);
+        jTextFieldCurrentY.setBounds(220, 20, 40, 21);
 
-        jLabelCount.setText("vector count:");
+        jLabelCount.setText("count:");
         jPanel18.add(jLabelCount);
-        jLabelCount.setBounds(70, 350, 80, 14);
+        jLabelCount.setBounds(120, 350, 60, 20);
 
         jTextFieldStartZ.setText("80");
+        jTextFieldStartZ.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel18.add(jTextFieldStartZ);
-        jTextFieldStartZ.setBounds(110, 20, 40, 20);
+        jTextFieldStartZ.setBounds(110, 20, 40, 21);
 
         jLabelX.setText("<- X(y) ->");
         jPanel18.add(jLabelX);
-        jLabelX.setBounds(10, 350, 70, 14);
+        jLabelX.setBounds(10, 350, 90, 20);
 
         jTextFieldStartY.setText("80");
+        jTextFieldStartY.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel18.add(jTextFieldStartY);
-        jTextFieldStartY.setBounds(60, 20, 40, 20);
+        jTextFieldStartY.setBounds(60, 20, 40, 21);
 
         jTextFieldVectorCount.setText("0");
+        jTextFieldVectorCount.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel18.add(jTextFieldVectorCount);
-        jTextFieldVectorCount.setBounds(150, 350, 30, 20);
+        jTextFieldVectorCount.setBounds(180, 350, 30, 21);
 
         singleVectorPanel1.setMaximumSize(new java.awt.Dimension(300, 300));
         singleVectorPanel1.setMinimumSize(new java.awt.Dimension(300, 300));
@@ -3803,11 +3611,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
         );
 
         jPanel18.add(singleVectorPanel1);
-        singleVectorPanel1.setBounds(10, 40, 300, 300);
+        singleVectorPanel1.setBounds(10, 46, 300, 300);
 
         jTextFieldCurrentX.setText("80");
+        jTextFieldCurrentX.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel18.add(jTextFieldCurrentX);
-        jTextFieldCurrentX.setBounds(170, 20, 40, 20);
+        jTextFieldCurrentX.setBounds(170, 20, 40, 21);
 
         jCheckBoxGrid.setSelected(true);
         jCheckBoxGrid.setText("grid");
@@ -3818,10 +3627,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         jPanel18.add(jCheckBoxGrid);
-        jCheckBoxGrid.setBounds(230, 350, 50, 23);
+        jCheckBoxGrid.setBounds(210, 350, 70, 19);
 
         jTextFieldGridWidth.setText("1");
         jTextFieldGridWidth.setToolTipText("grid distance");
+        jTextFieldGridWidth.setPreferredSize(new java.awt.Dimension(0, 21));
         jTextFieldGridWidth.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextFieldGridWidthFocusLost(evt);
@@ -3833,7 +3643,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
         jPanel18.add(jTextFieldGridWidth);
-        jTextFieldGridWidth.setBounds(280, 350, 30, 20);
+        jTextFieldGridWidth.setBounds(280, 350, 30, 21);
 
         jPanel31.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -3841,7 +3651,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jButtonSelectAll.setToolTipText("select all (vectors)");
         jButtonSelectAll.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonSelectAll.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonSelectAll.setPreferredSize(new java.awt.Dimension(65, 19));
         jButtonSelectAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSelectAllActionPerformed(evt);
@@ -3959,7 +3768,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonRedo)
                 .addGap(18, 18, 18)
-                .addComponent(jButtonSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonSelectAll)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCopy)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3977,7 +3786,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel31Layout.setVerticalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel31Layout.createSequentialGroup()
-                .addComponent(jButtonSelectAll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonSelectAll)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jLabelMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel31Layout.createSequentialGroup()
@@ -4012,7 +3821,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelScale, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelScale)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel6Layout.createSequentialGroup()
                             .addComponent(jSliderSourceScale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -4026,15 +3835,16 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(jLabelMinY, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabelY0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabelMaxY, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jLabelMaxY)))
                                 .addGroup(jPanel6Layout.createSequentialGroup()
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jPanelScroller, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                             .addGap(4, 4, 4)
                             .addComponent(jCheckBoxByteFrame))))
-                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
+                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
                 .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -4042,6 +3852,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jCheckBoxByteFrame)
                         .addGap(12, 12, 12)
@@ -4059,9 +3870,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addComponent(jButtonSingleEditor)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelScale))
-                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addComponent(jPanel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -4074,7 +3883,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(applyCurrent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
@@ -4083,24 +3891,325 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGap(3, 3, 3)
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(applyCurrent, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
+        );
+
+        jPanel39.setBorder(javax.swing.BorderFactory.createTitledBorder("vectorlists collection"));
+
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        jPanelIMageCollection.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelIMageCollection.setMinimumSize(new java.awt.Dimension(15, 62));
+        jPanelIMageCollection.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING));
+
+        jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel12.setPreferredSize(new java.awt.Dimension(52, 52));
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+
+        jPanelIMageCollection.add(jPanel12);
+
+        jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel13.setPreferredSize(new java.awt.Dimension(52, 52));
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+
+        jPanelIMageCollection.add(jPanel13);
+
+        jScrollPane2.setViewportView(jPanelIMageCollection);
+
+        jButtonOneForward.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_right.png"))); // NOI18N
+        jButtonOneForward.setToolTipText("Select next, +SHIFT moves selected vectorlist one to the right.");
+        jButtonOneForward.setPreferredSize(new java.awt.Dimension(35, 21));
+        jButtonOneForward.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOneForwardActionPerformed(evt);
+            }
+        });
+
+        jTextFieldCurrentNo.setToolTipText("Number of the current selected image.");
+        jTextFieldCurrentNo.setPreferredSize(new java.awt.Dimension(6, 21));
+
+        jLabelImageNow.setText("now");
+
+        jTextFieldCount.setText("0");
+        jTextFieldCount.setToolTipText("Count of images.");
+        jTextFieldCount.setPreferredSize(new java.awt.Dimension(6, 21));
+
+        jLabelImageCount.setText("Count");
+
+        jButtonApplyCurrent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/shape_square_go.png"))); // NOI18N
+        jButtonApplyCurrent.setText("apply");
+        jButtonApplyCurrent.setToolTipText("apply changes to vectorlist to current selected animation \"frame\"");
+        jButtonApplyCurrent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonApplyCurrent.setPreferredSize(new java.awt.Dimension(90, 21));
+        jButtonApplyCurrent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApplyCurrentActionPerformed(evt);
+            }
+        });
+
+        jLabelSelSize.setText(" ");
+
+        jButtonReverse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_refresh_small.png"))); // NOI18N
+        jButtonReverse.setText("Reverse");
+        jButtonReverse.setToolTipText("Reverses the order of all vectorlists.");
+        jButtonReverse.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonReverse.setPreferredSize(new java.awt.Dimension(120, 21));
+        jButtonReverse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReverseActionPerformed(evt);
+            }
+        });
+
+        jButtonDeleteOne.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/exclamation.png"))); // NOI18N
+        jButtonDeleteOne.setText("delete");
+        jButtonDeleteOne.setToolTipText("Deletes selected vectorlist.");
+        jButtonDeleteOne.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonDeleteOne.setPreferredSize(new java.awt.Dimension(120, 21));
+        jButtonDeleteOne.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteOneActionPerformed(evt);
+            }
+        });
+
+        jButtonSave2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
+        jButtonSave2.setToolTipText("save animation");
+        jButtonSave2.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonSave2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSave2ActionPerformed(evt);
+            }
+        });
+
+        jButtonAddCurrent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
+        jButtonAddCurrent.setText("add current");
+        jButtonAddCurrent.setToolTipText("add current \"work\" vectorlist to the end of the animation");
+        jButtonAddCurrent.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonAddCurrent.setPreferredSize(new java.awt.Dimension(90, 21));
+        jButtonAddCurrent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddCurrentActionPerformed(evt);
+            }
+        });
+
+        jButtonLoad1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
+        jButtonLoad1.setToolTipText("load animation");
+        jButtonLoad1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoad1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoad1ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup2.add(jRadioButton1);
+        jRadioButton1.setSelected(true);
+        jRadioButton1.setText("animation");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup2.add(jRadioButton2);
+        jRadioButton2.setText("scenario");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
+
+        jButtonAddCurrent1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/add.png"))); // NOI18N
+        jButtonAddCurrent1.setText("add view");
+        jButtonAddCurrent1.setToolTipText("add current \"work\" vectorlist to the end of the animation");
+        jButtonAddCurrent1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonAddCurrent1.setPreferredSize(new java.awt.Dimension(120, 21));
+        jButtonAddCurrent1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddCurrent1ActionPerformed(evt);
+            }
+        });
+
+        jButtonClearAnimation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/new.png"))); // NOI18N
+        jButtonClearAnimation.setText("clear");
+        jButtonClearAnimation.setToolTipText("new Animation (clears all)");
+        jButtonClearAnimation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonClearAnimation.setPreferredSize(new java.awt.Dimension(120, 21));
+        jButtonClearAnimation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonClearAnimationActionPerformed(evt);
+            }
+        });
+
+        jButtonOneBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_left.png"))); // NOI18N
+        jButtonOneBack.setToolTipText("Select previous, +SHIFT moves selected vectorlist one to the left.");
+        jButtonOneBack.setPreferredSize(new java.awt.Dimension(35, 21));
+        jButtonOneBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOneBackActionPerformed(evt);
+            }
+        });
+
+        jButtonJoin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/vector_add.png"))); // NOI18N
+        jButtonJoin.setText("join");
+        jButtonJoin.setToolTipText("<html>\n<body>\nif \"edit on select\" selected:<BR>\nJoins all vectorlist to one in current edit<BR>\nif \"edit on select\" NOT selected:<BR>\nJoins current selected frame to the current edit<BR>\n</body>\n</html>\n");
+        jButtonJoin.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonJoin.setPreferredSize(new java.awt.Dimension(120, 21));
+        jButtonJoin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonJoinActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxAutoEdit.setSelected(true);
+        jCheckBoxAutoEdit.setText("edit on select");
+        jCheckBoxAutoEdit.setMargin(new java.awt.Insets(0, 2, 0, 2));
+        jCheckBoxAutoEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxAutoEditActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxAutoApply.setText("auto apply");
+
+        javax.swing.GroupLayout jPanel39Layout = new javax.swing.GroupLayout(jPanel39);
+        jPanel39.setLayout(jPanel39Layout);
+        jPanel39Layout.setHorizontalGroup(
+            jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel39Layout.createSequentialGroup()
+                .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel39Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel39Layout.createSequentialGroup()
+                                .addComponent(jLabelImageCount)
+                                .addGap(7, 7, 7)
+                                .addComponent(jTextFieldCount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelImageNow)
+                                .addGap(6, 6, 6)
+                                .addComponent(jTextFieldCurrentNo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel39Layout.createSequentialGroup()
+                                .addComponent(jButtonLoad1)
+                                .addGap(6, 6, 6)
+                                .addComponent(jButtonSave2)
+                                .addGap(4, 4, 4)
+                                .addComponent(jCheckBoxAutoEdit)))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton1)
+                            .addComponent(jRadioButton2))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonAddCurrent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonApplyCurrent, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonAddCurrent1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBoxAutoApply))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonReverse, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel39Layout.createSequentialGroup()
+                                .addComponent(jButtonOneBack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(11, 11, 11)
+                                .addComponent(jButtonOneForward, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel39Layout.createSequentialGroup()
+                                .addComponent(jButtonClearAnimation, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelSelSize, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel39Layout.createSequentialGroup()
+                                .addComponent(jButtonDeleteOne, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonJoin, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(0, 0, 0))
+        );
+        jPanel39Layout.setVerticalGroup(
+            jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel39Layout.createSequentialGroup()
+                .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel39Layout.createSequentialGroup()
+                        .addComponent(jRadioButton1)
+                        .addGap(1, 1, 1)
+                        .addComponent(jRadioButton2))
+                    .addGroup(jPanel39Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabelImageCount)
+                                .addComponent(jTextFieldCount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabelImageNow)
+                                .addComponent(jTextFieldCurrentNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(2, 2, 2)
+                        .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonLoad1)
+                            .addComponent(jButtonSave2)
+                            .addGroup(jPanel39Layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addComponent(jCheckBoxAutoEdit))))
+                    .addGroup(jPanel39Layout.createSequentialGroup()
+                        .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonAddCurrent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonAddCurrent1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonReverse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonDeleteOne, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonJoin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel39Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jButtonApplyCurrent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBoxAutoApply)
+                                    .addComponent(jLabelSelSize)
+                                    .addComponent(jButtonClearAnimation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel39Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonOneForward, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel39Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonOneBack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(4, 4, 4)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -5670,12 +5779,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         checkAssemblerButton();
     }//GEN-LAST:event_jCheckBoxRunnableActionPerformed
 
-    private void applyCurrentComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_applyCurrentComponentResized
-        Rectangle r = jScrollPane2.getBounds();
-        r.width = applyCurrent.getWidth()-15;
-        jScrollPane2.setBounds(r);
-    }//GEN-LAST:event_applyCurrentComponentResized
-
     private void jCheckBoxOnePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxOnePathActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxOnePathActionPerformed
@@ -6281,6 +6384,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
         
     }//GEN-LAST:event_jMenuItemRemovePointActionPerformed
+
+    private void jCheckBoxScaleToByteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxScaleToByteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxScaleToByteActionPerformed
     void closeSingleVecciPanel()
     {
         if (svp != null)
@@ -6622,7 +6729,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel applyCurrent;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
@@ -6788,6 +6894,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel6;
@@ -6856,6 +6963,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -8897,9 +9005,27 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 }
             }
         }
-        
     }
-
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+    {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+            updateMyUI();
+        }
+    };
+    void updateMyUI()
+    {
+        SwingUtilities.updateComponentTreeUI(jPopupMenuPoint);
+        SwingUtilities.updateComponentTreeUI(jPopupMenuLine);
+        int fontSize = Theme.textFieldFont.getFont().getSize();
+        int rowHeight = fontSize+2;
+        jTable1.setRowHeight(rowHeight);
+        jTableFace.setRowHeight(rowHeight);
+    }
 }
 
 

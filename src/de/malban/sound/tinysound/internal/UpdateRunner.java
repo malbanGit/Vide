@@ -104,7 +104,6 @@ public class UpdateRunner implements Runnable
                 {
                     int bytesToSkip = framesToSkip * TinySound.FORMAT.getFrameSize();
                     this.mixer.skip(bytesToSkip);
-//System.out.println("Skip");
                 }
                 //read frames
                 if (framesToRead > 0) 
@@ -118,7 +117,6 @@ public class UpdateRunner implements Runnable
                     int remaining = bytesToRead - tmpBytesRead;
                     for (int i = 0; i < remaining; i++) 
                     {
-//System.out.println("R:"+remaining);
                         audioBuffer[numBytesRead + i] = 0;
                     }
                     numBytesRead += remaining; //mark zeroes read

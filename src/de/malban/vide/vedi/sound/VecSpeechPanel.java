@@ -20,8 +20,11 @@ import de.malban.vide.vecx.devices.VecVoxSamples;
 import de.malban.vide.vecx.devices.VecVoxSamples.SpeakJetMSA;
 import de.malban.vide.vecx.devices.VecVoxSamples.SpeakSpecials;
 import de.malban.vide.vedi.VediPanel;
+import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,6 +34,7 @@ import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -49,6 +53,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
     @Override
     public void closing()
     {
+        removeUIListerner();
     }
     @Override public boolean isIcon()
     {
@@ -206,6 +211,8 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
         jTable1.setModel(new VecVoxTableModel());
         jTable2.setModel(new VecVoxSpecialTableModel());
         loadPhrases();
+        UIManager.addPropertyChangeListener(pListener);
+        updateMyUI(); 
     }
 
     /**
@@ -462,7 +469,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
                         .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox1)
@@ -471,13 +478,13 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
                             .addComponent(jLabel5)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jCheckBox2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(48, 48, 48))
+                        .addComponent(jButtonCreate)))
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1305,4 +1312,25 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
         return ret.toString();
     }
         
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+    {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+            updateMyUI();
+        }
+    };
+    void updateMyUI()
+    {
+        //SwingUtilities.updateComponentTreeUI(jPopupMenu1);
+        //SwingUtilities.updateComponentTreeUI(jPopupMenuTree);
+        //SwingUtilities.updateComponentTreeUI(jPopupMenuProjectProperties);
+        int fontSize = Theme.textFieldFont.getFont().getSize();
+        int rowHeight = fontSize+2;
+        jTable1.setRowHeight(rowHeight);
+        jTable2.setRowHeight(rowHeight);
+    }
 }

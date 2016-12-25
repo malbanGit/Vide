@@ -230,6 +230,8 @@ public class HighlightedDocument extends DefaultStyledDocument
         @Override
 	public void insertString(int offs, String str, AttributeSet a)
 			throws BadLocationException {
+            if (str == null) return;
+//            if (a == null) return;
             /*
                 // if a large chunck is changed at once, (e.g. deleting half a file)
                 // colorer in a THREAD does really hickup
@@ -284,7 +286,11 @@ public class HighlightedDocument extends DefaultStyledDocument
                 // colorer in a THREAD does really hickup
                 // we leave the thread and do it out of the thread
                 // it is bad - I know!
-                stopColoring();
+                boolean restartColorer = colorer.isStarted();
+
+                if (restartColorer)
+                    stopColoring();
+                
                 try
                 {
                     super.remove(offs, len); // wtach that belwo!
@@ -293,7 +299,8 @@ public class HighlightedDocument extends DefaultStyledDocument
                 {
                     
                 }
-                startColoring();
+                if (restartColorer)
+                    startColoring();
                 return;
             }
             int lenOrg = len;

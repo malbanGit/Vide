@@ -1,6 +1,7 @@
 package de.malban.vide.assy.instructions;
 
 import de.malban.vide.assy.Asmj;
+import static de.malban.vide.assy.Asmj.LI_BYTE;
 import de.malban.vide.assy.Memory;
 import de.malban.vide.assy.Symbol;
 import de.malban.vide.assy.expressions.Expression;
@@ -78,6 +79,7 @@ public class rmb extends PseudoOp
       {
           paramMemory.write(this.address + i,0, Memory.MEM_BYTE_DATA);
       }
+        Asmj.addLineInfo(this.address, this.length, LI_BYTE);
       return true;
     }
 

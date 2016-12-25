@@ -680,24 +680,31 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField8.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jTextField8.setText("0");
 
+        jLabel2.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel2.setText("~MUX active");
         jLabel2.setToolTipText("Switch Control, enables/disables the analog multiplexer. AKA sample/hold.");
 
+        jLabel3.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel3.setText("Mux select");
         jLabel3.setToolTipText("<html>\n<pre>\n        The other two inputs SEL0 and SEL1, again from PORT B of the 6522\n        Bits 1 & 2 respectively. These bits are used to form a 2 bit number\n        in the range 0-3, and when the multiplexer is active (see above)\n        these inputs are used to decide which ouput pin is connected to\n        the input pin. The Pin/Channel numbers for the Vector multiplexer\n        are given below:\n\n                0 - Y Axis integrator channel\n\n                1 - X,Y Axis integrator offset\n\n                2 - Z Axis (Vector Brightness) level\n\n                3 - Connected to sound output line via divider network\n</pre>\n</html>");
 
+        jLabel4.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel4.setText("BC1");
         jLabel4.setToolTipText("Chip Select Signal for the AY-3-8192 Sound Chip");
 
+        jLabel5.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel5.setText("Compare");
         jLabel5.setToolTipText("Feedback from the OP-AMP that does the comparison                     for calculation of analog joystick positions.");
 
+        jLabel6.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel6.setText("BDIR");
         jLabel6.setToolTipText("Read/Write Signal for the AY-3-8192 Sound Chip");
 
+        jLabel7.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel7.setText("~Ramp");
         jLabel7.setToolTipText("This line controls part of the vector drawing. It is an active LOW signal.");
 
+        jLabel8.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel8.setText("external");
 
         jLabel56.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
@@ -1709,18 +1716,23 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField26.setText("0");
         jTextField26.setToolTipText("");
 
+        jLabel22.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel22.setText("PA");
         jLabel22.setToolTipText("0 Disable latching, 1 enable latching");
 
+        jLabel23.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel23.setText("PB");
         jLabel23.setToolTipText("0 Disable latching, 1 enable latching");
 
+        jLabel26.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel26.setText("Shift Control");
         jLabel26.setToolTipText("<html><pre>\n+-+-+-+-----------------------------------+\n|4|3|2| OPERATION                         |\n+-+-+-+-----------------------------------+\n|0|0|0| DISABLED                          |\n+-+-+-+-----------------------------------+\n|0|0|1| SHIFT IN UNDER COMTROL OF T2      |\n+-+-+-+-----------------------------------+\n|0|1|0| SHIFT IN UNDER CONTROL OF 02      |\n+-+-+-+-----------------------------------+\n|0|1|1| SHIFT IN UNDER CONTROL OF EXT.CLK |\n+-+-+-+-----------------------------------+\n|1|0|0| SHIFT OUT FREE-RUNNING AT T2 RATE |\n+-+-+-+-----------------------------------+\n|1|0|1| SHIFT OUT UNDER CONTROL OF T2     |\n+-+-+-+-----------------------------------+\n|1|1|0| SHIFT OUT UNDER CONTROL OF 02     |\n+-+-+-+-----------------------------------+\n|1|1|1| SHIFT OUT UNDER CONTROL OF EXT.CLK|\n+-+-+-+-----------------------------------+\n</pre>\n</html>\n");
 
+        jLabel27.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel27.setText("T1 Timer Control");
         jLabel27.setToolTipText("<html>\n<pre>\n      T1 TIMER CONTROL ---+   \n+-+-+----------------+-------+\n|7|6|OPERATION       | PB7   |\n+-+-+----------------+-------+\n|0|0|TIMED INTERRUPT |       |\n| | |EACH TIME T1 IS |       |\n| | |LOADED          |DISABLE|\n+-+-+----------------+       |\n|0|1|CONTINUOUS      |       |\n| | |INTERRUPTS      |       |\n+-+-+----------------+-------+\n|1|0|TIMED INTERRUPT |ONE-   |\n| | |EACH TIME T1 IS |SHOT   |\n| | |LOADED          |OUTPUT |\n+-+-+----------------+-------+\n|1|1|CONTINUOUS      |SQUARE |\n| | |INTERRUPTS      |WAVE   |\n| | |                |OUTPUT |\n+-+-+----------------+-------+\n\n</pre>\n</html>");
 
+        jLabel28.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel28.setText("T2 Timer Control");
         jLabel28.setToolTipText("<html>\n<pre>\nT2 TIMER CONTROL -\n+-+-----------------+\n|5| OPERATION       |\n+-+-----------------+\n|0| TIMED INTERRUPT |\n+-+-----------------+\n|1| COUNT DOWN WITH |\n| | PULSES ON PB6   |\n+-+-----------------+\n</pre>\n</html>");
 
@@ -1835,15 +1847,19 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField106.setText("0");
         jTextField106.setToolTipText("<html>\n<PRE>\n    +- CA1 INTERRUPT CONTROL\n+--------------------------+\n| 0 = NEGATIVE ACTIVE EDGE |\n| 1 = POSITIVE ACTIVE EDGE |\n+--------------------------+\n</pre>\n</html>");
 
+        jLabel48.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel48.setText("CA1 IRQ Control");
         jLabel48.setToolTipText("<html>\n<PRE>\n    +- CA1 INTERRUPT CONTROL\n+--------------------------+\n| 0 = NEGATIVE ACTIVE EDGE |\n| 1 = POSITIVE ACTIVE EDGE |\n+--------------------------+\n</pre>\n</html>");
 
+        jLabel50.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel50.setText("CA2 IRQ Control");
         jLabel50.setToolTipText("<html>\n<pre>\n +---- CA2 INTERRUPT CONTROL     \n  +-+-+-+------------------------+\n  |3|2|1| OPERATION              |\n  +-+-+-+------------------------+\n  |0|0|0| INPUT NEG. ACTIVE EDGE |\n  +-+-+-+------------------------+\n  |0|0|1| INDEPENDENT INTERRUPT  |\n  | | | | INPUT NEGATIVE EDGE    |\n  +-+-+-+------------------------+\n  |0|1|0| INPUT POS. ACTIVE EDGE |\n  +-+-+-+------------------------+\n  |0|1|1| INDEPENDENT INTERRUPT  |\n  | | | | INPUT POSITIVE EDGE    |\n  +-+-+-+------------------------+\n  |1|0|0| HANDSHAKE OUTPUT       |\n  +-+-+-+------------------------+\n  |1|0|1| PULSE OUTPUT           |\n  +-+-+-+------------------------+\n  |1|1|0| LOW OUTPUT             |\n  +-+-+-+------------------------+\n  |1|1|1| HIGH OUTPUT            |\n  +-+-+-+------------------------+\n</pre>\n</html>");
 
+        jLabel51.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel51.setText("CB2 Control");
         jLabel51.setToolTipText("<html>\n<pre>\n         CB2 CONTROL -----+      \n+-+-+-+------------------------+ \n|7|6|5| OPERATION              | \n+-+-+-+------------------------+ \n|0|0|0| INPUT NEG. ACTIVE EDGE | \n+-+-+-+------------------------+ \n|0|0|1| INDEPENDENT INTERRUPT  | \n| | | | INPUT NEGATIVE EDGE    | \n+-+-+-+------------------------+ \n|0|1|0| INPUT POS. ACTIVE EDGE | \n+-+-+-+------------------------+ \n|0|1|1| INDEPENDENT INTERRUPT  | \n| | | | INPUT POSITIVE EDGE    | \n+-+-+-+------------------------+ \n|1|0|0| HANDSHAKE OUTPUT       | \n+-+-+-+------------------------+ \n|1|0|1| PULSE OUTPUT           | \n+-+-+-+------------------------+ \n|1|1|0| LOW OUTPUT             | \n+-+-+-+------------------------+ \n|1|1|1| HIGH OUTPUT            | \n+-+-+-+------------------------+ \n\n</pre>\n</html>");
 
+        jLabel52.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel52.setText("CB1 IRQ Control");
         jLabel52.setToolTipText("<html>\n<pre>\n    CB1 INTERRUPT CONTROL ---\n+--------------------------+ \n| 0 = NEGATIVE ACTIVE EDGE | \n| 1 = POSITIVE ACTIVE EDGE | \n+--------------------------+ \n</pre> </html> ");
 
@@ -2379,13 +2395,13 @@ public class VIAJPanel extends javax.swing.JPanel implements
                         .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldiput, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldoutput, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextFieldoutput, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldiput)))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2411,7 +2427,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
                         .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2463,7 +2479,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
                         .addComponent(jTextFieldiput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldoutput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 

@@ -23,7 +23,8 @@ public class ImageCache {
     private final HashMap<BufferedImage, ImageCacheItem> cacheByImage = new HashMap<BufferedImage, ImageCacheItem>();
     private final static ImageCache ICACHE;
 
-    private boolean cacheActive = true;
+    public static boolean cacheActive = false;
+//    private static int MAX_CACHE_DIMENSION = 101;
 
     // diable/enable caching
     // usefull e.g. for the "dragging" in image editing, which auto
@@ -151,6 +152,8 @@ public class ImageCache {
     public void addItem(ImageCacheItem item)
     {
         if (!cacheActive) return;
+//        if (item.getBufferedImage().getHeight()>MAX_CACHE_DIMENSION) return;
+//        if (item.getBufferedImage().getWidth()>MAX_CACHE_DIMENSION) return;
         synchronized(cacheByUID)
         {
             cacheByKey.remove(item.getKey());

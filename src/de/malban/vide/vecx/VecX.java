@@ -2,6 +2,16 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+
+
+
+Vecx
+1) Emulating shifting of SHIFT REG (every two cycles)
+2) instruction clr (0x0f  + 0x6f + 0x7f) also READS memory (importand in e.g. clr shift_reg
+3) FAST RTI
+4) interrupt flag of CA1 should be set in accordance to the CTR register of via (transition low/hi or hi/low) 
+5) T2 timer2 shift clock, also doubled (== 4 cycles)
+
  */
 package de.malban.vide.vecx;
 /*
@@ -828,7 +838,13 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         }
                         // new CSA - it seems manually setting blank
                         // only works if shift is disabled
-                        if ((via_acr & 0x1c) == 0)
+                        
+                        
+// Thrust stall Gen 3 needs this commented out!                        
+                        
+// some line draw needed this enabled ????                        
+                        
+//                        if ((via_acr & 0x1c) == 0)
                         {
                             if ((via_pcr & 0xe0) == 0xc0) 
                             {
@@ -1166,6 +1182,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         if ((via_src & 0xff) == 0xff) 
         {
             via_src = via_t2ll;
+            /*
             if (via_srclk != 0) 
             {
                 t2shift = 1;
@@ -1175,6 +1192,17 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             {
                 t2shift = 0;
                 via_srclk = 1;
+            }
+            */
+            if (via_srclk == 3) 
+            {
+                t2shift = 1;
+                via_srclk = 0;
+            } 
+            else 
+            {
+                t2shift = 0;
+                via_srclk = (via_srclk+1)%4;
             }
         } 
         else 
@@ -1743,6 +1771,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         extraRam6000_7fff_8k_Enabled = false;
         isDualVec = false;
         isDualVec = false;
+        log.addLog("vecx: init cart: " + cartProp.mName, INFO);
 
         if (!loadBios()) 
         {
@@ -1817,6 +1846,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         {
             cart.setVecx(this);
             // load Cartridge
+            log.addLog("vecx: init rom: " + filenameRom, INFO);
             cart.load(filenameRom);
             e6809.e6809_reset();  
             vecx_reset();
@@ -2571,6 +2601,11 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             }
         }
         
+        
+        
+        
+        
+        
         if (config.efficiencyEnabled)
         {
             double xTest = alg_curr_x - (config.ALG_MAX_X / 2);
@@ -2584,27 +2619,32 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
 
             alg_curr_x += ((double)sig_dx)*xEfficience;
             alg_curr_y += ((double)sig_dy)*yEfficience;
+
+            if (sig_dx != 0)
+            alg_curr_x += (config.scaleEfficiency / ((double)sig_dx))*xPercent;
+            if (sig_dy != 0)
+            alg_curr_y += (config.scaleEfficiency /((double)sig_dy))*yPercent;
         }
         else
         {
-        
             alg_curr_x += sig_dx;
             alg_curr_y += sig_dy;
-            
         }        
-
-        // drift only, when not integrating - or?
-        if (sig_ramp.intValue != 0)
+        // drift only when not zeroing
+        if (sig_zero.intValue != 0) 
         {
-            alg_curr_x-= config.drift_x;
-            alg_curr_y-= config.drift_y;
+            // drift only, when not integrating - or?
+            if (sig_ramp.intValue != 0)
+            {
+                alg_curr_x-= config.drift_x;
+                alg_curr_y-= config.drift_y;
+            }
+            else
+            {
+                alg_curr_x-= config.drift_x/5.0;
+                alg_curr_y-= config.drift_y/5.0;
+            }
         }
-        else
-        {
-            alg_curr_x-= config.drift_x/5.0;
-            alg_curr_y-= config.drift_y/5.0;
-        }
-            
         
         if (config.emulateIntegrationOverflow)
         {
@@ -2693,6 +2733,8 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         {
             alg_curved = false;
         }
+        if (Double.isNaN(alg_curr_x)) alg_curr_x = config.ALG_MAX_X/2;
+        if (Double.isNaN(alg_curr_y)) alg_curr_y = config.ALG_MAX_Y/2;
     }
     
     

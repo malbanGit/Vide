@@ -40,7 +40,7 @@ public class VideConfig  implements Serializable{
     public int ALG_MAX_Y		= 41000;
     public String startFile = "";
     
-    public int[] delays = {0,5,0,15,12,0,0,0,17,0,17, 4, 3, 2}; // full delays, ramp on and off have partials!
+    public int[] delays = {0,5,0,15,12,0,0,0,17,0,17, 4, 5, 3}; // full delays, ramp on and off have partials!
     public double[] partialDelays = {0,0,0,0,0,0,0,0,0,0, 0}; // this is not used!
     public String[] delaysDisplay = {"-", "ZERO", "BLANK", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1"};
     public double rampOffFractionValue = 0.8; // only implemented "partial" delay for ramp off
@@ -124,14 +124,13 @@ public class VideConfig  implements Serializable{
     public boolean assumeVectrex = true;
     public boolean createUnkownLabels = true;
     public boolean lstFirst = true;
-    public boolean pleaseforceDissiIconizeOnRun = false; // !(/&%"/(&!%(/!&%!(/&%(/&"%"
+    public boolean forceDissiIconizeOnRun = false;
 
     // VEDI
     public boolean invokeEmulatorAfterAssembly = true;
     public boolean scanMacros = true;
     public boolean scanVars = true;
     public boolean scanForVectorLists = false;
-    public boolean autoEjectV4EonCompile = false;
     
     public String themeFile = "";
 
@@ -356,15 +355,14 @@ public class VideConfig  implements Serializable{
         to.assumeVectrex = from.assumeVectrex;
         to.createUnkownLabels = from.createUnkownLabels;
         to.lstFirst = from.lstFirst;
-        to.pleaseforceDissiIconizeOnRun = from.pleaseforceDissiIconizeOnRun;
+        to.forceDissiIconizeOnRun = from.forceDissiIconizeOnRun;
+
 
         // VEDI
         to.invokeEmulatorAfterAssembly = from.invokeEmulatorAfterAssembly;
         to.scanMacros = from.scanMacros;
         to.scanVars = from.scanVars;
         to.scanForVectorLists = from.scanForVectorLists;
-        to.autoEjectV4EonCompile = from.autoEjectV4EonCompile;
-        
         
     }
     
@@ -412,6 +410,5 @@ public class VideConfig  implements Serializable{
                 cConfigs.add(cConfig);
         }
         return cConfigs;
-    }
-    
+    }   
 }

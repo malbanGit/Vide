@@ -246,7 +246,22 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
 
         return crc;
     }    
-   
+    public int getTA1()
+    {
+        return TA1;
+    }
+    public int getTA2()
+    {
+        return TA2;
+    }
+    public int getES()
+    {
+        return ES;
+    }
+    public int getCurrentOutValue()
+    {
+        return currentWriteByteComplete;
+    }
     public void setIDByte1(int id)
     {
         epromData.data[0x86] = (byte) (id & 0xff);

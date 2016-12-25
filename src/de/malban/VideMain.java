@@ -9,6 +9,7 @@ import static de.malban.Global.LWJGL_ENABLE;
 import de.malban.config.Configuration;
 import de.malban.event.EventSupport;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.panels.LogPanel;
 import de.malban.input.SystemController;
 import de.malban.lwgl.LWJGLSupport;
 import de.malban.sound.tinysound.TinySound;
@@ -74,8 +75,6 @@ public class VideMain {
         }  
         EventSupport.getEventSupport();
   
-        
-
         TinySound.init();
         SwingUtilities.invokeLater(new Runnable()
         {

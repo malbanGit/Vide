@@ -1,3 +1,58 @@
+25th of December 2016
+---------------------
+Version 1.10
+
+new: 
+- vecxi: Added another emulation to DS2430A "DS2430_READ_REGISTER", Alex Herberts original ProtectorLE reads values from
+         the chip, that were "write once" only written to it by him. With the above DS2430A instruction those values can be read.
+         (Edit of those internal values is possible in the "carti" window of dissi)
+- carti: added some more internal registers to DS2431 window
+- dissi: added "do not force iconify on run" as option
+- raster: added "invert" button
+- raster: for trial added some support for vertical lines
+- raster: added mirror settings
+- raster: added "fixed" for sizes
+- dissi: add 2 complement to cli calculator
+- vedi: add 2 complement to cli calculator
+- vecxi shortcuts added (1->save, 2->load, b->toggle ringbuffer)
+- dissi: windows which are already opened, pop to front if corresponding button is pressed in dissi
+- Vedi: First VecFever support. Ejecting of USB devices for now only workin under Win and Mac.
+        I have no "native" linux system atm, and all experiments using emulators have not worked out well.
+        Also I would love a way to eject the VecFever RAMDISK without a "sudo".  
+        This is not a MAJOR hassel, Linux users must press one button more on the vectrex side - thats all!
+ - config: LAF editor callable from config
+ - dissi: added watches, watches can be defined in source "hey dissi "watch $someVariable 0|1|2|3|4|5,x""
+          add via command line, add via popup
+          remove via command line/popup
+ - dumpi: memory locations can be directly edited in dumy "table"
+ - dissi hey dissi "print $var [8|16]" - accepts additional parameter to display 16 bit vars
+ - vedi: immediate access to larger font selection
+ - vedi: changed line numbering implementation 
+ - vide: tried to "fix" vide to support larger font "lafs"
+ - many: many windows support larger font sizes (and still look sort of ok'ish)
+         To change windows to at least be workable with variable sized fonts was hard work, every
+         window was edited multiple times to accomodate Mac and Windows (did not check Linux)
+         While not all windows have been processed (some dissi panels were left out)
+         Most seem to work, awaiting bug reports about which other windows should be done, or corrected)
+- assi: output control files of assembled sources include "length" of data sections
+- vec32: added maximum (200,000) of files in tree -> prevent Vec32 from stalling
+- vedi: added example code generation in "Project" for eEprom2431
+- codelib: added VecZ
+
+BugFix:
+- vecxi: Thomas discovered a bug in Vide, RTI instruction was falsely emulated, the CC register was 
+         pulled after E-Flag check, should have been pulled before!
+- vedi: TAB for indent was not working correctly -> fixed
+- vedi: convenience added, CMD/F (or CTRL) now not only focuses the search textfield, but also selects the text
+- vecxi: fixed bug where it was possible in vecxi that the integration variables (doubles) could 
+         be NaN, once that was reached, no other value could be set, -> blank screen
+- vecxi: shift register timing for modes with T2 timer were also only half the original -> corrected
+- vedi: removed a bug where the syntax colorer, could be initiated twice - that was potentialy using to much CPU power
+- vide: image cache is per default switched off, images might load slower, but the "standing" memory usage is reduced by
+       about 200MB. Cache can be switched on in Application configuration though.
+       This should get rid of most OOM situations, if with starter open, the memory imprint is about 16MB.
+- vecxi: keyboard "O" for overlay switch, now also loads overlays if they weren't previously loaded
+
 27th of November 2016
 ---------------------
 Version 1.09

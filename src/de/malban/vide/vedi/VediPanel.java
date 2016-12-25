@@ -49,11 +49,14 @@ import de.malban.vide.vedi.sound.ModJPanel;
 import de.malban.vide.vedi.sound.SampleJPanel;
 import de.malban.vide.vedi.sound.VecSpeechPanel;
 import de.malban.vide.vedi.sound.YMJPanel;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -66,14 +69,17 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.text.StyleConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -106,7 +112,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     
     public static int scanCount = 0;
     boolean init = false;
-
+    Color defaultForegroundColor=null;
     boolean inProject = false;
     ProjectProperties currentProject = null;
     DefaultListModel projectsListModel;
@@ -220,6 +226,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     public VediPanel(boolean ls) {
         initComponents();
+        defaultForegroundColor = jLabel10.getForeground();
         jMenuItemVector.setVisible(false); // dsabled, do image conversion from vecci
         loadSettings = ls;
         jEditorLog.setEditable(false);
@@ -236,6 +243,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jSplitPane1.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) .put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), "none");        
         jSplitPane2.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) .put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), "none");        
         init();
+        UIManager.addPropertyChangeListener(pListener);
+        updateMyUI(); 
     }
     public void setTreeVisible(boolean v)
     {
@@ -261,6 +270,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         }
         init = false;
         VediPanel.removeVedi(this);
+        removeUIListerner();
     }    
 
     public void init()
@@ -268,6 +278,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         String lastLoadedFile =null;
         if (loadSettings())
         {
+            setFontSize(settings.fontSize);
             if (isLoadSettings())
             {
                 jSplitPane2.setDividerLocation(settings.pos2);
@@ -292,6 +303,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     }
                 }
                 for (String fn: toRemove) settings.currentOpenFiles.remove(fn);
+                jCheckBoxIgnoreCase1.setSelected(settings.v4eEnabled);
+                if (settings.v4eVolumeName != null)
+                    jTextFieldPath.setText(settings.v4eVolumeName);
+                checkVec4Ever(true);
             }
         }
         else
@@ -328,10 +343,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 }
             }
         });    
-        
+
+        new HotKey("Search next", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jButtonSearchNextActionPerformed(null); }}, this);
+        new HotKey("Search previous", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jButtonSearchPreviousActionPerformed(null); }}, this);
+                
         new HotKey("Run", new AbstractAction() { public void actionPerformed(ActionEvent e) {  run(); }}, this);
         new HotKey("Debug", new AbstractAction() { public void actionPerformed(ActionEvent e) { debug(); }}, this);
 
+        new HotKey("SaveWin", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonSaveActionPerformed(null); }}, this);
+        new HotKey("SaveMac", new AbstractAction() { public void actionPerformed(ActionEvent e) { jButtonSaveActionPerformed(null); }}, this);
         
         
         
@@ -605,11 +625,20 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jButtonClearMessages = new javax.swing.JButton();
+        jButtonFontPlus = new javax.swing.JButton();
+        jButtonFontMinus = new javax.swing.JButton();
         jButtonRefresh = new javax.swing.JButton();
         jButtonDebug = new javax.swing.JButton();
         jButtonInjectBin = new javax.swing.JButton();
         jTextFieldCommand = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jTextFieldPath = new javax.swing.JTextField();
+        jButtonFileSelect1 = new javax.swing.JButton();
+        jButtonCheckVec4Ever = new javax.swing.JButton();
+        jButtonEjectVecForever = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jCheckBoxIgnoreCase1 = new javax.swing.JCheckBox();
 
         jPopupMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -880,6 +909,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
         jSplitPane2.setDividerLocation(200);
 
+        jTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jTabbedPane1StateChanged(evt);
@@ -888,6 +918,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jSplitPane2.setRightComponent(jTabbedPane1);
 
         jTabbedPane2.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        jTabbedPane2.setPreferredSize(new java.awt.Dimension(100, 100));
+
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(80, 200));
 
         jTree1.setEditable(true);
         jTree1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -903,6 +936,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jScrollPane1.setViewportView(jTree1);
 
         jTabbedPane2.addTab("Project", jScrollPane1);
+
+        jPanel4.setPreferredSize(new java.awt.Dimension(100, 100));
 
         jListFiles.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -944,10 +979,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addComponent(jButtonNew1)
                 .addGap(2, 2, 2)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("last files", jPanel4);
+
+        jPanel5.setPreferredSize(new java.awt.Dimension(100, 100));
 
         jListProjects.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -989,7 +1026,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addComponent(jButtonNew7)
                 .addGap(2, 2, 2)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("last projects", jPanel5);
@@ -1025,11 +1062,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE)
+            .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1042, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+            .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
         );
 
         jSplitPane1.setBottomComponent(jPanel2);
@@ -1060,7 +1097,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setText("search:");
+        jLabel1.setPreferredSize(new java.awt.Dimension(36, 21));
 
+        jTextFieldSearch.setPreferredSize(new java.awt.Dimension(6, 21));
         jTextFieldSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldSearchActionPerformed(evt);
@@ -1092,11 +1131,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
         jLabel2.setText("replace:");
         jLabel2.setToolTipText("");
+        jLabel2.setPreferredSize(new java.awt.Dimension(39, 21));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel3.setText("xyz chars");
+        jLabel3.setPreferredSize(new java.awt.Dimension(46, 21));
 
         jLabel4.setText("row/col: xxxx/yyyy");
+        jLabel4.setPreferredSize(new java.awt.Dimension(94, 21));
 
         jButtonReplaceInSelection.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_fastforward_blue.png"))); // NOI18N
         jButtonReplaceInSelection.setToolTipText("replace in selection");
@@ -1137,6 +1179,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jCheckBoxIgnoreCase.setSelected(true);
         jCheckBoxIgnoreCase.setToolTipText("ignore case (if selected)");
 
+        jTextFieldReplace.setPreferredSize(new java.awt.Dimension(6, 21));
         jTextFieldReplace.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldReplaceActionPerformed(evt);
@@ -1145,10 +1188,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
         jLabel5.setForeground(new java.awt.Color(255, 0, 0));
         jLabel5.setToolTipText("");
+        jLabel5.setPreferredSize(new java.awt.Dimension(100, 21));
 
         jLabel6.setForeground(new java.awt.Color(0, 153, 51));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("*");
+        jLabel6.setPreferredSize(new java.awt.Dimension(6, 21));
 
         jButtonClearMessages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/weather_sun.png"))); // NOI18N
         jButtonClearMessages.setToolTipText("clear messages");
@@ -1156,6 +1201,24 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jButtonClearMessages.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonClearMessagesActionPerformed(evt);
+            }
+        });
+
+        jButtonFontPlus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/font_add.png"))); // NOI18N
+        jButtonFontPlus.setToolTipText("update size of all fonts");
+        jButtonFontPlus.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonFontPlus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFontPlusActionPerformed(evt);
+            }
+        });
+
+        jButtonFontMinus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/font_delete.png"))); // NOI18N
+        jButtonFontMinus.setToolTipText("update size of all fonts");
+        jButtonFontMinus.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButtonFontMinus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFontMinusActionPerformed(evt);
             }
         });
 
@@ -1171,16 +1234,16 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonIgnoreCase)
                 .addGap(1, 1, 1)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(2, 2, 2)
                 .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSearchPrevious)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSearchNext)
-                .addGap(45, 45, 45)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addComponent(jTextFieldReplace, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonReplaceNext)
@@ -1188,45 +1251,43 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 .addComponent(jButtonReplaceAll)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonReplaceInSelection)
-                .addGap(51, 51, 51)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButtonFontPlus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jButtonFontMinus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonSearchNext)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBoxIgnoreCase)
+                    .addComponent(jButtonIgnoreCase)
+                    .addComponent(jButtonReplaceNext)
+                    .addComponent(jButtonReplaceAll)
+                    .addComponent(jButtonReplaceInSelection)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonFontMinus)
+                    .addComponent(jButtonFontPlus)
+                    .addComponent(jButtonClearMessages)
                     .addComponent(jButtonSearchPrevious)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel6))
-                            .addComponent(jCheckBoxIgnoreCase)
-                            .addComponent(jButtonIgnoreCase)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldReplace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jButtonReplaceInSelection)
-                                        .addComponent(jButtonReplaceAll)
-                                        .addComponent(jButtonReplaceNext))))
-                            .addComponent(jButtonClearMessages))))
-                .addGap(1, 1, 1))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSearchNext)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldReplace, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0))
         );
 
         jButtonRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/arrow_refresh.png"))); // NOI18N
@@ -1256,6 +1317,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
 
+        jTextFieldCommand.setPreferredSize(new java.awt.Dimension(6, 21));
         jTextFieldCommand.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldCommandActionPerformed(evt);
@@ -1263,6 +1325,54 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
 
         jLabel7.setText("ask:");
+
+        jLabel9.setText("V4E");
+
+        jTextFieldPath.setEnabled(false);
+        jTextFieldPath.setFocusable(false);
+        jTextFieldPath.setPreferredSize(new java.awt.Dimension(6, 21));
+
+        jButtonFileSelect1.setText("...");
+        jButtonFileSelect1.setToolTipText("Chose the \"mountpoint\" of the Vectrex 32 USB-drive");
+        jButtonFileSelect1.setEnabled(false);
+        jButtonFileSelect1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonFileSelect1.setPreferredSize(new java.awt.Dimension(17, 21));
+        jButtonFileSelect1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFileSelect1ActionPerformed(evt);
+            }
+        });
+
+        jButtonCheckVec4Ever.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/drive_add.png"))); // NOI18N
+        jButtonCheckVec4Ever.setToolTipText("seek connection");
+        jButtonCheckVec4Ever.setEnabled(false);
+        jButtonCheckVec4Ever.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonCheckVec4Ever.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCheckVec4EverActionPerformed(evt);
+            }
+        });
+
+        jButtonEjectVecForever.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/drive_delete.png"))); // NOI18N
+        jButtonEjectVecForever.setToolTipText("eject ");
+        jButtonEjectVecForever.setEnabled(false);
+        jButtonEjectVecForever.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonEjectVecForever.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEjectVecForeverActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Geneva", 1, 11)); // NOI18N
+        jLabel10.setText("!");
+        jLabel10.setEnabled(false);
+
+        jCheckBoxIgnoreCase1.setToolTipText("ignore case (if selected)");
+        jCheckBoxIgnoreCase1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxIgnoreCase1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1284,23 +1394,36 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 .addComponent(jButtonPaste)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonCut)
-                .addGap(33, 33, 33)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonUndo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonRedo)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonPrettyPrint)
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
                 .addComponent(jButtonAssemble)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonDebug)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonInjectBin)
-                .addGap(45, 45, 45)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel9)
+                .addGap(1, 1, 1)
+                .addComponent(jCheckBoxIgnoreCase1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldPath, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonCheckVec4Ever)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonEjectVecForever)
+                .addGap(5, 5, 5)
+                .addComponent(jLabel10))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1310,7 +1433,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButtonPaste)
                     .addComponent(jButtonSave)
                     .addComponent(jButtonCopy)
@@ -1327,9 +1450,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     .addComponent(jButtonInjectBin)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7)))
-                .addGap(2, 2, 2)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 706, Short.MAX_VALUE)
+                        .addComponent(jLabel7)
+                        .addComponent(jLabel9)
+                        .addComponent(jTextFieldPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonCheckVec4Ever)
+                    .addComponent(jButtonEjectVecForever)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCheckBoxIgnoreCase1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -1518,7 +1647,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 }
                 fname = fname + ".bin";
                 vec.startUp(fname, true, startTypeRun);
-                
+                checkVec4EverFile(fname);
                 printMessage("Assembly successfull, starting emulation...");
             }
             else
@@ -1839,6 +1968,13 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
     private void jButtonPrettyPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrettyPrintActionPerformed
 
+        if (KeyboardListener.isShiftDown()) 
+        {
+            ASM6809FileInfo.resetDefinitions();
+            return;
+        }
+        
+        
         if (getSelectedEditor()==null) return;
         StringBuilder b = new StringBuilder();
         String orgText = getSelectedEditor().getText();
@@ -1887,17 +2023,24 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             c = spaceTo(b, c, TAB_MNEMONIC);
             while (words[w].length()==0) w++;
             b.append(words[w]).append(" ");
-            
+            boolean structPossible = false;
             if (words[w].toLowerCase().equals("rts")) doSeperator = true;
             if (words[w].toLowerCase().equals("jmp")) doSeperator = true;
             if (words[w].toLowerCase().equals("bra")) doSeperator = true;
             if (words[w].toLowerCase().equals("lbra")) doSeperator = true;
-            
+            if (words[w].toLowerCase().equals("end")) structPossible = true;
+
             c+=words[w].length()+1;
             w++;
-
-            if (!(line.toString().trim().startsWith(";")))
-                c = spaceTo(b, c, TAB_OP);
+            if (structPossible)
+            {
+                structPossible = line.toLowerCase().contains("struct");
+            }
+            if (!structPossible)
+            {
+                if (!(line.toString().trim().startsWith(";")))
+                    c = spaceTo(b, c, TAB_OP);
+            }
             for (;w<words.length;w++)
             {
                 if (words[w].length()!=0)
@@ -1954,7 +2097,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         text = b.toString();
         getSelectedEditor().stopColoring();
         getSelectedEditor().setText(text);
-        getSelectedEditor().startColoring();
+        getSelectedEditor().startColoring(settings.fontSize);
     }//GEN-LAST:event_jButtonPrettyPrintActionPerformed
 
     private void jMenuItemNewFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewFileActionPerformed
@@ -2541,6 +2684,44 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jTextFieldCommand.setText("");
         doQuickHelp(command, command);
     }//GEN-LAST:event_jTextFieldCommandActionPerformed
+
+    private void jButtonFileSelect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect1ActionPerformed
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setDialogTitle("Select VecFever RAMDISK-drive");
+        fc.setCurrentDirectory(new java.io.File(File.separator));
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        String lastPath = fc.getSelectedFile().getAbsolutePath();
+
+        Path p = Paths.get(lastPath);
+        settings.v4eVolumeName = p.toString();
+        jTextFieldPath.setText(p.toString());
+        checkVec4Ever(true);        
+    }//GEN-LAST:event_jButtonFileSelect1ActionPerformed
+
+    private void jButtonCheckVec4EverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCheckVec4EverActionPerformed
+        checkVec4Ever(true);        
+    }//GEN-LAST:event_jButtonCheckVec4EverActionPerformed
+
+    private void jButtonEjectVecForeverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEjectVecForeverActionPerformed
+        ejectVec4Ever();
+        checkVec4Ever(false);        
+    }//GEN-LAST:event_jButtonEjectVecForeverActionPerformed
+
+    private void jCheckBoxIgnoreCase1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxIgnoreCase1ActionPerformed
+        settings.v4eEnabled = jCheckBoxIgnoreCase1.isSelected();
+        checkVec4Ever(false);
+    }//GEN-LAST:event_jCheckBoxIgnoreCase1ActionPerformed
+
+    private void jButtonFontPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFontPlusActionPerformed
+         increaseFontSize();
+    }//GEN-LAST:event_jButtonFontPlusActionPerformed
+
+    private void jButtonFontMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFontMinusActionPerformed
+        decreaseFontSize();
+    }//GEN-LAST:event_jButtonFontMinusActionPerformed
     
     public void doQuickHelp(String word, String integer)
     {
@@ -2556,9 +2737,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             Double d = eval(command) ;
             int i = (int) d.intValue();
             if ((i<256) && (i>-128))
-                printMessage("Result: "+i+", $"+String.format("%02X", i & 0xFF)+", "+DASM6809.printbinary(i));
+                printMessage("Result: "+i + "("+((i>127)?(i-256):(i))+")" +", $"+String.format("%02X", i & 0xFF)+", "+DASM6809.printbinary(i));
             else
-                printMessage("Result: "+i+", $"+String.format("%X", i)+", "+DASM6809.printbinary16(i));
+                printMessage("Result: "+i+ "("+((i>127)?(i-65536):(i))+")"+", $"+String.format("%X", i)+", "+DASM6809.printbinary16(i));
+        
+        
         }
         catch (Throwable x)
         {
@@ -2607,10 +2790,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAssemble;
+    private javax.swing.JButton jButtonCheckVec4Ever;
     private javax.swing.JButton jButtonClearMessages;
     private javax.swing.JButton jButtonCopy;
     private javax.swing.JButton jButtonCut;
     private javax.swing.JButton jButtonDebug;
+    private javax.swing.JButton jButtonEjectVecForever;
+    private javax.swing.JButton jButtonFileSelect1;
+    private javax.swing.JButton jButtonFontMinus;
+    private javax.swing.JButton jButtonFontPlus;
     private javax.swing.JButton jButtonIgnoreCase;
     private javax.swing.JButton jButtonInjectBin;
     private javax.swing.JButton jButtonLoad;
@@ -2630,16 +2818,19 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JButton jButtonSearchPrevious;
     private javax.swing.JButton jButtonUndo;
     private javax.swing.JCheckBox jCheckBoxIgnoreCase;
+    private javax.swing.JCheckBox jCheckBoxIgnoreCase1;
     private javax.swing.JEditorPane jEditorASMMessages;
     private javax.swing.JEditorPane jEditorLog;
     private javax.swing.JEditorPane jEditorPaneASMListing;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JList jListFiles;
     private javax.swing.JList jListProjects;
     private javax.swing.JMenuItem jMenuItemASFX;
@@ -2686,6 +2877,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextField jTextFieldCommand;
+    private javax.swing.JTextField jTextFieldPath;
     private javax.swing.JTextField jTextFieldReplace;
     private javax.swing.JTextField jTextFieldSearch;
     private javax.swing.JTree jTree1;
@@ -2831,6 +3023,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jLabel5.setText("");
         if (really)
             getSelectedEditor().reColor();
+        getSelectedEditor().correctLineNumbers(false);
     }
     protected boolean closeRequested(String tabName)
     {
@@ -2859,6 +3052,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
             edit.deinit();
         }
+        if (jTabbedPane1.getComponentAt(found) instanceof BinaryPanel)
+        {
+            BinaryPanel edit = (BinaryPanel)jTabbedPane1.getComponentAt(found);
+            edit.deinit();
+        }
+        
         
         return true;
     }
@@ -2969,6 +3168,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     public void requestSearchFocus()
     {
         jTextFieldSearch.requestFocusInWindow();
+        jTextFieldSearch.setSelectionStart(0);
+        jTextFieldSearch.setSelectionEnd(jTextFieldSearch.getText().length());
     }
     
     class TreeEntry
@@ -3506,6 +3707,20 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2430HighLevel.i");
             include = Paths.get(".", "template", "ds2430ExampleMain.template");
             de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2430ExampleMain.asm");
+            project.getBankMainFiles().setElementAt("ds2430ExampleMain.asm", 0);
+        }
+        if ((project.getExtras() & Cartridge.FLAG_DS2431) == Cartridge.FLAG_DS2431)
+        {
+            Path include = Paths.get(".", "template", "VECTREX.I");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "VECTREX.I");
+
+            include = Paths.get(".", "template", "ds2431LowLevel.i");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2431LowLevel.i");
+            include = Paths.get(".", "template", "ds2431HighLevel.i");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2431HighLevel.i");
+            include = Paths.get(".", "template", "ds2431ExampleMain.template");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2431ExampleMain.asm");
+            project.getBankMainFiles().setElementAt("ds2431ExampleMain.asm", 0);
         }
 
 
@@ -3938,7 +4153,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
                 CartridgeProperties cartProp = buildCart(currentProject);
-                
+                checkVec4EverProject(cartProp);
                 vec.startCartridge(cartProp, startTypeRun);
                 
                 printMessage("Assembly successfull, starting emulation...");
@@ -4390,4 +4605,213 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         vp.addEditor(path, false);
         return true;
     }
+    
+
+    void checkVec4Ever(boolean verbose)
+    {
+        boolean available = settings.v4eEnabled;
+        if (settings.v4eEnabled)
+        {
+            available = checkVec4EverVolume(verbose);
+        }
+        else
+        {
+            jLabel10.setForeground(defaultForegroundColor);
+        }
+        jTextFieldPath.setEnabled(settings.v4eEnabled);
+        jButtonFileSelect1.setEnabled(settings.v4eEnabled);
+        jButtonCheckVec4Ever.setEnabled(settings.v4eEnabled);
+        jButtonEjectVecForever.setEnabled(available);
+        jLabel10.setEnabled(settings.v4eEnabled);
+    }    
+    boolean checkVec4EverVolume(boolean verbose)
+    {
+        if (!settings.v4eEnabled)
+        {
+            return false;
+        }
+        try
+        {
+            Path path = Paths.get(settings.v4eVolumeName);
+            File directory = path.toFile();
+
+            // get all the files from a directory
+            File[] fList = directory.listFiles();
+            // sanitiy check for "README.TXT" on top level
+            for (File file : fList) 
+            {
+                if (file.getName().contains("README.TXT"))
+                {
+                    String readmetxt = de.malban.util.UtilityString.readTextFileToOneString(file);
+                    if (readmetxt.contains("Sontowski"))
+                    {
+                        jLabel10.setForeground(Color.green);
+                        if (verbose)
+                            printMessage("V4E: RAM DISK volume found.");
+                        return true; 
+                    }
+                }
+            }
+            
+        }
+        catch (Throwable e)
+        {
+            if (verbose)
+                printError("V4E: RAM DISK volume not found.");
+        }
+        jLabel10.setForeground(Color.black);
+        return false;
+    }
+    void ejectVec4Ever()
+    {
+        boolean available = checkVec4EverVolume(false);
+        if (!available)
+        {
+            jLabel10.setForeground(Color.red);
+            return;
+        }
+        boolean ok = de.malban.util.UtilityFiles.ejectVolume(settings.v4eVolumeName);
+        if (!ok)
+        {
+            printError("V4E: RAM DISK not ejected");
+            jLabel10.setForeground(Color.red);
+        }
+        else
+        {
+            printMessage("V4E: RAM DISK ejected");
+            jLabel10.setForeground(Color.black);
+        }
+    }
+
+    void checkVec4EverProject(CartridgeProperties cart)
+    {
+        try
+        {
+            String filename = cart.getFullFilename().elementAt(0);
+            checkVec4EverFile(filename);
+        }
+        catch (Throwable e)
+        {
+            printError("V4E: could not access project file.");
+            jLabel10.setForeground(Color.red);
+        }
+    }
+    void checkVec4EverFile(String fname)
+    {
+        if (!checkVec4EverVolume(false)) return;
+        boolean ok = de.malban.util.UtilityFiles.copyOneFile(fname, settings.v4eVolumeName+File.separator+"cart.bin");
+        if (!ok)
+        {
+            printError("V4E: error copying file to RAMDISK: "+de.malban.util.UtilityFiles.error);
+        }
+        else
+        {
+            printMessage("V4E: bin file copied to RAM DISK");
+            if (config.autoEjectV4EonCompile)
+            {
+                ejectVec4Ever();
+            }
+        }
+    }
+
+    void setFontSize(int fs)
+    {
+        ArrayList<TokenStyles.MyStyle> cloneStyleList = TokenStyles.styleList;
+        TokenStyles.reset();
+        settings.fontSize = fs;
+        
+        for (TokenStyles.MyStyle style: cloneStyleList)
+        {
+            TokenStyles.addStyle(
+                style.name,
+                StyleConstants.getBackground(style),
+                StyleConstants.getForeground(style), 
+                StyleConstants.isBold(style),
+                StyleConstants.isItalic(style),
+                settings.fontSize,
+                StyleConstants.getFontFamily(style)
+                );
+        }
+        resetAllEditors();
+    }
+    void increaseFontSize()
+    {
+        ArrayList<TokenStyles.MyStyle> cloneStyleList = TokenStyles.styleList;
+        TokenStyles.reset();
+        settings.fontSize++;
+        
+        for (TokenStyles.MyStyle style: cloneStyleList)
+        {
+            TokenStyles.addStyle(
+                style.name,
+                StyleConstants.getBackground(style),
+                StyleConstants.getForeground(style), 
+                StyleConstants.isBold(style),
+                StyleConstants.isItalic(style),
+                settings.fontSize,
+                StyleConstants.getFontFamily(style)
+                );
+        }
+        resetAllEditors();
+    }
+    void decreaseFontSize()
+    {
+        ArrayList<TokenStyles.MyStyle> cloneStyleList = TokenStyles.styleList;
+        TokenStyles.reset();
+        settings.fontSize--;
+        for (TokenStyles.MyStyle style: cloneStyleList)
+        {
+            TokenStyles.addStyle(
+                style.name,
+                StyleConstants.getBackground(style),
+                StyleConstants.getForeground(style), 
+                StyleConstants.isBold(style),
+                StyleConstants.isItalic(style),
+                settings.fontSize,
+                StyleConstants.getFontFamily(style)
+                );
+        }
+        resetAllEditors();
+    }    
+    void resetAllEditors()
+    {
+        for (Component c: jTabbedPane1.getComponents())
+        {
+            if (c instanceof de.malban.vide.vedi.EditorPanel)
+            {
+                EditorPanel ep = (EditorPanel) c;
+                ep.stopColoring();
+                ep.startColoring(settings.fontSize);
+            }
+        }
+    }
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+    {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+            updateMyUI();
+        }
+    };
+    void updateMyUI()
+    {
+        SwingUtilities.updateComponentTreeUI(jPopupMenu1);
+        SwingUtilities.updateComponentTreeUI(jPopupMenuTree);
+        SwingUtilities.updateComponentTreeUI(jPopupMenuProjectProperties);
+        // int fontSize = Theme.textFieldFont.getFont().getSize();
+        // int rowHeight = fontSize+2;
+        // jTable1.setRowHeight(rowHeight);
+        for (Component c: jTabbedPane1.getComponents())
+        {
+            if (c instanceof de.malban.vide.vedi.EditorPanel)
+            {
+                EditorPanel ep = (EditorPanel) c;
+                ep.updateMyUI();
+            }
+        }
+    }
+
 }

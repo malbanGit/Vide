@@ -207,7 +207,7 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jComboBoxName.setPreferredSize(new java.awt.Dimension(28, 19));
+        jComboBoxName.setPreferredSize(new java.awt.Dimension(28, 21));
         jComboBoxName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxNameActionPerformed(evt);
@@ -216,8 +216,11 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
 
         jLabel3.setText("Name");
 
+        jTextFieldName.setPreferredSize(new java.awt.Dimension(28, 21));
+
         jButtonNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/new.png"))); // NOI18N
         jButtonNew.setText("New");
+        jButtonNew.setPreferredSize(new java.awt.Dimension(130, 21));
         jButtonNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNewActionPerformed(evt);
@@ -226,6 +229,7 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
 
         jButtonSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/disk.png"))); // NOI18N
         jButtonSave.setText("Save");
+        jButtonSave.setPreferredSize(new java.awt.Dimension(130, 21));
         jButtonSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSaveActionPerformed(evt);
@@ -234,6 +238,7 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
 
         jButtonSaveAsNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/disk_add.png"))); // NOI18N
         jButtonSaveAsNew.setText("Save as new");
+        jButtonSaveAsNew.setPreferredSize(new java.awt.Dimension(130, 21));
         jButtonSaveAsNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSaveAsNewActionPerformed(evt);
@@ -242,6 +247,7 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
 
         jButtonDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/cross.png"))); // NOI18N
         jButtonDelete.setText("Delete");
+        jButtonDelete.setPreferredSize(new java.awt.Dimension(130, 21));
         jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDeleteActionPerformed(evt);
@@ -265,8 +271,8 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
                     .addComponent(jButtonNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonSaveAsNew)
-                    .addComponent(jButtonDelete))
+                    .addComponent(jButtonSaveAsNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -274,10 +280,10 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(3, 3, 3)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonNew)
+                    .addComponent(jButtonNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonDelete)
+                            .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jComboBoxName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -285,12 +291,14 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
                                     .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonSave)
-                            .addComponent(jButtonSaveAsNew))))
+                            .addComponent(jButtonSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSaveAsNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(4, 4, 4))
         );
 
         jLabel10.setText("File");
+
+        jTextFieldPath2.setPreferredSize(new java.awt.Dimension(6, 21));
 
         jButtonFileSelect3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
         jButtonFileSelect3.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -302,17 +310,19 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
 
         jLabel1.setText("Version");
 
+        jTextField1.setPreferredSize(new java.awt.Dimension(6, 21));
+
         jLabel2.setText("Comment");
 
-        jScrollPane1.setSize(new java.awt.Dimension(259, 142));
         jScrollPane1.setViewportView(jTextPane1);
 
         jLabel4.setText("Class");
 
         jTextFieldKlasse.setText("SystemRom");
+        jTextFieldKlasse.setPreferredSize(new java.awt.Dimension(0, 21));
 
         jComboBoxKlasse.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SystemRom" }));
-        jComboBoxKlasse.setPreferredSize(new java.awt.Dimension(28, 19));
+        jComboBoxKlasse.setPreferredSize(new java.awt.Dimension(0, 21));
         jComboBoxKlasse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxKlasseActionPerformed(evt);
@@ -326,7 +336,7 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -339,9 +349,9 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldKlasse, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBoxKlasse, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jComboBoxKlasse, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldKlasse, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(

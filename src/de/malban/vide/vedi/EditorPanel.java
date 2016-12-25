@@ -5,7 +5,6 @@
  */
 package de.malban.vide.vedi;
 
-import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.HotKey;
@@ -13,11 +12,16 @@ import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.util.KeyboardListener;
 import de.malban.util.UtilityString;
 import de.malban.util.syntax.Syntax.HighlightedDocument;
+import de.malban.util.syntax.Syntax.TokenStyles;
+import de.malban.util.syntax.Syntax.TokenStyles.MyStyle;
 import de.malban.vide.veccy.VectorListFileChoserJPanel;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,7 +31,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.swing.AbstractAction;
-import javax.swing.JTable;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
@@ -35,7 +40,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.Utilities;
 
 /**
  *
@@ -49,7 +58,9 @@ public class EditorPanel extends EditorPanelFoundation
     boolean isBasic = false;
     boolean hasChanged = false;
     boolean assume6809Asm = false;
-    boolean addToSettings = true;   
+    boolean addToSettings = true;  
+    private int FONTHEIGHT = 12;
+    private int FONTWIDTH = 12;
     void setAddToSettings(boolean b)
     {
         addToSettings = b;
@@ -93,15 +104,115 @@ public class EditorPanel extends EditorPanelFoundation
             initError = true;
         }
     }
+////////////////
+/*    
+// see:     http://www.developer.com/java/other/article.php/3318421
+
+    // other idea: https://www.thecodingforums.com/threads/jtextpane-with-line-numbers-down-the-side.129565/
+    
+class NumberedEditorKit extends StyledEditorKit {
+    public ViewFactory getViewFactory() {
+        return new NumberedViewFactory();
+    }
+}
+
+class NumberedViewFactory implements ViewFactory {
+    public View create(Element elem) {
+        String kind = elem.getName();
+        if (kind != null)
+            if (kind.equals(AbstractDocument.ContentElementName)) {
+                return new LabelView(elem);
+            }
+            else if (kind.equals(AbstractDocument.
+                             ParagraphElementName)) {
+//              return new ParagraphView(elem);
+                return new NumberedParagraphView(elem);
+            }
+            else if (kind.equals(AbstractDocument.
+                     SectionElementName)) {
+                return new BoxView(elem, View.Y_AXIS);
+            }
+            else if (kind.equals(StyleConstants.
+                     ComponentElementName)) {
+                return new ComponentView(elem);
+            }
+            else if (kind.equals(StyleConstants.IconElementName)) {
+                return new IconView(elem);
+            }
+        // default to text display
+        return new LabelView(elem);
+    }
+}
+public static short NUMBERS_WIDTH=25;
+class NumberedParagraphView extends ParagraphView {
+    
+
+    public NumberedParagraphView(Element e) {
+        super(e);
+        short top = 0;
+        short left = 0;
+        short bottom = 0;
+        short right = 0;
+        this.setInsets(top, left, bottom, right);
+    }
+
+    protected void setInsets(short top, short left, short bottom,
+                             short right) {super.setInsets
+                             (top,(short)(left+NUMBERS_WIDTH),
+                             bottom,right);
+    }
+
+    public void paintChild(Graphics g, Rectangle r, int n) {
+        super.paintChild(g, r, n);
+        int previousLineCount = getPreviousLineCount();
+        int numberX = r.x - getLeftInset();
+        int numberY = r.y + r.height - 5;
+        g.drawString(Integer.toString(previousLineCount + n + 1),
+                                      numberX, numberY);
+    }
+
+    public int getPreviousLineCount() {
+        int lineCount = 0;
+        View parent = this.getParent();
+        int count = parent.getViewCount();
+        for (int i = 0; i < count; i++) {
+            if (parent.getView(i) == this) {
+                break;
+            }
+            else {
+                lineCount += parent.getView(i).getViewCount();
+            }
+        }
+        return lineCount;
+    }
+    
+    protected void setParagraphInsets(AttributeSet attr) 
+    { 
+        setInsets((short) StyleConstants.getSpaceAbove(attr),(short) StyleConstants.getLeftIndent(attr),(short) StyleConstants.getSpaceBelow(attr),(short) StyleConstants.getRightIndent(attr)); 
+    }    
+}    
+    */
+////////////////    
     public EditorPanel(String fn, TinyLogInterface tl) {
         tinyLog = tl;
         filename = fn;
         initComponents();
+        
+        
+JPanel noWrapPanel = new JPanel( new BorderLayout() );
+jScrollPane2.remove(jTextPane1);
+noWrapPanel.add( jTextPane1 );
+//JScrollPane scrollPane = new JScrollPane( noWrapPanel );        
+        jScrollPane2.setViewportView(noWrapPanel);
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(12);
+        
+//        jTextPane1.setEditorKit(new NumberedEditorKit());
         try 
         {
             FileReader fr = new FileReader(getFilename());
             jTextPane1.read(fr, null);
             fr.close();
+            correctLineNumbers(false);
         }
         catch (IOException e) 
         {
@@ -163,11 +274,20 @@ public class EditorPanel extends EditorPanelFoundation
         
         editorPaneDocument.stopColoring();
     }
-    public void startColoring()
+     
+    private void startColoring()
     {
         if (editorPaneDocument == null) return;
         editorPaneDocument.startColoring();
         restorePos();
+
+    }
+    public void startColoring(int fontSize)
+    {
+        FONTWIDTH = fontSize;
+        startColoring();
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(fontSize);
+        correctLineNumbers(true);
     }
     
     int savedCaretPosition = 0;
@@ -243,52 +363,8 @@ public class EditorPanel extends EditorPanelFoundation
         new HotKey("RecolorWin", new AbstractAction() { public void actionPerformed(ActionEvent e) {  stopColoring(); startColoring();}}, jTextPane1);
         new HotKey("JumpMac", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jump();}}, jTextPane1);
         new HotKey("JumpWin", new AbstractAction() { public void actionPerformed(ActionEvent e) {  jump();}}, jTextPane1);
-        
         new HotKey("QuickHelp", new AbstractAction() { public void actionPerformed(ActionEvent e) {  help();}}, this);
-        
-        
 
-        // table setup
-        // 8736("&"%%!%%$$$!°°!!!°
-        // I don't want to think about it... WHY am I using an own LAF if this is an issue???
-        if (Global.MAC_OS_X)
-            jTable1.setRowHeight(15);
-        if (Global.WINDOWS)
-            jTable1.setRowHeight(17);
-        
-        jTable1.setTableHeader(null);
-        LineTableModel model = new LineTableModel();
-        jTable1.setModel(model);
-        jTable1.setDefaultRenderer(Integer.class, new DefaultTableCellRenderer()
-        {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) 
-            {
-                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-
-                if (table.getModel() instanceof LineTableModel)
-                {
-                    LineTableModel model = (LineTableModel)table.getModel();
-
-                    if (isSelected)
-                    {
-                        setBackground(table.getSelectionBackground());
-                        setForeground(table.getSelectionForeground());
-                    }
-                    else
-                    {
-                        Color back = model.getBackground(col);
-                        if (back != null)
-                            setBackground(back);
-                        else
-                            setBackground(table.getBackground());
-                        setForeground(table.getForeground());
-                    }
-                }
-                return this;
-            }   
-        });       
-        
         JViewport viewport = jScrollPane2.getViewport();
         viewport.addChangeListener(
                 new ChangeListener()
@@ -302,22 +378,14 @@ public class EditorPanel extends EditorPanelFoundation
                         p.x=0;
                         viewport2.setViewPosition(p);                
                     }
-                });    
-
-        correctTable();
+                });            
         jTextPane1.setCaretPosition(0);
-    }
-    public void correctTable()
-    {
-        jTable1.tableChanged(null);
         
-        LineTableModel model = (LineTableModel)jTable1.getModel();
-        
-        for (int i=0; i< model.getColumnCount(); i++)
-        {
-            jTable1.getColumnModel().getColumn(i).setPreferredWidth(model.getColWidth(i));                
-        }
+        final DefaultStyledDocument doc = new DefaultStyledDocument();
+        jTextPane2.setDocument(doc);
+        correctLineNumbers(true);
     }
+    
     public void deinit()
     {
         if (editorPaneDocument!= null)
@@ -337,10 +405,10 @@ public class EditorPanel extends EditorPanelFoundation
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuItemAddVectorlist = new javax.swing.JMenuItem();
         jMenuItemAddAnim = new javax.swing.JMenuItem();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextPane1 = buildTextPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPane2 = new javax.swing.JTextPane();
 
         jMenuItemAddVectorlist.setText("insert vectorlist");
         jMenuItemAddVectorlist.addActionListener(new java.awt.event.ActionListener() {
@@ -358,25 +426,7 @@ public class EditorPanel extends EditorPanelFoundation
         });
         jPopupMenu1.add(jMenuItemAddAnim);
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-        jTable1.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Title 1"
-            }
-        ));
-        jTable1.setRowHeight(15);
-        jTable1.setShowHorizontalLines(false);
-        jTable1.setShowVerticalLines(false);
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(1, 1));
 
         jTextPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
         jTextPane1.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
@@ -401,25 +451,36 @@ public class EditorPanel extends EditorPanelFoundation
         });
         jScrollPane2.setViewportView(jTextPane1);
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane1.setFocusTraversalKeysEnabled(false);
+        jScrollPane1.setFocusable(false);
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(47, 8));
+
+        jTextPane2.setEditable(false);
+        jScrollPane1.setViewportView(jTextPane2);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextPane1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPane1KeyTyped
         rowCount = -1;
         fireEditorChanged(EditorEvent.EV_KEY_TYPED);
+        
+        correctLineNumbers(false);
     }//GEN-LAST:event_jTextPane1KeyTyped
 
     private void jTextPane1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextPane1CaretUpdate
@@ -690,8 +751,8 @@ public class EditorPanel extends EditorPanelFoundation
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JTextPane jTextPane2;
     // End of variables declaration//GEN-END:variables
 
     public void setTinyLog(TinyLogInterface tl)
@@ -717,39 +778,7 @@ public class EditorPanel extends EditorPanelFoundation
         }
         return path;
     }
-    // returns the curosur postion within the text
-    // cursor position y = line number, x = column within that line
-    // x is at maximum the corresponding line length, not the "screen" position (column)
-    public Point getCursorPos()
-    {
-        Point p = new Point(1,1);
-        String[] splitter;
-        try
-        {
-         splitter = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength()).split("\n");
-            
-        }
-        catch (Throwable e)
-        {
-            return p;
-        }
-        int pos = jTextPane1.getCaretPosition();
-        
-        int count =0;
-        for (String split: splitter)
-        {
-            if (count + split.length() >=pos)
-            {
-                p.x = pos - count+1;
-                break;
-            }
-            count+=split.length();
-            count++; // plus one because of "/n"
-            p.y++;
-        }
-        
-        return p;
-    }
+
     public int getCharCount()
     {
         return editorPaneDocument.getLength();
@@ -1027,6 +1056,7 @@ public class EditorPanel extends EditorPanelFoundation
     public void reColor()
     {
         editorPaneDocument.colorAll();
+        correctLineNumbers(false);
     }
 
     // watching, if swing does something evil!
@@ -1138,6 +1168,7 @@ public class EditorPanel extends EditorPanelFoundation
                 int start = jTextPane1.getSelectionStart();
                 int startOrg = start;
                 int end = jTextPane1.getSelectionEnd();
+                if (start != end) end--;
                 if (end-start == 0)
                 {
                     jTextPane1.getDocument().insertString(jTextPane1.getCaretPosition(),TAB_STRING, null);
@@ -1175,9 +1206,10 @@ public class EditorPanel extends EditorPanelFoundation
                 int start = jTextPane1.getSelectionStart();
                 int startOrg = start;
                 int end = jTextPane1.getSelectionEnd();
+                if (start != end) end--;
                 if (end-start == 0)
                 {
-                    return;
+                   // return;
                 }
                 stopColoring();
 
@@ -1264,6 +1296,132 @@ public class EditorPanel extends EditorPanelFoundation
     public void fireEditorChanged(int type)
     {
         super.fireEditorChanged(type);
-        jTable1.repaint();
     }
+    void updateMyUI()
+    {
+        SwingUtilities.updateComponentTreeUI(jPopupMenu1);
+    }
+    int getLineCount(JTextPane textpane)
+    {
+        try
+        {
+            int length = textpane.getDocument().getLength();
+            String text = textpane.getDocument().getText(0, length);
+
+            int lineCount = text.split("\n").length;
+            int backOffset = 1;
+
+            while (text.charAt(length-backOffset) == '\n')
+            {
+                lineCount++;
+                backOffset++;
+            }
+            return lineCount;
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        return -1;
+    }
+    int oldlnWidth = -1;
+    void correctLineNumbers(boolean force)
+    {
+        try
+        {
+            AttributeSet saset = TokenStyles.getStyle("comment");
+            String text1 = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength());
+            String text2 = jTextPane2.getDocument().getText(0, jTextPane2.getDocument().getLength());
+            int lineCountOrg = text1.split("\n").length;
+            int lineCountNow = text2.split("\n").length;
+
+            lineCountOrg = getLineCount(jTextPane1);
+            lineCountNow = getLineCount(jTextPane2);
+            if  ((lineCountNow >lineCountOrg) || (force))
+            {
+                jTextPane2.setText("");
+                lineCountNow = 0;
+            }
+
+            int w = 3;
+            if (lineCountOrg>999) w= 4;
+            if (lineCountOrg>9999) w= 5;
+            if (lineCountOrg>99999) w= 6;
+            
+            int lineNumberWidth = ((StyleConstants.getFontSize(saset)-1)*w);
+
+            if (oldlnWidth != lineNumberWidth)
+            {
+                SwingUtilities.invokeLater(new Runnable() {
+
+                    @Override
+                    public void run() 
+                    {
+                        Dimension lNumberSize = new Dimension(lineNumberWidth, jScrollPane1.getSize().height);
+                        jScrollPane1.setSize(lNumberSize);
+                        jScrollPane1.setPreferredSize(lNumberSize);
+                        jScrollPane1.setMinimumSize(lNumberSize);
+                        jScrollPane1.setMaximumSize(lNumberSize);
+                        jScrollPane1.invalidate();
+                        jScrollPane1.validate();
+                        jScrollPane1.repaint();
+                        if (jScrollPane1.getSize().height != 0)
+                            oldlnWidth = lineNumberWidth;
+                    }
+                });
+                
+            
+            }
+            
+            DefaultStyledDocument doc = (DefaultStyledDocument)jTextPane2.getDocument();
+            while (lineCountNow <lineCountOrg)
+            {
+                if (lineCountNow==0)
+                    doc.insertString(jTextPane2.getDocument().getLength(), ""+(++lineCountNow), saset);
+                else
+                    doc.insertString(jTextPane2.getDocument().getLength(), "\n"+(++lineCountNow), saset);
+            }
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        
+    }
+    
+    // returns the curosur postion within the text
+    // cursor position y = line number, x = column within that line
+    // x is at maximum the corresponding line length, not the "screen" position (column)
+    public Point getCursorPos()
+    {
+        Point p = new Point(1,1);
+        String[] splitter;
+        try
+        {
+         splitter = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength()).split("\n");
+            
+        }
+        catch (Throwable e)
+        {
+            return p;
+        }
+        int pos = jTextPane1.getCaretPosition();
+        
+        int count =0;
+        for (String split: splitter)
+        {
+            if (count + split.length() >=pos)
+            {
+                p.x = pos - count+1;
+                break;
+            }
+            count+=split.length();
+            count++; // plus one because of "/n"
+            p.y++;
+        }
+        
+        return p;
+    }    
+    
+//                        doc.setCharacterAttributes(sstart, slen, saset, true);
 }

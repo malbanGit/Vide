@@ -104,6 +104,8 @@ public class TokenStyles
         
         styleList.add(style);
     }
+ 
+    
 
     /**
      * Retrieve the style for the given type of token.
@@ -116,5 +118,10 @@ public class TokenStyles
     public static AttributeSet getStyle(String styleName) 
     {
         return (AttributeSet) styles.get(styleName);
+    }
+    public static void reset()
+    {
+        styles = new HashMap();
+        styleList = new ArrayList<MyStyle>();
     }
 }

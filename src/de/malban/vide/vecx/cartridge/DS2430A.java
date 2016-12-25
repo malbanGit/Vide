@@ -114,13 +114,17 @@ public class DS2430A implements Serializable
     public static final int HL_READ_BYTE_FROM_SP = 3;
     public static final int HL_WAIT_FOR_WRITE_ADDRESS = 4;
     public static final int HL_WRITE_BYTE_TO_SP = 5;
+    public static final int HL_WAIT_FOR_REG_READ_ADDRESS = 6;
+    public static final int HL_READ_BYTE_FROM_REG = 7;
     String[] hl_names = {
         "WAIT_FOR_1W_COMMAND",
         "WAIT_FOR_2430_COMMAND",
         "WAIT_FOR_READ_ADDRESS",
         "READ_BYTE_FROM_SP",
         "WAIT_FOR_WRITE_ADDRESS",
-        "WRITE_BYTE_TO_SP"
+        "WRITE_BYTE_TO_SP",
+        "HL_WAIT_FOR_REG_READ_ADDRESS",
+        "HL_READ_BYTE_FROM_REG"
     };
     
     // 1 Wire protocoll commands
@@ -138,6 +142,11 @@ public class DS2430A implements Serializable
     public static final int DS2430_READSP = 0xaa;
     public static final int DS2430_COPYSP = 0x55;
     public static final int DS2430_VALKEY = 0xa5;
+
+    public static final int DS2430_READ_REGISTER = 0xc3;
+    public static final int DS2430_COPY_LOCK_REGISTER = 0x5a;
+
+    
     public static final int DS2430_NOT_SUPPORTED = -1;
     
     int FAMILY_CODE = 0x14; 
@@ -188,6 +197,11 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         if (current2430Command == DS2430_READSP) return "READSP";
         if (current2430Command == DS2430_COPYSP) return "COPYSP";
         if (current2430Command == DS2430_VALKEY) return "VALKEY";
+        
+        if (current2430Command == DS2430_READ_REGISTER) return "READ_REG";
+        if (current2430Command == DS2430_COPY_LOCK_REGISTER) return "CPY_LOCK_REG";
+        
+        
         return "NOT SUPPORTED ($"+String.format("$%02X", (current2430Command&0xff) )+")";
     }
     public void init()
@@ -238,14 +252,45 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     
     public transient Cartridge cart;
     
-    static class EpromData implements Serializable
+    public static class EpromData implements Serializable
     {
         byte[] data = new byte[MAX_DATA_LEN];
+        public byte[] reg = new byte[8];
+        
+        public EpromData()
+        {
+            // Protector Values default
+            reg[0] = 0x19;
+            reg[1] = 0x1b;
+            reg[2] = 0x18;
+            reg[3] = 0x1d;
+            reg[4] = 0x0e;
+            reg[5] = 0x0c;
+            reg[6] = 0x00;
+            reg[7] = 0x00;
+            
+        }
     }
-    EpromData epromData = new EpromData();
+    public EpromData epromData;
     public byte[] getData()
     {
         return epromData.data;
+    }
+    public int getRegPointer()
+    {
+        return currentRegAddress;
+    }
+    public int getCurrentOutValue()
+    {
+        return currentWriteByteComplete;
+    }
+    public byte[] getRegs()
+    {
+        return epromData.reg;
+    }
+    public void setRegs(int reg, int data)
+    {
+        epromData.reg[reg&7] = (byte)(data &0xff);
     }
     
     long cycles = 0;
@@ -260,6 +305,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     int currentByteRead = 0;
     int bitsLoaded = 0;
 
+    int currentRegAddress = 0;
     int currentOutputAddress = 0;
     int currentInputAddress = 0;
     int currentByteOutput = 0;
@@ -290,17 +336,24 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         currentInputAddress = 0;
         currentByteOutput = 0;
         bitsOutputDone = 0;
+        currentRegAddress = 0;
 
         current1WCommand = DS1W_NONE;
         current2430Command = DS2430_NONE;
         dif = 0;
         currentWriteByteComplete = 0;
         isReadFromDS = false;
+        
 
     }
     public DS2430A(Cartridge c)
     {
         cart = c;
+        epromData = new EpromData();
+    }
+    public long getRegSum()
+    {
+        return epromData.reg[0]+epromData.reg[1]*256+epromData.reg[2]*256*256+epromData.reg[3]*256*256*256+epromData.reg[4]*256*256*256*256+epromData.reg[5]*256*256*256*256*256+epromData.reg[6]*256*256*256*256*256*256+epromData.reg[7]*256*256*256*256*256*256*256;
     }
     public DS2430A clone()
     {
@@ -308,6 +361,12 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         for (int i=0; i<MAX_DATA_LEN;i++)
         {
             c.epromData.data[i] = epromData.data[i];
+        }
+        if (epromData.reg[0] == 0)
+            System.out.println();
+        for (int i=0; i<8;i++)
+        {
+            c.epromData.reg[i] = epromData.reg[i];
         }
         c.cycles = cycles;
         c.lineOut = lineOut; 
@@ -318,6 +377,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         c.isReadFromDS = isReadFromDS;
         c.dif = dif;
 
+        c.currentRegAddress = currentRegAddress;
         c.currentByteRead = currentByteRead;
         c.bitsLoaded = bitsLoaded;
 
@@ -630,13 +690,49 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
                     log.addLog("DS2430 Command DS2430_VALKEY - accepted!", LogPanel.INFO);
                     break;
                 }
+                case DS2430_READ_REGISTER:
+                {
+                    current2430Command = DS2430_READ_REGISTER;
+                    // do nothing, what is there to verify?
+                    lowLevelState = LL_READY_FOR_BITREAD;
+                    highLevelState = HL_WAIT_FOR_REG_READ_ADDRESS;
+                    currentByteRead = 0;
+                    bitsLoaded = 0;
+                    log.addLog("DS2430 Command DS2430_READ_REGISTER - accepted!", LogPanel.INFO);
+                    break;
+                }
+                case DS2430_COPY_LOCK_REGISTER:
+                {
+                    current2430Command = DS2430_VALKEY;
+                    // do nothing, what is there to verify?
+                    lowLevelState = LL_READY_FOR_BITREAD;
+                    highLevelState = HL_WAIT_FOR_2430_COMMAND;
+                    currentByteRead = 0;
+                    bitsLoaded = 0;
+                    log.addLog("DS2430 Command DS2430_COPY_LOCK_REGISTER - not supported!", LogPanel.INFO);
+                    break;
+                }
+                
                 default:
                 {
                     current2430Command = DS2430_NOT_SUPPORTED;
+                    log.addLog("DS2430 Command NOT SUPPORTED - accepted! ("+String.format("$%02X", (current2430Command&0xff) )+")", LogPanel.INFO);
                     break;
                 }
             }
         }
+        
+        else if (highLevelState == HL_WAIT_FOR_REG_READ_ADDRESS)
+        {
+            currentRegAddress = currentByteRead;
+            log.addLog("DS2430 Command READ Reg Address received!", LogPanel.INFO);
+            initOutputNextRegByte();
+        }
+        else if (highLevelState == HL_READ_BYTE_FROM_REG)
+        {
+            log.addLog("DS2430 Continuing read (reg) from DS2430...", LogPanel.INFO);
+            initOutputNextRegByte();
+        }        
         else if (highLevelState == HL_WAIT_FOR_READ_ADDRESS)
         {
             currentOutputAddress = currentByteRead;
@@ -678,6 +774,7 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         if (epromData == null)
         {
             epromData = new EpromData();
+            
         }
     }
     void saveBytestoDisk()
@@ -697,6 +794,17 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         isReadFromDS = false;
     }
         
+    // output from DS2430 to VIA
+    void initOutputNextRegByte()
+    {
+        highLevelState = HL_READ_BYTE_FROM_REG;
+        currentByteOutput = epromData.reg[currentRegAddress%(0x07)];
+        currentWriteByteComplete = currentByteOutput;
+        bitsOutputDone = 0;
+        currentRegAddress=(currentRegAddress+1)%8;
+        lowLevelState = LL_WAIT_FOR_BITWRITE_PULSE_START;
+        isReadFromDS = false;
+    }
 
     // input from VIA to DS2430
     void initInputNextByte()

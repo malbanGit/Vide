@@ -209,11 +209,15 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
             }
         });
 
-        jSplitPane1.setDividerLocation(500);
+        jSplitPane1.setDividerLocation(300);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setResizeWeight(1.0);
+        jSplitPane1.setPreferredSize(new java.awt.Dimension(966, 50));
 
         jSplitPane2.setDividerLocation(200);
+        jSplitPane2.setPreferredSize(new java.awt.Dimension(964, 100));
+
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(145, 50));
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("CodeLibrary");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("BIOS replacements");
@@ -256,9 +260,14 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
 
         jSplitPane2.setLeftComponent(jScrollPane1);
 
+        jLayeredPane1.setPreferredSize(new java.awt.Dimension(810, 50));
         jLayeredPane1.setLayout(new javax.swing.OverlayLayout(jLayeredPane1));
+
+        codeEditorPanel.setPreferredSize(new java.awt.Dimension(584, 50));
         jLayeredPane1.add(codeEditorPanel);
         jLayeredPane1.setLayer(codeEditorPanel, 1);
+
+        singleImagePanel.setPreferredSize(new java.awt.Dimension(810, 50));
 
         javax.swing.GroupLayout singleImagePanelLayout = new javax.swing.GroupLayout(singleImagePanel);
         singleImagePanel.setLayout(singleImagePanelLayout);
@@ -268,7 +277,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         );
         singleImagePanelLayout.setVerticalGroup(
             singleImagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 497, Short.MAX_VALUE)
+            .addGap(0, 297, Short.MAX_VALUE)
         );
 
         jLayeredPane1.add(singleImagePanel);
@@ -279,6 +288,8 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         jLayeredPane1.add(htmlScrollPane3);
         jLayeredPane1.setLayer(htmlScrollPane3, 3);
 
+        jPanel4.setPreferredSize(new java.awt.Dimension(810, 50));
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -287,7 +298,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 497, Short.MAX_VALUE)
+            .addGap(0, 297, Short.MAX_VALUE)
         );
 
         jLayeredPane1.add(jPanel4);
@@ -353,7 +364,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonIgnoreCase)
                 .addGap(23, 23, 23)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1)
                 .addGap(2, 2, 2)
                 .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -362,7 +373,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 .addComponent(jButtonSearchNext)
                 .addGap(301, 301, 301)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(293, Short.MAX_VALUE))
+                .addContainerGap(303, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -396,7 +407,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -408,7 +419,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jSplitPane1)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(1, 1, 1))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jButtonCopy)

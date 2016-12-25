@@ -615,12 +615,12 @@ int inst_asl (int data)
     set_cc (FLAG_V, test_v (i0, i1, r));
     set_cc (FLAG_C, test_c (i0, i1, r, 0));
 
-    // Malban, this is what my books say
+// Is that the same as above?    
+// Malban, this is what my books say
     int b6 = (data & 0x40)>>6;
     int b7 = (data & 0x80)>>7;
     set_cc (FLAG_V, (b6==b7?0:1));
     set_cc (FLAG_C, (data&0x80)>>7);
-    
     
     
     return r&0xff;
@@ -644,6 +644,7 @@ int inst_rol (int data)
     set_cc (FLAG_V, test_v (i0, i1, r));
     set_cc (FLAG_C, test_c (i0, i1, r, 0));
 
+// Is that the same as above?    
     // Malban, this is what my books say
     int b6 = (data & 0x40)>>6;
     int b7 = (data & 0x80)>>7;
@@ -669,6 +670,7 @@ int inst_dec (int data)
     set_cc (FLAG_Z, test_z8 (r));
     set_cc (FLAG_V, test_v (i0, i1, r));
 
+// Is that the same as above?    
     // Malban, this is what my books say
     set_cc (FLAG_V, data==0x80?1:0);
 
@@ -691,6 +693,7 @@ int inst_inc (int data)
     set_cc (FLAG_Z, test_z8 (r));
     set_cc (FLAG_V, test_v (i0, i1, r));
 
+// Is that the same as above?    
     // Malban, this is what my books say
     set_cc (FLAG_V, data==0x7f?1:0);
 
@@ -2752,13 +2755,14 @@ int e6809_sstep (int irq_i, int irq_f)
             break;
             /* rti */
         case 0x3b:
+            inst_pul (0x01, reg_s, reg_u, cycles);
             if ((get_cc (FLAG_E)) !=0)
             {
-                inst_pul (0xff, reg_s, reg_u, cycles);
+                inst_pul (0xfe, reg_s, reg_u, cycles);
             } 
             else 
             {
-                inst_pul (0x81, reg_s, reg_u, cycles);
+                inst_pul (0x80, reg_s, reg_u, cycles);
             }
             
             // dont care analog

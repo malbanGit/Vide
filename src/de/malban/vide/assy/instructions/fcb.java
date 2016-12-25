@@ -1,6 +1,8 @@
 package de.malban.vide.assy.instructions;
 
 import de.malban.vide.assy.Asmj;
+import static de.malban.vide.assy.Asmj.LI_BYTE;
+import static de.malban.vide.assy.Asmj.LI_STRING;
 import de.malban.vide.assy.expressions.Expression;
 import de.malban.vide.assy.expressions.ExpressionList;
 import de.malban.vide.assy.Memory;
@@ -101,12 +103,20 @@ public class fcb extends PseudoOp
   
   public boolean codegen(Memory paramMemory) {
     if (isBSS) return true;
+    boolean isInRealityString = false;
+    if (source.rest.startsWith("\""))isInRealityString = true;
     for (int i = 0; i < this.length; i++) 
     {
         byte mappedItem = (byte)getCMapedItem(i);
-        paramMemory.write(this.address + i,mappedItem, Memory.MEM_BYTE_DATA);
-//        paramMemory.write(this.address + i, getCMapedItem(i), Memory.MEM_BYTE_DATA);
+        if (isInRealityString)
+            paramMemory.write(this.address + i, mappedItem, Memory.MEM_CHAR_DATA);
+        else
+            paramMemory.write(this.address + i,mappedItem, Memory.MEM_BYTE_DATA);
     }
+    if (isInRealityString)
+        Asmj.addLineInfo(this.address, this.length, LI_STRING);
+    else
+        Asmj.addLineInfo(this.address, this.length, LI_BYTE);
     return true;
   }
   

@@ -326,6 +326,11 @@ public class DASM6809 extends DASMStatics {
             if (mode == IMM)
             {
                 labels = info.immediateLabels;
+                if (labels.size() == 0)
+                {
+                    if (address>256)
+                        labels = info.labels;
+                }
             }
             else if (mode == DIR) 
             {

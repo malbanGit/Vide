@@ -128,13 +128,10 @@ public class RasterPanel extends javax.swing.JPanel implements
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
-        jPanel2 = new javax.swing.JPanel();
-        jButtonCreate = new javax.swing.JButton();
-        jButtonCancel = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jRadioButtonHorizontalVectors = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButtonVertical = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButtonAlphaAsGrayscale = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
@@ -161,45 +158,25 @@ public class RasterPanel extends javax.swing.JPanel implements
         jTextFieldStartX = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jTextFieldStartY = new javax.swing.JTextField();
+        jCheckBoxInvert = new javax.swing.JCheckBox();
+        jCheckBoxFix = new javax.swing.JCheckBox();
+        jCheckBoxXMirror = new javax.swing.JCheckBox();
+        jCheckBoxYMirror = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButtonCreate = new javax.swing.JButton();
+        jButtonCancel = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jButtonLoad = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(700, 600));
-
-        jButtonCreate.setText("create");
-        jButtonCreate.setName("create"); // NOI18N
-        jButtonCreate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCreateActionPerformed(evt);
-            }
-        });
-
-        jButtonCancel.setText("cancel");
-        jButtonCancel.setName("cancel"); // NOI18N
-        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCancelActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButtonCancel)
-                .addGap(86, 86, 86)
-                .addComponent(jButtonCreate)
-                .addGap(41, 41, 41))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jButtonCancel)
-                .addComponent(jButtonCreate))
-        );
 
         buttonGroup1.add(jRadioButtonHorizontalVectors);
         jRadioButtonHorizontalVectors.setSelected(true);
@@ -210,12 +187,11 @@ public class RasterPanel extends javax.swing.JPanel implements
             }
         });
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("vertical vectors");
-        jRadioButton2.setEnabled(false);
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(jRadioButtonVertical);
+        jRadioButtonVertical.setText("vertical vectors");
+        jRadioButtonVertical.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                jRadioButtonVerticalActionPerformed(evt);
             }
         });
 
@@ -251,6 +227,11 @@ public class RasterPanel extends javax.swing.JPanel implements
                 jTextFieldVectorWitdhFocusLost(evt);
             }
         });
+        jTextFieldVectorWitdh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldVectorWitdhActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("x");
 
@@ -259,13 +240,21 @@ public class RasterPanel extends javax.swing.JPanel implements
                 jTextFieldVectorHeightFocusLost(evt);
             }
         });
+        jTextFieldVectorHeight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldVectorHeightActionPerformed(evt);
+            }
+        });
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         singleImagePanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                singleImagePanel1MouseMoved(evt);
-            }
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 singleImagePanel1MouseDragged(evt);
+            }
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                singleImagePanel1MouseMoved(evt);
             }
         });
         singleImagePanel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -300,6 +289,12 @@ public class RasterPanel extends javax.swing.JPanel implements
         });
 
         jLabel5.setText("threshold");
+
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(320, 320));
+
+        singleVectorPanel1.setPreferredSize(new java.awt.Dimension(318, 318));
 
         javax.swing.GroupLayout singleVectorPanel1Layout = new javax.swing.GroupLayout(singleVectorPanel1);
         singleVectorPanel1.setLayout(singleVectorPanel1Layout);
@@ -368,6 +363,109 @@ public class RasterPanel extends javax.swing.JPanel implements
         jTextFieldStartY.setEditable(false);
         jTextFieldStartY.setText("0");
 
+        jCheckBoxInvert.setText("invert");
+        jCheckBoxInvert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxInvertActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxFix.setText("fix");
+
+        jCheckBoxXMirror.setText("xMirror");
+        jCheckBoxXMirror.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxXMirrorActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxYMirror.setText("yMirror");
+        jCheckBoxYMirror.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxYMirrorActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText(">");
+        jButton1.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("<");
+        jButton2.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText(">");
+        jButton3.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("<");
+        jButton4.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText(">");
+        jButton5.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("<");
+        jButton6.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText(">");
+        jButton7.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("<");
+        jButton8.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButtonCreate.setText("create");
+        jButtonCreate.setName("create"); // NOI18N
+        jButtonCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCreateActionPerformed(evt);
+            }
+        });
+
+        jButtonCancel.setText("cancel");
+        jButtonCancel.setName("cancel"); // NOI18N
+        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -377,32 +475,46 @@ public class RasterPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jRadioButtonHorizontalVectors)
-                                    .addComponent(jRadioButton2))
-                                .addGap(75, 75, 75)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jRadioButtonAlphaAsGrayscale)
-                                    .addComponent(jRadioButton3)))
                             .addComponent(jLabel5)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
                                 .addGap(3, 3, 3)
-                                .addComponent(jTextFieldStartX, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jButton2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton1))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jTextFieldStartX, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel7)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldStartY, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jButton4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton3))
+                                    .addComponent(jTextFieldStartY, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel2))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jButton6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton5)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jButton8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton7))
+                                    .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -410,26 +522,51 @@ public class RasterPanel extends javax.swing.JPanel implements
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jSliderSourceScale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jCheckBoxAssume9Bit)
-                                        .addComponent(jCheckBoxIncludeBrightness))
+                                .addGap(10, 10, 10)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextFieldVectorWitdh, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel4)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldVectorHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jSliderThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(jLabel3)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jTextFieldVectorWitdh, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel4)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jTextFieldVectorHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jCheckBoxIncludeBrightness)
+                                            .addComponent(jCheckBoxAssume9Bit)
+                                            .addComponent(jCheckBoxInvert))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jCheckBoxFix))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jRadioButtonHorizontalVectors)
+                                            .addComponent(jRadioButtonVertical))
+                                        .addGap(39, 39, 39)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jCheckBoxYMirror, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jCheckBoxXMirror))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jRadioButtonAlphaAsGrayscale)
+                                            .addComponent(jRadioButton3))))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jCheckBoxGenerateData, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jCheckBoxBiDirectionalData, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCheckBoxGenerateExampleCode, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jSliderThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jCheckBoxGenerateData)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBoxBiDirectionalData))
+                            .addComponent(jCheckBoxGenerateExampleCode))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonCancel)
+                        .addGap(86, 86, 86)
+                        .addComponent(jButtonCreate)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -438,7 +575,7 @@ public class RasterPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSliderSourceScale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -454,32 +591,58 @@ public class RasterPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel1)
                         .addComponent(jTextFieldWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)))
-                .addGap(3, 3, 3)
+                        .addComponent(jLabel2)
+                        .addComponent(jCheckBoxFix)))
+                .addGap(1, 1, 1)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSliderThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBoxGenerateData)
+                            .addComponent(jCheckBoxBiDirectionalData))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBoxGenerateExampleCode))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jCheckBoxIncludeBrightness)
+                                    .addComponent(jButton2)
+                                    .addComponent(jButton1)
+                                    .addComponent(jButton4)
+                                    .addComponent(jButton3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBoxAssume9Bit))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jButton8)
+                                        .addComponent(jButton7))
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jButton6)
+                                        .addComponent(jButton5)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBoxInvert)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jRadioButtonHorizontalVectors)
-                            .addComponent(jRadioButton3))
+                            .addComponent(jRadioButton3)
+                            .addComponent(jCheckBoxXMirror))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButton2)
-                            .addComponent(jRadioButtonAlphaAsGrayscale)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jCheckBoxIncludeBrightness, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBoxAssume9Bit)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSliderThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBoxGenerateData)
-                    .addComponent(jCheckBoxBiDirectionalData))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBoxGenerateExampleCode)
-                .addContainerGap())
+                            .addComponent(jRadioButtonVertical)
+                            .addComponent(jRadioButtonAlphaAsGrayscale)
+                            .addComponent(jCheckBoxYMirror))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonCancel)
+                            .addComponent(jButtonCreate))))
+                .addGap(0, 0, 0))
         );
 
         jTabbedPane1.addTab("image settings", jPanel3);
@@ -500,7 +663,7 @@ public class RasterPanel extends javax.swing.JPanel implements
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonLoad)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -510,7 +673,7 @@ public class RasterPanel extends javax.swing.JPanel implements
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonLoad)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8))
                 .addGap(0, 3, Short.MAX_VALUE))
         );
 
@@ -518,9 +681,8 @@ public class RasterPanel extends javax.swing.JPanel implements
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -528,14 +690,13 @@ public class RasterPanel extends javax.swing.JPanel implements
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jTabbedPane1)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
         createASMFile();
-        
+        buildVectors();
     }//GEN-LAST:event_jButtonCreateActionPerformed
 
     private void jSliderSourceScaleStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderSourceScaleStateChanged
@@ -566,12 +727,16 @@ public class RasterPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jRadioButtonAlphaAsGrayscaleActionPerformed
 
     private void jRadioButtonHorizontalVectorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonHorizontalVectorsActionPerformed
+        jCheckBoxBiDirectionalData.setEnabled(true);
+        jCheckBoxIncludeBrightness.setEnabled(true);
         buildVectors();
     }//GEN-LAST:event_jRadioButtonHorizontalVectorsActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void jRadioButtonVerticalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonVerticalActionPerformed
+        jCheckBoxBiDirectionalData.setEnabled(false);
+        jCheckBoxIncludeBrightness.setEnabled(false);
         buildVectors();
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    }//GEN-LAST:event_jRadioButtonVerticalActionPerformed
 
     private void jTextFieldVectorWitdhFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldVectorWitdhFocusLost
         buildVectors();
@@ -591,18 +756,11 @@ public class RasterPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jCheckBoxAssume9BitActionPerformed
 
     private void jCheckBoxBiDirectionalDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxBiDirectionalDataActionPerformed
-        /*
-        if (!jCheckBoxBiDirectionalData.isSelected())
-        {
-            jCheckBoxGenerateExampleCode.setSelected(false);
-        }
-        jCheckBoxGenerateExampleCode.setEnabled(jCheckBoxBiDirectionalData.isSelected());
-        */
-
     }//GEN-LAST:event_jCheckBoxBiDirectionalDataActionPerformed
 
     private void singleImagePanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_singleImagePanel1MouseDragged
         BufferedImage orgImage = singleImagePanel1.getImage();
+        if (orgImage == null) return;
         int x = ((int)((double)((double)evt.getX())/1));
         int y = ((int)((double)((double)evt.getY())/1));
         
@@ -639,11 +797,12 @@ public class RasterPanel extends javax.swing.JPanel implements
         jTextFieldStartY.setText(""+sY);
         jTextFieldWidth.setText(""+w);
         jTextFieldHeight.setText(""+h);
-        jTextFieldVectorWitdh.setText(""+w);
-        jTextFieldVectorHeight.setText(""+h);
-        
-        
-                buildVectors();
+        if (!jCheckBoxFix.isSelected())
+        {
+            jTextFieldVectorWitdh.setText(""+w);
+            jTextFieldVectorHeight.setText(""+h);
+        }
+        buildVectors();
         
     }//GEN-LAST:event_singleImagePanel1MouseDragged
 
@@ -691,19 +850,127 @@ public class RasterPanel extends javax.swing.JPanel implements
         
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
-    boolean wasMainSetManually = false;
+    private void jCheckBoxInvertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxInvertActionPerformed
+                buildVectors();
+    }//GEN-LAST:event_jCheckBoxInvertActionPerformed
+
+    private void jTextFieldVectorWitdhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldVectorWitdhActionPerformed
+        buildVectors();
+    }//GEN-LAST:event_jTextFieldVectorWitdhActionPerformed
+
+    private void jTextFieldVectorHeightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldVectorHeightActionPerformed
+        buildVectors();
+    }//GEN-LAST:event_jTextFieldVectorHeightActionPerformed
+
+    private void jCheckBoxXMirrorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxXMirrorActionPerformed
+        buildVectors();
+    }//GEN-LAST:event_jCheckBoxXMirrorActionPerformed
+
+    private void jCheckBoxYMirrorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxYMirrorActionPerformed
+        buildVectors();
+    }//GEN-LAST:event_jCheckBoxYMirrorActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int startX = de.malban.util.UtilityString.IntX(jTextFieldStartX.getText(), 0);
+        if (startX == 0) return;
+        startX--;
+        jTextFieldStartX.setText(""+startX);
+        buildVectors();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        BufferedImage orgImage = singleImagePanel1.getImage();
+        if (orgImage == null) return;
+        int startX = de.malban.util.UtilityString.IntX(jTextFieldStartX.getText(), 0);
+        if (startX >= orgImage.getWidth()) return;
+        startX++;
+        jTextFieldStartX.setText(""+startX);
+        buildVectors();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int startY = de.malban.util.UtilityString.IntX(jTextFieldStartY.getText(), 0);
+        if (startY == 0) return;
+        startY--;
+        jTextFieldStartY.setText(""+startY);
+        buildVectors();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        BufferedImage orgImage = singleImagePanel1.getImage();
+        if (orgImage == null) return;
+        int startY = de.malban.util.UtilityString.IntX(jTextFieldStartY.getText(), 0);
+        if (startY >= orgImage.getHeight()) return;
+        startY++;
+        jTextFieldStartY.setText(""+startY);
+        buildVectors();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        int width = de.malban.util.UtilityString.IntX(jTextFieldWidth.getText(), 0);
+        if (width == 0) return;
+        width--;
+        jTextFieldWidth.setText(""+width);
+        buildVectors();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        BufferedImage orgImage = singleImagePanel1.getImage();
+        if (orgImage == null) return;
+        int width = de.malban.util.UtilityString.IntX(jTextFieldWidth.getText(), 0);
+        int startX = de.malban.util.UtilityString.IntX(jTextFieldStartX.getText(), 0);
+        if (width+startX >= orgImage.getWidth()) return;
+        width++;
+        jTextFieldWidth.setText(""+width);
+        buildVectors();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        int height = de.malban.util.UtilityString.IntX(jTextFieldHeight.getText(), 0);
+        if (height == 0) return;
+        height--;
+        jTextFieldHeight.setText(""+height);
+        buildVectors();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        BufferedImage orgImage = singleImagePanel1.getImage();
+        if (orgImage == null) return;
+        int height = de.malban.util.UtilityString.IntX(jTextFieldHeight.getText(), 0);
+        int startY = de.malban.util.UtilityString.IntX(jTextFieldStartY.getText(), 0);
+        if (height+startY >= orgImage.getHeight()) return;
+        height++;
+        jTextFieldHeight.setText(""+height);
+        buildVectors();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    
+   // boolean wasMainSetManually = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButtonCancel;
     private javax.swing.JButton jButtonCreate;
     private javax.swing.JButton jButtonLoad;
     private javax.swing.JCheckBox jCheckBoxAssume9Bit;
     private javax.swing.JCheckBox jCheckBoxBiDirectionalData;
+    private javax.swing.JCheckBox jCheckBoxFix;
     private javax.swing.JCheckBox jCheckBoxGenerateData;
     private javax.swing.JCheckBox jCheckBoxGenerateExampleCode;
     private javax.swing.JCheckBox jCheckBoxIncludeBrightness;
+    private javax.swing.JCheckBox jCheckBoxInvert;
+    private javax.swing.JCheckBox jCheckBoxXMirror;
+    private javax.swing.JCheckBox jCheckBoxYMirror;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -713,12 +980,11 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButtonAlphaAsGrayscale;
     private javax.swing.JRadioButton jRadioButtonHorizontalVectors;
+    private javax.swing.JRadioButton jRadioButtonVertical;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSlider jSliderSourceScale;
@@ -771,7 +1037,22 @@ public class RasterPanel extends javax.swing.JPanel implements
     
     ArrayList<Integer>[] shiftRegRows= new ArrayList[0];
     ArrayList<GFXVector>[] vectorRows= new ArrayList[0];
+    ArrayList<Integer>[] shiftRegCols= new ArrayList[0];
+    ArrayList<GFXVector>[] vectorCols= new ArrayList[0];
     void buildVectors()
+    {
+        if (jRadioButtonHorizontalVectors.isSelected())
+        {
+            buildHorizontal();
+        }
+        else
+        {
+            buildVertical();
+        }
+        displayVectors();
+    }
+
+    boolean buildHorizontal()
     {
         BufferedImage orgImage = singleImagePanel1.getImage();
         int targetWidth = de.malban.util.UtilityString.IntX(jTextFieldVectorWitdh.getText(), orgImage.getWidth());
@@ -790,156 +1071,258 @@ public class RasterPanel extends javax.swing.JPanel implements
         int threshold = jSliderThreshold.getValue();
         
         BufferedImage scaledImage = ImageCache.getImageCache().getDerivatScale(orgImage, targetWidth, targetHeight);
+        if (scaledImage == null) return false;
         
         shiftRegRows= new ArrayList[targetHeight];
         vectorRows= new ArrayList[targetHeight];
-        if (jRadioButtonHorizontalVectors.isSelected())
+
+        int rowWidth = 0;
+        if (!jCheckBoxIncludeBrightness.isSelected())
         {
-            int rowWidth = 0;
-            if (!jCheckBoxIncludeBrightness.isSelected())
+            for (int y=0;y<targetHeight;y++)
             {
-                for (int y=0;y<targetHeight;y++)
+                rowWidth = 0;
+                ArrayList<Integer> shiftRegRow = new ArrayList<Integer>();
+
+                // next shift reg value - 8 bit = 8 pixels of image
+                int shiftReg = 0;
+
+                // only pixels above the threshold count to average brightness
+                // brightness can only be set every 8 "pixels" -> one shift reg!
+                int bitCount = 0;
+                for (int x=0;x<targetWidth;x++)
                 {
-                    rowWidth = 0;
-                    ArrayList<Integer> shiftRegRow = new ArrayList<Integer>();
+                    int rgba;
+                    int usedX =x;
+                    int usedY =y;
+                    if (jCheckBoxXMirror.isSelected())
+                        usedX = targetWidth-1-x;
+                    if (jCheckBoxYMirror.isSelected())
+                        usedY = targetHeight-1-y;
 
-                    // next shift reg value - 8 bit = 8 pixels of image
-                    int shiftReg = 0;
-
-                    // only pixels above the threshold count to average brightness
-                    // brightness can only be set every 8 "pixels" -> one shift reg!
-                    int bitCount = 0;
-                    for (int x=0;x<targetWidth;x++)
-                    {
-                        int rgba =scaledImage.getRGB(x, y);
-                        Color c = new Color(rgba);
-                        boolean bit= false;
-                        if (jRadioButtonAlphaAsGrayscale.isSelected())
-                        {
-                            // get alpha value
-                            int A = (rgba >> 24) & 0xFF;
-                            if (A>threshold)
-                            {
-                                bit = true;
-                            }
-                        }
-                        else
-                        {
-                            // get color average as brightness
-                            int R = c.getRed();
-                            int G = c.getGreen();
-                            int B = c.getBlue();
-                            int brightness = (R+G+B)/3;
-                            if (brightness>threshold)
-                            {
-                                bit = true;
-                            }
-                        }
-                        if (bit) shiftReg++;
-                        bitCount++;
-                        if (bitCount == 8)
-                        {
-                            shiftRegRow.add(shiftReg);
-                            rowWidth++;
-                            shiftReg = 0;
-                            bitCount = 0;
-
-                            if (jCheckBoxAssume9Bit.isSelected())
-                            {
-                                // simple overstep one pixel
-                                // the last pixel from above will be repeated 
-                                x++;
-                            }
-                        }
-                        shiftReg = shiftReg << 1;
-                    }
-                    while (bitCount<8)
-                    {
-                        bitCount++;
-                        if (bitCount == 8)
-                        {
-                            shiftRegRow.add(shiftReg);
-                            rowWidth++;
-                        }
-                        shiftReg = shiftReg << 1;
-                    }
-                    shiftRegRows[y] = shiftRegRow;
-                }
-            }
-            else
-            {
-                for (int y=0;y<targetHeight;y++)
-                {
-                    rowWidth = 0;
-                    ArrayList<GFXVector> vectorRow = new ArrayList<GFXVector>();
-                    vectorRows[y] = vectorRow;
-                    int oldGrayscale = -1;
-                    boolean oldShown = false;
-                    int xStart = 0;
-                    int yStart = y;
-                    for (int x=0;x<targetWidth;x++)
-                    {
-                        int rgba =scaledImage.getRGB(x, y);
-                        Color c = new Color(rgba);
-                        boolean shown = false;
-                        int grayscale = 0;
-                        if (jRadioButtonAlphaAsGrayscale.isSelected())
-                        {
-                            // get alpha value
-                            int A = (rgba >> 24) & 0xFF;
-                            if (A>threshold)
-                            {
-                                grayscale = A;
-                                shown = true;
-                            }
-                        }
-                        else
-                        {
-                            // get color average as brightness
-                            int R = c.getRed();
-                            int G = c.getGreen();
-                            int B = c.getBlue();
-                            int brightness = (R+G+B)/3;
-                            if (brightness>threshold)
-                            {
-                                grayscale = brightness;
-                                shown = true;
-                            }
-                        }
-                        boolean forced = false;
-                        if (x-xStart>126) forced = true; // maximal size of a vector!
-                        
-                        if ((forced) || (((oldShown != shown) || (oldGrayscale != grayscale)) && (oldGrayscale != -1))) // add old only if not first vector
-                        {
-                            // add old vector
-                            GFXVector v = new GFXVector();
-                            v.start.x(xStart-(targetWidth/2));
-                            v.start.y(-yStart+(targetHeight/2));
-                            v.end.x(x-1-(targetWidth/2));
-                            v.end.y(-yStart+(targetHeight/2));
-                            v.pattern = 0xff;
-                            v.setIntensity(oldGrayscale);
-                            xStart = x-1;
-                            vectorRow.add(v);
-                        }
-                        oldShown = shown;
-                        oldGrayscale = grayscale;
-                    }
+                    rgba =scaledImage.getRGB(usedX, usedY);
+                    boolean bit= getBitFromColor(rgba);
                     
-                    // add old vector - allways!
-                    GFXVector v = new GFXVector();
-                    v.start.x(xStart-(targetWidth/2));
-                    v.start.y(-yStart+(targetHeight/2));
-                    v.end.x(targetWidth-1-(targetWidth/2));
-                    v.end.y(-yStart+(targetHeight/2));
-                    v.pattern = 0xff;
-                    v.setIntensity(oldGrayscale);
-                    vectorRow.add(v);
+                    if (bit) shiftReg++;
+                    bitCount++;
+                    if (bitCount == 8)
+                    {
+                        shiftRegRow.add(shiftReg);
+                        rowWidth++;
+                        shiftReg = 0;
+                        bitCount = 0;
+
+                        if (jCheckBoxAssume9Bit.isSelected())
+                        {
+                            // simple overstep one pixel
+                            // the last pixel from above will be repeated 
+                            x++;
+                        }
+                    }
+                    shiftReg = shiftReg << 1;
                 }
+                while (bitCount<8)
+                {
+                    bitCount++;
+                    if (bitCount == 8)
+                    {
+                        shiftRegRow.add(shiftReg);
+                        rowWidth++;
+                    }
+                    shiftReg = shiftReg << 1;
+                }
+                shiftRegRows[y] = shiftRegRow;
             }
         }
-        displayVectors();
+        else
+        {
+            for (int y=0;y<targetHeight;y++)
+            {
+                rowWidth = 0;
+                ArrayList<GFXVector> vectorRow = new ArrayList<GFXVector>();
+                vectorRows[y] = vectorRow;
+                int oldGrayscale = -1;
+                boolean oldShown = false;
+                int xStart = 0;
+                int yStart = y;
+                for (int x=0;x<targetWidth;x++)
+                {
+                    int rgba =scaledImage.getRGB(x, y);
+                    Color c = new Color(rgba);
+                    boolean shown = false;
+                    int grayscale = 0;
+                    if (jRadioButtonAlphaAsGrayscale.isSelected())
+                    {
+                        // get alpha value
+                        int A = (rgba >> 24) & 0xFF;
+                        if (A>threshold)
+                        {
+                            grayscale = A;
+                            shown = true;
+                        }
+                    }
+                    else
+                    {
+                        // get color average as brightness
+                        int R = c.getRed();
+                        int G = c.getGreen();
+                        int B = c.getBlue();
+                        int brightness = (R+G+B)/3;
+                        if (brightness>threshold)
+                        {
+                            grayscale = brightness;
+                            shown = true;
+                        }
+                    }
+                    boolean forced = false;
+                    if (x-xStart>126) forced = true; // maximal size of a vector!
+
+                    if ((forced) || (((oldShown != shown) || (oldGrayscale != grayscale)) && (oldGrayscale != -1))) // add old only if not first vector
+                    {
+                        // add old vector
+                        GFXVector v = new GFXVector();
+                        v.start.x(xStart-(targetWidth/2));
+                        v.start.y(-yStart+(targetHeight/2));
+                        v.end.x(x-1-(targetWidth/2));
+                        v.end.y(-yStart+(targetHeight/2));
+                        v.pattern = 0xff;
+                        v.setIntensity(oldGrayscale);
+                        xStart = x-1;
+                        vectorRow.add(v);
+                    }
+                    oldShown = shown;
+                    oldGrayscale = grayscale;
+                }
+
+                // add old vector - allways!
+                GFXVector v = new GFXVector();
+                v.start.x(xStart-(targetWidth/2));
+                v.start.y(-yStart+(targetHeight/2));
+                v.end.x(targetWidth-1-(targetWidth/2));
+                v.end.y(-yStart+(targetHeight/2));
+                v.pattern = 0xff;
+                v.setIntensity(oldGrayscale);
+                vectorRow.add(v);
+            }
+        }
+        return true;
     }
+
+    void buildVertical()
+    {
+        BufferedImage orgImage = singleImagePanel1.getImage();
+        int targetWidth = de.malban.util.UtilityString.IntX(jTextFieldVectorWitdh.getText(), orgImage.getWidth());
+        int targetHeight = de.malban.util.UtilityString.IntX(jTextFieldVectorHeight.getText(), orgImage.getHeight());
+
+        int startX = de.malban.util.UtilityString.IntX(jTextFieldStartX.getText(), 0);
+        int startY = de.malban.util.UtilityString.IntX(jTextFieldStartY.getText(), 0);
+        int width = de.malban.util.UtilityString.IntX(jTextFieldWidth.getText(), orgImage.getWidth()-startX);
+        int height = de.malban.util.UtilityString.IntX(jTextFieldHeight.getText(), orgImage.getHeight()-startY);
+        
+        orgImage = singleImagePanel1.getSelection(startX, startY, width, height).image;
+        
+        
+        // only bytes in the image above a threshold are
+        // counted as pixels
+        
+        BufferedImage scaledImage = ImageCache.getImageCache().getDerivatScale(orgImage, targetWidth, targetHeight);
+        
+        shiftRegCols= new ArrayList[targetWidth];
+        vectorCols= new ArrayList[targetWidth];
+
+        int colHeight = 0;
+        if (!jCheckBoxIncludeBrightness.isSelected())
+        {
+            for (int x=0;x<targetWidth;x++)
+            {
+                colHeight = 0;
+                ArrayList<Integer> shiftRegCol = new ArrayList<Integer>();
+
+                // next shift reg value - 8 bit = 8 pixels of image
+                int shiftReg = 0;
+
+                // only pixels above the threshold count to average brightness
+                // brightness can only be set every 8 "pixels" -> one shift reg!
+                int bitCount = 0;
+                for (int y=0;y<targetHeight;y++)
+                {
+                    int rgba;
+                    int usedX =x;
+                    int usedY =y;
+                    if (jCheckBoxXMirror.isSelected())
+                        usedX = targetWidth-1-x;
+                    if (jCheckBoxYMirror.isSelected())
+                        usedY = targetHeight-1-y;
+
+                    rgba =scaledImage.getRGB(usedX, usedY);
+                    boolean bit= getBitFromColor(rgba);
+
+                    if (bit) shiftReg++;
+                    bitCount++;
+                    if (bitCount == 8)
+                    {
+                        shiftRegCol.add(shiftReg);
+                        colHeight++;
+                        shiftReg = 0;
+                        bitCount = 0;
+
+                        if (jCheckBoxAssume9Bit.isSelected())
+                        {
+                            // simple overstep one pixel
+                            // the last pixel from above will be repeated 
+                            y++;
+                        }
+                    }
+                    shiftReg = shiftReg << 1;
+                }
+                while (bitCount<8)
+                {
+                    bitCount++;
+                    if (bitCount == 8)
+                    {
+                        shiftRegCol.add(shiftReg);
+                        colHeight++;
+                    }
+                    shiftReg = shiftReg << 1;
+                }
+                shiftRegCols[x] = shiftRegCol;
+            }
+        }
+    }
+
+    boolean getBitFromColor(int rgba)
+    {
+        int threshold = jSliderThreshold.getValue();
+        boolean bit = false;
+        Color c = new Color(rgba);
+        if (jRadioButtonAlphaAsGrayscale.isSelected())
+        {
+            // get alpha value
+            int A = (rgba >> 24) & 0xFF;
+            if (A>threshold)
+            {
+                bit = true;
+            }
+        }
+        else
+        {
+            // get color average as brightness
+            int R = c.getRed();
+            int G = c.getGreen();
+            int B = c.getBlue();
+            int brightness = (R+G+B)/3;
+            if (brightness>threshold)
+            {
+                bit = true;
+            }
+        }
+        if (jCheckBoxInvert.isSelected())
+            bit = !bit;
+        return bit;
+    }
+
+
+
     void displayVectors()
     {
         singleVectorPanel1.setSharedRepaint(false);
@@ -1009,6 +1392,57 @@ public class RasterPanel extends javax.swing.JPanel implements
                 }                
             }
         }
+        else
+        {
+            if (!jCheckBoxIncludeBrightness.isSelected())
+            {
+                int vx = 0 -(targetWidth/2);             
+                for (int x=0; x<targetWidth; x++)
+                {
+                    ArrayList<Integer> shiftRegCol = shiftRegCols[x];
+                    int vy = 0 +(targetHeight/2);  
+                    for (int y=0; y<shiftRegCol.size(); y++)
+                    {
+                        int brightness = 255;
+                        int shiftreg = shiftRegCol.get(y);
+                        for (int b=0; b<8; b++)
+                        {
+                            boolean bit = ((shiftreg&0x80)!=0);
+                            shiftreg = shiftreg<<1;
+                            int pattern = bit?255:0;
+
+                            GFXVector v = new GFXVector();
+                            v.start.x(vx);
+                            v.start.y(vy);
+                            v.end.x(vx);
+                            v.end.y(vy+1);
+                            v.pattern = pattern;
+                            v.setIntensity(brightness);
+                            singleVectorPanel1.addForegroundVector(v);
+                            vy+=1;
+
+                            if (jCheckBoxAssume9Bit.isSelected())
+                            {
+                                if (b == 7)
+                                {
+                                    v = new GFXVector();
+                                    v.start.x(vx);
+                                    v.start.y(vy);
+                                    v.end.x(vx);
+                                    v.end.y(vy+1);
+                                    v.pattern = pattern;
+                                    v.setIntensity(brightness);
+                                    singleVectorPanel1.addForegroundVector(v);
+                                    vy+=1;
+                                }
+                            }
+                        }
+                    }
+                    vx++;
+                }                
+            }
+        }
+            
         singleVectorPanel1.setSharedRepaint(true);
     }
     void createASMFile()
@@ -1054,7 +1488,6 @@ public class RasterPanel extends javax.swing.JPanel implements
         int targetHeight = de.malban.util.UtilityString.IntX(jTextFieldVectorHeight.getText(), orgImage.getHeight());
         int targetWidth = de.malban.util.UtilityString.IntX(jTextFieldVectorWitdh.getText(), orgImage.getWidth());
         if (targetHeight == 0) return;
-        
         if (jRadioButtonHorizontalVectors.isSelected())
         {
             singleVectorPanel1.clearVectors();
@@ -1150,6 +1583,7 @@ public class RasterPanel extends javax.swing.JPanel implements
                             for (int x=0; x<shiftRegRow.size(); x++)
                             {
                                 int shiftreg = shiftRegRow.get(x);
+//System.out.print(""+shiftreg);
 
                                 if (x!=0) out.append(", ");
                                 out.append("%"+String.format("%8s", Integer.toBinaryString(shiftreg)).replace(" ", "0"));
@@ -1178,18 +1612,93 @@ public class RasterPanel extends javax.swing.JPanel implements
                         for (int x=0; x<shiftRegRow.size(); x++)
                         {
                             int shiftreg = shiftRegRow.get(x);
-
+//System.out.print(""+shiftreg);
                             if (x!=0) out.append(", ");
                             out.append("%"+String.format("%8s", Integer.toBinaryString(shiftreg)).replace(" ", "0"));
                         }
                         out.append("; forward\n");
                     }
+//System.out.println("");
 
                 }
                 
                 
             }
         }
+        else
+        {
+            singleVectorPanel1.clearVectors();
+            out.append("; format:\n");
+            out.append("; height, width\n");
+            out.append("; shiftreg, ...,  shiftreg\n");
+            out.append("; ....\n");
+            out.append("; shiftreg, ...,  shiftreg\n");
+            out.append("; \n");
+//            if (jCheckBoxBiDirectionalData.isSelected())
+//            {
+//                out.append("; every second row is a 'backward' row\n");
+//                out.append("; backward rows have the direction AND the bits reversed!\n");
+//            }
+
+            out.append(basebaseName+"_data:\n");
+            out.append(" db "+String.format("$%02X", targetWidth)+", "+ String.format("$%02X ", shiftRegCols[0].size()) +"\n");
+            for (int x=0; x<targetWidth; x++)
+            {
+/*                
+                if (jCheckBoxBiDirectionalData.isSelected())
+                {
+                    if ((x%2) == 0)
+                    {
+                        out.append(" db ");
+                        ArrayList<Integer> shiftRegCol = shiftRegCols[x];
+                        for (int y=0; y<shiftRegCol.size(); y++)
+                        {
+                            int shiftreg = shiftRegCol.get(y);
+
+                            if (y!=0) out.append(", ");
+                            out.append("%"+String.format("%8s", Integer.toBinaryString(shiftreg)).replace(" ", "0"));
+                        }
+                        out.append("; forward\n");
+                    }
+                    else
+                    {
+                        out.append(" db ");
+                        ArrayList<Integer> shiftRegCol = shiftRegCols[x];
+                        for (int y=shiftRegCol.size()-1; y>=0; y--)
+                        {
+                            int shiftreg = shiftRegCol.get(y);
+                            shiftreg = bitReverse8(shiftreg);
+                            if (y!=(shiftRegCol.size()-1)) out.append(", ");
+                            out.append("%"+String.format("%8s", Integer.toBinaryString(shiftreg)).replace(" ", "0"));
+                        }
+                        out.append("; backward\n");
+                    }
+                }
+                else
+*/
+                {
+                    out.append(" db ");
+                    ArrayList<Integer> shiftRegCol = shiftRegCols[x];
+                    for (int y=0; y<shiftRegCol.size(); y++)
+                    {
+                        int shiftreg = shiftRegCol.get(y);
+
+                        if (y!=0) out.append(", ");
+                        out.append("%"+String.format("%8s", Integer.toBinaryString(shiftreg)).replace(" ", "0"));
+                    }
+                    out.append("; forward\n");
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
         String asm = out.toString();
         
         String fileNameData = baseName + ".asm";
@@ -1201,41 +1710,83 @@ public class RasterPanel extends javax.swing.JPanel implements
         {
             de.malban.util.UtilityFiles.createTextFile(fileNameData, asm);
         }
-        if (jCheckBoxGenerateExampleCode.isEnabled())
+        if (jRadioButtonHorizontalVectors.isSelected())
         {
-            Path template;
-            if (!jCheckBoxBiDirectionalData.isSelected())
+            if (jCheckBoxGenerateExampleCode.isEnabled())
             {
-                template = Paths.get(".", "template", "rasterDrawUni.template");
-                de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDraw.asm");
+                Path template;
+                if (!jCheckBoxBiDirectionalData.isSelected())
+                {
+                    template = Paths.get(".", "template", "rasterDrawUni.template");
+                    de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDraw.asm");
 
-                Path include = Paths.get(".", "template", "VECTREX.I");
-                de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
+                    Path include = Paths.get(".", "template", "VECTREX.I");
+                    de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
 
-                template = Paths.get(".", "template", "rasterExampleMainUni.template");            
+                    template = Paths.get(".", "template", "rasterExampleMainUni.template");            
+                }
+                else
+                {
+                    template = Paths.get(".", "template", "rasterDraw.template");
+                    de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDraw.asm");
+
+                    Path include = Paths.get(".", "template", "VECTREX.I");
+                    de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
+
+                    template = Paths.get(".", "template", "rasterExampleMain.template");            
+                }
+
+                String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#DATAFILE#", basebaseName + ".asm");
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#RASTERDATA#", dataLabel);
+
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#WIDTH#", "$40");
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#HEIGHT#", "10");
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#XPOS#", "-$40");
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YPOS#", "10");
+                de.malban.util.UtilityFiles.createTextFile(pathName+File.separator+basebaseName+"Main.asm", exampleMain);
             }
-            else
-            {
-                template = Paths.get(".", "template", "rasterDraw.template");
-                de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDraw.asm");
-
-                Path include = Paths.get(".", "template", "VECTREX.I");
-                de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
-
-                template = Paths.get(".", "template", "rasterExampleMain.template");            
-            }
-
-            String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-                    
-            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#DATAFILE#", basebaseName + ".asm");
-            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#RASTERDATA#", dataLabel);
-                    
-            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#WIDTH#", "$40");
-            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#HEIGHT#", "10");
-            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#XPOS#", "-$40");
-            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YPOS#", "10");
-            de.malban.util.UtilityFiles.createTextFile(pathName+File.separator+basebaseName+"Main.asm", exampleMain);
         }
+        else
+        {
+            if (jCheckBoxGenerateExampleCode.isEnabled())
+            {
+                Path template;
+//                if (!jCheckBoxBiDirectionalData.isSelected())
+//                {
+//                    template = Paths.get(".", "template", "rasterDrawUni.template");
+//                    de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDraw.asm");
+//
+//                    Path include = Paths.get(".", "template", "VECTREX.I");
+//                    de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
+//
+//                    template = Paths.get(".", "template", "rasterExampleMainUni.template");            
+//                }
+//                else
+                {
+                    template = Paths.get(".", "template", "rasterDrawVertical.template");
+                    de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDrawVertical.asm");
+
+                    Path include = Paths.get(".", "template", "VECTREX.I");
+                    de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
+
+                    template = Paths.get(".", "template", "rasterExampleVerticalMain.template");            
+                }
+
+                String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#DATAFILE#", basebaseName + ".asm");
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#RASTERDATA#", dataLabel);
+
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#WIDTH#", "$40");
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#HEIGHT#", "120");
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#XPOS#", "-$70");
+                exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YPOS#", "10");
+                de.malban.util.UtilityFiles.createTextFile(pathName+File.separator+basebaseName+"Main.asm", exampleMain);
+            }
+        }
+
         if (!modal)
         {
             VediPanel.openInVedi(pathName+File.separator+basebaseName+"Main.asm");

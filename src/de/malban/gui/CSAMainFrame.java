@@ -33,6 +33,7 @@ import de.malban.vide.vecx.panels.BreakpointJPanel;
 import de.malban.vide.ConfigJPanel;
 import de.malban.vide.VideConfig;
 import de.malban.vide.codi.CodeLibraryPanel;
+import de.malban.vide.vecx.CompleteState;
 import de.malban.vide.vecx.panels.LabelJPanel;
 import de.malban.vide.vecx.panels.MemoryDumpPanel;
 import de.malban.vide.vecx.panels.PSGJPanel;
@@ -1999,6 +2000,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     // serialize the given object and save it to file
     public static boolean serialize(Object obj, String fileName)
     {
+        
         try
         {
             FileOutputStream fos = new FileOutputStream(fileName);
@@ -3240,6 +3242,9 @@ public class CSAMainFrame extends javax.swing.JFrame
                             return true;
                         }
                     }
+                    else
+                    {
+                    }
                 }
                 
                 if(e.getID()==KeyEvent.KEY_PRESSED && e.getKeyCode()==KeyEvent.VK_ESCAPE)
@@ -3506,6 +3511,21 @@ public class CSAMainFrame extends javax.swing.JFrame
         libMap.add(new LibraryMap(".txt", "/de/malban/vide/images/text_align_justify.png"));
         libMap.add(new LibraryMap(".rtf", "/de/malban/vide/images/text_dropcaps.png"));
         libMap.add(new LibraryMap(".doc", "/de/malban/vide/images/page_white_word.png"));
+    }
+    
+    public void toFront(Windowable panel)
+    {
+        try
+        {
+            getInternalFrame(panel).setIcon(false);
+            getInternalFrame(panel).toFront();
+            getInternalFrame(panel).setSelected(true);
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        
     }
     
 }

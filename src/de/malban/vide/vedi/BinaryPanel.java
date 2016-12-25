@@ -9,14 +9,19 @@ import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
+import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.swing.JTable;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -103,6 +108,7 @@ public class BinaryPanel extends javax.swing.JPanel {
     }
     public void deinit()
     {
+        removeUIListerner();
     }
     /**
      * Creates new form MemoryDumpPanel
@@ -110,6 +116,8 @@ public class BinaryPanel extends javax.swing.JPanel {
     public BinaryPanel() {
         initComponents();
         setup();
+        UIManager.addPropertyChangeListener(pListener);
+        updateMyUI(); 
 
     }
 
@@ -298,6 +306,26 @@ public class BinaryPanel extends javax.swing.JPanel {
     public void setUpdateEnabled(boolean b)
     {
         updateEnabled = b;
+    }
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+    {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+            updateMyUI();
+        }
+    };
+    void updateMyUI()
+    {
+        // SwingUtilities.updateComponentTreeUI(jPopupMenu1);
+        // SwingUtilities.updateComponentTreeUI(jPopupMenuTree);
+        // SwingUtilities.updateComponentTreeUI(jPopupMenuProjectProperties);
+        int fontSize = Theme.textFieldFont.getFont().getSize();
+        int rowHeight = fontSize+2;
+        jTable1.setRowHeight(rowHeight);
     }
     
 }

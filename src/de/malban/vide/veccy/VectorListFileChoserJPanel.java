@@ -9,6 +9,7 @@ import de.malban.config.Configuration;
 import de.malban.graphics.GFXVectorAnimation;
 import de.malban.graphics.GFXVectorList;
 import de.malban.gui.components.ModalInternalFrame;
+import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Component;
 import java.awt.Point;
 import java.io.File;
@@ -20,6 +21,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -68,6 +70,13 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
               }
         });        
         
+        updateMyUI(); 
+    }
+    void updateMyUI()
+    {
+        int fontSize = Theme.textFieldFont.getFont().getSize();
+        int rowHeight = fontSize+2;
+        jTable1.setRowHeight(rowHeight);
     }
     void setExportTypesVisible(boolean showExportTypes)
     {
@@ -129,16 +138,20 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
 
         jButtonOk.setText("Ok");
         jButtonOk.setName("create"); // NOI18N
+        jButtonOk.setPreferredSize(new java.awt.Dimension(0, 21));
 
         jButtonCancel.setText("Cancel");
+        jButtonCancel.setPreferredSize(new java.awt.Dimension(0, 21));
 
         jLabel1.setText("Filename:");
+
+        jTextFieldFileName.setPreferredSize(new java.awt.Dimension(0, 21));
 
         jLabel2.setText("Filename:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "XML" }));
         jComboBox1.setEnabled(false);
-        jComboBox1.setPreferredSize(new java.awt.Dimension(59, 19));
+        jComboBox1.setPreferredSize(new java.awt.Dimension(0, 21));
 
         jLabel3.setText("All vectorlists are stored in the directory:");
 
@@ -150,13 +163,10 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -173,7 +183,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         singleVectorPanel.setLayout(singleVectorPanelLayout);
         singleVectorPanelLayout.setHorizontalGroup(
             singleVectorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 151, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         singleVectorPanelLayout.setVerticalGroup(
             singleVectorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,7 +197,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         jButtonMov_Draw_VLc_a.setEnabled(false);
         jButtonMov_Draw_VLc_a.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonMov_Draw_VLc_a.setName("create"); // NOI18N
-        jButtonMov_Draw_VLc_a.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonMov_Draw_VLc_a.setPreferredSize(new java.awt.Dimension(160, 21));
         jButtonMov_Draw_VLc_a.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonMov_Draw_VLc_aActionPerformed(evt);
@@ -199,7 +209,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         jButtonDraw_VLc.setEnabled(false);
         jButtonDraw_VLc.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonDraw_VLc.setName("create"); // NOI18N
-        jButtonDraw_VLc.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_VLc.setPreferredSize(new java.awt.Dimension(160, 21));
         jButtonDraw_VLc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDraw_VLcActionPerformed(evt);
@@ -211,7 +221,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         jButtonDraw_VLp.setEnabled(false);
         jButtonDraw_VLp.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonDraw_VLp.setName("create"); // NOI18N
-        jButtonDraw_VLp.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_VLp.setPreferredSize(new java.awt.Dimension(160, 21));
         jButtonDraw_VLp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDraw_VLpActionPerformed(evt);
@@ -223,7 +233,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         jButtonDraw_VL_mode.setEnabled(false);
         jButtonDraw_VL_mode.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonDraw_VL_mode.setName("create"); // NOI18N
-        jButtonDraw_VL_mode.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonDraw_VL_mode.setPreferredSize(new java.awt.Dimension(160, 21));
         jButtonDraw_VL_mode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDraw_VL_modeActionPerformed(evt);
@@ -235,7 +245,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         jButtonCodeGen.setEnabled(false);
         jButtonCodeGen.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonCodeGen.setName("create"); // NOI18N
-        jButtonCodeGen.setPreferredSize(new java.awt.Dimension(74, 19));
+        jButtonCodeGen.setPreferredSize(new java.awt.Dimension(160, 21));
         jButtonCodeGen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCodeGenActionPerformed(evt);
@@ -246,15 +256,11 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonCodeGen, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButtonDraw_VLp, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonDraw_VLc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonMov_Draw_VLc_a, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonDraw_VL_mode, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 21, Short.MAX_VALUE))
+            .addComponent(jButtonMov_Draw_VLc_a, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jButtonDraw_VLc, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jButtonDraw_VLp, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jButtonDraw_VL_mode, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jButtonCodeGen, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,8 +288,8 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldFileName))
+                                .addGap(12, 12, 12)
+                                .addComponent(jTextFieldFileName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,7 +302,7 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
                                         .addGap(12, 12, 12)
                                         .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(singleVectorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -328,8 +334,8 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonOk)
-                            .addComponent(jButtonCancel))))
+                            .addComponent(jButtonOk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(11, 11, 11))
         );
     }// </editor-fold>//GEN-END:initComponents
