@@ -2169,7 +2169,7 @@ public class M6809Lexer implements Lexer {
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
-    else if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text.toLowerCase()) != null)
+    else if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
@@ -2178,7 +2178,7 @@ public class M6809Lexer implements Lexer {
     {
         lastToken = M6809Token.LITERAL_VARIABLE;
     }
-    else if (de.malban.util.syntax.entities.LabelSink.knownGlobalVariables.get(text.toLowerCase()) != null)
+    else if (de.malban.util.syntax.entities.LabelSink.knownGlobalVariables.get(text) != null)
     {
         lastToken = M6809Token.LITERAL_VARIABLE;
     }
@@ -2298,7 +2298,7 @@ public class M6809Lexer implements Lexer {
     }
     else
     {
-        if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text.toLowerCase()) != null)
+        if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
         {
             lastToken = M6809Token.RESERVED_ASMWORD;
         }
@@ -2334,7 +2334,7 @@ public class M6809Lexer implements Lexer {
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
-    else if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text.toLowerCase()) != null)
+    else if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
@@ -2451,11 +2451,11 @@ public class M6809Lexer implements Lexer {
     else if (text.toLowerCase().equals("dp")) lastToken = M6809Token.RESERVED_REGISTER;
     else if (text.toLowerCase().equals("cc")) lastToken = M6809Token.RESERVED_REGISTER;
 
-    if (de.malban.util.syntax.entities.LabelSink.knownGlobalVariables.get(text.toLowerCase()) != null)
+    if (de.malban.util.syntax.entities.LabelSink.knownGlobalVariables.get(text) != null)
     {
         lastToken = M6809Token.LITERAL_VARIABLE;
     }
-    if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text.toLowerCase()) != null)
+    if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }

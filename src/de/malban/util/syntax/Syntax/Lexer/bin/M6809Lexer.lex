@@ -701,7 +701,7 @@ MacroLabel=({AS09MacroLabel}|{ASMJMacroLabel})
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
-    else if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text.toLowerCase()) != null)
+    else if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
@@ -822,7 +822,7 @@ MacroLabel=({AS09MacroLabel}|{ASMJMacroLabel})
     }
     else
     {
-        if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text.toLowerCase()) != null)
+        if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
         {
             lastToken = M6809Token.RESERVED_ASMWORD;
         }
@@ -886,11 +886,11 @@ MacroLabel=({AS09MacroLabel}|{ASMJMacroLabel})
     else if (text.toLowerCase().equals("dp")) lastToken = M6809Token.RESERVED_REGISTER;
     else if (text.toLowerCase().equals("cc")) lastToken = M6809Token.RESERVED_REGISTER;
 
-    if (de.malban.util.syntax.entities.LabelSink.knownGlobalVariables.get(text.toLowerCase()) != null)
+    if (de.malban.util.syntax.entities.LabelSink.knownGlobalVariables.get(text) != null)
     {
         lastToken = M6809Token.LITERAL_VARIABLE;
     }
-    if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text.toLowerCase()) != null)
+    if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
@@ -1129,7 +1129,7 @@ We look if we have "enough" opens, and than cast to be a good closer!
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
-    else if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text.toLowerCase()) != null)
+    else if (de.malban.util.syntax.entities.MacroSink.knownGlobalMacros.get(text) != null)
     {
         lastToken = M6809Token.RESERVED_ASMWORD;
     }
@@ -1138,7 +1138,7 @@ We look if we have "enough" opens, and than cast to be a good closer!
     {
         lastToken = M6809Token.LITERAL_VARIABLE;
     }
-    else if (de.malban.util.syntax.entities.LabelSink.knownGlobalVariables.get(text.toLowerCase()) != null)
+    else if (de.malban.util.syntax.entities.LabelSink.knownGlobalVariables.get(text) != null)
     {
         lastToken = M6809Token.LITERAL_VARIABLE;
     }

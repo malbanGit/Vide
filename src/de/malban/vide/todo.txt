@@ -477,8 +477,7 @@ Done:
 
 
 
- - editor messages to big!
-- asm generate doe data how many per line -> groupinh infos
+- done: asm generate doe data how many per line -> groupinh infos
 
 Frogger: (count starting at 1)
 ok 1. Level > 27100: ok (4 houses)
@@ -498,8 +497,15 @@ ok 14. Level > 28000: 27900 non arcade conform
 ok 15. Level > 29500: 28400 non arcade conform  very difficult
 30100 - ok 16. Level > 29500: 28300 non arcade conform 
 
+TODO table row height in Veccy
+Karl Quappe Pause with FIRQ
+
 
 BUG
+
+BUG BW images in Vectorize
+ - editor messages to big!
+
 
 Mario clone 1 way scroller, turrican?
 
@@ -592,42 +598,30 @@ done: Frogger Absturz bei reach home
 done: girl -> "jumping"
 done: still sometimes gltiches when printing +200
 done: init joystick vars with new frog!
+done: vecx not replicable save in game does not work (e.g. while in frogger game)
+done: vecx joystick information is lost after loading save game
+done: vedi example code for 2431
+done: hey dissi break once
+done: vecxi vec Vox / VecVoice not starting right? was T1 more than 1 delay
 
-example code for 2431
 
+BUG
+Assemble and inject bei falscher datei -> doof...
+
+BUG/Feature, wehen typing in Vedi, the "*" now moves the bottom line!
 
 
 - install BIOS as internal source, and jump on double click there
 - vedi, periodically in the background, re - check "jumps" to known labels, since after a time of editing they get "off"
 document recent vecci changes
 VecKey - PS/2 Keyboard
-done: hey dissi break once
 DRIFT - see DRIFT pic
-
-
-BUG Thrust 3 Gen does not work!
-
-BUG vec Vox / VecVoice not starting right?
+- faq copied "vectors" does not work with paste -> mode must be vectors!
 
 RESCAN VARS
 
 
-- BUG
-- done: (unsused symbols...) Teilweise fehlen labels (FonTRow1 - aber nicht 2-7
-- done: Frogger BUG, stepping off on the edge of the middle allows frog to go over to the other side
 
-- BUG?
-In projects (like Frogger) some vars are still read?
- -> e.g. Level.i
- -> vars are not properly read!
- -> also... look at refreshing var positions automatically! (in edited files)
-
-- BUG
- done: not replicable save in game does not work (e.g. while in frogger game)
-- BUG
- done: joystikc information is lost after loading save game
-
-- faq copied "vectors" does not work with paste -> mode must be vectors!
 
 - hiddenline to history
 - figure -> delete faces

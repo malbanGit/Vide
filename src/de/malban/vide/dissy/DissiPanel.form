@@ -357,7 +357,7 @@
       <Properties>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="nu"/>
-        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;no unkown!&lt;BR&gt;&#xa;Don&apos;t show locations that are &quot;unkown&quot; (not read from file), this &lt;b&gt;allways&lt;/b&gt; includes RAM!&lt;BR&gt;(Since disassembled data is static)&lt;/html&gt;&#xa;" noResource="true"/>
+        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;no unkown!&lt;BR&gt;&#xa;Don&apos;t show locations that are &quot;unkown&quot; (not read from file), this &lt;b&gt;always&lt;/b&gt; includes RAM!&lt;BR&gt;(Since disassembled data is static)&lt;/html&gt;&#xa;" noResource="true"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox1ActionPerformed"/>

@@ -344,7 +344,15 @@ public class LogPanel extends javax.swing.JPanel implements Windowable, Logable,
             }
           }
         );
+         try
+         {
         e.printStackTrace(p);
+             
+         }
+         catch (Throwable ex)
+         {
+System.out.println("Strange");             
+         }
         p.flush();
         addLog(lineHead=": \n"+add);
      }

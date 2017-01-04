@@ -11,6 +11,7 @@ import de.malban.config.TinyLogInterface;
 import de.malban.graphics.GFXVector;
 import de.malban.graphics.GFXVectorList;
 import de.malban.gui.CSAMainFrame;
+import de.malban.gui.ImageCache;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAInternalFrame;
 import de.malban.gui.components.CSAView;
@@ -168,6 +169,8 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         jLabel18 = new javax.swing.JLabel();
         jSlider2 = new javax.swing.JSlider();
         jLabel19 = new javax.swing.JLabel();
+        jSliderCombineUpscale = new javax.swing.JSlider();
+        jLabel14 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(960, 537));
@@ -401,6 +404,20 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
 
         jLabel19.setText("y factor");
 
+        jSliderCombineUpscale.setMajorTickSpacing(10);
+        jSliderCombineUpscale.setMinimum(1);
+        jSliderCombineUpscale.setMinorTickSpacing(1);
+        jSliderCombineUpscale.setPaintTicks(true);
+        jSliderCombineUpscale.setValue(10);
+        jSliderCombineUpscale.setPreferredSize(new java.awt.Dimension(322, 45));
+        jSliderCombineUpscale.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderCombineUpscaleStateChanged(evt);
+            }
+        });
+
+        jLabel14.setText("upscaling");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -458,24 +475,29 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBox1)
-                                    .addComponent(jCheckBoxGenerateData)
-                                    .addComponent(jCheckBoxGenerateExampleCode)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9)
-                                            .addComponent(jLabel10)
-                                            .addComponent(jButton1))
-                                        .addGap(13, 13, 13)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(6, 6, 6)
+                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jCheckBox1)
+                                            .addComponent(jCheckBoxGenerateData)
+                                            .addComponent(jCheckBoxGenerateExampleCode)
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel9)
+                                                    .addComponent(jLabel10)
+                                                    .addComponent(jButton1))
+                                                .addGap(13, 13, 13)
+                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGap(6, 6, 6))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jSliderSourceScale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -483,12 +505,14 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                                     .addComponent(jLabel18)
                                     .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jSliderCombineUpscale, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton2)
                                 .addGap(1, 1, 1))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(666, 666, 666)
                         .addComponent(jLabel11)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -553,11 +577,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSliderBlurRadius, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSliderBlurThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jSliderBlurRadius, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -570,7 +590,16 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jCheckBoxGenerateData)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBoxGenerateExampleCode))))
+                                .addComponent(jCheckBoxGenerateExampleCode)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel14)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSliderBlurThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSliderCombineUpscale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(373, 373, 373)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -759,6 +788,10 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         buildVectors();
     }//GEN-LAST:event_jSlider2StateChanged
 
+    private void jSliderCombineUpscaleStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderCombineUpscaleStateChanged
+        buildVectors();
+    }//GEN-LAST:event_jSliderCombineUpscaleStateChanged
+
     double xFactor = 1.0;
     double yFactor = 1.0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -773,6 +806,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -796,6 +830,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JSlider jSliderBlurThreshold;
     private javax.swing.JSlider jSliderCombineAngle;
     private javax.swing.JSlider jSliderCombinePixelLen;
+    private javax.swing.JSlider jSliderCombineUpscale;
     private javax.swing.JSlider jSliderDespeckle;
     private javax.swing.JSlider jSliderSourceScale;
     private javax.swing.JSlider jSliderThreshold;
@@ -869,19 +904,17 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     boolean building = false;
     public boolean buildVectors()
     {
-        
-        
         if (building) return false;
         building = true;
-        
-        
-        
-        // BufferedImage orgImage = singleImagePanel1.getImage();
 
+        // BufferedImage orgImage = singleImagePanel1.getImage();
         int startX = de.malban.util.UtilityString.IntX(jTextFieldStartX.getText(), 0);
         int startY = de.malban.util.UtilityString.IntX(jTextFieldStartY.getText(), 0);
         int width = de.malban.util.UtilityString.IntX(jTextFieldWidth.getText(), baseImage.getWidth()-startX);
         int height = de.malban.util.UtilityString.IntX(jTextFieldHeight.getText(), baseImage.getHeight()-startY);
+
+
+        double upscale = ((double)jSliderCombineUpscale.getValue())/10.0;
         
         if (width == 0) 
         {
@@ -894,8 +927,6 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             return false;
         }
         BufferedImage orgImage = baseImage;
-        
-        
         
         String filenameTMP = "tmp"+File.separator+"tmpImage"+(uid++)+".bmp";
         try
@@ -932,6 +963,10 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             // show image to user
             singleImagePanel2.setBaseImage( filteredImage);
 
+            if (upscale != 1.0)
+            {
+                filteredImage = ImageCache.getImageCache().getDerivatScale(filteredImage, (int)(width*upscale), (int)(height*upscale));
+            }
             // write to tmp
             boolean result = ImageIO.write(filteredImage, "BMP", new File(filenameTMP));
             if (!result) 

@@ -51,6 +51,7 @@ import de.malban.vide.vedi.sound.VecSpeechPanel;
 import de.malban.vide.vedi.sound.YMJPanel;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -471,6 +472,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         }
         EditorPanel edi = new EditorPanel(fullPathname, this);
+        edi.setMinimumSize(new Dimension(5,5));
         edi.setAddToSettings(addToSettings);
         if (edi.isInitError()) return null;
         jTabbedPane1.addTab(name, edi);
@@ -1193,7 +1195,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jLabel6.setForeground(new java.awt.Color(0, 153, 51));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("*");
-        jLabel6.setPreferredSize(new java.awt.Dimension(6, 21));
+        jLabel6.setMaximumSize(new java.awt.Dimension(16, 21));
+        jLabel6.setMinimumSize(new java.awt.Dimension(16, 21));
+        jLabel6.setPreferredSize(new java.awt.Dimension(16, 21));
 
         jButtonClearMessages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/weather_sun.png"))); // NOI18N
         jButtonClearMessages.setToolTipText("clear messages");
@@ -3738,10 +3742,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     public void processWord(String word)
     {
-        EntityDefinition entity = LabelSink.knownGlobalVariables.get(word.toLowerCase());
+        EntityDefinition entity = LabelSink.knownGlobalVariables.get(word);
         if (entity == null)
         {
-            entity = MacroSink.knownGlobalMacros.get(word.toLowerCase());        
+            entity = MacroSink.knownGlobalMacros.get(word);        
         }
         if (entity == null) 
         {
@@ -4197,6 +4201,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
         settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
         updateList();
+
+        Path p = Paths.get(project.getPath(), project.getProjectName());
+        File asmFile = new File(p.toString()+File.separator+ project.getMainFile());
+
+        ASM6809FileInfo.resetToProject(asmFile);
+        
         return true;
     }
     CartridgeProperties buildCart(ProjectProperties project)

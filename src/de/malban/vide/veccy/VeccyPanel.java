@@ -705,6 +705,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel52 = new javax.swing.JLabel();
         jPanel20 = new javax.swing.JPanel();
         jButtonExport = new javax.swing.JButton();
+        jPanel40 = new javax.swing.JPanel();
+        jButtonLoad3 = new javax.swing.JButton();
+        jLabel57 = new javax.swing.JLabel();
+        jLabel58 = new javax.swing.JLabel();
+        jLabel59 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
         jCheckBoxSameIntensity = new javax.swing.JCheckBox();
         jCheckBoxSamePattern = new javax.swing.JCheckBox();
@@ -3220,6 +3225,55 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTabbedPane8.addTab("user export", jPanel20);
 
+        jButtonLoad3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
+        jButtonLoad3.setToolTipText("load wavefront obj file");
+        jButtonLoad3.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLoad3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoad3ActionPerformed(evt);
+            }
+        });
+
+        jLabel57.setText("File");
+
+        jLabel58.setText("export to svg:");
+
+        jLabel59.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel59.setText("Simple export of \"lines\" only.");
+
+        javax.swing.GroupLayout jPanel40Layout = new javax.swing.GroupLayout(jPanel40);
+        jPanel40.setLayout(jPanel40Layout);
+        jPanel40Layout.setHorizontalGroup(
+            jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel40Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel40Layout.createSequentialGroup()
+                        .addComponent(jLabel57)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonLoad3))
+                    .addGroup(jPanel40Layout.createSequentialGroup()
+                        .addComponent(jLabel58)
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel59)))
+                .addContainerGap(556, Short.MAX_VALUE))
+        );
+        jPanel40Layout.setVerticalGroup(
+            jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel40Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel58)
+                    .addComponent(jLabel59))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonLoad3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(273, Short.MAX_VALUE))
+        );
+
+        jTabbedPane8.addTab("other", jPanel40);
+
         javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
         jPanel26.setLayout(jPanel26Layout);
         jPanel26Layout.setHorizontalGroup(
@@ -3450,7 +3504,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane5)
+            .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3899,6 +3953,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(60, 83));
 
         jPanelIMageCollection.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanelIMageCollection.setMinimumSize(new java.awt.Dimension(15, 62));
@@ -4098,7 +4153,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel39Layout.createSequentialGroup()
                 .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel39Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4193,7 +4248,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonOneBack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(4, 4, 4)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -6388,6 +6443,87 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jCheckBoxScaleToByteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxScaleToByteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxScaleToByteActionPerformed
+
+    
+    String buildSVG(GFXVectorList vl, int factor)
+    {
+        StringBuilder svg = new StringBuilder();
+        int maxWidth = vl.getXMax() - vl.getXMin()+20;
+        int maxHeight = vl.getYMax() - vl.getYMin()+20;
+
+        maxWidth *= factor;
+        maxHeight *= factor;
+        int xMin = vl.getXMin();
+        int yMin = vl.getYMin();
+        
+        
+        int centerX = maxWidth/2;
+        int centerY = maxHeight/2;
+        
+        for (GFXVector v: vl.list)
+        {
+            int x0 = ((int)v.start.x())*factor+centerX;
+            int y0 = ((int)-v.start.y())*factor+centerY;
+            int x1 = ((int)v.end.x())*factor+centerX;
+            int y1 = ((int)-v.end.y())*factor+centerY;
+            
+            
+            String line = "<line x1=\""+x0+"\" x2=\""+x1+"\" y1=\""+y0+"\" y2=\""+y1+"\" stroke=\"black\" stroke-width=\"5\"/>\n";
+            svg.append(line);
+        }
+        return svg.toString();
+    }
+    
+    private void jButtonLoad3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoad3ActionPerformed
+        String name = GetSVGFilenamePanel.showEnterValueDialog();
+        name = name+".svg";
+        String filename ="xml"+File.separator+"vectorlist";
+        name = filename+File.separator+name;
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList().clone();
+        
+        
+        
+        int maxWidth = vl.getXMax() - vl.getXMin()+20;
+        int maxHeight = vl.getYMax() - vl.getYMin()+20;
+        
+        int factor = 1;
+        if ((maxWidth <500) && (maxHeight <500)) factor = 2;
+        if ((maxWidth <200) && (maxHeight <200)) factor = 5;
+        if ((maxWidth <100) && (maxHeight <100)) factor = 10;
+        if ((maxWidth <50) && (maxHeight <50)) factor = 20;
+        if ((maxWidth <40) && (maxHeight <40)) factor = 25;
+        if ((maxWidth <20) && (maxHeight <20)) factor = 50;
+        if ((maxWidth <10) && (maxHeight <10)) factor = 100;
+        try
+        {
+            String header = "<svg version=\"1.1\"\n";
+            header+="baseProfile=\"full\"\n";
+            header+="width=\""+(maxWidth*factor)+"\" height=\""+(maxHeight*factor)+"\"\n";
+            header+="xmlns=\"http://www.w3.org/2000/svg\">\n";
+            String footer = "</svg>";
+            StringBuilder svg = new StringBuilder();
+
+            String body = buildSVG(vl, factor);
+            
+            svg.append(header);
+
+            svg.append("<rect width=\"100%\" height=\"100%\" fill=\"red\" />\n");
+            
+            svg.append(body);
+            svg.append(footer);
+            
+            
+            boolean ok = de.malban.util.UtilityFiles.createTextFile(name, svg.toString());
+            if (!ok)
+            {
+                log.addLog("Create (svg) file '"+name+"' return false", WARN);
+            }
+        }
+        catch (Throwable e)
+        {
+            log.addLog(e, WARN);
+        }
+    }//GEN-LAST:event_jButtonLoad3ActionPerformed
     void closeSingleVecciPanel()
     {
         if (svp != null)
@@ -6781,6 +6917,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonLoad;
     private javax.swing.JButton jButtonLoad1;
     private javax.swing.JButton jButtonLoad2;
+    private javax.swing.JButton jButtonLoad3;
     private javax.swing.JButton jButtonMirrorHorizontally;
     private javax.swing.JButton jButtonMirrorVertically;
     private javax.swing.JButton jButtonMov_Draw_VLc_a;
@@ -6897,6 +7034,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -6965,6 +7105,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel40;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;

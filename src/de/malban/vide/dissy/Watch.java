@@ -88,6 +88,9 @@ public class Watch {
     }
     private int peek(int address)
     {
+        if (dissi==null) return 0;
+        if (dissi.currentDissi==null) return 0;
+        if (dissi.currentDissi.vecxPanel==null) return 0;
         return (dissi.currentDissi.vecxPanel.getVecXMem8(address))&0xff;
     }
     public static void addWatch(int address, int t, int l, DissiPanel d)

@@ -49,6 +49,19 @@ public class ASM6809FileInfo
             ASM6809FileInfo.handleFile(value.fullName, null);
         }
     }
+    public static void clearDefinitions()
+    {
+        LabelSink.knownGlobalVariables = new HashMap<String, EntityDefinition>();
+        MacroSink.knownGlobalMacros = new HashMap<String, EntityDefinition>();
+        allFileMap = new HashMap<String, ASM6809FileInfo>();;
+    }
+    
+    public static void resetToProject(File mainFile)
+    {
+        clearDefinitions();
+        handleFile(mainFile.getAbsolutePath(), null);
+    }
+    
     
     private ASM6809FileInfo(){}
     
@@ -145,8 +158,8 @@ public class ASM6809FileInfo
             Map.Entry entry = (Map.Entry) it.next();
             EntityDefinition value = (EntityDefinition) entry.getValue();
             String key = (String) entry.getKey();
-            LabelSink.knownGlobalVariables.remove(value.name.toLowerCase());
-            LabelSink.knownGlobalVariables.put(value.name.toLowerCase(), value);
+            LabelSink.knownGlobalVariables.remove(value.name);
+            LabelSink.knownGlobalVariables.put(value.name, value);
         }
 
         
@@ -159,13 +172,13 @@ public class ASM6809FileInfo
        {
             if (e.type == TYP_MACRO)
             {
-                MacroSink.knownGlobalMacros.remove(e.name.toLowerCase());
+                MacroSink.knownGlobalMacros.remove(e.name);
                 for (String n: e.parameter)
-                    MacroSink.knownGlobalMacros.remove(n.toLowerCase());
+                    MacroSink.knownGlobalMacros.remove(n);
             }
             if (e.type == TYP_LABEL)
             {
-                LabelSink.knownGlobalVariables.remove(e.name.toLowerCase());
+                LabelSink.knownGlobalVariables.remove(e.name);
             }
        }
        
@@ -190,7 +203,9 @@ public class ASM6809FileInfo
         EntityDefinition entity = lineEntityMap.get(oldLine);
         if (entity==null) 
         {
+            
             entity = EntityDefinition.scanLine(this,  line);
+
             addLineToArray(entity);
             status = entity.getStatus();
         }
@@ -200,16 +215,16 @@ public class ASM6809FileInfo
             status = entity.updateEntity(line);
             if (entity.previousType == TYP_MACRO)
             {
-                MacroSink.knownGlobalMacros.remove(entity.previousName.toLowerCase());
+                MacroSink.knownGlobalMacros.remove(entity.previousName);
                 if (entity.previousParameter!=null)
                 {
                     for (String n: entity.previousParameter)
-                        MacroSink.knownGlobalMacros.remove(n.toLowerCase());
+                        MacroSink.knownGlobalMacros.remove(n);
                 }
             }
             if (entity.previousType == TYP_LABEL)
             {
-                LabelSink.knownGlobalVariables.remove(entity.previousName.toLowerCase());
+                LabelSink.knownGlobalVariables.remove(entity.previousName);
             }
         }
     
@@ -224,16 +239,16 @@ public class ASM6809FileInfo
             lineEntityMap.put(line, entity);
             if (entity.type == TYP_MACRO)
             {
-                MacroSink.knownGlobalMacros.put(entity.name.toLowerCase(), entity);
+                MacroSink.knownGlobalMacros.put(entity.name, entity);
                 if (entity.parameter!=null)
                 {
                     for (String n: entity.parameter)
-                        MacroSink.knownGlobalMacros.put(n.toLowerCase(), entity);
+                        MacroSink.knownGlobalMacros.put(n, entity);
                 }
             }
             else if (entity.type == TYP_LABEL)
             {
-                LabelSink.knownGlobalVariables.put(entity.name.toLowerCase(), entity);
+                LabelSink.knownGlobalVariables.put(entity.name, entity);
             }
         }
         if (status == ENTITY_CHANGED)
@@ -334,7 +349,7 @@ public class ASM6809FileInfo
         // positive adjustment, that something was added
         
         // strategy
-        // find the lines that habe changed and call
+        // find the lines that have changed and call
         // update entity with that
         // change our "reference" text accordingly
         // TODO !!!!!
@@ -347,13 +362,13 @@ public class ASM6809FileInfo
             {
                 if (e.type == TYP_LABEL)
                 {
-                    LabelSink.knownGlobalVariables.remove(e.name.toLowerCase());
-                    ret.add(e.name.toLowerCase());
+                    LabelSink.knownGlobalVariables.remove(e.name);
+                    ret.add(e.name);
                 }
                 if (e.type == TYP_MACRO)
                 {
-                    MacroSink.knownGlobalMacros.remove(e.name.toLowerCase());
-                    ret.add(e.name.toLowerCase());
+                    MacroSink.knownGlobalMacros.remove(e.name);
+                    ret.add(e.name);
                 }
             }
             text.delete(0, text.length());

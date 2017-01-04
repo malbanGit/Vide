@@ -1,3 +1,15 @@
+---------------------
+Version 1.11
+
+new: 
+- vecci: Added very basic support to export vector lists to SVG (lines only)
+- vedi: Variables scanned respect capital and non capital letters
+
+BugFix:
+- possible crash when watches were "open" and vecxi was closed
+- a couple of size corrections in various windows
+- sizing of split panel in vedi "corrected"
+
 25th of December 2016
 ---------------------
 Version 1.10
@@ -16,7 +28,7 @@ new:
 - vedi: add 2 complement to cli calculator
 - vecxi shortcuts added (1->save, 2->load, b->toggle ringbuffer)
 - dissi: windows which are already opened, pop to front if corresponding button is pressed in dissi
-- Vedi: First VecFever support. Ejecting of USB devices for now only workin under Win and Mac.
+- Vedi: First VecFever support. Ejecting of USB devices for now only working under Win and Mac.
         I have no "native" linux system atm, and all experiments using emulators have not worked out well.
         Also I would love a way to eject the VecFever RAMDISK without a "sudo".  
         This is not a MAJOR hassel, Linux users must press one button more on the vectrex side - thats all!
@@ -24,7 +36,7 @@ new:
  - dissi: added watches, watches can be defined in source "hey dissi "watch $someVariable 0|1|2|3|4|5,x""
           add via command line, add via popup
           remove via command line/popup
- - dumpi: memory locations can be directly edited in dumy "table"
+ - dumpi: memory locations can be directly edited in dumpi "table"
  - dissi hey dissi "print $var [8|16]" - accepts additional parameter to display 16 bit vars
  - vedi: immediate access to larger font selection
  - vedi: changed line numbering implementation 
@@ -50,7 +62,7 @@ BugFix:
 - vedi: removed a bug where the syntax colorer, could be initiated twice - that was potentialy using to much CPU power
 - vide: image cache is per default switched off, images might load slower, but the "standing" memory usage is reduced by
        about 200MB. Cache can be switched on in Application configuration though.
-       This should get rid of most OOM situations, if with starter open, the memory imprint is about 16MB.
+       This should get rid of most OOM situations, noe even with starter open, the memory imprint is about 16MB.
 - vecxi: keyboard "O" for overlay switch, now also loads overlays if they weren't previously loaded
 
 27th of November 2016
@@ -58,8 +70,8 @@ BugFix:
 Version 1.09
 
 new: 
-- vecci: Added menu entry "switch orientation" for a selected vector
-- vecci: Split where needed with need edit value
+- vecci: added menu entry "switch orientation" for a selected vector
+- vecci: split where needed with need edit value
 - vecci: remove point (join two neighbouring vectors)
 - tracki: added delete button
 - tracki: added view to current cycle count (number based)
@@ -69,7 +81,7 @@ new:
 - regi: added output of current running cycle count
 - dissi: added breakpoint ability in write access to ROM (only from CLI in dissi)
 - dissi: added to 'hey dissi "break"' an optional additional parameter 'once' -> 'hey dissi "break once"'
-- assi: option to output unsued (but defined) symbols to CNT file
+- assi: option to output unused (but defined) symbols to CNT file
 - vecxi: added emulation of DS2431
 
 BugFix:

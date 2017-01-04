@@ -2768,6 +2768,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         catch (Throwable e)
         {
             log.addLog(e, ERROR);
+            
             return false;
         }
         return true;

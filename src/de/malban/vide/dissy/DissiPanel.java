@@ -142,6 +142,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
                 if (col == 0) return "$"+String.format("%04X",w.startaddress);
                 if (col == 1)
                 {
+                    if (vecxPanel == null) return "";
                     MemoryInformation memInfo = getMemoryInformation(w.startaddress, vecxPanel.getCurrentBank());
                     String ret = "";
                     for (int i = 0; i< memInfo.labels.size(); i++)
@@ -684,7 +685,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
 
         jCheckBox1.setSelected(true);
         jCheckBox1.setText("nu");
-        jCheckBox1.setToolTipText("<html>no unkown!<BR>\nDon't show locations that are \"unkown\" (not read from file), this <b>allways</b> includes RAM!<BR>(Since disassembled data is static)</html>\n"); // NOI18N
+        jCheckBox1.setToolTipText("<html>no unkown!<BR>\nDon't show locations that are \"unkown\" (not read from file), this <b>always</b> includes RAM!<BR>(Since disassembled data is static)</html>\n"); // NOI18N
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
@@ -4336,6 +4337,8 @@ public class DissiPanel extends javax.swing.JPanel  implements
         int len = memInfo.length;
         for (int a=memInfo.address-5; a<memInfo.address+5; a++)
         {
+            if (a<0) continue;
+            if (a<=65536) continue;
             currentDissi.dasm.myMemory.memMap.get(a).reset();
         }
         currentDissi.dasm.reDisassemble(memInfo.address>0xdff5);
