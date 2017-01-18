@@ -8,8 +8,11 @@ package de.malban.vide.vedi;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
+import de.malban.gui.TimingTriggerer;
+import de.malban.gui.TriggerCallback;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.util.syntax.entities.ASM6809FileInfo;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -150,7 +153,6 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
      * Creates new form VEdiFoundationPanel
      */
     public VEdiFoundationPanel() {
-//        initComponents();
         // ASM Info stream!
         asmMessagesOut = new CustomOutputStream();
         asmMessages = new PrintStream(asmMessagesOut);
@@ -223,6 +225,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
                 });                    
             }
         });
+        initScheduler();
     }
 
     /**
@@ -384,4 +387,35 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
             allSinceLastFlush = new StringBuffer();
         }
     }    
+    private static TimingTriggerer timer = null; 
+    private static TriggerCallback timerWorker = null;
+    private static void initScheduler()
+    {
+        if (timer == null)
+        {
+            timer = TimingTriggerer.getPrivatTimer();
+            timer.setResolution(10000); // 10 seconds
+            
+            timerWorker = new TriggerCallback()
+            {
+                @Override
+                public void doIt(int state, Object o)
+                {
+                    updateDefinitions();
+                    timer.addTrigger(timerWorker, 30000, 0, null); // every 1/2 minute
+                }
+            };
+            timer.addTrigger(timerWorker, 30000, 0, null);            
+        }
+    }
+    private static void updateDefinitions()
+    {
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                ASM6809FileInfo.resetDefinitions();
+            }
+        });                    
+    }
 }

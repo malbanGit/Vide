@@ -1076,8 +1076,16 @@ public class E8910 extends E8910State implements E8910Statics
 
                 int oneSample16Bit = (volASamples * volaPSG + volBSamples * volbPSG + volCSamples * volcPSG) / sampleDivider;
 
-                stream[(positionInOutputArray++)] = (byte)(oneSample16Bit&0xff);
-                stream[(positionInOutputArray++)] = (byte)((oneSample16Bit>>8)&0xff);
+                if (config.psgSound)
+                {
+                    stream[(positionInOutputArray++)] = (byte)(oneSample16Bit&0xff);
+                    stream[(positionInOutputArray++)] = (byte)((oneSample16Bit>>8)&0xff);
+                }
+                else
+                {
+                    stream[(positionInOutputArray++)] = (byte)(0);
+                    stream[(positionInOutputArray++)] = (byte)(0);
+                }
 
                 length--;
             }
@@ -1109,6 +1117,8 @@ public class E8910 extends E8910State implements E8910Statics
                 oneSample16Bit = (int)((double)(((double)oneSample16Bit)*volDigital));
                 stream[(i++)] = (byte)(oneSample16Bit&0xff);
                 stream[(i++)] = (byte)((oneSample16Bit>>8)&0xff);
+                    
+
             }
         }
         digitByteCounter = -1;

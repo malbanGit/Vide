@@ -172,6 +172,8 @@ public class RasterPanel extends javax.swing.JPanel implements
         jButton8 = new javax.swing.JButton();
         jButtonCreate = new javax.swing.JButton();
         jButtonCancel = new javax.swing.JButton();
+        jSliderGridSize = new javax.swing.JSlider();
+        jLabel9 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jButtonLoad = new javax.swing.JButton();
@@ -466,6 +468,19 @@ public class RasterPanel extends javax.swing.JPanel implements
             }
         });
 
+        jSliderGridSize.setMajorTickSpacing(5);
+        jSliderGridSize.setMaximum(20);
+        jSliderGridSize.setMinorTickSpacing(1);
+        jSliderGridSize.setPaintTicks(true);
+        jSliderGridSize.setValue(10);
+        jSliderGridSize.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderGridSizeStateChanged(evt);
+            }
+        });
+
+        jLabel9.setText("grid");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -539,21 +554,6 @@ public class RasterPanel extends javax.swing.JPanel implements
                                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel3Layout.createSequentialGroup()
                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                                        .addComponent(jLabel3)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jTextFieldVectorWitdh, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jLabel4)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(jTextFieldVectorHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addComponent(jCheckBoxIncludeBrightness)
-                                                    .addComponent(jCheckBoxAssume9Bit)
-                                                    .addComponent(jCheckBoxInvert))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jCheckBoxFix))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jRadioButtonHorizontalVectors)
                                                     .addComponent(jRadioButtonVertical))
                                                 .addGap(39, 39, 39)
@@ -563,7 +563,30 @@ public class RasterPanel extends javax.swing.JPanel implements
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jRadioButtonAlphaAsGrayscale)
-                                                    .addComponent(jRadioButton3)))))))
+                                                    .addComponent(jRadioButton3)))
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(jCheckBoxIncludeBrightness)
+                                                            .addComponent(jCheckBoxAssume9Bit))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(jLabel9))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                                .addComponent(jLabel3)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jTextFieldVectorWitdh, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jLabel4)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jTextFieldVectorHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                            .addComponent(jCheckBoxInvert))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(jCheckBoxFix)))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jSliderGridSize, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                             .addComponent(jSliderThreshold, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -609,36 +632,44 @@ public class RasterPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jCheckBoxIncludeBrightness)
-                                    .addComponent(jButton2)
-                                    .addComponent(jButton1)
-                                    .addComponent(jButton4)
-                                    .addComponent(jButton3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBoxAssume9Bit))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButton8)
-                                        .addComponent(jButton7))
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButton6)
-                                        .addComponent(jButton5)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBoxInvert)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButtonHorizontalVectors)
-                            .addComponent(jRadioButton3)
-                            .addComponent(jCheckBoxXMirror))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jCheckBoxIncludeBrightness)
+                                            .addComponent(jButton2)
+                                            .addComponent(jButton1)
+                                            .addComponent(jButton4)
+                                            .addComponent(jButton3))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jCheckBoxAssume9Bit))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(3, 3, 3)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jButton8)
+                                                .addComponent(jButton7))
+                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jButton6)
+                                                .addComponent(jButton5)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBoxInvert)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jRadioButtonHorizontalVectors)
+                                    .addComponent(jRadioButton3)
+                                    .addComponent(jCheckBoxXMirror)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(jLabel9))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jSliderGridSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jRadioButtonVertical)
                             .addComponent(jRadioButtonAlphaAsGrayscale)
                             .addComponent(jCheckBoxYMirror))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonCancel)
                             .addComponent(jButtonCreate))))
@@ -682,7 +713,7 @@ public class RasterPanel extends javax.swing.JPanel implements
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -912,6 +943,11 @@ public class RasterPanel extends javax.swing.JPanel implements
         if (width == 0) return;
         width--;
         jTextFieldWidth.setText(""+width);
+        if (!jCheckBoxFix.isSelected())
+        {
+            jTextFieldVectorWitdh.setText(""+width);
+        }
+
         buildVectors();
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -923,6 +959,10 @@ public class RasterPanel extends javax.swing.JPanel implements
         if (width+startX >= orgImage.getWidth()) return;
         width++;
         jTextFieldWidth.setText(""+width);
+        if (!jCheckBoxFix.isSelected())
+        {
+            jTextFieldVectorWitdh.setText(""+width);
+        }
         buildVectors();
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -931,6 +971,10 @@ public class RasterPanel extends javax.swing.JPanel implements
         if (height == 0) return;
         height--;
         jTextFieldHeight.setText(""+height);
+        if (!jCheckBoxFix.isSelected())
+        {
+            jTextFieldVectorHeight.setText(""+height);
+        }
         buildVectors();
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -942,8 +986,18 @@ public class RasterPanel extends javax.swing.JPanel implements
         if (height+startY >= orgImage.getHeight()) return;
         height++;
         jTextFieldHeight.setText(""+height);
+        if (!jCheckBoxFix.isSelected())
+        {
+            jTextFieldVectorHeight.setText(""+height);
+        }
         buildVectors();
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jSliderGridSizeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderGridSizeStateChanged
+        int gridSize = jSliderGridSize.getValue();
+        singleVectorPanel1.setGrid(gridSize!=0, gridSize);
+        buildVectors();
+    }//GEN-LAST:event_jSliderGridSizeStateChanged
 
     
    // boolean wasMainSetManually = false;
@@ -979,6 +1033,7 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JRadioButton jRadioButton3;
@@ -987,6 +1042,7 @@ public class RasterPanel extends javax.swing.JPanel implements
     private javax.swing.JRadioButton jRadioButtonVertical;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSlider jSliderGridSize;
     private javax.swing.JSlider jSliderSourceScale;
     private javax.swing.JSlider jSliderThreshold;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -1063,6 +1119,29 @@ public class RasterPanel extends javax.swing.JPanel implements
         int width = de.malban.util.UtilityString.IntX(jTextFieldWidth.getText(), orgImage.getWidth()-startX);
         int height = de.malban.util.UtilityString.IntX(jTextFieldHeight.getText(), orgImage.getHeight()-startY);
         
+        
+        if (jCheckBoxAssume9Bit.isSelected())
+        {
+            if (!jCheckBoxFix.isSelected())
+            {
+                jTextFieldVectorWitdh.setText(""+(width+(width/8)));
+                targetWidth = de.malban.util.UtilityString.IntX(jTextFieldVectorWitdh.getText(), orgImage.getWidth());
+            }
+            else
+            {
+                int shift9 = targetWidth /8;
+                targetWidth -= shift9;
+            }
+        }
+        else
+        {
+            if (!jCheckBoxFix.isSelected())
+            {
+                jTextFieldVectorWitdh.setText(""+width);
+                targetWidth = de.malban.util.UtilityString.IntX(jTextFieldVectorWitdh.getText(), orgImage.getWidth());
+            }
+        }
+        
         orgImage = singleImagePanel1.getSelection(startX, startY, width, height).image;
         
         
@@ -1111,13 +1190,6 @@ public class RasterPanel extends javax.swing.JPanel implements
                         rowWidth++;
                         shiftReg = 0;
                         bitCount = 0;
-
-                        if (jCheckBoxAssume9Bit.isSelected())
-                        {
-                            // simple overstep one pixel
-                            // the last pixel from above will be repeated 
-                            x++;
-                        }
                     }
                     shiftReg = shiftReg << 1;
                 }

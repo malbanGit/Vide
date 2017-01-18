@@ -587,7 +587,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                     Thread.sleep(10);
                     try
                     {
-                        Asmj asm = new Asmj(filenameASM, asmErrorOut, asmListOut, asmSymbolOut, asmMessagesOut,"");
+                        Asmj asm = new Asmj(filenameASM, asmErrorOut, asmListOut, asmSymbolOut, asmMessagesOut,"", null);
                         String info = asm.getInfo();
                         final boolean asmOk = info.indexOf("0 errors detected.") >=0;
                         
@@ -1048,7 +1048,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                         }
                         String define = project.getBankDefines().elementAt(b);
                         printMessage("Assembling: "+filenameASM);
-                        Asmj asm = new Asmj(filenameASM, asmErrorOut, null, null, asmMessagesOut, define);
+                        Asmj asm = new Asmj(filenameASM, asmErrorOut, null, null, asmMessagesOut, define, null);
                         printASMList(asm.getListing(), ASM_LIST);
 
                         String info = asm.getInfo();

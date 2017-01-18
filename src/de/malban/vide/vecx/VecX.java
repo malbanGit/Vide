@@ -1182,18 +1182,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         if ((via_src & 0xff) == 0xff) 
         {
             via_src = via_t2ll;
-            /*
-            if (via_srclk != 0) 
-            {
-                t2shift = 1;
-                via_srclk = 0;
-            } 
-            else 
-            {
-                t2shift = 0;
-                via_srclk = 1;
-            }
-            */
             if (via_srclk == 3) 
             {
                 t2shift = 1;
@@ -1210,11 +1198,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             t2shift = 0;
         }
 
-        /*
-        * NOTE!
-        TODO:
-        SHIFTING every two steps should also be implemented for non system clock shifting - didn't do yet!
-        */
         if (via_srb < 8) 
         {
             switch (via_acr & 0x1c) 
@@ -1371,6 +1354,11 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         if (config.useRayGun) return;
         int index;
         
+        x0+=zeroRetainX;
+        x1+=zeroRetainX;
+        y0+=zeroRetainY;
+        y1+=zeroRetainY;
+        
         if (imagerMode)
         {
             if (((left == -1)||(left == 0)) && ((right==-1)||(right == 0))) return;
@@ -1508,7 +1496,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         
         while ((cycles > 0) && (!stop))
         {
-//System.out.println(uid+": "+cyclesRunning);            
             nonCPUStepsDone = 0;
             // see: http://oldies.malban.de/firstvectrex/vectrex/UNSORTED/text/6809/HTML/UP05.HTM
             int pc = e6809.reg_pc%65536;
@@ -2104,7 +2091,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             {
                 if (t.type == TIMER_SHIFT_READ)
                 {
-                    
+//                    alternate = ((VideConfig.getConfig().delays[(t.type&0xff)]) & 1) == 1;
                     alternate = true;
                     if (shouldStall((int)(cyclesRunning - lastShiftTriggered)))
                     {
@@ -2147,7 +2134,8 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 {
                     if (t.type == TIMER_SHIFT_WRITE)
                     {
-                        alternate = true;
+//                    alternate = ((VideConfig.getConfig().delays[(t.type&0xff)]) & 1) == 1;
+                    alternate = true;
 
                         if (via_stalling)
                         {
@@ -2337,20 +2325,38 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
 
     /* perform a single cycle worth of analog emulation */
     long noiseCycles = 0;
+    
+    
     void analogStep()
     {
         int sig_dx=0, sig_dy=0; // allways the delta from the last vector end position, to the new position
                                 // even when zero is active!
-
+        if (lastZero != sig_zero.intValue)
+        {
+            if (sig_zero.intValue == 0)
+            {
+                // we start zeroing now
+                zeroRetainX = (((double)(alg_curr_x-(config.ALG_MAX_X/2))) *config.zeroRetainX);
+                zeroRetainY = (((double)(alg_curr_y-(config.ALG_MAX_Y/2))) *config.zeroRetainY);
+            }
+            lastZero = sig_zero.intValue;
+        }
+        else
+        {
+            if (sig_zero.intValue == 0)
+            {
+                // we start zeroing now
+                zeroRetainX = (((double)(zeroRetainX)) *0.99);
+                zeroRetainY = (((double)(zeroRetainY)) *0.99);
+            }
+        }
         if (sig_zero.intValue == 0) 
         {
             noiseCycles = cyclesRunning;
             /* need to force the current point to the 'orgin' so just
              * calculate distance to origin and use that as dx,dy.
              */
-
-            
-
+/*
             if (alg_curr_x<config.ALG_MAX_X/2)
             {
                 // smaller 0
@@ -2371,10 +2377,10 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 // greater 0
                 sig_dy-= (alg_curr_y-(config.ALG_MAX_Y/2))/2;
             }
-            
-            sig_dx = (config.ALG_MAX_X / 2 - (int)alg_curr_x)/4;
-            sig_dy = (config.ALG_MAX_Y / 2 - (int)alg_curr_y)/4;
-            
+*/            
+ // on zero - do not zero immediatly but "degrade" "slowly"
+            sig_dx = (int)(((double)(config.ALG_MAX_X / 2 - (int)alg_curr_x))/config.zero_divider);
+            sig_dy = (int)(((double)(config.ALG_MAX_Y / 2 - (int)alg_curr_y))/config.zero_divider);
             
         } 
         //else 
@@ -2648,11 +2654,13 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         
         if (config.emulateIntegrationOverflow)
         {
-            double xOverflow = ((double)sig_dx) / config.overflowFactor;
-            double yOverflow = ((double)sig_dy) / config.overflowFactor;
+            if (Math.abs(sig_dx)>100)
+            {
+            double yOverflow = (  ((double)sig_dx)+((double)sig_dy) ) / config.overflowFactor;
 
-            alg_curr_x+= yOverflow;
-            alg_curr_y+= xOverflow;
+//            alg_curr_x+= yOverflow;
+            alg_curr_y+= yOverflow;
+            }
         }
         
         if (config.noise)

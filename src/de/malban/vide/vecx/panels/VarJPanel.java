@@ -30,9 +30,15 @@ import java.util.HashMap;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import de.muntjak.tinylookandfeel.Theme;
+import static java.awt.event.ActionEvent.SHIFT_MASK;
+import java.util.List;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -151,6 +157,15 @@ public class VarJPanel extends javax.swing.JPanel implements
         VariablesTableModel model = new VariablesTableModel();
         jTable1.setModel(model);
         
+
+TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jTable1.getModel());
+jTable1.setRowSorter(sorter);
+
+List<RowSorter.SortKey> sortKeys = new ArrayList<>(2);
+sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+sorter.setSortKeys(sortKeys);        
+
         
         jTable1.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
         {
@@ -350,16 +365,19 @@ public class VarJPanel extends javax.swing.JPanel implements
         }        
         if (evt.getClickCount() == 2) 
         {
-            JTable table =(JTable) evt.getSource();
-            Point p = evt.getPoint();
-            int row = table.rowAtPoint(p);
-            int col = table.columnAtPoint(p);
-            if (col == 3) // zeiger auf adresse
+            if ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK)
             {
-                Object o =  table.getModel().getValueAt( row,  col);
-                if (o==null) return;
-                int address = DASM6809.toNumber(o.toString());
-                vecxPanel.setDumpToAddress(address);
+                JTable table =(JTable) evt.getSource();
+                Point p = evt.getPoint();
+                int row = table.rowAtPoint(p);
+                int col = table.columnAtPoint(p);
+                if (col == 3) // zeiger auf adresse
+                {
+                    Object o =  table.getModel().getValueAt( row,  col);
+                    if (o==null) return;
+                    int address = DASM6809.toNumber(o.toString());
+                    vecxPanel.setDumpToAddress(address);
+                }
             }
         }
     }//GEN-LAST:event_jTable1MousePressed
@@ -476,6 +494,9 @@ public class VarJPanel extends javax.swing.JPanel implements
                     int rowIndex = rowAtPoint(p);
                     int colIndex = columnAtPoint(p);
 
+                    
+                    rowIndex = jTable1.convertRowIndexToModel( rowAtPoint(p) ) ;                   
+                    
                     try 
                     {
                         MemoryInformation memInfo = variables.get(rowIndex);
@@ -560,8 +581,6 @@ public class VarJPanel extends javax.swing.JPanel implements
                 }
                 return l;
             }
-
-            
             return "";
         }
         public String getColumnName(int column) {
@@ -576,7 +595,7 @@ public class VarJPanel extends javax.swing.JPanel implements
             return String.class;
         }
         public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return columnIndex==1 ||columnIndex==4;
+            return columnIndex==1 ||columnIndex==4||columnIndex==2||columnIndex==3;
         }
         public int getColWidth(int col)
         {
@@ -593,6 +612,30 @@ public class VarJPanel extends javax.swing.JPanel implements
             return null; // default
         }
         public void setValueAt(Object aValue, int row, int col) {
+            if (col == 2) // 8 bit edit
+            {
+                MemoryInformation memInfo = variables.get(row);
+                if (aValue == null) return;
+                String v = aValue.toString();
+                int iv = DASM6809.toNumber(v) & 0xff;
+                if (dissi != null)
+                    dissi.doThePoke(memInfo.address, (byte)iv);
+            }
+            if (col == 3) // 16 bit edit
+            {
+                MemoryInformation memInfo = variables.get(row);
+                if (aValue == null) return;
+                String v = aValue.toString();
+                int iv = DASM6809.toNumber(v) & 0xffff;
+                if (dissi != null)
+                {
+                    int msb = (iv/256)&0xff;
+                    int lsb = (iv)&0xff;
+                    dissi.doThePoke(memInfo.address, (byte)msb);
+                    dissi.doThePoke(memInfo.address+1, (byte)lsb);
+                }
+
+            }
             if (col == 1)
             {
                 MemoryInformation memInfo = variables.get(row);

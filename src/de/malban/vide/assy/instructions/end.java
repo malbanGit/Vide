@@ -49,7 +49,7 @@ public class end
   public boolean codegen(Memory paramMemory)
   {
     if (isStructEnd()) return true;
-    this.symtab.define("*xfer", this.value, this.source.getLineNumber(), null, SYMBOL_DEFINE_UNKOWN);
+    this.symtab.define("*xfer", this.value, this.source.getLineNumber(), null, SYMBOL_DEFINE_UNKOWN, null);
     return true;
   }
   

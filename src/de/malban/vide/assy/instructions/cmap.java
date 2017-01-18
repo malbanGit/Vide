@@ -34,7 +34,7 @@ public class cmap extends PseudoOp
     }
     public void defineIt()
     {
-        symbol.define(value, getLineNumber());
+        symbol.define(value, getLineNumber(), source);
     }
     
     public boolean evalArgs() throws SymbolDoesNotExistException

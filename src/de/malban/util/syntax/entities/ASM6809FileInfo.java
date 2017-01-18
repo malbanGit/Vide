@@ -67,7 +67,14 @@ public class ASM6809FileInfo
     
     public static void replaceFileName(String oldFileName, String newFileName)
     {
-        ASM6809FileInfo fileInfo = allFileMap.get(oldFileName);
+
+        String oldkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(oldFileName)).toLowerCase();
+        String newkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(newFileName)).toLowerCase();
+        
+        
+        
+        
+        ASM6809FileInfo fileInfo = allFileMap.get(oldkey);
         if (fileInfo==null) return;
 
         fileInfo.fullName = newFileName;
@@ -78,9 +85,8 @@ public class ASM6809FileInfo
             fileInfo.path = path.getParent().toString();
         else
             fileInfo.path = "";
-
-        allFileMap.remove(oldFileName);
-        allFileMap.put(newFileName, fileInfo);
+        allFileMap.remove(oldkey);
+        allFileMap.put(newkey, fileInfo);
         
     }
 
@@ -292,6 +298,8 @@ public class ASM6809FileInfo
     {
         try 
         {
+            filename = de.malban.util.UtilityFiles.convertSeperator(filename);
+            
             // I know this is "bad", but what the heck,... don't bother tp check for \r\n \r ... myself
             JTextPane jTextPane1 = new JTextPane();
             FileReader fr = new FileReader(filename);
@@ -313,7 +321,10 @@ public class ASM6809FileInfo
     // to be on the save side of line end definitions
     public static ASM6809FileInfo handleFile(String _fullname, String _text)
     {
-        ASM6809FileInfo fileInfo = allFileMap.get(_fullname);
+        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(_fullname)).toLowerCase();
+        
+        
+        ASM6809FileInfo fileInfo = allFileMap.get(key);
         if (fileInfo != null) return fileInfo;
         fileInfo = new ASM6809FileInfo();
         fileInfo.fullName = _fullname;
@@ -332,7 +343,7 @@ public class ASM6809FileInfo
         }
         fileInfo.text = new StringBuffer(_text);
         fileInfo.scanText(_text);
-        allFileMap.put(_fullname, fileInfo);
+        allFileMap.put(key, fileInfo);
 //        System.out.println("\""+fileInfo.name+"\" loaded!");
         return fileInfo;
     }

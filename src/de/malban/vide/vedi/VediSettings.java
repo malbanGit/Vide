@@ -17,8 +17,9 @@ import java.util.HashMap;
  */
 public class VediSettings implements Serializable
 {
-    public int pos1 = 0;
-    public int pos2 = 0;
+    public int pos1 = 0;  // upper vertical split
+    public int pos2 = 0;  // middle split
+    public int pos3 = 0;  // lower vertical split
     public String vec32PortName = "";
     public String vec32UsbMount = "";
 
@@ -27,6 +28,7 @@ public class VediSettings implements Serializable
 
     int fontSize = 12;
     public HashMap <Integer, Bookmark> bookmarks = new HashMap<Integer, Bookmark>();
+    public HashMap <String, DebugCommentList> allDebugComments = new HashMap<String, DebugCommentList>();
     public static class P implements Serializable
     {
         String mName;
@@ -48,8 +50,93 @@ public class VediSettings implements Serializable
             return other.mClass.equals(mClass) && other.mName.equals(mName) && other.mPath.equals(mPath);
         }
     }
-    ArrayList<String> currentOpenFiles = new ArrayList<String>();
-    ArrayList<String> recentOpenFiles = new ArrayList<String>();
+    ArrayList<EditorFileSettings> currentOpenFiles = new ArrayList<EditorFileSettings>();
+    ArrayList<EditorFileSettings> recentOpenFiles = new ArrayList<EditorFileSettings>();
+
+    public void setOpenPosition(String fn, int pos)
+    {
+        EditorFileSettings set = getOpen(fn);
+        if (set != null) set.position = pos;
+    }
+    
+    
+    public EditorFileSettings getOpen(String fn)
+    {
+        for (EditorFileSettings set: currentOpenFiles)
+        {
+            if (set.filename.toLowerCase().equals(fn.toLowerCase())) return set;
+        }
+        return null;
+    }
+    public EditorFileSettings getRecent(String fn)
+    {
+        for (EditorFileSettings set: recentOpenFiles)
+        {
+            if (set.filename.toLowerCase().equals(fn.toLowerCase())) return set;
+        }
+        return null;
+    }
+    
+    public boolean openContains(String fn)
+    {
+        return getOpen(fn) != null;
+    }
+    public boolean recentContains(String fn)
+    {
+        return getRecent(fn) != null;
+    }
+    
+    public EditorFileSettings addOpen(String fn, int pos)
+    {
+        EditorFileSettings edi = getOpen(fn);
+        if (edi == null) 
+        {
+            edi = new EditorFileSettings();
+            currentOpenFiles.add(edi);
+        }
+        edi.filename = fn;
+        edi.position = pos;
+        return edi;
+    }
+    public EditorFileSettings addRecent(String fn, int pos)
+    {
+        EditorFileSettings edi = getOpen(fn);
+        if (edi == null) 
+        {
+            edi = new EditorFileSettings();
+            recentOpenFiles.add(edi);
+        }
+        edi.filename = fn;
+        edi.position = pos;
+        return edi;
+    }
+    
+    public boolean removeOpen(String fn)
+    {
+        for (EditorFileSettings set: currentOpenFiles)
+        {
+            if (set.filename.equals(fn)) 
+            {
+                currentOpenFiles.remove(set);
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean removeRecent(String fn)
+    {
+        for (EditorFileSettings set: recentOpenFiles)
+        {
+            if (set.filename.equals(fn)) 
+            {
+                recentOpenFiles.remove(set);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
     ArrayList<P> recentProject = new ArrayList<P>();
 
     P currentProject;

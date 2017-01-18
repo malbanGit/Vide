@@ -1,14 +1,40 @@
+﻿19th of January 2017
 ---------------------
 Version 1.11
 
 new: 
-- vecci: Added very basic support to export vector lists to SVG (lines only)
-- vedi: Variables scanned respect capital and non capital letters
+- vecci: added very basic support to export vector lists to SVG (lines only)
+- vedi: variables scanned respect capital and non capital letters
+- vedi: vectorpanel, has the option of "upscaling" an image (partial image)
+- assi: added option to enable warning on multiple "defines" of same symbol (default is ON)
+- vedi: added tooltip to "tab" that shows the full path of the edited file
+- vedi: added dialog if "injection" is chosen, and the running file has a different name
+- dissi: variable panel "table" is now sortable
+- dissi: variable panel, 8bit and 16 bit columns can be edited (and are written to memory)
+         therefor, double click on 16 bit column does not invoke dumpi, to invoke dumpy now
+         shift+double click is needed
+- vecxi: added configuration for "zeroing divider"
+- vecxi: added some thoughts about "zero retain"
+- vecxi: disabled emulation options I think are "wrongly" implemented (overflow and zero retain)
+- vedi: added scheduler, that updates var definitions every 30 seconds
+- vedi: enabled saveAll button
+- vedi+assi: added "visual breakpoints", click on line number in vedi toggles breakpoint for that line 
+        (background of linenumber changes to red), technically a "hey dissi "break"" is added at compile time
+- raster: fixed a bug with generating "shiftreg9 bug" compatible raster lists
+- vedi: editor remembers the position of open and recent files
+- vedi: added a table to display all bookmarks (double click jumps to bookmark)
+- vedi: added a table to display all breakpoints (double click also jumps to breakpoints)
+- vecxi: added options to rotate display in 90° steps
+- vecxi: added in config a new combo box next to the "vectrex generation" to chose the "delay variant"
 
 BugFix:
-- possible crash when watches were "open" and vecxi was closed
-- a couple of size corrections in various windows
-- sizing of split panel in vedi "corrected"
+- dissi: possible crash when watches were "open" and vecxi was closed
+- all: a couple of size corrections in various windows
+- vedi: sizing of split panel in vedi "corrected"
+- vedi: vectorPanel, image is now in a scrollpane and can not "outsize" the dialog anymore
+- all: some spelling corrections
+- dumpi: possible crash in dumpy removed, where addresses could be negative
+- vedi: scan and jump to include files in subdirectories were not processed correctly
 
 25th of December 2016
 ---------------------

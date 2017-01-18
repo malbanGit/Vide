@@ -174,6 +174,7 @@ public class VecXPanel extends javax.swing.JPanel
     CartridgePanel carti = null;
     
     BufferedImage image;
+    BufferedImage rotateImage;
     int startTypeRun = START_TYPE_RUN;
 
     @Override
@@ -339,7 +340,6 @@ public class VecXPanel extends javax.swing.JPanel
         jButtonPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_pause.png"))); // NOI18N
         jButtonPause.setToolTipText("Pauses current running emulation...");
         jButtonPause.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonPause.setPreferredSize(new java.awt.Dimension(21, 21));
         jButtonPause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonPauseActionPerformed(evt);
@@ -349,7 +349,6 @@ public class VecXPanel extends javax.swing.JPanel
         jButtonStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_stop.png"))); // NOI18N
         jButtonStop.setToolTipText("Stops and unloads ROM!");
         jButtonStop.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonStop.setPreferredSize(new java.awt.Dimension(21, 21));
         jButtonStop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonStopActionPerformed(evt);
@@ -358,7 +357,6 @@ public class VecXPanel extends javax.swing.JPanel
 
         jButtonFileSelect1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_go.png"))); // NOI18N
         jButtonFileSelect1.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonFileSelect1.setPreferredSize(new java.awt.Dimension(21, 21));
         jButtonFileSelect1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonFileSelect1ActionPerformed(evt);
@@ -382,7 +380,6 @@ public class VecXPanel extends javax.swing.JPanel
         jButtonDebug.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/bug_go.png"))); // NOI18N
         jButtonDebug.setToolTipText("Associate dissi with this vecx instance.");
         jButtonDebug.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonDebug.setPreferredSize(new java.awt.Dimension(21, 21));
         jButtonDebug.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDebugActionPerformed(evt);
@@ -396,7 +393,6 @@ public class VecXPanel extends javax.swing.JPanel
         jButtonLoadState.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_go.png"))); // NOI18N
         jButtonLoadState.setToolTipText("load state");
         jButtonLoadState.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonLoadState.setPreferredSize(new java.awt.Dimension(21, 21));
         jButtonLoadState.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonLoadStateActionPerformed(evt);
@@ -406,7 +402,6 @@ public class VecXPanel extends javax.swing.JPanel
         jButtonSaveState.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
         jButtonSaveState.setToolTipText("save state");
         jButtonSaveState.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonSaveState.setPreferredSize(new java.awt.Dimension(21, 21));
         jButtonSaveState.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSaveStateActionPerformed(evt);
@@ -416,7 +411,6 @@ public class VecXPanel extends javax.swing.JPanel
         jButtonStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_play.png"))); // NOI18N
         jButtonStart.setToolTipText("<html>Starts selected ROM, no effect if running!<BR>\nSHIFT click resets and starts new!\n</html>\n"); // NOI18N
         jButtonStart.setMargin(new java.awt.Insets(0, 1, 0, -1));
-        jButtonStart.setPreferredSize(new java.awt.Dimension(21, 21));
         jButtonStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonStartActionPerformed(evt);
@@ -437,23 +431,23 @@ public class VecXPanel extends javax.swing.JPanel
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jTextFieldstart, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonFileSelect1)
                         .addGap(2, 2, 2)
                         .addComponent(jLabelFPS, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(3, 3, 3)
-                        .addComponent(jButtonStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonPause, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonStop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonSaveState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonLoadState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonDebug, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButtonStart))
                     .addComponent(jComboBoxJoyport0, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxJoyport1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonPause)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonStop)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonSaveState)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonLoadState)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonDebug)
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -607,6 +601,11 @@ public class VecXPanel extends javax.swing.JPanel
     public void startUp(String path, boolean checkCartridge)
     {
         startUp( path,  checkCartridge, START_TYPE_RUN);
+    }
+    
+    public String getStartName()
+    {
+        return jTextFieldstart.getText();
     }
     public void startUp(String path, boolean checkCartridge, int runType)
     {
@@ -1828,7 +1827,7 @@ public class VecXPanel extends javax.swing.JPanel
 
         g2.dispose();
     }
-
+    
 // paints all vectors to an image
     // the image will be painted to the component 
     // in paintComponent
@@ -2156,24 +2155,29 @@ public class VecXPanel extends javax.swing.JPanel
     }
     
     
-    private void resetGfx()
+    int orgVectrexDisplayWidth = 0;
+    int orgVectrexDisplayHeight = 0;
+    public void setRotation(int angle)
     {
-        if (getWidth() == 0) return;
-        if (getHeight() == 0) return;
-        image = de.malban.util.UtilityImage.getNewImage(getWidth(), getHeight()-jPanel1.getHeight());
-        phosphor[0] = de.malban.util.UtilityImage.getNewImage(getWidth(), getHeight()-jPanel1.getHeight());
-        phosphor[1] = de.malban.util.UtilityImage.getNewImage(getWidth(), getHeight()-jPanel1.getHeight());
+        if ((angle != 0) && (angle != 90)&& (angle != 180)&& (angle != 270))
+            return;
 
-        if (image == null) return;
-        if (phosphor[0] == null) return;
-        if (phosphor[1] == null) return;
+        if ((angle ==90) || (angle == 270))
+        {
+            vectrexDisplayWidth = orgVectrexDisplayHeight;
+            vectrexDisplayheight = orgVectrexDisplayWidth;
+        }
+        else
+        {
+            vectrexDisplayWidth = orgVectrexDisplayWidth;
+            vectrexDisplayheight = orgVectrexDisplayHeight;
+        }
+        if (vectrexDisplayWidth == 0) return;
+        if (vectrexDisplayheight == 0) return;
         
-        
-        
-        vectrexDisplayWidth = image.getWidth();
-        vectrexDisplayheight = image.getHeight();
-
-        
+        image = de.malban.util.UtilityImage.getNewImage(vectrexDisplayWidth, vectrexDisplayheight);
+        phosphor[0] = de.malban.util.UtilityImage.getNewImage(vectrexDisplayWidth, vectrexDisplayheight);
+        phosphor[1] = de.malban.util.UtilityImage.getNewImage(vectrexDisplayWidth, vectrexDisplayheight);
         
         // build an image in the size of this component
         // with vectors on it
@@ -2184,24 +2188,71 @@ public class VecXPanel extends javax.swing.JPanel
         
         if ((overlayImageOrg != null)&& (config.overlayEnabled))
         {
+            overlayImageScaled = ImageCache.getImageCache().getDerivatScale(overlayImageOrg, vectrexDisplayWidth, vectrexDisplayheight);
+        }
+        rotateImage = de.malban.util.UtilityImage.getNewImage(vectrexDisplayWidth, vectrexDisplayheight);
+    }
+
+    public void resetGfx()
+    {
+        if (getWidth() == 0) return;
+        if (getHeight() == 0) return;
+        image = de.malban.util.UtilityImage.getNewImage(getWidth(), getHeight()-jPanel1.getHeight());
+        phosphor[0] = de.malban.util.UtilityImage.getNewImage(getWidth(), getHeight()-jPanel1.getHeight());
+        phosphor[1] = de.malban.util.UtilityImage.getNewImage(getWidth(), getHeight()-jPanel1.getHeight());
+
+        
+        if (image == null) return;
+        if (phosphor[0] == null) return;
+        if (phosphor[1] == null) return;
+        
+        
+        
+        orgVectrexDisplayWidth = image.getWidth();
+        orgVectrexDisplayHeight = image.getHeight();
+
+        
+        
+        // build an image in the size of this component
+        // with vectors on it
+        // representing the vectrex vectors
+        scaleWidth = ((double)orgVectrexDisplayWidth)/((double)config.ALG_MAX_X);
+        scaleHeight = ((double)orgVectrexDisplayHeight)/((double)config.ALG_MAX_Y);
+
+        
+        if ((overlayImageOrg != null)&& (config.overlayEnabled))
+        {
             overlayImageScaled = ImageCache.getImageCache().getDerivatScale(overlayImageOrg, getWidth(), getHeight()-jPanel1.getHeight());
         }
+        setRotation(config.rotate);
     }
     @Override public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
         if (!toggleDisplay) return;
-
+        int offsetY = jPanel1.getHeight();
+        Graphics gOrg=g;
+        if (config.rotate != 0)
+        {
+            gOrg = g;
+            if (rotateImage == null)
+            {
+                setRotation(config.rotate);
+            }
+            if (rotateImage != null)
+                g = rotateImage.createGraphics();
+            offsetY = 0;
+        }
+        
         if (image != null)
         {
-            g.drawImage(image, 0, jPanel1.getHeight(), null);
+            g.drawImage(image, 0, offsetY, null);
             if ((overlayImageScaled != null) && (config.overlayEnabled))
             {
-                g.drawImage(overlayImageScaled, 0, jPanel1.getHeight(),null);
+                g.drawImage(overlayImageScaled, 0, offsetY,null);
             }
             if (config.paintIntegrators)
             {
-                int offsetY = jPanel1.getHeight();
                 double x0=vecx.alg_curr_x;
                 double y0=vecx.alg_curr_y;
                 x0 =Scaler.scaleDoubleToInt(x0, scaleWidth);
@@ -2217,7 +2268,6 @@ public class VecXPanel extends javax.swing.JPanel
             {
                 if (!noCross) // out of bounds
                 {
-                    int offsetY = jPanel1.getHeight();
                     int width = image.getWidth();
                     int height = image.getHeight();
                     double scaleWidth = ((double)width)/((double)config.ALG_MAX_X);
@@ -2384,7 +2434,7 @@ public class VecXPanel extends javax.swing.JPanel
             x1 =Scaler.scaleDoubleToInt(x1, scaleWidth);
             y1 =Scaler.scaleDoubleToInt(y1, scaleHeight);
 
-            g.drawLine(((int) x0), ((int) y0)+jPanel1.getHeight(), ((int) x1),((int) y1)+jPanel1.getHeight());
+            g.drawLine(((int) x0), ((int) y0)+offsetY, ((int) x1),((int) y1)+offsetY);
             directDrawVector = null;
         }
         if (ledState)
@@ -2428,7 +2478,35 @@ public class VecXPanel extends javax.swing.JPanel
                 if (ledStep <= 0)ledDir = true;
             }
         }
+        if (rotateImage != null)
+        if (config.rotate != 0)
+        {
+   //         gOrg = g;
+            BufferedImage ri = getRotate(config.rotate);
+            gOrg.drawImage(ri, 0, jPanel1.getHeight(), null);
+        }
     }
+    
+    protected BufferedImage getRotate(int a)
+    {
+        int size;
+        int h = rotateImage.getHeight();
+        int w = rotateImage.getWidth();
+        int type =  BufferedImage.TYPE_INT_ARGB;
+
+
+        BufferedImage dimg = new BufferedImage(orgVectrexDisplayWidth, orgVectrexDisplayHeight, type);
+        Graphics2D g = dimg.createGraphics();
+        double sw = w;
+        double sh = h;
+        
+        g.translate((orgVectrexDisplayWidth - w) / 2, (orgVectrexDisplayHeight - h) / 2);
+        g.rotate(Math.toRadians(a), w/2, h/2);
+
+        g.drawImage(rotateImage, null, 0, 0);
+        return dimg;
+    }    
+    
     boolean ledDir = true;
     int ledStep = 0;
     
@@ -2981,6 +3059,13 @@ public class VecXPanel extends javax.swing.JPanel
     {
         vecx.setTrackingAddress( start, end);
     }
+    
+    public CartridgeProperties getCurrentCartProp()
+    {
+        if (vecx == null) return null;
+        if (vecx.cart == null) return null;
+        return vecx.cart.currentCardProp;
+    }
     public void startCartridge(final CartridgeProperties cartProp, int runType)
     {
         startTypeRun = runType;        
@@ -3070,7 +3155,18 @@ public class VecXPanel extends javax.swing.JPanel
 
         dissiInit = true;
         if (config.overlayEnabled)
-            loadOverlay(vecx.cart.currentCardProp.getOverlay()); // ensure overlay in scaled form is available
+        {
+            if (vecx != null)
+            {
+                if (vecx.cart != null)
+                {
+                    if (vecx.cart.currentCardProp != null)
+                    {
+                        loadOverlay(vecx.cart.currentCardProp.getOverlay()); // ensure overlay in scaled form is available
+                    }
+                }
+            }
+        }
         checkWindows();
         stop = true;
         

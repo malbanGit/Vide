@@ -283,10 +283,11 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
                 {
 //                    loadProject(settings.currentProject.mClass, settings.currentProject.mName, settings.currentProject.mPath);
                 }
-                ArrayList<String> toRemove = new ArrayList<String>();
-                for (String fn: settings.currentOpenFiles)
+                ArrayList<EditorFileSettings> toRemove = new ArrayList<EditorFileSettings>();
+                for (EditorFileSettings fn: settings.currentOpenFiles)
                 {
-                    EditorPanel edi = addEditor(fn, false);
+                    EditorPanel edi = addEditor(fn.filename, false);
+                    edi.setPosition(fn.position);
                     oneTimeTab = null;
                     if (edi == null)
                     {
@@ -296,10 +297,10 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
                     else
                     {
                         edi.setBasic(true);
-                        lastLoadedFile = fn;
+                        lastLoadedFile = fn.filename;
                     }
                 }
-                for (String fn: toRemove) settings.currentOpenFiles.remove(fn);
+                for (EditorFileSettings fn: toRemove) settings.currentOpenFiles.remove(fn);
             }
         }
         else
@@ -449,7 +450,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         edi.addEditorListener(this);
         jLabel5.setText("");
         if (addToSettings)
-            settings.currentOpenFiles.add(fullPathname);
+            settings.addOpen(fullPathname,0);
         edi.setParent(this);
         edi.setBasic(true);
         return edi;
@@ -475,7 +476,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         jTabbedPane1.setSelectedComponent(edi);
         jLabel5.setText("");
         if (addToSettings)
-            settings.currentOpenFiles.add(fullPathname);
+            settings.addOpen(fullPathname,0);
         edi.setParent(this);
         return edi;
     }   
@@ -501,7 +502,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         jTabbedPane1.setSelectedComponent(edi);
         jLabel5.setText("");
         if (addToSettings)
-            settings.currentOpenFiles.add(fullPathname);
+            settings.addOpen(fullPathname,0);
         edi.setParent(this);
         return edi;
     }   
@@ -2144,9 +2145,9 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             EditorPanel edit = (EditorPanel)jTabbedPane1.getComponentAt(found);
             // todo check and ask for save!
 
-            settings.currentOpenFiles.remove(edit.getFilename());
-            settings.recentOpenFiles.remove(edit.getFilename()); // no doubles
-            settings.recentOpenFiles.add(edit.getFilename());
+            settings.removeOpen(edit.getFilename());
+            settings.removeRecent(edit.getFilename()); // no doubles
+            settings.addRecent(edit.getFilename(), edit.getPosition());
             edit.deinit();
         }
         if (jTabbedPane1.getComponentAt(found) instanceof BinaryPanel)
@@ -2440,8 +2441,8 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
                 }
                 Component com = jTabbedPane1.getComponentAt(found);
                 EditorPanel edit = (EditorPanel)jTabbedPane1.getComponentAt(found);
-                settings.currentOpenFiles.remove(oldFileName);
-                settings.currentOpenFiles.add(newFileName);
+                settings.removeOpen(oldFileName);
+                settings.addOpen(newFileName, edit.getPosition());
                 edit.replaceFilename(newFileName);
             }
             
@@ -2498,8 +2499,8 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
                 if (jTabbedPane1.getComponentAt(found) instanceof EditorPanel)
                 {
                     EditorPanel edit = (EditorPanel)jTabbedPane1.getComponentAt(found);
-                    settings.currentOpenFiles.remove(oldFileName);
-                    settings.currentOpenFiles.add(newFileName);
+                    settings.removeOpen(oldFileName);
+                    settings.addOpen(newFileName, edit.getPosition());
                     edit.replaceFilename(newFileName);
                 }
             }

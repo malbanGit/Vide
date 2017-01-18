@@ -27,7 +27,7 @@ public class equ
   public boolean evalArgs() throws SymbolDoesNotExistException 
   {
     this.value = this.value_expr.eval(this.symtab);
-    this.symtab.define(this.source.label, this.value, this.source.getLineNumber(), this.source.getEndOfLineComment(), SYMBOL_DEFINE_EQU);
+    this.symtab.define(this.source.label, this.value, this.source.getLineNumber(), this.source.getEndOfLineComment(), SYMBOL_DEFINE_EQU, source);
     this.source.setEndOfLineCommentProcessed(true);
     return true;
   }

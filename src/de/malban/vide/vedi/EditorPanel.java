@@ -5,6 +5,8 @@
  */
 package de.malban.vide.vedi;
 
+
+
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.HotKey;
@@ -13,13 +15,12 @@ import de.malban.util.KeyboardListener;
 import de.malban.util.UtilityString;
 import de.malban.util.syntax.Syntax.HighlightedDocument;
 import de.malban.util.syntax.Syntax.TokenStyles;
-import de.malban.util.syntax.Syntax.TokenStyles.MyStyle;
 import de.malban.vide.veccy.VectorListFileChoserJPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -30,9 +31,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
@@ -41,10 +42,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.Utilities;
 
 /**
  *
@@ -104,115 +103,27 @@ public class EditorPanel extends EditorPanelFoundation
             initError = true;
         }
     }
-////////////////
-/*    
-// see:     http://www.developer.com/java/other/article.php/3318421
 
-    // other idea: https://www.thecodingforums.com/threads/jtextpane-with-line-numbers-down-the-side.129565/
-    
-class NumberedEditorKit extends StyledEditorKit {
-    public ViewFactory getViewFactory() {
-        return new NumberedViewFactory();
-    }
-}
-
-class NumberedViewFactory implements ViewFactory {
-    public View create(Element elem) {
-        String kind = elem.getName();
-        if (kind != null)
-            if (kind.equals(AbstractDocument.ContentElementName)) {
-                return new LabelView(elem);
-            }
-            else if (kind.equals(AbstractDocument.
-                             ParagraphElementName)) {
-//              return new ParagraphView(elem);
-                return new NumberedParagraphView(elem);
-            }
-            else if (kind.equals(AbstractDocument.
-                     SectionElementName)) {
-                return new BoxView(elem, View.Y_AXIS);
-            }
-            else if (kind.equals(StyleConstants.
-                     ComponentElementName)) {
-                return new ComponentView(elem);
-            }
-            else if (kind.equals(StyleConstants.IconElementName)) {
-                return new IconView(elem);
-            }
-        // default to text display
-        return new LabelView(elem);
-    }
-}
-public static short NUMBERS_WIDTH=25;
-class NumberedParagraphView extends ParagraphView {
-    
-
-    public NumberedParagraphView(Element e) {
-        super(e);
-        short top = 0;
-        short left = 0;
-        short bottom = 0;
-        short right = 0;
-        this.setInsets(top, left, bottom, right);
-    }
-
-    protected void setInsets(short top, short left, short bottom,
-                             short right) {super.setInsets
-                             (top,(short)(left+NUMBERS_WIDTH),
-                             bottom,right);
-    }
-
-    public void paintChild(Graphics g, Rectangle r, int n) {
-        super.paintChild(g, r, n);
-        int previousLineCount = getPreviousLineCount();
-        int numberX = r.x - getLeftInset();
-        int numberY = r.y + r.height - 5;
-        g.drawString(Integer.toString(previousLineCount + n + 1),
-                                      numberX, numberY);
-    }
-
-    public int getPreviousLineCount() {
-        int lineCount = 0;
-        View parent = this.getParent();
-        int count = parent.getViewCount();
-        for (int i = 0; i < count; i++) {
-            if (parent.getView(i) == this) {
-                break;
-            }
-            else {
-                lineCount += parent.getView(i).getViewCount();
-            }
-        }
-        return lineCount;
-    }
-    
-    protected void setParagraphInsets(AttributeSet attr) 
-    { 
-        setInsets((short) StyleConstants.getSpaceAbove(attr),(short) StyleConstants.getLeftIndent(attr),(short) StyleConstants.getSpaceBelow(attr),(short) StyleConstants.getRightIndent(attr)); 
-    }    
-}    
-    */
-////////////////    
+    JPanel noWrapPanel = new JPanel( new BorderLayout() );
     public EditorPanel(String fn, TinyLogInterface tl) {
         tinyLog = tl;
         filename = fn;
         initComponents();
+        if (tl instanceof VEdiFoundationPanel)
+            parent = (VEdiFoundationPanel) tl;
         
-        
-JPanel noWrapPanel = new JPanel( new BorderLayout() );
-jScrollPane2.remove(jTextPane1);
-noWrapPanel.add( jTextPane1 );
-//JScrollPane scrollPane = new JScrollPane( noWrapPanel );        
+        jScrollPane2.remove(jTextPane1);
+        noWrapPanel.add( jTextPane1 );
+
         jScrollPane2.setViewportView(noWrapPanel);
         jScrollPane2.getVerticalScrollBar().setUnitIncrement(12);
         
-//        jTextPane1.setEditorKit(new NumberedEditorKit());
         try 
         {
             FileReader fr = new FileReader(getFilename());
             jTextPane1.read(fr, null);
             fr.close();
-            correctLineNumbers(false);
+//            correctLineNumbers(false);
         }
         catch (IOException e) 
         {
@@ -304,6 +215,7 @@ noWrapPanel.add( jTextPane1 );
 
     public void setup(String t)
     {
+        jTextPane2.setMargin(new Insets(1,3,1,3));
         rowCount = -1;
         jTextPane1.setCaret(new HighlightCaret());
         if (t == null) t=jTextPane1.getText();
@@ -384,6 +296,7 @@ noWrapPanel.add( jTextPane1 );
         final DefaultStyledDocument doc = new DefaultStyledDocument();
         jTextPane2.setDocument(doc);
         correctLineNumbers(true);
+        initDebugDisplay();
     }
     
     public void deinit()
@@ -391,6 +304,10 @@ noWrapPanel.add( jTextPane1 );
         if (editorPaneDocument!= null)
         editorPaneDocument.deinit();
         editorPaneDocument = null;
+        if (parent instanceof VediPanel)
+            parent.settings.setOpenPosition(getFilename(), getPosition());
+        if (parent instanceof VediPanel32)
+            parent.settings.setOpenPosition(getFilename(), getPosition());
     }
 
     /**
@@ -426,11 +343,24 @@ noWrapPanel.add( jTextPane1 );
         });
         jPopupMenu1.add(jMenuItemAddAnim);
 
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(1, 1));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                formComponentResized(evt);
+            }
+        });
+        setLayout(new java.awt.BorderLayout());
+
+        jScrollPane2.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                jScrollPane2ComponentResized(evt);
+            }
+        });
 
         jTextPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 1, 3));
         jTextPane1.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextPane1.setText("\n\n\n        ORG     $0000                      ; start address of all vectrex progs -> 0\n\n        DB -$0e,  $ff, -$01, -$02, -$03, -$08, -$0a, -$0c,  $00\n\nPrint_Str_hwyx  EQU     $F373   ;\nIntensity_5F    EQU     $F2A5   ;\nWait_Recal      EQU     $F192   ;\nmusic1  EQU $FD0D               ;\n\n\n; Magic Init Block\n\n\n_m:     ; M\n        fcb     20*5,0\n        fcb     5*5,-5*5\n        fcb     0,-17*5\n        fcb     0,-18*5\n        fcb     -25*5,0\n        fcb     0,10*5\n        fcb     20*5,0\n        fcb     -5*5,5*5\n        fcb     -15*5,0\n        fcb     0,10*5\n        fcb     20*5,0\n        fcb     -5*5,5*5\n        fcb     -15*5,0\n        fcb     0,10*5\n;        fcb     1\n        fcb     -2,2,3,-1,1,1,-2,2\n\n        FCB     $67,$20                    ; copyright sign and space\n        FCC     \"GCE XXXX\"                 ; copyright text, must start with copyright sign space GCE\n        FCB     $80                        ; end of text marker\n        FDB     music1                      ; music address to be played on title screen\n        FDB     $f850                      ; text size for following text height, width (A,B)\n        FDB     $30b8                      ; position of following text y,x (A,B)\n        FCC     \"MOON LANDER\"              ; text\n        FCB     $80,$0                     ; text end ($80) and header end (0)\n\n        direct $d0                         ; vectrex starts with dp set to $d0\ninit:                                      ; start of program\n        lda <$01\n\n        JSR \t\tWait_Recal\n        jsr     Intensity_5F            ; brightness to $5f\n                                           ; no need to go to zero here,\n                                           ; since this is the first printing\n\n        ldu     #TestString1               ; load score string\n        jsr     Print_Str_hwyx          ; print it\n        ldu     #TestString2               ; load score string\n        jsr     Print_Str_hwyx          ; print it\n        ldu     #TestString3               ; load score string\n        jsr     Print_Str_hwyx          ; print it\n        ldu     #TestString4               ; load score string\n        jsr     Print_Str_hwyx          ; print it\n        ldu     #TestString5               ; load score string\n        jsr     Print_Str_hwyx          ; print it\n        ldu     #TestString6               ; load score string\n        jsr     Print_Str_hwyx          ; print it\n        ldu     #TestString7               ; load score string\n        jsr     Print_Str_hwyx          ; print it\n        ldu     #TestString8               ; load score string\n        jsr     Print_Str_hwyx          ; print it\n        ldu     #TestString9               ; load score string\n        jsr     Print_Str_hwyx          ; print it\n\n        jmp init\n\n\n\nTestString1:\n        fdb      $f53a\n        fdb      $7090\n\tFCC     \"THIS IS A LONG MESSAGE TO BE\"\n\t  FCB $81\nTestString2:\n        fdb      $f53a\n        fdb      $5090\n\tFCC     \"PRINTED ON A POOR VECTREX\"\n\t  FCB $81\nTestString3:\n        fdb      $f53a\n        fdb      $3090\n\tFCC     \"DISPLAY, BUT IT MIGHT BE USED\"\n\t  FCB $81\nTestString4:\n        fdb      $f53a\n        fdb      $1090\n\tFCC     \"AS A SPEEDTEST FOR THE PRINT\"\n\t  FCB $81\nTestString5:\n        fdb      $f53a\n        fdb      $e090\n\tFCC     \"ROUTINES!\"\n\t  FCB $81\nTestString6:\n        fdb      $f53a\n        fdb      $d090\n\tFCC     \"THIS IS A LONG MESSAGE TO BE\"\n\t  FCB $81\nTestString7:\n        fdb      $f53a\n        fdb      $b090\n\tFCC     \"PRINTED ON A POOR VECTREX\"\n\t  FCB $81\nTestString8:\n        fdb      $f53a\n        fdb      $9090\n\tFCC     \"DISPLAY, BUT IT MIGHT BE USED\"\n\t  FCB $81\nTestString9:\n        fdb      $f53a\n        fdb      $8090\n\tFCC     \"AS A SPEEDTEST FOR THE PRINT\"\n\t  FCB $81\n");
+        jTextPane1.setMinimumSize(new java.awt.Dimension(100, 100));
+        jTextPane1.setPreferredSize(null);
         jTextPane1.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 jTextPane1CaretUpdate(evt);
@@ -441,39 +371,39 @@ noWrapPanel.add( jTextPane1 );
                 jTextPane1MousePressed(evt);
             }
         });
-        jTextPane1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextPane1KeyTyped(evt);
+        jTextPane1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                jTextPane1ComponentResized(evt);
             }
+        });
+        jTextPane1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextPane1KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextPane1KeyTyped(evt);
             }
         });
         jScrollPane2.setViewportView(jTextPane1);
 
+        add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane1.setFocusTraversalKeysEnabled(false);
         jScrollPane1.setFocusable(false);
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(47, 8));
 
         jTextPane2.setEditable(false);
+        jTextPane2.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
+        jTextPane2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTextPane2.setPreferredSize(null);
+        jTextPane2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTextPane2MousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTextPane2);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
-        );
+        add(jScrollPane1, java.awt.BorderLayout.WEST);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextPane1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPane1KeyTyped
@@ -596,6 +526,62 @@ noWrapPanel.add( jTextPane1 );
         
         startColoring();
     }//GEN-LAST:event_jMenuItemAddAnimActionPerformed
+
+    private void jTextPane1ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTextPane1ComponentResized
+         JPanel w = noWrapPanel;
+    }//GEN-LAST:event_jTextPane1ComponentResized
+
+    private void jScrollPane2ComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jScrollPane2ComponentResized
+         JPanel w = noWrapPanel;
+    }//GEN-LAST:event_jScrollPane2ComponentResized
+
+    private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
+         JPanel w = noWrapPanel;
+         jScrollPane2.doLayout();
+         Rectangle size = jScrollPane2.getBounds();
+         size.height = getHeight();
+         jScrollPane2.setBounds(size);
+
+         size = jScrollPane1.getBounds();
+         size.height = getHeight();
+         jScrollPane1.setBounds(size);
+
+         
+         invalidate();
+ validate();
+         this.doLayout();
+         repaint();
+    }//GEN-LAST:event_formComponentResized
+
+    private void jTextPane2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextPane2MousePressed
+        if (isBasic) return;
+
+        Point pt = new Point(evt.getX(), evt.getY());
+        int pos = jTextPane2.viewToModel(pt);
+
+        int line = getLineOfPos(jTextPane2, pos); // starts at 0
+        if (line == -1)
+        {
+            return;
+        }
+
+        // click one
+        if (SwingUtilities.isLeftMouseButton(evt))
+        {
+            if (assume6809Asm)
+            {
+                toggleBreakpoint(line);
+            }
+            // toggle bp at line
+        }
+        else if (SwingUtilities.isRightMouseButton(evt))
+        {
+
+            //popUpTextPos = pos;
+            //jPopupMenu1.show(this, evt.getX()-20- jScrollPane2.getViewport().getViewPosition().x,evt.getY()-20- jScrollPane2.getViewport().getViewPosition().y);
+        }
+
+    }//GEN-LAST:event_jTextPane2MousePressed
     // returns the line number of the given position
     int getLineOfPos(JTextPane comp, int pos)
     {
@@ -1056,7 +1042,7 @@ noWrapPanel.add( jTextPane1 );
     public void reColor()
     {
         editorPaneDocument.colorAll();
-        correctLineNumbers(false);
+//        correctLineNumbers(false);
     }
 
     // watching, if swing does something evil!
@@ -1329,26 +1315,31 @@ noWrapPanel.add( jTextPane1 );
     {
         try
         {
-            AttributeSet saset = TokenStyles.getStyle("comment");
-            String text1 = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength());
-            String text2 = jTextPane2.getDocument().getText(0, jTextPane2.getDocument().getLength());
-            int lineCountOrg = text1.split("\n").length;
-            int lineCountNow = text2.split("\n").length;
+            AttributeSet normal = TokenStyles.getStyle("comment");
+            AttributeSet breakpoint = TokenStyles.getStyle("breakpoint");
+            int lineCountOrg = getLineCount(jTextPane1);
+            int lineCountNow = getLineCount(jTextPane2);
 
-            lineCountOrg = getLineCount(jTextPane1);
-            lineCountNow = getLineCount(jTextPane2);
+            
+            if (lineCountOrg>lineCountNow)
+            {
+                breakPointLineAdded();
+            }
+            else if (lineCountOrg<lineCountNow)
+            {
+                breakPointLineDeleted();
+            }
+            
             if  ((lineCountNow >lineCountOrg) || (force))
             {
-                jTextPane2.setText("");
                 lineCountNow = 0;
             }
-
             int w = 3;
             if (lineCountOrg>999) w= 4;
             if (lineCountOrg>9999) w= 5;
             if (lineCountOrg>99999) w= 6;
             
-            int lineNumberWidth = ((StyleConstants.getFontSize(saset)-1)*w);
+            int lineNumberWidth = ((StyleConstants.getFontSize(normal)-1)*w);
 
             if (oldlnWidth != lineNumberWidth)
             {
@@ -1369,18 +1360,76 @@ noWrapPanel.add( jTextPane1 );
                             oldlnWidth = lineNumberWidth;
                     }
                 });
-                
-            
             }
-            
             DefaultStyledDocument doc = (DefaultStyledDocument)jTextPane2.getDocument();
-            while (lineCountNow <lineCountOrg)
+            DebugCommentList list = null;
+            if (parent instanceof VediPanel)
             {
-                if (lineCountNow==0)
-                    doc.insertString(jTextPane2.getDocument().getLength(), ""+(++lineCountNow), saset);
-                else
-                    doc.insertString(jTextPane2.getDocument().getLength(), "\n"+(++lineCountNow), saset);
+                VediPanel vedi = (VediPanel) parent;
+                list = vedi.getDebugComments(this);
             }
+            if ((lineCountNow == 0) && (!force))
+            {
+                // build textString first
+                StringBuilder sb = new StringBuilder();
+                while (lineCountNow <lineCountOrg)
+                {
+                    lineCountNow++;
+                    if (lineCountNow==1)
+                        sb.append(""+(lineCountNow));
+                    else
+                        sb.append("\n"+(lineCountNow));
+
+                }            
+                jTextPane2.setText(sb.toString());
+
+                doc.setCharacterAttributes(0, doc.getLength(), normal, true);
+
+                // now do breakpoints
+                lineCountNow = 0;
+                int pos = 0;
+                while (lineCountNow <lineCountOrg)
+                {
+                    if (list!=null)
+                    {
+                        if (list.getBreakpoint(lineCountNow) != null)
+                        {
+                            correctLine(lineCountNow);
+                        }
+                    }
+                    lineCountNow++;
+                }
+                
+                
+            }
+            else
+            {
+                if ((lineCountNow == 0) || (force))
+                {
+                    jTextPane2.setText("");
+                }
+                if (lineCountNow == -1) 
+                    lineCountNow = 0;
+                while (lineCountNow <lineCountOrg)
+                {
+                    AttributeSet currentStyle =  normal;
+                    if (list!=null)
+                    {
+                        if (list.getBreakpoint(lineCountNow) != null)
+                            currentStyle = breakpoint;
+                    }
+                    lineCountNow++;
+
+
+
+                    if (lineCountNow==1)
+                        doc.insertString(jTextPane2.getDocument().getLength(), ""+(lineCountNow), currentStyle);
+                    else
+                        doc.insertString(jTextPane2.getDocument().getLength(), "\n"+(lineCountNow), currentStyle);
+                }                
+
+            }
+
         }
         catch (Throwable e)
         {
@@ -1423,5 +1472,184 @@ noWrapPanel.add( jTextPane1 );
         return p;
     }    
     
-//                        doc.setCharacterAttributes(sstart, slen, saset, true);
+    // line is zero based
+    private void toggleBreakpoint(int line)
+    {
+        if (parent instanceof VediPanel)
+        {
+            VediPanel vedi = (VediPanel) parent;
+            DebugCommentList list = vedi.getDebugComments(this);
+            DebugComment dbc = list.getBreakpoint(line);
+            if (dbc != null)
+            {
+                list.removeComment(dbc);
+            }
+            else
+            {
+                list.addBreakComment(line);
+            }
+            correctLine(line);
+        }
+        updateParentTables();
+    }
+
+    // line is zero based
+    void correctLine(int line)
+    {
+        try
+        {
+            AttributeSet normal = TokenStyles.getStyle("comment");
+            AttributeSet breakpoint = TokenStyles.getStyle("breakpoint");
+            int lineCountOrg = getLineCount(jTextPane1);
+            int lineCountNow = 0;
+//            jTextPane2.setText("");
+
+            DebugCommentList list = null;
+            if (parent instanceof VediPanel)
+            {
+                VediPanel vedi = (VediPanel) parent;
+                list = vedi.getDebugComments(this);
+            }
+            DefaultStyledDocument doc = (DefaultStyledDocument)jTextPane2.getDocument();
+            int pos = 0;
+            while (lineCountNow <lineCountOrg)
+            {
+                AttributeSet currentStyle =  normal;
+                if (list!=null)
+                {
+                    if (list.getBreakpoint(lineCountNow) != null)
+                        currentStyle = breakpoint;
+                }
+
+                
+                lineCountNow++;
+                String num; 
+                if (lineCountNow==1)
+                    num = ""+(lineCountNow);
+                else
+                    num = "\n"+(lineCountNow);
+                
+                if (line+1 != lineCountNow)
+                {
+                    pos += num.length();
+                    continue;
+                }
+                doc.setCharacterAttributes(pos, num.length(), currentStyle, true);
+                return;
+            }
+//            syncViewports();
+        }
+        catch (Throwable e)
+        {
+        }
+    }
+    
+    void breakPointLineAdded()
+    {
+        if (parent instanceof VediPanel)
+        {
+            VediPanel vedi = (VediPanel) parent;
+            DebugCommentList dbclist = vedi.getDebugComments(this);
+            int currentLine = getLineOfPos(jTextPane1, jTextPane1.getCaretPosition());
+            ArrayList<DebugComment> list = dbclist.getList();
+            for (DebugComment dbc: list)
+            {
+                if (dbc.beforLineNo>=currentLine)
+                {
+                    dbc.beforLineNo++;
+                    correctLine(dbc.beforLineNo-1);
+                    correctLine(dbc.beforLineNo);
+                }
+            }
+        }
+        updateParentTables();
+    }
+    void breakPointLineDeleted()
+    {
+        if (parent instanceof VediPanel)
+        {
+            VediPanel vedi = (VediPanel) parent;
+            DebugCommentList dbclist = vedi.getDebugComments(this);
+            int currentLine = getLineOfPos(jTextPane1, jTextPane1.getCaretPosition());
+            ArrayList<DebugComment> list = dbclist.getList();
+            for (DebugComment dbc: list)
+            {
+                if (dbc.beforLineNo>currentLine)
+                {
+                    dbc.beforLineNo--;
+                    correctLine(dbc.beforLineNo+1);
+                    correctLine(dbc.beforLineNo);
+                }
+            }
+        }
+        updateParentTables();
+    }
+    public void updateParentTables()
+    {
+        if (parent instanceof VediPanel)
+        {
+            VediPanel vedi = (VediPanel) parent;
+            vedi.updateTables();
+        }        
+    }
+
+    private void initDebugDisplay()
+    {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() 
+            {
+                if (!(parent instanceof VediPanel)) return;
+                if (!assume6809Asm) return;
+
+                DebugCommentList list = null;
+                if (parent instanceof VediPanel)
+                {
+                    VediPanel vedi = (VediPanel) parent;
+                    list = vedi.getDebugComments(EditorPanel.this);
+                }
+                if (list != null)
+                {
+                    for (DebugComment c : list.getList())
+                    {
+                        correctLine(c.beforLineNo);
+                    }
+                }
+            }
+        });
+    }
+    
+    public int getPosition()
+    {
+        JViewport viewport = jScrollPane2.getViewport();
+        Point p = viewport.getViewPosition();
+        return p.y;
+    }
+    
+    public void setPosition(int _y)
+    {
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                JViewport viewport = jScrollPane2.getViewport();
+                Point p = viewport.getViewPosition();
+                p.y = _y;
+                p.x = 0;
+                viewport.setViewPosition(p);                
+                viewport = jScrollPane1.getViewport();
+                viewport.setViewPosition(p);        
+
+                jScrollPane2.invalidate();
+                jScrollPane2.validate();
+                jScrollPane2.repaint();
+                jScrollPane1.invalidate();
+                jScrollPane1.validate();
+                jScrollPane1.repaint();
+            }
+        });                    
+        
+    }
 }
+

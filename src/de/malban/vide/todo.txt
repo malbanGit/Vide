@@ -474,10 +474,17 @@ Done:
 - done: ym (some) in ymplayer, do not set regs to psg, if not changed!
 - done: vecxi SHIFT REG DELAY? -> 2/3 cycles it seems in the schematics!
 - done: vecci hidden line removal
-
-
-
 - done: asm generate doe data how many per line -> groupinh infos
+- done: veccy table row height 
+- done: VecVox not working? _ T 1 delay!
+- done: Font Sizes... (scaleable Vide)
+- done: dumpi change memory in table
+- done: dissi 16 bit values print
+- done: dissi watches (add watch)
+- done: dissi poke in dissi -> update memory dump!
+- done: vari variables table -> sortable
+- done: vedi inject in wrong file could get you into trouble -> savety dialog added
+- done: vedi BUG/Feature, when typing in Vedi, the "*" now moves the bottom line!
 
 Frogger: (count starting at 1)
 ok 1. Level > 27100: ok (4 houses)
@@ -497,119 +504,58 @@ ok 14. Level > 28000: 27900 non arcade conform
 ok 15. Level > 29500: 28400 non arcade conform  very difficult
 30100 - ok 16. Level > 29500: 28300 non arcade conform 
 
-TODO table row height in Veccy
-Karl Quappe Pause with FIRQ
+- no: Karl Quappe Pause with FIRQ, I wont programm an interrupt handler, no other w<s to ask if firq occured...
+- Level in Original Frogger are band 3+4 same direction!
+
+- Message press button now if you use a flash?
+- home sprites "off"?
+- jerk at plus to minus? WRONG, jerk was when last sprite moved from plus to minus since zeroing was to fast
+- done: music off - all music off?
+- done: button four on vec multi - go back
 
 
-BUG
+should emulate? (houses frogger)
+Integration overlaps (X -> Y)
 
-BUG BW images in Vectorize
- - editor messages to big!
 
+BUG!
+done: vari: if table (variable) is sorted - tooltip is wrong
 
 Mario clone 1 way scroller, turrican?
 
-done: VecVox not working? _ T 1 delay!
+BUG?
+Delay of shiftreg according to thomas test? Seems "inverse"
 
-Font Sizes... (scaleable Vide)
-
-Document in Vide
-3) I think the A is alright - or at least as it is "intended" - I propably could edit it a bit more... but now you see it is handmade :-).
-Honestly - it is not easy to do a bitmap that looks alright.
-See the vectrex uses the VIA 6522 and the models of VIA it uses has some bugs. One of its bugs is, that a complete shift cycle does not 
-shift 8 times for one byte, but 8+1. The last shifted value is repeated.
-So that e.g.
-0101 0101 [e.g. part of a bitmap]
-
-results in an output like:
-
-0101 01011
-
-In the normal "text" routines you do not see that, since letters always end with a "0" and a double "00" result just in a little bit more space between letters.
-In a "continues" bitmap you must align or tweak the bitmap thus, that you do not (or only barely) see bit doubles.
-
-I already did that (to some extend) to the title bitmap - and I thought I did a good job :-(.
-It certainly is even more difficult to do if you are working with "diagonals", since you can not get rid of a double step.
-
-Nonetheless, I will see if I can realign the complete bitmap, so that perhaps the "A"s - or at least the diagonals are not on a byte border.
+bug
+done: in editor jump to bookmark if tab exists and another tab is currently seen, the other tab is not chosen!
 
 
+done: Bug breakpoint display on line numbers not working correctly
 
-intro
-Level in Original Frogger are band 3+4 same direction!
-- if 0 or 1 or 2 houses are occupied -> gymick sprite somewhere!
-Knapp Timeout? -> timer doubled - adjust levels!
 
-BUG in assi
+BUG
+done Editor, every second entered char destroys line counting, the "correct" chars -> display WRONG line counts!
 
+
+BUG in assi:
  MACRO constant ZAHLEN = 18
 -> leax ZAHLEN,x  -> leax >$0012,x
 -> leax 18,x  -> leax <$12,x
 
-Dumpi:
-Change mem in Table
 
-Dissi 16 bit values print
-
-Watches (add watch)
-
-Variables table -> sortable
+- config:
+- in assi do the debug replacements when loading a file!
+- add watches in vedi via popup
+- table with current breakpoints/watches in vedi
 
 
-BUG
- b/w images in vectorizer
++ add a "zero retain" - a integrator offset value that is pro mille of lat position
++ adjust cycles for zeroing
+in vedi show current shortcut jump table
+in vedi do a "set breakpoint, set watch" on the line numbers
 
-BUG
-poke in dissi -> update memory dump!
-
-- and also some vectror trash (upper left on vectrex hw)
-done:  record and play an attraxct mode
-
-done:  last sprite dont unloop -> saving
-
-done: - removed game + pause todo
-done: edit high score
-
-
-done: Level 9 or 10, bitten by snake with a few homes filled -> wobble
-done: diving turtle death not correct
-done: frogger timer death = lane
-done: Frogger: rest string when printing +200!!!
-done: Music: should not reset always!
-done: Deathsprite in unlooper!
-done: options
-done: 2player
-done: saving
-done: score must reset when new game beings (even on continue)
-done: show TIMER in frog reached home in middle band!
-done: Girl not displayed correctly
-done: level 4(5?) timer error (not possible!
-done: check if frogger 10000 +1 life still works
-done: Frogger car big right - step -1?
-done: optimize print string as much as possible above +2000!
-done: level >10 Darstellung
-done: ABSTURZ LEVEL 8
-done: Zeichensatz mit 5 punkten
-done: move parts of the "move frog" stuff to "in move" possible 50-60 cycles to spare
-done: Frogger Crash on real machine after one level!
-done: Level start music now 1 to soft! (on real vectrex)
-done: + 200 and + 200 display when in level done! (over frog)
-done: Frogger Absturz bei reach home
-done: girl -> "jumping"
-done: still sometimes gltiches when printing +200
-done: init joystick vars with new frog!
-done: vecx not replicable save in game does not work (e.g. while in frogger game)
-done: vecx joystick information is lost after loading save game
-done: vedi example code for 2431
-done: hey dissi break once
-done: vecxi vec Vox / VecVoice not starting right? was T1 more than 1 delay
-
-
-BUG
-Assemble and inject bei falscher datei -> doof...
-
-BUG/Feature, wehen typing in Vedi, the "*" now moves the bottom line!
-
+BUG BW images in Vectorize
+ - editor messages to big!
 
 - install BIOS as internal source, and jump on double click there
 - vedi, periodically in the background, re - check "jumps" to known labels, since after a time of editing they get "off"
@@ -617,11 +563,6 @@ document recent vecci changes
 VecKey - PS/2 Keyboard
 DRIFT - see DRIFT pic
 - faq copied "vectors" does not work with paste -> mode must be vectors!
-
-RESCAN VARS
-
-
-
 
 - hiddenline to history
 - figure -> delete faces

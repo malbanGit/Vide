@@ -7,6 +7,7 @@
 package de.malban.vide.assy;
 
 
+import de.malban.vide.VideConfig;
 import static de.malban.vide.assy.Symbol.SYMBOL_DEFINE_UNKOWN;
 import java.io.PrintStream;
 import java.util.HashMap;
@@ -36,16 +37,16 @@ public class SymbolTable {
             
         }
         */
-	public boolean define( String name, int value, int where_defined , String comment, int definedHow) 
+	public boolean define( String name, int value, int where_defined , String comment, int definedHow, SourceLine source) 
         {
             Symbol s = find(name);
             if (s != null) 
             {
-                s.define( value, where_defined );
+                s.define( value, where_defined , source);
             } 
             else 
             {
-                s = new Symbol( name, value, where_defined );
+                s = new Symbol( name, value, where_defined, source );
                 symbols.addElement( s );
             }
             s.definedHow = definedHow;

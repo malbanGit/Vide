@@ -40,9 +40,14 @@ public class VideConfig  implements Serializable{
     public int ALG_MAX_Y		= 41000;
     public String startFile = "";
     
-    public int[] delays = {0,5,0,15,12,0,0,0,17,0,17, 4, 3, 2}; // full delays, ramp on and off have partials!
+    public int[] delays = {0,5,0,11,4,0,0,0,11,0,13, 4, 3, 1}; // full delays, ramp on and off have partials!
     public double[] partialDelays = {0,0,0,0,0,0,0,0,0,0, 0}; // this is not used!
     public String[] delaysDisplay = {"-", "ZERO", "BLANK", "RAMP", "YSH", "SSH", "ZSH", "RSH", "XSH", "LIGHTPEN", "RAMP_OFF", "MUX_SEL", "SHIFT", "T1"};
+    
+    public double zeroRetainX = 50.0/10000.0;
+    public double zeroRetainY = 50.0/10000.0;
+    public double zero_divider = 6.80;
+    
     public double rampOffFractionValue = 0.8; // only implemented "partial" delay for ramp off
     public double rampOnFractionValue = 0.0; // only implemented "partial" delay for ramp off
     public double blankOnDelay = 0; // look at an M or a W, that would not be possible!
@@ -62,7 +67,7 @@ public class VideConfig  implements Serializable{
     public boolean autoSync = true;
     public boolean vectorInformationCollectionActive = true;
     public boolean useGlow = true;
-    public int brightness = 0; // 0 is default, positive is bright, negative is darker
+    public int brightness = 10; // 0 is default, positive is bright, negative is darker
     public int generation = 3;  // 1-3
     public boolean efficiencyEnabled = true;
     public double efficiency = 3.0;
@@ -72,6 +77,7 @@ public class VideConfig  implements Serializable{
     public int psgVolume = 180;
     public  boolean viaShift9BugEnabled = false;
     public static double scaleEfficiency = 4.1;
+    public static int rotate = 0;
 
     public double overflowFactor = 150;
     public boolean emulateIntegrationOverflow = false;
@@ -88,7 +94,8 @@ public class VideConfig  implements Serializable{
     
     /// ASSI CONFIG
     public boolean expandBranches=true;
-    public boolean supportUnusedSymbols = false;
+    public boolean supportUnusedSymbols = true;
+    public boolean warnOnDoubleDefine = true;
     
     // this one is really dangerous, default is OFF!
     public boolean enable8bitExtendedToDirect = false; // if set, even when no DP is set, asmj uses direct addressen, when value is 8bit
@@ -131,7 +138,7 @@ public class VideConfig  implements Serializable{
     public boolean scanMacros = true;
     public boolean scanVars = true;
     public boolean scanForVectorLists = false;
-    public boolean autoEjectV4EonCompile = false;
+    public boolean autoEjectV4EonCompile = true;
     
     public String themeFile = "";
 
@@ -302,6 +309,12 @@ public class VideConfig  implements Serializable{
         to.warmup = from.warmup; // resolution 0.01
         to.cooldown = from.cooldown; // resolution 0.01
         to.usedSystemRom=from.usedSystemRom;
+        to.zeroRetainX=from.zeroRetainX;
+        to.zeroRetainY=from.zeroRetainY;
+        to.zero_divider=from.zero_divider;
+        to.rotate=from.rotate;
+        
+        
         
         
         to.drift_x = from.drift_x; // resolution 0.01
@@ -334,7 +347,9 @@ public class VideConfig  implements Serializable{
         to.treatUndefinedAsZero = from.treatUndefinedAsZero;
         to.includeRelativeToParent = from.includeRelativeToParent;
         to.opt = from.opt;
+        to.warnOnDoubleDefine = from.warnOnDoubleDefine;
         to.outputLST = from.outputLST;
+        
     
         // VECXPANEL - DISPLAY
         to.splineDensity = from.splineDensity;

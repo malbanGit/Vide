@@ -7,6 +7,7 @@
 package de.malban.vide.assy;
 
 
+import de.malban.vide.VideConfig;
 import de.malban.vide.assy.expressions.Expression;
 import de.malban.vide.assy.expressions.ExpressionSymbol;
 import de.malban.vide.assy.instructions.Instruction;
@@ -19,6 +20,8 @@ public class Symbol {
 	int defining_line; // -1:undefined; -2:not defined by a source line
         int dp_estimate = -1;
         boolean used = false;
+        boolean isDefined = false;
+        SourceLine source;
         public boolean isUsed ()
         {
             return used;
@@ -103,10 +106,12 @@ public class Symbol {
         
 	Vector /* of Instruction */ undefinedReferences;
 
-	public Symbol( String n ) { this(n,0,-1); }
+	public Symbol( String n ) { this(n,0,-1, null); isDefined = false;}
 
-	public Symbol( String n, int v, int l ) 
+	public Symbol( String n, int v, int l, SourceLine s ) 
         {
+            isDefined = true;
+            source = s;
             name = n;
             value = v;
             defining_line = l;
@@ -118,12 +123,34 @@ public class Symbol {
 	public void setValue(int v) { value = v; }
 	public boolean defined() { return defining_line != -1; }
 
-	public void define( int v, int dl ) 
+	public void define( int v, int dl, SourceLine s ) 
         {
+            
+                if (!name.startsWith("*"))
+                {
+                    if (VideConfig.getConfig().warnOnDoubleDefine)
+                    {
+                        if (isDefined)
+                        {
+                            String w = "Symbol: \""+name+"\" was already defined.";
+                            if (s != null)
+                                w+=" Source: "+s.fileName+" ("+dl+")";
+                            if (source != null)
+                                w+=", old define: "+source.fileName+" ("+defining_line+")";
+                            Asmj.warning( s, w );
+                        }
+                    }
+                }
+            
+            
+            
+            isDefined = true;
+            source = s;
 //System.out.println(" defined "+name);
-            value = v;  defining_line = dl;
+            value = v;  
+            defining_line = dl;
             int nur = undefinedReferences.size();
-                for (int urx=nur-1; urx>=0; urx--) 
+            for (int urx=nur-1; urx>=0; urx--) 
             {
                 Instruction ur = (Instruction) undefinedReferences.elementAt(urx);
 //System.out.println("   re-evaluating line: "+ur.getSource().getInputLine() );

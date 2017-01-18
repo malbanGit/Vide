@@ -36,6 +36,7 @@ import de.malban.vide.assy.instructions.fcb;
 import de.malban.vide.assy.instructions.fdb;
 import de.malban.vide.assy.instructions.rmb;
 import de.malban.vide.assy.instructions.struct;
+import de.malban.vide.vedi.DebugCommentList;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -195,8 +196,10 @@ public class Asmj {
           );        
     }
     String mainFile = "";
-    public Asmj( String filename, OutputStream errOut, OutputStream listOut, OutputStream symOut, OutputStream infoOut , String defines) 
+    public static HashMap <String, DebugCommentList> allDebugComments;
+    public Asmj( String filename, OutputStream errOut, OutputStream listOut, OutputStream symOut, OutputStream infoOut , String defines, HashMap <String, DebugCommentList> adc) 
     {
+        allDebugComments = adc; // make comments accessable to all 
         clearLineInfo();
         mainFile = filename;
         ps_error_add=errOut;
@@ -511,15 +514,14 @@ public class Asmj {
             symtab.define(
                     externalSymbols[i],
                     externalValues[i], 
-                    SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU
+                    SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU, null
             );
         }
 
-        symtab.define( "false", 0,  SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU );
-        symtab.define( "true", 1,  SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU );
-        symtab.define( "FALSE", 0,  SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU );
-        symtab.define( "TRUE", 1,  SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU );
-        
+        symtab.define( "false", 0,  SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU , null);
+        symtab.define( "true", 1,  SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU , null);
+        symtab.define( "FALSE", 0,  SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU, null );
+        symtab.define( "TRUE", 1,  SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_EQU , null);
         
         try 
         {
@@ -715,14 +717,14 @@ public class Asmj {
                         symtab.define(
                                 pline.getLabel(),
                                 address,
-                                pline.getLineNumber(), null, SYMBOL_DEFINE_CODE );
+                                pline.getLineNumber(), null, SYMBOL_DEFINE_CODE, pline );
                     }
                     else
                     {
                         symtab.define(
                                 pline.getLabel(),
                                 ctx.currentStruct.currentPosition,
-                                pline.getLineNumber(), null, SYMBOL_DEFINE_STRUCT );
+                                pline.getLineNumber(), null, SYMBOL_DEFINE_STRUCT, pline );
                     }
                 }
             }
@@ -860,7 +862,7 @@ public class Asmj {
                             {
                                 s.removeUndefinedReference(instr);                          
                                 s.value = ctx.currentStruct.currentPosition;
-                                s.define(s.value, instr.getLineNumber());
+                                s.define(s.value, instr.getLineNumber(), pline);
                                 s.line_Comment = instr.getSource().endOfLineComment;
                                 instr.setEvalOk();
                             }
@@ -875,7 +877,7 @@ public class Asmj {
                             {
                                 s.removeUndefinedReference(instr);                          
                                 s.value = ctx.currentStruct.currentPosition;
-                                s.define(s.value, instr.getLineNumber());
+                                s.define(s.value, instr.getLineNumber(),pline);
                                 s.line_Comment = instr.getSource().endOfLineComment;
                                 instr.setEvalOk();
                             }
@@ -890,7 +892,7 @@ public class Asmj {
                             {
                                 s.removeUndefinedReference(instr);                          
                                 s.value = ctx.currentStruct.currentPosition;
-                                s.define(s.value, instr.getLineNumber());
+                                s.define(s.value, instr.getLineNumber(),pline);
                                 s.line_Comment = instr.getSource().endOfLineComment;
                                 instr.setEvalOk();
                             }
@@ -1053,7 +1055,7 @@ public class Asmj {
             if (ctx.currentStruct == null)
                 address += instr.getLength();
             globalAddress = address;
-            symtab.define("*", address, SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_UNKOWN);
+            symtab.define("*", address, SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_UNKOWN, null);
 
             if (mem.current!=null)
             if (mem.current.length > 32768)
@@ -1112,8 +1114,6 @@ public class Asmj {
                 if (!sy.isUsed()) continue;
             boolean equDone = false;
             int typ = sy.usageType;
-//            if (sy.name.equals("x_hit_loop"))
-//                System.out.println("Buh");
             if (!sy.labelUsage)
             {
                 // EQU 20 value - konstant
@@ -1519,9 +1519,11 @@ public class Asmj {
                     + ":  " + errmsg );
     }
     public static void warning( SourceLine line, String errmsg ) {
-            line.addWarningMessage(
-                    line.fileName+"("+line.lineNumber+")"
-                    + ":  " + errmsg );
+        if (line != null)    
+            line.addWarningMessage( line.fileName+"("+line.lineNumber+")" + ":  " + errmsg );
+        else
+            line.addWarningMessage( "Unkown source:  " + errmsg );
+        
     }
     public static void optimize( SourceLine line, String errmsg ) {
             line.addOptimizeMessage(

@@ -100,7 +100,7 @@ public abstract class Instruction
     public void setLength( int i ) 
     {
         length = i;
-        symtab.define( "*", address+i, SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_UNKOWN );
+        symtab.define( "*", address+i, SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_UNKOWN, null);
     }
 
 

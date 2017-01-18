@@ -27,7 +27,7 @@ public class struct extends PseudoOp
     }
     public void defineIt()
     {
-        symbol.define(symbol.getValue(), getLineNumber());
+        symbol.define(symbol.getValue(), getLineNumber(), source);
     }
     public boolean parse(String paramString) throws ParseException
     {

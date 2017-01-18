@@ -736,8 +736,10 @@ public class SingleImagePanel extends javax.swing.JPanel {
         x = (int) (x / scaleX);
         y = (int) (y / scaleY);
 
-        if (x>sourceImage.getWidth()) return;
-        if (y>sourceImage.getHeight()) return;
+        if (x>=sourceImage.getWidth()) return;
+        if (y>=sourceImage.getHeight()) return;
+        if (x<0) return;
+        if (y<0) return;
 
         int rgba =sourceImage.getRGB(x, y);
         Color c = new Color(rgba);

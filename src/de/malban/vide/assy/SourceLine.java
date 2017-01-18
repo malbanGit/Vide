@@ -12,7 +12,10 @@
 // the following line.
 package de.malban.vide.assy;
 
+import static de.malban.vide.assy.Asmj.allDebugComments;
 import de.malban.vide.assy.instructions.Instruction;
+import de.malban.vide.vedi.DebugComment;
+import de.malban.vide.vedi.DebugCommentList;
 import java.io.File;
 import java.util.Vector;
 
@@ -70,6 +73,8 @@ public class SourceLine {
             fileName = fname;
             lineNumber = lineNum;
 
+            
+            
             label = op = rest = null;
             errorMessages = null;
             instr = null;
@@ -120,16 +125,49 @@ public class SourceLine {
                 s.setPosition(0);
             }
             
+            if (fname.contains("highscoreStuff"))
+            {
+                System.out.println("");
+            }
             // comment completeLine
+            
+            
+            
+            String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(fname.toLowerCase())); 
             if (commentRecognizer != null &&  commentRecognizer.recognizes(s) ) 
             { 
                 fullLineComment = line.trim().substring(1).trim();
+
+                if (Asmj.allDebugComments != null)
+                {
+                    DebugCommentList list = Asmj.allDebugComments.get(key);
+                    if (list != null)
+                    {
+                        DebugComment c = list.getBreakpoint(lineNum-1);
+                        if (c != null)
+                        {
+                            fullLineComment += c.getGeneratedComment();
+                        }
+                    }
+                }
+
                 return; 
             }
             if (commentRecognizer != null  ) 
             { 
                 endOfLineComment = commentRecognizer.removeEndOfLineComment(s);
-                
+            }
+            if (Asmj.allDebugComments != null)
+            {
+                DebugCommentList list = Asmj.allDebugComments.get(key);
+                if (list != null)
+                {
+                    DebugComment c = list.getBreakpoint(lineNum-1);
+                    if (c != null)
+                    {
+                        endOfLineComment += c.getGeneratedComment();
+                    }
+                }
             }
 
             // label?

@@ -493,6 +493,11 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
                 GFXVectorAnimation animation = new GFXVectorAnimation(getChosenFilename());
                 if (animation.isAnimation)
                 {
+                    
+    singleVectorPanel.setAnimation(new GFXVectorAnimation());
+    singleVectorPanel.setDelay(-1);
+                    
+                    
                     singleVectorPanel.setDelay(80);
                     singleVectorPanel.setAnimation(animation);
                     jLabel5.setText("animation");

@@ -75,6 +75,9 @@ public class TokenStyles
    //     addStyle("unknown", Color.WHITE, Color.RED.darker(), true, false);
         addStyle("grayedOut", Color.WHITE, Color.GRAY, false, false);
         addStyle("literalVariable", Color.WHITE, darkerGreen, false, false);
+
+
+        addStyle("breakpoint", Color.red, darkGreen, false, false);
     }
 
     private static void addStyle(String name, Color bg, Color fg, boolean bold, boolean italic) 

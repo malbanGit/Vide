@@ -123,6 +123,9 @@ public class VecXState implements Serializable
 
      public IntegerPointer via_shift = new IntegerPointer();  /*  */
      
+     public int lastZero = 1;
+     public double zeroRetainX = 0;
+     public double zeroRetainY = 0;
      
      public int alg_oldzsh = 0;   
      public int alg_oldRamp = 0;
@@ -195,6 +198,10 @@ public class VecXState implements Serializable
         to.extraRam2000_2800Enabled = from.extraRam2000_2800Enabled;
         to.extraRam8000_8800Enabled = from.extraRam8000_8800Enabled;
         to.extraRam6000_7fff_8k_Enabled = from.extraRam6000_7fff_8k_Enabled;
+        
+        to.lastZero = from.lastZero;
+        to.zeroRetainX = from.zeroRetainX;
+        to.zeroRetainY = from.zeroRetainY;
         
         
         to.lastShift = from.lastShift;

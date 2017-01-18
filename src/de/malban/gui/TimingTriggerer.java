@@ -19,7 +19,13 @@ public class TimingTriggerer
     {
         return timer;
     }
-    
+    public static TimingTriggerer getPrivatTimer()
+    {
+        return new TimingTriggerer();
+    }
+    private TimingTriggerer()
+    {
+    }
     class Trigger
     {
         TriggerCallback trigger;
