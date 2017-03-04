@@ -5,9 +5,13 @@
  */
 package de.malban.util.syntax.entities;
 
+import static de.malban.util.syntax.entities.EntityDefinition.SUBTYPE_DATA_LABEL;
 import static de.malban.util.syntax.entities.EntityDefinition.TYP_INCLUDE;
 import static de.malban.util.syntax.entities.EntityDefinition.TYP_LABEL;
 import static de.malban.util.syntax.entities.EntityDefinition.TYP_MACRO;
+import static de.malban.util.syntax.entities.EntityDefinition.removeComment;
+import de.malban.vide.dissy.DASM6809;
+import de.malban.vide.vedi.EditorPanel;
 import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Path;
@@ -30,44 +34,27 @@ public class ASM6809FileInfo
     public static final int ENTITY_CHANGED = 1;
     public static final int ENTITY_DELETED = -1;
 
-    public static void resetDefinitions()
-    {
-        LabelSink.knownGlobalVariables = new HashMap<String, EntityDefinition>();
-        MacroSink.knownGlobalMacros = new HashMap<String, EntityDefinition>();
-        HashMap<String, ASM6809FileInfo> oldAllFileMap = allFileMap;
-        allFileMap = null;
-        allFileMap = new HashMap<String, ASM6809FileInfo>();;
-
-        Set entries = oldAllFileMap.entrySet();
-        Iterator it = entries.iterator();
-        while (it.hasNext())
-        {
-            Map.Entry entry = (Map.Entry) it.next();
-            ASM6809FileInfo value = (ASM6809FileInfo) entry.getValue();
-            String key = (String) entry.getKey();
-            
-            ASM6809FileInfo.handleFile(value.fullName, null);
-        }
-    }
-    public static void clearDefinitions()
-    {
-        LabelSink.knownGlobalVariables = new HashMap<String, EntityDefinition>();
-        MacroSink.knownGlobalMacros = new HashMap<String, EntityDefinition>();
-        allFileMap = new HashMap<String, ASM6809FileInfo>();;
-    }
+    private static int inUpdate = 0;
     
-    public static void resetToProject(File mainFile)
-    {
-        clearDefinitions();
-        handleFile(mainFile.getAbsolutePath(), null);
-    }
+    String fullName; // full path an filename
+    String path; // only path, like Path(fullName).getParent()
+    String name; // only filename
+    StringBuffer text; // complete contents of the denoted file as a stringbuffer
+    int lineCount = 0;
+    ArrayList<EntityDefinition> entityArray = new ArrayList<EntityDefinition>();
     
+    // since we store definitions of "something" 
+    // the line itself is chosen as a hashmap key
+    // in a "correct" file, defintion lines won't be double,
+    // if so, there might be "line errors"
+    HashMap<String, EntityDefinition> lineEntityMap = new HashMap<String, EntityDefinition>();
     
     private ASM6809FileInfo(){}
     
     public static void replaceFileName(String oldFileName, String newFileName)
     {
-
+        inUpdate++;
+        
         String oldkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(oldFileName)).toLowerCase();
         String newkey = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(newFileName)).toLowerCase();
         
@@ -87,27 +74,58 @@ public class ASM6809FileInfo
             fileInfo.path = "";
         allFileMap.remove(oldkey);
         allFileMap.put(newkey, fileInfo);
-        
+        inUpdate--;
     }
 
+    public static void resetDefinitions(String filename, String text)
+    {
+        if (inUpdate>0) return;
+        inUpdate++;
+        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(filename)).toLowerCase();
+        allFileMap.remove(key);
+        handleFile(filename, text);
+        inUpdate--;
+    }
+    public static void resetDefinitions()
+    {
+        if (inUpdate>0) return;
+        inUpdate++;
+        LabelSink.knownGlobalVariables = new HashMap<String, EntityDefinition>();
+        MacroSink.knownGlobalMacros = new HashMap<String, EntityDefinition>();
+        HashMap<String, ASM6809FileInfo> oldAllFileMap = allFileMap;
+        allFileMap = null;
+        allFileMap = new HashMap<String, ASM6809FileInfo>();
+
+        Set entries = oldAllFileMap.entrySet();
+        Iterator it = entries.iterator();
+        while (it.hasNext())
+        {
+            Map.Entry entry = (Map.Entry) it.next();
+            ASM6809FileInfo value = (ASM6809FileInfo) entry.getValue();
+            String key = (String) entry.getKey();
+            
+            ASM6809FileInfo.handleFile(value.fullName, null);
+        }
+        inUpdate--;
+    }
+    public static void clearDefinitions()
+    {
+        LabelSink.knownGlobalVariables = new HashMap<String, EntityDefinition>();
+        MacroSink.knownGlobalMacros = new HashMap<String, EntityDefinition>();
+        allFileMap = new HashMap<String, ASM6809FileInfo>();;
+    }
+    
+    public static void resetToProject(File mainFile)
+    {
+        clearDefinitions();
+        handleFile(mainFile.getAbsolutePath(), null);
+    }
     
     public String toString()
     {
         return fullName;
     }
     
-    String fullName; // full path an filename
-    String path; // only path, like Path(fullName).getParent()
-    String name; // only filename
-    StringBuffer text; // complete contents of the denoted file as a stringbuffer
-    ArrayList<EntityDefinition> entityArray = new ArrayList<EntityDefinition>();
-    
-    // since we store definitions of "something" 
-    // the line itself is chosen as a hashmap key
-    // in a "correct" file, defintion lines won't be double,
-    // if so, there might be "line errors"
-    HashMap<String, EntityDefinition> lineEntityMap = new HashMap<String, EntityDefinition>();
-
     // is the "calling" entity in a struct
     // has any of the previous lines a "struct" open
     // (and not closed?)
@@ -130,6 +148,92 @@ public class ASM6809FileInfo
         }
         return false;
     }
+    
+    // returns true if the label is the first line label in the file
+    // or if the last non empty line befor was
+    // data (db, ds, dw, fcb...)
+    // bra
+    // lbra
+    // jmp
+    // rts
+    // rti
+    protected boolean isPureFunctionCallLabel(EntityDefinition entity)
+    {
+        // assuming
+        int checkingLineInText = entity.getLineNumber()-1;
+        String[] lines = text.toString().split("\n");
+
+        for (int l = checkingLineInText-1; l>=0; l--)
+        {
+            String line = lines[l].toLowerCase();
+            line = removeComment(line, ";");
+            line = removeComment(line, "*");
+            line = de.malban.util.UtilityString.replaceWhiteSpaces(line, " ");
+            if (line.trim().length() == 0) continue;
+            if (line.contains(" db ")) return true;
+            if (line.contains(" dw ")) return true;
+            if (line.contains(" ds ")) return true;
+            if (line.contains(" fcc ")) return true;
+            if (line.contains(" fcb ")) return true;
+            if (line.contains(" fdb ")) return true;
+            if (line.contains(" rmb ")) return true;
+            if (line.contains(" rts")) return true;
+            if (line.contains(" rti")) return true;
+            if (line.contains(" jmp ")) return true;
+            if (line.contains(" bra ")) return true;
+            if (line.contains(" lbra ")) return true;
+            if (line.contains(" endm")) return true;
+            if (line.contains(" end")) return true;
+            if (line.contains(" org")) return true;
+            if (line.contains(" code")) return true;
+            if (line.contains(" include")) return true;
+            if (line.contains(" equ ")) continue;
+            if (line.contains("=")) continue;
+            return false;
+        }
+        // beginning of file reached
+        return true;
+    }
+    protected boolean isDataLabel(EntityDefinition entity)
+    {
+        // assuming
+        int checkingLineInText = entity.getLineNumber()-1;
+        String[] lines = text.toString().split("\n");
+
+        for (int l = checkingLineInText; l<lines.length; l++)
+        {
+            String line = lines[l].toLowerCase();
+            line = removeComment(line, ";");
+            line = removeComment(line, "*");
+            line = removeLeadingChars(line);
+            if (line.trim().length() == 0) continue;
+            if (line.contains(" db ")) return true;
+            if (line.contains(" dw ")) return true;
+            if (line.contains(" ds ")) return true;
+            if (line.contains(" fcc ")) return true;
+            if (line.contains(" fcb ")) return true;
+            if (line.contains(" fdb ")) return true;
+            if (line.contains(" rmb ")) return true;
+            return false;
+        }
+        // end of file reached
+        return false;
+    }    
+    // if a line starts with a label - remove it, up to first "SPACE"
+    // also replaces all whitespaces with space
+    String removeLeadingChars(String line)
+    {
+        line = de.malban.util.UtilityString.replaceWhiteSpaces(line, " ");
+        if (line.startsWith(" ")) return line;
+        String[] splitter = line.split(" ");
+        String result = "";
+        for (int i=1; i<splitter.length; i++)
+        {
+            result+=" " + splitter[i];
+        }
+        return result;
+    }
+    
     void addLineToArray(EntityDefinition e)
     {
         entityArray.add(e);
@@ -155,7 +259,7 @@ public class ASM6809FileInfo
         }
     }
     
-    void resetLabels()
+    synchronized void  resetLabels()
     {
         Set entries = lineEntityMap.entrySet();
         Iterator it = entries.iterator();
@@ -201,7 +305,7 @@ public class ASM6809FileInfo
     // the line strings are 
     // the lines + ";linenumber"
     // so I can use them as keys in a hashmap
-    private EntityDefinition updateEntity(String oldLine, String line)
+    private synchronized EntityDefinition updateEntity(String oldLine, String line)
     {
         if (line == null) return null;
         boolean existed = false;
@@ -284,7 +388,7 @@ public class ASM6809FileInfo
 
         return entity;
     }
-    private void scanText(String text)
+    private synchronized void scanText(String text)
     {
         String[] lines = text.split("\n");
         int c = 0;
@@ -294,11 +398,21 @@ public class ASM6809FileInfo
             c++;
         }
     }
+    
+    private int getLineCount(String text)
+    {
+        if (text == null) return 0;
+        return text.split("\n").length;
+    }
+    
     private static String loadText(String filename)
     {
         try 
         {
             filename = de.malban.util.UtilityFiles.convertSeperator(filename);
+            String edited = EditorPanel.getTextForFile(filename);
+            if (edited != null) return edited;
+            
             
             // I know this is "bad", but what the heck,... don't bother tp check for \r\n \r ... myself
             JTextPane jTextPane1 = new JTextPane();
@@ -316,37 +430,6 @@ public class ASM6809FileInfo
         
     }
     
-    // document text, line seperated by "\n"
-    // if text is null, it will try to load text thru a document
-    // to be on the save side of line end definitions
-    public static ASM6809FileInfo handleFile(String _fullname, String _text)
-    {
-        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(_fullname)).toLowerCase();
-        
-        
-        ASM6809FileInfo fileInfo = allFileMap.get(key);
-        if (fileInfo != null) return fileInfo;
-        fileInfo = new ASM6809FileInfo();
-        fileInfo.fullName = _fullname;
-        
-        Path path = Paths.get(_fullname);
-        if (path.toString().length()==0) return fileInfo;
-        fileInfo.name = path.getFileName().toString();
-        if (path.getParent()!=null)
-            fileInfo.path = path.getParent().toString();
-        else
-            fileInfo.path = "";
-        
-        if (_text == null)
-        {
-            _text = loadText(_fullname);
-        }
-        fileInfo.text = new StringBuffer(_text);
-        fileInfo.scanText(_text);
-        allFileMap.put(key, fileInfo);
-//        System.out.println("\""+fileInfo.name+"\" loaded!");
-        return fileInfo;
-    }
     
     // called from colorer
     // if macros/vars have changes
@@ -354,8 +437,19 @@ public class ASM6809FileInfo
     // (or remember where each entity was used, which we don't - yet)
     
     // returns labels/macros that are invalidated
-    public ArrayList<String> processDocumentChanges(int start, int adjustment, String newCompleteText)
+    public synchronized ArrayList<String> processDocumentChanges(int start, int adjustment, String newCompleteText)
     {
+        inUpdate++;
+        ArrayList<String> ret = new ArrayList<String>();
+        if (lineCount != getLineCount(newCompleteText))
+        {
+            text.delete(0, text.length());
+            text.append(newCompleteText);
+            lineCount = getLineCount(newCompleteText);
+            reset();
+            return null;
+        }
+            
         // negative adjustment means some text was removed
         // positive adjustment, that something was added
         
@@ -364,7 +458,6 @@ public class ASM6809FileInfo
         // update entity with that
         // change our "reference" text accordingly
         // TODO !!!!!
-        ArrayList<String> ret = new ArrayList<String>();
         // the hard way, if adj > 1 do the complete thing!
         if (Math.abs(adjustment)> 1)
         {
@@ -384,6 +477,7 @@ public class ASM6809FileInfo
             }
             text.delete(0, text.length());
             text.append(newCompleteText);
+            lineCount = getLineCount(newCompleteText);
             scanText(newCompleteText);
         }
         else
@@ -391,23 +485,72 @@ public class ASM6809FileInfo
             // test one line change, if something happened to a var/ macro -> also scan the damn doc
             String lineOld = getLineOfChange(start-adjustment, text.toString());
             String lineNew = getLineOfChange(start, newCompleteText.toString());
-            
-            EntityDefinition entity = updateEntity(lineOld, lineNew);
-            if (entity == null) // error
+            boolean done = false;
+            if (adjustment == 1) // only one char dif
             {
-                
+                String[] sp1 = lineOld.split(";");
+                String[] sp2 = lineNew.split(";");
+                if ((sp1.length>0) && (sp2.length>0))
+                {
+                    if (!(sp1[sp1.length-1].equals((sp2[sp2.length-1]))))
+                    {
+                        // if different line numbers - than probably only a "return" happened
+                        for (EntityDefinition e: entityArray)
+                        {
+                            if (e.type == TYP_LABEL)
+                            {
+                                LabelSink.knownGlobalVariables.remove(e.name);
+                                ret.add(e.name);
+                            }
+                            if (e.type == TYP_MACRO)
+                            {
+                                MacroSink.knownGlobalMacros.remove(e.name);
+                                ret.add(e.name);
+                            }
+                        }
+                        text.delete(0, text.length());
+                        text.append(newCompleteText);
+                        lineCount = getLineCount(newCompleteText);
+                        scanText(newCompleteText);
+                        done = true;
+                    }
+                }
             }
-            else if (entity.getStatus() != ENTITY_UNCHANGED)
-            {
-                ret.add(entity.previousName); 
-                ret.add(entity.name); 
-            }
-            text.delete(0, text.length());
-            text.append(newCompleteText);
             
+            // one line change
+            if (!done)
+            {
+                EntityDefinition entity = updateEntity(lineOld, lineNew);
+                if (entity == null) // error
+                {
+
+                }
+                else if (entity.getStatus() != ENTITY_UNCHANGED)
+                {
+                    ret.add(entity.previousName); 
+                    ret.add(entity.name); 
+                }
+                text.delete(0, text.length());
+                text.append(newCompleteText);
+                lineCount = getLineCount(newCompleteText);
+            }
         }
+        inUpdate--;
         return ret;
     }
+    String getLineOfChangeNo(int lineNo, String t)
+    {
+        try
+        {
+            String[] lines = t.toString().split("\n");
+            return lines[lineNo];
+        }
+        catch (Throwable e)
+        {
+        }
+        return null;
+    }    
+    // pos = position in String
     String getLineOfChange(int pos, String t)
     {
         int ret = -1;
@@ -430,5 +573,35 @@ public class ASM6809FileInfo
         }
         return null;
     }    
+    // document text, line seperated by "\n"
+    // if text is null, it will try to load text thru a document
+    // to be on the save side of line end definitions
+    public static ASM6809FileInfo handleFile(String _fullname, String _text)
+    {
+        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(_fullname)).toLowerCase();
+        ASM6809FileInfo fileInfo = allFileMap.get(key);
+        if (fileInfo != null) return fileInfo;
+        fileInfo = new ASM6809FileInfo();
+        fileInfo.fullName = _fullname;
+        
+        Path path = Paths.get(_fullname);
+        if (path.toString().length()==0) return fileInfo;
+        fileInfo.name = path.getFileName().toString();
+        if (path.getParent()!=null)
+            fileInfo.path = path.getParent().toString();
+        else
+            fileInfo.path = "";
+        
+        if (_text == null)
+        {
+            _text = loadText(_fullname);
+        }
+        fileInfo.text = new StringBuffer(_text);
+        fileInfo.lineCount = fileInfo.getLineCount(_text);
+        fileInfo.scanText(_text);
+        allFileMap.put(key, fileInfo);
+//        System.out.println("\""+fileInfo.name+"\" loaded!");
+        return fileInfo;
+    }
 }
     

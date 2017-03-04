@@ -29,7 +29,32 @@ public class EntityDefinition
     public static int TYP_INCLUDE = 3;
     public static int TYP_MACRO_PARAM = 4;
 
-    
+    // subtypes for labels
+    public static int SUBTYPE_NO_LABEL = 0;
+    public static int SUBTYPE_EQU_LABEL = 1;
+    public static int SUBTYPE_DEFINED_LABEL = 2;
+    public static int SUBTYPE_SET_LABEL = 3;
+    public static int SUBTYPE_STRUCT_LABEL = 4;
+    public static int SUBTYPE_INSTRUCT_LABEL = 5;
+    public static int SUBTYPE_LINE_LABEL = 6;                                        
+    public static int SUBTYPE_DATA_LABEL = 7;                                        
+    public static int SUBTYPE_INNER_MACRO_LABEL = 8;                                        
+    public static int SUBTYPE_FUNCTION_LABEL = 9;                                        
+    public static int SUBTYPE_VERIFIED_FUNCTION_LABEL = 10;                                        
+
+    public static String[] SUBTYPE_NAMES = {
+        "unkown",
+        "equ",
+        "=",
+        "set",
+        "struct",
+        "in struct",
+        "line",
+        "data",
+        "macro",
+        "function",
+        "user"
+    };
     
     private int status = ENTITY_DELETED;
     ASM6809FileInfo file;
@@ -54,6 +79,14 @@ public class EntityDefinition
     {
         return type;
     }
+    public int getSubType()
+    {
+        return subtype;
+    }
+    public String getName()
+    {
+        return name;
+    }
     
             
     
@@ -64,6 +97,7 @@ public class EntityDefinition
     ArrayList<String> parameter; // default non = null, only set if macro has parameters
     ArrayList<String> previousParameter; // default non = null, only set if macro has parameters
     int type;
+    int subtype = SUBTYPE_NO_LABEL;
     String previousOrgLine;
     String previousName;
     String previousValue;
@@ -173,6 +207,7 @@ public class EntityDefinition
                 {
                     done = true;
                     type = TYP_LABEL;
+                    subtype = SUBTYPE_EQU_LABEL;
                     String lineRest = line.substring(pos+3).trim();
                     value = lineRest.trim();
                     String lineStart = line.substring(0, pos).trim();
@@ -193,6 +228,7 @@ public class EntityDefinition
                 {
                     done = true;
                     type = TYP_LABEL;
+                    subtype = SUBTYPE_DEFINED_LABEL;
                     String lineRest = line.substring(pos+1).trim();
                     value = lineRest.trim();
                     String lineStart = line.substring(0, pos).trim();
@@ -211,6 +247,7 @@ public class EntityDefinition
                 {
                     done = true;
                     type = TYP_LABEL;
+                    subtype = SUBTYPE_SET_LABEL;
                     String lineRest = line.substring(pos+3).trim();
                     value = lineRest.trim();
                     String lineStart = line.substring(0, pos).trim();
@@ -229,6 +266,7 @@ public class EntityDefinition
                 {
                     done = true;
                     type = TYP_LABEL;
+                    subtype = SUBTYPE_STRUCT_LABEL;
                     String lineRest = line.substring(pos+6).trim();
                     value = "struct - value not identified";
                     String[] splitter = lineRest.split(" ");
@@ -270,6 +308,7 @@ public class EntityDefinition
                             else
                             {
                                 type = TYP_LABEL;
+                                subtype = SUBTYPE_INSTRUCT_LABEL;
                                 value = "struct - value not identified";
                             }
                         }
@@ -296,13 +335,25 @@ public class EntityDefinition
                     {
                         done = true;
                         type = TYP_LABEL;
+                        subtype = SUBTYPE_LINE_LABEL;
                         value = "line label";
                         name = getFirstName(line);
                         if (name == null)
                         {
                             name = "";
                         }
-
+                        line = de.malban.util.UtilityString.replaceWhiteSpaces(line.toLowerCase(), " ");
+                        if (line.contains("\\? ")) subtype = SUBTYPE_INNER_MACRO_LABEL;
+                        if (line.contains("&@ ")) subtype = SUBTYPE_INNER_MACRO_LABEL;
+                        if (line.contains("\\?: ")) subtype = SUBTYPE_INNER_MACRO_LABEL;
+                        if (line.contains("&@: ")) subtype = SUBTYPE_INNER_MACRO_LABEL;
+                        if (subtype == SUBTYPE_LINE_LABEL)
+                            if (isDataLabel()) subtype = SUBTYPE_DATA_LABEL;
+                        if (subtype == SUBTYPE_LINE_LABEL)
+                            if (isPureFunctionCallLabel()) subtype = SUBTYPE_FUNCTION_LABEL;
+                        
+                        if (orgLine.toLowerCase().contains("#isfunction")) subtype = SUBTYPE_VERIFIED_FUNCTION_LABEL;
+                        
                     }
                 }
             }
@@ -373,19 +424,20 @@ public class EntityDefinition
     {
         return searchPos(line.toLowerCase(), "dw", REALLY_PURE);
     }
-    private String removeComment(String s, String commentString)
+    public static String removeComment(String s, String commentString)
     {
         int commentStart = searchPos(s.toLowerCase(), commentString, NORMAL);
         if (commentStart<0) return s;
         s=s.substring(0, commentStart);
         return s;
     }
+
     static final int PURE = 0; // terminated on both sides by a whitespace (but does not HAVE to be terminated at the end)
     static final int HALF_PURE = 1; // terminated on left side (start) by a whitespace
     static final int NORMAL = 2; // not terminated by anything
     static final int REALLY_PURE = 3; // must on both sides be terminated by whitespace
     
-    private String removeOneQuote(String wc)
+    private static String removeOneQuote(String wc)
     {
         int posDouble = wc.indexOf("\"");
         int posSingle = wc.indexOf("'");
@@ -431,7 +483,7 @@ public class EntityDefinition
         return wc.substring(i+1);
     }
 
-    private int reallyPurePos(String line, String search)
+    private static int reallyPurePos(String line, String search)
     {
         int pos =         line.indexOf(" "+search+" ");
         if (pos <0) pos = line.indexOf("\t"+search+" ");
@@ -443,7 +495,7 @@ public class EntityDefinition
         return pos+1; // ignore leading WS
     }
 
-    private int purePos(String line, String search)
+    private static int purePos(String line, String search)
     {
         int pos =         line.indexOf(" "+search+" ");
         if (pos <0) pos = line.indexOf("\t"+search+" ");
@@ -456,7 +508,7 @@ public class EntityDefinition
         if (pos <0) return -1;
         return pos+1; // ignore leading WS
     }
-    private int halfpurePos(String line, String search)
+    private static int halfpurePos(String line, String search)
     {
         int pos = line.indexOf(" "+search);
         if (pos <0) pos = line.indexOf("\t"+search);
@@ -471,7 +523,7 @@ public class EntityDefinition
         return pos; 
     }
     
-    private int searchPos(String line, String search, int purePos)
+    private static int searchPos(String line, String search, int purePos)
     {
         String s= line;
         int posSemicolon = -1;
@@ -567,5 +619,22 @@ public class EntityDefinition
     private boolean inStruct()
     {
         return file.inStruct(this);
+    }
+    
+    // returns true if the label is the first line label in the file
+    // or if the last non empty line befor was
+    // data (db, ds, dw, fcb...)
+    // bra
+    // lbra
+    // jmp
+    // rts
+    // rti
+    private boolean isPureFunctionCallLabel()
+    {
+        return file.isPureFunctionCallLabel(this);
+    }
+    private boolean isDataLabel()
+    {
+        return file.isDataLabel(this);
     }
 }

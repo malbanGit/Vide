@@ -3641,7 +3641,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                                 .addGap(1, 1, 1)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane1)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)))
                             .addComponent(jButtonAddRow)))
                     .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0)
@@ -4275,6 +4275,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
     private void jButtonSaveSelection1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveSelection1ActionPerformed
 
+        
         if (jTable1.isEditing()) jTable1.getCellEditor().stopCellEditing();        
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
 
@@ -4893,8 +4894,8 @@ s
                     {
                         if (!usedRegs[r]) continue;
                         byte value = ymSound.out_buf[r][i];
-                        if ((r == 13) && (value&0xff) == 0xff) 
-                            continue;
+//                        if ((r == 13) && (value&0xff) == 0xff) 
+//                            continue;
 
 
                         if (started) o+=", ";
@@ -5719,6 +5720,18 @@ s
         if (re != InternalFrameFileChoser.APPROVE_OPTION) return false;
         lastPath = fc.getSelectedFile().getAbsolutePath();
 
+        
+        
+        File file = new File(lastPath);
+        
+        if (file.isDirectory())
+        {
+            pathOnly = lastPath;
+        }
+        else if (lastPath.length()!=0)
+            pathOnly = file.getParent();
+        
+        
         if (!lastPath.toLowerCase().endsWith(".afx"))
         {
             return false;
@@ -5739,7 +5752,13 @@ s
             log.addLog(e, WARN);
             return false;
         }
+        initLister();
 
+        return initAFX(channel, data, overwrite, path.toString());
+    }
+
+    boolean initAFX(String channel, byte[] data, boolean overwrite, String path)
+    {  
         byte[] workRow = new byte[16];
         int workPos;
         int count = 0;
@@ -5966,6 +5985,11 @@ s
                 bw.write("HAS_TONE1 = 1\n");
             if (dictionary.sConfig.hasTone[2])
                 bw.write("HAS_TONE2 = 1\n");
+            
+             if (dictionary.sConfig.hasEnvelope)
+                bw.write("HAS_ENVELOPE = 1\n");
+           
+            
             
             bw.write("FIRST7 = $"+String.format("%02X",(dictionary.sConfig.first7))+"\n");
             
@@ -6399,17 +6423,17 @@ s
     {
         if (row <0) return 0;
         int amplitude = 0;
-        if (voice == 0) amplitude = ymSound.out_buf[8][row] &0x0f;
-        if (voice == 1) amplitude = ymSound.out_buf[9][row] &0x0f;
-        if (voice == 2) amplitude = ymSound.out_buf[10][row] &0x0f;
+        if (voice == 0) amplitude = ymSound.out_buf[8][row] &0x1f;
+        if (voice == 1) amplitude = ymSound.out_buf[9][row] &0x1f;
+        if (voice == 2) amplitude = ymSound.out_buf[10][row] &0x1f;
         return amplitude;
     }
     int getOldAmplitude(int voice)
     {
         int amplitude = 0;
-        if (voice == 0) amplitude = oldRegs[8] &0x0f;
-        if (voice == 1) amplitude = oldRegs[9] &0x0f;
-        if (voice == 2) amplitude = oldRegs[10] &0x0f;
+        if (voice == 0) amplitude = oldRegs[8] &0x1f;
+        if (voice == 1) amplitude = oldRegs[9] &0x1f;
+        if (voice == 2) amplitude = oldRegs[10] &0x1f;
         return amplitude;
     }
     int getFrequency(int voice, int row)
@@ -6477,7 +6501,10 @@ s
         else
         {
             appendbitsMSBFirst(voiceStream, 1, 1).toString();
-            appendbitsMSBFirst(voiceStream, amplitude, 4);
+            if (sConfig.hasEnvelope)
+                appendbitsMSBFirst(voiceStream, amplitude, 5);
+            else
+                appendbitsMSBFirst(voiceStream, amplitude, 4);
         }
 
         // for ym we take it that noise has precedence over tone - we only use 1 bit to represent the state!
@@ -6542,6 +6569,8 @@ s
         boolean[] usedRegs = new boolean[14];
         boolean[] allToneSame = new boolean[3];
         int first7 = 0;
+
+    
     }
     
     
@@ -6631,7 +6660,7 @@ s
                 tone0 = (ymSound.out_buf[7][start]&0x01)==1;
                 tone1 = (ymSound.out_buf[7][start]&0x02)==2;
                 tone2 = (ymSound.out_buf[7][start]&0x04)==4;
-//                sConfig.first7 = ymSound.out_buf[7][start];
+                sConfig.first7 = ymSound.out_buf[7][start];
             }
             
             if ((sConfig.hasVoice[0]) && (ymSound.out_buf[8][i]>=16)) sConfig.hasEnvelope = true;
@@ -6687,6 +6716,17 @@ s
         if (!usedRegs[7]) return d;
         if ((!usedRegs[8]) && (usedRegs[9]) && (usedRegs[10])) return d;
         
+        if (!usedRegs[11]) sConfig.hasEnvelope = false;
+        if (!usedRegs[12]) sConfig.hasEnvelope = false;
+        if (!usedRegs[13]) sConfig.hasEnvelope = false;
+
+        if (!sConfig.hasEnvelope) 
+        {
+            usedRegs[11] = false;
+            usedRegs[12] = false;
+            usedRegs[13] = false;
+        }
+        
         for (int i=0; i< 16; i++)
         {
             oldRegs[i] = -1;
@@ -6697,6 +6737,11 @@ s
         String lastvoice3 = "";
         String lastOut ="";
         String lastnoise = "";
+        
+        int lastEnvelopeFreq1 = 0;
+        int lastEnvelopeFreq2 = 0;
+        int lastEnvelope = 0;
+        
         
         for (int i=start; i<end; i++)
         {
@@ -6795,8 +6840,45 @@ s
                         nextLine.append(noise); 
                     }
                 }
+                if (sConfig.hasEnvelope)
+                {
+                    // 0xff indicates no change to envelope
+                    if (/*(lastEnvelope != ymSound.out_buf[13][i]) &&*/ ((ymSound.out_buf[13][i]&0xff)!= 0xff) )
+                    {
+                        String envString = appendbitsMSBFirst(new StringBuilder(), ymSound.out_buf[13][i], 4).toString();
+                        nextLine.append("1"); // indicate envelope changed
+                        nextLine.append(envString); 
+                        lastEnvelope = ymSound.out_buf[13][i];
+                    }
+                    else
+                    {
+                        // env is the same, than also only a 0
+                        nextLine.append("0");
+                    }
+                    if (lastEnvelopeFreq1*256+lastEnvelopeFreq2 != ymSound.out_buf[11][i]*256+ymSound.out_buf[12][i])
+                    {
+                        String envFreqString = appendbitsMSBFirst(new StringBuilder(), ymSound.out_buf[11][i], 8).toString();
+                        envFreqString += appendbitsMSBFirst(new StringBuilder(), ymSound.out_buf[12][i], 8).toString();
+
+                        nextLine.append("1"); // indicate envelope freq changed
+                        nextLine.append(envFreqString); 
+                        lastEnvelopeFreq1 = ymSound.out_buf[11][i];
+                        lastEnvelopeFreq2 = ymSound.out_buf[12][i];
+                    }
+                    else
+                    {
+                        // env is the same, than also only a 0
+                        nextLine.append("0");
+                    }
+
+                }
                 
             }
+
+            
+            
+            
+            
             for (int ii=0; ii< 16; ii++) oldRegs[ii] = ymSound.out_buf[ii][i];
 //System.out.println(nextLine);
             d.bitStream.append(nextLine); 
@@ -6970,7 +7052,6 @@ s
         listerArray.clear();
 
         ArrayList<String> filenames = de.malban.util.UtilityFiles.getFilesWith(pathOnly, ".ym");
-        
         if (pathOnly.length()>0) if (!pathOnly.endsWith(File.separator)) pathOnly+= File.separator;
         for (String f: filenames)
         {
@@ -6988,6 +7069,26 @@ s
                 
             }
         }
+
+        filenames = de.malban.util.UtilityFiles.getFilesWith(pathOnly, ".afx");
+        if (pathOnly.length()>0) if (!pathOnly.endsWith(File.separator)) pathOnly+= File.separator;
+        for (String f: filenames)
+        {
+            try
+            {
+                ListerEntry entry = new ListerEntry();
+                entry.fileName = f;
+                entry.completePath = pathOnly+f;
+                File ff = new File(entry.completePath);
+                entry.size = ff.length();
+                listerArray.add(entry);
+            }
+            catch (Throwable e)
+            {
+                
+            }
+        }
+        
         
         jTable3.setModel(listerModel);
         jTable3.tableChanged(null);
@@ -7016,25 +7117,51 @@ s
                 {
                 }
             }
-
-            initYM( listerArray.get(row).completePath);
-
-            ympos = 0;
-            workBufToSelection();
-            jTable1.tableChanged(null);
-            jTable2.tableChanged(null);
-            jTable1.repaint();
-            jTable2.repaint();
-        
-            loopStart = -1;
-            loopEnd = -1;
-            int[] rows = jTable1.getSelectedRows();
-            if (rows.length >1)
+            if (listerArray.get(row).completePath.toLowerCase().endsWith("ym"))
             {
-                loopStart = rows[0];
-                loopEnd = rows[rows.length-1];
+                initYM( listerArray.get(row).completePath);
+                ympos = 0;
+                workBufToSelection();
+                jTable1.tableChanged(null);
+                jTable2.tableChanged(null);
+                jTable1.repaint();
+                jTable2.repaint();
+
+                loopStart = -1;
+                loopEnd = -1;
+                int[] rows = jTable1.getSelectedRows();
+                if (rows.length >1)
+                {
+                    loopStart = rows[0];
+                    loopEnd = rows[rows.length-1];
+                }
+                startYM();
+            }            
+            else
+            {
+                jButtonNewYMActionPerformed(null);                
+                lastPath = listerArray.get(row).completePath.toLowerCase();
+
+                byte[] data = null;
+                Path path = Paths.get(lastPath);
+
+                String nameOnly = path.getFileName().toString();
+                String barenameOnly = nameOnly.substring(0, nameOnly.length()-4); // is a ".afx", tehrefor a -4 must work!
+
+                try
+                {
+                    data = Files.readAllBytes(path);
+                }
+                catch (Throwable e)
+                {
+                    log.addLog(e, WARN);
+                    return;
+                }
+
+                initAFX("A", data, false, path.toString());
+                jButtonPlaySampleActionPerformed(null);                                        
+
             }
-            startYM();
         }
     }               
     void completeColumnToValue(int reg, int value)

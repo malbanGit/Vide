@@ -1,5 +1,52 @@
-﻿19th of January 2017
 ---------------------
+Version 1.13
+
+new: 
+- vedi: navigation panel added to vedi. This includes two different functions:
+        a) a history of "editor-jumps" - you can no go back and forth in your jump history (arrow buttons)
+        b) added a table that shows all available labels of the current source, double click jumps to the
+           label. Also - it can be configured what types of labels are displayed
+- ym: added afx files to the lister table (playable upon double click to channel A)
+- vecx: added "intensity" drift
+- vecx: added option to allow ROM-write access (to find bugs...)
+
+BugFix:
+
+
+21st of February 2017
+---------------------
+Version 1.12
+
+new: 
+- vedi: double middle click on a BIOS function now does not jump to the include file, but rather to
+        the BIOS disassembly itself, so one can examine the function more closely 
+- vedi: added to popup menu option to insert generated data (sin, cos, circle)
+- doc: corrections and additions
+- vecci: grid display optimized, grid is only displayed, if at most width/2 lines would be displayed
+         otherwise grid is not displayed at all (since you would not be able to discern a grid anyway)
+- dissi: for convenience added a "reg" tab to dissi, this actually is the SAME as regi,
+         due to "compatabilty" the old regi window is still available as before
+- vecx: option for cartridges if a rom file is > 32k and NOT a bankswitch cart
+        (e.g. programmer had forgotten an "org" with RAM)
+- vecx: additional default search directory for overlays "overlay/homemade"
+- util: added "truncate" to the file utils
+
+BugFix:
+- config: rotation-setting was not properly saved 
+- corrected html file for BIOS, "<" and ">" were not saved html conform
+- ym: uncompressed now also outputs reg 13 if it is $ff
+- ym: streamed now also supports regs 11,12,13
+- config: if config is called and no vecxi window open, there was a nullpointer exception
+- vedi: linenumbers were not correct after inserting vectorlists
+- vedi: selecting a filename in the tree did not always switch the tab if file was already open
+- vecci: removed possible deadlock in "fitByte"
+- vedi: trying to do better with variable scanning,
+        still not performant enough - but might be more plausibly now, I should
+        redesign the whole thing!
+- vecx: corrected sometimes faulty overlay load from cartridge 
+
+19th of January 2017
+--------------------
 Version 1.11
 
 new: 
@@ -15,7 +62,7 @@ new:
          shift+double click is needed
 - vecxi: added configuration for "zeroing divider"
 - vecxi: added some thoughts about "zero retain"
-- vecxi: disabled emulation options I think are "wrongly" implemented (overflow and zero retain)
+- vecxi: disabled emulation options I think are "wrongly" implemented (overflow)
 - vedi: added scheduler, that updates var definitions every 30 seconds
 - vedi: enabled saveAll button
 - vedi+assi: added "visual breakpoints", click on line number in vedi toggles breakpoint for that line 
@@ -50,11 +97,11 @@ new:
 - raster: for trial added some support for vertical lines
 - raster: added mirror settings
 - raster: added "fixed" for sizes
-- dissi: add 2 complement to cli calculator
-- vedi: add 2 complement to cli calculator
+- dissi: added 2 complement to cli calculator
+- vedi: added 2 complement to cli calculator
 - vecxi shortcuts added (1->save, 2->load, b->toggle ringbuffer)
 - dissi: windows which are already opened, pop to front if corresponding button is pressed in dissi
-- Vedi: First VecFever support. Ejecting of USB devices for now only working under Win and Mac.
+- vedi: first VecFever support. Ejecting of USB devices for now only working under Win and Mac.
         I have no "native" linux system atm, and all experiments using emulators have not worked out well.
         Also I would love a way to eject the VecFever RAMDISK without a "sudo".  
         This is not a MAJOR hassel, Linux users must press one button more on the vectrex side - thats all!
@@ -88,7 +135,7 @@ BugFix:
 - vedi: removed a bug where the syntax colorer, could be initiated twice - that was potentialy using to much CPU power
 - vide: image cache is per default switched off, images might load slower, but the "standing" memory usage is reduced by
        about 200MB. Cache can be switched on in Application configuration though.
-       This should get rid of most OOM situations, noe even with starter open, the memory imprint is about 16MB.
+       This should get rid of most OOM situations, now even with starter open, the memory imprint is about 16MB.
 - vecxi: keyboard "O" for overlay switch, now also loads overlays if they weren't previously loaded
 
 27th of November 2016
@@ -133,14 +180,15 @@ BugFix:
 Version 1.07
 
 new: 
-- vecxi: added timing parameters for T1 and SHIFT - I am getting more and more unhappy with the current delay emulation features (see blog).
-         With the current emulation NOT in all circumstances (the more timing critical the more inaccurate) the results are like the real machine!
+- vecxi: added timing parameters for T1 and SHIFT - I am getting more and more unhappy with the current delay 
+         emulation features (see blog). With the current emulation NOT in all circumstances 
+		 (the more timing critical the more inaccurate) the results are like the real machine!
 - config: window is now scrollable
 - vecxi: HotKey Buttons "P" Pause/Unpause and "O" Overlay on/off
 - library: added/changed some documents
 
 BugFix:
-- vecci: removed <another> possible deadlock scenarion in vecci with the animation preview (Thread) - damn that is annoying 
+- vecci: removed <another> possible deadlock scenario in vecci with the animation preview (thread) - damn that is annoying 
 - vecci: fixed another vectorlist clone bug (vecci), that prevented (upon other things) to do a correct preview in the monitor
 - vecxi: "manual" setting of CB2 through the via control register is only possible if shift is not output to PB2, this
          was not correctly emulated before
@@ -154,11 +202,11 @@ new:
 - vedi: upon closing of an editor, the corresponding file in the tree gets unselected
 
 BugFix:
-- vecci: images converted to vector, had a bad "border", when only a partial image was used
+- vecci: images converted to vectors, had a bad "border", when only a partial image was used
 - vecci: HLR z = -z
 - vecci: fixed bug, where "join here" resulted in a "lost" vertex
 - ym: fix to playing AYFX with disabled noise (was choppy) 
-- ym: streaming detecting of voice usage was flawd (always using 0 as target)
+- ym: streaming detecting of voice usage was flawed (always using 0 as target)
 
 14th of October 2016
 --------------------
@@ -246,7 +294,7 @@ bugfixes:
 - vedi: possibly solved another deadlock with syntax highlighting
 - vedi: bug where line numbering was not updated after "pasting" 
 - sound: added log output to TinySound
-- vecx: checks that TinySound is initialized (befor null pointer exceptions were thrown)
+- vecx: checks that TinySound is initialized (before null pointer exceptions were thrown)
 
 7th of Septmber 2016
 --------------------

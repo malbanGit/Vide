@@ -5,10 +5,15 @@
  */
 package de.malban.vide.vedi;
 
+import de.malban.vide.vedi.panels.BinaryPanel;
+import de.malban.vide.vedi.panels.ImagePanel;
 import de.malban.gui.HotKey;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
+import static de.malban.gui.CSAMainFrame.invokeSystemFile;
+import de.malban.gui.TimingTriggerer;
+import de.malban.gui.TriggerCallback;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.JOptionPaneDialog;
 import de.malban.gui.dialogs.QuickHelpTopFrame;
@@ -19,8 +24,10 @@ import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.util.UtilityString;
 import de.malban.util.syntax.entities.ASM6809FileInfo;
 import de.malban.util.syntax.entities.EntityDefinition;
+import static de.malban.util.syntax.entities.EntityDefinition.SUBTYPE_FUNCTION_LABEL;
 import de.malban.util.syntax.entities.LabelSink;
 import de.malban.util.syntax.entities.MacroSink;
+import de.malban.util.syntax.entities.SyntaxDebugJPanel;
 import de.malban.vide.VideConfig;
 import de.malban.vide.assy.Asmj;
 import de.malban.vide.dissy.DASM6809;
@@ -36,6 +43,7 @@ import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import static de.malban.vide.vedi.DebugComment.COMMENT_TYPE_BREAK;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_LIST;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_MESSAGE_ERROR;
+import de.malban.vide.vedi.panels.LabelVisibilityConfigPanel;
 import de.malban.vide.vedi.project.FileProperties;
 import de.malban.vide.vedi.project.FilePropertiesPanel;
 import de.malban.vide.vedi.project.FilePropertiesPool;
@@ -65,7 +73,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.EventObject;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -82,11 +92,17 @@ import static javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN;
 import static javax.swing.JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.StyleConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
@@ -127,6 +143,66 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     DefaultListModel filesListModel;
     boolean loadSettings=true;
     BookmarkTableModel bookmarkModel = new BookmarkTableModel();
+    
+    class InventoryEntry
+    {
+        public String name="";
+        public int line = 0;
+        public int type = 0;
+        public InventoryEntry (String n, int l, int t)
+        {
+            name = n;
+            line = l;
+            type = t;
+        }
+    }
+    ArrayList<InventoryEntry> inventory = new ArrayList<InventoryEntry>();
+    public class InventoryTableModel extends AbstractTableModel
+    {
+        public int getRowCount()
+        {
+            return inventory.size();
+        }
+        public int getColumnCount()
+        {
+            return 3;
+        }
+        public Object getValueAt(int row, int col)
+        {
+            if (col == 0) return inventory.get(row).line;
+            if (col == 1) return inventory.get(row).name;
+            if (col == 2) return EntityDefinition.SUBTYPE_NAMES[inventory.get(row).type];
+            return "";
+        }
+        public String getColumnName(int column) {
+            if (column == 0) return "line";
+            if (column == 1) return "name";
+            if (column == 2) return "type";
+            return "";
+        }
+        public Class<?> getColumnClass(int col) {
+            if (col == 0) return Integer.class;
+            return String.class;
+        }
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+        public int getColWidth(int col)
+        {
+            if (col == 0) return 50;
+            if (col == 1) return 180;
+            if (col == 2) return 80;
+            return 10;
+        }
+        public Color getBackground(int col)
+        {
+            if (col == 0) return new Color(200,255,200,255);
+            return null; // default
+        }
+
+    }
+    InventoryTableModel inventoryModel = new InventoryTableModel();
+    TableRowSorter<TableModel> sorter;
     public class BookmarkTableModel extends AbstractTableModel
     {
         public int getRowCount()
@@ -425,9 +501,34 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         // delete that default java mapping, since we would like to use F6 for "debug"
         jSplitPane1.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) .put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), "none");        
         jSplitPane2.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) .put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), "none");        
+        jSplitPane3.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) .put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), "none");        
+        jSplitPane4.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) .put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), "none");        
+
+        
+        jTableInventory.setModel(inventoryModel);
+        
+        sorter = new TableRowSorter<TableModel>(jTableInventory.getModel());
+        jTableInventory.setRowSorter(sorter);
+        sorter.addRowSorterListener(new RowSorterListener()
+        {
+            public void sorterChanged(RowSorterEvent e)
+            {
+
+            }
+        }); 
+        sorter.setSortsOnUpdates(true);
+    
+        
+        
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>(2);
+        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+        sorter.setSortKeys(sortKeys);        
+        
         init();
         UIManager.addPropertyChangeListener(pListener);
         updateMyUI(); 
+        initScheduler();        
     }
     public void setTreeVisible(boolean v)
     {
@@ -440,9 +541,13 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     public void deinit()
     {
+        deinitScheduler();        
+
         settings.pos3 = jSplitPane3.getDividerLocation();
         settings.pos2 = jSplitPane2.getDividerLocation();
         settings.pos1 = jSplitPane1.getDividerLocation();
+        settings.inventoryPos = jSplitPane4.getDividerLocation();
+
         for (Component c: jTabbedPane1.getComponents())
         {
             if (c instanceof de.malban.vide.vedi.EditorPanel)
@@ -468,6 +573,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 jSplitPane3.setDividerLocation(settings.pos3);
                 jSplitPane2.setDividerLocation(settings.pos2);
                 jSplitPane1.setDividerLocation(settings.pos1);
+                jSplitPane4.setDividerLocation(settings.inventoryPos);
+                
                 if ((settings.currentProject != null) && (settings.currentProject.mName.trim().length()!=0))
                 {
                     loadProject(settings.currentProject.mClass, settings.currentProject.mName, settings.currentProject.mPath);
@@ -609,6 +716,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             jTableBreakpoints.getColumnModel().getColumn(i).setWidth(breakpointModel.getColWidth(i));  
         }
         jTableBreakpoints.setAutoResizeMode(AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        initInventory();
     }
 
     void setBookmark(int b)
@@ -629,10 +737,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     {
         Bookmark bm = settings.bookmarks.get(b);
         if (bm == null) return;
+        addHistory();
         printMessage("Bookmark go: " + bm.toString());
         
         addEditor(bm.fullFilename, true);
-//        String nameOnly = new File(bm.fullFilename).getName();
         
         tabExistsSwitch(bm.fullFilename);
         getSelectedEditor().jump(bm.lineNumber);
@@ -642,6 +750,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     void goBreakpoint(DebugComment dbc)
     {
         if (dbc == null) return;
+        addHistory();
         
         addEditor(dbc.file, true);
         
@@ -829,6 +938,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jSplitPane1 = new javax.swing.JSplitPane();
         jSplitPane2 = new javax.swing.JSplitPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jSplitPane4 = new javax.swing.JSplitPane();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
@@ -840,6 +950,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jScrollPane6 = new javax.swing.JScrollPane();
         jListProjects = new javax.swing.JList();
         jButtonNew7 = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jTableInventory = new javax.swing.JTable();
+        jButtonAdressBack = new javax.swing.JButton();
+        jButtonAdressForward = new javax.swing.JButton();
+        jButtonLabelConfig = new javax.swing.JButton();
         jSplitPane3 = new javax.swing.JSplitPane();
         jTabbedPane = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -888,6 +1004,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jButtonEjectVecForever = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jCheckBoxIgnoreCase1 = new javax.swing.JCheckBox();
+        jButtonDebugSyntax = new javax.swing.JButton();
 
         jPopupMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -1174,6 +1291,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
         jSplitPane2.setRightComponent(jTabbedPane1);
 
+        jSplitPane4.setDividerLocation(300);
+        jSplitPane4.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+
         jTabbedPane2.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(80, 200));
@@ -1225,7 +1345,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jButtonNew1)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -1235,7 +1355,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addComponent(jButtonNew1)
                 .addGap(2, 2, 2)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("last files", jPanel4);
@@ -1272,7 +1392,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jButtonNew7)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -1282,12 +1402,88 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addComponent(jButtonNew7)
                 .addGap(2, 2, 2)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("last projects", jPanel5);
 
-        jSplitPane2.setLeftComponent(jTabbedPane2);
+        jSplitPane4.setLeftComponent(jTabbedPane2);
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Navigation"));
+
+        jTableInventory.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableInventory.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTableInventoryMousePressed(evt);
+            }
+        });
+        jScrollPane9.setViewportView(jTableInventory);
+
+        jButtonAdressBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/resultset_previous.png"))); // NOI18N
+        jButtonAdressBack.setToolTipText("<html>\ngo to last visited adress\n<BR>\nAll visited adresses are on a stack.<BR>\nThe current displayed address is NOT on the stack.<BR>\nIf the current address is change by the user, and than goes<BR>\nback and forth, the \"new\" last address is visted, not the \"old\"<BR>\nlast address!<BR>\n\n</html>\n");
+        jButtonAdressBack.setEnabled(false);
+        jButtonAdressBack.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonAdressBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAdressBackActionPerformed(evt);
+            }
+        });
+
+        jButtonAdressForward.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/resultset_next.png"))); // NOI18N
+        jButtonAdressForward.setToolTipText("<html>\ngo to next visited adress\n<BR>\nAll visited adresses are on a stack.<BR>\nThe current displayed address is NOT on the stack.<BR>\nIf the current address is change by the user, and than goes<BR>\nback and forth, the \"new\" last address is visted, not the \"old\"<BR>\nlast address!<BR>\n\n</html>\n");
+        jButtonAdressForward.setEnabled(false);
+        jButtonAdressForward.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonAdressForward.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAdressForwardActionPerformed(evt);
+            }
+        });
+
+        jButtonLabelConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/cog_edit.png"))); // NOI18N
+        jButtonLabelConfig.setToolTipText("configure kind of listed labels");
+        jButtonLabelConfig.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonLabelConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLabelConfigActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jButtonAdressBack)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonAdressForward)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addComponent(jButtonLabelConfig))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonAdressForward, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonAdressBack, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonLabelConfig, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+        );
+
+        jSplitPane4.setRightComponent(jPanel7);
+
+        jSplitPane2.setLeftComponent(jSplitPane4);
 
         jSplitPane1.setTopComponent(jSplitPane2);
 
@@ -1340,11 +1536,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 898, Short.MAX_VALUE)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("Bookmarks", jPanel2);
@@ -1371,11 +1567,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 898, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("Breakpoints", jPanel6);
@@ -1690,6 +1886,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
 
+        jButtonDebugSyntax.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/zoom_out.png"))); // NOI18N
+        jButtonDebugSyntax.setToolTipText("debug");
+        jButtonDebugSyntax.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonDebugSyntax.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDebugSyntaxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1739,7 +1944,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonEjectVecForever)
                 .addGap(5, 5, 5)
-                .addComponent(jLabel10))
+                .addComponent(jLabel10)
+                .addGap(36, 36, 36)
+                .addComponent(jButtonDebugSyntax)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1750,6 +1958,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCheckBoxIgnoreCase1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonPaste)
                     .addComponent(jButtonSave)
                     .addComponent(jButtonCopy)
@@ -1772,9 +1982,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonCheckVec4Ever)
                     .addComponent(jButtonEjectVecForever)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBoxIgnoreCase1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
+                    .addComponent(jButtonDebugSyntax))
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -2041,6 +2250,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
         tabChanged(true);
+        initInventory();
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
     private void jButtonSearchNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchNextActionPerformed
@@ -2312,6 +2522,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (KeyboardListener.isShiftDown()) 
         {
             ASM6809FileInfo.resetDefinitions();
+            initInventory();
             return;
         }
         
@@ -2439,6 +2650,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         getSelectedEditor().stopColoring();
         getSelectedEditor().setText(text);
         getSelectedEditor().startColoring(settings.fontSize);
+        initInventory();
     }//GEN-LAST:event_jButtonPrettyPrintActionPerformed
 
     private void jMenuItemNewFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewFileActionPerformed
@@ -2626,7 +2838,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         {
             addBinaryDisplay(entry.pathAndName.toString(), false);
         }
-
+        initInventory();
         
         
     }//GEN-LAST:event_jTree1ValueChanged
@@ -2812,6 +3024,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         inProject = false;
         fillTree();
         closeAllEditors();
+        ASM6809FileInfo.clearDefinitions();
         settings.currentProject = null;
         currentProject = null;
     }//GEN-LAST:event_jMenuItemCloseActionPerformed
@@ -2821,6 +3034,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         inProject = false;
         fillTree();
         closeAllEditors();
+        ASM6809FileInfo.clearDefinitions();
         settings.currentProject = null;
         currentProject = null;
     }
@@ -2836,6 +3050,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             if ((settings.currentProject != null) && (settings.currentProject.mName.trim().length()!=0))
             {
                 closeAllEditors();
+                ASM6809FileInfo.clearDefinitions();
                 loadProject(settings.currentProject.mClass, settings.currentProject.mName, settings.currentProject.mPath);
             }
             // switch tab
@@ -3110,6 +3325,35 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (edi == null) return;
         edi.correctLine(line);
     }//GEN-LAST:event_jMenuItemRemoveBPActionPerformed
+
+    private void jButtonDebugSyntaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDebugSyntaxActionPerformed
+    SyntaxDebugJPanel.showSyntaxDebugPanelNoModal();
+
+    }//GEN-LAST:event_jButtonDebugSyntaxActionPerformed
+
+    private void jTableInventoryMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableInventoryMousePressed
+        JTable table =(JTable) evt.getSource();
+        Point p = evt.getPoint();
+        int row = table.rowAtPoint(p);
+        int col = table.columnAtPoint(p);
+        row = sorter.convertRowIndexToModel(row);
+        
+        if (evt.getClickCount() == 2) 
+            goFunction(row);
+    }//GEN-LAST:event_jTableInventoryMousePressed
+
+    private void jButtonAdressBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdressBackActionPerformed
+        historyBack();
+    }//GEN-LAST:event_jButtonAdressBackActionPerformed
+
+    private void jButtonAdressForwardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdressForwardActionPerformed
+        historyForward();
+    }//GEN-LAST:event_jButtonAdressForwardActionPerformed
+
+    private void jButtonLabelConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLabelConfigActionPerformed
+        LabelVisibilityConfigPanel.showEnterValueDialog(settings);
+        initInventory();
+    }//GEN-LAST:event_jButtonLabelConfigActionPerformed
     
     public void doQuickHelp(String word, String integer)
     {
@@ -3177,18 +3421,22 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAdressBack;
+    private javax.swing.JButton jButtonAdressForward;
     private javax.swing.JButton jButtonAssemble;
     private javax.swing.JButton jButtonCheckVec4Ever;
     private javax.swing.JButton jButtonClearMessages;
     private javax.swing.JButton jButtonCopy;
     private javax.swing.JButton jButtonCut;
     private javax.swing.JButton jButtonDebug;
+    private javax.swing.JButton jButtonDebugSyntax;
     private javax.swing.JButton jButtonEjectVecForever;
     private javax.swing.JButton jButtonFileSelect1;
     private javax.swing.JButton jButtonFontMinus;
     private javax.swing.JButton jButtonFontPlus;
     private javax.swing.JButton jButtonIgnoreCase;
     private javax.swing.JButton jButtonInjectBin;
+    private javax.swing.JButton jButtonLabelConfig;
     private javax.swing.JButton jButtonLoad;
     private javax.swing.JButton jButtonNew;
     private javax.swing.JButton jButtonNew1;
@@ -3249,6 +3497,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenuBP;
     private javax.swing.JPopupMenu jPopupMenuProjectProperties;
@@ -3261,18 +3510,21 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JSplitPane jSplitPane4;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTable jTableBookmarks;
     private javax.swing.JTable jTableBreakpoints;
+    private javax.swing.JTable jTableInventory;
     private javax.swing.JTextField jTextFieldCommand;
     private javax.swing.JTextField jTextFieldPath;
     private javax.swing.JTextField jTextFieldReplace;
@@ -3548,6 +3800,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     
     private void jumpToEdit(String filename, int lineNumber)
     {
+        jumpToEdit(filename,  lineNumber, true);
+    }
+    private void jumpToEdit(String filename, int lineNumber, boolean addToHistory)
+    {
+        if (addToHistory)
+            addHistory();
         EditorPanel edi = getEditor(filename, true);
         if (edi == null)
         {
@@ -4154,10 +4412,19 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             saveProject(); // since files 
         settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
         settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
+
         updateList();
+
+        p = Paths.get(project.getPath(), project.getProjectName());
+        File asmFile = new File(p.toString()+File.separator+ project.getMainFile());
+        ASM6809FileInfo.resetToProject(asmFile);
     }
     public void processWord(String word)
     {
+        if (checkBIOSFile(word))
+        {
+            return;
+        }
         EntityDefinition entity = LabelSink.knownGlobalVariables.get(word);
         if (entity == null)
         {
@@ -4747,12 +5014,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     boolean tabExistsSwitch(TreeEntry entry)
     {
-        String fname = entry.pathAndName.getFileName().toString();
+        String fname = entry.pathAndName./*getFileName().*/toString();
         return tabExistsSwitch(fname);
     }
+    // fname is the PATH to a file, relative or absolut
     boolean tabExistsSwitch(String fname)
     {
         int count = jTabbedPane1.getTabCount();
+        
         String fn1 = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(fname)).toLowerCase();
                 
         for (int i=0; i< count; i++)
@@ -5053,8 +5322,328 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         VectorJPanel.showModPanelNoModal(pathFull, this);
     }
+    private static HashMap<String, String> biosMap = null;
+    public static boolean checkBIOS(String word)
+    {
+        if (biosMap == null)
+        {
+            biosMap = new HashMap<String,String>();
+            biosMap.put("Abs_a_b", "F584");
+            biosMap.put("Abs_b", "F58B");
+            biosMap.put("Add_Score_a", "F85E");
+            biosMap.put("Add_Score_d", "F87C");
+            biosMap.put("Bitmask_a", "F57E");
+            biosMap.put("Check0Ref", "F34F");
+            biosMap.put("Clear_C8_RAM", "F542");
+            biosMap.put("Clear_Score", "F84F");
+            biosMap.put("Clear_Sound", "F272");
+            biosMap.put("Clear_x_256", "F545");
+            biosMap.put("Clear_x_b", "F53F");
+            biosMap.put("Clear_x_b_80", "F550");
+            biosMap.put("Clear_x_b_a", "F552");
+            biosMap.put("Clear_x_d", "F548");
+            biosMap.put("Cold_Start", "F000");
+            biosMap.put("Compare_Score", "F8C7");
+            biosMap.put("Dec_3_Counters", "F55A");
+            biosMap.put("Dec_6_Counters", "F55E");
+            biosMap.put("Dec_Counters", "F563");
+            biosMap.put("Delay_0", "F579");
+            biosMap.put("Delay_1", "F575");
+            biosMap.put("Delay_2", "F571");
+            biosMap.put("Delay_3", "F56D");
+            biosMap.put("Delay_b", "F57A");
+            biosMap.put("Delay_RTS", "F57D");
+            biosMap.put("Display_Option", "F835");
+            biosMap.put("Do_Sound", "F289");
+            biosMap.put("Do_Sound_x", "F28C");
+            biosMap.put("Dot_d", "F2C3");
+            biosMap.put("Dot_here", "F2C5");
+            biosMap.put("Dot_ix_b", "F2BE");
+            biosMap.put("Dot_ix", "F2C1");
+            biosMap.put("Dot_List", "F2D5");
+            biosMap.put("Dot_List_Reset", "F2DE");
+            biosMap.put("DP_to_C8", "F1AF");
+            biosMap.put("DP_to_D0", "F1AA");
+            biosMap.put("Draw_Grid_VL", "FF9F");
+            biosMap.put("Draw_Line_d", "F3DF");
+            biosMap.put("Draw_Pat_VL", "F437");
+            biosMap.put("Draw_Pat_VL_a", "F434");
+            biosMap.put("Draw_Pat_VL_d", "F439");
+            biosMap.put("Draw_VL", "F3DD");
+            biosMap.put("Draw_VL_a", "F3DA");
+            biosMap.put("Draw_VL_ab", "F3D8");
+            biosMap.put("Draw_VL_b", "F3D2");
+            biosMap.put("Draw_VL_mode", "F46E");
+            biosMap.put("Draw_VLc", "F3CE");
+            biosMap.put("Draw_VLcs", "F3D6");
+            biosMap.put("Draw_VLp", "F410");
+            biosMap.put("Draw_VLp_7F", "F408");
+            biosMap.put("Draw_VLp_b", "F40E");
+            biosMap.put("Draw_VLp_FF", "F404");
+            biosMap.put("Draw_VLp_scale", "F40C");
+            biosMap.put("Explosion_Snd", "F92E");
+            biosMap.put("Get_Rise_Idx", "F5D9");
+            biosMap.put("Get_Run_Idx", "F5DB");
+            biosMap.put("Init_Music", "F68D");
+            biosMap.put("Init_Music_Buf", "F533");
+            biosMap.put("Init_Music_chk", "F687");
+            biosMap.put("Init_Music_dft", "F692");
+            biosMap.put("Init_OS", "F18B");
+            biosMap.put("Init_OS_RAM", "F164");
+            biosMap.put("Init_VIA", "F14C");
+            biosMap.put("Intensity_1F", "F29D");
+            biosMap.put("Intensity_3F", "F2A1");
+            biosMap.put("Intensity_5F", "F2A5");
+            biosMap.put("Intensity_7F", "F2A9");
+            biosMap.put("Intensity_a", "F2AB");
+            biosMap.put("Joy_Analog", "F1F5");
+            biosMap.put("Joy_Digital", "F1F8");
+            biosMap.put("Mov_Draw_VL", "F3BC");
+            biosMap.put("Mov_Draw_VL_ab", "F3B7");
+            biosMap.put("Mov_Draw_VL_a", "F3B9");
+            biosMap.put("Mov_Draw_VL_d", "F3BE");
+            biosMap.put("Mov_Draw_VLc_a", "F3AD");
+            biosMap.put("Mov_Draw_VLc_b", "F3B1");
+            biosMap.put("Mov_Draw_VLcs", "F3B5");
+            biosMap.put("Move_Mem_a", "F683");
+            biosMap.put("Move_Mem_a_1", "F67F");
+            biosMap.put("Moveto_d", "F312");
+            biosMap.put("Moveto_d_7F", "F2FC");
+            biosMap.put("Moveto_ix", "F310");
+            biosMap.put("Moveto_ix_7F", "F30C");
+            biosMap.put("Moveto_ix_b", "F30E");
+            biosMap.put("Moveto_ix_FF", "F308");
+            biosMap.put("Moveto_x_7F", "F2F2");
+            biosMap.put("New_High_Score", "F8D8");
+            biosMap.put("Obj_Hit", "F8FF");
+            biosMap.put("Obj_Will_Hit", "F8F3");
+            biosMap.put("Obj_Will_Hit_u", "F8E5");
+            biosMap.put("Print_Str_d", "F37A");
+            biosMap.put("Print_List", "F38A");
+            biosMap.put("Print_List_chk", "F38C");
+            biosMap.put("Print_List_hw", "F385");
+            biosMap.put("Print_Ships_x", "F391");
+            biosMap.put("Print_Ships", "F393");
+            biosMap.put("Print_Str", "F495");
+            biosMap.put("Print_Str_hwyx", "F373");
+            biosMap.put("Print_Str_yx", "F378");
+            biosMap.put("Random", "F517");
+            biosMap.put("Random_3", "F511");
+            biosMap.put("Read_Btns_Mask", "F1B4");
+            biosMap.put("Read_Btns", "F1BA");
+            biosMap.put("Recalibrate", "F2E6");
+            biosMap.put("Reset_Pen", "F35B");
+            biosMap.put("Reset0Int", "F36B");
+            biosMap.put("Reset0Ref", "F354");
+            biosMap.put("Reset0Ref_D0", "F34A");
+            biosMap.put("Rise_Run_Angle", "F593");
+            biosMap.put("Rise_Run_Idx", "F5EF");
+            biosMap.put("Rise_Run_Len", "F603");
+            biosMap.put("Rise_Run_X", "F5FF");
+            biosMap.put("Rise_Run_Y", "F601");
+            biosMap.put("Rot_VL", "F616");
+            biosMap.put("Rot_VL_ab", "F610");
+            biosMap.put("Rot_VL_M_dft", "F62B");
+            biosMap.put("Rot_VL_Mode", "F61F");
+            biosMap.put("Select_Game", "F7A9");
+            biosMap.put("Set_Refresh", "F1A2");
+            biosMap.put("Sound_Byte", "F256");
+            biosMap.put("Sound_Byte_x", "F259");
+            biosMap.put("Sound_Byte_raw", "F25B");
+            biosMap.put("Sound_Bytes", "F27D");
+            biosMap.put("Sound_Bytes_x", "F284");
+            biosMap.put("Strip_Zeros", "F8B7");
+            biosMap.put("Wait_Recal", "F192");
+            biosMap.put("Warm_Start", "F06C");
+            biosMap.put("Xform_Rise", "F663");
+            biosMap.put("Xform_Rise_a", "F661");
+            biosMap.put("Xform_Run", "F65D");
+            biosMap.put("Xform_Run_a", "F65B");
+        }
+        String target = biosMap.get(word);
+        if (target != null)
+        {
+//            String path = "help"+File.separator+"bios.htm#"+target;
+//            QuickHelpTopFrame.showHelpHtmlFile(path);
+//            invokeSystemFile(pfile);
+            return false;
+        }
+        return false;
+    }
+    private static HashMap<String, Integer> biosFileMap = null;
+    public boolean checkBIOSFile(String word)
+    {
+        if (biosFileMap == null)
+        {
+            biosFileMap = new HashMap<String,Integer>();
+            biosFileMap.put("Abs_a_b", 2038);
+            biosFileMap.put("Abs_b", 2038);
+            biosFileMap.put("Add_Score_a", 2765);
+            biosFileMap.put("Add_Score_d", 2765);
+            biosFileMap.put("Bitmask_a", 2021);
+            biosFileMap.put("Check0Ref", 985);
+            biosFileMap.put("Clear_C8_RAM", 1889);
+            biosFileMap.put("Clear_Score", 2744);
+            biosFileMap.put("Clear_Sound", 594);
+            biosFileMap.put("Clear_x_256", 1901);
+            biosFileMap.put("Clear_x_b", 1873);
+            biosFileMap.put("Clear_x_b_80", 1920);
+            biosFileMap.put("Clear_x_b_a", 1920);
+            biosFileMap.put("Clear_x_d", 1901);
+            biosFileMap.put("Cold_Start", 29);
+            biosFileMap.put("Compare_Score", 2851);
+            biosFileMap.put("Dec_3_Counters", 1945);
+            biosFileMap.put("Dec_6_Counters", 1945);
+            biosFileMap.put("Dec_Counters", 1965);
+            biosFileMap.put("Delay_0", 1986);
+            biosFileMap.put("Delay_1", 1986);
+            biosFileMap.put("Delay_2", 1986);
+            biosFileMap.put("Delay_3", 1986);
+            biosFileMap.put("Delay_b", 1986);
+            biosFileMap.put("Delay_RTS", 1986);
+            biosFileMap.put("Display_Option", 2711);
+            biosFileMap.put("Do_Sound", 644);
+            biosFileMap.put("Do_Sound_x", 644);
+            biosFileMap.put("Dot_d", 732);
+            biosFileMap.put("Dot_here", 748);
+            biosFileMap.put("Dot_ix_b", 711);
+            biosFileMap.put("Dot_ix", 711);
+            biosFileMap.put("Dot_List", 767);
+            biosFileMap.put("Dot_List_Reset", 794);
+            biosFileMap.put("DP_to_C8", 365);
+            biosFileMap.put("DP_to_D0", 351);
+            biosFileMap.put("Draw_Grid_VL", 3307);
+            biosFileMap.put("Draw_Line_d", 1461);
+            biosFileMap.put("Draw_Pat_VL", 1623);
+            biosFileMap.put("Draw_Pat_VL_a", 1623);
+            biosFileMap.put("Draw_Pat_VL_d", 1623);
+            biosFileMap.put("Draw_VL", 1441);
+            biosFileMap.put("Draw_VL_a", 1421);
+            biosFileMap.put("Draw_VL_ab", 1404);
+            biosFileMap.put("Draw_VL_b", 1360);
+            biosFileMap.put("Draw_VL_mode", 1688);
+            biosFileMap.put("Draw_VLc", 1339);
+            biosFileMap.put("Draw_VLcs", 1380);
+            biosFileMap.put("Draw_VLp", 1581);
+            biosFileMap.put("Draw_VLp_7F", 1497);
+            biosFileMap.put("Draw_VLp_b", 1555);
+            biosFileMap.put("Draw_VLp_FF", 1497);
+            biosFileMap.put("Draw_VLp_scale", 1528);
+            biosFileMap.put("Explosion_Snd", 2995);
+            biosFileMap.put("Get_Rise_Idx", 2127);
+            biosFileMap.put("Get_Run_Idx", 2127);
+            biosFileMap.put("Init_Music", 2411);
+            biosFileMap.put("Init_Music_Buf", 1857);
+            biosFileMap.put("Init_Music_chk", 2411);
+            biosFileMap.put("Init_Music_dft", 2411);
+            biosFileMap.put("Init_OS", 292);
+            biosFileMap.put("Init_OS_RAM", 262);
+            biosFileMap.put("Init_VIA", 239);
+            biosFileMap.put("Intensity_1F", 671);
+            biosFileMap.put("Intensity_3F", 671);
+            biosFileMap.put("Intensity_5F", 671);
+            biosFileMap.put("Intensity_7F", 671);
+            biosFileMap.put("Intensity_a", 671);
+            biosFileMap.put("Joy_Analog", 466);
+            biosFileMap.put("Joy_Digital", 466);
+            biosFileMap.put("Mov_Draw_VL", 1304);
+            biosFileMap.put("Mov_Draw_VL_b", 1236);
+            biosFileMap.put("Mov_Draw_VL_ab", 1281);
+            biosFileMap.put("Mov_Draw_VL_a", 1281);
+            biosFileMap.put("Mov_Draw_VL_d", 1304);
+            biosFileMap.put("Mov_Draw_VLc_a", 1214);
+            biosFileMap.put("Mov_Draw_VLcs", 1260);
+            biosFileMap.put("Move_Mem_a", 2385);
+            biosFileMap.put("Move_Mem_a_1", 2385);
+            biosFileMap.put("Moveto_d", 926);
+            biosFileMap.put("Moveto_d_7F", 865);
+            biosFileMap.put("Moveto_ix", 909);
+            biosFileMap.put("Moveto_ix_7F", 885);
+            biosFileMap.put("Moveto_ix_b", 885);
+            biosFileMap.put("Moveto_ix_FF", 885);
+            biosFileMap.put("Moveto_x_7F", 840);
+            biosFileMap.put("New_High_Score", 2882);
+            biosFileMap.put("Obj_Hit", 2945);
+            biosFileMap.put("Obj_Will_Hit", 2905);
+            biosFileMap.put("Obj_Will_Hit_u", 2905);
+            biosFileMap.put("Print_Str_d", 1094);
+            biosFileMap.put("Print_List", 1145);
+            biosFileMap.put("Print_List_chk", 1145);
+            biosFileMap.put("Print_List_hw", 1121);
+            biosFileMap.put("Print_Ships_x", 1177);
+            biosFileMap.put("Print_Ships", 1177);
+            biosFileMap.put("Print_Str", 1739);
+            biosFileMap.put("Print_Str_hwyx", 1054);
+            biosFileMap.put("Print_Str_yx", 1075);
+            biosFileMap.put("Random", 1822);
+            biosFileMap.put("Random_3", 1822);
+            biosFileMap.put("Read_Btns_Mask", 380);
+            biosFileMap.put("Read_Btns", 380);
+            biosFileMap.put("Recalibrate", 824);
+            biosFileMap.put("Reset_Pen", 1018);
+            biosFileMap.put("Reset0Int", 1037);
+            biosFileMap.put("Reset0Ref", 1001);
+            biosFileMap.put("Reset0Ref_D0", 971);
+            biosFileMap.put("Rise_Run_Angle", 2067);
+            biosFileMap.put("Rise_Run_Idx", 2173);
+            biosFileMap.put("Rise_Run_Len", 2197);
+            biosFileMap.put("Rise_Run_X", 2197);
+            biosFileMap.put("Rise_Run_Y", 2197);
+            biosFileMap.put("Rot_VL", 2235);
+            biosFileMap.put("Rot_VL_ab", 2235);
+            biosFileMap.put("Rot_VL_M_dft", 2269);
+            biosFileMap.put("Rot_VL_Mode", 2269);
+            biosFileMap.put("Select_Game", 2600);
+            biosFileMap.put("Set_Refresh", 331);
+            biosFileMap.put("Sound_Byte", 558);
+            biosFileMap.put("Sound_Byte_x", 558);
+            biosFileMap.put("Sound_Byte_raw", 558);
+            biosFileMap.put("Sound_Bytes", 612);
+            biosFileMap.put("Sound_Bytes_x", 612);
+            biosFileMap.put("Strip_Zeros", 2830);
+            biosFileMap.put("Wait_Recal", 309);
+            biosFileMap.put("Warm_Start", 99);
+            biosFileMap.put("Xform_Rise", 2349);
+            biosFileMap.put("Xform_Rise_a", 2349);
+            biosFileMap.put("Xform_Run", 2328);
+            biosFileMap.put("Xform_Run_a", 2328);
+        }
+        Integer target = biosFileMap.get(word);
+        if (target != null)
+        {
+            String to = "tmp"+File.separator+"BIOS.ASM";
+            File biosFile = new File(to);
+            if (!biosFile.exists())
+            {
+                String from = "codelib"+File.separator+"Originals"+File.separator+"BIOS - Bruce Tomlin"+File.separator+"BIOS.ASM";
+                de.malban.util.UtilityFiles.copyOneFile(from, to);
+            }
+            try
+            {
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                    public void run()
+                    {
+                        jumpToEdit(to, target);
+                    }
+                });                    
+            }
+            catch (Throwable e)
+            {
+
+            }        
+        return true;
+        }
+        return false;
+    }
+
+    
     public static boolean displayHelp(String h)
     {
+//        if (checkBIOS(h))
+//        {
+//            return true;
+//        }
         h = h.toLowerCase();
         String path = "help"+File.separator;
         
@@ -5293,5 +5882,195 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         }
     }
+
+    boolean invUpdating = false;
+    void initInventory()
+    {
+        if (invUpdating) return;
+        invUpdating = true;
+        
+        inventory.clear();
+        EditorPanel edi = getSelectedEditor();
+        if (edi != null)
+        {
+            String filename = edi.getFilename();
+            
+//        public static HashMap<String, EntityDefinition> knownGlobalVariables = new HashMap<String, EntityDefinition>();
+            HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) LabelSink.knownGlobalVariables.clone();
+            Set entries = clonnie.entrySet();
+            Iterator it = entries.iterator();
+            while (it.hasNext())
+            {
+                Map.Entry entry = (Map.Entry) it.next();
+                EntityDefinition entity = (EntityDefinition) entry.getValue();
+                if (!entity.getFile().toString().equals(filename)) continue;
+                boolean add = false;
+                
+                add = add || ((settings.showEQULabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_EQU_LABEL));
+                add = add || ((settings.showEqualLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_DEFINED_LABEL));
+                add = add || ((settings.showSetLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_SET_LABEL));
+                add = add || ((settings.showStructLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_STRUCT_LABEL));
+                add = add || ((settings.showInStructLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_INSTRUCT_LABEL));
+                add = add || ((settings.showLineLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_LINE_LABEL));
+                add = add || ((settings.showDataLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_DATA_LABEL));
+                add = add || ((settings.showMacroLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_INNER_MACRO_LABEL));
+                add = add || ((settings.showFunctionLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_FUNCTION_LABEL));
+                add = add || ((settings.showUserLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_VERIFIED_FUNCTION_LABEL));
+                
+                if (add)
+                    inventory.add(new InventoryEntry(entity.getName(), entity.getLineNumber(), entity.getSubType()));
+            }
+        }
+        invUpdating = false;
+        
+        List list = sorter.getSortKeys();
+        
+        jTableInventory.tableChanged(null);
+        sorter.setSortKeys(list);
+        sorter.sort();        
+        jTableInventory.setAutoResizeMode(AUTO_RESIZE_LAST_COLUMN);
+        for (int i=0; i< inventoryModel.getColumnCount(); i++)
+        {
+            jTableInventory.getColumnModel().getColumn(i).setPreferredWidth(inventoryModel.getColWidth(i));                
+            jTableInventory.getColumnModel().getColumn(i).setWidth(inventoryModel.getColWidth(i));  
+        }
+        jTableInventory.setAutoResizeMode(AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+    }
+    void goFunction(int row)
+    {
+        if (row <0) return;
+        if (row >= inventory.size()) return;
+        InventoryEntry inv = inventory.get(row);
+        EditorPanel edi = getSelectedEditor();
+        if (edi == null) return;
+        addHistory();
+        edi.goLine(inv.line);
+        updateTables();
+    }
+    
+    private Object syncObject = new Object();
+    private TimingTriggerer timer = null; 
+    private TriggerCallback timerWorker = null;
+    private void deinitScheduler()
+    {
+        synchronized (syncObject)
+        {
+            if (timer != null)
+            {
+                timer.removeTrigger(timerWorker);
+                timerWorker = null;
+                timer = null;
+            }
+        }
+    }
+
+    private void initScheduler()
+    {
+        if (timer == null)
+        {
+            timer = TimingTriggerer.getPrivatTimer();
+            timer.setResolution(10000); // 10 seconds
+            
+            timerWorker = new TriggerCallback()
+            {
+                @Override
+                public void doIt(int state, Object o)
+                {
+                    updateDefinitions();
+                    synchronized (syncObject)
+                    {
+                        if (timer != null)
+                        {
+                            if (timerWorker != null)
+                                timer.addTrigger(timerWorker, 10000, 0, null); // every 10 seconds
+                        }
+                    }
+                }
+            };
+            timer.addTrigger(timerWorker, 10000, 0, null);            
+        }
+    }
+    private void updateDefinitions()
+    {
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                EditorPanel edi = getSelectedEditor();
+                if (edi != null)
+                {
+                    ASM6809FileInfo.resetDefinitions(edi.getFilename(), edi.getText());
+                }
+                initInventory();
+            }
+        });                    
+    }   
+    
+    class HistoryEntry
+    {
+        public int line;
+        public String file;
+        public HistoryEntry(String f, int l)
+        {
+            line = l;
+            file = f;
+        }
+    }
+    ArrayList <HistoryEntry> history = new ArrayList<HistoryEntry>();
+    int historyPosition = 0;
+    // remembers the current active edited file
+    // and position and adds it to a history buffer
+    private void addHistory()
+    {
+        EditorPanel edi = getSelectedEditor();
+        if (edi == null) return;
+        while (historyPosition<history.size())
+        {
+            history.remove(history.size()-1);
+        }
+        
+        history.add(new HistoryEntry(edi.getFilename(), edi.getCurrentLineNumber()+1));
+        historyPosition = history.size();
+        jButtonAdressBack.setEnabled(historyPosition>0);
+        jButtonAdressForward.setEnabled(historyPosition<history.size());
+    }
+    private void historyBack()
+    {
+        if (historyPosition > 0)
+        {
+            // if we go the first time back - add the current position
+            // so we can go forward again
+            if (historyPosition == history.size())
+            {
+                addHistory();
+                historyPosition--;
+            }
+            historyPosition--;
+            HistoryEntry h = history.get(historyPosition);
+            jumpToEdit(h.file, h.line, false);
+        }
+        jButtonAdressBack.setEnabled(historyPosition>0);
+        jButtonAdressForward.setEnabled(historyPosition<history.size());
+    }                                                 
+    private void historyForward()
+    {
+        if (historyPosition < history.size()-1)
+        {
+            historyPosition++;
+            HistoryEntry h = history.get(historyPosition);
+            jumpToEdit(h.file, h.line, false);
+        }
+
+        // if we are in the front and came from the back - delete the current front
+        if (historyPosition == history.size()-1)
+        {
+//            historyPosition--;
+            history.remove(history.size()-1);
+        }
+        
+        
+        jButtonAdressBack.setEnabled(historyPosition>0);
+        jButtonAdressForward.setEnabled(historyPosition<history.size());
+    }                                                 
 
 }

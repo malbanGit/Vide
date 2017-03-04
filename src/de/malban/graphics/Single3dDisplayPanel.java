@@ -87,11 +87,15 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
     }
     public void setDelay(int d)
     {
+        boolean oldRepaint = noRepaint;
+        noRepaint = true;
         boolean iv = isVisible();
         setVisible(false);        
         animDelay=d;
         if (iv)
             setVisible(true);        
+        noRepaint = oldRepaint;
+        repaint();
     }
 
     /** This method is called from within the constructor to

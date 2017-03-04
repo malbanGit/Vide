@@ -1,6 +1,9 @@
 package de.malban.util;
 
 
+import de.malban.config.Configuration;
+import de.malban.config.Logable;
+import static de.malban.gui.panels.LogPanel.WARN;
 import java.util.Vector;
 import java.text.*;
 import java.io.*;
@@ -197,6 +200,7 @@ public class UtilityString
             return name;
     }
 
+    // non SPACE white spaces
     public static String replaceWhiteSpaces(String in , String with)
     {
         String out = in;
@@ -532,8 +536,16 @@ public class UtilityString
 
         } catch (IOException e)
         {
+            Logable log = Configuration.getConfiguration().getLogEntity();
+            if (log != null)
+            {
+                log.addLog(e, WARN);
+            }
+            else
+            {
             System.err.println("Error reading file.");
-            e.printStackTrace();
+                e.printStackTrace();
+            }
         }
         return strings;
     }
@@ -557,10 +569,19 @@ public class UtilityString
             } while (zeile != null);
             reader.close();
 
-        } catch (IOException e)
+        } 
+        catch (IOException e)
         {
-            System.err.println("Error reading file: "+file.getAbsolutePath());
-            e.printStackTrace();
+            Logable log = Configuration.getConfiguration().getLogEntity();
+            if (log != null)
+            {
+                log.addLog(e, WARN);
+            }
+            else
+            {
+                System.err.println("Error reading file: "+file.getAbsolutePath());
+                e.printStackTrace();
+            }
         }
         return ret.toString();
     }
@@ -577,8 +598,16 @@ public class UtilityString
 
         } catch (IOException e)
         {
-            System.err.println("Error writing file.");
-            e.printStackTrace();
+            Logable log = Configuration.getConfiguration().getLogEntity();
+            if (log != null)
+            {
+                log.addLog(e, WARN);
+            }
+            else
+            {
+                System.err.println("Error writing file.");
+                e.printStackTrace();
+            }
             return false;
         }
         return true;
@@ -601,8 +630,16 @@ public class UtilityString
 
         } catch (IOException e)
         {
-            System.err.println("Error writing file.");
-            e.printStackTrace();
+            Logable log = Configuration.getConfiguration().getLogEntity();
+            if (log != null)
+            {
+                log.addLog(e, WARN);
+            }
+            else
+            {
+                System.err.println("Error writing file.");
+                e.printStackTrace();
+            }
             return false;
         }
         return true;

@@ -45,6 +45,7 @@ public class HighlightedDocument extends DefaultStyledDocument
 	public static final Object GRAYED_OUT_STYLE = new Object();
 	public static final Object M6809_STYLE = M6809Lexer.class;
 
+        
         ASM6809FileInfo fileInfo = null;
         String knownFilename = null;
 	/**

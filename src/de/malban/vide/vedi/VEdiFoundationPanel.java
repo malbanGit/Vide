@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vedi;
 
+import de.malban.vide.vedi.panels.BinaryPanel;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
@@ -225,7 +226,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
                 });                    
             }
         });
-        initScheduler();
+//        initScheduler();
     }
 
     /**
@@ -387,6 +388,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
             allSinceLastFlush = new StringBuffer();
         }
     }    
+    /*
     private static TimingTriggerer timer = null; 
     private static TriggerCallback timerWorker = null;
     private static void initScheduler()
@@ -418,4 +420,5 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
             }
         });                    
     }
+    */
 }

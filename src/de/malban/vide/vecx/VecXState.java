@@ -74,6 +74,7 @@ public class VecXState implements Serializable
     
     /* the sound chip registers */
      public int  snd_select;
+     public long intensityDrift;
 
     /* the via 6522 registers */
      public int via_ora;
@@ -202,6 +203,7 @@ public class VecXState implements Serializable
         to.lastZero = from.lastZero;
         to.zeroRetainX = from.zeroRetainX;
         to.zeroRetainY = from.zeroRetainY;
+        to.intensityDrift = from.intensityDrift;
         
         
         to.lastShift = from.lastShift;

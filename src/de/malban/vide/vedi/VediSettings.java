@@ -20,9 +20,21 @@ public class VediSettings implements Serializable
     public int pos1 = 0;  // upper vertical split
     public int pos2 = 0;  // middle split
     public int pos3 = 0;  // lower vertical split
+    public int inventoryPos = 0;
     public String vec32PortName = "";
     public String vec32UsbMount = "";
 
+    public boolean showEQULabel = false;
+    public boolean showEqualLabel = false;
+    public boolean showSetLabel = false;
+    public boolean showStructLabel = false;
+    public boolean showInStructLabel = false;
+    public boolean showLineLabel = false;
+    public boolean showDataLabel = false;
+    public boolean showMacroLabel = false;
+    public boolean showFunctionLabel = true;
+    public boolean showUserLabel = true;
+    
     public String v4eVolumeName = "";
     public boolean v4eEnabled = false;
 

@@ -8490,11 +8490,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
     void fitByteRangeCollection()
     {
         double max = currentAnimation.getMaxAbsLenValue();
-
         // a current list
 //        centerVectorList();
         GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
 
+ if (max==0) max = vl.getMaxAbsLenValue();
+ if (max == 0) max  =1;
+        
         if (jCheckBoxFraktion1.isSelected())
         {
             double mul = 127.0/max;

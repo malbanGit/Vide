@@ -348,7 +348,7 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -378,15 +378,20 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jCheckBox7" alignment="0" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox6" alignment="0" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox5" alignment="0" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox4" alignment="0" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox3" alignment="0" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox10" alignment="0" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox9" alignment="0" max="-2" attributes="0"/>
-                                          <Component id="jCheckBox16" alignment="0" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jCheckBox7" alignment="0" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox6" alignment="0" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox5" alignment="0" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox4" alignment="0" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox3" alignment="0" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox10" alignment="0" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox9" alignment="0" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox16" alignment="0" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" attributes="0">
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="jCheckBox19" alignment="0" max="-2" attributes="0"/>
                                                   <Component id="jCheckBox17" alignment="0" max="-2" attributes="0"/>
@@ -396,12 +401,13 @@
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="jCheckBox18" alignment="0" max="-2" attributes="0"/>
                                                   <Component id="jCheckBoxXmas" alignment="0" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBox21" alignment="0" pref="99" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="70" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -435,7 +441,10 @@
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="jCheckBox7" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jCheckBox8" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jCheckBox8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCheckBox21" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jCheckBox17" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -671,6 +680,14 @@
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBox20ActionPerformed"/>
                       </Events>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="jCheckBox21">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="32k forced"/>
+                        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                          <Insets value="[0, 2, 1, 0]"/>
+                        </Property>
+                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>

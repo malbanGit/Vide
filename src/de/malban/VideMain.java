@@ -13,6 +13,7 @@ import de.malban.gui.panels.LogPanel;
 import de.malban.input.SystemController;
 import de.malban.lwgl.LWJGLSupport;
 import de.malban.sound.tinysound.TinySound;
+import de.malban.vide.dissy.DASM6809;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -39,7 +40,36 @@ public class VideMain {
     /**
      * @param args the command line arguments
      */
+/*    
+    public static int count(String toCount, String whatCount)
+    {
+        int count = 0;
+        
+        for (int i=0;i<toCount.length(); i++)
+        {
+            if (toCount.substring(i).startsWith(whatCount))
+                count ++;
+        }
+        
+        return count;
+    }
+    */
     public static void main(String[] args) {
+/*        
+        int count = 0;
+        for (int i=0; i<= 0xffff; i++)
+        {
+            String b = DASM6809.printbinary16(i);
+            String[] s = b.split("1");
+            if (count(b,"1") == 8)
+            {
+                System.out.println(b);
+                count++;
+            }
+        }
+                System.out.println(""+count);
+*/        
+        
         
         if (LWJGL_ENABLE)
         {

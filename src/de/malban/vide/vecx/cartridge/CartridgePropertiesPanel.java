@@ -368,8 +368,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jCheckBox19.setSelected((flag&FLAG_LOGO)!=0);
         jCheckBoxXmas.setSelected((flag&FLAG_XMAS)!=0);
         jCheckBox20.setSelected((flag&FLAG_DS2431)!=0);
+        jCheckBox21.setSelected((flag&FLAG_32K_ONLY)!=0);
         
-
         jComboBoxImager.setSelectedIndex(-1);
         if ((flag&FLAG_IMAGER) != 0)
         {
@@ -433,9 +433,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jButtonFileSelect15.setEnabled(jCheckBox6.isSelected());
         jTextFieldPath12.setEnabled(jCheckBox6.isSelected());
         jTextFieldPath12.setText(mCartridgeProperties.mextremeVecFileImage);
-        
-
-
+     
 // direct edit thru model	mCartridgeProperties.mFullFilename=new Vector<String>();
         updateTable();
 	//mCartridgeProperties.mOther="";
@@ -529,9 +527,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         if (jCheckBox19.isSelected()) flag+=FLAG_LOGO;
         if (jCheckBoxXmas.isSelected()) flag+=FLAG_XMAS;
         if (jCheckBox20.isSelected()) flag+=FLAG_DS2431;
-                
-        
-        
+        if (jCheckBox21.isSelected()) flag+=FLAG_32K_ONLY;
 	mCartridgeProperties.mTypeFlags=flag;
         
 // direct edit thru model	mCartridgeProperties.mFullFilename=new Vector<String>();
@@ -590,6 +586,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         singleImagePanel3 = new de.malban.graphics.SingleImagePanel();
         jCheckBoxXmas = new javax.swing.JCheckBox();
         jCheckBox20 = new javax.swing.JCheckBox();
+        jCheckBox21 = new javax.swing.JCheckBox();
         jButtonFileSelect1 = new javax.swing.JButton();
         jTextFieldPath = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -920,12 +917,15 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
 
+        jCheckBox21.setText("32k forced");
+        jCheckBox21.setMargin(new java.awt.Insets(0, 2, 1, 0));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -948,14 +948,17 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox7)
-                            .addComponent(jCheckBox6)
-                            .addComponent(jCheckBox5)
-                            .addComponent(jCheckBox4)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox10)
-                            .addComponent(jCheckBox9)
-                            .addComponent(jCheckBox16)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBox7)
+                                    .addComponent(jCheckBox6)
+                                    .addComponent(jCheckBox5)
+                                    .addComponent(jCheckBox4)
+                                    .addComponent(jCheckBox3)
+                                    .addComponent(jCheckBox10)
+                                    .addComponent(jCheckBox9)
+                                    .addComponent(jCheckBox16))
+                                .addGap(17, 17, 17))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jCheckBox19)
@@ -964,8 +967,9 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                                 .addGap(4, 4, 4)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jCheckBox18)
-                                    .addComponent(jCheckBoxXmas))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jCheckBoxXmas)
+                                    .addComponent(jCheckBox21, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))))))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -995,7 +999,9 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 .addGap(0, 0, 0)
                 .addComponent(jCheckBox7)
                 .addGap(0, 0, 0)
-                .addComponent(jCheckBox8)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox8)
+                    .addComponent(jCheckBox21))
                 .addGap(0, 0, 0)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox17)
@@ -2217,6 +2223,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     private javax.swing.JCheckBox jCheckBox19;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox20;
+    private javax.swing.JCheckBox jCheckBox21;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;

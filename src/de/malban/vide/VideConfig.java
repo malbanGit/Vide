@@ -71,13 +71,14 @@ public class VideConfig  implements Serializable{
     public int generation = 3;  // 1-3
     public boolean efficiencyEnabled = true;
     public double efficiency = 3.0;
-    public double noisefactor = 1;
-    public boolean noise = false;
+    public double noisefactor = 3.8;
+    public boolean noise = true;
     public int masterVolume = 255;
     public int psgVolume = 180;
     public  boolean viaShift9BugEnabled = false;
-    public static double scaleEfficiency = 4.1;
-    public static int rotate = 0;
+    public static double scaleEfficiency = 1.0;
+    public int rotate = 0; 
+    public boolean ramAccessAllowed = false;
 
     public double overflowFactor = 150;
     public boolean emulateIntegrationOverflow = false;
@@ -313,6 +314,7 @@ public class VideConfig  implements Serializable{
         to.zeroRetainY=from.zeroRetainY;
         to.zero_divider=from.zero_divider;
         to.rotate=from.rotate;
+        to.ramAccessAllowed=from.ramAccessAllowed;
         
         
         

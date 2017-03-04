@@ -286,6 +286,33 @@ public class UtilityFiles
         return file.length();
     }
     
+    public static boolean truncateFile(String filename, int upTo)
+    {
+        File file = new File(filename);
+        long len = file.length();
+        if (len<=upTo) return false;
+
+        try
+        {
+            Path path = Paths.get(filename);
+            byte[] data = Files.readAllBytes(path);            
+            FileOutputStream output = new FileOutputStream(filename+".trun", true);
+            try 
+            {
+               output.write(data,0,upTo);
+            } 
+            finally 
+            {
+               output.close();
+            }        
+        }
+        catch (Throwable e)
+        {
+            return false;
+        }
+        
+        return true;
+    }
     public static boolean padFile(String filename, byte fillerByte, int upTo)
     {
         File file = new File(filename);

@@ -28,11 +28,14 @@ import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.cartridge.CartridgeEvent;
 import de.malban.vide.vecx.cartridge.CartridgeListener;
 import de.malban.vide.vecx.CodeScanMemory;
+import de.malban.vide.vecx.E6809;
 import de.malban.vide.vecx.Updatable;
+import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.VecXPanel;
 import static de.malban.vide.vecx.VecXStatics.EMU_EXIT_BREAKPOINT_BREAK;
 import static de.malban.vide.vecx.VecXStatics.EMU_EXIT_BREAKPOINT_CONTINUE;
 import de.malban.vide.vecx.panels.MemoryDumpPanel;
+import static de.malban.vide.vecx.panels.RegisterJPanel.printbinary;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
 import java.awt.Component;
@@ -182,6 +185,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
         }
     }
     
+    
     DissiSwitchData currentDissi = new DissiSwitchData();
     public DissiSwitchData getData() {return currentDissi;}
     
@@ -294,6 +298,9 @@ public class DissiPanel extends javax.swing.JPanel  implements
         correctTableWatch();
         UIManager.addPropertyChangeListener(pListener);
         updateMyUI(); 
+        
+        jTable2.setTableHeader(null);
+        jTable2.setModel(new CallStackTableModel());
     }
     void reset()
     {
@@ -399,9 +406,35 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jScrollPane3 = new javax.swing.JScrollPane();
         jEditorPane1 = new javax.swing.JEditorPane();
         jTextFieldCommand = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jToggleButton3 = new javax.swing.JToggleButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jCheckBox3 = new javax.swing.JCheckBox();
 
         jPopupMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1140,8 +1173,6 @@ public class DissiPanel extends javax.swing.JPanel  implements
             }
         });
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Watches"));
-
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1160,16 +1191,263 @@ public class DissiPanel extends javax.swing.JPanel  implements
         });
         jScrollPane1.setViewportView(jTable1);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
+        jTabbedPane1.addTab("Watches", jScrollPane1);
+
+        jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcam.png"))); // NOI18N
+        jToggleButton3.setToolTipText("Toggle Update (always or only while debug)");
+        jToggleButton3.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jToggleButton3.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcamSelect.png"))); // NOI18N
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel5.setText("A");
+
+        jLabel11.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel11.setText("$ff");
+
+        jLabel12.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel12.setText("$ff");
+
+        jLabel6.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel6.setText("B");
+
+        jLabel9.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel9.setText("DP");
+
+        jLabel18.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel18.setText("$ff");
+
+        jLabel10.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel10.setText("CC");
+
+        jLabel19.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel19.setText("%0000 0000");
+        jLabel19.setToolTipText("<html>\n<PRE>\nEntire flag (Bit 7, if set RTI~s=F)\nFIRQ/IRQ interrupt mask (Bit 6/4)  \nHalf carry (Bit 5)                 \nNegative (Bit 3)                   \nZero (Bit 2)                       \nOverflow (Bit 1)                   \nCarry/borrow (Bit 0)\n</PRE>\n</html>");
+
+        jLabel21.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel21.setText(" EFHI NZVC");
+        jLabel21.setToolTipText("<html>\n<PRE>\nEntire flag (Bit 7, if set RTI~s=F)\nFIRQ/IRQ interrupt mask (Bit 6/4)  \nHalf carry (Bit 5)                 \nNegative (Bit 3)                   \nZero (Bit 2)                       \nOverflow (Bit 1)                   \nCarry/borrow (Bit 0)\n</PRE>\n</html>");
+
+        jLabel15.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel15.setText("$ffff");
+
+        jLabel7.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel7.setText("D");
+
+        jLabel8.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel8.setText("X");
+
+        jLabel14.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel14.setText("$ffff");
+        jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel14MousePressed(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel13.setText("Y");
+
+        jLabel16.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel16.setText("$ffff");
+        jLabel16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel16MousePressed(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel17.setText("U");
+
+        jLabel20.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel20.setText("$ffff");
+        jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel20MousePressed(evt);
+            }
+        });
+
+        jLabel22.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel22.setText("PC");
+
+        jLabel23.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel23.setText("$ffff");
+        jLabel23.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel23MousePressed(evt);
+            }
+        });
+
+        jLabel24.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel24.setText("[00]");
+        jLabel24.setToolTipText("bank number");
+
+        jLabel25.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel25.setText("S");
+
+        jLabel26.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel26.setText("$ffff");
+        jLabel26.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jLabel26MousePressed(evt);
+            }
+        });
+
+        jScrollPane4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jTable2.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Adr"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTable2MousePressed(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jTable2);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5))
+                                .addGap(5, 5, 5)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel12)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel10))
+                                .addGap(5, 5, 5)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel18)
+                                    .addComponent(jLabel19)
+                                    .addComponent(jLabel21))))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel17)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel22))
+                                .addGap(5, 5, 5)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel20)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel23)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel7))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel26)))
+                .addGap(63, 63, 63))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel25)
+                        .addComponent(jLabel26)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(11, 11, 11))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel11))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel12))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel18))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel19))
+                                .addGap(2, 2, 2)
+                                .addComponent(jLabel21))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel8)
+                                            .addComponent(jLabel14)))
+                                    .addComponent(jLabel15))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel16))
+                                .addGap(4, 4, 4)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel17)
+                                    .addComponent(jLabel20))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel22)
+                                    .addComponent(jLabel23)
+                                    .addComponent(jLabel24))))
+                        .addContainerGap(16, Short.MAX_VALUE))))
         );
+
+        jTabbedPane1.addTab("Regs", jPanel2);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -1177,21 +1455,23 @@ public class DissiPanel extends javax.swing.JPanel  implements
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
                     .addComponent(jTextFieldCommand))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(392, 392, 392))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGap(0, 796, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                        .addGap(2, 2, 2)
-                        .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                .addGap(2, 2, 2)
+                .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
         );
 
         jSplitPane1.setBottomComponent(jPanel3);
@@ -2273,6 +2553,109 @@ public class DissiPanel extends javax.swing.JPanel  implements
         if (currentDissi.vecxPanel==null) return;
     }//GEN-LAST:event_jTable1MousePressed
 
+    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
+        updateRegEnabled = jToggleButton3.isSelected();
+    }//GEN-LAST:event_jToggleButton3ActionPerformed
+
+    private void jLabel14MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MousePressed
+        DissiPanel dissi = this;
+        if (dissi.currentDissi == null) return;
+        VecXPanel vecxPanel = dissi.currentDissi.vecxPanel; // needed for vectrex memory access
+        if (vecxPanel == null) return;
+        E6809 e6809 = vecxPanel.get6809();
+        if (e6809 == null) return;
+
+        if (vecxPanel==null) return;
+        if (evt.getClickCount() == 2)
+        if (KeyboardListener.isShiftDown())
+        vecxPanel.setDumpToAddress(reg_x);
+        else
+        if (dissi != null) dissi.goAddress(reg_x, true, true, true);
+    }//GEN-LAST:event_jLabel14MousePressed
+
+    private void jLabel16MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MousePressed
+        DissiPanel dissi = this;
+        if (dissi.currentDissi == null) return;
+        VecXPanel vecxPanel = dissi.currentDissi.vecxPanel; // needed for vectrex memory access
+        if (vecxPanel == null) return;
+        E6809 e6809 = vecxPanel.get6809();
+        if (e6809 == null) return;
+
+        if (vecxPanel==null) return;
+        if (evt.getClickCount() == 2)
+        if (KeyboardListener.isShiftDown())
+        vecxPanel.setDumpToAddress(reg_y);
+        else
+        if (dissi != null) dissi.goAddress(reg_y, true, true, true);
+    }//GEN-LAST:event_jLabel16MousePressed
+
+    private void jLabel20MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MousePressed
+        DissiPanel dissi = this;
+        if (dissi.currentDissi == null) return;
+        VecXPanel vecxPanel = dissi.currentDissi.vecxPanel; // needed for vectrex memory access
+        if (vecxPanel == null) return;
+        E6809 e6809 = vecxPanel.get6809();
+        if (e6809 == null) return;
+
+        if (vecxPanel==null) return;
+        if (evt.getClickCount() == 2)
+        if (KeyboardListener.isShiftDown())
+        vecxPanel.setDumpToAddress(reg_u);
+        else
+        if (dissi != null) dissi.goAddress(reg_u, true, true, true);
+    }//GEN-LAST:event_jLabel20MousePressed
+
+    private void jLabel23MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel23MousePressed
+        DissiPanel dissi = this;
+        if (dissi.currentDissi == null) return;
+        VecXPanel vecxPanel = dissi.currentDissi.vecxPanel; // needed for vectrex memory access
+        if (vecxPanel == null) return;
+        E6809 e6809 = vecxPanel.get6809();
+        if (e6809 == null) return;
+
+        if (vecxPanel==null) return;
+        if (evt.getClickCount() == 2)
+        if (KeyboardListener.isShiftDown())
+        vecxPanel.setDumpToAddress(reg_pc);
+        else
+        if (dissi != null) dissi.goAddress(reg_pc, true, true,true );
+    }//GEN-LAST:event_jLabel23MousePressed
+
+    private void jLabel26MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel26MousePressed
+        DissiPanel dissi = this;
+        if (dissi.currentDissi == null) return;
+        VecXPanel vecxPanel = dissi.currentDissi.vecxPanel; // needed for vectrex memory access
+        if (vecxPanel == null) return;
+        E6809 e6809 = vecxPanel.get6809();
+        if (e6809 == null) return;
+
+        if (vecxPanel==null) return;
+        if (evt.getClickCount() == 2)
+        if (KeyboardListener.isShiftDown())
+        vecxPanel.setDumpToAddress(reg_s);
+        else
+        if (dissi != null) dissi.goAddress(reg_s, true, true, true);
+    }//GEN-LAST:event_jLabel26MousePressed
+
+    private void jTable2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MousePressed
+        DissiPanel dissi = this;
+        if (dissi.currentDissi == null) return;
+        VecXPanel vecxPanel = dissi.currentDissi.vecxPanel; // needed for vectrex memory access
+        if (vecxPanel == null) return;
+        E6809 e6809 = vecxPanel.get6809();
+        if (e6809 == null) return;
+
+        if (evt.getClickCount() == 2)
+        {
+            JTable table =(JTable) evt.getSource();
+            Point p = evt.getPoint();
+            int row = table.rowAtPoint(p);
+            // your valueChanged overridden method
+            if (dissi != null)
+            dissi.goAddress(((CallStackTableModel)table.getModel()).getAddress(row), true, true, true);
+        }
+    }//GEN-LAST:event_jTable2MousePressed
+
     private int searchForString(int start, String text, boolean forward)
     {
         int foundAt = -1;
@@ -2627,9 +3010,31 @@ public class DissiPanel extends javax.swing.JPanel  implements
     private javax.swing.JCheckBox jCheckBoxVectorSelect;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -2665,21 +3070,25 @@ public class DissiPanel extends javax.swing.JPanel  implements
     private javax.swing.JMenuItem jMenuItemWatchWord;
     private javax.swing.JMenuItem jMenuItemWord;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelDebug;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTableSource;
     private javax.swing.JTextField jTextFieldCommand;
     private javax.swing.JTextField jTextFieldSearch;
     private javax.swing.JTextField jTextFieldSearch1;
     private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton3;
     // End of variables declaration//GEN-END:variables
 
     private void handleCodeScan()
@@ -3340,6 +3749,7 @@ public class DissiPanel extends javax.swing.JPanel  implements
 
     public void updateValues(boolean forceUpdate)
     {
+        updateReg(forceUpdate);
         if (!forceUpdate)
             if (!currentDissi.updateEnabled) return;
         updateTableOnly();
@@ -5067,4 +5477,187 @@ public class DissiPanel extends javax.swing.JPanel  implements
         jTable1.setRowHeight(rowHeight);
     }
     
+    
+    
+    boolean updateRegEnabled = false;
+    int reg_x;
+    int reg_y;
+    /* user stack pointer */
+    int reg_u = 0;
+    /* hardware stack pointer */
+    int reg_s= 0;
+    /* program counter */
+    int reg_pc;
+    /* accumulators */
+    int reg_a;
+    int reg_b;
+    /* direct page register */
+    int reg_dp;
+    /* condition codes */
+    int reg_cc;
+    int reg_d;
+    int bank;
+    ArrayList<Integer> callstack = new ArrayList<Integer>();
+    private void updateReg(boolean forceUpdate)
+    {
+        if (!forceUpdate)
+            if (!updateRegEnabled) return;
+        DissiPanel dissi = this;
+        if (dissi.currentDissi == null) return;
+        VecXPanel vecxPanel = dissi.currentDissi.vecxPanel; // needed for vectrex memory access
+        if (vecxPanel == null) return;
+        E6809 e6809 = vecxPanel.get6809();
+        
+        callstack.clear();
+        if (e6809 == null) return;
+        synchronized (e6809.callStack)
+        {
+            try
+            {
+                for(Integer i: e6809.callStack) callstack.add(i);
+            }
+            catch (Throwable ex)
+            {
+                
+            }
+        }
+        jTable2.tableChanged(null);
+        
+//        if (vecxPanel!=null)
+//            jLabelCycles.setText(""+vecxPanel.getCyclesRunning());
+        
+        jLabel11.setText("$"+String.format("%02X", e6809.reg_a));
+        if (e6809.reg_a != reg_a) jLabel11.setForeground(Color.red);
+        else jLabel11.setForeground(Color.black);
+        reg_a = e6809.reg_a&0xff;
+        jLabel11.setToolTipText("decimal: "+reg_a+"("+((reg_a>127)?(reg_a-256):(reg_a))+"), binary: %"+printbinary(reg_a));
+        
+        jLabel12.setText("$"+String.format("%02X", e6809.reg_b));
+        if (e6809.reg_b != reg_b) jLabel12.setForeground(Color.red);
+        else jLabel12.setForeground(Color.black);
+        reg_b = e6809.reg_b&0xff;
+        jLabel12.setToolTipText("decimal: "+reg_b+"("+((reg_b>127)?(reg_b-256):(reg_b))+"), binary: %"+printbinary(reg_b));
+        
+        int d = ((reg_a << 8)&0xff00) | (reg_b & 0xff);
+        jLabel15.setText("$"+String.format("%04X", d));
+        if (reg_d != d) jLabel15.setForeground(Color.red);
+        else jLabel15.setForeground(Color.black);
+        reg_d = d&0xffff;
+        jLabel15.setToolTipText("decimal: "+d+"("+((reg_d>32767)?(reg_d-65536):(reg_d))+"), binary: %"+printbinary(reg_a)+ " " + printbinary(reg_b));
+        
+        jLabel14.setText("$"+String.format("%04X", e6809.reg_x&0xffff));
+        if (e6809.reg_x != reg_x) jLabel14.setForeground(Color.red);
+        else jLabel14.setForeground(Color.black);
+        reg_x = e6809.reg_x&0xffff;
+        jLabel14.setToolTipText("decimal: "+reg_x+"("+((reg_x>32767)?(reg_x-65536):(reg_x))+"), binary: %"+printbinary((reg_x>>8)&0xff)+ " " + printbinary(reg_x&0xff));
+
+        jLabel16.setText("$"+String.format("%04X", e6809.reg_y&0xffff));
+        if (e6809.reg_y != reg_y) jLabel16.setForeground(Color.red);
+        else jLabel16.setForeground(Color.black);
+        reg_y = e6809.reg_y&0xffff;
+        jLabel16.setToolTipText("decimal: "+reg_y+"("+((reg_y>32767)?(reg_y-65536):(reg_y))+"), binary: %"+printbinary((reg_y>>8)&0xff)+ " " + printbinary(reg_y&0xff));
+
+        jLabel20.setText("$"+String.format("%04X", e6809.reg_u.intValue&0xffff));
+        if (e6809.reg_u.intValue != reg_u) jLabel20.setForeground(Color.red);
+        else jLabel20.setForeground(Color.black);
+        reg_u = e6809.reg_u.intValue&0xffff;
+        jLabel20.setToolTipText("decimal: "+reg_u+"("+((reg_u>32767)?(reg_u-65536):(reg_u))+"), binary: %"+printbinary((reg_u>>8)&0xff)+ " " + printbinary(reg_u&0xff));
+
+        jLabel23.setText("$"+String.format("%04X", e6809.reg_pc&0xffff));
+        if ((e6809.reg_pc&0xffff) != reg_pc) jLabel23.setForeground(Color.red);
+        else jLabel23.setForeground(Color.black);
+        reg_pc = e6809.reg_pc&0xffff;
+        jLabel23.setToolTipText("decimal: "+reg_pc+", binary: %"+printbinary((reg_pc>>8)&0xff)+ " " + printbinary(reg_pc&0xff));
+
+        if (vecxPanel!=null)
+        {
+            jLabel24.setVisible(true);
+            jLabel24.setText("["+vecxPanel.getCurrentBank()+"]");
+            if (bank !=vecxPanel.getCurrentBank()) jLabel24.setForeground(Color.red);
+            else jLabel24.setForeground(Color.black);
+            bank =vecxPanel.getCurrentBank();
+        }
+        else
+        {
+            jLabel24.setVisible(false);
+        }
+        
+        jLabel18.setText("$"+String.format("%02X", e6809.reg_dp&0xff));
+        if (e6809.reg_dp != reg_dp) jLabel18.setForeground(Color.red);
+        else jLabel18.setForeground(Color.black);
+        reg_dp = e6809.reg_dp;
+        jLabel18.setToolTipText("decimal: "+reg_dp+", binary: %"+printbinary(reg_dp));
+
+        jLabel19.setText("%"+printbinary(e6809.reg_cc).substring(0, 4)+" "+printbinary(e6809.reg_cc).substring(4));
+        if (e6809.reg_cc != reg_cc) jLabel19.setForeground(Color.red);
+        else jLabel19.setForeground(Color.black);
+        reg_cc = e6809.reg_cc;
+        String html = "<html>";
+        html += "decimal: "+reg_cc+", hex: $"+String.format("%02X", reg_cc)+"<BR>";
+        html +="<ol>";
+        html +="<li>Carry "+(((reg_cc&0x01) == 0x01)?"is set":"is clear")+"</li>";
+        html +="<li>Overflow "+(((reg_cc&0x02) == 0x02)?"is set":"is clear")+"</li>";
+        html +="<li>Zero "+(((reg_cc&0x04) == 0x04)?"is set":"is clear")+"</li>";
+        html +="<li>Negative "+(((reg_cc&0x08) == 0x08)?"is set":"is clear")+"</li>";
+        html +="<li>IRQ Mask "+(((reg_cc&0x10) == 0x10)?"is set":"is clear")+"</li>";
+        html +="<li>Half Carry "+(((reg_cc&0x20) == 0x20)?"is set":"is clear")+"</li>";
+        html +="<li>FIRQ Mask "+(((reg_cc&0x40) == 0x40)?"is set":"is clear")+"</li>";
+        html +="<li>Entire Flag "+(((reg_cc&0x80) == 0x80)?"is set":"is clear")+"</li>";
+        html +="</ol>";
+        html += "</html>";
+        
+        jLabel19.setToolTipText(html);
+        
+        jLabel26.setText("$"+String.format("%04X", e6809.reg_s.intValue));
+        if (e6809.reg_s.intValue != reg_u) jLabel26.setForeground(Color.red);
+        else jLabel26.setForeground(Color.black);
+        reg_s = e6809.reg_s.intValue;
+        jLabel26.setToolTipText("decimal: "+reg_s+"("+((reg_s>32767)?(reg_s-65536):(reg_s))+"), binary: %"+printbinary((reg_s>>8)&0xff)+ " " + printbinary(reg_s&0xff));
+        
+        
+    }    
+    public class CallStackTableModel extends AbstractTableModel
+    {
+        public int getRowCount()
+        {
+            return callstack.size();
+        }
+        public int getColumnCount()
+        {
+            return 1;
+        }
+        public Object getValueAt(int row, int col)
+        {
+            try
+            {
+
+                if (row<callstack.size())
+                    return "$"+String.format("%04X", callstack.get(row));
+            }
+            catch (Throwable e)
+            {
+                // sometimes synch problems
+                // when updated "on the fly"
+                // rather than synchronize everything
+                // everything - I jest catch and ignore
+            }
+            return "";
+        }
+        public int getAddress(int row)
+        {
+            if (row == -1) return 0;
+            return callstack.get(row);
+        }
+        public String getColumnName(int column) {
+            return "";
+        }
+        public Class<?> getColumnClass(int columnIndex) {
+            return String.class;
+        }
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+    }
+
+
 }

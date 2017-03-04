@@ -71,7 +71,7 @@ public class ParseString {
 		return buffer.substring(cursor).endsWith(s);
 	}
 	public char charAt(int n) {
-            if (cursor+n > buffer.length()) return 0;
+            if (cursor+n >= buffer.length()) return 0;
             return buffer.charAt(cursor+n);
 	}
 	public int length() {

@@ -104,31 +104,28 @@
                       </Group>
                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jCheckBox1" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox15" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox2" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox16" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox9" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox10" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox3" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox4" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox5" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox6" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox7" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox8" alignment="0" max="-2" attributes="0"/>
+                          <Component id="jCheckBox17" alignment="0" max="-2" attributes="0"/>
                           <Component id="jCheckBox18" alignment="0" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jCheckBox1" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox15" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox2" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox16" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox9" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox10" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox3" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox4" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox5" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox6" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox7" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox8" alignment="0" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox17" alignment="0" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="singleImagePanel3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox20" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox19" max="-2" attributes="0"/>
-                                  <Component id="jCheckBox21" alignment="0" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jCheckBox22" max="-2" attributes="0"/>
+                          <Component id="singleImagePanel3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCheckBox20" max="-2" attributes="0"/>
+                          <Component id="jCheckBox19" max="-2" attributes="0"/>
+                          <Component id="jCheckBox21" alignment="0" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="158" max="32767" attributes="0"/>
                   </Group>
@@ -179,7 +176,6 @@
                                       <Component id="jCheckBox12" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jCheckBox13" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jCheckBox14" min="-2" max="-2" attributes="0"/>
@@ -219,6 +215,8 @@
                                       <Component id="jCheckBox20" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jCheckBox21" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jCheckBox22" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Component id="jCheckBox7" min="-2" max="-2" attributes="0"/>
@@ -458,6 +456,11 @@
             <Component class="javax.swing.JCheckBox" name="jCheckBox21">
               <Properties>
                 <Property name="text" type="java.lang.String" value="eEprom DS2431"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jCheckBox22">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="32 k forced"/>
               </Properties>
             </Component>
           </SubComponents>

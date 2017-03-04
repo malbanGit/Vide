@@ -18,4 +18,5 @@ public class EditorEvent {
     
     EditorPanelFoundation source;
     int type;
+    int line;
 }

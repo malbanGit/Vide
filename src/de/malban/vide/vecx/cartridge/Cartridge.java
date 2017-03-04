@@ -44,6 +44,7 @@ public class Cartridge implements Serializable
     public static int FLAG_LOGO = 16384; // 
     public static int FLAG_XMAS = 32768; // 
     public static int FLAG_DS2431 = 65536; // Thomas one wire eEprom
+    public static int FLAG_32K_ONLY = 65536*2; // Thomas one wire eEprom
 
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     // load transient stuff after save state
@@ -75,12 +76,14 @@ public class Cartridge implements Serializable
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0) ret+="$6000 8k extra RAM  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0) ret+="XMas LED  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DS2431)!=0) ret+="eEprom DS2431  ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_32K_ONLY)!=0) ret+="32k forced ";
         ret = ret.trim();
         ret = de.malban.util.UtilityString.replace(ret, "  ", ", ");
         return ret;
     }
     public DS2430A ds2430 = new DS2430A(this);
     public DS2431 ds2431 = new DS2431(this);
+    
     public Microchip11AA010 microchip = new Microchip11AA010(this);
     transient VecX vecx;
     public void setVecx(VecX v)
@@ -124,6 +127,7 @@ public class Cartridge implements Serializable
     XMasLED xMasLED = null;
     boolean extremeMulti = false;
     byte spectrumByte = 0;
+    boolean _32kOnly = false;
     
     public byte getSpectrumByte()
     {
@@ -409,6 +413,14 @@ public class Cartridge implements Serializable
     public boolean init(CartridgeProperties cartProp)
     {
         currentCardProp = cartProp;
+        extraRam2000_2800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0;
+        extraRam8000_8800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0;
+        extraRam6000_7fff_8k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0;
+        _32kOnly = (cartProp.getTypeFlags()&Cartridge.FLAG_32K_ONLY)!=0;
+        isXmas =  ((cartProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0);
+        isDualVec = (  ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0) || ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0));
+        extremeMulti = (cartProp.getTypeFlags()&Cartridge.FLAG_EXTREME_MULTI)!=0;
+
         previousExternalLineB = false;
         oldCycles = 0;
         if (cartProp == null) 
@@ -485,13 +497,6 @@ public class Cartridge implements Serializable
             }
         }
         
-        // todo: Set and use type flag information!
-        extraRam2000_2800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0;
-        extraRam8000_8800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0;
-        extraRam6000_7fff_8k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0;
-        isXmas =  ((cartProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0);
-        isDualVec = (  ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0) || ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0));
-        extremeMulti = (cartProp.getTypeFlags()&Cartridge.FLAG_EXTREME_MULTI)!=0;
         if (extraRam2000_2800_2k_Enabled)
         {
             extraRam = new byte[2048];
@@ -662,7 +667,23 @@ public class Cartridge implements Serializable
             Path path = Paths.get(filenameRom);
             byte[] data = Files.readAllBytes(path);
             loadLen = data.length;
+
+            if (loadLen > 32768)
+            {
+                if (!_32kOnly)
+                    log.addLog("Cartridge size > 32k, bankswitching assumed!", WARN);
+            }
+
             bankMax=(data.length +32767)/32768; // file chunks of 37268 size are banks
+
+            if (_32kOnly)
+            {
+                if (loadLen > 32768)
+                {
+                    loadLen = 32768;
+                    bankMax = 1;
+                }
+            }
             
             cart = new int[bankMax][];     // and so many banks as memory data
             bankLength = new int[bankMax]; // so many bank length we need

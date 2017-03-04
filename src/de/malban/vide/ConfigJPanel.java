@@ -129,7 +129,9 @@ public class ConfigJPanel extends javax.swing.JPanel implements
      * Creates new form RegisterJPanel
      */
     public ConfigJPanel() {
+        mClassSetting++;
         initComponents();
+        mClassSetting--;
         VideConfig.getConfig();
         loadSystemRoms(config.usedSystemRom);
         initValues();
@@ -206,7 +208,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                 
         jSliderPSGVolume.setValue(config.psgVolume);
 
-
+        mClassSetting++;
         if (config.rotate == 0)
             jComboBox5.setSelectedIndex(0);
         if (config.rotate == 90)
@@ -215,6 +217,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             jComboBox5.setSelectedIndex(2);
         if (config.rotate == 270)
             jComboBox5.setSelectedIndex(3);        
+        mClassSetting--;
         
         updateVecxDisplay();
         
@@ -223,7 +226,8 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         
         jSliderScaleEfficency.setValue((int)(config.scaleEfficiency*10));
         
-        
+        jCheckBox49.setSelected(config.ramAccessAllowed );
+         
         jSliderMultiStepDelay.setValue(config.multiStepDelay);
         jSliderBrightness.setValue(config.brightness);
         jCheckBoxGlow.setSelected(config.useGlow);        
@@ -402,6 +406,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jLabel31 = new javax.swing.JLabel();
         jTextField11 = new javax.swing.JTextField();
         jTextField12 = new javax.swing.JTextField();
+        jCheckBox49 = new javax.swing.JCheckBox();
         jPanel19 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jSliderRampOff = new javax.swing.JSlider();
@@ -449,7 +454,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel39 = new javax.swing.JPanel();
         jSliderZeroDivider = new javax.swing.JSlider();
         jLabel35 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<>();
+        jComboBox6 = new javax.swing.JComboBox<String>();
         jPanel21 = new javax.swing.JPanel();
         jCheckBox2 = new javax.swing.JCheckBox();
         jCheckBox3 = new javax.swing.JCheckBox();
@@ -872,7 +877,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                     .addComponent(jCheckBoxEfficiency))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSliderEfficiency, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+                    .addComponent(jSliderEfficiency, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
                     .addComponent(jSliderScaleEfficency, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0))
         );
@@ -1049,6 +1054,14 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBox49.setText("allow ROM write");
+        jCheckBox49.setToolTipText("if enabled, ROM can be written to (in general) from cartdigde (which is BAD!)");
+        jCheckBox49.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox49ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
         jPanel20Layout.setHorizontalGroup(
@@ -1071,25 +1084,26 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jCheckBox44)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox14)
+                    .addComponent(jCheckBox27)
+                    .addComponent(jCheckBox6)
+                    .addComponent(jCheckBox23)
                     .addGroup(jPanel20Layout.createSequentialGroup()
                         .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCheckBox26)
-                            .addComponent(jCheckBox10))
+                            .addComponent(jCheckBox10)
+                            .addComponent(jCheckBox41)
+                            .addComponent(jCheckBox12))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox49)
                             .addComponent(jCheckBoxAutoSync)
                             .addComponent(jCheckBox11)
                             .addGroup(jPanel20Layout.createSequentialGroup()
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1))))
-                    .addComponent(jCheckBox41)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox14)
-                    .addComponent(jCheckBox12)
-                    .addComponent(jCheckBox27)
-                    .addComponent(jCheckBox6)
-                    .addComponent(jCheckBox23))
+                                .addComponent(jLabel1)))))
                 .addGap(0, 0, 0)
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox5)
@@ -1140,7 +1154,9 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                         .addGap(0, 0, 0)
                         .addComponent(jCheckBox6)
                         .addGap(0, 0, 0)
-                        .addComponent(jCheckBox41)
+                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBox41)
+                            .addComponent(jCheckBox49))
                         .addGap(0, 0, 0)
                         .addComponent(jCheckBox12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1742,7 +1758,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
 
         jLabel35.setText("delay variants");
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "delay 0", "delay 1", "delay 2", "delay 3" }));
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "delay 0", "delay 1", "delay 2", "delay 3" }));
         jComboBox6.setToolTipText("on selection this sets preconfigured values");
         jComboBox6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3710,6 +3726,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jSliderZeroDividerStateChanged
 
     private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
+        if (mClassSetting>0) return;
         config.rotate = DASM6809.toNumber(jComboBox5.getSelectedItem().toString());
         updateVecxDisplay();
     }//GEN-LAST:event_jComboBox5ActionPerformed
@@ -3789,6 +3806,11 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jSliderRampOff.setValue(rampOff);
     }//GEN-LAST:event_jComboBox6ActionPerformed
 
+    private void jCheckBox49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox49ActionPerformed
+       config.ramAccessAllowed = jCheckBox49.isSelected();
+        
+    }//GEN-LAST:event_jCheckBox49ActionPerformed
+
     void setSizes()
     {
         config.ALG_MAX_X = de.malban.util.UtilityString.IntX(jTextField11.getText(), 38000);
@@ -3853,6 +3875,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox46;
     private javax.swing.JCheckBox jCheckBox47;
     private javax.swing.JCheckBox jCheckBox48;
+    private javax.swing.JCheckBox jCheckBox49;
     private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JCheckBox jCheckBox7;
@@ -4370,6 +4393,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         if (!(f instanceof CSAMainFrame)) return;
         CSAMainFrame ff = (CSAMainFrame)f;
         VecXPanel vecxi = ff.checkVecxy();
-        vecxi.resetGfx();
+        if (vecxi != null)
+            vecxi.resetGfx();
     }
 }

@@ -651,7 +651,8 @@ public class VecXPanel extends javax.swing.JPanel
             overlayImageOrg = ImageCache.getImageCache().getImage("overlays"+File.separator+name);
             if (overlayImageOrg==null) overlayImageOrg = ImageCache.getImageCache().getImage(name);
             if (overlayImageOrg==null) overlayImageOrg = ImageCache.getImageCache().getImage("."+File.separator+name);
-            if (overlayImageOrg==null) overlayImageOrg = ImageCache.getImageCache().getImage("."+File.separator+"overlays"+File.pathSeparator+name);
+            if (overlayImageOrg==null) overlayImageOrg = ImageCache.getImageCache().getImage("."+File.separator+"overlays"+File.separator+name);
+            if (overlayImageOrg==null) overlayImageOrg = ImageCache.getImageCache().getImage("."+File.separator+"overlays"+File.separator+"homemade"+File.separator+name);
             if (overlayImageOrg==null) overlayImageOrg = ImageCache.getImageCache().getImage(fullname);
         }
         catch (Throwable e)
@@ -2224,7 +2225,7 @@ public class VecXPanel extends javax.swing.JPanel
         {
             overlayImageScaled = ImageCache.getImageCache().getDerivatScale(overlayImageOrg, getWidth(), getHeight()-jPanel1.getHeight());
         }
-        setRotation(config.rotate);
+        setRotation(config.rotate); 
     }
     @Override public void paintComponent(Graphics g)
     {
@@ -2587,8 +2588,12 @@ public class VecXPanel extends javax.swing.JPanel
     {
         if (!dissiActive) return;
         if (dissi != null)
+        {
             if ((jumpInDissi) && (!pausing))
                 dissi.goAddress(vecx.e6809.reg_pc, moveDissiToFirst, false, forceUpdate);
+            dissi.updateValues(forceUpdate);
+            
+        }
         if (regi != null)
             regi.updateValues(forceUpdate);
         if (dumpi != null)
@@ -3034,6 +3039,10 @@ public class VecXPanel extends javax.swing.JPanel
         return (int)vecx.alg_curr_y-config.ALG_MAX_Y/2;
     }
     
+    public E6809 get6809()
+    {
+        return vecx.e6809;
+    }
     public VecXState getVecXState()
     {
         return vecx;
@@ -3163,6 +3172,10 @@ public class VecXPanel extends javax.swing.JPanel
                     if (vecx.cart.currentCardProp != null)
                     {
                         loadOverlay(vecx.cart.currentCardProp.getOverlay()); // ensure overlay in scaled form is available
+                        if (overlayImageOrg==null) 
+                        {
+                            loadOverlay(vecx.cart.cartName); // ensure overlay in scaled form is available
+                        }
                     }
                 }
             }
@@ -3808,6 +3821,10 @@ public class VecXPanel extends javax.swing.JPanel
                 if (overlayImageOrg==null) 
                 {
                     loadOverlay(vecx.cart.currentCardProp.getOverlay()); // ensure overlay in scaled form is available
+                }
+                if (overlayImageOrg==null) 
+                {
+                    loadOverlay(vecx.cart.cartName); // ensure overlay in scaled form is available
                 }
             }
             catch (Throwable e)

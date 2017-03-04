@@ -206,10 +206,11 @@ public class EditorPanelFoundation extends javax.swing.JPanel {
     {
         mListener.remove(listener);
     }
-    public void fireEditorChanged(int type)
+    public void fireEditorChanged(int type, int line)
     {
         EditorEvent e = new EditorEvent();
         e.type = type;
+        e.line = line;
         e.source = this;
         for (int i=0; i<mListener.size(); i++)
         {
@@ -231,7 +232,7 @@ public class EditorPanelFoundation extends javax.swing.JPanel {
           {
               undoManager.undo();
             
-            fireEditorChanged(EditorEvent.EV_TEXT_UNDO);
+            fireEditorChanged(EditorEvent.EV_TEXT_UNDO, -1);
           }
           catch (CannotUndoException ex)
           {
@@ -271,7 +272,7 @@ public class EditorPanelFoundation extends javax.swing.JPanel {
           try
           {
             undoManager.redo();
-           fireEditorChanged(EditorEvent.EV_TEXT_REDO);
+           fireEditorChanged(EditorEvent.EV_TEXT_REDO, -1);
           }
           catch (CannotRedoException ex)
           {

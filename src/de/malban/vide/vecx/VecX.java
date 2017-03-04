@@ -904,8 +904,12 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         } 
         else
         {
-            log.addLog("RAM access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", e6809.reg_pc), VERBOSE);
+            log.addLog("ROM write-access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", e6809.reg_pc), VERBOSE);
             checkROMBreakPoint(address, data);
+            if (config.ramAccessAllowed)
+            {
+                cart.poke(address,(byte) data);
+            }
         }
     }
 
@@ -969,6 +973,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         via_cb2h = 1;
         via_cb2s = 0;
         old_pb6 = false;
+        intensityDrift = 0;
 
         alg_rsh.intValue = 128;
         alg_xsh.intValue = 128;
@@ -1354,6 +1359,8 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         if (config.useRayGun) return;
         int index;
         
+
+        
         x0+=zeroRetainX;
         x1+=zeroRetainX;
         y0+=zeroRetainY;
@@ -1379,6 +1386,15 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         v.y1 = y1;
         v.midChange = midChange;
         v.color = color;
+        if (intensityDrift>100000)
+        {
+           double degradePercent = (180000000.0-((double)intensityDrift))/180000000.0; // two minutes
+           if (degradePercent<0) degradePercent = 0;
+           v.color = (int)(((double)color)*degradePercent);
+           //System.out.println(intensityDrift+"-" + cyclesRunning);
+        }
+        
+        
         v.imagerColorLeft = left;
         v.imagerColorRight = right;
         
@@ -2259,6 +2275,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             case 0x04:
                 /* demultiplexor is on */
                 addTimerItem(new TimerItem(alg_DAC.intValue , alg_zsh, TIMER_MUX_Z_CHANGE));
+                intensityDrift = 0;
                 break;
             case 0x06:
                 /* sound output line */
@@ -2326,10 +2343,10 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
     /* perform a single cycle worth of analog emulation */
     long noiseCycles = 0;
     
-    
     void analogStep()
     {
-        int sig_dx=0, sig_dy=0; // allways the delta from the last vector end position, to the new position
+        intensityDrift++;
+        int sig_dx=0, sig_dy=0; // always the delta from the last vector end position, to the new position
                                 // even when zero is active!
         if (lastZero != sig_zero.intValue)
         {
@@ -2525,6 +2542,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                     }
                     if (doLine)
                         */
+                    
                     alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
                     
                 }

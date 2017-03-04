@@ -171,6 +171,7 @@ class Colorer extends Thread
         catch (Throwable ex)
         {
 
+
         }
     }
     // coloring within thread of caller!
@@ -397,7 +398,7 @@ class Colorer extends Thread
                 try
                 {
                     ArrayList<String> changedVars = doc.fileInfo.processDocumentChanges(start, adjustment, doc.getText(0, doc.getLength()));
-                    if (changedVars.size()>0)
+                    if ((changedVars == null)||(changedVars.size()>0))
                     {
                         VediPanel.setInScan(false);            
                         colorAll();
@@ -501,7 +502,9 @@ class Colorer extends Thread
                     // do undo/redo manager something good,
                     // only add CHANGES (especially in recolor all!)
                     if (didAttributesChange(sstart, slen, saset, doc))
+                    {
                         doc.setCharacterAttributes(sstart, slen, saset, true);
+                    }
 
                     // record the position of the last bit of
                     // text that we colored
@@ -565,7 +568,7 @@ class Colorer extends Thread
                     catch (Throwable ex)
                     {
                         ex.printStackTrace();
-VediPanel.setInScan(false);
+                        VediPanel.setInScan(false);
                         return;
                     }
                 }
@@ -605,7 +608,7 @@ VediPanel.setInScan(false);
             lastPosition = -1;
             change = 0;
         }
-VediPanel.setInScan(false);
+        VediPanel.setInScan(false);
 //System.out.println("Tokens processed: "+                    tokenCount);
 
     }

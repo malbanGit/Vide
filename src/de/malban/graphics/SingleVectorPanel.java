@@ -1003,6 +1003,8 @@ public class SingleVectorPanel extends javax.swing.JPanel
     // entry coordinate range from -150 to + 150
     int old_x1 = Integer.MAX_VALUE;
     int old_y1 = Integer.MAX_VALUE;
+    
+
     final void drawVectrexScaledLine(Graphics g,int x0, int y0, int x1, int y1, boolean bigEnd, Stroke stroke, boolean drawArrows, boolean drawPositions, int pos, GFXVector v)
     {
         int x_0;
@@ -2023,54 +2025,68 @@ public class SingleVectorPanel extends javax.swing.JPanel
         {
             int counter = 0;
             int GRID_NOW = vars.gridWidth;
+            
+            // if gridlines would be displayed more than half of the time -> do not display it at all!
             do
             {
                 int yPositive = y0Offset+Scaler.scaleDoubleToInt((+(counter*GRID_NOW))+usedyOff, scaleUse);
-
-                if (Math.abs(yPositive - mY) < Math.abs(potentialCrossY)) potentialCrossY = yPositive- mY;
-                // horizontal line
-                // y+
-                drawVectrexScaledLine(g,xg0, +(counter*GRID_NOW), xg1, +(counter*GRID_NOW), false, null, false, false, 0, null);
+                if (Math.abs(yPositive - mY) < Math.abs(potentialCrossY)) 
+                    potentialCrossY = yPositive- mY;
                 counter++;
             } while (y0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedyOff, scaleUse)<getHeight());
-            counter = 0;
-            do
+            counter *=2; // above was only half grid width
+
+            if (counter<getHeight()/2)
             {
-                int yNegative = y0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedyOff, scaleUse);
+                counter = 0;
+                do
+                {
+                    int yPositive = y0Offset+Scaler.scaleDoubleToInt((+(counter*GRID_NOW))+usedyOff, scaleUse);
 
-                if (Math.abs(yNegative - mY) < Math.abs(potentialCrossY)) potentialCrossY = yNegative- mY;
-                // horizontal line
-                // y-
-                drawVectrexScaledLine(g,xg0, -(counter*GRID_NOW), xg1, -(counter*GRID_NOW), false, null, false, false, 0, null);
+                    if (Math.abs(yPositive - mY) < Math.abs(potentialCrossY)) potentialCrossY = yPositive- mY;
+                    // horizontal line
+                    // y+
+                    drawVectrexScaledLine(g,xg0, +(counter*GRID_NOW), xg1, +(counter*GRID_NOW), false, null, false, false, 0, null);
+                    counter++;
+                } while (y0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedyOff, scaleUse)<getHeight());
+                counter = 0;
+                do
+                {
+                    int yNegative = y0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedyOff, scaleUse);
 
-                counter++;
-            } while (y0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedyOff, scaleUse)>0);
-            
-            counter = 0;
-            do
-            {
-                int xPositive = x0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedxOff, scaleUse);
+                    if (Math.abs(yNegative - mY) < Math.abs(potentialCrossY)) potentialCrossY = yNegative- mY;
+                    // horizontal line
+                    // y-
+                    drawVectrexScaledLine(g,xg0, -(counter*GRID_NOW), xg1, -(counter*GRID_NOW), false, null, false, false, 0, null);
 
-                if (Math.abs(xPositive - mX) < Math.abs(potentialCrossX)) potentialCrossX = xPositive- mX;
-                // vertical line
-                // x+
-                drawVectrexScaledLine(g,+(counter*GRID_NOW), yg0, +(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
+                    counter++;
+                } while (y0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedyOff, scaleUse)>0);
 
-                counter++;
-            } while (x0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedxOff, scaleUse)<getWidth());            
-            counter = 0;
-            do
-            {
-                int xNegative = x0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedxOff, scaleUse);
+                counter = 0;
+                do
+                {
+                    int xPositive = x0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedxOff, scaleUse);
 
-                if (Math.abs(xNegative - mX) < Math.abs(potentialCrossX)) potentialCrossX = xNegative- mX;
-                // vertical line
-                // x-
-                drawVectrexScaledLine(g,-(counter*GRID_NOW), yg0, -(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
+                    if (Math.abs(xPositive - mX) < Math.abs(potentialCrossX)) potentialCrossX = xPositive- mX;
+                    // vertical line
+                    // x+
+                    drawVectrexScaledLine(g,+(counter*GRID_NOW), yg0, +(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
 
-                counter++;
-            } while (x0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedxOff, scaleUse)>0);            
-            
+                    counter++;
+                } while (x0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedxOff, scaleUse)<getWidth());            
+                counter = 0;
+                do
+                {
+                    int xNegative = x0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedxOff, scaleUse);
+
+                    if (Math.abs(xNegative - mX) < Math.abs(potentialCrossX)) potentialCrossX = xNegative- mX;
+                    // vertical line
+                    // x-
+                    drawVectrexScaledLine(g,-(counter*GRID_NOW), yg0, -(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
+
+                    counter++;
+                } while (x0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedxOff, scaleUse)>0);            
+            }
         }
         // Grid done
         

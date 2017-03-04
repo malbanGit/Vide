@@ -1,3 +1,12 @@
+Music
+Sound effects
+"Floating" and fixed scores
+more enemies
+bonus objects
+
+
+
+
 NOT done (wont do):
   - LEX Macro syntax where a assembler instruction is concatinated from macros, like:
         ;Set the hi/lo part of a 16-bit register individually
@@ -518,6 +527,19 @@ should emulate? (houses frogger)
 Integration overlaps (X -> Y)
 
 
+Bug:
+Karl Quappe swithc "Suppress double draw" off - and see - that is WRONG
+
+done?bug: vedi  
+  if a variabler is drefined 2 times, and only one is deleted
+   the "other" one should be enought to ensure syntax highliting
+
+done? bug vedi:
+  entering new lines in the middle of vedi (only pressing return)
+  every second or so time, the line numbering gets fucked
+  -> not reprocueable
+
+
 BUG!
 done: vari: if table (variable) is sorted - tooltip is wrong
 
@@ -536,6 +558,8 @@ done: Bug breakpoint display on line numbers not working correctly
 BUG
 done Editor, every second entered char destroys line counting, the "correct" chars -> display WRONG line counts!
 
+Bug:
+Garbage game over message of SPIKES is not emulated correctly
 
 BUG in assi:
  MACRO constant ZAHLEN = 18
@@ -549,10 +573,10 @@ BUG in assi:
 - table with current breakpoints/watches in vedi
 
 
-+ add a "zero retain" - a integrator offset value that is pro mille of lat position
-+ adjust cycles for zeroing
-in vedi show current shortcut jump table
-in vedi do a "set breakpoint, set watch" on the line numbers
+done: + add a "zero retain" - a integrator offset value that is pro mille of lat position
+done: + adjust cycles for zeroing
+done: in vedi show current shortcut jump table
+done: in vedi do a "set breakpoint, set watch" on the line numbers
 
 BUG BW images in Vectorize
  - editor messages to big!

@@ -7,6 +7,7 @@ package de.malban.vide.vedi;
 
 
 
+import de.malban.vide.vedi.panels.GetJumpValuePanel;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.HotKey;
@@ -15,7 +16,10 @@ import de.malban.util.KeyboardListener;
 import de.malban.util.UtilityString;
 import de.malban.util.syntax.Syntax.HighlightedDocument;
 import de.malban.util.syntax.Syntax.TokenStyles;
+import de.malban.util.syntax.entities.ASM6809FileInfo;
 import de.malban.vide.veccy.VectorListFileChoserJPanel;
+import de.malban.vide.vedi.panels.GetRadiusValuePanel;
+import de.malban.vide.vedi.panels.GetSinValuePanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -32,6 +36,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
@@ -39,6 +44,8 @@ import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.text.AttributeSet;
@@ -120,10 +127,10 @@ public class EditorPanel extends EditorPanelFoundation
         
         try 
         {
+            openEditorMap.put(filename.toLowerCase(), this);
             FileReader fr = new FileReader(getFilename());
             jTextPane1.read(fr, null);
             fr.close();
-//            correctLineNumbers(false);
         }
         catch (IOException e) 
         {
@@ -159,6 +166,26 @@ public class EditorPanel extends EditorPanelFoundation
         return true;
         
     }
+    
+    private static HashMap<String, EditorPanel> openEditorMap = new HashMap<String, EditorPanel>();
+    public static String getTextForFile(String filename)
+    {
+        EditorPanel p = openEditorMap.get(filename.toLowerCase());
+        if (p == null) return null;
+        try
+        {
+            String text = p.jTextPane1.getDocument().getText(0, p.jTextPane1.getDocument().getLength());
+            return text;
+            
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        return null;
+    }
+    
+    
     JTextPane buildTextPane()
     {
         JTextPane tp = new JTextPane()
@@ -251,9 +278,6 @@ public class EditorPanel extends EditorPanelFoundation
         editorPaneDocument.start(getFilename());
         editorPaneDocument.addUndoableEditListener(undoManager);
         
-        
-        
-        
         new HotKey(javax.swing.text.DefaultEditorKit.copyAction,null, jTextPane1);
         new HotKey(javax.swing.text.DefaultEditorKit.pasteAction, null, jTextPane1);
         new HotKey(javax.swing.text.DefaultEditorKit.cutAction, null, jTextPane1);
@@ -308,6 +332,8 @@ public class EditorPanel extends EditorPanelFoundation
             parent.settings.setOpenPosition(getFilename(), getPosition());
         if (parent instanceof VediPanel32)
             parent.settings.setOpenPosition(getFilename(), getPosition());
+        if (filename != null)
+            openEditorMap.remove(filename.toLowerCase());
     }
 
     /**
@@ -322,6 +348,10 @@ public class EditorPanel extends EditorPanelFoundation
         jPopupMenu1 = new javax.swing.JPopupMenu();
         jMenuItemAddVectorlist = new javax.swing.JMenuItem();
         jMenuItemAddAnim = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextPane1 = buildTextPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -342,6 +372,34 @@ public class EditorPanel extends EditorPanelFoundation
             }
         });
         jPopupMenu1.add(jMenuItemAddAnim);
+
+        jMenu1.setText("data generation");
+
+        jMenuItem1.setText("sin");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("cos");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("circle (y=cos, x = -sin)");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jPopupMenu1.add(jMenu1);
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
@@ -405,16 +463,15 @@ public class EditorPanel extends EditorPanelFoundation
 
         add(jScrollPane1, java.awt.BorderLayout.WEST);
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void jTextPane1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPane1KeyTyped
         rowCount = -1;
-        fireEditorChanged(EditorEvent.EV_KEY_TYPED);
-        
+        fireEditorChanged(EditorEvent.EV_KEY_TYPED, getPosition());
         correctLineNumbers(false);
     }//GEN-LAST:event_jTextPane1KeyTyped
 
     private void jTextPane1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextPane1CaretUpdate
-          fireEditorChanged(EditorEvent.EV_CARET_CHANGED);
+          fireEditorChanged(EditorEvent.EV_CARET_CHANGED, getPosition());
     }//GEN-LAST:event_jTextPane1CaretUpdate
 
     private void jTextPane1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPane1KeyPressed
@@ -499,6 +556,7 @@ public class EditorPanel extends EditorPanelFoundation
         try
         {
             jTextPane1.getDocument().insertString(popUpTextPos, text, null);
+            correctLineNumbers(false);
         }
         catch (Throwable e)
         {
@@ -518,6 +576,7 @@ public class EditorPanel extends EditorPanelFoundation
         try
         {
             jTextPane1.getDocument().insertString(popUpTextPos, text, null);
+            correctLineNumbers(false);
         }
         catch (Throwable e)
         {
@@ -548,7 +607,7 @@ public class EditorPanel extends EditorPanelFoundation
 
          
          invalidate();
- validate();
+        validate();
          this.doLayout();
          repaint();
     }//GEN-LAST:event_formComponentResized
@@ -582,6 +641,113 @@ public class EditorPanel extends EditorPanelFoundation
         }
 
     }//GEN-LAST:event_jTextPane2MousePressed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // add a sin data
+        int count = GetSinValuePanel.showEnterValueDialog();
+        double radius = GetRadiusValuePanel.showEnterValueDialog();
+        if (count == 0) return;
+        
+        StringBuilder builder = new StringBuilder();
+        double adds = 360.0/((double)count);
+        double angle = 0.0;
+        builder.append("; sin generated 0°-360° in ").append(count).append(" steps, radius: "+((int)radius)+"\n");
+        for (int i=0; i< count; i++)
+        {
+            // value ranging in SIN from -127 to + 127
+            int v = ((int)(Math.sin( Math.toRadians(angle)) *radius))&0xff;
+            builder.append(" ").append("db ").append("$").append(String.format("%02X",v)).append(" ; degrees: ").append((int)angle).append("°\n");
+            angle += adds;
+        }
+        
+        stopColoring();
+        try
+        {
+            jTextPane1.getDocument().insertString(popUpTextPos, builder.toString(), null);
+            correctLineNumbers(false);
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        
+        startColoring();
+
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // add a cos data
+        int count = GetSinValuePanel.showEnterValueDialog();
+        double radius = GetRadiusValuePanel.showEnterValueDialog();
+        if (count == 0) return;
+        
+        StringBuilder builder = new StringBuilder();
+        double adds = 360.0/((double)count);
+        double angle = 0.0;
+        builder.append("; cos generated 0°-360° in ").append(count).append(" steps, radius: "+((int)radius)+"\n");
+        for (int i=0; i< count; i++)
+        {
+            // value ranging in SIN from -127 to + 127
+            int v = ((int)(Math.cos( Math.toRadians(angle)) *radius))&0xff;
+            builder.append(" ").append("db ").append("$").append(String.format("%02X",v)).append(" ; degrees: ").append((int)angle).append("°\n");
+            angle += adds;
+        }
+        
+        stopColoring();
+        try
+        {
+            jTextPane1.getDocument().insertString(popUpTextPos, builder.toString(), null);
+            correctLineNumbers(false);
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        
+        startColoring();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // add a cos data
+        int count = GetSinValuePanel.showEnterValueDialog();
+        double radius = GetRadiusValuePanel.showEnterValueDialog();
+        if (count == 0) return;
+        
+        StringBuilder builder = new StringBuilder();
+        double adds = 360.0/((double)count);
+        double angle = 0.0;
+        builder.append("; circle generated 0°-360° in ").append(count).append(" steps (cos, -sin), radius: "+((int)radius)+"\n");
+        for (int i=0; i< count; i++)
+        {
+            // value ranging in SIN from -127 to + 127
+            int cos = ((int)(Math.cos( Math.toRadians(angle)) *radius))&0xff;
+            int sin = (((int)(-Math.sin( Math.toRadians(angle)) *radius))&0xff);
+            builder.append(" ").append("db ").append("$").append(String.format("%02X",cos)).append(", $").append(String.format("%02X",sin)).append(" ; degrees: ").append((int)angle).append("°\n");
+            angle += adds;
+        }
+        
+        stopColoring();
+        try
+        {
+            jTextPane1.getDocument().insertString(popUpTextPos, builder.toString(), null);
+            correctLineNumbers(false);
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        
+        startColoring();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    int getCurrentLineNumber()
+    {
+        return getLineOfPos(jTextPane1.getCaretPosition());
+    }
+    // returns the line number of the given position
+    int getLineOfPos(int pos)
+    {
+        return getLineOfPos(jTextPane1, pos);
+    }
     // returns the line number of the given position
     int getLineOfPos(JTextPane comp, int pos)
     {
@@ -732,6 +898,10 @@ public class EditorPanel extends EditorPanelFoundation
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItemAddAnim;
     private javax.swing.JMenuItem jMenuItemAddVectorlist;
     private javax.swing.JPopupMenu jPopupMenu1;
@@ -745,6 +915,7 @@ public class EditorPanel extends EditorPanelFoundation
     {
         tinyLog = tl;
     }
+    /*
     String saveText(String path)
     {
         try
@@ -764,7 +935,7 @@ public class EditorPanel extends EditorPanelFoundation
         }
         return path;
     }
-
+*/
     public int getCharCount()
     {
         return editorPaneDocument.getLength();
@@ -785,7 +956,9 @@ public class EditorPanel extends EditorPanelFoundation
     }
     public void replaceFilename(String fn)
     {
+        openEditorMap.remove(filename.toLowerCase());
         filename = fn;
+        openEditorMap.put(filename.toLowerCase(), this);
     }
     public String getPath()
     {
@@ -811,12 +984,12 @@ public class EditorPanel extends EditorPanelFoundation
         jTextPane1.setText(text);
     }
     
-    
-    /**
-     * @param filename the filename to set
-     */
-    public void setFilename(String filename) {
-        this.filename = filename;
+     public void setFilename(String ff) 
+     {
+        openEditorMap.remove(this.filename.toLowerCase());
+        this.filename = ff;
+        openEditorMap.put(filename.toLowerCase(), this);
+        
     }
     public class LineTableModel extends AbstractTableModel
     {
@@ -1279,9 +1452,9 @@ public class EditorPanel extends EditorPanelFoundation
         isBasic = b;
     }
     @Override
-    public void fireEditorChanged(int type)
+    public void fireEditorChanged(int type, int line)
     {
-        super.fireEditorChanged(type);
+        super.fireEditorChanged(type, line);
     }
     void updateMyUI()
     {
@@ -1620,6 +1793,7 @@ public class EditorPanel extends EditorPanelFoundation
         });
     }
     
+    // ypixel in editor - NOT line number related!!!
     public int getPosition()
     {
         JViewport viewport = jScrollPane2.getViewport();

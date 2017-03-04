@@ -119,7 +119,7 @@ public class GetSVGFilenamePanel extends javax.swing.JPanel {
         
         ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
-        ModalInternalFrame modal = new ModalInternalFrame("Enter \"wav\" name!", frame.getRootPane(), frame, panel,null, null , eb);
+        ModalInternalFrame modal = new ModalInternalFrame("Enter \"svg\" name!", frame.getRootPane(), frame, panel,null, null , eb);
         panel.modelDialog = modal;
         modal.setVisible(true);
         String result = modal.getNamedExit();

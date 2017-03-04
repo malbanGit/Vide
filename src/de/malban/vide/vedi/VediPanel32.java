@@ -5,6 +5,8 @@
  */
 package de.malban.vide.vedi;
 
+import de.malban.vide.vedi.panels.BinaryPanel;
+import de.malban.vide.vedi.panels.ImagePanel;
 import com.fazecast.jSerialComm.SerialPort;
 import static com.fazecast.jSerialComm.SerialPort.NO_PARITY;
 import static com.fazecast.jSerialComm.SerialPort.ONE_STOP_BIT;

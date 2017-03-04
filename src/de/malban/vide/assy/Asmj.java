@@ -1114,6 +1114,16 @@ public class Asmj {
                 if (!sy.isUsed()) continue;
             boolean equDone = false;
             int typ = sy.usageType;
+            
+            if (sy.getValue() == 0) continue;
+            if (sy.getValue() == 1) continue;
+            if (sy.getName().toLowerCase().equals("include_i")) continue;
+            if (sy.getName().toLowerCase().equals("assembler")) continue;
+            if (sy.getName().toLowerCase().equals("__6809__")) continue;
+            if (sy.getName().toLowerCase().equals("line")) continue;
+            if (sy.getName().toLowerCase().equals("true")) continue;
+            if (sy.getName().toLowerCase().equals("false")) continue;
+            
             if (!sy.labelUsage)
             {
                 // EQU 20 value - konstant
