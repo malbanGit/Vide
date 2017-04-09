@@ -28,7 +28,9 @@ public class Breakpoint
     public static int BP_CYCLES = 512;
     public static int BP_QUIET = 1024;
     public static int BP_ALLBANK = 2048;
-    public static String[] types={"once", "multi", "read", "write", "info", "compare", "hey","bank", "bitcompare", "cycles", "quiet", "allbanks"};
+    public static int BP_WEIRD = 4096;
+    public static int BP_INTEGRATOR = 4096*2;
+    public static String[] types={"once", "multi", "read", "write", "info", "compare", "hey","bank", "bitcompare", "cycles", "quiet", "allbanks", "weird", "integrators"};
     
 
     public static int BP_TARGET_MEMORY = 0;
@@ -166,7 +168,7 @@ public class Breakpoint
         }
         ret+=", typeflags: ";
         int t=type;
-        for (int i=0;i<8;i++)
+        for (int i=0;i<types.length;i++) 
         {
             if ((t&1)==1) 
                 ret+=types[i]+" ";

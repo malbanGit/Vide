@@ -14,19 +14,30 @@ import java.awt.event.KeyEvent;
 public class KeyboardListener {
 
     private static boolean isShiftDown;
+    private static boolean isCTRLDown;
+    private static boolean isALTDown;
+    
 
     static {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(
             new KeyEventDispatcher() {
                 public boolean dispatchKeyEvent(KeyEvent e) {
                     isShiftDown = e.isShiftDown();
+                    isCTRLDown = e.isControlDown();
+                    isALTDown = e.isAltDown();
                     return false;
                 }
             });
     }
 
+    public static boolean isAltDown() {
+        return isALTDown;
+    }
     public static boolean isShiftDown() {
         return isShiftDown;
+    }
+    public static boolean isControlDown() {
+        return isCTRLDown;
     }
 
 }

@@ -6,6 +6,7 @@ import de.malban.sound.tinysound.Stream;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.vecx.devices.VectrexJoyport;
 import de.malban.vide.VideConfig;
+import de.malban.vide.vecx.libayemu.AY;
 
 // all data is kept as INT
 // of smaller values are needed, they must be converted where USED!
@@ -25,6 +26,10 @@ public class E8910 extends E8910State implements E8910Statics
       Tatsuyuki Satoh, Fabrice Frances, Nicola Salmoria.
     ***************************************************************************/
 
+    AY libayemu = new AY();
+    
+    
+    
     VideConfig config = VideConfig.getConfig();
     transient int MAX_DIGIT_BUFFER = 60000;
     transient int[] digitByte = new int[MAX_DIGIT_BUFFER];
@@ -342,6 +347,8 @@ public class E8910 extends E8910State implements E8910Statics
     }
     private void e8910_callback_8(byte[] stream, int length)
     {
+        
+        
         int outn;
         int memPointer = 0;
         int lengthOrg = length;
@@ -784,6 +791,12 @@ public class E8910 extends E8910State implements E8910Statics
   	int positionInOutputArray = 0;
         if ((digitByteCounter<15) )
         {
+            if (config.useLibAYEmu) 
+            {
+                libayemu.SetRegs(snd_regs);
+                libayemu.GenSound(stream, length,0);
+                return;
+            }
             
             int maxSampleLength = length * OVERSAMPLE;
             int sampleDivider = 3*OVERSAMPLE;

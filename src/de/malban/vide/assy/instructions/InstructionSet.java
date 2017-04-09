@@ -56,6 +56,7 @@ public class InstructionSet extends Hashtable
             code      = "code",
             bss       = "bss",
             bank      = "bank",
+            multibank = "64kBanked",
             struct    = "struct",
             cmap      = "cmap";
 
@@ -105,6 +106,7 @@ public class InstructionSet extends Hashtable
             groupmap.put( align,    align.class    );
             groupmap.put( struct,    struct.class    );
             groupmap.put( bank,    bank.class    );
+            groupmap.put( multibank,    multibank.class    );
             groupmap.put( cmap,    cmap.class    );
     }
 

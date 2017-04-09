@@ -33,7 +33,7 @@ import de.malban.vide.assy.instructions.InstructionGroup;
 public class ArgumentMemoryLocation extends Argument6809 
 {
 
-    Expression offsetExpression; // holds the numeric Expression
+    public Expression offsetExpression; // holds the numeric Expression
 
     // offset means different things in different modes:
     //  IMMEDIATE              - the value
@@ -474,6 +474,11 @@ public class ArgumentMemoryLocation extends Argument6809
             try 
             {
                 // throws SymbolDoesNotExistException
+                if (offsetExpression == null) 
+                {
+                    throw new SymbolDoesNotExistException( "invalid offset expression");
+                }
+
                 int x = offsetExpression.eval(st);
                 if (register==RegisterSet.pc) 
                 {

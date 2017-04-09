@@ -5,11 +5,7 @@
  */
 package de.malban.vide.dissy;
 
-import static de.malban.vide.dissy.MemoryInformation.MEM_TYPE_RAM;
 import de.malban.vide.vecx.panels.RegisterJPanel;
-import java.awt.Color;
-import java.util.ArrayList;
-import javax.swing.table.AbstractTableModel;
 
 /**
  *
@@ -95,6 +91,7 @@ public class Watch {
     }
     public static void addWatch(int address, int t, int l, DissiPanel d)
     {
+        removeWatch(address, d);
         Watch w = new Watch();
         w.startaddress = address;
         w.type = t;

@@ -8,7 +8,6 @@ package de.malban.vide;
 
 
 import de.malban.config.Configuration;
-import de.malban.config.Logable;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
@@ -18,7 +17,6 @@ import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.ShowInfoDialog;
 import de.malban.gui.panels.LogPanel;
-import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.input.ControllerEvent;
 import de.malban.input.ControllerListern;
@@ -27,7 +25,6 @@ import de.malban.input.SystemController;
 import de.malban.sound.tinysound.TinySound;
 import de.malban.util.DownloaderPanel;
 import de.malban.util.KeyboardListener;
-import static de.malban.util.UtilityFiles.executeOSCommand;
 import static de.malban.vide.ControllerConfig.CONTROLLER_JOYSTICK;
 import static de.malban.vide.ControllerConfig.CONTROLLER_NONE;
 import static de.malban.vide.ControllerConfig.CONTROLLER_SPINNER;
@@ -36,16 +33,15 @@ import static de.malban.vide.VideConfig.controllerConfigs;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.dissy.MemoryInformationTableModel;
-import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.VecXPanel;
 import static de.malban.vide.vecx.VecXStatics.*;
 import de.malban.vide.vecx.cartridge.SystemRom;
 import de.malban.vide.vecx.cartridge.SystemRomPanel;
 import de.malban.vide.vecx.cartridge.SystemRomPool;
+import de.malban.vide.vecx.libayemu.AY;
 import de.muntjak.tinylookandfeel.Theme;
 import de.muntjak.tinylookandfeel.TinyLookAndFeel;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -63,7 +59,6 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
-import net.java.games.input.ControllerEnvironment;
 
 
 /**
@@ -169,7 +164,9 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jSliderT1.setValue(config.delays[TIMER_T1]-1);
         
         jCheckBox43.setSelected(config.includeRelativeToParent);
-        
+        jTextFieldSingestepBuffer.setText(""+config.singestepBuffer);
+        jTextFieldFrameBuffer.setText(""+config.frameBuffer);
+
         jComboBox3.setSelectedIndex(config.generation);
 
         
@@ -270,7 +267,9 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         
         jCheckBox44.setSelected(config.imagerAutoOnDefault);
         
-        
+        jCheckBox50.setSelected(config.romAndPcBreakpoints);
+
+
         jCheckBoxScanForVectorLists.setSelected(config.scanForVectorLists);
 
         
@@ -289,6 +288,30 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         
         jRadioButton2.setSelected(!config.lstFirst);
         jRadioButton1.setSelected(config.lstFirst);
+        
+        jRadioButton3.setSelected(!config.useLibAYEmu);
+        jRadioButton4.setSelected(config.useLibAYEmu);
+
+        if (config.useLibAYEmuTable.equals("AY_Kay"))
+        {
+            jComboBox7.setSelectedIndex(0);
+        }
+        else if (config.useLibAYEmuTable.equals("YM_Kay"))
+        {
+            jComboBox7.setSelectedIndex(1);
+        }
+        else if (config.useLibAYEmuTable.equals("AY_Lion17"))
+        {
+            jComboBox7.setSelectedIndex(2);
+        }
+        else if (config.useLibAYEmuTable.equals("YM_Lion17"))
+        {
+            jComboBox7.setSelectedIndex(3);
+        }
+            
+        
+        
+        
         
         
         for (int i=0;i<MemoryInformationTableModel.columnVisibleALL.length; i++)
@@ -353,12 +376,14 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel20 = new javax.swing.JPanel();
+        jSliderSplineDensity = new javax.swing.JSlider();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldSingestepBuffer = new javax.swing.JTextField();
         jCheckBox6 = new javax.swing.JCheckBox();
         jPanel26 = new javax.swing.JPanel();
         jSliderMuxY3 = new javax.swing.JSlider();
@@ -379,7 +404,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jCheckBox41 = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jSliderSplineDensity = new javax.swing.JSlider();
         jCheckBox11 = new javax.swing.JCheckBox();
         jCheckBoxAutoSync = new javax.swing.JCheckBox();
         jPanel32 = new javax.swing.JPanel();
@@ -396,17 +420,14 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel35 = new javax.swing.JPanel();
         jSliderOverflow = new javax.swing.JSlider();
         jCheckBoxOverflow = new javax.swing.JCheckBox();
-        jSliderMasterVolume = new javax.swing.JSlider();
-        jLabel9 = new javax.swing.JLabel();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jLabel15 = new javax.swing.JLabel();
-        jSliderPSGVolume = new javax.swing.JSlider();
         jCheckBox7 = new javax.swing.JCheckBox();
         jCheckBox44 = new javax.swing.JCheckBox();
         jLabel31 = new javax.swing.JLabel();
         jTextField11 = new javax.swing.JTextField();
         jTextField12 = new javax.swing.JTextField();
         jCheckBox49 = new javax.swing.JCheckBox();
+        jTextFieldFrameBuffer = new javax.swing.JTextField();
+        jLabel36 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jSliderRampOff = new javax.swing.JSlider();
@@ -488,6 +509,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel9 = new javax.swing.JPanel();
         jSliderMultiStepDelay = new javax.swing.JSlider();
         jCheckBox42 = new javax.swing.JCheckBox();
+        jCheckBox50 = new javax.swing.JCheckBox();
         jPanel6 = new javax.swing.JPanel();
         jCheckBox13 = new javax.swing.JCheckBox();
         jCheckBox15 = new javax.swing.JCheckBox();
@@ -509,6 +531,14 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jCheckBox47 = new javax.swing.JCheckBox();
         jLabel33 = new javax.swing.JLabel();
         jComboBox5 = new javax.swing.JComboBox();
+        jCheckBox5 = new javax.swing.JCheckBox();
+        jLabel9 = new javax.swing.JLabel();
+        jSliderMasterVolume = new javax.swing.JSlider();
+        jLabel15 = new javax.swing.JLabel();
+        jSliderPSGVolume = new javax.swing.JSlider();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        jComboBox7 = new javax.swing.JComboBox();
         jPanel14 = new javax.swing.JPanel();
         keyBindingsJPanel1 = new de.malban.vide.vedi.project.KeyBindingsJPanel();
         jPanel15 = new javax.swing.JPanel();
@@ -569,6 +599,19 @@ public class ConfigJPanel extends javax.swing.JPanel implements
 
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(680, 845));
 
+        jSliderSplineDensity.setMajorTickSpacing(1);
+        jSliderSplineDensity.setMaximum(20);
+        jSliderSplineDensity.setMinimum(1);
+        jSliderSplineDensity.setMinorTickSpacing(1);
+        jSliderSplineDensity.setPaintTicks(true);
+        jSliderSplineDensity.setToolTipText("This is in respect to distance of two points, the minum number of control points for a slope between two points is one, regardless of these settings!");
+        jSliderSplineDensity.setValue(4);
+        jSliderSplineDensity.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderSplineDensityStateChanged(evt);
+            }
+        });
+
         jCheckBox1.setSelected(true);
         jCheckBox1.setText("load overlays when available");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -577,12 +620,21 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             }
         });
 
-        jLabel1.setText("rollback buffer");
-        jLabel1.setEnabled(false);
+        jLabel1.setText("& single step rollback buffer");
 
-        jTextField1.setText("2000");
-        jTextField1.setEnabled(false);
-        jTextField1.setPreferredSize(new java.awt.Dimension(60, 20));
+        jTextFieldSingestepBuffer.setText("2000");
+        jTextFieldSingestepBuffer.setToolTipText("Changes clear current buffer");
+        jTextFieldSingestepBuffer.setPreferredSize(new java.awt.Dimension(60, 20));
+        jTextFieldSingestepBuffer.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldSingestepBufferFocusLost(evt);
+            }
+        });
+        jTextFieldSingestepBuffer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSingestepBufferActionPerformed(evt);
+            }
+        });
 
         jCheckBox6.setSelected(true);
         jCheckBox6.setText("vector information collection active");
@@ -769,19 +821,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
-            }
-        });
-
-        jSliderSplineDensity.setMajorTickSpacing(1);
-        jSliderSplineDensity.setMaximum(20);
-        jSliderSplineDensity.setMinimum(1);
-        jSliderSplineDensity.setMinorTickSpacing(1);
-        jSliderSplineDensity.setPaintTicks(true);
-        jSliderSplineDensity.setToolTipText("This is in respect to distance of two points, the minum number of control points for a slope between two points is one, regardless of these settings!");
-        jSliderSplineDensity.setValue(4);
-        jSliderSplineDensity.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderSplineDensityStateChanged(evt);
             }
         });
 
@@ -975,42 +1014,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jSliderMasterVolume.setMajorTickSpacing(10);
-        jSliderMasterVolume.setMaximum(255);
-        jSliderMasterVolume.setMinorTickSpacing(5);
-        jSliderMasterVolume.setPaintTicks(true);
-        jSliderMasterVolume.setToolTipText("This is in respect to distance of two points, the minum number of control points for a slope between two points is one, regardless of these settings!");
-        jSliderMasterVolume.setValue(255);
-        jSliderMasterVolume.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderMasterVolumeStateChanged(evt);
-            }
-        });
-
-        jLabel9.setText("Master volume:");
-
-        jCheckBox5.setSelected(true);
-        jCheckBox5.setText("PSG Sound");
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
-            }
-        });
-
-        jLabel15.setText("PSG volume:");
-
-        jSliderPSGVolume.setMajorTickSpacing(10);
-        jSliderPSGVolume.setMaximum(255);
-        jSliderPSGVolume.setMinorTickSpacing(5);
-        jSliderPSGVolume.setPaintTicks(true);
-        jSliderPSGVolume.setToolTipText("This is in respect to distance of two points, the minum number of control points for a slope between two points is one, regardless of these settings!");
-        jSliderPSGVolume.setValue(255);
-        jSliderPSGVolume.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSliderPSGVolumeStateChanged(evt);
-            }
-        });
-
         jCheckBox7.setSelected(true);
         jCheckBox7.setText("Speed limit 100%");
         jCheckBox7.addActionListener(new java.awt.event.ActionListener() {
@@ -1062,57 +1065,26 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             }
         });
 
+        jTextFieldFrameBuffer.setText("2000");
+        jTextFieldFrameBuffer.setToolTipText("Every 30000 cycles one state is saved in the frame buffer - up to this number. Approx. 50 = 1 second");
+        jTextFieldFrameBuffer.setPreferredSize(new java.awt.Dimension(60, 20));
+        jTextFieldFrameBuffer.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldFrameBufferFocusLost(evt);
+            }
+        });
+        jTextFieldFrameBuffer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldFrameBufferActionPerformed(evt);
+            }
+        });
+
+        jLabel36.setText("frame");
+
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
         jPanel20Layout.setHorizontalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel20Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel20Layout.createSequentialGroup()
-                        .addComponent(jLabel31)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
-                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel20Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCheckBox44)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox14)
-                    .addComponent(jCheckBox27)
-                    .addComponent(jCheckBox6)
-                    .addComponent(jCheckBox23)
-                    .addGroup(jPanel20Layout.createSequentialGroup()
-                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox26)
-                            .addComponent(jCheckBox10)
-                            .addComponent(jCheckBox41)
-                            .addComponent(jCheckBox12))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox49)
-                            .addComponent(jCheckBoxAutoSync)
-                            .addComponent(jCheckBox11)
-                            .addGroup(jPanel20Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1)))))
-                .addGap(0, 0, 0)
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jLabel9)
-                    .addComponent(jSliderMasterVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15)
-                    .addComponent(jSliderPSGVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSliderSplineDensity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox7)))
             .addComponent(jPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1121,83 +1093,129 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             .addComponent(jPanel33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel20Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox6)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox44)
+                    .addGroup(jPanel20Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel20Layout.createSequentialGroup()
+                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel20Layout.createSequentialGroup()
+                                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel31)
+                                    .addComponent(jCheckBox26)
+                                    .addComponent(jCheckBox10)
+                                    .addComponent(jCheckBox41)
+                                    .addComponent(jCheckBox12)
+                                    .addComponent(jCheckBox23)
+                                    .addComponent(jCheckBox14))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBox11)
+                                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldFrameBuffer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel36)))
+                            .addComponent(jCheckBox27))
+                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel20Layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldSingestepBuffer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel20Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addComponent(jLabel1))
+                                    .addGroup(jPanel20Layout.createSequentialGroup()
+                                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(28, 28, 28)
+                                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jCheckBox49)
+                                            .addComponent(jCheckBox7)
+                                            .addComponent(jCheckBoxAutoSync)))))
+                            .addGroup(jPanel20Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jSliderSplineDensity, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jCheckBox5))
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox1)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox6)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox41)
+                .addGap(0, 0, 0)
+                .addComponent(jCheckBox12)
                 .addGap(0, 0, 0)
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel20Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(0, 0, 0)
-                        .addComponent(jSliderMasterVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel15)
-                        .addGap(0, 0, 0)
-                        .addComponent(jSliderPSGVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSliderSplineDensity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox7))
-                    .addGroup(jPanel20Layout.createSequentialGroup()
-                        .addComponent(jCheckBox1)
-                        .addGap(0, 0, 0)
-                        .addComponent(jCheckBox6)
-                        .addGap(0, 0, 0)
-                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox41)
-                            .addComponent(jCheckBox49))
-                        .addGap(0, 0, 0)
-                        .addComponent(jCheckBox12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox14)
-                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jCheckBox23)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, 0)
+                        .addComponent(jCheckBox23))
+                    .addGroup(jPanel20Layout.createSequentialGroup()
+                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel36))
+                        .addGap(0, 0, 0)
+                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldSingestepBuffer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldFrameBuffer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(1, 1, 1)
+                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel20Layout.createSequentialGroup()
                         .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCheckBox11)
                             .addComponent(jCheckBox26))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox27)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jCheckBox10)
                             .addComponent(jCheckBoxAutoSync))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox44)
+                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jCheckBox44)
+                            .addComponent(jCheckBox49))
                         .addGap(0, 0, 0)
                         .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel31)
                             .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(6, 6, 6)
-                .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
-                .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBox7))
+                        .addGap(14, 14, 14)
+                        .addComponent(jPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
+                        .addComponent(jPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSliderSplineDensity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0))
         );
 
@@ -2197,7 +2215,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSliderMultiStepDelay, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
+            .addComponent(jSliderMultiStepDelay, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2211,6 +2229,13 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBox50.setText("ROM and PC breakpoints switch on by default");
+        jCheckBox50.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox50ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
         jPanel22Layout.setHorizontalGroup(
@@ -2221,6 +2246,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel22Layout.createSequentialGroup()
                         .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox50)
                             .addComponent(jCheckBox8)
                             .addComponent(jCheckBox9)
                             .addComponent(jCheckBox24)
@@ -2239,7 +2265,9 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                 .addComponent(jCheckBox24)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jCheckBox42)
-                .addGap(61, 61, 61)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox50)
+                .addGap(35, 35, 35)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
@@ -2424,6 +2452,67 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBox5.setSelected(true);
+        jCheckBox5.setText("PSG Sound");
+        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox5ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Master volume:");
+
+        jSliderMasterVolume.setMajorTickSpacing(10);
+        jSliderMasterVolume.setMaximum(255);
+        jSliderMasterVolume.setMinorTickSpacing(5);
+        jSliderMasterVolume.setPaintTicks(true);
+        jSliderMasterVolume.setToolTipText("This is in respect to distance of two points, the minum number of control points for a slope between two points is one, regardless of these settings!");
+        jSliderMasterVolume.setValue(255);
+        jSliderMasterVolume.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderMasterVolumeStateChanged(evt);
+            }
+        });
+
+        jLabel15.setText("PSG volume:");
+
+        jSliderPSGVolume.setMajorTickSpacing(10);
+        jSliderPSGVolume.setMaximum(255);
+        jSliderPSGVolume.setMinorTickSpacing(5);
+        jSliderPSGVolume.setPaintTicks(true);
+        jSliderPSGVolume.setToolTipText("This is in respect to distance of two points, the minum number of control points for a slope between two points is one, regardless of these settings!");
+        jSliderPSGVolume.setValue(255);
+        jSliderPSGVolume.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSliderPSGVolumeStateChanged(evt);
+            }
+        });
+
+        buttonGroup2.add(jRadioButton3);
+        jRadioButton3.setSelected(true);
+        jRadioButton3.setText("old MAME PSG emulation");
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton3ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup2.add(jRadioButton4);
+        jRadioButton4.setText("LibAYEmu PSG emulation");
+        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton4ActionPerformed(evt);
+            }
+        });
+
+        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AY_Kay", "YM_Kay", "AY_Lion17", "YM_Lion17" }));
+        jComboBox7.setToolTipText("Volume table used for emulation");
+        jComboBox7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -2431,6 +2520,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton3)
                     .addComponent(jCheckBoxScanForVectorLists)
                     .addComponent(jCheckBox19)
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -2439,16 +2529,27 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                     .addComponent(jCheckBox17)
                     .addComponent(jCheckBox18)
                     .addComponent(jCheckBox47, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox5)
+                    .addComponent(jLabel9)
+                    .addComponent(jSliderMasterVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSliderPSGVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel32)
-                            .addComponent(jLabel33))
-                        .addGap(47, 47, 47)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldstart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox5, 0, 183, Short.MAX_VALUE))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel32)
+                                    .addComponent(jLabel33))
+                                .addGap(47, 47, 47)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextFieldstart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox5, 0, 183, Short.MAX_VALUE)))
+                            .addComponent(jLabel15))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonFileSelect1)))
+                        .addComponent(jButtonFileSelect1))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jRadioButton4)
+                        .addGap(35, 35, 35)
+                        .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(117, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -2478,6 +2579,24 @@ public class ConfigJPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel33)
                     .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBox5)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel9)
+                .addGap(0, 0, 0)
+                .addComponent(jSliderMasterVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel15)
+                .addGap(2, 2, 2)
+                .addComponent(jSliderPSGVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jRadioButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jRadioButton4))
+                    .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -3811,6 +3930,74 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         
     }//GEN-LAST:event_jCheckBox49ActionPerformed
 
+    private void jCheckBox50ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox50ActionPerformed
+        config.romAndPcBreakpoints = jCheckBox50.isSelected();
+    }//GEN-LAST:event_jCheckBox50ActionPerformed
+
+    private void jTextFieldSingestepBufferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSingestepBufferActionPerformed
+        config.singestepBuffer = de.malban.util.UtilityString.IntX(jTextFieldSingestepBuffer.getText(), 2000);
+        if (config.singestepBuffer>50000)
+            config.singestepBuffer = 50000;
+        jTextFieldSingestepBuffer.setText(""+config.singestepBuffer);
+        updateVecxBuffer();
+
+    }//GEN-LAST:event_jTextFieldSingestepBufferActionPerformed
+
+    private void jTextFieldSingestepBufferFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldSingestepBufferFocusLost
+        config.singestepBuffer = de.malban.util.UtilityString.IntX(jTextFieldSingestepBuffer.getText(), 2000);
+        if (config.singestepBuffer>50000)
+            config.singestepBuffer = 50000;
+        jTextFieldSingestepBuffer.setText(""+config.singestepBuffer);
+        updateVecxBuffer();
+    }//GEN-LAST:event_jTextFieldSingestepBufferFocusLost
+
+    private void jTextFieldFrameBufferFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldFrameBufferFocusLost
+        config.frameBuffer = de.malban.util.UtilityString.IntX(jTextFieldFrameBuffer.getText(), 2000);
+        if (config.frameBuffer>5000)
+            config.frameBuffer = 5000;
+        jTextFieldFrameBuffer.setText(""+config.frameBuffer);
+        updateVecxBuffer();
+    }//GEN-LAST:event_jTextFieldFrameBufferFocusLost
+
+    private void jTextFieldFrameBufferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFrameBufferActionPerformed
+        config.frameBuffer = de.malban.util.UtilityString.IntX(jTextFieldFrameBuffer.getText(), 2000);
+        if (config.frameBuffer>5000)
+            config.frameBuffer = 5000;
+        jTextFieldFrameBuffer.setText(""+config.frameBuffer);
+        updateVecxBuffer();
+    }//GEN-LAST:event_jTextFieldFrameBufferActionPerformed
+
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+        config.useLibAYEmu = false;
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
+
+    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+        config.useLibAYEmu = true;
+    }//GEN-LAST:event_jRadioButton4ActionPerformed
+
+    private void jComboBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox7ActionPerformed
+        if (jComboBox7.getSelectedIndex() == 0)
+        {
+            config.useLibAYEmuTable = "AY_Kay";
+            AY.SetChipType(AY.Chip.AY_Kay, null);
+        }
+        if (jComboBox7.getSelectedIndex() == 1)
+        {
+            config.useLibAYEmuTable = "YM_Kay";
+            AY.SetChipType(AY.Chip.YM_Kay, null);
+        }
+        if (jComboBox7.getSelectedIndex() == 2)
+        {
+            config.useLibAYEmuTable = "AY_Lion17";
+            AY.SetChipType(AY.Chip.AY_Lion17, null);
+        }
+        if (jComboBox7.getSelectedIndex() == 3)
+        {
+            config.useLibAYEmuTable = "YM_Lion17";
+            AY.SetChipType(AY.Chip.YM_Lion17, null);
+        }
+    }//GEN-LAST:event_jComboBox7ActionPerformed
+
     void setSizes()
     {
         config.ALG_MAX_X = de.malban.util.UtilityString.IntX(jTextField11.getText(), 38000);
@@ -3820,6 +4007,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private de.malban.input.InputControllerDisplay inputControllerDisplay1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -3877,6 +4065,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox48;
     private javax.swing.JCheckBox jCheckBox49;
     private javax.swing.JCheckBox jCheckBox5;
+    private javax.swing.JCheckBox jCheckBox50;
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JCheckBox jCheckBox8;
@@ -3894,6 +4083,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JComboBox jComboBox4;
     private javax.swing.JComboBox jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
+    private javax.swing.JComboBox jComboBox7;
     private javax.swing.JComboBox jComboBoxJoystickConfigurations;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -3924,6 +4114,7 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -3971,6 +4162,8 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JPanel jPanel9;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSlider jSliderBlank;
     private javax.swing.JSlider jSliderBrightness;
@@ -4003,7 +4196,6 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JSlider jSliderZeroRetainY;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
@@ -4015,6 +4207,8 @@ public class ConfigJPanel extends javax.swing.JPanel implements
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField jTextFieldFrameBuffer;
+    private javax.swing.JTextField jTextFieldSingestepBuffer;
     private javax.swing.JTextField jTextFieldstart;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton10;
@@ -4395,5 +4589,14 @@ public class ConfigJPanel extends javax.swing.JPanel implements
         VecXPanel vecxi = ff.checkVecxy();
         if (vecxi != null)
             vecxi.resetGfx();
+    }
+    void updateVecxBuffer()
+    {
+        JFrame f = Configuration.getConfiguration().getMainFrame();
+        if (!(f instanceof CSAMainFrame)) return;
+        CSAMainFrame ff = (CSAMainFrame)f;
+        VecXPanel vecxi = ff.checkVecxy();
+        if (vecxi != null)
+            vecxi.resetBuffer();
     }
 }

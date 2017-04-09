@@ -674,6 +674,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jCheckBoxForce1 = new javax.swing.JCheckBox();
         jCheckBoxForce2 = new javax.swing.JCheckBox();
         jCheckBoxForce3 = new javax.swing.JCheckBox();
+        jButtonSaveSelection2 = new javax.swing.JButton();
+        jTextFieldReadChanel = new javax.swing.JTextField();
         jButtonCancel = new javax.swing.JButton();
         jButtonCreate = new javax.swing.JButton();
         jCheckBox26 = new javax.swing.JCheckBox();
@@ -3396,6 +3398,21 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         jCheckBoxForce3.setText("force channel 3");
 
+        jButtonSaveSelection2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/drive_user.png"))); // NOI18N
+        jButtonSaveSelection2.setToolTipText("insert data from a text file (db statements) version 2");
+        jButtonSaveSelection2.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonSaveSelection2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSaveSelection2ActionPerformed(evt);
+            }
+        });
+
+        jTextFieldReadChanel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldReadChanelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -3427,17 +3444,21 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel11Layout.createSequentialGroup()
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton7))
-                                    .addGroup(jPanel11Layout.createSequentialGroup()
                                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jButton8))
                                     .addGroup(jPanel11Layout.createSequentialGroup()
                                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton9))))))
+                                        .addComponent(jButton9))
+                                    .addGroup(jPanel11Layout.createSequentialGroup()
+                                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jButtonSaveSelection2)
+                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jButton7)
+                                            .addComponent(jTextFieldReadChanel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jLabel145))
@@ -3454,9 +3475,13 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel145)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox23)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(jLabel145)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBox23))
+                    .addComponent(jButtonSaveSelection2)
+                    .addComponent(jTextFieldReadChanel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox24)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3495,7 +3520,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 .addComponent(jCheckBoxForce2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxForce3)
-                .addContainerGap(204, Short.MAX_VALUE))
+                .addContainerGap(186, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("more configuration", jPanel11);
@@ -4400,6 +4425,37 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         multiplayVoiceAmplitude(2,mul);
     }//GEN-LAST:event_jButton9ActionPerformed
 
+    private void jButtonSaveSelection2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveSelection2ActionPerformed
+        if (jTable1.isEditing()) jTable1.getCellEditor().stopCellEditing();        
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+
+        if (lastPath.length()==0)
+        {
+            if (pathOnly.length()==0)
+            {
+                pathOnly =  "."+File.separator;
+            }
+            fc.setCurrentDirectory(new java.io.File(pathOnly));
+        }
+        else
+        {
+            fc.setCurrentDirectory(new java.io.File(lastPath));
+        }
+
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        lastPath = fc.getSelectedFile().getAbsolutePath();
+
+        byte[][] buf = readStatements(lastPath, jTextFieldReadChanel.getText());
+        
+        if (buf != null)
+            insertYM(buf, buf[0].length);
+    }//GEN-LAST:event_jButtonSaveSelection2ActionPerformed
+
+    private void jTextFieldReadChanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldReadChanelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldReadChanelActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -4435,6 +4491,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JButton jButtonSave3;
     private javax.swing.JButton jButtonSaveSelection;
     private javax.swing.JButton jButtonSaveSelection1;
+    private javax.swing.JButton jButtonSaveSelection2;
     private javax.swing.JButton jButtonStop2;
     private javax.swing.JButton jButtonStop3;
     private javax.swing.JButton jButtonSwap12;
@@ -4703,6 +4760,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JTextField jTextFieldFrequencyPlayer;
     private javax.swing.JTextField jTextFieldFutureData;
     private javax.swing.JTextField jTextFieldLoop;
+    private javax.swing.JTextField jTextFieldReadChanel;
     private javax.swing.JTextField jTextFieldSamples;
     private javax.swing.JTextField jTextFieldSongName;
     private javax.swing.JTextField jTextFieldYMVersion;
@@ -7222,7 +7280,8 @@ s
                     buf[r++][l] = (byte) ((DASM6809.toNumber(reg))&0xff);
                 }
             }
-            if (r != regCount) return null;
+            if (r != regCount) 
+                return null;
             l++;
 //            System.out.println(""+l+"/"+lineCount);
         }
@@ -7230,6 +7289,69 @@ s
         
         return buf;
     }
+    
+    byte[][] readStatements(String file, String psgID)
+    {
+        int lineLength=0;
+        String text = de.malban.util.UtilityString.readTextFileToOneString(new File (file));
+
+        String[] lines = text.split("\n");
+        ArrayList<String> lineArray = new ArrayList<String>();
+        for (String line: lines)
+        {
+            line = line.trim();
+            if (!line.contains("#$"+psgID+"#")) continue;
+            line = de.malban.util.UtilityString.replace(line,"#$"+psgID+"#",""); 
+        line = de.malban.util.UtilityString.replace(line, "\r", " ");
+        line = de.malban.util.UtilityString.replace(line, "\t", " ");
+        line = de.malban.util.UtilityString.replace(line, ",", " ");
+        line = de.malban.util.UtilityString.replace(line, "0x", "$");
+        line = de.malban.util.UtilityString.replace(line, "  ", " ");
+            if (line.length() != 0)
+            {
+                lineArray.add(line);
+            }
+        }
+        int lineCount = lineArray.size();
+        if (lineCount==0) return null;
+        
+        String textLine = lineArray.get(0);
+        String[] values = textLine.split(" ");
+        ArrayList<String> valueArray = new ArrayList<String>();
+        for (String value: values)
+        {
+            value = value.trim();
+            if (value.length() != 0)
+            {
+                valueArray.add(value);
+            }
+        }
+        int regCount = valueArray.size();
+        if (regCount==0) return null;
+        
+        byte[][] buf = new byte[16][lineCount];
+        
+        int l = 0;
+        for (String line: lineArray)
+        {
+            int r = 0;
+            String[] regs = line.split(" ");
+            for (String reg: regs)
+            {
+                reg = reg.trim();
+                if (reg.length() != 0)
+                {
+                    buf[r++][l] = (byte) ((DASM6809.toNumber(reg))&0xff);
+                }
+            }
+            if (r != regCount) return null;
+            l++;
+//            System.out.println(""+l+"/"+lineCount);
+        }
+        
+        
+        return buf;
+    }    
     void swapVoice(int v1, int v2)
     {
         int start = 0;

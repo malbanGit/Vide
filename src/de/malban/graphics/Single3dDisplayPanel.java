@@ -288,7 +288,16 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
     {
         singleRepaint = b;
     }
-    
+    boolean oldSingleRepaint = false;
+    public void disableSingleRepaint()
+    {
+        oldSingleRepaint = singleRepaint;
+        singleRepaint = false;
+    }
+    public void enableSingleRepaint()
+    {
+        singleRepaint = oldSingleRepaint;
+    }
     
     BufferedImage[] paintBufferImage = new BufferedImage[2];
     int bufferUsed = -1;

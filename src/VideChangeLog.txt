@@ -1,4 +1,22 @@
----------------------
+------------------
+Version 1.14
+new: 
+ - vecxi: finally added configuration to size of ringbuffer, user can give ANY (up to 50000) size, may result in OOM exception though,
+          user must know self how much memory he has available
+ - dissi: step forward and backward can step multiple times, + SHIFT 10 steps, + CTRL 100 steps  
+ - dissi: the enabling of ROM + PC breakpoints can be "ON" per default now (configuration setting)
+ - dissi, vecxi: added FRAME undo - step back 30000 instructions (every 30000 instructions a frame is saved, up to buffer size)
+          that way larger step backs are possible without MB collections of data
+ - config: moved sound configuration to miscellaneous instead of emulation
+ - ay: added new PSG emulation core: libayemu
+ - ay: added the option to chose between two PSG emulation cores, the "old" one (of MAME), and LibAYEmu
+
+BugFix:
+- assi: include filenames did not correctly exchanged seperators accross different platforms
+- vedi: another one of those small syntax highlighting changes ("lost" vars might be refound)
+
+31st of March 2017
+------------------
 Version 1.13
 
 new: 
@@ -9,9 +27,42 @@ new:
 - ym: added afx files to the lister table (playable upon double click to channel A)
 - vecx: added "intensity" drift
 - vecx: added option to allow ROM-write access (to find bugs...)
+- vecx: changed painting of "pause mode"
+- dissi: added cli command "rd"
+- dissi: added breakpoint type "PC" (dissi breaks on pc = weird address, 
+         weird = higher rom size and smaller 0xe000 - yes, also pc = RAM)
+- dissi: added breakpoint type "NZ" (dissi breaks on at the executed address integrators are non zero) - only meaningfull w/o drift
+         (also as hey dissi variant: ; hey dissi "break integratorzero")
+- dissi: changed assi warning of double defined variable to only warn if variable is defined differently 
+         (structs with same names gave warnings all the time)
+- dissi: user defined RAM labels have now precedence over BIOS (Tomlin style) labels
+- dissi: added dissi comand line "quiet" - to not print breakpoints in all verbosity
+- assi: added a "#pragma"tic approach - if you have a comment "; #noDoubleWarn" behind a label, 
+        than a double definition of that label does not result in a warning (pun intended :-)) 
+- assi+dissi: added two new CNT keywords:
+        FORCE_SYMBOL #adresse# label
+        FORCE_NO_SYMBOL #adresse#
+        Assi (as usual) automatically creates these entries while assembling. 
+        The "good" thing is, that the correct labels are used in dissi when a label is double defined.
+        (in coding release I double/tripple used some RAM locations, and I was annoyed by always reading in 
+         dissi exactly the wrong names).
+        Before the first "fitting" label was used - now the exact label (if possible).
+        Also if you use a number - dissi does not desperatly try to find a label, but uses a number where
+        a number was written in the source.
+- vedi+assi+dissi: watches can be added from vedi (right mouse click on label, select watches in popup)
+- starter: added most of the university project files
+- vedi: support to output 2 banks to VecFever (64k is built automatically after compile)
 
 BugFix:
-
+- vecci: bug introduced with grid optimiziation (if grid was not displayed, the cross was incorrect)
+- dissi: watch add from source code with hey dissi - "type 5" was not correctly interpreted
+- dissi: hey dissi breakpoints work now with banks too
+- vedi: gui breakpoints were saved to one line further... - corrected
+- vedi: syntax coloring again a little bit more stable...
+- vedi: linenumbers were sometimes "erratic" I think I fixed that 
+- vecxi: starting in debug mode now correctly works for banks
+- dumpi: in dumpi vectorlists can now be shown that were generated to RAM
+- vecci: updateting the 3d sliders did not update the preview anymore - lost it at some stage -> corrected
 
 21st of February 2017
 ---------------------

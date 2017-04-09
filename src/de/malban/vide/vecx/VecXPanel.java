@@ -6,8 +6,6 @@
 package de.malban.vide.vecx;
 
 import de.malban.Global;
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
 
 import de.malban.vide.vecx.devices.LightpenDevice;
 import de.malban.vide.VideConfig;
@@ -96,12 +94,8 @@ import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import java.awt.event.ActionEvent;
-import java.nio.FloatBuffer;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
 
 /**
  *
@@ -557,7 +551,9 @@ public class VecXPanel extends javax.swing.JPanel
         
         if (startTypeRun != START_TYPE_INJECT)
         {
-            vecx.init(jTextFieldstart.getText(), cartProp);
+            boolean ok = vecx.init(jTextFieldstart.getText(), cartProp);
+            if (!ok)
+                return;
             dissi.dis(vecx.cart);
             if (startTypeRun == VecX.START_TYPE_DEBUG)
                 dissi.setStartbreakpoint();
@@ -926,23 +922,43 @@ public class VecXPanel extends javax.swing.JPanel
         resetGfx();
         start();
     }//GEN-LAST:event_jButtonLoadStateActionPerformed
-    public void debugUndoAction()
+    public void debugFrameUndoAction(int s)
     {
         if (!isDebuging())
             return;
         if (stepping) return;
-        vecx.oneStepBackInRingbuffer();
+        vecx.stepBackInFrameRingbuffer(s);
         paint(vecx.getDisplayList());
         repaint();
         updateAvailableWindows(true, false, true);
-        
     }    
-    public void debugRedoAction()
+    public void debugFrameRedoAction(int s)
     {
         if (!isDebuging())
             return;
         if (stepping) return;
-        vecx.oneStepForwardInRingbuffer();
+        vecx.stepForwardInFrameRingbuffer(s);
+        paint(vecx.getDisplayList());
+        repaint();
+        updateAvailableWindows(true, false, true);
+    }    
+
+    public void debugUndoAction(int s)
+    {
+        if (!isDebuging())
+            return;
+        if (stepping) return;
+        vecx.stepBackInSSRingbuffer(s);
+        paint(vecx.getDisplayList());
+        repaint();
+        updateAvailableWindows(true, false, true);
+    }    
+    public void debugRedoAction(int s)
+    {
+        if (!isDebuging())
+            return;
+        if (stepping) return;
+        vecx.stepForwardInSSRingbuffer(s);
         paint(vecx.getDisplayList());
         repaint();
         updateAvailableWindows(true, false, true);
@@ -1838,6 +1854,19 @@ public class VecXPanel extends javax.swing.JPanel
     ArrayList<Point> spline = new ArrayList();
     HashMap<String, String> doubleCheck= new HashMap<String, String>();
     StringBuilder sh = new StringBuilder();
+    boolean forcedRedraw = false;
+    public void redraw()
+    {
+        resetGfx();
+        paint(vecx.getDisplayList());
+        repaint();
+        
+    }
+    public void doRedraw()
+    {
+        paint(vecx.getDisplayList());
+        repaint();
+    }
     synchronized private void paint(VectrexDisplayVectors vList)
     {
         if (!toggleDisplay) return;
@@ -1845,7 +1874,16 @@ public class VecXPanel extends javax.swing.JPanel
         doubleCheck.clear();
 
         Graphics2D g2 = image.createGraphics();
-        
+
+        if ((!forcedRedraw) && (pausing))
+        {
+            Color c = new Color(255,0,0,255 );
+            g2.setColor(Color.RED);
+            g2.setFont(this.getFont());
+            g2.drawString("PAUSED", (image.getWidth()/2)-30, image.getHeight()/3);
+            
+            return;// don't redraw in pause unless gfx changed'
+        }
         if (config.persistenceAlpha != 255)
         {
                 Color cc = new Color(0,0,0,config.persistenceAlpha );
@@ -1857,9 +1895,7 @@ public class VecXPanel extends javax.swing.JPanel
                 Color cc = new Color(0,0,0,255);
                 g2.setBackground(cc);
                 g2.clearRect(0, 0, vectrexDisplayWidth, vectrexDisplayheight);
-
         }
-
         if (pausing)
         {
             Color c = new Color(255,0,0,255 );
@@ -1867,6 +1903,7 @@ public class VecXPanel extends javax.swing.JPanel
             g2.setFont(this.getFont());
             g2.drawString("PAUSED", (image.getWidth()/2)-30, image.getHeight()/3);
         }
+
         if (debuging)
         {
             Color c = new Color(255,0,0,255 );
@@ -1994,6 +2031,7 @@ public class VecXPanel extends javax.swing.JPanel
             drawOneLine(g2, vList.vectrexVectors[v]);
 	} 
         g2.dispose();
+        forcedRedraw = false;
     }
     private void drawOneLine(Graphics2D g2, vector_t v)
     {
@@ -2193,6 +2231,13 @@ public class VecXPanel extends javax.swing.JPanel
         }
         rotateImage = de.malban.util.UtilityImage.getNewImage(vectrexDisplayWidth, vectrexDisplayheight);
     }
+    public void resetBuffer()
+    {
+        if (vecx != null)
+        {
+            vecx.resetBuffer();
+        }
+    }
 
     public void resetGfx()
     {
@@ -2207,7 +2252,7 @@ public class VecXPanel extends javax.swing.JPanel
         if (phosphor[0] == null) return;
         if (phosphor[1] == null) return;
         
-        
+        forcedRedraw = true;
         
         orgVectrexDisplayWidth = image.getWidth();
         orgVectrexDisplayHeight = image.getHeight();
@@ -2821,7 +2866,10 @@ public class VecXPanel extends javax.swing.JPanel
                 continue;
             }
             if ((bp.type&Breakpoint.BP_QUIET) ==0)
+            {
+                if (!dissi.isQuiet())
                 dissi.printMessage("Triggered: "+bp, DissiPanel.MESSAGE_INFO);
+            }
         }
         if (breaki != null) breaki.updateValues(true);
     }

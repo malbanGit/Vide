@@ -17,7 +17,6 @@
 package de.malban.vide.assy.instructions;
 
 import de.malban.vide.assy.Asmj;
-import de.malban.vide.assy.instructions.InstructionGroup;
 import de.malban.vide.assy.arguments.Argument6809;
 import de.malban.vide.assy.arguments.ArgumentMemoryLocation;
 import de.malban.vide.assy.Memory;
@@ -26,7 +25,7 @@ import de.malban.vide.assy.exceptions.ParseException;
 import de.malban.vide.assy.exceptions.SymbolDoesNotExistException;
 
 public class RegArg extends InstructionGroup {
-	ArgumentMemoryLocation m;
+	public ArgumentMemoryLocation m;
 	public boolean parse( String arg ) throws ParseException {
 //            if (source.inputLine.contains("ZAHLEN_MAX,X"))
 //                    //if (pline.lineNumber ==282)

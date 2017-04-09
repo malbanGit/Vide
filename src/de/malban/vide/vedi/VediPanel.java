@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package de.malban.vide.vedi;
 
 import de.malban.vide.vedi.panels.BinaryPanel;
@@ -11,7 +12,6 @@ import de.malban.gui.HotKey;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
-import static de.malban.gui.CSAMainFrame.invokeSystemFile;
 import de.malban.gui.TimingTriggerer;
 import de.malban.gui.TriggerCallback;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
@@ -24,7 +24,6 @@ import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.util.UtilityString;
 import de.malban.util.syntax.entities.ASM6809FileInfo;
 import de.malban.util.syntax.entities.EntityDefinition;
-import static de.malban.util.syntax.entities.EntityDefinition.SUBTYPE_FUNCTION_LABEL;
 import de.malban.util.syntax.entities.LabelSink;
 import de.malban.util.syntax.entities.MacroSink;
 import de.malban.util.syntax.entities.SyntaxDebugJPanel;
@@ -41,6 +40,7 @@ import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
 import static de.malban.vide.vedi.DebugComment.COMMENT_TYPE_BREAK;
+import static de.malban.vide.vedi.DebugComment.COMMENT_TYPE_WATCH;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_LIST;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_MESSAGE_ERROR;
 import de.malban.vide.vedi.panels.LabelVisibilityConfigPanel;
@@ -169,6 +169,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         }
         public Object getValueAt(int row, int col)
         {
+            if (row >=inventory.size()) return "";
             if (col == 0) return inventory.get(row).line;
             if (col == 1) return inventory.get(row).name;
             if (col == 2) return EntityDefinition.SUBTYPE_NAMES[inventory.get(row).type];
@@ -241,6 +242,89 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             if (col == 0) return 10;
             if (col == 1) return 200;
             return 10;
+        }
+        public Color getBackground(int col)
+        {
+            if (col == 0) return new Color(200,255,200,255);
+            return null; // default
+        }
+
+    }
+    WatchesTableModel watchesModel = new WatchesTableModel();
+    public class WatchesTableModel extends AbstractTableModel
+    {
+        public int getRowCount()
+        {
+            Set entries = settings.allDebugComments.entrySet();
+            Iterator it = entries.iterator();
+            int count = 0;
+            while (it.hasNext())
+            {
+                Map.Entry entry = (Map.Entry) it.next();
+                DebugCommentList dbclist = (DebugCommentList) entry.getValue();
+                String filename = (String)entry.getKey();
+                ArrayList<DebugComment> list = dbclist.getList();
+                for(DebugComment dbc: list)
+                {
+                    if (dbc.type == COMMENT_TYPE_WATCH)
+                        count++;
+                }
+            }
+            return count;
+        }
+        public int getColumnCount()
+        {
+            return 2;
+        }
+        public DebugComment getDebugComment(int row)
+        {
+            Set entries = settings.allDebugComments.entrySet();
+            Iterator it = entries.iterator();
+            int count = 0;
+            while (it.hasNext())
+            {
+                Map.Entry entry = (Map.Entry) it.next();
+                DebugCommentList dbclist = (DebugCommentList) entry.getValue();
+                String filename = (String)entry.getKey();
+                ArrayList<DebugComment> list = dbclist.getList();
+                for(DebugComment dbc: list)
+                {
+                    if (dbc.type == COMMENT_TYPE_WATCH)
+                    {
+                        if (count == row)
+                        {
+                            return dbc;
+                        }
+                        count++;
+                    }
+                }
+            }
+            return null;
+        }
+        
+        public Object getValueAt(int row, int col)
+        {
+            DebugComment dbc = getDebugComment(row);
+            if (dbc == null) return "";
+            if (col == 0) return dbc.varname;
+            if (col == 1) return dbc.getSubtypeString();
+            return "";
+        }
+        public String getColumnName(int column) {
+            if (column == 0) return "name";
+            if (column == 1) return "type";
+            return "";
+        }
+        public Class<?> getColumnClass(int columnIndex) {
+            return String.class;
+        }
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+        public int getColWidth(int col)
+        {
+            if (col == 0) return 100;
+            return 100;
         }
         public Color getBackground(int col)
         {
@@ -336,8 +420,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     {
         jTableBreakpoints.tableChanged(null);
         jTableBookmarks.tableChanged(null);
+        jTableWatches.tableChanged(null);
         jTableBreakpoints.repaint();
         jTableBookmarks.repaint();
+        jTableWatches.repaint();
         
         
         jTableBookmarks.setAutoResizeMode(AUTO_RESIZE_LAST_COLUMN);
@@ -356,6 +442,13 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             jTableBreakpoints.getColumnModel().getColumn(i).setWidth(breakpointModel.getColWidth(i));  
         }
         jTableBreakpoints.setAutoResizeMode(AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        jTableWatches.setAutoResizeMode(AUTO_RESIZE_LAST_COLUMN);
+        for (int i=0; i< watchesModel.getColumnCount(); i++)
+        {
+            jTableWatches.getColumnModel().getColumn(i).setPreferredWidth(watchesModel.getColWidth(i));                
+            jTableWatches.getColumnModel().getColumn(i).setWidth(watchesModel.getColWidth(i));  
+        }
+        jTableWatches.setAutoResizeMode(AUTO_RESIZE_SUBSEQUENT_COLUMNS);
     }
     public boolean isLoadSettings()
     {
@@ -469,7 +562,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 synchronized(listVedi)
                 {
                     for (VediPanel vp: listVedi)
-                        vp.jLabel6.setVisible(working);
+                    {
+                        if (working)vp.jLabel6.setText(" *");
+                        else vp.jLabel6.setText("  ");
+                        
+                    }
                 }
             }
         });                    
@@ -495,7 +592,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jEditorPaneASMListing.setEditable(false);
         jEditorPaneASMListing.setContentType("text/html");
         
-        jLabel6.setVisible(false);
         
         // split panel per default uses F6
         // delete that default java mapping, since we would like to use F6 for "debug"
@@ -716,6 +812,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             jTableBreakpoints.getColumnModel().getColumn(i).setWidth(breakpointModel.getColWidth(i));  
         }
         jTableBreakpoints.setAutoResizeMode(AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        
+        jTableWatches.setModel(watchesModel);
+        jTableWatches.setAutoResizeMode(AUTO_RESIZE_LAST_COLUMN);
+        for (int i=0; i< watchesModel.getColumnCount(); i++)
+        {
+            jTableWatches.getColumnModel().getColumn(i).setPreferredWidth(watchesModel.getColWidth(i));                
+            jTableWatches.getColumnModel().getColumn(i).setWidth(watchesModel.getColWidth(i));  
+        }
+        jTableWatches.setAutoResizeMode(AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         initInventory();
     }
 
@@ -925,6 +1030,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jMenuItemAddToProject = new javax.swing.JMenuItem();
         jPopupMenuBP = new javax.swing.JPopupMenu();
         jMenuItemRemoveBP = new javax.swing.JMenuItem();
+        jPopupMenuWatch = new javax.swing.JPopupMenu();
+        jMenuItemRemoveWatch = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jButtonCut = new javax.swing.JButton();
         jButtonPaste = new javax.swing.JButton();
@@ -971,6 +1078,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel6 = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jTableBreakpoints = new javax.swing.JTable();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        jTableWatches = new javax.swing.JTable();
         jButtonNew = new javax.swing.JButton();
         jButtonPrettyPrint = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -1188,6 +1298,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
         jPopupMenuBP.add(jMenuItemRemoveBP);
+
+        jMenuItemRemoveWatch.setText("remove watch");
+        jMenuItemRemoveWatch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRemoveWatchActionPerformed(evt);
+            }
+        });
+        jPopupMenuWatch.add(jMenuItemRemoveWatch);
 
         setName("regi"); // NOI18N
 
@@ -1478,7 +1596,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     .addComponent(jButtonAdressBack, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonLabelConfig, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
         );
 
         jSplitPane4.setRightComponent(jPanel7);
@@ -1575,6 +1693,37 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         );
 
         jTabbedPane3.addTab("Breakpoints", jPanel6);
+
+        jTableWatches.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableWatches.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTableWatchesMousePressed(evt);
+            }
+        });
+        jScrollPane10.setViewportView(jTableWatches);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+        );
+
+        jTabbedPane3.addTab("Watches", jPanel8);
 
         jSplitPane3.setRightComponent(jTabbedPane3);
 
@@ -1699,6 +1848,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jLabel5.setToolTipText("");
         jLabel5.setPreferredSize(new java.awt.Dimension(100, 21));
 
+        jLabel6.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 153, 51));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("*");
@@ -1983,7 +2133,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     .addComponent(jButtonCheckVec4Ever)
                     .addComponent(jButtonEjectVecForever)
                     .addComponent(jButtonDebugSyntax))
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 774, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -2554,6 +2704,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
             if (line.trim().length()==0) continue;
             if (line.charAt(0)==';')
+            {
+                b.append(line).append("\n"); // leave them for now
+                continue;
+            }
+            if (line.charAt(0)=='*')
             {
                 b.append(line).append("\n"); // leave them for now
                 continue;
@@ -3316,10 +3471,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (list == null) return;
         
         int line = dbc.beforLineNo;
-        if (dbc != null)
-        {
-            list.removeComment(dbc);
-        }
+        list.removeComment(dbc);
         updateTables();
         EditorPanel edi = getEditor(dbc.file, false);
         if (edi == null) return;
@@ -3354,7 +3506,30 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         LabelVisibilityConfigPanel.showEnterValueDialog(settings);
         initInventory();
     }//GEN-LAST:event_jButtonLabelConfigActionPerformed
+
+    private void jTableWatchesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableWatchesMousePressed
+        JTable table =(JTable) evt.getSource();
+        Point p = evt.getPoint();
+        int row = table.rowAtPoint(p);
+        int col = table.columnAtPoint(p);
+        if (evt.getButton() == MouseEvent.BUTTON3)
+        {
+            popupRow = row;
+            jPopupMenuWatch.show(jTableWatches, evt.getX()-20,evt.getY()-20);
+        }        
+        
+    }//GEN-LAST:event_jTableWatchesMousePressed
+
+    private void jMenuItemRemoveWatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRemoveWatchActionPerformed
+        if (popupRow<0) return;
+        DebugComment dbc = watchesModel.getDebugComment(popupRow);
+        DebugCommentList list = getDebugComments(dbc.file);
+        if (list == null) return;
+        list.removeComment(dbc);
+        updateTables();
+    }//GEN-LAST:event_jMenuItemRemoveWatchActionPerformed
     
+    @Override
     public void doQuickHelp(String word, String integer)
     {
         if (!displayHelp(word))
@@ -3483,6 +3658,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JMenuItem jMenuItemRaster;
     private javax.swing.JMenuItem jMenuItemRefresh;
     private javax.swing.JMenuItem jMenuItemRemoveBP;
+    private javax.swing.JMenuItem jMenuItemRemoveWatch;
     private javax.swing.JMenuItem jMenuItemRename;
     private javax.swing.JMenuItem jMenuItemSample;
     private javax.swing.JMenuItem jMenuItemSetMain;
@@ -3498,11 +3674,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenuBP;
     private javax.swing.JPopupMenu jPopupMenuProjectProperties;
     private javax.swing.JPopupMenu jPopupMenuTree;
+    private javax.swing.JPopupMenu jPopupMenuWatch;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -3525,6 +3704,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JTable jTableBookmarks;
     private javax.swing.JTable jTableBreakpoints;
     private javax.swing.JTable jTableInventory;
+    private javax.swing.JTable jTableWatches;
     private javax.swing.JTextField jTextFieldCommand;
     private javax.swing.JTextField jTextFieldPath;
     private javax.swing.JTextField jTextFieldReplace;
@@ -4419,6 +4599,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         File asmFile = new File(p.toString()+File.separator+ project.getMainFile());
         ASM6809FileInfo.resetToProject(asmFile);
     }
+    @Override
     public void processWord(String word)
     {
         if (checkBIOSFile(word))
@@ -4450,6 +4631,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             final int line = entity.getLineNumber();
             SwingUtilities.invokeLater(new Runnable()
             {
+                @Override
                 public void run()
                 {
                     jumpToEdit(filename, line);
@@ -5756,8 +5938,26 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     {
         try
         {
-            String filename = cart.getFullFilename().elementAt(0);
-            checkVec4EverFile(filename);
+            // if there are TWO main files (2 banks)
+            // concatinate the two
+            if (cart.getFullFilename().size() == 2)
+            {
+                String newFilename = cart.getFullFilename().elementAt(0).substring(0,cart.getFullFilename().elementAt(0).length()-1-4);
+                String n1 = cart.getFullFilename().elementAt(0);
+                String n2 = cart.getFullFilename().elementAt(1);
+                de.malban.util.UtilityFiles.padFile(n1, (byte)0, 32768);
+                de.malban.util.UtilityFiles.padFile(n2, (byte)0, 32768);
+                n1 += ".fil";
+                n2 += ".fil";
+                de.malban.util.UtilityFiles.concatFiles(n1, n2);
+                checkVec4EverFile(n1+".con");
+            }
+            else
+            {
+                String filename = cart.getFullFilename().elementAt(0);
+                checkVec4EverFile(filename);
+            }
+            
         }
         catch (Throwable e)
         {
@@ -5783,6 +5983,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         }
     }
 
+    public int getFontSize()
+    {
+        return settings.fontSize;
+    }
     void setFontSize(int fs)
     {
         ArrayList<TokenStyles.MyStyle> cloneStyleList = TokenStyles.styleList;
@@ -5896,8 +6100,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             String filename = edi.getFilename();
             
 //        public static HashMap<String, EntityDefinition> knownGlobalVariables = new HashMap<String, EntityDefinition>();
-            HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) LabelSink.knownGlobalVariables.clone();
-            Set entries = clonnie.entrySet();
+            Set entries;
+            synchronized (LabelSink.knownGlobalVariables)
+            {
+                HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) LabelSink.knownGlobalVariables.clone();
+                entries = clonnie.entrySet();
+            }
             Iterator it = entries.iterator();
             while (it.hasNext())
             {
@@ -5990,18 +6198,75 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             timer.addTrigger(timerWorker, 10000, 0, null);            
         }
     }
+    
+    boolean doIHaveSomeFocus()
+    {
+        Component c = getFrame().getFocusOwner();
+        if (c == null) return false;
+        
+        while (c != null)
+        {
+            if (c == this) return true;
+            c = c.getParent();
+        }
+        return false;
+    }
+    
+    boolean doesItHaveSomeFocus(Component editor)
+    {
+        Component c = getFrame().getFocusOwner();
+        if (c == null) return false;
+        
+        while (c != null)
+        {
+            if (c == editor) return true;
+            c = c.getParent();
+        }
+        return false;
+    }
     private void updateDefinitions()
     {
+        if (!doIHaveSomeFocus())
+        {
+            return;
+        }
         SwingUtilities.invokeLater(new Runnable()
         {
             public void run()
             {
-                EditorPanel edi = getSelectedEditor();
-                if (edi != null)
+                for (int i=0; i <jTabbedPane1. getTabCount(); i++)
                 {
-                    ASM6809FileInfo.resetDefinitions(edi.getFilename(), edi.getText());
+                    try
+                    {
+                        if (jTabbedPane1.getComponentAt(i) instanceof EditorPanel)
+                        {
+                            EditorPanel edi = (EditorPanel) jTabbedPane1.getComponentAt(i);
+                            if (edi.assume6809Asm)
+                                ASM6809FileInfo.resetDefinitions(edi.getFilename(), edi.getText());
+                        }
+                    }
+                    catch (Throwable e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
-                initInventory();
+                if (getSelectedEditor() != null)
+                {
+                    if (doesItHaveSomeFocus(getSelectedEditor()))
+                    {
+                        if (!getSelectedEditor().hasSelection())
+                        {
+    getSelectedEditor().setViewportEnabled(false);
+                            getSelectedEditor().saveSelection();
+                            getSelectedEditor().stopColoring();
+                            getSelectedEditor().startColoring(settings.fontSize);
+                            getSelectedEditor().restoreSelection();
+    getSelectedEditor().setViewportEnabled(true);
+                        }
+                    }
+                    
+                }
+               initInventory();
             }
         });                    
     }   

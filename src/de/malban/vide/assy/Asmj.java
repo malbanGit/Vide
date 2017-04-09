@@ -24,18 +24,24 @@ Labels are identifies while building a SourceLine Object (in the cosnstructor
 */
 
 import de.malban.vide.VideConfig;
+import static de.malban.vide.assy.SourceLine.commentRecognizer;
 import static de.malban.vide.assy.Symbol.SYMBOL_DEFINE_CODE;
 import static de.malban.vide.assy.Symbol.SYMBOL_DEFINE_EQU;
 import static de.malban.vide.assy.Symbol.SYMBOL_DEFINE_STRUCT;
 import static de.malban.vide.assy.Symbol.SYMBOL_DEFINE_UNKOWN;
+import de.malban.vide.assy.arguments.ArgumentMemoryLocation;
 import de.malban.vide.assy.exceptions.ParseException;
 import de.malban.vide.assy.expressions.ExpressionSymbol;
 import de.malban.vide.assy.expressions.ExpressionNumber;
 import de.malban.vide.assy.instructions.Instruction;
+import de.malban.vide.assy.instructions.RegArg;
+import de.malban.vide.assy.instructions.SingleArg;
 import de.malban.vide.assy.instructions.fcb;
 import de.malban.vide.assy.instructions.fdb;
 import de.malban.vide.assy.instructions.rmb;
 import de.malban.vide.assy.instructions.struct;
+import de.malban.vide.vedi.DebugComment;
+import static de.malban.vide.vedi.DebugComment.COMMENT_TYPE_WATCH;
 import de.malban.vide.vedi.DebugCommentList;
 import java.io.File;
 import java.io.OutputStream;
@@ -46,6 +52,9 @@ import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 public class Asmj {
@@ -55,6 +64,7 @@ public class Asmj {
     public static ProcessorDependencies processor;
 
     public static int bank = 0;
+    public static boolean multibank = false; // is a multibannk asm 64k in one file
     public static boolean inBSS = false;
     public static String currentBaseDir="";
     
@@ -140,7 +150,7 @@ public class Asmj {
         symtabString.delete(0, symtabString.length());
         return s;
     }
-    void initStreams()
+    private void initStreams()
     {
         ps_symtab = new PrintStream(
             new OutputStream()
@@ -579,10 +589,39 @@ public class Asmj {
 
     // Pass 0 soaks up source lines, and defines macros
     // puts SourceLines into the list after "current"
+    boolean watchesDone = false;
     private void pass0( LineContext ctx, LineNumberReader in, String filename )
     {
         SourceLine pline = null;
 
+        
+        if (!watchesDone)
+        {
+            watchesDone = true;
+            // add all watches!
+            if (Asmj.allDebugComments != null)
+            {
+                Set entries = Asmj.allDebugComments.entrySet();
+                Iterator it = entries.iterator();
+                while (it.hasNext())
+                {
+                    Map.Entry entry = (Map.Entry) it.next();
+                    DebugCommentList value = (DebugCommentList) entry.getValue();
+                    for (DebugComment dbc: value.getList())
+                    {
+                        if (dbc.getType() == COMMENT_TYPE_WATCH)
+                        {
+                            pline = new SourceLine("; "+dbc.getGeneratedComment(),filename, 0);
+                            pass0_line(ctx,pline);
+                        }
+                    }
+                }
+
+            }
+        }
+        
+        
+        
         //System.out.println("Pass 0 ----------------------");
         while (true) 
         {
@@ -861,8 +900,10 @@ public class Asmj {
                             if (s!=null)
                             {
                                 s.removeUndefinedReference(instr);                          
-                                s.value = ctx.currentStruct.currentPosition;
-                                s.define(s.value, instr.getLineNumber(), pline);
+                                int value = ctx.currentStruct.currentPosition;
+                                s.define(value, instr.getLineNumber(),pline);
+//                                s.value = ctx.currentStruct.currentPosition;
+//                                s.define(s.value, instr.getLineNumber(),pline);
                                 s.line_Comment = instr.getSource().endOfLineComment;
                                 instr.setEvalOk();
                             }
@@ -875,9 +916,11 @@ public class Asmj {
                             Symbol s = fdbInstr.getSymbol();
                             if (s!=null)
                             {
-                                s.removeUndefinedReference(instr);                          
-                                s.value = ctx.currentStruct.currentPosition;
-                                s.define(s.value, instr.getLineNumber(),pline);
+                                s.removeUndefinedReference(instr);   
+                                int value = ctx.currentStruct.currentPosition;
+                                s.define(value, instr.getLineNumber(),pline);
+//                                s.value = ctx.currentStruct.currentPosition;
+//                                s.define(s.value, instr.getLineNumber(),pline);
                                 s.line_Comment = instr.getSource().endOfLineComment;
                                 instr.setEvalOk();
                             }
@@ -891,8 +934,10 @@ public class Asmj {
                             if (s!=null)
                             {
                                 s.removeUndefinedReference(instr);                          
-                                s.value = ctx.currentStruct.currentPosition;
-                                s.define(s.value, instr.getLineNumber(),pline);
+                                int value = ctx.currentStruct.currentPosition;
+                                s.define(value, instr.getLineNumber(),pline);
+//                                s.value = ctx.currentStruct.currentPosition;
+//                                s.define(s.value, instr.getLineNumber(),pline);
                                 s.line_Comment = instr.getSource().endOfLineComment;
                                 instr.setEvalOk();
                             }
@@ -1058,11 +1103,17 @@ public class Asmj {
             symtab.define("*", address, SymbolTable.NO_LINE_NUMBER, null, SYMBOL_DEFINE_UNKOWN, null);
 
             if (mem.current!=null)
-            if (mem.current.length > 32768)
             {
-                if (!oomDone)
-                Asmj.error( pline, "Resulting binary is larger than 32768 bytes, it can not run on a vectrex!" );
-                oomDone = true;
+                if (!multibank)
+                {
+                    if (mem.current.length > 32768)
+                    {
+                        if (!oomDone)
+                        Asmj.error( pline, "Resulting binary is larger than 32768 bytes, it can not run on a vectrex!" );
+                        oomDone = true;
+                    }
+                }
+                
             }
             
             instr.pass2( mem, symtab );
@@ -1115,8 +1166,8 @@ public class Asmj {
             boolean equDone = false;
             int typ = sy.usageType;
             
-            if (sy.getValue() == 0) continue;
-            if (sy.getValue() == 1) continue;
+// obsolete with forced symbol            if (sy.getValue() == 0) continue;
+// obsolete with forced symbol            if (sy.getValue() == 1) continue;
             if (sy.getName().toLowerCase().equals("include_i")) continue;
             if (sy.getName().toLowerCase().equals("assembler")) continue;
             if (sy.getName().toLowerCase().equals("__6809__")) continue;
@@ -1132,11 +1183,11 @@ public class Asmj {
                 {
                     boolean isNegative = sy.value<0;
                     int v = Math.abs(sy.value);
-                    buf.append("EQU "+(isNegative?"-":"")+String.format("$%02X", (v&0xffff))+" "+sy.getName()+"\n");
+                    buf.append("EQU ").append(isNegative?"-":"").append(String.format("$%02X", (v&0xffff))).append(" ").append(sy.getName()).append("\n");
                     if (sy.line_Comment.length()>0)
                     {
                         // COMMENT $c100 "bla" - end of line comment
-                        buf.append("COMMENT_LABEL "+(isNegative?"-":"")+String.format("$%02X", (v&0xffff))+" "+sy.line_Comment+"\n");
+                        buf.append("COMMENT_LABEL ").append(isNegative?"-":"").append(String.format("$%02X", (v&0xffff))).append(" ").append(sy.line_Comment).append("\n");
                         equDone = true;
                     }
                     continue;
@@ -1147,22 +1198,22 @@ public class Asmj {
                 if (sy.dp_estimate != -1)
                 {
                     // DIRECT_LABEL D0 $00 timer_low
-                    buf.append("DIRECT_LABEL "+String.format("$%02X", (sy.dp_estimate&0xff))+String.format(" $%02X", (sy.value&0xff))+" "+sy.getName()+"\n");
+                    buf.append("DIRECT_LABEL ").append(String.format("$%02X", (sy.dp_estimate&0xff))).append(String.format(" $%02X", (sy.value&0xff))).append(" ").append(sy.getName()).append("\n");
                     if (sy.line_Comment.length()>0)
                     {
                         // COMMENT $c100 "bla" - end of line comment
-                        buf.append("COMMENT_LABEL "+String.format("$%02X", (sy.value&0xff))+" "+sy.line_Comment+"\n");
+                        buf.append("COMMENT_LABEL ").append(String.format("$%02X", (sy.value&0xff))).append(" ").append(sy.line_Comment).append("\n");
                     }
                 }
                 else
                 {
                     // LABEL $c100 lab
                     // we don't have any clue about dp, so we just use as a normal label 
-                    buf.append("LABEL "+String.format("$%04X", (sy.value&0xffff))+" "+sy.getName()+"\n");
+                    buf.append("LABEL ").append(String.format("$%04X", (sy.value&0xffff))).append(" ").append(sy.getName()).append("\n");
                     if (sy.line_Comment.length()>0)
                     {
                         // COMMENT $c100 "bla" - end of line comment
-                        buf.append("COMMENT_LABEL "+String.format("$%04X", (sy.value&0xffff))+" "+sy.line_Comment+"\n");
+                        buf.append("COMMENT_LABEL ").append(String.format("$%04X", (sy.value&0xffff))).append(" ").append(sy.line_Comment).append("\n");
                     }
                 }                    
                 continue;
@@ -1170,19 +1221,19 @@ public class Asmj {
             if (((typ & Symbol.SYMBOL_USAGE_DIRECT_16)) ==Symbol.SYMBOL_USAGE_DIRECT_16)
             {
                 // DIRECT_LABEL D0 $00 timer_low
-                buf.append("DIRECT_LABEL "+String.format("$%02X", ((sy.value>>8)&0xff))+String.format(" $%02X", (sy.value&0xff))+" "+sy.getName()+"\n");
+                buf.append("DIRECT_LABEL ").append(String.format("$%02X", ((sy.value>>8)&0xff))).append(String.format(" $%02X", (sy.value&0xff))).append(" ").append(sy.getName()).append("\n");
                 if (sy.line_Comment.length()>0)
                 {
                     // COMMENT $c100 "bla" - end of line comment
-                    buf.append("COMMENT_LABEL "+String.format("$%02", (sy.value&0xff))+" "+sy.line_Comment+"\n");
+                    buf.append("COMMENT_LABEL ").append(String.format("$%02X", (sy.value&0xff))).append(" ").append(sy.line_Comment).append("\n");
                 }
             }
             // LABEL $c100 lab
-            buf.append("LABEL "+String.format("$%04X", (sy.value&0xffff))+" "+sy.getName()+"\n");
+            buf.append("LABEL ").append(String.format("$%04X", (sy.value&0xffff))).append(" ").append(sy.getName()).append("\n");
             if (sy.line_Comment.length()>0)
             {
                 // COMMENT $c100 "bla" - end of line comment
-                buf.append("COMMENT_LABEL "+String.format("$%04X", (sy.value&0xffff))+" "+sy.line_Comment+"\n");
+                buf.append("COMMENT_LABEL ").append(String.format("$%04X", (sy.value&0xffff))).append(" ").append(sy.line_Comment).append("\n");
             }
         }
         
@@ -1226,6 +1277,86 @@ public class Asmj {
                     }
                 }
             }
+            // check for symbol usage and
+            // do a force symbel
+            if (pline.instr != null)
+            {
+                
+//                if (pline.instr.getAddress() == 0x73c7)
+//                {
+//                    System.out.println();
+//                }
+                
+                if (pline.instr instanceof SingleArg)
+                {
+                    SingleArg sa = (SingleArg)pline.instr;
+                    if (sa.m != null)
+                    {
+                        ArgumentMemoryLocation m = (ArgumentMemoryLocation) sa.m;
+                        int valAll = m.getOffset();
+                        if (m.offsetExpression != null)
+                        {
+                            if (m.offsetExpression instanceof ExpressionSymbol)
+                            {
+                                ExpressionSymbol oe = (ExpressionSymbol) m.offsetExpression;
+                                if (oe.getSymbol() != null)
+                                {
+                                    if (oe.getSymbol().value == valAll)
+                                    {
+                                        String symbol = oe.getSymbol().getName();
+                        buf.append("FORCE_SYMBOL "+String.format("$%04X", (address))+" "+symbol+"\n");
+
+                                    
+                                    }
+                                }
+                                
+                            }
+                            else  if (m.offsetExpression instanceof ExpressionNumber)
+                            {
+                        buf.append("FORCE_NO_SYMBOL "+String.format("$%04X", (address))+"\n");
+
+                            }
+                                
+                        }
+                    }
+                }          
+                if (pline.instr instanceof RegArg)
+                {
+                    RegArg ra = (RegArg)pline.instr;
+                    if (ra.m != null)
+                    {
+                        ArgumentMemoryLocation m = (ArgumentMemoryLocation) ra.m;
+                        int valAll = m.getOffset();
+                        if (m.offsetExpression != null)
+                        {
+                            if (m.offsetExpression instanceof ExpressionSymbol)
+                            {
+                                ExpressionSymbol oe = (ExpressionSymbol) m.offsetExpression;
+                                if (oe.getSymbol() != null)
+                                {
+                                    if (oe.getSymbol().value == valAll)
+                                    {
+                                        String symbol = oe.getSymbol().getName();
+                        buf.append("FORCE_SYMBOL "+String.format("$%04X", (address))+" "+symbol+"\n");
+
+                                    
+                                    }
+                                }
+                                
+                            }
+                            else  if (m.offsetExpression instanceof ExpressionNumber)
+                            {
+                        buf.append("FORCE_NO_SYMBOL "+String.format("$%04X", (address))+"\n");
+
+                            }
+                                
+                        }
+                    }
+                }
+                
+            }
+            
+            
             if (instr != null)
                 address += instr.getLength();
         }

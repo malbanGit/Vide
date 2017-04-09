@@ -295,24 +295,163 @@ public class DASM6809 extends DASMStatics {
          return false;
     }
 
+    
+    static HashMap<Integer, String> BIOSLABELS;
+    static HashMap<Integer, String> BIOSLABELS2;
+    
+    static 
+    {
+        BIOSLABELS = new HashMap<Integer, String>();
+        BIOSLABELS2 = new HashMap<Integer, String>();
+        BIOSLABELS.put(0xc800, "Vec_Snd_Shadow");
+        BIOSLABELS.put(0xc80f, "Vec_Btn_State");
+        BIOSLABELS.put(0xc810, "Vec_Prev_Btns");
+        BIOSLABELS.put(0xc811, "Vec_Buttons");
+        BIOSLABELS.put(0xc812, "Vec_Button_1_1");
+        BIOSLABELS.put(0xc813, "Vec_Button_1_2");
+        BIOSLABELS.put(0xc814, "Vec_Button_1_3");
+        BIOSLABELS.put(0xc815, "Vec_Button_1_4");
+        BIOSLABELS.put(0xc816, "Vec_Button_2_1");
+        BIOSLABELS.put(0xc817, "Vec_Button_2_2");
+        BIOSLABELS.put(0xc818, "Vec_Button_2_3");
+        BIOSLABELS.put(0xc819, "Vec_Button_2_4");
+        BIOSLABELS.put(0xc81a, "Vec_Joy_Resltn");
+        BIOSLABELS.put(0xc81b, "Vec_Joy_1_X");
+        BIOSLABELS.put(0xc81c, "Vec_Joy_1_Y");
+        BIOSLABELS.put(0xc81d, "Vec_Joy_2_X");
+        BIOSLABELS.put(0xc81e, "Vec_Joy_2_Y");
+        BIOSLABELS2.put(0xc81e, "Vec_Joy_Mux");
+        BIOSLABELS.put(0xc81f, "Vec_Joy_Mux_1_X");
+        BIOSLABELS.put(0xc820, "Vec_Joy_Mux_1_Y");
+        BIOSLABELS.put(0xc821, "Vec_Joy_Mux_2_X");
+        BIOSLABELS.put(0xc822, "Vec_Joy_Mux_2_Y");
+        BIOSLABELS.put(0xc823, "Vec_Misc_Count");
+        BIOSLABELS.put(0xc824, "Vec_0Ref_Enable");
+        BIOSLABELS.put(0xc825, "Vec_Loop_Count");
+        BIOSLABELS.put(0xc827, "Vec_Brightness");
+        BIOSLABELS.put(0xc828, "Vec_Dot_Dwell");
+        BIOSLABELS.put(0xc829, "Vec_Pattern");
+        BIOSLABELS.put(0xc82a, "Vec_Text_HW");
+        BIOSLABELS2.put(0xc82a, "Vec_Text_Height");
+        BIOSLABELS.put(0xc82b, "Vec_Text_Width");
+        BIOSLABELS.put(0xc82c, "Vec_Str_Ptr");
+        BIOSLABELS.put(0xc82e, "Vec_Counters");
+        BIOSLABELS2.put(0xc82e, "Vec_Counter_1");
+        BIOSLABELS.put(0xc82f, "Vec_Counter_2");
+        BIOSLABELS.put(0xc830, "Vec_Counter_3");
+        BIOSLABELS.put(0xc831, "Vec_Counter_4");
+        BIOSLABELS.put(0xc832, "Vec_Counter_5");
+        BIOSLABELS.put(0xc833, "Vec_Counter_6");
+        BIOSLABELS.put(0xc834, "Vec_RiseRun_Tmp");
+        BIOSLABELS.put(0xc836, "Vec_Angle");
+        BIOSLABELS.put(0xc837, "Vec_Run_Index");
+        BIOSLABELS.put(0xc839, "Vec_Rise_Index");
+        BIOSLABELS.put(0xc83b, "Vec_RiseRun_Len");
+        BIOSLABELS.put(0xc83d, "Vec_Rfrsh");
+        BIOSLABELS2.put(0xc83d, "Vec_Rfrsh_lo");
+        BIOSLABELS.put(0xc83e, "Vec_Rfrsh_hi");
+        BIOSLABELS.put(0xc83f, "Vec_Music_Work");
+        BIOSLABELS.put(0xc83f, "Vec_Music_Wk_D");
+        BIOSLABELS.put(0xc840, "Vec_Music_Wk_C");
+        BIOSLABELS.put(0xc841, "Vec_Music_Wk_B");
+        BIOSLABELS.put(0xc842, "Vec_Music_Wk_A");
+        BIOSLABELS.put(0xc843, "Vec_Music_Wk_9");
+        BIOSLABELS.put(0xc844, "Vec_Music_Wk_8");
+        BIOSLABELS.put(0xc845, "Vec_Music_Wk_7");
+        BIOSLABELS.put(0xc846, "Vec_Music_Wk_6");
+        BIOSLABELS.put(0xc847, "Vec_Music_Wk_5");
+        BIOSLABELS.put(0xc848, "Vec_Music_Wk_4");
+        BIOSLABELS.put(0xc849, "Vec_Music_Wk_3");
+        BIOSLABELS.put(0xc84a, "Vec_Music_Wk_2");
+        BIOSLABELS.put(0xC84B, "Vec_Music_Wk_1");
+        BIOSLABELS.put(0xc84c, "Vec_Music_Wk_0");
+        BIOSLABELS.put(0xc84d, "Vec_Freq_Table");
+        BIOSLABELS.put(0xc84f, "Vec_Max_Players");
+        BIOSLABELS.put(0xc850, "Vec_Max_Games");
+        BIOSLABELS.put(0xc84f, "Vec_ADSR_Table");
+        BIOSLABELS.put(0xc851, "Vec_Twang_Table");
+        BIOSLABELS.put(0xc853, "Vec_Music_Ptr");
+        BIOSLABELS2.put(0xc853, "Vec_Expl_ChanA");
+        BIOSLABELS.put(0xc854, "Vec_Expl_Chans");
+        BIOSLABELS.put(0xc855, "Vec_Music_Chan");
+        BIOSLABELS.put(0xc856, "Vec_Music_Flag");
+        BIOSLABELS.put(0xc857, "Vec_Duration");
+        BIOSLABELS.put(0xc858, "Vec_Music_Twang");
+        BIOSLABELS.put(0xc858, "Vec_Expl_1");
+        BIOSLABELS.put(0xc859, "Vec_Expl_2");
+        BIOSLABELS.put(0xc85A, "Vec_Expl_3");
+        BIOSLABELS.put(0xc85b, "Vec_Expl_4");
+        BIOSLABELS.put(0xc85c, "Vec_Expl_Chan");
+        BIOSLABELS.put(0xc85d, "Vec_Expl_ChanB");
+        BIOSLABELS.put(0xc85e, "Vec_ADSR_Timers");
+        BIOSLABELS.put(0xc861, "Vec_Music_Freq");
+        BIOSLABELS.put(0xc867, "Vec_Expl_Flag");
+        BIOSLABELS.put(0xc877, "Vec_Expl_Timer");
+        BIOSLABELS.put(0xc879, "Vec_Num_Players");
+        BIOSLABELS.put(0xc87a, "Vec_Num_Game");
+        BIOSLABELS.put(0xc87b, "Vec_Seed_Ptr");
+        BIOSLABELS.put(0xc87d, "Vec_Random_Seed");
+
+    
+        BIOSLABELS.put(0xCBEA, "Vec_Default_Stk");
+        BIOSLABELS.put(0xCBEB, "Vec_High_Score");
+        BIOSLABELS.put(0xCBF2, "Vec_SWI3_Vector");
+        BIOSLABELS2.put(0xCBF2, "Vec_SWI2_Vector");
+        BIOSLABELS.put(0xCBF5, "Vec_FIRQ_Vector");
+        BIOSLABELS.put(0xCBF8, "Vec_IRQ_Vector");
+        BIOSLABELS.put(0xCBFB, "Vec_SWI_Vector");
+        BIOSLABELS2.put(0xCBFB, "Vec_NMI_Vector");
+        BIOSLABELS.put(0xCBFE, "Vec_Cold_Flag");
+    
+    }
+    
+    boolean isBIOSLabel(String label, int address)
+    {
+        return false;
+        // is obsolete with FORCE settings in CNT
+        /*
+        String l = BIOSLABELS.get(address);
+        String l2 = BIOSLABELS2.get(address);
+        boolean isLabel = false;
+
+        if (l!=null) 
+            isLabel = isLabel || (label.toLowerCase().equals(l.toLowerCase()));
+        if (l2!=null) 
+            isLabel = isLabel || (label.toLowerCase().equals(l2.toLowerCase()));
+
+        return isLabel;
+        */
+    }
+    
+    String getNonBIOSLableFirst(ArrayList<String> labels, int address)
+    {
+        for (int i=0; i < labels.size(); i++)
+        {
+            String label = labels.get(i);
+            if (!isBIOSLabel(label, address)) return label;
+        }
+        return labels.get(0);
+
+    }
+    
     public void setCreateLabels(boolean c)
     {
         createLabels = c;
     }
     /* substitute label for address if found */
-    String checklabs(int address)
+    String checklabs(int address, MemoryInformation memInfo)
     {
-        return checklabs(address, -1);
+        return checklabs(address, -1, memInfo);
     }
-    String checklabs(int address, int mode)
+    String checklabs(int address, int mode, MemoryInformation memInfo)
     {
-         return checklabs(address, mode, -1);
+         return checklabs(address, mode, -1, memInfo);
     }
-    String checklabs(int address, int mode, int dp)
+    String checklabs(int address, int mode, int dp, MemoryInformation memInfo)
     {
-         return checklabs(address, mode, -1, -1);
+         return checklabs(address, mode, -1, -1, memInfo);
     }
-    String checklabs(int address, int mode, int dp, int numOperands)
+    String checklabs(int address, int mode, int dp, int numOperands, MemoryInformation memInfo)
     {
         String labtemp="";
         boolean shortaddr=true;
@@ -356,7 +495,28 @@ public class DASM6809 extends DASMStatics {
                         MemoryInformation info2 =  myMemory.memMap.get(testAddress);
                         if (info2.labels.size()>0)
                         {
-                            labtemp+=info2.labels.get(0);
+                            if (memInfo.forcedSymbol!= null)
+                            {
+                                if (memInfo.forcedSymbol.length() != 0)
+                                {
+                                    for (int iii=0; iii<info2.labels.size(); iii++)
+                                    {
+                                        if (memInfo.forcedSymbol.equals(info2.labels.get(iii)))
+                                        {
+                                            labtemp+=info2.labels.get(iii);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    labtemp+=info2.labels.get(0);
+                                }
+                            }
+                            else
+                            {
+                                labtemp+=info2.labels.get(0);
+                            }
+                            
                             // also add to direct labels for future use
                             HashMap<Integer, String> dmap = myMemory.directLabels.get(dp);
                             if (dmap == null)
@@ -376,7 +536,36 @@ public class DASM6809 extends DASMStatics {
             }
             if (labels.size()>0)
             {
-                labtemp+=labels.get(0);
+                if (memInfo.forcedSymbol!= null)
+                {
+                    if (memInfo.forcedSymbol.length() != 0)
+                    {
+                        for (int iii=0; iii<labels.size(); iii++)
+                        {
+                            if (memInfo.forcedSymbol.equals(labels.get(iii)))
+                            {
+                                labtemp+=labels.get(iii);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        labtemp+= getNonBIOSLableFirst(labels, address);
+                    }
+                }
+                else
+                {
+                    labtemp+= getNonBIOSLableFirst(labels, address);
+                }
+               // labtemp+=labels.get(0);
+                hasLabel = true;
+            }
+        }
+        if (memInfo.forcedSymbol!= null)
+        {
+            if (memInfo.forcedSymbol.length() == 0)
+            {
+                labtemp ="";
                 hasLabel = true;
             }
         }
@@ -489,6 +678,9 @@ public class DASM6809 extends DASMStatics {
 
         int dp = memInfo.directPageAddress;
         PC=false;
+
+//        if (memInfo.address == 0x73c7)
+//            System.out.println();
         
         myMemory.memMap.get(currentPC).referingAddressMode = mode;
         if( (opcode!=0x1f)&&(opcode!=0x1e) )
@@ -513,11 +705,11 @@ public class DASM6809 extends DASMStatics {
         {
             case REL:          /* 8-bit relative */
                 rel=operandarray[0];
-                str+=checklabs((currentMemPointer+((rel<128) ? rel : rel-256)), mode,-1,1);;
+                str+=checklabs((currentMemPointer+((rel<128) ? rel : rel-256)), mode,-1,1, memInfo);;
                 break;
             case LREL:           /* 16-bit long relative */
                 rel=(operandarray[0]<<8)+operandarray[1];
-                str+=checklabs(currentMemPointer+((rel<32768) ? rel : rel-65536),mode,2);
+                str+=checklabs(currentMemPointer+((rel<32768) ? rel : rel-65536),mode,2, memInfo);
                 break;
             case IND:         /* indirect- many flavors */
                 pb=operandarray[0];
@@ -610,11 +802,49 @@ public class DASM6809 extends DASMStatics {
                          str += DEF.indexedPrefix;
                     }
                     if(pb==0x8c)
-                         out2 = checklabs(offset) +","+ regs[reg];
+                         out2 = checklabs(offset, memInfo) +","+ regs[reg];
                     else if(offset>=0)
-                         out2 = DEF.hexPrefix+String.format("%02X", offset)+","+regs[reg];
+                    {
+                        out2 = DEF.hexPrefix+String.format("%02X", offset)+","+regs[reg];
+                        if (memInfo.forcedSymbol!=null)
+                        {
+                            if (memInfo.forcedSymbol.length()!=0)
+                            {
+                                MemoryInformation info =  myMemory.memMap.get(offset);
+                                if (info!=null)
+                                {
+                                    for (int iii=0; iii<info.labels.size(); iii++)
+                                    {
+                                        if (memInfo.forcedSymbol.equals(info.labels.get(iii)))
+                                        {
+                                            out2=info.labels.get(iii)+","+regs[reg];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     else
-                         out2 = "-"+DEF.hexPrefix+String.format("%02X", -offset)+","+regs[reg];
+                    {
+                        out2 = "-"+DEF.hexPrefix+String.format("%02X", -offset)+","+regs[reg];
+                        if (memInfo.forcedSymbol!=null)
+                        {
+                            if (memInfo.forcedSymbol.length()!=0)
+                            {
+                                MemoryInformation info =  myMemory.memMap.get(offset);
+                                if (info!=null)
+                                {
+                                    for (int iii=0; iii<info.labels.size(); iii++)
+                                    {
+                                        if (memInfo.forcedSymbol.equals(info.labels.get(iii)))
+                                        {
+                                            out2=info.labels.get(iii)+","+regs[reg];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     str += DEF._8bitPrefix+out2;
                 }
                 else if((pb2==0x89)||(pb2==0x8d)||(pb2==0x8f))
@@ -667,15 +897,54 @@ public class DASM6809 extends DASMStatics {
                     }
                     if(pb==0x9f)
                     {
-                        out2 = checklabs(offset);
+                        out2 = checklabs(offset, memInfo);
                         memInfo.cycles-=2;
                     }
                     else if(pb==0x8d)
-                        out2 = checklabs(offset)+","+regs[reg];
+                        out2 = checklabs(offset, memInfo)+","+regs[reg];
                     else if (offset>=0)
+                    {
                         out2 = DEF.hexPrefix+String.format("%04X", offset)+","+regs[reg];
+                        if (memInfo.forcedSymbol!=null)
+                        {
+                            if (memInfo.forcedSymbol.length()!=0)
+                            {
+                                MemoryInformation info =  myMemory.memMap.get(offset);
+                                if (info!=null)
+                                {
+                                    for (int iii=0; iii<info.labels.size(); iii++)
+                                    {
+                                        if (memInfo.forcedSymbol.equals(info.labels.get(iii)))
+                                        {
+                                            out2=info.labels.get(iii)+","+regs[reg];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     else
+                    {
+                        
                         out2 = "-"+DEF.hexPrefix+String.format("%04X", offset)+","+regs[reg];
+                        if (memInfo.forcedSymbol!=null)
+                        {
+                            if (memInfo.forcedSymbol.length()!=0)
+                            {
+                                MemoryInformation info =  myMemory.memMap.get(offset);
+                                if (info!=null)
+                                {
+                                    for (int iii=0; iii<info.labels.size(); iii++)
+                                    {
+                                        if (memInfo.forcedSymbol.equals(info.labels.get(iii)))
+                                        {
+                                            out2=info.labels.get(iii)+","+regs[reg];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     str += DEF._16bitPrefix+out2;
                 }
 
@@ -746,6 +1015,25 @@ public class DASM6809 extends DASMStatics {
                         out2 = "-"+DEF.hexPrefix+String.format("%02X", -offset)+","+regs[reg];
                     else
                         out2 = DEF.hexPrefix+String.format("%02X", offset)+","+regs[reg];
+                    if (memInfo.forcedSymbol!=null)
+                    {
+                        if (memInfo.forcedSymbol.length()!=0)
+                        {
+                            MemoryInformation info =  myMemory.memMap.get(offset);
+                            if (info!=null)
+                            {
+                                for (int iii=0; iii<info.labels.size(); iii++)
+                                {
+                                    if (memInfo.forcedSymbol.equals(info.labels.get(iii)))
+                                    {
+                                        out2=info.labels.get(iii)+","+regs[reg];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    
                     str += DEF._5bitPrefix + out2;
                     memInfo.cycles+=1;
                 }
@@ -902,13 +1190,13 @@ public class DASM6809 extends DASMStatics {
                     else if(numoperands==2)
                     {
                         if (mode != IMM)str += DEF._16bitPrefix;
-                        str += checklabs((operandarray[0]<<8)+operandarray[1], mode, numoperands);
+                        str += checklabs((operandarray[0]<<8)+operandarray[1], mode, numoperands, memInfo);
                     }
                     else if (numoperands==1) //((numoperands==1)&&(mode!=IMM))
                     {
                         //give indicate 1 operand = 8 bit
                         if (mode != IMM)str += DEF._8bitPrefix;
-                        str += checklabs(operandarray[0], mode, dp, numoperands );
+                        str += checklabs(operandarray[0], mode, dp, numoperands , memInfo);
                     }
                     else
                     {
@@ -2210,6 +2498,45 @@ public class DASM6809 extends DASMStatics {
             if (!info.hasLabel(label))
                 info.labels.add(label);
         }
+        
+        // FORCE_SYMBOL #adresse# "text"
+        else if (line.toUpperCase().startsWith("FORCE_SYMBOL"))
+        {
+            // FORCE_SYMBOL
+            line = line.substring("FORCE_SYMBOL".length()).trim();
+            line = de.malban.util.UtilityString.replace(line, "  ", " ");
+            String s[] = line.split(" ");
+            String address = s[0]; 
+            String symbol = line.substring(address.length()).trim();
+            int adress = toNumber(address);
+            if (adress < 0) return;
+            if (adress > 65536) return;
+            MemoryInformation info = myMemory.memMap.get(adress);
+            if (info == null)
+            {
+                info = myMemory.buildMemInfo(adress);
+            }
+            info.forcedSymbol = symbol;
+
+        }
+        // FORCE_NO_SYMBOL #adresse# 
+        else if (line.toUpperCase().startsWith("FORCE_NO_SYMBOL"))
+        {
+            // FORCE_NO_SYMBOL
+            line = line.substring("FORCE_NO_SYMBOL".length()).trim();
+            line = de.malban.util.UtilityString.replace(line, "  ", " ");
+            String s[] = line.split(" ");
+            String address = s[0]; 
+            int adress = toNumber(address);
+            if (adress < 0) return;
+            if (adress > 65536) return;
+            MemoryInformation info = myMemory.memMap.get(adress);
+            if (info == null)
+            {
+                info = myMemory.buildMemInfo(adress);
+            }
+            info.forcedSymbol = "";
+        }
 
         // COMMENT_LABEL #adresse# "text"
         else if (line.toUpperCase().startsWith("COMMENT_LABEL"))
@@ -2230,7 +2557,7 @@ public class DASM6809 extends DASMStatics {
             }
             if (!info.hasComment(comment))
                 info.comments.add(comment);
-        }        // COMMENT #adresse# "text"
+        }       
         // COMMENT #adresse# "text"
         else if (line.toUpperCase().startsWith("COMMENT_LINE"))
         {

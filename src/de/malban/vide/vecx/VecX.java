@@ -83,7 +83,6 @@ import de.malban.vide.vecx.cartridge.Cartridge;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2430A;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2431;
 import de.malban.vide.vecx.devices.Imager3dDevice;
-import de.malban.vide.vecx.devices.JoyportDevice;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_BIN;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_DATA;
 import static de.malban.vide.vecx.panels.PSGJPanel.REC_YM;
@@ -151,10 +150,15 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
 
     transient int[] rom = new int[8192];
 
-    transient static int RING_BUFFER_SIZE = 2000;
-    transient int ringWalkStep = 0; // if I step back, what is the position of the step back?
-    transient int ringBufferNext = 0;
-    transient CompleteState[] goBackRingBuffer = new CompleteState[RING_BUFFER_SIZE];
+    transient static int SS_RING_BUFFER_SIZE = 30000;
+    transient int ringSSWalkStep = 0; // if I step back, what is the position of the step back?
+    transient int ringSSBufferNext = 0;
+    transient CompleteState[] goSSBackRingBuffer = new CompleteState[SS_RING_BUFFER_SIZE];
+
+    transient static int FRAME_RING_BUFFER_SIZE = 1000;
+    transient int ringFrameWalkStep = 0; // if I step back, what is the position of the step back?
+    transient int ringFrameBufferNext = 0;
+    transient CompleteState[] goFrameBackRingBuffer = new CompleteState[FRAME_RING_BUFFER_SIZE];
     
     transient static int WAIT_RECAL_BUFFER_SIZE = 500;
     transient int waitRecalBufferNext = 0;
@@ -1024,6 +1028,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         e6809.e6809_reset();
         dissiMem.reset();
         if (cart!= null) cart.reset();
+        resetBuffer();
     }
 
     // called befor VIA is changed
@@ -1504,10 +1509,15 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
 
         // if emulation is run from a "behind" step
         // discard all forward steps
-        if (ringWalkStep != -1)
+        if (ringSSWalkStep != -1)
         {
-            ringBufferNext = (ringWalkStep+1)%RING_BUFFER_SIZE;
-            ringWalkStep = -1;
+            ringSSBufferNext = (ringSSWalkStep+1)%SS_RING_BUFFER_SIZE;
+            ringSSWalkStep = -1;
+        }
+        if (ringFrameWalkStep != -1)
+        {
+            ringSSBufferNext = (ringFrameWalkStep+1)%SS_RING_BUFFER_SIZE;
+            ringFrameWalkStep = -1;
         }
         
         while ((cycles > 0) && (!stop))
@@ -2011,81 +2021,228 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
     // or from "our" thread!
     private void addStateToRingbuffer()
     {
-        if (goBackRingBuffer[ringBufferNext] == null) goBackRingBuffer[ringBufferNext] = new CompleteState();
-        CompleteState state = goBackRingBuffer[ringBufferNext];
+        if (goSSBackRingBuffer[ringSSBufferNext] == null) 
+            goSSBackRingBuffer[ringSSBufferNext] = new CompleteState();
+        CompleteState state = goSSBackRingBuffer[ringSSBufferNext];
         state.putState(this);
         state.putState(e6809);
         state.putState(e8910);
              
-        ringBufferNext = (ringBufferNext+1)%RING_BUFFER_SIZE;
-        ringWalkStep=-1; 
+        ringSSBufferNext = (ringSSBufferNext+1)%SS_RING_BUFFER_SIZE;
+        ringSSWalkStep=-1; 
+        
+        
+        if ((cyclesRunning%30000) == 0)
+        {
+            if (goFrameBackRingBuffer[ringFrameBufferNext] == null) 
+                goFrameBackRingBuffer[ringFrameBufferNext] = new CompleteState();
+            state = goFrameBackRingBuffer[ringFrameBufferNext];
+            state.putState(this);
+            state.putState(e6809);
+            state.putState(e8910);
+
+            
+            ringFrameBufferNext = (ringFrameBufferNext+1)%FRAME_RING_BUFFER_SIZE;
+            ringFrameWalkStep=-1; 
+        }
     }  
-    public boolean oneStepBackInRingbuffer()
+    // get # of step backs from "0" (current)
+    public int getRingbufferPos()
+    {
+        if (!config.ringbufferActive) return 0;
+        int pos = 0;
+        if (ringSSWalkStep == -1) return pos;
+
+        int testStep = ringSSWalkStep;
+        
+        while (true)
+        {
+            if (testStep==-1) // if first step, than ringBufferNext-2 (-1 would be the last instruction - again, endless loop :-))
+                testStep = (ringSSBufferNext+(SS_RING_BUFFER_SIZE-2))%SS_RING_BUFFER_SIZE;
+            else
+                testStep = (testStep+(SS_RING_BUFFER_SIZE-1))%SS_RING_BUFFER_SIZE;
+            // if ringbuffer overflow
+            if (ringSSBufferNext==testStep)
+            {
+                break;
+            }
+            // if ringbuffer last step is "empty"
+            if (goSSBackRingBuffer[testStep] == null) 
+            {
+                break;
+            }
+            pos++;
+        }
+        return pos;
+    }
+    public boolean stepBackInSSRingbuffer(int steps)
+    {
+        boolean b = true;
+        for (int i=0;i<steps; i++)
+            b = b & oneStepBackInSSRingbuffer();
+        return b;
+    }
+    private boolean oneStepBackInSSRingbuffer()
     {
         if (!config.ringbufferActive) return false;
-        if (ringWalkStep==-1) // if first step, than ringBufferNext-2 (-1 would be the last instruction - again, endless loop :-))
-            ringWalkStep = (ringBufferNext+(RING_BUFFER_SIZE-2))%RING_BUFFER_SIZE;
+        if (ringSSWalkStep==-1) // if first step, than ringBufferNext-2 (-1 would be the last instruction - again, endless loop :-))
+            ringSSWalkStep = (ringSSBufferNext+(SS_RING_BUFFER_SIZE-2))%SS_RING_BUFFER_SIZE;
         else
-            ringWalkStep = (ringWalkStep+(RING_BUFFER_SIZE-1))%RING_BUFFER_SIZE;
+            ringSSWalkStep = (ringSSWalkStep+(SS_RING_BUFFER_SIZE-1))%SS_RING_BUFFER_SIZE;
         
         // if ringbuffer overflow
-        if (ringBufferNext==ringWalkStep)
+        if (ringSSBufferNext==ringSSWalkStep)
         {
             // 
-            if (ringWalkStep == ((ringBufferNext+(RING_BUFFER_SIZE-1))%RING_BUFFER_SIZE))
-                ringWalkStep=-1;
+            if (ringSSWalkStep == ((ringSSBufferNext+(SS_RING_BUFFER_SIZE-1))%SS_RING_BUFFER_SIZE))
+                ringSSWalkStep=-1;
             else
-                ringWalkStep=(ringWalkStep+1)%RING_BUFFER_SIZE; // preserve current position
+                ringSSWalkStep=(ringSSWalkStep+1)%SS_RING_BUFFER_SIZE; // preserve current position
             // we are at the end of the ringbuffer!
             return false;
         }
         
         // if ringbuffer last step is "empty"
-        if (goBackRingBuffer[ringWalkStep] == null) 
+        if (goSSBackRingBuffer[ringSSWalkStep] == null) 
         {
-            if (ringWalkStep == ((ringBufferNext+(RING_BUFFER_SIZE-1))%RING_BUFFER_SIZE))
-                ringWalkStep=-1;
+            if (ringSSWalkStep == ((ringSSBufferNext+(SS_RING_BUFFER_SIZE-1))%SS_RING_BUFFER_SIZE))
+                ringSSWalkStep=-1;
             else
-                ringWalkStep=(ringWalkStep+1)%RING_BUFFER_SIZE; // preserve current position
+                ringSSWalkStep=(ringSSWalkStep+1)%SS_RING_BUFFER_SIZE; // preserve current position
             // not last step was saved (yet)
             return false;
         }
             
-        CompleteState state = goBackRingBuffer[ringWalkStep];
+        CompleteState state = goSSBackRingBuffer[ringSSWalkStep];
         initFromState(state);
         displayer.directDraw(directDrawVector);
         return true;
     }
-    public boolean oneStepForwardInRingbuffer()
+    public boolean stepForwardInSSRingbuffer(int steps)
+    {
+        boolean b = true;
+        for (int i=0;i<steps; i++)
+            b = b & oneStepForwardInSSRingbuffer();
+        return b;
+    }
+    private boolean oneStepForwardInSSRingbuffer()
     {
         if (!config.ringbufferActive) return false;
-        if (ringWalkStep == -1)
+        if (ringSSWalkStep == -1)
         {
             // last position was "executed" we can not go further in ringbuffer
             // just do a single step - idiot!
             return false;
         }
-        ringWalkStep = (ringWalkStep+1)%RING_BUFFER_SIZE;
+        ringSSWalkStep = (ringSSWalkStep+1)%SS_RING_BUFFER_SIZE;
         
-        if (goBackRingBuffer[ringWalkStep] == null) 
+        if (goSSBackRingBuffer[ringSSWalkStep] == null) 
         {
             // error!
             // should not happen :-)
-            ringWalkStep=-1; // preserve current position
+            ringSSWalkStep=-1; // preserve current position
             // not last step was saved (yet)
             return false;
         }
             
-        CompleteState state = goBackRingBuffer[ringWalkStep];
-        if (ringBufferNext==ringWalkStep+1)
+        CompleteState state = goSSBackRingBuffer[ringSSWalkStep];
+        if (ringSSBufferNext==ringSSWalkStep+1)
         {
-            ringWalkStep=-1; // wie hit the front!
+            ringSSWalkStep=-1; // wie hit the front!
         }
         initFromState(state);
 
         displayer.directDraw(directDrawVector);
         return true;
     }     
+    public boolean stepBackInFrameRingbuffer(int steps)
+    {
+        boolean b = true;
+        for (int i=0;i<steps; i++)
+            b = b & oneStepBackInFrameRingbuffer();
+        return b;
+    }
+    private boolean oneStepBackInFrameRingbuffer()
+    {
+        if (!config.ringbufferActive) return false;
+        ringSSWalkStep = -1; // if I step back, what is the position of the step back?
+        ringSSBufferNext = 0;
+        
+        if (ringFrameWalkStep==-1) // if first step, than ringBufferNext-2 (-1 would be the last instruction - again, endless loop :-))
+            ringFrameWalkStep = (ringFrameBufferNext+(FRAME_RING_BUFFER_SIZE-2))%FRAME_RING_BUFFER_SIZE;
+        else
+            ringFrameWalkStep = (ringFrameWalkStep+(FRAME_RING_BUFFER_SIZE-1))%FRAME_RING_BUFFER_SIZE;
+        
+        // if ringbuffer overflow
+        if (ringFrameBufferNext==ringFrameWalkStep)
+        {
+            // 
+            if (ringFrameWalkStep == ((ringFrameBufferNext+(FRAME_RING_BUFFER_SIZE-1))%FRAME_RING_BUFFER_SIZE))
+                ringFrameWalkStep=-1;
+            else
+                ringFrameWalkStep=(ringFrameWalkStep+1)%FRAME_RING_BUFFER_SIZE; // preserve current position
+            // we are at the end of the ringbuffer!
+            return false;
+        }
+        
+        // if ringbuffer last step is "empty"
+        if (goFrameBackRingBuffer[ringFrameWalkStep] == null) 
+        {
+            if (ringFrameWalkStep == ((ringFrameBufferNext+(FRAME_RING_BUFFER_SIZE-1))%FRAME_RING_BUFFER_SIZE))
+                ringFrameWalkStep=-1;
+            else
+                ringFrameWalkStep=(ringFrameWalkStep+1)%FRAME_RING_BUFFER_SIZE; // preserve current position
+            // not last step was saved (yet)
+            return false;
+        }
+            
+        CompleteState state = goFrameBackRingBuffer[ringFrameWalkStep];
+        initFromState(state);
+        displayer.directDraw(directDrawVector);
+        return true;
+    } 
+    public boolean stepForwardInFrameRingbuffer(int steps)
+    {
+        boolean b = true;
+        for (int i=0;i<steps; i++)
+            b = b & oneStepForwardInFrameRingbuffer();
+        return b;
+    }
+    private boolean oneStepForwardInFrameRingbuffer()
+    {
+        if (!config.ringbufferActive) return false;
+        if (ringFrameWalkStep == -1)
+        {
+            // last position was "executed" we can not go further in ringbuffer
+            // just do a single step - idiot!
+            return false;
+        }
+        
+        ringSSWalkStep = -1; // if I step back, what is the position of the step back?
+        ringSSBufferNext = 0;
+        
+        
+        ringFrameWalkStep = (ringFrameWalkStep+1)%FRAME_RING_BUFFER_SIZE;
+        
+        if (goFrameBackRingBuffer[ringFrameWalkStep] == null) 
+        {
+            // error!
+            // should not happen :-)
+            ringFrameWalkStep=-1; // preserve current position
+            // not last step was saved (yet)
+            return false;
+        }
+            
+        CompleteState state = goFrameBackRingBuffer[ringFrameWalkStep];
+        if (ringFrameBufferNext==ringFrameWalkStep+1)
+        {
+            ringFrameWalkStep=-1; // wie hit the front!
+        }
+        initFromState(state);
+
+        displayer.directDraw(directDrawVector);
+        return true;
+    }         
     int getStepoutAddress()
     {
         if (e6809.callStack.size()>0)
@@ -2821,6 +2978,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 {
                     if ((bp.type & Breakpoint.BP_COMPARE) == Breakpoint.BP_COMPARE)
                     {
+
                         if ((e6809.reg_pc == bp.targetAddress) && (cart.getCurrentBank() == bp.targetBank))
                         {
                             if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
@@ -2829,6 +2987,45 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                             }
                             activeBreakpoint.add(bp);
                             if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                        }
+                    }
+                    else if ((bp.type & Breakpoint.BP_WEIRD) == Breakpoint.BP_WEIRD)
+                    {
+                        // pc > cart and smaller ROM is weird
+                        // thus also RAM execution is defined as weird
+                        if (cart!=null)
+                        {
+                            boolean isWeird = ((e6809.reg_pc > cart.getCurrentBankLength()) && (e6809.reg_pc < 0xe000));
+
+                            if (isWeird)
+                            {
+                                if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                                {
+                                    tmp.add(bp);
+                                }
+                                activeBreakpoint.add(bp);
+                                if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                            }
+                        }
+                    }
+                    else if ((bp.type & Breakpoint.BP_INTEGRATOR) == Breakpoint.BP_INTEGRATOR)
+                    {
+                        if (cart!=null)
+                        {
+                            if ((e6809.reg_pc == bp.targetAddress) && (cart.getCurrentBank() == bp.targetBank))
+                            {
+                                int difx = Math.abs(((int)alg_curr_x)-(config.ALG_MAX_X / 2));
+                                int dify = Math.abs(((int)alg_curr_y)-(config.ALG_MAX_Y / 2));
+                                if ((difx >bp.compareValue) || (dify>bp.compareValue))
+                                {
+                                    if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                                    {
+                                        tmp.add(bp);
+                                    }
+                                    activeBreakpoint.add(bp);
+                                    if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                                }
+                            }
                         }
                     }
                 }
@@ -3604,6 +3801,19 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
     public ArrayList<Integer> getCallstack()
     {
         return e6809.callStack;
+    }
+    public void resetBuffer()
+    {
+        SS_RING_BUFFER_SIZE = config.singestepBuffer;
+        ringSSWalkStep = 0; // if I step back, what is the position of the step back?
+        ringSSBufferNext = 0;
+        goSSBackRingBuffer = new CompleteState[SS_RING_BUFFER_SIZE];
+                
+        FRAME_RING_BUFFER_SIZE = config.frameBuffer;
+        ringFrameWalkStep = 0; // if I step back, what is the position of the step back?
+        ringFrameBufferNext = 0;
+        goFrameBackRingBuffer = new CompleteState[FRAME_RING_BUFFER_SIZE];
+                
     }
 }
 

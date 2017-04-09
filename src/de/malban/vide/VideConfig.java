@@ -79,6 +79,13 @@ public class VideConfig  implements Serializable{
     public static double scaleEfficiency = 1.0;
     public int rotate = 0; 
     public boolean ramAccessAllowed = false;
+    public int singestepBuffer = 30000;
+    public int frameBuffer = 1000; // ca. 20 seconds!
+    
+    public boolean useLibAYEmu = false;
+    public String useLibAYEmuTable = "AY_Kay";
+            
+    
 
     public double overflowFactor = 150;
     public boolean emulateIntegrationOverflow = false;
@@ -133,7 +140,7 @@ public class VideConfig  implements Serializable{
     public boolean createUnkownLabels = true;
     public boolean lstFirst = true;
     public boolean pleaseforceDissiIconizeOnRun = false; // !(/&%"/(&!%(/!&%!(/&%(/&"%"
-
+    public boolean romAndPcBreakpoints = true;
     // VEDI
     public boolean invokeEmulatorAfterAssembly = true;
     public boolean scanMacros = true;
@@ -315,10 +322,14 @@ public class VideConfig  implements Serializable{
         to.zero_divider=from.zero_divider;
         to.rotate=from.rotate;
         to.ramAccessAllowed=from.ramAccessAllowed;
+        to.singestepBuffer=from.singestepBuffer;
+        to.frameBuffer=from.frameBuffer;
+        
+        to.useLibAYEmu=from.useLibAYEmu;
+        to.useLibAYEmuTable=from.useLibAYEmuTable;
         
         
-        
-        
+        to.romAndPcBreakpoints = from.romAndPcBreakpoints; // resolution 0.01
         to.drift_x = from.drift_x; // resolution 0.01
         to.drift_y = from.drift_y; // resolution 0.01
         to.useRayGun = from.useRayGun;

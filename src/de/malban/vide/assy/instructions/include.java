@@ -17,7 +17,7 @@ public class include
   
   public boolean isInclude() { return true; }
   
-  public String includeFilename() throws ParseException { Expression localExpression = ExpressionString.parse(this.source.rest, null);
+  public String includeFilename() throws ParseException { Expression localExpression = ExpressionString.parse(this.source.rest, null, true);
   this.filename = ((ExpressionString)localExpression).getString();
     return this.filename;
   }

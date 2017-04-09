@@ -5,12 +5,10 @@
  */
 package de.malban.util.syntax.entities;
 
-import static de.malban.util.syntax.entities.EntityDefinition.SUBTYPE_DATA_LABEL;
 import static de.malban.util.syntax.entities.EntityDefinition.TYP_INCLUDE;
 import static de.malban.util.syntax.entities.EntityDefinition.TYP_LABEL;
 import static de.malban.util.syntax.entities.EntityDefinition.TYP_MACRO;
 import static de.malban.util.syntax.entities.EntityDefinition.removeComment;
-import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.vedi.EditorPanel;
 import java.io.File;
 import java.io.FileReader;
@@ -35,6 +33,7 @@ public class ASM6809FileInfo
     public static final int ENTITY_DELETED = -1;
 
     private static int inUpdate = 0;
+    private static boolean inReset = false;
     
     String fullName; // full path an filename
     String path; // only path, like Path(fullName).getParent()
@@ -62,7 +61,12 @@ public class ASM6809FileInfo
         
         
         ASM6809FileInfo fileInfo = allFileMap.get(oldkey);
-        if (fileInfo==null) return;
+        if (fileInfo==null) 
+        {
+            
+            inUpdate--;
+            return;
+        }
 
         fileInfo.fullName = newFileName;
         Path path = Paths.get(newFileName);
@@ -77,13 +81,16 @@ public class ASM6809FileInfo
         inUpdate--;
     }
 
+    // all included are also reset
     public static void resetDefinitions(String filename, String text)
     {
         if (inUpdate>0) return;
         inUpdate++;
+        inReset=true;
         String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(filename)).toLowerCase();
         allFileMap.remove(key);
         handleFile(filename, text);
+        inReset=false;
         inUpdate--;
     }
     public static void resetDefinitions()
@@ -268,8 +275,11 @@ public class ASM6809FileInfo
             Map.Entry entry = (Map.Entry) it.next();
             EntityDefinition value = (EntityDefinition) entry.getValue();
             String key = (String) entry.getKey();
-            LabelSink.knownGlobalVariables.remove(value.name);
-            LabelSink.knownGlobalVariables.put(value.name, value);
+            synchronized (LabelSink.knownGlobalVariables)
+            {
+                LabelSink.knownGlobalVariables.remove(value.name);
+                LabelSink.knownGlobalVariables.put(value.name, value);
+            }
         }
 
         
@@ -288,7 +298,10 @@ public class ASM6809FileInfo
             }
             if (e.type == TYP_LABEL)
             {
-                LabelSink.knownGlobalVariables.remove(e.name);
+                synchronized (LabelSink.knownGlobalVariables)
+                {
+                    LabelSink.knownGlobalVariables.remove(e.name);
+                }
             }
        }
        
@@ -334,7 +347,10 @@ public class ASM6809FileInfo
             }
             if (entity.previousType == TYP_LABEL)
             {
-                LabelSink.knownGlobalVariables.remove(entity.previousName);
+                synchronized (LabelSink.knownGlobalVariables)
+                {
+                    LabelSink.knownGlobalVariables.remove(entity.previousName);
+                }
             }
         }
     
@@ -358,7 +374,10 @@ public class ASM6809FileInfo
             }
             else if (entity.type == TYP_LABEL)
             {
-                LabelSink.knownGlobalVariables.put(entity.name, entity);
+                synchronized (LabelSink.knownGlobalVariables)
+                {
+                    LabelSink.knownGlobalVariables.put(entity.name, entity);
+                }
             }
         }
         if (status == ENTITY_CHANGED)
@@ -371,6 +390,12 @@ public class ASM6809FileInfo
                     newFilename+=path+File.separator;
                 }
                 newFilename+=entity.name;
+                if (inReset)
+                {
+        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(newFilename)).toLowerCase();
+        allFileMap.remove(key);
+                }
+                
                 handleFile(newFilename, null);
             }
         }
@@ -447,6 +472,7 @@ public class ASM6809FileInfo
             text.append(newCompleteText);
             lineCount = getLineCount(newCompleteText);
             reset();
+            inUpdate--;
             return null;
         }
             
@@ -466,7 +492,10 @@ public class ASM6809FileInfo
             {
                 if (e.type == TYP_LABEL)
                 {
-                    LabelSink.knownGlobalVariables.remove(e.name);
+                    synchronized (LabelSink.knownGlobalVariables)
+                    {
+                        LabelSink.knownGlobalVariables.remove(e.name);
+                    }
                     ret.add(e.name);
                 }
                 if (e.type == TYP_MACRO)
@@ -499,7 +528,10 @@ public class ASM6809FileInfo
                         {
                             if (e.type == TYP_LABEL)
                             {
-                                LabelSink.knownGlobalVariables.remove(e.name);
+                                synchronized (LabelSink.knownGlobalVariables)
+                                {
+                                    LabelSink.knownGlobalVariables.remove(e.name);
+                                }
                                 ret.add(e.name);
                             }
                             if (e.type == TYP_MACRO)

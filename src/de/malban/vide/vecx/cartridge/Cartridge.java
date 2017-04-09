@@ -207,6 +207,14 @@ public class Cartridge implements Serializable
         }
     }
 
+    public int getCurrentBankLength()
+    {
+        if (cart == null) return 0;
+        if (cart.length<=currentBank) return 0;
+        if (cart[currentBank] == null) return 0;
+        return cart[currentBank].length;
+    }
+    
     public int getCurrentBank()
     {
         return currentBank;

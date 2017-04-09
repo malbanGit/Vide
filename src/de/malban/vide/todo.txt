@@ -1,8 +1,3 @@
-Music
-Sound effects
-"Floating" and fixed scores
-more enemies
-bonus objects
 
 
 
@@ -494,6 +489,35 @@ Done:
 - done: vari variables table -> sortable
 - done: vedi inject in wrong file could get you into trouble -> savety dialog added
 - done: vedi BUG/Feature, when typing in Vedi, the "*" now moves the bottom line!
+- done: vecxi implement "color" drift
+done: + add a "zero retain" - a integrator offset value that is pro mille of lat position
+done: + adjust cycles for zeroing
+done: in vedi show current shortcut jump table
+done: in vedi do a "set breakpoint, set watch" on the line numbers
+done: vari: if table (variable) is sorted - tooltip is wrong
+done: includes under windows!!!
+done: libemuay in credits
+done: do new PSG emulation YMER
+done: Watches aus dem Editor
+done: FORCE label from assi sources
+done: in editor jump to bookmark if tab exists and another tab is currently seen, the other tab is not chosen!
+done: Bug breakpoint display on line numbers not working correctly
+done Editor, every second entered char destroys line counting, the "correct" chars -> display WRONG line counts!
+tried again: vedi still loses information (and does not recover) when files are closed|
+done (I think): immedatiate also with "label" or non forcred like cmpa #SPACE 
+done?bug: vedi  
+  if a variabler is drefined 2 times, and only one is deleted
+   the "other" one should be enought to ensure syntax highliting
+- done: install BIOS as internal source, and jump on double click there
+- done: vedi, periodically in the background, re - check "jumps" to known labels, since after a time of editing they get "off"
+
+done? bug vedi:
+  entering new lines in the middle of vedi (only pressing return)
+  every second or so time, the line numbering gets fucked
+  -> not reprocueable
+- done: add watches in vedi via popup
+- done: table with current breakpoints/watches in vedi
+
 
 Frogger: (count starting at 1)
 ok 1. Level > 27100: ok (4 houses)
@@ -530,36 +554,17 @@ Integration overlaps (X -> Y)
 Bug:
 Karl Quappe swithc "Suppress double draw" off - and see - that is WRONG
 
-done?bug: vedi  
-  if a variabler is drefined 2 times, and only one is deleted
-   the "other" one should be enought to ensure syntax highliting
-
-done? bug vedi:
-  entering new lines in the middle of vedi (only pressing return)
-  every second or so time, the line numbering gets fucked
-  -> not reprocueable
 
 
-BUG!
-done: vari: if table (variable) is sorted - tooltip is wrong
 
 Mario clone 1 way scroller, turrican?
 
 BUG?
 Delay of shiftreg according to thomas test? Seems "inverse"
 
-bug
-done: in editor jump to bookmark if tab exists and another tab is currently seen, the other tab is not chosen!
-
-
-done: Bug breakpoint display on line numbers not working correctly
-
-
-BUG
-done Editor, every second entered char destroys line counting, the "correct" chars -> display WRONG line counts!
 
 Bug:
-Garbage game over message of SPIKES is not emulated correctly
+Garbage game over message of SPIKES (uni-homebrew) is not emulated correctly (not terminated String)
 
 BUG in assi:
  MACRO constant ZAHLEN = 18
@@ -567,23 +572,13 @@ BUG in assi:
 -> leax 18,x  -> leax <$12,x
 
 
-- config:
-- in assi do the debug replacements when loading a file!
-- add watches in vedi via popup
-- table with current breakpoints/watches in vedi
 
-
-done: + add a "zero retain" - a integrator offset value that is pro mille of lat position
-done: + adjust cycles for zeroing
-done: in vedi show current shortcut jump table
-done: in vedi do a "set breakpoint, set watch" on the line numbers
 
 BUG BW images in Vectorize
  - editor messages to big!
 
-- install BIOS as internal source, and jump on double click there
-- vedi, periodically in the background, re - check "jumps" to known labels, since after a time of editing they get "off"
-document recent vecci changes
+
+
 VecKey - PS/2 Keyboard
 DRIFT - see DRIFT pic
 - faq copied "vectors" does not work with paste -> mode must be vectors!
@@ -625,7 +620,7 @@ DRIFT - see DRIFT pic
 - vide do a veccy comment like
        vide-veccy mode 1: 2: %y %x %m 3:
        and upon finding that string do a tooltip of the vectorlist!
-- vide thread syntax color in vedi still somtimes lost
+
 
 - libi order documents
 
@@ -677,7 +672,6 @@ zeroing effect, see Vectrex32 site
 - vecxi try own handwritten graphics primitives for glow on byte array of buffer
 - vecxi try ray gun with handwritten graphic rouines, perhaps on a 255x255 grid, which might be scaled...
 - assi ASM do || and && for IF
-- vecxi implement "color" drift
 - vedi auto saves in vedi
 - vedi enable apple keys
 - vecxi proboard, mentiones that drift is stronger -y and -x than +y and +x

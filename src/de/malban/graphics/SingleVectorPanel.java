@@ -2036,7 +2036,9 @@ public class SingleVectorPanel extends javax.swing.JPanel
             } while (y0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedyOff, scaleUse)<getHeight());
             counter *=2; // above was only half grid width
 
-            if (counter<getHeight()/2)
+            boolean drawGrid = counter<getHeight()/2;
+            
+//            if ()
             {
                 counter = 0;
                 do
@@ -2046,7 +2048,8 @@ public class SingleVectorPanel extends javax.swing.JPanel
                     if (Math.abs(yPositive - mY) < Math.abs(potentialCrossY)) potentialCrossY = yPositive- mY;
                     // horizontal line
                     // y+
-                    drawVectrexScaledLine(g,xg0, +(counter*GRID_NOW), xg1, +(counter*GRID_NOW), false, null, false, false, 0, null);
+                    if (drawGrid)
+                        drawVectrexScaledLine(g,xg0, +(counter*GRID_NOW), xg1, +(counter*GRID_NOW), false, null, false, false, 0, null);
                     counter++;
                 } while (y0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedyOff, scaleUse)<getHeight());
                 counter = 0;
@@ -2057,7 +2060,8 @@ public class SingleVectorPanel extends javax.swing.JPanel
                     if (Math.abs(yNegative - mY) < Math.abs(potentialCrossY)) potentialCrossY = yNegative- mY;
                     // horizontal line
                     // y-
-                    drawVectrexScaledLine(g,xg0, -(counter*GRID_NOW), xg1, -(counter*GRID_NOW), false, null, false, false, 0, null);
+                    if (drawGrid)
+                        drawVectrexScaledLine(g,xg0, -(counter*GRID_NOW), xg1, -(counter*GRID_NOW), false, null, false, false, 0, null);
 
                     counter++;
                 } while (y0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedyOff, scaleUse)>0);
@@ -2070,7 +2074,8 @@ public class SingleVectorPanel extends javax.swing.JPanel
                     if (Math.abs(xPositive - mX) < Math.abs(potentialCrossX)) potentialCrossX = xPositive- mX;
                     // vertical line
                     // x+
-                    drawVectrexScaledLine(g,+(counter*GRID_NOW), yg0, +(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
+                    if (drawGrid)
+                        drawVectrexScaledLine(g,+(counter*GRID_NOW), yg0, +(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
 
                     counter++;
                 } while (x0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedxOff, scaleUse)<getWidth());            
@@ -2082,7 +2087,8 @@ public class SingleVectorPanel extends javax.swing.JPanel
                     if (Math.abs(xNegative - mX) < Math.abs(potentialCrossX)) potentialCrossX = xNegative- mX;
                     // vertical line
                     // x-
-                    drawVectrexScaledLine(g,-(counter*GRID_NOW), yg0, -(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
+                    if (drawGrid)
+                        drawVectrexScaledLine(g,-(counter*GRID_NOW), yg0, -(counter*GRID_NOW), yg1, false, null, false, false, 0, null);
 
                     counter++;
                 } while (x0Offset - Scaler.scaleDoubleToInt((counter*GRID_NOW)-usedxOff, scaleUse)>0);            

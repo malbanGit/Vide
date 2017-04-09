@@ -6,9 +6,7 @@
 package de.malban.vide.dissy;
 
 import de.malban.vide.vecx.Breakpoint;
-import static de.malban.vide.vecx.Breakpoint.BP_NONE;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -65,6 +63,8 @@ public class MemoryInformation
     public boolean referingToShort=false; // is it refering to 8 bit?
     public boolean contentUnkown = true;  // true if this memory address was not "loaded" from a file and is as such unkown
 
+    public String forcedSymbol = null; // null = default, string = label, empty string = number
+    
     public ArrayList<String> labels = new ArrayList<String>();   // all labels this adress has
     public ArrayList<String> immediateLabels = new ArrayList<String>();   // all labels this adress represents as an immediate value!
     public ArrayList<String> comments = new ArrayList<String>(); // comment lines this adress has

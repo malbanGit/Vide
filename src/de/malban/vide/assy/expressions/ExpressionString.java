@@ -16,10 +16,15 @@ public class ExpressionString extends Expression {
 	byte value[];
 	int length;
 
+	public static Expression parse( String s, SymbolTable st , boolean isFilename)
+		throws ParseException
+	{
+		return new ExpressionString( new ParseString(s), isFilename );
+	}
 	public static Expression parse( String s, SymbolTable st )
 		throws ParseException
 	{
-		return new ExpressionString( new ParseString(s) );
+		return parse(  s,  st , false);
 	}
 
 	public static Expression parse( ParseString s, SymbolTable st )
@@ -32,7 +37,12 @@ public class ExpressionString extends Expression {
             return false;
         }
 
-	private ExpressionString( ParseString s )
+	private ExpressionString( ParseString s)
+		throws ParseException
+        {
+            this(s ,false);
+        }
+	private ExpressionString( ParseString s , boolean isFilename)
 		throws ParseException
 	{
 		char ch0, quote;
@@ -59,20 +69,24 @@ public class ExpressionString extends Expression {
 			}
 			ch0 = s.charAt(0);
 			if (ch0 == quote) { s.skip(1); break; }
-			if (ch0 == '\\') {
-				s.skip(1);
-				ch0 = s.charAt(0);
-				switch (ch0) {
-					case '0': ch0 =  0; break;
-					case 'a': ch0 =  7; break;
-					case 'b': ch0 =  8; break;
-					case 't': ch0 =  9; break;
-					case 'n': ch0 = 10; break;
-					case 'v': ch0 = 11; break;
-					case 'f': ch0 = 12; break;
-					case 'r': ch0 = 13; break;
-				}
-			}
+                        if (!isFilename)
+                        {
+                            if (ch0 == '\\') {
+                                    s.skip(1);
+                                    ch0 = s.charAt(0);
+                                    switch (ch0) {
+                                            case '0': ch0 =  0; break;
+                                            case 'a': ch0 =  7; break;
+                                            case 'b': ch0 =  8; break;
+                                            case 't': ch0 =  9; break;
+                                            case 'n': ch0 = 10; break;
+                                            case 'v': ch0 = 11; break;
+                                            case 'f': ch0 = 12; break;
+                                            case 'r': ch0 = 13; break;
+                                    }
+                            }
+                        }
+
 			v.addElement( new Integer(ch0) );
 			s.skip(1);
 		}

@@ -12,7 +12,6 @@
 // the following line.
 package de.malban.vide.assy;
 
-import static de.malban.vide.assy.Asmj.allDebugComments;
 import de.malban.vide.assy.instructions.Instruction;
 import de.malban.vide.vedi.DebugComment;
 import de.malban.vide.vedi.DebugCommentList;
@@ -125,10 +124,6 @@ public class SourceLine {
                 s.setPosition(0);
             }
             
-            if (fname.contains("highscoreStuff"))
-            {
-                System.out.println("");
-            }
             // comment completeLine
             
             

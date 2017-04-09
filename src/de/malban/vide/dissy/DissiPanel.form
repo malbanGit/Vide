@@ -320,7 +320,7 @@
               <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="282" max="32767" attributes="0"/>
+              <EmptySpace pref="275" max="32767" attributes="0"/>
           </Group>
           <Component id="jSplitPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
@@ -389,11 +389,15 @@
                   <Component id="jButtonsetBreakpoint" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonMultiStep" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jButtonRinbufferUndo1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonRinbufferUndo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                   <Component id="jButtonRingbufferRedo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jButtonRingbufferRedo1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="jButtonWRTracker" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonDump1" min="-2" max="-2" attributes="0"/>
@@ -409,7 +413,7 @@
                   <Component id="jButtonShowBreakpoints" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -421,7 +425,7 @@
                   <Component id="jButtonCNTOutput" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButtonVectrorScreenshot" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="50" max="32767" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jButtonApplyCodeScan" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -429,37 +433,41 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="1" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jButtonViai" max="32767" attributes="0"/>
-                          <Component id="jButtonDump1" max="32767" attributes="0"/>
-                          <Component id="jButtonDebug" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonStepOut" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonOverstep" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonsetBreakpoint" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonMultiStep" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonDebugStep" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonRingbufferRedo" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonRinbufferUndo" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonWRTracker" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonShowVars" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonShowLabels" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonShowPSG" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jButtonShowBreakpoints" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="jButtonAdressForward" alignment="1" max="-2" attributes="0"/>
-                      <Component id="jButtonAdressBack" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="jToggleButton1" alignment="1" min="-2" pref="20" max="-2" attributes="0"/>
-                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCheckBoxVectorSelect" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                              <Component id="jButtonVectrorScreenshot" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonCNTOutput" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonDASMOutput" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonApplyCodeScan" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonRinbufferUndo" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonRingbufferRedo" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonRingbufferRedo1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonRinbufferUndo1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jButtonViai" max="32767" attributes="0"/>
+                              <Component id="jButtonDump1" max="32767" attributes="0"/>
+                              <Component id="jButtonDebug" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jButtonStepOut" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jButtonOverstep" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jButtonsetBreakpoint" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jButtonMultiStep" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jButtonDebugStep" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jButtonWRTracker" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jButtonShowVars" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jButtonShowLabels" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jButtonShowPSG" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jButtonShowBreakpoints" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jButtonAdressForward" alignment="1" max="-2" attributes="0"/>
+                          <Component id="jButtonAdressBack" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jToggleButton1" alignment="1" min="-2" pref="20" max="-2" attributes="0"/>
+                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jCheckBoxVectorSelect" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                                  <Component id="jButtonVectrorScreenshot" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonCNTOutput" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonDASMOutput" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jButtonApplyCodeScan" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -473,7 +481,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/malban/vide/images/arrow_turn_left.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Take the last instruction back - step back, undo..."/>
+            <Property name="toolTipText" type="java.lang.String" value="Take the last instruction back - step back, undo... (+SHIFT 10, +CONTROL 100)"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 1, 0, -1]"/>
             </Property>
@@ -487,7 +495,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/de/malban/vide/images/arrow_turn_right.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="redo last instruction (not executed, but &quot;reload&quot; state&quot;)"/>
+            <Property name="toolTipText" type="java.lang.String" value="redo last instruction (not executed, but &quot;reload&quot; state&quot;) (+SHIFT 10, +CONTROL 100)"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 1, 0, -1]"/>
             </Property>
@@ -797,6 +805,34 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonApplyCodeScanActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonRinbufferUndo1">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/de/malban/vide/images/arrow_undo.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Take the last 30000 instructions back."/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[0, 1, 0, -1]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRinbufferUndo1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButtonRingbufferRedo1">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/de/malban/vide/images/arrow_redo.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="redo last 30000 instructions"/>
+            <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+              <Insets value="[0, 1, 0, -1]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRingbufferRedo1ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -1221,7 +1257,6 @@
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="3" attributes="0">
                                                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>

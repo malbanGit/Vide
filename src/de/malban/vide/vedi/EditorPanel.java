@@ -16,8 +16,13 @@ import de.malban.util.KeyboardListener;
 import de.malban.util.UtilityString;
 import de.malban.util.syntax.Syntax.HighlightedDocument;
 import de.malban.util.syntax.Syntax.TokenStyles;
-import de.malban.util.syntax.entities.ASM6809FileInfo;
 import de.malban.vide.veccy.VectorListFileChoserJPanel;
+import static de.malban.vide.vedi.DebugComment.SUB_WATCH_16BIT;
+import static de.malban.vide.vedi.DebugComment.SUB_WATCH_2_8BIT;
+import static de.malban.vide.vedi.DebugComment.SUB_WATCH_8BIT;
+import static de.malban.vide.vedi.DebugComment.SUB_WATCH_BINARY;
+import static de.malban.vide.vedi.DebugComment.SUB_WATCH_SEQUENCE;
+import static de.malban.vide.vedi.DebugComment.SUB_WATCH_STRING;
 import de.malban.vide.vedi.panels.GetRadiusValuePanel;
 import de.malban.vide.vedi.panels.GetSinValuePanel;
 import java.awt.BorderLayout;
@@ -28,7 +33,6 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -39,13 +43,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.text.AttributeSet;
@@ -239,9 +242,46 @@ public class EditorPanel extends EditorPanelFoundation
         jTextPane1.setCaretPosition(savedCaretPosition);
         jTextPane1.requestFocusInWindow();
     }
-
+    boolean inSetup = false;
+    class CSAViewport extends JViewport
+    {
+        public void setViewPosition(Point p)
+        {
+        }
+        public void setViewPositionCSA(Point p)
+        {
+            super.setViewPosition(p);
+        }
+    }
+    class CSAViewport2 extends JViewport
+    {
+        public boolean enableViewport = true;
+        public void setViewPosition(Point p)
+        {
+            if (enableViewport) super.setViewPosition(p);
+        }
+    }
+    public void setViewportEnabled(boolean b)
+    {
+        if (jScrollPane2.getViewport() instanceof CSAViewport2)
+        {
+            if (b)
+            {
+                SwingUtilities.invokeLater(new Runnable() {
+                @Override public void run() 
+                    {
+                ((CSAViewport2)jScrollPane2.getViewport()).enableViewport = b;
+                    }
+                });                
+            }
+            else
+                ((CSAViewport2)jScrollPane2.getViewport()).enableViewport = b;
+        }
+    }
+    
     public void setup(String t)
     {
+        inSetup = true;
         jTextPane2.setMargin(new Insets(1,3,1,3));
         rowCount = -1;
         jTextPane1.setCaret(new HighlightCaret());
@@ -302,17 +342,35 @@ public class EditorPanel extends EditorPanelFoundation
         new HotKey("QuickHelp", new AbstractAction() { public void actionPerformed(ActionEvent e) {  help();}}, this);
 
         JViewport viewport = jScrollPane2.getViewport();
+        
+
+        
+        
         viewport.addChangeListener(
                 new ChangeListener()
                 {
                     @Override
                     public void stateChanged(ChangeEvent e)
                     {
+                        syncViewports();
+                    }
+                });            
+        jScrollPane1.getViewport().addChangeListener(
+                new ChangeListener()
+                {
+                    @Override
+                    public void stateChanged(ChangeEvent e)
+                    {
+                        
                         JViewport viewport = jScrollPane2.getViewport();
+                        if (viewport == null) return;
                         Point p = viewport.getViewPosition();
                         JViewport viewport2 = jScrollPane1.getViewport();
-                        p.x=0;
-                        viewport2.setViewPosition(p);                
+                        if (p.y != viewport2.getViewPosition().y)
+                        {
+                            p.x=0;
+                            viewport2.setViewPosition(p);                
+                        }
                     }
                 });            
         jTextPane1.setCaretPosition(0);
@@ -321,6 +379,7 @@ public class EditorPanel extends EditorPanelFoundation
         jTextPane2.setDocument(doc);
         correctLineNumbers(true);
         initDebugDisplay();
+        inSetup = false;
     }
     
     public void deinit()
@@ -352,9 +411,30 @@ public class EditorPanel extends EditorPanelFoundation
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItemWatchBinary = new javax.swing.JMenuItem();
+        jMenuItemWatchByte = new javax.swing.JMenuItem();
+        jMenuItemWatchWord = new javax.swing.JMenuItem();
+        jMenuItemWatchString = new javax.swing.JMenuItem();
+        jMenuItemWatchBytePair = new javax.swing.JMenuItem();
+        jMenuItemWatchSequence = new javax.swing.JMenuItem();
+        jScrollPane2 = new JScrollPane()
+        {
+            protected JViewport createViewport() {
+                return new CSAViewport2();
+            }
+
+        }
+        ;
         jTextPane1 = buildTextPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane1 = new JScrollPane()
+        {
+            protected JViewport createViewport() {
+                return new CSAViewport();
+            }
+
+        }
+        ;
         jTextPane2 = new javax.swing.JTextPane();
 
         jMenuItemAddVectorlist.setText("insert vectorlist");
@@ -401,6 +481,58 @@ public class EditorPanel extends EditorPanelFoundation
 
         jPopupMenu1.add(jMenu1);
 
+        jMenu3.setText("Watches");
+
+        jMenuItemWatchBinary.setText("add watch binary");
+        jMenuItemWatchBinary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchBinaryActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchBinary);
+
+        jMenuItemWatchByte.setText("add watch byte");
+        jMenuItemWatchByte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchByteActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchByte);
+
+        jMenuItemWatchWord.setText("add watch word");
+        jMenuItemWatchWord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchWordActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchWord);
+
+        jMenuItemWatchString.setText("add watch string");
+        jMenuItemWatchString.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchStringActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchString);
+
+        jMenuItemWatchBytePair.setText("add watch byte pair");
+        jMenuItemWatchBytePair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchBytePairActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchBytePair);
+
+        jMenuItemWatchSequence.setText("add watch sequence 5");
+        jMenuItemWatchSequence.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchSequenceActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchSequence);
+
+        jPopupMenu1.add(jMenu3);
+
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 formComponentResized(evt);
@@ -435,11 +567,11 @@ public class EditorPanel extends EditorPanelFoundation
             }
         });
         jTextPane1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextPane1KeyPressed(evt);
-            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextPane1KeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextPane1KeyPressed(evt);
             }
         });
         jScrollPane2.setViewportView(jTextPane1);
@@ -535,9 +667,8 @@ public class EditorPanel extends EditorPanelFoundation
             else if (SwingUtilities.isRightMouseButton(evt))
             {
                 popUpTextPos = pos;
-                
-                
-                
+                jMenu3.setVisible(assume6809Asm);
+                               
                 jPopupMenu1.show(this, evt.getX()-20- jScrollPane2.getViewport().getViewPosition().x,evt.getY()-20- jScrollPane2.getViewport().getViewPosition().y);
             }
         }
@@ -635,9 +766,6 @@ public class EditorPanel extends EditorPanelFoundation
         }
         else if (SwingUtilities.isRightMouseButton(evt))
         {
-
-            //popUpTextPos = pos;
-            //jPopupMenu1.show(this, evt.getX()-20- jScrollPane2.getViewport().getViewPosition().x,evt.getY()-20- jScrollPane2.getViewport().getViewPosition().y);
         }
 
     }//GEN-LAST:event_jTextPane2MousePressed
@@ -739,6 +867,31 @@ public class EditorPanel extends EditorPanelFoundation
         
         startColoring();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+    
+
+    private void jMenuItemWatchBinaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchBinaryActionPerformed
+        addWatch(popUpTextPos, SUB_WATCH_BINARY,0);
+    }//GEN-LAST:event_jMenuItemWatchBinaryActionPerformed
+
+    private void jMenuItemWatchByteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchByteActionPerformed
+        addWatch(popUpTextPos, SUB_WATCH_8BIT,0);
+    }//GEN-LAST:event_jMenuItemWatchByteActionPerformed
+
+    private void jMenuItemWatchWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchWordActionPerformed
+        addWatch(popUpTextPos, SUB_WATCH_16BIT,0);
+    }//GEN-LAST:event_jMenuItemWatchWordActionPerformed
+
+    private void jMenuItemWatchStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchStringActionPerformed
+        addWatch(popUpTextPos, SUB_WATCH_STRING,0);
+    }//GEN-LAST:event_jMenuItemWatchStringActionPerformed
+
+    private void jMenuItemWatchBytePairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchBytePairActionPerformed
+        addWatch(popUpTextPos, SUB_WATCH_2_8BIT,0);
+    }//GEN-LAST:event_jMenuItemWatchBytePairActionPerformed
+
+    private void jMenuItemWatchSequenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchSequenceActionPerformed
+        addWatch(popUpTextPos, SUB_WATCH_SEQUENCE,5);
+    }//GEN-LAST:event_jMenuItemWatchSequenceActionPerformed
     int getCurrentLineNumber()
     {
         return getLineOfPos(jTextPane1.getCaretPosition());
@@ -883,6 +1036,26 @@ public class EditorPanel extends EditorPanelFoundation
         }
         return pos;
     }
+    public int getPosOfLineStart(int line, JTextPane jTextPane)
+    {
+        int pos = 0;
+        try
+        {
+            String[] lines = jTextPane.getDocument().getText(0, jTextPane.getDocument().getLength()).split("\n");
+            int lineCounter = 0;
+            while (lineCounter < line)
+            {
+                pos += lines[lineCounter].length()+1; // because of "/n"
+                lineCounter++;
+                if (lineCounter>=lines.length) return -1;
+            }
+            
+        }
+        catch (Throwable e)
+        {
+        }
+        return pos;
+    }
     // returns the # line within the text as string (or empty string)
     public String getLine(JTextPane comp, int line)
     {
@@ -899,11 +1072,18 @@ public class EditorPanel extends EditorPanelFoundation
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItemAddAnim;
     private javax.swing.JMenuItem jMenuItemAddVectorlist;
+    private javax.swing.JMenuItem jMenuItemWatchBinary;
+    private javax.swing.JMenuItem jMenuItemWatchByte;
+    private javax.swing.JMenuItem jMenuItemWatchBytePair;
+    private javax.swing.JMenuItem jMenuItemWatchSequence;
+    private javax.swing.JMenuItem jMenuItemWatchString;
+    private javax.swing.JMenuItem jMenuItemWatchWord;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1192,6 +1372,26 @@ public class EditorPanel extends EditorPanelFoundation
         }
         return -1;
     }    
+    int selStart = 0;
+    int selEnd = 0;
+    public boolean hasSelection()
+    {
+        int start = jTextPane1.getSelectionStart();
+        int end = jTextPane1.getSelectionEnd();
+        return ( end-start )!= 0;
+    }
+    public void saveSelection()
+    {
+        selStart = jTextPane1.getSelectionStart();
+        selEnd = jTextPane1.getSelectionEnd();
+    }
+    public void restoreSelection()
+    {
+        jTextPane1.setSelectionStart(selStart);
+        jTextPane1.setSelectionEnd(selEnd);
+        
+    }
+    
     public int replaceInSelection(String toSearch, String replacement, boolean ignoreCase)
     {
         int start = jTextPane1.getSelectionStart();
@@ -1608,7 +1808,32 @@ public class EditorPanel extends EditorPanelFoundation
         {
             
         }
+        syncViewports();
+    }
+    
+    void syncViewports()
+    {
+        JViewport viewport = jScrollPane2.getViewport();
+        Point p = viewport.getViewPosition();
         
+        JViewport viewport2 = (JViewport)jScrollPane1.getViewport();
+        p.x=0;
+        if (viewport2 instanceof CSAViewport)
+            ((CSAViewport)viewport2).setViewPositionCSA(p);                
+        else
+            viewport2.setViewPosition(p);                
+    }
+    Point vpSave = new Point(0,0);
+    void saveViewportPos()
+    {
+        JViewport viewport = jScrollPane2.getViewport();
+        vpSave = viewport.getViewPosition();
+    }
+    void restoreViewportPos()
+    {
+        JViewport viewport = jScrollPane2.getViewport();
+        viewport.setViewPosition(vpSave);
+        syncViewports();
     }
     
     // returns the curosur postion within the text
@@ -1644,6 +1869,17 @@ public class EditorPanel extends EditorPanelFoundation
         
         return p;
     }    
+    void addWatch(int pos, int type, int param)
+    {
+        String word = getWordOfPos(jTextPane1, popUpTextPos);
+        if (parent instanceof VediPanel)
+        {
+            VediPanel vedi = (VediPanel) parent;
+            DebugCommentList list = vedi.getDebugComments(this);
+            list.addWatchComment(word, type, param);
+        }
+        updateParentTables();        
+    }
     
     // line is zero based
     private void toggleBreakpoint(int line)
@@ -1661,6 +1897,7 @@ public class EditorPanel extends EditorPanelFoundation
             {
                 list.addBreakComment(line);
             }
+            
             correctLine(line);
         }
         updateParentTables();
@@ -1729,7 +1966,8 @@ public class EditorPanel extends EditorPanelFoundation
             {
                 if (dbc.beforLineNo>=currentLine)
                 {
-                    dbc.beforLineNo++;
+                    if (!inSetup)
+                        dbc.beforLineNo++;
                     correctLine(dbc.beforLineNo-1);
                     correctLine(dbc.beforLineNo);
                 }

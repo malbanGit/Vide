@@ -1973,14 +1973,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabelY.setBounds(0, 319, 130, 20);
 
         jLabelZ.setText("<- Z(x) ->");
-        jLabelZ.setSize(new java.awt.Dimension(130, 21));
         jPanel16.add(jLabelZ);
         jLabelZ.setBounds(480, 320, 130, 21);
 
         jTextFieldExpandYZ.setText("1");
         jTextFieldExpandYZ.setMinimumSize(new java.awt.Dimension(6, 21));
         jTextFieldExpandYZ.setPreferredSize(new java.awt.Dimension(13, 21));
-        jTextFieldExpandYZ.setSize(new java.awt.Dimension(30, 21));
         jPanel16.add(jTextFieldExpandYZ);
         jTextFieldExpandYZ.setBounds(280, 320, 30, 21);
 
@@ -1999,7 +1997,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jCheckBoxDragVectors.setText("drag vectors");
         jCheckBoxDragVectors.setPreferredSize(new java.awt.Dimension(89, 21));
-        jCheckBoxDragVectors.setSize(new java.awt.Dimension(150, 21));
         jPanel16.add(jCheckBoxDragVectors);
         jCheckBoxDragVectors.setBounds(320, 320, 150, 21);
 
@@ -2049,6 +2046,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jTextFieldFront.setText("0");
         jTextFieldFront.setPreferredSize(new java.awt.Dimension(13, 21));
+        jTextFieldFront.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldFrontActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -3611,13 +3613,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabelStartInX.setText("start point:");
         jLabelStartInX.setPreferredSize(new java.awt.Dimension(61, 21));
-        jLabelStartInX.setSize(new java.awt.Dimension(140, 21));
         jPanel18.add(jLabelStartInX);
         jLabelStartInX.setBounds(13, 1, 140, 21);
 
         jLabelCurrent.setText("current:");
         jLabelCurrent.setPreferredSize(new java.awt.Dimension(40, 21));
-        jLabelCurrent.setSize(new java.awt.Dimension(80, 21));
         jPanel18.add(jLabelCurrent);
         jLabelCurrent.setBounds(173, 1, 80, 21);
 
@@ -4807,21 +4807,28 @@ public class VeccyPanel extends javax.swing.JPanel implements
         if (inSetting>0) return;
         int value = jSliderFront.getValue();
         jTextFieldFront.setText(""+value);
+
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setAngleX(value);
+        single3dDisplayPanel.enableSingleRepaint();
     }//GEN-LAST:event_jSliderFrontStateChanged
 
     private void jSliderSideStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderSideStateChanged
         if (inSetting>0) return;
         int value = jSliderSide.getValue();
         jTextFieldSide.setText(""+value);
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setAngleY(value);
+        single3dDisplayPanel.enableSingleRepaint();
     }//GEN-LAST:event_jSliderSideStateChanged
 
     private void jSliderTopStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderTopStateChanged
         if (inSetting>0) return;
         int value = jSliderTop.getValue();
         jTextFieldTop.setText(""+value);
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setAngleZ(value);
+        single3dDisplayPanel.enableSingleRepaint();
     }//GEN-LAST:event_jSliderTopStateChanged
 
     private void jSliderSourceScale1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderSourceScale1StateChanged
@@ -4841,47 +4848,60 @@ public class VeccyPanel extends javax.swing.JPanel implements
         if (inSetting>0) return;
         int value = jSliderFrontTranslocationZ.getValue();
         jTextFieldTop1.setText(""+value);
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setTranslocationZ(value);
+        single3dDisplayPanel.enableSingleRepaint();
     }//GEN-LAST:event_jSliderFrontTranslocationZStateChanged
 
     private void jSliderFrontTranslocationYStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderFrontTranslocationYStateChanged
         if (inSetting>0) return;
         int value = jSliderFrontTranslocationY.getValue();
         jTextFieldSide1.setText(""+value);
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setTranslocationY(value);
+        single3dDisplayPanel.enableSingleRepaint();
     }//GEN-LAST:event_jSliderFrontTranslocationYStateChanged
 
     private void jSliderFrontTranslocationXStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderFrontTranslocationXStateChanged
         if (inSetting>0) return;
         int value = jSliderFrontTranslocationX.getValue();
         jTextFieldFront1.setText(""+value);
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setTranslocationX(value);
+        single3dDisplayPanel.enableSingleRepaint();
     }//GEN-LAST:event_jSliderFrontTranslocationXStateChanged
 
     private void jCheckBoxDisplayAxisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxDisplayAxisActionPerformed
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setAxisShown(jCheckBoxDisplayAxis.isSelected());
-        
+        single3dDisplayPanel.enableSingleRepaint();
     }//GEN-LAST:event_jCheckBoxDisplayAxisActionPerformed
 
     private void jSliderTop1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderTop1StateChanged
         if (inSetting>0) return;
         int value = jSliderTop1.getValue();
         jTextFieldTop2.setText(""+value);
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setAxisAngleZ(value);
+        single3dDisplayPanel.enableSingleRepaint();
     }//GEN-LAST:event_jSliderTop1StateChanged
 
     private void jSliderSide1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderSide1StateChanged
         if (inSetting>0) return;
         int value = jSliderSide1.getValue();
         jTextFieldSide2.setText(""+value);
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setAxisAngleY(value);
+        single3dDisplayPanel.enableSingleRepaint();
     }//GEN-LAST:event_jSliderSide1StateChanged
 
     private void jSliderFront1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderFront1StateChanged
         if (inSetting>0) return;
         int value = jSliderFront1.getValue();
         jTextFieldFront2.setText(""+value);
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setAxisAngleX(value);
+        single3dDisplayPanel.enableSingleRepaint();
     }//GEN-LAST:event_jSliderFront1StateChanged
 
     private void jPopupMenuLineMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPopupMenuLineMouseExited
@@ -5010,6 +5030,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         inSetting++;
         jSliderFront1.setValue(0);
         jTextFieldFront2.setText("0");
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setAxisAngleX(0);
         
         jSliderSide1.setValue(0);
@@ -5019,6 +5040,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jSliderTop1.setValue(0);
         jTextFieldTop2.setText("0");
         single3dDisplayPanel.setAxisAngleZ(0);
+        single3dDisplayPanel.enableSingleRepaint();
         
         
         
@@ -5030,6 +5052,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         inSetting++;
         jSliderFront1.setValue(38);
         jTextFieldFront2.setText("38");
+        single3dDisplayPanel.disableSingleRepaint();
         single3dDisplayPanel.setAxisAngleX(38);
         
         jSliderSide1.setValue(49);
@@ -5039,6 +5062,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jSliderTop1.setValue(31);
         jTextFieldTop2.setText("31");
         single3dDisplayPanel.setAxisAngleZ(31);
+        single3dDisplayPanel.enableSingleRepaint();
         
         inSetting--;
     }//GEN-LAST:event_jButton3dAxisActionPerformed
@@ -6534,6 +6558,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
             log.addLog(e, WARN);
         }
     }//GEN-LAST:event_jButtonLoad3ActionPerformed
+
+    private void jTextFieldFrontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFrontActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldFrontActionPerformed
     void closeSingleVecciPanel()
     {
         if (svp != null)

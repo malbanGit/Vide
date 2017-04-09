@@ -19,7 +19,7 @@ import de.malban.vide.assy.exceptions.ParseException;
 import de.malban.vide.assy.exceptions.SymbolDoesNotExistException;
 
 public class SingleArg extends InstructionGroup {
-	ArgumentMemoryLocation m;
+	public ArgumentMemoryLocation m;
 	
 	public boolean parse( String arg ) throws ParseException {
 		m = new ArgumentMemoryLocation(arg,symtab,this);

@@ -126,21 +126,28 @@ public class Symbol {
 	public void define( int v, int dl, SourceLine s ) 
         {
             
-                if (!name.startsWith("*"))
+            if (!name.startsWith("*"))
+            {
+                if (VideConfig.getConfig().warnOnDoubleDefine)
                 {
-                    if (VideConfig.getConfig().warnOnDoubleDefine)
+                    if (isDefined)
                     {
-                        if (isDefined)
+                        if (!s.endOfLineComment.toLowerCase().contains("#nodoublewarn"))
                         {
-                            String w = "Symbol: \""+name+"\" was already defined.";
-                            if (s != null)
-                                w+=" Source: "+s.fileName+" ("+dl+")";
-                            if (source != null)
-                                w+=", old define: "+source.fileName+" ("+defining_line+")";
-                            Asmj.warning( s, w );
-                        }
+                            // only warn if new value != old value
+                            if (v != value)
+                            {
+                                String w = "Symbol: \""+name+"\" was already defined.";
+                                if (s != null)
+                                    w+=" Source: "+s.fileName+" ("+dl+")";
+                                if (source != null)
+                                    w+=", old define: "+source.fileName+" ("+defining_line+")";
+                                Asmj.warning( s, w );
+                            }
+                        }                            
                     }
                 }
+            }
             
             
             

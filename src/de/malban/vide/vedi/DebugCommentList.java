@@ -26,7 +26,7 @@ public class DebugCommentList implements Serializable
     {
         return comments.remove(c);
     }
-    private DebugComment addComment(int l, int t, int st, String s, int p)
+    private DebugComment addComment(int l, int t, int st, String s, int p, String vn)
     {
         DebugComment c = new DebugComment();
         c.type = t;
@@ -35,21 +35,32 @@ public class DebugCommentList implements Serializable
         c.generatedComment = s;
         c.additionalParameter = p;
         c.file = filename;
+        c.varname = vn;
         comments.add(c);
         Collections.sort(comments);
         return c;
     }
     public DebugComment addBreakComment(int line)
     {
-        return addComment(line, COMMENT_TYPE_BREAK, SUB_BREAK_NORMAL, "; hey dissi \"break\"", 0);
+        return addComment(line, COMMENT_TYPE_BREAK, SUB_BREAK_NORMAL, "; hey dissi \"break\"", 0, "");
     }
     public DebugComment addBreakOnceComment(int line)
     {
-        return addComment(line, COMMENT_TYPE_BREAK, SUB_BREAK_ONCE, "; hey dissi \"break once\"", 0);
+        return addComment(line, COMMENT_TYPE_BREAK, SUB_BREAK_ONCE, "; hey dissi \"break once\"", 0, "");
     }
-    public DebugComment addWatchComment(int line, String varName, int subType, int param)
+    public DebugComment addWatchComment(String varName, int subType, int param)
     {
-        return addComment(line, COMMENT_TYPE_WATCH, subType, "; hey dissi \"watch $"+varName+" "+subType+" "+ param+ "\"", param);
+        DebugComment dbcold = null;
+        do
+        {
+            dbcold = getWatch(varName);
+            if (dbcold != null)
+            {
+                removeComment(dbcold);
+            }
+            
+        } while (dbcold != null);
+        return addComment(0, COMMENT_TYPE_WATCH, subType, "; hey dissi \"watch $"+varName+" "+subType+" "+ param+ "\"", param, varName);
     }
     public DebugComment getBreakpoint(int line)
     {
@@ -63,4 +74,18 @@ public class DebugCommentList implements Serializable
         return null;
     }
             
+    // if old instance is there - remove it
+    public DebugComment getWatch(String word)
+    {
+        
+        
+        for(DebugComment dbc: comments)
+        {
+            if (dbc.varname.equals(word))
+            {
+                if (dbc.type == COMMENT_TYPE_WATCH) return dbc;
+            }
+        }
+        return null;
+    }
 }
