@@ -27,7 +27,7 @@ public class E8910 extends E8910State implements E8910Statics
     ***************************************************************************/
 
     AY libayemu = new AY();
-    
+     
     
     
     VideConfig config = VideConfig.getConfig();
@@ -46,6 +46,7 @@ public class E8910 extends E8910State implements E8910Statics
     public void reset()
     {
         joyport = null;
+        envWritten = false;
     }
     
     public void setVectrexJoyport(VectrexJoyport[] j)
@@ -293,6 +294,7 @@ public class E8910 extends E8910State implements E8910Statics
                  has twice the steps, happening twice as fast. Since the end result is
                  just a smoother curve, we always use the YM2149 behaviour.
                  */
+                envWritten = true;
                 snd_regs[AY_ESHAPE] &= 0x0f;
                 PSG.CountEnv = 0x1f;
                 PSG.CountE = PSG.PeriodE;
@@ -325,8 +327,11 @@ public class E8910 extends E8910State implements E8910Statics
                 if ((oldReg & 0x40) != (snd_regs[AY_ENABLE] & 0x40 ))
                 {
                     // we are switching IO of port a from one state to the other
-                    if (joyport[0] != null) joyport[0].setInputMode((snd_regs[AY_ENABLE] & 0x40 ) == 0);
-                    if (joyport[1] != null) joyport[1].setInputMode((snd_regs[AY_ENABLE] & 0x40 ) == 0);
+                    if (joyport != null)
+                    {
+                        if (joyport[0] != null) joyport[0].setInputMode((snd_regs[AY_ENABLE] & 0x40 ) == 0);
+                        if (joyport[1] != null) joyport[1].setInputMode((snd_regs[AY_ENABLE] & 0x40 ) == 0);
+                    }
 
                     if  ((snd_regs[AY_ENABLE] & 0x40 ) == 0) // input mode
                     {
@@ -687,6 +692,8 @@ public class E8910 extends E8910State implements E8910Statics
 
     public void e8910_init_sound()
     {
+        envWritten = false;
+        libayemu.Init();
         PSG.RNG  = 1;
         PSG.OutputA = 0;
         PSG.OutputB = 0;

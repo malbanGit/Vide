@@ -14,13 +14,15 @@ package de.malban.graphics;
 import de.malban.event.EditMouseEvent;
 import static de.malban.graphics.SingleVectorPanel.SVP_SELECT_LINE;
 import static de.malban.graphics.SingleVectorPanel.SVP_SELECT_POINT;
+import static de.malban.graphics.VectorColors.*;
 import de.malban.gui.Scaler;
-import de.malban.util.KeyboardListener;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import static java.awt.event.ActionEvent.CTRL_MASK;
+import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -35,8 +37,8 @@ import javax.swing.table.AbstractTableModel;
 public class SingleVectorPanel extends javax.swing.JPanel 
 {
     public static int ARR_SIZE = 10;
-    private boolean usePrivateOffset = false;
-    private boolean usePrivateScale = false;
+    protected boolean usePrivateOffset = false;
+    protected boolean usePrivateScale = false;
     public void setUsePrivateOffset(boolean b)
     {
         usePrivateOffset = b;
@@ -48,6 +50,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
     double scale = 1.0;
     int xOffset = 0;
     int yOffset = 0;
+    int zOffset = 0;
     
     public class SharedVars
     {
@@ -68,24 +71,9 @@ public class SingleVectorPanel extends javax.swing.JPanel
     
         int xOffset = 0;
         int yOffset = 0;
+        int zOffset = 0;
         
         int workingMode = SVP_SET;
-        Color BACKGROUND_COLOR = Color.BLACK;
-        Color CROSS_COLOR = Color.ORANGE;
-        Color CROSS_DRAG_COLOR = Color.GREEN;
-        Color GRID_COLOR = new Color(50,50,50,128);
-        Color FRAME_COLOR = new Color(0,255,255,255);
-        Color VECTOR_FOREGROUND_COLOR = new Color(50,50,50,128); // not used, vectors have "own" color
-        Color VECTOR_BACKGROUND_COLOR = new Color(50,50,50,128);
-        Color VECTOR_ENDPOINT_COLOR = Color.red;
-        Color VECTOR_HIGHLIGHT_COLOR = new Color(255,50,255,255);
-        Color VECTOR_SELECTED_COLOR = new Color(50,50,255,255);
-        Color VECTOR_DRAG_COLOR = new Color(255,255,0,255);
-        Color POINT_HIGHLIGHT_COLOR = new Color(255,50,255,255);
-        Color POINT_SELECTED_COLOR = new Color(50,50,255,255);
-        Color POS_COLOR = new Color(200,255,200,255);
-        Color POINT_JOINED_COLOR = new Color(150,50,255,255);
-        Color MOVE_COLOR = new Color(50,50,155,255);
         
         int POINT_HIGHLIGHT_RANGE = 10;
         int POINT_HIGHLIGHT_RADIUS = 5;
@@ -94,7 +82,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         int VECTOR_HIGHLIGHT_RANGE = 10;
         int VECTOR_HIGHLIGHT_RADIUS = 3;
         int VECTOR_SELECTED_RADIUS = 5;
-        Color crossColor = CROSS_COLOR;
+        Color crossColor = VECCI_CROSS_COLOR;
         boolean isScale = false;
         boolean crossDrawn = true;  // can be set by user
         boolean noMouseReaction = false;
@@ -110,6 +98,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
      
         
         boolean shiftPressed = false;
+        boolean ctrlPressed = false;
         boolean pressed = false;
         boolean selecting = true;
         boolean dragging = false;
@@ -131,17 +120,6 @@ public class SingleVectorPanel extends javax.swing.JPanel
         vars.gridWidth = oldVars.gridWidth;
         vars.displayGrid = oldVars.displayGrid;
         vars.workingMode = oldVars.workingMode;
-        vars.CROSS_COLOR = oldVars.CROSS_COLOR;
-        vars.CROSS_DRAG_COLOR = oldVars.CROSS_DRAG_COLOR;
-        vars.GRID_COLOR = oldVars.GRID_COLOR;
-        vars.VECTOR_FOREGROUND_COLOR = oldVars.VECTOR_FOREGROUND_COLOR;
-        vars.VECTOR_BACKGROUND_COLOR = oldVars.VECTOR_BACKGROUND_COLOR;
-        vars.VECTOR_ENDPOINT_COLOR = oldVars.VECTOR_ENDPOINT_COLOR;
-        vars.VECTOR_HIGHLIGHT_COLOR = oldVars.VECTOR_HIGHLIGHT_COLOR;
-        vars.VECTOR_SELECTED_COLOR = oldVars.VECTOR_SELECTED_COLOR;
-        vars.VECTOR_DRAG_COLOR = oldVars.VECTOR_DRAG_COLOR;
-        vars.POINT_HIGHLIGHT_COLOR = oldVars.POINT_HIGHLIGHT_COLOR;
-        vars.POINT_SELECTED_COLOR = oldVars.POINT_SELECTED_COLOR;
         vars.VECTOR_SELECTED_RADIUS = oldVars.VECTOR_SELECTED_RADIUS;
         vars.VECTOR_HIGHLIGHT_RADIUS = oldVars.VECTOR_HIGHLIGHT_RADIUS;
         vars.VECTOR_HIGHLIGHT_RANGE = oldVars.VECTOR_HIGHLIGHT_RANGE;
@@ -211,13 +189,15 @@ public class SingleVectorPanel extends javax.swing.JPanel
     int mY=0;
     int mXPressStart = 0;
     int mYPressStart = 0;
-    int lastCrossX = 0;
-    int lastCrossY = 0;
     int mXRelease = 0;
     int mYRelease = 0;
 
+    int lastCrossX = 0;
+    int lastCrossY = 0;
+    int lastCrossZ = 0;
     int mDragOriginX=0;
     int mDragOriginY=0;
+    int mDragOriginZ=0;
     
     boolean noCross = true;     // auto set on form exit, that no cross is drawn (and no dragging vector)
     boolean mouseExited = false;
@@ -600,25 +580,37 @@ public class SingleVectorPanel extends javax.swing.JPanel
         if (!usePrivateOffset) return vars.yOffset;
         return yOffset;
     }
-    public void setOffsets(int x, int y)
+    public int getZOffset()
+    {
+        if (!usePrivateOffset) return vars.zOffset;
+        return zOffset;
+    }
+    public void setOffsets(int x, int y, int z)
     {
         if (!usePrivateOffset)  
         {
             vars.xOffset = x;
             vars.yOffset = y;
+            vars.zOffset = z;
             xOffset = x;
             yOffset = y;
+            zOffset = z;
             sharedRepaint();
             return;
         }
         xOffset = x;
         yOffset = y;
+        zOffset = z;
         repaint();
     }
     public double getScale()
     {
         if (!usePrivateScale) return vars.scale;
         return scale;
+    }
+    public boolean is3d()
+    {
+        return false;
     }
     public void setScale(double s)
     {
@@ -724,7 +716,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public static double  getDistancePointToVector(double x0,double y0, double x1,double y1, double x2,double y2)
+        public static double  getDistancePointToVector(double x0,double y0, double x1,double y1, double x2,double y2)
     {
         // point is xg0
         // line segment defined by x1y1 and x2,y2
@@ -739,11 +731,11 @@ public class SingleVectorPanel extends javax.swing.JPanel
         double t2 = Math.pow((x0 - xt),2) + Math.pow((y0 - yt),2); 
         return Math.sqrt(t2);
     }
-    
-    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+    protected void handleMouseMovedEvent(java.awt.event.MouseEvent evt)
+    {
         mX=evt.getX();
         mY=evt.getY();
-        vars.crossColor = Color.ORANGE;
+        vars.crossColor = VECCI_CROSS_COLOR;
 
         
         // check for highliting
@@ -868,10 +860,15 @@ public class SingleVectorPanel extends javax.swing.JPanel
         }        
         
         sharedRepaint();
-        fireMouseMoved(evt);
+        fireMouseMoved(evt);        
+    }
+    
+    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+        handleMouseMovedEvent(evt);
     }//GEN-LAST:event_formMouseMoved
 
-    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+    protected void handleMousePressed(java.awt.event.MouseEvent evt)
+    {
         if (vars.noMouseReaction) return;
         if (evt.getButton() == MouseEvent.BUTTON1)
         {
@@ -886,6 +883,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
                 return;
             }
             vars.shiftPressed = false;
+            vars.ctrlPressed = false;
             vars.pressed = true;
             mXPressStart = evt.getX();
             mYPressStart = evt.getY();
@@ -897,27 +895,36 @@ public class SingleVectorPanel extends javax.swing.JPanel
             mDragOriginX = lastCrossX;
             mDragOriginY = lastCrossY;
             
-            vars.shiftPressed = KeyboardListener.isShiftDown();
+            if (evt != null)
+            {
+                vars.shiftPressed = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
+                vars.ctrlPressed = ((evt.getModifiers() & CTRL_MASK) == CTRL_MASK);
+            }
         }
-        
-                
-        
-        
         fireMousePressed(evt);
-        vars.crossColor = vars.CROSS_DRAG_COLOR;
-        sharedRepaint();
+        vars.crossColor = VECCI_CROSS_DRAG_COLOR;
+        sharedRepaint();        
+    }
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        handleMousePressed(evt);
     }//GEN-LAST:event_formMousePressed
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
         if (vars.noMouseReaction) return;
         mXRelease = lastCrossX;
         mYRelease = lastCrossY;
-        vars.shiftPressed = KeyboardListener.isShiftDown();
+        vars.shiftPressed = false;
+        vars.ctrlPressed = false;
+        if (evt != null)
+        {
+            vars.shiftPressed = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
+            vars.ctrlPressed = ((evt.getModifiers() & CTRL_MASK) == CTRL_MASK);
+        }
         fireMouseReleased(evt);
         vars.pressed = false;
         vars.dragging = false;
         vars.selecting = true;
-        vars.crossColor = Color.ORANGE;
+        vars.crossColor = VECCI_CROSS_COLOR;
         for (SingleVectorPanel svp: vars.siblings) svp.repaint();
     }//GEN-LAST:event_formMouseReleased
 
@@ -936,19 +943,45 @@ public class SingleVectorPanel extends javax.swing.JPanel
         return vars.pressed && vars.dragging;
     }
     
-    // info: while dragging, mouse move is not called!
-    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
-
+    protected void handleMouseDraggedEvent(java.awt.event.MouseEvent evt)
+    {
         if (vars.noMouseReaction) return;
         mX=evt.getX();
         mY=evt.getY();
 
+        if (vars.pressed)
+        {
+            if (vars.ctrlPressed)
+            {
+                // drag location
+                int x =  mXPressStart; 
+                int y =  mYPressStart; 
+                int w =  mX-mXPressStart; 
+                int h =  mY-mYPressStart; 
+                vars.dragging = true;
+
+            double scaleUse = usePrivateScale?scale:vars.scale;
+            w = Scaler.unscaleDoubleToInt(w, scaleUse);
+            h = Scaler.unscaleDoubleToInt(h, scaleUse);
+                
+                
+                addXOffset(w);
+                addYOffset(h);
+                mXPressStart = mX;
+                mYPressStart = mY;
+
+                sharedRepaint();
+                fireMouseMoved(evt);
+                return;
+            }
+        }
+        
         // when vector for continuing is drawn, do't DRAG
         if (!vars.continueMode)
         {
             if (vars.pressed)  // than "dragged" by non MouseButton1
                 vars.dragging = true;
-            vars.crossColor = Color.GREEN;
+            vars.crossColor = VECCI_CROSS_DRAG_COLOR;
         }
         
         if (vars.displayDragSelection) 
@@ -981,6 +1014,10 @@ public class SingleVectorPanel extends javax.swing.JPanel
         sharedRepaint();
         if (vars.pressed)  // than "dragged" by non MouseButton1
             fireMouseMoved(evt);
+    }
+    // info: while dragging, mouse move is not called!
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+        handleMouseDraggedEvent(evt);
     }//GEN-LAST:event_formMouseDragged
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
@@ -1095,7 +1132,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         if (drawPositions)
         {
             
-            g.setColor(vars.POS_COLOR);
+            g.setColor(VECCI_POS_COLOR);
             int xx = x_0 + (x_1-x_0)/2;
             int yy = y_0 + (y_1-y_0)/2;
             g.drawString(""+pos, xx,  yy);
@@ -1103,17 +1140,17 @@ public class SingleVectorPanel extends javax.swing.JPanel
         if ((bigEnd) && (vars.realyBigEnd))
         {
             // draw "big" start and endpoints
-            Color cstart =vars.VECTOR_ENDPOINT_COLOR;
-            Color cend =vars.VECTOR_ENDPOINT_COLOR;
+            Color cstart = VECCI_VECTOR_ENDPOINT_COLOR;
+            Color cend = VECCI_VECTOR_ENDPOINT_COLOR;
             if (v != null)
             {
                 if (v.start_connect != null)
                 {
-                    cstart =vars.POINT_JOINED_COLOR;
+                    cstart = VECCI_POINT_JOINED_COLOR;
                 }
                 if (v.end_connect != null)
                 {
-                    cend =vars.POINT_JOINED_COLOR;
+                    cend = VECCI_POINT_JOINED_COLOR;
                 }
                 
             }
@@ -1267,19 +1304,6 @@ public class SingleVectorPanel extends javax.swing.JPanel
     @Override public void paintComponent(Graphics g)
     {
         doPaint((Graphics2D)g);
-/*
-        super.paintComponent(g);
-        if (bufferUsed == -1)
-        {
-            updateAndRepaint();
-            if (bufferUsed == -1)
-            {
-                return;
-            }
-        }
-        
-        g.drawImage(paintBufferImage[bufferUsed], 0, 0, null);
-        */
     }
 
 
@@ -1353,6 +1377,9 @@ public class SingleVectorPanel extends javax.swing.JPanel
         e.panel = this;
         e.mouseExited = mouseExited;
         e.dragging = vars.dragging;
+
+        e.shiftPressed = vars.shiftPressed;
+        e.ctrlPressed = vars.ctrlPressed;
         
         vars.pressed = true;
         if (vars.dragging)
@@ -1417,6 +1444,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         e.evt = evt;
         e.panel = this;
         e.shiftPressed = vars.shiftPressed;
+        e.ctrlPressed = vars.ctrlPressed;
         e.lastClickedVectrexPoint = convertToVectrex(getLastClickPoint());
         for (int i=0; i<vars.mPressedListener.size(); i++)
         {
@@ -1429,6 +1457,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         EditMouseEvent e = new EditMouseEvent();
         e.evt = evt;
         e.shiftPressed = vars.shiftPressed;
+        e.ctrlPressed = vars.ctrlPressed;
         e.panel = this;
         for (int i=0; i<vars.mReleasedListener.size(); i++)
         {
@@ -1440,7 +1469,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         vars.scale = 1.0;
         scale= (double) 1.0;
         inSetting = 0;
-        vars.crossColor = Color.ORANGE;
+        vars.crossColor = VECCI_CROSS_COLOR;
         mX=0;
         mY=0;
         mXPressStart = 0;
@@ -1908,6 +1937,18 @@ public class SingleVectorPanel extends javax.swing.JPanel
         }
     }
     
+    public void addZOffset(int v)    
+    {
+        if (usePrivateOffset)
+        {
+            zOffset+=v;
+            repaint();
+            return;
+        }
+        zOffset+=v;
+        vars.zOffset+=v;
+        sharedRepaint();
+    }
     public void addYOffset(int v)    
     {
         if (usePrivateOffset)
@@ -1966,7 +2007,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
 
         // clear to background!
         {
-            g.setColor(vars.BACKGROUND_COLOR);
+            g.setColor(VECCI_BACKGROUND_COLOR);
             g.fillRect(0, 0, getWidth(), getHeight());
         }
         
@@ -1976,7 +2017,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
             {
                 if ((vars.dragging) ||  (vars.pressed) )
                 {
-                    Color dragArea = new Color(0,200,0,50);
+                    Color dragArea = VECCI_DRAG_AREA_COLOR;
                     g.setColor(dragArea);
 
                     
@@ -2013,7 +2054,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
 
         
         // draw the grid
-        g.setColor(vars.GRID_COLOR);
+        g.setColor(VECCI_GRID_COLOR);
         double scaleUse = usePrivateScale?scale:vars.scale;
         int xg0 = Scaler.unscaleDoubleToInt((x0Offset), scaleUse)-usedxOff;
         int xg1 = Scaler.unscaleDoubleToInt(-(x0Offset), scaleUse)-usedxOff;
@@ -2029,11 +2070,11 @@ public class SingleVectorPanel extends javax.swing.JPanel
             // if gridlines would be displayed more than half of the time -> do not display it at all!
             do
             {
-                int yPositive = y0Offset+Scaler.scaleDoubleToInt((+(counter*GRID_NOW))+usedyOff, scaleUse);
+                int yPositive = y0Offset+Scaler.scaleDoubleToInt((+(counter*GRID_NOW))/*+usedyOff*/, scaleUse);
                 if (Math.abs(yPositive - mY) < Math.abs(potentialCrossY)) 
                     potentialCrossY = yPositive- mY;
                 counter++;
-            } while (y0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)+usedyOff, scaleUse)<getHeight());
+            } while (y0Offset + Scaler.scaleDoubleToInt((counter*GRID_NOW)/*+usedyOff*/, scaleUse)<getHeight());
             counter *=2; // above was only half grid width
 
             boolean drawGrid = counter<getHeight()/2;
@@ -2098,7 +2139,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
         
         if (vars.drawByteFrame)
         {
-            g.setColor(vars.FRAME_COLOR);
+            g.setColor(VECCI_FRAME_COLOR);
             int x0 = -128;
             int x1 = 127;
             int y0 = -128;
@@ -2138,7 +2179,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
                     {
                         if (v.pattern == 0)
                         {
-                            g.setColor(vars.MOVE_COLOR);
+                            g.setColor(VECCI_MOVE_COLOR);
                         }
                         float[] pattern = getPattern(v);
                         
@@ -2147,7 +2188,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
                     }
                     else
                     {
-                        g.setColor(vars.MOVE_COLOR);
+                        g.setColor(VECCI_MOVE_COLOR);
                         drawVectrexScaledLine(g,(int)x0, (int)y0, (int)x1, (int)y1, true, null, vars.drawArrows, vars.drawPositions, pos++, v);
                     }
                 }
@@ -2179,7 +2220,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
                     x0 = x0Offset+x0;
                     y0 = x0Offset+y0;
                 }
-                g.setColor(vars.POINT_HIGHLIGHT_COLOR);
+                g.setColor(VECCI_POINT_HIGHLIGHT_COLOR);
                 g.drawOval((int)x0-vars.POINT_HIGHLIGHT_RADIUS, (int)y0-vars.POINT_HIGHLIGHT_RADIUS, vars.POINT_HIGHLIGHT_RADIUS*2, vars.POINT_HIGHLIGHT_RADIUS*2);
             }
         }
@@ -2208,7 +2249,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
                     x1 = x0Offset+x1;
                     y1 = x0Offset+y1;
                 }
-                g.setColor(vars.VECTOR_HIGHLIGHT_COLOR);
+                g.setColor(VECCI_VECTOR_HIGHLIGHT_COLOR);
                 
                 // construct a perpendicular vector for a 
                 // paralle transition
@@ -2267,7 +2308,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
                         x1 = x0Offset+x1;
                         y1 = x0Offset+y1;
                     }
-                    g.setColor(vars.VECTOR_SELECTED_COLOR);
+                    g.setColor(VECCI_VECTOR_SELECTED_COLOR);
 
                     // construct a perpendicular vector for a 
                     // paralle transition
@@ -2312,7 +2353,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
                         x0 = x0Offset+x0;
                         y0 = x0Offset+y0;
                     }
-                    g.setColor(vars.POINT_SELECTED_COLOR);
+                    g.setColor(VECCI_POINT_SELECTED_COLOR);
                     g.drawOval((int)x0-vars.POINT_SELECTED_RADIUS, (int)y0-vars.POINT_SELECTED_RADIUS, vars.POINT_SELECTED_RADIUS*2, vars.POINT_SELECTED_RADIUS*2);
                 }
                 s = v.end;
@@ -2331,7 +2372,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
                         x0 = x0Offset+x0;
                         y0 = x0Offset+y0;
                     }
-                    g.setColor(vars.POINT_SELECTED_COLOR);
+                    g.setColor(VECCI_POINT_SELECTED_COLOR);
                     g.drawOval((int)x0-vars.POINT_SELECTED_RADIUS, (int)y0-vars.POINT_SELECTED_RADIUS, vars.POINT_SELECTED_RADIUS*2, vars.POINT_SELECTED_RADIUS*2);
                 }
             }
@@ -2341,8 +2382,18 @@ public class SingleVectorPanel extends javax.swing.JPanel
         if ((!noCross) && (vars.crossDrawn))
         {
             // befor vectors, so we can check against cross variables
-            lastCrossX = potentialCrossX;
-            lastCrossY = potentialCrossY;
+
+            if (vars.displayGrid)
+            {
+                lastCrossX = potentialCrossX;
+                lastCrossY = potentialCrossY;
+            }
+            else
+            {
+                lastCrossX = mX;
+                lastCrossY = mY;
+            }
+
             g.setColor(vars.crossColor);
             g.drawLine(0, lastCrossY, getWidth(), lastCrossY);
             g.drawLine(lastCrossX, 0, lastCrossX, getHeight());
@@ -2357,7 +2408,7 @@ public class SingleVectorPanel extends javax.swing.JPanel
             {
                 if ((vars.dragging) || (vars.continueMode))
                 {
-                    g.setColor(vars.VECTOR_DRAG_COLOR);
+                    g.setColor(VECCI_VECTOR_DRAG_COLOR);
                     g.drawLine(mXPressStart, mYPressStart, lastCrossX, lastCrossY);
                 }
             }

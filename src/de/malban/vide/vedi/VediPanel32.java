@@ -43,6 +43,7 @@ import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -1256,7 +1257,10 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         EditorPanel edi = getSelectedEditor();
         if (edi == null) return;
         edi.setODOA(true);
-        edi.save(KeyboardListener.isShiftDown());
+        boolean shift = false;
+        if (evt != null )
+           shift =      ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
+        edi.save(shift);
         printMessage("\""+getSelectedEditor().getFilename()+"\" saved.");
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
@@ -1288,7 +1292,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
 
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
 
-        if (KeyboardListener.isShiftDown())
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
         {
             if (getSelectedEditor() != null) 
             {
@@ -1583,7 +1587,8 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     }//GEN-LAST:event_jPopupMenu1MouseExited
 
     private void jButtonNewMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNewMousePressed
-        if (KeyboardListener.isShiftDown()) return;
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
+            return;
         jPopupMenu1.show(jButtonNew, evt.getX()-20,evt.getY()-20);
     }//GEN-LAST:event_jButtonNewMousePressed
 

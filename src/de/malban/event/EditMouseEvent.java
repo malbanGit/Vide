@@ -23,11 +23,14 @@ public class EditMouseEvent {
     public JPanel panel;
     public boolean dragging = false;
     public boolean shiftPressed = false;
+    public boolean ctrlPressed = false;
     public boolean mouseExited = false;
     public int dragOriginX = 0;
     public int dragOriginY = 0;
+    public int dragOriginZ = 0;
     public int dragNowX = 0;
     public int dragNowY = 0;
+    public int dragNowZ = 0;
     // all above in gui mouse coordinates
     // all following in vectrex coordinates
     public GFXVector highlightedVector = null;

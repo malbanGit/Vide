@@ -63,22 +63,25 @@ public class TimingTriggerer
                             Vector <Trigger> removed = new Vector <Trigger>();
                                 
                             minRes = 100000;
-                            for (int i = mTriggers.size()-1; i>=0 ; i--)
+                            synchronized (mTriggers)
                             {
-                                Trigger trigger = mTriggers.elementAt(i);
-                                trigger.timing-=resolution;
-                                if (trigger.timing <=0)
+                                for (int i = mTriggers.size()-1; i>=0 ; i--)
                                 {
-                                    mTriggers.removeElement(trigger);
-                                    removed.add(trigger);
-// synchronize failure
-//                                        trigger.trigger.doIt(trigger.state, trigger.o);
-                                }
-                                else
-                                {
-                                    if (minRes >trigger.timing)
+                                    Trigger trigger = mTriggers.elementAt(i);
+                                    trigger.timing-=resolution;
+                                    if (trigger.timing <=0)
                                     {
-                                        minRes = trigger.timing;
+                                        mTriggers.removeElement(trigger);
+                                        removed.add(trigger);
+    // synchronize failure
+    //                                        trigger.trigger.doIt(trigger.state, trigger.o);
+                                    }
+                                    else
+                                    {
+                                        if (minRes >trigger.timing)
+                                        {
+                                            minRes = trigger.timing;
+                                        }
                                     }
                                 }
                             }
@@ -118,7 +121,7 @@ public class TimingTriggerer
     {
         if (res == 0)
         {
-            System.out.println("Timer Res: 0");
+//            System.out.println("Timer Res: 0");
             res=5;
         }
         

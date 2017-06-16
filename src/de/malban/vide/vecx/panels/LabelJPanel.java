@@ -28,6 +28,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.SwingUtilities;
 import de.muntjak.tinylookandfeel.Theme;
+import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.UIManager;
@@ -287,7 +288,7 @@ public class LabelJPanel extends javax.swing.JPanel implements
             MemoryInformation memInfo = labels.get(jTable1.convertRowIndexToModel( row ));
             int current = memInfo.address;
 
-            if (KeyboardListener.isShiftDown())
+            if (((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
             {
                 if (vecxPanel != null)
                 vecxPanel.setDumpToAddress(current);

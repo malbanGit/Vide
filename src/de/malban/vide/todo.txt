@@ -1,6 +1,112 @@
 
 
 
+Just googling - no - potrace can't. It seems a program called "autotrace" can -> 
+http://autotrace.sourceforge.net/
+
+You need a feature called "centerline tracing"...
+
+https://graphicdesign.stackexchange.com/questions/60107/convert-a-line-drawing-from-raster-to-vector-lines
+
+autotrace -centerline -color-count 2 -output-file output.svg -output-format SVG input.png
+    -line-threshold [real]:
+    If a spline does not deviate from the straight line defined by its endpoints by more than the specified number of pixels, then treat it as a straight line (default: 1).
+
+    - line-reversion-threshold [real]:
+    If a spline is closer to a straight line than this, weighted by the square of the curve length, keep it a straight line even if it is a list with curves; default is .01.
+
+
+The conversion is done using a programm called potrace.
+Perhaps there are options in potrace that would work - never looked at it. Maybe you can tell potrace "treat bitmap as vector" - if I have spare time I might do some research on that...
+http://autotrace.sourceforge.net/index.html#intro
+
+
+
+
+-----
+
+incorrect emulation:
+Allow me the question, why do you use the function „Read_Btns_Mask“ instead of „Read_Btns“?
+
+The mask version expects a „mask“ passed in register A. Which you don’t set - A is set to whatever value the print routines set (I think it is 03).
+I haven’t gotten a clue why it works on the emulators - which is interesting and I should check at some time - but why not just do:
+
+
+COLLIDES with info from Berzerk Arena 
+Must check so that both are emulated ok
+
+Chris-
+
+I figured it out. Clearing the sound chip was the culprit.  Kind of weird!  I hope your holiday trip was good!
+
+Scott
+-----
+
+
+
+Don't use the original bios random routine ! It has a bug that might crash your game (it occured during my vector pilot development).
+
+Here is a patched version of the routine (bios labels are based on fred taft's disassembly):
+
+get_random_bugfixed:
+;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+;+This function is a bugfixed version of the original bios get_random_a function.
+;+
+;+Inside the get_random_a and get_random_a2 routines of the vectrex BIOS.
+;+A terrible bug is located: the X-pointer that needs to be pointing to
+;+the random-seed in RAM is not loaded directly with the random-seed
+;+address. Instead, it is loaded with the contents of the random-seed.
+;+In some cases, this causes that new random-seed is written at random-places
+;+in the memory map. Sometimes in a RAM-space, sometimes in a VIA-register.
+;+This causes the program to crash !
+;+
+;+At entry: none
+;+At exit : A = random-number.
+;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+pshs b,x ;backup b,x
+clrb ;seed of 0
+get_random_bugfixed_B_rounds:
+ldx #Random_Seed ;BUGFIX : set X-pointer to the ADDRESS-value of the random-seed !
+jmp ran_loop ;continue with remaining ROM-routine (see exec-rom)
+
+Read more: http://vectorgaming.proboards.com/thread/1329/random#ixzz4fOYFbmQg
+
+
+
+Via stalling
+Changes in Vecx und Statics Pre 24.4. is old stall
+With changes explosion in Protector is "of"?
+
+None of the "configured Delay variants is compatible with moonlander!
+
+
+bug step back - not correct anymore after usage? after new load? after one time big step?
+
+While it might be possible to „translate“ ym files if the original psg frequency is known - I have as yet not done any conversion in Vide -
+
+add profiling
+
+TODO 
+
+- done: vari option in variables "remove BIOS"
+- done: vecci bug vecci big editor, scale of 5 not visible if position is < 0
+- done: vecci shift right mouse button transposes the vectorlist window
+- done: dissi right click in dissi -> open in vari
+- done: multi step 
+- done vecci: bug coloror in export import of vecci exception - IllefalTreadState
+- done assi: bug " std #timerObject+BEHAVIOUR" assembles without error but produces no correct mchine code!
+- done vide: list macro names
+- done: vedi
+    The label that is visible in the screenshot is not a macro label per se - since it is a global label.
+    You should either end it with \? or declare it as local after the header of the macro.
+    If you use THAT macro several times, the label "bstart" gets redefined every time the macro is used. Which might lead to erratic behaviour.
+    Nonetheless - I check if something is wrong. I am not sure if the keyword local correctly identifies macro labels - now that you mention it.
+
+
+bug vedi
+done: in file 3d/3d_makro.i the includes  INCLUDE "3d/000.I" can not be doubl clicked!
+done: -> bei fehler auch zu viele threads???
+
 
 NOT done (wont do):
   - LEX Macro syntax where a assembler instruction is concatinated from macros, like:
@@ -505,6 +611,18 @@ done: Bug breakpoint display on line numbers not working correctly
 done Editor, every second entered char destroys line counting, the "correct" chars -> display WRONG line counts!
 tried again: vedi still loses information (and does not recover) when files are closed|
 done (I think): immedatiate also with "label" or non forcred like cmpa #SPACE 
+done: Add default values to storyboard
+done: help for storyboard
+done: Richard Chadd Is it possible to change the colours of the vectors drawn in vecci? 
+      Can you add preferences for this? I ask because i find hard to see the dark grey 
+      on black background when you play the
+      animated vector list. Getting old eyesight not good lol
+done: pretty print in vedi - values
+done: codi - line numbers - artifacts of labels remain (see Thrus,asmm"
+
+
+
+
 done?bug: vedi  
   if a variabler is drefined 2 times, and only one is deleted
    the "other" one should be enought to ensure syntax highliting

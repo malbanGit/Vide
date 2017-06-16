@@ -6,6 +6,8 @@
 package de.malban.vide.vecx;
 
 import de.malban.vide.vecx.cartridge.Cartridge;
+import de.malban.vide.vecx.cartridge.resid.SID;
+import de.malban.vide.vecx.cartridge.resid.SID.State;
 import de.malban.vide.vecx.devices.Imager3dDevice;
 import de.malban.vide.vecx.devices.JoyportDevice;
 import java.io.Serializable;
@@ -22,6 +24,7 @@ public class CompleteState implements Serializable
     E6809State e6809State = new E6809State();
     E8910State e8910State = new E8910State();
     VecXState eVecXState = new VecXState();
+    State sidState;
     Imager3dDevice imager = null;
     
     int deviceID0 = -1;

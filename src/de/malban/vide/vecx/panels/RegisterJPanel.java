@@ -18,6 +18,7 @@ import de.malban.vide.vecx.Updatable;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
 import java.awt.Point;
+import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
@@ -602,7 +603,7 @@ public class RegisterJPanel extends javax.swing.JPanel implements
     private void jLabel14MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MousePressed
         if (vecxPanel==null) return;
         if (evt.getClickCount() == 2) 
-            if (KeyboardListener.isShiftDown())
+            if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
                 vecxPanel.setDumpToAddress(reg_x);
             else
                 if (dissi != null) dissi.goAddress(reg_x, true, true, true);
@@ -611,7 +612,7 @@ public class RegisterJPanel extends javax.swing.JPanel implements
     private void jLabel13MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MousePressed
         if (vecxPanel==null) return;
         if (evt.getClickCount() == 2) 
-            if (KeyboardListener.isShiftDown())
+            if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
                 vecxPanel.setDumpToAddress(reg_y);
             else
                 if (dissi != null) dissi.goAddress(reg_y, true, true, true);
@@ -620,7 +621,7 @@ public class RegisterJPanel extends javax.swing.JPanel implements
     private void jLabel16MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MousePressed
         if (vecxPanel==null) return;
         if (evt.getClickCount() == 2) 
-            if (KeyboardListener.isShiftDown())
+            if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
                 vecxPanel.setDumpToAddress(reg_u);
             else
                 if (dissi != null) dissi.goAddress(reg_u, true, true, true);
@@ -629,7 +630,7 @@ public class RegisterJPanel extends javax.swing.JPanel implements
     private void jLabel17MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MousePressed
         if (vecxPanel==null) return;
         if (evt.getClickCount() == 2) 
-            if (KeyboardListener.isShiftDown())
+            if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
                 vecxPanel.setDumpToAddress(reg_pc);
             else
                 if (dissi != null) dissi.goAddress(reg_pc, true, true,true );
@@ -638,7 +639,7 @@ public class RegisterJPanel extends javax.swing.JPanel implements
     private void jLabel20MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MousePressed
         if (vecxPanel==null) return;
         if (evt.getClickCount() == 2) 
-            if (KeyboardListener.isShiftDown())
+            if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
                 vecxPanel.setDumpToAddress(reg_s);
             else
                 if (dissi != null) dissi.goAddress(reg_s, true, true, true);

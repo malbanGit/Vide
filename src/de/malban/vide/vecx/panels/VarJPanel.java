@@ -13,6 +13,7 @@ import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DissiPanel;
+import static de.malban.vide.dissy.DissiPanel.scrollToVisibleMid;
 import de.malban.vide.dissy.Memory;
 import de.malban.vide.dissy.MemoryInformation;
 import de.malban.vide.vecx.Updatable;
@@ -81,7 +82,6 @@ public class VarJPanel extends javax.swing.JPanel implements
         if (vecxPanel == null) return;
         if (memory == null) return;
         variables = new ArrayList<MemoryInformation>();
-        
         int start = 0;
         int end = 65536;
         if (onlyUserRam)
@@ -94,8 +94,15 @@ public class VarJPanel extends javax.swing.JPanel implements
             MemoryInformation memInfo = memory.memMap.get(m);
             if (memInfo.memType == MEM_TYPE_RAM)
             {
-                if (memInfo.labels.size()>0)
+                if (jCheckBoxShowAllRAM.isSelected())
+                {
                     variables.add(memInfo);
+                }
+                else
+                {
+                    if (memInfo.labels.size()>0)
+                        variables.add(memInfo);
+                }
             }
         }
         correctTable();
@@ -158,13 +165,13 @@ public class VarJPanel extends javax.swing.JPanel implements
         jTable1.setModel(model);
         
 
-TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jTable1.getModel());
-jTable1.setRowSorter(sorter);
+        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jTable1.getModel());
+        jTable1.setRowSorter(sorter);
 
-List<RowSorter.SortKey> sortKeys = new ArrayList<>(2);
-sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-sorter.setSortKeys(sortKeys);        
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>(2);
+        sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+        sorter.setSortKeys(sortKeys);        
 
         
         jTable1.setDefaultRenderer(Object.class, new DefaultTableCellRenderer()
@@ -236,6 +243,8 @@ sorter.setSortKeys(sortKeys);
         jTable1 = buildTable();
         jCheckBox1 = new javax.swing.JCheckBox();
         jButtonAddVariable = new javax.swing.JButton();
+        jCheckBoxShowAllRAM = new javax.swing.JCheckBox();
+        jCheckBoxHideBIOSNames = new javax.swing.JCheckBox();
 
         jMenuItemBreakpointRead.setText("add Breakpoint read");
         jMenuItemBreakpointRead.addActionListener(new java.awt.event.ActionListener() {
@@ -315,6 +324,20 @@ sorter.setSortKeys(sortKeys);
             }
         });
 
+        jCheckBoxShowAllRAM.setText("show all RAM");
+        jCheckBoxShowAllRAM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxShowAllRAMActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxHideBIOSNames.setText("hide BIOS names");
+        jCheckBoxHideBIOSNames.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxHideBIOSNamesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -323,9 +346,12 @@ sorter.setSortKeys(sortKeys);
                 .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox1)
-                .addGap(27, 27, 27)
-                .addComponent(jButtonAddVariable)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBoxShowAllRAM)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBoxHideBIOSNames)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonAddVariable))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -333,10 +359,13 @@ sorter.setSortKeys(sortKeys);
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCheckBoxShowAllRAM)
+                        .addComponent(jCheckBoxHideBIOSNames))
                     .addComponent(jButtonAddVariable, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
+                .addGap(4, 4, 4)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -365,7 +394,7 @@ sorter.setSortKeys(sortKeys);
         }        
         if (evt.getClickCount() == 2) 
         {
-            if ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK)
+            if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
             {
                 JTable table =(JTable) evt.getSource();
                 Point p = evt.getPoint();
@@ -453,6 +482,14 @@ sorter.setSortKeys(sortKeys);
         dissi.completeUpdate();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void jCheckBoxHideBIOSNamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxHideBIOSNamesActionPerformed
+        initVariables();
+    }//GEN-LAST:event_jCheckBoxHideBIOSNamesActionPerformed
+
+    private void jCheckBoxShowAllRAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxShowAllRAMActionPerformed
+        initVariables();
+    }//GEN-LAST:event_jCheckBoxShowAllRAMActionPerformed
+
     private boolean updateEnabled = false;
     public void updateValues(boolean forceUpdate)
     {
@@ -468,6 +505,8 @@ sorter.setSortKeys(sortKeys);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddVariable;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBoxHideBIOSNames;
+    private javax.swing.JCheckBox jCheckBoxShowAllRAM;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemBreakpointRead;
     private javax.swing.JMenuItem jMenuItemBreakpointValue;
@@ -546,6 +585,10 @@ sorter.setSortKeys(sortKeys);
     {
         public int getRowCount()
         {
+            if (jCheckBoxShowAllRAM.isSelected())
+            {
+                return 1024;
+            }
             return variables.size();
         }
         public int getColumnCount()
@@ -555,17 +598,31 @@ sorter.setSortKeys(sortKeys);
         public Object getValueAt(int row, int col)
         {
             if (vecxPanel == null) return "";
-            if (row >variables.size()) return "";
+            if (row >=variables.size()) return "";
             MemoryInformation memInfo = variables.get(row);
             
-            if (col == 0) return"$"+String.format("%04X",memInfo.address);
+            if (col == 0) 
+            {
+                return"$"+String.format("%04X",memInfo.address);
+            }
             if (col == 1)
             {
                 String l = "";
                 for (int i = 0; i< memInfo.labels.size(); i++)
                 {
-                    if (i>0) l+=", ";
-                    l += memInfo.labels.get(i);
+                    if (jCheckBoxHideBIOSNames.isSelected())
+                    {
+                        if (!DASM6809.isBIOSLabelPublic(memInfo.labels.get(i), memInfo.address))
+                        {
+                            if (l.length()>0) l+=", ";
+                            l += memInfo.labels.get(i);
+                        }
+                    }
+                    else
+                    {
+                        if (l.length()>0) l+=", ";
+                        l += memInfo.labels.get(i);
+                    }
                 }
                 return l;
             }
@@ -591,9 +648,11 @@ sorter.setSortKeys(sortKeys);
             if (column == 4) return "comment";
             return "-";
         }
+        @Override
         public Class<?> getColumnClass(int columnIndex) {
             return String.class;
         }
+        @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
             return columnIndex==1 ||columnIndex==4||columnIndex==2||columnIndex==3;
         }
@@ -611,6 +670,7 @@ sorter.setSortKeys(sortKeys);
             if (col == 0) return new Color(200,255,200,255);
             return null; // default
         }
+        @Override
         public void setValueAt(Object aValue, int row, int col) {
             if (col == 2) // 8 bit edit
             {
@@ -668,12 +728,6 @@ sorter.setSortKeys(sortKeys);
                     }
 
                 } 
-                        
-
-                
-                
-                
-                
                 if (changeRelevant)
                     dissi.varUpdate();
                 fireTableCellUpdated(row, col);
@@ -699,6 +753,7 @@ sorter.setSortKeys(sortKeys);
     }
     private PropertyChangeListener pListener = new PropertyChangeListener()
     {
+        @Override
         public void propertyChange(PropertyChangeEvent evt)
         {
             updateMyUI();
@@ -710,5 +765,32 @@ sorter.setSortKeys(sortKeys);
         int fontSize = Theme.textFieldFont.getFont().getSize();
         int rowHeight = fontSize+3;
         jTable1.setRowHeight(rowHeight);
+    }
+    public void setSelectedAddress(int address)
+    {
+        int row = -1;
+        // check if displayed
+        int c = 0;
+        for (MemoryInformation memInfo: variables)
+        {
+            if (memInfo.address == address)
+            {
+                row = c;
+                break;
+            }
+            c++;
+        }
+        if (row == -1)
+        {
+            jCheckBoxShowAllRAM.setSelected(true);
+            initVariables();
+
+            row = 0xc800-address;
+            if (row <0) return;
+            if (row >1024) return;
+            if (row >variables.size()) return;
+        }
+        jTable1.setRowSelectionInterval(row, row);
+        scrollToVisibleMid(jTable1, row,0);
     }
 }

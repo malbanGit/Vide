@@ -17,6 +17,9 @@ import de.malban.util.KeyboardListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import static java.awt.event.ActionEvent.ALT_MASK;
+import static java.awt.event.ActionEvent.CTRL_MASK;
+import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -473,7 +476,8 @@ public class SingleImagePanel extends javax.swing.JPanel {
             pressed = true;
             mXPressStart = evt.getX();
             mYPressStart = evt.getY();
-            shiftPressed = KeyboardListener.isShiftDown();
+            if (evt != null)
+                shiftPressed = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
         }
         fillRGBA(mXPressStart, mYPressStart);
 

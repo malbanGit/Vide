@@ -124,7 +124,11 @@
                           <Component id="jCheckBox22" max="-2" attributes="0"/>
                           <Component id="singleImagePanel3" min="-2" max="-2" attributes="0"/>
                           <Component id="jCheckBox20" max="-2" attributes="0"/>
-                          <Component id="jCheckBox19" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jCheckBox19" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jCheckBox23" max="-2" attributes="0"/>
+                          </Group>
                           <Component id="jCheckBox21" alignment="0" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="158" max="32767" attributes="0"/>
@@ -210,7 +214,10 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="jCheckBox19" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="jCheckBox19" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jCheckBox23" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jCheckBox20" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -461,6 +468,11 @@
             <Component class="javax.swing.JCheckBox" name="jCheckBox22">
               <Properties>
                 <Property name="text" type="java.lang.String" value="32 k forced"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="jCheckBox23">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="SID"/>
               </Properties>
             </Component>
           </SubComponents>

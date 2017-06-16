@@ -73,6 +73,17 @@ public class Vertex implements Comparable{
     {
         set(p);
     }
+    public Vertex(double _x, double _y, double _z)
+    {
+        coords[ARRAY_X]=_x;
+        coords[ARRAY_Y]=_y;
+        coords[ARRAY_Z]=_z;
+        coords[ARRAY_W]=1;
+        usage[ARRAY_X]=true;
+        usage[ARRAY_Y]=true;
+        usage[ARRAY_Z]=true;
+        usage[ARRAY_W]=true;
+    }
     
     // "clone"
     // clone even, if set to "self"
@@ -165,6 +176,7 @@ public class Vertex implements Comparable{
     
     public boolean toXML(StringBuilder s, String tag)
     {
+        
         s.append("<").append(tag).append(">\n");
         boolean ok = true;
         ok = ok & XMLSupport.addElement(s, "x", coords[ARRAY_X]);

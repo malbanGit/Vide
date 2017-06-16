@@ -41,6 +41,9 @@ public class EntityDefinition
     public static int SUBTYPE_INNER_MACRO_LABEL = 8;                                        
     public static int SUBTYPE_FUNCTION_LABEL = 9;                                        
     public static int SUBTYPE_VERIFIED_FUNCTION_LABEL = 10;                                        
+    public static int SUBTYPE_MACRO_DEFINITION_LABEL = 11; 
+    public static int SUBTYPE_MACRO_PARAMETER_LABEL = 12; 
+    
 
     public static String[] SUBTYPE_NAMES = {
         "unkown",
@@ -53,7 +56,9 @@ public class EntityDefinition
         "data",
         "macro",
         "function",
-        "user"
+        "user", 
+        "macro def",
+        "macro par"
     };
     
     private int status = ENTITY_DELETED;
@@ -67,6 +72,15 @@ public class EntityDefinition
         String ln = orgLine.substring(orgLine.lastIndexOf(";")+1);
         return Integer.parseInt(ln)+1;
     }
+    /*
+    public int setLineNumber(int ln)
+    {
+        orgLine = orgLine.substring(0, orgLine.lastIndexOf(";"));
+        orgLine = orgLine+";"+ln;
+//        String ln = orgLine.substring(orgLine.lastIndexOf(";")+1);
+//        return Integer.parseInt(ln)+1;
+    }
+    */
     public String getOrgLine()
     {
         return orgLine.substring(0,orgLine.lastIndexOf(";"));
@@ -104,6 +118,8 @@ public class EntityDefinition
     int previousType;
     boolean isStructStart = false;
     boolean isStructEnd = false;
+    boolean isMacroStart = false;
+    boolean isMacroEnd = false;
     
     // return null, if no known entity was found
     public static EntityDefinition scanLine(ASM6809FileInfo _file, String _orgLine)
@@ -146,6 +162,8 @@ public class EntityDefinition
         parameter = null;
         isStructStart = false;
         isStructEnd = false;
+        isMacroStart = false;
+        isMacroEnd = false;
         
         orgLine = line;
         // remove comments
@@ -318,8 +336,40 @@ public class EntityDefinition
                         }
                     }
                 }
-
             }
+            if (!done)
+            {
+                if (inMacro())
+                {
+                    // must use orgline here,
+                    // "line" has already been trimmed!
+                    // linestart label
+                    line = orgLine;
+                    line = removeComment(line, ";");
+                    line = removeComment(line, "*");
+                    if (line.length()>0)
+                    {
+                        char start = line.charAt(0);
+                        if (!((start == ' ') ||(start == '*')||(start == ';')||(start == '\t')) )
+                        {
+                            done = true;
+                            type = TYP_LABEL;
+                            subtype = SUBTYPE_INNER_MACRO_LABEL;
+                            value = "line label";
+                            name = getFirstName(line);
+                            if (name == null)
+                            {
+                                name = "";
+                            }
+                            line = de.malban.util.UtilityString.replaceWhiteSpaces(line.toLowerCase(), " ");
+                        }
+                    }
+                }
+            }
+
+            
+            
+            
             if (!done)
             {
                 // must use orgline here,
@@ -358,7 +408,7 @@ public class EntityDefinition
                 }
             }
         }
-        if ((name.trim().length()==0) && (!isStructEnd))
+        if ((name.trim().length()==0) && (!isStructEnd)&& (!isMacroEnd))
         {
             status = ENTITY_DELETED;
             return;
@@ -378,7 +428,20 @@ public class EntityDefinition
     }
     private int macroPos(String line)
     {
-        return searchPos(line.toLowerCase(), "macro", PURE);
+        isMacroStart=false;
+        int pos = searchPos(line.toLowerCase(), "macro", REALLY_PURE);
+        
+        // end struct does not count as struct :-)
+        isMacroEnd=false;
+        int pos2 = searchPos(line.toLowerCase(), "endm", PURE);
+        if (pos2>=0)
+        {
+            isMacroEnd=true;
+            return -1;
+        }
+        if (pos<0) return -1;
+        isMacroStart=true;
+        return pos;
     }
     private int equPos(String line)
     {
@@ -412,6 +475,7 @@ public class EntityDefinition
         isStructStart=true;
         return pos;
     }
+
     private int dbPos(String line)
     {
         return searchPos(line.toLowerCase(), "db", REALLY_PURE);
@@ -582,22 +646,29 @@ public class EntityDefinition
     // or inside quotes
     private String getFirstFilename(String line)
     {
-        boolean hasDoubleQuotes = line.indexOf("\"")!=-1;
-        boolean hasQuotes = line.indexOf("'")!=-1;
+        try
+        {
+            boolean hasDoubleQuotes = line.indexOf("\"")!=-1;
+            boolean hasQuotes = line.indexOf("'")!=-1;
 
-        if (hasDoubleQuotes)
-        {
-            String[] split = line.split("\"");
-            return split[1];
+            if (hasDoubleQuotes)
+            {
+                String[] split = line.split("\"");
+                return split[1];
+            }
+            if (hasQuotes)
+            {
+                String[] split = line.split("'");
+                return split[1];
+            }
+            String[] split = line.split(" ");
+            return split[0];
         }
-        if (hasQuotes)
+        catch (Throwable e)
         {
-            String[] split = line.split("'");
-            return split[1];
+            e.printStackTrace();
         }
-        String[] split = line.split(" ");
-        return split[0];
-        
+        return "";
     }
     
     // last discernable "name" in line
@@ -619,6 +690,10 @@ public class EntityDefinition
     private boolean inStruct()
     {
         return file.inStruct(this);
+    }
+    private boolean inMacro()
+    {
+        return file.inMacro(this);
     }
     
     // returns true if the label is the first line label in the file

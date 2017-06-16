@@ -1402,7 +1402,11 @@ public class Asmj {
         {
             int type = mem.current.getType(i);
             int len = getConsecutiveType(mem.current, i, type, symtab);
-
+            if (len == 0)
+            {
+                i++;
+                continue;
+            }
             if (correctDataOption)
             {
                 // out

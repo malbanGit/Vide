@@ -13,7 +13,9 @@ import static de.malban.gui.panels.LogPanel.INFO;
 import de.malban.util.DownloaderPanel;
 import de.malban.vide.vecx.DisplayerInterface;
 import de.malban.vide.vecx.VecX;
+import de.malban.vide.vecx.cartridge.resid.SID.State;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,7 +46,8 @@ public class Cartridge implements Serializable
     public static int FLAG_LOGO = 16384; // 
     public static int FLAG_XMAS = 32768; // 
     public static int FLAG_DS2431 = 65536; // Thomas one wire eEprom
-    public static int FLAG_32K_ONLY = 65536*2; // Thomas one wire eEprom
+    public static int FLAG_32K_ONLY = 65536*2; // 
+    public static int FLAG_SID = FLAG_32K_ONLY*2; // SID chip board at $8000 (kokovec)
 
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     // load transient stuff after save state
@@ -54,6 +57,7 @@ public class Cartridge implements Serializable
         if (ds2431 != null) ds2431.init();
         if (ds2430 != null) ds2430.init();
         if (microchip != null) microchip.init();
+      //  if (vsid != null) vsid.init();
     }
     public String getTypInfoString()
     {
@@ -77,12 +81,14 @@ public class Cartridge implements Serializable
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0) ret+="XMas LED  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DS2431)!=0) ret+="eEprom DS2431  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_32K_ONLY)!=0) ret+="32k forced ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_SID)!=0) ret+="SID extension ";
         ret = ret.trim();
         ret = de.malban.util.UtilityString.replace(ret, "  ", ", ");
         return ret;
     }
     public DS2430A ds2430 = new DS2430A(this);
     public DS2431 ds2431 = new DS2431(this);
+    public VSID vsid = null;
     
     public Microchip11AA010 microchip = new Microchip11AA010(this);
     transient VecX vecx;
@@ -125,6 +131,8 @@ public class Cartridge implements Serializable
     boolean isDualVec = false;
     DualVec dualvec = null;
     XMasLED xMasLED = null;
+
+    boolean sidEnabled = false;
     boolean extremeMulti = false;
     byte spectrumByte = 0;
     boolean _32kOnly = false;
@@ -280,6 +288,14 @@ public class Cartridge implements Serializable
             if ((pos>=0x6000) && (pos <0x6000+8192))
                 return extraRam[pos-0x6000];
         }
+        if (sidEnabled)
+        {
+            if ((pos>=0x8000) && (pos <0x8020))
+            {
+                if (vecx != null)
+                    return vsid.performRead(pos, vecx.getCycles());
+            }
+        }
         if (cart.length<=currentBank) return 0;
         if (cart[currentBank] == null) return 0;
         if ((pos%32768)>=cart[currentBank].length) return 0;
@@ -289,6 +305,19 @@ public class Cartridge implements Serializable
     public void poke(int address, byte value)
     {
         if (cart == null) return;
+
+        if (sidEnabled)
+        {
+            if ((pos>=0x8000) && (pos <0x8020))
+            {
+                if (vecx != null)
+                {
+                    vsid.performWrite(address, value, vecx.getCycles());
+                }
+                return;
+            }
+        }
+
         if (cart.length<=currentBank) return;
         if ((address%32768)>=cart[currentBank].length) return;
         cart[currentBank][address%32768] = value;
@@ -300,6 +329,17 @@ public class Cartridge implements Serializable
     // as a  test only bad apple now!
     public void write(int address, byte data)
     {
+        if (sidEnabled)
+        {
+            if ((address>=0x8000) && (address <0x8020))
+            {
+                if (vecx != null)
+                {
+                    vsid.performWrite(address, data, vecx.getCycles());
+                }
+                return;
+            }
+        }
         if (extremeMulti)
         {
             writeExtreme(address, data);
@@ -408,9 +448,6 @@ public class Cartridge implements Serializable
             log.addLog("Cart: getByteData() bank >= bankLength", WARN);
             return new byte[0];
         }
-        
-        
-        
         byte[] ret = new byte[bankLength[bank]];
         for (int i=0; i< bankLength[bank];i++)
         {
@@ -428,7 +465,8 @@ public class Cartridge implements Serializable
         isXmas =  ((cartProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0);
         isDualVec = (  ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0) || ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0));
         extremeMulti = (cartProp.getTypeFlags()&Cartridge.FLAG_EXTREME_MULTI)!=0;
-
+        sidEnabled = (cartProp.getTypeFlags()&Cartridge.FLAG_SID)!=0;
+        
         previousExternalLineB = false;
         oldCycles = 0;
         if (cartProp == null) 
@@ -640,9 +678,6 @@ public class Cartridge implements Serializable
                 else
                     cart[bank][i] = data[i];
             }
-            
-            
-            
         }
         catch (Throwable e)
         {
@@ -735,7 +770,18 @@ public class Cartridge implements Serializable
         to.ds2430.cart = to;
         to.ds2431 = from.ds2431.clone();
         to.ds2431.cart = to;
+//        to.vsid = from.vsid.clone();
+//        if (from.vsid.sid != null)
+//            to.vsid.oldState = from.vsid.sid.read_state();
+//        else // this not realy a "clone"
+//        {
+//            if (from.vsid.oldState!=null)
+//            to.vsid.oldState = from.vsid.oldState.cloneState();
+//            
+//        }
+//        to.vsid.cart = to;
 
+        
         to.microchip = from.microchip.clone();
         to.microchip.cart = to;
         
@@ -868,6 +914,33 @@ public class Cartridge implements Serializable
             dualvec.setPB6InputEnabledFromExternal(b);
         }
     }
+    
+    public void setCyclesRunning(long n)
+    {
+        if (vecx.sidEnabled)
+        {
+            vsid.setCyclesRunning(n);
+        }
+    }
+    public void updateSound()
+    {
+        if (vecx.sidEnabled)
+        {
+            vsid.updateSound();
+        }
+    }
+    public State getSidState()
+    {
+        if (!sidEnabled)
+            return null;
+        if (vsid == null) return null;
+        return vsid.sid.read_state();
+    }
+    public boolean isSIDEnabled()
+    {
+        return sidEnabled;
+    }
+    
     public void cartStep(long cycles)
     {
         if (vecx.ds2430Enabled)
@@ -881,6 +954,15 @@ public class Cartridge implements Serializable
         if (vecx.microchipEnabled)
         {
             microchip.step(cycles);
+        }
+        if (vecx.sidEnabled)
+        {
+            if (vsid == null)
+            {
+                vsid = new VSID(this);
+                vsid.init();
+            }
+            vsid.step(cycles);
         }
         if (isDualVec)
         {
@@ -913,5 +995,67 @@ public class Cartridge implements Serializable
     {
         return "\nTypes: "+getTypInfoString();
     }
-
+    public String dumpCurrentROM()
+    {
+        String filename = "."+File.separator+"tmp"+File.separator+"dump.rom";
+        FileOutputStream output=null;
+        try
+        {
+            output = new FileOutputStream(filename, false);
+            if (cart.length>=2)
+            {
+                // 64K
+                for (int i=0; i<cart[0].length; i++)
+                {
+                    output.write(cart[0][i]);
+                }
+                for (int i=0; i<cart[1].length; i++)
+                {
+                    output.write(cart[1][i]);
+                }
+            }
+            else
+            {
+                // 32k
+                for (int i=0; i<cart[0].length; i++)
+                {
+                    output.write(cart[0][i]);
+                }
+            }
+        }
+        catch (Throwable e)
+        {
+            return null;
+        }
+        finally
+        {
+            if (output != null)
+            {
+                try
+                {
+                    output.close();            
+                }
+                catch (Throwable e)
+                {
+                    return null;
+                }
+            }
+        }
+        return filename;
+    }
+            
+    public void initFromStateSave()
+    {
+        if (sidEnabled)
+        {
+            vsid.recallState();
+        }
+    }
+    public void initStateSave()
+    {
+        if (sidEnabled)
+        {
+            vsid.rememberState();
+        }
+    }
 }

@@ -34,6 +34,7 @@ import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DUALVEC1;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DUALVEC2;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_LOGO;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_RAM_RA_SPECTRUM;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_SID;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOICE;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_VEC_VOX;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
@@ -258,6 +259,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
         jCheckBox20 = new javax.swing.JCheckBox();
         jCheckBox21 = new javax.swing.JCheckBox();
         jCheckBox22 = new javax.swing.JCheckBox();
+        jCheckBox23 = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextPane2 = new javax.swing.JTextPane();
@@ -403,6 +405,8 @@ public class StarterJPanel extends javax.swing.JPanel implements
 
         jCheckBox22.setText("32 k forced");
 
+        jCheckBox23.setText("SID");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -465,7 +469,10 @@ public class StarterJPanel extends javax.swing.JPanel implements
                     .addComponent(jCheckBox22)
                     .addComponent(singleImagePanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox20)
-                    .addComponent(jCheckBox19)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jCheckBox19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBox23))
                     .addComponent(jCheckBox21))
                 .addContainerGap(158, Short.MAX_VALUE))
         );
@@ -536,7 +543,9 @@ public class StarterJPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jCheckBox19)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jCheckBox19)
+                                    .addComponent(jCheckBox23))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jCheckBox20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -908,6 +917,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox20;
     private javax.swing.JCheckBox jCheckBox21;
     private javax.swing.JCheckBox jCheckBox22;
+    private javax.swing.JCheckBox jCheckBox23;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
@@ -1026,7 +1036,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
         jCheckBox20.setSelected((flag&Cartridge.FLAG_XMAS)!=0);
         jCheckBox21.setSelected((flag&Cartridge.FLAG_DS2431)!=0);
         jCheckBox22.setSelected((flag&Cartridge.FLAG_32K_ONLY)!=0);
-        
+        jCheckBox23.setSelected((flag&FLAG_SID)!=0);
 
         
         // load images

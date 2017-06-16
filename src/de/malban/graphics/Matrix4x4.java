@@ -32,7 +32,20 @@ public class Matrix4x4 {
         ma.m[2][2] = zscale;
         return ma;
     }
-
+    // variant - transposes the given matrix
+    public void transpose()
+    {
+        double[][] t = new double[4][4];
+        
+        for (int x = 0; x < 4; x++)
+        {
+            for (int y = 0; y < 4; y++)
+            {
+                t[x][y] = m[y][x];
+            }
+        }
+        m = t;
+    }
     // angle in Radianse
     public static Matrix4x4 getRotationX(double xangle)
     {
@@ -108,15 +121,15 @@ public class Matrix4x4 {
     // variant
     public Vertex multiplyVariant(Vertex v)
     {
-        Vertex r = new Vertex(v);
-        r.x(m[0][0]*v.x() + m[1][0]*v.y() + m[2][0]*v.z() + m[3][0]*v.w());
-        r.y(m[0][1]*v.x() + m[1][1]*v.y() + m[2][1]*v.z() + m[3][1]*v.w());
-        r.z(m[0][2]*v.x() + m[1][2]*v.y() + m[2][2]*v.z() + m[3][2]*v.w());
-        r.w(m[0][3]*v.x() + m[1][3]*v.y() + m[2][3]*v.z() + m[3][3]*v.w());
+        double x = (m[0][0]*v.x() + m[1][0]*v.y() + m[2][0]*v.z() + m[3][0]*v.w());
+        double y = (m[0][1]*v.x() + m[1][1]*v.y() + m[2][1]*v.z() + m[3][1]*v.w());
+        double z = (m[0][2]*v.x() + m[1][2]*v.y() + m[2][2]*v.z() + m[3][2]*v.w());
+        double w = (m[0][3]*v.x() + m[1][3]*v.y() + m[2][3]*v.z() + m[3][3]*v.w());
         
-        v.x(r.x());
-        v.y(r.y());
-        v.z(r.z());
+        v.x(x);
+        v.y(y);
+        v.z(z);
+        v.w(w);
         return v;
     }
     

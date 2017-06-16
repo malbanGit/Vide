@@ -93,7 +93,7 @@ public class HLines
                 end.z(((int)(end.z()/CALC_SCALE)));
             }
         }        
-        vl.removePoints();
+        vl.removePoints(false);
         vl.removeDoubles();
         vl.doOrder();
         vl.connectWherePossible(false);

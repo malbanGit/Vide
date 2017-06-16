@@ -133,6 +133,22 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         loadSettings();
         fillTree();
         init = true;
+        
+        
+    }
+    void repaintLater()
+    {
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                codeEditorPanel.correctLineNumbers(true);
+                invalidate();
+                validate();
+                repaint();
+            }
+        });                    
+        
     }
     @Override public boolean isIcon()
     {
@@ -511,11 +527,11 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         {
            jLayeredPane1.setLayer(codeEditorPanel, DISPLAY_LAYER);
             codeEditorPanel.deinit();
-//            codeEditorPanel.resetDocument();
             codeEditorPanel.setFilename(entry.path.toString());
             codeEditorPanel.reload(false);
             codeEditorPanel.setup(null);
             fileName = entry.path.toString();
+            repaintLater();
         }
         if ( (entry.name.toLowerCase().endsWith(".jpg")) ||
              (entry.name.toLowerCase().endsWith(".png")) ||

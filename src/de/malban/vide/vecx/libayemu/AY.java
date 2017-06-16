@@ -18,7 +18,7 @@ import de.malban.vide.VideConfig;
         public static int MSX = 1774000; // 1773400,
         public static int ZX = 1773400;
         public static int CPC = 1000000;
-        public static int VECTERX = 1500000;
+        public static int VECTREX = 1500000;
 
 
 	public enum Stereo
@@ -64,7 +64,7 @@ import de.malban.vide.VideConfig;
         // for easier access from config
         // and switch in between from a central point
         private static Chip type = Chip.AY;						    /* general chip type (\b AYEMU_AY or \b AYEMU_YM) */
-        private int ChipFreq = VECTERX;					    /* chip emulator frequency */
+        private int ChipFreq = VECTREX;					    /* chip emulator frequency */
 
         private double[] eq = new double[6];	/* volumes for channels.
 										 		   Array contains 6 elements: 
@@ -131,7 +131,7 @@ import de.malban.vide.VideConfig;
         /// </summary>
         public void Init()
         {
-            ChipFreq = (int) VECTERX;
+            ChipFreq = (int) VECTREX;
 
             defaultChip = true;
             defaultStereo = false;

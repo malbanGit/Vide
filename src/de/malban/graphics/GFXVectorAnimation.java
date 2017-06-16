@@ -140,7 +140,8 @@ public class GFXVectorAnimation
     public boolean loadFromXML(String filename)
     {
         list.clear();
-        String xml = de.malban.util.UtilityString.readTextFileToOneString(new File (filename));
+        
+        String xml = de.malban.util.UtilityString.readTextFileToOneString(new File (de.malban.util.UtilityFiles.convertSeperator(filename)));
         boolean ok = fromXML(xml, new XMLSupport());
         if (!ok)
         {
@@ -217,6 +218,7 @@ public class GFXVectorAnimation
         }       
         return max;
     }
+    
     
     public void scaleAll(double scale, HashMap<Vertex, Boolean> safetyMap)
     {
@@ -480,10 +482,23 @@ public class GFXVectorAnimation
         return text;        
     }
     
-    public String createASMDraw_syncList(String name, boolean factor, int resync)
+    public boolean createASMDraw_syncList(StringBuilder table, String name, boolean factor, int resync, int splitter)
+    {
+        return createASMDraw_syncList(table,name, factor, resync, false, splitter);
+    }
+    public boolean createASMDraw_syncList(StringBuilder table, String name, boolean factor, int resync, boolean extended, int splitter)
+    {
+        return createASMDraw_syncList(table, name,  factor,  resync,  extended,  splitter, false,  "BLOW_UP");
+        
+    }
+    public boolean createASMDraw_syncList(StringBuilder table, String name, boolean factor, int resync, boolean extended, int splitter, boolean noAdditionalOptimization)
+    {
+        return createASMDraw_syncList(table, name,  factor,  resync,  extended,  splitter,  noAdditionalOptimization,  "BLOW_UP");
+        
+    }
+    public boolean createASMDraw_syncList(StringBuilder table, String name, boolean factor, int resync, boolean extended, int splitter, boolean noAdditionalOptimization, String blowString)
     {
         StringBuilder source = new StringBuilder();
-        StringBuilder table = new StringBuilder();
         GFXVectorAnimation al = this;
         table.append(name).append(":\n");
         
@@ -494,20 +509,22 @@ public class GFXVectorAnimation
             if (count == 0)
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
-            String asm = vl.createASMDraw_syncList(name+"_"+count, factor, resync);
-            if (asm.length() == 0)
+            
+//            String asm = 
+            boolean genOk = vl.createASMDraw_syncList(source, name+"_"+count, factor, resync, extended, splitter, noAdditionalOptimization,blowString);
+            if (!genOk)
             {
                 log.addLog("Anim: createASMDraw_syncList failed, VL("+count+") returned error!", WARN);
-                return "";
+                return false;
             }
-            source.append(asm);
+//            source.append(asm);
             
             count++;
         }
-        table.append("\n");
+        table.append(" DW 0\n\n");
         table.append(source);
-        String text = table.toString();
-        return text;        
+//        String text = table.toString();
+        return true;        
     }
     
     public String createASMCodeGen(String name)

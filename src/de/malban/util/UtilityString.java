@@ -654,6 +654,38 @@ public class UtilityString
         }
         return writeToTextFile(stringFile, to);
     }
+    
+
+    public static String convertToHexWord(int value)
+    {
+        return String.format("%04X",value);
+    }
+    
+    public static String convertToHex(int[] data, int start, int end, String divider)
+    {
+        if (start <0) start = 0;
+        if (end > data.length-1) end = data.length -1;
+        StringBuilder buf = new StringBuilder();
+        for (int i = start; i < end; i++)
+        {
+            int halfbyte = (data[i] >>> 4) & 0x0F;
+            int two_halfs = 0;
+            if (i!= start)buf.append(divider);
+            do
+            {
+                if ((0 <= halfbyte) && (halfbyte <= 9))
+                {
+                    buf.append((char) ('0' + halfbyte));
+                } else
+                {
+                    buf.append((char) ('a' + (halfbyte - 10)));
+                }
+                halfbyte = data[i] & 0x0F;
+            } while (two_halfs++ < 1);
+        }
+        return buf.toString();
+        
+    }
 
     private static String convertToHex(byte[] data)
     {
@@ -769,17 +801,59 @@ public class UtilityString
         }
         return ret;
     }
-public static String trimEnd(String s)
-{
-    if ( s == null || s.length() == 0 )
-        return s;
-    int i = s.length();
-    while ( i > 0 &&  Character.isWhitespace(s.charAt(i - 1)) )
-        i--;
-    if ( i == s.length() )
-        return s;
-    else
-        return s.substring(0, i);
-}
+    public static String trimEnd(String s)
+    {
+        if ( s == null || s.length() == 0 )
+            return s;
+        int i = s.length();
+        while ( i > 0 &&  Character.isWhitespace(s.charAt(i - 1)) )
+            i--;
+        if ( i == s.length() )
+            return s;
+        else
+            return s.substring(0, i);
+    }
+    public static String deleteLinesBefore(String input ,String search)
+    {
+        String[] splitter = input.split("\n");
+        StringBuilder result = new StringBuilder();
+        boolean add=false;
+        for (String line : splitter)
+        {
+            if (add)
+            {
+                result.append(line).append("\n");
+                continue;
+            }
+            if (line.startsWith(search))
+            {
+                add = true;
+                result.append(line).append("\n");
+                continue;
+            }
+            
+        }
+        return result.toString();
+    }
+    public static String deleteLinesAfter(String input ,String search)
+    {
+        String[] splitter = input.split("\n");
+        StringBuilder result = new StringBuilder();
+        boolean add=true;
+        for (String line : splitter)
+        {
+            if (add)
+            {
+                result.append(line).append("\n");
+            }
+            if (line.startsWith(search))
+            {
+                add = false;
+                result.append(line).append("\n");
+                break;
+            }
+        }
+        return result.toString();
+    }
 
 }

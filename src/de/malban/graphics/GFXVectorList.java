@@ -7,6 +7,7 @@ package de.malban.graphics;
 
 import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.util.XMLSupport;
 import java.io.File;
@@ -23,6 +24,8 @@ public class GFXVectorList {
     
     public static boolean hex = true;
     public static boolean db = true;
+    
+    public static boolean avoidConnectMoreThan2 = true;
     
     public static String getDW()
     {
@@ -145,7 +148,56 @@ public class GFXVectorList {
             // relative is not cloned
             // since if "single" cloned, vectors are not relative anymore!
             cv.setRelativ(v.relativ);
-//            cv.relativ = v.relativ; 
+            ret.add(cv); 
+        }
+        // postprocess vector cloning 
+        // connections must be set!
+        for (int i=0; i< list.size(); i++)
+        {
+            GFXVector oldv = list.get(i);
+            GFXVector newv = ret.list.get(i);
+            ret.setCloneStart(newv, oldv.uid_start_connect, oldv);
+            ret.setCloneEnd(newv, oldv.uid_end_connect, oldv);
+        }
+        return ret;
+    }
+    public GFXVectorList cloneSetOrg()
+    {
+        GFXVectorList ret = new GFXVectorList();
+        
+        HashMap<String, Vertex> doubleTestMap = new HashMap<String, Vertex>();
+        for (GFXVector v : list)
+        {
+            GFXVector cv = (GFXVector) v.cloneSetOrg();
+            
+            // ensure single vertice are not double cloned
+            if (v.start != null)
+            {
+                if (doubleTestMap.get(""+v.start.uid) == null)
+                {
+                    doubleTestMap.put(""+v.start.uid, cv.start);
+                }
+                else
+                {
+                    cv.start = doubleTestMap.get(""+v.start.uid);
+                }
+            }
+            if (v.end != null)
+            {
+                if (doubleTestMap.get(""+v.end.uid) == null)
+                {
+                    doubleTestMap.put(""+v.end.uid, cv.end);
+                }
+                else
+                {
+                    cv.end = doubleTestMap.get(""+v.end.uid);
+                }
+            }
+            
+
+            // relative is not cloned
+            // since if "single" cloned, vectors are not relative anymore!
+            cv.setRelativ(v.relativ);
             ret.add(cv); 
         }
         // postprocess vector cloning 
@@ -241,6 +293,14 @@ public class GFXVectorList {
             return list.add(v);
         }
     }
+    public boolean add(int pos, GFXVector v)
+    {
+        synchronized (list)
+        {
+            list.add(pos, v);
+            return true;
+        }
+    }
     
     public boolean toXML(StringBuilder s, String tag)
     {
@@ -262,10 +322,8 @@ public class GFXVectorList {
     {
         list = new ArrayList<GFXVector>();
         int errorCode = 0;
-//        StringBuilder xmlBuffer = new StringBuilder(xml);
         load_uid= xmlSupport.getIntElement("id", xml);errorCode|=xmlSupport.errorCode;
         order= xmlSupport.getIntElement("order", xml);errorCode|=xmlSupport.errorCode;
-        //while (XMLSupport.hasTag("GFXVector", xmlBuffer))
         StringBuilder oneElement = null;
         do
         {
@@ -330,34 +388,8 @@ public class GFXVectorList {
                 if (v2.uid_start_connect == luid) v2.uid_start_connect = v.uid;
             }
         }           
-     }
-    
-    /*
-    // a xml "list" of an arbitrary number of GFXVectors
-    public boolean fromXML(StringBuilder xml, XMLSupport xmlSupport)
-    {
-        list = new ArrayList<>();
-        int errorCode = 0;
-        StringBuilder xmlBuffer = new StringBuilder(xml);
-        uid= xmlSupport.getIntElement("id", xml);errorCode|=xmlSupport.errorCode;
-        order= xmlSupport.getIntElement("order", xml);errorCode|=xmlSupport.errorCode;
-        //while (XMLSupport.hasTag("GFXVector", xmlBuffer))
-        StringBuilder oneElement = null;
-        do
-        {
-            oneElement = xmlSupport.removeTag("GFXVector", xmlBuffer);
-            if (oneElement == null) break;
-            errorCode|=xmlSupport.errorCode;
-            GFXVector v = new GFXVector();
-            v.fromXML((oneElement), xmlSupport);
-            errorCode|=xmlSupport.errorCode;
-            list.add(v);
-        } while (true);
-        postProcessXMLLoad(); // do connected vectors per IDs
-        if (errorCode!= 0) return false;
-        return true;
     }
-    */
+    
     public boolean saveAsXML(String filename)
     {
         StringBuilder xml = new StringBuilder();
@@ -378,7 +410,7 @@ public class GFXVectorList {
     }
     public boolean loadFromXML(String filename)
     {
-        String xml = de.malban.util.UtilityString.readTextFileToOneString(new File (filename));
+        String xml = de.malban.util.UtilityString.readTextFileToOneString(new File (de.malban.util.UtilityFiles.convertSeperator(filename)));
         boolean ok = fromXML(new StringBuilder(xml), new XMLSupport());
         
         if (!ok)
@@ -531,6 +563,779 @@ public class GFXVectorList {
             al.get(i).scaleAll(scale, safetyMap);
         }       
     }
+    public void disconnectAll()
+    {
+        GFXVectorList listNow = this;
+        if (listNow.size()==0) return;
+        GFXVectorList listThan = new GFXVectorList();
+
+        for (int i=0; i<listNow.size(); i++)
+        {
+            GFXVector v = listNow.get(i).clone();
+            v.setRelativ(false);
+            listThan.add(v);
+        }        
+        this.list = listThan.list;
+    }
+
+    public void removeMoveVectors()
+    {
+        disconnectAll();
+        GFXVectorList listNow = this;
+        if (listNow.size()==0) return;
+        GFXVectorList listThan = new GFXVectorList();
+
+        for (int i=0; i<listNow.size(); i++)
+        {
+            GFXVector v = listNow.get(i).clone();
+            if (v.pattern != 0)
+                listThan.add(v);
+        }        
+        this.list = listThan.list;
+    }
+    
+    public void connectLongestPaths()
+    {
+        GFXVectorList listThan = new GFXVectorList();
+        ArrayList<GFXVectorList> paths = clpPart();
+
+        int o = 0;
+        for (GFXVectorList vl: paths)
+        {
+            vl.connectWherePossible(true);
+
+            for(GFXVector v: vl.list)
+            {
+                v.order = o++;
+                listThan.list.add(v);
+            }
+        }
+        this.list = listThan.list;
+    }
+    public void connectLongestPathsPlus(boolean respectZero)
+    {
+        log.addLog("connectLongestPathsPlus() entered: ", INFO);
+        GFXVectorList listThan = new GFXVectorList();
+        ArrayList<GFXVectorList> paths = clpPart();
+
+        for (GFXVectorList vl: paths)
+        {
+            vl.connectWherePossible(true);
+        }
+        
+        log.addLog("connectLongestPathsPlus() connecting paths: ", INFO);
+        ArrayList<GFXVectorList> donePaths = new ArrayList<GFXVectorList>();
+        while (paths.size()>0)
+        {
+            GFXVectorList p1 = paths.get(0);
+            paths.remove(p1);
+            
+            boolean changed = connectAndRemoveShortesPath(p1, paths, donePaths, respectZero);
+            if (changed)
+            {
+                while (donePaths.size()>0)
+                {
+                    paths.add(donePaths.get(0));
+                    donePaths.remove(0);
+                }
+            }
+        
+        }
+
+        log.addLog("connectLongestPathsPlus() ordering: ", INFO);
+        int o = 0;
+        for (GFXVectorList vl: donePaths)
+        {
+            for(GFXVector v: vl.list)
+            {
+                v.order = o++;
+                listThan.list.add(v);
+            }
+        }
+        
+        this.list = listThan.list;
+    }
+    
+    private static double getDistance(Vertex v1, Vertex v2)
+    {
+        double x = v1.x() - v2.x();
+        double y = v1.y() - v2.y();
+        double z = v1.z() - v2.z();
+
+        double xsq = x*x;
+        double ysq = y*y;
+        double zsq = z*z;
+
+        double sum = xsq+ysq+zsq;
+    
+        double d = Math.sqrt(sum);
+        return d;
+    }
+  
+    // inverses the given vectorlist VARIANT
+    private static GFXVectorList inverse(GFXVectorList vl)
+    {
+        ArrayList<GFXVector>ilist = new ArrayList<GFXVector>();
+
+        for (GFXVector o: vl.list)
+        {
+            ilist.add(0, o);
+        }
+
+        for (int i=0; i< ilist.size(); i++)
+        {
+            GFXVector v = ilist.get(i);
+            v.inverse();
+            v.order = i;
+        }
+        vl.list = ilist;
+        return vl;
+    }
+    
+    
+    // VARIANT
+    public GFXVectorList isidroAll()
+    {
+        removeMoveVectors();
+        removeDouble();
+        removeiDouble();
+        removePoints(true);
+        connectLongestPathsPlus(false);
+//        optimizeSize();
+        return this;
+    }
+    
+    // VARIANT
+    public double optimizeSize()
+    {
+        log.addLog("optimize() entered: ", INFO);
+        // time for syncing is NOT considdered
+        // moving is not considdered
+        // fix per vector one synced draw need about 65 cycles (without inbterrupt wait)
+        int assumedScale = 0xff;
+        
+        int optimalSplit = 0;
+        int optimalCycles = Integer.MAX_VALUE;
+        
+        double referenceLength = getMaxAbsLenValue();
+        
+        int maxDimension = Math.abs(getXMax()-getXMin());
+        if (Math.abs(getYMax()-getYMin())>maxDimension) maxDimension = Math.abs(getYMax()-getYMin());
+        if (Math.abs(getZMax()-getZMin())>maxDimension) maxDimension = Math.abs(getZMax()-getZMin());
+        
+        maxDimension /=2;
+        if (maxDimension<1) maxDimension = 1;
+         int syncFactor = size()*(maxDimension/127);
+        if (syncFactor == 0) syncFactor = size();
+       
+        int maxSize = getXMaxLength();
+        if (maxSize<getYMaxLength()) maxSize=getYMaxLength();
+        if (maxSize<getZMaxLength()) maxSize=getZMaxLength();
+        
+        int splitEnd = maxSize;
+        int splitStart = splitEnd/3;
+        if (splitStart == 0) splitStart = 1;
+        
+        
+        log.addLog("optimize() splitting: ", INFO);
+        for (int split=splitStart; split<splitEnd; split++)
+        {
+            log.addLog("optimize() splitting: "+split, INFO);
+            GFXVectorList test = clone();
+            
+            test.splitWhereNeeded(split);
+            // fill byte range
+//            double max = test.getMaxAbsLenValue();
+//            double mul = 127.0/max;
+//            HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
+//            test.scaleAll(mul, safetyMap);
+
+            
+            double factor = referenceLength/((double)split);
+            
+            int cycles = getCyclesNeeded(test, ((double)assumedScale)/factor);
+
+            double splitFactor = 127/split;
+            double tmpSyncFactor = (((double)syncFactor)*(splitFactor));
+            
+            
+            
+            
+            cycles += tmpSyncFactor * ((((double)assumedScale)/factor)+40) ;
+            
+            if (cycles < optimalCycles)
+            {
+                optimalCycles = cycles;
+                optimalSplit = split;
+                
+            }
+        }
+        if (optimalSplit !=0)
+        {
+        log.addLog("optimize() optimal split found: "+optimalSplit, INFO);
+            splitWhereNeeded(optimalSplit);
+            double factor = referenceLength/((double)optimalSplit);
+            HashMap<Vertex, Boolean> safetyMap = new HashMap<Vertex, Boolean>();
+            scaleAll(factor, safetyMap);
+        }
+        if (optimalSplit==0) return 1;
+        return referenceLength/((double)optimalSplit);
+    }
+
+    static int getCyclesNeeded(GFXVectorList test, double scale)
+    {
+        int waste = 0;
+        for (GFXVector v : test.list)
+        {
+            double d = Math.abs(getDistance(v.start, v.end));
+            waste += /*(127-d) +*/65+scale;
+        }
+        return waste;
+    }
+    
+    
+    static int SH_NONE = 0;
+    static int SH_P_START_PATH_END = 1;
+    static int SH_P_START_PATH_START = 2;
+    static int SH_P_END_PATH_END = 3;
+    static int SH_P_END_PATH_START = 4;
+    // input - two complete as paths ordered and connected vectorlists
+    // finds in the GFX list given the one which has the shortest distance to the one gfx given
+    // and than connects these two with a move vector
+    private static boolean connectAndRemoveShortesPath(GFXVectorList p1, ArrayList<GFXVectorList> paths, ArrayList<GFXVectorList> resultpath, boolean respectZero)
+    {
+        if (p1.size() == 0) 
+        {
+            resultpath.add(p1);
+            return false;
+        }
+        if (paths.size() == 0)
+        {
+            resultpath.add(p1);
+            return false;
+        }
+        boolean found = false;
+        double min = Double.MAX_VALUE;
+        GFXVectorList candidate = null;
+        int candidateType = SH_NONE;
+        
+        Vertex zero = new Vertex(0,0,0);
+        
+        double zeroDistance1Start = Math.abs(getDistance(p1.get(0).start, zero));
+        double zeroDistance1End = Math.abs(getDistance(p1.get(p1.size()-1).end, zero));
+        
+        for (GFXVectorList searchPath : paths)
+        {
+
+            double zeroDistanceCandidateStart = Math.abs(getDistance(searchPath.get(0).start, zero));
+            double zeroDistanceCandidateEnd = Math.abs(getDistance(searchPath.get(searchPath.size()-1).end, zero));
+            
+
+            // START END
+            double d = getDistance(p1.get(0).start, searchPath.get(searchPath.size()-1).end);
+            d = Math.abs(d);
+            if (d < min)
+            {
+                if ((respectZero)&& ((d>=zeroDistance1Start) || (d>=zeroDistanceCandidateEnd)))
+                    ;
+                else
+                {
+                    min = d;
+                    candidate = searchPath;
+                    candidateType = SH_P_START_PATH_END;
+                }
+            }
+            
+            // START START
+            d = getDistance(p1.get(0).start, searchPath.get(0).start);
+            d = Math.abs(d);
+            if (d < min)
+            {
+                if ((respectZero)&& ((d>=zeroDistance1Start) || (d>=zeroDistanceCandidateStart)))
+                    ;
+                else
+                {
+                    min = d;
+                    candidate = searchPath;
+                    candidateType = SH_P_START_PATH_START;
+                }
+            }
+            // END END
+            d = getDistance(p1.get(p1.size()-1).end, searchPath.get(searchPath.size()-1).end);
+            d = Math.abs(d);
+            if (d < min)
+            {
+                if ((respectZero)&& ((d>=zeroDistance1End) || (d>=zeroDistanceCandidateEnd)))
+                    ;
+                else
+                {
+                    min = d;
+                    candidate = searchPath;
+                    candidateType = SH_P_END_PATH_END;
+                }
+            }
+            
+            // END START
+            d = getDistance(p1.get(p1.size()-1).end, searchPath.get(0).start);
+            d = Math.abs(d);
+            if (d < min)
+            {
+                if ((respectZero)&& ((d>=zeroDistance1End) || (d>=zeroDistanceCandidateStart)))
+                    ;
+                else
+                {
+                    min = d;
+                    candidate = searchPath;
+                    candidateType = SH_P_END_PATH_START;
+                }
+            }
+        }
+        
+        // if min path is > max strength - do not connect
+        if (min>127) candidateType = SH_NONE;
+        if (candidateType == SH_NONE)
+        {
+            resultpath.add(p1);
+            return false;
+        }
+        paths.remove(candidate);
+        resultpath.add(candidate);
+        
+        if (candidateType == SH_P_END_PATH_END)
+        {
+            inverse(candidate);
+            candidateType = SH_P_END_PATH_START;
+        }            
+        if (candidateType == SH_P_START_PATH_START)
+        {
+            inverse(p1);
+            candidateType = SH_P_END_PATH_START;
+        }            
+        if (candidateType == SH_P_START_PATH_END)
+        {
+            inverse(candidate);
+            inverse(p1);
+           
+            candidateType = SH_P_END_PATH_START;
+        }            
+
+        if (candidateType == SH_P_END_PATH_START)
+        {
+            // build new vector
+            GFXVector newInsertVector = new GFXVector();
+            newInsertVector.pattern = 0; // move vector
+            newInsertVector.start = p1.get(p1.size()-1).end;
+            newInsertVector.end = candidate.get(0).start;
+            newInsertVector.start_connect = p1.get(p1.size()-1);
+            newInsertVector.end_connect = candidate.get(0);
+            newInsertVector.uid_start_connect = newInsertVector.start_connect.uid;
+            newInsertVector.uid_end_connect = newInsertVector.end_connect.uid;
+            newInsertVector.setRelativ(true);
+            
+            // connect to path one
+            p1.get(p1.size()-1).end_connect = newInsertVector;
+            p1.get(p1.size()-1).uid_end_connect = newInsertVector.uid;
+            if (p1.size()>1) p1.get(p1.size()-1).setRelativ(true);
+
+            // connect to path two
+            candidate.get(0).start_connect = newInsertVector;
+            candidate.get(0).uid_start_connect = newInsertVector.uid;
+            if (candidate.size()>1) candidate.get(0).setRelativ(true);
+            
+            // insert to path two
+            candidate.list.add(0, newInsertVector);
+
+            // insert path one before path two
+            for (int i=p1.size()-1;i>=0;i--)
+            {
+                GFXVector v = p1.get(i);
+                p1.remove(v);
+                
+                candidate.list.add(0, v);
+            }
+        }
+        return true;
+    }
+    
+    private static void removeIdenticalVectors(GFXVectorList removeFrom, GFXVectorList removeWhat)
+    {
+        for (GFXVector cloneVector: removeWhat.list)
+        {
+            for (int i=0; i<removeFrom.size(); i++)
+            {
+                GFXVector orgVector = removeFrom.get(i);
+                if (isSameOrgUID(cloneVector,orgVector))
+                {
+                    removeFrom.remove(orgVector);
+                    break;
+                }
+            }
+        }
+        return;
+    }
+    public void removeDouble()
+    {
+        disconnectAll();
+        GFXVectorList originalList = cloneSetOrg();
+        GFXVectorList listThan = new GFXVectorList();
+
+        
+        while (originalList.size() != 0)
+        {
+            GFXVector v1 = originalList.get(0);
+            originalList.remove(v1);
+            listThan.list.add(v1);
+            
+            for (int i=originalList.size()-1; i>=0;i--)
+            {
+                GFXVector v2 = originalList.get(i);
+                if (v1.equals(v2))
+                    originalList.remove(v2);
+            }
+        }
+        this.list = listThan.list;        
+    }
+    public void removeiDouble()
+    {
+        disconnectAll();
+        GFXVectorList originalList = cloneSetOrg();
+        GFXVectorList listThan = new GFXVectorList();
+
+        
+        while (originalList.size() != 0)
+        {
+            GFXVector v1 = originalList.get(0);
+            originalList.remove(v1);
+            listThan.list.add(v1);
+            
+            for (int i=originalList.size()-1; i>=0;i--)
+            {
+                GFXVector v2 = originalList.get(i);
+                if (v1.equalsIgnoreDirection(v2))
+                    originalList.remove(v2);
+            }
+        }
+        this.list = listThan.list;        
+    }
+    static final int TYPE_START_START = 1;
+    static final int TYPE_START_END = 2;
+    static final int TYPE_END_START = 3;
+    static final int TYPE_END_END = 4;
+    private ArrayList<GFXVectorList> clpPart()
+    {
+         log.addLog("clpPart() - starting!", INFO);
+        
+        ArrayList<GFXVectorList> paths = new ArrayList<GFXVectorList>();
+        disconnectAll();
+        removePoints(true); // points very much irritate the recursion!
+        GFXVectorList originalList = cloneSetOrg();
+        
+        originalList.posMap = new HashMap<String, Position>();
+        originalList.initPosMap();
+        while (originalList.size()>0)
+        {
+            log.addLog("Seeking longest path in vectorlist size: "+originalList.size(), INFO);
+            ArrayList<GFXVector> longestPathV = originalList.getLongestPath();
+            GFXVectorList longestPath = new GFXVectorList();
+            if (longestPathV.size()>0)
+            {
+                longestPath.add(longestPathV.get(0));
+                originalList.removeFromPosMap(longestPathV.get(0));    
+                originalList.remove(longestPathV.get(0));
+            }
+            for (int i=0; i<longestPathV.size()-1; i++)
+            {
+                GFXVector v1 = longestPathV.get(i);
+                GFXVector v2 = longestPathV.get(i+1);
+                int isConnecting = isConnecting(v1, v2);
+                if (isConnecting == 0) 
+                {
+                    log.addLog("Warning not connecting optimzed vector found", WARN);
+                    continue;
+                }
+                originalList.removeFromPosMap(v2);                
+                originalList.remove(v2);
+                if (isConnecting == 1) 
+                {
+                    longestPath.add(v2);
+                }                
+                if (isConnecting == -1) 
+                {
+                    longestPath.add(v2.inverse());
+                }                
+            }
+            paths.add(longestPath);
+            for (int i=originalList.size()-1; i>=0; i--)
+            {
+                GFXVector v0 = originalList.get(i);
+                if (v0.maxConnectCount == 0)
+                {
+                    log.addLog("Warning not connecting 0 vector found", INFO);
+                    continue;
+                }
+                if (v0.maxConnectCount == 1)
+                {
+                    originalList.removeFromPosMap(v0);                
+                    originalList.remove(v0);
+                    GFXVectorList list1 = new GFXVectorList();
+                    list1.add(v0);
+                    paths.add(list1);
+                }
+            }
+        }
+        
+        boolean didConnect = false;
+        
+        do 
+        {
+            didConnect = false;
+            for (int i1=0; i1<paths.size(); i1++)
+            {
+                GFXVectorList vl = paths.get(i1);
+                Vertex start1 = vl.get(0).start;
+                Vertex end1 = vl.get(vl.size()-1).end;
+                for (int i2=i1+1; i2<paths.size(); i2++)
+                {
+                    GFXVectorList vlTest = paths.get(i2);
+                    Vertex start2 = vlTest.get(0).start;
+                    Vertex end2 = vlTest.get(vlTest.size()-1).end;
+                    int type = 0;
+                    if ( (start1.x() == start2.x()) && (start1.y() == start2.y())&& (start1.z() == start2.z())) type= TYPE_START_START;
+                    if ( (start1.x() == end2.x()) && (start1.y() == end2.y())&& (start1.z() == end2.z())) type= TYPE_START_END;
+                    if ( (end1.x() == start2.x()) && (end1.y() == start2.y())&& (end1.z() == start2.z())) type= TYPE_END_START;
+                    if ( (end1.x() == end2.x()) && (end1.y() == end2.y())&& (end1.z() == end2.z())) type= TYPE_END_END;
+                    if (type != 0)
+                    {
+                        connectLists(vl, vlTest, type);
+                        paths.remove(vlTest);
+                        didConnect = true;
+                        break;
+                    }
+                }
+                if (didConnect) break;
+            }
+            
+        } while (didConnect);
+        return paths;
+    }
+    private void connectLists(GFXVectorList vl, GFXVectorList vl2, int type)
+    {
+        for (int i=0; i< vl2.size(); i++)
+        {
+            if (type == TYPE_START_END)
+                vl.add(0, vl2.get(vl2.size()-1-i));
+            if (type == TYPE_END_START)
+                vl.add(vl2.get(i));
+
+        
+            if (type == TYPE_START_START)
+                vl.add(0, vl2.get(vl2.size()-1-i).inverse());
+            if (type == TYPE_END_END)
+                vl.add(vl2.get(i).inverse());
+        
+        
+        }
+    }
+
+    class Position
+    {
+        public ArrayList<GFXVector> vectors = new ArrayList<GFXVector>();
+    }
+    HashMap<String, Position> posMap = new HashMap<String, Position>();
+    
+    private void initPosMap()
+    {
+        posMap = new HashMap<String, Position>();
+        // create position Map
+        for (int i=0; i<list.size(); i++)
+        {
+            GFXVector v = list.get(i);
+            v.key1 = v.start.x()+"_"+v.start.y()+"_"+v.start.z();
+            v.key2 = v.end.x()+"_"+v.end.y()+"_"+v.end.z();
+            
+            Position startpos = posMap.get(v.key1);
+            if (startpos ==null)
+            {
+                startpos = new Position();
+                posMap.put(v.key1, startpos);
+            }
+            startpos.vectors.add(v);
+
+            Position endpos = posMap.get(v.key2);
+            if (endpos ==null)
+            {
+                endpos = new Position();
+                posMap.put(v.key2, endpos);
+            }
+            endpos.vectors.add(v);
+            v.isPosUsed = 0;
+        }        
+    }
+    
+    //public ArrayList<GFXVectorList> vectors = new ArrayList<GFXVectorList>();
+    
+    public static int GOOD_ENOUGH_FOR_MAX =20;
+    private int getMaxTailCount(GFXVector v, ArrayList<GFXVector> vlist, boolean startUsed)
+    {
+        v.isPosUsed++;
+        recursionCount++;
+
+        if (vlist.size()>=GOOD_ENOUGH_FOR_MAX)
+        {
+            v.isPosUsed--;
+            return vlist.size();
+        }
+        
+        
+        log.addLog("getMaxTailCount() recursion: "+recursionCount, INFO);
+        ArrayList<GFXVector> vlistmax = null;
+        int compareSize = vlist.size();
+        ArrayList<GFXVector> vlistTest;
+        if (!startUsed)
+        {
+            Position pos1 = posMap.get(v.key1);
+            if (pos1 != null) 
+            {
+                for (GFXVector v1 :pos1.vectors )
+                {
+                    if (v1.isPosUsed!=0) continue;
+                    vlistTest = (ArrayList<GFXVector>) vlist.clone();
+                    vlistTest.add(v1);
+                    boolean pos1used = (v.key1.equals(v1.key1));
+                    getMaxTailCount(v1, vlistTest, pos1used);
+                    if (vlistTest.size() >compareSize)
+                    {
+                        vlistmax = (ArrayList<GFXVector>) vlistTest;
+                        compareSize = vlistmax.size();
+                        if (compareSize>=GOOD_ENOUGH_FOR_MAX) break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            Position pos2 = posMap.get(v.key2);
+            if (pos2 != null)
+            {
+                for (GFXVector v2 :pos2.vectors )
+                {
+                    if (v2.isPosUsed!=0) continue;
+                    vlistTest = (ArrayList<GFXVector>) vlist.clone();
+                    vlistTest.add(v2);
+
+                    boolean pos1used = (v.key2.equals(v2.key1));
+                    getMaxTailCount(v2, vlistTest, pos1used);
+                    if (vlistTest.size() >compareSize)
+                    {
+                        vlistmax = (ArrayList<GFXVector>) vlistTest;
+                        compareSize = vlistmax.size();
+                        if (compareSize>=GOOD_ENOUGH_FOR_MAX) break;
+                    }
+                }
+            }
+        }
+        v.isPosUsed--;
+        if (vlistmax != null)
+        {
+            vlist.clear();
+            for (GFXVector v0: vlistmax)
+                vlist.add(v0);
+        }
+        return vlist.size();
+    }
+    
+    int recursionCount;
+    private ArrayList<GFXVector> getLongestPath()
+    {
+        ArrayList<GFXVector> maxList = new ArrayList<GFXVector>();
+        ArrayList<GFXVector> currentTestList = new ArrayList<GFXVector>();
+        int i=0;
+        for (GFXVector v: list) 
+        {
+            log.addLog("getLongestPath(): "+(i++), INFO);
+            currentTestList.clear();
+            currentTestList.add(v);
+            recursionCount=0;
+            if (v.maxConnectCount>=maxList.size())
+                v.maxConnectCount = getMaxTailCount(v,currentTestList, true);
+            if (currentTestList.size()>maxList.size())
+            {
+                maxList =currentTestList;
+                currentTestList = new ArrayList<GFXVector>();
+                if (maxList.size()>=GOOD_ENOUGH_FOR_MAX) break;
+            }
+        }
+        return maxList;
+    }
+                
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    private void removeFromPosMap(GFXVector v)
+    {
+        Position pos = posMap.get(v.key1);
+        pos.vectors.remove(v);
+        if (pos.vectors.size() == 0)
+        {
+            posMap.remove(v.key1);
+        }
+        pos = posMap.get(v.key2);
+        pos.vectors.remove(v);
+        if (pos.vectors.size() == 0)
+        {
+            posMap.remove(v.key2);
+        }
+    }
+    private void resetPosUsage()
+    {
+        for (GFXVector v: list) 
+        {
+            v.isPosUsed = 0;
+            v.maxConnectCount = 0;
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // 1 correct connecting
+    // -1 inverse connecting
+    // 0 not connecting
+    // v1.end is tested to v2.start and v2.end 
+    private static int isConnecting(GFXVector v1, GFXVector v2)
+    {
+        if ( (v1.end.x() == v2.start.x()) && (v1.end.y() == v2.start.y())&& (v1.end.z() == v2.start.z())) return 1;
+        if ( (v1.end.x() == v2.end.x()) && (v1.end.y() == v2.end.y())&& (v1.end.z() == v2.end.z())) return -1;
+        return 0;
+    }
+    private static boolean isSameOrgUID(GFXVector cloneVector, GFXVector orgVector)
+    {
+        return (orgVector.getOrgUID() == cloneVector.getOrgUID());
+    }
+    private static boolean isSame(GFXVector v1, GFXVector v2)
+    {
+        boolean endEnd = ( (v1.end.x() == v2.end.x()) && (v1.end.y() == v2.end.y())&& (v1.end.z() == v2.end.z()));
+        boolean startStart = ( (v1.start.x() == v2.start.x()) && (v1.start.y() == v2.start.y())&& (v1.start.z() == v2.start.z()));
+        boolean endStart = ( (v1.end.x() == v2.start.x()) && (v1.end.y() == v2.start.y())&& (v1.end.z() == v2.start.z()));
+        boolean startEnd = ( (v1.start.x() == v2.end.x()) && (v1.start.y() == v2.end.y())&& (v1.start.z() == v2.end.z()));
+        
+        return ( ((endEnd) && (startStart)) || ((endStart) && (startEnd)) );
+    }
+
+    
+
     public void connectWherePossible(boolean ignoreFirst)
     {
         GFXVectorList listNow = this;
@@ -543,7 +1348,11 @@ public class GFXVectorList {
             last = listNow.list.get(listNow.list.size()-1);
         }
         
-        
+        ArrayList<GFXVector> startConnect1 = new ArrayList<GFXVector>();
+        ArrayList<GFXVector> endConnect1 = new ArrayList<GFXVector>();
+        ArrayList<GFXVector> startConnect2 = new ArrayList<GFXVector>();
+        ArrayList<GFXVector> endConnect2 = new ArrayList<GFXVector>();
+       
         for (int i=0; i<listNow.size(); i++)
         {
             GFXVector v1 = listNow.get(i);
@@ -552,45 +1361,210 @@ public class GFXVectorList {
                 GFXVector v2 = listNow.get(i2);
                 if (v1.uid != first.uid)
                 {
-                    if ((v1.start.x() == v2.end.x()) && (v1.start.y() == v2.end.y() ) && (v1.start.z() == v2.end.z() ))
+                    getConnectingStart(v1, startConnect1, endConnect1);
+                    getConnectingEnd(v2, startConnect2, endConnect2);
+                    if (((startConnect1.size()+endConnect1.size()<1) && (startConnect2.size()+endConnect2.size()<1)) || (!avoidConnectMoreThan2))
                     {
-                        if (v1.start_connect == null)
+                        if ((v1.start.x() == v2.end.x()) && (v1.start.y() == v2.end.y() ) && (v1.start.z() == v2.end.z() ))
                         {
-                            v1.start_connect = v2;
-                            v1.uid_start_connect = v2.uid;
-                        }
+                            if (v1.start_connect == null)
+                            {
+                                v1.start_connect = v2;
+                                v1.uid_start_connect = v2.uid;
+                            }
 
-                        if (v2.end_connect == null)
-                        {
-                            v2.end_connect = v1;
-                            v2.end = v1.start;
-                            v2.uid_end_connect = v1.uid;
+                            if (v2.end_connect == null)
+                            {
+                                v2.end_connect = v1;
+                                v2.end = v1.start;
+                                v2.uid_end_connect = v1.uid;
+                            }
                         }
-
                     }
                 }
+                
+                
+                
+                
                 if (v1.uid != last.uid)
                 {
-                    if ((v1.end.x() == v2.start.x()) && (v1.end.y() == v2.start.y()) && (v1.end.z() == v2.start.z()))
+                    getConnectingEnd(v1, startConnect1, endConnect1);
+                    getConnectingStart(v2, startConnect2, endConnect2);
+                    if (((startConnect1.size()+endConnect1.size()<1) && (startConnect2.size()+endConnect2.size()<1)) || (!avoidConnectMoreThan2))
                     {
-                        if (v1.end_connect == null)
+                        if ((v1.end.x() == v2.start.x()) && (v1.end.y() == v2.start.y()) && (v1.end.z() == v2.start.z()))
                         {
-                            v1.end_connect = v2;
-                            v1.uid_end_connect = v2.uid;
-                        }
+                            if (v1.end_connect == null)
+                            {
+                                v1.end_connect = v2;
+                                v1.uid_end_connect = v2.uid;
+                            }
 
-                        if (v2.start_connect == null)
-                        {
-                            v2.start_connect = v1;
-                            v2.start = v1.end;
-                            v2.uid_start_connect = v1.uid;
+                            if (v2.start_connect == null)
+                            {
+                                v2.start_connect = v1;
+                                v2.start = v1.end;
+                                v2.uid_start_connect = v1.uid;
+                            }
                         }
                     }
                 }
             }
             v1.setRelativ(((v1.uid_end_connect != -1) && (v1.uid_start_connect != -1)));
         }        
+        if (avoidConnectMoreThan2)
+        {
+            ensureNotMoreThan2Connect();
+        }
     }    
+    void getConnectingStart(GFXVector vector, ArrayList<GFXVector>startConnect, ArrayList<GFXVector>endConnect)
+    {
+        startConnect.clear();
+        endConnect.clear();
+        GFXVectorList listNow = this;
+        if (listNow.size()==0) return;
+        if (vector.start == null) return;
+        for (int i=0; i<listNow.size(); i++)
+        {
+            GFXVector v = listNow.get(i);
+            if (v.uid == vector.uid) continue;
+            if (v.start != null)
+            {
+                if (v.start.uid == vector.start.uid) 
+                    startConnect.add(v);
+            }
+            if (v.end != null)
+            {
+                if (v.end.uid == vector.start.uid) 
+                    endConnect.add(v);
+            }
+        }        
+    }
+    void getConnectingEnd(GFXVector vector, ArrayList<GFXVector>startConnect, ArrayList<GFXVector>endConnect)
+    {
+        startConnect.clear();
+        endConnect.clear();
+        GFXVectorList listNow = this;
+        if (listNow.size()==0) return;
+        if (vector.end == null) return;
+        for (int i=0; i<listNow.size(); i++)
+        {
+            GFXVector v = listNow.get(i);
+            if (v.uid == vector.uid) continue;
+            if (v.start != null)
+            {
+                if (v.start.uid == vector.end.uid) startConnect.add(v);
+            }
+            if (v.end != null)
+            {
+                if (v.end.uid == vector.end.uid) endConnect.add(v);
+            }
+        }        
+    }
+    
+    // each vertex is at maximum used twice!
+    public void ensureNotMoreThan2Connect()
+    {
+        GFXVectorList listNow = this;
+        if (listNow.size()==0) return;
+
+        ArrayList<GFXVector> startConnect = new ArrayList<GFXVector>();
+        ArrayList<GFXVector> endConnect = new ArrayList<GFXVector>();
+        
+        for (int i=0; i<listNow.size(); i++)
+        {
+            GFXVector v1 = listNow.get(i);
+
+            getConnectingStart(v1, startConnect, endConnect);
+            if (startConnect.size()+endConnect.size() > 1)
+            {
+                // to many connections
+                if (endConnect.size()>=1)
+                {
+                    // if there are suitable endconnections - remove all start connections
+                    // we prefer end->start connections over start->start
+                    for (GFXVector v :startConnect)
+                    {
+                        removeStartConnection(v);
+                    }
+                    // remove all but the first end connects
+                    for (int j=1; j<endConnect.size(); j++)
+                    {
+                        removeEndConnection(endConnect.get(j));
+                    }
+                    
+                    v1.start_connect = endConnect.get(0);
+                    endConnect.get(0).end_connect = v1;
+                    v1.uid_start_connect = endConnect.get(0).uid;
+                    endConnect.get(0).uid_end_connect = v1.uid;
+                }
+                else
+                {
+                    // remove all but the first end connects
+                    for (int j=1; j<startConnect.size(); j++)
+                    {
+                        removeStartConnection(startConnect.get(j));
+                    }
+                    v1.start_connect = startConnect.get(0);
+                    startConnect.get(0).start_connect = v1;
+                    v1.uid_start_connect = startConnect.get(0).uid;
+                    startConnect.get(0).uid_start_connect = v1.uid;
+                }
+            }
+            
+            getConnectingEnd(v1, startConnect, endConnect);
+            if (startConnect.size()+endConnect.size() > 1)
+            {
+                // to many connections
+                if (startConnect.size()>=1)
+                {
+                    // if there are suitable startconnections - remove all end connections
+                    // we prefer start->end connections over end->end
+                    for (GFXVector v :endConnect)
+                    {
+                        removeEndConnection(v);
+                    }
+                    // remove all but the first start connects
+                    for (int j=1; j<startConnect.size(); j++)
+                    {
+                        removeStartConnection(startConnect.get(j));
+                    }
+                    v1.end_connect = startConnect.get(0);
+                    startConnect.get(0).start_connect = v1;
+                    v1.uid_end_connect = startConnect.get(0).uid;
+                    startConnect.get(0).uid_start_connect = v1.uid;
+                }
+                else
+                {
+                    // remove all but the first end connects
+                    for (int j=1; j<endConnect.size(); j++)
+                    {
+                        removeEndConnection(endConnect.get(j));
+                    }
+                    v1.end_connect = endConnect.get(0);
+                    endConnect.get(0).end_connect = v1;
+                    v1.uid_end_connect = endConnect.get(0).uid;
+                    endConnect.get(0).uid_end_connect = v1.uid;
+                }
+            }            
+        }        
+    }
+    
+    private void removeStartConnection(GFXVector vector)
+    {
+        vector.setRelativ(false);
+        vector.start_connect = null;
+        vector.uid_start_connect = -1;
+        vector.start = new Vertex(vector.start);
+    }
+    private void removeEndConnection(GFXVector vector)
+    {
+        vector.setRelativ(false);
+        vector.end_connect = null;
+        vector.uid_end_connect = -1;
+        vector.end = new Vertex(vector.end);
+    }
+    
     // adds a clone, no direct adding!
     public void add(GFXVectorList vl)
     {
@@ -1210,11 +2184,18 @@ public class GFXVectorList {
     // seperate entities are allways clones!
     public ArrayList<GFXVectorList> seperatePaths()
     {
+        return seperatePaths(false);
+    }
+    public ArrayList<GFXVectorList> seperatePaths(boolean noAdditionalOptimization)
+    {
         ArrayList<GFXVectorList> seps = new ArrayList<GFXVectorList>();
         GFXVectorList vl = this.clone();
         
-        vl.connectWherePossible(true);
-        vl.doOrder();
+        if (!noAdditionalOptimization)
+        {
+            vl.connectWherePossible(true);
+            vl.doOrder();
+        }
         
         // only one!
         if (vl.isOnePath())
@@ -1393,11 +2374,15 @@ public class GFXVectorList {
     // y,x
     String getRelativeCoordString(GFXVector v, boolean factor)
     {
+        return getRelativeCoordString(v, factor, "BLOW_UP");
+    }
+    String getRelativeCoordString(GFXVector v, boolean factor, String blowString)
+    {
         String ret = "";
         if (!factor)
             ret +=hex((int)getRelY(v))+", "+hex((int)getRelX(v));
         else
-            ret +=hex((int)getRelY(v))+"*BLOW_UP, "+hex((int)getRelX(v))+"*BLOW_UP";
+            ret +=hex((int)getRelY(v))+"*"+blowString+", "+hex((int)getRelX(v))+"*"+blowString;
         return ret;
     }
     // assuming list is ordered
@@ -1405,11 +2390,15 @@ public class GFXVectorList {
     // X,y 
     String getRelativeCoordStringReverse(GFXVector v, boolean factor)
     {
+        return getRelativeCoordStringReverse(v, factor, "BLOW_UP");
+    }
+    String getRelativeCoordStringReverse(GFXVector v, boolean factor, String blowString)
+    {
         String ret = "";
         if (!factor)
             ret +=hex((int)getRelX(v))+", "+hex((int)getRelY(v));
         else
-            ret +=hex((int)getRelX(v))+"*BLOW_UP, "+hex((int)getRelY(v))+"*BLOW_UP";
+            ret +=hex((int)getRelX(v))+"*"+blowString+", "+hex((int)getRelY(v))+"*"+blowString;
         return ret;
     }
     // assuming list is ordered
@@ -1863,7 +2852,7 @@ public class GFXVectorList {
     
     // removes redundant move vectors
     // if directly following move vectors can be joined (<127, -128) than joins these
-    GFXVectorList optimizeMove(GFXVectorList vl)
+    GFXVectorList optimizeMove(GFXVectorList vl, int maxLen, boolean useMaxLen)
     {
         vl = vl.clone();
         
@@ -1898,25 +2887,48 @@ public class GFXVectorList {
                 double sumYDelta = yDelta1 + yDelta2; 
                 double sumZDelta = zDelta1 + zDelta2; 
             
-                if ( ((sumXDelta<=127) && (sumXDelta>=-128)) && 
-                     ((sumYDelta<=127) && (sumYDelta>=-128)) && 
-                     ((sumZDelta<=127) && (sumZDelta>=-128)) 
-                   )
+                if (useMaxLen)
                 {
-                    optimizeDone = true;
-                    v1.end = v2.end;
-                    v1.end_connect = v2.end_connect;
-                    if (v2.end_connect != null)
+                    if ( ((sumXDelta<=maxLen) && (sumXDelta>=-maxLen)) && 
+                         ((sumYDelta<=maxLen) && (sumYDelta>=-maxLen)) && 
+                         ((sumZDelta<=maxLen) && (sumZDelta>=-maxLen)) 
+                       )
                     {
-                        if (v2.end_connect.start.uid == v2.end.uid)
+                        optimizeDone = true;
+                        v1.end = v2.end;
+                        v1.end_connect = v2.end_connect;
+                        if (v2.end_connect != null)
                         {
-                            v2.end_connect.start_connect = v1;
+                            if (v2.end_connect.start.uid == v2.end.uid)
+                            {
+                                v2.end_connect.start_connect = v1;
+                            }
                         }
+                        vl.remove(v2);
+                        break;
                     }
-                    vl.remove(v2);
-                    break;
                 }
-                
+                else
+                {
+                    if ( ((sumXDelta<=127) && (sumXDelta>=-128)) && 
+                         ((sumYDelta<=127) && (sumYDelta>=-128)) && 
+                         ((sumZDelta<=127) && (sumZDelta>=-128)) 
+                       )
+                    {
+                        optimizeDone = true;
+                        v1.end = v2.end;
+                        v1.end_connect = v2.end_connect;
+                        if (v2.end_connect != null)
+                        {
+                            if (v2.end_connect.start.uid == v2.end.uid)
+                            {
+                                v2.end_connect.start_connect = v1;
+                            }
+                        }
+                        vl.remove(v2);
+                        break;
+                    }
+                }
             }
                 
         } while (optimizeDone);
@@ -1927,7 +2939,7 @@ public class GFXVectorList {
     }
     void splitList(GFXVectorList vl, int maxResync, ArrayList<GFXVectorList> subLists)
     {
-        if (maxResync == -1)
+        if (maxResync <= 0)
         {
             subLists.add(vl);
             return;
@@ -1973,9 +2985,21 @@ public class GFXVectorList {
         splitList(vl2, maxResync, subLists);
     }
     
-    public String createASMDraw_syncList(String name, boolean factor, int maxResync)
+    public boolean createASMDraw_syncList(StringBuilder source, String name, boolean factor, int maxResync, int splitter)
     {
-        StringBuilder s = new StringBuilder();
+        return createASMDraw_syncList(source,name, factor, maxResync, false, splitter);
+    }
+    public boolean createASMDraw_syncList(StringBuilder source,String name, boolean factor, int maxResync, boolean extended, int splitter)
+    {
+        return createASMDraw_syncList(source, name,  factor,  maxResync,  extended,  splitter,  false);
+    }
+    public boolean createASMDraw_syncList(StringBuilder source,String name, boolean factor, int maxResync, boolean extended, int splitter, boolean noAdditionalOptimization)
+    {
+        return createASMDraw_syncList(source, name,  factor,  maxResync,  extended,  splitter,  false, "BLOW_UP");
+    }
+    public boolean createASMDraw_syncList(StringBuilder source,String name, boolean factor, int maxResync, boolean extended, int splitter, boolean noAdditionalOptimization, String blowString)
+    {
+        int maxLen = (int) getMaxAbsLenValue();
         // actually this is nearly the same as a scenario - only the
         // data is kept in one list, not in several, and there
         // is a config byte to discern.
@@ -1983,30 +3007,37 @@ public class GFXVectorList {
         // starting location for all entities is 0,0 of the vectorlist
 
         // split list to max resyncs (-1 = no additional resyncs)
-        ArrayList<GFXVectorList> subLists1 = seperatePaths();
+        ArrayList<GFXVectorList> subLists1 = seperatePaths(noAdditionalOptimization);
         ArrayList<GFXVectorList> subLists = new ArrayList<GFXVectorList>();
         for (GFXVectorList vl: subLists1)
         {
             splitList(vl, maxResync, subLists);
         }
+        int intensity = 256;
         
-        
-        s.append(name).append(":\n");
+        source.append(name).append(":\n");
         for (GFXVectorList vectorlist: subLists)
         {
             boolean first = true;
             // concatinate moves, if possible
-            vectorlist = optimizeMove(vectorlist);
+            vectorlist = optimizeMove(vectorlist, maxLen, true);
 
             // split where needed
-            vectorlist.splitWhereNeeded(127);
+            vectorlist.splitWhereNeeded(splitter);
          
+            if (maxLen<splitter)
+            {
+                splitter = maxLen;
+            }
             for (GFXVector vector: vectorlist.list)
             {
+                int newIntensity = vector.intensity;
                 Vertex start = vector.start;
                 Vertex end = vector.end;
                 int pattern = vector.pattern&0xff;
                 
+                if ((newIntensity != intensity) && (extended))
+                    source.append(" ").append(GFXVectorList.getDB()).append(" ").append(hexU(3)).append(", ").append(hex(newIntensity)).append(" ; new intensity\n");
                 if (first)
                 {
                     // first info is always a sync + move
@@ -2022,30 +3053,30 @@ public class GFXVectorList {
                     {
                         int useX;
                         int useY;
-                        if (y>127)
+                        if (y>splitter)
                         {
-                            useY = 127;
-                            y -= 127;
+                            useY = splitter;
+                            y -= splitter;
                         }
-                        else if (y<-128)
+                        else if (y<-splitter)
                         {
-                            useY = -128;
-                            y += 128;
+                            useY = -splitter;
+                            y += splitter;
                         }
                         else
                         {
                             useY = y;
                             y -=useY;
                         }
-                        if (x>127)
+                        if (x>splitter)
                         {
-                            useX = 127;
-                            x -= 127;
+                            useX = splitter;
+                            x -= splitter;
                         }
-                        else if (x<-128)
+                        else if (x<-splitter)
                         {
-                            useX = -128;
-                            x += 128;
+                            useX = -splitter;
+                            x += splitter;
                         }
                         else
                         {
@@ -2056,38 +3087,40 @@ public class GFXVectorList {
                         {
                             // sync moves are not "blown up"
                             if (first)
-                                s.append(" "+GFXVectorList.getDB()+" ").append(hexU(1)).append(", ").append(hex(useY)).append("").append(", ").append(hex(useX)).append("").append(" ; sync and move to y, x\n");
+//                                s.append(" ").append(GFXVectorList.getDB()).append(" ").append(hexU(1)).append(", ").append(hex(useY)).append("").append(", ").append(hex(useX)).append("").append(" ; sync and move to y, x\n");
+                                source.append(" ").append(GFXVectorList.getDB()).append(" ").append(hexU(1)).append(", ").append(hex(useY)).append("*").append(blowString).append(", ").append(hex(useX)).append("*").append(blowString).append(" ; sync and move to y, x\n");
                             else
-                                s.append(" "+GFXVectorList.getDB()+" ").append(hexU(0)).append(", ").append(hex(useY)).append("*BLOW_UP").append(", ").append(hex(useX)).append("*BLOW_UP").append(" ; move to y, x\n");
+                                source.append(" ").append(GFXVectorList.getDB()).append(" ").append(hexU(0)).append(", ").append(hex(useY)).append("*").append(blowString).append(", ").append(hex(useX)).append("*").append(blowString).append(" ; additional sync move to y, x\n");
                         }
                         else
                         {
                             if (first)
-                                s.append(" "+GFXVectorList.getDB()+" ").append(hexU(1)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(" ; sync and move to y, x\n");
+                                source.append(" ").append(GFXVectorList.getDB()).append(" ").append(hexU(1)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(" ; sync and move to y, x\n");
                             else
-                                s.append(" "+GFXVectorList.getDB()+" ").append(hexU(0)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(" ; move to y, x\n");
+                                source.append(" ").append(GFXVectorList.getDB()).append(" ").append(hexU(0)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(" ; additional sync move to y, x\n");
                         }
                         first = false;
                     } while (((y!=0) || (x!=0)));
                 }
                 if (pattern == 0) // move
                 {
-                    s.append(" "+GFXVectorList.getDB()+" ").append(hexU(0)).append(", ");
-                    s.append(getRelativeCoordString(vector, factor));
-                    s.append(" ; mode, y, x\n");
+                    source.append(" ").append(GFXVectorList.getDB()).append(" ").append(hexU(0)).append(", ");
+                    source.append(getRelativeCoordString(vector, factor, blowString));
+                    source.append(" ; mode, y, x\n");
                 }
                 else  // draw
                 {
-                    s.append(" "+GFXVectorList.getDB()+" ").append(hexU(255)).append(", ");
-                    s.append(getRelativeCoordString(vector, factor));
-                    s.append(" ; draw, y, x\n");
+                    source.append(" ").append(GFXVectorList.getDB()).append(" ").append(hexU(255)).append(", ");
+                    source.append(getRelativeCoordString(vector, factor, blowString));
+                    source.append(" ; draw, y, x\n");
                 }
+                intensity = newIntensity;
             }
         }
-        s.append(" "+GFXVectorList.getDB()+" ").append(hexU(2)).append(" ; endmarker \n");
-        String text = s.toString();
+        source.append(" ").append(GFXVectorList.getDB()).append(" ").append(hexU(2)).append(" ; endmarker \n");
+//        String text = source.toString();
         
-        return text;
+        return true;
     }
  
     
@@ -2143,7 +3176,7 @@ public class GFXVectorList {
         return faces;
     }    
     
-    public void removePoints()
+    public void removePoints(boolean d3Dots)
     {
         
         // remove non selected!
@@ -2152,7 +3185,12 @@ public class GFXVectorList {
         for (int i=0; i<size(); i++)
         {
             GFXVector v = get(i);
-            if ((v.start.x() == v.end.x()) && (v.start.y() == v.end.y()))
+            
+            boolean test;
+            if (d3Dots) test = ((v.start.x() == v.end.x()) && (v.start.y() == v.end.y()) && (v.start.z() == v.end.z()));
+            else test = ((v.start.x() == v.end.x()) && (v.start.y() == v.end.y()));
+            
+            if (test)
             {
                 if ((v.start_connect != null) && (v.end_connect!=null))
                 {
@@ -2214,6 +3252,16 @@ public class GFXVectorList {
         }
         return false;
     }
+    public int getMoveCount()
+    {
+        int m = 0;
+        for (int i=0; i<size(); i++)
+        {
+            GFXVector v1 = get(i);
+            if (v1.pattern == 0) m++;
+        }
+        return m;
+    }
     
     public void changeOrientation(GFXVector v)
     {
@@ -2253,18 +3301,20 @@ public class GFXVectorList {
                 v1.end = v2.end;
                 v1.uid_end_connect = v2.uid_end_connect;
                 v1.end_connect = v2.end_connect;
-                
-                if ((newEnd.start_connect!=null) && (newEnd.start_connect.uid == v2.uid))
+                if (newEnd != null)
                 {
-                    newEnd.start_connect = v2.start_connect;
-                    newEnd.start = v1.end;
-                    newEnd.uid_start_connect = v2.uid_start_connect;
-                }
-                if ((newEnd.end_connect!=null)&&(newEnd.end_connect.uid == v2.uid))
-                {
-                    newEnd.end_connect = v2.start_connect;
-                    newEnd.end = v1.end;
-                    newEnd.uid_end_connect = v2.uid_start_connect;
+                    if ((newEnd.start_connect!=null) && (newEnd.start_connect.uid == v2.uid))
+                    {
+                        newEnd.start_connect = v2.start_connect;
+                        newEnd.start = v1.end;
+                        newEnd.uid_start_connect = v2.uid_start_connect;
+                    }
+                    if ((newEnd.end_connect!=null)&&(newEnd.end_connect.uid == v2.uid))
+                    {
+                        newEnd.end_connect = v2.start_connect;
+                        newEnd.end = v1.end;
+                        newEnd.uid_end_connect = v2.uid_start_connect;
+                    }
                 }
                 
             }
@@ -2276,19 +3326,21 @@ public class GFXVectorList {
                 v1.uid_end_connect = v2.uid_start_connect;
                 v1.end_connect = v2.start_connect;
                 
-                if ((newEnd.start_connect!=null) &&(newEnd.start_connect.uid == v2.uid))
+                if (newEnd != null)
                 {
-                    newEnd.start_connect = v2.start_connect;
-                    newEnd.start = v1.end;
-                    newEnd.uid_start_connect = v2.uid_start_connect;
+                    if ((newEnd.start_connect!=null) &&(newEnd.start_connect.uid == v2.uid))
+                    {
+                        newEnd.start_connect = v2.start_connect;
+                        newEnd.start = v1.end;
+                        newEnd.uid_start_connect = v2.uid_start_connect;
+                    }
+                    if ((newEnd.end_connect!=null) &&(newEnd.end_connect.uid == v2.uid))
+                    {
+                        newEnd.end_connect = v2.start_connect;
+                        newEnd.end = v1.end;
+                        newEnd.uid_end_connect = v2.uid_start_connect;
+                    }
                 }
-                if ((newEnd.end_connect!=null) &&(newEnd.end_connect.uid == v2.uid))
-                {
-                    newEnd.end_connect = v2.start_connect;
-                    newEnd.end = v1.end;
-                    newEnd.uid_end_connect = v2.uid_start_connect;
-                }
-                
             }
         
         

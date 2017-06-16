@@ -17,6 +17,7 @@ package de.malban.vide.vecx;
 public class E6809 extends E6809State implements E6809Statics
 {
     transient E6809Access vecx=null;
+    transient Profiler profiler = null;
 
     /* Some times bad things happen...
       Artmaster for example, uses an IRQ to check for lightpen (handler at: 0x7ce)
@@ -1155,6 +1156,7 @@ void inst_tfr ()
 
 public void e6809_reset ()
 {
+    profiler = null;
     reg_x = 0;
     reg_y = 0;
     reg_u.intValue = 0;
@@ -1191,11 +1193,19 @@ int e6809_sstep (int irq_i, int irq_f)
             {
                 set_cc (FLAG_E, 0);
                 inst_psh (0x81, reg_s, reg_u, cycles);
+
+                if (profiler != null)
+                {
+                    profiler.addContext(read16 (0xfff6), reg_s.intValue+1, reg_pc & 0xffff);
+                }
             }
 
             set_cc (FLAG_I, 1);
             set_cc (FLAG_F, 1);
 
+            
+            
+           
             reg_pc = read16 (0xfff6);
             irq_status = IRQ_NORMAL;
             cycles.intValue += 7;
@@ -1205,7 +1215,7 @@ int e6809_sstep (int irq_i, int irq_f)
         {
             if (irq_status == IRQ_SYNC) 
             {
-                    irq_status = IRQ_NORMAL;
+                irq_status = IRQ_NORMAL;
             }
         }
     }
@@ -1217,7 +1227,14 @@ int e6809_sstep (int irq_i, int irq_f)
             if (irq_status != IRQ_CWAI) 
             {
                 set_cc (FLAG_E, 1);
+                int olds = reg_s.intValue;
                 inst_psh (0xff, reg_s, reg_u, cycles);
+                
+                if (profiler != null)
+                {
+                    profiler.addContext(read16 (0xfff8), olds-2, reg_pc & 0xffff);
+                }
+                
             }
             set_cc (FLAG_I, 1);
             reg_pc = read16 (0xfff8);
@@ -2617,6 +2634,10 @@ int e6809_sstep (int irq_i, int irq_f)
             {
                 callStack.add(reg_pc & 0xffff);
             }
+            if (profiler != null)
+            {
+                profiler.addContext(((reg_pc+sign_extend (r))&0xffff), reg_s.intValue, reg_pc & 0xffff);
+            }
             // dont care analog
             reg_pc = (reg_pc+sign_extend (r))&0xffff;
             cycles.intValue += 7;
@@ -2629,6 +2650,10 @@ int e6809_sstep (int irq_i, int irq_f)
             {
                 callStack.add(reg_pc & 0xffff);
             }
+            if (profiler != null)
+            {
+                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff);
+            }
             // dont care analog
             reg_pc = ea;
             cycles.intValue += 7;
@@ -2640,6 +2665,10 @@ int e6809_sstep (int irq_i, int irq_f)
             {
                 callStack.add(reg_pc & 0xffff);
             }
+            if (profiler != null)
+            {
+                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff);
+            }
             // dont care analog
             reg_pc = ea;
             cycles.intValue += 7;
@@ -2650,6 +2679,10 @@ int e6809_sstep (int irq_i, int irq_f)
             synchronized (callStack)
             {
                 callStack.add(reg_pc & 0xffff);
+            }
+            if (profiler != null)
+            {
+                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff);
             }
             // dont care analog
             reg_pc = ea;

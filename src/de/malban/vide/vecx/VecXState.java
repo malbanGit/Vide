@@ -102,6 +102,7 @@ public class VecXState implements Serializable
      public int via_ca1;
      public int old_via_ca1; 
      public int via_ca2;
+     public int via_cb2hmanual;  /* basic handshake version of cb2 */
      public int via_cb2h;  /* basic handshake version of cb2 */
      public int via_cb2s;  /* version of cb2 controlled by the shift register */
      public int pb6_in = 0x40; // 0 or 0x40 in from external
@@ -173,6 +174,7 @@ public class VecXState implements Serializable
     public boolean extraRam2000_2800Enabled = false; // animaction
     public boolean extraRam8000_8800Enabled = false; // spectrum RA
     public boolean extraRam6000_7fff_8k_Enabled = false; // Logo
+    public boolean sidEnabled = false;
     
     public boolean imagerMode = false;
     public int leftEyeColor = -1; // index of color of wheel
@@ -199,6 +201,7 @@ public class VecXState implements Serializable
         to.extraRam2000_2800Enabled = from.extraRam2000_2800Enabled;
         to.extraRam8000_8800Enabled = from.extraRam8000_8800Enabled;
         to.extraRam6000_7fff_8k_Enabled = from.extraRam6000_7fff_8k_Enabled;
+        to.sidEnabled = from.sidEnabled;
         
         to.lastZero = from.lastZero;
         to.zeroRetainX = from.zeroRetainX;
@@ -245,6 +248,7 @@ public class VecXState implements Serializable
         to.old_via_ca1= from.old_via_ca1;
         to.via_ca2= from.via_ca2;
         to.via_cb2h= from.via_cb2h; 
+        to.via_cb2hmanual= from.via_cb2hmanual; 
         to.via_cb2s= from.via_cb2s;  
         to.pb6_in= from.pb6_in;  
         to.pb6_out= from.pb6_out;  

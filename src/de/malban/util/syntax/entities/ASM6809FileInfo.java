@@ -5,6 +5,7 @@
  */
 package de.malban.util.syntax.entities;
 
+import static de.malban.util.syntax.entities.EntityDefinition.SUBTYPE_MACRO_DEFINITION_LABEL;
 import static de.malban.util.syntax.entities.EntityDefinition.TYP_INCLUDE;
 import static de.malban.util.syntax.entities.EntityDefinition.TYP_LABEL;
 import static de.malban.util.syntax.entities.EntityDefinition.TYP_MACRO;
@@ -132,6 +133,30 @@ public class ASM6809FileInfo
     {
         return fullName;
     }
+    
+    // is the "calling" entity in a struct
+    // has any of the previous lines a "struct" open
+    // (and not closed?)
+    boolean inMacro(EntityDefinition entity)
+    {
+        // assuming
+        int scanFrom = entityArray.size()-1;
+        if (entity.lineNumber!=-1)
+        {
+            // assuming new line, wich has not been added
+            // in this case we scan backwords from last 
+            scanFrom = entity.lineNumber-1;
+        }
+        for (int i=scanFrom; i>=0;i--)
+        {
+            EntityDefinition e = entityArray.get(i);
+            if (e.isMacroEnd) return false;
+            if (e.isMacroStart) 
+                return true;
+        }
+        return false;
+    }
+    
     
     // is the "calling" entity in a struct
     // has any of the previous lines a "struct" open
@@ -365,11 +390,15 @@ public class ASM6809FileInfo
             lineEntityMap.put(line, entity);
             if (entity.type == TYP_MACRO)
             {
+                entity.subtype = SUBTYPE_MACRO_DEFINITION_LABEL;
                 MacroSink.knownGlobalMacros.put(entity.name, entity);
                 if (entity.parameter!=null)
                 {
                     for (String n: entity.parameter)
-                        MacroSink.knownGlobalMacros.put(n, entity);
+                    {
+                        if (!n.trim().toLowerCase().equals("macro"))
+                            MacroSink.knownGlobalMacros.put(n, entity);
+                    }
                 }
             }
             else if (entity.type == TYP_LABEL)

@@ -86,6 +86,7 @@ import de.malban.vide.vecx.panels.JoyportPanel;
 import de.malban.vide.vecx.panels.LabelJPanel;
 import de.malban.vide.vecx.panels.MemoryDumpPanel;
 import de.malban.vide.vecx.panels.PSGJPanel;
+import de.malban.vide.vecx.panels.ProfileJPanel;
 import de.malban.vide.vecx.panels.RegisterJPanel;
 import de.malban.vide.vecx.panels.VIAJPanel;
 import de.malban.vide.vecx.panels.VarJPanel;
@@ -94,6 +95,7 @@ import de.malban.vide.vecx.panels.WRTrackerJPanel;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_ROUND;
 import java.awt.event.ActionEvent;
+import static java.awt.event.ActionEvent.SHIFT_MASK;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 
@@ -161,6 +163,7 @@ public class VecXPanel extends javax.swing.JPanel
     AnalogJPanel ani = null;
     VarJPanel vari = null;
     BreakpointJPanel breaki = null;
+    ProfileJPanel profi = null;
     LabelJPanel labi = null;
     WRTrackerJPanel tracki = null;
     PSGJPanel ayi = null;
@@ -509,11 +512,15 @@ public class VecXPanel extends javax.swing.JPanel
     }
     
     private void jButtonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartActionPerformed
+        updatefinished = true;
 
-        if (KeyboardListener.isShiftDown())
+        if (evt != null)
         {
-            jButtonStopActionPerformed(evt); // stop
-            // ... and run :-)... meaning go on...
+            if (((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
+            {
+                jButtonStopActionPerformed(evt); // stop
+                // ... and run :-)... meaning go on...
+            }
         }
 
         if (startTypeRun != START_TYPE_INJECT)
@@ -667,6 +674,7 @@ public class VecXPanel extends javax.swing.JPanel
     }
     
     private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
+        updatefinished = true;
         if (isPausing())
         {
             cont();
@@ -690,6 +698,7 @@ public class VecXPanel extends javax.swing.JPanel
     }
     public void debugAction()
     {
+        updatefinished = true;
         // start running in debug mode
         // or go to pause and debug
         if (isDebuging())
@@ -742,6 +751,7 @@ public class VecXPanel extends javax.swing.JPanel
     }
     
     private void jButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStopActionPerformed
+        updatefinished = true;
         stop();
         if (dissi != null)
             dissi.deinit();
@@ -845,6 +855,7 @@ public class VecXPanel extends javax.swing.JPanel
 
     }//GEN-LAST:event_jButtonSaveStateActionPerformed
     private void jButtonLoadStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadStateActionPerformed
+        updatefinished = true;
         stop();
         dissiInit = false;
 
@@ -924,6 +935,7 @@ public class VecXPanel extends javax.swing.JPanel
     }//GEN-LAST:event_jButtonLoadStateActionPerformed
     public void debugFrameUndoAction(int s)
     {
+        updatefinished = true;
         if (!isDebuging())
             return;
         if (stepping) return;
@@ -934,6 +946,7 @@ public class VecXPanel extends javax.swing.JPanel
     }    
     public void debugFrameRedoAction(int s)
     {
+        updatefinished = true;
         if (!isDebuging())
             return;
         if (stepping) return;
@@ -966,6 +979,7 @@ public class VecXPanel extends javax.swing.JPanel
     
     public void debugStepoutAction()
     {
+        updatefinished = true;
         if (!isDebuging())
             return;
         if (stepping) return;
@@ -987,6 +1001,7 @@ public class VecXPanel extends javax.swing.JPanel
     
     public void debugOverstepAction()
     {
+        updatefinished = true;
         if (!isDebuging())
             return;
         if (stepping) return;
@@ -1013,6 +1028,7 @@ public class VecXPanel extends javax.swing.JPanel
     
     public void debugBreakpointAction()
     {
+        updatefinished = true;
         if (stepping) return;
         if (dissi == null) return; // I need dissi here :-)
         int adr = dissi.getCurrentAddress();
@@ -1029,6 +1045,7 @@ public class VecXPanel extends javax.swing.JPanel
 
     public void debugMultistepAction()
     {
+        updatefinished = true;
         if (!isDebuging()) return;
         if (pausing)
         {
@@ -1060,6 +1077,7 @@ public class VecXPanel extends javax.swing.JPanel
     }    
     public void debugStepAction()
     {
+        updatefinished = true;
         if (stepping)
         {
             debugMultistepAction();
@@ -1104,7 +1122,8 @@ public class VecXPanel extends javax.swing.JPanel
             mousePressed = true;
             mXPressStart = evt.getX();
             mYPressStart = evt.getY();
-            shiftPressed = KeyboardListener.isShiftDown();
+            if ((evt != null ) )
+                shiftPressed = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
         }
         if (!mouseMode) return;
         crossColor = Color.GREEN;
@@ -1117,7 +1136,8 @@ public class VecXPanel extends javax.swing.JPanel
         if (evt.getButton() == MouseEvent.BUTTON1)
         {
             mousePressed = false;
-            shiftPressed = KeyboardListener.isShiftDown();
+            if ((evt != null ) )
+            shiftPressed = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
         }
         if (deviceList.get(DEVICE_LIGHTPEN).isActive()) unsetLightPen();
         if (!mouseMode) return;
@@ -1228,6 +1248,13 @@ public class VecXPanel extends javax.swing.JPanel
         vari.updateValues(true);
         ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).toFront(vari);
     }
+    public void showVari(int address)
+    {
+        showVari();
+        if (dissi == null) return;
+        if (vari == null) return;
+        vari.setSelectedAddress(address);
+    }
     public void showLabi()
     {
         if (dissi == null) return;
@@ -1258,6 +1285,23 @@ public class VecXPanel extends javax.swing.JPanel
         ayi.updateValues(true);
         ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).toFront(ayi);
     }
+    public void showProfiling()
+    {
+        if (dissi == null) return;
+        if (profi == null)
+        {
+            profi = ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).getProfi();
+        }
+        if (profi == null) return;
+        profi.setIcon(false);
+        profi.setVecxy(this);
+        
+        profi.setDissi(dissi);
+        profi.updateValues(true);
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).toFront(profi);
+    }
+    
+    
     public void showBreakpoints()
     {
         if (dissi == null) return;
@@ -1303,8 +1347,6 @@ public class VecXPanel extends javax.swing.JPanel
         carti.updateValues(true);
         ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).toFront(carti);
     }
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDebug;
@@ -1391,6 +1433,7 @@ public class VecXPanel extends javax.swing.JPanel
                     {
                         try 
                         {
+                            updatefinished = false;
                             SwingUtilities.invokeLater(new Runnable()
                             {
                                 public void run()
@@ -1398,11 +1441,13 @@ public class VecXPanel extends javax.swing.JPanel
                                     
                                     updateDisplay();
                                     updateAvailableWindows(true, false, true);
+                                    updatefinished = true;
                                     
                                 }
                             });                    
                             if (config.multiStepDelay>0)
                                 Thread.sleep(config.multiStepDelay);
+                            while (!updatefinished) Thread.sleep(0,1);
                         } 
                         catch(InterruptedException v) 
                         {
@@ -1461,9 +1506,11 @@ public class VecXPanel extends javax.swing.JPanel
                 }
             }  
         };
+        vecx.initDissi();
+
         one.start();           
     }
-    
+    boolean updatefinished=false;
     public void startDebug()
     {
         vecx.config.syncCables = true;
@@ -1490,7 +1537,10 @@ public class VecXPanel extends javax.swing.JPanel
             dissiInit = true;
         }
         if (dissi != null)
+        {
+            vecx.initDissi();
             dissi.goAddress(vecx.e6809.reg_pc, true, false, true);
+        }
         updateDisplay();
     }
 
@@ -1513,7 +1563,6 @@ public class VecXPanel extends javax.swing.JPanel
         repaint();
         updateAvailableWindows(true, false, true);
     }
-    
     
     private void stopThreading()
     {
@@ -1596,7 +1645,6 @@ public class VecXPanel extends javax.swing.JPanel
     {
         return vecx.getDisplayList().count;
     }
-
     
     void drawCatmullRom(ArrayList<Point> spline, Graphics2D g2, int color, int speed, int left, int right)
     {
@@ -1633,8 +1681,6 @@ public class VecXPanel extends javax.swing.JPanel
             }
             if (nP.size()>0)
                 drawAsQuads(nP, g2,  color, speed, left, right);
-
-             
         }
       }
 
@@ -1791,8 +1837,6 @@ public class VecXPanel extends javax.swing.JPanel
         
         return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
     }
-
-   
     
     public void switchDisplay()
     {
@@ -2185,7 +2229,6 @@ public class VecXPanel extends javax.swing.JPanel
                       new int[] {0, -ARR_SIZE/3, ARR_SIZE/3, 0}, 4);
     }    
     
-    
     vector_t directDrawVector = null;
     public void directDraw(vector_t v)
     {
@@ -2256,8 +2299,6 @@ public class VecXPanel extends javax.swing.JPanel
         
         orgVectrexDisplayWidth = image.getWidth();
         orgVectrexDisplayHeight = image.getHeight();
-
-        
         
         // build an image in the size of this component
         // with vectors on it
@@ -2401,10 +2442,7 @@ public class VecXPanel extends javax.swing.JPanel
                             distance = d;
                             found = directDrawVector;
                         }
-                        
                     }
-                    
-                    
                     
                     // distance must be NEAR (in range)
                     if (found != null)
@@ -2581,7 +2619,6 @@ public class VecXPanel extends javax.swing.JPanel
         return SID;
     }
 
-
     public int getVecXMem8(int adr)
     {
         return vecx.e6809_readOnly8(adr);
@@ -2618,8 +2655,6 @@ public class VecXPanel extends javax.swing.JPanel
         x-=4;
 
         if (y<0) {unsetLightPen();return;} // mouse not pressed on vectrex panel
-
-        
         
         // in vectrex coordinates,
         // though 0,0 is as of yet not "center", but upper left corner
@@ -2663,6 +2698,8 @@ public class VecXPanel extends javax.swing.JPanel
             joyi.updateValues(forceUpdate);
         if (vinfi != null)
             vinfi.updateValues(forceUpdate);
+        if (profi != null)
+            profi.updateValues(forceUpdate);
     }
     void checkWindows()
     {
@@ -2680,6 +2717,7 @@ public class VecXPanel extends javax.swing.JPanel
         if (ayi == null) ayi = f.checkAyi(); // stays null or is set!
         if (joyi == null) joyi = f.checkJoyportDevice(); // stays null or is set!
         if (carti == null) carti = f.checkCartridge(); // stays null or is set!
+        if (profi == null) profi = f.checkProfi(); // stays null or is set!
 
         if (dissi != null)
         {
@@ -2692,6 +2730,7 @@ public class VecXPanel extends javax.swing.JPanel
             if (breaki != null) breaki.setDissi(dissi);
             if (joyi != null) joyi.setDissi(dissi);
             if (carti != null) carti.setDissi(dissi);
+            if (profi != null) profi.setDissi(dissi);
             dissi.setVecxy(this);
         }
         if (dumpi != null) dumpi.setVecxy(this);
@@ -2707,6 +2746,7 @@ public class VecXPanel extends javax.swing.JPanel
         if (ayi != null) ayi.setVecxy(this);
         if (joyi != null) joyi.setVecxy(this);
         if (carti != null) carti.setVecxy(this);
+        if (profi != null) profi.setVecxy(this);
     }
     public void resetCartridge()
     {
@@ -2719,6 +2759,10 @@ public class VecXPanel extends javax.swing.JPanel
     public void resetAyi()
     {
         ayi = null;
+    }
+    public void resetProfi()
+    {
+        profi = null;
     }
     public void resetLabi()
     {
@@ -2778,6 +2822,8 @@ public class VecXPanel extends javax.swing.JPanel
             carti.setDissi(null);
         if (joyi != null)
             joyi.setDissi(null);
+        if (profi != null)
+            profi.setDissi(null);
     }
     public void resetMe()
     {
@@ -2799,6 +2845,7 @@ public class VecXPanel extends javax.swing.JPanel
         if (ayi != null) ayi.setVecxy(null);
         if (joyi != null) joyi.setVecxy(null);
         if (carti != null) carti.setVecxy(null);
+        if (profi != null) profi.setVecxy(null);
     }
     // re setting dissi updates all!
     
@@ -3018,18 +3065,13 @@ public class VecXPanel extends javax.swing.JPanel
         if (breaki != null) breaki.updateValues(true);
     }
     
-    
-    
-    
-    
-    
     public long getCyclesRunning()
     {
         return vecx.cyclesRunning;
     }
     public void setCyclesRunning(long n)
     {
-        vecx.cyclesRunning = n;
+        vecx.setCyclesRunning(n);
         if (regi != null) regi.updateValues(true);
     }
     public void breakpointClearAll()
@@ -3571,6 +3613,7 @@ public class VecXPanel extends javax.swing.JPanel
         ayi = null;
         carti = null;
         joyi = null;
+        profi = null;
         dissiInit = false;
 
         
@@ -3613,6 +3656,7 @@ public class VecXPanel extends javax.swing.JPanel
         if (ayi != null) ayi.setVecxy(this);        
         if (carti != null) carti.setVecxy(this);        
         if (joyi != null) joyi.setVecxy(this);        
+        if (profi != null) profi.setVecxy(this);        
         
         if (dumpi != null) dumpi.setDissi(dissi);
         if (regi != null) regi.setDissi(dissi);
@@ -3623,6 +3667,7 @@ public class VecXPanel extends javax.swing.JPanel
         if (breaki != null) breaki.setDissi(dissi);
         if (carti != null) carti.setDissi(dissi);
         if (joyi != null) joyi.setDissi(dissi);
+        if (profi != null) profi.setDissi(dissi);
 
         
         updateAvailableWindows(false, false, true);
@@ -3645,7 +3690,7 @@ public class VecXPanel extends javax.swing.JPanel
         ayi = f.checkAyi();
         carti = f.checkCartridge();
         joyi = f.checkJoyportDevice();
-        
+        profi = f.checkProfi();
     }
 
     public int getXReg()
@@ -3891,6 +3936,18 @@ public class VecXPanel extends javax.swing.JPanel
                 
             }
         }
+    }
+    public String dumpCurrentROM()
+    {
+        if (vecx == null) return null;
+        return vecx.dumpCurrentROM();
+    }
+    
+    public Profiler getProfiler()
+    {
+        if (vecx == null) return null;
+        if (!config.doProfile) return null;
+        return vecx.profiler;
     }
 }
 

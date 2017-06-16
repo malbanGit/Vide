@@ -133,9 +133,10 @@ class Colorer extends Thread
         this.document = new WeakReference(document);
         this.setPriority(2); // normal is 5, max is 10 , min is 1
     }
-
+    boolean doNotTryToStart = false;
     public void stopIt()
     {
+        doNotTryToStart = true;
         if (mBreak) return;
         synchronized (eventsLock)
         {
@@ -219,7 +220,7 @@ class Colorer extends Thread
     {
         return !mBreak && !broken;
     }
-
+    boolean started = false;
     @Override
     public void start()
     {
@@ -228,8 +229,21 @@ class Colorer extends Thread
             @Override
             public void run()
             {
-                mBreak = false;
-                Colorer.super.start();
+                synchronized (Colorer.this)
+                {
+                    if (!started)
+                    {
+                        // an init error occured in editor setup
+                        // and the already initiated start has to be abondened
+                        if (!doNotTryToStart)
+                        {
+                            started = true;
+                            mBreak = false;
+                            Colorer.super.start();
+                        }
+
+                    }
+                }
             }
         });
     }

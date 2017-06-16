@@ -30,13 +30,13 @@ public class KeyboardListener {
             });
     }
 
-    public static boolean isAltDown() {
+    public static boolean is_AltDown() {
         return isALTDown;
     }
-    public static boolean isShiftDown() {
+    public static boolean is_ShiftDown() {
         return isShiftDown;
     }
-    public static boolean isControlDown() {
+    public static boolean is_ControlDown() {
         return isCTRLDown;
     }
 

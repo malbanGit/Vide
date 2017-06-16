@@ -93,6 +93,14 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemYMActionPerformed"/>
           </Events>
         </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAKS">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Arkos Tracker &quot;bin&quot;"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemAKSActionPerformed"/>
+          </Events>
+        </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="jMenuItemASFX">
           <Properties>
             <Property name="text" type="java.lang.String" value="build vectrex ayfx"/>
@@ -160,6 +168,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemDuplicateActionPerformed"/>
+          </Events>
+        </MenuItem>
+        <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1AddNewFile">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="new empty file"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1AddNewFileActionPerformed"/>
           </Events>
         </MenuItem>
       </SubComponents>
@@ -1519,7 +1535,7 @@
         <Component class="javax.swing.JButton" name="jButtonFileSelect1">
           <Properties>
             <Property name="text" type="java.lang.String" value="..."/>
-            <Property name="toolTipText" type="java.lang.String" value="Chose the &quot;mountpoint&quot; of the Vectrex 32 USB-drive"/>
+            <Property name="toolTipText" type="java.lang.String" value="Chose the &quot;mountpoint&quot; of the VecFever RAM disk&#xa;"/>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
               <Insets value="[0, 1, 0, -1]"/>

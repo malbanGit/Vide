@@ -65,6 +65,7 @@ public class LabelVisibilityConfigPanel extends javax.swing.JPanel {
         jCheckBox9 = new javax.swing.JCheckBox();
         jCheckBox10 = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
+        jCheckBox11 = new javax.swing.JCheckBox();
 
         jCheckBox1.setText("equ labels");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -138,6 +139,13 @@ public class LabelVisibilityConfigPanel extends javax.swing.JPanel {
 
         jButton1.setText("done");
 
+        jCheckBox11.setText("macro definitions");
+        jCheckBox11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox11ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,6 +153,7 @@ public class LabelVisibilityConfigPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox11)
                     .addComponent(jCheckBox1)
                     .addComponent(jCheckBox2)
                     .addComponent(jCheckBox3)
@@ -156,7 +165,7 @@ public class LabelVisibilityConfigPanel extends javax.swing.JPanel {
                     .addComponent(jCheckBox9)
                     .addComponent(jCheckBox10)
                     .addComponent(jButton1))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,9 +190,11 @@ public class LabelVisibilityConfigPanel extends javax.swing.JPanel {
                 .addComponent(jCheckBox9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox10)
+                .addGap(2, 2, 2)
+                .addComponent(jCheckBox11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -238,11 +249,17 @@ public class LabelVisibilityConfigPanel extends javax.swing.JPanel {
         settings.showUserLabel = jCheckBox10.isSelected();
     }//GEN-LAST:event_jCheckBox10ActionPerformed
 
+    private void jCheckBox11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox11ActionPerformed
+        if (mClassSetting>0) return;
+        settings.showMacroDefinition = jCheckBox11.isSelected();
+    }//GEN-LAST:event_jCheckBox11ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox10;
+    private javax.swing.JCheckBox jCheckBox11;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
@@ -281,6 +298,7 @@ public class LabelVisibilityConfigPanel extends javax.swing.JPanel {
         jCheckBox8.setSelected(settings.showMacroLabel);
         jCheckBox9.setSelected(settings.showFunctionLabel);
         jCheckBox10.setSelected(settings.showUserLabel);
+        jCheckBox11.setSelected(settings.showMacroDefinition);
         mClassSetting--;
     }
 }

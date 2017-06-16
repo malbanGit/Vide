@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class VecciSettings implements Serializable
 {
     public boolean isGrid = true;
+    public boolean avoidConnectMoreThan2 = true;
     public int gridSize=0;
     public int scaleSlider = 21;
     public int singleVecciScaleSlider = 21;

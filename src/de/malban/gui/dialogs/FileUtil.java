@@ -13,9 +13,7 @@ package de.malban.gui.dialogs;
 
 import de.malban.config.Configuration;
 import de.malban.gui.components.ModalInternalFrame;
-import static de.malban.util.UtilityFiles.copyOneFile;
 import de.malban.util.UtilityString;
-import static de.malban.vide.veccy.VeccyInterpreter.toNumber;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;

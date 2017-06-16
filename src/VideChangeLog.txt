@@ -1,7 +1,111 @@
-------------------
+
+----------------
+Version 1.20
+new: 
+- vecxi: reSid emulation included - now properly included in the
+         cartridge emulation. Registers visible on "carti", saving, loading and stepping forward
+         and backwards now work.
+         Setting in Configuration removed - it is now a cartridge option
+- xml: xml subsystem changed, so tags are case sensitive. This is an immense speedup, since now
+       I can use StringBuilder class to handle xml, not Strings anymore. Stringbuilder has no build in 
+       toUpper() that can be used to search/replace
+- vecci: internally vectorlists can now be given a "BLOW_UP" string. For the storyboard, giving this as a
+       parameter instead of replacing it afterwards is also an immense speedup
+- vecci: the storyboard sync generation has a "noAdditionalOptimization" switch.
+       If set, vecci upon creation of sync lists does not try to optimize further (which also uses quite some time
+       if large vectorlists). If the animation is optimized beforehand (new optimization buttons, which SHOULD be used)
+       this will not enhance anything, instead will cost time while generating only)
+- dissi: settings for VecFever for "TF" now in configuration - no need to have a Vedi window open all the time.
+- vecci: started version II of storyboard, might be easier to handle.
+- vecci: colors for vectordisplay are now configurable (in configuration->Miscellaneous)
+- vedi: added configuration options for the pretty print columns (in configuration->Assembler)
+- dissi: added first steps towards "profiling" (new dissi button)
+       switched on in configuration, must be switched on BEFORE vectrex program is started,
+       profiling data is not saved/loaded/influenced by load/save or stepping backwards and forwards while debugging,
+       if tracker is open and active one can also watch profiling data for one vectrex round (instead of comeplete runtime)
+       One can see how often subprograms are executed, and how much time (cycles) they need.
+       No drill down yet, not instruction based yet!
+
+BugFix:
+- vecci: storyboard animations could not be loaded if saved on another platform - due to file seperator settings
+- vecci: bug with rotation, did rotate always twice the given angle!
+- vecci: in new shortcuts, there could be paths connected with moves > 127 -> garbled output!
+
+31st of May 2017
+----------------
+Version 1.19
+new: 
+- vecxi: reSid emulation included - sound still has some crackling noise though
+         expects a sid-"card" inserted, registers from $8000 - $8020 
+         (enabled in config - miscellaneous)
+
+BugFix:
+
+30th of May 2017
+----------------
+Version 1.18
+new: 
+- documentation update
+- vecci: again speedup of optimizations in vecci
+- vecci: also the size optimization now respects the resync
+- vecxi: started adding reSID - although this is as yet not tested and can not be used!
+- vecx: efficiency emulation slightly changed
+
+BugFix:
+- small bug/syntax/entity placing corrections
+
+29th of May 2017
+----------------
+Version 1.17
+new: 
+- vecci: added wavefront obj export
+- vecci: "optimization" buttons from 1.16 quite a bit more performant
+- documentation for all that is still pending...
+
+BugFix:
+
+28th of May 2017
+----------------
+Version 1.16
+new: 
+- vecci: added popup menu to delete vectors from the table
+- vecci: storyboard added - probably Isidro will be the only one to ever use it :-) 
+- vecci: corrected "remove dots" to 3d
+- vecci: added diverse "optimization" shortcauts (new tab shortcut 2)
+- vecci: added option to rotate selected vectors (in mode vector only)
+- documentation for all that is pending...
+
+BugFix:
+- vecci: Bug with grid/no grid. If no grid was selected new points were set at +100000
+- vecci: closing the 3d-extra window also reseted the 2d-extra window (vice versa) 
+- vecci: draw sync list now respects splitter settings
+- vecci: draw sync now works correctly with "BLOW UP"
+- vecci: some other bugfixes I can't remember
+
+9th of May 2017
+---------------
+Version 1.15 - codename Isidro
+new: 
+- vecci: 3d view/editor of vectorlists (as seperate window) - accessible thru new "window" button besides the main edit 
+         * you can not add vectors, only move and work with vectors
+         * CTRL mouse moves the viewport
+         * scaling is possible
+         * sliders for all 3 axis (independend of other views)
+         * checkboxes for "grid" for each axis 
+         * checkbox for "move allowed" for each axis 
+         * axis can be shown or hidden (independend of other views)
+         * byte "cube" (frame) can be shown/hidden
+- vecci: added option to not connect more than 2 vectors at one time
+
+BugFix:
+- morphing routines had a small bug, where after finished morphing sometimes the pattern of the resulting
+  vectorlists were not correctly set
+
+3rd of Mai 2017
+---------------
 Version 1.14
 new: 
- - vecxi: finally added configuration to size of ringbuffer, user can give ANY (up to 50000) size, may result in OOM exception though,
+ - vecxi: finally added configuration to size the ringbuffer, user can give ANY (up to 50000) size, may result in OOM exception though,
           user must know self how much memory he has available
  - dissi: step forward and backward can step multiple times, + SHIFT 10 steps, + CTRL 100 steps  
  - dissi: the enabling of ROM + PC breakpoints can be "ON" per default now (configuration setting)
@@ -10,10 +114,42 @@ new:
  - config: moved sound configuration to miscellaneous instead of emulation
  - ay: added new PSG emulation core: libayemu
  - ay: added the option to chose between two PSG emulation cores, the "old" one (of MAME), and LibAYEmu
+ - vide: added on tree popup: "add new empty file" 
+ - aks: added to vide (in vedi) the ability to add and play back on vectrex Arkos Tracker files,
+        in vedi right click on the tree menu and select a Arkos Tracker "bin" song. And generate 
+        example source code.
+ - vedi: added to the vedi label selection, the macro definitions 
+ - vecci: Using CTRL mouse drag on a vector display window - DRAGS the viewport, much more "unsable" than the arrow buttons
+ - vari: added checkbox to switch of display of BIOS variable names
+ - vari: added checkbox to see ALL RAM locations (not only the "named" ones)
+ - dissi: double click on the "operand" column opens vari and places the selection in the correct row (if operand denotes a variable)
+ - dissi: added command line command to "dump" (development mode -> RAM disk) the current active ROM to FecVever
+          to get the correct VecFever settings a vedi window must be open, where the settings are correctly set
+ - help: updated
+ - vecci: added the ability to select +/- to the rotation (clockwise/anticlockwise)
+ - vecci: added a "extended" switch for sync draw lists. The extended version also respects intensities
 
 BugFix:
 - assi: include filenames did not correctly exchanged seperators accross different platforms
+- assi: an original bug fixed, std #address, generated a not possible mnemonic (without error or warning)
 - vedi: another one of those small syntax highlighting changes ("lost" vars might be refound)
+- vedi: include files in a subdirectory which included files in a subdirectory could not be
+        double clicked and opened - and a thread was spawned, that could not be shut down - corrected
+- ym: the ym recording now "sees" if register 13 was retriggered - and sets the value correctly - even it
+      is the same value as befor.
+- ym: streamed ym player sometimes did not set channel 7 correctly - corrected
+- vedi: assembling and executing single files (not objects) did sometimes not work (internal null pointer exception - not reported) - corrected
+- vedi: labels inside macros are now ALL macro labels, not only labels that end with \?
+- vecci: some corrections and beautifying to the User import/export dialogs, the syntax highliting could go astray and
+         the loadings and saving were "disturbing"
+- vecxi: multistep is finaly functioning like intended (not thread blocking after a few steps)
+- vecci: another small bug with grid display fixed
+- vedi: bug that one could not open include files via double click. Stupid Windows file separator - to do a RegExp one must use "\\\\"!
+- assi: fixed a bug, that could lead to an out of memory error while creating CNT files
+- codi: fixed a bug, where linenumbering was not correct upon opening a file
+- vecx: changed vector integrator max a bit. Protector does some "strange" death "reset" - there was a diagonal
+        line displayed. This was due to the integrators being to exact in the former emulation
+- vecx: bug, where efficiency could lead to negative vectorlengths -> black screen!
 
 31st of March 2017
 ------------------

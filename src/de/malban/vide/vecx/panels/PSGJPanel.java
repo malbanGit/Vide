@@ -109,8 +109,6 @@ public class PSGJPanel extends javax.swing.JPanel implements
         initComponents();
         jLabel43.setVisible(false);
         jTextField2.setText("tmp"+File.separator+"record.ym");
-        
-
     }
 
 
@@ -1441,7 +1439,7 @@ jLabel81.setToolTipText(tt);
 
     private void jButtonStop3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStop3ActionPerformed
 
-        
+        if (vecxPanel==null) return;
         vecxPanel.stopRecord();
         jLabel43.setVisible(false);
         // TODO add your handling code here:
@@ -1634,6 +1632,4 @@ jLabel81.setToolTipText(tt);
     {
         updateEnabled = b;
     }
-    
-
 }

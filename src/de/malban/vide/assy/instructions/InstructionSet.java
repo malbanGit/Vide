@@ -106,7 +106,6 @@ public class InstructionSet extends Hashtable
             groupmap.put( align,    align.class    );
             groupmap.put( struct,    struct.class    );
             groupmap.put( bank,    bank.class    );
-            groupmap.put( multibank,    multibank.class    );
             groupmap.put( cmap,    cmap.class    );
     }
 
@@ -359,7 +358,7 @@ public class InstructionSet extends Hashtable
                     System.exit(1);
             }
 
-            InstructionDetails details = new InstructionDetails( mnemonic_s, instrClass, opcode, opcodelen, datalen, restriction_s );
+            InstructionDetails details = new InstructionDetails( mnemonic_s, instrClass, opcode, opcodelen, datalen, restriction_s.toLowerCase() );
 
             put( mnemonic_s, details );
         }

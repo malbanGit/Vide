@@ -6,6 +6,7 @@
 package de.malban.vide;
 
 import de.malban.config.Configuration;
+import de.malban.graphics.VectorColors;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.HotKey;
 import de.malban.gui.panels.LogPanel;
@@ -16,6 +17,7 @@ import de.malban.sound.tinysound.TinySound;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.muntjak.tinylookandfeel.Theme;
 import de.muntjak.tinylookandfeel.TinyLookAndFeel;
+import java.awt.Color;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.Serializable;
@@ -70,7 +72,7 @@ public class VideConfig  implements Serializable{
     public int brightness = 10; // 0 is default, positive is bright, negative is darker
     public int generation = 3;  // 1-3
     public boolean efficiencyEnabled = true;
-    public double efficiency = 3.0;
+    public double efficiency = 11.0;
     public double noisefactor = 3.8;
     public boolean noise = true;
     public int masterVolume = 255;
@@ -84,8 +86,6 @@ public class VideConfig  implements Serializable{
     
     public boolean useLibAYEmu = false;
     public String useLibAYEmuTable = "AY_Kay";
-            
-    
 
     public double overflowFactor = 150;
     public boolean emulateIntegrationOverflow = false;
@@ -98,6 +98,7 @@ public class VideConfig  implements Serializable{
     
     public int minimumSpinnerChangeCycles = 30000;
     public int jinputPolltime = 50;
+    public boolean doProfile = false;
     
     
     /// ASSI CONFIG
@@ -147,11 +148,40 @@ public class VideConfig  implements Serializable{
     public boolean scanVars = true;
     public boolean scanForVectorLists = false;
     public boolean autoEjectV4EonCompile = true;
-    
-    public String themeFile = "";
+    public String v4eVolumeName = "";
 
-    private static VideConfig theOneConfig = new VideConfig();
+    public int TAB_EQU = 30;
+    public int TAB_EQU_VALUE = 40;
+    public int TAB_MNEMONIC = 20;
+    public int TAB_OP = 30;
+    public int TAB_COMMENT = 58;
     
+    
+    // vecci    
+    public  Color VECCI_BACKGROUND_COLOR = Color.BLACK;
+    public  Color VECCI_CROSS_COLOR = Color.ORANGE;
+    public  Color VECCI_CROSS_DRAG_COLOR = Color.GREEN;
+    public  Color VECCI_GRID_COLOR = new Color(50,50,50,128);
+    public  Color VECCI_FRAME_COLOR = new Color(0,255,255,255);
+    public  Color VECCI_VECTOR_FOREGROUND_COLOR = new Color(255,255,255,255); // not used, vectors have "own" color
+    public  Color VECCI_VECTOR_BACKGROUND_COLOR = new Color(50,50,50,128);
+    public  Color VECCI_VECTOR_ENDPOINT_COLOR = Color.red;
+    public  Color VECCI_VECTOR_HIGHLIGHT_COLOR = new Color(255,50,255,255);
+    public  Color VECCI_VECTOR_SELECTED_COLOR = new Color(50,50,255,255);
+    public  Color VECCI_VECTOR_RELATIVE_COLOR = new Color(255,0,255,255);
+    public  Color VECCI_VECTOR_DRAG_COLOR = new Color(255,255,0,255);
+    public  Color VECCI_POINT_HIGHLIGHT_COLOR = new Color(255,50,255,255);
+    public  Color VECCI_POINT_SELECTED_COLOR = new Color(50,50,255,255);
+    public  Color VECCI_POS_COLOR = new Color(200,255,200,255);
+    public  Color VECCI_POINT_JOINED_COLOR = new Color(150,50,255,255);
+    public  Color VECCI_MOVE_COLOR = new Color(50,50,155,255);
+    public  Color VECCI_DRAG_AREA_COLOR = new Color(0,200,0,50);
+    public  Color VECCI_X_AXIS_COLOR = Color.BLUE;
+    public  Color VECCI_Y_AXIS_COLOR = Color.GREEN;
+    public  Color VECCI_Z_AXIS_COLOR = Color.MAGENTA;
+
+    public String themeFile = "";
+    private static VideConfig theOneConfig = new VideConfig();
     public static String loadedConfig="";
     
     static class KeySupport implements Serializable
@@ -261,6 +291,30 @@ public class VideConfig  implements Serializable{
                 }
             }
             
+            VectorColors.VECCI_BACKGROUND_COLOR = this.VECCI_BACKGROUND_COLOR;
+            VectorColors.VECCI_CROSS_COLOR = this.VECCI_CROSS_COLOR;
+            VectorColors.VECCI_CROSS_DRAG_COLOR = this.VECCI_CROSS_DRAG_COLOR;
+            VectorColors.VECCI_GRID_COLOR = this.VECCI_GRID_COLOR;
+            VectorColors.VECCI_FRAME_COLOR = this.VECCI_FRAME_COLOR;
+            VectorColors.VECCI_VECTOR_FOREGROUND_COLOR = this.VECCI_VECTOR_FOREGROUND_COLOR;
+            VectorColors.VECCI_VECTOR_BACKGROUND_COLOR = this.VECCI_VECTOR_BACKGROUND_COLOR;
+            VectorColors.VECCI_VECTOR_ENDPOINT_COLOR = this.VECCI_VECTOR_ENDPOINT_COLOR;
+            VectorColors.VECCI_VECTOR_HIGHLIGHT_COLOR = this.VECCI_VECTOR_HIGHLIGHT_COLOR;
+            VectorColors.VECCI_VECTOR_SELECTED_COLOR = this.VECCI_VECTOR_SELECTED_COLOR;
+            VectorColors.VECCI_VECTOR_RELATIVE_COLOR = this.VECCI_VECTOR_RELATIVE_COLOR;
+            VectorColors.VECCI_VECTOR_DRAG_COLOR = this.VECCI_VECTOR_DRAG_COLOR;
+            VectorColors.VECCI_POINT_HIGHLIGHT_COLOR = this.VECCI_POINT_HIGHLIGHT_COLOR;
+            VectorColors.VECCI_POINT_SELECTED_COLOR = this.VECCI_POINT_SELECTED_COLOR;
+            VectorColors.VECCI_POS_COLOR = this.VECCI_POS_COLOR;
+            VectorColors.VECCI_POINT_JOINED_COLOR = this.VECCI_POINT_JOINED_COLOR;
+            VectorColors.VECCI_MOVE_COLOR = this.VECCI_MOVE_COLOR;
+            
+            VectorColors.VECCI_DRAG_AREA_COLOR = this.VECCI_DRAG_AREA_COLOR;
+            VectorColors.VECCI_X_AXIS_COLOR = this.VECCI_X_AXIS_COLOR;
+            VectorColors.VECCI_Y_AXIS_COLOR = this.VECCI_Y_AXIS_COLOR;
+            VectorColors.VECCI_Z_AXIS_COLOR = this.VECCI_Z_AXIS_COLOR;
+            
+            
             if (themeFile!=null)
             {
                 if (themeFile.length()!=0)
@@ -327,6 +381,7 @@ public class VideConfig  implements Serializable{
         
         to.useLibAYEmu=from.useLibAYEmu;
         to.useLibAYEmuTable=from.useLibAYEmuTable;
+        to.doProfile=from.doProfile;
         
         
         to.romAndPcBreakpoints = from.romAndPcBreakpoints; // resolution 0.01
@@ -349,7 +404,6 @@ public class VideConfig  implements Serializable{
         to.speedLimit = from.speedLimit;
         to.imagerAutoOnDefault = from.imagerAutoOnDefault;
         to.viaShift9BugEnabled = from.viaShift9BugEnabled;
-        
 
         /// ASSI CONFIG
         to.expandBranches = from.expandBranches;
@@ -385,13 +439,38 @@ public class VideConfig  implements Serializable{
         to.createUnkownLabels = from.createUnkownLabels;
         to.lstFirst = from.lstFirst;
         to.pleaseforceDissiIconizeOnRun = from.pleaseforceDissiIconizeOnRun;
-
+        to.v4eVolumeName = from.v4eVolumeName;
+        
         // VEDI
         to.invokeEmulatorAfterAssembly = from.invokeEmulatorAfterAssembly;
         to.scanMacros = from.scanMacros;
         to.scanVars = from.scanVars;
         to.scanForVectorLists = from.scanForVectorLists;
         to.autoEjectV4EonCompile = from.autoEjectV4EonCompile;
+
+        // vecci
+        to.VECCI_BACKGROUND_COLOR = from.VECCI_BACKGROUND_COLOR;
+        to.VECCI_CROSS_COLOR = from.VECCI_CROSS_COLOR;
+        to.VECCI_CROSS_DRAG_COLOR = from.VECCI_CROSS_DRAG_COLOR;
+        to.VECCI_GRID_COLOR = from.VECCI_GRID_COLOR;
+        to.VECCI_FRAME_COLOR = from.VECCI_FRAME_COLOR;
+        to.VECCI_VECTOR_FOREGROUND_COLOR = from.VECCI_VECTOR_FOREGROUND_COLOR;
+        to.VECCI_VECTOR_BACKGROUND_COLOR = from.VECCI_VECTOR_BACKGROUND_COLOR;
+        to.VECCI_VECTOR_ENDPOINT_COLOR = from.VECCI_VECTOR_ENDPOINT_COLOR;
+        to.VECCI_VECTOR_HIGHLIGHT_COLOR = from.VECCI_VECTOR_HIGHLIGHT_COLOR;
+        to.VECCI_VECTOR_SELECTED_COLOR = from.VECCI_VECTOR_SELECTED_COLOR;
+        to.VECCI_VECTOR_RELATIVE_COLOR = from.VECCI_VECTOR_RELATIVE_COLOR;
+        to.VECCI_VECTOR_DRAG_COLOR = from.VECCI_VECTOR_DRAG_COLOR;
+        to.VECCI_POINT_HIGHLIGHT_COLOR = from.VECCI_POINT_HIGHLIGHT_COLOR;
+        to.VECCI_POINT_SELECTED_COLOR = from.VECCI_POINT_SELECTED_COLOR;
+        to.VECCI_POS_COLOR = from.VECCI_POS_COLOR;
+        to.VECCI_POINT_JOINED_COLOR = from.VECCI_POINT_JOINED_COLOR;
+        to.VECCI_MOVE_COLOR = from.VECCI_MOVE_COLOR;
+        
+        to.VECCI_DRAG_AREA_COLOR = from.VECCI_DRAG_AREA_COLOR;
+        to.VECCI_X_AXIS_COLOR = from.VECCI_X_AXIS_COLOR;
+        to.VECCI_Y_AXIS_COLOR = from.VECCI_Y_AXIS_COLOR;
+        to.VECCI_Z_AXIS_COLOR = from.VECCI_Z_AXIS_COLOR;
         
         
     }

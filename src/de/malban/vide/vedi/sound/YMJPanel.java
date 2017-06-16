@@ -24,8 +24,6 @@ import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
-import de.malban.sound.tinysound.Stream;
-import de.malban.sound.tinysound.TinySound;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.E8910;
@@ -1730,19 +1728,19 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jLabel72.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel80.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel80.setText("e r");
+        jLabel80.setText("e e");
         jLabel80.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel81.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel81.setText("E C");
+        jLabel81.setText("E F");
         jLabel81.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel82.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel82.setText("l s");
+        jLabel82.setText("l ");
         jLabel82.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel83.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel83.setText("n o");
+        jLabel83.setText("n i");
         jLabel83.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel84.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
@@ -1757,15 +1755,15 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jLabel86.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel87.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel87.setText("o e");
+        jLabel87.setText("o ");
         jLabel87.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel88.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel88.setText("v a");
+        jLabel88.setText("v n");
         jLabel88.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel89.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel89.setText("n i");
+        jLabel89.setText("n o");
         jLabel89.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel91.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
@@ -1777,23 +1775,23 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jLabel92.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel93.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel93.setText("o ");
+        jLabel93.setText("o e");
         jLabel93.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel94.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel94.setText("v n");
+        jLabel94.setText("v a");
         jLabel94.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel95.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel95.setText("e e");
+        jLabel95.setText("e r");
         jLabel95.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel96.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel96.setText("E F");
+        jLabel96.setText("E C");
         jLabel96.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel97.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
-        jLabel97.setText("l ");
+        jLabel97.setText("l s");
         jLabel97.setPreferredSize(new java.awt.Dimension(24, 10));
 
         jLabel98.setFont(new java.awt.Font("Courier New", 0, 10)); // NOI18N
@@ -2203,7 +2201,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                             .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, 0)
                         .addComponent(jSliderAmplidtudeC, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)
+                        .addGap(20, 20, 20)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel86, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel87, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2246,7 +2244,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jComboBoxEnvelope, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(10, 10, 10)
+                .addGap(6, 6, 6)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel121, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel119, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3275,7 +3273,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3469,7 +3467,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                             .addComponent(jCheckBoxForce1)
                             .addComponent(jCheckBoxForce2)
                             .addComponent(jCheckBoxForce3))))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(188, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

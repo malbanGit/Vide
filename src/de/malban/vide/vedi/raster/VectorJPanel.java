@@ -122,6 +122,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jButtonLoad = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
@@ -172,6 +173,8 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         jSliderCombineUpscale = new javax.swing.JSlider();
         jLabel14 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jRadioButtonPotrace = new javax.swing.JRadioButton();
+        jRadioButtonAutotrace = new javax.swing.JRadioButton();
 
         setPreferredSize(new java.awt.Dimension(960, 537));
 
@@ -605,22 +608,44 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("image settings", jPanel3);
 
         jLabel6.setText("load image file");
 
+        buttonGroup1.add(jRadioButtonPotrace);
+        jRadioButtonPotrace.setSelected(true);
+        jRadioButtonPotrace.setText("potrace");
+        jRadioButtonPotrace.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonPotraceActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioButtonAutotrace);
+        jRadioButtonAutotrace.setText("autotrace");
+        jRadioButtonAutotrace.setEnabled(false);
+        jRadioButtonAutotrace.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonAutotraceActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1234, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonLoad)
+                .addGap(33, 33, 33)
+                .addComponent(jRadioButtonPotrace)
+                .addGap(35, 35, 35)
+                .addComponent(jRadioButtonAutotrace)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -628,8 +653,11 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonLoad)
-                    .addComponent(jLabel6))
-                .addGap(0, 0, 0)
+                    .addComponent(jLabel6)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jRadioButtonPotrace, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jRadioButtonAutotrace, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(2, 2, 2)
                 .addComponent(jTabbedPane1))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -792,9 +820,18 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         buildVectors();
     }//GEN-LAST:event_jSliderCombineUpscaleStateChanged
 
+    private void jRadioButtonPotraceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonPotraceActionPerformed
+        buildVectors();
+    }//GEN-LAST:event_jRadioButtonPotraceActionPerformed
+
+    private void jRadioButtonAutotraceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonAutotraceActionPerformed
+        buildVectors();
+    }//GEN-LAST:event_jRadioButtonAutotraceActionPerformed
+
     double xFactor = 1.0;
     double yFactor = 1.0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonLoad;
@@ -821,6 +858,8 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JRadioButton jRadioButtonAutotrace;
+    private javax.swing.JRadioButton jRadioButtonPotrace;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -974,30 +1013,38 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
                 building = false;
                 return false;
             }
+            ArrayList<GFXVectorList> vList = new ArrayList<GFXVectorList>();
 
             String outFilename = filenameTMP.substring(0, filenameTMP.length()-4)+".vec";
-            // execute potrace
-            result = executePoTrace(filenameTMP, outFilename);
-            if (!result) 
+            if (jRadioButtonPotrace.isSelected())
             {
-                building = false;
-                return false;
+                // execute potrace
+                result = executePoTrace(filenameTMP, outFilename);
+                if (!result) 
+                {
+                    building = false;
+                    return false;
+                }
+
+                // read data to point lists
+                Features features = readJSONData(outFilename, filteredImage.getWidth(), filteredImage.getHeight());
+
+                // now process the result
+                features = cullBorders(features);
+
+                int combinePixelLen=jSliderCombinePixelLen.getValue();
+                double combineAngle=(180 - jSliderCombineAngle.getValue())*(Math.PI/180.0);
+                features=optimizeMesh(features, combinePixelLen, combineAngle);
+
+                features = cullEmpty(features);
+                int scale=4;
+
+                vList = generateGFXVectorList(features);
             }
-            
-            // read data to point lists
-            Features features = readJSONData(outFilename, filteredImage.getWidth(), filteredImage.getHeight());
-            
-            // now process the result
-            features = cullBorders(features);
-
-            int combinePixelLen=jSliderCombinePixelLen.getValue();
-            double combineAngle=(180 - jSliderCombineAngle.getValue())*(Math.PI/180.0);
-            features=optimizeMesh(features, combinePixelLen, combineAngle);
-            
-            features = cullEmpty(features);
-            int scale=4;
-
-            ArrayList<GFXVectorList> vList = generateGFXVectorList(features);
+            else if (jRadioButtonAutotrace.isSelected())
+            {
+                // do autotrace
+            }
             // build GFXVectorList
             jTextField1.setText(""+vList.size());
             GFXVectorList vectorList = concat(vList); 

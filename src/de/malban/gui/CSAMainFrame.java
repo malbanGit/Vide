@@ -46,6 +46,7 @@ import de.malban.vide.vecx.cartridge.DualVec;
 import de.malban.vide.vecx.devices.AbstractDevice;
 import de.malban.vide.vecx.panels.CartridgePanel;
 import de.malban.vide.vecx.panels.JoyportPanel;
+import de.malban.vide.vecx.panels.ProfileJPanel;
 import de.malban.vide.vecx.panels.StarterJPanel;
 import de.malban.vide.vecx.panels.VectorInfoJPanel;
 import de.malban.vide.vecx.panels.WRTrackerJPanel;
@@ -656,7 +657,7 @@ public class CSAMainFrame extends javax.swing.JFrame
 
     private void jMenuItemVeccyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVeccyActionPerformed
         Windowable p;
-        if ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK)
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
         {
             p = createVeccy();
         }
@@ -738,7 +739,7 @@ public class CSAMainFrame extends javax.swing.JFrame
 
     private void jMenuItemVediActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVediActionPerformed
         Windowable p;
-        if ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK)
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
         {
             p = createVedi();
         }
@@ -781,7 +782,7 @@ public class CSAMainFrame extends javax.swing.JFrame
 
     private void jMenuItemCodiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCodiActionPerformed
         Windowable p;
-        if ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK)
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
         {
             p = createCodi();
         }
@@ -3529,4 +3530,39 @@ public class CSAMainFrame extends javax.swing.JFrame
         
     }
     
+
+    public ProfileJPanel getProfi()
+    {
+        ProfileJPanel v =checkProfi();
+        if (v == null) v = createProfi();
+        return v;
+    }
+    public ProfileJPanel checkProfi()
+    {
+        // get any panel that is called by name dissi
+        for (JPanel p: mPanels )
+        {
+            if (p instanceof Stateable)
+            {
+                if (((Stateable)p).getID().equals(ProfileJPanel.SID))
+                    return (ProfileJPanel)p;
+            }
+        }
+        for(JInternalFrame frame: mFrames)
+        {
+            CSAInternalFrame f = (CSAInternalFrame)frame;
+            if (!(f.getPanel() instanceof Stateable)) continue;
+            if (((Stateable)f.getPanel()).getID().equals(ProfileJPanel.SID))
+                return (ProfileJPanel)f.getPanel();
+        }
+        return null;
+    }    
+    public ProfileJPanel createProfi()
+    {
+        ProfileJPanel p = new ProfileJPanel();        
+        addAsWindow(p, 320, 200, p.SID);
+        return p;
+    }
+
+
 }

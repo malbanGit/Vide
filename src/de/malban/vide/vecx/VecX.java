@@ -59,12 +59,13 @@ meaning, processor excat cacle emulation, in between fetch read execute processo
 */
 
 
+import de.malban.vide.vecx.cartridge.VSID;
 import de.malban.vide.vecx.devices.VectrexJoyport;
 import de.malban.Global;
 import de.malban.vide.VideConfig;
 import de.malban.config.Configuration;
-import de.malban.vide.vecx.cartridge.CartridgeListener;
 import de.malban.gui.CSAMainFrame;
+import de.malban.vide.vecx.cartridge.CartridgeListener;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.vide.vecx.CodeScanMemory.MemInfo.*;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
@@ -78,6 +79,7 @@ import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.VERBOSE;
 import static de.malban.gui.panels.LogPanel.WARN;
+import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.veccy.VectorListScanner;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_DS2430A;
@@ -101,6 +103,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public static final int START_TYPE_RUN = 2;
     public static final int START_TYPE_INJECT = 3;
 
+    transient Profiler profiler = null;
+    
     // for easier access from cart
     // config is here public
     // other wise we could also duplicate config in cart...
@@ -182,6 +186,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     transient int[] vector_hash = new int[VECTOR_HASH];
     transient long fcycles;
 
+
     void addTimerItem(TimerItem item)
     {
         synchronized (timerItemList)
@@ -223,15 +228,6 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         e8910.e8910_init_sound();
         for (int i=0; i<Breakpoint.BP_TARGET_COUNT; i++)
             breakpoints[i] = new ArrayList<Breakpoint>();
-/*
-        if (TinySound.isInitialized())
-        {
-            soundBytes = new byte[E8910.getSoundBufferSize()];
-            line = E8910.getVectrexLine();
-            //line = E8910.getVectrexLine(); //TinySound.getOutStreamVectrex();
-            line.start();
-        }
-*/        
     }
     void deinit()
     {
@@ -239,19 +235,11 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         {
             e8910.e8910_done_sound();
         }
-//        deinitAudio();
         joyport[0].deinit();
         joyport[1].deinit();
         displayer = null;
     }
-/*
-    void deinitAudio()
-    {
-        if (line != null)
-            line.unload();
-        line = null;
-    }
-    */
+
     public void setDisplayer(DisplayerInterface d)
     {
         displayer = d;
@@ -461,6 +449,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             /* cartridge */
             data = cart.get_cart(address);
         } 
+        else if ( (sidEnabled) && ((address >= 0x8000) && (address < 0x8020)))
+        {
+            data = cart.get_cart(address);
+        }
         else 
         {
             data = 0xff;
@@ -629,6 +621,10 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             /* cartridge */
             data = cart.get_cart(address);
         } 
+        else if ( (sidEnabled) && ((address >= 0x8000) && (address < 0x8020)))
+        {
+            data = cart.get_cart(address);
+        }
         else 
         {
             data = 0xff;
@@ -808,7 +804,10 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                             // new CSA
                             if ((data & 0x1c) == 0) // shift reg is switched off - so take the manual value
                             {
-                                addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                                // removed to get the stalling of write shift correct
+                                // test with release explosion normal end - 
+                                // if this is IN scrolltext (e.g.) draws dots
+         //                       addTimerItem(new TimerItem(via_cb2hmanual, sig_blank, TIMER_BLANK_CHANGE));
                             }
                             else // use the last shift
                             {
@@ -848,12 +847,20 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         
 // some line draw needed this enabled ????                        
                         
-//                        if ((via_acr & 0x1c) == 0)
+                        if ((via_acr & 0x1c) == 0)
                         {
                             if ((via_pcr & 0xe0) == 0xc0) 
                             {
                                 /* cb2 is outputting low */
                                 via_cb2h = 0;
+                                via_cb2hmanual = 0;
+                                addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                            } 
+                            else if ((via_pcr & 0xe0) == 0xe0) 
+                            {
+                                /* cb2 is outputting high */
+                                via_cb2h = 1;
+                                via_cb2hmanual = 1;
                                 addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
                             } 
                             else 
@@ -906,13 +913,20 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         {
             cart.write(address,(byte) data);
         } 
+        else if ( (sidEnabled) && ((address >= 0x8000) && (address < 0x8020)))
+        {
+            cart.write(address,(byte) data);
+        }
         else
         {
-            log.addLog("ROM write-access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", e6809.reg_pc), VERBOSE);
-            checkROMBreakPoint(address, data);
             if (config.ramAccessAllowed)
             {
                 cart.poke(address,(byte) data);
+            }
+            else
+            {
+                log.addLog("ROM write-access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", e6809.reg_pc), VERBOSE);
+                checkROMBreakPoint(address, data);
             }
         }
     }
@@ -1029,6 +1043,28 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         dissiMem.reset();
         if (cart!= null) cart.reset();
         resetBuffer();
+        
+    }
+    public void initDissi()
+    {
+        if (config.doProfile)
+        {
+            String name = "main";
+            if (cart != null) name = cart.cartName;
+            profiler = Profiler.buildProfiler(e6809.reg_pc, name);
+            e6809.profiler = profiler;
+            
+            if (Configuration.getConfiguration().getMainFrame() instanceof CSAMainFrame)
+            {
+                CSAMainFrame frame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
+                DissiPanel dissi = frame.checkDissi();
+                if (dissi != null)
+                {
+                    dissi.setProfilingNames(profiler);
+                }
+            }
+        }
+        
     }
 
     // called befor VIA is changed
@@ -1449,6 +1485,12 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
     {
         return alg_curr_y;
     }
+    public void setCyclesRunning(long n)
+    {
+        cyclesRunning = n;
+        if (cart != null)
+            cart.setCyclesRunning(n);
+    }
     
     public void vectrexNonCPUStep(int cycles)
     {
@@ -1539,17 +1581,24 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             }
 
             
-            
+            int oldAdr = e6809.reg_pc%65536;
             icycles = e6809.e6809_sstep (via_ifr & 0x80, firq);
             firq = 0;
             if (config.codeScanActive) 
             {
                 for (int i=0; i<icycles; i++)
                 {
-                    dissiMem.mem[(pc+i)%65536].addAccess(e6809.reg_pc%65536, e6809.reg_dp, MEMORY_CODE);
+                    dissiMem.mem[(pc+i)%65536].addAccess(oldAdr, e6809.reg_dp, MEMORY_CODE);
                 }
             }
-            
+            if (config.doProfile)
+            {
+                if (profiler != null)
+                {
+                    profiler.accessed(oldAdr, icycles);
+                    profiler.checkContext(this);
+                }
+            }
             for (c = 0; c < (icycles-nonCPUStepsDone); c++) 
             {
                 if (cart != null) cart.cartStep(cyclesRunning);
@@ -1663,14 +1712,19 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 cyclesDone=cyclesRunning-cyclesStart;
                 return breakpointExit;
             }
+
             //Fill buffer and call core to update sound
             // no sound while debugging (cycledOrg == 1)
             if (soundCycles<=0)
             {
-                soundCycles = 30000; // Hz 50
+                soundCycles = 37500; // on 100% speed this is every 25ms Hz 40
                 if (cyclesOrg>1)
                 {
                     e8910.updateSound();
+                    if (sidEnabled)
+                    {
+                        cart.updateSound();
+                    }
                 }
             }
             if (config.scanForVectorLists)
@@ -1782,6 +1836,8 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         extraRam2000_2800Enabled = false;
         extraRam8000_8800Enabled = false;
         extraRam6000_7fff_8k_Enabled = false;
+        sidEnabled = false;
+
         isDualVec = false;
         isDualVec = false;
         log.addLog("vecx: init cart: " + cartProp.mName, INFO);
@@ -1807,6 +1863,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             extraRam2000_2800Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0;
             extraRam8000_8800Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0;
             extraRam6000_7fff_8k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0;
+            sidEnabled = (cartProp.getTypeFlags()&Cartridge.FLAG_SID)!=0;
             
             isDualVec = (cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0;
             isDualVec = isDualVec || ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0);
@@ -1836,6 +1893,8 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         extraRam2000_2800Enabled = false;
         extraRam8000_8800Enabled = false;
         extraRam6000_7fff_8k_Enabled = false;
+        sidEnabled = false;
+        
         isDualVec = false;
         isDualVec = false;
         joyport[0].deinit();
@@ -1910,29 +1969,12 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
     // caller must ensure, that no
     // concurrent modification is done on the data
     // otherwise an exception will occur!
-    public boolean saveStateToFile(String name)
-    {
-        CompleteState state = new CompleteState();
-        state.rom = rom;
-        state.cart = cart;
-        
-        state.putState(this);
-        state.putState(this.e6809);
-        state.putState(this.e8910);
-        
-        if (imagerMode)
-            state.putState((Imager3dDevice)joyport[1].getDevice());
-        
-        CSAMainFrame.serialize(state, "serialize"+File.separator+"StateSaveTest.ser");
-        return true;
-    }
-    // caller must ensure, that no
-    // concurrent modification is done on the data
-    // otherwise an exception will occur!
     public CompleteState getState()
     {
         CompleteState state = new CompleteState();
         state.rom = rom;
+        cart.initStateSave();
+        state.sidState = cart.vsid.oldState;
         state.cart = cart;
         
         state.putState(this);
@@ -1956,6 +1998,11 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             
             rom = state.rom;
             cart = state.cart;
+            if (state.cart.isSIDEnabled())
+            {
+                cart.vsid = new VSID(cart);
+            }
+            
             initFromState(state);
             cart.setListener(mListener);
             cart.init();
@@ -1974,37 +2021,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         }
         return false;
     }    
-    public boolean loadStateFromFile(String name)
-    {
-        try 
-        {
-            joyport[0].deinit();
-            joyport[1].deinit();
-            // this is sort of bad
-            // but a shortcut to reinitializing listerners
-            ArrayList<CartridgeListener> mListener = cart.getListener();
-            
-            CompleteState state = (CompleteState) CSAMainFrame.deserialize("serialize"+File.separator+"StateSaveTest.ser");
-            rom = state.rom;
-            cart = state.cart;
-            initFromState(state);
-            cart.setListener(mListener);
-            cart.init();
-            
-            if (imagerMode)
-            {
-                state.imager.setIgnoreReset(true);
-                joyport[1].plugIn(state.imager);
-                state.imager.setIgnoreReset(false);
-            }
-            return true;
-        } 
-        catch (Throwable ex) 
-        {
-            log.addLog(ex, ERROR);
-        }
-        return false;
-    }
     void initFromState(CompleteState state)
     {
         E6809State.deepCopy(state.e6809State, this.e6809);
@@ -2014,6 +2030,17 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         cart.setVecx(this);
         cart.ds2430.cart = cart;
         cart.microchip.cart = cart;
+
+        if (cart.isSIDEnabled())
+        {
+            if (cart.vsid == null)
+            {
+                cart.vsid = new VSID(cart);
+                cart.vsid.init();
+            }
+            cart.vsid.oldState = state.sidState;
+        }
+        cart.initFromStateSave();
     }
     
     // all ringbuffers should 
@@ -2024,6 +2051,8 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         if (goSSBackRingBuffer[ringSSBufferNext] == null) 
             goSSBackRingBuffer[ringSSBufferNext] = new CompleteState();
         CompleteState state = goSSBackRingBuffer[ringSSBufferNext];
+        cart.initStateSave();
+        state.sidState = cart.getSidState();
         state.putState(this);
         state.putState(e6809);
         state.putState(e8910);
@@ -2264,9 +2293,8 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             {
                 if (t.type == TIMER_SHIFT_READ)
                 {
-//                    alternate = ((VideConfig.getConfig().delays[(t.type&0xff)]) & 1) == 1;
                     alternate = true;
-                    if (shouldStall((int)(cyclesRunning - lastShiftTriggered)))
+                    if (shouldStall((int)(cyclesRunning - lastShiftTriggered), true))
                     {
                         via_stalling = true;
                         via_ifr &= 0xfb; /* remove shift register interrupt flag */
@@ -2307,29 +2335,39 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 {
                     if (t.type == TIMER_SHIFT_WRITE)
                     {
-//                    alternate = ((VideConfig.getConfig().delays[(t.type&0xff)]) & 1) == 1;
-                    alternate = true;
-
-                        if (via_stalling)
+                        alternate = true;
+                        if (shouldStall((int)(cyclesRunning - lastShiftTriggered), false))
                         {
+                            via_stalling = true;
                             via_ifr &= 0xfb; // * remove shift register interrupt flag * /
-                           // via_srb = 0;
                             via_srclk = 1;
                             int_update ();
-                            
+                            removeList.add(t);
+                            continue;
                         }
                         else
                         {
-                            // do normal - exactly as above
-//                            via_stalling = false;
-                            lastShiftTriggered = cyclesRunning;
-                            via_sr = t.valueToSet & 0xff;
-                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
-                            via_srb = 0;
-                            via_srclk = 1;
-                            int_update ();
-                        }                        
-                        
+//                            w
+//                            if (via_stalling)
+//                            {
+//                                via_ifr &= 0xfb; // * remove shift register interrupt flag * /
+//                                via_srclk = 1;
+//                                int_update ();
+//                            }
+//                            else
+                            {
+                            via_stalling = false;
+                                lastShiftTriggered = cyclesRunning;
+                                via_sr = t.valueToSet & 0xff;
+                                via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                                via_srb = 0;
+                                via_srclk = 1;
+                                int_update ();
+                            }                        
+                        }
+
+                    
+                    
                     }
                     else if (t.type == TIMER_RAMP_OFF_CHANGE) 
                     {
@@ -2789,28 +2827,52 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         
         if (config.efficiencyEnabled)
         {
+            double EFFICIENCY_THRESHOLD = 0.6;
+            
             double xTest = alg_curr_x - (config.ALG_MAX_X / 2);
             double yTest = alg_curr_y - (config.ALG_MAX_Y / 2);
 
             double xPercent = Math.abs( xTest / (config.ALG_MAX_X / 2) );
             double yPercent = Math.abs( yTest / (config.ALG_MAX_Y / 2) );
 
-            double xEfficience = 1.0-(xPercent)/config.efficiency;
-            double yEfficience = 1.0-(yPercent)/config.efficiency;
-
+            double xEfficience = 1.0;
+            double yEfficience = 1.0;
+            if (xPercent>EFFICIENCY_THRESHOLD)
+            {
+                xEfficience = 1.0-((xPercent)/config.efficiency)*(xPercent-EFFICIENCY_THRESHOLD/EFFICIENCY_THRESHOLD);
+                
+                if (xEfficience<0.01) xEfficience = 0.01;
+                if (xTest*sig_dx<0)xEfficience = 1/xEfficience;
+            }
+            if (yPercent>EFFICIENCY_THRESHOLD)
+            {
+                yEfficience = 1.0-((yPercent)/config.efficiency)*(yPercent-EFFICIENCY_THRESHOLD/EFFICIENCY_THRESHOLD);
+                if (yEfficience<0.01) yEfficience = 0.01;
+                if (yTest*sig_dy<0)yEfficience = 1/yEfficience;
+            }
             alg_curr_x += ((double)sig_dx)*xEfficience;
             alg_curr_y += ((double)sig_dy)*yEfficience;
+
+            // actually do not go negative should be sufficient here!
 
             if (sig_dx != 0)
             alg_curr_x += (config.scaleEfficiency / ((double)sig_dx))*xPercent;
             if (sig_dy != 0)
             alg_curr_y += (config.scaleEfficiency /((double)sig_dy))*yPercent;
+            
         }
         else
         {
             alg_curr_x += sig_dx;
             alg_curr_y += sig_dy;
         }        
+        
+        if (alg_curr_x>70000) alg_curr_x=70000;
+        else if (alg_curr_x<-70000) alg_curr_x=-70000;
+        if (alg_curr_y>70000) alg_curr_y=70000;
+        else if (alg_curr_y<-70000) alg_curr_y=-70000;
+        
+        
         // drift only when not zeroing
         if (sig_zero.intValue != 0) 
         {
@@ -2912,12 +2974,15 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         }
         
         
+        
         if ((sig_ramp.intValue== 1) || (sig_blank.intValue == 0))
         {
             alg_curved = false;
         }
-        if (Double.isNaN(alg_curr_x)) alg_curr_x = config.ALG_MAX_X/2;
-        if (Double.isNaN(alg_curr_y)) alg_curr_y = config.ALG_MAX_Y/2;
+        if (Double.isNaN(alg_curr_x)) 
+            alg_curr_x = config.ALG_MAX_X/2;
+        if (Double.isNaN(alg_curr_y)) 
+            alg_curr_y = config.ALG_MAX_Y/2;
     }
     
     
@@ -2942,6 +3007,19 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 waitRecalBuffer[waitRecalBufferNext] =  (int)(ticksRunning - lastTestTicks);
                 waitRecalBufferNext = (waitRecalBufferNext+1) %WAIT_RECAL_BUFFER_SIZE;
                 wrStatus = WR_UNKOWN;
+                
+                if (config.doProfile)
+                {
+                    if (profiler != null)
+                    {
+                        if (profiler.trackingOnly)
+                        {
+                            profiler.trackPointReached();
+                        }
+                    }
+                }
+                
+                
             }
         }
     }
@@ -3182,7 +3260,21 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         }
                     }
                 }
-                if ((bp.targetSubType  == Breakpoint.BP_SUBTARGET_VIA_CA1) && (register == 16))
+                
+                else if ((bp.targetSubType  == Breakpoint.BP_SUBTARGET_VIA_AUX) && (register == 11))
+                {
+                    if ((via_acr != 0x80) && (via_acr != 0x98))
+                    {
+                        if ((bp.type & Breakpoint.BP_ONCE) == Breakpoint.BP_ONCE)
+                        {
+                            tmp.add(bp);
+                        }
+                        activeBreakpoint.add(bp);
+                        if (breakpointExit<bp.exitType)breakpointExit=bp.exitType;
+                        
+                    }
+                }
+                else if ((bp.targetSubType  == Breakpoint.BP_SUBTARGET_VIA_CA1) && (register == 16))
                 {
                     if ((bp.type & Breakpoint.BP_BITCOMPARE) == Breakpoint.BP_BITCOMPARE)
                     {
@@ -3445,27 +3537,40 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         return delay;
     }
     
-    public boolean shouldStall(int shiftCycleDif)
+    public boolean shouldStall(int shiftCycleDif, boolean isRead)
     {
-//        shiftCycleDif-=2; // correction factor due to cycle exact timings
-        
-        // if shift is CLR
-        // then a write occurs 2 cycles after a read
-        // it seems, that the stall from the first read should be taken...
-//        a
-        
+        if (isRead)
+        {
+            int generation = config.generation;
+            if (generation == 0) return false; // if generation emulation is off, never stall
+            if (shiftCycleDif<4) 
+                return via_stalling;
+            if (generation<3)
+            {
+                if (shiftCycleDif==15) 
+                    return true;
+            }
+            if (generation==3)
+            {
+                if (shiftCycleDif==15) return true;
+                if (shiftCycleDif==14) return true;
+            }
+            return false;
+        }
+        // write
         int generation = config.generation;
         if (generation == 0) return false; // if generation emulation is off, never stall
         if (shiftCycleDif<4) 
             return via_stalling;
         if (generation<3)
         {
-            if (shiftCycleDif==15) return true;
+            if (shiftCycleDif==17) 
+                return true;
         }
         if (generation==3)
         {
-            if (shiftCycleDif==15) return true;
-            if (shiftCycleDif==14) return true;
+            if (shiftCycleDif==17) return true;
+            if (shiftCycleDif==16) return true;
         }
         return false;
     }
@@ -3543,20 +3648,20 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                                 if (r == 10) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 11) toWrite = (byte) (toWrite & 0xff);
                                 if (r == 12) toWrite = (byte) (toWrite & 0xff);
-                                if (r == 13) toWrite = (byte) (toWrite & 0x0f);
+ //                               if (r == 13) toWrite = (byte) (toWrite & 0x0f);
                                 if (r == 14) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 15) toWrite = 0;
                                 if (r == 16) toWrite = 0;
-                                if (r == 13) 
-                                {
-                                    if (i>0)
-                                    {
-                                        if (toWrite == (byte) ((recordData.get(i-1)[r]) & 0x0f))
-                                            toWrite = (byte)0xff;
-                                    }
-                                    else
-                                        toWrite = (byte)0xff;
-                                }
+//                                if (r == 13) 
+ //                               {
+//                                    if (i>0)
+//                                    {
+//                                        if (toWrite == (byte) ((recordData.get(i-1)[r]) & 0x0f))
+//                                            toWrite = (byte)0xff;
+//                                    }
+//                                    //else
+                                    //    toWrite = (byte)0xff;
+//                                }
                                 if (r!= 0)
                                     output.write(", ".getBytes(StandardCharsets.UTF_8));
                                 output.write(("$"+String.format("%02X", toWrite & 0xFF)).getBytes(StandardCharsets.UTF_8) );
@@ -3585,20 +3690,20 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                                 if (r == 10) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 11) toWrite = (byte) (toWrite & 0xff);
                                 if (r == 12) toWrite = (byte) (toWrite & 0xff);
-                                if (r == 13) toWrite = (byte) (toWrite & 0x0f);
+//                                if (r == 13) toWrite = (byte) (toWrite & 0x0f);
                                 if (r == 14) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 15) toWrite = 0;
                                 if (r == 16) toWrite = 0;
-                                if (r == 13) 
-                                {
-                                    if (i>0)
-                                    {
-                                        if (toWrite == (byte) ((recordData.get(i-1)[r]) & 0x0f))
-                                            toWrite = (byte)0xff;
-                                    }
-                                    else
-                                        toWrite = (byte)0xff;
-                                }
+//                                if (r == 13) 
+//                                {
+//                                    if (i>0)
+//                                    {
+//                                        if (toWrite == (byte) ((recordData.get(i-1)[r]) & 0x0f))
+//                                            toWrite = (byte)0xff;
+//                                    }
+                                    //else
+                                    //    toWrite = (byte)0xff;
+//                                }
                                 output.write(toWrite);
                                 dataSaved++;
                             }
@@ -3645,20 +3750,20 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                                 if (r == 10) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 11) toWrite = (byte) (toWrite & 0xff);
                                 if (r == 12) toWrite = (byte) (toWrite & 0xff);
-                                if (r == 13) toWrite = (byte) (toWrite & 0x0f);
+//                                if (r == 13) toWrite = (byte) (toWrite & 0x0f);
                                 if (r == 14) toWrite = (byte) (toWrite & 0x1f);
                                 if (r == 15) toWrite = 0;
                                 if (r == 16) toWrite = 0;
-                                if (r == 13) 
-                                {
-                                    if (i>0)
-                                    {
-                                        if (toWrite == (byte) ((recordData.get(i-1)[r]) & 0x0f))
-                                            toWrite = (byte)0xff;
-                                    }
-                                    else
-                                        toWrite = (byte)0xff;
-                                }
+//                              if (r == 13) 
+//                                {
+//                                    if (i>0)
+//                                    {
+//                                        if (toWrite == (byte) ((recordData.get(i-1)[r]) & 0x0f))
+//                                            toWrite = (byte)0xff;
+//                                    }
+                                    //else
+                                    //    toWrite = (byte)0xff;
+//                                }
                                 output.write(toWrite);
                                 dataSaved++;
                             }
@@ -3692,7 +3797,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         {
             if (recordData == null) return;
             byte[] psgData = new byte[16];
-            recordData.add(psgData);
             
             int lastReg13 = 256;
             if (recordData.size()>0)
@@ -3705,11 +3809,18 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 byte value = (byte) (e8910.read(i)&0xff);
                 if (i == 13)
                 {
-                    if (value == lastReg13) value = (byte)0xff;
+                    if (!e8910.envWritten)
+                        value = (byte)0xff;
+                    else
+                        value = (byte)(value & 0xf);
+                        
                 }
                 psgData[i] = value;
             }
+            recordData.add(psgData);
         }
+        e8910.envWritten = false;
+
     }
     
     
@@ -3814,6 +3925,10 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         ringFrameBufferNext = 0;
         goFrameBackRingBuffer = new CompleteState[FRAME_RING_BUFFER_SIZE];
                 
+    }
+    public String dumpCurrentROM()
+    {
+        return cart.dumpCurrentROM();
     }
 }
 

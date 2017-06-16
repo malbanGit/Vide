@@ -24,12 +24,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="exportDataPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="exportDataPanel1" alignment="0" pref="920" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="exportDataPanel1" alignment="0" pref="446" max="32767" attributes="0"/>
+          <Component id="exportDataPanel1" alignment="0" pref="689" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>

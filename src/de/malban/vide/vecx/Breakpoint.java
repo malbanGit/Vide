@@ -49,7 +49,7 @@ public class Breakpoint
         /* Memory*/     {"none","RAM","ROM"}, 
         /* CPU*/        {"none","PC","A", "B", "D","X", "Y","U","S", "CC", "DP", "CYCLES", "SPECIAL" }, 
         /* Analog*/     {"none","RAMP"}, 
-        /* VIA*/        {"none","ORB","CA1"}, 
+        /* VIA*/        {"none","ORB","CA1", "AUX"}, 
         /* PSG*/        {"none","PSG 0"}, 
         /* CARTRIDGE*/  {"none","BANKSWITCH", "PB6"}, 
         /* PORT*/       {"none","IN", "OUT"}
@@ -79,6 +79,7 @@ public class Breakpoint
     public static int BP_SUBTARGET_VIA_NONE = 0; // 
     public static int BP_SUBTARGET_VIA_ORB = 1; // 
     public static int BP_SUBTARGET_VIA_CA1 = 2; // 
+    public static int BP_SUBTARGET_VIA_AUX = 3; // 
     
     public static int BP_SUBTARGET_PSG_NONE = 0; // .. not implemented
     public static int BP_SUBTARGET_PSG_0 = 1; // .. not implemented

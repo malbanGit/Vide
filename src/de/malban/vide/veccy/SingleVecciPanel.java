@@ -6,6 +6,8 @@
 package de.malban.vide.veccy;
 
 import de.malban.config.Configuration;
+import de.malban.event.EditMouseEvent;
+import de.malban.graphics.MouseMovedListener;
 import de.malban.graphics.SingleVectorPanel;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
@@ -21,7 +23,7 @@ import javax.swing.SwingUtilities;
  *
  * @author malban
  */
-public class SingleVecciPanel extends javax.swing.JPanel implements Windowable{
+public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, MouseMovedListener{
 
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
 
@@ -88,7 +90,12 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable{
 
         updateOutput();
     }
-
+    // otherwise mouse listener is not added to "global" vars
+    public void initPart2()
+    {
+        singleVectorPanel1.addMouseMovedListener(this);
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -303,7 +310,7 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable{
     private void jPanelScrollerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelScrollerMouseClicked
         if (evt.getClickCount() == 2) 
         {
-            singleVectorPanel1.setOffsets(0, 0);
+            singleVectorPanel1.setOffsets(0, 0, 0);
         }
         updateOutput();
 
@@ -418,7 +425,11 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable{
     {
         return jSliderSourceScale.getValue();
     }
-
+    public void moved(EditMouseEvent evt)
+    {
+        if (!((evt.dragging) && (evt.ctrlPressed))) return;
+        updateOutput();
+    }
 }
 
 

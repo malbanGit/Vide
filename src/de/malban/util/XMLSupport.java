@@ -19,6 +19,8 @@ public class XMLSupport
     // if the tag was found the contents of the tag is returned
     // AND the tags+contents is removed from the given String buffer!
     
+    // new June 2017
+    // CASE sensitive tags!
     
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public static final int OK = 0;
@@ -108,8 +110,10 @@ public class XMLSupport
     }
     public StringBuilder getXMLElement(String tag, StringBuilder xml, boolean doWarn)
     {
-        int startPos = xml.toString().toUpperCase().indexOf("<"+tag.toUpperCase()+">");
-        int startElementLength = ("<"+tag.toUpperCase()+">").length(); 
+//        int startPos = xml.toString().toUpperCase().indexOf("<"+tag.toUpperCase()+">");
+//        int startElementLength = ("<"+tag.toUpperCase()+">").length(); 
+        int startPos = xml.indexOf("<"+tag+">");
+        int startElementLength = ("<"+tag+">").length(); 
         if (startPos<0)
         {
             errorCode+=ELEMENT_START_NOT_FOUND;
@@ -120,7 +124,8 @@ public class XMLSupport
             return null;
         }
         
-        int endPos = xml.toString().toUpperCase().indexOf("</"+tag.toUpperCase()+">");
+//        int endPos = xml.toString().toUpperCase().indexOf("</"+tag.toUpperCase()+">");
+        int endPos = xml.indexOf("</"+tag+">");
         if (endPos<0)
         {
             errorCode+=ELEMENT_END_NOT_FOUND;
@@ -175,19 +180,25 @@ public class XMLSupport
     }
     public static boolean hasTag(String tag, StringBuilder xml)
     {
-        int startPos = xml.toString().toUpperCase().indexOf("<"+tag.toUpperCase()+">");
+//        int startPos = xml.toString().toUpperCase().indexOf("<"+tag.toUpperCase()+">");
+        int startPos = xml.indexOf("<"+tag+">");
         return startPos != -1;
     }
     // returns a "sub"-xml element
     // updates the xmlBuffer (removes the element
+    // tags must be correct case = case sensitive!
     public StringBuilder removeTag(String tag, StringBuilder xmlBuffer)
     {
         errorCode = 0;
         StringBuilder xmlElement = new StringBuilder();
-        String xml = xmlBuffer.toString().toUpperCase();
+//        String xml = xmlBuffer.toString().toUpperCase();
         
-        int startPos = xml.indexOf("<"+tag.toUpperCase()+">");
-        int startElementLength = ("<"+tag.toUpperCase()+">").length(); 
+//        int startPos = xml.indexOf("<"+tag.toUpperCase()+">");
+//        int startElementLength = ("<"+tag.toUpperCase()+">").length(); 
+
+        int startPos = xmlBuffer.indexOf("<"+tag+">");
+        
+        int startElementLength = ("<"+tag+">").length(); 
         if (startPos<0)
         {
             // since this replaces the
@@ -198,7 +209,8 @@ public class XMLSupport
             return null;
         }
         
-        int endPos = xml.indexOf("</"+tag.toUpperCase()+">");
+//        int endPos = xml.indexOf("</"+tag.toUpperCase()+">");
+        int endPos = xmlBuffer.indexOf("</"+tag+">");
         if (endPos<0)
         {
             log.addLog("removeTag(): EndTag not found: "+tag, INFO);

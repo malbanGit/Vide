@@ -19,7 +19,6 @@ import de.malban.gui.dialogs.JOptionPaneDialog;
 import de.malban.gui.dialogs.QuickHelpTopFrame;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
-import de.malban.util.KeyboardListener;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.util.UtilityString;
 import de.malban.util.syntax.entities.ASM6809FileInfo;
@@ -43,6 +42,7 @@ import static de.malban.vide.vedi.DebugComment.COMMENT_TYPE_BREAK;
 import static de.malban.vide.vedi.DebugComment.COMMENT_TYPE_WATCH;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_LIST;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_MESSAGE_ERROR;
+import de.malban.vide.vedi.panels.GetIDValuePanel;
 import de.malban.vide.vedi.panels.LabelVisibilityConfigPanel;
 import de.malban.vide.vedi.project.FileProperties;
 import de.malban.vide.vedi.project.FilePropertiesPanel;
@@ -52,6 +52,7 @@ import de.malban.vide.vedi.project.ProjectPropertiesPanel;
 import de.malban.vide.vedi.project.ProjectPropertiesPool;
 import de.malban.vide.vedi.raster.RasterPanel;
 import de.malban.vide.vedi.raster.VectorJPanel;
+import de.malban.vide.vedi.sound.AKSBin;
 import de.malban.vide.vedi.sound.ModJPanel;
 import de.malban.vide.vedi.sound.SampleJPanel;
 import de.malban.vide.vedi.sound.VecSpeechPanel;
@@ -62,6 +63,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -679,6 +681,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 for (EditorFileSettings fn: settings.currentOpenFiles)
                 {
                     EditorPanel edi = addEditor(fn.filename, false);
+                    if (edi == null) continue;
                     edi.setPosition(fn.position);
                     oneTimeTab = null;
                     if (edi == null)
@@ -1013,6 +1016,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItemModi = new javax.swing.JMenuItem();
         jMenuItemYM = new javax.swing.JMenuItem();
+        jMenuItemAKS = new javax.swing.JMenuItem();
         jMenuItemASFX = new javax.swing.JMenuItem();
         jMenuItemSample = new javax.swing.JMenuItem();
         jMenuItemVecSpeech = new javax.swing.JMenuItem();
@@ -1023,6 +1027,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jMenuItemDelete = new javax.swing.JMenuItem();
         jMenuItemRename = new javax.swing.JMenuItem();
         jMenuItemDuplicate = new javax.swing.JMenuItem();
+        jMenuItem1AddNewFile = new javax.swing.JMenuItem();
         jPopupMenuProjectProperties = new javax.swing.JPopupMenu();
         jMenuItemProjectProperties = new javax.swing.JMenuItem();
         jMenuItemRefresh = new javax.swing.JMenuItem();
@@ -1192,6 +1197,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
         jPopupMenuTree.add(jMenuItemYM);
 
+        jMenuItemAKS.setText("Arkos Tracker \"bin\"");
+        jMenuItemAKS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAKSActionPerformed(evt);
+            }
+        });
+        jPopupMenuTree.add(jMenuItemAKS);
+
         jMenuItemASFX.setText("build vectrex ayfx");
         jMenuItemASFX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1258,6 +1271,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
         jPopupMenuTree.add(jMenuItemDuplicate);
+
+        jMenuItem1AddNewFile.setText("new empty file");
+        jMenuItem1AddNewFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1AddNewFileActionPerformed(evt);
+            }
+        });
+        jPopupMenuTree.add(jMenuItem1AddNewFile);
 
         jMenuItemProjectProperties.setText("Project properties");
         jMenuItemProjectProperties.addActionListener(new java.awt.event.ActionListener() {
@@ -1995,7 +2016,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jTextFieldPath.setPreferredSize(new java.awt.Dimension(6, 21));
 
         jButtonFileSelect1.setText("...");
-        jButtonFileSelect1.setToolTipText("Chose the \"mountpoint\" of the Vectrex 32 USB-drive");
+        jButtonFileSelect1.setToolTipText("Chose the \"mountpoint\" of the VecFever RAM disk\n");
         jButtonFileSelect1.setEnabled(false);
         jButtonFileSelect1.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonFileSelect1.setPreferredSize(new java.awt.Dimension(17, 21));
@@ -2161,8 +2182,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
         EditorPanel edi = getSelectedEditor();
         if (edi == null) return;
+        boolean shift = false;
+        if ((evt != null ) )
         
-        edi.save(KeyboardListener.isShiftDown());
+        shift = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
+
+        edi.save(shift);
         printMessage("\""+getSelectedEditor().getFilename()+"\" saved.");
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
@@ -2194,7 +2219,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
 
-        if (KeyboardListener.isShiftDown())
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
         {
             if (getSelectedEditor() != null) 
             {
@@ -2459,7 +2484,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }//GEN-LAST:event_jTextFieldSearchKeyPressed
 
     private void jButtonNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewActionPerformed
-       if (KeyboardListener.isShiftDown())
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
         {
             if (possibleProject == null) return;
             if (possibleProject.endsWith(File.separator)) return;
@@ -2573,11 +2598,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
     
     // output "Tabs" for source generation
-    final int TAB_EQU = 30;
-    final int TAB_EQU_VALUE = 40;
-    final int TAB_MNEMONIC = 20;
-    final int TAB_OP = 30;
-    final int TAB_COMMENT = 58;
     
     int spaceTo(StringBuilder s, int posNow, int upTo)
     {
@@ -2615,12 +2635,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             c+=words[w].length()+1;
             w++;
         }
-        c = spaceTo(b, c, TAB_MNEMONIC);
+        c = spaceTo(b, c, config.TAB_MNEMONIC);
         if (w>=words.length)
         {
             b.append(quote);
             c+=quote.length();
-            c = spaceTo(b, c, TAB_OP);
+            c = spaceTo(b, c, config.TAB_OP);
             b.append(postQuote);
             return b.toString();
         }
@@ -2628,7 +2648,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         b.append(words[w]).append(" ");
         c+=words[w].length()+1;
         w++;
-        c = spaceTo(b, c, TAB_OP);
+        c = spaceTo(b, c, config.TAB_OP);
 
         for (;w<words.length;w++)
         {
@@ -2669,7 +2689,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
     private void jButtonPrettyPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrettyPrintActionPerformed
 
-        if (KeyboardListener.isShiftDown()) 
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
         {
             ASM6809FileInfo.resetDefinitions();
             initInventory();
@@ -2680,13 +2700,16 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (getSelectedEditor()==null) return;
         StringBuilder b = new StringBuilder();
         String orgText = getSelectedEditor().getText();
+        orgText = UtilityString.replace(orgText, "\r\n", "\n");
+        
         String[] lines = orgText.split("\n");
         for (String line: lines)
         {
             boolean doSeperator = false;
             boolean inComment = false;
-            int c = 0;
+            int c = 0; // space counter (position)
             int w = 0;
+            // any literals?
             if ((line.contains("\"")) || (line.contains("\'")))
             {
                 int commentPos = line.indexOf(";");
@@ -2702,32 +2725,43 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     continue;
                 }
             }
+            // "zero" line? -> remove
             if (line.trim().length()==0) continue;
+            
+            // comment only (a)?
             if (line.charAt(0)==';')
             {
                 b.append(line).append("\n"); // leave them for now
                 continue;
             }
+
+            // comment only (b)?
             if (line.charAt(0)=='*')
             {
                 b.append(line).append("\n"); // leave them for now
                 continue;
             }
+            
+            // remove all tabs (in non comment line)
             line = UtilityString.replace(line, "\t", " ");
             String[] words = line.split(" ");
 
+            // is it a label? [word starting a line]
             if (!UtilityString.isWordBoundry(line.charAt(0)))
             {
+                // if so append - and a space
                 b.append(words[w]).append(" ");
                 c+=words[w].length()+1;
                 w++;
             }
+            // if line finished -> end line
             if (w>=words.length)
             {
                 b.append("\n"); 
                 continue;
             }
-            c = spaceTo(b, c, TAB_MNEMONIC);
+
+            c = spaceTo(b, c, config.TAB_MNEMONIC);
             while (words[w].length()==0) w++;
             b.append(words[w]).append(" ");
             boolean structPossible = false;
@@ -2746,7 +2780,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             if (!structPossible)
             {
                 if (!(line.toString().trim().startsWith(";")))
-                    c = spaceTo(b, c, TAB_OP);
+                    c = spaceTo(b, c, config.TAB_OP);
             }
             for (;w<words.length;w++)
             {
@@ -2771,7 +2805,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             int commentPos = -1;
             if ((line.contains("\"")) || (line.contains("\'")))
             {
-                
                 commentPos = line.indexOf(";");
                 int q1 = line.indexOf("\"");
                 int q2 = line.indexOf("'");
@@ -2786,7 +2819,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
             else
             {
-                
                 commentPos = line.indexOf(";");
             }
             if (commentPos <= 0)
@@ -2798,7 +2830,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             String comment = line.substring(commentPos);
             b.append(preComment);
             c = preComment.length();
-            c = spaceTo(b, c, TAB_COMMENT);
+            c = spaceTo(b, c, config.TAB_COMMENT);
             b.append(comment).append("\n");
         }
         text = b.toString();
@@ -2862,7 +2894,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }//GEN-LAST:event_jPopupMenu1MouseExited
 
     private void jButtonNewMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNewMousePressed
-        if (KeyboardListener.isShiftDown()) return;
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
+            return;
         jPopupMenu1.show(jButtonNew, evt.getX()-20,evt.getY()-20);
     }//GEN-LAST:event_jButtonNewMousePressed
 
@@ -2958,11 +2991,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
              (entry.name.toLowerCase().endsWith(".inc")) 
            )
         {
-            addEditor(entry.pathAndName.toString(), true);
+           addEditor(entry.pathAndName.toString(), true);
             oneTimeTab = null;
             possibleProject = entry.pathAndName.toString();
         }
-        else if ( (entry.name.toLowerCase().endsWith(".txt")) ||
+        else if ( 
              (entry.name.toLowerCase().endsWith(".diz")) ||
              (entry.name.toLowerCase().endsWith(".doc")) ||
              (entry.name.toLowerCase().endsWith(".c")) ||
@@ -2980,6 +3013,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
            )
         {
             addEditor(entry.pathAndName.toString(), true);
+        }
+        else if ( (entry.name.toLowerCase().endsWith(".txt")) 
+           )
+        {
+            addEditor(entry.pathAndName.toString(), true);
+            oneTimeTab = null;
         }
         else if ( (entry.name.toLowerCase().endsWith(".png")) ||
              (entry.name.toLowerCase().endsWith(".jpg")) ||
@@ -3327,7 +3366,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }//GEN-LAST:event_jMenuItemASFXActionPerformed
     boolean fileView = false;
     private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
-        if (KeyboardListener.isShiftDown()) 
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
         {
             fileView = true;
         }
@@ -3528,6 +3567,28 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         list.removeComment(dbc);
         updateTables();
     }//GEN-LAST:event_jMenuItemRemoveWatchActionPerformed
+
+    private void jMenuItem1AddNewFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1AddNewFileActionPerformed
+        if (selectedTreeEntry == null) return;
+        
+        
+        String dir = "."+File.separator;
+        if (selectedTreeEntry.pathAndName.getParent() != null)
+        {
+            dir = selectedTreeEntry.pathAndName.getParent()+File.separator;
+        }
+                
+        
+        
+        de.malban.util.UtilityFiles.createTextFile(dir+"newFile.asm", "");
+        refreshTree();
+    }//GEN-LAST:event_jMenuItem1AddNewFileActionPerformed
+
+    private void jMenuItemAKSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAKSActionPerformed
+
+        doAKS();
+
+    }//GEN-LAST:event_jMenuItemAKSActionPerformed
     
     @Override
     public void doQuickHelp(String word, String integer)
@@ -3644,6 +3705,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jListFiles;
     private javax.swing.JList jListProjects;
+    private javax.swing.JMenuItem jMenuItem1AddNewFile;
+    private javax.swing.JMenuItem jMenuItemAKS;
     private javax.swing.JMenuItem jMenuItemASFX;
     private javax.swing.JMenuItem jMenuItemAction;
     private javax.swing.JMenuItem jMenuItemAddToProject;
@@ -3943,12 +4006,33 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             {
                 nameToLoad=path+File.separator;
             }
+            nameToLoad=convertSeperator(nameToLoad);
+            
+            // check sub dirs
+            if (File.separator.equals("\\"))
+            {
+                // Windows!!!!
+                parts = filename.split("\\\\");
+            }
+            else
+                parts = filename.split(File.separator);
+            if (parts.length > 1)
+            {
+                String firstPart="";
+                for (int i=0; i<parts.length-1; i++)
+                    firstPart += parts[i]+File.separator;
+                if (nameToLoad.endsWith(firstPart))
+                    filename = parts[parts.length-1];
+                
+            }
+            
+            
+            
             nameToLoad+=filename;
             jumpToEdit(nameToLoad, 0);
         }
         catch (Throwable e)
         {
-            
         }
     }
     EditorPanel getEditor(String filename, boolean create)
@@ -5382,6 +5466,62 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         scanTreeDirectory(selectedTreeEntry);
         // reload entries;
     }
+    void doAKS()
+    {
+        String type ="";
+        String pathFull ="";
+        String pathOnly ="";
+        String filenameOnly ="";
+        String filenameBaseOnly ="";
+        Path p = Paths.get(selectedTreeEntry.pathAndName.toString());
+        pathFull = p.toString();
+        pathOnly = p.getParent().toString();
+        if (pathOnly.length()>0)
+            pathOnly+= File.separator;
+        filenameOnly = p.getFileName().toString();
+        boolean pic = false;
+        if (filenameOnly.toLowerCase().endsWith(".bin")) pic = true;
+        if (!pic) 
+        {
+            printError("Selected entry does not have a \"bin\" extension!");
+            return;
+        }
+        filenameBaseOnly = filenameOnly.substring(0, filenameOnly.length()-4);
+        AKSBin aksbin = new AKSBin();
+        
+        String id = GetIDValuePanel.showEnterValueDialog();
+        
+        String text = aksbin.buildData(pathFull, this, id);
+        if (text.length() == 0) return;
+        String targetFile = pathOnly+File.separator+filenameBaseOnly+"AKS.asm";
+        de.malban.util.UtilityFiles.createTextFile(targetFile, text);
+        
+
+        String nameOnly = Paths.get(targetFile).getFileName().toString();
+        String barenameOnly = nameOnly.substring(0, nameOnly.length()-4); 
+        
+        Path include = Paths.get(".", "template", "VECTREX.I");
+        de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
+
+        Path digital = Paths.get(".", "template", "arkosPlayer.i");
+        de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "arkosPlayer.i");
+
+        Path template = Paths.get(".", "template", "arkosPlayerMain.template");
+        String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+
+        exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#AKS_DATA#", filenameBaseOnly+"AKS.asm");
+        
+        
+        de.malban.util.UtilityFiles.createTextFile(pathOnly+filenameBaseOnly+"Main.asm", exampleMain);        
+        refreshTree();            
+
+        
+        
+//         closeOneTimeTab();
+//            oneTimeTab = null;
+//           addEditor(pathOnly+File.separator+filenameOnly+"Bin.asm", true);
+    }
+    
     void doAYFX()
     {
         // check for a property file!
@@ -5398,7 +5538,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         filenameOnly = p.getFileName().toString();
         boolean pic = false;
-        if (filenameOnly.toLowerCase().endsWith(".afx"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".afx")) pic = true;
         if (!pic) 
         {
             printError("Selected entry does not have a known afx extension!");
@@ -5875,7 +6015,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jButtonEjectVecForever.setEnabled(available);
         jLabel10.setEnabled(settings.v4eEnabled);
     }    
-    boolean checkVec4EverVolume(boolean verbose)
+    public boolean checkVec4EverVolume(boolean verbose)
     {
         if (!settings.v4eEnabled)
         {
@@ -5965,7 +6105,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             jLabel10.setForeground(Color.red);
         }
     }
-    void checkVec4EverFile(String fname)
+
+    public void checkVec4EverFile(String fname)
     {
         if (!checkVec4EverVolume(false)) return;
         boolean ok = de.malban.util.UtilityFiles.copyOneFile(fname, settings.v4eVolumeName+File.separator+"cart.bin");
@@ -6098,8 +6239,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (edi != null)
         {
             String filename = edi.getFilename();
-            
-//        public static HashMap<String, EntityDefinition> knownGlobalVariables = new HashMap<String, EntityDefinition>();
             Set entries;
             synchronized (LabelSink.knownGlobalVariables)
             {
@@ -6128,6 +6267,34 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 if (add)
                     inventory.add(new InventoryEntry(entity.getName(), entity.getLineNumber(), entity.getSubType()));
             }
+            HashMap<String, String> savety = new HashMap<String, String>();
+            if (settings.showMacroDefinition)
+            {
+                synchronized (MacroSink.knownGlobalMacros)
+                {
+                    HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) MacroSink.knownGlobalMacros.clone();
+                    entries = clonnie.entrySet();
+                }
+                it = entries.iterator();
+                while (it.hasNext())
+                {
+                    Map.Entry entry = (Map.Entry) it.next();
+                    EntityDefinition entity = (EntityDefinition) entry.getValue();
+                    if (!entity.getFile().toString().equals(filename)) continue;
+                    
+                    boolean add = false;
+
+                    if ((entity.getSubType() == EntityDefinition.SUBTYPE_MACRO_DEFINITION_LABEL))
+                    {
+                        if (savety.get(entity.getName()) == null)
+                        {
+                            savety.put(entity.getName(), entity.getName());
+                            inventory.add(new InventoryEntry(entity.getName(), entity.getLineNumber(), entity.getSubType()));
+                        }
+                    }
+                }            
+            }
+            
         }
         invUpdating = false;
         
@@ -6242,7 +6409,13 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         {
                             EditorPanel edi = (EditorPanel) jTabbedPane1.getComponentAt(i);
                             if (edi.assume6809Asm)
-                                ASM6809FileInfo.resetDefinitions(edi.getFilename(), edi.getText());
+                            {
+                                if (edi.hasChanged1)
+                                {
+                                    ASM6809FileInfo.resetDefinitions(edi.getFilename(), edi.getText());
+                                    edi.hasChanged1 = false;
+                                }
+                            }
                         }
                     }
                     catch (Throwable e)
@@ -6252,17 +6425,21 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 }
                 if (getSelectedEditor() != null)
                 {
-                    if (doesItHaveSomeFocus(getSelectedEditor()))
+                    if (getSelectedEditor().hasChanged2)
                     {
-                        if (!getSelectedEditor().hasSelection())
+                        if (doesItHaveSomeFocus(getSelectedEditor()))
                         {
-    getSelectedEditor().setViewportEnabled(false);
-                            getSelectedEditor().saveSelection();
-                            getSelectedEditor().stopColoring();
-                            getSelectedEditor().startColoring(settings.fontSize);
-                            getSelectedEditor().restoreSelection();
-    getSelectedEditor().setViewportEnabled(true);
+                            if (!getSelectedEditor().hasSelection())
+                            {
+        getSelectedEditor().setViewportEnabled(false);
+                                getSelectedEditor().saveSelection();
+                                getSelectedEditor().stopColoring();
+                                getSelectedEditor().startColoring(settings.fontSize);
+                                getSelectedEditor().restoreSelection();
+        getSelectedEditor().setViewportEnabled(true);
+                            }
                         }
+                        getSelectedEditor().hasChanged2 = false;
                     }
                     
                 }

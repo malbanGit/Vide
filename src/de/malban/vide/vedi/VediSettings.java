@@ -24,6 +24,7 @@ public class VediSettings implements Serializable
     public String vec32PortName = "";
     public String vec32UsbMount = "";
 
+    public boolean showMacroDefinition = false;
     public boolean showEQULabel = false;
     public boolean showEqualLabel = false;
     public boolean showSetLabel = false;

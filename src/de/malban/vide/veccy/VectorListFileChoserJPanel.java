@@ -636,15 +636,18 @@ public class VectorListFileChoserJPanel extends javax.swing.JPanel {
         modal.setResizable(true);
         panel.modelDialog = modal;
         modal.setVisible(true);
-
+        panel.singleVectorPanel.setDelay(-1);
         String result = modal.getNamedExit();
         if ((result.equals("create")) || (modal.isManualOkExit()))
         {
+            modal = null;
             String saveName = panel.getChosenFilename();
+            panel = null;
             if ((saveName!=null) && (saveName.length()!=0))
                 return saveName;
         }
-        
+        panel = null;
+        modal = null;
         return null;
     }     
     public static String showLoadPanel(String fileName, String title, boolean ia)

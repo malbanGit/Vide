@@ -33,6 +33,7 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -65,7 +66,8 @@ public class EditorPanel extends EditorPanelFoundation
     // indicator whether rows must be counted anew
     int rowCount = -1;
     boolean isBasic = false;
-    boolean hasChanged = false;
+    boolean hasChanged1 = false;
+    boolean hasChanged2 = false;
     boolean assume6809Asm = false;
     boolean addToSettings = true;  
     private int FONTHEIGHT = 12;
@@ -140,13 +142,17 @@ public class EditorPanel extends EditorPanelFoundation
             tl.printError("Error loading file: "+getFilename());
             initError = true;
         }
-        try
+        if (!initError)
         {
-            setup(null);
-        }
-        catch (Throwable e)
-        {
-            initError = true;
+            try
+            {
+                setup(null);
+            }
+            catch (Throwable e)
+            {
+                initError = true;
+            }
+            
         }
         if (initError)
         {
@@ -385,7 +391,7 @@ public class EditorPanel extends EditorPanelFoundation
     public void deinit()
     {
         if (editorPaneDocument!= null)
-        editorPaneDocument.deinit();
+            editorPaneDocument.deinit();
         editorPaneDocument = null;
         if (parent instanceof VediPanel)
             parent.settings.setOpenPosition(getFilename(), getPosition());
@@ -599,6 +605,8 @@ public class EditorPanel extends EditorPanelFoundation
     private void jTextPane1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPane1KeyTyped
         rowCount = -1;
         fireEditorChanged(EditorEvent.EV_KEY_TYPED, getPosition());
+        hasChanged1 = true;
+        hasChanged2 = true;
         correctLineNumbers(false);
     }//GEN-LAST:event_jTextPane1KeyTyped
 
@@ -615,8 +623,9 @@ public class EditorPanel extends EditorPanelFoundation
         if (isBasic) return;
         Point pt = new Point(evt.getX(), evt.getY());
         int pos = jTextPane1.viewToModel(pt);
-
-        boolean shift = KeyboardListener.isShiftDown();
+        boolean shift = false;
+        if ((evt != null ) )
+            shift = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
 
         if (evt.getClickCount() == 2) 
         {
@@ -654,7 +663,7 @@ public class EditorPanel extends EditorPanelFoundation
             // click one
             if (SwingUtilities.isLeftMouseButton(evt))
             {
-                if (KeyboardListener.isShiftDown())
+                if (((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
                 {
                     // select between current caret and THIS position!
                     int oldpos = jTextPane1.getCaretPosition();
@@ -1684,7 +1693,7 @@ public class EditorPanel extends EditorPanelFoundation
         return -1;
     }
     int oldlnWidth = -1;
-    void correctLineNumbers(boolean force)
+    public void correctLineNumbers(boolean force)
     {
         try
         {

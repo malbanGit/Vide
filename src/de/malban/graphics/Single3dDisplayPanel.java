@@ -11,9 +11,19 @@
 
 package de.malban.graphics;
 
+import static de.malban.graphics.VectorColors.VECCI_BACKGROUND_COLOR;
+import static de.malban.graphics.VectorColors.VECCI_FRAME_COLOR;
+import static de.malban.graphics.VectorColors.VECCI_POINT_HIGHLIGHT_COLOR;
+import static de.malban.graphics.VectorColors.VECCI_POINT_SELECTED_COLOR;
+import static de.malban.graphics.VectorColors.VECCI_VECTOR_HIGHLIGHT_COLOR;
+import static de.malban.graphics.VectorColors.VECCI_VECTOR_SELECTED_COLOR;
+import static de.malban.graphics.VectorColors.VECCI_X_AXIS_COLOR;
+import static de.malban.graphics.VectorColors.VECCI_Y_AXIS_COLOR;
+import static de.malban.graphics.VectorColors.VECCI_Z_AXIS_COLOR;
 import de.malban.gui.Scaler;
 import de.malban.gui.TimingTriggerer;
 import de.malban.gui.TriggerCallback;
+import de.malban.vide.veccy.StoryboardElement;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -299,6 +309,13 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
         singleRepaint = oldSingleRepaint;
     }
     
+    // used from storyboard
+    protected void setVectorBackground(Color b)
+    {
+        vectorBackground = b;
+    }
+    Color vectorBackground = VECCI_BACKGROUND_COLOR;
+    
     BufferedImage[] paintBufferImage = new BufferedImage[2];
     int bufferUsed = -1;
     synchronized void updateAndRepaint()
@@ -323,7 +340,11 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
     
         synchronized (vars.foregroundVectors.list)
         {
-            g.setColor(Color.BLACK);
+            if (this instanceof StoryboardElement)
+                g.setColor(vectorBackground);
+            else
+                g.setColor(VECCI_BACKGROUND_COLOR);
+            
             g.fillRect(0, 0, getWidth(), getHeight());
             if (!repaint) return;
             x0Offset = getWidth()/2;
@@ -331,7 +352,7 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
 
             if (vars.drawByteFrame)
             {
-                g.setColor(vars.FRAME_COLOR);
+                g.setColor(VECCI_FRAME_COLOR);
                 int x0 = -128;
                 int x1 = 127;
                 int y0 = -128;
@@ -378,11 +399,12 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
                 az = rotay.multiply(az);
                 az = rotaz.multiply(az);
 
-                g.setColor(Color.BLUE);
+                // axis not configurable yet
+                g.setColor(VECCI_X_AXIS_COLOR);
                 g.drawLine((int) ax.start.x()+x0Offset, (int) -ax.start.y()+y0Offset,  (int) ax.end.x()+x0Offset,  (int)- ax.end.y()+y0Offset);
-                g.setColor(Color.GREEN);
+                g.setColor(VECCI_Y_AXIS_COLOR);
                 g.drawLine((int) ay.start.x()+x0Offset, (int) -ay.start.y()+y0Offset,  (int) ay.end.x()+x0Offset,  (int)- ay.end.y()+y0Offset);
-                g.setColor(Color.MAGENTA);
+                g.setColor(VECCI_Z_AXIS_COLOR);
                 g.drawLine((int) az.start.x()+x0Offset, (int) -az.start.y()+y0Offset,  (int) az.end.x()+x0Offset,  (int)- az.end.y()+y0Offset);
             }        
 
@@ -431,14 +453,6 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
                     v.end.set(p2);
                 }
 
-
-                
-                
-                
-      //          lastDisplayList.list.get(count).start = p1;
-      //          lastDisplayList.list.get(count).end = p2;
-
-
                 x0 = Scaler.scaleDoubleToInt(p1.x(), scale);            
                 y0 = -Scaler.scaleDoubleToInt(p1.y(), scale);            
                 x1 = Scaler.scaleDoubleToInt(p2.x(), scale);            
@@ -451,14 +465,13 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
 
                 if ((v.a>255) || (v.a<0)) v.a = 127;
                 g.setColor(new Color(v.r, v.g, v.b, v.a));
-                // g.setColor(Color.white);
                 if (v.highlight)
                 {
-                    g.setColor(Color.YELLOW);
+                    g.setColor(VECCI_VECTOR_HIGHLIGHT_COLOR);
                 }
                 if (v.selected)
                 {
-                    g.setColor(Color.red);
+                    g.setColor(VECCI_VECTOR_SELECTED_COLOR);
                 }
 
 
@@ -481,22 +494,22 @@ public class Single3dDisplayPanel extends SingleVectorPanel//javax.swing.JPanel
                 // DRAW endpoints
                 if (v.start.highlight)
                 {
-                    g.setColor(Color.YELLOW);
+                    g.setColor(VECCI_POINT_HIGHLIGHT_COLOR);
                     g.fillRect((int) x0v, (int)y0v, 3, 3);
                 }
                 if (v.end.highlight)
                 {
-                    g.setColor(Color.YELLOW);
+                    g.setColor(VECCI_POINT_HIGHLIGHT_COLOR);
                     g.fillRect((int) x1v, (int)y1v, 3, 3);
                 }
                 if (v.start.selected)
                 {
-                    g.setColor(Color.red);
+                    g.setColor(VECCI_POINT_SELECTED_COLOR);
                     g.fillRect((int) x0v, (int)y0v, 3, 3);
                 }
                 if (v.end.selected)
                 {
-                    g.setColor(Color.red);
+                    g.setColor(VECCI_POINT_SELECTED_COLOR);
                     g.fillRect((int) x1v, (int)y1v, 3, 3);
                 }
                 count++;

@@ -6,6 +6,8 @@
 package de.malban.graphics;
 
 import de.malban.config.Configuration;
+import static de.malban.graphics.VectorColors.VECCI_VECTOR_FOREGROUND_COLOR;
+import static de.malban.graphics.VectorColors.VECCI_VECTOR_RELATIVE_COLOR;
 import de.malban.gui.panels.LogPanel;
 import de.malban.util.XMLSupport;
 import java.util.HashMap;
@@ -16,6 +18,14 @@ import java.util.HashMap;
  */
 public class GFXVector 
 {
+    // only used to find connections "optimal path"
+    public int isPosUsed=0;
+    public String key1="";
+    public String key2="";
+    
+    public int maxConnectCount=Integer.MAX_VALUE;
+    
+    
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     public static XMLSupport xmlSupport = new XMLSupport();
     // IMPORTANT
@@ -32,6 +42,7 @@ public class GFXVector
     {
         UID = u;
     }
+    private transient int orgUID = -1;
     private transient int oldCloneUID = -1; // uid that this vector was clones from
     private static int UID = 0;
     public int uid = ++UID;
@@ -59,12 +70,29 @@ public class GFXVector
     public int uid_end_connect=-1;
     
     
+    // does not change "connected vectors
+    public GFXVector inverse()
+    {
+        Vertex x = start;
+        start = end;
+        end =x;
+        
+        int xx = uid_start_connect;
+        uid_start_connect = uid_end_connect;
+        uid_end_connect = xx;
+        
+        GFXVector xxx = start_connect;
+        start_connect = end_connect;
+        end_connect = xxx;
+        return this;
+    }
+    
     public int factor;
     
     // color
-    public int r=255;
-    public int g=255;
-    public int b=255;
+    public int r = VECCI_VECTOR_FOREGROUND_COLOR.getRed();
+    public int g = VECCI_VECTOR_FOREGROUND_COLOR.getGreen();
+    public int b = VECCI_VECTOR_FOREGROUND_COLOR.getBlue();
     public int a=128; 
     
     public int pattern =255; // vectrex byte pattern
@@ -77,6 +105,12 @@ public class GFXVector
     {
         order = uid;
     }
+    public GFXVector(Vertex v1, Vertex v2)
+    {
+        order = uid;
+        start = new Vertex(v1);
+        end = new Vertex(v2);
+    }    
     public String toString()
     {
         return start.toString()+" -> "+end.toString();
@@ -93,9 +127,9 @@ public class GFXVector
     {
         selected = false;
         highlight = false;
-        r = 255;
-        g = 255;
-        b = 255;
+        r = VECCI_VECTOR_FOREGROUND_COLOR.getRed();
+        g = VECCI_VECTOR_FOREGROUND_COLOR.getGreen();
+        b = VECCI_VECTOR_FOREGROUND_COLOR.getBlue();
         a = 128;
         start.resetDisplay();
         end.resetDisplay();
@@ -144,8 +178,34 @@ public class GFXVector
         v.start.set(start);
         v.end.set(end);
         v.oldCloneUID = uid;
+        v.orgUID = orgUID;
         return v;
     }
+    
+    public GFXVector cloneSetOrg()
+    {
+        GFXVector v = new GFXVector();
+        v.selected = selected;
+        v.highlight = highlight;
+        v.setIntensity(getIntensity());
+        v.pattern = pattern;
+        v.r = r;
+        v.g = b;
+        v.b = b;
+        v.a = a;
+        v.factor = factor;
+        v.start.set(start);
+        v.end.set(end);
+        v.oldCloneUID = uid;
+        v.orgUID = uid;
+        return v;
+    }
+    
+    public int getOrgUID()
+    {
+        return orgUID;
+    }
+
     // -1 if not cloned
     // otherwise old uid
     // can be needed to restore vector "connections" after a vectorlist clone
@@ -170,16 +230,17 @@ public class GFXVector
         this.relativ = relativ;
         if (!relativ)
         {
-            r=255;
-            g=255;
-            b=255;
+            r=VECCI_VECTOR_FOREGROUND_COLOR.getRed();
+            g=VECCI_VECTOR_FOREGROUND_COLOR.getGreen();
+            b=VECCI_VECTOR_FOREGROUND_COLOR.getBlue();
             a=getIntensity()*2;
+
         }
         else
         {
-            r=255;
-            g=0;
-            b=255;
+            r=VECCI_VECTOR_RELATIVE_COLOR.getRed();
+            g=VECCI_VECTOR_RELATIVE_COLOR.getGreen();
+            b=VECCI_VECTOR_RELATIVE_COLOR.getBlue();
             a=getIntensity()*2;
         }
     }
@@ -332,6 +393,19 @@ public class GFXVector
             if (end.uid == v.uid) return true;
         }
 
+        return false;
+    }
+    
+    public boolean equals(GFXVector v1)
+    {
+        if ((start.equals(v1.start)) && (end.equals(v1.end))) return true;
+        return false;
+    }
+    
+    public boolean equalsIgnoreDirection(GFXVector v1)
+    {
+        if ((start.equals(v1.start)) && (end.equals(v1.end))) return true;
+        if ((start.equals(v1.end)) && (end.equals(v1.start))) return true;
         return false;
     }
     

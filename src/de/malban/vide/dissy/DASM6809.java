@@ -321,6 +321,7 @@ public class DASM6809 extends DASMStatics {
         BIOSLABELS.put(0xc81d, "Vec_Joy_2_X");
         BIOSLABELS.put(0xc81e, "Vec_Joy_2_Y");
         BIOSLABELS2.put(0xc81e, "Vec_Joy_Mux");
+        BIOSLABELS2.put(0xc81f, "Vec_Joy_Mux");
         BIOSLABELS.put(0xc81f, "Vec_Joy_Mux_1_X");
         BIOSLABELS.put(0xc820, "Vec_Joy_Mux_1_Y");
         BIOSLABELS.put(0xc821, "Vec_Joy_Mux_2_X");
@@ -350,7 +351,7 @@ public class DASM6809 extends DASMStatics {
         BIOSLABELS.put(0xc83d, "Vec_Rfrsh");
         BIOSLABELS2.put(0xc83d, "Vec_Rfrsh_lo");
         BIOSLABELS.put(0xc83e, "Vec_Rfrsh_hi");
-        BIOSLABELS.put(0xc83f, "Vec_Music_Work");
+        BIOSLABELS2.put(0xc83f, "Vec_Music_Work");
         BIOSLABELS.put(0xc83f, "Vec_Music_Wk_D");
         BIOSLABELS.put(0xc840, "Vec_Music_Wk_C");
         BIOSLABELS.put(0xc841, "Vec_Music_Wk_B");
@@ -368,7 +369,7 @@ public class DASM6809 extends DASMStatics {
         BIOSLABELS.put(0xc84d, "Vec_Freq_Table");
         BIOSLABELS.put(0xc84f, "Vec_Max_Players");
         BIOSLABELS.put(0xc850, "Vec_Max_Games");
-        BIOSLABELS.put(0xc84f, "Vec_ADSR_Table");
+        BIOSLABELS2.put(0xc84f, "Vec_ADSR_Table");
         BIOSLABELS.put(0xc851, "Vec_Twang_Table");
         BIOSLABELS.put(0xc853, "Vec_Music_Ptr");
         BIOSLABELS2.put(0xc853, "Vec_Expl_ChanA");
@@ -376,7 +377,7 @@ public class DASM6809 extends DASMStatics {
         BIOSLABELS.put(0xc855, "Vec_Music_Chan");
         BIOSLABELS.put(0xc856, "Vec_Music_Flag");
         BIOSLABELS.put(0xc857, "Vec_Duration");
-        BIOSLABELS.put(0xc858, "Vec_Music_Twang");
+        BIOSLABELS2.put(0xc858, "Vec_Music_Twang");
         BIOSLABELS.put(0xc858, "Vec_Expl_1");
         BIOSLABELS.put(0xc859, "Vec_Expl_2");
         BIOSLABELS.put(0xc85A, "Vec_Expl_3");
@@ -402,7 +403,19 @@ public class DASM6809 extends DASMStatics {
         BIOSLABELS.put(0xCBFB, "Vec_SWI_Vector");
         BIOSLABELS2.put(0xCBFB, "Vec_NMI_Vector");
         BIOSLABELS.put(0xCBFE, "Vec_Cold_Flag");
-    
+    }
+    public static boolean isBIOSLabelPublic(String label, int address)
+    {
+        String l = BIOSLABELS.get(address);
+        String l2 = BIOSLABELS2.get(address);
+        boolean isLabel = false;
+
+        if (l!=null) 
+            isLabel = isLabel || (label.toLowerCase().equals(l.toLowerCase()));
+        if (l2!=null) 
+            isLabel = isLabel || (label.toLowerCase().equals(l2.toLowerCase()));
+
+        return isLabel;
     }
     
     boolean isBIOSLabel(String label, int address)

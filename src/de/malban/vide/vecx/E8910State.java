@@ -15,7 +15,7 @@ public class E8910State implements Serializable, E8910Statics{
     
     public boolean is16Bit = true;
     public int  MAX_OUTPUT = is16Bit?0x7fff:0x0fff;
-
+    public boolean envWritten = false; // only used to get YM recordings for Reg 13 right!
     public int STEP=2;
     public int STEP3=1;
 
@@ -30,6 +30,7 @@ public class E8910State implements Serializable, E8910Statics{
         System.arraycopy(from.snd_regs, 0, to.snd_regs, 0, from.snd_regs.length);
         System.arraycopy(from.VolTable, 0, to.VolTable, 0, from.VolTable.length);
 
+        to.envWritten = from.envWritten;
         to.is16Bit = from.is16Bit;
         to.STEP = from.STEP;
         to.STEP3 = from.STEP3;

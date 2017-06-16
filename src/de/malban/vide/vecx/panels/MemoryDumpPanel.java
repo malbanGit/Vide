@@ -29,6 +29,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
+import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -1054,7 +1055,9 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         Point p = evt.getPoint();
         int  row = table.rowAtPoint(p);
         int  col= table.columnAtPoint(p);
-        boolean shift = KeyboardListener.isShiftDown();
+        boolean shift = false;
+        if ((evt != null ))
+            shift = ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK);
         MemoryDumpTableModel model = (MemoryDumpTableModel) jTable1.getModel();
         int address = model.getAddress(row, col);
         

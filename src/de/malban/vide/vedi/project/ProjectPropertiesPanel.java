@@ -1,6 +1,5 @@
 package de.malban.vide.vedi.project;
 
-
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
@@ -16,6 +15,7 @@ import de.malban.vide.script.ExportData;
 import de.malban.vide.script.ExportDataPool;
 import de.malban.vide.script.ScriptDataPanel;
 import de.malban.vide.vecx.cartridge.Cartridge;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_SID;
 import static de.malban.vide.vedi.VediPanel.convertSeperator;
 import de.muntjak.tinylookandfeel.Theme;
 import java.beans.PropertyChangeEvent;
@@ -402,6 +402,9 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBox6.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_EXTREME_MULTI) == Cartridge.FLAG_EXTREME_MULTI);
         jCheckBox7.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_VEC_VOX) == Cartridge.FLAG_VEC_VOX);
         jCheckBox8.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_DS2431) == Cartridge.FLAG_DS2431);
+        jCheckBox9.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_SID) == Cartridge.FLAG_SID);
+
+
         
         jComboBoxImager.setEnabled(jCheckBox5.isSelected());
         initScripts();
@@ -473,6 +476,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         if (jCheckBox6.isSelected()) extra+= Cartridge.FLAG_EXTREME_MULTI;
         if (jCheckBox7.isSelected()) extra+= Cartridge.FLAG_VEC_VOX;
         if (jCheckBox8.isSelected()) extra+= Cartridge.FLAG_DS2431;
+        if (jCheckBox9.isSelected()) extra+= Cartridge.FLAG_SID;
 
         mProjectProperties.mExtras = extra;
     }
@@ -532,6 +536,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBox16 = new javax.swing.JCheckBox();
         jComboBoxImager = new javax.swing.JComboBox();
         jCheckBox8 = new javax.swing.JCheckBox();
+        jCheckBox9 = new javax.swing.JCheckBox();
         jButtonPre = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jComboBoxPostName = new javax.swing.JComboBox();
@@ -771,13 +776,23 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBox9.setText("SID");
+        jCheckBox9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jCheckBox1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBox9))
                     .addComponent(jCheckBox7)
                     .addComponent(jCheckBox2)
                     .addComponent(jCheckBox16)
@@ -787,12 +802,14 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                     .addComponent(jCheckBox8)
                     .addComponent(jCheckBox5)
                     .addComponent(jComboBoxImager, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addContainerGap(129, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jCheckBox1)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1251,6 +1268,10 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         deinit();
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
+    private void jCheckBox9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox9ActionPerformed
+
     boolean wasMainSetManually = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1272,6 +1293,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JCheckBox jCheckBox8;
+    private javax.swing.JCheckBox jCheckBox9;
     private javax.swing.JCheckBox jCheckBoxCreateGameLoop;
     private javax.swing.JCheckBox jCheckBoxCreateSupportCode;
     private javax.swing.JComboBox jComboBoxBankswitch;
