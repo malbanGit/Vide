@@ -13,12 +13,9 @@
 ; car3 is moving right with a speed of 1
 
 ; sprite definition
+ db 12
 car1a_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 12
- else
                 DW (MAX_LINE_NUM-(12+1))*ONE_LINE_LENGTH
- endif
                 DB  5*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB  3*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
@@ -43,12 +40,9 @@ car1a_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 12
 car1b_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 12
- else
                 DW (MAX_LINE_NUM-(12+1))*ONE_LINE_LENGTH
- endif
                 DB  5*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB  3*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
@@ -73,12 +67,9 @@ car1b_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 11
 car1c_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 11
- else
                 DW (MAX_LINE_NUM-(11+1))*ONE_LINE_LENGTH
- endif
                 DB  5*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -5*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
@@ -112,12 +103,9 @@ car1d_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 11
 car3a_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 11
- else
                 DW (MAX_LINE_NUM-(11+1))*ONE_LINE_LENGTH
- endif
                 DB  0*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
@@ -141,12 +129,9 @@ car3a_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 11
 car3b_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 11
- else
                 DW (MAX_LINE_NUM-(11+1))*ONE_LINE_LENGTH
- endif
                 DB  0*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
@@ -170,12 +155,9 @@ car3b_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 11
 car4a_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 11
- else
                 DW (MAX_LINE_NUM-(11+1))*ONE_LINE_LENGTH
- endif
                 DB -2*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
@@ -199,12 +181,9 @@ car4a_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 11
 car4b_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 11
- else
                 DW (MAX_LINE_NUM-(11+1))*ONE_LINE_LENGTH
- endif
                 DB -1*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
                 DB  1*SPRITE_BLOW_UP,  3*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
@@ -228,13 +207,10 @@ car4b_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 10
 
 car5a_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB -4*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
@@ -257,12 +233,9 @@ car5a_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 10
 car5b_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB  4*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -285,12 +258,9 @@ car5b_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 10
 car5c_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB  4*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB  4*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -363,12 +333,9 @@ car6d_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 10
 car7a_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB -2*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -391,12 +358,9 @@ car7a_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 10
 car7b_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB  4*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  4*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
@@ -419,12 +383,9 @@ car7b_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 10
 car7c_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB  4*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  4*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP

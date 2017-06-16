@@ -52,7 +52,7 @@ _____ORA_______________________________- input to DAC~~
 This is a wild mixture of "things" Via has to offer!~~
 CA and CB are "Control Lines" there are 2 control lines each for "A" and "B". The control lines can generate interrupts, can be used as input or output and "B" can be "driven" by timers. The behaviour of these control lines is internally controlled by register $c [Control Register].
 
-The bits of the ORB can theoreticall be both input and output, the above bits are ONLY used as output!
+The bits of the ORB can theoretically be both input and output, the above bits are ONLY used as output!
 Bit 7 is "special" in the way, that output can also be "controlled" by the timer 1 of VIA.
 
 ORA is used as "direct" input to the DAC.
@@ -104,7 +104,7 @@ The same thing as ZERO only this time for the brightness of the beam, not the po
 
 :h3 RAMP
 The RAMP signal enables or disables integration. In the diagramm the RAMP line is connected to "switches" befor the integrators. If RAMP is active, the switch is in ON position and integration happens. If not, NO integration is possible. But the integrators "hold" their values (well for a little time anyway).
-It is not possible to switch only one of the integrators on or off, you do allways set RAMP for both! If you don't want to integrate the other one, set the "integration value" to 0.
+It is not possible to switch only one of the integrators on or off, you do always set RAMP for both! If you don't want to integrate the other one, set the "integration value" to 0.
 
 :h3 mux enable
 As seen in the diagram, the output of the DAC goes as input into the MUX.
@@ -118,7 +118,7 @@ These two bits are used together to build a 2 bit value. This two bit value rang
 2 (binary: 10) Z-value of vector hardware (brightness)~~
 3 (binary: 11) audio hardware~~
 
-Not discerable on the diagram is, that for the line 0 and line 2 (y-Integration and Brightness) the values that are set are hold till set to another value. Responsible for holding are the op-amps of type IC LF347(s).For setting a value one can also say, that the current DAC value is a (short) "sample", and these sample values are on hold till new samples arrive. In many documentations you may find "sample and hold" values. 
+Not discernable on the diagram is, that for the line 0 and line 2 (y-Integration and Brightness) the values that are set are hold till set to another value. Responsible for holding are the op-amps of type IC LF347(s). For setting a value one can also say, that the current DAC value is a (short) "sample", and these sample values are on hold till new samples arrive. In many documentations you may find "sample and hold" values. 
 The values that are set to the above four different destinations are those "sample and hold" values.
 
 :h3 DAC Value

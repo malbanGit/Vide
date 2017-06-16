@@ -128,20 +128,63 @@
 <DocumentNode>
 <Filename>5f12c2eb</Filename>
 <Title>vecci</Title>
+<Label>vecci</Label>
 <FullTextSearch>true</FullTextSearch>
+<Anchor>basic</Anchor>
+<Anchor>wentities</Anchor>
+<Anchor>dvectors</Anchor>
+<Anchor>anavigatiom</Anchor>
+<Anchor>banimation</Anchor>
+<Anchor>shortcuts</Anchor>
+<Anchor>animationScenario</Anchor>
+<Anchor>vecciFormat</Anchor>
+<Anchor>other</Anchor>
 <DocumentNode>
 <Filename>6aacd4ec</Filename>
 <Title>Import</Title>
+<Label>vecciImport</Label>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
 <Filename>aa9962d6</Filename>
 <Title>Export</Title>
+<Label>vecciExport</Label>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>2794015a</Filename>
+<Title>Storyboard</Title>
+<Label>vecciStoryboard</Label>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
 <Filename>59f24a14</Filename>
 <Title>Vector images</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>f7d25861</Filename>
+<Title>"perfect" Vectorlists</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>7e1927c5</Filename>
+<Title>"good" Vectorlists</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>2b2a043b</Filename>
+<Title>"still ok'ish" Vectorlists</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>7428344f</Filename>
+<Title>"still possible - but really bad" Vectorlists</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>8649fa7d</Filename>
+<Title>"bad" Vectorlists</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 </DocumentNode>
@@ -219,6 +262,11 @@
 <Title>VecVoice/VecVox+</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
+<DocumentNode>
+<Filename>167cf83a</Filename>
+<Title>Arkos Tracker</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
 </DocumentNode>
 <DocumentNode>
 <Filename>83b2bd44</Filename>
@@ -237,6 +285,11 @@
 <DocumentNode>
 <Filename>74800ffe</Filename>
 <Title>eEprom DS2430A</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>5ca64be1</Filename>
+<Title>eEprom DS2431</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
@@ -262,6 +315,11 @@
 <DocumentNode>
 <Filename>f34029d9</Filename>
 <Title>AYFX sound effects</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>4d877149</Filename>
+<Title>Arkos Tracker music</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
@@ -317,6 +375,11 @@
 <DocumentNode>
 <Filename>2a6412de</Filename>
 <Title>Emulation: eEprom DS2430A</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>1f9ace61</Filename>
+<Title>Emulation: eEprom DS2431</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
@@ -385,15 +448,25 @@
 <FullTextSearch>true</FullTextSearch>
 <DocumentNode>
 <Filename>8c8fdbdf</Filename>
-<Title>What is PWM.</Title>
+<Title>What is PWM?</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
+</DocumentNode>
+<DocumentNode>
+<Filename>09fd2777</Filename>
+<Title>Emulation: Card LED</Title>
+<FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 </DocumentNode>
 <DocumentNode>
 <Filename>a0d1a1a6</Filename>
 <Title>Configuration</Title>
 <FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>19815186</Filename>
+<Title>LAF, themes and such</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
 </DocumentNode>
 <DocumentNode>
 <Filename>eae1f853</Filename>
@@ -410,6 +483,16 @@
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 <DocumentNode>
+<Filename>66250639</Filename>
+<Title>Draw_VLc - Optimizations</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>15f89890</Filename>
+<Title>Drawing vectors - differently</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
 <Filename>81796e0f</Filename>
 <Title>... a demo written</Title>
 <FullTextSearch>true</FullTextSearch>
@@ -417,6 +500,54 @@
 <DocumentNode>
 <Filename>f4bb2ad3</Filename>
 <Title>Vectrex32</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>e5f046e3</Filename>
+<Title>Button queries</Title>
+<FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>211b0867</Filename>
+<Title>Example Button query BIOS (flash)</Title>
+<Label>J1</Label>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>f13570b3</Filename>
+<Title>Example Button query BIOS (steady)</Title>
+<Label>J2</Label>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>0dc72b68</Filename>
+<Title>Button quicky</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+</DocumentNode>
+<DocumentNode>
+<Filename>a433994a</Filename>
+<Title>Joystick queries</Title>
+<FullTextSearch>true</FullTextSearch>
+<DocumentNode>
+<Filename>732dd1eb</Filename>
+<Title>Example Joystick Query BIOS (digital)</Title>
+<Label>J3</Label>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>0f9bd157</Filename>
+<Title>Example Joystick Quicky</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+</DocumentNode>
+<DocumentNode>
+<Filename>2f2bb499</Filename>
+<Title>BIOS RAM locations</Title>
+<FullTextSearch>true</FullTextSearch>
+</DocumentNode>
+<DocumentNode>
+<Filename>92a0f132</Filename>
+<Title>Findings</Title>
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 </DocumentNode>
@@ -506,1282 +637,1537 @@
 <FullTextSearch>true</FullTextSearch>
 </DocumentNode>
 </DocumentNode>
+<Label Name="J1">211b0867</Label>
+<Label Name="J2">f13570b3</Label>
+<Label Name="vecci">5f12c2eb</Label>
+<Label Name="vecciExport">aa9962d6</Label>
+<Label Name="vecciImport">6aacd4ec</Label>
+<Label Name="vecciStoryboard">2794015a</Label>
 </DocumentTree>
 <ImageLibrary>
+<Root>C:\t\Vide\helper\Images</Root>
 <Root>C:\t\csa\Veccy\helper\Images</Root>
 <Image Name="2dtools.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1465244820000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>303</Width>
 <Height>263</Height>
 </Image>
+<Image Name="9bitnok.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1484316350000</Timestamp>
+<Width>346</Width>
+<Height>471</Height>
+</Image>
+<Image Name="9bitok.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1484316308000</Timestamp>
+<Width>350</Width>
+<Height>457</Height>
+</Image>
 <Image Name="AYFXCodeGen0.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469024724000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>231</Width>
 <Height>158</Height>
 </Image>
 <Image Name="AYFXCodeGen1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469024754000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>510</Width>
 <Height>357</Height>
 </Image>
 <Image Name="AYFXCodeGen2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469024807000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>297</Width>
 <Height>294</Height>
 </Image>
 <Image Name="AYFXCodeGen3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469024856000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>356</Width>
 <Height>383</Height>
 </Image>
 <Image Name="AYFXCodeGen4.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469024883000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>816</Width>
 <Height>702</Height>
 </Image>
 <Image Name="AYFXCodeGen5.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469024907000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>519</Width>
 <Height>113</Height>
 </Image>
 <Image Name="AYFXCodeGen6.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469024931000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>396</Width>
 <Height>504</Height>
 </Image>
+<Image Name="ArkosTracker.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1493118302000</Timestamp>
+<Width>812</Width>
+<Height>614</Height>
+</Image>
+<Image Name="ArkosTrackerAdd.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1493120072000</Timestamp>
+<Width>211</Width>
+<Height>170</Height>
+</Image>
+<Image Name="ArkosTrackerAdd2.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1493120156000</Timestamp>
+<Width>511</Width>
+<Height>356</Height>
+</Image>
+<Image Name="ArkosTrackerAdd3.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1493120242000</Timestamp>
+<Width>304</Width>
+<Height>369</Height>
+</Image>
+<Image Name="ArkosTrackerAdd4.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1493120376000</Timestamp>
+<Width>160</Width>
+<Height>51</Height>
+</Image>
+<Image Name="ArkosTrackerAdd5.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1493120654000</Timestamp>
+<Width>332</Width>
+<Height>439</Height>
+</Image>
+<Image Name="ArkosTrackerMain.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1493120830000</Timestamp>
+<Width>743</Width>
+<Height>750</Height>
+</Image>
+<Image Name="ArkosTrackerPlayer.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1493120994000</Timestamp>
+<Width>377</Width>
+<Height>477</Height>
+</Image>
+<Image Name="ArkosTrackerScore.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1493120890000</Timestamp>
+<Width>740</Width>
+<Height>750</Height>
+</Image>
 <Image Name="BankSwitch1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468948698000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>709</Width>
 <Height>630</Height>
 </Image>
 <Image Name="Bankswitch2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468948730000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1119</Width>
 <Height>1281</Height>
 </Image>
 <Image Name="Bankswitch3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468948806000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>405</Width>
 <Height>504</Height>
 </Image>
 <Image Name="Bankswitch4.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468948776000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>403</Width>
 <Height>505</Height>
 </Image>
 <Image Name="BresenhamExample.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462721668000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1232</Width>
 <Height>393</Height>
 </Image>
+<Image Name="CalibrateNOK.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1484310666000</Timestamp>
+<Width>348</Width>
+<Height>53</Height>
+</Image>
+<Image Name="CalibrateOK.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1484310604000</Timestamp>
+<Width>333</Width>
+<Height>42</Height>
+</Image>
 <Image Name="CartProps.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1458683778000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>580</Width>
 <Height>773</Height>
 </Image>
 <Image Name="ChrisFrog.gif">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1462714046000</Timestamp>
+<Width>158</Width>
+<Height>156</Height>
 </Image>
 <Image Name="CleanSweep.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454595284000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>784</Width>
 <Height>1036</Height>
 </Image>
 <Image Name="CodeGen.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462968730000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1511</Width>
 <Height>424</Height>
 </Image>
+<Image Name="DS2431.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1480938236000</Timestamp>
+<Width>658</Width>
+<Height>516</Height>
+</Image>
 <Image Name="Downloader.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1458683738000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>699</Width>
 <Height>400</Height>
 </Image>
 <Image Name="FrogNotSynced.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1472164376000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>469</Width>
 <Height>639</Height>
 </Image>
 <Image Name="FroggerExample.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462721238000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1227</Width>
 <Height>392</Height>
 </Image>
 <Image Name="GameLoop1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468946586000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>711</Width>
 <Height>635</Height>
 </Image>
 <Image Name="GameLoop2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468946536000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>998</Width>
 <Height>990</Height>
 </Image>
 <Image Name="GameLoop3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468946648000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>402</Width>
 <Height>502</Height>
 </Image>
+<Image Name="GillSans10.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1482711602000</Timestamp>
+<Width>521</Width>
+<Height>261</Height>
+</Image>
+<Image Name="Hut.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1478703404000</Timestamp>
+<Width>366</Width>
+<Height>508</Height>
+</Image>
 <Image Name="ImagerExample.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1471348847000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>379</Width>
 <Height>484</Height>
 </Image>
 <Image Name="Instruments.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1472765270000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1026</Width>
 <Height>429</Height>
 </Image>
+<Image Name="LAFBuild.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1482580946000</Timestamp>
+<Width>1490</Width>
+<Height>828</Height>
+</Image>
+<Image Name="Laf18.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1482580610000</Timestamp>
+<Width>867</Width>
+<Height>278</Height>
+</Image>
 <Image Name="LightPenExample1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1471348989000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>559</Width>
 <Height>695</Height>
 </Image>
 <Image Name="LightPenExample2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1471348929000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>559</Width>
 <Height>694</Height>
 </Image>
 <Image Name="LightPenExample3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1471348820000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>558</Width>
 <Height>693</Height>
 </Image>
 <Image Name="ModCodeGen0.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468963512000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>240</Width>
 <Height>220</Height>
 </Image>
 <Image Name="ModCodeGen1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468963550000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>537</Width>
 <Height>469</Height>
 </Image>
 <Image Name="ModCodeGen2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468963584000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>315</Width>
 <Height>372</Height>
 </Image>
 <Image Name="ModCodeGen4.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468963610000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>761</Width>
 <Height>491</Height>
 </Image>
 <Image Name="ModCodeGen5.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468963636000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>308</Width>
 <Height>433</Height>
 </Image>
 <Image Name="ModCodeGen6.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468963682000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1053</Width>
 <Height>1278</Height>
 </Image>
 <Image Name="ModCodeGen7.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468963722000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1055</Width>
 <Height>1270</Height>
 </Image>
+<Image Name="NaviConfg.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1487893874000</Timestamp>
+<Width>511</Width>
+<Height>301</Height>
+</Image>
 <Image Name="NewProject.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1458767052000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>704</Width>
 <Height>627</Height>
 </Image>
 <Image Name="OrderedCorrect.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462785180000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>224</Width>
 <Height>165</Height>
 </Image>
 <Image Name="OrderedWrong.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462785110000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>223</Width>
 <Height>159</Height>
 </Image>
+<Image Name="Orientation.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1480940912000</Timestamp>
+<Width>804</Width>
+<Height>241</Height>
+</Image>
 <Image Name="PatriotsExample.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462721464000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1219</Width>
 <Height>381</Height>
 </Image>
 <Image Name="RasterCodeGen0.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468998350000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>207</Width>
 <Height>186</Height>
 </Image>
 <Image Name="RasterCodeGen1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468998724000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>505</Width>
 <Height>358</Height>
 </Image>
 <Image Name="RasterCodeGen2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468998764000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>269</Width>
 <Height>352</Height>
 </Image>
 <Image Name="RasterCodeGen3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468999634000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>327</Width>
 <Height>390</Height>
 </Image>
 <Image Name="RasterCodeGen4.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468999742000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>855</Width>
 <Height>874</Height>
 </Image>
 <Image Name="RasterCodeGen5.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468999798000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1090</Width>
 <Height>939</Height>
 </Image>
 <Image Name="RasterCodeGen6.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469000292000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>716</Width>
 <Height>648</Height>
 </Image>
 <Image Name="RasterCodeGen7.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468999590000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>341</Width>
 <Height>393</Height>
 </Image>
+<Image Name="RemovePoint2.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1480940904000</Timestamp>
+<Width>703</Width>
+<Height>178</Height>
+</Image>
+<Image Name="Retain.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1484318702000</Timestamp>
+<Width>212</Width>
+<Height>37</Height>
+</Image>
 <Image Name="SampleCodeGen0.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468957966000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>303</Width>
 <Height>362</Height>
 </Image>
 <Image Name="SampleCodeGen1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468957796000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>639</Width>
 <Height>653</Height>
 </Image>
 <Image Name="SampleCodeGen2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468957868000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>371</Width>
 <Height>407</Height>
 </Image>
 <Image Name="SampleCodeGen3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468957896000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>795</Width>
 <Height>495</Height>
 </Image>
 <Image Name="SampleCodeGen4.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468957830000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>401</Width>
 <Height>505</Height>
 </Image>
 <Image Name="SampleCodeGen5.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468958014000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>840</Width>
 <Height>1048</Height>
 </Image>
 <Image Name="SpudsterExample.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462729460000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1227</Width>
 <Height>381</Height>
 </Image>
+<Image Name="Storyboard.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1496144402000</Timestamp>
+<Width>1115</Width>
+<Height>717</Height>
+</Image>
 <Image Name="ThrustShipExample.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462720956000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1224</Width>
 <Height>386</Height>
 </Image>
+<Image Name="ThrustTitle.jpg">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1484316848000</Timestamp>
+<Width>414</Width>
+<Height>640</Height>
+</Image>
 <Image Name="VaboomExample.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462721118000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1232</Width>
 <Height>385</Height>
 </Image>
 <Image Name="Vec32Help.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1474485854000</Timestamp>
+<Timestamp>1474482254000</Timestamp>
 <Width>1239</Width>
 <Height>983</Height>
 </Image>
+<Image Name="VecFeverSupport.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1482713044000</Timestamp>
+<Width>308</Width>
+<Height>45</Height>
+</Image>
 <Image Name="VecLink.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1471351504000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>802</Width>
 <Height>460</Height>
 </Image>
 <Image Name="VecSpeech.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1466440114000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1020</Width>
 <Height>598</Height>
 </Image>
 <Image Name="VecVoxCodeGen0.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469027671000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>320</Width>
 <Height>348</Height>
 </Image>
 <Image Name="VecVoxCodeGen1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469027720000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1026</Width>
 <Height>663</Height>
 </Image>
 <Image Name="VecVoxCodeGen2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469027753000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>321</Width>
 <Height>435</Height>
 </Image>
 <Image Name="VecVoxCodeGen3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469027786000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>720</Width>
 <Height>953</Height>
 </Image>
 <Image Name="VecVoxCodeGen4.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469027832000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>449</Width>
 <Height>147</Height>
 </Image>
 <Image Name="VecVoxCodeGen5.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469027804000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>399</Width>
 <Height>507</Height>
 </Image>
 <Image Name="VeccyExport.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462916838000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1508</Width>
 <Height>421</Height>
 </Image>
 <Image Name="VeccyInfo.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462916898000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>721</Width>
 <Height>361</Height>
 </Image>
 <Image Name="VeccyMode.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462785798000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>253</Width>
 <Height>240</Height>
 </Image>
 <Image Name="VectorImageCodeGen0.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469011738000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>310</Width>
 <Height>257</Height>
 </Image>
 <Image Name="VectorImageCodeGen1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469012982000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1068</Width>
 <Height>717</Height>
 </Image>
 <Image Name="VectorImageCodeGen2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469015066000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1222</Width>
 <Height>896</Height>
 </Image>
 <Image Name="VectorImageCodeGen2a.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469014320000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1125</Width>
 <Height>388</Height>
 </Image>
 <Image Name="VectorImageCodeGen2b.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469014850000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>294</Width>
 <Height>249</Height>
 </Image>
 <Image Name="VectorImageCodeGen3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469013548000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1175</Width>
 <Height>884</Height>
 </Image>
 <Image Name="VectorImageCodeGen4.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469015738000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1023</Width>
 <Height>771</Height>
 </Image>
 <Image Name="VectorImageCodeGen5.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469015814000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>387</Width>
 <Height>471</Height>
 </Image>
 <Image Name="VectorPanel.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1463000622000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1070</Width>
 <Height>747</Height>
 </Image>
 <Image Name="VideNameBig.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1473167530000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1092</Width>
 <Height>500</Height>
 </Image>
 <Image Name="VideNameNormal.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1473167755000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>546</Width>
 <Height>250</Height>
 </Image>
 <Image Name="Violine.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1474838180000</Timestamp>
+<Timestamp>1474834580000</Timestamp>
 <Width>926</Width>
 <Height>310</Height>
 </Image>
+<Image Name="WatchInDissi.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1482580846000</Timestamp>
+<Width>956</Width>
+<Height>705</Height>
+</Image>
 <Image Name="WheelEdit1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1471212295000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>479</Width>
 <Height>584</Height>
 </Image>
+<Image Name="Xmas.gif">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1480939528000</Timestamp>
+<Width>320</Width>
+<Height>427</Height>
+</Image>
+<Image Name="YMAmplitude.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1480944424000</Timestamp>
+<Width>237</Width>
+<Height>181</Height>
+</Image>
 <Image Name="YMCodeGen0.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469018076000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>193</Width>
 <Height>172</Height>
 </Image>
 <Image Name="YMCodeGen1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469018166000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>509</Width>
 <Height>358</Height>
 </Image>
 <Image Name="YMCodeGen2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469018210000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>279</Width>
 <Height>336</Height>
 </Image>
 <Image Name="YMCodeGen3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469018958000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1028</Width>
 <Height>601</Height>
 </Image>
 <Image Name="YMCodeGen4.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469019130000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1022</Width>
 <Height>741</Height>
 </Image>
 <Image Name="YMCodeGen4a.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469019954000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>317</Width>
 <Height>358</Height>
 </Image>
 <Image Name="YMCodeGen5.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469020372000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>385</Width>
 <Height>474</Height>
 </Image>
 <Image Name="accept.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400826000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="add.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400826000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="adsr.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1461103138000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>306</Width>
 <Height>199</Height>
 </Image>
 <Image Name="ani.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1469036725000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>264</Width>
 <Height>435</Height>
 </Image>
+<Image Name="application_get.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472058492000</Timestamp>
+<Width>16</Width>
+<Height>16</Height>
+</Image>
 <Image Name="application_lightning.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400828000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
+<Width>16</Width>
+<Height>16</Height>
+</Image>
+<Image Name="application_view_gallery.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472058492000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="application_view_list.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142192920000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
+<Width>16</Width>
+<Height>16</Height>
+</Image>
+<Image Name="arrow_left.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472058492000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="arrow_out.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142192926000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="arrow_redo.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1461762540000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="arrow_refresh.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142192928000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
+<Width>16</Width>
+<Height>16</Height>
+</Image>
+<Image Name="arrow_right.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472058492000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="arrow_rotate_clockwise.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142192930000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="arrow_turn_left.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142192932000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="arrow_turn_right.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142192932000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="arrow_undo.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1461762540000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="ayfx.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1461008818000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>645</Width>
 <Height>470</Height>
 </Image>
 <Image Name="ayi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1457127532000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>489</Width>
 <Height>367</Height>
 </Image>
 <Image Name="aypanel.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1461527952000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>608</Width>
 <Height>354</Height>
 </Image>
 <Image Name="breakpoints.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1459803232000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>822</Width>
 <Height>587</Height>
 </Image>
 <Image Name="bug_go.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142192986000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="bullet_go.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142192998000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="cancel.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400838000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="cdissi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455471664000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1080</Width>
 <Height>661</Height>
 </Image>
 <Image Name="chart_curve_edit.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400840000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="codi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1456355146000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1023</Width>
 <Height>765</Height>
 </Image>
 <Image Name="cog_edit.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142193064000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="color_wheel.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400844000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="config.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455034054000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>447</Width>
 <Height>660</Height>
 </Image>
 <Image Name="config1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460069470000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>557</Width>
 <Height>1089</Height>
 </Image>
 <Image Name="config2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460071836000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>560</Width>
 <Height>1094</Height>
 </Image>
 <Image Name="config3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460097084000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>561</Width>
 <Height>577</Height>
 </Image>
 <Image Name="config4.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460097676000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>560</Width>
 <Height>295</Height>
 </Image>
 <Image Name="config5.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460097720000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>559</Width>
 <Height>231</Height>
 </Image>
 <Image Name="config6.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460097758000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>561</Width>
 <Height>201</Height>
 </Image>
 <Image Name="control_equalizer_blue.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400846000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="control_pause.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142193092000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="control_play.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142193094000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="control_play_blue.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400846000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="control_record_blue.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460273748000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="control_rewind_blue.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454404446000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="control_stop.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142193098000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="control_stop_blue.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400846000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="cut.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454404448000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="delete.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400850000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="device_imager.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1471212431000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>742</Width>
 <Height>744</Height>
 </Image>
+<Image Name="disk_add.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472058492000</Timestamp>
+<Width>16</Width>
+<Height>16</Height>
+</Image>
 <Image Name="disscommands.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455471268000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>585</Width>
 <Height>307</Height>
 </Image>
 <Image Name="dissi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455137094000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1549</Width>
 <Height>665</Height>
 </Image>
 <Image Name="dissi2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455033710000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>252</Width>
 <Height>241</Height>
 </Image>
 <Image Name="dissi3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455034198000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>195</Width>
 <Height>100</Height>
 </Image>
+<Image Name="drive_user.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472105292000</Timestamp>
+<Width>16</Width>
+<Height>16</Height>
+</Image>
 <Image Name="ds2430a.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1470671879000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>658</Width>
 <Height>508</Height>
 </Image>
 <Image Name="dumpi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468880866000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1002</Width>
 <Height>852</Height>
 </Image>
 <Image Name="dumpi2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468881564000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1003</Width>
 <Height>852</Height>
 </Image>
 <Image Name="dumpiChars.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1471769450000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1803</Width>
 <Height>735</Height>
 </Image>
 <Image Name="eEprom1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468949968000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>708</Width>
 <Height>629</Height>
 </Image>
 <Image Name="eEprom2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468950048000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>537</Width>
 <Height>394</Height>
 </Image>
 <Image Name="eEprom3.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468950080000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>741</Width>
 <Height>507</Height>
 </Image>
 <Image Name="eEprom4.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1468950462000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>951</Width>
 <Height>1277</Height>
 </Image>
 <Image Name="faces.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1474910758000</Timestamp>
+<Timestamp>1474907158000</Timestamp>
 <Width>1491</Width>
 <Height>870</Height>
 </Image>
 <Image Name="folder_go.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142193196000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
+<Width>16</Width>
+<Height>16</Height>
+</Image>
+<Image Name="font_add.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472094492000</Timestamp>
+<Width>16</Width>
+<Height>16</Height>
+</Image>
+<Image Name="font_delete.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472094492000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="frogSynced.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1472164344000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>459</Width>
 <Height>639</Height>
 </Image>
 <Image Name="gapsFilled.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462785576000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>300</Width>
 <Height>298</Height>
 </Image>
 <Image Name="help.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400860000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="indexadressing.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455631972000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>780</Width>
 <Height>539</Height>
 </Image>
 <Image Name="jinput.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1472164311000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>582</Width>
 <Height>948</Height>
 </Image>
 <Image Name="labi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455033524000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>426</Width>
 <Height>693</Height>
 </Image>
 <Image Name="library.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1456355254000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>552</Width>
 <Height>449</Height>
 </Image>
 <Image Name="line.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1465244784000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>306</Width>
 <Height>258</Height>
 </Image>
 <Image Name="menubar.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455037496000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>234</Width>
 <Height>189</Height>
 </Image>
 <Image Name="microchip.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1470671536000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>661</Width>
 <Height>508</Height>
 </Image>
 <Image Name="mod2vectrex1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460918906000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>800</Width>
 <Height>801</Height>
 </Image>
 <Image Name="mod2vectrex2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460920832000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1008</Width>
 <Height>1101</Height>
 </Image>
 <Image Name="monitor_add.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142193290000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="mouse_error.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142193296000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="mult3Emu.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1457782944000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>478</Width>
 <Height>671</Height>
 </Image>
 <Image Name="mult3Vec.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1457782980000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>414</Width>
 <Height>640</Height>
 </Image>
 <Image Name="new.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454404468000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="newConfig.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1458683674000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>537</Width>
 <Height>828</Height>
 </Image>
 <Image Name="noFilled.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462785516000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>303</Width>
 <Height>300</Height>
 </Image>
 <Image Name="page_add.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454404470000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="page_code.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400870000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="page_copy.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454404470000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="page_edit.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454404470000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="page_go.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454404470000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="page_save.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454404470000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="paste_plain.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454404474000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="pencil.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400876000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="polygonError.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462817238000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>232</Width>
 <Height>228</Height>
 </Image>
 <Image Name="printString.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1471768814000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>516</Width>
 <Height>687</Height>
 </Image>
 <Image Name="projectPopUp.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1458766962000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>316</Width>
 <Height>259</Height>
 </Image>
 <Image Name="pwm1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1471007820000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>427</Width>
 <Height>108</Height>
 </Image>
 <Image Name="raster1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460100808000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>962</Width>
 <Height>713</Height>
 </Image>
 <Image Name="regi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455032928000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>235</Width>
 <Height>398</Height>
 </Image>
 <Image Name="resultset_next.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400880000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="resultset_previous.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400880000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="rotation.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462225590000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>732</Width>
 <Height>477</Height>
 </Image>
 <Image Name="sample1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460501856000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>633</Width>
 <Height>647</Height>
 </Image>
 <Image Name="server_go.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1463482716000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="shortcuts.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462916642000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>290</Width>
 <Height>254</Height>
 </Image>
 <Image Name="sound_add.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400884000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="spectrumWin.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1470672654000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>707</Width>
 <Height>417</Height>
 </Image>
 <Image Name="splitExample1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462795468000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>302</Width>
 <Height>300</Height>
 </Image>
 <Image Name="splitExample2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462795728000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>341</Width>
 <Height>174</Height>
 </Image>
 <Image Name="starter.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1458683710000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1045</Width>
 <Height>836</Height>
 </Image>
 <Image Name="stop.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142193466000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="sweep.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1457478078000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>878</Width>
 <Height>1079</Height>
 </Image>
 <Image Name="syntax.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455469788000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>589</Width>
 <Height>170</Height>
 </Image>
 <Image Name="table_refresh.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400888000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="table_relationship.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1454400888000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="test.gif">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1462712126000</Timestamp>
+<Width>161</Width>
+<Height>159</Height>
 </Image>
 <Image Name="text_columns.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1463482724000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="tracki.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455033248000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>354</Width>
 <Height>213</Height>
 </Image>
 <Image Name="trackyNew.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462709316000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>306</Width>
 <Height>209</Height>
 </Image>
+<Image Name="user_red.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1472058492000</Timestamp>
+<Width>16</Width>
+<Height>16</Height>
+</Image>
 <Image Name="vari.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460098930000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1034</Width>
 <Height>298</Height>
 </Image>
 <Image Name="vec_art_scheme.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1456315322000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>960</Width>
 <Height>360</Height>
 </Image>
+<Image Name="vecci3d.png">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1494359718000</Timestamp>
+<Width>801</Width>
+<Height>810</Height>
+</Image>
 <Image Name="veccy.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462915368000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1184</Width>
 <Height>946</Height>
 </Image>
 <Image Name="veccytextImport.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462707278000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1210</Width>
 <Height>413</Height>
 </Image>
 <Image Name="vectorCam.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1462209352000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="vectrexMod.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1457041258000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>555</Width>
 <Height>978</Height>
 </Image>
+<Image Name="vectrex_cart_fix.jpg">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1484320614000</Timestamp>
+<Width>173</Width>
+<Height>271</Height>
+</Image>
+<Image Name="vectrex_main_diff.jpg">
+<Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
+<Timestamp>1484320630000</Timestamp>
+<Width>500</Width>
+<Height>396</Height>
+</Image>
 <Image Name="vecxi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455036564000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>531</Width>
 <Height>678</Height>
 </Image>
 <Image Name="vedi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1471552902000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>963</Width>
 <Height>801</Height>
 </Image>
 <Image Name="vediAss.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455470352000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>987</Width>
 <Height>596</Height>
 </Image>
 <Image Name="vediFilePopup.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1458768314000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>281</Width>
 <Height>408</Height>
 </Image>
 <Image Name="viai.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1455033162000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>896</Width>
 <Height>668</Height>
 </Image>
 <Image Name="vinfi.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1470676874000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>117</Width>
 <Height>390</Height>
 </Image>
 <Image Name="webcam.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1142193556000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>16</Width>
 <Height>16</Height>
 </Image>
 <Image Name="ym1.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1460997328000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>788</Width>
 <Height>1146</Height>
 </Image>
 <Image Name="ympanel2.png">
 <Foundry>C:\t\csa\Veccy\helper\Images</Foundry>
-<Timestamp>1461527910000</Timestamp>
+<Timestamp>1476433994000</Timestamp>
 <Width>1026</Width>
 <Height>599</Height>
 </Image>
 <ThumbName Image="2dtools.png">6ff3224a</ThumbName>
+<ThumbName Image="9bitnok.png">1069dbc9</ThumbName>
+<ThumbName Image="9bitok.png">f29b422c</ThumbName>
 <ThumbName Image="AYFXCodeGen0.png">8fcb57fd</ThumbName>
 <ThumbName Image="AYFXCodeGen1.png">61986beb</ThumbName>
 <ThumbName Image="AYFXCodeGen2.png">53d14809</ThumbName>
@@ -1789,23 +2175,39 @@
 <ThumbName Image="AYFXCodeGen4.png">42f15881</ThumbName>
 <ThumbName Image="AYFXCodeGen5.png">69fad908</ThumbName>
 <ThumbName Image="AYFXCodeGen6.png">f720382e</ThumbName>
+<ThumbName Image="ArkosTracker.png">80cbb3ce</ThumbName>
+<ThumbName Image="ArkosTrackerAdd.png">7a6d7203</ThumbName>
+<ThumbName Image="ArkosTrackerAdd2.png">7fa1f36f</ThumbName>
+<ThumbName Image="ArkosTrackerAdd3.png">bf31c552</ThumbName>
+<ThumbName Image="ArkosTrackerAdd4.png">96580a8d</ThumbName>
+<ThumbName Image="ArkosTrackerAdd5.png">8ed4683a</ThumbName>
+<ThumbName Image="ArkosTrackerMain.png">2790208a</ThumbName>
+<ThumbName Image="ArkosTrackerPlayer.png">2d8933b0</ThumbName>
+<ThumbName Image="ArkosTrackerScore.png">dbcd4c09</ThumbName>
 <ThumbName Image="BankSwitch1.png">1145c2e4</ThumbName>
 <ThumbName Image="Bankswitch2.png">f3550f3e</ThumbName>
 <ThumbName Image="Bankswitch3.png">f9163685</ThumbName>
 <ThumbName Image="Bankswitch4.png">34583c6e</ThumbName>
 <ThumbName Image="BresenhamExample.png">9bdd7b68</ThumbName>
+<ThumbName Image="CalibrateNOK.png">d515cd78</ThumbName>
+<ThumbName Image="CalibrateOK.png">817b1d12</ThumbName>
 <ThumbName Image="CartProps.png">cc85d8cf</ThumbName>
 <ThumbName Image="ChrisFrog.gif">72e2be47</ThumbName>
 <ThumbName Image="CleanSweep.png">4b3d0302</ThumbName>
 <ThumbName Image="CodeGen.png">19280db0</ThumbName>
+<ThumbName Image="DS2431.png">59f1b9b7</ThumbName>
 <ThumbName Image="Downloader.png">84558e3d</ThumbName>
 <ThumbName Image="FrogNotSynced.png">d8890c40</ThumbName>
 <ThumbName Image="FroggerExample.png">99a554db</ThumbName>
 <ThumbName Image="GameLoop1.png">fab342cd</ThumbName>
 <ThumbName Image="GameLoop2.png">71e85416</ThumbName>
 <ThumbName Image="GameLoop3.png">91645759</ThumbName>
+<ThumbName Image="GillSans10.png">13e94a4f</ThumbName>
+<ThumbName Image="Hut.png">27aa2bd6</ThumbName>
 <ThumbName Image="ImagerExample.png">93cc77f7</ThumbName>
 <ThumbName Image="Instruments.png">68efd3ec</ThumbName>
+<ThumbName Image="LAFBuild.png">efc9398f</ThumbName>
+<ThumbName Image="Laf18.png">39513def</ThumbName>
 <ThumbName Image="LightPenExample1.png">9a1d6c56</ThumbName>
 <ThumbName Image="LightPenExample2.png">d4632bed</ThumbName>
 <ThumbName Image="LightPenExample3.png">a9a4612d</ThumbName>
@@ -1816,9 +2218,11 @@
 <ThumbName Image="ModCodeGen5.png">91881a71</ThumbName>
 <ThumbName Image="ModCodeGen6.png">987efda4</ThumbName>
 <ThumbName Image="ModCodeGen7.png">5947f2ab</ThumbName>
+<ThumbName Image="NaviConfg.png">8dc2ed65</ThumbName>
 <ThumbName Image="NewProject.png">7f956992</ThumbName>
 <ThumbName Image="OrderedCorrect.png">cbbcb483</ThumbName>
 <ThumbName Image="OrderedWrong.png">ecbaafd0</ThumbName>
+<ThumbName Image="Orientation.png">b2441594</ThumbName>
 <ThumbName Image="PatriotsExample.png">2e97fc61</ThumbName>
 <ThumbName Image="RasterCodeGen0.png">a1dd6a04</ThumbName>
 <ThumbName Image="RasterCodeGen1.png">34efcf7a</ThumbName>
@@ -1828,6 +2232,8 @@
 <ThumbName Image="RasterCodeGen5.png">bd891749</ThumbName>
 <ThumbName Image="RasterCodeGen6.png">73496be8</ThumbName>
 <ThumbName Image="RasterCodeGen7.png">b436d486</ThumbName>
+<ThumbName Image="RemovePoint2.png">7176788f</ThumbName>
+<ThumbName Image="Retain.png">43e2a689</ThumbName>
 <ThumbName Image="SampleCodeGen0.png">9dab2b22</ThumbName>
 <ThumbName Image="SampleCodeGen1.png">f46ca73f</ThumbName>
 <ThumbName Image="SampleCodeGen2.png">ccfcc0b8</ThumbName>
@@ -1835,9 +2241,12 @@
 <ThumbName Image="SampleCodeGen4.png">771260a5</ThumbName>
 <ThumbName Image="SampleCodeGen5.png">74e469cd</ThumbName>
 <ThumbName Image="SpudsterExample.png">bdc09cf9</ThumbName>
+<ThumbName Image="Storyboard.png">b4f53eff</ThumbName>
 <ThumbName Image="ThrustShipExample.png">02672c43</ThumbName>
+<ThumbName Image="ThrustTitle.jpg">57205761</ThumbName>
 <ThumbName Image="VaboomExample.png">5289f79b</ThumbName>
 <ThumbName Image="Vec32Help.png">cf6e8727</ThumbName>
+<ThumbName Image="VecFeverSupport.png">25c6c9a8</ThumbName>
 <ThumbName Image="VecLink.png">c65a1f10</ThumbName>
 <ThumbName Image="VecSpeech.png">2448b746</ThumbName>
 <ThumbName Image="VecVoxCodeGen0.png">7cca829c</ThumbName>
@@ -1861,7 +2270,10 @@
 <ThumbName Image="VideNameBig.png">ae557053</ThumbName>
 <ThumbName Image="VideNameNormal.png">8dd47803</ThumbName>
 <ThumbName Image="Violine.png">31123a6e</ThumbName>
+<ThumbName Image="WatchInDissi.png">f6bb648c</ThumbName>
 <ThumbName Image="WheelEdit1.png">5592027c</ThumbName>
+<ThumbName Image="Xmas.gif">e1c9d027</ThumbName>
+<ThumbName Image="YMAmplitude.png">02c0888b</ThumbName>
 <ThumbName Image="YMCodeGen0.png">15242f11</ThumbName>
 <ThumbName Image="YMCodeGen1.png">9aefb652</ThumbName>
 <ThumbName Image="YMCodeGen2.png">a418fda8</ThumbName>
@@ -1873,11 +2285,15 @@
 <ThumbName Image="add.png">c46222c7</ThumbName>
 <ThumbName Image="adsr.png">73cc051a</ThumbName>
 <ThumbName Image="ani.png">70b65b53</ThumbName>
+<ThumbName Image="application_get.png">e0bf9369</ThumbName>
 <ThumbName Image="application_lightning.png">78edf7dd</ThumbName>
+<ThumbName Image="application_view_gallery.png">a9c23fbd</ThumbName>
 <ThumbName Image="application_view_list.png">74446223</ThumbName>
+<ThumbName Image="arrow_left.png">fb9eaace</ThumbName>
 <ThumbName Image="arrow_out.png">715c0a70</ThumbName>
 <ThumbName Image="arrow_redo.png">9c94e25a</ThumbName>
 <ThumbName Image="arrow_refresh.png">c67e49dd</ThumbName>
+<ThumbName Image="arrow_right.png">150bd9b6</ThumbName>
 <ThumbName Image="arrow_rotate_clockwise.png">4c6730da</ThumbName>
 <ThumbName Image="arrow_turn_left.png">ea4323ba</ThumbName>
 <ThumbName Image="arrow_turn_right.png">fa88ab02</ThumbName>
@@ -1912,10 +2328,12 @@
 <ThumbName Image="cut.png">aad0c142</ThumbName>
 <ThumbName Image="delete.png">cee57f03</ThumbName>
 <ThumbName Image="device_imager.png">1e1168e9</ThumbName>
+<ThumbName Image="disk_add.png">303a45b1</ThumbName>
 <ThumbName Image="disscommands.png">dcb3631e</ThumbName>
 <ThumbName Image="dissi.png">d39ec2d1</ThumbName>
 <ThumbName Image="dissi2.png">724f6b67</ThumbName>
 <ThumbName Image="dissi3.png">7f383826</ThumbName>
+<ThumbName Image="drive_user.png">216e5628</ThumbName>
 <ThumbName Image="ds2430a.png">492e69de</ThumbName>
 <ThumbName Image="dumpi.png">77ff7379</ThumbName>
 <ThumbName Image="dumpi2.png">a1bf717a</ThumbName>
@@ -1926,6 +2344,8 @@
 <ThumbName Image="eEprom4.png">85b31845</ThumbName>
 <ThumbName Image="faces.png">72f5fc58</ThumbName>
 <ThumbName Image="folder_go.png">f93f3c91</ThumbName>
+<ThumbName Image="font_add.png">04ebca60</ThumbName>
+<ThumbName Image="font_delete.png">60e6bcdf</ThumbName>
 <ThumbName Image="frogSynced.png">44a12649</ThumbName>
 <ThumbName Image="gameLoop2.png">118930dd</ThumbName>
 <ThumbName Image="gapsFilled.png">b1c90eaf</ThumbName>
@@ -1980,12 +2400,16 @@
 <ThumbName Image="text_columns.png">7d05a789</ThumbName>
 <ThumbName Image="tracki.png">d00c8b35</ThumbName>
 <ThumbName Image="trackyNew.png">7dec3b3b</ThumbName>
+<ThumbName Image="user_red.png">6cc39b74</ThumbName>
 <ThumbName Image="vari.png">3972f60c</ThumbName>
 <ThumbName Image="vec_art_scheme.png">a921de7e</ThumbName>
+<ThumbName Image="vecci3d.png">bada1a2a</ThumbName>
 <ThumbName Image="veccy.png">c6ae243b</ThumbName>
 <ThumbName Image="veccytextImport.png">f8f420d4</ThumbName>
 <ThumbName Image="vectorCam.png">178c45fd</ThumbName>
 <ThumbName Image="vectrexMod.png">437f9b84</ThumbName>
+<ThumbName Image="vectrex_cart_fix.jpg">b9137f56</ThumbName>
+<ThumbName Image="vectrex_main_diff.jpg">7219e567</ThumbName>
 <ThumbName Image="vecxi.png">78aca5d9</ThumbName>
 <ThumbName Image="vedi.png">563b20f4</ThumbName>
 <ThumbName Image="vediAss.png">f4d83507</ThumbName>

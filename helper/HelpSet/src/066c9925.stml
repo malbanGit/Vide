@@ -10,6 +10,9 @@ This displays when "active" (a checkbox below the table) either a "raster" image
 
 ~~These modes are selectable by the two radiobuttons.~~
 
+:h3 Editing
+You can edit the memory location in the big dumpi table (not the ascii view though). The Memory, RAM or IO is updated according to the data you entered immediatly after pressing return.
+
 :h3 Selection
 The selection that is displayed can be chosen by three differen means:
 a) in the dumpi window: left click on start address, shift left click on end address

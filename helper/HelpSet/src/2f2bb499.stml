@@ -1,0 +1,123 @@
+:title BIOS RAM locations
+(by Bruce Tomlin, modified by Malban)
+
+:: 
+~~$C800: Vec\_Snd\_Shadow Shadow of sound chip registers (15 bytes)
+~~$C80F: Vec\_Btn\_State Current state of all joystick buttons
+~~$C810: Vec\_Prev\_Btns Previous state of all joystick buttons
+~~$C811: Vec\_Buttons Current toggle state of all buttons
+~~$C812: Vec\_Button\_1\_1 Current toggle state of stick 1 button 1
+~~$C813: Vec\_Button\_1\_2 Current toggle state of stick 1 button 2
+~~$C814: Vec\_Button\_1\_3 Current toggle state of stick 1 button 3
+~~$C815: Vec\_Button\_1\_4 Current toggle state of stick 1 button 4
+~~$C816: Vec\_Button\_2\_1 Current toggle state of stick 2 button 1
+~~$C817: Vec\_Button\_2\_2 Current toggle state of stick 2 button 2
+~~$C818: Vec\_Button\_2\_3 Current toggle state of stick 2 button 3
+~~$C819: Vec\_Button\_2\_4 Current toggle state of stick 2 button 4
+~~$C81A: Vec\_Joy\_Resltn Joystick A/D resolution ($80=min $00=max)
+~~$C81B: Vec\_Joy\_1\_X Joystick 1 left/right
+~~$C81C: Vec\_Joy\_1\_Y Joystick 1 up/down
+~~$C81D: Vec\_Joy\_2\_X Joystick 2 left/right
+~~$C81E: Vec\_Joy\_2\_Y Joystick 2 up/down
+~~$C81F: Vec\_Joy\_Mux Joystick enable/mux flags (4 bytes)
+~~$C81F: Vec\_Joy\_Mux\_1\_X Joystick 1 X enable/mux flag (=1)
+~~$C820: Vec\_Joy\_Mux\_1\_Y Joystick 1 Y enable/mux flag (=3)
+~~$C821: Vec\_Joy\_Mux\_2\_X Joystick 2 X enable/mux flag (=5)
+~~$C822: Vec\_Joy\_Mux\_2\_Y Joystick 2 Y enable/mux flag (=7)
+~~$C823: Vec\_Misc\_Count Misc counter/flag byte, zero when not in use
+~~$C824: Vec\_0Ref\_Enable Check0Ref enable flag
+~~$C825: Vec\_Loop\_Count Loop counter word (incremented in Wait\_Recal)
+~~$C827: Vec\_Brightness Default brightness
+~~$C828: Vec\_Dot\_Dwell Dot dwell time?
+~~$C829: Vec\_Pattern Dot pattern (bits)
+~~$C82A: Vec\_Text\_HW Default text height and width
+~~$C82A: Vec\_Text\_Height Default text height
+~~$C82B: Vec\_Text\_Width Default text width
+~~$C82C: Vec\_Str\_Ptr Temporary string pointer for Print\_Str
+~~$C82E: Vec\_Counters Six bytes of counters
+~~$C82E: Vec\_Counter\_1 First counter byte
+~~$C82F: Vec\_Counter\_2 Second counter byte
+~~$C830: Vec\_Counter\_3 Third counter byte
+~~$C831: Vec\_Counter\_4 Fourth counter byte
+~~$C832: Vec\_Counter\_5 Fifth counter byte
+~~$C833: Vec\_Counter\_6 Sixth counter byte
+~~$C834: Vec\_RiseRun\_Tmp Temp storage word for rise/run
+~~$C836: Vec\_Angle Angle for rise/run and rotation calculations
+~~$C837: Vec\_Run\_Index Index pair for run
+~~$C839: * Pointer to copyright string during startup
+~~$C839: Vec\_Rise\_Index Index pair for rise
+~~$C83B: * High score cold-start flag (=0 if valid)
+~~$C83B: Vec\_RiseRun\_Len length for rise/run
+~~$C83C: * temp byte
+~~$C83D: Vec\_Rfrsh Refresh time (divided by 1.5MHz)
+~~$C83D: Vec\_Rfrsh\_lo Refresh time low byte
+~~$C83E: Vec\_Rfrsh\_hi Refresh time high byte
+~~$C83F: Vec\_Music\_Work Music work buffer (14 bytes, backwards?)
+~~$C842: Vec\_Music\_Wk\_A register 10
+~~$C843: * register 9
+~~$C844: * register 8
+~~$C845: Vec\_Music\_Wk\_7 register 7
+~~$C846: Vec\_Music\_Wk\_6 register 6
+~~$C847: Vec\_Music\_Wk\_5 register 5
+~~$C848: * register 4
+~~$C849: * register 3
+~~$C84A: * register 2
+~~$C84B: Vec\_Music\_Wk\_1 register 1
+~~$C84C: * register 0
+~~$C84D: Vec\_Freq\_Table Pointer to note-to-frequency table (normally $FC8D)
+~~$C84F: Vec\_Max\_Players Maximum number of players for Select\_Game
+~~$C850: Vec\_Max\_Games Maximum number of games for Select\_Game
+~~$C84F: Vec\_ADSR\_Table Storage for first music header word (ADSR table)
+~~$C851: Vec\_Twang\_Table Storage for second music header word ('twang' table)
+~~$C853: Vec\_Music\_Ptr Music data pointer
+~~$C853: Vec\_Expl\_ChanA Used by Explosion\_Snd - bit for first channel used?
+~~$C854: Vec\_Expl\_Chans Used by Explosion\_Snd - bits for all channels used?
+~~$C855: Vec\_Music\_Chan Current sound channel number for Init\_Music
+~~$C856: Vec\_Music\_Flag Music active flag ($00=off $01=start $80=on)
+~~$C857: Vec\_Duration Duration counter for Init\_Music
+~~$C858: Vec\_Music\_Twang 3 word 'twang' table used by Init\_Music
+~~$C858: Vec\_Expl\_1 4 bytes copied from Explosion\_Snd's U-reg parameters
+~~$C859: Vec\_Expl\_2
+~~$C85A: Vec\_Expl\_3
+~~$C85B: Vec\_Expl\_4
+~~$C85C: Vec\_Expl\_Chan Used by Explosion\_Snd - channel number in use?
+~~$C85D: Vec\_Expl\_ChanB Used by Explosion\_Snd - bit for second channel used?
+~~$C85E: Vec\_ADSR\_Timers ADSR timers for each sound channel (3 bytes)
+~~$C861: Vec\_Music\_Freq Storage for base frequency of each channel (3 words)
+~~$C85E: * Scratch 'score' storage for Display\_Option (7 bytes)
+~~$C867: Vec\_Expl\_Flag Explosion\_Snd initialization flag?
+~~$C868: Unused?
+~~$C869: Unused?
+~~$C86a: Unused?
+~~$C86b: Unused?
+~~$C86c: Unused?
+~~$C86d: Unused?
+~~$C86e: Unused?
+~~$C86f: Unused?
+~~$C870: Unused?
+~~$C871: Unused?
+~~$C872: Unused?
+~~$C873: Unused?
+~~$C874: Unused?
+~~$C875: Unused?
+~~$C876: Unused?
+~~$C877: Vec\_Expl\_Timer Used by Explosion\_Snd
+~~$C878: Unused?
+~~$C879: Vec\_Num\_Players Number of players selected in Select\_Game
+~~$C87A: Vec\_Num\_Game Game number selected in Select\_Game
+~~$C87B: Vec\_Seed\_Ptr Pointer to 3-byte random number seed (=$C87D)
+~~$C87D: Vec\_Random\_Seed Default 3-byte random number seed ~~
+:~~
+\* $C880 - $CBEA is user RAM :~~
+:
+~~$CBEA: Vec\_Default\_Stk Default top-of-stack
+~~$CBEB: Vec\_High\_Score High score storage (7 bytes)
+~~$CBF2: Vec\_SWI3\_Vector SWI2/SWI3 interrupt vector (3 bytes)
+~~$CBF2: Vec\_SWI2\_Vector SWI2/SWI3 interrupt vector (3 bytes)
+~~$CBF5: Vec\_FIRQ\_Vector FIRQ interrupt vector (3 bytes)
+~~$CBF8: Vec\_IRQ\_Vector IRQ interrupt vector (3 bytes)
+~~$CBFB: Vec\_SWI\_Vector SWI/NMI interrupt vector (3 bytes)
+~~$CBFB: Vec\_NMI\_Vector SWI/NMI interrupt vector (3 bytes)
+~~$CBFE: Vec\_Cold\_Flag Cold start flag (warm start if = $7321)
+
+::

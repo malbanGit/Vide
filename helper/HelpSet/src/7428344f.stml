@@ -1,0 +1,17 @@
+:title "still possible - but really bad" Vectorlists
+
+Many function in Vecci do not work with "still possible - but really bad" vectorlists.
+What makes a vectorlist only "still possible - but really bad"?
+
+- if there are many or all vectors "individual" vectors, that
+ are not connected to any other vectors~~ ~~
+- if the vectorlist is perfect or good and contains very many vectors (e.g. >50)
+- all vectors have a length smaller than 127/128 (depending on the sign)  
+
+These vectors can only be exported to "synced" list (not if good or perfect - these lists just look bad on a real vectrex).
+
+The sync list generated is a real performance "hog", since it will sync after each such vector.
+
+Try to avoid these kind of vectorlists at all cost!
+
+

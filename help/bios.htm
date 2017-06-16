@@ -11,7 +11,7 @@
 ; corrected and compatibilty added by Malban
 ;
 ; assemble with command line:
-; .\ass\as09.exe -w200 -h0 -l -mcti bios.asm >error
+; .\ass\as09.exe -w200 -h0 -l -mcti bios.asm &gt;error
 ;
 ; used the 6809 assembler:
 ; as09 [1.11].
@@ -59,10 +59,10 @@ Start:          LDS     #Vec_Default_Stk ;Set up stack pointer
 ;       power-on screen and plays the power-on music.
 
 LF01C:          JSR     DP_to_C8        ;DP to RAM
-                LDD     <Vec_Loop_Count ;When we have looped 257 times,
+                LDD     &lt;Vec_Loop_Count ;When we have looped 257 times,
                 CMPD    #$0101
                 BNE     LF029
-                STB     <Vec_Music_Flag ;start the intro music
+                STB     &lt;Vec_Music_Flag ;start the intro music
 
 ;       Get the line pattern for the boundary box lines
 
@@ -70,10 +70,10 @@ LF029:          ASRB                    ;Get line pattern from table
                 ANDB    #$03
                 LDX     #DF0FD
                 LDB     B,X
-                STB     <Vec_Pattern    ;Store pattern
+                STB     &lt;Vec_Pattern    ;Store pattern
 
                 LDB     #$02            ;Set up counter for two boxes
-                STB     <$C824
+                STB     &lt;$C824
 
 ;       Play the intro music
 
@@ -89,7 +89,7 @@ LF029:          ASRB                    ;Get line pattern from table
                 LDU     #Vec_Title     ;Load address of double high text
                 BITA    #$20
                 BEQ     LF052
-                LEAU    <<(Vec_Title_2-Vec_Title),U  ;Skip double high text
+                LEAU    &lt;&lt;(Vec_Title_2-Vec_Title),U  ;Skip double high text
 LF052:          JSR     Print_List_hw   ;Print startup text
 
 ;       Draw the frame boxes
@@ -114,11 +114,11 @@ LF058:          JSR     Moveto_ix_FF    ;Move to start of line
 
 Warm_Start:     JSR     DP_to_C8        ;DP to RAM
                 LDA     #$CC            ;Set new line pattern
-                STA     <Vec_Pattern
+                STA     &lt;Vec_Pattern
                 LDD     #Copyright_Str  ;Save copyright string addr
-                STD     <$C839
-                CLR     <Vec_Loop_Count ;Clear loop counter
-                CLR     <Vec_Loop_Count+1
+                STD     &lt;$C839
+                CLR     &lt;Vec_Loop_Count ;Clear loop counter
+                CLR     &lt;Vec_Loop_Count+1
 
 ;       Check for valid cartridge ROM
 
@@ -137,13 +137,13 @@ LF092:          LDU     #$E000          ;Bad cart; load Mine Storm addr
 
 LF097:          DECB                    ;Go back for next byte
                 BNE     LF084
-                STB     <$C839          ;Store zero as address of
-                STB     <$C83A          ;copyright string
+                STB     &lt;$C839          ;Store zero as address of
+                STB     &lt;$C83A          ;copyright string
 
 ;       Prepare to play game start-up music
 
-LF09E:          INC     <Vec_Music_Flag ;Set music enable flag
-                STU     <Vec_Run_Index  ;Save address of header
+LF09E:          INC     &lt;Vec_Music_Flag ;Set music enable flag
+                STU     &lt;Vec_Run_Index  ;Save address of header
                 LDU     ,U              ;Get address of music
 
 ;       Second power-up loop.  This prints the name of the
@@ -151,7 +151,7 @@ LF09E:          INC     <Vec_Music_Flag ;Set music enable flag
 
 LF0A4:          JSR     DP_to_C8        ;DP to RAM
                 LDD     #$F848          ;???
-                STD     <Vec_Text_HW
+                STD     &lt;Vec_Text_HW
                 JSR     Init_Music_chk  ;Initialize the music
                 JSR     Wait_Recal      ;Wait for next frame
                 JSR     Do_Sound        ;Play the music if active
@@ -185,6 +185,7 @@ LF0D2:          LDU     Vec_Run_Index   ;Get cartridge header addr
                 BLS     LF0A4
                 JMP     1,U             ;Jump into cartridge
 
+;       Outer box (y,x)
 ;       Outer box (y,x)
 
 Intro_Boxes:    FCB     $40,$D6
@@ -259,12 +260,12 @@ Vec_Title_2:    FCB     $F3,$60         ;Height, width
 
 Init_VIA:       BSR     DP_to_D0
                 LDD     #$9FFF          ;Port A=all output
-                STD     <VIA_DDR_b      ;Port B=OIIOOOOO
+                STD     &lt;VIA_DDR_b      ;Port B=OIIOOOOO
                 LDD     #$0100          ;Port B sound BDIR=1
-                STD     <VIA_port_b
-                LDD     #$987F          ;ACR=$98 T1->PB7 enabled
-                STA     <VIA_aux_cntl   ;auxiliary control register
-                STB     <VIA_t1_cnt_lo  ;T1CL=$7F scale factor?
+                STD     &lt;VIA_port_b
+                LDD     #$987F          ;ACR=$98 T1-&gt;PB7 enabled
+                STA     &lt;VIA_aux_cntl   ;auxiliary control register
+                STB     &lt;VIA_t1_cnt_lo  ;T1CL=$7F scale factor?
                 JSR     Reset0Ref
                 BRA     Set_Refresh
 
@@ -286,17 +287,17 @@ Init_OS_RAM:    BSR     DP_to_C8        ;DP to RAM
                 LDX     #$C800
                 JSR     Clear_x_b
                 LDD     #Vec_Random_Seed;Point $C87B to $C87D
-                STD     <Vec_Seed_Ptr
-LF173:          INC     <Vec_Random_Seed;Make sure random number
+                STD     &lt;Vec_Seed_Ptr
+LF173:          INC     &lt;Vec_Random_Seed;Make sure random number
                 BEQ     LF173           ;seed is non-zero!
                 LDA     #$05            ;Init dot dwell (brightness)
-                STA     <Vec_Dot_Dwell
+                STA     &lt;Vec_Dot_Dwell
                 LDD     #$3075          ;Init refresh time to $7530
-                STD     <$C83D
+                STD     &lt;$C83D
                 LDD     #$0103          ;Init joystick enable flags
-                STD     <Vec_Joy_Mux_1_X
+                STD     &lt;Vec_Joy_Mux_1_X
                 LDD     #$0507
-                STD     <Vec_Joy_Mux_2_X
+                STD     &lt;Vec_Joy_Mux_2_X
                 RTS
 
 </PRE><a name="F18B"><PRE>
@@ -337,7 +338,7 @@ Wait_Recal:     LDX     Vec_Loop_Count  ;Increment loop counter
                 STX     Vec_Loop_Count
                 BSR     DP_to_D0        ;DP to I/O
                 LDA     #$20
-LF19E:          BITA    <VIA_int_flags  ;Wait for timer t2
+LF19E:          BITA    &lt;VIA_int_flags  ;Wait for timer t2
                 BEQ     LF19E
 
 </PRE><a name="F1A2"><PRE>
@@ -358,7 +359,7 @@ LF19E:          BITA    <VIA_int_flags  ;Wait for timer t2
 ;-----------------------------------------------------------------------;
 
 Set_Refresh:    LDD     $C83D           ;Store refresh value
-                STD     <VIA_t2_lo      ;into timer t2
+                STD     &lt;VIA_t2_lo      ;into timer t2
                 JMP     Recalibrate
 
 </PRE><a name="F1AA"><PRE>
@@ -452,21 +453,21 @@ Read_Btns:      LDX     #Vec_Button_1_1 ;Point to button flags
                 LDA     -3,X            ;Save previous state
                 STA     -2,X
                 LDA     #$0E            ;Sound chip register 0E to port A
-                STA     <VIA_port_a
+                STA     &lt;VIA_port_a
                 LDD     #$1901          ;sound BDIR on, BC1 on, mux off
-                STA     <VIA_port_b
+                STA     &lt;VIA_port_b
                 NOP                     ;pause
-                STB     <VIA_port_b     ;sound BDIR off, BC1 off, mux off
-                CLR     <VIA_DDR_a      ;DDR A to input
+                STB     &lt;VIA_port_b     ;sound BDIR off, BC1 off, mux off
+                CLR     &lt;VIA_DDR_a      ;DDR A to input
                 LDD     #$0901          ;sound BDIR off, BC1 on, mux off
-                STA     <VIA_port_b
+                STA     &lt;VIA_port_b
                 NOP                     ;pause
-                LDA     <VIA_port_a     ;Read buttons
+                LDA     &lt;VIA_port_a     ;Read buttons
                 COMA                    ;Convert to active high
                 STA     -3,X            ;Save buttons
-                STB     <VIA_port_b     ;sound BDIR off, BC1 off, mux off
+                STB     &lt;VIA_port_b     ;sound BDIR off, BC1 off, mux off
                 LDB     #$FF
-                STB     <VIA_DDR_a      ;DDR A to output
+                STB     &lt;VIA_DDR_a      ;DDR A to output
                 COMA                    ;Check for transitions
                 ORA     -2,X
                 COMA
@@ -506,9 +507,9 @@ LF1EA:          TFR     B,A             ;Mask out bit
 ;                                                                       ;
 ;       Joy_Digital:                                                    ;
 ;               The return value will be:                               ;
-;                 < 0 if joystick is left of down of center.            ;
+;                 &lt; 0 if joystick is left of down of center.            ;
 ;                 = 0 if joystick is centered.                          ;
-;                 > 0 if joystick is right or up of center.             ;
+;                 &gt; 0 if joystick is right or up of center.             ;
 ;                                                                       ;
 ;       Joy_Analog:                                                     ;
 ;               A successive approximation algorithm is used to read    ;
@@ -530,48 +531,48 @@ LF1FF:          CMPX    #$C823          ;Go back untl all pots read
                 BNE     LF1FB
                 CLR     ,X              ;X points to $C823, clear it
                 LDA     #$01
-                STA     <VIA_port_b     ;disable mux
+                STA     &lt;VIA_port_b     ;disable mux
                 RTS
 
-LF20B:          STA     <VIA_port_b     ;enable mux and select pot
-                CLR     <VIA_port_a     ;output $00 to D/A
-                DEC     <VIA_port_b     ;disable mux
+LF20B:          STA     &lt;VIA_port_b     ;enable mux and select pot
+                CLR     &lt;VIA_port_a     ;output $00 to D/A
+                DEC     &lt;VIA_port_b     ;disable mux
                 LDB     #$60            ;delay and end up with B=$80
 LF213:          INCB
                 BPL     LF213
                 LDA     $C823           ;check analog flag
                 BMI     LF240           ;branch if analog pot
                 LDA     #$20
-                INC     <VIA_port_b     ;enable mux
-                BITA    <VIA_port_b     ;test comparator
+                INC     &lt;VIA_port_b     ;enable mux
+                BITA    &lt;VIA_port_b     ;test comparator
                 BEQ     LF22D
                 LDB     #$40            ;output $40 to D/A
-                STB     <VIA_port_a
-                BITA    <VIA_port_b     ;test comparator
+                STB     &lt;VIA_port_a
+                BITA    &lt;VIA_port_b     ;test comparator
                 BNE     LF236
                 BRA     LF235
 
 LF22D:          LDB     #$C0            ;output $C0 to D/A
-                STB     <VIA_port_a
-                BITA    <VIA_port_b     ;test comparator
+                STB     &lt;VIA_port_a
+                BITA    &lt;VIA_port_b     ;test comparator
                 BEQ     LF236
 LF235:          CLRB
 LF236:          STB     -5,X            ;store A/D result
                 BRA     LF1FF           ;go back for next pot
 
 LF23A:          TFR     B,A
-                ORA     <VIA_port_a
-                STA     <VIA_port_a
+                ORA     &lt;VIA_port_a
+                STA     &lt;VIA_port_a
 LF240:          LDA     #$20            ;test comparator
-                BITA    <VIA_port_b
+                BITA    &lt;VIA_port_b
                 BNE     LF24C           ;branch to go lower?
                 TFR     B,A
-                EORA    <VIA_port_a
-                STA     <VIA_port_a
+                EORA    &lt;VIA_port_a
+                STA     &lt;VIA_port_a
 LF24C:          LSRB                    ;try next bit position
                 CMPB    Vec_Joy_Resltn  ;check for accuracy threshold
                 BNE     LF23A           ;go back if not finished
-                LDB     <VIA_port_a     ;read D/A value
+                LDB     &lt;VIA_port_a     ;read D/A value
                 BRA     LF236           ;go back to store it
 
 </PRE><a name="F256"><PRE>
@@ -600,17 +601,17 @@ LF24C:          LSRB                    ;try next bit position
 
 Sound_Byte:     LDX     #Vec_Snd_Shadow ;point to shadow memory
 Sound_Byte_x:   STB     A,X
-Sound_Byte_raw: STA     <VIA_port_a     ;store register select byte
+Sound_Byte_raw: STA     &lt;VIA_port_a     ;store register select byte
                 LDA     #$19            ;sound BDIR on, BC1 on, mux off
-                STA     <VIA_port_b
+                STA     &lt;VIA_port_b
                 LDA     #$01            ;sound BDIR off, BC1 off, mux off
-                STA     <VIA_port_b
-                LDA     <VIA_port_a     ;read sound chip status (?)
-                STB     <VIA_port_a     ;store data byte
+                STA     &lt;VIA_port_b
+                LDA     &lt;VIA_port_a     ;read sound chip status (?)
+                STB     &lt;VIA_port_a     ;store data byte
                 LDB     #$11            ;sound BDIR on, BC1 off, mux off
-                STB     <VIA_port_b
+                STB     &lt;VIA_port_b
                 LDB     #$01            ;sound BDIR off, BC1 off, mux off
-                STB     <VIA_port_b
+                STB     &lt;VIA_port_b
                 RTS
 
 </PRE><a name="F272"><PRE>
@@ -648,8 +649,8 @@ LF275:          BSR     Sound_Byte
 ;         .                  .                                          ;
 ;       0xFF                                                            ;
 ;                                                                       ;
-; As long as the register number is >= 0, then the music data will be   ;
-; copied; however, as soon as a register number < 0 is encountered,     ;
+; As long as the register number is &gt;= 0, then the music data will be   ;
+; copied; however, as soon as a register number &lt; 0 is encountered,     ;
 ; the copy will stop.                                                   ;
 ;                                                                       ;
 ; ENTRY DP = $D0                                                        ;
@@ -730,14 +731,14 @@ Intensity_5F:   LDA     #$5F
                 BRA     Intensity_a
 
 Intensity_7F:   LDA     #$7F
-Intensity_a:    STA     <VIA_port_a     ;Store intensity in D/A
+Intensity_a:    STA     &lt;VIA_port_a     ;Store intensity in D/A
                 STA     Vec_Brightness  ;Save intensity in $C827
                 LDD     #$0504          ;mux disabled channel 2
-                STA     <VIA_port_b
-                STB     <VIA_port_b     ;mux enabled channel 2
-                STB     <VIA_port_b     ;do it again just because
+                STA     &lt;VIA_port_b
+                STB     &lt;VIA_port_b     ;mux enabled channel 2
+                STB     &lt;VIA_port_b     ;do it again just because
                 LDB     #$01
-                STB     <VIA_port_b     ;turn off mux
+                STB     &lt;VIA_port_b     ;turn off mux
                 RTS
 
 </PRE><a name="F2BE"><PRE>
@@ -793,11 +794,11 @@ Dot_d:          BSR     Moveto_d
 ;-----------------------------------------------------------------------;
 
 Dot_here:       LDA     #$FF            ;Set pattern to all 1's
-                STA     <VIA_shift_reg  ;Store in VIA shift register
+                STA     &lt;VIA_shift_reg  ;Store in VIA shift register
                 LDB     Vec_Dot_Dwell   ;Get dot dwell (brightness)
 LF2CC:          DECB                    ;Delay leaving beam in place
                 BNE     LF2CC
-                CLR     <VIA_shift_reg  ;Blank beam in VIA shift register
+                CLR     &lt;VIA_shift_reg  ;Blank beam in VIA shift register
                 RTS
 
 </PRE><a name="F2D5"><PRE>
@@ -842,7 +843,7 @@ Dot_List:       BSR     Dot_ix          ;Draw next dot
 ;     mode, relative y, relative x                                      ;
 ;     0x01                                                              ;
 ;                                                                       ;
-; This routine will continue to traverse the list, until a mode > 0     ;
+; This routine will continue to traverse the list, until a mode &gt; 0     ;
 ; is encountered; at that point, it will reset the zero reference       ;
 ; (the integrators).                                                    ;
 ;                                                                       ;
@@ -855,7 +856,7 @@ Dot_List:       BSR     Dot_ix          ;Draw next dot
 ;-----------------------------------------------------------------------;
 
 Dot_List_Reset: LDA     ,X+             ;get mode byte
-                BGT     Reset0Ref       ;if >0 go to Reset0Ref
+                BGT     Reset0Ref       ;if &gt;0 go to Reset0Ref
                 BSR     Dot_ix          ;plot the dot
                 BRA     Dot_List_Reset  ;dot_list@x_&_reset
 
@@ -886,7 +887,7 @@ Recalibrate:    LDX     #Recal_Points   ;$7F7F
 ; only the most signicant byte of each is of any interest.  The values  ;
 ; pointed to by the X register have the following format:               ;
 ;                                                                       ;
-;     X => (rel y hi),(rel y lo), (rel x hi), (rel x lo)                ;
+;     X =&gt; (rel y hi),(rel y lo), (rel x hi), (rel x lo)                ;
 ;                                                                       ;
 ; The position moved to is obtained by y=(0,x) & x=(2,x).               ;
 ;                                                                       ;
@@ -897,7 +898,7 @@ Recalibrate:    LDX     #Recal_Points   ;$7F7F
 ;-----------------------------------------------------------------------;
 
 Moveto_x_7F:    LDB     #$7F            ;Set scale factor to $7F
-                STB     <VIA_t1_cnt_lo
+                STB     &lt;VIA_t1_cnt_lo
                 LDA     ,X              ;Get y high
                 LDB     2,X             ;Get x high
                 BRA     Moveto_d
@@ -916,11 +917,11 @@ Moveto_x_7F:    LDB     #$7F            ;Set scale factor to $7F
 ;       D-reg trashed                                                   ;
 ;-----------------------------------------------------------------------;
 
-Moveto_d_7F:    STA     <VIA_port_a     ;Store Y in D/A register
+Moveto_d_7F:    STA     &lt;VIA_port_a     ;Store Y in D/A register
                 PSHS    D               ;Save D-register on stack
                 LDA     #$7F            ;Set scale factor to $7F
-                STA     <VIA_t1_cnt_lo
-                CLR     <VIA_port_b     ;Enable mux
+                STA     &lt;VIA_t1_cnt_lo
+                CLR     &lt;VIA_port_b     ;Enable mux
                 BRA     LF318
 
 </PRE><a name="F308"><PRE>
@@ -948,7 +949,7 @@ Moveto_ix_FF:   LDB     #$FF
                 BRA     Moveto_ix_b
 
 Moveto_ix_7F:   LDB     #$7F
-Moveto_ix_b:    STB     <VIA_t1_cnt_lo  ;Set scale factor
+Moveto_ix_b:    STB     &lt;VIA_t1_cnt_lo  ;Set scale factor
 
 </PRE><a name="F310"><PRE>
 ;-----------------------------------------------------------------------;
@@ -982,15 +983,15 @@ Moveto_ix:      LDD     ,X++
 ;       D-reg trashed                                                   ;
 ;-----------------------------------------------------------------------;
 
-Moveto_d:       STA     <VIA_port_a     ;Store Y in D/A register
-                CLR     <VIA_port_b     ;Enable mux
+Moveto_d:       STA     &lt;VIA_port_a     ;Store Y in D/A register
+                CLR     &lt;VIA_port_b     ;Enable mux
                 PSHS    D               ;Save D-register on stack
 LF318:          LDA     #$CE            ;Blank low, zero high?
-                STA     <VIA_cntl
-                CLR     <VIA_shift_reg  ;Clear shift regigster
-                INC     <VIA_port_b     ;Disable mux
-                STB     <VIA_port_a     ;Store X in D/A register
-                CLR     <VIA_t1_cnt_hi  ;timer 1 count high
+                STA     &lt;VIA_cntl
+                CLR     &lt;VIA_shift_reg  ;Clear shift regigster
+                INC     &lt;VIA_port_b     ;Disable mux
+                STB     &lt;VIA_port_a     ;Store X in D/A register
+                CLR     &lt;VIA_t1_cnt_hi  ;timer 1 count high
                 PULS    D               ;Get back D-reg
                 JSR     Abs_a_b
                 STB     -1,S
@@ -1004,13 +1005,13 @@ LF318:          LDA     #$CE            ;Blank low, zero high?
                 BRA     LF33D
 
 LF33B:          LDA     #$04            ;Wait for timer 1
-LF33D:          BITB    <VIA_int_flags
+LF33D:          BITB    &lt;VIA_int_flags
                 BEQ     LF33D
 LF341:          DECA                    ;Delay a moment
                 BNE     LF341
                 RTS
 
-LF345:          BITB    <VIA_int_flags  ;Wait for timer 1
+LF345:          BITB    &lt;VIA_int_flags  ;Wait for timer 1
                 BEQ     LF345
                 RTS
 
@@ -1062,8 +1063,8 @@ Check0Ref:      LDA     Vec_0Ref_Enable
 ;-----------------------------------------------------------------------;
 
 Reset0Ref:      LDD     #$00CC
-                STB     <VIA_cntl       ;/BLANK low and /ZERO low
-                STA     <VIA_shift_reg  ;clear shift register
+                STB     &lt;VIA_cntl       ;/BLANK low and /ZERO low
+                STA     &lt;VIA_shift_reg  ;clear shift register
 </PRE><a name="F35B"><PRE>
 ;-----------------------------------------------------------------------;
 ;       F35B    Reset_Pen                                               ;
@@ -1076,12 +1077,12 @@ Reset0Ref:      LDD     #$00CC
 ;-----------------------------------------------------------------------;
 
 Reset_Pen:      LDD     #$0302
-                CLR     <VIA_port_a     ;clear D/A register
-                STA     <VIA_port_b     ;mux=1, disable mux
-                STB     <VIA_port_b     ;mux=1, enable mux
-                STB     <VIA_port_b     ;do it again
+                CLR     &lt;VIA_port_a     ;clear D/A register
+                STA     &lt;VIA_port_b     ;mux=1, disable mux
+                STB     &lt;VIA_port_b     ;mux=1, enable mux
+                STB     &lt;VIA_port_b     ;do it again
                 LDB     #$01
-                STB     <VIA_port_b     ;disable mux
+                STB     &lt;VIA_port_b     ;disable mux
 LF36A_RTS:      RTS
 
 </PRE><a name="F36B"><PRE>
@@ -1098,8 +1099,8 @@ LF36A_RTS:      RTS
 ;-----------------------------------------------------------------------;
 
 Reset0Int:      LDD     #$00CC
-                STB     <VIA_cntl       ;blank low and zero low
-                STA     <VIA_shift_reg  ;clear shift register
+                STB     &lt;VIA_cntl       ;blank low and zero low
+                STA     &lt;VIA_shift_reg  ;clear shift register
                 RTS
 
 </PRE><a name="F373"><PRE>
@@ -1167,7 +1168,7 @@ Print_Str_yx:   LDD     ,U++
 ;-----------------------------------------------------------------------;
    noopt        ; neccessary for assembling, this jsr is allways
                 ; optimized to a short branch otherwise
-Print_Str_d:    JSR     >Moveto_d_7F
+Print_Str_d:    JSR     &gt;Moveto_d_7F
    opt
                 JSR     Delay_1
                 JMP     Print_Str
@@ -1240,7 +1241,7 @@ Print_List_Chk: LDA     ,U
 ; This routine displays the number of ships passed in the B register    ;
 ; followed by a minus sign and the ship icon character passed in the    ;
 ; A register at the (y,x) coordinates passed in the X register.  If     ;
-; the B-register > 9, then the infinity symbol is displayed.            ;
+; the B-register &gt; 9, then the infinity symbol is displayed.            ;
 ;                                                                       ;
 ; Note: This routine uses bytes at a negative offset from the stack as  ;
 ;       temporary storage, so hopefully an IRQ won't happen until the   ;
@@ -1261,7 +1262,7 @@ Print_Ships:    PSHS    B               ;Save B-reg
                 LEAU    -8,S            ;Point U into the stack
                 PSHU    D               ;Save A-reg and a terminator
                 PULS    A               ;Get back B-reg
-                CMPA    #$09            ;If B-reg >9 then
+                CMPA    #$09            ;If B-reg &gt;9 then
                 BLS     LF3A3
                 LDA     #$6C-$30        ;load $6C = infinty symbol
 LF3A3:          ADDA    #$30
@@ -1315,7 +1316,7 @@ Mov_Draw_VLc_a: LDA     ,X+
 ;       D-reg trashed                                                   ;
 ;-----------------------------------------------------------------------;
 
-Mov_Draw_VL_b:  STB     <VIA_t1_cnt_lo  ;Set scale factor
+Mov_Draw_VL_b:  STB     &lt;VIA_t1_cnt_lo  ;Set scale factor
                 BRA     Mov_Draw_VL
 
 </PRE><a name="F3B5"><PRE>
@@ -1362,7 +1363,7 @@ Mov_Draw_VLcs:  LDD     ,X++
 ;       D-reg trashed                                                   ;
 ;-----------------------------------------------------------------------;
 
-Mov_Draw_VL_ab: STB     <VIA_t1_cnt_lo  ;Set scale factor
+Mov_Draw_VL_ab: STB     &lt;VIA_t1_cnt_lo  ;Set scale factor
 Mov_Draw_VL_a:  STA     $C823
 
 </PRE><a name="F3BC"><PRE>
@@ -1393,14 +1394,14 @@ Mov_Draw_VL_a:  STA     $C823
 ;-----------------------------------------------------------------------;
 
 Mov_Draw_VL:    LDD     ,X              ;Get next coordinate pair
-Mov_Draw_VL_d:  STA     <VIA_port_a     ;Send Y to A/D
-                CLR     <VIA_port_b     ;Enable mux
+Mov_Draw_VL_d:  STA     &lt;VIA_port_a     ;Send Y to A/D
+                CLR     &lt;VIA_port_b     ;Enable mux
                 LEAX    2,X             ;Point to next coordinate pair
                 NOP                     ;Wait a moment
-                INC     <VIA_port_b     ;Disable mux
-                STB     <VIA_port_a     ;Send X to A/D
+                INC     &lt;VIA_port_b     ;Disable mux
+                STB     &lt;VIA_port_a     ;Send X to A/D
                 LDD     #$0000          ;Shift reg=0 (no draw), T1H=0
-                BRA     LF3ED           ;A->D00A, B->D005
+                BRA     LF3ED           ;A-&gt;D00A, B-&gt;D005
 
 </PRE><a name="F3CE"><PRE>
 ;-----------------------------------------------------------------------;
@@ -1442,7 +1443,7 @@ Draw_VLc:       LDA     ,X+
 ;       D-reg trashed                                                   ;
 ;-----------------------------------------------------------------------;
 
-Draw_VL_b:      STB     <VIA_t1_cnt_lo  ;Set scale factor
+Draw_VL_b:      STB     &lt;VIA_t1_cnt_lo  ;Set scale factor
                 BRA     Draw_VL
 
 </PRE><a name="F3D6"><PRE>
@@ -1486,7 +1487,7 @@ Draw_VLcs:      LDD     ,X++
 ;       D-reg trashed                                                   ;
 ;-----------------------------------------------------------------------;
 
-Draw_VL_ab:     STB     <VIA_t1_cnt_lo
+Draw_VL_ab:     STB     &lt;VIA_t1_cnt_lo
 
 </PRE><a name="F3DA"><PRE>
 ;-----------------------------------------------------------------------;
@@ -1548,20 +1549,20 @@ Draw_VL:        LDD     ,X
 ;       D-reg trashed                                                   ;
 ;-----------------------------------------------------------------------;
 
-Draw_Line_d     STA     <VIA_port_a     ;Send Y to A/D
-                CLR     <VIA_port_b     ;Enable mux
+Draw_Line_d     STA     &lt;VIA_port_a     ;Send Y to A/D
+                CLR     &lt;VIA_port_b     ;Enable mux
                 LEAX    2,X             ;Point to next coordinate pair
                 NOP                     ;Wait a moment
-                INC     <VIA_port_b     ;Disable mux
-                STB     <VIA_port_a     ;Send X to A/D
+                INC     &lt;VIA_port_b     ;Disable mux
+                STB     &lt;VIA_port_a     ;Send X to A/D
                 LDD     #$FF00          ;Shift reg=$FF (solid line), T1H=0
-LF3ED:          STA     <VIA_shift_reg  ;Put pattern in shift register
-                STB     <VIA_t1_cnt_hi  ;Set T1H (scale factor?)
+LF3ED:          STA     &lt;VIA_shift_reg  ;Put pattern in shift register
+                STB     &lt;VIA_t1_cnt_hi  ;Set T1H (scale factor?)
                 LDD     #$0040          ;B-reg = T1 interrupt bit
-LF3F4:          BITB    <VIA_int_flags  ;Wait for T1 to time out
+LF3F4:          BITB    &lt;VIA_int_flags  ;Wait for T1 to time out
                 BEQ     LF3F4
                 NOP                     ;Wait a moment more
-                STA     <VIA_shift_reg  ;Clear shift register (blank output)
+                STA     &lt;VIA_shift_reg  ;Clear shift register (blank output)
                 LDA     $C823           ;Decrement line count
                 DECA
                 BPL     Draw_VL_a       ;Go back for more points
@@ -1653,7 +1654,7 @@ Draw_VLp_scale: LDB     ,X+
 ;       D-reg trashed                                                   ;
 ;-----------------------------------------------------------------------;
 
-Draw_VLp_b:     STB     <VIA_t1_cnt_lo  ;Set scale factor
+Draw_VLp_b:     STB     &lt;VIA_t1_cnt_lo  ;Set scale factor
 
 </PRE><a name="F410"><PRE>
 ;-----------------------------------------------------------------------;
@@ -1681,19 +1682,19 @@ Draw_VLp_b:     STB     <VIA_t1_cnt_lo  ;Set scale factor
 ;-----------------------------------------------------------------------;
 
 Draw_VLp:       LDD     1,X             ;Get next coordinate pair
-                STA     <VIA_port_a     ;Send Y to A/D
-                CLR     <VIA_port_b     ;Enable mux
+                STA     &lt;VIA_port_a     ;Send Y to A/D
+                CLR     &lt;VIA_port_b     ;Enable mux
                 LDA     ,X              ;Get pattern byte?
                 LEAX    3,X             ;Advance to next point in list
-                INC     <VIA_port_b     ;Disable mux
-                STB     <VIA_port_a     ;Send X to A/D
-                STA     <VIA_shift_reg  ;Store pattern in shift register
-                CLR     <VIA_t1_cnt_hi  ;Clear T1H
+                INC     &lt;VIA_port_b     ;Disable mux
+                STB     &lt;VIA_port_a     ;Send X to A/D
+                STA     &lt;VIA_shift_reg  ;Store pattern in shift register
+                CLR     &lt;VIA_t1_cnt_hi  ;Clear T1H
                 LDD     #$0040          ;B-reg = T1 interrupt bit
-LF425:          BITB    <VIA_int_flags  ;Wait for T1 to time out
+LF425:          BITB    &lt;VIA_int_flags  ;Wait for T1 to time out
                 BEQ     LF425
                 NOP                     ;Wait a moment more
-                STA     <VIA_shift_reg  ;Clear shift register (blank output)
+                STA     &lt;VIA_shift_reg  ;Clear shift register (blank output)
                 LDA     ,X              ;Get next pattern byte
                 BLE     Draw_VLp        ;Go back if high bit of pattern is set
                 JMP     Check0Ref
@@ -1734,21 +1735,21 @@ LF425:          BITB    <VIA_int_flags  ;Wait for T1 to time out
 LF433:          DECA
 Draw_Pat_VL_a:  STA     $C823
 Draw_Pat_VL:    LDD     ,X              ;Get next coordinate pair
-Draw_Pat_VL_d:  STA     <VIA_port_a     ;Send Y to A/D
-                CLR     <VIA_port_b     ;Enable mux
+Draw_Pat_VL_d:  STA     &lt;VIA_port_a     ;Send Y to A/D
+                CLR     &lt;VIA_port_b     ;Enable mux
                 LEAX    2,X             ;Point to next coordinate pair
-                INC     <VIA_port_b     ;Disable mux
-                STB     <VIA_port_a     ;Send X to A/D
+                INC     &lt;VIA_port_b     ;Disable mux
+                STB     &lt;VIA_port_a     ;Send X to A/D
                 LDA     Vec_Pattern     ;Get default pattern
                 LDB     #$40            ;B-reg = T1 interrupt bit
-                STA     <VIA_shift_reg  ;Put pattern in shift register
-                CLR     <VIA_t1_cnt_hi  ;Clear T1H (scale factor?)
+                STA     &lt;VIA_shift_reg  ;Put pattern in shift register
+                CLR     &lt;VIA_t1_cnt_hi  ;Clear T1H (scale factor?)
                 BITB    VIA_int_flags   ;Check if T1 timed out (note wasted byte)
                 BEQ     LF45C           ;Update pattern if not
 
 ;               Don't reset the zero reference if last line is really short?
 
-                CLR     <VIA_shift_reg  ;Clear shift register (blank output)
+                CLR     &lt;VIA_shift_reg  ;Clear shift register (blank output)
                 LDA     $C823           ;Get line counter
                 BNE     LF433           ;Go back for more points
                 RTS
@@ -1756,12 +1757,12 @@ Draw_Pat_VL_d:  STA     <VIA_port_a     ;Send Y to A/D
 ;               This code is for lines that are not really short lines
 
 LF459:          LDA     Vec_Pattern     ;Get default pattern
-LF45C:          STA     <VIA_shift_reg  ;Update pattern register
+LF45C:          STA     &lt;VIA_shift_reg  ;Update pattern register
                 NOP                     ;Wait a moment
-                BITB    <VIA_int_flags  ;Check if T1 timed out
+                BITB    &lt;VIA_int_flags  ;Check if T1 timed out
                 BEQ     LF459           ;Update pattern again if not
                 LDA     $C823           ;Get line counter
-                CLR     <VIA_shift_reg  ;Clear shift register (blank output)
+                CLR     &lt;VIA_shift_reg  ;Clear shift register (blank output)
                 TSTA                    ;Go back if more lines to draw
                 BNE     LF433
                 JMP     Check0Ref       ;Reset zero reference if necessary
@@ -1783,10 +1784,10 @@ LF45C:          STA     <VIA_shift_reg  ;Update pattern register
 ;                                                                       ;
 ; where mode has the following meaning:                                 ;
 ;                                                                       ;
-;       < 0  use the pattern in $C829                                   ;
+;       &lt; 0  use the pattern in $C829                                   ;
 ;       = 0  move to specified endpoint                                 ;
 ;       = 1  end of list, so return                                     ;
-;       > 1  draw to specified endpoint                                 ;
+;       &gt; 1  draw to specified endpoint                                 ;
 ;                                                                       ;
 ; ENTRY DP = $D0                                                        ;
 ;       X-reg points to the vector list                                 ;
@@ -1802,7 +1803,7 @@ Draw_VL_mode:   LDA     Vec_0Ref_Enable ;Save old Check0Ref flag
                 CLR     Vec_0Ref_Enable ;Don't reset the zero reference yet
 LF476:          LDA     ,X+             ;Get the next mode byte
                 BPL     LF47E
-                BSR     Draw_Pat_VL     ;If <0, draw a patterned line
+                BSR     Draw_Pat_VL     ;If &lt;0, draw a patterned line
                 BRA     LF476
 
 LF47E:          BNE     LF485
@@ -1811,7 +1812,7 @@ LF47E:          BNE     LF485
 
 LF485:          DECA
                 BEQ     LF48D
-                JSR     Draw_VL         ;If <>1, draw a solid line
+                JSR     Draw_VL         ;If &lt;&gt;1, draw a solid line
                 BRA     LF476
 
 LF48D:          PULS    A               ;If =1, exit
@@ -1844,34 +1845,34 @@ LF48D:          PULS    A               ;If =1, exit
 Print_Str:      STU     Vec_Str_Ptr     ;Save string pointer
                 LDX     #Char_Table-$20 ;Point to start of chargen bitmaps
                 LDD     #$1883          ;$8x = enable RAMP?
-                CLR     <VIA_port_a     ;Clear D/A output
-                STA     <VIA_aux_cntl   ;Shift reg mode = 110, T1 PB7 enabled
+                CLR     &lt;VIA_port_a     ;Clear D/A output
+                STA     &lt;VIA_aux_cntl   ;Shift reg mode = 110, T1 PB7 enabled
                 LDX     #Char_Table-$20 ;Point to start of chargen bitmaps
-LF4A5:          STB     <VIA_port_b     ;Update RAMP, set mux to channel 1
-                DEC     <VIA_port_b     ;Enable mux
+LF4A5:          STB     &lt;VIA_port_b     ;Update RAMP, set mux to channel 1
+                DEC     &lt;VIA_port_b     ;Enable mux
                 LDD     #$8081
                 NOP                     ;Wait a moment
-                INC     <VIA_port_b     ;Disable mux
-                STB     <VIA_port_b     ;Enable RAMP, set mux to channel 0
-                STA     <VIA_port_b     ;Enable mux
+                INC     &lt;VIA_port_b     ;Disable mux
+                STB     &lt;VIA_port_b     ;Enable RAMP, set mux to channel 0
+                STA     &lt;VIA_port_b     ;Enable mux
                 TST     $C800           ;I think this is a delay only
-                INC     <VIA_port_b     ;Enable RAMP, disable mux
+                INC     &lt;VIA_port_b     ;Enable RAMP, disable mux
                 LDA     Vec_Text_Width  ;Get text width
-                STA     <VIA_port_a     ;Send it to the D/A
+                STA     &lt;VIA_port_a     ;Send it to the D/A
                 LDD     #$0100
                 LDU     Vec_Str_Ptr     ;Point to start of text string
-                STA     <VIA_port_b     ;Disable RAMP, disable mux
+                STA     &lt;VIA_port_b     ;Disable RAMP, disable mux
                 BRA     LF4CB
 
 LF4C7:          LDA     A,X             ;Get bitmap from chargen table
-                STA     <VIA_shift_reg  ;Save in shift register
+                STA     &lt;VIA_shift_reg  ;Save in shift register
 LF4CB:          LDA     ,U+             ;Get next character
                 BPL     LF4C7           ;Go back if not terminator
                 LDA     #$81
-                STA     <VIA_port_b     ;Enable RAMP, disable mux
-                NEG     <VIA_port_a     ;Negate text width to D/A
+                STA     &lt;VIA_port_b     ;Enable RAMP, disable mux
+                NEG     &lt;VIA_port_a     ;Negate text width to D/A
                 LDA     #$01
-                STA     <VIA_port_b     ;Disable RAMP, disable mux
+                STA     &lt;VIA_port_b     ;Disable RAMP, disable mux
                 CMPX    #Char_Table_End-$20;     Check for last row
                 BEQ     LF50A           ;Branch if last row
                 LEAX    $50,X           ;Point to next chargen row
@@ -1884,21 +1885,21 @@ LF4EB:          LDA     #$81
                 NOP
                 DECB
                 BNE     LF4EB           ;Delay some more in a loop
-                STA     <VIA_port_b     ;Enable RAMP, disable mux
+                STA     &lt;VIA_port_b     ;Enable RAMP, disable mux
                 LDB     Vec_Text_Height ;Get text height
-                STB     <VIA_port_a     ;Store text height in D/A
-                DEC     <VIA_port_b     ;Enable mux
+                STB     &lt;VIA_port_a     ;Store text height in D/A
+                DEC     &lt;VIA_port_b     ;Enable mux
                 LDD     #$8101
                 NOP                     ;Wait a moment
-                STA     <VIA_port_b     ;Enable RAMP, disable mux
-                CLR     <VIA_port_a     ;Clear D/A
-                STB     <VIA_port_b     ;Disable RAMP, disable mux
-                STA     <VIA_port_b     ;Enable RAMP, disable mux
+                STA     &lt;VIA_port_b     ;Enable RAMP, disable mux
+                CLR     &lt;VIA_port_a     ;Clear D/A
+                STB     &lt;VIA_port_b     ;Disable RAMP, disable mux
+                STA     &lt;VIA_port_b     ;Enable RAMP, disable mux
                 LDB     #$03            ;$0x = disable RAMP?
                 BRA     LF4A5           ;Go back for next scan line
 
 LF50A:          LDA     #$98
-                STA     <VIA_aux_cntl   ;T1->PB7 enabled
+                STA     &lt;VIA_aux_cntl   ;T1-&gt;PB7 enabled
                 JMP     Reset0Ref       ;Reset the zero reference
 
 </PRE><a name="F511"><PRE>
@@ -2189,20 +2190,20 @@ LF592:          RTS
 ;-----------------------------------------------------------------------;
 
 Rise_Run_Angle: PSHS    X
-                STD     <Vec_RiseRun_Tmp
+                STD     &lt;Vec_RiseRun_Tmp
                 ROLB
                 LDB     #$00
                 ROLB
                 ROLA
                 ROLB
                 ASLB
-                STB     <Vec_Angle
-                LDD     <Vec_RiseRun_Tmp
+                STB     &lt;Vec_Angle
+                LDD     &lt;Vec_RiseRun_Tmp
                 BSR     Abs_a_b
-                STA     <Vec_RiseRun_Tmp
-                CMPB    <Vec_RiseRun_Tmp
+                STA     &lt;Vec_RiseRun_Tmp
+                CMPB    &lt;Vec_RiseRun_Tmp
                 BLS     LF5B2
-                INC     <Vec_Angle
+                INC     &lt;Vec_Angle
                 EXG     A,B
                 BRA     LF5B2
 
@@ -2210,13 +2211,13 @@ LF5B0:          LSRA
                 LSRB
 LF5B2:          CMPA    #$09
                 BHI     LF5B0
-                STD     <Vec_RiseRun_Tmp
-                LDB     <Vec_Angle
+                STD     &lt;Vec_RiseRun_Tmp
+                LDB     &lt;Vec_Angle
                 LDX     #DFC24
                 LDB     B,X
                 LDX     #DFC2C
                 LDA     A,X
-                ADDA    <$C835
+                ADDA    &lt;$C835
                 ADDA    #$0A
                 BITB    #$01
                 BNE     LF5D0
@@ -2225,8 +2226,8 @@ LF5B2:          CMPA    #$09
 
 LF5D0:          DECB
                 SUBB    A,X
-LF5D3:          STB     <Vec_Angle
-                LDA     <Vec_Angle
+LF5D3:          STB     &lt;Vec_Angle
+                LDA     &lt;Vec_Angle
                 PULS    X,PC
 
 </PRE><a name="F5D9"><PRE>
@@ -2247,13 +2248,13 @@ LF5D3:          STB     <Vec_Angle
 ;       lies along either the x or y axis, and whether the rise/run     ;
 ;       will be positive or negative.                                   ;
 ;                                                                       ;
-;               0 => positive rise, not on an axis, or                  ;
+;               0 =&gt; positive rise, not on an axis, or                  ;
 ;                    negative run, not on an axis.                      ;
-;            0x80 => negative rise, not on an axis, or                  ;
+;            0x80 =&gt; negative rise, not on an axis, or                  ;
 ;                    positive run, not on an axis.                      ;
-;               1 => positive rise, on an axis, or                      ;
+;               1 =&gt; positive rise, on an axis, or                      ;
 ;                    negative run, on an axis.                          ;
-;            0x81 => negative rise, on an axis, or                      ;
+;            0x81 =&gt; negative rise, on an axis, or                      ;
 ;                    positive run, on an axis.                          ;
 ;                                                                       ;
 ; ENTRY A-reg = the angle value                                         ;
@@ -2294,12 +2295,12 @@ LF5EC:          LDA     A,X             ;Get slope from slope table
 ;-----------------------------------------------------------------------;
 
 Rise_Run_Idx:   PSHS    X               ;Save X-reg
-                LDA     <Vec_Angle      ;Get angle
+                LDA     &lt;Vec_Angle      ;Get angle
                 BSR     Get_Run_Idx     ;Get run index pair for angle
-                STD     <Vec_Run_Index
-                LDA     <Vec_Angle      ;Get angle
+                STD     &lt;Vec_Run_Index
+                LDA     &lt;Vec_Angle      ;Get angle
                 BSR     Get_Rise_Idx    ;Get rise index pair for angle
-                STD     <Vec_Rise_Index
+                STD     &lt;Vec_Rise_Index
                 PULS    X,PC            ;Restore X-reg and return
 
 </PRE><a name="F5FF"><PRE>
@@ -2334,8 +2335,8 @@ Rise_Run_Idx:   PSHS    X               ;Save X-reg
 ;-----------------------------------------------------------------------;
 
 Rise_Run_X:     SUBB    #$10
-Rise_Run_Y:     STB     <Vec_Angle
-Rise_Run_Len:   STA     <Vec_RiseRun_Len
+Rise_Run_Y:     STB     &lt;Vec_Angle
+Rise_Run_Len:   STA     &lt;Vec_RiseRun_Len
                 BSR     Rise_Run_Idx    ;Get index pair of angle
                 BSR     Xform_Run       ;Get run value
                 NEGA
@@ -2412,15 +2413,15 @@ Rot_VL:         PSHS    DP
 Rot_VL_Mode:    STA     Vec_Angle       ;Save angle
                 PSHS    DP              ;Save DP register
                 JSR     DP_to_C8        ;DP to RAM
-                STA     <$C823          ;Store $C8 (negative value) into $C823
+                STA     &lt;$C823          ;Store $C8 (negative value) into $C823
                 BSR     Rise_Run_Idx    ;Get index pair of angle
 Rot_VL_M_dft:   LDA     ,X+             ;Get mode byte
                 STA     ,U+             ;Copy to destination
                 BLE     LF637           ;Rotate if not end of list
-                CLR     <$C823          ;Exit with $C823 cleared
+                CLR     &lt;$C823          ;Exit with $C823 cleared
                 PULS    DP,PC           ;Restore DP register and return
 
-LF635:          DEC     <$C823          ;Decrement count for (y,x) list
+LF635:          DEC     &lt;$C823          ;Decrement count for (y,x) list
 LF637:          LDA     ,X+             ;Get y coordinate
                 BSR     Xform_Rise_a
                 STA     ,U              ;Store partial y coordinate
@@ -2435,7 +2436,7 @@ LF637:          LDA     ,X+             ;Get y coordinate
                 BSR     Xform_Rise_a
                 SUBA    ,U              ;Add to partial x coordinate
                 STA     ,U+             ;Store rotated x coordinate
-                LDA     <$C823          ;Get counter
+                LDA     &lt;$C823          ;Get counter
                 BMI     Rot_VL_M_dft    ;If negative, go back to mode list loop
                 BNE     LF635           ;If non-zero, go back to (y,x) list loop
                 PULS    DP,PC
@@ -2459,8 +2460,8 @@ LF637:          LDA     ,X+             ;Get y coordinate
 ;       B-reg trashed                                                   ;
 ;-----------------------------------------------------------------------;
 
-Xform_Run_a:    STA     <Vec_RiseRun_Len
-Xform_Run:      LDD     <Vec_Run_Index
+Xform_Run_a:    STA     &lt;Vec_RiseRun_Len
+Xform_Run:      LDD     &lt;Vec_Run_Index
                 BRA     LF665
 
 ;-----------------------------------------------------------------------;
@@ -2480,21 +2481,21 @@ Xform_Run:      LDD     <Vec_Run_Index
 ;       B-reg trashed                                                   ;
 ;-----------------------------------------------------------------------;
 
-Xform_Rise_a:   STA     <Vec_RiseRun_Len
-Xform_Rise:     LDD     <Vec_Rise_Index
-LF665:          STB     <$C83C
+Xform_Rise_a:   STA     &lt;Vec_RiseRun_Len
+Xform_Rise:     LDD     &lt;Vec_Rise_Index
+LF665:          STB     &lt;$C83C
                 BITB    #$01
                 BEQ     LF66F
-                LDA     <Vec_RiseRun_Len
+                LDA     &lt;Vec_RiseRun_Len
                 BRA     LF679
 
-LF66F:          LDB     <Vec_RiseRun_Len
+LF66F:          LDB     &lt;Vec_RiseRun_Len
                 BPL     LF676
-                COM     <$C83C
+                COM     &lt;$C83C
                 NEGB
 LF676:          MUL
                 ADCA    #$00
-LF679:          LDB     <$C83C
+LF679:          LDB     &lt;$C83C
                 BPL     LF67E
                 NEGA
 LF67E:          RTS
@@ -2550,8 +2551,8 @@ LF686:          RTS
 ;                                                                       ;
 ; Music data format:                                                    ;
 ;                                                                       ;
-;       header word -> $C84F  32 nibble ADSR table                      ;
-;       header word -> $C851  8-byte "twang" table                      ;
+;       header word -&gt; $C84F  32 nibble ADSR table                      ;
+;       header word -&gt; $C851  8-byte "twang" table                      ;
 ;       data bytes                                                      ;
 ;                                                                       ;
 ; The ADSR table is simply 32 nibbles (16 bytes) of amplitude values.   ;
@@ -2578,25 +2579,25 @@ LF686:          RTS
 ;       D-reg, X-reg, Y-reg, U-reg trashed                              ;
 ;-----------------------------------------------------------------------;
 
-Init_Music_chk: LDA     <Vec_Music_Flag ;Test sound active flag
+Init_Music_chk: LDA     &lt;Vec_Music_Flag ;Test sound active flag
                 BMI     LF6B3           ;Continue sound if active
                 BEQ     LF686           ;Return if sound not active
 Init_Music:     LDX     #Freq_Table     ;Save pointer to frequency table
-                STX     <Vec_Freq_Table
+                STX     &lt;Vec_Freq_Table
 Init_Music_dft: LDA     #$80            ;Set sound active flag
-                STA     <Vec_Music_Flag
+                STA     &lt;Vec_Music_Flag
                 LDD     ,U++            ;Save address of ADSR table
-                STD     <Vec_ADSR_Table
+                STD     &lt;Vec_ADSR_Table
                 LDD     ,U++            ;Save address of twang table
-                STD     <Vec_Twang_Table
-                STU     <Vec_Music_Ptr  ;Save pointer to music data
+                STD     &lt;Vec_Twang_Table
+                STU     &lt;Vec_Music_Ptr  ;Save pointer to music data
                 JSR     Init_Music_Buf  ;Initialize music buffer
                 LDD     #$1F1F
-                STD     <Vec_ADSR_Timers+1;Init ADSR timers of chans 2 & 3
+                STD     &lt;Vec_ADSR_Timers+1;Init ADSR timers of chans 2 & 3
                 LDD     #$0000
-                STD     <Vec_Music_Freq+2;Clear frequency of channel 2
-                STD     <Vec_Music_Freq+4;Clear frequency of channel 3
-                STA     <Vec_Music_Chan ;A-reg = 0 (sound channel number?)
+                STD     &lt;Vec_Music_Freq+2;Clear frequency of channel 2
+                STD     &lt;Vec_Music_Freq+4;Clear frequency of channel 3
+                STA     &lt;Vec_Music_Chan ;A-reg = 0 (sound channel number?)
                 BRA     LF6EC
 
 ; Continue currently playing sound here
@@ -2609,7 +2610,7 @@ LF6B8:          LDA     B,U             ;Get the channel's ADSR timer
                 INC     B,U             ;Else increment the timer
 LF6C0:          DECB                    ;Go back for the other channels
                 BPL     LF6B8
-                LDX     <Vec_Twang_Table
+                LDX     &lt;Vec_Twang_Table
                 LDU     #Vec_Music_Twang
                 LDA     #$07            ;Twang limit is 6-8 depending on channel
 LF6CA:          INC     ,U              ;Increment twang counter
@@ -2623,13 +2624,13 @@ LF6D2:          LDB     ,U+             ;Get twang count
                 INCA                    ;Increment twang limit
                 CMPA    #$09
                 BLS     LF6CA           ;Go back until all three channels done
-                DEC     <Vec_Duration   ;Decrement the duration timer
+                DEC     &lt;Vec_Duration   ;Decrement the duration timer
                 BNE     LF74E           ;Update ADSR while note still playing
-LF6E3:          LDA     <Vec_Music_Chan ;Go to next music channel
+LF6E3:          LDA     &lt;Vec_Music_Chan ;Go to next music channel
                 DECA
-                BPL     LF6EA           ;If < 0, set it to 2
+                BPL     LF6EA           ;If &lt; 0, set it to 2
                 LDA     #$02
-LF6EA:          STA     <Vec_Music_Chan
+LF6EA:          STA     &lt;Vec_Music_Chan
 LF6EC:          LDB     [Vec_Music_Ptr] ;Get next byte of music data
                 LDU     #Vec_ADSR_Timers;Clear ADSR timer for this channel
                 CLR     A,U
@@ -2637,50 +2638,50 @@ LF6EC:          LDB     [Vec_Music_Ptr] ;Get next byte of music data
                 BEQ     LF712           ;we're going to make some noise
                 LDX     #Music_Table_1  ;Get bit mask for this channel
                 LDA     A,X
-                ANDA    <Vec_Music_Wk_7 ;Turn channel bit off for register 7
-                STA     <Vec_Music_Wk_7
-                LDA     <Vec_Music_Chan ;Set current channel bit in register 7
+                ANDA    &lt;Vec_Music_Wk_7 ;Turn channel bit off for register 7
+                STA     &lt;Vec_Music_Wk_7
+                LDA     &lt;Vec_Music_Chan ;Set current channel bit in register 7
                 ADDA    #$03
                 LDA     A,X
-                ORA     <Vec_Music_Wk_7
-                STA     <Vec_Music_Wk_7
+                ORA     &lt;Vec_Music_Wk_7
+                STA     &lt;Vec_Music_Wk_7
                 ANDB    #$1F            ;Mask off low 5 bits of music data
-                STB     <Vec_Music_Wk_6 ;and store in register 6
+                STB     &lt;Vec_Music_Wk_6 ;and store in register 6
                 BRA     LF735
 
 LF712:          LDX     #Music_Table_2  ;If $40 bit of music data was cleared,
                 LDA     A,X             ;Get bit mask for this channel
-                ANDA    <Vec_Music_Wk_7 ;Turn channel bit off for register 7
-                STA     <Vec_Music_Wk_7
-                LDA     <Vec_Music_Chan ;Set current channel bit in register 7
+                ANDA    &lt;Vec_Music_Wk_7 ;Turn channel bit off for register 7
+                STA     &lt;Vec_Music_Wk_7
+                LDA     &lt;Vec_Music_Chan ;Set current channel bit in register 7
                 ADDA    #$03
                 LDA     A,X
-                ORA     <Vec_Music_Wk_7
-                STA     <Vec_Music_Wk_7
-                LDA     <Vec_Music_Chan ;Get $C855 * 2 + 3
+                ORA     &lt;Vec_Music_Wk_7
+                STA     &lt;Vec_Music_Wk_7
+                LDA     &lt;Vec_Music_Chan ;Get $C855 * 2 + 3
                 ASLA
                 ADDA    #Vec_Music_Freq-Vec_ADSR_Timers
                 LEAU    A,U             ;Point U-reg to #$C861 + $C855 * 2
                 ANDB    #$3F            ;Mask off low 6 bits of music data,
                 ASLB                    ;multiply by 2
-                LDX     <Vec_Freq_Table ;Get pointer to note-to-frequency table
+                LDX     &lt;Vec_Freq_Table ;Get pointer to note-to-frequency table
                 LDD     B,X             ;Get note table data
                 STD     ,U              ;Store in word at $C861-$C866
-LF735:          LDX     <Vec_Music_Ptr  ;Re-get byte of music data
+LF735:          LDX     &lt;Vec_Music_Ptr  ;Re-get byte of music data
                 LDB     ,X+
-                STX     <Vec_Music_Ptr  ;Update music data pointer
+                STX     &lt;Vec_Music_Ptr  ;Update music data pointer
                 TSTB
-                BMI     LF6E3           ;If byte>=$80, advance to next channel
+                BMI     LF6E3           ;If byte&gt;=$80, advance to next channel
                 LDB     ,X+             ;Get second byte of music data
-                BPL     LF748           ;If >=$80, (terminator)
+                BPL     LF748           ;If &gt;=$80, (terminator)
                 JSR     Init_Music_Buf  ;  clear music buffer,
-                CLR     <Vec_Music_Flag ;  clear music flag,
+                CLR     &lt;Vec_Music_Flag ;  clear music flag,
                 RTS                     ;  and exit
 
-LF748:          STX     <Vec_Music_Ptr  ;Update music data pointer
+LF748:          STX     &lt;Vec_Music_Ptr  ;Update music data pointer
                 ANDB    #$3F            ;Duration in low 6 bits of second byte
-                STB     <Vec_Duration   ;Store duration counter
-LF74E:          LDY     <Vec_ADSR_Table ;Get pointer to ADSR table
+                STB     &lt;Vec_Duration   ;Store duration counter
+LF74E:          LDY     &lt;Vec_ADSR_Table ;Get pointer to ADSR table
                 LDU     #Vec_ADSR_Timers;Point to ADSR timer table
                 LDX     #Vec_Music_Wk_A
                 LDA     #$02            ;Count for three channels
@@ -2706,13 +2707,13 @@ LF76D:          STB     A,X             ;Store ADSR value in regs 10-12
 LF778:          LDD     ,--U            ;Get next base frequency
                 TST     -8,U            ;Test twang value
                 BPL     LF788
-                NEG     -8,U            ;If <0, negate twang table entry
+                NEG     -8,U            ;If &lt;0, negate twang table entry
                 SUBB    -8,U            ;Subtract negated value from frequency
                 SBCA    #$00            ;Propagate borrow to high byte
                 NEG     -8,U            ;Un-negate twang entry
                 BRA     LF78C
 
-LF788:          ADDB    -8,U            ;If >0 add twang to base frequency
+LF788:          ADDB    -8,U            ;If &gt;0 add twang to base frequency
                 ADCA    #$00            ;Propagate carry to high byte
 LF78C:          STD     ,X++            ;Store freq in regs 5/4, 3/2, 1/0
                 CMPX    #Vec_Music_Work+14
@@ -2771,8 +2772,8 @@ LF7B1:          TSTB                    ;If non-zero games specified,
 LF7B6:          STD     Vec_Num_Players ;Save default selection
                 JSR     DP_to_C8        ;DP to RAM
                 LDD     #$F850
-                STD     <Vec_Text_HW
-                STA     <$C83C          ;Set $C83C flag to non-zero
+                STD     &lt;Vec_Text_HW
+                STA     &lt;$C83C          ;Set $C83C flag to non-zero
                 BRA     LF82C
 
 LF7C5:          JSR     Wait_Recal      ;Start with a fresh frame, DP to I/O
@@ -2787,48 +2788,48 @@ LF7C5:          JSR     Wait_Recal      ;Start with a fresh frame, DP to I/O
                 LDY     #Game_Str
                 BSR     Display_Option
                 JSR     DP_to_C8        ;DP to RAM
-                LDA     <$C83C          ;If $C83C=0, check buttons
+                LDA     &lt;$C83C          ;If $C83C=0, check buttons
                 BEQ     LF7F1
-                LDA     <Vec_Btn_State
+                LDA     &lt;Vec_Btn_State
                 BNE     LF82C           ;If any button pressed, reset timers
-                CLR     <$C83C          ;Clear $C83C flag
-LF7F1:          LDA     <Vec_Counter_2  ;Return if counter 2 timed out
+                CLR     &lt;$C83C          ;Clear $C83C flag
+LF7F1:          LDA     &lt;Vec_Counter_2  ;Return if counter 2 timed out
                 BEQ     LF793_RTS
-                LDA     <Vec_Counter_1  ;If repeat timer not timed out,
+                LDA     &lt;Vec_Counter_1  ;If repeat timer not timed out,
                 BNE     LF7C5           ;  ignore the buttons
-                LDA     <Vec_Button_1_4
+                LDA     &lt;Vec_Button_1_4
                 BNE     LF793_RTS       ;Return if button 4 pressed
-                LDA     <Vec_Button_1_1
+                LDA     &lt;Vec_Button_1_1
                 BEQ     LF810
-                LDA     <Vec_Num_Players; Ignore if no players option
+                LDA     &lt;Vec_Num_Players; Ignore if no players option
                 BEQ     LF810           ;If button 1 pressed,
                 INCA                    ;   increment number of players
-                CMPA    <Vec_Max_Players
+                CMPA    &lt;Vec_Max_Players
                 BLS     LF80C
                 LDA     #$01            ;Reset to 1 if max players exceeded
-LF80C:          STA     <Vec_Num_Players; Update number of players
+LF80C:          STA     &lt;Vec_Num_Players; Update number of players
                 BRA     LF82C           ;Update timers and go back to the loop
 
-LF810:          LDA     <Vec_Num_Game   ;Return to the loop if no game options
+LF810:          LDA     &lt;Vec_Num_Game   ;Return to the loop if no game options
                 BEQ     LF7C5
-                LDB     <Vec_Button_1_2
+                LDB     &lt;Vec_Button_1_2
                 BEQ     LF821
                 INCA                    ;If button 2 down, increment game
-                CMPA    <Vec_Max_Games
+                CMPA    &lt;Vec_Max_Games
                 BLS     LF82A
                 LDA     #$01            ;Reset to 1 if maximum exceeded
                 BRA     LF82A
 
-LF821:          LDB     <Vec_Button_1_3
+LF821:          LDB     &lt;Vec_Button_1_3
                 BEQ     LF7C5
                 DECA                    ;If button 3 down, decrement game
                 BNE     LF82A
-                LDA     <Vec_Max_Games  ;Reset to max if zero reached
-LF82A:          STA     <Vec_Num_Game
+                LDA     &lt;Vec_Max_Games  ;Reset to max if zero reached
+LF82A:          STA     &lt;Vec_Num_Game
 LF82C:          LDA     #$F3            ;Reset timers
-                STA     <Vec_Counter_2
+                STA     &lt;Vec_Counter_2
                 COMA
-                STA     <Vec_Counter_1
+                STA     &lt;Vec_Counter_1
                 BRA     LF7C5           ;Go back to the loop
 
 </PRE><a name="F835"><PRE>
@@ -2986,8 +2987,8 @@ LF8C6:          RTS
 ; following values will be returned in the A-register:                  ;
 ;                                                                       ;
 ;       1) The scores are the same: a = 0                               ;
-;       2) X score > U score:   a = 1                                   ;
-;       3) U score > X score:   a = 2                                   ;
+;       2) X score &gt; U score:   a = 1                                   ;
+;       3) U score &gt; X score:   a = 2                                   ;
 ;                                                                       ;
 ; ENTRY X-reg points to first score string (terminated with $80)        ;
 ;       U-reg points to second score string                             ;
@@ -3003,8 +3004,8 @@ LF8CA:          LDB     ,X+
                 BMI     LF8D6           ;Return if end of string
                 CMPB    ,U+
                 BEQ     LF8CA           ;Continue if byte is the same
-                BHI     LF8D5           ;Return 1 if X > U
-                INCA                    ;Return 2 if U > X
+                BHI     LF8D5           ;Return 1 if X &gt; U
+                INCA                    ;Return 2 if U &gt; X
 LF8D5:          INCA
 LF8D6:          PULS    X,U,PC          ;Restore pointers and return
 
@@ -3026,7 +3027,7 @@ LF8D6:          PULS    X,U,PC          ;Restore pointers and return
 
 New_High_Score: BSR     Compare_Score   ;Compare the scores
                 CMPA    #$01
-                BNE     LF8E4           ;Return if X is not > U
+                BNE     LF8E4           ;Return if X is not &gt; U
 LF8DE:          LDA     ,X+             ;Copy the new high score
                 STA     ,U+
                 BPL     LF8DE           ;until end of string encountered
@@ -3083,9 +3084,9 @@ Obj_Will_Hit:   PSHS    Y               ;Save regs for the hit-test code
 ; otherwise, the carry bit will be cleared.  A hit is checked for in    ;
 ; the following fashion:                                                ;
 ;                                                                       ;
-;   if (object y-height/2) <= missile y <= (object y+height/2)          ;
+;   if (object y-height/2) &lt;= missile y &lt;= (object y+height/2)          ;
 ;                               and                                     ;
-;      (object x-width/2)  <= missile x <= (object x+width/x)           ;
+;      (object x-width/2)  &lt;= missile x &lt;= (object x+width/x)           ;
 ;                                                                       ;
 ;   then the missile hit, otherwise it missed.                          ;
 ;                                                                       ;
@@ -3139,12 +3140,12 @@ LF92A:          PULS    D,X,Y
 ;               Bits 6-7 = 0                                            ;
 ;               Bits 0-2 and 3-5 are ORed and stored in bits 0-2 of     ;
 ;                                                               $C854   ;
-;       2)      <0 = ?          Something to do with register 6         ;
+;       2)      &lt;0 = ?          Something to do with register 6         ;
 ;               =0 = ?                                                  ;
-;               >0 = ?                                                  ;
-;       3)      <0 = ?                                                  ;
+;               &gt;0 = ?                                                  ;
+;       3)      &lt;0 = ?                                                  ;
 ;               =0 = ?                                                  ;
-;               >0 = ?                                                  ;
+;               &gt;0 = ?                                                  ;
 ;       4)      Speed?  Higher values = lower duration?                 ;
 ;                                                                       ;
 ; ENTRY DP = $C8                                                        ;
@@ -3153,73 +3154,73 @@ LF92A:          PULS    D,X,Y
 ;       D-reg, X-reg trashed                                            ;
 ;-----------------------------------------------------------------------;
 
-Explosion_Snd:  LDA     <Vec_Expl_Flag
+Explosion_Snd:  LDA     &lt;Vec_Expl_Flag
                 BPL     LF95B
                 ANDA    #$7F
-                STA     <Vec_Expl_Flag
+                STA     &lt;Vec_Expl_Flag
                 LDX     #Vec_Expl_1     ;Copy 4 bytes from U-reg to $C858
                 LDA     #$04
                 JSR     Move_Mem_a
                 LSRB                    ;Divide first byte by 8
                 LSRB
                 LSRB
-                ORB     <Vec_Expl_1     ;OR with first byte
+                ORB     &lt;Vec_Expl_1     ;OR with first byte
                 ANDB    #$07            ;AND with 7
-                STB     <Vec_Expl_Chans ;store in $C854
-                LDB     <Vec_Expl_1     ;Get first byte
+                STB     &lt;Vec_Expl_Chans ;store in $C854
+                LDB     &lt;Vec_Expl_1     ;Get first byte
                 ANDB    #$38            ;Mask off bits 3-5
-                STB     <Vec_Expl_ChanA ;store in $C853
-                LDB     <Vec_Expl_1     ;Get first byte
+                STB     &lt;Vec_Expl_ChanA ;store in $C853
+                LDB     &lt;Vec_Expl_1     ;Get first byte
                 ANDB    #$07            ;AND with 7
-                STB     <Vec_Expl_ChanB ;store in $C85D
+                STB     &lt;Vec_Expl_ChanB ;store in $C85D
                 LDB     #$02            ;Start with channel number 2
-                STB     <Vec_Expl_Chan
+                STB     &lt;Vec_Expl_Chan
                 LDA     #$7F            ;Initialize time count
                 BRA     LF968
 
-LF95B:          LDA     <Vec_Expl_Timer
+LF95B:          LDA     &lt;Vec_Expl_Timer
                 BEQ     LF9C9_RTS
-                SUBA    <Vec_Expl_4
+                SUBA    &lt;Vec_Expl_4
                 BPL     LF968
                 CLRB
-                STB     <Vec_Expl_Timer
+                STB     &lt;Vec_Expl_Timer
                 BRA     LF9CA
 
-LF968:          STA     <Vec_Expl_Timer
+LF968:          STA     &lt;Vec_Expl_Timer
                 LSRA
                 LSRA
-                LDB     <Vec_Expl_ChanA
+                LDB     &lt;Vec_Expl_ChanA
                 BEQ     LF97D
-                STA     <Vec_Music_Wk_6
-                LDB     <Vec_Expl_2
+                STA     &lt;Vec_Music_Wk_6
+                LDB     &lt;Vec_Expl_2
                 BMI     LF97B
                 BEQ     LF97D
                 TFR     A,B
                 COMB
-LF97B:          STB     <Vec_Music_Wk_6
+LF97B:          STB     &lt;Vec_Music_Wk_6
 LF97D:          LSRA
                 CMPA    #$07
                 BLS     LF987
                 CMPA    #$0F
                 BEQ     LF987
                 INCA
-LF987:          LDB     <Vec_Expl_3
+LF987:          LDB     &lt;Vec_Expl_3
                 BMI     LF991
                 BEQ     LF98F
                 EORA    #$0F
 LF98F:          TFR     A,B
 LF991:          BSR     LF9CA
-                LDB     <Vec_Expl_ChanB
+                LDB     &lt;Vec_Expl_ChanB
                 BEQ     LF9C2
-LF997:          LDA     <Vec_Expl_Chan  ;Get channel number
+LF997:          LDA     &lt;Vec_Expl_Chan  ;Get channel number
                 DECA                    ;Decrement channel number
                 BPL     LF99E
                 LDA     #$02            ;Reset to 2 if less than zero
-LF99E:          STA     <Vec_Expl_Chan  ;Save channel number
+LF99E:          STA     &lt;Vec_Expl_Chan  ;Save channel number
                 JSR     Bitmask_a       ;Get bit mask of the channel
-                BITA    <Vec_Expl_ChanB
+                BITA    &lt;Vec_Expl_ChanB
                 BEQ     LF997           ;Go back if not in for $C85D
-                LDB     <Vec_Expl_Chan
+                LDB     &lt;Vec_Expl_Chan
                 ASLB                    ;Negative of channel number ; 2
                 NEGB
                 LDX     #Vec_Music_Wk_1 ;  (registers 1, 3, and 5)
@@ -3231,15 +3232,15 @@ LF99E:          STA     <Vec_Expl_Chan  ;Save channel number
                 ASLA
                 ADDA    #$05
 LF9BC:          STA     ,X
-                LDA     <Vec_Random_Seed+1
+                LDA     &lt;Vec_Random_Seed+1
                 STA     1,X
-LF9C2:          LDA     <Vec_Expl_1
+LF9C2:          LDA     &lt;Vec_Expl_1
                 COMA
-                ANDA    <Vec_Music_Wk_7
-                STA     <Vec_Music_Wk_7
+                ANDA    &lt;Vec_Music_Wk_7
+                STA     &lt;Vec_Music_Wk_7
 LF9C9_RTS:      RTS
 
-LF9CA:          LDA     <Vec_Expl_Chans
+LF9CA:          LDA     &lt;Vec_Expl_Chans
                 LDX     #Vec_Music_Wk_7
 LF9CF:          TSTA                    ;Exit if all channels done
                 BEQ     LF9DB_RTS

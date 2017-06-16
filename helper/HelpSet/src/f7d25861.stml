@@ -1,0 +1,20 @@
+:title "perfect" Vectorlists
+
+Some function in Vecci only work with perfect vectorlists.
+What makes a vectorlist perfect?
+
+- a perfect vectorlist is ordered
+- all vectors are drawn "full" with a pattern of 255
+- all vectors are connected with their natural order
+- all vectors face the "correct" direction
+- all vectors have a length smaller than 127/128 (depending on the sign)
+
+Think of perfect vectorlists as a drawing you can make with a pencil, without ever taking the pencil off the paper.
+
+These vectors can be exported to any of the supplied formats.
+
+They are in general quite performant.
+They should not be longer than (about) twenty vectors (otherwise on a real vectrex they will "drift").
+
+
+

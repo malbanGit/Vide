@@ -7,9 +7,18 @@ You can update the variables name on the fly, the disassembly in dissi will refl
 
 Same with comments.
 
+**Editing**~~
+Of the data columns of the table is supported (8bit and 16bit). The corresponding memory location is updated with the given values.
+
 **all known...**~~
-In case you need more than all known locations, you can add locations using the 
-##add.png## button (this mainly comes handy if RAM-locations are used via accessing with the use of the DP register)
+In case you need more than all known locations, you can add locations using the ##add.png## button (this mainly comes handy if RAM-locations are used via accessing with the use of the DP register)
+
+** all RAM locations ***~~
+In case you do not want any "selection" at all - switching this on will show all RAM locations.
+
+** switch of display of BIOS variables ***~~
+Does what it says.
+
 
 **breakpoints**~~
 As shown in the image above, you can also set breakpoints to ram locations. 

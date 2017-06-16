@@ -1,10 +1,11 @@
+:label vecciExport
 :title Export
 There are different ways you can export vectorlists from vecci.
 
 :h2 Text export
 :image VeccyExport.png|text export
 
-Text export is the "main" export vecci offers, all other exports (at the moment) must be user defined - but with user definitions you can probably export to any imaginable format (if you do know a little bit about java).
+Text export is the "main" export vecci offers, some other exports are supported (see below) plus there can be user defined exports, with user definitions you can probably export to any imaginable format (if you do know a little bit about java).
 
 Anyway...~~
 
@@ -20,6 +21,9 @@ Following features are the same for both sections:
 - if the checkbox "runnable" is checked (befor creating an export) a runnable vectrex sourcecode is generated (and also put into the textarea, source is ment as an EXAMPLE not as clever programming!)
 - if a runnable source is generated, the button ##control_play_blue.png## is enabled, and by pressing it you start your generated vectrex binary in the emulator.
 - you can also change the source in the editor an run it afterwards. If "nothing" happened you entered a syntax error (check the log). If that is so, better copy and paste the text into vedi, there you can access error messages of assi directly
+- you can chose whether to add a "factor". The factor is realized as a constant within each data statement. The default value for the constant is "1", but you can easily edit that value in the generated sources.
+- you can chose whether to use a "db" or "fcb" assembler statement (checkbox)
+- you can chose whether to use a hex or decimal output values (checkbox)
 
 Following types of exports are supported (if possible):~~ ~~
 :: **Mov\_Draw\_VLc\_a**     ~~                                     
@@ -166,14 +170,14 @@ An example of the differences of a synced and not synced vectorlist:
 
 :image frogSynced.png|synced
 
-
-
 :h2 Vectorlist export
 Look above...
 
 :h2 Animation/Scenario export
 :h3 Animation
 In order to be able to save an animation in one format, **ALL** vectorlists of that animation must be saveable in that format!
+
+For animations you can also save in synced "extended" vector format. That format also included the intensity of the vectors as set in vecci.
 
 If you use rotation, be sure to either have a correct startpoint, or use one of the Mov\_Draw... or Mode... formats, otherwise it might happen, that you are "rotating" around the wrong point!
 :h3 Scenario
@@ -215,3 +219,24 @@ In order to set apropriate vectorinformation following keys are used for replace
  
 :h2 User export
 Here a user can configure (meaning program) his own export routines. A simple example is given, as of now I will not elaborate these settings.
+
+:h2 Other
+**SVG**~~
+
+The SVG export is at the moment very basic, since it only makes use of the "line" command. If you want to reuse the export you are probaby better of if you edit the result in some svg supporting tool (Inkscape?).
+
+The resulting SVG file is always placed in the default vectorlist directory under:~~
+::______Vide/xml/vectorlist/::~~
+
+**Wavefront OBJ**~~
+The OBJ export is at the moment very basic, only the entities:
+- v (vertex)
+- p (point)
+- l (line)
+- f (face)
+are used.
+
+If you want to reuse the export you can do that for examples with "Blender".
+
+The resulting OBJ file is always placed in the default vectorlist directory under:~~
+::______Vide/xml/vectorlist/::~~

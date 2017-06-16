@@ -134,7 +134,7 @@ Comments:
 1) first set the register we are interested in to DA ~~(hence D"A" (ADDRESS we want to read\))
 2) set BDIR/BC1 = 00 to INACTIVE, this is NEEDED!~~
    Switching the state of BDIR/BC1 can not be done directly!~~
-   Switching to a state (different 00) must ALLWAYS be done from state 00!
+   Switching to a state (different 00) must ALWAYS be done from state 00!
 3) set BDIR/BC1 = 11, PSG remembers the value in DA (7) as the current latched address~~
    meaning: the next read or write access will be done with that latched address
 4) set BDIR/BC1 = 00 see above
@@ -166,39 +166,39 @@ by an ignorant joystick :-) )
 ; Port A of PSG is kept in OUTPUT mode~~
 ; assuming that port A of VIA is in output mode~~
 ; and also that port B of VIA is otherwise configured to correct IO settings~~
-write_A_toJoy2:~~
+write\_A\_toJoy2:~~
 ________sta -01,s______________; store given value on stack~~
 ~~
 ; Latch Reg $07 of PSG~~
 ________lda #$07_______________; Register 7 of PSG~~
-________sta <VIA_port_a________; VIA A = 0x07 ~~
+________sta <VIA\_port\_a________; VIA A = 0x07 ~~
 ________ldd #$9981_____________; 1001 1001 / 1000 0001 1) bit 3+4 == 11, 2) bit 3+4 = 00 ~~
-________sta <VIA_port_b________; VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)~~
-________stb <VIA_port_b________; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)~~
+________sta <VIA\_port\_b________; VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)~~
+________stb <VIA\_port\_b________; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)~~
      ~~
 ; write value of $7f to reg $07 (latched)~~
 ________lda #$7F_______________; $7f to VIA A (DAC) $7f = 0111 1111, disable all noise and tone in psg, ~~
 _______________________________; ENABLE OUTPUT on port A of PSG (port B irrelevant since it is a 8912)~~
-________sta <VIA_port_a________; $7f to VIA A (DAC)~~
+________sta <VIA\_port\_a________; $7f to VIA A (DAC)~~
 ________ldd #$9181~~
-________sta <VIA_port_b________; VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)~~
-________stb <VIA_port_b________; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)~~
+________sta <VIA\_port\_b________; VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)~~
+________stb <VIA\_port\_b________; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)~~
 ~~
 ; now port A of PSG is in output mode and can be written to	 ~~
 	 ~~
 ; Latch Reg $E of PSG (Port A)~~
 ________lda #$0E~~
-________sta <VIA_port_a________; $0e to VIA A (DAC)~~
+________sta <VIA\_port\_a________; $0e to VIA A (DAC)~~
 ________ldd #$9981_____________; 1001 1001 / 1000 0001 1) bit 3+4 == 11, 2) bit 3+4 = 00 ~~
-________sta <VIA_port_b________; VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)~~
-________stb <VIA_port_b________; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)~~
+________sta <VIA\_port\_b________; VIA Port B = 99, mux disabled, RAMP disabled, BC1/BDIR = 11 (Latch address)~~
+________stb <VIA\_port\_b________; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)~~
      ~~
 ; write A to port~~
 ________lda -01,s______________; read value from stack~~
-________sta <VIA_port_a________; output value to via VIA port A to Port A of PSG (Joystick buttons)~~
+________sta <VIA\_port\_a________; output value to via VIA port A to Port A of PSG (Joystick buttons)~~
 ________ldd #$9181_____________; 1001 0001 / 1000 0001 1) bit 3+4 == 10, 2) bit 3+4 = 00 ~~
-________sta <VIA_port_b________; VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)~~
-________stb <VIA_port_b________; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)~~
+________sta <VIA\_port\_b________; VIA Port B = 91, mux disabled, RAMP disabled, BC1/BDIR = 10 (Write to PSG)~~
+________stb <VIA\_port\_b________; VIA Port B = 81, mux disabled, RAMP disabled, BC1/BDIR = 00 (PSG inactive)~~
 ________rts~~
 ~~
 ::
@@ -219,7 +219,7 @@ To poke a value at register 7 you would do:~~
 
 ::________ldb #$00_______________; value to set~~
 ________lda #$07_______________; Register 7 of PSG~~
-________jsr Sound_Byte_________; write byte to soundchip and to shadow registers ~~
+________jsr Sound\_Byte_________; write byte to soundchip and to shadow registers ~~
 ::
 
 :h2 Part two - Joystick!
@@ -283,51 +283,51 @@ ________lda      #$D0________________; setup DP ~~
 ________tfr      a,dp ~~
 ________direct   $D0 ~~
 ________lda      #$03________________; mux disabled, mux sel = 01 (vertical pot port 0) ~~
-________sta      <VIA_port_b_________; ~~
-________clr      <VIA_port_a_________; dac = 0 ~~
-________dec      <VIA_port_b_________; mux enabled, mux sel = 01 ~~
+________sta      <VIA\_port\_b_________; ~~
+________clr      <VIA\_port\_a_________; dac = 0 ~~
+________dec      <VIA\_port\_b_________; mux enabled, mux sel = 01 ~~
 ________ldb      #$20________________; a wait loop 32 times a loop (waiting for the pots to "read" values, and feed to compare logic) ~~
 waitLoopV: ~~
 ________decb____________________; ... ~~
 ________bne      waitLoopV___________; wait... ~~
-________inc      <VIA_port_b_________; disable mux ~~
+________inc      <VIA\_port\_b_________; disable mux ~~
 ________ldb      #$20________________; load b with comparator bit (0010 0000) ~~
 ________lda      #$40________________; load a with test value (positive y) ~~
-________sta      <VIA_port_a_________; test value to DAC ~~
+________sta      <VIA\_port\_a_________; test value to DAC ~~
 ________lda      #$01________________; default result value y was pushed UP ~~
-________bitb     <VIA_port_b________; test comparator ~~
+________bitb     <VIA\_port\_b________; test comparator ~~
 ________bne      yReadDone___________; if comparator not cleared - joystick was moved up ~~
-________neg      <VIA_port_a_________; "load" with negative value ~~
+________neg      <VIA\_port\_a_________; "load" with negative value ~~
 ________nega____________________; also switch the possible result in A ~~
-________bitb     <VIA_port_b________; test comparator again ~~
+________bitb     <VIA\_port\_b________; test comparator again ~~
 ________beq      yReadDone___________; if cleared the joystick was moved down ~~
 ________clra____________________; if still not cleared, we clear a as the final vertical test result (no move at all) ~~
 yReadDone: ~~
-________sta      >joy_y______________; remember the result in "our" joystick data ~~
+________sta      >joy\_y______________; remember the result in "our" joystick data ~~
 ;~~
 ; now the same for horizontal~~
 ________lda      #$01________________; mux disabled, mux sel = 00 (horizontal pot port 0) ~~
-________sta      <VIA_port_b_________; ~~
-________clr      <VIA_port_a_________; dac = 0 ~~
-________dec      <VIA_port_b_________; mux enabled, mux sel = 01 ~~
+________sta      <VIA\_port\_b_________; ~~
+________clr      <VIA\_port\_a_________; dac = 0 ~~
+________dec      <VIA\_port\_b_________; mux enabled, mux sel = 01 ~~
 ________ldb      #$20________________; a wait loop 32 times a loop (waiting for the pots to "read" values, and feed to compare logic) ~~
 waitLoopH: ~~
 ________decb____________________; ... ~~
 ________bne      waitLoopH___________; wait... ~~
-________inc      <VIA_port_b_________; disable mux ~~
+________inc      <VIA\_port\_b_________; disable mux ~~
 ________ldb      #$20________________; load b with comparator bit (0010 0000) ~~
 ________lda      #$40________________; load a with test value (positive x) ~~
-________sta      <VIA_port_a_________; test value to DAC ~~
+________sta      <VIA\_port\_a_________; test value to DAC ~~
 ________lda      #$01________________; default result value x was pushed right ~~
-________bitb     <VIA_port_b________; test comparator ~~
+________bitb     <VIA\_port\_b________; test comparator ~~
 ________bne      xReadDone___________; if comparator not~~ cleared - joystick was moved right ~~
-________neg      <VIA_port_a_________; "load" with negative value ~~
+________neg      <VIA\_port\_a_________; "load" with negative value ~~
 ________nega____________________; also switch the possible result in A ~~
-________bitb     <VIA_port_b________; test comparator again ~~
+________bitb     <VIA\_port\_b________; test comparator again ~~
 ________beq      xReadDone___________; if cleared the joystick was moved left ~~
 ________clra____________________; if still not cleared, we clear a as the final vertical test result (no move at all) ~~
 xReadDone: ~~
-________sta      >joy_x______________; remember the result in "our" joystick data ~~
+________sta      >joy\_x______________; remember the result in "our" joystick data ~~
 ________rts_____________________; done ~~
 
 ~~

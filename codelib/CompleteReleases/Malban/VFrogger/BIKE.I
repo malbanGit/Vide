@@ -11,12 +11,9 @@
 ; bike1 is moving to the left with a speed of -1
 
 ; sprite definition
+ db 22
 bike1a_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 22
- else
                 DW (MAX_LINE_NUM-(22+1))*ONE_LINE_LENGTH
- endif
                 DB  3*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
@@ -51,12 +48,9 @@ bike1a_object:
                 DB $60                  ; brightness
                 DB 0                    ; special flag
 ; sprite definition
+ db 22
 bike1b_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 22
- else
                 DW (MAX_LINE_NUM-(22+1))*ONE_LINE_LENGTH
- endif
                 DB  3*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
@@ -90,12 +84,9 @@ bike1b_object:
                 DB 1                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
+ db 22
 bike1c_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 22
- else
                 DW (MAX_LINE_NUM-(22+1))*ONE_LINE_LENGTH
- endif
                 DB  3*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP
@@ -129,12 +120,9 @@ bike1c_object:
                 DB 1                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB 0                    ; special flag
+ db 22
 bike1d_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 22
- else
                 DW (MAX_LINE_NUM-(22+1))*ONE_LINE_LENGTH
- endif
                 DB  3*SPRITE_BLOW_UP,  1*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  2*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  0*SPRITE_BLOW_UP

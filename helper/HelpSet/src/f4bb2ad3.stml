@@ -36,7 +36,7 @@ a) give the serial port, the ##arrow_refresh.png## rescans the available ports (
 b) the location of the usb drive
 
 :h3 serial connection
-The combobox gives you all currently available serial ports. Please chose the correct one. There is no internal testing if you chose the correct port! (probably nothing but will come from a wrong port choice - but you won't be able to run your BASIC programs)
+The combobox gives you all currently available serial ports. Please chose the correct one. There is no internal testing if you chose the correct port! (probably nothing bad will come from a wrong port choice - but you won't be able to run your BASIC programs)
 
 The serial port selection was tested with //Windows 7//, //Mac OSX// and //Linux Ubuntu//. If there is any problem establishing a connection, you may try reaching out to Malban.
 

@@ -218,3 +218,14 @@ Tarsos and TarsosDSP are developed at University College Ghent, Faculty of Music
 Licence: GNU General Public License (GPL) V3.0 (or later)~~
 Homepage: [[https://github.com/JorenSix/Tarsos]]~~
 ::
+
+~~::
+Used new PSG emulation:~~
+**libayemu**~~
+--------~~
+Main Maintainer: Sashnov Alexander / Roman Scherbakov~~
+~~Port to java by me - Malban~~
+~~AY/YM sound co-processor emulation library.~~
+Licence: GNU General Public License (GPL) V2.0 (or later)~~
+Homepage: [[https://github.com/gasman/libayemu]]~~
+::

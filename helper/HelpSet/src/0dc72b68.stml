@@ -1,0 +1,26 @@
+:title Button quicky
+For a more efficient way than BIOS functions look at the following macro. 
+It leaves with the state of all 8 buttons in register A.
+
+(expects DP set to d0)
+:div code
+::
+MY\_READ\_BUTTONS\_A_macro__________________~~
+____________direct__$d0__________________~~
+____________LDA_____#$0E________________;Sound_chip_register_0E_to_port_A_~~
+____________STA_____<VIA\_port\_a__________~~
+____________LDD_____#$1901______________;sound_BDIR_on,_BC1_on,_mux_off_~~
+____________STA_____<VIA\_port\_b__________~~
+____________NOP_________________________;pause_~~
+____________STB_____<VIA\_port\_b_________;sound_BDIR_off,_BC1_off,_mux_off_~~
+____________CLR_____<VIA\_DDR\_a__________;DDR_A_to_input_~~
+____________LDD_____#$0901______________;sound_BDIR_off,_BC1_on,_mux_off_~~
+____________STA_____<VIA\_port\_b__________~~
+____________NOP_________________________;pause_~~
+____________LDA_____<VIA\_port\_a_________;Read_buttons_~~
+____________STB_____<VIA\_port\_b_________;sound_BDIR_off,_BC1_off,_mux_off_~~
+____________LDB_____#$FF_________________~~
+____________STB_____<VIA\_DDR\_a__________;DDR_A_to_output_~~
+____________endm_________________________~~
+::
+:/div

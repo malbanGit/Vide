@@ -5,12 +5,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; this file contains the 'sprite' definition for a truck                    ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ db 17
 truck1a_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 17
- else
                 DW (MAX_LINE_NUM-(17+1))*ONE_LINE_LENGTH
- endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -40,12 +37,9 @@ truck1a_object:
                 DB $60                 ; brightness
                 DB 0                   ; special flag
 
+ db 17
 truck1b_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 17
- else
                 DW (MAX_LINE_NUM-(17+1))*ONE_LINE_LENGTH
- endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -74,12 +68,9 @@ truck1b_object:
                 DB 1                   ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                 ; brightness
                 DB 0                   ; special flag
+ db 17
 truck1c_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 17
- else
                 DW (MAX_LINE_NUM-(17+1))*ONE_LINE_LENGTH
- endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP

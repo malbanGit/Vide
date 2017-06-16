@@ -15,3 +15,7 @@ All other (child) windows are opened from the "main" windows.
 - Using CTRL/TAB gives access to a "quick" Window switcher
 - Windows can be iconified to the desktop
 - Thru tinylaf, themes are supported
+
+**Note:~~**
+Pressing shift while using the Tools menu to open one of the main windows, opens a second main window of the selected type.
+(usually if one already exists that window will be brought to front/deiconified)

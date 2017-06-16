@@ -25,9 +25,6 @@
 ; * sound glitches, dunno, what causes that
 ; * some vector drawings are not 100% exact, due to optimizations used
 ;
-USE_LOOP_UNROLING EQU 1 ; loop unrolling costs nearly 1KB
-                        ; look for this define in the source
-                        ; to see all changes
 ;
                 INCLUDE "VECTREX.I" ; vectrex function includes
 ; I like these makro definitions, they are like inlining :-)
@@ -124,12 +121,20 @@ snake_anim_counter              EQU    snake_pos + 2      ; animation counter fo
 snake_gone                      EQU    snake_anim_counter+1; number of steps a snake can make before turing arround
 snake_speed_start               EQU    snake_gone + 1     ; startspeed of snake (determined by 'log's' speed)
 snake_speed                     EQU    snake_speed_start+1; speed of snake now
- if USE_LOOP_UNROLING ==1
 i_jump                          EQU    snake_speed + 1    ; indirect jump for vector list drawing unlooped
-user_ram_end                    EQU    i_jump + 2         ; end of user ram
- else
-user_ram_end                    EQU    snake_speed + 1    ; end of user ram
- endif
+
+
+startDataPos       EQU      i_jump+  2 
+nextDataPos        EQU      startDataPos+ 2 
+currentDataBitPos  EQU      nextDataPos+2 
+currentDataByte    EQU      currentDataBitPos+ 1 
+
+froggerInJump EQU currentDataByte+1
+froggerAnimPointer EQU froggerInJump+1
+tempy equ froggerAnimPointer +2
+
+user_ram_end                    EQU    tempy +1         ; end of user ram
+
 ; following are some 'in' game variables which can be reused, they do not
 ; collide with the other side...
 loop1                           EQU    tmp1               ; loop1 counter in level setup
@@ -361,8 +366,60 @@ game_name:
                  DB      0                 ; end of game header
 ;***************************************************************************
 ; here the cartridge program starts off
+ jmp entry_point
+
+fixDraw: 
+; setup fixdraw
+
+                    lda      -1,x
+ leax 2,x
+                    sta      tempy 
+                    LDA      #$81 
+                    sta      VIA_port_b                   ; mux disabled, ramp disables 
+                    LDA      #$00 
+                    STA      <VIA_aux_cntl                ; Shift reg mode = 000 free disable, T1 PB7 disabled 
+                    lda      #$ce 
+                    STA      <VIA_cntl                    ; ZERO disabled, and BLANK enabled 
+                    lda      #$ff 
+                    sta      <VIA_shift_reg 
+nextv 
+                    ldd      ,x++                         ; a = y, b = x 
+                    STA      <VIA_port_a                  ; Y -> Send it to the D/A 
+                    lda      #$80 
+                    sta      VIA_port_b                   ; ramp disabled, mux enabled -> to Y 
+                    inca     
+                    sta      VIA_port_b                   ; ramp disabled, mux disabled -> to Y 
+                    STB      <VIA_port_a                  ; X -> Send it to the D/A 
+                    lda      #$01 
+                    ldb      #$ee 
+                    sta      <VIA_port_b                  ; enable ramp 
+; bra bra3
+;bra3
+ nop
+                    stb      <VIA_cntl                    ; ZERO disabled, and BLANK disabled 
+                    lda      #$81 
+                    ldb      #$ce 
+ nop 3
+                    sta      <VIA_port_b                  ; disable ramp 
+ nop 7
+; bra bra3
+;bra3
+                    stb      <VIA_cntl                    ; ZERO disabled, and BLANK enabled
+                    dec      tempy 
+                    bpl      nextv
+ clra 
+ sta VIA_shift_reg
+                    LDA      #$98 
+                    STA      <VIA_aux_cntl                ; Shift reg mode = 110 SHIFT out under control of system clock, T1 PB7 disabled 
+                    rts 
+
 entry_point:
 new_game:
+
+                    ldu      #ymData 
+                    JSR      init_ym_sound 
+
+
                  JSR     init_vars         ; initialize game variables
                  JSR     init_screen       ; startup screen
                                            ; init_screen messes up variables,
@@ -374,8 +431,14 @@ restart_game:
                  direct   $D0
 main_loop:
                  ROUND_STARTUP_MAIN        ; well, this does the round initializing, main optimized special
+                    JSR      do_ym_sound 
+
                  JSR     move_frog         ; get joystick stuff, and move frog, collision detection...
-                 DO_MY_SOUND_MAIN          ; is usually in ROUND_START_UP, here the above is
+
+
+;                 DO_MY_SOUND_MAIN          ; is usually in ROUND_START_UP, here the above is
+
+
                                            ; splitted, saves one DP_TO_C8!
                  JSR     draw_objects      ; draw all graphical elements
                  direct $d0                ; after draw objects, dp is set to d0
@@ -423,6 +486,23 @@ pause_loop:
 ; leaves with dp pointing to c8
 move_frog:
                  direct  $d0
+
+             lda froggerInJump ; is a "old" jump still ongoing?
+ beq newJumpPossible
+                 _DP_TO_C8
+
+                 lda current_frog_heading
+                 cmpa     #HEADING_LEFT     ; than the last?
+                 bne noleftcontinue
+; hey dissi "b reak"
+ dec froggerInJump
+ lbra continue_left_jump
+ 
+
+ lbra new_xpos_exit
+noleftcontinue:
+                 _DP_TO_D0
+newJumpPossible:
 ; move frog corresponding to joystick...
                  CLR     $C823             ; must be zero for digital joystick, is set to $ff in private vector routine
                  JSR     Joy_Digital       ; read joystick positions (cycle waste)
@@ -431,15 +511,22 @@ move_frog:
                  LDB     last_joy_x        ; only jump if last joy pos was zero
                  LDA     Vec_Joy_1_X       ; load joystick 1 position X to A
                  STA     last_joy_x        ; store this joystick position
-                 BEQ     no_new_xpos       ; no joystick input available
+                 lBEQ     no_new_xpos       ; no joystick input available
                  BMI     pos_left          ; joystick moved to left
 pos_right:
                  TSTB                      ; test the old joystick position
-                 BNE     no_new_xpos       ; was center
+                 LBNE     no_new_xpos       ; was center
                  LDB     frog_x_band       ; load old pos to B
                  CMPB    #12               ; is it at maximum right position?
                  BEQ     no_new_xpos       ; if so, do nothing
                  PLAY_SOUND frog_jump
+
+ lda #7
+ sta froggerInJump
+; do from here
+; remember x offset in frog.i 
+; must also work for girl
+
                  LDB     frog_x            ; load old pos to B
                  ADDB    #FROG_X_JUMP      ; increase position with speed faktor
                  STB     frog_x            ; and store new position
@@ -466,15 +553,19 @@ pos_left:
                  CMPB    #1                ; is it at maximum left position?
                  BEQ     no_new_xpos       ; if so, do nothing
                  PLAY_SOUND frog_jump
-                 LDB     frog_x            ; load old pos to B
-                 SUBB    #FROG_X_JUMP      ; decrease position with speed faktor
-                 STB     frog_x            ; and store new position
+; hey dissi "b reak"
+; init new jump anim sequence
+
+ lda #7
+ sta froggerInJump
                  DEC     frog_x_band       ; for internal checking
+
                  LDA     #HEADING_LEFT     ; than the last?
                  CMPA    current_frog_heading
-                 BEQ     new_xpos_exit     ; if yes -> we are done
+                 BEQ     continue_left_jump     ; if yes -> we are done
                  STA     current_frog_heading; and store it
                  LDA     frog_y            ; load old pos to D
+                 LDB     frog_x            ; load old pos to B
                  SUBA    current_frog_offset; korrekt the old offset y
                  SUBB    current_frog_offset+1 ; korrekt the old offset x
                  ADDA    frogger_left_offset; korrekt the new offset y
@@ -482,8 +573,20 @@ pos_left:
                  STD     frog_pos          ; store it back
                  LDD     frogger_left_offset; load the current offset
                  STD     current_frog_offset; and store it
-                 LDX     #frogger_left     ; use the vector list for
+
+continue_left_jump:
+                 LDX     #froggerLeftAnim     ; use the vector list for
+ lda froggerInJump
+ lsla 
+ stx froggerAnimPointer
+ ldx a,x 
                  STX     frog_pic          ; left pointing frog
+
+                 LDB     frog_x            ; load old pos to B
+         SUBB    #FROG_X_JUMP /8     ; decrease position with speed faktor
+
+ STB     frog_x            ; and store new position
+
 new_xpos_exit:
 no_new_xpos:
 ; than checking for changed y pos
@@ -1630,28 +1733,17 @@ go_on_snake:
 snake_all_done:
 ; in move stuff end
                  LDX     ,X                ; load object vector list to X,
- if USE_LOOP_UNROLING ==1
                  LDD     ,X++              ; load offset of vector list draw
                  ADDD    #(unloop_start_address0+LENGTH_OF_HEADER-12*ONE_LINE_LENGTH); 4=JMP [], 2=LDD ,X++
-
-
                  STD     i_jump
- endif
                  LDD     #(($40*256)+(SCALE_FACTOR_SPRITE)); A bit for timer, B scale
 LF33D:           BITA    VIA_int_flags     ; wait for timer to finnish move to
                  BEQ     LF33D             ;
                                            ; if not allready
                  _SCALE_B                  ; scale for sprite
- if USE_LOOP_UNROLING !=1
- MY_SPRITE_DRAW_VLC        ; draw the sprite
- else
 unloop_start_address0:
  MY_SPRITE_DRAW_VLC_UNLOOP_SMALL
- endif
 
- if USE_LOOP_UNROLING !=1
-                 STA     VIA_shift_reg     ; finnish draw
- endif
 no_snake:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1660,9 +1752,7 @@ no_snake:
 ; remove/display otter
                  LDA     otter_status      ; is there any otter stuff at all?
                  LBEQ    no_otter_in_level ; no?, than go on
- if USE_LOOP_UNROLING ==1
                  CLR     VIA_shift_reg     ; [4] turn the lights off
- endif
                  CMPA    #IS_WAITING       ; croco is waiting to be displayed
                  LBEQ    finnished_otter_stuff; if zero, do nothing
 ; otter is allready displayed, must check if we should destroy it...
@@ -1786,23 +1876,10 @@ entry_level_done:
                                            ; Y pointing to object structure AND
                                            ; Y pointing to x-speed in object structure
 next_object:
- if USE_LOOP_UNROLING !=1
-                 STA     VIA_shift_reg     ; leftover from draw vector list, A=0, switch pattern to 0
-                 _ZERO_VECTOR_BEAM         ; go allways to zero, is sort of bad,
-                                           ; bad doing relativ offsets need some
-                                           ; calculating AND can be MUCH WORSE
-                                           ; at least I know excactly where I am...
-                 MY_GAME_SCALE             ; a different scale again... still very high :-(
- else
                  MY_GAME_SCALE             ; a different scale again... still very high :-(
                  LDB     #$CC
                  CLR     VIA_shift_reg     ; [4] turn the lights off
                  STB     <VIA_cntl       ;/BLANK low and /ZERO low
-;                 _ZERO_VECTOR_BEAM         ; go allways to zero, is sort of bad,
-                                           ; bad doing relativ offsets need some
-                                           ; calculating AND can be MUCH WORSE
-                                           ; at least I know excactly where I am...
- endif
                  LDD     ,U                ; load y, x coordinate from object_list to
                                            ; A,B=D,
                   ; intensities of all sprites are the same, so no
@@ -1946,11 +2023,9 @@ new_animation_phase:
 no_animation_move:
                  LDY     ,U++              ; load new list object, increment U by 2
                  LBEQ    anim_no_next      ; and do the next object  (or jump away)
- if USE_LOOP_UNROLING == 1
                  LDD     ,X++              ; load offset of vector list draw
                  ADDD    #(unloop_start_address1+LENGTH_OF_HEADER); 4=JMP [], 2=LDD ,X++
                  STD     i_jump
- endif
 objects_not_all_done_move:
 ; in move action done
                  LDD     #((SCALE_FACTOR_SPRITE*256)+$40); A= SCALE, B = Timer IRQ check
@@ -1960,21 +2035,15 @@ move_sprite_1:
                  BITB    VIA_int_flags     ; test the bit
                  BEQ     move_sprite_1     ; if not zero, than loop
                  _SCALE_A                  ; scale for sprite
- if USE_LOOP_UNROLING !=1
-                 MY_SPRITE_DRAW_VLC        ; draw the sprite
- else
 unloop_start_address1:
                  MY_SPRITE_DRAW_VLC_UNLOOP
- endif
                  BRA     next_object       ; and do the next
 
                  ; here if no new animation is to be done
 anim_no_next:
- if USE_LOOP_UNROLING == 1
                  LDD     ,X++              ; load offset of vector list draw
                  ADDD    #(unloop_start_address2+LENGTH_OF_HEADER); 4=JMP [], 2=LDD ,X++
                  STD     i_jump
- endif
                  LDD     #((SCALE_FACTOR_SPRITE*256)+$40); A= SCALE, B = Timer IRQ check
                  ; the following is the position checking loop
                  ; waiting till an interrupt occurs
@@ -1982,25 +2051,15 @@ move_sprite_3:
                  BITB    VIA_int_flags     ; test the bit
                  BEQ     move_sprite_3     ; if not zero, than loop
                  _SCALE_A                  ; scale for sprite
- if USE_LOOP_UNROLING !=1
-                 MY_SPRITE_DRAW_VLC        ; draw the sprite
- else
 unloop_start_address2:
                  MY_SPRITE_DRAW_VLC_UNLOOP
- endif
 objects_all_done:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; now look if there is a girl on some log
                  LDB     girl_status       ; get the status
- if USE_LOOP_UNROLING !=1
-                 STA     VIA_shift_reg     ; finnish last sprite draw
-                 CMPB    #IS_DISPLAYED     ; if waiting
-                 BEQ     do_girl_stuff     ; go to girl stuff
- else
                  CMPB    #IS_DISPLAYED     ; if waiting
                  BEQ     do_girl_stuff     ; go to girl stuff
                  CLR     VIA_shift_reg     ; finnish last sprite draw
- endif
 no_girl:
 girl_allready_done:
                  direct $d0
@@ -2012,9 +2071,7 @@ do_girl_stuff:
                  ; display loop again
                  ; setup all registers for a jump into the object loop
                  MY_GAME_SCALE             ; a different scale again... still very high :-(
- if USE_LOOP_UNROLING ==1
                  CLR     VIA_shift_reg     ; finnish last sprite draw
- endif
                  _ZERO_VECTOR_BEAM         ; go allways to zero, is sort of bad,
                  LDD     girl_pos          ; do positioning, load pos here
                  STA     VIA_port_a        ; Store Y in D/A register
@@ -2308,6 +2365,9 @@ setup_level:
 ; the same ram as the level information
 ; damn only 1 K (or less that is)
 reinit_level:
+    ldu      #ymData 
+    JSR      init_ym_sound 
+    
                  CLR     tmp2              ; otherwise set tmp2
                  INC     tmp2              ; to 1, which means reinit
 no_reinit_level:
@@ -2723,6 +2783,9 @@ scroll_text:
                  INCLUDE "FROG.I"
                  INCLUDE "LETTERS.I"
                  INCLUDE "FASTSPRI.I"
+
+                    INCLUDE  "FroggerInGamePart1Theme.asm"
+                    INCLUDE  "ymStreamedPlayer.i"
 ;***************************************************************************
 weirdos:
                  DW     $FDC3, $FEB6       ; piano

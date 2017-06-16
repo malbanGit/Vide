@@ -1,0 +1,255 @@
+Release 
+=======
+... for Vectrex.
+
+The game is a port of a game originally developed for iOS and Android by Gimogames.
+(http://www.gimogames.com/release/)
+
+The port to Vectrex was done by permission of the original authors. 
+Thank you for allowing me to port the game!
+
+Contents of the package
+-----------------------
+The Vectrex version is provided as a downloadable zip file, which contains following files:
+
+- release.bin 
+  Vectrex compatible binary, playable on vectrex or an emulator.
+  This binary has all code for "permanency" enabled. To use this binary with a 
+  VecFlash or VecMulti (or otherwise using PB6) device hold any button
+  pressed during startup to skip the corresponding code) - otherwise
+  the device will cause errors and the game won't start.
+  
+- release_np.bin 
+  Vectrex compatible binary, playable on vectrex or an emulator.
+  This binary has all code for "permanency" disabled. Even using 
+  a VecFever device - this version does not save options or highscores.
+
+- Release.txt
+  This readme
+
+- VRelease  (directory)
+  The sourcecode to the game. For further information look at the readme inside that
+  folder.
+
+Getting started
+------------
+a) Insert the cartridge and start power up your vectrex
+or
+b) put the binary (corresponding to your "flash" card) onto the card. Insert the card and 
+   power up your vectrex.
+
+Visually important!
+********************
+To get the best visual experience - tune the brightness so, that the starfield animation 
+is clearly visible!
+
+Permanency
+----------
+The game was developed to allow highscores and options to be saved to attached "devices".
+Supported devices are:
+- One wire eprom DS2431A
+  A cartridge with such a device connected to the PB6 pin of the cartridge port can be used
+  to store highscores and options.
+  The device will be automatically recognized.
+- VecFever
+  If the game is run from a VecFever cartridge, options and highscores can be saved to that device.
+  The device is automatically recognized.
+
+The auto detection code needs to access the PB6 pin of the cartridge port. Since some available
+multicard implementations also use PB6 to communicate, this feature may cause trouble if Release is 
+run form such devices (namely VecFlash and VecMulti - but maybe others).
+
+There are ways to circumvent these problems:
+a) use the binary "release_np.bin" - this has all PV6 communication disabled
+b) while the game is started press any button until "Release" is displayed (the circling title).
+   If the cartridge is started with a button pressed, all PB6 access is circumvented.
+c) in case of the VecMulti you can also "double" the "release.bin" ROM - so that it is
+   64kB instead of 32kB. The VecMulti actually supports bankswitching and on access of PB6 it
+   switches the 32kB bank to an "empty" bank. To accomodate that - double the ROM.
+
+Copyright
+---------
+The game Release for Vectrex is released as public domain - this is done with permission of the
+original game designers from Gimogames.
+
+The source code is also public domain - in so far that I am able to (see accompanying Readme).
+
+You are explicitly allowed to look at the code and reuse it or even learn from it.
+You are explicitly allowed to make copies of the game and spread it. You can put it into multicard 
+collections or even distribute it as a package on its own.
+
+Please do not abuse this generous gesture.
+
+Gameplay
+--------  
+The game doesn't bother about a made up story of you defending some planet or whatever,
+it is a game without story.
+
+The player can do only two things:
+- press a button 
+- release a button
+
+These are the only controls you have in the entire game. The rest is "timing" the above "action".
+
+The player "base" is in the middle of the screen represented by a polygon.
+
+When you press the button the polygon grows (a shield) and also its (the shields) covered area. 
+When you release the button the shield vanishes and everything that was covered 
+by its area explodes.
+
+All the while different enemies approach from all sides closing in to the center. 
+Once they touch you (the small centered polygon) the game is over. 
+In the beginning very few enemies appear, but the game soon gets quite stressful.
+
+There are a couple of different enemy types:
+- Terrible X (visualized by a "+" sign)
+  The "basic" enemy that closes in on you - rather slowly
+- Hidden X (visualized by a "+" (fading) sign)
+  The X variant with a cloaking device, the closer this enemy is to the center,
+  the more clearly it is visible
+- Hunter (visualized by a triangle)
+  This one tracks you down and closes in on you quite fast.
+- Bomber (visualized by an octagon)
+  This one never comes near you, but the longer it stays alive, the faster it 
+  fires its deadly shots at you
+- Dragon (visualized by a diamond shape)
+  The dragon spirals down on you, two shots are needed to destroy this foe.
+  Beware the accompanying small ships, once the mother vessel is destroyed they
+  will immediately rush in to destroy you.
+
+There are also some friendly objects (which nonetheless can be destroyed):
+- stars (visualized by a star)
+  These may spawn near to your base. Every 1-2 seconds they spawn bonus points. The longer a star
+  survives the higher the bonus points it spawns.
+- mystery (visualized by a "?")
+  If the mystery reaches your base - your are awarded a special upgrade (for a short period of time).
+  The upgrade may be one of:
+  - faster shield
+  - wider shield
+  - protection from death (base my be hit by one (ONE!) enemy - without destroying the base)
+  If the mystery is destroyed before touching the base, you are nonetheless awarded a  
+  bonus score (variable).
+
+Tips
+----  
+The clue to get high scores are the little stars. 
+At maximum three can be there at any time, they circle the player and are as easily destroyed 
+by your shield as any other object.
+Each second they provide you with bonus score, the longer they live the more bonus score you get. 
+It starts with only 4 points per second, but if you play well can get up into the hundreds (up to 999).
+
+Highscore
+---------
+Using above mentioned devices the highscore can be saved permanently.
+Whenever your last score is within the 5 highest scores - you will be enabled
+to enter your initials and the scores will be saved.
+To look at the highscore table - press button "2" while in the title screen.
+
+Options
+-------
+Pressing button "3" while in the title screen opens the options menu.
+Here you can do (at least) three things:
+- reset
+  resets all options and the highscore (also on any used device)
+- sfx on/off/half
+  Whether you want sound effects enabled or disabled or the volume reduced.
+- music
+  Switch the music on or off.
+  
+VecFever
+--------
+If you use a VecFever to play release, you can use button 4 while in the title screen 
+to go back to the VecFever menu.
+
+Some "Finer points" :-)
+-----------------------
+Difficulty
+..........
+Internally the difficulty is set using two different schemes.
+- automatically gets more difficult (spawn rate increases per time)
+- "phases" are set after a certain spawn count
+
+There are 33 "different" phases, which get increasingly more difficult. 
+Phases can also define behaviors. 
+Behaviors include:
+- speed/width of shield
+- spawn rate, and spawn rate increase speed/width
+- speed of enemies
+- forbid/allow certain enemy types (squads...)
+
+Each phase increase is indicated by a certain "jingle" sound.
+
+After phase 33 only the automatic difficulty increase is happening.
+But:
+a) I think even I never reached phase 33
+b) The automatic increase is for the last phase configured quite slow, 
+   but finally can get so "fast", that I think it is at some stage impossible.
+   
+Scoring
+.......
+Only one rule to get high scores: DO NOT DIE!
+
+Apart from that, different "strategies" can be followed:
+
+a) Bonus Stars
+Try to keep the stars alive - if all three is to difficult, concentrate on keeping one alive.
+Every 1-2 seconds a star rewards point. It starts with 4 points, but can go up to 999 points. 
+The highest I ever had was: 3 stars at around 300-400 
+- once you can hold the stars a while at that score - you get really high scores.
+
+When you chose this strategy use every bonus "?" you get to make live easier. 
+
+b) + c)
+Please figure them out yourself.
+
+Emulation
+---------
+The game Release uses some features that are not emulated by all emulators.
+The best (although slowest) emulation known can be viewed using Vide.
+
+The graphics using e.g. ParaJVE look broken. The game functions normally though.
+
+Thanks
+------
+Gimogames
+Thanks go again to the guys from Gimogames - for making the original game in
+the first place - which I enjoyed very much and secondly for allowing me to port
+the game to Vectrex.
+
+VTK
+For his support and enthusiam throughout the development phase of the game and
+also his very much appreciated music scores, without Vectrex Release would not
+be the same. Thank you!
+Also - sometime this is underappreciated - your testing really helped to shape the
+outcome of Release.
+
+Thomas Sontowski
+For his tips and his wonderfull VecFever device. It is a pleasure to use it as a development
+tool!
+
+George  Anastasiadis
+Also your enthusiasm, testing and spreading word over to you greek colleagues.
+
+Me - Malban :-)
+For building Vide - it is a fantastic development tool for vectrex. 
+It's a little bit hard to get into - but at least I didn't have any difficulties at all.
+The support for VecFever and the possible trial/error rapid prototyping/development 
+opportunities - I do not want to miss. 
+Also Vecci (which is even harder to get into) allows very efficient vector drawings and 
+placing them into the code.
+[I do not even mention the YM, SFX and the new Arkos Tracker/player stuff]
+
+More Info
+---------
+There was a blog describing the development of Release:
+release.malban.de
+
+There is a blog concering all things "Vide":
+vide.malban.de
+
+If you would like to have more information about "vectrex" in general - and its homebrew "scene"
+go the the "Vide" homepage and look under the section "links".
+
+
+
+

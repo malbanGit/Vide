@@ -1,0 +1,11 @@
+:title "bad" Vectorlists
+
+These vectorlists can not be drawn on a Vectrex.
+What makes a vectorlist "bad"?
+
+- if any one vector is longer than 127/128 (depending on the sign)
+
+These vectors can not be visualized by a vectrex.
+
+(try to split a line)
+

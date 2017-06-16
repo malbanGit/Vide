@@ -77,7 +77,7 @@ ROUND_STARTUP_MAIN macro                   ; name of macro
 ;                JSR     Wait_Recal         ; sets dp to d0, and pos at 0, 0
                 direct  $D0                ; just for assembler optimization...
                 MY_WAIT_RECAL
-                _DO_SOUND
+;                _DO_SOUND
                 endm                       ; end of macro
 ;***************************************************************************
 ; the following makros are for intensity setting
@@ -312,7 +312,7 @@ MY_READ_BUTTONS_A macro
                 STB     <VIA_DDR_a      ;DDR A to output
                  endm
 ;***************************************************************************
-MY_WAIT_RECAL macro
+MY_WAIT_RECAL_ORG macro
                 direct $d0
                 LDA     #$20
 LF19E\?:        BITA    <VIA_int_flags  ;Wait for timer t2
@@ -344,6 +344,41 @@ LF19E\?:        BITA    <VIA_int_flags  ;Wait for timer t2
                 LDB     #$01
                 STB     <VIA_port_b     ;disable mux
                  endm
+
+MY_WAIT_RECAL macro
+                direct $d0
+                LDA     #$20
+LF19E\?:        BITA    <VIA_int_flags  ;Wait for timer t2
+                BEQ     LF19E\?
+                LDD     $C83D           ;Store refresh value
+                STD     <VIA_t2_lo      ;into timer t2
+
+;                LDB     #$FF
+;                STB     <VIA_t1_cnt_lo  ;Set scale factor
+;                LDD     #$7F7F
+;                MY_MOVE_TO_D
+
+                LDD     #$CC
+                STB     <VIA_cntl       ;blank low and zero low
+                STA     <VIA_shift_reg  ;clear shift register
+
+;                LDD     #$8080
+;                MY_MOVE_TO_D
+
+;                LDB     #$CC
+;                STB     <VIA_cntl       ;/BLANK low and /ZERO low
+;                STA     <VIA_shift_reg  ;clear shift register
+
+                LDD     #$0302
+                CLR     <VIA_port_a     ;clear D/A register
+                STA     <VIA_port_b     ;mux=1, disable mux
+                STB     <VIA_port_b     ;mux=1, enable mux
+                STB     <VIA_port_b     ;do it again -> delay
+                LDB     #$01
+                STB     <VIA_port_b     ;disable mux
+                 endm
+
+
 ;***************************************************************************
 ; destroys Vec_Misc_Count ($C823)
 ; expects dp to d0

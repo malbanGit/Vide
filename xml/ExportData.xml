@@ -7,46 +7,55 @@
 		<Script></Script>
 	</ExportData>
 	<ExportData>
-		<Class>Vecci Import</Class>
-		<Name>Bin Import</Name>
-		<Comment></Comment>
-		<Script>import de.malban.vide.script.BinParser;
-import java.io.*;
-/*
-FileDialog fd = new FileDialog(frame, &quot;Choose a file&quot;, FileDialog.LOAD);
-fd.setVisible(true);
-String filename = fd.getFile();
-if (filename == null)
-  System.out.println(&quot;You cancelled the choice&quot;);
-else
-  System.out.println(&quot;You chose &quot; + filename);
-*/
-vecci.clearVectors();
+		<Class>Vecci Export</Class>
+		<Name>diffy/duffy</Name>
+		<Comment>Information about the 
+GFXVector and Vertex can be found in the 
+Vide source code:     
+  package de.malban.graphics;
+The script can only use Java 1.1 syntax/language!</Comment>
+		<Script>StringBuffer b = new StringBuffer();
+Vector allvectors = vecci.getVectors();
+b.append(&quot;const struct vector_t vectors_example_1[] = // DIFFY or DUFFY style\n&quot;);
+b.append(&quot;{\n&quot;);
 
-String filename = &quot;cartridges&quot;+File.separator+&quot;CASTLE.BIN&quot;;
-BinParser parser = new BinParser();
-boolean ok = parser.readFile(filename);
-parser.setPosition(3615);
-parser.setExpectedListType(BinParser.Draw_VL);
-Vector v= parser.getNextVectorList(9);
 
-if (v != null)
+GFXVector lastVector = null;
+boolean error = false;
+no change
+for (int i=0; i&lt;allvectors.size(); i++)
 {
-	out += &quot;Vectors found: &quot; + v.size();
-	for (int i=0; i&lt;v.size(); i++)
-	{
-		GFXVector gv = (GFXVector) v.elementAt(i);
-		vecci.addVector(gv);
-		System.out.println(gv.end.x()+ &quot;, &quot;+gv.end.y());
-//		System.out.println(String.format(&quot;$%02X&quot;,gv.end.x())+ &quot;, &quot;+String.format(&quot;$%02X&quot;,gv.end.y()));
+  GFXVector onvector =(GFXVector)  allvectors.elementAt(i);
+  Vertex start = onvector.start;
+  Vertex end = onvector.end;
 
-	}
-}
-else
-{
- out += &quot;vector null!&quot;;
-}
+  if (lastVector == null) // starting
+  { 
+    b.append(&quot;\t{&quot;);
+  } 
+  else
+  {
+    if (lastVector.end.uid != onvector.start.uid) 
+    {
+       error = true;
+       b.replace(0, b.length(), &quot;Vectorlist is not connected - No diffy/duffy list possible!&quot;);
+       break;
+    }
+    b.append(&quot;,\n\t{&quot;);
 
+  }
+  b.append((int)end.y() - (int)start.y());
+  b.append(&quot;, &quot;);
+  b.append((int)end.x() - (int)start.x());
+  lastVector = onvector;
+
+
+  b.append(&quot;}&quot;);
+
+}
+b.append(&quot;\n};\n&quot;);
+
+out += b.toString();
 
 </Script>
 	</ExportData>
@@ -162,6 +171,166 @@ if (vedi != void)
 	</ExportData>
 	<ExportData>
 		<Class>Vecci Export</Class>
+		<Name>packet</Name>
+		<Comment>Information about the 
+GFXVector and Vertex can be found in the 
+Vide source code:     
+  package de.malban.graphics;
+The script can only use Java 1.1 syntax/language!</Comment>
+		<Script>StringBuffer b = new StringBuffer();
+Vector allvectors = vecci.getVectors();
+b.append(&quot;const struct packet_t vectors_example_2[] = // PACKET style\n&quot;);
+b.append(&quot;{\n&quot;);
+
+GFXVector lastVector = null;
+boolean error = false;
+
+for (int i=0; i&lt;allvectors.size(); i++)
+{
+  GFXVector onvector =(GFXVector)  allvectors.elementAt(i);
+  Vertex start = onvector.start;
+  Vertex end = onvector.end;
+
+  if (lastVector == null) // starting
+  { 
+    b.append(&quot;\t{&quot;);
+  }
+  else
+  {
+    if (lastVector.end.uid != onvector.start.uid) 
+    {
+       error = true;
+       b.replace(0, b.length(), &quot;Vectorlist is not connected - No packet list possible!&quot;);
+       break;
+    }
+    b.append(&quot;,\n\t{&quot;);
+  }
+  if (i == allvectors.size()-1)
+  {
+    b.append(&quot;STOP, { 0, 0}}&quot;);
+    break;
+  }
+  else if (onvector.pattern == 0)
+  {
+    b.append(&quot;MOVE, { &quot;);
+  }
+  else 
+  {
+    b.append(&quot;DRAW, { &quot;);
+  }
+
+
+  b.append((int)end.y() - (int)start.y());
+  b.append(&quot;, &quot;);
+  b.append((int)end.x() - (int)start.x());
+  lastVector = onvector;
+
+
+  b.append(&quot;}}&quot;);
+
+}
+b.append(&quot;\n};\n&quot;);
+
+out += b.toString();
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Vecci Export</Class>
+		<Name>Export DrawVL as Code</Name>
+		<Comment>This exports the current vectorlist as a code routine
+(no data).
+This is done to show the abilities of User exports!</Comment>
+		<Script>todo
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Vecci Import</Class>
+		<Name>DB Import</Name>
+		<Comment></Comment>
+		<Script>import de.malban.vide.script.DBParser;
+/*
+FileDialog fd = new FileDialog(frame, &quot;Choose a file&quot;, FileDialog.LOAD);
+fd.setVisible(true);
+String filename = fd.getFile();
+if (filename == null)
+  System.out.println(&quot;You cancelled the choice&quot;);
+else
+  System.out.println(&quot;You chose &quot; + filename);
+*/
+
+String filename = &quot;abc.i&quot;;
+DBParser parser = new DBParser();
+boolean ok = parser.readFile(filename);
+parser.setPositionAfterLabel(&quot;_t_&quot;);
+parser.setExpectedListType(DBParser.Draw_VLc);
+Vector v= parser.getNextVectorList();
+
+if (v != null)
+{
+	out += &quot;Vectors found: &quot; + v.size();
+	for (int i=0; i&lt;v.size(); i++)
+	{
+		GFXVector gv = (GFXVector) v.elementAt(i);
+		vecci.addVector(gv);
+
+	}
+}
+else
+{
+ out += &quot;vector null!&quot;;
+}
+
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Vecci Import</Class>
+		<Name>Bin Import</Name>
+		<Comment></Comment>
+		<Script>import de.malban.vide.script.BinParser;
+import java.io.*;
+/*
+FileDialog fd = new FileDialog(frame, &quot;Choose a file&quot;, FileDialog.LOAD);
+fd.setVisible(true);
+String filename = fd.getFile();
+if (filename == null)
+  System.out.println(&quot;You cancelled the choice&quot;);
+else
+  System.out.println(&quot;You chose &quot; + filename);
+*/
+vecci.clearVectors();
+
+String filename = &quot;cartridges&quot;+File.separator+&quot;CASTLE.BIN&quot;;
+BinParser parser = new BinParser();
+boolean ok = parser.readFile(filename);
+parser.setPosition(3615);
+parser.setExpectedListType(BinParser.Draw_VL);
+Vector v= parser.getNextVectorList(9);
+
+if (v != null)
+{
+	out += &quot;Vectors found: &quot; + v.size();
+	for (int i=0; i&lt;v.size(); i++)
+	{
+		GFXVector gv = (GFXVector) v.elementAt(i);
+		vecci.addVector(gv);
+		System.out.println(gv.end.x()+ &quot;, &quot;+gv.end.y());
+//		System.out.println(String.format(&quot;$%02X&quot;,gv.end.x())+ &quot;, &quot;+String.format(&quot;$%02X&quot;,gv.end.y()));
+
+	}
+}
+else
+{
+ out += &quot;vector null!&quot;;
+}
+
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class>Vecci Export</Class>
 		<Name>Export</Name>
 		<Comment>Export of vector information.
 Assuming all vector coordinates are ABSOLUT.</Comment>
@@ -213,16 +382,6 @@ for (int i=0; i&lt;allvectors.size(); i++)
 </Script>
 	</ExportData>
 	<ExportData>
-		<Class>Vecci Export</Class>
-		<Name>Export DrawVL as Code</Name>
-		<Comment>This exports the current vectorlist as a code routine
-(no data).
-This is done to show the abilities of User exports!</Comment>
-		<Script>todo
-
-</Script>
-	</ExportData>
-	<ExportData>
 		<Class>Vecci Import</Class>
 		<Name>AddOne</Name>
 		<Comment></Comment>
@@ -234,46 +393,6 @@ This is done to show the abilities of User exports!</Comment>
 // if not, the start coordinates will be 0,0,0
 GFXVector v = new GFXVector(null, 10,10,0);
 vecci.addVector(v);
-
-
-</Script>
-	</ExportData>
-	<ExportData>
-		<Class>Vecci Import</Class>
-		<Name>DB Import</Name>
-		<Comment></Comment>
-		<Script>import de.malban.vide.script.DBParser;
-/*
-FileDialog fd = new FileDialog(frame, &quot;Choose a file&quot;, FileDialog.LOAD);
-fd.setVisible(true);
-String filename = fd.getFile();
-if (filename == null)
-  System.out.println(&quot;You cancelled the choice&quot;);
-else
-  System.out.println(&quot;You chose &quot; + filename);
-*/
-
-String filename = &quot;abc.i&quot;;
-DBParser parser = new DBParser();
-boolean ok = parser.readFile(filename);
-parser.setPositionAfterLabel(&quot;_t_&quot;);
-parser.setExpectedListType(DBParser.Draw_VLc);
-Vector v= parser.getNextVectorList();
-
-if (v != null)
-{
-	out += &quot;Vectors found: &quot; + v.size();
-	for (int i=0; i&lt;v.size(); i++)
-	{
-		GFXVector gv = (GFXVector) v.elementAt(i);
-		vecci.addVector(gv);
-
-	}
-}
-else
-{
- out += &quot;vector null!&quot;;
-}
 
 
 </Script>

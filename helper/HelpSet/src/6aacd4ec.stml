@@ -1,3 +1,4 @@
+:label vecciImport
 :title Import
 There are different ways you can import vectorlists into vecci.
 
@@ -99,7 +100,7 @@ ___________ removes in the complete interpretation the text SOMETHING (can be in
 **Spudster**~~
 :image SpudsterExample.png|Spudster example
 
-:h2 Wavefrom Object format
+:h2 Wavefront Object format
 :image Violine.png|Wavefront file
 :div code
 OBJ (or .OBJ) is a geometry definition file format first developed by Wavefront Technologies for its Advanced Visualizer animation package. The file format is open and has been adopted by other 3D graphics application vendors. For the most part it is a universally accepted format.

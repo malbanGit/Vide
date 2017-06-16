@@ -18,4 +18,6 @@ Nonetheless you will find, especially if you program yourself optimzed stuff, th
 a) enter start and end addresses
 b) you can also name these and persist them, so you can easily reuse them in a later session.
 
-Just type in a name for your meaurement in the textbox and press the save button. The new measurement setting will be added to the combobox to chose from.
+Just type in a name for your measurement in the textbox and press the save button. The new measurement setting will be added to the combobox to chose from.
+
+You can also delete entries using the "delete" button.

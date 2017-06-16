@@ -683,7 +683,7 @@ COMMENT $03FB remember the result in "our" joystick data
 COMMENT $03FE done
 COMMENT_LINE $03FF the "you" string is shown with different intensity levels
 COMMENT_LINE $03FF this is an offset table to the intensities used (16) -> blinking
-RANGE $0000-$040D DP $D0
+RANGE $0017-$040D DP $D0
 RANGE $0000-$000B DB_DATA
 RANGE $000B-$000D DW_DATA
 RANGE $000D-$000E DB_DATA

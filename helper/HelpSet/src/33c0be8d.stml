@@ -45,7 +45,7 @@ This feature can be activated additionally to the Phrasealator, and will be used
 The ##control_play_blue.png## - button can be used to play back (emulated) the current entered text. 
 
 :h3 Technical
-The communication from vectrex to the VecVoXX is done by a serial communication 9600 baud 8n1. The known vectrex speech devices communicate using that protocol via the joystick port. ~~
+The communication from vectrex to the VecVoX is done by a serial communication 9600 baud 8n1. The known vectrex speech devices communicate using that protocol via the joystick port. ~~
 The only usable "source" of knowledge came from an old source code of Alex Herbert.
 
 The actual communication as said is done via the joystick port. ~~

@@ -26,4 +26,62 @@ Changes to YMSound historic:
 - I advise to change the subroutine, to output to shadow registers, rather than to PSG registeres directly, that way you can "overwrite" values with sound effects!
 
 :h2 Streamed
-(not completed yet)
+This is another way, that Vide can encode YM-data. It uses more (quite a bit more) memory than the old YM-Sound data, but unpacking is faster and nearly without peaks. If you have enough memory, have quite short ym-files and do not have many cycles to spare – this might just be the right format.
+
+Playing my example averages at about 1300 cycles with peaks up to 2400 cycles. 
+
+Here a short explanation:
+
+The ym data is bit encodeded in a stream of "bits". At first the ym-data is analyzed, the analysis results in following "knowledge":
+
+- is channel X used at all or not
+- does channel X use tone or not
+- does channel X use noise or not
+- is noise used at all in the ym-data
+- does register 7 change at all in the data
+- is the envelope used
+
+According to the above knowlegde only used registers are encoded.
+
+The idea behind streamed encoding is to only supply information for changes and leave out all data that is unchanged.
+
+There are two good reasons for that:
+
+- leaving out data is "packing" of some sort, the resulting data is shorter than the original
+- we know while processing inherently what data has changed and what not, so while unpacking on the vectrex we also know what registers changed and we do not have to poke to the psg registers that did not change. Poking to psg takes quite a few cycles.
+
+Following decoding is used (for each ym-line, a complete set of data for one refresh cycle – encoding is the opposite way):
+
+::
+_read bit, if bit is 0 than nothing at all changed -> goto done~~
+_for channel 0 to 2 do~~
+___read bit, if bit is 0~~ 
+________than channel did not change at all -> do next channel~~
+___read bit, if bit is not 0~~
+________read 4(5) bits of amplitude~~
+___read bit, if bit is 1 ~~
+________than set noise, ~~
+________otherwise clear noise~~
+___read bit, if bit is 1 ~~
+________than set tone, ~~
+________otherwise clear tone~~
+___read bit, if bit is not 0~~
+________read 8 bits of frequency low~~
+___read bit, if bit is not 0~~
+________read 4 bits of frequency high~~
+_end for~~
+_read bit, if bit is not 0~~
+________read 5 bits of noise frequency~~
+_if envelope is used~~
+________read bit, if bit is not 0~~
+________________read 16 bits of envelope frequency~~
+_done: ~~
+:: ~~
+Note: ~~
+5 amplitude bits are used, when envelope data is used by the YM file.
+
+Vectrex unpacking is done like described above. The unpacker is a bit "longish" since read bit is realized as a macro and often used :-).
+
+The mentioned analysis is also respected by the vectrex sources. Code parts that are not needed are omitted (using "if then else").
+
+The resulting player is usually quite a lot faster than the other packing – but the data used is by far not reduced as much. It depends on how "tight" (cycles) the circumstances are,  what strategy of packing is more useful to you.

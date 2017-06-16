@@ -73,11 +73,11 @@ The provided example shows four different lightpen "situations":
 
 The code is well structed and documented, I will not document it here further.
 
-The example main program includes a set of lightpen routines, which can be found in the above dscribed file:~~
+The example main program includes a set of lightpen routines, which can be found in the above described file:~~
 :: codelib/Snippets/Malban/Lightpen/LightpenSubroutines.i::
 ~~
 
-That file includes a set of "public" routines, which can be "normally" used, and some routines which I like to describe as "private". Which a "user" not neccesarily must use, but which support the public rotuines.
+That file includes a set of "public" routines, which can be "normally" used, and some routines which I like to describe as "private". Which a "user" not neccesarily must use, but which support the public routines.
 
 Following public routines are available:
 :h3 print\_with\_pick\_check

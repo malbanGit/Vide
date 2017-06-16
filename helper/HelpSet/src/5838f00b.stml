@@ -89,8 +89,24 @@ Each time a shift "outputs" a bit that bit is placed into the CB2 line. Shifting
 - Attention: ~~ The 6809 instruction CLR also READS the value befor it clears it, thus an instruction~~:: CLR _____shiftreg::~~ reads the shift register after 4 cycles and writes the shift register after an additional 2 cycles.
 - a shift is started by reading and by writing to the shiftreg
 
+**Note:**~~
+Why 18 cycles and 9 shifts?~~
+This is because (most) VIA ships (all vectrex used ships to my knowledge) have a bug.~~
+~~
+//When shifting using Phi2 (System clock) [Mode 110, see below], VIA outputs 9 shift pulses, the last shifted value is repeated.//
+
+[See: Synertek sy6522 Applications Information AN5 March 1982]
+
+
 :h3 Register $b VIA Auxiliary control register
-With the auxilary control register the behaviors of the timers and the shift register can be configured (also latching for ORA and ORB, but I am not aware that this makes any since for vectrex).
+With the auxilary control register the behaviors of the timers and the shift register can be configured (also latching for ORA and ORB, but I am not aware that this makes any sense for vectrex).
+
+::
++---+---+---+---+---+---+---+---+~~
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |~~
++---+---+---+---+---+---+---+---+~~
+|\_\_\_T1\_\_|T2\_|\_\_\_SHIFT\_\_\_|PB\_|PA\_|                   
+
 
 SHIFT Mode is contolled by bit 2-4 with these 3 bits 8 SHIFT mode can be configured~~
 The first mode is DISABLE.
@@ -130,6 +146,15 @@ CB2~~
 
 All control lines act as interrupt inputs or as handshake Outputs.
 
+
+
+::
++---+---+---+---+---+---+---+---+~~
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |~~
++---+---+---+---+---+---+---+---+~~
+|\_\_\_\_CB2\_\_\_\_|CB1|\_\_\_\_CA2\_\_\_\_|CA1|
+
+
 For vectrex anlog parts (and for now) the lines CA2 (ZERO) and CB2 (BLANK) are //most// interesting.
 
 CA1~~
@@ -160,6 +185,10 @@ Together in vectrex terms:~~
 - %111x110x = $ec means ZERO enabled, and BLANK disabled
 - %111x111x = $ee means ZERO disabled, and BLANK disabled
 - %110x111x = $ce means ZERO disabled, and BLANK enabled
+
+
+**Note:**~~
+The manual appliance to the BLANK singnal with the control register only has any effect if SHIFT is switched to OFF. 
 
 :h3 Via Interrupt Flag Reg $d
 

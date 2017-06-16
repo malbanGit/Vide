@@ -55,6 +55,43 @@ Bill Hawkins</Eastereggs>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>ROBHOP</Name>
+		<CartName>ROBHOP</CartName>
+		<Author>Miss Lissi</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\robhop.bin</FullFilename>
+		</FullFilenames>
+		<Information>Miss Lissi</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_robhop.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/ROBHOP-3006933155090985504.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>robhop.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>robhop_eng.pdf</PDFLink>
+		<PDFFile>download\documents\games\robhop_eng.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Vector 21</Name>
 		<CartName>Vector 21</CartName>
 		<Author>George Pelonis</Author>
@@ -100,7 +137,7 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CRC>0</CRC>
 		<TypeFlags>256</TypeFlags>
 		<FullFilenames>
-			<FullFilename>download/cartridges/Mail_Plane.bin</FullFilename>
+			<FullFilename>download/cartridges/MailPlane_full.bin</FullFilename>
 		</FullFilenames>
 		<Information>GCE - Mark Indictor</Information>
 		<Cheats></Cheats>
@@ -123,6 +160,43 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>SPIKES</Name>
+		<CartName>SPIKES</CartName>
+		<Author>Emanuel Blindow</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>131072</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\spikes.bin</FullFilename>
+		</FullFilenames>
+		<Information>Emanuel Blindow</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_spikes.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/SPIKES7800945640787522010.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>SPIKES_BIN</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>SPIKES_PDF</PDFLink>
+		<PDFFile>download\documents\games\spikes.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
 	</CartridgeProperties>
@@ -183,7 +257,7 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<InGameImage>./cartridges/images/XMAS 20153075319102346050241.png</InGameImage>
 		<Critic></Critic>
 		<Other></Other>
-		<BinaryLink></BinaryLink>
+		<BinaryLink>XMAS15BIN</BinaryLink>
 		<Licence></Licence>
 		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
@@ -226,6 +300,43 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<CartridgeImage></CartridgeImage>
 		<Homebrew>true</Homebrew>
 		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>SPACE ATTACK</Name>
+		<CartName>SPACE ATTACK</CartName>
+		<Author>Abdalla Ifen</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\space_attack.bin</FullFilename>
+		</FullFilenames>
+		<Information>Abdalla Ifen</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_space_attack.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/SPACE ATTACK-3903420626774485065.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>space_attack.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>space_attack.pdf</PDFLink>
+		<PDFFile>download\documents\games\space_attack.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
@@ -667,41 +778,6 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
-		<Name>Vector Pong</Name>
-		<CartName>Vector Pong</CartName>
-		<Author>Binary Star</Author>
-		<Year>2014</Year>
-		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
-		<FullFilenames>
-			<FullFilename>download\cartridges\VectorPongV104.BIN</FullFilename>
-		</FullFilenames>
-		<Information>Binary Star</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage>http://www.binarystarsoftware.com/</Homepage>
-		<InstructionFile></InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage>./cartridges/images/Vector Pong-8327556080149144658.png</InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink>Vector Pong Download BIN</BinaryLink>
-		<Licence></Licence>
-		<CopyrightType></CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>false</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>true</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName></WheelName>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
 		<Name>Xmas Cart 2014</Name>
 		<CartName>Xmas Cart 2014</CartName>
 		<Author>Binary Star</Author>
@@ -764,6 +840,41 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<PDFFile>download/documents/games/Melody_Master_Manual.pdf</PDFFile>
 		<CartridgeImage>./cartridges/images/Melody Master-2931638213987509354.png</CartridgeImage>
 		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vector Pong</Name>
+		<CartName>Vector Pong</CartName>
+		<Author>Binary Star</Author>
+		<Year>2014</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\VectorPong_v107.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Binary Star</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/Vector Pong-8327556080149144658.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vector Pong Download BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
@@ -880,6 +991,41 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>XMAS Space Race</Name>
+		<CartName>XMAS Space Race</CartName>
+		<Author>Chris Malcolm</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>XmasSpaceRace_v100.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Chris Malcolm</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>SpaceRace_v100XMAS.BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Scalar Ownage</Name>
 		<CartName>Scalar Ownage</CartName>
 		<Author>Sebastian Mihai</Author>
@@ -950,41 +1096,6 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
-		<Name>Vecmania part 2</Name>
-		<CartName>Vecmania part 2</CartName>
-		<Author>John Dondzila</Author>
-		<Year>1999</Year>
-		<CRC>0</CRC>
-		<TypeFlags>0</TypeFlags>
-		<FullFilenames>
-			<FullFilename>download/cartridges/Vecmania2.bin</FullFilename>
-		</FullFilenames>
-		<Information>John Dondzila</Information>
-		<Cheats></Cheats>
-		<Eastereggs></Eastereggs>
-		<Homepage></Homepage>
-		<InstructionFile></InstructionFile>
-		<FrontImage></FrontImage>
-		<BackImage></BackImage>
-		<Overlay></Overlay>
-		<InGameImage></InGameImage>
-		<Critic></Critic>
-		<Other></Other>
-		<BinaryLink>Vecmania 2 Download Bin</BinaryLink>
-		<Licence></Licence>
-		<CopyrightType>Copyright 1999 John Dondzila</CopyrightType>
-		<PDFLink></PDFLink>
-		<PDFFile></PDFFile>
-		<CartridgeImage></CartridgeImage>
-		<Homebrew>true</Homebrew>
-		<Demo>false</Demo>
-		<Snippet>false</Snippet>
-		<CompleteGame>true</CompleteGame>
-		<extremeVecFileImage></extremeVecFileImage>
-		<WheelName></WheelName>
-	</CartridgeProperties>
-	<CartridgeProperties>
-		<Class>Cartridge</Class>
 		<Name>Vector Pilot</Name>
 		<CartName>Vector Pilot</CartName>
 		<Author>Kristof Tuts</Author>
@@ -1015,6 +1126,41 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Vecmania part 2</Name>
+		<CartName>Vecmania part 2</CartName>
+		<Author>John Dondzila</Author>
+		<Year>1999</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/Vecmania2.bin</FullFilename>
+		</FullFilenames>
+		<Information>John Dondzila</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Vecmania 2 Download Bin</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Copyright 1999 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
 	</CartridgeProperties>
@@ -1380,6 +1526,80 @@ responsible for any damage due to the use of this software.</Licence>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>ABSORBTEX</Name>
+		<CartName>ABSORBTEX</CartName>
+		<Author>Ana Bressel</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\absorbtex.bin</FullFilename>
+		</FullFilenames>
+		<Information>Ana Bressel</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_absorbtex.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/ABSORBTEX-7296632134469907764.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Absorbtex_bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>Absorbtex_pdf</PDFLink>
+		<PDFFile>download\documents\games\absorbtex.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>LAST BATTLE</Name>
+		<CartName>LAST BATTLE</CartName>
+		<Author>Jonas Krause</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\last_battle.bin</FullFilename>
+		</FullFilenames>
+		<Information>Jonas Krause</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_last_battle.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/LAST BATTLE6301080269104543250.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>last_battle.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>last_battle.pdf</PDFLink>
+		<PDFFile>download\documents\games\last_battle.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Subwars</Name>
 		<CartName>Subwars</CartName>
 		<Author>Mountaingoate</Author>
@@ -1590,6 +1810,41 @@ responsible for any damage due to the use of this software.</Licence>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Dots</Name>
+		<CartName>Dots</CartName>
+		<Author>Chris Malcolm</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>Dots_v100.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Chris Malcolm</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>Dots_v100.BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>true</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Electric Force</Name>
 		<CartName>Electric Force</CartName>
 		<Author>Frog</Author>
@@ -1655,6 +1910,78 @@ responsible for any damage due to the use of this software.</Licence>
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Quickshot</Name>
+		<CartName>Quickshot</CartName>
+		<Author>Chris Malcolm</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>QuickShotv101.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Chris Malcolm</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>QuickShotv101.BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>HEXTREX</Name>
+		<CartName>HEXTREX</CartName>
+		<Author>Michael Tiran</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\hextrex.bin</FullFilename>
+		</FullFilenames>
+		<Information>Michael Tiran</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_hextrex.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/HEXTREX2514460662974162838.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>hextrex.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>hextrex.pdf</PDFLink>
+		<PDFFile>download\documents\games\hextrex.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
 	</CartridgeProperties>
@@ -1762,6 +2089,43 @@ VECRACE is my first Vectrex game. I developed it in order to learn and understan
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>KINGDOM OF HEAVEN</Name>
+		<CartName>KINGDOM OF HEAVEN</CartName>
+		<Author>Jan David Kurfi&#223;</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>kingdom_of_heaven_alpha.bin</FullFilename>
+		</FullFilenames>
+		<Information>Jan David Kurfi&#223;</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2017/vectrex_game_kingdom_of_heaven.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/KINGDOM OF HEAVEN6407225589224346979.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>kingdom_of_heaven_alpha.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
 	</CartridgeProperties>
@@ -1945,6 +2309,43 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>BLOX BREAKER</Name>
+		<CartName>BLOX BREAKER</CartName>
+		<Author>Matthias Tiran</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\blox_breaker.bin</FullFilename>
+		</FullFilenames>
+		<Information>Matthias Tiran</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_blox_breaker.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/BLOX BREAKER-836920172031223111.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>blox_breaker.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>blox_breaker.pdf</PDFLink>
+		<PDFFile>download\documents\games\blox_breaker.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Vec Fu</Name>
 		<CartName>Vec Fu</CartName>
 		<Author>Michael Borrmann</Author>
@@ -2074,6 +2475,78 @@ Chaden (big guy at GCE) were at Abel &amp; Associates at the time.
 		<PDFFile></PDFFile>
 		<CartridgeImage></CartridgeImage>
 		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>KarlQuappe</Name>
+		<CartName>KarlQuappe</CartName>
+		<Author>Malban</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>projects\KarlQuappe\KarlQuappe_0.bin</FullFilename>
+		</FullFilenames>
+		<Information>Malban</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage></Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay>overlays\KarlQuappeOverlay.png</Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>TRAFFIC RACE</Name>
+		<CartName>TRAFFIC RACE</CartName>
+		<Author></Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\traffic_race.bin</FullFilename>
+		</FullFilenames>
+		<Information></Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_traffic_race.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/TRAFFIC RACE-526687983792304517.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>traffic_race.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>traffic_race.pdf</PDFLink>
+		<PDFFile>download\documents\games\traffic_race.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>false</CompleteGame>
@@ -2556,6 +3029,43 @@ Bill Hawkins</Eastereggs>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>DOODLE JUMP</Name>
+		<CartName>DOODLE JUMP</CartName>
+		<Author>Robin Schelling</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>doodle_jump_alpha.bin</FullFilename>
+		</FullFilenames>
+		<Information>Robin Schelling</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2017/vectrex_game_doodle_jump.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/DOODLE JUMP-7071447935674443189.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>doodle_jump_alpha.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Spudster</Name>
 		<CartName>Spudster</CartName>
 		<Author>Brian Mastrobuono</Author>
@@ -2766,6 +3276,77 @@ Bill Hawkins</Eastereggs>
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Whack-A-Mole</Name>
+		<CartName>Whack-A-Mole</CartName>
+		<Author>Chris Malcolm</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>256</TypeFlags>
+		<FullFilenames>
+			<FullFilename>WAM_v100.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Chris Malcolm</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>WAM_v100.BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>THE HUNGRY PYTHON</Name>
+		<CartName>THE HUNGRY PYTHON</CartName>
+		<Author>Maximilian Schiller</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/hungry_python.bin</FullFilename>
+		</FullFilenames>
+		<Information>Maximilian Schiller</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_hungry_python.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/THE HUNGRY PYTHON-8279933960756296089.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>hungryPython.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>hungry_python_eng.pdf</PDFLink>
+		<PDFFile>download/documents/games/hungry_python_eng.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Pitchers Duel</Name>
 		<CartName>Pitchers Duel</CartName>
 		<Author>GCE</Author>
@@ -2904,6 +3485,43 @@ This binary requires a VecVoice module for speech to be heard.&amp;#x20;</Easter
 		<PDFFile></PDFFile>
 		<CartridgeImage>.\cartridges\images\Fortress of Narzod1133358305711730023.png</CartridgeImage>
 		<Homebrew>false</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>STAR FUEL</Name>
+		<CartName>STAR FUEL</CartName>
+		<Author>Andreas Bauer</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>star_fuel_alpha.bin</FullFilename>
+		</FullFilenames>
+		<Information>Andreas Bauer</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2017/vectrex_game_star_fuel.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/-4642018714026176820.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>star_fuel_alpha.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
@@ -3087,6 +3705,43 @@ This binary requires a VecVoice module for speech to be heard.&amp;#x20;</Easter
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>SPACEBALL</Name>
+		<CartName>SPACEBALL</CartName>
+		<Author>Tim Stiesch</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download/cartridges/spaceball_alpha.bin</FullFilename>
+		</FullFilenames>
+		<Information>Tim Stiesch</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2017/vectrex_game_space_ball.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/SPACEBALL3623523566161037154.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>spaceball_alpha.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Berzerk</Name>
 		<CartName>Berzerk</CartName>
 		<Author>GCE- Chris King</Author>
@@ -3156,6 +3811,43 @@ This binary requires a VecVoice module for speech to be heard.&amp;#x20;</Easter
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>ARTILLERY STRIKE</Name>
+		<CartName>ARTILLERY STRIKE</CartName>
+		<Author>Jan Langer</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>131072</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\artillery_strike.bin</FullFilename>
+		</FullFilenames>
+		<Information>Jan Langer</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_artillery_strike.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/ARTILLERY STRIKE-1696061160127389069.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>artillery_strike.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>artillery_strike.pdf</PDFLink>
+		<PDFFile>download\documents\games\artillery_strike.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
 	</CartridgeProperties>
@@ -3340,6 +4032,111 @@ The above copyright notice and this permission notice shall be included in all c
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>Super Simon</Name>
+		<CartName>Super Simon</CartName>
+		<Author>Chris Malcolm</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>SuperSimon_v101.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Chris Malcolm</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>SuperSimon_v101.BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Space Race</Name>
+		<CartName>Space Race</CartName>
+		<Author>Chris Malcolm</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>SpaceRace_v100.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Chris Malcolm</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>SpaceRace_v100.BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Cantina Band</Name>
+		<CartName>Cantina Band</CartName>
+		<Author>Chris Malcolm</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>CantinaBand.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Chris Malcolm</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>CantinaBand.BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Block</Name>
 		<CartName>Block</CartName>
 		<Author>Michael Borrmann</Author>
@@ -3368,6 +4165,43 @@ The above copyright notice and this permission notice shall be included in all c
 		<CartridgeImage></CartridgeImage>
 		<Homebrew>true</Homebrew>
 		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>THE SNAKE</Name>
+		<CartName>THE SNAKE</CartName>
+		<Author>Matthias Schneider</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\the_snake.bin</FullFilename>
+		</FullFilenames>
+		<Information>Matthias Schneider</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_snake.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/THE SNAKE3690499665740909595.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>the_snake.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>the_snake.pdf</PDFLink>
+		<PDFFile>download\documents\games\the_snake.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
@@ -3697,7 +4531,6 @@ The above copyright notice and this permission notice shall be included in all c
 		<CRC>0</CRC>
 		<TypeFlags>1</TypeFlags>
 		<FullFilenames>
-			<FullFilename>Dumped/Vectrexians 2007 #069.BIN</FullFilename>
 		</FullFilenames>
 		<Information>Kristof Tuts</Information>
 		<Cheats></Cheats>
@@ -3838,6 +4671,43 @@ Trivia
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>SPACE ASSAULT</Name>
+		<CartName>SPACE ASSAULT</CartName>
+		<Author>Fabian Pfeifroth</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>131072</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\space_assault.bin</FullFilename>
+		</FullFilenames>
+		<Information>Fabian Pfeifroth</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_space_assault.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/SPACE ASSAULT7557549378592276375.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>space_assault.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>space_assault.pdf</PDFLink>
+		<PDFFile>download\documents\games\space_assault.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Star Castle</Name>
 		<CartName>Star Castle</CartName>
 		<Author>GCE - William Hawkins</Author>
@@ -3896,6 +4766,43 @@ Trivia
 		<BinaryLink>Gravitrex Download BIN</BinaryLink>
 		<Licence></Licence>
 		<CopyrightType>Copyright 2002 John Dondzila</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>SPACESHIP CENTAURI</Name>
+		<CartName>SPACESHIP CENTAURI</CartName>
+		<Author>Christoph Bechtle</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>spaceship_centauri_alpha.bin</FullFilename>
+		</FullFilenames>
+		<Information>Christoph Bechtle</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex_2017/vectrex_game_spaceship_centauri.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/SPACESHIP CENTAURI-3878270227977113299.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>spaceship_centauri_alpha.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
 		<PDFLink></PDFLink>
 		<PDFFile></PDFFile>
 		<CartridgeImage></CartridgeImage>
@@ -3980,6 +4887,78 @@ Trivia
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>BRICK CRUSHER</Name>
+		<CartName>BRICK CRUSHER</CartName>
+		<Author>Tugce &#220;nsal, Ersin Dogan</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\brick_crusher.bin</FullFilename>
+		</FullFilenames>
+		<Information>Tugce &#220;nsal, Ersin Dogan</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_brick_crusher.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/BRICK CRUSHER153993626392506921.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>BrickCrusher_bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the authors and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>BrickCrusher_pdf</PDFLink>
+		<PDFFile>download\documents\games\brick_crusher.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>Release</Name>
+		<CartName>Release</CartName>
+		<Author>Malban</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>65536</TypeFlags>
+		<FullFilenames>
+			<FullFilename>codelib/CompleteReleases/Malban/VRelease/release.bin</FullFilename>
+		</FullFilenames>
+		<Information>Malban</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://release.malban.de/</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink></BinaryLink>
+		<Licence></Licence>
+		<CopyrightType>Public Domain</CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Hex alpha</Name>
 		<CartName>Hex alpha</CartName>
 		<Author>Binary Star</Author>
@@ -4007,6 +4986,79 @@ Trivia
 		<PDFFile></PDFFile>
 		<CartridgeImage></CartridgeImage>
 		<Homebrew>true</Homebrew>
+		<Demo>true</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>BACTERIA</Name>
+		<CartName>BACTERIA</CartName>
+		<Author>Matthias Bach</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\bacteria.bin</FullFilename>
+		</FullFilenames>
+		<Information>Matthias Bach</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_bacteria.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/BACTERIA-1172800622570194462.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>BACTERIA_BIN</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>BACTERIA_PDF</PDFLink>
+		<PDFFile>download\documents\games\bacteria.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>VectorClock</Name>
+		<CartName>VectorClock</CartName>
+		<Author>Chris Malcolm</Author>
+		<Year>2017</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>VectorClockv102.BIN</FullFilename>
+		</FullFilenames>
+		<Information>Chris Malcolm</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://www.binarystarsoftware.com</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage></InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>VectorClockv102.BIN</BinaryLink>
+		<Licence></Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink></PDFLink>
+		<PDFFile></PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>false</Homebrew>
 		<Demo>true</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>false</CompleteGame>
@@ -4050,6 +5102,43 @@ Trivia
 	</CartridgeProperties>
 	<CartridgeProperties>
 		<Class>Cartridge</Class>
+		<Name>BATMAN VS SUPERMAN - LASERWARS</Name>
+		<CartName>BATMAN VS SUPERMAN - LASERWARS</CartName>
+		<Author>Florian Krause</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\laser_wars.bin</FullFilename>
+		</FullFilenames>
+		<Information>Florian Krause</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_laser_wars.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay>overlays/homemade/laser_wars.png</Overlay>
+		<InGameImage>./cartridges/images/BATMAN VS SUPERMAN - LASERWARS-6213030785915859616.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>laser_wars.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>laser_wars.pdf</PDFLink>
+		<PDFFile>laser_wars.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
 		<Name>Ronan&apos;s Game Cart</Name>
 		<CartName>Ronan&apos;s Game Cart</CartName>
 		<Author>Ronan Habot</Author>
@@ -4080,6 +5169,80 @@ Trivia
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>HURDLES</Name>
+		<CartName>HURDLES</CartName>
+		<Author>Marcel Krause</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\hurdles.bin</FullFilename>
+		</FullFilenames>
+		<Information>Marcel Krause</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_hurdles.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/HURDLES4061586020861613963.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>hurdles.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>hurdles.pdf</PDFLink>
+		<PDFFile>download\documents\games\hurdles.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>BASELOOT</Name>
+		<CartName>BASELOOT</CartName>
+		<Author>Jan Hoffmann</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>131072</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\baseloot.bin</FullFilename>
+		</FullFilenames>
+		<Information>Jan Hoffmann</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_baseloot.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/BASELOOT-1332907186505742665.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>baseloot.bin</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>baseloot.pdf</PDFLink>
+		<PDFFile>download\documents\games\baseloot.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>true</Snippet>
+		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
 	</CartridgeProperties>
@@ -4223,6 +5386,43 @@ THEY ARE NOT TO BE SOLD OR DISTRIBUTED, WHICH INCLUDES DISTRIBUTION ON A MULTI-C
 		<Demo>false</Demo>
 		<Snippet>false</Snippet>
 		<CompleteGame>true</CompleteGame>
+		<extremeVecFileImage></extremeVecFileImage>
+		<WheelName></WheelName>
+	</CartridgeProperties>
+	<CartridgeProperties>
+		<Class>Cartridge</Class>
+		<Name>HeadlessRunner</Name>
+		<CartName>HeadlessRunner</CartName>
+		<Author>Timo Barth</Author>
+		<Year>2016</Year>
+		<CRC>0</CRC>
+		<TypeFlags>0</TypeFlags>
+		<FullFilenames>
+			<FullFilename>download\cartridges\headless_runner.bin</FullFilename>
+		</FullFilenames>
+		<Information>Timo Barth</Information>
+		<Cheats></Cheats>
+		<Eastereggs></Eastereggs>
+		<Homepage>http://eiti.fh-pforzheim.de/personen/johannsen/projektlabor/vectrex/vectrex_game_headless_runner.htm</Homepage>
+		<InstructionFile></InstructionFile>
+		<FrontImage></FrontImage>
+		<BackImage></BackImage>
+		<Overlay></Overlay>
+		<InGameImage>./cartridges/images/HeadlessRunner-6646337320493071467.png</InGameImage>
+		<Critic></Critic>
+		<Other></Other>
+		<BinaryLink>HEADLESS_RUNNER_BIN</BinaryLink>
+		<Licence>Downloads are freeware and for non commercial use only.
+Use at your own risk and enjoy the game.
+Please respect the copyright and credit the author and the origin of this game.</Licence>
+		<CopyrightType></CopyrightType>
+		<PDFLink>HEADLESS_RUNNER_PDF</PDFLink>
+		<PDFFile>download\documents\games\headless_runner.pdf</PDFFile>
+		<CartridgeImage></CartridgeImage>
+		<Homebrew>true</Homebrew>
+		<Demo>false</Demo>
+		<Snippet>false</Snippet>
+		<CompleteGame>false</CompleteGame>
 		<extremeVecFileImage></extremeVecFileImage>
 		<WheelName></WheelName>
 	</CartridgeProperties>

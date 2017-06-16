@@ -1,0 +1,521 @@
+:title Draw_VLc - Optimizations
+:h2 Motivation
+In this section I would like to demonstrate possible steps to optimize vectorlist drawing.
+
+The shown possible steps are not ment to be "complete", exclusively right or particulary engenious.
+
+Each scenario of ones own coding base provides grounds for other or more specific optimization technics.
+
+I will show different versions of printing a vectorlist, which in each version step will be slightly more optimized in specific ways. 
+
+The demonstration program(s) will draw a vectorlist which represents a "hut" like:
+
+:image Hut.png| Hut
+(The hut is pretty small, but as you will see, drawing a "small" list is easier to optimize - also in many games drawing many small objects is the predominant scenario)
+
+
+:h2 Version 1 - 3164 cycles - basis
+Basis:
+
+:div code
+::
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; DEFINE SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; load vectrex bios routine definitions~~
+__________INCLUDE  "VECTREX.I"__________; vectrex function includes~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; Variable / RAM SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; insert your variables (RAM usage) in the BSS section~~
+; user RAM starts at $c880 ~~
+__________BSS_____~~
+__________ORG_____$c880________________; start of our ram space ~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; HEADER SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; The cartridge ROM starts at address 0~~
+__________CODE_____~~
+__________ORG_____0 ~~
+; the first few bytes are mandatory, otherwise the BIOS will not load~~
+; the ROM file, and will start MineStorm instead~~
+__________DB_____"g GCE 1998", $80_____; 'g' is copyright sign~~
+__________DW_____music1________________; music from the rom ~~
+__________DB_____$F8, $50, $20, -$80___; hight, width, rel y, rel x (from 0,0) ~~
+__________DB_____"DRAW LINES V1", $80__; some game information, ending with $80~~
+__________DB_____0_____________________; end of game header ~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; CODE SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; here the cartridge program starts off~~
+main: ~~
+__________JSR_____Wait\_Recal___________; Vectrex BIOS recalibration ~~
+__________JSR_____Intensity\_5F_________; Sets the intensity of the ~~
+_______________________________________; vector beam to $5f ~~
+__________LDA_____#$b0_________________; scalefactor~~
+__________STA_____VIA\_t1\_cnt\_lo~~
+__________LDA_____#$00_________________; position relative Y ~~
+__________LDB_____#$00_________________; position relative X~~
+__________JSR_____Moveto\_d_____________; sets up VIA control register after a wait recal~~
+~~
+__________LDX_____#vData_______________; address of string ~~
+__________JSR_____Draw\_VLc_____________; Vectrex BIOS print routine ~~
+__________BRA_____main_________________; and repeat forever ~~
+~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; DATA SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+~~
+vData = VectorList~~
+VectorList:~~
+__________DB +$07 _____________________; number of lines to draw~~
+__________DB +$00, +$06 _______________; draw to y, x~~
+__________DB +$07, +$00 _______________; draw to y, x~~
+__________DB +$05, -$03 _______________; draw to y, x~~
+__________DB -$05, -$03 _______________; draw to y, x~~
+__________DB -$07, +$00 _______________; draw to y, x~~
+__________DB +$07, +$06 _______________; draw to y, x~~
+__________DB +$00, -$06 _______________; draw to y, x~~
+__________DB -$07, +$06 _______________; draw to y, x~~
+::~~
+:/div
+
+
+:h2 Version 2 - 1637 cycles - scale factor!
+In the above version (for demonstration purposes) I used a large scale factor and small vector strengths. Using a small scale factor and large vector strength results in huge optimization effects.
+
+The scale factor and strength changes are not 1:1 - you have to experiment to get the same "sizes" of the resulting lists.
+
+In the example I changed the scale factor from $b0 to $06, and multiplied each (original) strength by 18.
+
+
+:div code
+::
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; DEFINE SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; load vectrex bios routine definitions~~
+__________INCLUDE  "VECTREX.I"__________; vectrex function includes~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; Variable / RAM SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; insert your variables (RAM usage) in the BSS section~~
+; user RAM starts at $c880 ~~
+__________BSS_____~~
+__________ORG_____$c880________________; start of our ram space ~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; HEADER SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; The cartridge ROM starts at address 0~~
+__________CODE_____~~
+__________ORG_____0 ~~
+; the first few bytes are mandatory, otherwise the BIOS will not load~~
+; the ROM file, and will start MineStorm instead~~
+__________DB_____"g GCE 1998", $80_____; 'g' is copyright sign~~
+__________DW_____music1________________; music from the rom ~~
+__________DB_____$F8, $50, $20, -$80___; hight, width, rel y, rel x (from 0,0) ~~
+__________DB_____"DRAW LINES V2", $80__; some game information, ending with $80~~
+__________DB_____0_____________________; end of game header ~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; CODE SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; here the cartridge program starts off~~
+main: ~~
+__________JSR_____Wait\_Recal___________; Vectrex BIOS recalibration ~~
+__________JSR_____Intensity\_5F_________; Sets the intensity of the ~~
+_______________________________________; vector beam to $5f ~~
+__________LDA_____#$06_________________; scalefactor~~
+__________STA_____VIA\_t1\_cnt\_lo~~
+__________LDA_____#$00_________________; position relative Y ~~
+__________LDB_____#$00_________________; position relative X~~
+__________JSR_____Moveto\_d_____________; sets up VIA control register after a wait recal~~
+~~
+__________LDX_____#vData_______________; address of string ~~
+__________JSR_____Draw\_VLc_____________; Vectrex BIOS print routine ~~
+__________BRA_____main_________________; and repeat forever ~~
+~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; DATA SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+~~
+BLOW_UP = 18~~
+vData = VectorList~~
+VectorList:~~
+__________DB +$07 _____________________; number of lines to draw~~
+__________DB +$00*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+__________DB +$07*BLOW\_UP, +$00*BLOW\_UP; draw to y, x~~
+__________DB +$05*BLOW\_UP, -$03*BLOW\_UP; draw to y, x~~
+__________DB -$05*BLOW\_UP, -$03*BLOW\_UP; draw to y, x~~
+__________DB -$07*BLOW\_UP, +$00*BLOW\_UP; draw to y, x~~
+__________DB +$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+__________DB +$00*BLOW\_UP, -$06*BLOW\_UP; draw to y, x~~
+__________DB -$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+::~~
+:/div
+
+:h2 Version 3 - 1630 cycles - macro!
+This version is a step "in between". Nothing really changed, only 
+the call of "::JSR_____Draw_VLc::" was replaced with a macro call of exactly the
+same routine.
+
+
+:div code
+::
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; DEFINE SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; load vectrex bios routine definitions~~
+__________INCLUDE  "VECTREX.I"__________; vectrex function includes~~
+~~
+DRAW\_VLC            macro    ~~
+__________direct__$d0__________________; following code uses d0 ~~
+__________LDA_____,X+ ~~
+Draw\_VL\_a\_macro\? ~~
+__________STA_____$C823 ~~
+__________LDD_____,X ~~
+__________STA_____<VIA\_port\_a__________;Send Y to A/D ~~
+__________CLR_____<VIA\_port\_b__________;Enable mux ~~
+__________LEAX____2,X__________________;Point to next coordinate pair ~~
+__________NOP__________________________;Wait a moment ~~
+__________INC_____<VIA\_port\_b__________;Disable mux ~~
+__________STB_____<VIA\_port\_a__________;Send X to A/D ~~
+__________LDD_____#$FF00_______________;Shift reg=$FF (solid line), T1H=0 ~~
+LF3ED\\?: ~~
+__________STA_____<VIA\_shift\_reg_______;Put pattern in shift register ~~
+__________STB_____<VIA\_t1_cnt\_hi_______;Set T1H (scale factor?) ~~
+__________LDD_____#$0040_______________;B-reg = T1 interrupt bit ~~
+LF3F4\\?: ~~
+__________BITB____<VIA\_int\_flags_______;Wait for T1 to time out ~~
+__________BEQ_____LF3F4\\? ~~
+__________NOP__________________________;Wait a moment more ~~
+__________STA_____<VIA\_shift\_reg_______;Clear shift register (blank output) ~~
+__________LDA_____$C823________________;Decrement line count ~~
+__________DECA____~~
+__________BPL_____Draw\_VL\_a\_macro\\?____;Go back for more points ~~
+__________JSR_____Check0Ref____________;Reset zero reference if necessary ~~
+__________endm     ~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; Variable / RAM SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; insert your variables (RAM usage) in the BSS section~~
+; user RAM starts at $c880 ~~
+__________BSS_____~~
+__________ORG_____$c880________________; start of our ram space ~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; HEADER SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; The cartridge ROM starts at address 0~~
+__________CODE_____~~
+__________ORG_____0 ~~
+; the first few bytes are mandatory, otherwise the BIOS will not load~~
+; the ROM file, and will start MineStorm instead~~
+__________DB_____"g GCE 1998", $80_____; 'g' is copyright sign~~
+__________DW_____music1________________; music from the rom ~~
+__________DB_____$F8, $50, $20, -$80___; hight, width, rel y, rel x (from 0,0) ~~
+__________DB_____"DRAW LINES V3", $80__; some game information, ending with $80~~
+__________DB_____0_____________________; end of game header ~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; CODE SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; here the cartridge program starts off~~
+main: ~~
+__________JSR_____Wait\_Recal___________; Vectrex BIOS recalibration ~~
+__________JSR_____Intensity\_5F_________; Sets the intensity of the ~~
+_______________________________________; vector beam to $5f ~~
+__________LDA_____#$06_________________; scalefactor~~
+__________STA_____VIA\_t1\_cnt\_lo~~
+__________LDA_____#$00_________________; position relative Y ~~
+__________LDB_____#$00_________________; position relative X~~
+__________JSR_____Moveto\_d_____________; sets up VIA control register after a wait recal~~
+~~
+__________LDX_____#vData_______________; address of string ~~
+__________DRAW\_VLC_____________________; Macro print routine ~~
+__________BRA_____main_________________; and repeat forever ~~
+~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; DATA SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+~~
+BLOW_UP = 18~~
+vData = VectorList~~
+VectorList:~~
+__________DB +$07 _____________________; number of lines to draw~~
+__________DB +$00*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+__________DB +$07*BLOW\_UP, +$00*BLOW\_UP; draw to y, x~~
+__________DB +$05*BLOW\_UP, -$03*BLOW\_UP; draw to y, x~~
+__________DB -$05*BLOW\_UP, -$03*BLOW\_UP; draw to y, x~~
+__________DB -$07*BLOW\_UP, +$00*BLOW\_UP; draw to y, x~~
+__________DB +$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+__________DB +$00*BLOW\_UP, -$06*BLOW\_UP; draw to y, x~~
+__________DB -$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+::~~
+:/div
+
+
+:h2 Version 4 - 1531 cycles - optimized macro!
+The above introduced macro was changed to a manualy optimized version.
+
+
+:div code
+::
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; DEFINE SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; load vectrex bios routine definitions~~
+__________INCLUDE  "VECTREX.I"________; vectrex function includes~~
+~~
+DRAW\_VLC__________macro    ~~
+__________direct__$d0_________________; following code uses d0~~
+__________LDD_____,X++________________;~~
+__________STA_____$C823_______________;~~
+__________CLRA~~
+\_DRAW\_VLA\\?:~~
+__________STD_____VIA\_port\_b~~
+__________LDB_____,X+~~
+__________INC_____VIA\_port\_b__________;Disable mux~~
+__________STB_____VIA\_port\_a__________;Send X to A/D~~
+__________DEC_____VIA\_shift\_reg_______;Put pattern in shift register~~
+__________STA_____VIA\_t1\_cnt\_hi_______;enable timer 1~~
+~~
+__________LDB_____,X+_________________; 6~~
+__________DEC_____$C823_______________; 7~~
+__________BEQ______DRAW\_END\\?_________; 3 Go back for more points~~
+__________LDA_____#$40________________;B-reg = T1 interrupt bit~~
+LF\_1\\?:~~
+__________BITA____VIA\_int\_flags_______;Wait for T1 to time out~~
+__________BEQ_____LF\_1\\?______________;~~
+__________CLRA________________________;Wait a moment more~~
+__________STA_____VIA\_shift\_reg_______;Clear shift register (blank output)~~
+__________BRA______DRAW\_VLA\\?_________; 3~~
+\_DRAW\_END\\?:~~
+__________LDA_____#$40________________;B-reg = T1 interrupt bit~~
+LF\_2\\?:~~
+__________BITA____VIA\_int\_flags_______;Wait for T1 to time out~~
+__________BEQ_____LF\_2\\?______________;~~
+__________CLRA________________________;Wait a moment more~~
+__________STA_____VIA\_shift\_reg~~
+; one more round~~
+__________STD_____VIA\_port\_b~~
+__________LDB_____,X+~~
+__________INC_____VIA\_port\_b__________;Disable mux~~
+__________STB_____VIA\_port\_a__________;Send X to A/D~~
+__________DEC_____VIA\_shift\_reg_______;Put pattern in shift register~~
+__________STA_____VIA\_t1\_cnt\_hi_______;enable timer 1~~
+~~
+__________LDA_____#$40________________;B-reg = T1 interrupt bit~~
+LF\_3\?:~~
+__________BITA____VIA\_int\_flags_______;Wait for T1 to time out~~
+__________BEQ_____LF\_3\\?~~
+__________CLR_____VIA\_shift\_reg_______;Clear shift register (blank output)~~
+__________endm~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; Variable / RAM SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; insert your variables (RAM usage) in the BSS section~~
+; user RAM starts at $c880 ~~
+__________BSS_____~~
+__________ORG_____$c880_______________; start of our ram space ~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; HEADER SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; The cartridge ROM starts at address 0~~
+__________CODE_____~~
+__________ORG_____0 ~~
+; the first few bytes are mandatory, otherwise the BIOS will not load~~
+; the ROM file, and will start MineStorm instead~~
+__________DB_____"g GCE 1998", $80_____; 'g' is copyright sign~~
+__________DW_____music1________________; music from the rom ~~
+__________DB_____$F8, $50, $20, -$80___; hight, width, rel y, rel x (from 0,0) ~~
+__________DB_____"DRAW LINES V4", $80__; some game information, ending with $80~~
+__________DB_____0_____________________; end of game header ~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; CODE SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; here the cartridge program starts off~~
+main: ~~
+__________JSR_____Wait\_Recal___________; Vectrex BIOS recalibration ~~
+__________JSR_____Intensity\_5F_________; Sets the intensity of the ~~
+_______________________________________; vector beam to $5f ~~
+__________LDA_____#$06_________________; scalefactor~~
+__________STA_____VIA\_t1\_cnt\_lo~~
+__________LDA_____#$00_________________; position relative Y ~~
+__________LDB_____#$00_________________; position relative X~~
+__________JSR_____Moveto\_d_____________; sets up VIA control register after a wait recal~~
+~~
+__________LDX_____#vData_______________; address of string ~~
+__________DRAW\_VLC_____________________; Macro print routine ~~
+__________BRA_____main_________________; and repeat forever ~~
+~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; DATA SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+~~
+BLOW\_UP = 18~~
+vData = VectorList~~
+VectorList:~~
+__________DB +$07 _____________________; number of lines to draw~~
+__________DB +$00*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+__________DB +$07*BLOW\_UP, +$00*BLOW\_UP; draw to y, x~~
+__________DB +$05*BLOW\_UP, -$03*BLOW\_UP; draw to y, x~~
+__________DB -$05*BLOW\_UP, -$03*BLOW\_UP; draw to y, x~~
+__________DB -$07*BLOW\_UP, +$00*BLOW\_UP; draw to y, x~~
+__________DB +$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+__________DB +$00*BLOW\_UP, -$06*BLOW\_UP; draw to y, x~~
+__________DB -$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+::~~
+:/div
+
+
+:h2 Version 5 - 1416 cycles - loop unrolling and cycle specific!
+The loop in the vector drawing was unrolled, and the actual drawing routine does not have 
+a wait loop anymore, since we //now// that the length of the loop (= scalefactor) is 6.
+We can use the information, that we only draw for 6 cycles, to NOT wait for these 6 cycles to finish - we know how many cycles our instructions take.
+
+To do the loop unrolling and some of the math involved (jump into a unrolled vector drawing routine) we changed the first parameter of the vectorlist to have a unrolled offset counter instead of the vectorlist length.
+
+The maximum unrolled loop in this version is 11 vectors (maximum vectorlist size).
+
+The size of the header (10) and one line (16) is manually computed, but could also be automatically gotten from address "math".
+
+:div code
+::
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; DEFINE SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; load vectrex bios routine definitions~~
+__________INCLUDE  "VECTREX.I"_________; vectrex function includes~~
+~~
+ONE\_LINE\_LENGTH___EQU 16~~
+LENGTH\_OF\_HEADER__EQU (4+2+2+2)~~
+MAX\_LINE\_NUM______EQU 23~~
+~~
+~~
+ONE\_LINE\_DRAW macro___________________; cycles~~
+__________INC_____VIA\_port\_b__________; [6] Disable mux~~
+__________STB_____VIA\_port\_a__________; [6] Send X to A/D~~
+__________DEC_____VIA\_shift\_reg_______; [6] Put pattern in shift register~~
+__________CLR_____VIA\_t1\_cnt\_hi_______; [4] enable timer 1~~
+__________LDD_____,X++________________; [8] load Y coordinate to A, X coordinate to B~~
+__________STA_____VIA\_port\_a__________; [4] Send Y to A/D~~
+__________CLR_____VIA\_port\_b__________; [4] enable mux, thus y integrators are set to Y~~
+__________CLR_____VIA\_shift\_reg_______; [4] turn the lights off~~
+__________endm~~
+~~
+MY\_SPRITE\_DRAW\_VLC\_UNLOOP\_SMALL_macro~~
+__________LDD_____  ,X++_______________;(2)~~
+__________STA_____VIA\_port\_a__________;(2) [4] Send Y to A/D~~
+__________CLR_____VIA\_port\_b__________;(2) [4] enable mux, thus y integrators are set to Y~~
+__________JMP_____[i\_jump]____________;(4)~~
+JUMP\_INTO\_ALL\\?:~~
+JUMP\_INTO\_11\\?:~~
+__________ONE\_LINE\_DRAW~~
+JUMP\_INTO\_10\\?:~~
+__________ONE\_LINE\_DRAW~~
+JUMP\_INTO\_09\\?:~~
+__________ONE\_LINE\_DRAW~~
+JUMP\_INTO\_08\\?:~~
+__________ONE\_LINE\_DRAW~~
+JUMP\_INTO\_07\\?:~~
+__________ONE\_LINE\_DRAW~~
+JUMP\_INTO\_06\\?:~~
+__________ONE\_LINE\_DRAW~~
+JUMP\_INTO\_05\\?:~~
+__________ONE\_LINE\_DRAW~~
+JUMP\_INTO\_04\\?:~~
+__________ONE\_LINE\_DRAW~~
+JUMP\_INTO\_03\\?:~~
+__________ONE\_LINE\_DRAW~~
+JUMP\_INTO\_02\\?:~~
+__________ONE\_LINE\_DRAW~~
+JUMP\_INTO\_01\\?:~~
+__________INC_____VIA\_port\_b____________; [6] Disable mux~~
+__________STB_____VIA\_port\_a____________; [6] Send X to A/D~~
+__________DEC_____VIA\_shift\_reg_________; [6] Put pattern in shift register~~
+__________CLR_____VIA\_t1\_cnt\_hi_________; [4] enable timer 1~~
+__________NOP_____3~~
+__________endm~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; Variable / RAM SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; insert your variables (RAM usage) in the BSS section~~
+; user RAM starts at $c880 ~~
+__________BSS_____~~
+__________ORG_____$c880________________; start of our ram space ~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; HEADER SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; The cartridge ROM starts at address 0~~
+__________CODE_____~~
+__________ORG_____0 ~~
+; the first few bytes are mandatory, otherwise the BIOS will not load~~
+; the ROM file, and will start MineStorm instead~~
+__________DB_____"g GCE 1998", $80_____; 'g' is copyright sign~~
+__________DW_____music1________________; music from the rom ~~
+__________DB_____$F8, $50, $20, -$80___; hight, width, rel y, rel x (from 0,0) ~~
+__________DB_____"DRAW LINES V5", $80__; some game information, ending with $80~~
+__________DB_____0_____________________; end of game header ~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; CODE SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; here the cartridge program starts off~~
+main: ~~
+__________JSR_____Wait\_Recal___________; Vectrex BIOS recalibration ~~
+__________JSR_____Intensity\_5F_________; Sets the intensity of the ~~
+_______________________________________; vector beam to $5f ~~
+__________LDA_____#$06_________________; scalefactor~~
+__________STA_____VIA\_t1\_cnt\_lo~~
+__________LDA_____#$00_________________; position relative Y ~~
+__________LDB_____#$00_________________; position relative X~~
+__________JSR_____Moveto\_d_____________; sets up VIA control register after a wait recal~~
+~~
+__________LDX_____#vData_______________; address of string ~~
+__________LDD_____,X++_________________; load offset of vector list draw~~
+__________ADDD____#(unloop\_start\_address0+LENGTH\_OF\_HEADER-12*ONE\_LINE\_LENGTH); 4=JMP [], 2=LDD ,X++~~
+__________STD_____i\_jump~~
+unloop\_start\_address0:~~
+__________MY\_SPRITE\_DRAW\_VLC\_UNLOOP\_SMALL  ~~
+__________NOP_____2~~
+__________CLR_____VIA\_shift\_reg________; [4] turn the lights off~~
+__________BRA_____main_________________; and repeat forever ~~
+~~
+~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+; DATA SECTION~~
+;*\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**\**~~
+~~
+BLOW_UP = 18~~
+vData = VectorList~~
+VectorList:~~
+__________DW (MAX_LINE_NUM-(7+1\))*ONE_LINE_LENGTH~~
+__________DB +$00*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+__________DB +$07*BLOW\_UP, +$00*BLOW\_UP; draw to y, x~~
+__________DB +$05*BLOW\_UP, -$03*BLOW\_UP; draw to y, x~~
+__________DB -$05*BLOW\_UP, -$03*BLOW\_UP; draw to y, x~~
+__________DB -$07*BLOW\_UP, +$00*BLOW\_UP; draw to y, x~~
+__________DB +$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+__________DB +$00*BLOW\_UP, -$06*BLOW\_UP; draw to y, x~~
+__________DB -$07*BLOW\_UP, +$06*BLOW\_UP; draw to y, x~~
+::~~
+:/div
+
+:h2 Version 6 - 1376 cycles - tricking VIA!
+\- unfinished - 

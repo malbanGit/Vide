@@ -20,6 +20,14 @@ The conversion is done in a number of steps:
 7.. are applied.
 8. The resulting "vectrex"- vectorlist is displayed in the rightmost panel.
 
+**Additions**~~
+
+- Upscaling~~
+Upscaling might be interesting if you intend to vectorize snall parts of an image. Internally the image is enlarged by the factor given (by the slider), and after that upscaling the vectorization is done. Sometimes the result looks more exact.
+
+- Factors~~
+Also an X or Y factor can be given. Using these values the resulting vectorlist can be strechted or compressed in the corresponding direction
+
 ~~**Note!**~~
 This is the only place where Vide makes use of an external program and this tool therefor might not be available on all installations.~~
 With Vide I provide potrace for //Windows (32bit/64bit), Mac (32bit/64bit) and Linux (32bit/64)// I have tested most of these configurations, if there are any problems, please consult Malban!

@@ -1,0 +1,52 @@
+:title Button queries
+(See also Vectrex Internals -> Joyport Devices)
+
+:h2 BIOS
+
+One small note in advance, in order for the joypad routines to work correctly, you must again assure that the Vec\_Misc\_Count ($C823) BIOS RAM location is zero, since it is used for analogous testing. As said before, if you don't change that variable somewhere, than everything is ok, since BIOS functions always return leaving that location zero. 
+
+Source see: <<J1|Example Joystick Query BIOS>>.
+
+The above function calls the Read\_Btns ($F1BA) function. 
+
+This function does a couple of things. But the only thing we use in the above example is the information given to us in **register A**. 
+
+In that register a button transition information is given. That means a bit is set at a button specific position, if it's state has changed. But only half the transition is registered, the transition from unpressed to pressed. If such a transition occurred than for the next call of Read\_Btns the appropriate bit will be set. Most of the time that little information is enough. Especially if you don't want continues fire or the like. 
+
+The Read_Btns function has some other uses, in the second version of the button query you will find a program that makes use of the RAM locations mentioned above, these are set to the current button state by the Read\_Btns function. The function does following other things: 
+
+1) Vec\_Buttons ($C811)~~Current toggle state of all buttons.~~Contains the same information as register A.
+
+2) Vec\_Btn\_State ($C80F)~~Current state of all joystick buttons.~~Contains a bitmap whether a button is pressed (1) or not (0).
+
+3) Vec\_Prev\_Btns ($C810)~~Previous state of all joystick buttons.~~
+    Contains a bitmap whether a button was pressed (1) or not (0) before the function call.
+
+and:
+
+-    Vec\_Button\_1\_1 ($C812) Current toggle state of stick 1 button 1
+-    Vec\_Button\_1\_2 ($C813) Current toggle state of stick 1 button 2
+-    Vec\_Button\_1\_3 ($C814) Current toggle state of stick 1 button 3
+-    Vec\_Button\_1\_4 ($C815) Current toggle state of stick 1 button 4
+-    Vec\_Button\_2\_1 ($C816) Current toggle state of stick 2 button 1
+-    Vec\_Button\_2\_2 ($C817) Current toggle state of stick 2 button 2
+-    Vec\_Button\_2\_3 ($C818) Current toggle state of stick 2 button 3
+-    Vec\_Button\_2\_4 ($C819) Current toggle state of stick 2 button 4
+
+The bitmap used in all above BIOS RAM locations is as in the above program:
+
+-     joystick 1:~~
+    button 1: $01~~
+    button 2: $02~~
+    button 3: $04~~
+    button 4: $08~~
+ ~~
+
+-    joystick 2:~~
+    button 1: $10~~
+    button 2: $20~~
+    button 3: $40~~
+    button 4: $80~~
+
+Source see: <<J2|Example Joystick Query BIOS 2>>.
+

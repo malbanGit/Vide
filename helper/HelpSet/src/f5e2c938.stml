@@ -6,7 +6,7 @@ On a popup you can convert images (png, bmp, gif and jpg) to vectrex raster imag
 
 Above you can see the actual conversion "tool". As one can see it is not completly finished, but it will probably stay the way it is implemented now for quite some time.
 
-The image to convert is taken from the right clicked popup from above, the size is displayed.
+The image (or part of the image, click and drag to select the image part) to convert is taken from the right clicked popup from above, the size is displayed.
 
 Using "click" and "drag" - and thus build a selection in the source image - you can also use only partial image conversion.
 
@@ -17,6 +17,8 @@ One can chose what information to take for vector generation, the "color" - stre
 Also taken into account (although this could be optimized) is the fact, that shift register values are actually 9 bits instead of 8 (the last bit is repeated), the displayed vector list is updated with every change.
 
 There used to be an option to include "brightness" data for the vector list. The generation routine is still in the code but disabled, since it performs so very badly, creating has been disabled.
+
+The last option is "invert" - which does exactly that - all generated "0" are converted to "1" and vice/versa.
 
 Using the checkboxes to the left and the create button to the right generates code (and an example main program). 
 

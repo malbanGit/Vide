@@ -11,12 +11,9 @@
 ; snake2 is moving to the right with a speed of 2
 ; snake3 is moving to the left with a speed of -1
 ; snake4 is moving to the left with a speed of -2
+ db 10
 snake1a_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB  4*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -38,12 +35,9 @@ snake1a_object:
                 DB 2                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB SPECIAL_RIGHT_SNAKE  ; special flag
+ db 10
 snake1b_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB  2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -65,12 +59,9 @@ snake1b_object:
                 DB 2                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB SPECIAL_RIGHT_SNAKE  ; special flag
+ db 10
 snake1c_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB  0*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -142,12 +133,9 @@ snake2d_object:
                 DB 1                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB SPECIAL_RIGHT_SNAKE  ; special flag
+ db 10
 snake3a_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB  1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -169,12 +157,9 @@ snake3a_object:
                 DB 2                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB SPECIAL_LEFT_SNAKE   ; special flag
+ db 10
 snake3b_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB -1*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB -1*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
@@ -196,12 +181,9 @@ snake3b_object:
                 DB 2                    ; offsets x in 'SCALE_FACTOR_GAME'
                 DB $60                  ; brightness
                 DB SPECIAL_LEFT_SNAKE   ; special flag
+ db 10
 snake3c_sprite:
- if USE_LOOP_UNROLING !=1
-                DB 10
- else
                 DW (MAX_LINE_NUM-(10+1))*ONE_LINE_LENGTH
- endif
                 DB -2*SPRITE_BLOW_UP,  4*SPRITE_BLOW_UP
                 DB  2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP
                 DB -2*SPRITE_BLOW_UP,  5*SPRITE_BLOW_UP

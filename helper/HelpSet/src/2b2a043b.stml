@@ -1,0 +1,27 @@
+:title "still ok'ish" Vectorlists
+
+Many function in Vecci do not work with "ok'ish" vectorlists.
+What makes a vectorlist only ok'is?
+
+any one of the following criteria makes a vectorlists at best "ok'ish"
+
+- not ordered or only partialy orderd
+- some vectors are not connected or form only small "paths"
+- the directions of connected vectors are in opposition~~ ~~
+- all vectors have a length smaller than 127/128 (depending on the sign)  
+
+These vectors can only be exported to "synced" list.
+
+Depending on the purpose of such a list - the format might still be usefull.
+A synced list can be used to draw very large vectorlists which do not show signs of drift.
+
+To scratch some performace out of this format see that as many "sections" of such a vectorlist are "good" vectorlists as possible.
+
+You can check that by using the button under the tab: "build animation" -> tab: "Scenatio" -> button "seperate paths as scenario entries".
+
+The number of such generated scenario entries represent the minimum numbers of syncs a synced list needs. 
+
+Try to edit the vectorlist so that as many "sections" are "good" or "perfect" - and thus that there are as few as possible "scenario" entries.
+
+
+

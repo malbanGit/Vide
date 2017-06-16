@@ -6,7 +6,7 @@ The document:~~
 documents\\programming\\Introduction to Vectrex Programming.pdf~~
 ~~
 and the assembler sources in directories under:~~
-\\programming\\...\\Christopher Tumber
+\\codelib\\...\\Christopher Tumber
 ~~ ~~
  were done by Christopher L. Tumber and are ~~
 (c) Copyright Christopher L. Tumber 1998
@@ -38,7 +38,7 @@ The original release was on Alex' blog:~~
 **Code by John Dondzila**~~
 ---------------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\John Dondzila
+\\codelib\\...\\John Dondzila
 ~~ ~~
  were done by John Dondzila
 ~~ 
@@ -50,7 +50,7 @@ John placed the sources in the public domain, although his original website is g
 **Code by Manu Paerssinen**~~
 ----------------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\Manu
+\\codelib\\...\\Manu
 ~~ ~~
  were done by Manu Paerssinen
 ~~ 
@@ -81,7 +81,7 @@ I have not found any kind of web presence...~~
 **Code by Ronan Habot**~~
 -------------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\Ronan Habot
+\\codelib\\...\\Ronan Habot
 ~~ ~~
  were done by Ronan Habot and are:
 ~~ Copyright 2000, 2001, Ronen Habot
@@ -98,7 +98,7 @@ Ronan has a website:~~
 **Code by Ville Krumlinde**~~
 -----------------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\Ville Krumlinde
+\\codelib\\...\\Ville Krumlinde
 ~~ ~~
  were done by Ville Krumlinde and are:
 ~~ Copyright (C) 2004  Ville Krumlinde
@@ -109,14 +109,14 @@ License:  ~~
 Here is the complete source code for my game Vectrex Thrust. This game would never have been possible to write without all the information people have shared on the web, so releasing this source code is my way of giving something back and hoping that someone will find it useful.
  
 ~~ ~~
-Manu has a website:~~
+Ville has a website:~~
 [[http://www.emix8.org]]~~
  
 ~~
 **Code by Frog**~~
 ------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\Frog
+\\codelib\\...\\Frog
 ~~ ~~
  were done by Frog
  
@@ -132,7 +132,7 @@ Frog has a website:~~
 **Code by Jeff Woolsay**~~
 ----------------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\Jeff Woolsay
+\\codelib\\...\\Jeff Woolsay
 ~~ ~~
  were done by Jeff Woolsay
  
@@ -147,7 +147,7 @@ The sources used to be at:~~
 **Code by Mike Blackwell**~~
 ----------------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\Mike Blackwell
+\\codelib\\...\\Mike Blackwell
 ~~ ~~
  were done by Mike Blackwell
  
@@ -162,7 +162,7 @@ The sources used to be at:~~
 **Code by Bruce Tomlin**~~
 ----------------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\Bruce Tomlinl
+\\codelib\\...\\Bruce Tomlin
 ~~ ~~
  were done by Bruce Tomlin
  
@@ -178,7 +178,7 @@ The sources used to be at:~~
 **Code by Metalvotze/Nitro/Nuance**~~
 -------------------------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\MV
+\\codelib\\...\\MV
 ~~ ~~
  were done by Metalvotze/Nitro/Nuance
  
@@ -195,7 +195,7 @@ The sources can be found at:~~
 **Code by Orb**~~
 -----------~~
 The assembler sources in directories under:~~
-\\programming\\...\\Orb
+\\codelib\\...\\Orb
 ~~ ~~
  were done by Orb, ~~
 (c) 2009 orb
@@ -225,7 +225,7 @@ The homepage can be found at:~~
 **Code by C. Malcom aka Binarystar**~~
 --------------------------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\C. Malcom
+\\codelib\\...\\C. Malcom
 ~~ ~~
  were done by C. Malcom ~~
 (the sourcecode included was released on a vectrex forum, not on his homepage)
@@ -239,7 +239,7 @@ The homepage can be found at:~~
 **Code by Andrew Coleman**~~
 ----------------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\Andrew Coleman
+\\codelib\\...\\Andrew Coleman
 ~~ ~~
  were done by Andrew Coleman ~~
  ~~
@@ -277,7 +277,7 @@ The homepage can be found at:~~
 **Code by Clay Cowgill**~~
 --------------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\Clay Cowgill
+\\codelib\\...\\Clay Cowgill
 ~~ ~~
  were done by Clay Cowgill ~~
  ~~ ~~
@@ -293,7 +293,7 @@ His homepage can be found at (no vectrex stuff though):~~
 **Code by Garry**~~
 -------------~~
 The assembler sources in directories under:~~
-\\programming\\...\\Garry
+\\codelib\\...\\Garry
 ~~ ~~
  were done by Garry ~~
  ~~ ~~
@@ -304,8 +304,8 @@ The homepage can be found at:~~
 [[http://garrysgamingblog.blogspot.de/p/programming-projects.html]]~~
  
 ~~
-**Code by Tomsoft**~~
----------------~~
+**Code by Thomas Landspurg**~~
+------------------------~~
 The assembler sources in directories under:~~
 \\programming\\...\\Tomsoft
 ~~ ~~
@@ -317,5 +317,27 @@ The assembler sources in directories under:~~
 The homepage can be found at:~~
 [[http://landspurg.net/tomsoft/Vectrex.html]]~~
 
+~~
+::**Code by Thomas Sontowski**~~
+------------------------~~
+The example files for the eEprom DS2431 were built on the original files provided by Thomas Sontowski.
 
+::Permission was granted to reuse the code.
+ ~~
+~~ 
+The homepage can be found at: unkown~~
+~~
+**Code by LA1N**~~
+------------~~
+The assembler sources in directories under:~~
+\\codelib\\...\\la1n
+~~ ~~
+ were done by LA1N ~~
+ ~~ ~~
+The author gave permission to include the sourcecode to his game "VecZ".
+ 
+~~ ~~ 
+His homepage can be found at:~~
+[[http://www.la1n.ch/vecz/]]~~
 
+~~

@@ -26,7 +26,7 @@ The official imager games have a startup phase.
 During this phase the imager is "powered" up with high frequency short pwm duty pulses until the speed of the wheel matches the above mentioned time frame. The pulse duty is about 67% [542 cycles of low pulse, with 805 cylces wavelength]. 
 
 During that powerup button 4 is polled to see if the sync hole of the wheel is triggered (button 4) - no usage of interrupts in the startup phase. 
-The measurement taken is thus that one 360° spin of the wheel (one sync cycle) must be done completely within the wanted time frame [time frame see below] - if that is achieved three times, the program assumes that the wheel is up to speed.
+The measurement taken is thus that one 360 degree spin of the wheel (one sync cycle) must be done completely within the wanted time frame [time frame see below] - if that is achieved three times, the program assumes that the wheel is up to speed.
 
 The powerup loop only contains the above mentioned routines, if the power up does not reach its goal, from a user point of view the program  just "hangs", since no other output of any kind gives any feedback.
 

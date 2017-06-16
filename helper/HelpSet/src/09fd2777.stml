@@ -1,0 +1,12 @@
+:title Emulation: Card LED
+
+There are a couple of cartridges done by Chris Malcom aka Binarystar, that support a LED in the cartridge.
+
+To actually see the emulation, you need a ROM dump of the card, the "free" version does not contain the corresponding code sections.
+
+There is now a special cartridge flag for supporting this feature.
+
+The actual emulation of that is straight forward. 
+The LED is triggered by the "usual" PB6. If the line is 0, the LED is switched on, if the line is 1, the line is switched off.
+
+:image Xmas.gif|Xmas example

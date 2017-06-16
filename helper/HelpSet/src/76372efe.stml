@@ -37,6 +37,16 @@ Pressing shift with the button, will "save as" - opens a file dialog.
 ##text_columns.png##~~
 Pretty print the current source (assembler only).
 
+:h2 noteworthy Bottom buttons
+
+##font_add.png##~~
+Increase font size of editor.
+
+##font_delete.png##~~
+Decrease font size of editor.
+
+The other buttons should be selfexplanatory.
+
 :h2 Assembling
 Pressing the button: ##control_play_blue.png## ~~
 **starts** the assembler with the current active file as input (file is automatically saved). If successfull, vecxi will automatically be started.~~
@@ -51,7 +61,7 @@ A breakpoint will be set automatically to the first valid instruction of the car
 Pressing the button: ##server_go.png## ~~
 starts the assembler with the current active file as input (file is automatically saved) 
 and if successfull (and a vecxi instance is already running) **injects** the built binary file into the currently running vecxi.
-Vecxi is not reset while doing this, you just “change” the cartridge ROM while running. You can thus experiment with changes to your bin file on the fly without losing RAM data, PC address or breakpoints.
+Vecxi is not reset while doing this, you just "change" the cartridge ROM while running. You can thus experiment with changes to your bin file on the fly without losing RAM data, PC address or breakpoints.
 
 :h2 Ask/F1
 a) You can enter simple "expression" and use the ask field as a small calculator. Conversion between decimal, binary and hex is also supported.
@@ -66,7 +76,7 @@ Placing the cursor over such a "text" within the source, will do the same.
 - optimization messages are colored green
 - info messages are colored black
 
-Error/Warning/Optimization messages are related to the assembled source. They allways consist of two lines of information:~~
+Error/Warning/Optimization messages are related to the assembled source. They always consist of two lines of information:~~
 Line 1: What happened?~~
 Line 2: Where did it happen?~~
 
@@ -95,9 +105,55 @@ ___fillregister b, 2 ; set b to 2~~
 :h2 Other features
 :h3 Bookmarks
 Using SHIFT and CTRL (windows/linux) or CMD (apple) "1"-"0" you can define bookmarks.
-Using CTRL (windows/linux) or CMD (apple) "1"-"0" you can jump to defined bookmarks.
+Using CTRL (windows/linux) or CMD (apple) "1"-"0" you can jump to defined bookmarks. 
+
+Bookmarks are also listed in the corresponding "bookmark" tab at the bottom (you can also double click the table to jump to a bookmark)
 
 Bookmarks can be used "accross" files.
+
+:h3 Breakpoints 
+You can set and delete "simple" breakpoints (pc reaches the location) by clicking on the line number you want to set a breakpoint to. The line number will be shown in red. Clicking the line number again will switch the breakpoint off (toggle). The breakpoints are "file" related - vedi will remember breakpoints by the filename (path) it as set to. All "vedi"-breakpoints are also listed in a table under the tab "breakpoints" at the bottom. Double click on a breakpoints jumps to the file and location of that breakpoint. A popup on the table allows to delete breakpoints from the table.
+
+
+:h3 Watches 
+You access a popup menu in the editor. You can chose to add a watch (for your next vecxi/dissi run) for the word you "popped up on".
+The popup is rather dumb, it adds a watch for anything that you chose - it does no testing whether it actually is a correct label.
+
+Watches are added at the start of vecxi execution in the form of "hey dissi" comments for the corresponding line. In dissi however you will see only watches that make sense (meaning: for labels that actually exist).
+
+All watches for the current file are listed at the bottom on the "watches" tab.
+
+**Note:~~**
+Breakpoints and watches can only defined for the **next** instance of emulation. You can not add/change/delete breakpoints or watches from the editor for the current running vecxi instance. You have to do that from dissi! 
+
+
+:h3 Navigation 
+
+:image NaviConfg.png|Navigation panel
+The panel includes mainly two functions:
+
+- a history~~
+Since on some occasions you can jump to other places in the editor (using bookmarks, breakpoints or middle-doubleclick on labels) I find it sometimes annoying to not easily go back.~~
+The history solves that. You can go back and forth in the history of your jumps at your will. The file and the line number will be remembered and you can go back to the place you edited before.~~
+Use the new arrow buttons (on the navigation panel) to navigate back and forth.
+- a listing of labels~~
+In the navigation panel a table of labels of the current edited file is listed. A double click on the label jumps to the corresponding location in the file.~~
+Now - in (at least my) usual assembler files there are heaps and heaps of labels. So even displaying just labels might be not much help - because there are so many of them.~~
+For that reason you can configure WHAT kind of labels are displayed.
+Following distinctions are be made:
+* equ - labels [resulting from "Variable equ 16"]
+* "=" - labels [resulting from "Variable = 16"]
+* set - labels [resulting from "Variable set 16"]
+* struct - labels [resulting from "struct SomeStruct"]
+* in struct - labels [resulting from " ds Var, 2" (while in struct definition)]
+* line - labels [labels starting an assembler line]
+* data - labels [labels starting an assembler line, and a data statement follows (db, dw, ds, fcb . . . )]
+* function - labels [labels starting an assembler line, after a "closure" (last line was rts, bra, jmp . . .)]
+* user - labels [the comment of the line has the mark "#isFunction"]
+
+All of these different kind of labels can be configured to be shown - or not. Especially if you build new code and mark all your "interesting" sections with the user label - you can navigate really efficiently in your code!
+
+
 :h3 Jump
 CTRL (windows/linux) or CMD (apple) "J" jumps to a line number.
 
@@ -106,3 +162,37 @@ CTRL (windows/linux) or CMD (apple) "R" reapplies syntax highlighting.
 
 :h3 Run/Debug
 F5 runs the current project/file, F6 debugs the current project/file (same as the buttons).
+
+:h3 VecFever support
+:image VecFeverSupport.png|VecFever support
+In the upper bar of Vide there are the shown gui elements.
+
+To use the VecFever in Vide for rapid development do the following:
+
+- insert VecFever into Vectrex
+- switch vectrex on
+- insert usb cable
+
+Do not do it the other way around (first usb, than vectrex on - since than you use the VecFever as an USB-Drive, for our purpose that is not what we want, we want to use it as a RAMDISK)
+
+- enable VecFever support by checking the V4E checkbox
+- (first time only - if the Volume does not change) press the "..." button and select the RAMDISK volume, this should always be named **DEVFEVER**
+- after a few seconds press "seek connection" (connection must be established, that may take a few seconds)
+- in the message window below should be a message "V4E: RAM DISK volume found.", if not wait some more and try again
+- if it still doesn't work - I don't know :-(
+
+If you assemble a binary now, the following will happen, depending on your configuration:
+
+1) Config Miscellaneous "automatically eject attached VecFever on compile success": **checked**
+- the compiled binary will be copied to the RAMDISK with the required name "cart.bin"
+- the RAMDISK will be ejected (at least under windows and mac)
+- if the VecFever is configured right, the binary will at once start on the vectrex
+- pressing reset on the vectrex will return to RAMDISK status and vide will again be ready to compile and transport to RAMDISK (no further setup needed)
+
+2) Config Miscellaneous "automatically eject attached VecFever on compile success": **unchecked**
+- the compiled binary will be copied to the RAMDISK with the required name "cart.bin"
+- you can now either eject the RAMDISK by using the "eject" button or your system
+- or (if VecFever was configured such) press button 4 and start the binary on your vectrex
+ 
+
+

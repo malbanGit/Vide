@@ -1,12 +1,17 @@
 :title Emulation: eEprom DS2430A
 
 Based on the description and vectrex source code from Alex Herbert.
-Emulation is only done in so far, that SP can be read and written,
-this is no FULL emulation of a DS2430!
+Emulation is only done in so far, that SP can be read and written, this is no FULL emulation of a DS2430!
+
+**Addendum**~~
+As I have now access to a Protector LE edition - I tested that bin and enhanced emulation to also support the reading of application registers (values can be stored there by a "Write Once" feature).~~
+The values of those registers can be changed in the carti window (non permanent). 
+
 
 Known cartridges which use this hardware:
 - Thrust
 - Protector/ YASI
+- Protector LE
 
 Statefiles for the eEprom are always saved in the same directory and named as the original cartridge (bin) file, with the additional extension of: ".ds2430.ser".
 ~~(the save-format is java serialization)
@@ -35,4 +40,4 @@ You can view current emulation status by opening a "cartridge" window (in dissi 
 
 The datasheet of the chip can be found in the subdirectory: ~~
 
-documents/hardware/DS2430A.pdf
+documents/hardware/eEprom/DS2430A.pdf

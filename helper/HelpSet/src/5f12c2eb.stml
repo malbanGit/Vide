@@ -1,10 +1,27 @@
 :title vecci
+:label vecci
 Vecci is one of the few entities in VIDE which is not based on software of other programmers, so if you are not content with what you find here - all blame belongs to Malban alone!
 
 Anyway... vecci is is the part of VIDE that concerns itself with vector drawing, vector lists and other display stuff. There are many functions hidden under the complicated seeming gui. But I promise you, once you programmed vecci, you know it by heart and can do wonderfull things with it!
 
+**Contents**~~
+<<vecci#basic|Basic usage>>~~
+<<vecci#wentities|Window entities in short>>~~
+<<vecci#dvectors|Drawing vectors>>~~
+<<vecci#anavigatiom|Additional navigation>>~~
+<<vecci#banimation|Build animation>>~~
+<<vecci#shortcuts|Shortcuts>>~~
+<<vecci#animationScenario|Animations / Scenario>>~~
+<<vecci#vecciFormat|Vecci format (Save/Load)>>~~
+<<vecci#other|Other stuff>>~~
+
+<<vecciImport|Import>>~~
+<<vecciExport|Export>>~~
+<<vecciStoryboard|Storyboard>>~~
+
 :image veccy.png|vecci window
 
+:anchor basic
 :h2 Basic
 
 :h3 Colors
@@ -66,6 +83,7 @@ An animation consists of an arbitrary number of vectorlists. As of now these can
 **Note!**~~
 The DISPLAY panel can be switched from "vectorlist" display to "animation/scenario" display using the "play" button!
 
+:anchor wentities
 :h2 Window entities in short
 - the "black" panels are vector displays or editors
 - editing can only be done in the upper half of vecci, in the vector editor panel(s) or in the vector table
@@ -143,6 +161,7 @@ Following information is provided:
 + also displayed are the min/max coordinates of vectors and the maximal length found (which will be red if larger than 127)
 
 :h2 Drawing vectors
+:anchor dvectors
 
 :h3 Mode
 There are as of yet three different modes, vecci can be set to. Depending on the mode settings you can do different things.
@@ -198,6 +217,9 @@ To "unselect" a single vector, keep shift pressed and click the vector you want 
 
 Right click on a vector gives you (depending on current circumstances) more options, a popup menu will be displayed.
 
+**Note:**~~
+The copy and paste functions do only work with vectors. That also means, that these functions only work, if the mode is set to "select vector"
+
 :h3 Popup / Point selection
 
 ::Always::~~
@@ -234,9 +256,19 @@ x Points selected~~
   rips two (truly) joined vectors 
 
 :h3 Popup / Vector selection
-Here you only have two selections:
-- delete selected 
-- delete not selected
+Here you only have selections:
+- delete selected ~~
+  delete the current selected vector(s)
+- delete not selected~~
+  delete all currently not selected vectors
+- insert point~~
+  in the current selected insert a point in the middle (splits the vector in 2 halfs)
+- switch orientation~~
+  changes the "direction" of a vector -> swaps start and end vertex
+:image Orientation.png|switch orientation example
+- remove middle point~~
+  only if you have two directly connected vectors selected - removes the middle point (opposite to "insert point")
+:image RemovePoint2.png|remove point example
 
 :h3 Visual
 On the same Tab as the mode selects there are also some additional options available:
@@ -247,7 +279,29 @@ Draw a number on each vector which shows the ordering position in the vectorlist
 - moves visible~~
 If checked move vectors (pattern = 0) are displayed using a dark blue color.
 
-:h2 build animation
+:anchor anavigatiom
+:h2 Additional navigation
+In the main view there is a button "pad" with which you can "scroll" the viewport in all directions (scrollstep width is the width of the current used grid) [double click the center -> centers the viewport]
+
+You can also "drag" the viewport by using the mouse. While keeping the CTRL key pressed you can drag the viewport location.
+
+The button ##application_get.png## below the mentioned button "pad" opens a large (resizable) editor window (the window is completely synchronized with vecci).
+
+The button ##application_view_gallery.png## below the mentioned button "pad" opens a large (resizable) 3d-editor window. ~~Here you can:
+* **not** add vectors, only move and work with vectors
+* CTRL mouse moves the viewport
+* scaling is possible
+* sliders for all 3 axis (independend of other views)
+* checkboxes for "grid" for each axis 
+* checkbox for "move allowed" for each axis 
+* axis can be shown or hidden (independend of other views)
+* byte "cube" (frame) can be shown/hidden
+
+The advantage of this window is that you can chose a "perspective" view of a 3d-vectorlist and edit directly. The window is completely synchronized with vecci and any other editing "instance".
+:image vecci3d.png|3d editor
+
+:anchor banimation
+:h2 Build animation
 Under this tab there are a few functions to build animations or scenarios from the current vectorlist.
 
 :h3 Rotation
@@ -267,10 +321,15 @@ a) is always the original vectorlist
 b) is always the given "max angle" applied to the vectorlist
 c) are all steps in between
 
+If you check the "+/-" checkbox behind the angle the rotation will be clockwise, if you leave it unchecked, the rotation will be anti-clockwise.
+
 :image test.gif|Rotation example
 
 :h3 Morphing
 You can also "morph" from one vectorlist to another. The two first vectorlists in the current animation (see below) are used as input. You can chose the number of steps you wish to use.
+
+In order for the morphing to work correctly the vectorlists have to "good".
+ 
 :image ChrisFrog.gif|Morph example
 
 :h3 Scenario
@@ -281,6 +340,7 @@ The opposite function is the "join" function in the animation/scenario section.
 ~~Example:~~
 ##splitExample1.png## <-> ##splitExample2.png##
 
+:anchor shortcuts
 :h2 Shortcuts
 :image shortcuts.png|shortcuts
 There are a couple of "helper" functions provided, these function on complete vectorlists (not animations(yet) ).
@@ -301,6 +361,8 @@ Tests all vector lengths, if a vector is longer in any dimension than 127 "pixel
 This ensures all points are connected (but no circular connection is formed, meaning start and end points are not connected). "Ordering" is invoked upon start, apart from reordering no vectors are changed, new vectors are inserted, where gaps were found. The new vectors are always "moves" (pattern = 0), new vectors are always smaller than 128.~~
 ##noFilled.png## <-> ##gapsFilled.png##
 - remove dots~~
+Removes "vectors" where the start vertex and the end vertex denote the same coordinates.~~
+You can also chose to do that only in respect to x/y axis.
 - fit byte~~
 enlarges/shrinks the current vectorlists to optimally fit into the byte range~~
 
@@ -311,8 +373,55 @@ There are "strange" cases of vectorlists, when above implemented shortcuts may n
 Here you see a start vector going off in one direction and the start location is JOINED with two other vectors (a three-way join) which forms a closed polygon.~~
 This and similar constructs are not easy to analyse and handle correctly. I have not even tried very hard - if you have vectorlists like that, please optimize them by hand!
 
+:h2 Shortcuts 2
+The second tab of shortcuts was introduced to automatically improve "large" vectorlists - mainly used for animation and storyboard purposes. 
+
+For "small" animations used as "sprites" in a game, these routines are "overkill" and might even be totally inappropriate, since the "structure" of the list will most likely be changed.
+
+Due to the nature of the routines and depending on the available computing power/RAM. The routines may take some time to finish.~~ ~~
+Please save the current work beforehand, the only way to "break" the current computation is to shutdown Vide.
+
+The routines work best when combined. A good result can usually be achieved by pressing "Isidro All".
+That button executes the single functions:
+- disconnect all
+- remove move vectors
+- remove idouble vectors
+- remove dots
+- connect longest paths ++ (without respect zero)
+
+But - possibly this is not the best result to achieve. Each vectorlist needs to be optimized (!) in different ways.
+
+- disconnect all~~
+Removes all relations between vectors. Each vector is a single "instance" and does not (vecci internally) share any vertice with another vector.~~ ~~For the other routines on this tab to work as expected and to leave all automated optimization possibilities open - this is always the first step (most of the following buttons inherently call a disconnect all inherenly).
+
+- remove move vectors~~
+All invisible (move vectors) [vectors with pattern = 0] are removed.
+
+- remove double vectors~~
+All vectors with the same start and end point are removed.
+
+- remove idouble vectors~~
+All vectors with the same start and end point are removed.~~
+Also all vectors which are "inverse" are removed, "start = end" and "end = start".
+
+- optimize size~~
+The relation of vector scale and vector strength is optimized. While in theory this sounds good - and often is - sometimes this is a pessimization.~~
+The reason is, that in large vector drawings using the synced vector draw format the "syncing" also uses vectors (move vectors to be precise) to "return" to the sync point. ~~
+Optimized large vectorlists can often have sync points "far away" from point zero, so the sync return might be realized using quite a few move vectors. You have to test each vectorlist - if this optimization is realy suitable!
+~~
+All these sync move vectors can not be taken into account within this calculation, since the optimization does not know in what format the final drawing on a vectrex will be done. Those move vectors can totally be counter productive and result in an overall worse result!
+ 
+- connect longest paths~~
+This routines rekursively searches the complete vectorlist for the longest possible path vectors can be drawn in one go - and connects those vectors. ~~
+The result is a vectorlist with several relative vector paths. ~~[The result still might not be the optimal connection, since the longest path that is found first, might hinder possibly several shorter paths which in turn would result in an over all better connection count]
+
+- connect longest paths ++~~
+This is the same as "connect longest paths", in addition the found paths are connected (with move vectors) (in the shortes possible way). The result is a vectorlist which can be drawn in one go (with move vectors in between).~~ ~~
+Here you also can switch on the option "respect zero". If that option is switched on - it is checked whether the needed move vector between to paths is larger than the move needed from the zero location. If the move is larger - NO move vector is generated (and thus a "sync" point is forced). In this case the resulting vectorlist can not be drawn in one go.
 
 
+
+:anchor animationScenario
 :h2 Animations / Scenario
 (for a picture look at "Rotation")~~
 Animations/Scenarios are both a collection of different vectorlists. I differ the two entities because one displays all vectorslists at the same time (scenario) the other plays each vectorlist after another (with a delay) to create the illusion of an animation. ~~
@@ -332,7 +441,7 @@ SHIFT clicking the buttons MOVES one animation frame in the corresponding direct
 - "clear" ~~ completely clears the current animation
 - "join" ~~ This joins all vectorlist entries in the current animation/scenario into one single vectorlist
 
-
+:anchor vecciFormat
 :h2 Vecci format (Save/Load)
 The vecci save format is a straight forward XML-File with all data in appropriate sub structures.
 
@@ -344,6 +453,7 @@ The vecci save format is a straight forward XML-File with all data in appropriat
 
 If need should arise I can also provide a "JSON" format.
 
+:anchor other
 :h2 Other stuff
 
 :h3 Line

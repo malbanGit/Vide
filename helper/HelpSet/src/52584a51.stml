@@ -31,14 +31,18 @@ With these controls you edit the YM-Data, not the PSG registers!
 
 Below each control you can see (sometimes colored) textfields. The textfields show you the same data as the above controls. You can also edit the values in numerical form via these textfields.~~
 
-
 Note:~~
 A double click on a textfield sends the data to the PSG-emulator of the YM-Panel!
+
+Note:~~
+A SHIFT double click on a textfield sets the current data to the **complete** column.
 
 Below the textfields you see a checkbox for each of the registers. 
 These checkboxes enable/disable the denoted registers, enables/disables means:
 - the YM-Player recognizes the switches and plays only the channels which are enabled
 - the source code generator of the ym-panel also recognizes the switches and only data (and the player) is generated for the selected registers
+
+The 3 additional buttons "1<>2", "2<>3" and "3<>1"  switch complete channel data within the PSG (including frequency, amplitude and enable settings).
 
 :h3 Channels
 As you can see the channel specific data words/bytes/bits are colored consistently for each of the three available channels.
@@ -54,6 +58,14 @@ On the top there are a couple of special buttons, here a short description:
 - ##cut.png## __**cut selected rows**~~ The current selected rows are deleted, but also placed in the buffer
 - ##page_add.png## __**insert ym file**~~Insert another YM-file befor the current active row.
 - ##page_edit.png## __**save selection as ym file**~~Save the current selected rows as a YM-file.
+- ##drive_user.png## __**insert ascii value file**~~Add ascii "source" ym data from a source file.
+
+Last data must have a "pure" form like:~~
+::
+_____$50, $00, $F0, $00, $40, $00, $18, $31, $00, $02, $02, $00, $00, $00~~
+_____$50, $00, $F0, $00, $80, $00, $18, $31, $00, $02, $04, $00, $00, $00~~
+_____$50, $00, $F0, $00, $B0, $00, $18, $31, $02, $01, $04, $00, $00, $00~~
+::
 
 
 :h2 YM-Player
@@ -73,7 +85,29 @@ Below the player buttons, you can see listed the meta-data that was gathered fro
 Not all YM-versions supply all data fields, so some may be empty.
 
 :h3 Source-generater
-Below the YM-file information you see a two button and two checkboxes, with those you can influence (or start) the generation of source files. They are pretty self explainatory.
+Below the YM-file information you see two buttons and two checkboxes, with those you can influence (or start) the generation of source files. They are pretty self explainatory, see also the sub chapter on "YM vectrex generator"
+
+:h2 Lister
+There is a tab called "Lister". Within that tab you see a listing of all ym files that were in the directory your last ym file was loaded from.
+
+Double clicking an entry loads the ym file.
+
+:h2 more configuration
+:image YMAmplitude.png|more configuration
+PreProcess~~
+If switched on the ym data will be preprocessed. Meaning values will be changed to represent the state of the according enable registers.
+E.g. if channel one is disabled, that the accordings frequency and amplitude registers are set to "0" (zero).
+
+Some files pack better with preprocessing, some worse. Here only trials can figure out the best settings
+
+Amplitude~~
+The "\<<" and "\>>" button shift the amplitude of the corresponding channel 1 bit (double or half the value).
+The "mul" in the same line allows the multiplication of the amplitude with a "double" (result are 4 bit integers again).
+
+Force Channel~~
+Only relevant for streamed output.~~
+Streamed output examines the ym data and leaves out registers that do not change at all. With these checkboxes you can force streamed output even for registers that do not change at all.
+
 
 :h2 AYFX Support
 The last available feature is support for AYFX files (see the other chapter where these may come from).

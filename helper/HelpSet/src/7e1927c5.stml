@@ -1,0 +1,21 @@
+:title "good" Vectorlists
+
+Some function in Vecci only work with good vectorlists.
+What makes a vectorlist good?
+
+- a the vectorlist is ordered
+- all vectors are connected with their natural order
+- all vectors face the "correct" direction
+- all vectors have a length smaller than 127/128 (depending on the sign)
+
+(missing is the point - all vectors are drawn "full" with a pattern of 255)
+
+Think of good vectorlists as a drawing you can make with a pencil, without ever taking the pencil off the paper - BUT you can change the ink of your pencil in between to make it invisible and later visible again.
+
+These vectors can be exported to any of the supplied formats - that does not contain a "vlc" in its name.
+
+They are in general quite performant.
+They should not be longer than (about) twenty vectors (otherwise on a real vectrex they will "drift").
+
+
+
