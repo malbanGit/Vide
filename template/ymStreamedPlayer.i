@@ -103,6 +103,13 @@ voice0AmplitudeBit2Done:
                     lbeq     voice0AmplitudeBit3Done 
                     inca     
 voice0AmplitudeBit3Done: 
+                    if       HAS_ENVELOPE = 1 
+                    lsla     
+                    GET_BIT  
+                    lbeq     voice0AmplitudeBit4Done 
+                    inca     
+voice0AmplitudeBit4Done: 
+                    endif    
                     STORE_PSG  8 
 voice0Amplitudedone: 
 ; check if noise, when next bit is set, than noise
@@ -132,9 +139,9 @@ voice0SetTone:
 voice0SetNoTone: 
                     ora      #(%00000001)                 ; set bit 0 to 1 
 voice0ToneDone: 
-;                    sta      $C807                        ; and store the value to shadow 
                     endif    
                     endif    
+                    sta      $C807                        ; load reg 7 shadow 
 ; check voice 0 low frequence, if next bit is one, set it
                     GET_BIT  
                     lbeq     voice0NoLowFreq 
@@ -240,6 +247,13 @@ voice1AmplitudeBit2Done:
                     lbeq     voice1AmplitudeBit3Done 
                     inca     
 voice1AmplitudeBit3Done: 
+                    if       HAS_ENVELOPE = 1 
+                    lsla     
+                    GET_BIT  
+                    lbeq     voice1AmplitudeBit4Done 
+                    inca     
+voice1AmplitudeBit4Done: 
+                    endif    
                     STORE_PSG  9 
 voice1Amplitudedone: 
 ; check if noise, when next bit is set, than noise
@@ -271,7 +285,7 @@ voice1SetNoTone:
 voice1ToneDone: 
                     endif    
                     endif    
-;                    sta      $C807                        ; and store the value to shadow 
+                    sta      $C807                        ; and store the value to shadow 
 ; check voice 1 low frequence, if next bit is one, set it
                     GET_BIT  
                     lbeq     voice1NoLowFreq 
@@ -377,6 +391,13 @@ voice2AmplitudeBit2Done:
                     lbeq     voice2AmplitudeBit3Done 
                     inca     
 voice2AmplitudeBit3Done: 
+                    if       HAS_ENVELOPE = 1 
+                    lsla     
+                    GET_BIT  
+                    lbeq     voice2AmplitudeBit4Done 
+                    inca     
+voice2AmplitudeBit4Done: 
+                    endif    
                     STORE_PSG  10 
 voice2Amplitudedone: 
 ; check if noise, when next bit is set, than noise
@@ -394,6 +415,7 @@ voice2SetNoNoise:
 voice2NoiseDone: 
                     endif    
                     endif    
+                    sta      $C807                        ; save reg 7 shadow 
 ; check if tone, when next bit is set, than noise
                     if       HAS_DIF_TONE2 = 1 
                     if       HAS_TONE2 = 1 
@@ -516,7 +538,129 @@ noiseBit4Done:
                     STORE_PSG  6 
                     endif    
 noNoiseData: 
-;                    lda      $c807 
-;                    STORE_PSG  7 
+
+                    if       HAS_ENVELOPE = 1 
+                    GET_BIT  
+                    lbeq     noEnvData 
+
+                    lda      #0 
+                    GET_BIT  
+                    lbeq     envBit0Done 
+                    inca     
+envBit0Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envBit1Done 
+                    inca     
+envBit1Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envBit2Done 
+                    inca     
+envBit2Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envBit3Done 
+                    inca     
+envBit3Done: 
+
+                    STORE_PSG 13
+noEnvData:
+
+                    GET_BIT  
+                    lbeq     noEnvFreqData 
+                    lda      #0 
+                    GET_BIT  
+                    lbeq    envFreqHiBit0Done 
+                    inca     
+envFreqHiBit0Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqHiBit1Done 
+                    inca     
+envFreqHiBit1Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqHiBit2Done 
+                    inca     
+envFreqHiBit2Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqHiBit3Done 
+                    inca     
+envFreqHiBit3Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqHiBit4Done 
+                    inca     
+envFreqHiBit4Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqHiBit5Done 
+                    inca     
+envFreqHiBit5Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqHiBit6Done 
+                    inca     
+envFreqHiBit6Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqHiBit7Done 
+                    inca     
+envFreqHiBit7Done: 
+                    STORE_PSG  11
+
+                    lda      #0 
+                    GET_BIT  
+                    lbeq    envFreqLoBit0Done 
+                    inca     
+envFreqLoBit0Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqLoBit1Done 
+                    inca     
+envFreqLoBit1Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqLoBit2Done 
+                    inca     
+envFreqLoBit2Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqLoBit3Done 
+                    inca     
+envFreqLoBit3Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqLoBit4Done 
+                    inca     
+envFreqLoBit4Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqLoBit5Done 
+                    inca     
+envFreqLoBit5Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqLoBit6Done 
+                    inca     
+envFreqLoBit6Done: 
+                    lsla     
+                    GET_BIT  
+                    lbeq     envFreqLoBit7Done 
+                    inca     
+envFreqLoBit7Done: 
+                    STORE_PSG  12
+
+
+
+
+noEnvFreqData:
+                    endif    
+ 
+
+                    lda      $c807 
+                    STORE_PSG  7 
 done: 
                     rts      

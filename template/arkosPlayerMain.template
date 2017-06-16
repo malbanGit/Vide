@@ -1,0 +1,90 @@
+;***************************************************************************
+; DEFINE SECTION
+;***************************************************************************
+; load vectrex bios routine definitions
+                    INCLUDE  "VECTREX.I"          ; vectrex function includes
+
+;***************************************************************************
+; Variable / RAM SECTION
+;***************************************************************************
+; insert your variables (RAM usage) in the BSS section
+; user RAM starts at $c880 
+                    BSS      
+                    ORG      $c880                ; start of our ram space 
+
+;***************************************************************************
+; HEADER SECTION
+;***************************************************************************
+; The cartridge ROM starts at address 0
+                    CODE     
+                    ORG      0 
+; the first few bytes are mandatory, otherwise the BIOS will not load
+; the ROM file, and will start MineStorm instead
+                    DB       "g GCE 1998", $80    ; 'g' is copyright sign
+                    DW       music1               ; music from the rom 
+                    DB       $F8, $50, $20, -$80  ; hight, width, rel y, rel x (from 0,0) 
+arkosPlayerString:
+                    DB       "ARKOS PLAYER", $80      ; some game information, ending with $80
+                    DB       0                    ; end of game header 
+
+;***************************************************************************
+; CODE SECTION
+;***************************************************************************
+; here the cartridge program starts off
+ ldu #aks_song
+ jsr    PLY_INIT 
+ bra main
+main: 
+                    JSR      Wait_Recal           ; Vectrex BIOS recalibration 
+                    JSR      Intensity_5F         ; Sets the intensity of the 
+                                                  ; vector beam to $5f 
+                    LDU      #arkosPlayerString  ; address of string 
+                    LDA      #$10                 ; Text position relative Y 
+                    LDB      #-$50                ; Text position relative X 
+                    JSR      Print_Str_d          ; Vectrex BIOS print routine 
+
+ bsr    PLY_PLAY   
+ bsr do_ym_sound2
+
+                    BRA      main                 ; and repeat forever 
+
+;***************************************************************************
+
+do_ym_sound2  
+                                             ;#isfunction  
+                    direct   $d0 
+; copy all shadows
+                    lda      #13                          ; number of regs to copy (+1) 
+                    ldx      #Vec_Music_Work              ; music players write here 
+                    ldu      #Vec_Snd_Shadow              ; shadow of actual PSG 
+next_reg_dsy: 
+                    ldb      a, x 
+                    cmpb     a, u 
+                    beq      inc_reg_dsy 
+; no put to psg
+                    stb      a,u                          ; ensure shadow has copy 
+; a = register
+; b = value
+                    STA      <VIA_port_a                  ;store register select byte 
+                    LDA      #$19                         ;sound BDIR on, BC1 on, mux off _ LATCH 
+                    STA      <VIA_port_b 
+                    LDA      #$01                         ;sound BDIR off, BC1 off, mux off - INACTIVE 
+                    STA      <VIA_port_b 
+                    LDA      <VIA_port_a                  ;read sound chip status (?) 
+                    STB      <VIA_port_a                  ;store data byte 
+                    LDB      #$11                         ;sound BDIR on, BC1 off, mux off - WRITE 
+                    STB      <VIA_port_b 
+                    LDB      #$01                         ;sound BDIR off, BC1 off, mux off - INACTIVE 
+                    STB      <VIA_port_b 
+inc_reg_dsy: 
+                    deca     
+                    bpl      next_reg_dsy 
+
+doneSound_2:
+                    rts      
+ include "arkosPlayer.i"
+;***************************************************************************
+; DATA SECTION
+;***************************************************************************
+aks_song:
+ include "#AKS_DATA#"

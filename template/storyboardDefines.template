@@ -1,0 +1,58 @@
+
+
+;***************************************************************************
+; DEFINE SECTION
+;***************************************************************************
+; load vectrex bios routine definitions
+Vec_Pattern         EQU      $C829                        ;Dot pattern (bits) 
+music1              EQU      $FD0D 
+VIA_port_b          EQU      $D000                        ;VIA port B data I/O register 
+VIA_port_a          EQU      $D001                        ;VIA port A data I/O register (handshaking) 
+VIA_t1_cnt_lo       EQU      $D004                        ;VIA timer 1 count register lo (scale factor) 
+VIA_t1_cnt_hi       EQU      $D005                        ;VIA timer 1 count register hi 
+VIA_shift_reg       EQU      $D00A                        ;VIA shift register 
+VIA_cntl        EQU     $D00C   ;VIA control register
+VIA_int_flags       EQU      $D00D                        ;VIA interrupt flags register 
+Intensity_5F        EQU      $F2A5                        ; 
+Intensity_a         EQU      $F2AB   ;
+Wait_Recal          EQU      $F192                        ; 
+Draw_VLp            EQU      $F410                        ;pattern y x pattern y x ... $01 
+Moveto_d            EQU      $F312                        ; 
+Check0Ref           EQU      $F34F                        ; 
+
+_INTENSITY_A        macro    
+                    STA      <VIA_port_a                  ;Store intensity in D/A 
+                    LDD      #$0504                       ;mux disabled channel 2 
+                    STA      <VIA_port_b                  ; 
+                    STB      <VIA_port_b                  ;mux enabled channel 2 
+                    STA      <VIA_port_b                  ;turn off mux 
+                    endm     
+
+MY_MOVE_TO_D_START  macro    
+                    STA      <VIA_port_a                  ;Store Y in D/A register 
+                    LDA      #$CE                         ;Blank low, zero high? 
+                    STA      <VIA_cntl                    ; 
+                    CLRA     
+                    STA      <VIA_port_b                  ;Enable mux ; hey dis si "break integratorzero 440" 
+                    STA      <VIA_shift_reg               ;Clear shift regigster 
+                    INC      <VIA_port_b                  ;Disable mux 
+                    STB      <VIA_port_a                  ;Store X in D/A register 
+                    STA      <VIA_t1_cnt_hi               ;enable timer 
+                    endm     
+MY_MOVE_TO_A_END    macro    
+                    local    LF33D 
+                    LDA      #$40                         ; 
+LF33D:              BITA     <VIA_int_flags               ; 
+                    BEQ      LF33D                        ; 
+                    endm     
+MY_MOVE_TO_B_END    macro    
+                    local    LF33D 
+                    LDB      #$40                         ; 
+LF33D:              BITB     <VIA_int_flags               ; 
+                    BEQ      LF33D                        ; 
+                    endm     
+MY_MOVE_TO_D        macro    
+; optimzed, tweaked not perfect... 'MOVE TO D' makro
+                    MY_MOVE_TO_D_START  
+                    MY_MOVE_TO_B_END  
+                    endm     

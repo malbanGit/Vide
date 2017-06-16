@@ -24,12 +24,16 @@ do_ym_sound:
                 ldy     ym_reg_base           ; get start address of regs we want to use
                 lda     ,y+                   ; reg to use in a
 next_reg:
-
+ cmpa #$d
+ bne no13
+ cmpb #$ff
+ beq noOutput
+no13
                 ldb     ,u+
                 ; A PSG reg
                 ; B data
                 jsr     Sound_Byte            ; and actually output that to the sound chip
-
+noOutput:
                 lda     ,y+                   ; reg to use in a
                 bpl     next_reg              ; we do not branch :-)
 ymsodone:

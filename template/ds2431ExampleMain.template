@@ -15,7 +15,11 @@
 ; EEPROM constants
 EEPROM_CHECKSUM equ     $87             ; any value other than $00 or $e0
 ; Variables 
-eeprom_buffer   ds      32              ; 32 byte buffer
+eeprom_buffer   
+eeprom_buffer1   ds      32              ; 32 byte buffer
+eeprom_buffer2   ds      32              ; 32 byte buffer
+eeprom_buffer3   ds      32              ; 32 byte buffer
+eeprom_buffer4   ds      32              ; 32 byte buffer
 
 ;***************************************************************************
 ; HEADER SECTION
@@ -35,6 +39,13 @@ eeprom_buffer   ds      32              ; 32 byte buffer
 ; CODE SECTION
 ;***************************************************************************
 ; here the cartridge program starts off
+
+; #of bytes to store
+; maximum 128
+; minumum 8, in steps of 8 bytes
+; startaddress as of now is always "0" (from passed storage pointer)
+
+EEPROM_STORESIZE EQU 128
 start:
                     JSR      eeprom_load
                     inc      eeprom_buffer
@@ -78,8 +89,8 @@ eeprom_defaults
 
 
 eeprom_load
-        ldx     #eeprom_buffer          ;
-        jsr     ds2430_load             ; load 32 byte eeprom to ram
+        ldx     #eeprom_buffer1          ;
+        jsr     ds2431_load             ; load 32 byte eeprom to ram
 
 
 
@@ -97,7 +108,7 @@ eeload_loop                             ;
 
 eeprom_format
         ldu     #eeprom_defaults        ;
-        ldx     #eeprom_buffer          ;
+        ldx     #eeprom_buffer1          ;
         ldb     #$1f                    ;
 eeformat_loop                           ; copy default data (rom) to ram
         pulu    a                       ;
@@ -107,7 +118,7 @@ eeformat_loop                           ; copy default data (rom) to ram
 
 
 eeprom_save
-        ldx     #eeprom_buffer          ;
+        ldx     #eeprom_buffer1          ;
         ldd     #(EEPROM_CHECKSUM<<8)+$1f ;
 eesave_loop                             ;
         suba    ,x+                     ; create checksum byte
@@ -115,13 +126,13 @@ eesave_loop                             ;
         bne     eesave_loop             ;
         sta     ,x                      ;
 
-        ldx     #eeprom_buffer          ;
-        jsr     ds2430_verify           ; compare ram to eeprom
+        ldx     #eeprom_buffer1          ;
+        jsr     ds2431_verify           ; compare ram to eeprom
         tsta                            ;
-        lbne     ds2430_save            ; if different, then update eeprom
+        lbne     ds2431_save            ; if different, then update eeprom
 
         rts
 
 ; Include the driver files
-        include "ds2430LowLevel.i"
-        include "ds2430HighLevel.i"
+        include "ds2431LowLevel.i"
+        include "ds2431HighLevel.i"

@@ -7,9 +7,9 @@
                     DEC      VIA_shift_reg                ;Put pattern in shift register 
                     STA      VIA_t1_cnt_hi                ;enable timer 1 
                     LDA      #$40                         ;B-reg = T1 interrupt bit 
+                    CLRB                                  ;Wait a moment more 
 T1_WAIT_LOOP%UID%: 
                     BITA     VIA_int_flags                ;Wait for T1 to time out 
                     BEQ      T1_WAIT_LOOP%UID%            ; 
-                    CLRA                                  ;Wait a moment more 
-                    STA      VIA_shift_reg                ;Clear shift register (blank output) 
+                    STB      VIA_shift_reg                ;Clear shift register (blank output) 
 ; codeGen Draw end

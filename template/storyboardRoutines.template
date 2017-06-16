@@ -1,0 +1,183 @@
+
+;***************************************************************************
+; in U pointer to lane RAM
+; in X pointer to lane Data
+initLane:
+ stx LANE_ROM_DATA, u
+ ldx ,x ; first element
+  clr LANE_CURRENT_ELEMENT,u
+ 
+
+init_element:
+
+ lda ELEMENT_LOOP_VALUE,x ;
+ sta LANE_LOOP_COUNT,u
+
+ lda ELEMENT_MOVE_SCALE,x ;  
+ sta LANE_CURRENT_MOVE_SCALE,u
+
+ lda ELEMENT_ANIM_DELAY ,x 
+ sta LANE_DELAY_COUNT, u
+ clr LANE_ANIM_COUNT, u
+
+; SCALE
+ lda ELEMENT_SCALE_START,x ;  
+ sta LANE_CURRENT_DRAW_SCALE,u
+ lda ELEMENT_SCALE_DELAY,x 
+ sta LANE_SCALE_DELAY,u
+ lda ELEMENT_SCALE_INCREASE,x
+ sta LANE_SCALE_INCREASE,u
+
+; INTENSITY
+ lda ELEMENT_INTENSITY_START,x ;  
+ sta LANE_CURRENT_INTENSITY,u
+ lda ELEMENT_INTENSITY_DELAY,x 
+ sta LANE_INTENSITY_DELAY,u
+ lda ELEMENT_INTENSITY_INCREASE,x
+ sta LANE_INTENSITY_INCREASE,u
+
+; POS
+ ldd ELEMENT_POS_START,x ;  
+ std LANE_CURRENT_POSITION,u
+ ldd ELEMENT_POS_DELAY,x 
+ std LANE_POS_DELAY,u
+ ldd ELEMENT_POS_INCREASE,x
+ std LANE_POS_INCREASE,u
+
+ ldd ELEMENT_DRAW,x
+ std LANE_DRAW,u
+ 
+ ldd ELEMENT_END_COUNT, x
+ std LANE_ELEMENT_COUNT, u
+draw_pause: ; some direct RTS
+ rts
+
+; pointer to lane RAM in Y
+initNextElement
+
+ ldx LANE_ROM_DATA,y
+ lda LANE_CURRENT_ELEMENT, y
+ asla
+ ldx a,x
+; check for goto
+ lda ELEMENT_BEHAVIOUR,x
+ anda #BEHAVIOUR_GOTO
+ beq not_gotoElement
+ lda ELEMENT_GOTO_VALUE,x
+ deca
+ sta LANE_CURRENT_ELEMENT,y
+
+not_gotoElement:
+ tfr y,u
+ inc LANE_CURRENT_ELEMENT,y
+ lda LANE_CURRENT_ELEMENT,y
+
+ ldx LANE_ROM_DATA,y
+ asla
+ ldx a,x
+ bne not_last_element 
+ lda #$ff
+ sta LANE_CURRENT_ELEMENT,y
+ bra not_gotoElement
+not_last_element
+ jsr init_element
+;***************************************************************************
+
+; pointer to lane RAM in Y
+doLane
+ ldx LANE_ELEMENT_COUNT,y
+ leax -1,x
+ stx LANE_ELEMENT_COUNT,y ; dec element counter
+
+ beq initNextElement
+continueWithElement
+
+ ldx LANE_ROM_DATA,y
+ lda LANE_CURRENT_ELEMENT, y
+ asla
+ ldx a,x
+
+; in x pointer to ROM element data struct
+ dec LANE_DELAY_COUNT,y
+ bne drawCurrentAnimationFrame
+ lda ELEMENT_ANIM_DELAY ,x 
+ sta LANE_DELAY_COUNT, y
+ inc LANE_ANIM_COUNT, y
+
+ CLRA
+    LDB      LANE_ANIM_COUNT,y     ; current animation frame
+    ASLB                          ; times two since it is a word pointer
+ ROLA
+    LDU      ,x               ; address of data 
+    LDU      d,U
+ bne drawCurrentAnimationFrame
+; otherwise this animation is done
+; check for loop - or init next lane element!
+ clr LANE_ANIM_COUNT, y ; for now reset animation
+; todo check for "stay"continueWithElement
+
+drawCurrentAnimationFrame:
+ lda LANE_SCALE_INCREASE,y
+ beq noScaleChange
+ dec LANE_SCALE_DELAY,y
+ bne noScaleChange
+ adda LANE_CURRENT_DRAW_SCALE,y
+ sta LANE_CURRENT_DRAW_SCALE,y
+ lda ELEMENT_SCALE_DELAY,x
+ sta LANE_SCALE_DELAY,y
+noScaleChange
+
+ lda LANE_INTENSITY_INCREASE,y
+ beq noIntensityChange
+ dec LANE_INTENSITY_DELAY,y
+ bne noIntensityChange
+ adda LANE_CURRENT_INTENSITY,y
+ sta LANE_CURRENT_INTENSITY,y
+ lda ELEMENT_INTENSITY_DELAY,x
+ sta LANE_INTENSITY_DELAY,y
+noIntensityChange
+
+ lda LANE_POS_INCREASE_X,y
+ beq noXChange
+ dec LANE_POS_DELAY_X,y
+ bne noXChange
+ adda LANE_CURRENT_POSITION_X,y
+ sta LANE_CURRENT_POSITION_X,y
+ lda  ELEMENT_POS_DELAY_X,x
+ sta LANE_POS_DELAY_X,y
+noXChange
+
+ lda LANE_POS_INCREASE_Y,y
+ beq noYChange
+ dec LANE_POS_DELAY_Y,y
+ bne noYChange
+ adda LANE_CURRENT_POSITION_Y,y
+ sta LANE_CURRENT_POSITION_Y,y
+ lda ELEMENT_POS_DELAY_Y,x
+ sta LANE_POS_DELAY_Y,y
+noYChange
+
+ lda LANE_CURRENT_INTENSITY,y
+ bmi noIntensity
+ _INTENSITY_A
+noIntensity
+; todo set intensity - when another vlist that extended sync is done
+
+ CLRA
+    LDB      LANE_ANIM_COUNT,y     ; current animation frame
+    ASLB                          ; times two since it is a word pointer
+ ROLA
+    LDU      ,x               ; address of data 
+    LDU      d,U
+
+    LDd      LANE_CURRENT_POSITION,y     ; current animation frame
+    tfr      d,x                          ; in x position of list 
+
+; A scale positioning 
+; N scale move in list 
+ ldd LANE_CURRENT_MOVE_SCALE, y
+
+
+    JSR      [LANE_DRAW, y]      ; Vectrex BIOS print routine 
+
+ rts

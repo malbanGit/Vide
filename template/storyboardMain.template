@@ -1,0 +1,48 @@
+
+;***************************************************************************
+; HEADER SECTION
+;***************************************************************************
+; The cartridge ROM starts at address 0
+                    CODE     
+                    ORG      0 
+; the first few bytes are mandatory, otherwise the BIOS will not load
+; the ROM file, and will start MineStorm instead
+                    DB       "g GCE 1998", $80    ; 'g' is copyright sign
+                    DW       music1               ; music from the rom 
+                    DB       $F8, $50, $20, -$80  ; hight, width, rel y, rel x (from 0,0) 
+                    DB       "STORYBOARD", $80  ; some game information, ending with $80
+                    DB       0                    ; end of game header 
+
+;***************************************************************************
+; CODE SECTION
+;***************************************************************************
+; here the cartridge program starts off
+
+ ldu #(laneRAM-laneData)
+
+;INSERT LANE INIT CODE
+
+ ldd #0
+ std roundCounter
+ leau laneData,u
+ std ,u
+
+main: 
+                    JSR      Wait_Recal           ; Vectrex BIOS recalibration 
+
+ ldy #laneRAM
+doNextLane
+ ldd ,y
+ beq lanesDone
+ jsr doLane
+ leay laneData,y
+ bra doNextLane
+lanesDone:
+
+; increase round counter!
+ ldx roundCounter
+ leax 1,x
+ stx roundCounter
+                    BRA      main                 ; and repeat forever 
+
+
