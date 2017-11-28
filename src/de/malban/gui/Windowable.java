@@ -20,4 +20,5 @@ public interface Windowable
     public void closing(); // probably called multiple times, since closing events happen a lot :-)
     public void setIcon(boolean b);
     public boolean isIcon();
-        }
+    public void deIconified();
+}

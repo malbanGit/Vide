@@ -29,6 +29,15 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 	private String mBankDefines = "";
 	private Vector<String> mBankDefiness = null;
 	private String mWheelName = "";
+	private String mIsPeerCProject = "";
+	private String mCDebugging = "";
+	private String mCPeephole = "";
+	private String mCKeepEnriched = "";
+	private String mIsCProject = "";
+	private String mCFLAGS = "";
+        
+        
+        
 	public HashMap<String, ProjectProperties> getLastHashMap()
 	{
 		return mProjectProperties;
@@ -68,6 +77,12 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 			mBankDefines = "";
 			mBankDefiness = new Vector<String>();
 			mWheelName = "";
+			mCDebugging = "";
+			mCPeephole = "";
+			mCKeepEnriched = "";
+			mIsPeerCProject = "";
+			mIsCProject = "";
+			mCFLAGS = "";
 		}
 	}
 	@Override public void characters(char[] ch, int start, int length)
@@ -95,7 +110,17 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 		if (mCurrentElement.equalsIgnoreCase("ProjectPostScriptName")) mProjectPostScriptName += s;
 		if (mCurrentElement.equalsIgnoreCase("BankDefines")) mBankDefines += s;
 		if (mCurrentElement.equalsIgnoreCase("WheelName")) mWheelName += s;
-	}
+		if (mCurrentElement.equalsIgnoreCase("IsPeerCProject")) mIsPeerCProject += s;
+		if (mCurrentElement.equalsIgnoreCase("IsCProject")) mIsCProject += s;
+		if (mCurrentElement.equalsIgnoreCase("CFLAGS")) mCFLAGS += s;
+		if (mCurrentElement.equalsIgnoreCase("IsCDebugging")) mCDebugging += s;
+		if (mCurrentElement.equalsIgnoreCase("IsCPeephole")) mCPeephole += s;
+		if (mCurrentElement.equalsIgnoreCase("IsCKeepEnriched")) mCKeepEnriched += s;
+                
+                
+
+
+        }
 	@Override public void endElement(String uri, String localName, String qName) throws SAXException
 	{
 		if ("BankMainFiles".equalsIgnoreCase(qName))
@@ -158,6 +183,29 @@ public class  ProjectPropertiesXMLHandler extends DefaultHandler
 				mCurrentData.mBankDefines = mBankDefiness;
 				mCurrentData.mWheelName = mWheelName;
 				mWheelName = "";
+				try{
+				mCurrentData.mIsCProject = Boolean.parseBoolean(mIsCProject);
+				}catch (Throwable e){}
+				try{
+				mCurrentData.mIsPeerCProject = Boolean.parseBoolean(mIsPeerCProject);
+				}catch (Throwable e){}
+				try{
+				mCurrentData.mCDebugging = Boolean.parseBoolean(mCDebugging);
+				}catch (Throwable e){}
+                                
+				try{
+				mCurrentData.mCPeephole = Boolean.parseBoolean(mCPeephole);
+				}catch (Throwable e){}
+                                
+				try{
+				mCurrentData.mCKeepEnriched = Boolean.parseBoolean(mCKeepEnriched);
+				}catch (Throwable e){}
+                                
+                                
+				mIsPeerCProject = "";
+				mIsCProject = "";
+				mCurrentData.mCFLAGS = mCFLAGS;
+				mCFLAGS = "";
 				mProjectProperties.put(mCurrentData.mName, mCurrentData);
 				mCurrentData = null;
 			}

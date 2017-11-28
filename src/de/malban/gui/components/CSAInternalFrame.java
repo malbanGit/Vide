@@ -11,7 +11,9 @@
 
 package de.malban.gui.components;
 
+import de.malban.gui.Windowable;
 import de.malban.vide.dissy.DissiPanel;
+import java.awt.Rectangle;
 import javax.swing.SwingUtilities;
 
 /**
@@ -20,6 +22,10 @@ import javax.swing.SwingUtilities;
  */
 public class CSAInternalFrame extends javax.swing.JInternalFrame {
 
+    private static int _UID_ = 0;
+    
+    public final int uid = (_UID_++);
+    
     CSAView mParent =null;
     /** Creates new form CSAInternalFrame */
     public CSAInternalFrame() {
@@ -27,6 +33,11 @@ public class CSAInternalFrame extends javax.swing.JInternalFrame {
         
         // Theme t = Configuration.getConfiguration().getCurrentTheme();
         // setFrameIcon(new javax.swing.ImageIcon(t.getImage("BlueIconSmall.png")));
+        
+        
+//if (uid ==2)
+//    System.out.println("HERE:\n"+de.malban.util.Utility.getCurrentStackTrace());
+        
     }
 
     public void setParent(CSAView p)
@@ -87,12 +98,14 @@ public class CSAInternalFrame extends javax.swing.JInternalFrame {
     javax.swing.JPanel mPanel;
     public void addPanel(javax.swing.JPanel panel)
     {
+//        System.out.println(""+uid+"panel added: "+panel.toString());
         mPanel = panel;
         add(panel, java.awt.BorderLayout.CENTER);
     }
 
     public javax.swing.JPanel getPanel()
     {
+//        System.out.println(""+uid+"panel trued to get: "+mPanel);
         return mPanel;
     }
     public void iconified()
@@ -112,14 +125,10 @@ public class CSAInternalFrame extends javax.swing.JInternalFrame {
                 mPanel.invalidate();
                 mPanel.validate();
                 mPanel.repaint();
+                if (mPanel instanceof Windowable)
+                    ((Windowable)mPanel).deIconified();
 
-                if (mPanel instanceof DissiPanel)
-                {
-                    DissiPanel dp = (DissiPanel)mPanel;
-                    dp.updateForced();
-                }
                 CSAInternalFrame.this.setBounds(CSAInternalFrame.this.getBounds().x, CSAInternalFrame.this.getBounds().y, CSAInternalFrame.this.getBounds().width+1, CSAInternalFrame.this.getBounds().height);
-;                CSAInternalFrame.this.setBounds(CSAInternalFrame.this.getBounds().x, CSAInternalFrame.this.getBounds().y, CSAInternalFrame.this.getBounds().width+1, CSAInternalFrame.this.getBounds().height);
             }
         });
     }
@@ -127,4 +136,22 @@ public class CSAInternalFrame extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
+    boolean iconState = false;
+    public void setIconState(boolean s)
+    {
+        iconState = s;
+    }
+    public boolean getIconState()
+    {
+        return iconState;
+    }
+    Rectangle iBounds = null;
+    public void setIconBounds(Rectangle b)
+    {
+        iBounds = new Rectangle(b);
+    }
+    public Rectangle getIconBounds()
+    {
+        return iBounds;
+    }
 }

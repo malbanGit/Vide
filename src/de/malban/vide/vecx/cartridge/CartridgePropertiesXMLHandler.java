@@ -38,6 +38,14 @@ public class  CartridgePropertiesXMLHandler extends DefaultHandler
 	private String mCompleteGame = "";
 	private String mextremeVecFileImage = "";
 	private String mWheelName = "";
+	private String mConfigOverwrite = "";
+	private String mCF_AutoSync = "";
+	private String mCF_AllowROMWrite = "";
+	private String mCF_ROM_PC_BreakPoints = "";
+	private String mCF_IntegratorMaxX = "";
+	private String mCF_IntegratorMaxY = "";
+	private String mCF_OverlayThreshold = "";
+	private String mCF_DotdwellDivisor = "";
 	public HashMap<String, CartridgeProperties> getLastHashMap()
 	{
 		return mCartridgeProperties;
@@ -86,6 +94,14 @@ public class  CartridgePropertiesXMLHandler extends DefaultHandler
 			mCompleteGame = "";
 			mextremeVecFileImage = "";
 			mWheelName = "";
+			mConfigOverwrite = "";
+			mCF_AutoSync = "";
+			mCF_AllowROMWrite = "";
+			mCF_ROM_PC_BreakPoints = "";
+			mCF_IntegratorMaxX = "";
+			mCF_IntegratorMaxY = "";
+			mCF_OverlayThreshold = "";
+			mCF_DotdwellDivisor = "";
 		}
 	}
 	@Override public void characters(char[] ch, int start, int length)
@@ -123,6 +139,14 @@ public class  CartridgePropertiesXMLHandler extends DefaultHandler
 		if (mCurrentElement.equalsIgnoreCase("CompleteGame")) mCompleteGame += s;
 		if (mCurrentElement.equalsIgnoreCase("extremeVecFileImage")) mextremeVecFileImage += s;
 		if (mCurrentElement.equalsIgnoreCase("WheelName")) mWheelName += s;
+		if (mCurrentElement.equalsIgnoreCase("ConfigOverwrite")) mConfigOverwrite += s;
+		if (mCurrentElement.equalsIgnoreCase("CF_AutoSync")) mCF_AutoSync += s;
+		if (mCurrentElement.equalsIgnoreCase("CF_AllowROMWrite")) mCF_AllowROMWrite += s;
+		if (mCurrentElement.equalsIgnoreCase("CF_ROM_PC_BreakPoints")) mCF_ROM_PC_BreakPoints += s;
+		if (mCurrentElement.equalsIgnoreCase("CF_IntegratorMaxX")) mCF_IntegratorMaxX += s;
+		if (mCurrentElement.equalsIgnoreCase("CF_IntegratorMaxY")) mCF_IntegratorMaxY += s;
+		if (mCurrentElement.equalsIgnoreCase("CF_OverlayThreshold")) mCF_OverlayThreshold += s;
+		if (mCurrentElement.equalsIgnoreCase("CF_DotdwellDivisor")) mCF_DotdwellDivisor += s;
 	}
 	@Override public void endElement(String uri, String localName, String qName) throws SAXException
 	{
@@ -153,9 +177,11 @@ public class  CartridgePropertiesXMLHandler extends DefaultHandler
 				mCurrentData.mFullFilename = mFullFilenames;
 				mCurrentData.mInformation = mInformation;
 				mInformation = "";
-				mCurrentData.mCheats = mCheats;
+                                
+				mCurrentData.mCheats = de.malban.util.UtilityString.fromXML(mCheats);
 				mCheats = "";
-				mCurrentData.mEastereggs = mEastereggs;
+				//mCurrentData.mEastereggs = mEastereggs;
+				mCurrentData.mEastereggs = de.malban.util.UtilityString.fromXML(mEastereggs);
 				mEastereggs = "";
 				mCurrentData.mHomepage = mHomepage;
 				mHomepage = "";
@@ -169,7 +195,8 @@ public class  CartridgePropertiesXMLHandler extends DefaultHandler
 				mOverlay = "";
 				mCurrentData.mInGameImage = mInGameImage;
 				mInGameImage = "";
-				mCurrentData.mCritic = mCritic;
+//				mCurrentData.mCritic = mCritic;
+				mCurrentData.mCritic = de.malban.util.UtilityString.fromXML(mCritic);
 				mCritic = "";
 				mCurrentData.mOther = mOther;
 				mOther = "";
@@ -205,6 +232,38 @@ public class  CartridgePropertiesXMLHandler extends DefaultHandler
 				mextremeVecFileImage = "";
 				mCurrentData.mWheelName = mWheelName;
 				mWheelName = "";
+				try{
+				mCurrentData.mConfigOverwrite = Boolean.parseBoolean(mConfigOverwrite);
+				}catch (Throwable e){}
+				mConfigOverwrite = "";
+				try{
+				mCurrentData.mCF_AutoSync = Boolean.parseBoolean(mCF_AutoSync);
+				}catch (Throwable e){}
+				mCF_AutoSync = "";
+				try{
+				mCurrentData.mCF_AllowROMWrite = Boolean.parseBoolean(mCF_AllowROMWrite);
+				}catch (Throwable e){}
+				mCF_AllowROMWrite = "";
+				try{
+				mCurrentData.mCF_ROM_PC_BreakPoints = Boolean.parseBoolean(mCF_ROM_PC_BreakPoints);
+				}catch (Throwable e){}
+				mCF_ROM_PC_BreakPoints = "";
+				try{
+				mCurrentData.mCF_IntegratorMaxX = Integer.parseInt(mCF_IntegratorMaxX);
+				}catch (Throwable e){}
+				mCF_IntegratorMaxX = "";
+				try{
+				mCurrentData.mCF_IntegratorMaxY = Integer.parseInt(mCF_IntegratorMaxY);
+				}catch (Throwable e){}
+				mCF_IntegratorMaxY = "";
+				try{
+				mCurrentData.mCF_OverlayThreshold = Float.parseFloat(mCF_OverlayThreshold);
+				}catch (Throwable e){}
+				mCF_OverlayThreshold = "";
+				try{
+				mCurrentData.mCF_DotdwellDivisor = Integer.parseInt(mCF_DotdwellDivisor);
+				}catch (Throwable e){}
+				mCF_DotdwellDivisor = "";
 				mCartridgeProperties.put(mCurrentData.mName, mCurrentData);
 				mCurrentData = null;
 			}

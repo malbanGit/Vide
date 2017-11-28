@@ -28,7 +28,7 @@ public class Comment implements LineRecognizer {
         
         // returns line comment
         // removes comment from parse String
-        public String removeEndOfLineComment(ParseString s)
+        public static String removeEndOfLineComment(ParseString s)
         {
             // "YOU'LL NEVER REACH HOME..." ; 15  -77 0xb3
             // tricky!

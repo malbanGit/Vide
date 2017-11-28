@@ -33,9 +33,15 @@ import javax.swing.text.AttributeSet;
 
 import de.malban.util.syntax.Syntax.Lexer.Lexer;
 import de.malban.util.syntax.Syntax.Lexer.Token;
+import de.malban.vide.VideConfig;
 import de.malban.vide.vedi.VediPanel;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.TabSet;
+import javax.swing.text.TabStop;
 
 /**
  * Run the Syntax Highlighting as a separate thread. Things that need to be
@@ -189,7 +195,10 @@ class Colorer extends Thread
         // since in process event we color here without vars!
         try
         {
-            ArrayList<String> changedVars = doc.fileInfo.processDocumentChanges(0, doc.getLength(), doc.getText(0, doc.getLength()));
+            if (doc.asmFileInfo != null)
+                doc.asmFileInfo.processDocumentChanges(0, doc.getLength(), doc.getText(0, doc.getLength()));
+            if (doc.cFileInfo != null)
+                doc.cFileInfo.processDocumentChanges(0, doc.getLength(), doc.getText(0, doc.getLength()));
         }
         catch (Throwable e)
         {
@@ -407,11 +416,38 @@ class Colorer extends Thread
         // scan for macro var changes
         if (varCheck)
         {
-            if (doc.fileInfo!=null)
+            if (doc.asmFileInfo!=null)
             {
                 try
                 {
-                    ArrayList<String> changedVars = doc.fileInfo.processDocumentChanges(start, adjustment, doc.getText(0, doc.getLength()));
+                    ArrayList<String> changedVars = doc.asmFileInfo.processDocumentChanges(start, adjustment, doc.getText(0, doc.getLength()));
+                    if ((changedVars == null)||(changedVars.size()>0))
+                    {
+                        VediPanel.setInScan(false);            
+                        colorAll();
+//System.out.println("COLORALL Invoked from event");
+                        /*
+                        // for now just do the complete damn doc
+                        start = 0;
+                        adjustment = doc.getLength();
+                        System.out.println("do all");
+                        processEvent(start, adjustment, false);
+                                */
+                        return;
+
+                    }
+                }
+                catch (Throwable e)
+                {
+            //        e.printStackTrace();
+                }
+
+            }                
+            if (doc.cFileInfo!=null)
+            {
+                try
+                {
+                    ArrayList<String> changedVars = doc.cFileInfo.processDocumentChanges(start, adjustment, doc.getText(0, doc.getLength()));
                     if ((changedVars == null)||(changedVars.size()>0))
                     {
                         VediPanel.setInScan(false);            
@@ -465,6 +501,26 @@ class Colorer extends Thread
         {
             dp = (DocPosition) workingIt.next();
         }
+
+
+        // TAB width support        
+
+        VideConfig config = VideConfig.getConfig();
+        int TAB_WIDTH = 8;
+        if (config!=null) TAB_WIDTH = config.tab_width;
+        int TAB_COUNT = 100;
+        TabStop[] tabs = new TabStop[TAB_COUNT];
+        for (int i=0;i<TAB_COUNT;i++)
+        {
+            tabs[i]=new TabStop((i+1)*TAB_WIDTH*TokenStyles.FONT_SIZE, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE);
+        }
+        TabSet tabset = new TabSet(tabs);
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        AttributeSet paraSet = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.TabSet, tabset);
+        doc.setParagraphAttributes(position, position + Math.abs(adjustment), paraSet, true);        
+        
+        
+        
         try 
         {
             Token t;

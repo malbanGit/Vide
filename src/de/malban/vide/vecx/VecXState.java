@@ -27,16 +27,17 @@ public class VecXState implements Serializable
         public int color;    // Brightness only!
         public int imagerColorLeft;
         public int imagerColorRight;
+        public double intensityDrift = 1;
         public boolean midChange = false;
         public ArrayList<Integer> callStack;
     };
-    static class TimerItem implements Serializable
+    protected static class TimerItem implements Serializable
     {
         int countDown=0;
         int valueToSet = 0;
         IntegerPointer whereToSet;
         int type=TIMER_ACTION_NONE;
-        TimerItem(TimerItem t)
+        private TimerItem(TimerItem t)
         {
             countDown = t.countDown;
             valueToSet = t.valueToSet;
@@ -58,6 +59,7 @@ public class VecXState implements Serializable
             whereToSet = destination;
             type = t; 
         }
+        /*
         TimerItem(int when, int t)
         {
             countDown = when;
@@ -65,6 +67,7 @@ public class VecXState implements Serializable
             whereToSet = null;
             type = t; 
         }
+        */
     }
     String romName = "";
     int[] ram = new int[1024];

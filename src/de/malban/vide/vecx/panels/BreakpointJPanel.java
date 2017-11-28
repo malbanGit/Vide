@@ -255,4 +255,5 @@ public class BreakpointJPanel extends javax.swing.JPanel implements
     {
         vecxPanel.breakpointRemove(bp);
     }
+    public void deIconified() { }
 }

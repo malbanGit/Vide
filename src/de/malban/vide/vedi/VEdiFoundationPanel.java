@@ -5,19 +5,18 @@
  */
 package de.malban.vide.vedi;
 
+import de.malban.Global;
 import de.malban.vide.vedi.panels.BinaryPanel;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Point;
 import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.Serializable;
 import javax.swing.JFrame;
@@ -258,9 +257,9 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         JPanel pnlTab = new JPanel(new GridBagLayout());
         pnlTab.setOpaque(false);
         JLabel lblTitle = new JLabel(name+"  ");
-        lblTitle.setForeground(new Color(0,150,0,255));
+//        lblTitle.setForeground(new Color(0,150,0,255));
         CloseButton btnClose = new CloseButton();
-        btnClose.setForeground(Color.black);
+//        btnClose.setForeground(Color.black);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -288,7 +287,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         VediSettings s;
         try
         {
-            s = (VediSettings) CSAMainFrame.deserialize("serialize"+File.separator+getSettingsName());
+            s = (VediSettings) CSAMainFrame.deserialize(Global.mainPathPrefix+"serialize"+File.separator+getSettingsName());
             settings = s;
             if (settings == null) return false;
         }
@@ -307,7 +306,7 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
         if (!isLoadSettings()) return true;
         try
         {
-            CSAMainFrame.serialize(settings, "serialize"+File.separator+getSettingsName());
+            CSAMainFrame.serialize(settings, Global.mainPathPrefix+"serialize"+File.separator+getSettingsName());
         }
         catch (Throwable e)
         {
@@ -340,51 +339,13 @@ public abstract class VEdiFoundationPanel extends javax.swing.JPanel implements
     
     public static final int ASM_LIST = 2;
     public static final int ASM_SYMBOL = 3;
-
-    // see: http://www.codejava.net/java-se/swing/redirect-standard-output-streams-to-jtextarea
-    public class CustomOutputStream extends OutputStream 
+    public Point getEditorPos()
     {
-        StringBuffer allMessages = new StringBuffer();
-        StringBuffer allSinceLastFlush = new StringBuffer();
-        FlushListener listener;
-        public CustomOutputStream() 
-        {
-        }
+        Point p = new Point();
+        return p;
+    }
 
-        @Override
-         public void write(int b) throws IOException  
-        {
-            try
-            {
-                allSinceLastFlush.append((char)b);
-                if (b == '\n') flush();
-            }
-            catch (Throwable e)
-            {
-                
-            }
-        }
-        public void flush() throws IOException 
-        {
-            allMessages.append(allSinceLastFlush);
-            listener.wasFlushed(new FlushEvent(allSinceLastFlush.toString()));
-            allSinceLastFlush.delete(0, allSinceLastFlush.length());
-        }
-        // only ONE
-        void setCallback(FlushListener l)
-        {
-            listener = l;
-        }
-        public String  getCompleteString()
-        {
-            return allMessages.toString();
-        }
-        public void reset()
-        {
-            allMessages = new StringBuffer();
-            allSinceLastFlush = new StringBuffer();
-        }
-    }    
+
     /*
     private static TimingTriggerer timer = null; 
     private static TriggerCallback timerWorker = null;

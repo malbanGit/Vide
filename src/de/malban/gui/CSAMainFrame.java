@@ -22,10 +22,8 @@ import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.gui.panels.TipOfDayGUI;
 import de.malban.gui.panels.WindowablePanel;
-import de.malban.input.InputControllerDisplay;
 import de.malban.jdbc.DBConnectionEdit;
 import de.malban.jdbc.StatementWindow;
-import de.malban.lwgl.LWJGLSupport;
 import de.malban.vide.assy.AssyPanel;
 import de.malban.vide.dissy.CompareDissiPanel;
 import de.malban.vide.vecx.panels.AnalogJPanel;
@@ -33,7 +31,7 @@ import de.malban.vide.vecx.panels.BreakpointJPanel;
 import de.malban.vide.ConfigJPanel;
 import de.malban.vide.VideConfig;
 import de.malban.vide.codi.CodeLibraryPanel;
-import de.malban.vide.vecx.CompleteState;
+import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.panels.LabelJPanel;
 import de.malban.vide.vecx.panels.MemoryDumpPanel;
 import de.malban.vide.vecx.panels.PSGJPanel;
@@ -46,6 +44,7 @@ import de.malban.vide.vecx.cartridge.DualVec;
 import de.malban.vide.vecx.devices.AbstractDevice;
 import de.malban.vide.vecx.panels.CartridgePanel;
 import de.malban.vide.vecx.panels.JoyportPanel;
+import de.malban.vide.vecx.panels.OverlSwitcherJPanel;
 import de.malban.vide.vecx.panels.ProfileJPanel;
 import de.malban.vide.vecx.panels.StarterJPanel;
 import de.malban.vide.vecx.panels.VectorInfoJPanel;
@@ -55,6 +54,7 @@ import de.malban.vide.vedi.VediPanel;
 import de.malban.vide.vedi.VediPanel32;
 import de.malban.vide.vedi.raster.RasterPanel;
 import de.malban.vide.vedi.raster.VectorJPanel;
+import de.malban.vide.vedi.sound.ExplosionEditor;
 import de.malban.vide.vedi.sound.InstrumentEditor;
 import de.malban.vide.vedi.sound.ModJPanel;
 import de.malban.vide.vedi.sound.SampleJPanel;
@@ -75,10 +75,10 @@ import javax.help.DefaultHelpBroker;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.JHelpContentViewer;
+import javax.help.JHelpTOCNavigator;
 import javax.help.WindowPresentation;
 import javax.swing.*;
 import javax.swing.event.InternalFrameEvent;
-import javax.swing.plaf.UIResource;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
@@ -108,13 +108,16 @@ public class CSAMainFrame extends javax.swing.JFrame
     }
     private static int MENU_HIDE_DELAY = 20;
     private static int POP_DISPLAY_START_Y = 10;
+/*    
     static HashMap <String, UIResource> windowedDefaults;
     static HashMap <String, UIResource> fullscreenDefaults;
 
     static Color fFontColor;
     static Color fBackColor;
+*/    
     static
     {
+/*        
         fFontColor = new Color(100,200,100);
         fBackColor = new Color(00,00,00);
         windowedDefaults = new HashMap <String, UIResource>();
@@ -148,19 +151,19 @@ public class CSAMainFrame extends javax.swing.JFrame
                 Configuration.getConfiguration().getDebugEntity().addLog(e);
             }
         }
+*/        
 
 //        fullscreenDefaults.put("Panel.background", new javax.swing.plaf.ColorUIResource(0,0,0));
         UIManager.put("TabbedPane.tabsOpaque", Boolean.FALSE);
         UIManager.put("TabbedPane.contentOpaque", Boolean.FALSE);
 
 
-        uiDefaults = UIManager.getDefaults();
+        UIDefaults uiDefaults = UIManager.getDefaults();
         uiDefaults.put("TabbedPane.contentOpaque", Boolean.FALSE);
         uiDefaults.put("TabbedPane.tabsOpaque", Boolean.FALSE);
 //        uiDefaults.put("TabbedPane.highlight", new javax.swing.plaf.ColorUIResource(new Color(0,255,0,100)));
 
-        if (Global.mMainWindow != null)
-        SwingUtilities.updateComponentTreeUI(  Global.mMainWindow );
+        Global.updateComponentTree();
     }
 
     Vector<JPanel> mPanels = new Vector<JPanel>();
@@ -195,7 +198,24 @@ public class CSAMainFrame extends javax.swing.JFrame
     private boolean mLogDisplayed = false;
     private int inEvent=0;
 
-    private JDesktopPane mDesktop = new JDesktopPane();
+    private JDesktopPane mDesktop = new JDesktopPane()
+    {
+        protected void processEvent(AWTEvent e)
+        {
+            try
+            {
+                // BASICInternalFrameUI
+                // throws a null pointer exception if 
+                // desktop panel is activeted and at the same time
+                // an invisible icon is on the desktop
+                super.processEvent(e);
+            }
+            catch (Throwable x)
+            {
+                //System.out.println("Stupid resize error");
+            }
+        }
+    };
     public JDesktopPane getDesktop(){return mDesktop;}
 
     /**
@@ -205,21 +225,36 @@ public class CSAMainFrame extends javax.swing.JFrame
         //initComponents();
         initLibraryMapping();
         Global.mMainWindow = this;
+        
+         
+        
         ToolTipManager.sharedInstance().setDismissDelay(15000);
         Theme t = Configuration.getConfiguration().getCurrentTheme();
-        getFrame().setIconImage(t.getImage(("RedIconSmall.png")));
+//        getFrame().setIconImage(t.getImage(("RedIconSmall.png")));
+        
+        
+
+ArrayList<Image> images = new ArrayList<>();
+    images.add(t.getImage("VectrexConsole96.png"));
+    images.add(t.getImage("VectrexConsole32.png"));
+    images.add(t.getImage("VectrexConsole16.png"));
+
+    
+// Define a small and large app icon
+this.setIconImages(images);        
+        
+        
+        
+        
         Configuration.getConfiguration().setMainFrame(getFrame());
         initComponents();
         jMenuItemCloseWin.setVisible(fullDesktopDefault);
         jMenuItem16.setVisible(false);
         jMenuItem15.setVisible(false);
-        jMenuItem5.setVisible(false);
+//jMenuItem5.setVisible(false);
+jCheckBoxMenuItem1.setVisible(false);
         jMenuItemDissy.setVisible(false);
         jMenuItemAssi.setVisible(false);
-        if (!device.isFullScreenSupported())
-        {
-        }
-
         mainPanel.removeAll();
         mainPanel.setLayout(new java.awt.BorderLayout());
         mainPanel.add(mDesktop, java.awt.BorderLayout.CENTER);
@@ -229,35 +264,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         Configuration.getConfiguration().addConfigListerner(this);
         windowMenu.removeAll();
         windowMenu.add(jMenuItemCloseWin);
-        if (Configuration.getConfiguration().isStartInFullScrren())
-        {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run()
-                {
-                    toFullscreen();
-                }
-            });
-        }
         windowMenu.add(jMenuItemDebug);
-        if (Configuration.getConfiguration().isStartInFullScrren())
-        {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run()
-                {
-                    toFullscreen();
-                }
-            });
-        }
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run()
-            {
-                Configuration.getConfiguration().fireSizeChanged(false);
-                Configuration.getConfiguration().fireConfigChanged();
-            }
-        });
 
         VideConfig config = VideConfig.getConfig();
         setUpGlobalKeys();
@@ -266,20 +273,66 @@ public class CSAMainFrame extends javax.swing.JFrame
         loadMe();
         
         initLibrary();
+        String startFile = null;
         if (config.startFile != null)
         {
-            File file = new File(config.startFile);
-            if (file.exists())
+            if (config.startFile.trim().length() != 0)
             {
-                getVecxy().startBin(config.startFile);
+                File file = new File(Global.mainPathPrefix+config.startFile);
+                if (file.exists())
+                {
+                    startFile = Global.mainPathPrefix+config.startFile;
+                }
             }
         }
+        boolean startInFullScreenMode;
+        if (!device.isFullScreenSupported())
+        {
+            startInFullScreenMode = false;
+        }
+        else
+        {
+            startInFullScreenMode = config.startInFullScreenMode;
+        }
+        
+        if ((startFile!= null) && (config.cartridgeToStart == null))
+            getVecxy().startBin(startFile);
+        
+        if (config.cartridgeToStart != null)
+        {
+            getVecxy().startCartridge(config.cartridgeToStart, VecX.START_TYPE_RUN);
+        }
+
+        
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run()
+            {
+                if ((startInFullScreenMode) && (checkVecxy() != null))
+                {
+                    getVecxy().toggleFullscreen();
+                    Configuration.getConfiguration().fireSizeChanged(false);
+                    Configuration.getConfiguration().fireConfigChanged();
+                }
+                else
+                {
+                    Configuration.getConfiguration().fireSizeChanged(false);
+                    Configuration.getConfiguration().fireConfigChanged();
+                    motd();
+                    
+                }
+                if ((config.startInFullPanelMode) && (checkVecxy() != null))
+                {
+                    getVecxy().toggleMainPanel();
+                }
+                
+            }
+        });
     }
     void windowManagerStart()
     {
         
     }
-    public final JFrame getFrame()
+    public final CSAMainFrame getFrame()
     {
         return this;
     }
@@ -304,6 +357,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         exitMenuItem = new javax.swing.JMenuItem();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         toolsMenu = new javax.swing.JMenu();
         jMenuItemStarter = new javax.swing.JMenuItem();
         jMenuItemVecxi = new javax.swing.JMenuItem();
@@ -319,12 +373,14 @@ public class CSAMainFrame extends javax.swing.JFrame
         jMenuItem40 = new javax.swing.JMenuItem();
         jMenuItem41 = new javax.swing.JMenuItem();
         jMenuItem43 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem45 = new javax.swing.JMenuItem();
         jMenuItem42 = new javax.swing.JMenuItem();
         jMenuItem44 = new javax.swing.JMenuItem();
         jMenuItemCartridgeEdit = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItemVec32 = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItemConfig = new javax.swing.JMenuItem();
@@ -341,7 +397,7 @@ public class CSAMainFrame extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("VIDE");
-        setMinimumSize(new java.awt.Dimension(1024, 768));
+        setMinimumSize(new java.awt.Dimension(200, 200));
         setPreferredSize(new java.awt.Dimension(1024, 768));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -352,8 +408,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         mainPanel.setLayout(new java.awt.BorderLayout());
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
-        fileMenu.setForeground(Color.black);
-        fileMenu.setText("File");
+        fileMenu.setText("System");
 
         jMenu2.setText("Extra");
 
@@ -399,6 +454,14 @@ public class CSAMainFrame extends javax.swing.JFrame
             }
         });
         fileMenu.add(exitMenuItem);
+
+        jCheckBoxMenuItem1.setText("Fullscreen");
+        jCheckBoxMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItem1ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jCheckBoxMenuItem1);
 
         menuBar.add(fileMenu);
 
@@ -497,13 +560,21 @@ public class CSAMainFrame extends javax.swing.JFrame
         });
         jMenu8.add(jMenuItem41);
 
-        jMenuItem43.setText("Vectrex instruments");
+        jMenuItem43.setText("Vectrex instruments/music");
         jMenuItem43.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem43ActionPerformed(evt);
             }
         });
         jMenu8.add(jMenuItem43);
+
+        jMenuItem6.setText("Explosion design");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem6);
 
         jMenuItem45.setText("Sample generation");
         jMenuItem45.addActionListener(new java.awt.event.ActionListener() {
@@ -553,6 +624,14 @@ public class CSAMainFrame extends javax.swing.JFrame
         });
         jMenu8.add(jMenuItem3);
 
+        jMenuItem2.setText("Overlay switcher");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu8.add(jMenuItem2);
+
         toolsMenu.add(jMenu8);
 
         jMenuItemVec32.setText("Vec32 Terminal");
@@ -577,7 +656,6 @@ public class CSAMainFrame extends javax.swing.JFrame
         jMenuLibrary.setText("Library");
         menuBar.add(jMenuLibrary);
 
-        windowMenu.setForeground(Color.black);
         windowMenu.setText("Window");
 
         jMenuItemCloseWin.setText("Close current Window");
@@ -601,7 +679,6 @@ public class CSAMainFrame extends javax.swing.JFrame
 
         menuBar.add(windowMenu);
 
-        helpMenu.setForeground(Color.black);
         helpMenu.setText("Help");
 
         aboutMenuItem.setText("About");
@@ -632,12 +709,16 @@ public class CSAMainFrame extends javax.swing.JFrame
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         AbstractDevice.exitSync = true;
         DualVec.exitSync = true;
-        LWJGLSupport.getLWJGLSupport().exit = true;
         saveStateAll();
         dispose();
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
+    public void doExit()
+    {
+        exitMenuItemActionPerformed(null);
+    }
+    
     private void jMenuItemCloseWinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseWinActionPerformed
         if (mCurrentPanel instanceof Windowable)
         {
@@ -684,10 +765,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
         // TODO make CSA Conform!
         StatementWindow p = new StatementWindow();
-        addPanel(p);
-        setMainPanel(p);
-        CSAInternalFrame frame = windowMe(p, 800, 600, "SQL Window");
-        
+        addAsWindow(p, 800, 600, "SQL Window");
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
     private void jMenuItemDissyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDissyActionPerformed
@@ -702,16 +780,12 @@ public class CSAMainFrame extends javax.swing.JFrame
 
     private void jMenuItemAssiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAssiActionPerformed
         AssyPanel p = new AssyPanel();
-        addPanel(p);
-        setMainPanel(p);
-        CSAInternalFrame frame = windowMe(p, 800, 600, "Assi Window");
+        addAsWindow(p, 800, 600, "Assi Window");
     }//GEN-LAST:event_jMenuItemAssiActionPerformed
 
     private void jMenuItemVecxiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVecxiActionPerformed
         
-            VecXPanel p = createVecxy();
-/*            
-        boolean forced = KeyboardListener.isShiftDown();
+        boolean forced = ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK));
         if (forced)
         {
             VecXPanel p = createVecxy();
@@ -727,13 +801,11 @@ public class CSAMainFrame extends javax.swing.JFrame
             }
             catch (Throwable ex) { }
         }
-*/        
     }//GEN-LAST:event_jMenuItemVecxiActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         AbstractDevice.exitSync = true;
         DualVec.exitSync = true;
-        LWJGLSupport.getLWJGLSupport().exit = true;
         saveStateAll();
     }//GEN-LAST:event_formWindowClosing
 
@@ -817,11 +889,24 @@ public class CSAMainFrame extends javax.swing.JFrame
         JHelpContentViewer hsv = new JHelpContentViewer(hs);
         HelpBroker hb = hs.createHelpBroker();
 
+        
         if (hb instanceof DefaultHelpBroker)
         {
             WindowPresentation wp = ((DefaultHelpBroker)hb).getWindowPresentation();
+            
             wp.createHelpWindow();
             java.awt.Window w  = wp.getHelpWindow();
+
+            // prevents a nullpointer exception if run later
+            SwingUtilities.invokeLater(new Runnable()
+            {
+                public void run()
+                {
+                    SwingUtilities.updateComponentTreeUI(w);  
+                    
+                }
+            });
+            
             if (w instanceof JFrame)
             {
                 JFrame helpFrame = (JFrame)w;
@@ -835,13 +920,14 @@ public class CSAMainFrame extends javax.swing.JFrame
                 if (cpane instanceof JComponent)
                 {
                     wap.setContent((JComponent)cpane, "Help");
-                    addPanel(wap);
-                    setMainPanel(wap);
-                    windowMe(wap, 950, 650, "Help");
+                    addAsWindow(wap, 950, 650, "Help");
+                    
+//                    addPanel(wap);
+//                    setMainPanel(wap);
+//                    windowMe(wap, 950, 650, "Help");
                 }
 
             }
-
         }    }//GEN-LAST:event_jMenuItemHelpActionPerformed
 
     private void jMenuItemStarterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStarterActionPerformed
@@ -980,6 +1066,31 @@ public class CSAMainFrame extends javax.swing.JFrame
         catch (Throwable ex) { }
     }//GEN-LAST:event_jMenuItemVec32ActionPerformed
 
+    private void jCheckBoxMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ActionPerformed
+
+        if (inEvent>0) return;
+        fullscreen = !jCheckBoxMenuItem1.isSelected();
+        // not yet in fullscreen - lets switch
+        if (!fullscreen)
+        {
+            toFullscreen();
+        }
+        else
+        {
+            toWindowed();
+        }
+    }//GEN-LAST:event_jCheckBoxMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        OverlSwitcherJPanel p = new OverlSwitcherJPanel();        
+        addAsWindow(p, 400, 320, p.SID);
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        ExplosionEditor.showExplosionPanelNoModal(log);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
     boolean gameMode = false;
     de.malban.event.MasterEventListener keyListener = null;    
     
@@ -1075,12 +1186,14 @@ public class CSAMainFrame extends javax.swing.JFrame
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem38;
     private javax.swing.JMenuItem jMenuItem39;
@@ -1092,6 +1205,7 @@ public class CSAMainFrame extends javax.swing.JFrame
     private javax.swing.JMenuItem jMenuItem44;
     private javax.swing.JMenuItem jMenuItem45;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItemAssi;
     private javax.swing.JMenuItem jMenuItemCartridgeEdit;
     private javax.swing.JMenuItem jMenuItemCloseWin;
@@ -1135,12 +1249,11 @@ public class CSAMainFrame extends javax.swing.JFrame
     {
         frame.setParent(this);
         Theme t = Configuration.getConfiguration().getCurrentTheme();
-        frame.setFrameIcon( new ImageIcon(t.getImage(("RedIconSmall.png"))));
+        frame.setFrameIcon( new ImageIcon(t.getImage("VectrexConsole16.png")));
 
         mFrames.add(frame);
         getMainPanel().add(frame);
         getMainPanel().setComponentZOrder(frame, 0);
-        
         
         final javax.swing.event.InternalFrameAdapter l = new javax.swing.event.InternalFrameAdapter()
         {
@@ -1162,6 +1275,11 @@ public class CSAMainFrame extends javax.swing.JFrame
                 public void internalFrameIconified(InternalFrameEvent ife) {
                     doZOrder();
                     frame.iconified();
+                    if (frame.getDesktopIcon()!=null)
+                        frame.getDesktopIcon().setVisible(true);
+                    
+                    
+                    
                 }
 
                 public void internalFrameDeiconified(InternalFrameEvent ife) {
@@ -1193,7 +1311,6 @@ public class CSAMainFrame extends javax.swing.JFrame
     @Override
     public void removeInternalFrame(CSAInternalFrame frame)
     {
-
         mFrames.removeElement(frame);
         getMainPanel().remove(frame);
 
@@ -1203,14 +1320,11 @@ public class CSAMainFrame extends javax.swing.JFrame
         {
             if (((Windowable)frame.getPanel()) != null)
                 ((Windowable)frame.getPanel()).closing();
-
         
             JMenuItem item = ((Windowable)frame.getPanel()).getMenuItem();
             if (item!=null)
                 windowMenu.remove(item);
         }
-        
-
         frame.removeInternalFrameListener(fl.get(frame));
     }
 
@@ -1278,11 +1392,8 @@ public class CSAMainFrame extends javax.swing.JFrame
         addInternalFrame(macFrame);
 
         addEnter(macFrame, true);
-
-
         java.awt.Toolkit.getDefaultToolkit().addAWTEventListener(this, java.awt.AWTEvent.MOUSE_MOTION_EVENT_MASK | java.awt.AWTEvent.MOUSE_EVENT_MASK);
     }
-
     private void createMenuBar()
     {
         java.awt.Toolkit.getDefaultToolkit().removeAWTEventListener(this);
@@ -1520,16 +1631,14 @@ public class CSAMainFrame extends javax.swing.JFrame
 //        titlePanel1.playMusic();
 //        titlePanel1.startGlitter();
     }
-
-
-
-    private void toFullscreen()
+    
+    public void toFullscreen()
     {
-
         if (fullscreen) return;
         if (!device.isFullScreenSupported()) return;
         fullscreen = true;
         Configuration.getConfiguration().mIsFullscreen = true;
+        
         //save off the old display mode.
         dispModeOld = device.getDisplayMode();
         String dispString = Configuration.getConfiguration().getFullScrrenResString();
@@ -1547,17 +1656,11 @@ public class CSAMainFrame extends javax.swing.JFrame
 
         //remove borders around the frame
         getFrame().setUndecorated(true);
-        
-        //needed for tinyLAF - see also MAIN start for Mac
-        //JFrame.setDefaultLookAndFeelDecorated(false);	// to decorate frames
-        //JDialog.setDefaultLookAndFeelDecorated(false);	// to decorate dialogs 
-        //Toolkit.getDefaultToolkit().setDynamicLayout(false);
-        //System.setProperty("sun.awt.noerasebackground", "false");
-        //JFrame.setDefaultLookAndFeelDecorated(false);
-        
-        SwingUtilities.updateComponentTreeUI(getFrame());
 
-        //make the window fullscreen.
+        // MAC needs this!        
+        getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+        Global.updateComponentTree();
+        
         device.setFullScreenWindow(getFrame());
 
         //attempt to change the screen resolution.
@@ -1573,16 +1676,9 @@ public class CSAMainFrame extends javax.swing.JFrame
         //statusPanel.setVisible(false);
         java.awt.Toolkit.getDefaultToolkit().addAWTEventListener(this, java.awt.AWTEvent.MOUSE_MOTION_EVENT_MASK | java.awt.AWTEvent.MOUSE_EVENT_MASK);
         if (!isMac)
-        {
             createPopup();
-
-        }
         else
-        {
             createMacPopup();
-
-        }
-
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
@@ -1592,6 +1688,7 @@ public class CSAMainFrame extends javax.swing.JFrame
 //                    titlePanel1.sizeChanged();
                 Configuration.getConfiguration().fireSizeChanged(false);
                 Configuration.getConfiguration().fireConfigChanged();
+                
             }
         });
         menuBar.setVisible(false);
@@ -1606,59 +1703,46 @@ public class CSAMainFrame extends javax.swing.JFrame
         final java.awt.Component mc = ((java.awt.Container)c).getComponent(j);
         showComponents((java.awt.Container)mc, depth+1, c);
     }
-  }
-
-  
-    private void toWindowed()
+  }  
+    public void toWindowed()
     {
         if (!fullscreen) return;
         fullscreen = false;
         Configuration.getConfiguration().mIsFullscreen = false;
-/*
-        UIDefaults uiDefaults = UIManager.getDefaults();
-        Set entries = windowedDefaults.entrySet();
-        Iterator it = entries.iterator();
-        while (it.hasNext())
-        {
-            java.util.Map.Entry entry = (java.util.Map.Entry) it.next();
-            UIResource value = (UIResource) entry.getValue();
-            String key = (String)entry.getKey();
-            uiDefaults.put(key, value);
-        }
-        SwingUtilities.updateComponentTreeUI(  org.jdesktop.application.Application.getInstance(de.malban.jportal.JPortalApp.class).getMainFrame() );
-*/
+
+        
         menuBar.setVisible(true);
         java.awt.Toolkit.getDefaultToolkit().removeAWTEventListener(this);
-        getFrame().getJMenuBar().setVisible(true);
+
+        //hide the frame so we can change it.
+        getFrame().setVisible(false);
+        
+        //remove the frame from being displayable.
+        getFrame().dispose();
+
+        
+getFrame().setUndecorated(false);
+        
+        
         //statusPanel.setVisible(true);
         //set the display mode back to the what it was when
         //the program was launched.
         device.setDisplayMode(dispModeOld);
 
-        //hide the frame so we can change it.
-        getFrame().setVisible(false);
-
-        //remove the frame from being displayable.
-        getFrame().dispose();
-
-        //put the borders back on the frame.
-        getFrame().setUndecorated(false);
         
-        //needed for tinyLAF - see also MAIN start for Mac
-        //JFrame.setDefaultLookAndFeelDecorated(true);	// to decorate frames
-        //JDialog.setDefaultLookAndFeelDecorated(true);	// to decorate dialogs        
-        //SwingUtilities.updateComponentTreeUI(getFrame());
-        //Toolkit.getDefaultToolkit().setDynamicLayout(true);
-        //System.setProperty("sun.awt.noerasebackground", "true");
-        //JFrame.setDefaultLookAndFeelDecorated(true);
-		        
-
+        
         //needed to unset this window as the fullscreen window.
         device.setFullScreenWindow(null);
 
-        //make sure the size of the window is correct.
-        // getFrame().setSize(800,600);
-        setMySize();
+        //put the borders back on the frame.
+        getFrame().setUndecorated(false);
+// MAC needs this!        
+//getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+        SwingUtilities.updateComponentTreeUI(getFrame());
+        
+        Global.updateComponentTree();
+
+        
 
         //recenter window
         getFrame().setLocationRelativeTo(null);
@@ -1669,10 +1753,14 @@ public class CSAMainFrame extends javax.swing.JFrame
         // if not 2 buffers switching back to windowed mode
         // results (at least with me) in Exceptions
         getFrame().createBufferStrategy(2); // 2 buffers
+
+        getFrame().getJMenuBar().setVisible(true);
+        
         createMenuBar();
 
-
-
+        
+        
+        
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run()
@@ -1780,33 +1868,30 @@ public class CSAMainFrame extends javax.swing.JFrame
     @Override
     public void configurationChanged()
     {
+        ignoreIconMessage = true;
         if (mCurrentPanel != null)
             setMainPanel(mCurrentPanel);
+        ignoreIconMessage = false;
     }
 
 
 
     
-    void testFirstTime()
+    void motd()
     {
         Configuration C = Configuration.getConfiguration();
-        /*
-        if (C.isFirstTime())
-        {
-            StarterKit c = new StarterKit();
-            c.setParentWindow(this);
-            titlePanel1.add(c);
-            titlePanel1.setComponentZOrder(c, 0);
-            c.setBounds(100, 100, 500, 400);
-        }
-        else
-        */
-        if (C.isShowTOD())
+        VideConfig config = VideConfig.getConfig();
+//        if (C.isShowTOD())
+        if (config.motdActive)
         {
             TipOfDayGUI c = new TipOfDayGUI();
             c.setParentWindow(this);
 //            titlePanel1.add(c);
   //          titlePanel1.setComponentZOrder(c, 0);
+
+            getMainPanel().add(c);
+            getMainPanel().setComponentZOrder(c, 0);
+            
             c.setBounds(100, 100, 500, 400);
         }
     }
@@ -1818,6 +1903,10 @@ public class CSAMainFrame extends javax.swing.JFrame
         starter.deinit();
   //      titlePanel1.invalidate();
   //      titlePanel1.validate();
+getMainPanel().remove(starter);
+  getMainPanel().invalidate();
+  getMainPanel().validate();
+  getMainPanel().repaint();
   //      titlePanel1.repaintAll();
     }
     public void showPanelModal(JPanel c, String name)
@@ -2606,9 +2695,12 @@ public class CSAMainFrame extends javax.swing.JFrame
         for(JInternalFrame frame: mFrames)
         {
             CSAInternalFrame f = (CSAInternalFrame)frame;
-            if (f.getPanel().equals((JPanel)p)) 
+            if (!(f instanceof CSAMacMenuInternalFrame))
             {
-                return f;
+                if (f.getPanel().equals((JPanel)p)) 
+                {
+                    return f;
+                }
             }
         }   
         return null;
@@ -2627,10 +2719,10 @@ public class CSAMainFrame extends javax.swing.JFrame
 
         try
         {
-            CSAMainFrame.serialize(s, "serialize"+File.separator+p.getID()+"Window.ser");
+            CSAMainFrame.serialize(s, Global.mainPathPrefix+"serialize"+File.separator+p.getID()+"Window.ser");
             Serializable ser =  p.getAdditionalStateinfo();
             if (ser != null)
-                CSAMainFrame.serialize(ser, "serialize"+File.separator+p.getID()+"Add"+"Window.ser");
+                CSAMainFrame.serialize(ser, Global.mainPathPrefix+"serialize"+File.separator+p.getID()+"Add"+"Window.ser");
         }
         catch (Throwable e)
         {
@@ -2646,7 +2738,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         {
             if (p.isLoadSettings())
             {
-                s = (SaveItem) deserialize("serialize"+File.separator+p.getID()+"Window.ser");
+                s = (SaveItem) deserialize(Global.mainPathPrefix+"serialize"+File.separator+p.getID()+"Window.ser");
 
                 if (s == null) return false;
                 if (frame == null) return false;
@@ -2660,7 +2752,7 @@ public class CSAMainFrame extends javax.swing.JFrame
                     
                 }
 
-                Serializable ser =  (Serializable) CSAMainFrame.deserialize("serialize"+File.separator+p.getID()+"Add"+"Window.ser");
+                Serializable ser =  (Serializable) CSAMainFrame.deserialize(Global.mainPathPrefix+"serialize"+File.separator+p.getID()+"Add"+"Window.ser");
                 if (ser != null)
                 {
                     p.setAdditionalStateinfo(ser);
@@ -2723,7 +2815,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         }
         try
         {
-            CSAMainFrame.serialize(s, "serialize"+File.separator+"MainWindow.ser");
+            CSAMainFrame.serialize(s, Global.mainPathPrefix+"serialize"+File.separator+"MainWindow.ser");
         }
         catch (Throwable e)
         {
@@ -2737,9 +2829,21 @@ public class CSAMainFrame extends javax.swing.JFrame
         SaveItem s;
         try
         {
-            s = (SaveItem) deserialize("serialize"+File.separator+"MainWindow.ser");
+            s = (SaveItem) deserialize(Global.mainPathPrefix+"serialize"+File.separator+"MainWindow.ser");
             if (s==null) return false;
-            setBounds(s.x, s.y, s.w, s.h);
+            
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            double width = screenSize.getWidth();
+            double height = screenSize.getHeight();            
+            
+            boolean doScreenCoords = true;
+            if (s.x+s.w>width) doScreenCoords = false;
+            if (s.y+s.h>height) doScreenCoords = false;
+            
+            if (doScreenCoords)
+                setBounds(s.x, s.y, s.w, s.h);
+            else
+                setBounds(0, 0, s.w, s.h);
             
             if (s.names != null)
             {
@@ -2813,11 +2917,17 @@ public class CSAMainFrame extends javax.swing.JFrame
                 
                 if (mCurrentPanel == p.getPanel())
                 {
-                    if (fullDesktopDefault)
-                        windowMe((Windowable)p, 100, 100, p.getMenuItem().getName());
+                    Windowable wp = (Windowable)p;
+                    
+                    if ((fullDesktopDefault) || (getInternalFrame(wp)==null))
+                    {
+                        
+                        windowMe(wp, 100, 100, p.getMenuItem().getName());
+                        if (getInternalFrame(wp)!=null)
+                            getInternalFrame(wp).deIconified();
+                    }
                     else
                     {
-                        Windowable wp = (Windowable)p;
                         if (getInternalFrame(wp).isIcon())
                         {
                             try
@@ -2912,24 +3022,30 @@ public class CSAMainFrame extends javax.swing.JFrame
         ((JPanel)p).setVisible(false);
         mPanels.removeElement(p.getPanel());
         
-        
+        int fcount = 0;
         for(JInternalFrame frame: mFrames)
         {
             CSAInternalFrame f = (CSAInternalFrame)frame;
-            if (f.getPanel().equals((JPanel)p)) 
+
+//if (f.getPanel()==null) System.out.println(""+f.uid+"f.getPanel() null : "+ fcount +" "+f.getTitle()+" "+f.getName());
+//fcount++;
+            if (!(f instanceof CSAMacMenuInternalFrame))
             {
-                try
+                if (f.getPanel().equals((JPanel)p)) 
                 {
-                    p.closing();
-                    mFrames.remove(f);
-                    f.setClosed(true);
-                    f.dispose();
+                    try
+                    {
+                        p.closing();
+                        mFrames.remove(f);
+                        f.setClosed(true);
+                        f.dispose();
+                    }
+                    catch (Throwable e)
+                    {
+                        log.addLog("CSAMainFrame: removePanel: "+e.getMessage(), WARN);
+                    }
+                    break;
                 }
-                catch (Throwable e)
-                {
-                    log.addLog("CSAMainFrame: removePanel: "+e.getMessage(), WARN);
-                }
-                break;
             }
         }
        
@@ -2990,7 +3106,7 @@ public class CSAMainFrame extends javax.swing.JFrame
         validate();
         repaint();
     }
-
+    private boolean ignoreIconMessage = false;
     public void setMainPanelOld(javax.swing.JPanel panel)
     {
         panel.setVisible(false);
@@ -3002,18 +3118,32 @@ public class CSAMainFrame extends javax.swing.JFrame
         }
         
         
+// CSA VIDE DESKTOPABLE
         mDesktop.removeAll();
-        for (int i=0; i <  mFrames.size(); i++)
+        if (!ignoreIconMessage)
         {
-            JInternalFrame f = mFrames.elementAt(i);
-            getMainPanel().add(f);
-            f.setVisible(true);
-            getMainPanel().setComponentZOrder(f, 0);
+            for (int i=0; i <  mFrames.size(); i++)
+            {
+                JInternalFrame f = mFrames.elementAt(i);
+
+                if (f instanceof CSAInternalFrame)
+                {
+                    ((CSAInternalFrame) f).setIconState(f.isIcon());
+                    if (f.isIcon())
+                    {
+                        ((CSAInternalFrame) f).setIconBounds(f.getDesktopIcon().getBounds());
+                        try
+                        {
+                            f.setIcon(false); // after adding a previously iconified will be "large", but iconify is still set, so unset it
+                        }
+                        catch (Throwable e){}
+                    }
+                }
+            }
         }
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mDesktop);
         mDesktop.setLayout(mainPanelLayout);
-
 
         synchronized (panel)
         {
@@ -3041,21 +3171,27 @@ public class CSAMainFrame extends javax.swing.JFrame
     public void desktopMe(CSAInternalFrame f)
     {
         JPanel p = f.getPanel();
+
         ((JPanel)p).setVisible(false);
         f.setVisible(false);
+        if (p instanceof CloseWatcher) ((CloseWatcher)p).preClose();
         try
         {
             f.setClosed(true);
         }
         catch (Throwable e){}
         removeInternalFrame(f);
+        if (p instanceof CloseWatcher) ((CloseWatcher)p).postClose();
         addPanel((Windowable) p);
         ((JPanel)p).setVisible(true);
         setMainPanel(p);
+
     }
+    
     public CSAInternalFrame windowMe(Windowable p, int w, int h, String title)
     {
         ((JPanel)p).setVisible(false);
+        if (p instanceof CloseWatcher) ((CloseWatcher)p).preClose();
         removePanel(p, false);
         CSAInternalFrame frame = new CSAInternalFrame();
         frame.addPanel((JPanel)p);
@@ -3063,7 +3199,49 @@ public class CSAMainFrame extends javax.swing.JFrame
         if (!fullDesktopDefault)
             frame.setIconifiable(true);
         
+            
+        
+// CSA VIDE DESKTOPABLE
+        mDesktop.removeAll();
+        for (int i=0; i <  mFrames.size(); i++)
+        {
+            JInternalFrame f = mFrames.elementAt(i);
+
+            if (f instanceof CSAInternalFrame)
+            {
+            //    addInternalFrame(((CSAInternalFrame) f));
+//             f.setFrameIcon( new ImageIcon(Configuration.getConfiguration().getCurrentTheme().getImage(("RedIconSmall.png"))));
+//            f.setDesktopIcon(new JInternalFrame.JDesktopIcon(f));
+            JInternalFrame.JDesktopIcon icon = f.getDesktopIcon();
+            icon.setVisible(true);
+         
+         
+            getMainPanel().add(f);
+       f.setVisible(true);
+            getMainPanel().setComponentZOrder(f, 0);
+                
+                try
+                {
+                    if (((CSAInternalFrame) f).getIconState())
+                    {
+                        
+                        f.setIcon(((CSAInternalFrame) f).getIconState());
+                        if (((CSAInternalFrame) f).getIconBounds() != null)
+                            f.getDesktopIcon().setBounds(((CSAInternalFrame) f).getIconBounds());
+                    }
+                }
+                catch (Throwable x) {}
+            }
+        }
+//            
+          
+                    
+        
+        
+        
+        
         addInternalFrame(frame);
+        if (p instanceof CloseWatcher) ((CloseWatcher)p).postClose();
         
         frame.setTitle(title);
         frame.setVisible(true);
@@ -3081,6 +3259,29 @@ public class CSAMainFrame extends javax.swing.JFrame
         if (p instanceof Stateable)
         {
             loadState((Stateable)p, frame);
+        }
+
+
+        // desperate!
+        for (int i = 0;i<mDesktop.getComponentCount();i++)
+        {
+            Component component = mDesktop.getComponent(i);
+
+            if (component instanceof CSAInternalFrame)
+            {
+                CSAInternalFrame csaFrame = ((CSAInternalFrame) component);
+                if (csaFrame.getIconState())
+                {
+                    try
+                    {
+                        csaFrame.setIcon(csaFrame.getIconState());
+                        csaFrame.setIconBounds(csaFrame.getIconBounds());
+                    }
+                    catch (Throwable e)
+                    {
+                    }                            
+                }
+            }
         }
         return frame;
     }
@@ -3410,31 +3611,34 @@ public class CSAMainFrame extends javax.swing.JFrame
             topElement.repaint();
         }
     }
-    public void resizeVecxis()
+    
+    public ArrayList<Object> getPanels(Class type)
     {
+        ArrayList<Object> list = new ArrayList<Object>();
+        
         for (JPanel p: mPanels )
         {
-            if (p instanceof Stateable)
+            if (type.isInstance(p))
             {
-                if (((Stateable)p).getID().equals(VecXPanel.SID))
-                {
-                    ((VecXPanel)p).forceResize();
-                    
-                }
+                list.add(p);
             }
         }
         for(JInternalFrame frame: mFrames)
         {
             CSAInternalFrame f = (CSAInternalFrame)frame;
-            if (!(f.getPanel() instanceof Stateable)) continue;
-            if (((Stateable)f.getPanel()).getID().equals(VecXPanel.SID))
-                 ((VecXPanel)f.getPanel()).forceResize();
-        }
+            if (type.isInstance(f.getPanel()))
+            {
+                list.add(f.getPanel());
+            }
+        }        
+        
+        return list;
     }
+    
     void initLibrary()
     {
         jMenuLibrary.removeAll();
-        String baseDir = "documents";
+        String baseDir = Global.mainPathPrefix+"documents";
         addFilesToMenu(jMenuLibrary, baseDir);
     }
     void addFilesToMenu(javax.swing.JMenu menu, String path)
@@ -3563,6 +3767,5 @@ public class CSAMainFrame extends javax.swing.JFrame
         addAsWindow(p, 320, 200, p.SID);
         return p;
     }
-
-
 }
+

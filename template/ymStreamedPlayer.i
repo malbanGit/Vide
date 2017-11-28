@@ -415,7 +415,6 @@ voice2SetNoNoise:
 voice2NoiseDone: 
                     endif    
                     endif    
-                    sta      $C807                        ; save reg 7 shadow 
 ; check if tone, when next bit is set, than noise
                     if       HAS_DIF_TONE2 = 1 
                     if       HAS_TONE2 = 1 
@@ -430,7 +429,7 @@ voice2SetNoTone:
 voice2ToneDone: 
                     endif    
                     endif    
-;                    sta      $C807                        ; and store the value to shadow 
+                    sta      $C807                        ; save reg 7 shadow 
 ; check voice 2 low frequence, if next bit is one, set it
                     GET_BIT  
                     lbeq     voice2NoLowFreq 

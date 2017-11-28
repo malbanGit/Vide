@@ -199,7 +199,6 @@
     <Component class="javax.swing.JSlider" name="jSliderSourceScale">
       <Properties>
         <Property name="majorTickSpacing" type="int" value="1"/>
-        <Property name="maximum" type="int" value="25"/>
         <Property name="minimum" type="int" value="1"/>
         <Property name="minorTickSpacing" type="int" value="1"/>
         <Property name="orientation" type="int" value="1"/>

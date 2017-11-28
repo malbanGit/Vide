@@ -206,7 +206,7 @@ public class StoryboardElement extends Single3dDisplayPanel
             ok = ok & XMLSupport.addElement(s, "pause", pause);
 
             ok = ok & XMLSupport.addElement(s, "drawType", drawType);
-            ok = ok & XMLSupport.addElement(s, "listName", listName);
+            ok = ok & XMLSupport.addElement(s, "listName", de.malban.util.Utility.makeRelative(listName));
             ok = ok & XMLSupport.addElement(s, "delay", delay);
 
             ok = ok & XMLSupport.addElement(s, "vectrexdelay", vectrexdelay);
@@ -281,6 +281,8 @@ public class StoryboardElement extends Single3dDisplayPanel
 
             drawType= xmlSupport.getStringElement("drawType", xml);errorCode|=xmlSupport.errorCode;
             listName= xmlSupport.getStringElement("listName", xml);errorCode|=xmlSupport.errorCode;
+            listName = de.malban.util.UtilityFiles.convertSeperator(listName);
+            
             delay= xmlSupport.getIntElement("delay", xml);errorCode|=xmlSupport.errorCode;
             vectrexdelay= xmlSupport.getIntElement("vectrexdelay", xml);errorCode|=xmlSupport.errorCode;
             loopCount= xmlSupport.getIntElement("loopCount", xml);errorCode|=xmlSupport.errorCode;
@@ -309,6 +311,7 @@ public class StoryboardElement extends Single3dDisplayPanel
 
             drawType= xmlSupport.getStringElement("drawType", xml);errorCode|=xmlSupport.errorCode;
             listName= xmlSupport.getStringElement("listName", xml);errorCode|=xmlSupport.errorCode;
+            listName = de.malban.util.UtilityFiles.convertSeperator(listName);
             delay= xmlSupport.getIntElement("delay", xml);errorCode|=xmlSupport.errorCode;
             vectrexdelay= xmlSupport.getIntElement("vectrexdelay", xml);errorCode|=xmlSupport.errorCode;
             resyncMax= xmlSupport.getIntElement("resyncMax", xml);errorCode|=xmlSupport.errorCode;

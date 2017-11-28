@@ -61,6 +61,21 @@ public class Memory {
         setBank(b, false);
     }
     
+    // used for RAM hack
+    public void setToAllBanks(byte b, int address)
+    {
+        for (OneBank bank : allBanks)
+        {
+            MemoryInformation memInfo = memMap.get(address);
+            if (memInfo == null) 
+            {
+                memMap.put(address, new MemoryInformation(address, b));            
+                memInfo = memMap.get(address);
+            }
+            memInfo.content = b;
+        }
+    }
+    
     public void setBank(int b, boolean addBank)
     {
         if ((b > maxBank-1) && (addBank))

@@ -39,14 +39,14 @@ public class  FilePropertiesPool
 	{
             java.io.File f;
             if (pathName==null)
-                f = new java.io.File(de.malban.Global.mBaseDir+mFileName);
+                f = new java.io.File(de.malban.Global.mainPathPrefix+mFileName);
             else
-                f = new java.io.File(pathName+mFileName);
+                f = new java.io.File(de.malban.Global.mainPathPrefix+pathName+mFileName);
             if (!f.exists()) return false;
             if (pathName == null)
                 mFileProperties = FileProperties.getHashMapFromXML(mFileName);
             else
-                mFileProperties = FileProperties.getHashMapFromXML(mFileName, pathName);
+                mFileProperties = FileProperties.getHashMapFromXML(mFileName, de.malban.Global.mainPathPrefix+pathName);
             return true;
 	}
 	public void save()
@@ -54,7 +54,7 @@ public class  FilePropertiesPool
             if (pathName==null)
 		FileProperties.saveCollectionAsXML(mFileName, mFileProperties.values());
             else
-		FileProperties.saveCollectionAsXML(pathName, mFileName, mFileProperties.values());
+		FileProperties.saveCollectionAsXML(de.malban.Global.mainPathPrefix+pathName, mFileName, mFileProperties.values());
             buildKlassenMap();
 	}
 	public void remove(FileProperties st)

@@ -50,7 +50,9 @@ public class KeyboardJoystickDevice extends AbstractDevice
             new HotKey("Button1_3_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton3(true, true); }}, panel);
             new HotKey("Button1_4_released", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setButton4(true, true); }}, panel);
 
-            new HotKey("Joy1_Left_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0, true); }}, panel);
+            new HotKey("Joy1_Left_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) 
+            {  
+                if (joyport != null) joyport.setHorizontal(0, true); }}, panel);
             new HotKey("Joy1_Right_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setHorizontal(0xff, true); }}, panel);
             new HotKey("Joy1_Up_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0xff, true); }}, panel);
             new HotKey("Joy1_Down_pressed", new AbstractAction() { public void actionPerformed(ActionEvent e) {  if (joyport != null) joyport.setVertical(0, true); }}, panel);

@@ -45,7 +45,7 @@ public class E6809 extends E6809State implements E6809Statics
                 {
                     int datahi = vecx.e6809_readOnly8((adr+i)   & 0xffff);
                     int datalo = vecx.e6809_readOnly8((adr+1+i) & 0xffff);
-                    if (check == (datahi&0xff)*256+(datalo&0xff))
+                    if (check == (datahi)*256+(datalo))
                     {
                         found = true;
                         break;
@@ -68,8 +68,8 @@ public class E6809 extends E6809State implements E6809Statics
     int read_xyus(int r)
     {
         if (r==0) return reg_x;
-        if (r==1) return reg_y;
-        if (r==2) return reg_u.intValue;
+        else if (r==1) return reg_y;
+        else if (r==2) return reg_u.intValue;
         return reg_s.intValue;
     }
     void write_xyus(int r, int v)
@@ -81,22 +81,34 @@ public class E6809 extends E6809State implements E6809Statics
     }
 
     /* obtain a particular condition code. returns 0 or 1. */
-    int get_cc(int flag)
+    int get_cc_old(int flag)
     {
             return (reg_cc / flag) & 1;
+    }
+    boolean get_cc(int flag)
+    {
+        return (reg_cc & flag) == flag;
+    }
+    int get_cc_int(int flag)
+    {
+        return ((reg_cc & flag) == flag)?1:0;
     }
 
     /* set a particular condition code to either 0 or 1.
      * value parameter must be either 0 or 1.
      */
-    void set_cc (int flag, int value)
+    void set_cc_old (int flag, int value)
     {
-            reg_cc &= ~flag;
-            reg_cc |= value * flag;
+        reg_cc &= ~flag;
+        reg_cc |= value * flag;
+    }
+    void set_cc (int flag, boolean value)
+    {
+        reg_cc = value?(reg_cc | flag):(reg_cc & ~flag);
     }
 
     /* test carry */
-    int test_c (int i0, int i1, int r, int sub)
+    int test_c_old (int i0, int i1, int r, int sub)
     {
         int flag;
         flag  = (i0 | i1) & ~r; /* one of the inputs is 1 and output is 0 */
@@ -105,16 +117,31 @@ public class E6809 extends E6809State implements E6809Statics
         flag ^= sub; /* on a sub, carry is opposite the carry of an add */
         return flag;
     }
+    boolean test_c (int i0, int i1, int r, boolean sub)
+    {
+//        int flag;
+//        flag  = (i0 | i1) & ~r; /* one of the inputs is 1 and output is 0 */
+//        flag |= (i0 & i1);      /* both inputs are 1 */
+//        flag  = (flag >> 7) & 1;
+//        flag ^= sub; /* on a sub, carry is opposite the carry of an add */
+//        return flag;
+        return (((((i0 | i1) & ~r) | (i0 & i1)) & 0x80) == 0x80) ^ (sub);
+        
+    }
 
     /* test negative */
-    int test_n (int r)
+    int test_n_old (int r)
     {
         return (r >> 7) & 1;
     }
+    boolean test_n (int r)
+    {
+        return (r & 0x80) == 0x80;
+    }
 
     /* test for zero in lower 8 bits */
-
-    int test_z8(int r)
+    // returns 1 if zero
+    int test_z8_old(int r)
     {
         int flag;
         flag = ~r;
@@ -123,10 +150,14 @@ public class E6809 extends E6809State implements E6809Statics
         flag = (flag >> 1) & (flag & 0x1);
         return flag;
     }
+    boolean test_z8(int r)
+    {
+        return (r&0xff) == 0;
+    }
 
     /* test for zero in lower 16 bits */
 
-    int test_z16 (int r)
+    int test_z16_old (int r)
     {
         int flag;
         flag = ~r;
@@ -136,12 +167,17 @@ public class E6809 extends E6809State implements E6809Statics
         flag = (flag >> 1) & (flag & 0x1);
         return flag;
     }
+    boolean test_z16(int r)
+    {
+        return (r&0xffff) == 0;
+    }
 
     /* overflow is set whenever the sign bits of the inputs are the same
      * but the sign bit of the result is not same as the sign bits of the
      * inputs.
      */
-    int test_v(int i0, int i1, int r)
+
+    int test_v_old(int i0, int i1, int r)
     {
         int flag;
         flag  = ~(i0 ^ i1); /* input sign bits are the same */
@@ -149,10 +185,20 @@ public class E6809 extends E6809State implements E6809Statics
         flag  = (flag >> 7) & 1;
         return flag;
     }
+    boolean test_v(int i0, int i1, int r)
+    {
+//        int flag;
+//        flag  = ~(i0 ^ i1); /* input sign bits are the same */
+//        flag &=  (i0 ^ r);  /* input sign and output sign not same */
+//        flag  = (flag >> 7) & 1;
+//        return flag;
+
+        return (((~(i0 ^ i1)) & (i0 ^ r)) & 0x80) == 0x80;
+    }
 
     int get_reg_d()
     {
-        return ((reg_a << 8)&0xff00) | (reg_b & 0xff);
+        return (((reg_a << 8)&0xff00) | (reg_b & 0xff));
     }
 
     void set_reg_d (int value)
@@ -166,7 +212,7 @@ public class E6809 extends E6809State implements E6809Statics
      */
     int read8 (int address)
     {
-        return vecx.e6809_read8(address & 0xffff) ;
+        return vecx.e6809_read8(address & 0xffff) &0xff;
     }
 
     /* write a byte ... only the lower 8-bits of the int data
@@ -185,17 +231,17 @@ public class E6809 extends E6809State implements E6809Statics
         datahi = read8 (address);
         datalo = read8 (address + 1);
 
-        return (datahi << 8) | datalo;
+        return (datahi << 8) | (datalo);
     }
     int read16 (int address, boolean doCycles)
     {
         int datahi, datalo;
 
-        datahi = read8 (address);
+        datahi = vecx.e6809_read8(address & 0xffff);
         vecx.vectrexNonCPUStep(1);
-        datalo = read8 (address + 1);
+        datalo = vecx.e6809_read8((address + 1) & 0xffff) ;
 
-        return (datahi << 8) | datalo;
+        return (datahi << 8) | (datalo);
     }
 
     void write16 (int address, int data)
@@ -238,7 +284,7 @@ public class E6809 extends E6809State implements E6809Statics
         datahi = pull8 (sp);
         datalo = pull8 (sp);
 
-        return (datahi << 8) | datalo;
+        return (datahi << 8) | (datalo);
     }
 
     /* read a byte from the address pointed to by the pc */
@@ -250,6 +296,10 @@ public class E6809 extends E6809State implements E6809Statics
         return data;
     }
 
+    
+
+    
+    
     /* read a word from the address pointed to by the pc */
 
     int pc_read16()
@@ -272,7 +322,7 @@ public class E6809 extends E6809State implements E6809Statics
      */
     int ea_direct()
     {
-        return (reg_dp << 8) | pc_read8 ();
+        return (reg_dp << 8) | (pc_read8 ());
     }
 
     /* extended addressing, address is obtained from 2 bytes following
@@ -283,6 +333,8 @@ public class E6809 extends E6809State implements E6809Statics
         return pc_read16 ();
     }
 
+    
+    
     /* indexed addressing */
     int ea_indexed (IntegerPointer cycles)
     {
@@ -509,7 +561,7 @@ public class E6809 extends E6809State implements E6809Statics
 
         return ea&0xffff;
     }
-
+    
 /* instruction: neg
  * essentially (0 - data).
  */
@@ -522,11 +574,20 @@ int inst_neg (int data)
     i1 = ~data;
     r = i0 + i1 + 1;
 
-    set_cc (FLAG_H, test_c (i0 << 4, i1 << 4, r << 4, 0));
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_V, test_v (i0, i1, r));
-    set_cc (FLAG_C, test_c (i0, i1, r, 1));
+    //set_cc (FLAG_H, test_c (i0 << 4, i1 << 4, r << 4, false));
+    reg_cc = test_c(i0 << 4, i1 << 4, r << 4, false)?(reg_cc | FLAG_H):(reg_cc & ~FLAG_H);
+    
+    //set_cc (FLAG_N, test_n (r));
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    
+    //set_cc (FLAG_Z, test_z8 (r));
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+   
+    //set_cc (FLAG_V, test_v (i0, i1, r));
+    reg_cc = test_v(i0, i1, r)?(reg_cc | FLAG_V):(reg_cc & ~FLAG_V);
+
+    //set_cc (FLAG_C, test_c (i0, i1, r, true));
+    reg_cc = test_c(i0, i1, r, true)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
 
     return r;
 }
@@ -538,10 +599,14 @@ int inst_com (int data)
 
     r = ~data;
 
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_V, 0);
-    set_cc (FLAG_C, 1);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+
+    reg_cc = (reg_cc & ~FLAG_V);
+    reg_cc = (reg_cc | FLAG_C);
+
+    //set_cc (FLAG_V, false);
+    //set_cc (FLAG_C, true);
 
     return r;
 }
@@ -556,9 +621,11 @@ int inst_lsr (int data)
 
     r = (data >> 1) & 0x7f;
 
-    set_cc (FLAG_N, 0);
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_C, data & 1);
+    //set_cc (FLAG_N, false);
+    reg_cc = (reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    //set_cc (FLAG_C, (data & 1)==1 );
+    reg_cc = ((data & 1)==1)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
 
     return r;
 }
@@ -569,14 +636,13 @@ int inst_lsr (int data)
 
 int inst_ror (int data)
 {
-    int r, c;
+    int r;//, c;
 
-    c = get_cc (FLAG_C);
-    r = ((data >> 1) & 0x7f) | (c << 7);
+    r = ((data >> 1) & 0x7f) | ((((reg_cc & FLAG_C) == FLAG_C)?1:0) << 7);
 
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_C, data & 1);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = ((data & 1)==1)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
 
     return r;
 }
@@ -591,9 +657,9 @@ int inst_asr (int data)
 
     r = ((data >> 1) & 0x7f) | (data & 0x80);
 
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_C, data & 1);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = ((data & 1)==1)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
 
     return r;
 }
@@ -610,19 +676,11 @@ int inst_asl (int data)
     i1 = data;
     r = i0 + i1;
 
-    set_cc (FLAG_H, test_c (i0 << 4, i1 << 4, r << 4, 0));
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_V, test_v (i0, i1, r));
-    set_cc (FLAG_C, test_c (i0, i1, r, 0));
-
-// Is that the same as above?    
-// Malban, this is what my books say
-    int b6 = (data & 0x40)>>6;
-    int b7 = (data & 0x80)>>7;
-    set_cc (FLAG_V, (b6==b7?0:1));
-    set_cc (FLAG_C, (data&0x80)>>7);
-    
+    reg_cc = test_c(i0 << 4, i1 << 4, r << 4, false)?(reg_cc | FLAG_H):(reg_cc & ~FLAG_H);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = (((data & 0x40)>>6)!=((data & 0x80)>>7))?(reg_cc | FLAG_V):(reg_cc & ~FLAG_V);
+    reg_cc = ((data&0x80)==0x80)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
     
     return r&0xff;
 }
@@ -633,24 +691,13 @@ int inst_asl (int data)
 
 int inst_rol (int data)
 {
-    int i0, i1, c, r;
+    int r;
+    r = data + data + (((reg_cc & FLAG_C) == FLAG_C)?1:0);
 
-    i0 = data;
-    i1 = data;
-    c = get_cc (FLAG_C);
-    r = i0 + i1 + c;
-
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_V, test_v (i0, i1, r));
-    set_cc (FLAG_C, test_c (i0, i1, r, 0));
-
-// Is that the same as above?    
-    // Malban, this is what my books say
-    int b6 = (data & 0x40)>>6;
-    int b7 = (data & 0x80)>>7;
-    set_cc (FLAG_V, (b6==b7?0:1));
-    set_cc (FLAG_C, (data&0x80)>>7);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = (((data & 0x40)>>6)!=((data & 0x80)>>7))?(reg_cc | FLAG_V):(reg_cc & ~FLAG_V);
+    reg_cc = ((data&0x80)==0x80)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
     
     return r&0xff;
 }
@@ -661,21 +708,14 @@ int inst_rol (int data)
 
 int inst_dec (int data)
 {
-    int i0, i1, r;
+    int r;
+    r = (data + 0xff)&0xff;
 
-    i0 = data;
-    i1 = 0xff;
-    r = i0 + i1;
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = (r== 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = (data==0x80)?(reg_cc | FLAG_V):(reg_cc & ~FLAG_V);
 
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_V, test_v (i0, i1, r));
-
-// Is that the same as above?    
-    // Malban, this is what my books say
-    set_cc (FLAG_V, data==0x80?1:0);
-
-    return r&0xff;
+    return r;
 }
 
 /* instruction: inc
@@ -684,47 +724,40 @@ int inst_dec (int data)
 
 int inst_inc (int data)
 {
-    int i0, i1, r;
+    int r;
+    r = (data + 1)&0xff;
 
-    i0 = data;
-    i1 = 1;
-    r = i0 + i1;
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = (r == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = (data==0x7f)?(reg_cc | FLAG_V):(reg_cc & ~FLAG_V);
 
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_V, test_v (i0, i1, r));
-
-// Is that the same as above?    
-    // Malban, this is what my books say
-    set_cc (FLAG_V, data==0x7f?1:0);
-
-    return r&0xff;
+    return r;
 }
 
 /* instruction: tst */
 
 void inst_tst8 (int data)
 {
-    set_cc (FLAG_N, test_n (data));
-    set_cc (FLAG_Z, test_z8 (data));
-    set_cc (FLAG_V, 0);
+    reg_cc = ((data & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((data&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = (reg_cc & ~FLAG_V);
 }
 
 void inst_tst16 (int data)
 {
-    set_cc (FLAG_N, test_n (data >> 8));
-    set_cc (FLAG_Z, test_z16 (data));
-    set_cc (FLAG_V, 0);
+    reg_cc =  (((data) & 0x8000) == 0x8000) ?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((data&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = (reg_cc & ~FLAG_V);
 }
 
 /* instruction: clr */
 
 void inst_clr ()
 {
-    set_cc (FLAG_N, 0);
-    set_cc (FLAG_Z, 1);
-    set_cc (FLAG_V, 0);
-    set_cc (FLAG_C, 0);
+    reg_cc = (reg_cc & ~FLAG_N);
+    reg_cc = (reg_cc | FLAG_Z);
+    reg_cc = (reg_cc & ~FLAG_V);
+    reg_cc = (reg_cc & ~FLAG_C);
 }
 
 /* instruction: suba/subb */
@@ -737,11 +770,11 @@ int inst_sub8 (int data0, int data1)
     i1 = ~data1;
     r = i0 + i1 + 1;
 
-    set_cc (FLAG_H, test_c (i0 << 4, i1 << 4, r << 4, 0));
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_V, test_v (i0, i1, r));
-    set_cc (FLAG_C, test_c (i0, i1, r, 1));
+    reg_cc = test_c(i0 << 4, i1 << 4, r << 4, false)?(reg_cc | FLAG_H):(reg_cc & ~FLAG_H);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = test_v(i0, i1, r)?(reg_cc | FLAG_V):(reg_cc & ~FLAG_V);
+    reg_cc = test_c(i0, i1, r, true)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
 
     return r&0xff;
 }
@@ -752,18 +785,19 @@ int inst_sub8 (int data0, int data1)
 
 int inst_sbc (int data0, int data1)
 {
-    int i0, i1, c, r;
+    int i0, i1,r;//, c;
 
     i0 = data0;
     i1 = ~data1;
-    c = 1 - get_cc (FLAG_C);
-    r = i0 + i1 + c;
+    //c = 1 - get_cc_int (FLAG_C);
 
-    set_cc (FLAG_H, test_c (i0 << 4, i1 << 4, r << 4, 0));
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_V, test_v (i0, i1, r));
-    set_cc (FLAG_C, test_c (i0, i1, r, 1));
+    r = i0 + i1 + (((reg_cc & FLAG_C) == FLAG_C)?0:1);
+
+    reg_cc = test_c(i0 << 4, i1 << 4, r << 4, false)?(reg_cc | FLAG_H):(reg_cc & ~FLAG_H);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = test_v(i0, i1, r)?(reg_cc | FLAG_V):(reg_cc & ~FLAG_V);
+    reg_cc = test_c(i0, i1, r, true)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
 
     return r&0xff;
 }
@@ -777,8 +811,9 @@ int inst_and (int data0, int data1)
     int r;
 
     r = data0 & data1;
-
-    inst_tst8 (r);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = (reg_cc & ~FLAG_V);
 
     return r;
 }
@@ -792,8 +827,9 @@ int inst_eor (int data0, int data1)
     int r;
 
     r = data0 ^ data1;
-
-    inst_tst8 (r);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = (reg_cc & ~FLAG_V);
 
     return r;
 }
@@ -804,18 +840,17 @@ int inst_eor (int data0, int data1)
 
 int inst_adc (int data0, int data1)
 {
-    int i0, i1, c, r;
+    int i0, i1, r;
 
     i0 = data0;
     i1 = data1;
-    c = get_cc (FLAG_C);
-    r = (i0 + i1 + c)&0xff;
+    r = (i0 + i1 + (((reg_cc & FLAG_C) == FLAG_C)?1:0))&0xff;
 
-    set_cc (FLAG_H, test_c (i0 << 4, i1 << 4, r << 4, 0));
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_V, test_v (i0, i1, r));
-    set_cc (FLAG_C, test_c (i0, i1, r, 0));
+    reg_cc = test_c(i0 << 4, i1 << 4, r << 4, false)?(reg_cc | FLAG_H):(reg_cc & ~FLAG_H);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = test_v(i0, i1, r)?(reg_cc | FLAG_V):(reg_cc & ~FLAG_V);
+    reg_cc = test_c (i0, i1, r, false)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
 
     return r;
 }
@@ -830,7 +865,9 @@ int inst_or (int data0, int data1)
 
     r = data0 | data1;
 
-    inst_tst8 (r);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = ((r&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = (reg_cc & ~FLAG_V);
 
     return r;
 }
@@ -845,11 +882,11 @@ int inst_add8 (int data0, int data1)
     i1 = data1;
     r = (i0 + i1)&0xff;
 
-    set_cc (FLAG_H, test_c (i0 << 4, i1 << 4, r << 4, 0));
-    set_cc (FLAG_N, test_n (r));
-    set_cc (FLAG_Z, test_z8 (r));
-    set_cc (FLAG_V, test_v (i0, i1, r));
-    set_cc (FLAG_C, test_c (i0, i1, r, 0));
+    reg_cc = test_c(i0 << 4, i1 << 4, r << 4, false)?(reg_cc | FLAG_H):(reg_cc & ~FLAG_H);
+    reg_cc = ((r & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = (r == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = test_v(i0, i1, r)?(reg_cc | FLAG_V):(reg_cc & ~FLAG_V);
+    reg_cc = test_c (i0, i1, r, false)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
 
     return r;
 }
@@ -864,11 +901,11 @@ int inst_add16 (int data0, int data1)
     i1 = data1;
     r = (i0 + i1)&0xffff;
 
-    set_cc (FLAG_N, test_n (r >> 8));
-    set_cc (FLAG_Z, test_z16 (r));
-    set_cc (FLAG_V, test_v (i0 >> 8, i1 >> 8, r >> 8));
-    set_cc (FLAG_C, test_c (i0 >> 8, i1 >> 8, r >> 8, 0));
-
+    reg_cc = ((r & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = (r == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = test_v (i0 >> 8, i1 >> 8, r >> 8)?(reg_cc | FLAG_V):(reg_cc & ~FLAG_V);
+    reg_cc = test_c (i0 >> 8, i1 >> 8, r >> 8, false)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
+    
     return r;
 }
 
@@ -882,16 +919,16 @@ int inst_sub16 (int data0, int data1)
     i1 = ~data1;
     r = (i0 + i1 + 1)&0xffff;
 
-    set_cc (FLAG_N, test_n (r >> 8));
-    set_cc (FLAG_Z, test_z16 (r));
-    set_cc (FLAG_V, test_v (i0 >> 8, i1 >> 8, r >> 8));
-    set_cc (FLAG_C, test_c (i0 >> 8, i1 >> 8, r >> 8, 1));
+    reg_cc = ((r & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+    reg_cc = (r == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+    reg_cc = test_v (i0 >> 8, i1 >> 8, r >> 8)?(reg_cc | FLAG_V):(reg_cc & ~FLAG_V);
+    reg_cc = test_c (i0 >> 8, i1 >> 8, r >> 8, true)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
 
     return r;
 }
 
 /* instruction: 8-bit offset branch */
-void inst_bra8 (int test, int op, IntegerPointer cycles)
+void inst_bra8_old (int test, int op, IntegerPointer cycles)
 {
     int offset, mask;
     offset = pc_read8 ();
@@ -903,10 +940,35 @@ void inst_bra8 (int test, int op, IntegerPointer cycles)
     cycles.intValue += 3;
     // dont care analog
 }
+void inst_bra8 (boolean test, int op, IntegerPointer cycles)
+{
+    int offset;
+    offset = pc_read8 ();
+    if (!((test) ^ ((op&1)==1)))
+    {
+        reg_pc = (reg_pc + ((~((offset) & 0x80) + 1) | ((offset) & 0xff) ))& 0xffff;;
+    }
+    cycles.intValue += 3;
+    // dont care analog
+}
 
 /* instruction: 16-bit offset branch */
 
-void inst_bra16 (int test, int op, IntegerPointer cycles)
+void inst_bra16 (boolean test, int op, IntegerPointer cycles)
+{
+    int offset;
+    offset = pc_read16 ();
+
+    if (!((test) ^ ((op&1)==1)))
+    {
+        reg_pc = (reg_pc + offset)& 0xffff;
+        cycles.intValue += 1;
+    }
+    cycles.intValue += 5;
+    // dont care analog
+}
+
+void inst_bra16_old (int test, int op, IntegerPointer cycles)
 {
     int offset, mask;
     offset = pc_read16 ();
@@ -1048,7 +1110,7 @@ int exgtfr_read (int reg)
     
 	switch (reg) {
         case 0x0:
-            data = get_reg_d ();
+            data = (((reg_a << 8)&0xff00) | (reg_b & 0xff));
             break;
         case 0x1:
             data = reg_x;
@@ -1130,8 +1192,7 @@ void exgtfr_write (int reg, int data)
 void inst_exg ()
 {
     int op, tmp;
-
-    op = pc_read8 ();
+    op =vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
 
     tmp = exgtfr_read (op & 0xf);
     exgtfr_write (op & 0xf, exgtfr_read (op >> 4));
@@ -1146,10 +1207,9 @@ public static final int POST_CLR_ADDSTEPS = -1;
 void inst_tfr ()
 {
     int op;
+    op =vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
 
-    op = pc_read8 ();
-
-    exgtfr_write (op & 0xf, exgtfr_read (op >> 4));
+    exgtfr_write (op & 0xf, exgtfr_read ( (op >> 4)&0xf)  );
 }
 
 /* reset the 6809 */
@@ -1178,30 +1238,30 @@ public void e6809_reset ()
 }
 
 /* execute a single instruction or handle interrupts and return */
+IntegerPointer cycles = new IntegerPointer();
+int op;
+int ea, i0, i1, r, tmp;
+int orgPC;
 int e6809_sstep (int irq_i, int irq_f)
 {
-    int op;
-    IntegerPointer cycles = new IntegerPointer();
     cycles.intValue = 0;
-    int ea, i0, i1, r;
-
+    orgPC = reg_pc;
     if (irq_f!=0) 
     {
-        if (get_cc (FLAG_F) == 0) 
+        if (((reg_cc & FLAG_F) != FLAG_F)) 
         {
             if (irq_status != IRQ_CWAI) 
             {
-                set_cc (FLAG_E, 0);
+                reg_cc = (reg_cc & ~FLAG_E);
                 inst_psh (0x81, reg_s, reg_u, cycles);
-
                 if (profiler != null)
                 {
-                    profiler.addContext(read16 (0xfff6), reg_s.intValue+1, reg_pc & 0xffff);
+                    profiler.addContext(read16 (0xfff6), reg_s.intValue+1, reg_pc & 0xffff, orgPC & 0xffff);
                 }
             }
 
-            set_cc (FLAG_I, 1);
-            set_cc (FLAG_F, 1);
+            reg_cc = (reg_cc | FLAG_I);
+            reg_cc = (reg_cc | FLAG_F);
 
             
             
@@ -1222,21 +1282,21 @@ int e6809_sstep (int irq_i, int irq_f)
     
     if (irq_i!=0) 
     {
-        if (get_cc (FLAG_I) == 0) 
+        if (((reg_cc & FLAG_I) != FLAG_I)) 
         {
             if (irq_status != IRQ_CWAI) 
             {
-                set_cc (FLAG_E, 1);
+                reg_cc = (reg_cc | FLAG_E);
                 int olds = reg_s.intValue;
                 inst_psh (0xff, reg_s, reg_u, cycles);
                 
                 if (profiler != null)
                 {
-                    profiler.addContext(read16 (0xfff8), olds-2, reg_pc & 0xffff);
+                    profiler.addContext(read16 (0xfff8), olds-2, reg_pc & 0xffff, orgPC & 0xffff);
                 }
                 
             }
-            set_cc (FLAG_I, 1);
+            reg_cc = (reg_cc | FLAG_I);
             reg_pc = read16 (0xfff8);
             irq_status = IRQ_NORMAL;
             cycles.intValue += 7;
@@ -1259,6 +1319,8 @@ int e6809_sstep (int irq_i, int irq_f)
     }
     
     op = pc_read8 ();
+//    op =vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+
     switch (op) 
     {
         /* page 0 instructions */
@@ -2415,44 +2477,44 @@ int e6809_sstep (int irq_i, int irq_f)
             /* stx */
         case 0x9f:
             ea = ea_direct ();
+    vecx.vectrexNonCPUStep(3+1);
             write16 (ea, reg_x);
             inst_tst16 (reg_x);
-            // dont care analog
             cycles.intValue += 5;
             break;
         case 0xaf:
             ea = ea_indexed (cycles);
+    vecx.vectrexNonCPUStep(3+1);
             write16 (ea, reg_x);
             inst_tst16 (reg_x);
-            // dont care analog
             cycles.intValue += 5;
             break;
         case 0xbf:
             ea = ea_extended ();
+    vecx.vectrexNonCPUStep(4+1);
             write16 (ea, reg_x);
-            // dont care analog
             inst_tst16 (reg_x);
             cycles.intValue += 6;
             break;
             /* stu */
         case 0xdf:
             ea = ea_direct ();
+    vecx.vectrexNonCPUStep(3+1);
             write16 (ea, reg_u.intValue);
-            // dont care analog
             inst_tst16 (reg_u.intValue);
             cycles.intValue += 5;
             break;
         case 0xef:
             ea = ea_indexed (cycles);
+    vecx.vectrexNonCPUStep(3+1);
             write16 (ea, reg_u.intValue);
-            // dont care analog
             inst_tst16 (reg_u.intValue);
             cycles.intValue += 5;
             break;
         case 0xff:
             ea = ea_extended ();
+    vecx.vectrexNonCPUStep(4+1);
             write16 (ea, reg_u.intValue);
-            // dont care analog
             inst_tst16 (reg_u.intValue);
             cycles.intValue += 6;
             break;
@@ -2547,7 +2609,7 @@ int e6809_sstep (int irq_i, int irq_f)
             set_reg_d (r);
             
             set_cc (FLAG_Z, test_z16 (r));
-            set_cc (FLAG_C, (r >> 7) & 1);
+            set_cc (FLAG_C, (r &0x80) ==0x80);
             
             // dont care analog
             cycles.intValue += 11;
@@ -2557,54 +2619,54 @@ int e6809_sstep (int irq_i, int irq_f)
             /* brn */
         case 0x21:
             // dont care analog
-            inst_bra8 (0, op, cycles);
+            inst_bra8 (false, op, cycles);
             break;
             /* bhi */
         case 0x22:
             /* bls */
         case 0x23:
             // dont care analog
-            inst_bra8 (get_cc (FLAG_C) | get_cc (FLAG_Z), op, cycles);
+            inst_bra8 (((reg_cc & FLAG_C) == FLAG_C) | ((reg_cc & FLAG_Z) == FLAG_Z), op, cycles);
             break;
             /* bhs/bcc */
         case 0x24:
             /* blo/bcs */
         case 0x25:
             // dont care analog
-            inst_bra8 (get_cc (FLAG_C), op, cycles);
+            inst_bra8 (((reg_cc & FLAG_C) == FLAG_C), op, cycles);
             break;
             /* bne */
         case 0x26:
             /* beq */
         case 0x27:
             // dont care analog
-            inst_bra8 (get_cc (FLAG_Z), op, cycles);
+            inst_bra8 (((reg_cc & FLAG_Z) == FLAG_Z), op, cycles);
             break;
             /* bvc */
         case 0x28:
             /* bvs */
         case 0x29:
-            inst_bra8 (get_cc (FLAG_V), op, cycles);
+            inst_bra8 (((reg_cc & FLAG_V) == FLAG_V), op, cycles);
             break;
             /* bpl */
         case 0x2a:
             /* bmi */
         case 0x2b:
-            inst_bra8 (get_cc (FLAG_N), op, cycles);
+            inst_bra8 (((reg_cc & FLAG_N) == FLAG_N), op, cycles);
             break;
             /* bge */
         case 0x2c:
             /* blt */
         case 0x2d:
             // dont care analog
-            inst_bra8 (get_cc (FLAG_N) ^ get_cc (FLAG_V), op, cycles);
+            inst_bra8 (((reg_cc & FLAG_N) == FLAG_N) ^ ((reg_cc & FLAG_V) == FLAG_V), op, cycles);
             break;
             /* bgt */
         case 0x2e:
             /* ble */
         case 0x2f:
             // dont care analog
-            inst_bra8 (get_cc (FLAG_Z) | (get_cc (FLAG_N) ^ get_cc (FLAG_V)), op, cycles);
+            inst_bra8 (((reg_cc & FLAG_Z) == FLAG_Z) | (((reg_cc & FLAG_N) == FLAG_N) ^ ((reg_cc & FLAG_V) == FLAG_V)), op, cycles);
             break;
             /* lbra */
         case 0x16:
@@ -2636,7 +2698,7 @@ int e6809_sstep (int irq_i, int irq_f)
             }
             if (profiler != null)
             {
-                profiler.addContext(((reg_pc+sign_extend (r))&0xffff), reg_s.intValue, reg_pc & 0xffff);
+                profiler.addContext(((reg_pc+sign_extend (r))&0xffff), reg_s.intValue, reg_pc & 0xffff, orgPC & 0xffff);
             }
             // dont care analog
             reg_pc = (reg_pc+sign_extend (r))&0xffff;
@@ -2652,7 +2714,7 @@ int e6809_sstep (int irq_i, int irq_f)
             }
             if (profiler != null)
             {
-                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff);
+                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff, orgPC & 0xffff);
             }
             // dont care analog
             reg_pc = ea;
@@ -2667,7 +2729,7 @@ int e6809_sstep (int irq_i, int irq_f)
             }
             if (profiler != null)
             {
-                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff);
+                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff, orgPC & 0xffff);
             }
             // dont care analog
             reg_pc = ea;
@@ -2675,6 +2737,7 @@ int e6809_sstep (int irq_i, int irq_f)
             break;
         case 0xbd:
             ea = ea_extended ();
+
             push16 (reg_s, reg_pc);
             synchronized (callStack)
             {
@@ -2682,7 +2745,7 @@ int e6809_sstep (int irq_i, int irq_f)
             }
             if (profiler != null)
             {
-                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff);
+                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff, orgPC & 0xffff);
             }
             // dont care analog
             reg_pc = ea;
@@ -2789,7 +2852,7 @@ int e6809_sstep (int irq_i, int irq_f)
             /* rti */
         case 0x3b:
             inst_pul (0x01, reg_s, reg_u, cycles);
-            if ((get_cc (FLAG_E)) !=0)
+            if (((reg_cc & FLAG_E) == FLAG_E))
             {
                 inst_pul (0xfe, reg_s, reg_u, cycles);
             } 
@@ -2803,10 +2866,10 @@ int e6809_sstep (int irq_i, int irq_f)
             break;
             /* swi */
         case 0x3f:
-            set_cc (FLAG_E, 1);
+            set_cc (FLAG_E, true);
             inst_psh (0xff, reg_s, reg_u, cycles);
-            set_cc (FLAG_I, 1);
-            set_cc (FLAG_F, 1);
+            set_cc (FLAG_I, true);
+            set_cc (FLAG_F, true);
             reg_pc = read16 (0xfffa);
             // dont care analog
             cycles.intValue += 7;
@@ -2822,7 +2885,7 @@ int e6809_sstep (int irq_i, int irq_f)
             i0 = reg_a;
             i1 = 0;
             
-            if ((reg_a & 0x0f) > 0x09 || get_cc (FLAG_H) == 1) {
+            if ((reg_a & 0x0f) > 0x09 || ((reg_cc & FLAG_H) == FLAG_H)) {
                 i1 |= 0x06;
             }
             
@@ -2830,7 +2893,7 @@ int e6809_sstep (int irq_i, int irq_f)
                 i1 |= 0x60;
             }
             
-            if ((reg_a & 0xf0) > 0x90 || get_cc (FLAG_C) == 1) {
+            if ((reg_a & 0xf0) > 0x90 || ((reg_cc & FLAG_C) == FLAG_C)) {
                 i1 |= 0x60;
             }
             
@@ -2838,8 +2901,8 @@ int e6809_sstep (int irq_i, int irq_f)
             
             set_cc (FLAG_N, test_n (reg_a));
             set_cc (FLAG_Z, test_z8 (reg_a));
-            set_cc (FLAG_V, 0);
-            set_cc (FLAG_C, test_c (i0, i1, reg_a, 0));
+            reg_cc = (reg_cc & ~FLAG_V);
+            set_cc (FLAG_C, test_c (i0, i1, reg_a, false));
             // dont care analog
             cycles.intValue += 2;
             break;
@@ -2857,7 +2920,7 @@ reg_cc &= tmp;
             cycles.intValue += 4;
 */
             reg_cc &= pc_read8 ();
-            set_cc (FLAG_E, 1);
+            set_cc (FLAG_E, true);
             inst_psh (0xff, reg_s, reg_u, cycles);
             irq_status = IRQ_CWAI;
             // dont care analog
@@ -2876,50 +2939,50 @@ reg_cc &= tmp;
                 case 0x20:
                     /* lbrn */
                 case 0x21:
-                    inst_bra16 (0, op, cycles);
+                    inst_bra16 (false, op, cycles);
                     break;
                     /* lbhi */
                 case 0x22:
                     /* lbls */
                 case 0x23:
-                    inst_bra16 (get_cc (FLAG_C) | get_cc (FLAG_Z), op, cycles);
+                    inst_bra16 (((reg_cc & FLAG_C) == FLAG_C) | ((reg_cc & FLAG_Z) == FLAG_Z), op, cycles);
                     break;
                     /* lbhs/lbcc */
                 case 0x24:
                     /* lblo/lbcs */
                 case 0x25:
-                    inst_bra16 (get_cc (FLAG_C), op, cycles);
+                    inst_bra16 (((reg_cc & FLAG_C) == FLAG_C), op, cycles);
                     break;
                     /* lbne */
                 case 0x26:
                     /* lbeq */
                 case 0x27:
-                    inst_bra16 (get_cc (FLAG_Z), op, cycles);
+                    inst_bra16 (((reg_cc & FLAG_Z) == FLAG_Z), op, cycles);
                     break;
                     /* lbvc */
                 case 0x28:
                     /* lbvs */
                 case 0x29:
-                    inst_bra16 (get_cc (FLAG_V), op, cycles);
+                    inst_bra16 (((reg_cc & FLAG_V) == FLAG_V), op, cycles);
                     break;
                     /* lbpl */
                 case 0x2a:
                     /* lbmi */
                 case 0x2b:
-                    inst_bra16 (get_cc (FLAG_N), op, cycles);
+                    inst_bra16 (((reg_cc & FLAG_N) == FLAG_N), op, cycles);
                     break;
                     /* lbge */
                 case 0x2c:
                     /* lblt */
                 case 0x2d:
-                    inst_bra16 (get_cc (FLAG_N) ^ get_cc (FLAG_V), op, cycles);
+                    inst_bra16 (((reg_cc & FLAG_N) == FLAG_N) ^ ((reg_cc & FLAG_V) == FLAG_V), op, cycles);
                     break;
                     /* lbgt */
                 case 0x2e:
                     /* lble */
                 case 0x2f:
-                    inst_bra16 (get_cc (FLAG_Z) |
-                                (get_cc (FLAG_N) ^ get_cc (FLAG_V)), op, cycles);
+                    inst_bra16 (((reg_cc & FLAG_Z) == FLAG_Z) |
+                                (((reg_cc & FLAG_N) == FLAG_N) ^ ((reg_cc & FLAG_V) == FLAG_V)), op, cycles);
                     break;
                     /* cmpd */
                 case 0x83:
@@ -3081,7 +3144,7 @@ reg_cc &= tmp;
                     break;
                     /* swi2 */
                 case 0x3f:
-                    set_cc (FLAG_E, 1);
+                    set_cc (FLAG_E, true);
                     inst_psh (0xff, reg_s, reg_u, cycles);
                     reg_pc = read16 (0xfff4);
                     // dont care analog
@@ -3150,7 +3213,7 @@ reg_cc &= tmp;
                     break;
                     /* swi3 */
                 case 0x3f:
-                    set_cc (FLAG_E, 1);
+                    set_cc (FLAG_E, true);
                     inst_psh (0xff, reg_s, reg_u, cycles);
                     reg_pc = read16 (0xfff2);
                     cycles.intValue += 8;
@@ -3169,5 +3232,2365 @@ reg_cc &= tmp;
         cyclesRunning += cycles.intValue;
 	return cycles.intValue;
     }
+
+
+
+
+
+/* execute a single instruction or handle interrupts and return */
+int e6809_sstep_opt (int irq_i, int irq_f)
+{
+    cycles.intValue = 0;
+    orgPC = reg_pc;
+    if (irq_f!=0) 
+    {
+        if (((reg_cc & FLAG_F) != FLAG_F)) 
+        {
+            if (irq_status != IRQ_CWAI) 
+            {
+                reg_cc = (reg_cc & ~FLAG_E);
+                inst_psh (0x81, reg_s, reg_u, cycles);
+                if (profiler != null)
+                {
+                    profiler.addContext(read16 (0xfff6), reg_s.intValue+1, reg_pc & 0xffff, orgPC & 0xffff);
+                }
+            }
+            reg_cc = (reg_cc | FLAG_I);
+            reg_cc = (reg_cc | FLAG_F);
+
+            
+            
+           
+            reg_pc = ((vecx.e6809_read8(0xfff6) <<8)|(vecx.e6809_read8(0xfff6+1)));
+            irq_status = IRQ_NORMAL;
+            cycles.intValue += 7;
+            // dont care analog
+        } 
+        else 
+        {
+            if (irq_status == IRQ_SYNC) 
+            {
+                irq_status = IRQ_NORMAL;
+            }
+        }
+    }
+    
+    if (irq_i!=0) 
+    {
+        if (((reg_cc & FLAG_I) != FLAG_I)) 
+        {
+            if (irq_status != IRQ_CWAI) 
+            {
+                reg_cc = (reg_cc | FLAG_E);
+                int olds = reg_s.intValue;
+                inst_psh (0xff, reg_s, reg_u, cycles);
+                if (profiler != null)
+                {
+                    profiler.addContext(read16 (0xfff8), reg_s.intValue+1, reg_pc & 0xffff, orgPC & 0xffff);
+                }
+            }
+            reg_cc = (reg_cc | FLAG_I);
+            reg_pc = ((vecx.e6809_read8(0xfff8) <<8)|(vecx.e6809_read8(0xfff8+1)));
+            irq_status = IRQ_NORMAL;
+            cycles.intValue += 7;
+            // dont care analog
+        } 
+        else 
+        {
+            if (irq_status == IRQ_SYNC) 
+            {
+                irq_status = IRQ_NORMAL;
+            }
+        }
+    }
+
+    if (irq_status != IRQ_NORMAL) 
+    {
+        // dont care analog
+        cyclesRunning += cycles.intValue + 1;
+        return cycles.intValue + 1;
+    }
+    
+    //op = pc_read8 ();
+    op =vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+
+    switch (op) 
+    {
+        /* page 0 instructions */
+            
+            /* neg, nega, negb */
+        case 0x00:
+            // ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+			
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_neg (read8 (ea));
+            r = inst_neg (vecx.e6809_read8(ea));
+			
+			
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x40:
+            reg_a = inst_neg (reg_a)&0xff;
+            // dont care analog
+            vecx.vectrexNonCPUStep(2);
+            break;
+        case 0x50:
+            reg_b = inst_neg (reg_b)&0xff;
+            // dont care analog
+            vecx.vectrexNonCPUStep(2);
+            break;
+        case 0x60:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_neg (read8 (ea));
+            r = inst_neg (vecx.e6809_read8(ea));
+            
+			
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x70:
+            
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4);
+            //r = inst_neg (read8 (ea));
+            r = inst_neg (vecx.e6809_read8(ea));
+			
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 7;
+            break;
+            /* com, coma, comb */
+        case 0x03:
+            // ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_com (read8 (ea));
+            r = inst_com (vecx.e6809_read8(ea));
+			
+			
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x43:
+            reg_a = inst_com (reg_a)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x53:
+            reg_b = inst_com (reg_b)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x63:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_com (read8 (ea));
+            r = inst_com (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x73:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4);
+            //r = inst_com (read8 (ea));
+            r = inst_com (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 7;
+            break;
+            /* lsr, lsra, lsrb */
+        case 0x04:
+            // ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_lsr (read8 (ea));
+            r = inst_lsr (vecx.e6809_read8(ea));
+			
+			
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x44:
+            reg_a = inst_lsr (reg_a)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x54:
+            reg_b = inst_lsr (reg_b)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x64:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_lsr (read8 (ea));
+            r = inst_lsr (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x74:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4);
+            //r = inst_lsr (read8 (ea));
+            r = inst_lsr (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 7;
+            break;
+            /* ror, rora, rorb */
+        case 0x06:
+            // ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_ror (read8 (ea));
+            r = inst_ror (vecx.e6809_read8(ea));
+
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x46:
+            reg_a = inst_ror (reg_a)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x56:
+            reg_b = inst_ror (reg_b)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x66:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_ror (read8 (ea));
+            r = inst_ror (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x76:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4);
+            //r = inst_ror (read8 (ea));
+            r = inst_ror (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 7;
+            break;
+            /* asr, asra, asrb */
+        case 0x07:
+            // ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3);
+
+            //r = inst_asr (read8 (ea));
+            r = inst_asr (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x47:
+            reg_a = inst_asr (reg_a)&0xff;
+            vecx.vectrexNonCPUStep(1);
+            // dont care analog
+            break;
+        case 0x57:
+            reg_b = inst_asr (reg_b)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x67:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_asr (read8 (ea));
+            r = inst_asr (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x77:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4);
+            //r = inst_asr (read8 (ea));
+            r = inst_asr (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 7;
+            break;
+            /* asl, asla, aslb */
+        case 0x08:
+            // ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_asl (read8 (ea));
+            r = inst_asl (vecx.e6809_read8(ea));
+
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x48:
+            reg_a = inst_asl (reg_a)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x58:
+            reg_b = inst_asl (reg_b)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x68:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_asl (read8 (ea));
+            r = inst_asl (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x78:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4);
+            //r = inst_asl (read8 (ea));
+            r = inst_asl (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 7;
+            break;
+            /* rol, rola, rolb */
+        case 0x09:
+            // ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_rol (read8 (ea));
+            r = inst_rol (vecx.e6809_read8(ea));
+			
+			
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x49:
+            reg_a = inst_rol (reg_a)&0xff;
+            cycles.intValue += 2;
+            // dont care analog
+            break;
+        case 0x59:
+            reg_b = inst_rol (reg_b)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x69:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_rol (read8 (ea));
+            r = inst_rol (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x79:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4);
+            //r = inst_rol (read8 (ea));
+            r = inst_rol (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 7;
+            break;
+            /* dec, deca, decb */
+        case 0x0a:
+            // ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_dec (read8 (ea));
+            r = inst_dec (vecx.e6809_read8(ea));
+			
+			
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x4a:
+            reg_a = inst_dec (reg_a)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x5a:
+            reg_b = inst_dec (reg_b)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x6a:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_dec (read8 (ea));
+            r = inst_dec (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x7a:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4);
+            //r = inst_dec (read8 (ea));
+            r = inst_dec (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 7;
+            break;
+            /* inc, inca, incb */
+        case 0x0c:
+            // ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_inc (read8 (ea));
+            r = inst_inc (vecx.e6809_read8(ea));
+			
+			
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x4c:
+            reg_a = inst_inc (reg_a)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x5c:
+            reg_b = inst_inc (reg_b)&0xff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x6c:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3);
+            //r = inst_inc (read8 (ea));
+            r = inst_inc (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x7c:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4);
+            //r = inst_inc (read8 (ea));
+            r = inst_inc (vecx.e6809_read8(ea));
+            vecx.vectrexNonCPUStep(2+1);
+            //write8 (ea, r);
+            vecx.e6809_write8(ea, r);
+            
+            cycles.intValue += 7;
+            break;
+            /* tst, tsta, tstb */
+        case 0x0d:
+            // ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3);
+            //inst_tst8 (read8 (ea));
+            tmp = (vecx.e6809_read8(ea));
+            reg_cc = ((tmp & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((tmp&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            						
+            // dont care analog
+            cycles.intValue += 6;
+            break;
+        case 0x4d:
+            reg_cc = ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_a&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x5d:
+            reg_cc = ((reg_b & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_b&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x6d:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3);
+            tmp = (vecx.e6809_read8(ea));
+            reg_cc = ((tmp & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((tmp&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 6;
+            break;
+        case 0x7d:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4);
+            tmp = (vecx.e6809_read8(ea));
+            reg_cc = ((tmp & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((tmp&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 7;
+            break;
+            /* jmp */
+        case 0x0e:
+            // reg_pc = ea_direct ();
+            // no reg_pc ++ here, since it as set to a new value!
+            reg_pc = (reg_dp << 8) |vecx.e6809_read8(reg_pc);
+
+            // dont care analog
+            cycles.intValue += 3;
+            break;
+        case 0x6e:
+            reg_pc = ea_indexed (cycles);
+            // dont care analog
+            cycles.intValue += 3;
+            break;
+        case 0x7e:
+            reg_pc = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff)));
+            // dont care analog
+            cycles.intValue += 4;
+            break;
+            /* clr */
+        case 0x0f:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(PRE_CLR_STEPS);
+            inst_clr ();
+            //read8(ea); // clear reads! important for shift reg emulation! e.g.
+            vecx.e6809_read8(ea);
+			
+			
+            vecx.vectrexNonCPUStep(2+1+POST_CLR_ADDSTEPS);
+            //write8 (ea, 0);
+            vecx.e6809_write8(ea, 0);
+
+            cycles.intValue += 6;
+            break;
+        case 0x4f:
+            inst_clr ();
+            reg_a = 0;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x5f:
+            inst_clr ();
+            reg_b = 0;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x6f:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(PRE_CLR_STEPS);
+            inst_clr ();
+            //read8(ea); // clear reads! important for shift reg emulation! e.g.
+            vecx.e6809_read8(ea);
+            vecx.vectrexNonCPUStep(2+1+POST_CLR_ADDSTEPS);
+            //write8 (ea, 0);
+            vecx.e6809_write8(ea, 0);
+            
+            cycles.intValue += 6;
+            break;
+        case 0x7f:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(1+PRE_CLR_STEPS);
+            inst_clr ();
+            //read8(ea); // clear reads! important for shift reg emulation! e.g.
+            vecx.e6809_read8(ea);
+            vecx.vectrexNonCPUStep(2+1+POST_CLR_ADDSTEPS);
+            //write8 (ea, 0);
+            vecx.e6809_write8(ea, 0);
+            
+            cycles.intValue += 7;
+            break;
+            /* suba */
+        case 0x80:
+            vecx.vectrexNonCPUStep(1+1);
+            reg_a = inst_sub8 (reg_a,vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            
+            cycles.intValue += 2;
+            break;
+        case 0x90:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+//            reg_a = inst_sub8 (reg_a, read8 (ea))&0xff;
+            reg_a = inst_sub8 (reg_a, vecx.e6809_read8(ea))&0xff;
+
+
+
+            
+            cycles.intValue += 4;
+            break;
+        case 0xa0:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_a = inst_sub8 (reg_a, read8 (ea))&0xff;
+            reg_a = inst_sub8 (reg_a, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 4;
+            break;
+        case 0xb0:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //reg_a = inst_sub8 (reg_a, read8 (ea))&0xff;
+            reg_a = inst_sub8 (reg_a, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 5;
+            break;
+            /* subb */
+        case 0xc0:
+            vecx.vectrexNonCPUStep(1+1);
+            reg_b = inst_sub8 (reg_b, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+
+            cycles.intValue += 2;
+            break;
+        case 0xd0:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_b = inst_sub8 (reg_b, read8 (ea))&0xff;
+            reg_b = inst_sub8 (reg_b, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 4;
+            break;
+        case 0xe0:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_b = inst_sub8 (reg_b, read8 (ea))&0xff;
+            reg_b = inst_sub8 (reg_b, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 4;
+            break;
+        case 0xf0:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //reg_b = inst_sub8 (reg_b, read8 (ea))&0xff;
+            reg_b = inst_sub8 (reg_b, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 5;
+            break;
+            /* cmpa */
+        case 0x81:
+            vecx.vectrexNonCPUStep(1+1);
+            inst_sub8 (reg_a, vecx.e6809_read8(reg_pc));
+            reg_pc=(reg_pc+1)&0xffff;
+
+            cycles.intValue += 2;
+            break;
+        case 0x91:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //inst_sub8 (reg_a, read8 (ea));
+            inst_sub8 (reg_a, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 4;
+            break;
+        case 0xa1:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //inst_sub8 (reg_a, read8 (ea));
+            inst_sub8 (reg_a, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 4;
+            break;
+        case 0xb1:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //inst_sub8 (reg_a, read8 (ea));
+            inst_sub8 (reg_a, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 5;
+            break;
+            /* cmpb */
+        case 0xc1:
+            vecx.vectrexNonCPUStep(1+1);
+            inst_sub8 (reg_b, vecx.e6809_read8(reg_pc));
+            reg_pc=(reg_pc+1)&0xffff;
+            
+            
+            cycles.intValue += 2;
+            break;
+        case 0xd1:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //inst_sub8 (reg_b, read8 (ea));
+            inst_sub8 (reg_b, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 4;
+            break;
+        case 0xe1:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //inst_sub8 (reg_b, read8 (ea));
+            inst_sub8 (reg_b, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 4;
+            break;
+        case 0xf1:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //inst_sub8 (reg_b, read8 (ea));
+            inst_sub8 (reg_b, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 5;
+            break;
+            /* sbca */
+        case 0x82:
+            vecx.vectrexNonCPUStep(1+1);
+            reg_a = inst_sbc (reg_a, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            cycles.intValue += 2;
+            break;
+        case 0x92:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_a = inst_sbc (reg_a, read8 (ea))&0xff;
+            reg_a = inst_sbc (reg_a, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 4;
+            break;
+        case 0xa2:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_a = inst_sbc (reg_a, read8 (ea))&0xff;
+            reg_a = inst_sbc (reg_a, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 4;
+            break;
+        case 0xb2:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //reg_a = inst_sbc (reg_a, read8 (ea))&0xff;
+            reg_a = inst_sbc (reg_a, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 5;
+            break;
+            /* sbcb */
+        case 0xc2:
+            vecx.vectrexNonCPUStep(1+1);
+            reg_b = inst_sbc (reg_b, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            cycles.intValue += 2;
+            break;
+        case 0xd2:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_b = inst_sbc (reg_b, read8 (ea))&0xff;
+            reg_b = inst_sbc (reg_b, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 4;
+            break;
+        case 0xe2:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_b = inst_sbc (reg_b, read8 (ea))&0xff;
+            reg_b = inst_sbc (reg_b, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 4;
+            break;
+        case 0xf2:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //reg_b = inst_sbc (reg_b, read8 (ea))&0xff;
+            reg_b = inst_sbc (reg_b, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 5;
+            break;
+            /* anda */
+        case 0x84:
+            vecx.vectrexNonCPUStep(1+1);
+            reg_a = inst_and (reg_a, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            cycles.intValue += 2;
+            break;
+        case 0x94:
+            //ea = ea_direct ();
+			ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_a = inst_and (reg_a, read8 (ea))&0xff;
+            reg_a = inst_and (reg_a, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 4;
+            break;
+        case 0xa4:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_a = inst_and (reg_a, read8 (ea))&0xff;
+            reg_a = inst_and (reg_a, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 4;
+            break;
+        case 0xb4:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //reg_a = inst_and (reg_a, read8 (ea))&0xff;
+            reg_a = inst_and (reg_a, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 5;
+            break;
+            /* andb */
+        case 0xc4:
+            vecx.vectrexNonCPUStep(1+1);
+            reg_b = inst_and (reg_b, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            cycles.intValue += 2;
+            break;
+        case 0xd4:
+            //ea = ea_direct ();
+			ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_b = inst_and (reg_b, read8 (ea))&0xff;
+            reg_b = inst_and (reg_b, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 4;
+            break;
+        case 0xe4:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_b = inst_and (reg_b, read8 (ea))&0xff;
+            reg_b = inst_and (reg_b, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 4;
+            break;
+        case 0xf4:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //reg_b = inst_and (reg_b, read8 (ea))&0xff;
+            reg_b = inst_and (reg_b, vecx.e6809_read8(ea))&0xff;
+            
+            cycles.intValue += 5;
+            break;
+            /* bita */
+        case 0x85:
+            vecx.vectrexNonCPUStep(1+1);
+            inst_and (reg_a, vecx.e6809_read8(reg_pc));
+            reg_pc=(reg_pc+1)&0xffff;
+            cycles.intValue += 2;
+            break;
+        case 0x95:
+            //ea = ea_direct ();
+			ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //inst_and (reg_a, read8 (ea));
+            inst_and (reg_a, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 4;
+            break;
+        case 0xa5:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //inst_and (reg_a, read8 (ea));
+            inst_and (reg_a, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 4;
+            break;
+        case 0xb5:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //inst_and (reg_a, read8 (ea));
+            inst_and (reg_a, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 5;
+            break;
+            /* bitb */
+        case 0xc5:
+            vecx.vectrexNonCPUStep(1+1);
+            inst_and (reg_b, vecx.e6809_read8(reg_pc));
+            reg_pc=(reg_pc+1)&0xffff;
+            cycles.intValue += 2;
+            break;
+        case 0xd5:
+            //ea = ea_direct ();
+			ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //inst_and (reg_b, read8 (ea));
+            inst_and (reg_b, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 4;
+            break;
+        case 0xe5:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //inst_and (reg_b, read8 (ea));
+            inst_and (reg_b, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 4;
+            break;
+        case 0xf5:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //inst_and (reg_b, read8 (ea));
+            inst_and (reg_b, vecx.e6809_read8(ea));
+            
+            cycles.intValue += 5;
+            break;
+            /* lda */
+        case 0x86:
+            reg_a = vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(1+1);
+            reg_cc = ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_a&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            
+            cycles.intValue += 2;
+            break;
+        case 0x96:
+            //ea = ea_direct ();
+			ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2+1);
+            // reg_a = read8 (ea);
+            reg_a = vecx.e6809_read8(ea);
+			
+            vecx.vectrexNonCPUStep(1);
+            reg_cc = ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_a&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 4;
+            break;
+        case 0xa6:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_a = read8 (ea);
+            reg_a = vecx.e6809_read8(ea);
+            vecx.vectrexNonCPUStep(1);
+            reg_cc = ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_a&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 4;
+            break;
+        case 0xb6:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_a = read8 (ea);
+            reg_a = vecx.e6809_read8(ea);
+            vecx.vectrexNonCPUStep(1);
+            reg_cc = ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_a&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 5;
+            break;
+            /* ldb */
+        case 0xc6:
+            reg_b = vecx.e6809_read8(reg_pc); reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(1+1);
+            reg_cc = ((reg_b & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_b&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            
+            cycles.intValue += 2;
+            break;
+        case 0xd6:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_b = read8 (ea);
+            reg_b = vecx.e6809_read8(ea);
+            vecx.vectrexNonCPUStep(1);
+            reg_cc = ((reg_b & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_b&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 4;
+            break;
+        case 0xe6:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_b = read8 (ea);
+            reg_b = vecx.e6809_read8(ea);
+            vecx.vectrexNonCPUStep(1);
+            reg_cc = ((reg_b & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_b&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 4;
+            break;
+        case 0xf6:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_b = read8 (ea);
+            reg_b = vecx.e6809_read8(ea);
+            vecx.vectrexNonCPUStep(1);
+            reg_cc = ((reg_b & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_b&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 5;
+            break;
+            /* sta */
+        case 0x97:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //write8 (ea, reg_a);
+            vecx.e6809_write8(ea, reg_a);
+            
+            reg_cc = ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_a&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 4;
+            break;
+        case 0xa7:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //write8 (ea, reg_a);
+            vecx.e6809_write8(ea, reg_a);
+            
+            reg_cc = ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_a&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 4;
+            break;
+        case 0xb7:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //write8 (ea, reg_a);
+            vecx.e6809_write8(ea, reg_a);
+            
+            reg_cc = ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_a&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 5;
+            break;
+            /* stb */
+        case 0xd7:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //write8 (ea, reg_b);
+            vecx.e6809_write8(ea, reg_b);
+            
+            reg_cc = ((reg_b & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_b&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 4;
+            break;
+        case 0xe7:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            //write8 (ea, reg_b);
+            vecx.e6809_write8(ea, reg_b);
+            
+            reg_cc = ((reg_b & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_b&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 4;
+            break;
+        case 0xf7:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            //write8 (ea, reg_b);
+            vecx.e6809_write8(ea, reg_b);
+            
+            reg_cc = ((reg_b & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_b&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 5;
+            break;
+            /* eora */
+        case 0x88:
+            reg_a = inst_eor (reg_a, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x98:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_a = inst_eor (reg_a, read8 (ea))&0xff;
+            reg_a = inst_eor (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xa8:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_a = inst_eor (reg_a, read8 (ea))&0xff;
+            reg_a = inst_eor (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xb8:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_a = inst_eor (reg_a, read8 (ea))&0xff;
+            reg_a = inst_eor (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 5;
+            break;
+            /* eorb */
+        case 0xc8:
+            reg_b = inst_eor (reg_b, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0xd8:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_b = inst_eor (reg_b, read8 (ea))&0xff;
+            reg_b = inst_eor (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xe8:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_b = inst_eor (reg_b, read8 (ea))&0xff;
+            reg_b = inst_eor (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xf8:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_b = inst_eor (reg_b, read8 (ea))&0xff;
+            reg_b = inst_eor (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 5;
+            break;
+            /* adca */
+        case 0x89:
+            reg_a = inst_adc (reg_a, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x99:
+            //ea = ea_direct ();
+			ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_a = inst_adc (reg_a, read8 (ea))&0xff;
+            reg_a = inst_adc (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xa9:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_a = inst_adc (reg_a, read8 (ea))&0xff;
+            reg_a = inst_adc (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xb9:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_a = inst_adc (reg_a, read8 (ea))&0xff;
+            reg_a = inst_adc (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 5;
+            break;
+            /* adcb */
+        case 0xc9:
+            reg_b = inst_adc (reg_b, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0xd9:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_b = inst_adc (reg_b, read8 (ea))&0xff;
+            reg_b = inst_adc (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xe9:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_b = inst_adc (reg_b, read8 (ea))&0xff;
+            reg_b = inst_adc (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xf9:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_b = inst_adc (reg_b, read8 (ea))&0xff;
+            reg_b = inst_adc (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 5;
+            break;
+            /* ora */
+        case 0x8a:
+            reg_a = inst_or (reg_a, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x9a:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_a = inst_or (reg_a, read8 (ea))&0xff;
+            reg_a = inst_or (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xaa:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_a = inst_or (reg_a, read8 (ea))&0xff;
+            reg_a = inst_or (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xba:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_a = inst_or (reg_a, read8 (ea))&0xff;
+            reg_a = inst_or (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 5;
+            break;
+            /* orb */
+        case 0xca:
+            reg_b = inst_or (reg_b, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0xda:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_b = inst_or (reg_b, read8 (ea))&0xff;
+            reg_b = inst_or (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xea:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_b = inst_or (reg_b, read8 (ea))&0xff;
+            reg_b = inst_or (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xfa:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_b = inst_or (reg_b, read8 (ea))&0xff;
+            reg_b = inst_or (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 5;
+            break;
+            /* adda */
+        case 0x8b:
+            reg_a = inst_add8 (reg_a, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0x9b:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_a = inst_add8 (reg_a, read8 (ea))&0xff;
+            reg_a = inst_add8 (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xab:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_a = inst_add8 (reg_a, read8 (ea))&0xff;
+            reg_a = inst_add8 (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xbb:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_a = inst_add8 (reg_a, read8 (ea))&0xff;
+            reg_a = inst_add8 (reg_a, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 5;
+            break;
+            /* addb */
+        case 0xcb:
+            reg_b = inst_add8 (reg_b, vecx.e6809_read8(reg_pc))&0xff;
+            reg_pc=(reg_pc+1)&0xffff;
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+        case 0xdb:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_b = inst_add8 (reg_b, read8 (ea))&0xff;
+            reg_b = inst_add8 (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xeb:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(2+1);
+            //reg_b = inst_add8 (reg_b, read8 (ea))&0xff;
+            reg_b = inst_add8 (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 4;
+            break;
+        case 0xfb:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            //reg_b = inst_add8 (reg_b, read8 (ea))&0xff;
+            reg_b = inst_add8 (reg_b, vecx.e6809_read8(ea))&0xff;
+            vecx.vectrexNonCPUStep(1);
+            cycles.intValue += 5;
+            break;
+            /* subd */
+        case 0x83:
+            set_reg_d (inst_sub16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff)))));
+            reg_pc=(reg_pc+2)&0xffff;
+            
+            // dont care analog
+            cycles.intValue += 4;
+            break;
+        case 0x93:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            set_reg_d (inst_sub16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1))) ));
+            vecx.vectrexNonCPUStep(2);
+            cycles.intValue += 6;
+            break;
+        case 0xa3:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            set_reg_d (inst_sub16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1)))));
+            vecx.vectrexNonCPUStep(2);
+            cycles.intValue += 6;
+            break;
+        case 0xb3:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            set_reg_d (inst_sub16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1)))));
+            vecx.vectrexNonCPUStep(2);
+            cycles.intValue += 7;
+            break;
+            /* cmpx */
+        case 0x8c:
+            inst_sub16 (reg_x, ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff))));
+            reg_pc=(reg_pc+2)&0xffff;
+            // dont care analog
+            cycles.intValue += 4;
+            break;
+        case 0x9c:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            inst_sub16 (reg_x, ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1))));
+            // dont care analog
+            cycles.intValue += 6;
+            break;
+        case 0xac:
+            ea = ea_indexed (cycles);
+            inst_sub16 (reg_x, ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1))));
+            // dont care analog
+            cycles.intValue += 6;
+            break;
+        case 0xbc:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            inst_sub16 (reg_x, ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1))));
+            // dont care analog
+            cycles.intValue += 7;
+            break;
+            /* ldx */
+        case 0x8e:
+            reg_x = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff)));
+            reg_pc=(reg_pc+2)&0xffff;
+            reg_cc =  ((reg_x & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc =((reg_x&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            
+            // dont care analog
+            cycles.intValue += 3;
+            break;
+        case 0x9e:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            reg_x = ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1)));
+            // dont care analog
+            reg_cc =  ((reg_x & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_x&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 5;
+            break;
+        case 0xae:
+            ea = ea_indexed (cycles);
+            reg_x = ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1)));
+            reg_cc =  ((reg_x & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_x&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 5;
+            break;
+        case 0xbe:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            reg_x = ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1)));
+            reg_cc =  ((reg_x & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_x&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 6;
+            break;
+            /* ldu */
+        case 0xce:
+            reg_u.intValue = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff)));
+            reg_pc=(reg_pc+2)&0xffff;
+            reg_cc =  ((reg_u.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_u.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 3;
+            break;
+        case 0xde:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            reg_u.intValue = ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1)));
+            reg_cc =  ((reg_u.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_u.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 5;
+            break;
+        case 0xee:
+            ea = ea_indexed (cycles);
+            reg_u.intValue = ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1)));
+            reg_cc =  ((reg_u.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_u.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 5;
+            break;
+        case 0xfe:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            reg_u.intValue = ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1)));
+            reg_cc =  ((reg_u.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_u.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 6;
+            break;
+            /* stx */
+        case 0x9f:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+    vecx.vectrexNonCPUStep(3+1);
+            
+            vecx.e6809_write8(ea, reg_x>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_x);
+
+            reg_cc = ((reg_x & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_x&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 5;
+            break;
+        case 0xaf:
+            ea = ea_indexed (cycles);
+    vecx.vectrexNonCPUStep(3+1);
+            
+            vecx.e6809_write8(ea, reg_x>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_x);
+            reg_cc =  ((reg_x & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_x&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            // dont care analog
+            cycles.intValue += 5;
+            break;
+        case 0xbf:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+    vecx.vectrexNonCPUStep(4+1);
+            
+            vecx.e6809_write8(ea, reg_x>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_x);
+            // dont care analog
+            reg_cc =  ((reg_x & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_x&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 6;
+            break;
+            /* stu */
+        case 0xdf:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+    vecx.vectrexNonCPUStep(3+1);
+            vecx.e6809_write8(ea, reg_u.intValue>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_u.intValue);
+            reg_cc =  ((reg_u.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_u.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 5;
+            break;
+        case 0xef:
+            ea = ea_indexed (cycles);
+    vecx.vectrexNonCPUStep(3+1);
+            vecx.e6809_write8(ea, reg_u.intValue>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_u.intValue);
+            reg_cc =  ((reg_u.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_u.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 5;
+            break;
+        case 0xff:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+    vecx.vectrexNonCPUStep(4+1);
+            
+            vecx.e6809_write8(ea, reg_u.intValue>> 8);vecx.e6809_write8((ea+1)&0xffff,  reg_u.intValue);
+            reg_cc =  ((reg_u.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_u.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 6;
+            break;
+            /* addd */
+        case 0xc3:
+            set_reg_d (inst_add16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff)))));
+            reg_pc=(reg_pc+2)&0xffff;
+            // dont care analog
+            cycles.intValue += 4;
+            break;
+        case 0xd3:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            set_reg_d (inst_add16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8(((ea)+1)&0xffff)))));
+            // dont care analog
+            cycles.intValue += 6;
+            break;
+        case 0xe3:
+            ea = ea_indexed (cycles);
+            set_reg_d (inst_add16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1)))));
+            // dont care analog
+            cycles.intValue += 6;
+            break;
+        case 0xf3:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            set_reg_d (inst_add16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), ((vecx.e6809_read8((ea)) <<8)|(vecx.e6809_read8((ea)+1)))));
+            // dont care analog
+            cycles.intValue += 7;
+            break;
+            /* ldd */
+        case 0xcc:
+            set_reg_d (((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff))));
+            reg_pc=(reg_pc+2)&0xffff;
+            // dont care analog
+            reg_cc = ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            
+            cycles.intValue += 3;
+            break;
+        case 0xdc:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2+1);
+            tmp = vecx.e6809_read8(ea);
+            vecx.vectrexNonCPUStep(1);
+            set_reg_d ((tmp << 8)| vecx.e6809_read8((ea + 1) & 0xffff));
+            vecx.vectrexNonCPUStep(1);
+            reg_cc =  ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 5;
+            break;
+        case 0xec:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(2+1);
+            tmp = vecx.e6809_read8(ea);
+            vecx.vectrexNonCPUStep(1);
+            set_reg_d ((tmp << 8)| vecx.e6809_read8((ea + 1) & 0xffff));
+            vecx.vectrexNonCPUStep(1);
+            reg_cc =  ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 5;
+            break;
+        case 0xfc:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            
+            tmp = vecx.e6809_read8(ea);
+            vecx.vectrexNonCPUStep(1);
+            set_reg_d ((tmp << 8)| vecx.e6809_read8((ea + 1) & 0xffff));
+            vecx.vectrexNonCPUStep(1);
+            reg_cc =  ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 6;
+            break;
+            /* std */
+        case 0xdd:
+            //ea = ea_direct ();
+            ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(3+1);
+            vecx.e6809_write8(ea, reg_a);vecx.vectrexNonCPUStep(1);vecx.e6809_write8((ea+1)&0xffff,  reg_b);            
+            reg_cc =  ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 5;
+            break;
+        case 0xed:
+            ea = ea_indexed (cycles);
+            vecx.vectrexNonCPUStep(3+1);
+            vecx.e6809_write8(ea, reg_a);vecx.vectrexNonCPUStep(1);vecx.e6809_write8((ea+1)&0xffff,  reg_b);            
+            reg_cc =  ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 5;
+            break;
+        case 0xfd:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            vecx.vectrexNonCPUStep(4+1);
+            vecx.e6809_write8(ea, reg_a);vecx.vectrexNonCPUStep(1);vecx.e6809_write8((ea+1)&0xffff,  reg_b);            
+            reg_cc =  ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            cycles.intValue += 6;
+            break;
+            /* nop */
+        case 0x12:
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+            /* mul */
+        case 0x3d:
+            r = (reg_a & 0xff) * (reg_b & 0xff);
+            set_reg_d (r);
+            reg_cc = ((r&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = ((r &0x080) == 0x80)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
+            
+            // dont care analog
+            cycles.intValue += 11;
+            break;
+            /* bra */
+        case 0x20:
+            /* brn */
+        case 0x21:
+            // dont care analog
+            inst_bra8 (false, op, cycles);
+            break;
+            /* bhi */
+        case 0x22:
+            /* bls */
+        case 0x23:
+            // dont care analog
+            inst_bra8 (((reg_cc & FLAG_C) == FLAG_C) | ((reg_cc & FLAG_Z) == FLAG_Z), op, cycles);
+            break;
+            /* bhs/bcc */
+        case 0x24:
+            /* blo/bcs */
+        case 0x25:
+            // dont care analog
+            inst_bra8 (((reg_cc & FLAG_C) == FLAG_C), op, cycles);
+            break;
+            /* bne */
+        case 0x26:
+            /* beq */
+        case 0x27:
+            // dont care analog
+            inst_bra8 (((reg_cc & FLAG_Z) == FLAG_Z), op, cycles);
+            break;
+            /* bvc */
+        case 0x28:
+            /* bvs */
+        case 0x29:
+            inst_bra8 (((reg_cc & FLAG_V) == FLAG_V), op, cycles);
+            break;
+            /* bpl */
+        case 0x2a:
+            /* bmi */
+        case 0x2b:
+            inst_bra8 (((reg_cc & FLAG_N) == FLAG_N), op, cycles);
+            break;
+            /* bge */
+        case 0x2c:
+            /* blt */
+        case 0x2d:
+            // dont care analog
+            inst_bra8 (((reg_cc & FLAG_N) == FLAG_N) ^ ((reg_cc & FLAG_V) == FLAG_V), op, cycles);
+            break;
+            /* bgt */
+        case 0x2e:
+            /* ble */
+        case 0x2f:
+            // dont care analog
+            inst_bra8 (((reg_cc & FLAG_Z) == FLAG_Z) | (((reg_cc & FLAG_N) == FLAG_N) ^ ((reg_cc & FLAG_V) == FLAG_V)), op, cycles);
+            break;
+            /* lbra */
+        case 0x16:
+            // dont care analog
+            r = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff)));
+            reg_pc = (reg_pc+r+2)&0xffff;// +2 because of instruction read!
+            
+            cycles.intValue += 5;
+            break;
+            /* lbsr */
+        case 0x17:
+            r = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff)));
+            reg_pc=(reg_pc+2)&0xffff;
+            push16 (reg_s, reg_pc);
+
+            synchronized (callStack)
+            {
+                callStack.add(reg_pc & 0xffff);
+            }
+            
+            reg_pc = (reg_pc+r)&0xffff;
+            // dont care analog
+            cycles.intValue += 9;
+            break;
+            /* bsr */
+        case 0x8d:
+            r = vecx.e6809_read8(reg_pc); reg_pc=(reg_pc+1)&0xffff;
+            push16 (reg_s, reg_pc);
+            synchronized (callStack)
+            {
+                callStack.add(reg_pc & 0xffff);
+            }
+            if (profiler != null)
+            {
+                profiler.addContext(((reg_pc+sign_extend (r))&0xffff), reg_s.intValue, reg_pc & 0xffff, orgPC & 0xffff);
+            }
+            
+            // dont care analog
+            reg_pc = (reg_pc+sign_extend (r))&0xffff;
+            cycles.intValue += 7;
+            break;
+            /* jsr */
+        case 0x9d:
+            //ea = ea_direct ();
+			ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+            push16 (reg_s, reg_pc);
+            synchronized (callStack)
+            {
+                callStack.add(reg_pc & 0xffff);
+            }
+            if (profiler != null)
+            {
+                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff, orgPC & 0xffff);
+            }
+            // dont care analog
+            reg_pc = ea;
+            cycles.intValue += 7;
+            break;
+        case 0xad:
+            ea = ea_indexed (cycles);
+            push16 (reg_s, reg_pc);
+            synchronized (callStack)
+            {
+                callStack.add(reg_pc & 0xffff);
+            }
+            if (profiler != null)
+            {
+                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff, orgPC & 0xffff);
+            }
+            // dont care analog
+            reg_pc = ea;
+            cycles.intValue += 7;
+            break;
+        case 0xbd:
+            ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+            push16 (reg_s, reg_pc);
+            synchronized (callStack)
+            {
+                callStack.add(reg_pc & 0xffff);
+            }
+            if (profiler != null)
+            {
+                profiler.addContext(ea, reg_s.intValue, reg_pc & 0xffff, orgPC & 0xffff);
+            }
+            // dont care analog
+            reg_pc = ea;
+            cycles.intValue += 8;
+            break;
+            /* leax */
+        case 0x30:
+            reg_x = ea_indexed (cycles);
+            // dont care analog
+            reg_cc = ((reg_x&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            cycles.intValue += 4;
+            break;
+            /* leay */
+        case 0x31:
+            reg_y = ea_indexed (cycles);
+            // dont care analog
+            reg_cc = ((reg_y&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            cycles.intValue += 4;
+            break;
+            /* leas */
+        case 0x32:
+            reg_s.intValue = ea_indexed (cycles);
+            // dont care analog
+            cycles.intValue += 4;
+            break;
+            /* leau */
+        case 0x33:
+            reg_u.intValue = ea_indexed (cycles);
+            // dont care analog
+            cycles.intValue += 4;
+            break;
+            /* pshs */
+        case 0x34:
+            inst_psh (vecx.e6809_read8(reg_pc), reg_s, reg_u, cycles);
+            reg_pc=(reg_pc+1)&0xffff;
+            cycles.intValue += 5;
+            // dont care analog
+            break;
+            /* puls */
+        case 0x35:
+            // pull can influence pc, so +1 here before!
+            inst_pul (vecx.e6809_read8(reg_pc++), reg_s, reg_u, cycles);
+            reg_pc=(reg_pc)&0xffff;
+            cycles.intValue += 5;
+            // dont care analog
+            break;
+            /* pshu */
+        case 0x36:
+            inst_psh (vecx.e6809_read8(reg_pc), reg_u, reg_s, cycles);
+            reg_pc=(reg_pc+1)&0xffff;
+            cycles.intValue += 5;
+            // dont care analog
+            break;
+            /* pulu */
+        case 0x37:
+            // pull can influence pc, so +1 here before!
+            inst_pul (vecx.e6809_read8(reg_pc++), reg_u, reg_s, cycles);
+            reg_pc=(reg_pc)&0xffff;
+            cycles.intValue += 5;
+            // dont care analog
+            break;
+            /* rts */
+        case 0x39:
+            reg_pc = pull16 (reg_s);
+            synchronized (callStack)
+            {
+                if (callStack.size()>0) callStack.remove(callStack.size()-1);
+            }
+            // dont care analog
+            cycles.intValue += 5;
+            break;
+            /* abx */
+        case 0x3a:
+            reg_x += reg_b & 0xff;
+            cycles.intValue += 3;
+            // dont care analog
+            break;
+            /* orcc */
+        case 0x1a:
+            reg_cc |= vecx.e6809_read8(reg_pc); reg_pc=(reg_pc+1)&0xffff;
+            // dont care analog
+            cycles.intValue += 3;
+            break;
+            /* andcc */
+        case 0x1c:
+            reg_cc &= vecx.e6809_read8(reg_pc); reg_pc=(reg_pc+1)&0xffff;
+            // dont care analog
+            cycles.intValue += 3;
+            break;
+            /* sex */
+        case 0x1d:
+            set_reg_d (sign_extend (reg_b));
+            reg_cc = ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = (((reg_a+reg_b)&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            // dont care analog
+            cycles.intValue += 2; 
+            break;
+            /* exg */
+        case 0x1e:
+            inst_exg ();
+            // dont care analog
+            cycles.intValue += 8;
+            break;
+            /* tfr */
+        case 0x1f:
+            inst_tfr ();
+            // dont care analog
+            cycles.intValue += 6;
+            break;
+            /* rti */
+        case 0x3b:
+            inst_pul (0x01, reg_s, reg_u, cycles);
+            if (((reg_cc & FLAG_E) == FLAG_E))
+            {
+                inst_pul (0xfe, reg_s, reg_u, cycles);
+            } 
+            else 
+            {
+                inst_pul (0x80, reg_s, reg_u, cycles);
+            }
+            
+            // dont care analog
+            cycles.intValue += 3;
+            break;
+            /* swi */
+        case 0x3f:
+            reg_cc = (reg_cc | FLAG_E);
+            inst_psh (0xff, reg_s, reg_u, cycles);
+            reg_cc = (reg_cc | FLAG_I);
+            reg_cc = (reg_cc | FLAG_F);
+            reg_pc = ((vecx.e6809_read8(0xfffa) <<8)|(vecx.e6809_read8(0xfffa+1))) ;
+            // dont care analog
+            cycles.intValue += 7;
+            break;
+            /* sync */
+        case 0x13:
+            irq_status = IRQ_SYNC;
+            cycles.intValue += 2;
+            // dont care analog
+            break;
+            /* daa */
+        case 0x19:
+            i0 = reg_a;
+            i1 = 0;
+            
+            if ((reg_a & 0x0f) > 0x09 || ((reg_cc & FLAG_H) == FLAG_H)) {
+                i1 |= 0x06;
+            }
+            
+            if ((reg_a & 0xf0) > 0x80 && (reg_a & 0x0f) > 0x09) {
+                i1 |= 0x60;
+            }
+            
+            if ((reg_a & 0xf0) > 0x90 || ((reg_cc & FLAG_C) == FLAG_C)) {
+                i1 |= 0x60;
+            }
+            
+            reg_a = (i0 + i1)&0xff;
+            reg_cc = ((reg_a & 0x80) == 0x80)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+            reg_cc = ((reg_a&0xff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+            reg_cc = (reg_cc & ~FLAG_V);
+            reg_cc = test_c (i0, i1, reg_a, false)?(reg_cc | FLAG_C):(reg_cc & ~FLAG_C);
+            // dont care analog
+            cycles.intValue += 2;
+            break;
+            /* cwai */
+        case 0x3c:
+            reg_cc &= vecx.e6809_read8(reg_pc); reg_pc=(reg_pc+1)&0xffff;
+            reg_cc = (reg_cc | FLAG_E);
+            inst_psh (0xff, reg_s, reg_u, cycles);
+            irq_status = IRQ_CWAI;
+            // dont care analog
+            cycles.intValue += 4;
+  
+            break;
+            
+            /* page 1 instructions */
+            
+        case 0x10:
+            op = vecx.e6809_read8(reg_pc); reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2);
+            
+            switch (op) {
+                    /* lbra */
+                case 0x20:
+                    /* lbrn */
+                case 0x21:
+                    inst_bra16 (false, op, cycles);
+                    break;
+                    /* lbhi */
+                case 0x22:
+                    /* lbls */
+                case 0x23:
+                    inst_bra16 (((reg_cc & FLAG_C) == FLAG_C) | ((reg_cc & FLAG_Z) == FLAG_Z), op, cycles);
+                    break;
+                    /* lbhs/lbcc */
+                case 0x24:
+                    /* lblo/lbcs */
+                case 0x25:
+                    inst_bra16 (((reg_cc & FLAG_C) == FLAG_C), op, cycles);
+                    break;
+                    /* lbne */
+                case 0x26:
+                    /* lbeq */
+                case 0x27:
+                    inst_bra16 (((reg_cc & FLAG_Z) == FLAG_Z), op, cycles);
+                    break;
+                    /* lbvc */
+                case 0x28:
+                    /* lbvs */
+                case 0x29:
+                    inst_bra16 (((reg_cc & FLAG_V) == FLAG_V), op, cycles);
+                    break;
+                    /* lbpl */
+                case 0x2a:
+                    /* lbmi */
+                case 0x2b:
+                    inst_bra16 (((reg_cc & FLAG_N) == FLAG_N), op, cycles);
+                    break;
+                    /* lbge */
+                case 0x2c:
+                    /* lblt */
+                case 0x2d:
+                    inst_bra16 (((reg_cc & FLAG_N) == FLAG_N) ^ ((reg_cc & FLAG_V) == FLAG_V), op, cycles);
+                    break;
+                    /* lbgt */
+                case 0x2e:
+                    /* lble */
+                case 0x2f:
+                    inst_bra16 (((reg_cc & FLAG_Z) == FLAG_Z) | (((reg_cc & FLAG_N) == FLAG_N) ^ ((reg_cc & FLAG_V) == FLAG_V)), op, cycles);
+                    break;
+                    /* cmpd */
+                case 0x83:
+                    inst_sub16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff))));
+                    reg_pc=(reg_pc+2)&0xffff;
+                    // dont care analog
+                    cycles.intValue += 5;
+                    break;
+                case 0x93:
+                    //ea = ea_direct ();
+                    ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+                    vecx.vectrexNonCPUStep(4+1);
+                    
+                    tmp = vecx.e6809_read8(ea);
+                    vecx.vectrexNonCPUStep(1);
+                    inst_sub16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), (tmp << 8)| vecx.e6809_read8((ea + 1) & 0xffff));
+                    
+                    vecx.vectrexNonCPUStep(1);
+                    cycles.intValue += 7;
+                    break;
+                case 0xa3:
+                    ea = ea_indexed (cycles);
+                    vecx.vectrexNonCPUStep(4+1);
+                    
+                    tmp = vecx.e6809_read8(ea);
+                    vecx.vectrexNonCPUStep(1);
+                    
+                    inst_sub16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), (tmp << 8)| vecx.e6809_read8((ea + 1) & 0xffff));
+                    
+                    vecx.vectrexNonCPUStep(1);
+                    cycles.intValue += 7;
+                    break;
+                case 0xb3:
+                    ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+                    vecx.vectrexNonCPUStep(5+1);
+                    tmp = vecx.e6809_read8(ea);
+                    vecx.vectrexNonCPUStep(1);
+                    inst_sub16 (((reg_a << 8)&0xff00) | (reg_b & 0xff), (tmp << 8)| vecx.e6809_read8((ea + 1) & 0xffff));
+                            
+                    vecx.vectrexNonCPUStep(1);
+                    cycles.intValue += 8;
+                    break;
+                    /* cmpy */
+                case 0x8c:
+                    inst_sub16 (reg_y, ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff))));
+                    reg_pc=(reg_pc+2)&0xffff;
+                    // dont care analog
+                    cycles.intValue += 5;
+                    break;
+                case 0x9c:
+                    //ea = ea_direct ();
+                    ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+                    inst_sub16 (reg_y, ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1))));
+                    // dont care analog
+                    cycles.intValue += 7;
+                    break;
+                case 0xac:
+                    ea = ea_indexed (cycles);
+                    // dont care analog
+                    inst_sub16 (reg_y, ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1))));
+                    cycles.intValue += 7;
+                    break;
+                case 0xbc:
+                    ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+                    inst_sub16 (reg_y, ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1))));
+                    // dont care analog
+                    cycles.intValue += 8;
+                    break;
+                    /* ldy */
+                case 0x8e:
+                    reg_y = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff)));
+                    reg_pc=(reg_pc+2)&0xffff;
+                    // dont care analog
+                    reg_cc =  ((reg_y & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_y&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    
+                    cycles.intValue += 4;
+                    break;
+                case 0x9e:
+                    //ea = ea_direct ();
+                    ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+                    reg_y = ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1)));
+                    // dont care analog
+                    reg_cc =  ((reg_y & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_y&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 6;
+                    break;
+                case 0xae:
+                    ea = ea_indexed (cycles);
+                    reg_y = ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1)));
+                    // dont care analog
+                    reg_cc =  ((reg_y & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_y&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 6;
+                    break;
+                case 0xbe:
+                    ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+                    reg_y = ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8((ea+1)&0xffff)));
+                    // dont care analog
+                    reg_cc =  ((reg_y & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_y&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 7;
+                    break;
+                    /* sty */
+                case 0x9f:
+                    //ea = ea_direct ();
+                    ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+                    vecx.e6809_write8(ea, reg_y>> 8);vecx.e6809_write8((ea+1)&0xffff, reg_y);
+                    reg_cc =  ((reg_y & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_y&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 6;
+                    // dont care analog
+                    break;
+                case 0xaf:
+                    ea = ea_indexed (cycles);
+                    vecx.e6809_write8(ea, reg_y>> 8);vecx.e6809_write8((ea+1)&0xffff, reg_y);
+                    // dont care analog
+                    reg_cc =  ((reg_y & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_y&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 6;
+                    break;
+                case 0xbf:
+                    ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+                    vecx.e6809_write8(ea, reg_y>> 8);vecx.e6809_write8((ea+1)&0xffff, reg_y);
+                    // dont care analog
+                    reg_cc =  ((reg_y & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_y&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 7;
+                    break;
+                    /* lds */
+                case 0xce:
+                    reg_s.intValue = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff)));
+                    reg_pc=(reg_pc+2)&0xffff;
+                    // dont care analog
+                    reg_cc = ((reg_s.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_s.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 4;
+                    resetCallstack();
+                    break;
+                case 0xde:
+                    //ea = ea_direct ();
+                    ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+                    reg_s.intValue = ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1)));
+                    // dont care analog
+                    reg_cc =  ((reg_s.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_s.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 6;
+                    resetCallstack();
+                    break;
+                case 0xee:
+                    ea = ea_indexed (cycles);
+                    reg_s.intValue = ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1)));
+                    // dont care analog
+                    reg_cc =  ((reg_s.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_s.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 6;
+                    resetCallstack();
+                    break;
+                case 0xfe:
+                    ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+                    reg_s.intValue = ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1)));
+                    // dont care analog
+                    reg_cc = ((reg_s.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_s.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 7;
+                    resetCallstack();
+                    break;
+                    /* sts */
+                case 0xdf:
+                    //ea = ea_direct ();
+                    ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+                    vecx.e6809_write8(ea, reg_s.intValue>> 8);vecx.e6809_write8((ea+1)&0xffff, reg_s.intValue);
+                    // dont care analog
+                    reg_cc = ((reg_s.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_s.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 6;
+                    break;
+                case 0xef:
+                    ea = ea_indexed (cycles);
+                    vecx.e6809_write8(ea, reg_s.intValue>> 8);vecx.e6809_write8((ea+1)&0xffff, reg_s.intValue);
+                    // dont care analog
+                    reg_cc = ((reg_s.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_s.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 6;
+                    break;
+                case 0xff:
+                    ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+                    vecx.e6809_write8(ea, reg_s.intValue>> 8);vecx.e6809_write8((ea+1)&0xffff, reg_s.intValue);
+                    // dont care analog
+                    reg_cc = ((reg_s.intValue & 0x8000) == 0x8000)?(reg_cc | FLAG_N):(reg_cc & ~FLAG_N);
+                    reg_cc = ((reg_s.intValue&0xffff) == 0)?(reg_cc | FLAG_Z):(reg_cc & ~FLAG_Z);
+                    reg_cc = (reg_cc & ~FLAG_V);
+                    cycles.intValue += 7;
+                    break;
+                    /* swi2 */
+                case 0x3f:
+                    reg_cc = (reg_cc | FLAG_E);
+                    inst_psh (0xff, reg_s, reg_u, cycles);
+                    reg_pc = ((vecx.e6809_read8(0xfff4) <<8)|(vecx.e6809_read8(0xfff4+1)));
+                    
+                    // dont care analog
+                    cycles.intValue += 8;
+                    break;
+                default:
+                    System.out.println ("unknown page-1 op code: "+op+"\n");
+                    break;
+            }
+            
+            break;
+            
+            /* page 2 instructions */
+            
+        case 0x11:
+            op = vecx.e6809_read8(reg_pc); reg_pc=(reg_pc+1)&0xffff;
+            vecx.vectrexNonCPUStep(2);
+            switch (op) {
+                    /* cmpu */
+                case 0x83:
+                    inst_sub16 (reg_u.intValue, ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff))));
+                    reg_pc=(reg_pc+2)&0xffff;
+                    // dont care analog
+                    cycles.intValue += 5;
+                    break;
+                case 0x93:
+                    //ea = ea_direct ();
+                    ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+                    inst_sub16 (reg_u.intValue, ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1))));
+                    // dont care analog
+                    cycles.intValue += 7;
+                    break;
+                case 0xa3:
+                    ea = ea_indexed (cycles);
+                    inst_sub16 (reg_u.intValue, ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1))));
+                    // dont care analog
+                    cycles.intValue += 7;
+                    break;
+                case 0xb3:
+                    ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+                    inst_sub16 (reg_u.intValue, ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1))));
+                    // dont care analog
+                    cycles.intValue += 8;
+                    break;
+                    /* cmps */
+                case 0x8c:
+                    inst_sub16 (reg_s.intValue, ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff))));
+                    reg_pc=(reg_pc+2)&0xffff;
+                    // dont care analog
+                    cycles.intValue += 5;
+                    break;
+                case 0x9c:
+                    //ea = ea_direct ();
+                    ea = (reg_dp << 8) |vecx.e6809_read8(reg_pc);reg_pc=(reg_pc+1)&0xffff;
+                    inst_sub16 (reg_s.intValue, ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1))));
+                    // dont care analog
+                    cycles.intValue += 7;
+                    break;
+                case 0xac:
+                    ea = ea_indexed (cycles);
+                    inst_sub16 (reg_s.intValue, ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1))));
+                    // dont care analog
+                    cycles.intValue += 7;
+                    break;
+                case 0xbc:
+                    ea = ((vecx.e6809_read8(reg_pc) <<8)|(vecx.e6809_read8((reg_pc+1)&0xffff )));reg_pc=(reg_pc+2)&0xffff;
+                    inst_sub16 (reg_s.intValue, ((vecx.e6809_read8(ea) <<8)|(vecx.e6809_read8(ea+1))));
+                    // dont care analog
+                    cycles.intValue += 8;
+                    break;
+                    /* swi3 */
+                case 0x3f:
+                    reg_cc = (reg_cc | FLAG_E);
+                    inst_psh (0xff, reg_s, reg_u, cycles);
+                    reg_pc = ((vecx.e6809_read8(0xfff2) <<8)|(vecx.e6809_read8(0xfff2+1)));
+                    cycles.intValue += 8;
+                    break;
+                default:
+                    System.out.println ("unknown page-2 op code: "+op+"\n");
+                    break;
+            }
+            
+            break;
+            
+        default:
+            System.out.println ("unknown page-0 op code: "+op+"PC: "+reg_pc+"\n");
+            break;
+	}
+        cyclesRunning += cycles.intValue;
+	return cycles.intValue;
+    }
+
 
 }

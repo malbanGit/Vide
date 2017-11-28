@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx.panels;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.gui.panels.LogPanel;
@@ -288,7 +289,7 @@ public class WheelEdit extends javax.swing.JPanel {
     void initWheelList()
     {
         mClassSetting++;
-        String path = "xml"+File.separator+"wheels";
+        String path = Global.mainPathPrefix+"xml"+File.separator+"wheels";
         ArrayList<String> files = de.malban.util.UtilityFiles.getXMLFileList(path);
         jComboBoxWheelList.removeAllItems();
         for (String name: files)
@@ -321,7 +322,7 @@ public class WheelEdit extends javax.swing.JPanel {
             return;
         }
         String fname = jComboBoxWheelList.getSelectedItem().toString()+".xml";
-        String path = "xml"+File.separator+"wheels"+File.separator+fname;
+        String path = Global.mainPathPrefix+"xml"+File.separator+"wheels"+File.separator+fname;
         WheelData loadedWheel = WheelData.loadWheel(path);
         if (loadedWheel==null) 
         {
@@ -346,7 +347,7 @@ public class WheelEdit extends javax.swing.JPanel {
             return;
         }
         String fname = currentWheel.name.trim().toLowerCase()+".xml";
-        String path = "xml"+File.separator+"wheels"+File.separator+fname;
+        String path = Global.mainPathPrefix+"xml"+File.separator+"wheels"+File.separator+fname;
         boolean ok = currentWheel.saveAsXML(path);
         if (!ok) 
         {

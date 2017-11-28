@@ -92,9 +92,8 @@ public class VectrexJoyport
     {
         if (device == null) return;
         device.step();
-//        if (inputMode) // veclink1 seems to receive CA1 even in output mode
-// seems the mode does not matter
-// since the hardware is directly connected to VIA not "over" psg
+        // seems the mode does not matter
+        // since the hardware is directly connected to VIA not "over" psg
         {
         if (device != null) device.updateInputDataFromDevice();
             if (port == 1)
@@ -104,7 +103,6 @@ public class VectrexJoyport
                     vecx.via_ca1 = 1;
                 else
                     vecx.via_ca1 = 0;
-     //           System.out.printl
             }
             if (port == 0)
             {

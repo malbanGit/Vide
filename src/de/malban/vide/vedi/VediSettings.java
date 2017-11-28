@@ -68,13 +68,14 @@ public class VediSettings implements Serializable
 
     public void setOpenPosition(String fn, int pos)
     {
+        fn = de.malban.util.Utility.ensureRelative(fn);
         EditorFileSettings set = getOpen(fn);
         if (set != null) set.position = pos;
     }
-    
-    
+        
     public EditorFileSettings getOpen(String fn)
     {
+        fn = de.malban.util.Utility.ensureRelative(fn);
         for (EditorFileSettings set: currentOpenFiles)
         {
             if (set.filename.toLowerCase().equals(fn.toLowerCase())) return set;
@@ -83,6 +84,7 @@ public class VediSettings implements Serializable
     }
     public EditorFileSettings getRecent(String fn)
     {
+        fn = de.malban.util.Utility.ensureRelative(fn);
         for (EditorFileSettings set: recentOpenFiles)
         {
             if (set.filename.toLowerCase().equals(fn.toLowerCase())) return set;
@@ -101,6 +103,7 @@ public class VediSettings implements Serializable
     
     public EditorFileSettings addOpen(String fn, int pos)
     {
+        fn = de.malban.util.Utility.ensureRelative(fn);
         EditorFileSettings edi = getOpen(fn);
         if (edi == null) 
         {
@@ -109,10 +112,14 @@ public class VediSettings implements Serializable
         }
         edi.filename = fn;
         edi.position = pos;
+        
+removeRecent(fn);
+addRecent(fn, pos);
         return edi;
     }
     public EditorFileSettings addRecent(String fn, int pos)
     {
+        fn = de.malban.util.Utility.ensureRelative(fn);
         EditorFileSettings edi = getOpen(fn);
         if (edi == null) 
         {
@@ -126,6 +133,7 @@ public class VediSettings implements Serializable
     
     public boolean removeOpen(String fn)
     {
+        fn = de.malban.util.Utility.ensureRelative(fn);
         for (EditorFileSettings set: currentOpenFiles)
         {
             if (set.filename.equals(fn)) 
@@ -138,6 +146,7 @@ public class VediSettings implements Serializable
     }
     public boolean removeRecent(String fn)
     {
+        fn = de.malban.util.Utility.ensureRelative(fn);
         for (EditorFileSettings set: recentOpenFiles)
         {
             if (set.filename.equals(fn)) 

@@ -716,7 +716,11 @@ public class SingleVectorPanel extends javax.swing.JPanel
         );
     }// </editor-fold>//GEN-END:initComponents
 
-        public static double  getDistancePointToVector(double x0,double y0, double x1,double y1, double x2,double y2)
+    public static double  getDistancePointToVector(double x0,double y0, double x1,double y1)
+    {
+        return Math.sqrt((x0-x1)*(x0-x1)+(y0-y1)*(y0-y1));
+    }
+    public static double  getDistancePointToVector(double x0,double y0, double x1,double y1, double x2,double y2)
     {
         // point is xg0
         // line segment defined by x1y1 and x2,y2

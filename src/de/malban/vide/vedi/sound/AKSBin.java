@@ -967,9 +967,6 @@ public class AKSBin {
                 c++;
             }
             
-            
-            
-            
             if ((data[0] != 'A') || (data[1] != 'T')|| (data[2] != '1')|| (data[3] != '0'))
             {
                 logi.printError("No Arkos Tracker signature found - aborting.");
@@ -1012,6 +1009,9 @@ public class AKSBin {
             aks.addPreComment(9," DB $"+UtilityString.convertToHex(data, 5,8, ", ")+" ; YM custom frequence - little endian");
             aks.addPreComment(9," DB $"+UtilityString.convertToHex(data, 8,9, "")+" ; Replay frequency (0=13hz,1=25hz,2=50hz,3=100hz,4=150hz,5=300hz)");
 
+            aks.addLabel(9, "SongAddress");
+            
+            
             address += sizeOfInstrumentTable;
             // address now at Linker
             Linker linker = new Linker(data,address, aks);

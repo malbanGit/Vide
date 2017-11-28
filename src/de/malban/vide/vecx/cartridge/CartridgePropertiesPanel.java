@@ -1,6 +1,7 @@
 package de.malban.vide.vecx.cartridge;
 
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import static de.malban.gui.CSAMainFrame.invokeSystemFile;
@@ -13,6 +14,7 @@ import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.util.Downloader;
 import de.malban.util.DownloaderPanel;
 import de.malban.util.UtilityImage;
+import de.malban.vide.VideConfig;
 import static de.malban.vide.vecx.cartridge.Cartridge.*;
 import de.malban.vide.vedi.project.FileChooserCellEditor;
 import de.muntjak.tinylookandfeel.Theme;
@@ -212,8 +214,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             {
                 CartridgeProperties item = iterC.next();
                 if (item.getFullFilename().size()<=0) continue;
-                p = Paths.get(item.getFullFilename().elementAt(0));
-                String itemNameOnly = p.getFileName().toString().toLowerCase();
+                p = Paths.get(de.malban.util.UtilityFiles.convertSeperator(item.getFullFilename().elementAt(0)));
+                String itemNameOnly = p.getFileName() .toString().toLowerCase();
                 if (nameOnly.equals(itemNameOnly)) return item;
                 String justItemName = itemNameOnly.substring(0,itemNameOnly.length()-4);
                 if (justName.equals(justItemName)) return item;
@@ -370,7 +372,37 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jCheckBox20.setSelected((flag&FLAG_DS2431)!=0);
         jCheckBox21.setSelected((flag&FLAG_32K_ONLY)!=0);
         jCheckBox22.setSelected((flag&FLAG_SID)!=0);
+        jCheckBox23.setSelected((flag&FLAG_48K)!=0);
         
+        
+        
+jCheckBoxEnableOverwrite.setSelected(mCartridgeProperties.mConfigOverwrite);
+jCheckBoxAutoSync.setSelected(mCartridgeProperties.mCF_AutoSync);
+jCheckBoxAllowROMWrite.setSelected(mCartridgeProperties.mCF_AllowROMWrite);
+jCheckBoxBreakpoint.setSelected(mCartridgeProperties.mCF_ROM_PC_BreakPoints);
+        
+        VideConfig config = VideConfig.getConfig();
+        if ((mCartridgeProperties.mCF_IntegratorMaxX == 0) || (mCartridgeProperties.mCF_IntegratorMaxY == 0))
+        {
+            jTextField11.setText(""+config.ALG_MAX_X);
+            jTextField12.setText(""+config.ALG_MAX_Y);
+        }
+        else
+        {
+            jTextField11.setText(""+mCartridgeProperties.mCF_IntegratorMaxX);
+            jTextField12.setText(""+mCartridgeProperties.mCF_IntegratorMaxY);
+        }
+
+        if (mCartridgeProperties.mCF_OverlayThreshold == 0) 
+            jTextField30.setText(""+config.JOGLOverlayAlphaThreshold);
+        else
+            jTextField30.setText(""+mCartridgeProperties.mCF_OverlayThreshold);
+
+        if (mCartridgeProperties.mCF_DotdwellDivisor == 0) 
+            jTextField29.setText(""+config.JOGLDotDwellDivisor);
+        else
+            jTextField29.setText(""+mCartridgeProperties.mCF_DotdwellDivisor);
+
         jComboBoxImager.setSelectedIndex(-1);
         if ((flag&FLAG_IMAGER) != 0)
         {
@@ -384,30 +416,30 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         // load images
         if (jTextFieldPath2.getText().trim().length()>2)
         {
-            singleImagePanel3.setImage(convertSeperator(jTextFieldPath2.getText()), true);
+            singleImagePanel3.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath2.getText()), true);
         }
         if (jTextFieldPath5.getText().trim().length()>2)
         {
-            singleImagePanel1.setImage(convertSeperator(jTextFieldPath5.getText()), true);
+            singleImagePanel1.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath5.getText()), true);
         }
         if (jTextFieldPath6.getText().trim().length()>2)
         {
-            singleImagePanel2.setImage(convertSeperator(jTextFieldPath6.getText()), true);
+            singleImagePanel2.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath6.getText()), true);
         }
         if (jTextFieldPath10.getText().trim().length()>2)
         {
-            singleImagePanel4.setImage(convertSeperator(jTextFieldPath10.getText()), true);
+            singleImagePanel4.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath10.getText()), true);
         }
         if (jTextFieldPath11.getText().trim().length()>2)
         {
-            singleImagePanel5.setImage(convertSeperator(jTextFieldPath11.getText()), true);
+            singleImagePanel5.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath11.getText()), true);
         }
         // load texts
         if (jTextFieldPath4.getText().trim().length()>2)
         {
             try 
             {
-                FileReader fr = new FileReader(convertSeperator(jTextFieldPath4.getText()));
+                FileReader fr = new FileReader(Global.mainPathPrefix+convertSeperator(jTextFieldPath4.getText()));
                 jTextPane2.read(fr, null);
                 fr.close();
             }
@@ -420,7 +452,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         {
             try 
             {
-                FileReader fr = new FileReader(convertSeperator(jTextFieldPath7.getText()));
+                FileReader fr = new FileReader(Global.mainPathPrefix+convertSeperator(jTextFieldPath7.getText()));
                 jTextPane3.read(fr, null);
                 fr.close();
             }
@@ -444,7 +476,8 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
     private void readAllToCurrent() /* allneeded*/
     {
-        String textFilenameBase = "documents"+File.separator+"games"+File.separator+mCartridgeProperties.mName+"_";
+        String videFilenameBase = "documents"+File.separator+"games"+File.separator+mCartridgeProperties.mName+"_";
+        String textFilenameBase = Global.mainPathPrefix+videFilenameBase;
         // new instruction file
         if (jTextPane2.getText().trim().length()>2)
         {
@@ -454,6 +487,14 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 // no questions asked!
                 String filename = textFilenameBase+"instructions.txt";
                 de.malban.util.UtilityFiles.createTextFile(filename, jTextPane2.getText());
+                jTextFieldPath4.setText(videFilenameBase+"instructions.txt");
+            }
+            else
+            {
+                // save current text to given textfile
+                String filename = jTextFieldPath4.getText();
+                filename = de.malban.util.UtilityFiles.convertSeperator(filename);
+                de.malban.util.UtilityFiles.createTextFile(Global.mainPathPrefix+filename, jTextPane2.getText());
                 jTextFieldPath4.setText(filename);
             }
         }
@@ -466,6 +507,13 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 // no questions asked!
                 String filename = textFilenameBase+"critics.txt";
                 de.malban.util.UtilityFiles.createTextFile(filename, jTextPane3.getText());
+                jTextFieldPath7.setText(videFilenameBase+"critics.txt");
+            }
+            else
+            {
+                String filename = jTextFieldPath7.getText();
+                filename = de.malban.util.UtilityFiles.convertSeperator(filename);
+                de.malban.util.UtilityFiles.createTextFile(Global.mainPathPrefix+filename, jTextPane3.getText());
                 jTextFieldPath7.setText(filename);
             }
         }
@@ -473,6 +521,24 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         mCartridgeProperties.mClass = jTextFieldKlasse.getText();
         mCartridgeProperties.mName = jTextFieldName.getText();
 
+        mCartridgeProperties.mConfigOverwrite =  jCheckBoxEnableOverwrite.isSelected();
+        mCartridgeProperties.mCF_AutoSync =  jCheckBoxAutoSync.isSelected();
+        mCartridgeProperties.mCF_AllowROMWrite =  jCheckBoxAllowROMWrite.isSelected();
+        mCartridgeProperties.mCF_ROM_PC_BreakPoints =  jCheckBoxBreakpoint.isSelected();
+        
+        
+        
+        mCartridgeProperties.mCF_IntegratorMaxX = de.malban.util.UtilityString.IntX(jTextField11.getText(), 38000);
+        mCartridgeProperties.mCF_IntegratorMaxY = de.malban.util.UtilityString.IntX(jTextField12.getText(), 41000);
+        
+        mCartridgeProperties.mCF_IntegratorMaxX = de.malban.util.UtilityString.IntX(jTextField11.getText(), 38000);
+        mCartridgeProperties.mCF_IntegratorMaxY = de.malban.util.UtilityString.IntX(jTextField12.getText(), 41000);
+
+        mCartridgeProperties.mCF_OverlayThreshold = de.malban.util.UtilityString.FloatX(jTextField30.getText(), 0.8f);
+        mCartridgeProperties.mCF_DotdwellDivisor = de.malban.util.UtilityString.IntX(jTextField29.getText(), 25);
+                
+        
+        
 	mCartridgeProperties.mCartName=jTextField2.getText();
 	mCartridgeProperties.mAuthor=jTextField1.getText();
 	mCartridgeProperties.mYear=jTextField3.getText();
@@ -530,6 +596,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         if (jCheckBox20.isSelected()) flag+=FLAG_DS2431;
         if (jCheckBox21.isSelected()) flag+=FLAG_32K_ONLY;
         if (jCheckBox22.isSelected()) flag+=FLAG_SID;
+        if (jCheckBox23.isSelected()) flag+=FLAG_48K;
 
 	mCartridgeProperties.mTypeFlags=flag;
         
@@ -591,6 +658,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jCheckBox20 = new javax.swing.JCheckBox();
         jCheckBox21 = new javax.swing.JCheckBox();
         jCheckBox22 = new javax.swing.JCheckBox();
+        jCheckBox23 = new javax.swing.JCheckBox();
         jButtonFileSelect1 = new javax.swing.JButton();
         jTextFieldPath = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -663,6 +731,18 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         jButtonFileSelect14 = new javax.swing.JButton();
         jButtonNew4 = new javax.swing.JButton();
         singleImagePanel5 = new de.malban.graphics.SingleImagePanel();
+        jPanel11 = new javax.swing.JPanel();
+        jCheckBoxEnableOverwrite = new javax.swing.JCheckBox();
+        jCheckBoxAutoSync = new javax.swing.JCheckBox();
+        jCheckBoxAllowROMWrite = new javax.swing.JCheckBox();
+        jCheckBoxBreakpoint = new javax.swing.JCheckBox();
+        jLabel31 = new javax.swing.JLabel();
+        jTextField11 = new javax.swing.JTextField();
+        jTextField12 = new javax.swing.JTextField();
+        jLabel86 = new javax.swing.JLabel();
+        jTextField30 = new javax.swing.JTextField();
+        jLabel85 = new javax.swing.JLabel();
+        jTextField29 = new javax.swing.JTextField();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -870,12 +950,16 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
         jCheckBox18.setText("2");
         jCheckBox18.setMargin(new java.awt.Insets(0, 2, 1, 0));
+        jCheckBox18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox18ActionPerformed(evt);
+            }
+        });
 
         jCheckBox19.setText("RAM Logo");
         jCheckBox19.setMargin(new java.awt.Insets(0, 2, 1, 0));
 
         jComboBoxImager.setToolTipText("imager default wheel for the cartridge");
-        jComboBoxImager.setPreferredSize(new java.awt.Dimension(28, 21));
 
         jTextFieldPath12.setToolTipText("Bin file for extreme multi (in case of \"a la big apple\")");
         jTextFieldPath12.setEnabled(false);
@@ -932,39 +1016,58 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
 
+        jCheckBox23.setText("48k ROM");
+        jCheckBox23.setMargin(new java.awt.Insets(0, 2, 1, 0));
+        jCheckBox23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox23ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox5)
+                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBox2)
+                    .addComponent(jCheckBox7)
+                    .addComponent(jCheckBox19)
+                    .addComponent(jCheckBox17)
+                    .addComponent(jCheckBox8))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox23, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCheckBox21, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+                    .addComponent(jCheckBox18)
+                    .addComponent(jCheckBoxXmas)
+                    .addComponent(jCheckBox20)
+                    .addComponent(jCheckBox15))
+                .addContainerGap(75, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jCheckBox7)
-                            .addComponent(jCheckBox19)
-                            .addComponent(jCheckBox17)
-                            .addComponent(jCheckBox8))
-                        .addGap(4, 4, 4)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jCheckBox22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCheckBox18)
-                            .addComponent(jCheckBoxXmas)
-                            .addComponent(jCheckBox20)
-                            .addComponent(jCheckBox15)
-                            .addComponent(jCheckBox21, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)))
+                        .addComponent(jCheckBox16))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox6)
-                            .addComponent(jCheckBox5)
-                            .addComponent(jCheckBox4)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox10)
-                            .addComponent(jCheckBox9)
-                            .addComponent(jCheckBox16)))
+                        .addComponent(jCheckBox9))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jCheckBox10))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jCheckBox3))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jCheckBox4))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jCheckBox6))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -999,7 +1102,9 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 .addGap(0, 0, 0)
                 .addComponent(jCheckBox4)
                 .addGap(0, 0, 0)
-                .addComponent(jCheckBox5)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox5)
+                    .addComponent(jCheckBox23))
                 .addGap(0, 0, 0)
                 .addComponent(jCheckBox6)
                 .addGap(0, 0, 0)
@@ -1041,7 +1146,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel3.add(jButtonFileSelect1);
-        jButtonFileSelect1.setBounds(350, 70, 21, 21);
+        jButtonFileSelect1.setBounds(350, 70, 20, 20);
         jPanel3.add(jTextFieldPath);
         jTextFieldPath.setBounds(110, 70, 234, 21);
 
@@ -1104,7 +1209,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel3.add(jButtonFileSelect3);
-        jButtonFileSelect3.setBounds(350, 233, 21, 21);
+        jButtonFileSelect3.setBounds(350, 233, 20, 20);
 
         jLabel11.setText("Rights");
         jLabel11.setPreferredSize(new java.awt.Dimension(0, 21));
@@ -1131,7 +1236,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel3.add(jButtonFileSelect10);
-        jButtonFileSelect10.setBounds(80, 160, 21, 21);
+        jButtonFileSelect10.setBounds(80, 160, 20, 20);
 
         jButtonFileSelect11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/delete.png"))); // NOI18N
         jButtonFileSelect11.setMargin(new java.awt.Insets(0, 1, 0, -1));
@@ -1141,7 +1246,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel3.add(jButtonFileSelect11);
-        jButtonFileSelect11.setBounds(80, 180, 21, 21);
+        jButtonFileSelect11.setBounds(80, 180, 20, 20);
 
         jButtonDownloadConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/folder_link.png"))); // NOI18N
         jButtonDownloadConfig.setToolTipText("if link to a binary is given, the link the binary is downloaded");
@@ -1152,23 +1257,23 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             }
         });
         jPanel3.add(jButtonDownloadConfig);
-        jButtonDownloadConfig.setBounds(350, 100, 21, 21);
+        jButtonDownloadConfig.setBounds(350, 100, 20, 20);
 
         jCheckBox11.setText("Complete game");
         jPanel3.add(jCheckBox11);
-        jCheckBox11.setBounds(110, 490, 120, 23);
+        jCheckBox11.setBounds(110, 490, 120, 19);
 
         jCheckBox12.setText("Demo");
         jPanel3.add(jCheckBox12);
-        jCheckBox12.setBounds(110, 510, 120, 23);
+        jCheckBox12.setBounds(110, 510, 120, 19);
 
         jCheckBox13.setText("Snippet");
         jPanel3.add(jCheckBox13);
-        jCheckBox13.setBounds(230, 490, 140, 23);
+        jCheckBox13.setBounds(230, 490, 140, 19);
 
         jCheckBox14.setText("Homebrew");
         jPanel3.add(jCheckBox14);
-        jCheckBox14.setBounds(230, 510, 140, 23);
+        jCheckBox14.setBounds(230, 510, 140, 19);
 
         jTabbedPane1.addTab("General", jPanel3);
 
@@ -1622,6 +1727,139 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
         jTabbedPane1.addTab("Other", jPanel9);
 
+        jCheckBoxEnableOverwrite.setText("enable overwrite");
+
+        jCheckBoxAutoSync.setText("Try autoSync");
+        jCheckBoxAutoSync.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxAutoSyncActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxAllowROMWrite.setText("allow ROM write");
+        jCheckBoxAllowROMWrite.setToolTipText("if enabled, ROM can be written to (in general) from cartdigde (which is BAD!)");
+        jCheckBoxAllowROMWrite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxAllowROMWriteActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxBreakpoint.setText("ROM and PC breakpoints switch on by default");
+        jCheckBoxBreakpoint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxBreakpointActionPerformed(evt);
+            }
+        });
+
+        jLabel31.setText("emulated vectrex integrator max (w/h)");
+
+        jTextField11.setText("38000");
+        jTextField11.setPreferredSize(new java.awt.Dimension(80, 21));
+        jTextField11.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField11FocusLost(evt);
+            }
+        });
+        jTextField11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField11ActionPerformed(evt);
+            }
+        });
+
+        jTextField12.setText("41000");
+        jTextField12.setPreferredSize(new java.awt.Dimension(80, 21));
+        jTextField12.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextField12FocusLost(evt);
+            }
+        });
+        jTextField12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField12ActionPerformed(evt);
+            }
+        });
+
+        jLabel86.setText("overlay alpha threshold");
+
+        jTextField30.setText("0.8");
+        jTextField30.setToolTipText("needed for sub pixel opaque lines, which are rendered to \"half\" transparent");
+        jTextField30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField30ActionPerformed(evt);
+            }
+        });
+
+        jLabel85.setText("dot dwell divisor");
+
+        jTextField29.setText("25");
+        jTextField29.setToolTipText("<html>\nbetween 1 and 256, (between 20-30 is sensible)<BR>\nDwell information of the vector beam is kept internally, <BR>\nthe longer the beam stays at the same position the higher the value.\n<BR>\nEach \"cycle\" adds \"4\" to the dwell value.\n</html>\n");
+        jTextField29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField29ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jCheckBoxEnableOverwrite))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBoxAllowROMWrite)
+                            .addComponent(jCheckBoxAutoSync)
+                            .addComponent(jCheckBoxBreakpoint)
+                            .addGroup(jPanel11Layout.createSequentialGroup()
+                                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel86, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel31))
+                                    .addComponent(jLabel85))
+                                .addGap(35, 35, 35)
+                                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel11Layout.createSequentialGroup()
+                                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jTextField29, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jTextField30, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)))))))
+                .addContainerGap(131, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jCheckBoxEnableOverwrite)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBoxAutoSync)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBoxAllowROMWrite)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCheckBoxBreakpoint)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel31)
+                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel86))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel85)
+                    .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(433, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Config overwrite", jPanel11);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -1759,7 +1997,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         fc.setMultiSelectionEnabled(false);
         if (lastImagePath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("overlays"+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix+"overlays"+File.separator));
         }
         else
         {
@@ -1785,7 +2023,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         fc.setMultiSelectionEnabled(false);
         if (lastImagePath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -1801,7 +2039,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         }
         try 
         {
-            FileReader fr = new FileReader(jTextFieldPath4.getText());
+            FileReader fr = new FileReader(Global.mainPathPrefix+convertSeperator(jTextFieldPath4.getText()));
             jTextPane2.read(fr, null);
             fr.close();
         }
@@ -1818,7 +2056,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         fc.setMultiSelectionEnabled(false);
         if (lastImagePath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -1835,7 +2073,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             lastImagePath = fullPath;
 
             jTextFieldPath5.setText(de.malban.util.Utility.makeRelative(fullPath));
-            singleImagePanel1.setImage(jTextFieldPath5.getText());
+            singleImagePanel1.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath5.getText()));
             singleImagePanel1.scaleToFit();
         }
     }//GEN-LAST:event_jButtonFileSelect5ActionPerformed
@@ -1845,7 +2083,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         fc.setMultiSelectionEnabled(false);
         if (lastImagePath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -1862,7 +2100,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             lastImagePath = fullPath;
 
             jTextFieldPath6.setText(de.malban.util.Utility.makeRelative(fullPath));
-            singleImagePanel2.setImage(jTextFieldPath6.getText());
+            singleImagePanel2.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath6.getText()));
             singleImagePanel2.scaleToFit();
         }
     }//GEN-LAST:event_jButtonFileSelect6ActionPerformed
@@ -1872,7 +2110,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         fc.setMultiSelectionEnabled(false);
         if (lastImagePath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -1888,7 +2126,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         }
         try 
         {
-            FileReader fr = new FileReader(jTextFieldPath7.getText());
+            FileReader fr = new FileReader(Global.mainPathPrefix+convertSeperator(jTextFieldPath7.getText()));
             jTextPane3.read(fr, null);
             fr.close();
         }
@@ -1914,6 +2152,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             {
                 // only ONE PDF -> allways the first!
                 jTextFieldPath9.setText(d.getFileUnpacked().elementAt(0));
+            
             }
         }
     }//GEN-LAST:event_jButtonFileSelect8ActionPerformed
@@ -1924,7 +2163,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         fc.setMultiSelectionEnabled(false);
         if (lastImagePath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -1952,11 +2191,11 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 Image img = (Image) t.getTransferData(DataFlavor.imageFlavor);
                 singleImagePanel1.setImage(UtilityImage.toBufferedImage(img));
                 singleImagePanel1.scaleToFit();
-                jTextFieldPath5.setText("."+File.separator+"cartridges"+File.separator+"images"+File.separator+""+jTextField2.getText()+de.malban.Global.getRand().nextLong()+".png");
+                jTextFieldPath5.setText("cartridges"+File.separator+"images"+File.separator+""+jTextField2.getText()+de.malban.Global.getRand().nextLong()+".png");
                 BufferedImage image = singleImagePanel1.getImage();
                 try
                 {
-                    File outputfile = new File(jTextFieldPath5.getText());
+                    File outputfile = new File(Global.mainPathPrefix+convertSeperator(jTextFieldPath5.getText()));
                     ImageIO.write(image, "png", outputfile);
                 }
                 catch (IOException e)
@@ -1981,11 +2220,12 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 Image img = (Image) t.getTransferData(DataFlavor.imageFlavor);
                 singleImagePanel2.setImage(UtilityImage.toBufferedImage(img));
                 singleImagePanel2.scaleToFit();
-                jTextFieldPath6.setText("."+File.separator+"cartridges"+File.separator+"images"+File.separator+""+jTextField2.getText()+de.malban.Global.getRand().nextLong()+".png");
+                jTextFieldPath6.setText("cartridges"+File.separator+"images"+File.separator+""+jTextField2.getText()+de.malban.Global.getRand().nextLong()+".png");
                 BufferedImage image = singleImagePanel2.getImage();
                 try
                 {
-                    File outputfile = new File(jTextFieldPath6.getText());
+                    File outputfile = new File(Global.mainPathPrefix+convertSeperator(jTextFieldPath6.getText()));
+                    
                     ImageIO.write(image, "png", outputfile);
                 }
                 catch (IOException e)
@@ -2014,13 +2254,13 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
 
     private void jButtonFileSelect12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect12ActionPerformed
 
-        boolean ok = DownloaderPanel.ensureLocalFile("PDF", mCartridgeProperties.mPDFLink, jTextFieldPath9.getText());
+        boolean ok = DownloaderPanel.ensureLocalFile("PDF", mCartridgeProperties.mPDFLink, Global.mainPathPrefix+convertSeperator(jTextFieldPath9.getText()));
         if (!ok)
         {
             log.addLog("CartridgeProperties: files could not be downloaded to local", WARN);
             return;
         }
-        String file = jTextFieldPath9.getText();
+        String file = Global.mainPathPrefix+convertSeperator(jTextFieldPath9.getText());
         invokeSystemFile(new File(file));
     }//GEN-LAST:event_jButtonFileSelect12ActionPerformed
 
@@ -2034,11 +2274,11 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 Image img = (Image) t.getTransferData(DataFlavor.imageFlavor);
                 singleImagePanel4.setImage(UtilityImage.toBufferedImage(img));
                 singleImagePanel4.scaleToFit();
-                jTextFieldPath10.setText("."+File.separator+"cartridges"+File.separator+"images"+File.separator+""+jTextField2.getText()+de.malban.Global.getRand().nextLong()+".png");
+                jTextFieldPath10.setText("cartridges"+File.separator+"images"+File.separator+""+jTextField2.getText()+de.malban.Global.getRand().nextLong()+".png");
                 BufferedImage image = singleImagePanel4.getImage();
                 try
                 {
-                    File outputfile = new File(jTextFieldPath10.getText());
+                    File outputfile = new File(Global.mainPathPrefix+convertSeperator(jTextFieldPath10.getText()));
                     ImageIO.write(image, "png", outputfile);
                 }
                 catch (IOException e)
@@ -2058,7 +2298,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         fc.setMultiSelectionEnabled(false);
         if (lastImagePath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -2075,7 +2315,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             lastImagePath = fullPath;
 
             jTextFieldPath10.setText(de.malban.util.Utility.makeRelative(fullPath));
-            singleImagePanel4.setImage(jTextFieldPath10.getText());
+            singleImagePanel4.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath10.getText()));
             singleImagePanel4.scaleToFit();
         }
     }//GEN-LAST:event_jButtonFileSelect13ActionPerformed
@@ -2085,7 +2325,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         fc.setMultiSelectionEnabled(false);
         if (lastImagePath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -2102,7 +2342,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
             lastImagePath = fullPath;
 
             jTextFieldPath11.setText(de.malban.util.Utility.makeRelative(fullPath));
-            singleImagePanel5.setImage(jTextFieldPath11.getText());
+            singleImagePanel5.setImage(Global.mainPathPrefix+convertSeperator(jTextFieldPath11.getText()));
             singleImagePanel5.scaleToFit();
         }
     }//GEN-LAST:event_jButtonFileSelect14ActionPerformed
@@ -2117,11 +2357,11 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
                 Image img = (Image) t.getTransferData(DataFlavor.imageFlavor);
                 singleImagePanel5.setImage(UtilityImage.toBufferedImage(img));
                 singleImagePanel5.scaleToFit();
-                jTextFieldPath11.setText("."+File.separator+"cartridges"+File.separator+"images"+File.separator+""+jTextField2.getText()+de.malban.Global.getRand().nextLong()+".png");
+                jTextFieldPath11.setText("cartridges"+File.separator+"images"+File.separator+""+jTextField2.getText()+de.malban.Global.getRand().nextLong()+".png");
                 BufferedImage image = singleImagePanel5.getImage();
                 try
                 {
-                    File outputfile = new File(jTextFieldPath11.getText());
+                    File outputfile = new File(Global.mainPathPrefix+convertSeperator(jTextFieldPath11.getText()));
                     ImageIO.write(image, "png", outputfile);
                 }
                 catch (IOException e)
@@ -2160,7 +2400,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
         fc.setMultiSelectionEnabled(false);
-        fc.setCurrentDirectory(new java.io.File(""));
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
         File files = fc.getSelectedFile();
@@ -2196,6 +2436,48 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     private void jCheckBox22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox22ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox22ActionPerformed
+
+    private void jCheckBoxAutoSyncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAutoSyncActionPerformed
+    }//GEN-LAST:event_jCheckBoxAutoSyncActionPerformed
+
+    private void jCheckBoxAllowROMWriteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAllowROMWriteActionPerformed
+
+    }//GEN-LAST:event_jCheckBoxAllowROMWriteActionPerformed
+
+    private void jCheckBoxBreakpointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxBreakpointActionPerformed
+    }//GEN-LAST:event_jCheckBoxBreakpointActionPerformed
+
+    private void jTextField11FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField11FocusLost
+
+    }//GEN-LAST:event_jTextField11FocusLost
+
+    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
+
+    }//GEN-LAST:event_jTextField11ActionPerformed
+
+    private void jTextField12FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField12FocusLost
+
+    }//GEN-LAST:event_jTextField12FocusLost
+
+    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
+
+    }//GEN-LAST:event_jTextField12ActionPerformed
+
+    private void jTextField30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField30ActionPerformed
+
+    }//GEN-LAST:event_jTextField30ActionPerformed
+
+    private void jTextField29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField29ActionPerformed
+
+    }//GEN-LAST:event_jTextField29ActionPerformed
+
+    private void jCheckBox23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox23ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox23ActionPerformed
+
+    private void jCheckBox18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox18ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox18ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2237,6 +2519,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     private javax.swing.JCheckBox jCheckBox20;
     private javax.swing.JCheckBox jCheckBox21;
     private javax.swing.JCheckBox jCheckBox22;
+    private javax.swing.JCheckBox jCheckBox23;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
@@ -2244,6 +2527,10 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JCheckBox jCheckBox9;
+    private javax.swing.JCheckBox jCheckBoxAllowROMWrite;
+    private javax.swing.JCheckBox jCheckBoxAutoSync;
+    private javax.swing.JCheckBox jCheckBoxBreakpoint;
+    private javax.swing.JCheckBox jCheckBoxEnableOverwrite;
     private javax.swing.JCheckBox jCheckBoxXmas;
     private javax.swing.JComboBox jComboBoxImager;
     private javax.swing.JComboBox jComboBoxKlasse;
@@ -2264,14 +2551,18 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel85;
+    private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -2289,8 +2580,12 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField29;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField30;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextFieldKlasse;
     private javax.swing.JTextField jTextFieldName;
@@ -2327,7 +2622,7 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
     }
     void initImager()
     {
-        String path = "xml"+File.separator+"wheels";
+        String path = Global.mainPathPrefix+"xml"+File.separator+"wheels";
         ArrayList<String> files = de.malban.util.UtilityFiles.getXMLFileList(path);
         jComboBoxImager.removeAllItems();
         for (String name: files)
@@ -2356,5 +2651,6 @@ public class CartridgePropertiesPanel extends javax.swing.JPanel  implements
         int rowHeight = fontSize+2;
         jTable1.setRowHeight(rowHeight);
     }
+    public void deIconified() { }
 }
 

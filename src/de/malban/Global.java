@@ -4,13 +4,27 @@
  */
 package de.malban;
 
+import de.malban.config.Configuration;
+import de.malban.config.Logable;
+import de.malban.gui.CSAMainFrame;
+import de.malban.gui.panels.LogPanel;
+import de.muntjak.tinylookandfeel.Theme;
+import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.management.ManagementFactory;
+import java.net.URISyntaxException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import javax.swing.SwingUtilities;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
 
 /**
  *
@@ -19,7 +33,7 @@ import java.security.PrivilegedAction;
 public class Global {
     
     // enabled so must be "-XstartOnFirstThread" upon run!
-    public static final boolean LWJGL_ENABLE = false;
+    public static final boolean JOGL_ENABLE = true;
     
     public static final String OSNAME;
     public static final String NATIVES_PATH;
@@ -29,9 +43,31 @@ public class Global {
     public static final boolean MAC_OS_X;
     public static final boolean WINDOWS;
 
+    public static final String mainPathPrefix;
     
+    //public static StringBuilder devNullString=new StringBuilder();
+    public static PrintStream devNull;
+    public static PrintStream devErr;
+    public static PrintStream devOut;
     static 
     {
+        devErr = System.err;
+        devOut = System.out;
+        devNull = new PrintStream(
+            new OutputStream()
+            {
+              @Override
+              public void write( int b )
+              {
+//                  char[] c = {(char)b};
+//                  String s = new String(c);
+//                  errorString.append(s);
+              }
+            }
+          );
+        
+        
+        mainPathPrefix = getProgramDirectory()+File.separator;
         OSNAME = System.getProperty("os.name").toLowerCase();
         if (OSNAME.startsWith("mac"))
         {
@@ -63,11 +99,11 @@ public class Global {
         }
 
         // http://www.java-gaming.org/topics/setup-natives-from-code/32484/view.html
-        if (WINDOWS) NATIVES_PATH = "lib/";
-        else if(MAC_OS_X)NATIVES_PATH = "lib";
-        else if(LINUX)NATIVES_PATH = "lib";
-        else if(SOLARIS)NATIVES_PATH = "lib";
-        else NATIVES_PATH = "lib";
+        if (WINDOWS) NATIVES_PATH = mainPathPrefix+"lib"+File.separator;
+        else if(MAC_OS_X)NATIVES_PATH = mainPathPrefix+"lib";
+        else if(LINUX)NATIVES_PATH = mainPathPrefix+"lib";
+        else if(SOLARIS)NATIVES_PATH = mainPathPrefix+"lib";
+        else NATIVES_PATH = mainPathPrefix+"lib";
 
         // see: http://stackoverflow.com/questions/17413690/java-jinput-rescan-reload-controllers
         /**
@@ -100,21 +136,12 @@ public class Global {
             }
         });         
         
-        // set native library path lwjgl
-        AccessController.doPrivileged(new PrivilegedAction() 
-        {
-            public Object run() 
-            {
-                System.setProperty("org.lwjgl.librarypath", new File(NATIVES_PATH).getAbsolutePath());
-                return null;
-            }
-        });         
     }
     
-    public static String mBaseDir="xml"+java.io.File.separator;
+    public static String mBaseDir=mainPathPrefix+"xml"+java.io.File.separator;
     private static final java.util.Random _Rand = new java.util.Random();
     private static final long usedFirstSeed;
-    public static javax.swing.JFrame mMainWindow=null;
+    public static CSAMainFrame /*javax.swing.JFrame*/ mMainWindow=null;
     public static long nextSeed = -1;
     static 
     {
@@ -193,4 +220,142 @@ public class Global {
         if (is64bit) return 64;
         return 32;
     }
+    
+    // https://stackoverflow.com/questions/4032957/how-to-get-the-real-path-of-java-application-at-runtime
+    private static String getJarName()
+    {
+        return new File(Global.class.getProtectionDomain()
+                .getCodeSource()
+                .getLocation()
+                .getPath())
+                .getName();
+    }
+
+    private static boolean runningFromJAR()
+    {
+        String jarName = getJarName();
+        return jarName.contains(".jar");
+    }
+
+    public static String getProgramDirectory()
+    {
+        if (runningFromJAR())
+        {
+            return getCurrentJARDirectory();
+        } else
+        {
+            return getCurrentProjectDirectory();
+        }
+    }
+
+    private static String getCurrentProjectDirectory()
+    {
+        return new File("").getAbsolutePath();
+    }
+
+    private static String getCurrentJARDirectory()
+    {
+        try
+        {
+            return new File(Global.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParent();
+        } catch (URISyntaxException exception)
+        {
+            exception.printStackTrace();
+        }
+
+        return null;
+    }    
+
+    private static boolean firstTime = true;
+    private static Color splitLight;
+    private static Color splitDark;
+    
+    private static Color linkColor = Color.blue;
+    private static Color textColor = Color.black;
+    
+    
+    
+
+    public static String getHTMLColor(Color c)
+    {
+        return (String.format("%02X", c.getRed())+String.format("%02X", c.getGreen())+String.format("%02X", c.getBlue())).toLowerCase();
+    }
+    
+    public static void initLAF()
+    {
+        if (firstTime)
+        {
+            firstTime = false;
+            UIDefaults table = UIManager.getLookAndFeelDefaults();
+            splitLight = (Color) table.get( "SplitPane.highlight");
+            splitDark =  (Color) table.get( "SplitPane.darkShadow");
+        }
+        try {
+            // get rid of the stupd ever the same message that initializing was done successfully!
+            System.setOut(devNull);
+            
+            UIManager.setLookAndFeel("de.muntjak.tinylookandfeel.TinyLookAndFeel");
+            UIDefaults table = UIManager.getLookAndFeelDefaults();
+            //UIDefaults table = UIManager.getLookAndFeelDefaults();
+
+            HTMLEditorKit kit = new HTMLEditorKit();
+            StyleSheet styleSheet = kit.getStyleSheet();
+            styleSheet.addRule("a {color:#"+getHTMLColor(linkColor)+";}");
+            styleSheet.addRule("body {color:#"+getHTMLColor(textColor)+";}");
+            
+            // reset to defaults
+            if (splitLight != null)
+                table.put( "SplitPane.highlight" , splitLight );
+            if (splitDark != null)
+                table.put( "SplitPane.darkShadow" , splitDark );
+            
+            // load new value from theme
+            if (Theme.splitPaneHightlight.getColor() != null)
+                table.put( "SplitPane.highlight" , Theme.splitPaneHightlight.getColor() );
+            if (Theme.splitPaneDarkShadow.getColor() != null)
+                table.put( "SplitPane.darkShadow" , Theme.splitPaneDarkShadow.getColor() );
+            
+            
+            
+            // things not initialized by tiny LAF
+            table.put( "Panel.foreground" , table.get( "TextField.foreground") );
+
+            table.put( "TextPane.foreground" , table.get( "TextField.foreground") );
+            table.put( "TextPane.background" , table.get( "TextField.background") );
+            table.put( "TextPane.selectionForeground" , table.get( "TextField.selectionForeground") );
+            table.put( "TextPane.selectionBackground" , table.get( "TextField.selectionBackground") );
+
+            table.put( "TextPane.caretForeground" , table.get( "TextField.caretForeground") );
+            table.put( "TextArea.caretForeground" , table.get( "TextField.caretForeground") );
+            table.put( "EditorPane.caretForeground" , table.get( "TextField.caretForeground") );
+            
+            updateComponentTree();
+            
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }  
+        finally
+        {
+            System.setOut(devOut);
+        }
+    }
+    
+    public static void updateComponentTree()
+    {
+        if (mMainWindow != null)    
+        {
+            SwingUtilities.updateComponentTreeUI(mMainWindow);  
+        }
+    
+        Logable l = Configuration.getConfiguration().getLogEntity();
+        if ((l!=null) && (l instanceof LogPanel))
+            SwingUtilities.updateComponentTreeUI((LogPanel)l);
+        Logable d = Configuration.getConfiguration().getDebugEntity();
+        if ((d!=null) && (d instanceof LogPanel))
+            SwingUtilities.updateComponentTreeUI((LogPanel)d);
+        
+    }
+    
+    
+    
 }

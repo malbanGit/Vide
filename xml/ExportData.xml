@@ -1,12 +1,6 @@
 <?xml version="1.0"?>
 <AllExportData>
 	<ExportData>
-		<Class></Class>
-		<Name></Name>
-		<Comment></Comment>
-		<Script></Script>
-	</ExportData>
-	<ExportData>
 		<Class>Vecci Export</Class>
 		<Name>diffy/duffy</Name>
 		<Comment>Information about the 
@@ -22,7 +16,8 @@ b.append(&quot;{\n&quot;);
 
 GFXVector lastVector = null;
 boolean error = false;
-no change
+
+
 for (int i=0; i&lt;allvectors.size(); i++)
 {
   GFXVector onvector =(GFXVector)  allvectors.elementAt(i);
@@ -326,6 +321,149 @@ else
  out += &quot;vector null!&quot;;
 }
 
+
+</Script>
+	</ExportData>
+	<ExportData>
+		<Class>CSA</Class>
+		<Name>ProcessLevel1</Name>
+		<Comment></Comment>
+		<Script>String path = ed.path;
+if (!path.endsWith(File.separator))
+{
+ if (path.length() != 0)
+ {
+  path += File.separator;	
+ }
+}
+
+String levelID = &quot;1&quot;;
+ 
+ 
+String outputFile = path+ed.filename+&quot;.asm&quot;;
+DBParser parser = new DBParser();
+Vector result = null;
+try
+{
+	StringBuffer output= new StringBuffer();
+	result = de.malban.util.UtilityString.readTextFileToString(new File (path+ed.filename));
+
+	parser.readFile(path+ed.filename);
+	
+	int width=0;
+	int height=0;
+	int posx=0;
+	int posy=0;
+	int v = Integer.MAX_VALUE;
+	parser.setPositionAfterLabel();
+
+	v = parser.getNextDataIntValue();
+	if (v == Integer.MAX_VALUE) v = parser.getNextDataIntValue();
+	if (v == Integer.MAX_VALUE) v = parser.getNextDataIntValue();
+	if (v == Integer.MAX_VALUE) v = parser.getNextDataIntValue();
+	height = v;
+	v = parser.getNextDataIntValue();
+	if (v == Integer.MAX_VALUE) v = parser.getNextDataIntValue();
+	if (v == Integer.MAX_VALUE) v = parser.getNextDataIntValue();
+	width = v;
+	v = parser.getNextDataIntValue();
+	if (v == Integer.MAX_VALUE) v = parser.getNextDataIntValue();
+	if (v == Integer.MAX_VALUE) v = parser.getNextDataIntValue();
+	posy = v;
+	v = parser.getNextDataIntValue();
+	if (v == Integer.MAX_VALUE) v = parser.getNextDataIntValue();
+	if (v == Integer.MAX_VALUE) v = parser.getNextDataIntValue();
+	posx = v;
+	 
+	if (height== Integer.MAX_VALUE)
+	{
+		vedi.printMessage(&quot;Error reading level data: height.&quot;);
+		return;
+	}
+	if (width== Integer.MAX_VALUE)
+	{
+		vedi.printMessage(&quot;Error reading level data: width.&quot;);
+		return;
+	}
+	if (posx== Integer.MAX_VALUE)
+	{
+		vedi.printMessage(&quot;Error reading level data: posx.&quot;);
+		return;
+	}
+	if (posy== Integer.MAX_VALUE)
+	{
+		vedi.printMessage(&quot;Error reading level data: posy.&quot;);
+		return;
+	}
+	if (vedi != void)
+	{
+		vedi.printMessage(&quot;Level size: &quot;+height+&quot; x &quot;+width);
+		vedi.printMessage(&quot;Level position: &quot;+posy+&quot;, &quot;+posx);
+	}
+	else	
+	{
+		out+=(&quot;Level size: &quot;+height+&quot; x &quot;+width+&quot;\n&quot;);
+		out+=(&quot;Level position: &quot;+posy+&quot;, &quot;+posx+&quot;\n&quot;);
+	}
+	
+	output.append(&quot;levelCompiled&quot;+levelID+&quot;:\n&quot;);
+	
+	
+	int lineCounter=0;
+	for (int i=0; i&lt; result.size(); i++)
+	{
+		String line = result.elementAt(i); 
+		out += line+&quot;\n&quot;;
+		if (!line.contains(&quot;\&quot;&quot;)) continue;
+		if (line.trim().startsWith(&quot;;&quot;)) continue;
+		line = de.malban.util.UtilityString.replace(line, &quot; db &quot;, &quot;&quot;);
+		line = line.trim();
+		line = de.malban.util.UtilityString.replace(line, &quot;\&quot;&quot;, &quot;&quot;);
+		// line is pure ascii data now
+
+		// address of this line
+		output.append(&quot;line&quot;+levelID+&quot;_&quot;+(lineCounter)+&quot;:\n&quot;);
+		// address of next line
+		output.append(&quot; dw line&quot;+levelID+&quot;_&quot;+(lineCounter+1)+&quot;; next line start\n&quot;);
+		for (int x=0; x&lt; line.length(); x++)
+		{
+			char c = line.charAt(x);
+			if (c==&apos; &apos;) continue;
+			output.append(&quot; db &quot;+x+&quot;\n TILE_&quot;+c+&quot; (&quot;+x+&quot;)\n&quot;);
+		}
+		output.append(&quot; db -1; end of line\n&quot;);
+		lineCounter++;
+	}
+	lineCounter=0;
+	output.append(&quot;lines&quot;+levelID+&quot;:\n&quot;);
+	for (int i=0; i&lt; result.size(); i++)
+	{
+		String line = result.elementAt(i); 
+		if (line.trim().startsWith(&quot;;&quot;)) continue;
+
+		if (!line.contains(&quot;\&quot;&quot;)) continue;
+		output.append(&quot; dw line&quot;+levelID+&quot;_&quot;+(lineCounter)+&quot;\n&quot;);
+		lineCounter++;
+	}
+	output.append(&quot; dw -1; end of line\n&quot;);
+	output.append(&quot;line&quot;+levelID+&quot;_&quot;+(lineCounter)+&quot; = -1\n&quot;);
+	
+out +=&quot;\n&quot;;
+out +=&quot;\n&quot;;
+out +=output.toString();
+	de.malban.util.UtilityFiles.createTextFile(outputFile, output.toString());
+}
+catch (Throwable e)
+{
+	out+= &quot;Error reading file &apos;error&apos;&quot;+&quot;\n&quot;;
+	return;
+}
+
+
+if (vedi != void)
+{
+  vedi.printMessage(&quot;Level compile for &quot;+ed.filename+&quot; was executed...&quot;);
+}
 
 </Script>
 	</ExportData>

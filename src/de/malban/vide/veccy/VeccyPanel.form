@@ -219,9 +219,11 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jTabbedPane6" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTabbedPane4" alignment="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="jTabbedPane2" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabelAnim" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -238,8 +240,6 @@
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jTabbedPane2" pref="0" max="32767" attributes="0"/>
-                          <Component id="jTabbedPane6" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                   </Group>
@@ -694,7 +694,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="jScrollPane7" pref="125" max="32767" attributes="0"/>
+                              <Component id="jScrollPane7" pref="144" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
@@ -704,7 +704,7 @@
                               <Component id="jButton3" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jButton7" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
+                              <EmptySpace min="0" pref="26" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -828,9 +828,9 @@
                                       <Component id="jCheckBoxPosition" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jCheckBoxArrows" alignment="0" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="jCheckBoxMoves" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jCheckBoxMoves" alignment="0" pref="163" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="80" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -858,7 +858,7 @@
                                       <Component id="jCheckBoxMoves" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="143" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1199,14 +1199,12 @@
                                       <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jButtonOptimizeSize" pref="0" max="32767" attributes="0"/>
-                                          <Component id="jButtonLongestPaths" pref="0" max="32767" attributes="0"/>
+                                          <Component id="jButtonLongestPaths" pref="172" max="32767" attributes="0"/>
                                           <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="jButtonLongestPaths1" min="-2" pref="112" max="-2" attributes="0"/>
-                                                  <Component id="jLabelFactor" min="-2" pref="56" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace min="0" pref="60" max="32767" attributes="0"/>
+                                              <Component id="jLabelFactor" min="-2" pref="56" max="-2" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
+                                          <Component id="jButtonLongestPaths1" alignment="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -1240,9 +1238,9 @@
                                   <Component id="jButtonRemoveDots1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jButtonLongestPaths1" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="21" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                               <Component id="jCheckBoxRespectZero" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jButtonLongestPathsplus" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jButtonLongestPaths" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1563,6 +1561,11 @@
               </Properties>
             </Component>
             <Container class="javax.swing.JTabbedPane" name="jTabbedPane6">
+              <Properties>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[101, 280]"/>
+                </Property>
+              </Properties>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
               <SubComponents>
@@ -1608,7 +1611,7 @@
                             <DimensionLayout dim="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jCheckBox5" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="jCheckBox4" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -1644,9 +1647,12 @@
                                               </Group>
                                           </Group>
                                           <Component id="jButton4" max="-2" attributes="0"/>
-                                          <Component id="jButtonSelectionRotation" alignment="0" min="-2" pref="166" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="jButtonSelectionRotation" pref="176" max="32767" attributes="0"/>
+                                              <EmptySpace min="22" pref="22" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -2010,26 +2016,26 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jSliderSourceScale" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jPanelScroller" min="-2" pref="53" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="103" alignment="1" groupAlignment="1" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="jLabelMinY" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="jLabelY0" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="jLabelMaxY" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="jButtonSingleEditor1" min="-2" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabelY0" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                                              <Component id="jLabelMaxY" min="-2" pref="55" max="-2" attributes="0"/>
+                                              <Component id="jLabelMinY" alignment="0" min="-2" pref="52" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="jButtonSingleEditor" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="jButtonSingleEditor1" alignment="1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jButtonSingleEditor" alignment="1" min="-2" max="-2" attributes="0"/>
                                           </Group>
+                                          <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -2063,13 +2069,13 @@
                                       <Component id="jPanelScroller" min="-2" pref="53" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                                       <Component id="jLabelY0" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="jLabelMinY" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jButtonSingleEditor1" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                      <Component id="jButtonSingleEditor1" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                                       <Component id="jButtonSingleEditor" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                                      <Component id="jLabelMinY" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -2089,7 +2095,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jTabbedPane5" alignment="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="jTabbedPane5" alignment="0" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -2115,7 +2121,7 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane1" pref="799" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" pref="862" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -2792,7 +2798,7 @@
                                           <Component id="jButton2dAxis" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jButton3dAxis" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="120" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="90" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -3260,7 +3266,7 @@
                                           <Component id="jLabel56" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jButtonLoad2" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="740" max="32767" attributes="0"/>
+                                          <EmptySpace pref="796" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -3314,7 +3320,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jButtonExport1" min="-2" pref="190" max="-2" attributes="0"/>
-                                          <EmptySpace pref="600" max="32767" attributes="0"/>
+                                          <EmptySpace pref="656" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -3392,16 +3398,6 @@
                                           </Group>
                                           <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" attributes="0">
-                                                  <Component id="jCheckBoxRunnable" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jButtonAssemble" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jButtonEditInVedi" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="jCheckBoxAddFactor" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                              </Group>
                                               <Component id="jScrollPane5" max="32767" attributes="0"/>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jRadioButton3" min="-2" max="-2" attributes="0"/>
@@ -3411,7 +3407,21 @@
                                                   <Component id="jRadioButton5" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Component id="jRadioButton6" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace pref="100" max="32767" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="jCheckBoxRunnable" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="jButtonAssemble" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="jButtonEditInVedi" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBoxAddFactor" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace pref="98" max="32767" attributes="0"/>
+                                                  <Component id="jCheckBoxCStyle" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBoxPCStyle" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -3421,7 +3431,11 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jCheckBoxAddFactor" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                                  <Component id="jCheckBoxAddFactor" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBoxCStyle" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jCheckBoxPCStyle" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              </Group>
                                               <Component id="jButtonEditInVedi" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jButtonAssemble" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jCheckBoxRunnable" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -3489,12 +3503,25 @@
                                                       <Component id="jCheckBoxVec32" min="-2" max="-2" attributes="0"/>
                                                       <EmptySpace max="-2" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="jLabel34" alignment="0" max="-2" attributes="0"/>
-                                                          <Component id="jLabel4" alignment="0" max="-2" attributes="0"/>
-                                                          <Component id="jLabel35" max="-2" attributes="0"/>
-                                                          <Component id="jLabel36" alignment="0" max="-2" attributes="0"/>
+                                                          <Group type="102" alignment="0" attributes="0">
+                                                              <Component id="jLabel4" max="-2" attributes="0"/>
+                                                              <EmptySpace max="32767" attributes="0"/>
+                                                              <Component id="jButtonDraw_syncList1" min="-2" pref="27" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <Group type="102" attributes="0">
+                                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                                  <Component id="jLabel35" max="-2" attributes="0"/>
+                                                                  <Component id="jLabel36" alignment="0" max="-2" attributes="0"/>
+                                                              </Group>
+                                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                                          </Group>
+                                                          <Group type="102" alignment="0" attributes="0">
+                                                              <Component id="jLabel34" max="-2" attributes="0"/>
+                                                              <EmptySpace max="32767" attributes="0"/>
+                                                              <Component id="jCheckBox3ds" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
                                                       </Group>
-                                                      <EmptySpace max="32767" attributes="0"/>
+                                                      <EmptySpace max="-2" attributes="0"/>
                                                   </Group>
                                                   <Group type="102" attributes="0">
                                                       <Component id="jTextFieldResync" min="-2" pref="34" max="-2" attributes="0"/>
@@ -3515,11 +3542,15 @@
                                               <Group type="103" groupAlignment="3" attributes="0">
                                                   <Component id="jButtonMov_Draw_VLc_a" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jButtonDraw_syncList1" alignment="3" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="3" attributes="0">
-                                                  <Component id="jButtonDraw_VLc" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                      <Component id="jButtonDraw_VLc" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Component id="jCheckBox3ds" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
@@ -3675,7 +3706,7 @@
                                     <Component class="javax.swing.JButton" name="jButtonDraw_syncList">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="Draw sync list"/>
-                                        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw sync list&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;Format developed by Malban, this format describes a &quot;large&quot;.  &lt;BR&gt; &#xa;Vectorlist, which can be synced while drawing. Synced means,   &lt;BR&gt; &#xa;the beam is zeroed and moved to the next location.   &lt;BR&gt; &#xa;Vide automatically inserts a &quot;sync&quot; when vectors are not connected. &lt;BR&gt; &#xa;&lt;BR&gt;&#xa;The Sync point is always the &quot;displayed&quot; point 0, 0, after a sync the beam is moved&lt;BR&gt;&#xa;the vectorlist 0, 0 and from there to the next displayed vector.&lt;BR&gt;&#xa;format: &lt;BR&gt; &#xa;&#xa;Method to draw:&#xa;U = address of vectorlist&#xa;X = (y,x) position of vectorlist (this will be point 0,0), positioning&#xa;A = scalefactor &quot;Move&quot; (after sync)&#xa;B = scalefactor &quot;Vector&quot; (vectors in vectorlist)&#xa;&#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;     mode, rel y, rel x,                                             &#xa;     mode, rel y, rel x,                                             &#xa;     .      .      .                                                &#xa;     .      .      .                                                &#xa;     mode, rel y, rel x,                                             &#xa;     0xff, 0xffff &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;&#xa;where mode has the following meaning:         &lt;BR&gt;                        &#xa;                                              &lt;BR&gt;                    &#xa;0xff draw line        &lt;BR&gt;                           &#xa;0  move to specified endpoint      &lt;BR&gt;                           &#xa;1  sync (and move to specified endpoint)        &lt;BR&gt;     &#xa;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;&#xa;"/>
+                                        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw sync list&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;Format developed by Malban, this format describes a &quot;large&quot;.  &lt;BR&gt; &#xa;Vectorlist, which can be synced while drawing. Synced means,   &lt;BR&gt; &#xa;the beam is zeroed and moved to the next location.   &lt;BR&gt; &#xa;Vide automatically inserts a &quot;sync&quot; when vectors are not connected. &lt;BR&gt; &#xa;&lt;BR&gt;&#xa;The Sync point is always the &quot;displayed&quot; point 0, 0, after a sync the beam is moved&lt;BR&gt;&#xa;the vectorlist 0, 0 and from there to the next displayed vector.&lt;BR&gt;&#xa;format: &lt;BR&gt; &#xa;&#xa;Method to draw:&lt;BR&gt;&#xa;U = address of vectorlist&lt;BR&gt;&#xa;X = (y,x) position of vectorlist (this will be point 0,0), positioning&lt;BR&gt;&#xa;A = scalefactor &quot;Move&quot; (after sync)&lt;BR&gt;&#xa;B = scalefactor &quot;Vector&quot; (vectors in vectorlist)&lt;BR&gt;&#xa;&#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;     mode, rel y, rel x, &lt;BR&gt;&#xa;     mode, rel y, rel x,&lt;BR&gt;&#xa;     .      .      .        &lt;BR&gt;&#xa;     .      .      .       &lt;BR&gt;&#xa;     mode, rel y, rel x,  &lt;BR&gt;&#xa;     0xff, 0xffff &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;&#xa;where mode has the following meaning:         &lt;BR&gt;                        &#xa;                                              &lt;BR&gt;                    &#xa;0xff draw line        &lt;BR&gt;                           &#xa;0  move to specified endpoint      &lt;BR&gt;                           &#xa;1  sync (and move to specified endpoint)        &lt;BR&gt;     &#xa;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;&#xa;"/>
                                         <Property name="horizontalAlignment" type="int" value="2"/>
                                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                                           <Insets value="[2, 4, 2, 4]"/>
@@ -3706,6 +3737,27 @@
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="extended"/>
                                         <Property name="enabled" type="boolean" value="false"/>
+                                      </Properties>
+                                    </Component>
+                                    <Component class="javax.swing.JButton" name="jButtonDraw_syncList1">
+                                      <Properties>
+                                        <Property name="text" type="java.lang.String" value="3d"/>
+                                        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;This button can be used to create 3d vectorlist to use with Malban 3d routines.&lt;BR&gt;&#xa;As of now only &quot;C&quot; output is supported.&lt;BR&gt;&#xa;&lt;BR&gt;&#xa;The 3d routines can only handle &quot;unfiform&quot; vectors.&lt;BR&gt;&#xa;&lt;BR&gt;&#xa;Using the checkbox you can change the way how vectors larger than 1 are treated:&lt;BR&gt;&#xa;- they are made longer using scale (list type 3ds)&lt;BR&gt;&#xa;- longer vectors result in multiple uniform vectors&lt;BR&gt;&#xa;&lt;BR&gt;&#xa;ALL vectors must be drawn &quot;uniformly&quot; nonetheless.&#xa;&lt;/html&gt;"/>
+                                        <Property name="horizontalAlignment" type="int" value="2"/>
+                                        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                                          <Insets value="[2, 4, 2, 4]"/>
+                                        </Property>
+                                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                                          <Dimension value="[140, 21]"/>
+                                        </Property>
+                                      </Properties>
+                                      <Events>
+                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDraw_syncList1ActionPerformed"/>
+                                      </Events>
+                                    </Component>
+                                    <Component class="javax.swing.JCheckBox" name="jCheckBox3ds">
+                                      <Properties>
+                                        <Property name="toolTipText" type="java.lang.String" value="If not checked &quot;3ds&quot; lists are created, if checked non 3ds lists."/>
                                       </Properties>
                                     </Component>
                                   </SubComponents>
@@ -3855,7 +3907,7 @@
                                     <Component class="javax.swing.JButton" name="jButtonDraw_VL_modeAnim">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="Draw_VL_mode"/>
-                                        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw_VL_mode&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;This routine processes the vector list pointed to by the X register.  &lt;BR&gt; &#xa;The current scale factor is used.  The vector list has the following  &lt;BR&gt; &#xa;format: &lt;BR&gt; &#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;     mode, rel y, rel x,                                             &#xa;     mode, rel y, rel x,                                             &#xa;     .      .      .                                                &#xa;     .      .      .                                                &#xa;     mode, rel y, rel x,                                             &#xa;     0x01  &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;&#xa;where mode has the following meaning:         &lt;BR&gt;                        &#xa;                                              &lt;BR&gt;                    &#xa;&lt; 0  use the pattern in $C829        &lt;BR&gt;                           &#xa;= 0  move to specified endpoint      &lt;BR&gt;                           &#xa;= 1  end of list, so return         &lt;BR&gt;                            &#xa;&gt; 1  draw to specified endpoint &lt;BR&gt;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;"/>
+                                        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw_VL_mode&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;This routine processes the vector list pointed to by the X register.  &lt;BR&gt; &#xa;The current scale factor is used.  The vector list has the following  &lt;BR&gt; &#xa;format: &lt;BR&gt; &#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;     mode, rel y, rel x,                                             &#xa;     mode, rel y, rel x,                                             &#xa;     .      .      .                                                &#xa;     .      .      .                                                &#xa;     mode, rel y, rel x,                                             &#xa;     0x01  &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;&#xa;where mode has the following meaning:         &lt;BR&gt;                        &#xa;                                              &lt;BR&gt;                    &#xa;- 0  use the pattern in $C829        &lt;BR&gt;                           &#xa;= 0  move to specified endpoint      &lt;BR&gt;                           &#xa;= 1  end of list, so return         &lt;BR&gt;                            &#xa;&gt; 1  draw to specified endpoint &lt;BR&gt;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;"/>
                                         <Property name="horizontalAlignment" type="int" value="2"/>
                                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                                           <Insets value="[2, 4, 2, 4]"/>
@@ -3916,7 +3968,7 @@
                                     <Component class="javax.swing.JButton" name="jButtonDraw_syncListAnim">
                                       <Properties>
                                         <Property name="text" type="java.lang.String" value="Draw sync list"/>
-                                        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw sync list&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;Format developed by Malban, this format describes a &quot;large&quot;.  &lt;BR&gt; &#xa;Vectorlist, which can be synced while drawing. Synced means,   &lt;BR&gt; &#xa;the beam is zeroed and moved to the next location.   &lt;BR&gt; &#xa;Vide automatically inserts a &quot;sync&quot; when vectors are not connected. &lt;BR&gt; &#xa;&lt;BR&gt;&#xa;The Sync point is always the &quot;displayed&quot; point 0, 0, after a sync the beam is moved&lt;BR&gt;&#xa;the vectorlist 0, 0 and from there to the next displayed vector.&lt;BR&gt;&#xa;format: &lt;BR&gt; &#xa;&#xa;Method to draw:&#xa;U = address of vectorlist&#xa;X = (y,x) position of vectorlist (this will be point 0,0), positioning&#xa;A = scalefactor &quot;Move&quot; (after sync)&#xa;B = scalefactor &quot;Vector&quot; (vectors in vectorlist)&#xa;&#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;     mode, rel y, rel x,                                             &#xa;     mode, rel y, rel x,                                             &#xa;     .      .      .                                                &#xa;     .      .      .                                                &#xa;     mode, rel y, rel x,                                             &#xa;     0xff, 0xffff &#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;&#xa;where mode has the following meaning:         &lt;BR&gt;                        &#xa;                                              &lt;BR&gt;                    &#xa;0xff draw line        &lt;BR&gt;                           &#xa;0  move to specified endpoint      &lt;BR&gt;                           &#xa;1  sync (and move to specified endpoint)        &lt;BR&gt;     &#xa;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;&#xa;"/>
+                                        <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;B&gt;Draw sync list&lt;/B&gt;        &lt;BR&gt;                                  &#xa;                                                &lt;BR&gt;                            &#xa;Format developed by Malban, this format describes a &quot;large&quot;.  &lt;BR&gt; &#xa;Vectorlist, which can be synced while drawing. Synced means,   &lt;BR&gt; &#xa;the beam is zeroed and moved to the next location.   &lt;BR&gt; &#xa;Vide automatically inserts a &quot;sync&quot; when vectors are not connected. &lt;BR&gt; &#xa;&lt;BR&gt;&#xa;The Sync point is always the &quot;displayed&quot; point 0, 0, after a sync the beam is moved&lt;BR&gt;&#xa;the vectorlist 0, 0 and from there to the next displayed vector.&lt;BR&gt;&#xa;format: &lt;BR&gt; &#xa;&#xa;Method to draw:&lt;BR&gt;&#xa;U = address of vectorlist&lt;BR&gt;&#xa;X = (y,x) position of vectorlist (this will be point 0,0), positioning&lt;BR&gt;&#xa;A = scalefactor &quot;Move&quot; (after sync)&lt;BR&gt;&#xa;B = scalefactor &quot;Vector&quot; (vectors in vectorlist)&lt;BR&gt;&#xa;&#xa;&lt;BR&gt;&#xa;&lt;PRE&gt;&#xa;     mode, rel y, rel x, &lt;BR&gt;&lt;BR&gt;                                          &#xa;     .      .      .  &lt;BR&gt;&#xa;     .      .      .  &lt;BR&gt;&#xa;     mode, rel y, rel x,         &lt;BR&gt;&#xa;     0xff, 0xffff &lt;BR&gt;&#xa;&lt;/PRE&gt;&#xa;&lt;BR&gt;&#xa;where mode has the following meaning:         &lt;BR&gt;                        &#xa;                                              &lt;BR&gt;                    &#xa;0xff draw line        &lt;BR&gt;                           &#xa;0  move to specified endpoint      &lt;BR&gt;                           &#xa;1  sync (and move to specified endpoint)        &lt;BR&gt;     &#xa;&#xa;&lt;BR&gt;     &#xa;&lt;/html&gt;&#xa;&#xa;"/>
                                         <Property name="horizontalAlignment" type="int" value="2"/>
                                         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                                           <Insets value="[2, 4, 2, 4]"/>
@@ -3992,7 +4044,7 @@
                                 </Component>
                                 <Component class="javax.swing.JCheckBox" name="jCheckBoxAddFactor">
                                   <Properties>
-                                    <Property name="text" type="java.lang.String" value="add  factor"/>
+                                    <Property name="text" type="java.lang.String" value="factor"/>
                                   </Properties>
                                 </Component>
                                 <Component class="javax.swing.JRadioButton" name="jRadioButton3">
@@ -4039,6 +4091,21 @@
                                   </Properties>
                                   <Events>
                                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton6ActionPerformed"/>
+                                  </Events>
+                                </Component>
+                                <Component class="javax.swing.JCheckBox" name="jCheckBoxCStyle">
+                                  <Properties>
+                                    <Property name="text" type="java.lang.String" value="C"/>
+                                    <Property name="toolTipText" type="java.lang.String" value="if checked &quot;runnable&quot; is ignored!"/>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JCheckBox" name="jCheckBoxPCStyle">
+                                  <Properties>
+                                    <Property name="text" type="java.lang.String" value="PC"/>
+                                    <Property name="toolTipText" type="java.lang.String" value="Only if &quot;C&quot; is checked as well, only for ..._VLc and ... VL_mode"/>
+                                  </Properties>
+                                  <Events>
+                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCheckBoxPCStyleActionPerformed"/>
                                   </Events>
                                 </Component>
                               </SubComponents>
@@ -4340,7 +4407,7 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jButtonExport" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace pref="633" max="32767" attributes="0"/>
+                                          <EmptySpace pref="696" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -4404,7 +4471,7 @@
                                                   <Component id="jLabel62" min="-2" pref="191" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace pref="425" max="32767" attributes="0"/>
+                                          <EmptySpace pref="488" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -4895,7 +4962,6 @@
             <Component class="javax.swing.JSlider" name="jSliderSourceScale">
               <Properties>
                 <Property name="majorTickSpacing" type="int" value="1"/>
-                <Property name="maximum" type="int" value="25"/>
                 <Property name="minimum" type="int" value="1"/>
                 <Property name="minorTickSpacing" type="int" value="1"/>
                 <Property name="orientation" type="int" value="1"/>
@@ -5151,7 +5217,7 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="180" y="350" width="30" height="-1"/>
+                      <AbsoluteConstraints x="170" y="350" width="40" height="-1"/>
                     </Constraint>
                   </Constraints>
                 </Component>

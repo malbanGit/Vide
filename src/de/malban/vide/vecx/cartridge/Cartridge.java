@@ -5,12 +5,15 @@
  */
 package de.malban.vide.vecx.cartridge;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.WARN;
 import static de.malban.gui.panels.LogPanel.INFO;
+import static de.malban.gui.panels.LogPanel.VERBOSE;
 import de.malban.util.DownloaderPanel;
+import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.DisplayerInterface;
 import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.cartridge.resid.SID.State;
@@ -48,6 +51,7 @@ public class Cartridge implements Serializable
     public static int FLAG_DS2431 = 65536; // Thomas one wire eEprom
     public static int FLAG_32K_ONLY = 65536*2; // 
     public static int FLAG_SID = FLAG_32K_ONLY*2; // SID chip board at $8000 (kokovec)
+    public static int FLAG_48K = FLAG_SID*2; // 
 
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     // load transient stuff after save state
@@ -82,6 +86,7 @@ public class Cartridge implements Serializable
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_DS2431)!=0) ret+="eEprom DS2431  ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_32K_ONLY)!=0) ret+="32k forced ";
         if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_SID)!=0) ret+="SID extension ";
+        if ((currentCardProp.getTypeFlags()&Cartridge.FLAG_48K)!=0) ret+="48k ROM ";
         ret = ret.trim();
         ret = de.malban.util.UtilityString.replace(ret, "  ", ", ");
         return ret;
@@ -89,6 +94,8 @@ public class Cartridge implements Serializable
     public DS2430A ds2430 = new DS2430A(this);
     public DS2431 ds2431 = new DS2431(this);
     public VSID vsid = null;
+
+    public int MAX_BANK_SIZE = 32768;    
     
     public Microchip11AA010 microchip = new Microchip11AA010(this);
     transient VecX vecx;
@@ -134,6 +141,7 @@ public class Cartridge implements Serializable
 
     boolean sidEnabled = false;
     boolean extremeMulti = false;
+    boolean rom48KEnabled = false;
     byte spectrumByte = 0;
     boolean _32kOnly = false;
     
@@ -142,6 +150,10 @@ public class Cartridge implements Serializable
         return spectrumByte;
     }
     
+    public boolean is48KROM()
+    {
+        return rom48KEnabled;
+    }
     public boolean isExtra2000Ram2k()
     {
         return extraRam2000_2800_2k_Enabled;
@@ -267,6 +279,9 @@ public class Cartridge implements Serializable
         fireCartridgeChanged(e );
     }
     // get one byte of card memory
+    // & 0xff needed, since conversion from byte to int is "signed", and a negative value
+    // is returned on x >=128, which in turn  does not
+    // fit the other parts of emulation
     public int get_cart(int pos) 
     {
         // TODO move if away from EVERY CaARTRIDGE ACCESS!!!
@@ -274,19 +289,19 @@ public class Cartridge implements Serializable
         if (extraRam2000_2800_2k_Enabled)
         {
             if ((pos>=0x2000) && (pos <0x2800))
-                return extraRam[pos-0x2000];
+                return extraRam[pos-0x2000]&0xff;
         }
         if (extraRam8000_8800_2k_Enabled)
         {
             if ((pos>=0x8000) && (pos <0x8800))
-                return extraRam[pos-0x8000];
+                return extraRam[pos-0x8000]&0xff;
             if (pos==0xa000) 
-                return spectrumByte;
+                return spectrumByte&0xff;
         }
         if (extraRam6000_7fff_8k_Enabled)
         {
             if ((pos>=0x6000) && (pos <0x6000+8192))
-                return extraRam[pos-0x6000];
+                return extraRam[pos-0x6000]&0xff;
         }
         if (sidEnabled)
         {
@@ -296,32 +311,15 @@ public class Cartridge implements Serializable
                     return vsid.performRead(pos, vecx.getCycles());
             }
         }
-        if (cart.length<=currentBank) return 0;
-        if (cart[currentBank] == null) return 0;
-        if ((pos%32768)>=cart[currentBank].length) return 0;
-        return cart[currentBank][pos%32768];
+        
+        
+        
+        if (cart.length<=currentBank) return 0xff;
+        if (cart[currentBank] == null) return 0xff;
+        if ((pos%MAX_BANK_SIZE)>=cart[currentBank].length) return 0xff;
+        return cart[currentBank][pos%MAX_BANK_SIZE];
     }
-    // allways to current bank!
-    public void poke(int address, byte value)
-    {
-        if (cart == null) return;
 
-        if (sidEnabled)
-        {
-            if ((pos>=0x8000) && (pos <0x8020))
-            {
-                if (vecx != null)
-                {
-                    vsid.performWrite(address, value, vecx.getCycles());
-                }
-                return;
-            }
-        }
-
-        if (cart.length<=currentBank) return;
-        if ((address%32768)>=cart[currentBank].length) return;
-        cart[currentBank][address%32768] = value;
-    }
     public boolean isExtremeMulti()
     {
         return extremeMulti;
@@ -362,6 +360,22 @@ public class Cartridge implements Serializable
         {
             extraRam[address-0x6000] = data;
         }
+        else
+        {
+            if (cart.length<=currentBank) return;
+
+            if (vecx.config.ramAccessAllowed)
+            {
+                if ((address%MAX_BANK_SIZE)>=cart[currentBank].length) return;
+                cart[currentBank][address%MAX_BANK_SIZE] = data;
+            }
+            else
+            {
+                log.addLog("ROM write-access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", vecx.getPC()), VERBOSE);
+                if (vecx.config.breakpointsActive) vecx.checkROMBreakPoint(address, data);
+            }
+            
+        }
         
     }
 
@@ -390,7 +404,7 @@ public class Cartridge implements Serializable
                         Path path = Paths.get("vec.bin");
                         if (currentCardProp != null)
                         {
-                            path = Paths.get(currentCardProp.mextremeVecFileImage);
+                            path = Paths.get(Global.mainPathPrefix+currentCardProp.mextremeVecFileImage);
                         }
 //                        log.addLog("Cart: extreme multicard -> hardcoded 'vec.bin' used", WARN);
                         allData = Files.readAllBytes(path);
@@ -461,6 +475,10 @@ public class Cartridge implements Serializable
         extraRam2000_2800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_ANIMACTION)!=0;
         extraRam8000_8800_2k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_RAM_RA_SPECTRUM)!=0;
         extraRam6000_7fff_8k_Enabled = (cartProp.getTypeFlags()&Cartridge.FLAG_LOGO)!=0;
+        rom48KEnabled = (cartProp.getTypeFlags()&Cartridge.FLAG_48K)!=0;
+        MAX_BANK_SIZE = 32768;
+        if (rom48KEnabled) MAX_BANK_SIZE = 32768+32768/2;
+        
         _32kOnly = (cartProp.getTypeFlags()&Cartridge.FLAG_32K_ONLY)!=0;
         isXmas =  ((cartProp.getTypeFlags()&Cartridge.FLAG_XMAS)!=0);
         isDualVec = (  ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC1)!=0) || ((cartProp.getTypeFlags()&Cartridge.FLAG_DUALVEC2)!=0));
@@ -492,7 +510,7 @@ public class Cartridge implements Serializable
         {
             // checking file 0 is enough
             // if files are not loaded, than we have a problem!
-            boolean ok = DownloaderPanel.ensureLocalFile("Cartridge", cartProp.mBinaryLink, cartProp.mFullFilename.elementAt(0));
+            boolean ok = DownloaderPanel.ensureLocalFile("Cartridge", cartProp.mBinaryLink, Global.mainPathPrefix+cartProp.mFullFilename.elementAt(0));
             if (!ok)
             {
                 log.addLog("Cart: Downloadable files not found...", WARN);
@@ -507,7 +525,7 @@ public class Cartridge implements Serializable
             // this enables us to load
             // multibanks with one file only
             // if number of roms is > 1, than each file must not be greater than 32768!
-            if (!load(convertSeperator(cartProp.mFullFilename.elementAt(0)))) 
+            if (!load(Global.mainPathPrefix+convertSeperator(cartProp.mFullFilename.elementAt(0)))) 
             {
                 log.addLog("Cart: init() single bank not loaded: "+cartProp.mFullFilename, WARN);
                 return false;
@@ -522,12 +540,12 @@ public class Cartridge implements Serializable
             for (int bank=0; bank< bankMax; bank++)
             {
                 bankFileNames[bank] = "";
-                String romName = convertSeperator(cartProp.mFullFilename.elementAt(bank));
+                String romName = Global.mainPathPrefix+convertSeperator(cartProp.mFullFilename.elementAt(bank));
                 bankFileNames[bank] = "";
                 // only load available files
                 // skipping unavailable might seems strange,
                 // but vecflash can have "empty" slots - so thus does not have to be an error
-                if (romName.trim().length() == 0) continue;
+                if (cartProp.mFullFilename.elementAt(bank).trim().length() == 0) continue;
                 File f = new File(romName);
                 if (!f.exists()) 
                 {
@@ -574,6 +592,29 @@ public class Cartridge implements Serializable
         }
         log.addLog("cart: init " + toString(cartProp), INFO);
 
+        if (cartProp.mConfigOverwrite)
+        {
+            VideConfig config = VideConfig.getConfig();
+            config.autoSync = cartProp.mCF_AutoSync;
+            config.ramAccessAllowed = cartProp.mCF_AllowROMWrite;
+            config.romAndPcBreakpoints = cartProp.mCF_ROM_PC_BreakPoints;
+            
+            if ((cartProp.mCF_IntegratorMaxX != 0) && (cartProp.mCF_IntegratorMaxY != 0))
+            {
+                config.ALG_MAX_X = cartProp.mCF_IntegratorMaxX;
+                config.ALG_MAX_Y = cartProp.mCF_IntegratorMaxY;
+            }
+            
+            if (cartProp.mCF_OverlayThreshold != 0)
+            {
+                config.JOGLOverlayAlphaThreshold = cartProp.mCF_OverlayThreshold;
+            }
+            if (cartProp.mCF_DotdwellDivisor != 0)
+            {
+                config.JOGLDotDwellDivisor = cartProp.mCF_DotdwellDivisor;
+            }
+        }
+        
         return true;
     }    
     public boolean inject(CartridgeProperties cartProp)
@@ -603,7 +644,7 @@ public class Cartridge implements Serializable
             // this enables us to load
             // multibanks with one file only
             // if number of roms is > 1, than each file must not be greater than 32768!
-            if (!load(convertSeperator(cartProp.mFullFilename.elementAt(0)))) 
+            if (!load(Global.mainPathPrefix+convertSeperator(cartProp.mFullFilename.elementAt(0)))) 
             {
                 log.addLog("Cart: init() single bank not loaded: "+cartProp.mFullFilename, WARN);
                 return false;
@@ -618,7 +659,7 @@ public class Cartridge implements Serializable
             for (int bank=0; bank< bankMax; bank++)
             {
                 bankFileNames[bank] = "";
-                String romName = convertSeperator(cartProp.mFullFilename.elementAt(bank));
+                String romName = Global.mainPathPrefix+convertSeperator(cartProp.mFullFilename.elementAt(bank));
                 bankFileNames[bank] = "";
                 // only load available files
                 // skipping unavailable might seems strange,
@@ -655,28 +696,29 @@ public class Cartridge implements Serializable
         // each memory of bank is ALLWAYS 32768, the not "loaded" memory is filled with "1"
         // in bankLength[b] is the actual "used" length (loaded length) of each bank
         // (often less the 32768)
+        
         try
         {
             Path path = Paths.get(convertSeperator(filenameRom));
             byte[] data = Files.readAllBytes(path);
-            if (data.length>32768)
+            if (data.length>MAX_BANK_SIZE)
             {
-                log.addLog("Cart: load() multi part rom is larger than 32768, additional data is ignored! - "+filenameRom, WARN);
+                log.addLog("Cart: load() multi part rom is larger than "+MAX_BANK_SIZE+", additional data is ignored! - "+filenameRom, WARN);
             }
             
             int length = data.length;
-            if (length > 32768)
-                bankLength[bank] = 32768;
+            if (length > MAX_BANK_SIZE)
+                bankLength[bank] = MAX_BANK_SIZE;
             else
                 bankLength[bank] = length;
 
-            cart[bank] = new int[32768]; // memory of a bank is allways 32768, since we need fillers
-            for (int i=0; i< 32768;i++)
+            cart[bank] = new int[MAX_BANK_SIZE]; // memory of a bank is allways 32768, since we need fillers
+            for (int i=0; i< MAX_BANK_SIZE;i++)
             {
                 if (i>=data.length)
                     cart[bank][i] = 1; // polar rescue needs this!
                 else
-                    cart[bank][i] = data[i];
+                    cart[bank][i] = data[i]&0xff;;
             }
         }
         catch (Throwable e)
@@ -711,19 +753,19 @@ public class Cartridge implements Serializable
             byte[] data = Files.readAllBytes(path);
             loadLen = data.length;
 
-            if (loadLen > 32768)
+            if (loadLen > MAX_BANK_SIZE)
             {
                 if (!_32kOnly)
                     log.addLog("Cartridge size > 32k, bankswitching assumed!", WARN);
             }
 
-            bankMax=(data.length +32767)/32768; // file chunks of 37268 size are banks
+            bankMax=(data.length +(MAX_BANK_SIZE-1))/MAX_BANK_SIZE; // file chunks of 37268 size are banks
 
             if (_32kOnly)
             {
-                if (loadLen > 32768)
+                if (loadLen > MAX_BANK_SIZE)
                 {
-                    loadLen = 32768;
+                    loadLen = MAX_BANK_SIZE;
                     bankMax = 1;
                 }
             }
@@ -741,18 +783,18 @@ public class Cartridge implements Serializable
             for (int b=0;b<bankMax;b++)
             {
                 bankFileNames[b] = filenameRom;
-                if (length > 32768)
-                    bankLength[b] = 32768;
+                if (length > MAX_BANK_SIZE)
+                    bankLength[b] = MAX_BANK_SIZE;
                 else
                     bankLength[b] = length;
                 length -= bankLength[b];
-                cart[b] = new int[32768]; // memory of a bank is allways 32768, since we need fillers
-                for (int i=0; i< 32768;i++)
+                cart[b] = new int[MAX_BANK_SIZE]; // memory of a bank is allways 32768, since we need fillers
+                for (int i=0; i< MAX_BANK_SIZE;i++)
                 {
-                    if (b*32768+i>=data.length)
+                    if (b*MAX_BANK_SIZE+i>=data.length)
                         cart[b][i] = 1; // polar rescue needs this!
                     else
-                        cart[b][i] = data[b*32768+i];
+                        cart[b][i] = data[b*MAX_BANK_SIZE+i]&0xff;
                 }
             }
         }
@@ -997,7 +1039,7 @@ public class Cartridge implements Serializable
     }
     public String dumpCurrentROM()
     {
-        String filename = "."+File.separator+"tmp"+File.separator+"dump.rom";
+        String filename = Global.mainPathPrefix+"tmp"+File.separator+"dump.rom";
         FileOutputStream output=null;
         try
         {

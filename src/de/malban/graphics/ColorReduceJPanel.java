@@ -337,4 +337,5 @@ public class ColorReduceJPanel extends javax.swing.JPanel implements Windowable{
     private javax.swing.JTextField jTextFieldImageSource;
     private de.malban.graphics.SingleImagePanel singleImagePanel1;
     // End of variables declaration//GEN-END:variables
+    public void deIconified()  {}
 }

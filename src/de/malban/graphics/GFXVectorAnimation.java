@@ -388,6 +388,35 @@ public class GFXVectorAnimation
         String text = table.toString();
         return text;        
     }
+    public String createCDraw_VL_mode(String name, boolean includeInitialMove, boolean factor)
+    {
+        if (!isDraw_VL_mode()) return "";
+        StringBuilder source = new StringBuilder();
+        StringBuilder table = new StringBuilder();
+        GFXVectorAnimation al = this;
+        table.append("const signed char* const "+name).append("[]=\n{");
+        
+        int count = 0;
+        for (GFXVectorList vl : al.list)
+        {
+            table.append("\t "+name+"_"+count);
+            if (count == 0)
+                table.append(", // list of all single vectorlists in this\n");
+            else
+                table.append(",\n");
+            String asm = vl.createCDraw_VL_mode(name+"_"+count, includeInitialMove, factor, false);
+            if (asm.length() == 0)
+            {
+                log.addLog("Anim: createCDraw_VL_mode failed, VL("+count+") returned error!", WARN);
+                return "";
+            }
+            source.append(asm);
+            
+            count++;
+        }
+        table.append("};\n");
+        return source.toString()+"\n"+table.toString();        
+    }
     public String createASMDraw_VLc(String name, boolean factor)
     {
         if (!isDraw_VLc()) return "";
@@ -418,6 +447,66 @@ public class GFXVectorAnimation
         String text = table.toString();
         return text;        
     }    
+    
+    
+    public String createCDraw_VLc(String name, boolean factor)
+    {
+        if (!isDraw_VLc()) return "";
+        StringBuilder source = new StringBuilder();
+        StringBuilder table = new StringBuilder();
+        GFXVectorAnimation al = this;
+        table.append("const signed char* const "+name).append("[]=\n{");
+        
+        int count = 0;
+        for (GFXVectorList vl : al.list)
+        {
+            table.append("\t "+name+"_"+count);
+            if (count == 0)
+                table.append(", // list of all single vectorlists in this\n");
+            else
+                table.append(",\n");
+            String asm = vl.createCMov_Draw_VLc_a(false, name+"_"+count, factor, false);
+            if (asm.length() == 0)
+            {
+                log.addLog("Anim: createCDraw_VLc failed, VL("+count+") returned error!", WARN);
+                return "";
+            }
+            source.append(asm);
+            
+            count++;
+        }
+        table.append("};\n");
+        return source.toString()+"\n"+table.toString();        
+    }    
+    public String createCMov_Draw_VLc_a(String name, boolean factor)
+    {
+        if (!isMov_Draw_VLc_a()) return "";
+        StringBuilder source = new StringBuilder();
+        StringBuilder table = new StringBuilder();
+        GFXVectorAnimation al = this;
+
+        table.append("const signed char* const "+name).append("[]=\n{");
+        
+        int count = 0;
+        for (GFXVectorList vl : al.list)
+        {
+            table.append("\t "+name+"_"+count);
+            if (count == 0)
+                table.append(", // list of all single vectorlists in this\n");
+            else
+                table.append(",\n");
+            String asm = vl.createCMov_Draw_VLc_a(true, name+"_"+count, factor, false);
+            if (asm.length() == 0)
+            {
+                log.addLog("Anim: createCMov_Draw_VLc_a failed, VL("+count+") returned error!", WARN);
+                return "";
+            }
+            source.append(asm);
+            count++;
+        }
+        table.append("};\n");
+        return source.toString()+"\n"+table.toString();        
+    }  
     public String createASMMov_Draw_VLc_a(String name, boolean factor)
     {
         if (!isMov_Draw_VLc_a()) return "";
@@ -448,9 +537,36 @@ public class GFXVectorAnimation
         String text = table.toString();
         return text;        
     }        
+    public String createCDraw_VLp(String name, boolean factor)
+    {
+        if (!isDraw_VLp()) return "";
+        StringBuilder source = new StringBuilder();
+        StringBuilder table = new StringBuilder();
+        GFXVectorAnimation al = this;
+        table.append("const signed char* const "+name).append("[]=\n{");
+        
+        int count = 0;
+        for (GFXVectorList vl : al.list)
+        {
+            table.append("\t "+name+"_"+count);
+            if (count == 0)
+                table.append(", // list of all single vectorlists in this\n");
+            else
+                table.append(",\n");
+            String asm = vl.createCDraw_VLp(name+"_"+count, factor);
+            if (asm.length() == 0)
+            {
+                log.addLog("Anim: createCDraw_VLp failed, VL("+count+") returned error!", WARN);
+                return "";
+            }
+            source.append(asm);
+            
+            count++;
+        }
+        table.append("};\n");
+        return source.toString()+"\n"+table.toString();        
+    }    
     
-    
-
     public String createASMDraw_VLp(String name, boolean factor)
     {
         if (!isDraw_VLp()) return "";
@@ -482,6 +598,10 @@ public class GFXVectorAnimation
         return text;        
     }
     
+    public boolean createCDraw_syncList(StringBuilder table, String name, boolean factor, int resync, int splitter)
+    {
+        return createCDraw_syncList(table,name, factor, resync, false, splitter);
+    }
     public boolean createASMDraw_syncList(StringBuilder table, String name, boolean factor, int resync, int splitter)
     {
         return createASMDraw_syncList(table,name, factor, resync, false, splitter);
@@ -489,13 +609,20 @@ public class GFXVectorAnimation
     public boolean createASMDraw_syncList(StringBuilder table, String name, boolean factor, int resync, boolean extended, int splitter)
     {
         return createASMDraw_syncList(table, name,  factor,  resync,  extended,  splitter, false,  "BLOW_UP");
-        
+    }
+    public boolean createCDraw_syncList(StringBuilder table, String name, boolean factor, int resync, boolean extended, int splitter)
+    {
+        return createCDraw_syncList(table, name,  factor,  resync,  extended,  splitter, false,  "BLOW_UP");
     }
     public boolean createASMDraw_syncList(StringBuilder table, String name, boolean factor, int resync, boolean extended, int splitter, boolean noAdditionalOptimization)
     {
         return createASMDraw_syncList(table, name,  factor,  resync,  extended,  splitter,  noAdditionalOptimization,  "BLOW_UP");
-        
     }
+    public boolean createCDraw_syncList(StringBuilder table, String name, boolean factor, int resync, boolean extended, int splitter, boolean noAdditionalOptimization)
+    {
+        return createCDraw_syncList(table, name,  factor,  resync,  extended,  splitter,  noAdditionalOptimization,  "BLOW_UP");
+    }
+
     public boolean createASMDraw_syncList(StringBuilder table, String name, boolean factor, int resync, boolean extended, int splitter, boolean noAdditionalOptimization, String blowString)
     {
         StringBuilder source = new StringBuilder();
@@ -510,22 +637,51 @@ public class GFXVectorAnimation
                 table.append(" ; list of all single vectorlists in this");
             table.append("\n");
             
-//            String asm = 
             boolean genOk = vl.createASMDraw_syncList(source, name+"_"+count, factor, resync, extended, splitter, noAdditionalOptimization,blowString);
             if (!genOk)
             {
                 log.addLog("Anim: createASMDraw_syncList failed, VL("+count+") returned error!", WARN);
                 return false;
             }
-//            source.append(asm);
             
             count++;
         }
         table.append(" DW 0\n\n");
         table.append(source);
-//        String text = table.toString();
         return true;        
     }
+    
+    public boolean createCDraw_syncList(StringBuilder table, String name, boolean factor, int resync, boolean extended, int splitter, boolean noAdditionalOptimization, String blowString)
+    {
+        StringBuilder source = new StringBuilder();
+        GFXVectorAnimation al = this;
+        table.append("const signed char* const "+name).append("[]=\n{");
+        
+        int count = 0;
+        for (GFXVectorList vl : al.list)
+        {
+            table.append("\t "+name+"_"+count);
+            if (count == 0)
+                table.append(", // list of all single vectorlists in this\n");
+            else
+                table.append(",\n");
+            
+            boolean genOk = vl.createCDraw_syncList(source, name+"_"+count, factor, resync, extended, splitter, noAdditionalOptimization,blowString);
+            if (!genOk)
+            {
+                log.addLog("Anim: createCDraw_syncList failed, VL("+count+") returned error!", WARN);
+                return false;
+            }
+            
+            count++;
+        }
+        table.append("};\n");
+        
+        table.insert(0, source.toString());
+//        table.append(source);
+//        String text = table.toString();
+        return true;        
+    }    
     
     public String createASMCodeGen(String name)
     {

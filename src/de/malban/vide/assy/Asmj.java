@@ -51,6 +51,7 @@ import java.io.LineNumberReader;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -118,14 +119,23 @@ public class Asmj {
     PrintStream ps_info;
     PrintStream ps_listing;
     PrintStream ps_symtab;
+    PrintStream ps_allOut;
     OutputStream ps_error_add=null;
     OutputStream ps_info_add=null;
     OutputStream ps_listing_add=null;
     OutputStream ps_symtab_add=null;
+    OutputStream ps_allOut_add=null;
     StringBuffer symtabString=new StringBuffer();
     StringBuffer errorString=new StringBuffer();
     StringBuffer  infoString=new StringBuffer();
     StringBuffer  listingString=new StringBuffer();
+    StringBuffer  allOutString=new StringBuffer();
+    public String getAllOut()
+    {
+        String ao = allOutString.toString();
+        allOutString.delete(0, allOutString.length());
+        return ao;
+    }
     public String getError()
     {
         String error = errorString.toString();
@@ -152,6 +162,20 @@ public class Asmj {
     }
     private void initStreams()
     {
+        ps_allOut = new PrintStream(
+            new OutputStream()
+            {
+              @Override
+              public void write( int b )
+              {
+                  char[] c = {(char)b};
+//                  String s = new String(c);
+                  allOutString.append(c);
+//                  allOutString.append(s);
+//                  try { if (ps_allOut_add!=null)ps_allOut_add.write(b); } catch (Throwable e){}
+              }
+            }
+          );
         ps_symtab = new PrintStream(
             new OutputStream()
             {
@@ -205,6 +229,137 @@ public class Asmj {
             }
           );        
     }
+    
+    public Asmj(String filename, OutputStream errOut, OutputStream result)
+    {
+        clearLineInfo();
+        mainFile = filename;
+        ps_error_add=errOut;
+        ps_allOut_add=result;
+        bank = 0;
+        initStreams();
+        
+        SymbolTable symtab;
+        Memory image;
+        initProcessor();
+
+        Option opt_p = new Option("p",true,null);  // preprocessOnly
+        opt_p.stream = ps_allOut;
+
+        Option opt_e = new Option("e",true,null);  // errors
+        opt_e.stream = ps_error;
+        Option opt_l = new Option("l",true,null);   // listing
+        opt_l.stream = ps_listing;
+        Option opt_t = new Option("t",true,null);   // symbol table
+        opt_t.stream = ps_symtab;
+        Option opt_f = new Option("f",true,null);   // input file
+                opt_f.unique = false;
+                opt_f.valueNeeded = true;
+                opt_f.negativeValueOK = true;
+        Option opt_b = new Option("b",true,null);   // output binary
+        Option opt_s = new Option("s",false,null);  // output s-records
+        Option opt_D = new Option("D",false,null);  // definition
+                opt_D.unique = false;
+                opt_D.valueNeeded = true;
+                opt_D.negativeValueOK = true;
+
+        symtab = new SymbolTable();
+        image = new Memory();
+
+        // Parse the command-line
+        // Keep track of input filenames in the order we hit them,
+        // whether as part of a "-f" option or not.
+        Vector /* of String */ inputFilenames = new Vector();
+        Vector<String> definitions = new Vector<String>();
+        inputFilenames.addElement( filename );
+        if (inputFilenames.size() == 0) 
+        {
+            ps_error.println("No input file given - aborting!");
+            return;
+        }
+
+        // build the array of streams and filenames
+        int size = inputFilenames.size();
+        LineNumberReader inputs[] = new LineNumberReader[ size ];
+        String filenames[] = new String[ size ];
+        String lastInputFile = null;
+        for (int i=0; i<size; i++) {
+            String f = (String)inputFilenames.elementAt(i);
+            filenames[i] = f;
+            try { inputs[i] = DynamicFile.getLineNumberReader(f); }
+            catch (IOException x) { die(x); }
+            lastInputFile = f;
+        }
+
+        // build the array of external symbols and their definitions
+        size = definitions.size();
+        String symbols[] = new String[ size ];
+        int    values[]  = new int[ size ];
+        for (int i=0; i<size; i++) {
+            String d = (String)definitions.elementAt(i);
+            int p = d.indexOf("=");
+            if (p==0) { die("missing symbol name in '"+d+"'"); }
+            values[i] = 0;
+            if (p<0) {
+                    symbols[i] = d;
+            } else {
+                symbols[i] = d.substring(0,p);
+                try {
+                        String vs = d.substring(p+1);
+                        values[i] = ExpressionNumber.eval(vs);
+                } catch (ParseException x) { die(x); }
+            }
+        }
+        
+        
+        // figure out the default output base filename
+        String baseFilename = lastInputFile;
+        
+        Path p = Paths.get(baseFilename);
+        currentBaseDir = p.getParent().toString();
+        
+        if ( baseFilename.toLowerCase().endsWith(".asm") ) {
+            // drop the ".asm" extension
+            baseFilename = baseFilename .substring( 0, baseFilename.length()-4 );
+        }
+        else
+        {
+            int li = baseFilename.lastIndexOf(".");
+            if (li>=0) 
+                baseFilename = baseFilename.substring(0,li);
+        }
+
+        opt_b.default_value = baseFilename + ".bin";
+        opt_s.default_value = baseFilename + ".s19";
+
+        try {
+            OutputStream binary_stream=null;
+//            binary_stream  = opt_b.getOutputStream();
+            PrintStream  srecord_stream = opt_s.getPrintStream();
+            PrintStream  listing_stream = (PrintStream)opt_l.stream;
+            PrintStream  error_stream   = (PrintStream)opt_e.stream;
+            PrintStream  symtab_stream  = (PrintStream)opt_t.stream;
+            PrintStream  preprocess_stream  = (PrintStream)opt_p.stream;
+
+            assemble( inputs, filenames,
+                    binary_stream, srecord_stream,
+                    listing_stream, error_stream, symtab_stream, preprocess_stream,
+                    symbols, values
+            );
+
+            
+            opt_b.closeStream();
+            opt_s.closeStream();
+            opt_l.closeStream();
+            opt_e.closeStream();
+            opt_t.closeStream();
+            opt_p.closeStream();
+
+        } catch (IOException x) {
+                die(x);
+        }        
+    }
+    
     String mainFile = "";
     public static HashMap <String, DebugCommentList> allDebugComments;
     public Asmj( String filename, OutputStream errOut, OutputStream listOut, OutputStream symOut, OutputStream infoOut , String defines, HashMap <String, DebugCommentList> adc) 
@@ -325,7 +480,7 @@ public class Asmj {
 
             assemble( inputs, filenames,
                     binary_stream, srecord_stream,
-                    listing_stream, error_stream, symtab_stream,
+                    listing_stream, error_stream, symtab_stream, null,
                     symbols, values
             );
 
@@ -451,7 +606,9 @@ public class Asmj {
         opt_s.default_value = baseFilename + ".s19";
 
         try {
-            OutputStream binary_stream  = opt_b.getOutputStream();
+            OutputStream binary_stream;
+            
+            binary_stream  = opt_b.getOutputStream();
             PrintStream  srecord_stream = opt_s.getPrintStream();
             PrintStream  listing_stream = opt_l.getPrintStream();
             PrintStream  error_stream   = opt_e.getPrintStream();
@@ -459,7 +616,7 @@ public class Asmj {
 
             assemble( inputs, filenames,
                     binary_stream, srecord_stream,
-                    listing_stream, error_stream, symtab_stream,
+                    listing_stream, error_stream, symtab_stream, null,
                     symbols, values
             );
 
@@ -486,7 +643,7 @@ public class Asmj {
         initProcessor();
         assemble( inputs, filenames,
                 binary, srecords,
-                listing, errors, symtab,
+                listing, errors, symtab, null,
                 symbols, values );
     }
 
@@ -509,7 +666,7 @@ public class Asmj {
     public void assemble(
             LineNumberReader inputs[], String filenames[],
             OutputStream binary, PrintStream srecords,
-            PrintStream listing, PrintStream errors, PrintStream symbols,
+            PrintStream listing, PrintStream errors, PrintStream symbols, PrintStream preprocess,
             String externalSymbols[], int externalValues[] )
     {
         SymbolTable symtab = new SymbolTable();
@@ -542,7 +699,7 @@ public class Asmj {
             }
             pass1( ctx, symtab, 0 );
             ctx.assertEndOfContext();
-            pass2( ctx, symtab, image );
+            pass2( ctx, symtab, image , preprocess);
         } 
         catch (Exception x) 
         {
@@ -550,32 +707,38 @@ public class Asmj {
         }
         setErrorCount( ctx ) ;
         
-        
-        if (errorNum == 0)
+        if (preprocess == null)
         {
-            ps_info.println("0 errors detected.");
+            if (errorNum == 0)
+            {
+                    ps_info.println("0 errors detected.");
 
-            String fn = filenames[0];
-            int dot = fn.lastIndexOf(".");
-            if (dot <0)
-            {
-                fn = fn +".cnt";
-            }
-            else
-            {
-                fn = fn.substring(0, dot);
-                fn += ".cnt";
-            }
-            
-            generateCNT( fn, symtab, ctx, image);
+                    String fn = filenames[0];
+                    int dot = fn.lastIndexOf(".");
+                    if (dot <0)
+                    {
+                        fn = fn +".cnt";
+                    }
+                    else
+                    {
+                        fn = fn.substring(0, dot);
+                        fn += ".cnt";
+                    }
+
+                    generateCNT( fn, symtab, ctx, image);
+                }
+                if (config.outputLST)
+                    if (listing  != null) { emitListing(ctx,image,listing); }
+                if (errors   != null) { emitErrors(ctx,errors); }
+                if (preprocess == null)
+                    if (binary   != null) { writeBinary(image,binary); }
+                if (srecords != null) { writeSRecords(image,symtab,srecords); }
+
+
+                if (config.outputLST)
+                    if (symbols  != null) { symtab.dump(symbols); }
+
         }
-        if (config.outputLST)
-            if (listing  != null) { emitListing(ctx,image,listing); }
-        if (errors   != null) { emitErrors(ctx,errors); }
-        if (binary   != null) { writeBinary(image,binary); }
-        if (srecords != null) { writeSRecords(image,symtab,srecords); }
-        if (config.outputLST)
-            if (symbols  != null) { symtab.dump(symbols); }
     }
 
     private void include( LineContext ctx, String filename ) throws IOException
@@ -976,6 +1139,8 @@ public class Asmj {
             // Handle if/ifdef/.../endif
             if (instr.isIf()) 
             {
+//                if (pline.inputLine.contains("if USE_COMPILED = 1")) 
+//                    System.out.println("sss");
                 c = ctx.beginIf( instr.getCondition() );
                 ctx.hideInMacro(pline);
                 continue;
@@ -1076,8 +1241,96 @@ public class Asmj {
         }
     }
 
+    void doPreprocessOut(SourceLine pline, PrintStream preprocess)
+    {
+        boolean commentOut = false;
+        String commentOutComment = "";
+        boolean noOut = false;
+        if (pline.instr!=null)
+        {
+            if (pline.instr.isBeginMacro()) 
+                macroCount++;
+            
+            if (pline.instr.isInclude())
+            {
+                commentOut = true;
+                commentOutComment = "include line -> ";            
+            }
+            if (pline.instr.isStructStart())
+            {
+                //preprocess.println("*************************************************");
+                //preprocess.println("; STRUCTS NOT SUPPORTED FOR CLEAN CONVERSION YET!");
+                //preprocess.println("*************************************************");
+            }
+            if (pline.instr.isIf())
+            {
+                noOut = true;
+                conditionals.add(pline.instr.getCondition());
+            }
+            if (pline.instr.isElse())
+            {
+                noOut = true;
+
+                boolean if_conditial = conditionals.get(conditionals.size()-1);
+                conditionals.remove(conditionals.size()-1);
+                conditionals.add(!if_conditial);
+            }
+            if (pline.instr.isElseIf())
+            {
+                noOut = true;
+                conditionals.remove(conditionals.size()-1);
+                conditionals.add(pline.instr.getCondition());
+            }
+            if (pline.instr.isEndIf())
+            {
+                noOut = true;
+                conditionals.remove(conditionals.size()-1);
+            }
+            
+        }
+
+        if (macroCount!=0) noOut = true;
+        if (conditionals.size()>0)
+            condition = conditionals.get(conditionals.size()-1);
+        else
+            condition = true;
+        
+        
+        
+        
+        if (!condition) noOut = true;
+        if (pline.macro != null) 
+        {
+            commentOut = true;
+            commentOutComment = "macro call -> ";            
+        }
+            
+        
+        if (!noOut)
+        {
+            if (commentOut)
+            {
+                preprocess.println("; "+ commentOutComment + pline.inputLine);
+            }
+            else
+            {
+                preprocess.println(pline.inputLine);
+            }
+        }
+        
+        if (pline.instr!=null)
+        {
+            if (pline.instr.isEndMacro()) 
+            {
+                macroCount--;
+            }
+        }
+    }
+    ArrayList<Boolean> conditionals = new ArrayList<Boolean>();
+    boolean condition = true;
+    int macroCount = 0;
     // Pass 2 generates code.
-    private void pass2( LineContext ctx, SymbolTable symtab, Memory mem ) 
+    private void pass2( LineContext ctx, SymbolTable symtab, Memory mem , PrintStream preprocess) 
     {
         Instruction instr;
         SourceLine pline;
@@ -1089,14 +1342,17 @@ public class Asmj {
         int address = 0;
         globalAddress = address;
         boolean oomDone = false;
+        macroCount=0;
         for (pline=ctx.first; pline!=null; pline=pline.getNext()) 
         {
-//            if (pline.inputLine.contains("ZAHLEN_MAX,X"))
-//                    //if (pline.lineNumber ==282)
-//                        System.out.println("BU");
-
+            if (preprocess != null)
+            {
+                doPreprocessOut(pline, preprocess);
+            }
+            
             instr = pline.getInstruction();
             if (instr == null) { continue; }
+            
             if (ctx.currentStruct == null)
                 address += instr.getLength();
             globalAddress = address;
@@ -1115,7 +1371,7 @@ public class Asmj {
                 }
                 
             }
-            
+
             instr.pass2( mem, symtab );
         }
     }

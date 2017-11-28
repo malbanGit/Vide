@@ -5,10 +5,12 @@
 
 package de.malban.config;
 
+import de.malban.Global;
 import de.malban.config.sound.SoundEffect;
 import de.malban.config.sound.SoundMap;
 import de.malban.config.sound.SoundMapPool;
 import de.malban.config.theme.Theme;
+import de.malban.gui.CSAMainFrame;
 import de.malban.gui.ImageCache;
 import de.malban.gui.ResizeListener;
 import de.malban.gui.ScaleListener;
@@ -85,7 +87,7 @@ public final class Configuration
     private Logable mDebugPanel = new LogPanel();
 
     public boolean mIsFullscreen = false;
-    private JFrame mMainFrame = null;
+    private CSAMainFrame mMainFrame = null;
 
     public int getDebugLevel() {return mData.mDebugLevel;}
 
@@ -361,11 +363,11 @@ public final class Configuration
         return mMainHeight;
     }
 
-    public void setMainFrame(JFrame frame )
+    public void setMainFrame(CSAMainFrame frame )
     {
         mMainFrame = frame;
     }
-    public JFrame getMainFrame()
+    public CSAMainFrame getMainFrame()
     {
         return mMainFrame;
     }
@@ -514,7 +516,7 @@ public final class Configuration
             return font;
       }
     }
-    String fName = "fonts"+File.separator + name;
+    String fName = Global.mainPathPrefix+"fonts"+File.separator + name;
     try
     {
       //InputStream is = Configuration.class.getResourceAsStream(fName);

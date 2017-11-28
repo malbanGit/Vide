@@ -31,6 +31,9 @@
 
 package de.malban.util.syntax.Syntax.Lexer;
 
+import de.malban.config.Configuration;
+import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.ERROR;
 import java.io.*;
 
 /** 
@@ -1605,12 +1608,15 @@ public class CLexer implements Lexer {
       boolean zzR = false;
       for (zzCurrentPosL = zzStartRead; zzCurrentPosL < zzMarkedPosL;
                                                              zzCurrentPosL++) {
+                    
+          
         switch (zzBufferL[zzCurrentPosL]) {
         case '\u000B':
         case '\u000C':
         case '\u0085':
         case '\u2028':
         case '\u2029':
+            
           yyline++;
           zzR = false;
           break;
@@ -1683,7 +1689,11 @@ public class CLexer implements Lexer {
               zzInput = zzBufferL[zzCurrentPosL++];
             }
           }
-          int zzNext = zzTransL[ zzRowMapL[zzState] + zzCMapL[zzInput] ];
+           int zzNext=-1;
+        if (zzInput > 255) 
+            zzInput = ' ';
+          zzNext = zzTransL[ zzRowMapL[zzState] + zzCMapL[zzInput] ];
+
           if (zzNext == -1) break zzForAction;
           zzState = zzNext;
 
@@ -2892,6 +2902,9 @@ public class CLexer implements Lexer {
             return null;
           } 
           else {
+              
+System.out.println("ERROR: "+ yytext()+ " pos : "+zzMarkedPos);              
+              
             zzScanError(ZZ_NO_MATCH);
           }
       }

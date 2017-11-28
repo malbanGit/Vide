@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx.panels;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.graphics.GFXVector;
 import de.malban.graphics.GFXVectorAnimation;
@@ -14,7 +15,7 @@ import de.malban.vide.vecx.VecXPanel;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
-import de.malban.util.KeyboardListener;
+import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.dissy.MemoryInformation;
@@ -31,7 +32,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,6 +52,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class MemoryDumpPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{
     public boolean isLoadSettings() { return true; }
+    VideConfig config = VideConfig.getConfig();
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
     private int mClassSetting=0;
@@ -151,7 +152,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         }
         public Color getBackground(int col)
         {
-            if (col == 0) return new Color(200,255,200,255);
+            if (col == 0) return config.tableAddress;
             return null; // default
         }
         
@@ -262,7 +263,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
                     }
                     if ((address>=startAddress) && (address<= endAddress) && (jCheckBox1.isSelected()))
                     {
-                        setBackground(new Color(200,200,255)); // light blue for data selection
+                        setBackground(config.dataSelection); // light blue for data selection
                     }
                 }
                 return this;
@@ -281,7 +282,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         mClassSetting--;
         try
         {
-            knownPatterns = (Vector<VeccyPanel.PatternInfo>) CSAMainFrame.deserialize("serialize"+File.separator+"PatternInfo.ser");
+            knownPatterns = (Vector<VeccyPanel.PatternInfo>) CSAMainFrame.deserialize(Global.mainPathPrefix+"serialize"+File.separator+"PatternInfo.ser");
             if (knownPatterns == null) 
             {
                 knownPatterns = new Vector<VeccyPanel.PatternInfo>();
@@ -1408,7 +1409,7 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         knownPatterns.addElement(ti);
         try
         {
-            CSAMainFrame.serialize(knownPatterns, "serialize"+File.separator+"PatternInfo.ser");
+            CSAMainFrame.serialize(knownPatterns, Global.mainPathPrefix+"serialize"+File.separator+"PatternInfo.ser");
         }
         catch (Throwable e)
         {
@@ -1420,5 +1421,6 @@ public class MemoryDumpPanel extends javax.swing.JPanel implements
         mClassSetting--;
         return true;
     }        
+    public void deIconified() { }
 }
 

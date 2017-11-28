@@ -7,16 +7,16 @@ package de.malban.vide.vedi;
 
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
+import javax.swing.UIDefaults;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
 /**
  *
@@ -29,9 +29,6 @@ public class CloseButton extends javax.swing.JPanel {
     public static  final int CB_PRESSED = 2;
     
     public int state = CB_NORMAL;
-    int sizeFontOrg = 11;
-    public Color background;
-    Dimension orgSize = new Dimension(6,15);
     private ArrayList<CloseListener> mListener= new ArrayList<CloseListener>();
     private PropertyChangeListener pListener = new PropertyChangeListener()
                 {
@@ -45,10 +42,8 @@ public class CloseButton extends javax.swing.JPanel {
      */
     public CloseButton() {
         initComponents();
-        background = getBackground();
+        
         setStateDisplay();
-        orgSize = getSize();
-        sizeFontOrg = getFont().getSize();
         
         UIManager.addPropertyChangeListener(pListener);
         uiUpdate();
@@ -56,8 +51,8 @@ public class CloseButton extends javax.swing.JPanel {
 
     public void uiUpdate()
     {
-        
         int fs=    Theme.labelFont.getFont().getSize();
+        
         Dimension newSize = new Dimension(fs+2,fs+2);
         SwingUtilities.invokeLater(new Runnable()
         {
@@ -92,7 +87,7 @@ public class CloseButton extends javax.swing.JPanel {
                 
                 Rectangle boundl = jLabel1.getBounds();
                 jLabel1.setBounds(startX+3, startY+var, fs, fs);
-
+setNormal();
                 invalidate();
                 validate();
                 repaint();
@@ -119,7 +114,6 @@ public class CloseButton extends javax.swing.JPanel {
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         setMaximumSize(new java.awt.Dimension(10, 10));
         setPreferredSize(new java.awt.Dimension(10, 10));
-        setSize(new java.awt.Dimension(10, 10));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 formMouseExited(evt);
@@ -131,6 +125,10 @@ public class CloseButton extends javax.swing.JPanel {
         setLayout(null);
 
         jLabel1.setText("x");
+        jLabel1.setMaximumSize(new java.awt.Dimension(6, 10));
+        jLabel1.setMinimumSize(new java.awt.Dimension(6, 10));
+        jLabel1.setPreferredSize(new java.awt.Dimension(6, 10));
+        jLabel1.setSize(new java.awt.Dimension(6, 10));
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jLabel1MousePressed(evt);
@@ -146,7 +144,7 @@ public class CloseButton extends javax.swing.JPanel {
             }
         });
         add(jLabel1);
-        jLabel1.setBounds(2, -3, 6, 15);
+        jLabel1.setBounds(2, -3, 6, 10);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseEntered
@@ -203,16 +201,43 @@ public class CloseButton extends javax.swing.JPanel {
         state = CB_NORMAL;
         setStateDisplay();
     }
+    
+    
     void setStateDisplay()
     {
+        
+        UIDefaults table = UIManager.getLookAndFeelDefaults();
+        
+        Color foreground = (Color)table.get( "Label.foreground" );
+        Color background = (Color)table.get( "Label.background" );
+        /*
+        Container c = getParent();
+        if ((c==null) || (c.getParent()==null))
+        {
+            return;
+        }
+            foreground = c.getParent().getForeground();
+            background = c.getParent().getBackground();
+          */  
+        
         if ((state & CB_ARMED) == CB_ARMED)
-            setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+            setBorder(javax.swing.BorderFactory.createLineBorder(foreground));
         else
-            setBorder(javax.swing.BorderFactory.createLineBorder(getBackground()));
+            setBorder(javax.swing.BorderFactory.createLineBorder(background));
+
         if ((state & CB_PRESSED) == CB_PRESSED)
-            setBackground(new Color (100,100,100,255));
+        {
+            setBackground(foreground);
+            jLabel1.setForeground(background);
+        }
         else
-            setBackground(background);
+        {
+            jLabel1.setForeground(foreground );
+            setBackground(background );
+        }
+        
+        
+        
         repaint();
     }
     

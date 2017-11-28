@@ -107,5 +107,6 @@ public class CreditPanel extends javax.swing.JPanel  implements Windowable{
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
+    public void deIconified() { }
 
 }

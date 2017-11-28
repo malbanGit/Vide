@@ -114,6 +114,7 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
     /**
      * Creates new form ProfileJPanel
      */
+    TableRowSorter<TableModel> sorter;
     public ProfileJPanel() {
         initComponents();
         jTable1.setModel(model);
@@ -121,7 +122,7 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
         updateMyUI(); 
         jTable1.tableChanged(null);
 
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(jTable1.getModel());
+        sorter = new TableRowSorter<TableModel>(jTable1.getModel());
         jTable1.setRowSorter(sorter);
         List<RowSorter.SortKey> sortKeys = new ArrayList<>(1);
         sortKeys.add(new RowSorter.SortKey(4, SortOrder.DESCENDING));
@@ -129,6 +130,7 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
 
         jTable1.tableChanged(null);
         jTable1.sorterChanged(new RowSorterEvent(sorter, SORTED, null));
+        sorter.sort();
     }
     public void removeUIListerner()
     {
@@ -280,13 +282,21 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
     // End of variables declaration//GEN-END:variables
 
     int lastLength = -1;
+    boolean first = true;
     private void update()
     {
         if (vecxPanel == null) return;
         profiler = vecxPanel.getProfiler();
         if (profiler == null) return;
+        if (first)
+        {
+            jCheckBox1.setSelected(profiler.trackingOnly);
+            first = false;
+        }
         if (lastLength != profiler.routines.size()) model.fireTableDataChanged();
         lastLength = profiler.routines.size();
+        
+        sorter.sort();
         jTable1.repaint();
     }
     private boolean updateEnabled = false;
@@ -432,6 +442,7 @@ public class ProfileJPanel extends javax.swing.JPanel  implements
             return null; // default
         }
     }
+    public void deIconified() { }
     
     
 }

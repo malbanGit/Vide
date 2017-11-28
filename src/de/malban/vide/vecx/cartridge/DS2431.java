@@ -416,14 +416,14 @@ DS2431_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
     public DS2431(Cartridge c)
     {
         cart = c;
-        /*
+        
         SERIAL_NUMBER[0] = 0x3b;
         SERIAL_NUMBER[1] = 0x50;
         SERIAL_NUMBER[2] = 0x43;
         SERIAL_NUMBER[3] = 0x14;
         SERIAL_NUMBER[4] = 0x00;
         SERIAL_NUMBER[5] = 0x00;
-        */
+        
     }
     public DS2431 clone()
     {

@@ -11,21 +11,24 @@ import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import static de.malban.input.EventController.*;
+import de.malban.vide.vedi.EditorPanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
-import static javax.swing.BorderFactory.createLineBorder;
-import static javax.swing.BorderFactory.createTitledBorder;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
 
@@ -112,6 +115,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
     }
     public void deinit()
     {
+        removeUIListerner();
     }
     /**
      * Creates new form InputControllerDisplay
@@ -119,8 +123,25 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
     public InputControllerDisplay() {
         initComponents();
         searchControllers();
+        UIManager.addPropertyChangeListener(pListener);
+        updateMyUI(); 
     }
-
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+    {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+            updateMyUI();
+        }
+    };
+    void updateMyUI()
+    {
+        UIDefaults table = UIManager.getLookAndFeelDefaults();
+        jPanelXYAxis.setBorder(javax.swing.BorderFactory.createLineBorder((Color)table.get( "TextField.foreground")));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -171,7 +192,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         );
         jPanelHatSwitchLayout.setVerticalGroup(
             jPanelHatSwitchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jPanelButtons.setBorder(javax.swing.BorderFactory.createTitledBorder("Buttons"));
@@ -184,7 +205,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         );
         jPanelButtonsLayout.setVerticalGroup(
             jPanelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 185, Short.MAX_VALUE)
         );
 
         jPanelAxes.setBorder(javax.swing.BorderFactory.createTitledBorder("Axes"));
@@ -266,7 +287,6 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
                     .addComponent(jPanel_forAxis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        jComboBox_controllers.setPreferredSize(new java.awt.Dimension(28, 21));
         jComboBox_controllers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_controllersActionPerformed(evt);
@@ -318,7 +338,7 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelHatSwitch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanelHatSwitch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -407,15 +427,17 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
             }
         });
  
+        int BUTTONWIDTH = 60; 
        
         // JPanel for controller buttons
         buttonsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 1));
-        buttonsPanel.setBounds(6, 19, 246, 110);
+//        buttonsPanel.setBounds(6, 19, BUTTONWIDTH*4+6, 210);
+        buttonsPanel.setBounds(6, 19, BUTTONWIDTH*4+6, 180);
         for (int i=0; i< selectedController.getButtonCount(); i++)
         {
             // Create and add new button to panel.
             JToggleButton aToggleButton = new JToggleButton(selectedController.getButtonId(i));
-            aToggleButton.setPreferredSize(new Dimension(48, 25));
+            aToggleButton.setPreferredSize(new Dimension(BUTTONWIDTH, 25));
             buttonsPanel.add(aToggleButton);
             aToggleButton.setSelected(selectedController.getButtonState(i));
         }
@@ -604,6 +626,11 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         Graphics2D g2d = (Graphics2D)g;
         int w = jPanelXYAxis.getWidth() - 2;
         int h = jPanelXYAxis.getHeight() - 2;
+        
+        UIDefaults table = UIManager.getLookAndFeelDefaults();
+        g2d.setBackground((Color)table.get( "Panel.background"));
+        g2d.setColor((Color)table.get( "Panel.foreground"));
+        
         g2d.clearRect(1, 1, w, h);
         g2d.setColor(Color.red);
         g2d.fillOval(xAxisPercentage, yAxisPercentage, 10, 10);
@@ -620,6 +647,11 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         
 //        Graphics2D g2d = (Graphics2D)jPanelHatSwitch.getGraphics();
         if (g2d == null) return;
+        
+        UIDefaults table = UIManager.getLookAndFeelDefaults();
+        g2d.setBackground((Color)table.get( "Panel.background"));
+        g2d.setColor((Color)table.get( "Panel.foreground"));
+        
         g2d.clearRect(5, 15, jPanelHatSwitch.getWidth() - 10, jPanelHatSwitch.getHeight() - 22);
         g2d.drawOval(20, 22, circleSize, circleSize);
         
@@ -709,6 +741,5 @@ public class InputControllerDisplay extends javax.swing.JPanel implements
         }
         jComboBox_controllers.setSelectedIndex(-1);
     }
-
-
+    public void deIconified() { }
 }

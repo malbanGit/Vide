@@ -1,5 +1,6 @@
 package de.malban.vide.vedi.project;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
@@ -7,15 +8,12 @@ import de.malban.gui.components.CSAView;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.vide.script.ExecutionDescriptor;
-import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_FILE_ACTION;
-import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_FILE_PRE;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_PROJECT_POST;
 import static de.malban.vide.script.ExecutionDescriptor.ED_TYPE_PROJECT_PRE;
 import de.malban.vide.script.ExportData;
 import de.malban.vide.script.ExportDataPool;
 import de.malban.vide.script.ScriptDataPanel;
 import de.malban.vide.vecx.cartridge.Cartridge;
-import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_SID;
 import static de.malban.vide.vedi.VediPanel.convertSeperator;
 import de.muntjak.tinylookandfeel.Theme;
 import java.beans.PropertyChangeEvent;
@@ -28,7 +26,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
 
@@ -208,6 +205,9 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         mClassSetting++;
         initComponents();
         initScripts();
+        initImager();
+        jComboBoxImager.setSelectedIndex(-1);
+        
         
         jButtonCreate.setText("ok");
         jButtonCreate.setName("ok");
@@ -373,12 +373,15 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jComboBoxName.setSelectedItem(mProjectProperties.mName);
         jTextFieldName.setText(mProjectProperties.mName);
 
-        
+        jCheckBoxCProject.setSelected(mProjectProperties.mIsCProject);
+        jTextFieldCFLAGS.setText(mProjectProperties.mCFLAGS);
+
         jTextFieldAuthor.setText(mProjectProperties.mAuthor);
         jTextAreaDescription.setText(mProjectProperties.mDescription);
         jTextFieldPath.setText(mProjectProperties.mPath );
         jTextFieldProjectName.setText(mProjectProperties.mProjectName );
-        jTextFieldMainFile.setText(mProjectProperties.mMainFile);
+        if (!jCheckBoxCProject1.isSelected())
+            jTextFieldMainFile.setText(mProjectProperties.mMainFile);
         jTextFieldVersion.setText(mProjectProperties.mVersion );
         jCheckBoxCreateSupportCode.setSelected(mProjectProperties.mcreateBankswitchCode);
         jCheckBoxCreateGameLoop.setSelected(mProjectProperties.mcreateGameLoopCode);
@@ -403,19 +406,61 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jCheckBox7.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_VEC_VOX) == Cartridge.FLAG_VEC_VOX);
         jCheckBox8.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_DS2431) == Cartridge.FLAG_DS2431);
         jCheckBox9.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_SID) == Cartridge.FLAG_SID);
+        jCheckBox10.setSelected((mProjectProperties.mExtras & Cartridge.FLAG_48K) == Cartridge.FLAG_48K);
 
 
+        jCheckBoxCProject1.setSelected(mProjectProperties.mIsPeerCProject);
         
         jComboBoxImager.setEnabled(jCheckBox5.isSelected());
+        if (jCheckBox5.isSelected())
+        {
+            jComboBoxImager.setSelectedIndex(-1);
+            if (mProjectProperties.mWheelName != null)
+            {
+                for (int i=0; i< jComboBoxImager.getItemCount(); i++)
+                {
+                    if (jComboBoxImager.getItemAt(i).toString().equals(mProjectProperties.mWheelName))
+                    {
+                        jComboBoxImager.setSelectedIndex(i);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        jCheckBoxCPeepholing.setEnabled(jCheckBoxCProject1.isSelected());
+        jCheckBoxCDebugging.setEnabled(jCheckBoxCProject1.isSelected());
+        jCheckBoxCKeepEnriched.setEnabled(jCheckBoxCProject1.isSelected());
+        
+        
+        jCheckBoxCDebugging.setSelected(mProjectProperties.mCDebugging);
+        jCheckBoxCPeepholing.setSelected(mProjectProperties.mCPeephole);
+        jCheckBoxCKeepEnriched.setSelected(mProjectProperties.mCKeepEnriched);
+
+        
+        enableASM(!mProjectProperties.mIsPeerCProject);
         initScripts();
         mClassSetting--;
     }
 
     private void readAllToCurrent() /* allneeded*/
     {
+        
+        mProjectProperties.mCDebugging = jCheckBoxCDebugging.isSelected();
+        mProjectProperties.mCPeephole = jCheckBoxCPeepholing.isSelected();
+        mProjectProperties.mCKeepEnriched = jCheckBoxCKeepEnriched.isSelected();
+        
+        
+        
         mProjectProperties.mClass = "Project";
         mProjectProperties.mName = jTextFieldProjectName.getText();
 
+        mProjectProperties.mIsCProject = jCheckBoxCProject.isSelected();
+        mProjectProperties.mIsPeerCProject = jCheckBoxCProject1.isSelected();
+        
+        mProjectProperties.mCFLAGS = jTextFieldCFLAGS.getText();
+        
+        
         mProjectProperties.mAuthor = jTextFieldAuthor.getText();
         mProjectProperties.mDescription = jTextAreaDescription.getText();
         mProjectProperties.mDirectoryName = "";
@@ -477,6 +522,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         if (jCheckBox7.isSelected()) extra+= Cartridge.FLAG_VEC_VOX;
         if (jCheckBox8.isSelected()) extra+= Cartridge.FLAG_DS2431;
         if (jCheckBox9.isSelected()) extra+= Cartridge.FLAG_SID;
+        if (jCheckBox10.isSelected()) extra+= Cartridge.FLAG_48K;
 
         mProjectProperties.mExtras = extra;
     }
@@ -512,7 +558,6 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jLabel1 = new javax.swing.JLabel();
         jComboBoxBankswitch = new javax.swing.JComboBox();
         jCheckBoxCreateSupportCode = new javax.swing.JCheckBox();
-        jCheckBoxCreateGameLoop = new javax.swing.JCheckBox();
         jComboBoxBankswitchNumber = new javax.swing.JComboBox();
         jPanel1 = new javax.swing.JPanel();
         jComboBoxKlasse = new javax.swing.JComboBox();
@@ -537,6 +582,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jComboBoxImager = new javax.swing.JComboBox();
         jCheckBox8 = new javax.swing.JCheckBox();
         jCheckBox9 = new javax.swing.JCheckBox();
+        jCheckBox10 = new javax.swing.JCheckBox();
         jButtonPre = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jComboBoxPostName = new javax.swing.JComboBox();
@@ -549,6 +595,14 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         jTable1 = new javax.swing.JTable();
         jButtonCreate = new javax.swing.JButton();
         jButtonCancel = new javax.swing.JButton();
+        jCheckBoxCreateGameLoop = new javax.swing.JCheckBox();
+        jCheckBoxCProject = new javax.swing.JCheckBox();
+        jTextFieldCFLAGS = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jCheckBoxCProject1 = new javax.swing.JCheckBox();
+        jCheckBoxCDebugging = new javax.swing.JCheckBox();
+        jCheckBoxCPeepholing = new javax.swing.JCheckBox();
+        jCheckBoxCKeepEnriched = new javax.swing.JCheckBox();
 
         setPreferredSize(new java.awt.Dimension(800, 500));
 
@@ -611,8 +665,6 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         });
 
         jCheckBoxCreateSupportCode.setText("create bankswitch code");
-
-        jCheckBoxCreateGameLoop.setText("create standard game loop");
 
         jComboBoxBankswitchNumber.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1" }));
         jComboBoxBankswitchNumber.setEnabled(false);
@@ -769,6 +821,12 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
 
+        jComboBoxImager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxImagerActionPerformed(evt);
+            }
+        });
+
         jCheckBox8.setText("DS2431");
         jCheckBox8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -783,6 +841,13 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBox10.setText("48k ROM");
+        jCheckBox10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox10ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -790,19 +855,28 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jCheckBox1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jCheckBox9))
-                    .addComponent(jCheckBox7)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox16)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox6)
-                    .addComponent(jCheckBox8)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jComboBoxImager, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(129, Short.MAX_VALUE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox6)
+                            .addComponent(jCheckBox5))
+                        .addGap(31, 31, 31)
+                        .addComponent(jComboBoxImager, 0, 115, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox2)
+                            .addComponent(jCheckBox16)
+                            .addComponent(jCheckBox3)
+                            .addComponent(jCheckBox4)
+                            .addComponent(jCheckBox8)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBox1)
+                                    .addComponent(jCheckBox7))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBox9)
+                                    .addComponent(jCheckBox10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -811,7 +885,9 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                     .addComponent(jCheckBox1)
                     .addComponent(jCheckBox9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox7)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox7)
+                    .addComponent(jCheckBox10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -820,15 +896,18 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                 .addComponent(jCheckBox3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox6)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBox5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBox6))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jComboBoxImager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBoxImager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButtonPre.setText("script");
@@ -909,6 +988,52 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBoxCreateGameLoop.setText("create game loop");
+
+        jCheckBoxCProject.setText("C - Project");
+        jCheckBoxCProject.setEnabled(false);
+        jCheckBoxCProject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxCProjectActionPerformed(evt);
+            }
+        });
+
+        jTextFieldCFLAGS.setText("-O3 -mint8 -msoft-reg-count=0 -quiet -IC/include");
+        jTextFieldCFLAGS.setPreferredSize(new java.awt.Dimension(6, 21));
+
+        jLabel11.setText("CFLAGS");
+
+        jCheckBoxCProject1.setText("PeerC - Project");
+        jCheckBoxCProject1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxCProject1ActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxCDebugging.setText("C debugging");
+        jCheckBoxCDebugging.setEnabled(false);
+        jCheckBoxCDebugging.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxCDebuggingActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxCPeepholing.setText("C peepholing");
+        jCheckBoxCPeepholing.setEnabled(false);
+        jCheckBoxCPeepholing.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxCPeepholingActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxCKeepEnriched.setText("C keep enriched");
+        jCheckBoxCKeepEnriched.setEnabled(false);
+        jCheckBoxCKeepEnriched.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxCKeepEnrichedActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -930,7 +1055,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jCheckBoxCreateGameLoop)
+                                .addComponent(jCheckBoxCreateSupportCode)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jComboBoxBankswitch, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -942,12 +1067,6 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jComboBoxPreName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBoxPreClass, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonPre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel6Layout.createSequentialGroup()
                                         .addComponent(jComboBoxPostName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -962,16 +1081,34 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                                         .addComponent(jTextFieldVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jTextFieldMainFile, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextFieldAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBoxCreateSupportCode))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBoxCreateGameLoop)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(jComboBoxPreName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jComboBoxPreClass, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonPre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(jCheckBoxCProject)
+                                        .addGap(43, 43, 43)
+                                        .addComponent(jCheckBoxCProject1)))
+                                .addGap(0, 29, Short.MAX_VALUE))
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(258, 258, 258))
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextFieldCFLAGS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jCheckBoxCDebugging)
+                            .addComponent(jCheckBoxCPeepholing)
+                            .addComponent(jCheckBoxCKeepEnriched))))
+                .addGap(0, 0, 0))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1000,8 +1137,23 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBoxCProject1)
+                            .addComponent(jCheckBoxCProject))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextFieldCFLAGS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCheckBoxCDebugging))
+                    .addComponent(jLabel11))
+                .addGap(6, 6, 6)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jComboBoxPreName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBoxPreClass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1015,22 +1167,26 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
                                 .addComponent(jComboBoxPostName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel10)))
                         .addGap(6, 6, 6)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBoxCreateGameLoop)
-                            .addComponent(jComboBoxBankswitch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxBankswitchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBoxCreateSupportCode)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(218, 218, 218))
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jComboBoxBankswitch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBoxBankswitchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCheckBoxCreateSupportCode))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCheckBoxCreateGameLoop))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jCheckBoxCPeepholing)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBoxCKeepEnriched)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Project settings", jPanel6);
@@ -1039,7 +1195,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 764, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1124,7 +1280,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     private void jButtonFileSelect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect1ActionPerformed
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
         fc.setDialogTitle("Select project parent directory");
-        fc.setCurrentDirectory(new java.io.File("."+File.separator));
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
@@ -1143,17 +1299,29 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
 
     private void jTextFieldProjectNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldProjectNameActionPerformed
         if (!wasMainSetManually)
-            jTextFieldMainFile.setText(jTextFieldProjectName.getText()+".asm");
+        {
+            if (!jCheckBoxCProject1.isSelected())
+                jTextFieldMainFile.setText(jTextFieldProjectName.getText()+".asm");            
+        }
+
     }//GEN-LAST:event_jTextFieldProjectNameActionPerformed
 
     private void jTextFieldProjectNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldProjectNameKeyReleased
         if (!wasMainSetManually)
-            jTextFieldMainFile.setText(jTextFieldProjectName.getText()+".asm");
+        {
+            if (!jCheckBoxCProject1.isSelected())
+                jTextFieldMainFile.setText(jTextFieldProjectName.getText()+".asm");            
+        }
+        
     }//GEN-LAST:event_jTextFieldProjectNameKeyReleased
 
     private void jTextFieldProjectNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldProjectNameFocusLost
         if (!wasMainSetManually)
-            jTextFieldMainFile.setText(jTextFieldProjectName.getText()+".asm");
+        {
+            if (!jCheckBoxCProject1.isSelected())
+                jTextFieldMainFile.setText(jTextFieldProjectName.getText()+".asm");            
+        }
+        
     }//GEN-LAST:event_jTextFieldProjectNameFocusLost
 
     private void jComboBoxBankswitchNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxBankswitchNumberActionPerformed
@@ -1272,6 +1440,51 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox9ActionPerformed
 
+    private void jComboBoxImagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxImagerActionPerformed
+        if (mClassSetting>0) return;
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxImagerActionPerformed
+
+    private void jCheckBoxCProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCProjectActionPerformed
+        mClassSetting++;
+        jCheckBoxCProject1.setSelected(!jCheckBoxCProject.isSelected());
+        mClassSetting--;
+    }//GEN-LAST:event_jCheckBoxCProjectActionPerformed
+
+    private void jCheckBoxCProject1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCProject1ActionPerformed
+        if (mClassSetting>0) return;
+        mClassSetting++;
+        if (jCheckBoxCProject1.isSelected())
+        {
+            jTextFieldMainFile.setText("");
+            jCheckBoxCProject.setSelected(false);
+        }
+        jCheckBoxCPeepholing.setEnabled(jCheckBoxCProject1.isSelected());
+        jCheckBoxCDebugging.setEnabled(jCheckBoxCProject1.isSelected());
+        jCheckBoxCKeepEnriched.setEnabled(jCheckBoxCProject1.isSelected());
+        mClassSetting--;
+        jTextFieldCFLAGS.setText("-quiet -fverbose-asm -W -Wall -Wextra -Wconversion -Werror -fno-omit-frame-pointer -mint8 -msoft-reg-count=0 -std=gnu99 -fno-time-report -IC/PeerC/vectrex/include");
+        
+        enableASM(!jCheckBoxCProject1.isSelected());
+        
+    }//GEN-LAST:event_jCheckBoxCProject1ActionPerformed
+
+    private void jCheckBoxCDebuggingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCDebuggingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxCDebuggingActionPerformed
+
+    private void jCheckBox10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox10ActionPerformed
+
+    private void jCheckBoxCPeepholingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCPeepholingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxCPeepholingActionPerformed
+
+    private void jCheckBoxCKeepEnrichedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCKeepEnrichedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxCKeepEnrichedActionPerformed
+
     boolean wasMainSetManually = false;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1285,6 +1498,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonSave;
     private javax.swing.JButton jButtonSaveAsNew;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox10;
     private javax.swing.JCheckBox jCheckBox16;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
@@ -1294,6 +1508,11 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JCheckBox jCheckBox9;
+    private javax.swing.JCheckBox jCheckBoxCDebugging;
+    private javax.swing.JCheckBox jCheckBoxCKeepEnriched;
+    private javax.swing.JCheckBox jCheckBoxCPeepholing;
+    private javax.swing.JCheckBox jCheckBoxCProject;
+    private javax.swing.JCheckBox jCheckBoxCProject1;
     private javax.swing.JCheckBox jCheckBoxCreateGameLoop;
     private javax.swing.JCheckBox jCheckBoxCreateSupportCode;
     private javax.swing.JComboBox jComboBoxBankswitch;
@@ -1307,6 +1526,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     private javax.swing.JComboBox jComboBoxPreName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1324,6 +1544,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextAreaDescription;
     private javax.swing.JTextField jTextFieldAuthor;
+    private javax.swing.JTextField jTextFieldCFLAGS;
     private javax.swing.JTextField jTextFieldKlasse;
     private javax.swing.JTextField jTextFieldMainFile;
     private javax.swing.JTextField jTextFieldName;
@@ -1453,7 +1674,7 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
     }
     void initImager()
     {
-        String path = "xml"+File.separator+"wheels";
+        String path = Global.mainPathPrefix+"xml"+File.separator+"wheels";
         ArrayList<String> files = de.malban.util.UtilityFiles.getXMLFileList(path);
         jComboBoxImager.removeAllItems();
         for (String name: files)
@@ -1480,6 +1701,27 @@ public class ProjectPropertiesPanel extends javax.swing.JPanel implements
         int fontSize = Theme.textFieldFont.getFont().getSize();
         int rowHeight = fontSize+2;
         jTable1.setRowHeight(rowHeight);
+    }
+    public void deIconified()  {}
+    void enableASM(boolean b)
+    {
+        jCheckBox1.setEnabled(b);
+        jCheckBox2.setEnabled(b);
+        jCheckBox16.setEnabled(b);
+        jCheckBox3.setEnabled(b);
+        jCheckBox4.setEnabled(b);
+        jCheckBox5.setEnabled(b);
+        jCheckBox6.setEnabled(b);
+        jCheckBox7.setEnabled(b);
+        jCheckBox8.setEnabled(b);
+        jCheckBox9.setEnabled(b);
+        jComboBoxImager.setEnabled(b);
+        jCheckBoxCreateSupportCode.setEnabled(b);
+        jCheckBoxCreateGameLoop.setEnabled(b);
+        jComboBoxBankswitch.setEnabled(b);
+        jTable1.setEnabled(b);
+        jCheckBoxCDebugging.setEnabled(!b);
+
     }
 
 }

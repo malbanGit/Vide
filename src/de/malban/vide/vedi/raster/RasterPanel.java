@@ -1,6 +1,7 @@
     package de.malban.vide.vedi.raster;
 
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.graphics.GFXVector;
 import de.malban.gui.CSAMainFrame;
@@ -845,7 +846,7 @@ public class RasterPanel extends javax.swing.JPanel implements
 
     }//GEN-LAST:event_singleImagePanel1MouseReleased
 
-    String lastImagePath = ".";
+    String lastImagePath = Global.mainPathPrefix;
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
 
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
@@ -1085,8 +1086,10 @@ public class RasterPanel extends javax.swing.JPanel implements
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         RasterPanel panel = new RasterPanel();
         panel.setModal(false);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1080, 800, panel.getMenuItem().getText());
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1080, 800, "Raster Panels");
+        
+//       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
+//       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1080, 800, panel.getMenuItem().getText());
     }        
     
     
@@ -1527,7 +1530,7 @@ public class RasterPanel extends javax.swing.JPanel implements
             // ask where to save!
             InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
             fc.setDialogTitle("Select save directory");
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
             fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
             int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
@@ -1789,23 +1792,23 @@ public class RasterPanel extends javax.swing.JPanel implements
                 Path template;
                 if (!jCheckBoxBiDirectionalData.isSelected())
                 {
-                    template = Paths.get(".", "template", "rasterDrawUni.template");
+                    template = Paths.get(Global.mainPathPrefix, "template", "rasterDrawUni.template");
                     de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDraw.asm");
 
-                    Path include = Paths.get(".", "template", "VECTREX.I");
+                    Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
                     de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
 
-                    template = Paths.get(".", "template", "rasterExampleMainUni.template");            
+                    template = Paths.get(Global.mainPathPrefix, "template", "rasterExampleMainUni.template");            
                 }
                 else
                 {
-                    template = Paths.get(".", "template", "rasterDraw.template");
+                    template = Paths.get(Global.mainPathPrefix, "template", "rasterDraw.template");
                     de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDraw.asm");
 
-                    Path include = Paths.get(".", "template", "VECTREX.I");
+                    Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
                     de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
 
-                    template = Paths.get(".", "template", "rasterExampleMain.template");            
+                    template = Paths.get(Global.mainPathPrefix, "template", "rasterExampleMain.template");            
                 }
 
                 String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
@@ -1837,13 +1840,13 @@ public class RasterPanel extends javax.swing.JPanel implements
 //                }
 //                else
                 {
-                    template = Paths.get(".", "template", "rasterDrawVertical.template");
+                    template = Paths.get(Global.mainPathPrefix, "template", "rasterDrawVertical.template");
                     de.malban.util.UtilityFiles.copyOneFile(template.toString(), pathName+File.separator+"rasterDrawVertical.asm");
 
-                    Path include = Paths.get(".", "template", "VECTREX.I");
+                    Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
                     de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathName+File.separator+ "VECTREX.I");
 
-                    template = Paths.get(".", "template", "rasterExampleVerticalMain.template");            
+                    template = Paths.get(Global.mainPathPrefix, "template", "rasterExampleVerticalMain.template");            
                 }
 
                 String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
@@ -1876,5 +1879,6 @@ public class RasterPanel extends javax.swing.JPanel implements
         }
         return ret;
     }
+    public void deIconified()  {}
     
 }

@@ -845,6 +845,12 @@ public class SingleVector3dPanel  extends SingleVectorPanel
         
         
         vars.crossColor = VECCI_CROSS_COLOR;
+        
+Matrix4x4 trans = Matrix4x4.getTranslocation(transX, transY, transZ);
+Matrix4x4 rotx = Matrix4x4.getRotationX(Math.toRadians(angleX));
+Matrix4x4 roty = Matrix4x4.getRotationY(Math.toRadians(angleY));
+Matrix4x4 rotz = Matrix4x4.getRotationZ(Math.toRadians(angleZ));
+        
         Matrix4x4 rotax = Matrix4x4.getRotationX(Math.toRadians(axisXAngle));
         Matrix4x4 rotay = Matrix4x4.getRotationY(Math.toRadians(axisYAngle));
         Matrix4x4 rotaz = Matrix4x4.getRotationZ(Math.toRadians(axisZAngle));
@@ -867,8 +873,6 @@ public class SingleVector3dPanel  extends SingleVectorPanel
                     GFXVector clone = v.clone();
                     
                     // transformation
-                    Vertex p1 = clone.start;
-                    Vertex p2 = clone.end;
 
                     clone.start.x(clone.start.x()+usedxOff);
                     clone.start.y(clone.start.y()-usedyOff);
@@ -876,7 +880,7 @@ public class SingleVector3dPanel  extends SingleVectorPanel
                     clone.end.x(clone.end.x()+usedxOff);
                     clone.end.y(clone.end.y()-usedyOff);
                     clone.end.z(clone.end.z()+usedzOff);
-                    
+
                     
                     clone.start = rotax.multiplyVariant(clone.start);
                     clone.start = rotay.multiplyVariant(clone.start);
@@ -886,6 +890,8 @@ public class SingleVector3dPanel  extends SingleVectorPanel
                     clone.end = rotay.multiplyVariant(clone.end);
                     clone.end = rotaz.multiplyVariant(clone.end);
 
+                    Vertex p1 = clone.start;
+                    Vertex p2 = clone.end;
 
                     double x0 = Scaler.scaleDoubleToInt(p1.x(), scale);            
                     double y0 = -Scaler.scaleDoubleToInt(p1.y(), scale);            
@@ -960,10 +966,12 @@ public class SingleVector3dPanel  extends SingleVectorPanel
                     p1.x(p1.x()+usedxOff);
                     p1.y(p1.y()-usedyOff);
                     p1.z(p1.z()+usedzOff);
-                    p2.x(p2.x()+usedxOff);
-                    p2.y(p2.y()-usedyOff);
-                    p2.z(p2.z()+usedzOff);
-
+                    
+p1 = trans.multiply(p1);
+p1 = rotx.multiply(p1);
+p1 = roty.multiply(p1);
+p1 = rotz.multiply(p1);
+                    
                     p1 = rotax.multiply(p1);
                     p1 = rotay.multiply(p1);
                     p1 = rotaz.multiply(p1);
@@ -971,6 +979,15 @@ public class SingleVector3dPanel  extends SingleVectorPanel
                     p1.coords[1] = Math.round(p1.coords[1]);
                     p1.coords[2] = Math.round(p1.coords[2]);
 
+                    
+                    p2.x(p2.x()+usedxOff);
+                    p2.y(p2.y()-usedyOff);
+                    p2.z(p2.z()+usedzOff);
+
+p2 = trans.multiply(p2);
+p2 = rotx.multiply(p2);
+p2 = roty.multiply(p2);
+p2 = rotz.multiply(p2);
 
                     p2 = rotax.multiply(p2);
                     p2 = rotay.multiply(p2);

@@ -6,14 +6,12 @@
 package de.malban.input;
 
 import de.malban.Global;
-import static de.malban.Global.NATIVES_PATH;
 import de.malban.config.Configuration;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
-import java.io.File;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Constructor;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
@@ -48,6 +46,7 @@ public class SystemController
     
     private static ControllerEnvironment createDefaultEnvironment()  
     {
+
         try
         {
             // Find constructor (class is package private, so we can't access it directly)
@@ -65,10 +64,15 @@ public class SystemController
             
 //            System.loadLibrary("jinput-osx");
             // Create object with default constructor
+
+            
             ControllerEnvironment env = constructor.newInstance();
             if (!init)
             {
+                // get rid of the stupd ever the same message that some stup input device can not be mapped!
+                System.setErr(Global.devNull);
                 Controller[] controllers = env.getControllers();
+                System.setErr(Global.devErr);
                 init = true;
                 Configuration.getConfiguration().getDebugEntity().addLog("JInput is supported", INFO);
             }
@@ -78,6 +82,14 @@ public class SystemController
         catch (Throwable e)
         {
             Configuration.getConfiguration().getLogEntity().addLog(e, WARN);
+        }
+        try
+        {
+            // this try & catch is only that the component still works in netbeans
+        System.setErr(Global.devErr);
+        }
+        catch (Throwable e)
+        {
         }
         
         jinputAvailable = false;

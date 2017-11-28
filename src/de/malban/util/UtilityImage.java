@@ -19,11 +19,20 @@ public class UtilityImage
 {
     public static BufferedImage toBufferedImage(final Image image)
     {
+        // ensure type java.awt.image.BufferedImage.TYPE_4BYTE_ABGR
+        
+        
         if (image == null) return null;
         if (image instanceof BufferedImage)
-            return (BufferedImage) image;
+        {
+            if (((BufferedImage) image).getType() == java.awt.image.BufferedImage.TYPE_4BYTE_ABGR)
+                return (BufferedImage) image;
+        }
         if (image instanceof VolatileImage)
-            return ((VolatileImage) image).getSnapshot();
+        {
+            if (((BufferedImage) ((VolatileImage) image).getSnapshot()).getType() == java.awt.image.BufferedImage.TYPE_4BYTE_ABGR)
+                return ((VolatileImage) image).getSnapshot();
+        }
         loadImage(image);
         final BufferedImage buffImg = new BufferedImage(image.getWidth(null), image.getHeight(null), java.awt.image.BufferedImage.TYPE_4BYTE_ABGR);
         final Graphics2D g2 = buffImg.createGraphics();
@@ -142,6 +151,7 @@ public class UtilityImage
     {
         java.awt.Image dImage;
         name = UtilityString.cleanFileString(name);
+        name = UtilityFiles.convertSeperator(name);
 
         File file =new java.io.File(name);
         if (!file.exists()) return null;

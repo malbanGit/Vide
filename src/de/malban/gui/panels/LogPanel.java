@@ -10,6 +10,7 @@
  */
 
 package de.malban.gui.panels;
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.LogListener;
 import de.malban.config.Logable;
@@ -143,7 +144,7 @@ public class LogPanel extends javax.swing.JPanel implements Windowable, Logable,
         if (!mFileTracking) return;
         try
         {
-            FileWriter fstream = new FileWriter("logs"+File.separator+mLogName+".log",true);
+            FileWriter fstream = new FileWriter(Global.mainPathPrefix+"logs"+File.separator+mLogName+".log",true);
             PrintWriter pw = new PrintWriter(fstream);
             pw.print(text);
             pw.flush();
@@ -445,7 +446,11 @@ System.out.println("Strange");
             }
         }
         if (mDebugLevel < level) return false;
-        lineHead = ""+LEVEL[level]+"";
+        if (level < LEVEL.length)
+            lineHead = ""+LEVEL[level]+"";
+        else
+            lineHead = "LEVEL "+level+":";
+            
         return true;
     }
     private boolean vectorElementsFoundInString(Vector<String> search, String where)
@@ -511,4 +516,5 @@ System.out.println("Strange");
     {
         addLog(s, ERROR);
     }
+    public void deIconified() { }
 }

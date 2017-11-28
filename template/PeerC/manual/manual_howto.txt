@@ -1,0 +1,12 @@
+This file is a simple PowerPoint template for creating Vectrex game manuals.
+
+The template can easily be edited, modified and new elements can be added. Remove this first page and save the final result in *.pdf format.
+
+This file was developed by Prof. Dr. Peer Johannsen as part of the “Retro-Programming” and “Advanced C Programming” class at Pforzheim University, Germany.
+
+It can freely be used, but at one’s own risk and for non-commercial purposes only. Please respect the copyright and credit the origin of this file.
+
+Feedback, suggestions and bug-reports are welcome and can be sent to:
+
+peer.johannsen@pforzheim-university.de
+

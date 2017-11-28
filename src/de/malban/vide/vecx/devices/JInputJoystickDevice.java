@@ -106,11 +106,44 @@ public class JInputJoystickDevice  extends AbstractDevice implements ControllerL
 
         if (vectrexTarget.equals("vertical"))  
         {
-            joyport.setVertical((int)(e.currentAxisPercent*FACTOR)&0xff, true);
+            if (e.isRelative)
+            {
+                int val = -(int)e.currentRelative;
+                if (val<0)
+                {
+                    if (val<-128) val = -127;
+                }
+                if (val>0)
+                {
+                    if (val>127) val = 128;
+                }
+                joyport.setVertical((int)((JOYSTICK_CENTER+val)&0xff), true);
+            }
+            else
+            {
+                joyport.setVertical((int)(e.currentAxisPercent*FACTOR)&0xff, true);
+            }
         }
         if (vectrexTarget.equals("horizontal"))  
         {
-            joyport.setHorizontal((int)(e.currentAxisPercent*FACTOR)&0xff, true);
+            if (e.isRelative)
+            {
+                int val = (int)e.currentRelative;
+                if (val<0)
+                {
+                    if (val<-128) val = -127;
+                }
+                if (val>0)
+                {
+                    if (val>127) val = 128;
+                }
+                joyport.setHorizontal((int)((JOYSTICK_CENTER+val)&0xff), true);
+            }
+            else
+            {
+                joyport.setHorizontal((int)(e.currentAxisPercent*FACTOR)&0xff, true);
+            }
+            
         }
         
     }

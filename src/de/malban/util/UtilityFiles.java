@@ -8,6 +8,7 @@ package de.malban.util;
 import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.Logable;
+import static de.malban.gui.panels.LogPanel.ERROR;
 import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import java.nio.file.*;
@@ -118,7 +119,7 @@ public class UtilityFiles
         init();
         DeleteDirectoryVisitor visitor = new DeleteDirectoryVisitor();
         
-        Path base = Paths.get("./");
+        Path base = Paths.get(Global.mainPathPrefix);//"./");
         
         Path path = base.resolve(Paths.get(p));
         try
@@ -139,7 +140,7 @@ public class UtilityFiles
         init();
         DeleteDirectoryVisitor visitor = new DeleteDirectoryVisitor();
         
-        Path base = Paths.get("./");
+        Path base = Paths.get(Global.mainPathPrefix);//"./");
         
         Path path = base.resolve(Paths.get(p));
         visitor.notme = path;
@@ -183,7 +184,7 @@ public class UtilityFiles
         init();
         CopyDirVisitor visitor = new CopyDirVisitor();
         
-        Path base = Paths.get("."+File.separator);
+        Path base = Paths.get(Global.mainPathPrefix);
         
         visitor.fromPath = base.resolve(Paths.get(from));
         visitor.toPath = base.resolve(Paths.get(to));
@@ -212,7 +213,7 @@ public class UtilityFiles
         {
             to = to.substring(("."+File.separator).length());
         }
-        Path base = Paths.get("."+File.separator);
+        Path base = Paths.get(Global.mainPathPrefix);
         
         Path fromPath = base.resolve(Paths.get(from));
         Path toPath = base.resolve(Paths.get(to));
@@ -228,7 +229,6 @@ public class UtilityFiles
         }
         return ret;
     }
-    
     
     public static boolean createTextFile(String file, String text)
     {
@@ -255,7 +255,7 @@ public class UtilityFiles
     {
         boolean ret = true;
         init();
-        Path base = Paths.get("./");
+        Path base = Paths.get(Global.mainPathPrefix);
         
         Path fromPath = base.resolve(Paths.get(pathAndNameFrom));
         Path toPath = base.resolve(Paths.get(pathAndNameTo));
@@ -274,7 +274,7 @@ public class UtilityFiles
     {
         boolean ret = true;
         init();
-        Path base = Paths.get("./");
+        Path base = Paths.get(Global.mainPathPrefix);
         
         Path fromPath = base.resolve(Paths.get(pathAndName));
         Path toPath = fromPath.resolveSibling(newNameOnly);
@@ -330,6 +330,30 @@ public class UtilityFiles
             try 
             {
                output.write(filler);
+            } 
+            finally 
+            {
+               output.close();
+            }        
+        }
+        catch (Throwable e)
+        {
+            return false;
+        }
+        return true;
+    }
+    public static boolean concatFiles(String filename1, String filename2, String toFile)
+    {
+        copyOneFile(filename1, toFile);
+
+        try
+        {
+            Path path = Paths.get(filename2);
+            byte[] data = Files.readAllBytes(path);            
+            FileOutputStream output = new FileOutputStream(toFile, true);
+            try 
+            {
+               output.write(data);
             } 
             finally 
             {
@@ -400,7 +424,8 @@ public class UtilityFiles
         
         ZipEntry entry = zipIn.getNextEntry();
         // iterates over entries in the zip file
-        while (entry != null) {
+        while (entry != null) 
+        {
             try
             {
                 String filePath = destDirectory + File.separator + entry.getName();
@@ -477,8 +502,8 @@ public class UtilityFiles
     {
         InputStream is;
         String type;
-        StringBuffer allErrors=new StringBuffer();;
-        StringBuffer allMessages=new StringBuffer();;
+        StringBuffer allMessages=new StringBuffer();
+        boolean stillWorking = false;
         StreamGobbler(InputStream is, String type)
         {
             this.is = is;
@@ -488,6 +513,7 @@ public class UtilityFiles
         public void run()
         {
             Logable log = Configuration.getConfiguration().getDebugEntity();
+            stillWorking = true;
             try
             {
                 InputStreamReader isr = new InputStreamReader(is);
@@ -497,13 +523,19 @@ public class UtilityFiles
                 {
                     if (type.equals("ERROR"))
                     {
-                        allErrors.append(line);
-                        log.addLog(line, WARN);
+                        if (line.trim().length()!=0)
+                        {
+                            allMessages.append(line).append("\n");
+                            log.addLog(line, WARN);
+                        }
                     }
                     else// (type.equals("OUTPUT"))
                     {
-                        allMessages.append(line);
-                        log.addLog(line, INFO);
+                        if (line.trim().length()!=0)
+                        {
+                            allMessages.append(line).append("\n");
+                            log.addLog(line, INFO);
+                        }
                     }
                 }
             } 
@@ -511,9 +543,78 @@ public class UtilityFiles
             {
                 ioe.printStackTrace();  
             }
+            stillWorking = false;
+            
         }
     }    
+    public static volatile String lastMessage = "";
+    public static volatile String lastError = "";
+    
+    
     public static boolean executeOSCommand(String [] cmd)
+    {
+        return executeOSCommand(cmd, null, null);
+    }
+    public static boolean executeOSCommand(String [] cmd, String [] envs)
+    {
+        return executeOSCommand(cmd, envs, null);
+    }
+    public static boolean executeOSCommand(String [] cmd, String [] envs, File dir)
+    {
+        // any errors
+        StreamGobbler errorGobbler=null;            
+        // any output?
+        StreamGobbler outputGobbler=null;
+        try
+        {
+            /*
+for (int i=0;i<cmd.length;i++)
+{
+    System.out.print(cmd[i]+" ");
+}
+ System.out.println("");
+*/
+            Process p = Runtime.getRuntime().exec(cmd, envs, dir);
+                        
+            // any errors
+             errorGobbler = new  StreamGobbler(p.getErrorStream(), "ERROR");            
+            // any output?
+             outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
+
+                
+            // kick them off
+            errorGobbler.start();
+            outputGobbler.start();          
+ 
+            p.waitFor();
+            while (errorGobbler.stillWorking) Thread.sleep(10);
+            lastError = errorGobbler.allMessages.toString().trim();
+            while (outputGobbler.stillWorking) Thread.sleep(10);
+            lastMessage = outputGobbler.allMessages.toString().trim();
+            return true;
+        }
+        catch (Throwable e)
+        {
+            try
+            {
+                if (errorGobbler!=null)
+                {
+                    while (errorGobbler.stillWorking) Thread.sleep(10);
+                    lastError = errorGobbler.allMessages.toString().trim();
+                    while (outputGobbler.stillWorking) Thread.sleep(10);
+                    lastMessage = outputGobbler.allMessages.toString().trim();
+                }
+            }
+            catch (Throwable ex)
+            {}
+
+            Logable log = Configuration.getConfiguration().getDebugEntity();
+            log.addLog(e, ERROR);
+        }        
+        return false;
+    }        
+    
+    public static boolean executeOSCommand_noWait(String [] cmd)
     {
         // any errors
         StreamGobbler errorGobbler=null;            
@@ -532,7 +633,7 @@ public class UtilityFiles
             errorGobbler.start();
             outputGobbler.start();          
  
-            p.waitFor();
+            //p.waitFor();
         }
         catch (Throwable e)
         {
@@ -542,7 +643,8 @@ public class UtilityFiles
         }        
         return true;
         
-    }        
+    }       
+    
     public static boolean executeOSCommandInDir(String [] cmd, String dir)
     {
         // any errors
@@ -561,7 +663,6 @@ public class UtilityFiles
             // kick them off
             errorGobbler.start();
             outputGobbler.start();          
- 
             p.waitFor();
         }
         catch (Throwable e)
@@ -573,6 +674,39 @@ public class UtilityFiles
         return true;
         
     }    
+
+    public static boolean executeOSCommandInDir_noWait(String [] cmd, String dir)
+    {
+        // any errors
+        StreamGobbler errorGobbler=null;            
+        // any output?
+        StreamGobbler outputGobbler=null;
+        try
+        {
+            Process p = Runtime.getRuntime().exec(cmd, new String[0], new File(convertSeperator(dir)));
+            // any errors
+             errorGobbler = new  StreamGobbler(p.getErrorStream(), "ERROR");            
+            // any output?
+             outputGobbler = new StreamGobbler(p.getInputStream(), "OUTPUT");
+
+                
+            // kick them off
+            errorGobbler.start();
+            outputGobbler.start();          
+ 
+//            p.waitFor();
+        }
+        catch (Throwable e)
+        {
+            Logable log = Configuration.getConfiguration().getDebugEntity();
+            log.addLog(e, WARN);
+            return false;
+        }        
+        return true;
+        
+    }    
+
+    
     static boolean isMac = Global.getOSName().toUpperCase().contains("MAC");
     static boolean isWin = Global.getOSName().toUpperCase().contains("WIN");
     static boolean isLinux = Global.getOSName().toUpperCase().contains("LIN");
@@ -628,7 +762,7 @@ public class UtilityFiles
         {
             path = path.substring(0,2);
 
-            String filepath = "externalTools"+File.separator+"removeDrive"+File.separator+"Win32"+File.separator+"RemoveDrive.exe";
+            String filepath = Global.mainPathPrefix+"externalTools"+File.separator+"removeDrive"+File.separator+"Win32"+File.separator+"RemoveDrive.exe";
 
             String [] cmd = new String[2];
             cmd[0] = filepath;

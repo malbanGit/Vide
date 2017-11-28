@@ -680,6 +680,7 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBoxNoAdditionalSynOptimization">
           <Properties>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="no opt"/>
           </Properties>
         </Component>

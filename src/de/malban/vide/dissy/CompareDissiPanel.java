@@ -5,6 +5,7 @@
  */
 package de.malban.vide.dissy;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
@@ -12,6 +13,7 @@ import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.util.syntax.Syntax.TokenStyles;
+import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.Updatable;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
@@ -23,7 +25,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,6 +46,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class CompareDissiPanel extends javax.swing.JPanel  implements
         Windowable, Stateable, Updatable{
     public boolean isLoadSettings() { return true; }
+    VideConfig config = VideConfig.getConfig();
 
     public static final String MESSAGE_INFO = "editLogMessage";
     public static final String MESSAGE_WARN = "editLogWarning";
@@ -875,7 +877,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
 
     private void jButtonFileSelect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect1ActionPerformed
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
-        fc.setCurrentDirectory(new java.io.File("."+File.separator));
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
         String name = fc.getSelectedFile().getAbsolutePath();
@@ -895,7 +897,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
 
     private void jButtonFileSelect2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect2ActionPerformed
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
-        fc.setCurrentDirectory(new java.io.File("."+File.separator));
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
         String name = fc.getSelectedFile().getAbsolutePath();
@@ -986,7 +988,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
                 {
                     foundAt = i;
                     jLabel3.setVisible(true);
-                    jLabel3.setForeground(Color.black);
+                    jLabel3.setForeground(config.valueNotChanged);
                     jLabel3.setText("Found in label at: " + String.format("$%04X",i&0xffff ));
                     break;
                 }
@@ -998,7 +1000,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
                 {
                     foundAt = i;
                     jLabel3.setVisible(true);
-                    jLabel3.setForeground(Color.black);
+                    jLabel3.setForeground(config.valueNotChanged);
                     jLabel3.setText("Found in comment at: " + String.format("$%04X",i&0xffff ));
                     break;
                 }
@@ -1008,7 +1010,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
         if (foundAt == -1)
         {
             jLabel3.setVisible(true);
-            jLabel3.setForeground(Color.red);
+            jLabel3.setForeground(config.valueChanged);
             jLabel3.setText("not found");
         }
 
@@ -1402,7 +1404,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
 //                    if (!cmp1.equals(cmp2))
                     if (!cmp2.equals(cmp3))
                     {
-                        setBackground(Color.RED);
+                        setBackground(config.valueChanged);
                         // setForeground(Color.WHITE);
                     } 
                     else 
@@ -1472,7 +1474,7 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
 //                    if (!cmp1.equals(cmp2))
                     if (!cmp2.equals(cmp3))
                     {
-                        setBackground(Color.RED);
+                        setBackground(config.valueChanged);
                         // setForeground(Color.WHITE);
                     } 
                     else 
@@ -1634,4 +1636,5 @@ public class CompareDissiPanel extends javax.swing.JPanel  implements
         jTableSource.setRowHeight(rowHeight);
         jTableSource1.setRowHeight(rowHeight);
     }
+    public void deIconified() { }
 }

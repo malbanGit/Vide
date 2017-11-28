@@ -5,6 +5,7 @@
  */
 package de.malban.vide.veccy;
 
+import de.malban.Global; 
 import de.malban.graphics.Face;
 import javax.swing.table.AbstractTableModel;
 import de.malban.config.Configuration;
@@ -716,6 +717,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jTextFieldResync = new javax.swing.JTextField();
         jCheckBoxVec32 = new javax.swing.JCheckBox();
         jCheckBoxextendedList = new javax.swing.JCheckBox();
+        jButtonDraw_syncList1 = new javax.swing.JButton();
+        jCheckBox3ds = new javax.swing.JCheckBox();
         jPanel30 = new javax.swing.JPanel();
         jButtonMov_Draw_VLc_aAnim = new javax.swing.JButton();
         jButtonDraw_VLcAnim = new javax.swing.JButton();
@@ -738,6 +741,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jRadioButton4 = new javax.swing.JRadioButton();
         jRadioButton5 = new javax.swing.JRadioButton();
         jRadioButton6 = new javax.swing.JRadioButton();
+        jCheckBoxCStyle = new javax.swing.JCheckBox();
+        jCheckBoxPCStyle = new javax.swing.JCheckBox();
         jPanel32 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextAreaResult1 = new javax.swing.JTextArea();
@@ -1294,7 +1299,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel37Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1303,7 +1308,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 26, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Faces", jPanel37);
@@ -1392,8 +1397,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jCheckBoxContinue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jCheckBoxPosition, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jCheckBoxArrows, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jCheckBoxMoves, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jCheckBoxMoves, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         jPanelModeSelectLayout.setVerticalGroup(
             jPanelModeSelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1416,7 +1421,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jCheckBoxPosition)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBoxMoves)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         jTabbedPane4.addTab("Mode/Select", jPanelModeSelect);
@@ -1698,12 +1703,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addGap(6, 6, 6)
                         .addGroup(jPanelShortCuts2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonOptimizeSize, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                            .addComponent(jButtonLongestPaths, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(jButtonLongestPaths, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
                             .addGroup(jPanelShortCuts2Layout.createSequentialGroup()
-                                .addGroup(jPanelShortCuts2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonLongestPaths1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabelFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 60, Short.MAX_VALUE))))
+                                .addComponent(jLabelFactor, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jButtonLongestPaths1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
                     .addGroup(jPanelShortCuts2Layout.createSequentialGroup()
                         .addComponent(jCheckBoxRespectZero)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -1728,9 +1732,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addGroup(jPanelShortCuts2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonRemoveDots1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonLongestPaths1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGap(6, 6, 6)
                 .addComponent(jCheckBoxRespectZero)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addGroup(jPanelShortCuts2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonLongestPathsplus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonLongestPaths, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1854,6 +1858,8 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
         jLabelDelay.setText("Delay");
 
+        jTabbedPane6.setMinimumSize(new java.awt.Dimension(101, 280));
+
         jPanel23.setToolTipText("");
 
         jCheckBox2.setSelected(true);
@@ -1964,8 +1970,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                     .addComponent(jCheckBoxxrotdir)
                                     .addComponent(jCheckBoxzrotdir)))))
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonSelectionRotation, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel23Layout.createSequentialGroup()
+                        .addComponent(jButtonSelectionRotation, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                        .addGap(22, 22, 22)))
+                .addContainerGap())
         );
         jPanel23Layout.setVerticalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2137,9 +2145,11 @@ public class VeccyPanel extends javax.swing.JPanel implements
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTabbedPane6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTabbedPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabelAnim)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2152,9 +2162,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jTextFieldDelay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabelDelay)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane6, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(3, 3, 3))
         );
 
@@ -2191,7 +2199,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 799, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 862, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jCheckBox1)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -2624,7 +2632,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jButton2dAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3dAxis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 120, Short.MAX_VALUE))
+                .addGap(0, 90, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("axis angles", jPanel7);
@@ -2858,7 +2866,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 .addComponent(jLabel56)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonLoad2)
-                .addContainerGap(740, Short.MAX_VALUE))
+                .addContainerGap(796, Short.MAX_VALUE))
         );
         jPanel38Layout.setVerticalGroup(
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2887,7 +2895,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(600, Short.MAX_VALUE))
+                .addContainerGap(656, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2984,7 +2992,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jTextFieldLabelListname.setPreferredSize(new java.awt.Dimension(6, 21));
 
         jButtonDraw_syncList.setText("Draw sync list");
-        jButtonDraw_syncList.setToolTipText("<html>\n<B>Draw sync list</B>        <BR>                                  \n                                                <BR>                            \nFormat developed by Malban, this format describes a \"large\".  <BR> \nVectorlist, which can be synced while drawing. Synced means,   <BR> \nthe beam is zeroed and moved to the next location.   <BR> \nVide automatically inserts a \"sync\" when vectors are not connected. <BR> \n<BR>\nThe Sync point is always the \"displayed\" point 0, 0, after a sync the beam is moved<BR>\nthe vectorlist 0, 0 and from there to the next displayed vector.<BR>\nformat: <BR> \n\nMethod to draw:\nU = address of vectorlist\nX = (y,x) position of vectorlist (this will be point 0,0), positioning\nA = scalefactor \"Move\" (after sync)\nB = scalefactor \"Vector\" (vectors in vectorlist)\n\n<BR>\n<PRE>\n     mode, rel y, rel x,                                             \n     mode, rel y, rel x,                                             \n     .      .      .                                                \n     .      .      .                                                \n     mode, rel y, rel x,                                             \n     0xff, 0xffff \n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n0xff draw line        <BR>                           \n0  move to specified endpoint      <BR>                           \n1  sync (and move to specified endpoint)        <BR>     \n\n<BR>     \n</html>\n\n");
+        jButtonDraw_syncList.setToolTipText("<html>\n<B>Draw sync list</B>        <BR>                                  \n                                                <BR>                            \nFormat developed by Malban, this format describes a \"large\".  <BR> \nVectorlist, which can be synced while drawing. Synced means,   <BR> \nthe beam is zeroed and moved to the next location.   <BR> \nVide automatically inserts a \"sync\" when vectors are not connected. <BR> \n<BR>\nThe Sync point is always the \"displayed\" point 0, 0, after a sync the beam is moved<BR>\nthe vectorlist 0, 0 and from there to the next displayed vector.<BR>\nformat: <BR> \n\nMethod to draw:<BR>\nU = address of vectorlist<BR>\nX = (y,x) position of vectorlist (this will be point 0,0), positioning<BR>\nA = scalefactor \"Move\" (after sync)<BR>\nB = scalefactor \"Vector\" (vectors in vectorlist)<BR>\n\n<BR>\n<PRE>\n     mode, rel y, rel x, <BR>\n     mode, rel y, rel x,<BR>\n     .      .      .        <BR>\n     .      .      .       <BR>\n     mode, rel y, rel x,  <BR>\n     0xff, 0xffff \n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n0xff draw line        <BR>                           \n0  move to specified endpoint      <BR>                           \n1  sync (and move to specified endpoint)        <BR>     \n\n<BR>     \n</html>\n\n");
         jButtonDraw_syncList.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonDraw_syncList.setMargin(new java.awt.Insets(2, 4, 2, 4));
         jButtonDraw_syncList.setPreferredSize(new java.awt.Dimension(140, 21));
@@ -3003,6 +3011,19 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jCheckBoxextendedList.setText("extended");
         jCheckBoxextendedList.setEnabled(false);
 
+        jButtonDraw_syncList1.setText("3d");
+        jButtonDraw_syncList1.setToolTipText("<html>\nThis button can be used to create 3d vectorlist to use with Malban 3d routines.<BR>\nAs of now only \"C\" output is supported.<BR>\n<BR>\nThe 3d routines can only handle \"unfiform\" vectors.<BR>\n<BR>\nUsing the checkbox you can change the way how vectors larger than 1 are treated:<BR>\n- they are made longer using scale (list type 3ds)<BR>\n- longer vectors result in multiple uniform vectors<BR>\n<BR>\nALL vectors must be drawn \"uniformly\" nonetheless.\n</html>");
+        jButtonDraw_syncList1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButtonDraw_syncList1.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        jButtonDraw_syncList1.setPreferredSize(new java.awt.Dimension(140, 21));
+        jButtonDraw_syncList1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDraw_syncList1ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox3ds.setToolTipText("If not checked \"3ds\" lists are created, if checked non 3ds lists.");
+
         javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
         jPanel29.setLayout(jPanel29Layout);
         jPanel29Layout.setHorizontalGroup(
@@ -3020,10 +3041,19 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jCheckBoxVec32)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel29Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonDraw_syncList1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel29Layout.createSequentialGroup()
+                                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel29Layout.createSequentialGroup()
+                                .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jCheckBox3ds)))
                         .addContainerGap())
                     .addGroup(jPanel29Layout.createSequentialGroup()
                         .addComponent(jTextFieldResync, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3039,11 +3069,14 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel29Layout.createSequentialGroup()
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonMov_Draw_VLc_a, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDraw_syncList1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonDraw_VLc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonDraw_VLc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCheckBox3ds))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3103,7 +3136,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         });
 
         jButtonDraw_VL_modeAnim.setText("Draw_VL_mode");
-        jButtonDraw_VL_modeAnim.setToolTipText("<html>\n<B>Draw_VL_mode</B>        <BR>                                  \n                                                <BR>                            \nThis routine processes the vector list pointed to by the X register.  <BR> \nThe current scale factor is used.  The vector list has the following  <BR> \nformat: <BR> \n<BR>\n<PRE>\n     mode, rel y, rel x,                                             \n     mode, rel y, rel x,                                             \n     .      .      .                                                \n     .      .      .                                                \n     mode, rel y, rel x,                                             \n     0x01  \n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n< 0  use the pattern in $C829        <BR>                           \n= 0  move to specified endpoint      <BR>                           \n= 1  end of list, so return         <BR>                            \n> 1  draw to specified endpoint <BR>\n<BR>     \n</html>\n");
+        jButtonDraw_VL_modeAnim.setToolTipText("<html>\n<B>Draw_VL_mode</B>        <BR>                                  \n                                                <BR>                            \nThis routine processes the vector list pointed to by the X register.  <BR> \nThe current scale factor is used.  The vector list has the following  <BR> \nformat: <BR> \n<BR>\n<PRE>\n     mode, rel y, rel x,                                             \n     mode, rel y, rel x,                                             \n     .      .      .                                                \n     .      .      .                                                \n     mode, rel y, rel x,                                             \n     0x01  \n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n- 0  use the pattern in $C829        <BR>                           \n= 0  move to specified endpoint      <BR>                           \n= 1  end of list, so return         <BR>                            \n> 1  draw to specified endpoint <BR>\n<BR>     \n</html>\n");
         jButtonDraw_VL_modeAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonDraw_VL_modeAnim.setMargin(new java.awt.Insets(2, 4, 2, 4));
         jButtonDraw_VL_modeAnim.setPreferredSize(new java.awt.Dimension(140, 21));
@@ -3130,7 +3163,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabel46.setPreferredSize(new java.awt.Dimension(230, 21));
 
         jButtonDraw_syncListAnim.setText("Draw sync list");
-        jButtonDraw_syncListAnim.setToolTipText("<html>\n<B>Draw sync list</B>        <BR>                                  \n                                                <BR>                            \nFormat developed by Malban, this format describes a \"large\".  <BR> \nVectorlist, which can be synced while drawing. Synced means,   <BR> \nthe beam is zeroed and moved to the next location.   <BR> \nVide automatically inserts a \"sync\" when vectors are not connected. <BR> \n<BR>\nThe Sync point is always the \"displayed\" point 0, 0, after a sync the beam is moved<BR>\nthe vectorlist 0, 0 and from there to the next displayed vector.<BR>\nformat: <BR> \n\nMethod to draw:\nU = address of vectorlist\nX = (y,x) position of vectorlist (this will be point 0,0), positioning\nA = scalefactor \"Move\" (after sync)\nB = scalefactor \"Vector\" (vectors in vectorlist)\n\n<BR>\n<PRE>\n     mode, rel y, rel x,                                             \n     mode, rel y, rel x,                                             \n     .      .      .                                                \n     .      .      .                                                \n     mode, rel y, rel x,                                             \n     0xff, 0xffff \n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n0xff draw line        <BR>                           \n0  move to specified endpoint      <BR>                           \n1  sync (and move to specified endpoint)        <BR>     \n\n<BR>     \n</html>\n\n");
+        jButtonDraw_syncListAnim.setToolTipText("<html>\n<B>Draw sync list</B>        <BR>                                  \n                                                <BR>                            \nFormat developed by Malban, this format describes a \"large\".  <BR> \nVectorlist, which can be synced while drawing. Synced means,   <BR> \nthe beam is zeroed and moved to the next location.   <BR> \nVide automatically inserts a \"sync\" when vectors are not connected. <BR> \n<BR>\nThe Sync point is always the \"displayed\" point 0, 0, after a sync the beam is moved<BR>\nthe vectorlist 0, 0 and from there to the next displayed vector.<BR>\nformat: <BR> \n\nMethod to draw:<BR>\nU = address of vectorlist<BR>\nX = (y,x) position of vectorlist (this will be point 0,0), positioning<BR>\nA = scalefactor \"Move\" (after sync)<BR>\nB = scalefactor \"Vector\" (vectors in vectorlist)<BR>\n\n<BR>\n<PRE>\n     mode, rel y, rel x, <BR><BR>                                          \n     .      .      .  <BR>\n     .      .      .  <BR>\n     mode, rel y, rel x,         <BR>\n     0xff, 0xffff <BR>\n</PRE>\n<BR>\nwhere mode has the following meaning:         <BR>                        \n                                              <BR>                    \n0xff draw line        <BR>                           \n0  move to specified endpoint      <BR>                           \n1  sync (and move to specified endpoint)        <BR>     \n\n<BR>     \n</html>\n\n");
         jButtonDraw_syncListAnim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButtonDraw_syncListAnim.setMargin(new java.awt.Insets(2, 4, 2, 4));
         jButtonDraw_syncListAnim.setPreferredSize(new java.awt.Dimension(140, 21));
@@ -3242,7 +3275,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
-        jCheckBoxAddFactor.setText("add  factor");
+        jCheckBoxAddFactor.setText("factor");
 
         buttonGroup3.add(jRadioButton3);
         jRadioButton3.setSelected(true);
@@ -3278,6 +3311,17 @@ public class VeccyPanel extends javax.swing.JPanel implements
             }
         });
 
+        jCheckBoxCStyle.setText("C");
+        jCheckBoxCStyle.setToolTipText("if checked \"runnable\" is ignored!");
+
+        jCheckBoxPCStyle.setText("PC");
+        jCheckBoxPCStyle.setToolTipText("Only if \"C\" is checked as well, only for ..._VLc and ... VL_mode");
+        jCheckBoxPCStyle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxPCStyleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
         jPanel19Layout.setHorizontalGroup(
@@ -3289,15 +3333,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addComponent(jPanel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(2, 2, 2)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addComponent(jCheckBoxRunnable)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAssemble)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonEditInVedi)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBoxAddFactor)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane5)
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addComponent(jRadioButton3)
@@ -3307,13 +3342,29 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jRadioButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButton6)
-                        .addContainerGap(100, Short.MAX_VALUE))))
+                        .addContainerGap())
+                    .addGroup(jPanel19Layout.createSequentialGroup()
+                        .addComponent(jCheckBoxRunnable)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAssemble)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonEditInVedi)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBoxAddFactor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addComponent(jCheckBoxCStyle)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBoxPCStyle)
+                        .addGap(5, 5, 5))))
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel19Layout.createSequentialGroup()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBoxAddFactor)
+                    .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jCheckBoxAddFactor)
+                        .addComponent(jCheckBoxCStyle)
+                        .addComponent(jCheckBoxPCStyle))
                     .addComponent(jButtonEditInVedi)
                     .addComponent(jButtonAssemble)
                     .addComponent(jCheckBoxRunnable))
@@ -3519,7 +3570,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             .addGroup(jPanel20Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(633, Short.MAX_VALUE))
+                .addContainerGap(696, Short.MAX_VALUE))
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3586,7 +3637,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
                         .addComponent(jLabel61)
                         .addGap(35, 35, 35)
                         .addComponent(jLabel62, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(425, Short.MAX_VALUE))
+                .addContainerGap(488, Short.MAX_VALUE))
         );
         jPanel40Layout.setVerticalGroup(
             jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3842,7 +3893,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jTabbedPane5)
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3856,7 +3907,6 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jLabelMinY.setText("-128");
 
         jSliderSourceScale.setMajorTickSpacing(1);
-        jSliderSourceScale.setMaximum(25);
         jSliderSourceScale.setMinimum(1);
         jSliderSourceScale.setMinorTickSpacing(1);
         jSliderSourceScale.setOrientation(javax.swing.JSlider.VERTICAL);
@@ -3987,7 +4037,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         jTextFieldVectorCount.setText("0");
         jTextFieldVectorCount.setPreferredSize(new java.awt.Dimension(0, 21));
         jPanel18.add(jTextFieldVectorCount);
-        jTextFieldVectorCount.setBounds(180, 350, 30, 21);
+        jTextFieldVectorCount.setBounds(170, 350, 40, 21);
 
         singleVectorPanel1.setMaximumSize(new java.awt.Dimension(300, 300));
         singleVectorPanel1.setMinimumSize(new java.awt.Dimension(300, 300));
@@ -4233,22 +4283,22 @@ public class VeccyPanel extends javax.swing.JPanel implements
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel6Layout.createSequentialGroup()
                             .addComponent(jSliderSourceScale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel6Layout.createSequentialGroup()
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jPanelScroller, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addGap(2, 2, 2)
-                                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabelMinY, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabelY0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabelMaxY))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButtonSingleEditor1))
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButtonSingleEditor)))))
+                                .addGroup(jPanel6Layout.createSequentialGroup()
+                                    .addGap(2, 2, 2)
+                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabelY0, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabelMaxY, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabelMinY, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jButtonSingleEditor1)
+                                        .addComponent(jButtonSingleEditor))
+                                    .addGap(5, 5, 5))))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                             .addGap(4, 4, 4)
                             .addComponent(jCheckBoxByteFrame))))
@@ -4274,12 +4324,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
                                 .addComponent(jPanelScroller, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(56, 56, 56)
                                 .addComponent(jLabelY0)
-                                .addGap(88, 88, 88)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabelMinY)
-                                    .addComponent(jButtonSingleEditor1))
+                                .addGap(32, 32, 32)
+                                .addComponent(jButtonSingleEditor1)
                                 .addGap(11, 11, 11)
-                                .addComponent(jButtonSingleEditor)))
+                                .addComponent(jButtonSingleEditor)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabelMinY)
+                                .addGap(31, 31, 31)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelScale))
                     .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -5385,7 +5436,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jButtonExport1ActionPerformed
 
     private void jButtonSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSave1ActionPerformed
-        String filename ="xml"+File.separator+"vectorlist";
+        String filename =Global.mainPathPrefix+"xml"+File.separator+"vectorlist";
         String saveName = VectorListFileChoserJPanel.showSavePanel(filename, "Save Vectorlist", false);
         if (saveName != null)
             saveCurrentList(saveName);
@@ -5393,7 +5444,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     String lastPath = "";
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
-        String filename ="xml"+File.separator+"vectorlist";
+        String filename =Global.mainPathPrefix+"xml"+File.separator+"vectorlist";
         String loadName = VectorListFileChoserJPanel.showLoadPanel(filename,"Load Vectorlist", false);
         if (loadName != null)
         {
@@ -5577,7 +5628,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }//GEN-LAST:event_jMenuItemDeleteNotSelectedActionPerformed
 
     private void jButtonSaveSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveSelectionActionPerformed
-        String filename ="xml"+File.separator+"vectorlist";
+        String filename =Global.mainPathPrefix+"xml"+File.separator+"vectorlist";
         String saveName = VectorListFileChoserJPanel.showSavePanel(filename, "Save selected Vectorlist", false);
         if (saveName != null)
         {
@@ -5595,7 +5646,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
 
     private void jButtonInsertVectorList(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertVectorList
        
-        String filename ="xml"+File.separator+"vectorlist";
+        String filename =Global.mainPathPrefix+"xml"+File.separator+"vectorlist";
         String loadName = VectorListFileChoserJPanel.showLoadPanel(filename,"Insert Vectorlist", false);
         if (loadName != null)
         {
@@ -5946,9 +5997,12 @@ public class VeccyPanel extends javax.swing.JPanel implements
         if (jCheckBoxAutoApply.isSelected()) applyChanges();
     }//GEN-LAST:event_jMenuItemPoint0ActionPerformed
 
+    
+        
+    
     private void jButtonAssembleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleActionPerformed
         
-        String filename = "tmp"+File.separator+"veccytmp.asm";
+        String filename = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.asm";
         de.malban.util.UtilityFiles.createTextFile(filename, jTextAreaResult.getText());
         startASM(filename);
     }//GEN-LAST:event_jButtonAssembleActionPerformed
@@ -5971,105 +6025,166 @@ public class VeccyPanel extends javax.swing.JPanel implements
         GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         String name = jTextFieldLabelListname.getText();
         if (name.trim().length() == 0) name = "VectorList";
-        String text = vl.createASMMov_Draw_VLc_a(true, name, jCheckBoxAddFactor.isSelected());
-        if (jCheckBoxAddFactor.isSelected())
+        
+        if (jCheckBoxCStyle.isSelected())
         {
-            text = "BLOW_UP EQU 1\n\n"+text;
+            String text = vl.createCMov_Draw_VLc_a(true, name, jCheckBoxAddFactor.isSelected(), jCheckBoxPCStyle.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "#define BLOW_UP 1\n\n"+text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
         }
-        
-        if (jCheckBoxRunnable.isSelected())
+        else
         {
-            Path template = Paths.get(".", "template", "vectorlistMov_Draw_VLc_a.template");
-            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-            main += "\nvData = "+name+"\n";
-            text = main +text;
+            String text = vl.createASMMov_Draw_VLc_a(true, name, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "BLOW_UP EQU 1\n\n"+text;
+            }
+
+            if (jCheckBoxRunnable.isSelected())
+            {
+                Path template = Paths.get(Global.mainPathPrefix, "template", "vectorlistMov_Draw_VLc_a.template");
+                String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                main += "\nvData = "+name+"\n";
+                text = main +text;
+            }
+
+
+            jTextAreaResult.setText(text);
+            copy(text);
+            checkAssemblerButton();
         }
-        
-        
-        jTextAreaResult.setText(text);
-        copy(text);
-        checkAssemblerButton();
     }//GEN-LAST:event_jButtonMov_Draw_VLc_aActionPerformed
 
     private void jButtonDraw_VLcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_VLcActionPerformed
         GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         String name = jTextFieldLabelListname.getText();
         if (name.trim().length() == 0) name = "VectorList";
-        String text = vl.createASMMov_Draw_VLc_a(false, name, jCheckBoxAddFactor.isSelected());
-        if (jCheckBoxAddFactor.isSelected())
+
+        if (jCheckBoxCStyle.isSelected())
         {
-            text = "BLOW_UP EQU 1\n\n"+text;
+            String text = vl.createCMov_Draw_VLc_a(false, name, jCheckBoxAddFactor.isSelected(), jCheckBoxPCStyle.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "#define BLOW_UP 1\n\n"+text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
         }
-        if (jCheckBoxRunnable.isSelected())
+        else
         {
-            Path template = Paths.get(".", "template", "vectorlistDraw_VLc.template");
-            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-            main += "\nvData = "+name+"\n";
-            text = main +text;
+            String text = vl.createASMMov_Draw_VLc_a(false, name, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "BLOW_UP EQU 1\n\n"+text;
+            }
+            if (jCheckBoxRunnable.isSelected())
+            {
+                Path template = Paths.get(Global.mainPathPrefix, "template", "vectorlistDraw_VLc.template");
+                String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                main += "\nvData = "+name+"\n";
+                text = main +text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
+            checkAssemblerButton();            
         }
-        jTextAreaResult.setText(text);
-        copy(text);
-        checkAssemblerButton();
+        
+
     }//GEN-LAST:event_jButtonDraw_VLcActionPerformed
 
     private void jButtonDraw_VLpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_VLpActionPerformed
         GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         String name = jTextFieldLabelListname.getText();
         if (name.trim().length() == 0) name = "VectorList";
-        String text = vl.createASMDraw_VLp(name, jCheckBoxAddFactor.isSelected());
-        if (jCheckBoxAddFactor.isSelected())
+        
+        if (jCheckBoxCStyle.isSelected())
         {
-            text = "BLOW_UP EQU 1\n\n"+text;
+            String text = vl.createCDraw_VLp(name, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "#define BLOW_UP 1\n\n"+text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
         }
-        if (jCheckBoxRunnable.isSelected())
+        else
         {
-            Path template = Paths.get(".", "template", "vectorlistDraw_VLp.template");
-            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-            main += "\nvData = "+name+"\n";
-            text = main +text;
+            String text = vl.createASMDraw_VLp(name, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "BLOW_UP EQU 1\n\n"+text;
+            }
+            if (jCheckBoxRunnable.isSelected())
+            {
+                Path template = Paths.get(Global.mainPathPrefix, "template", "vectorlistDraw_VLp.template");
+                String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                main += "\nvData = "+name+"\n";
+                text = main +text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
+            checkAssemblerButton();        
         }
-        jTextAreaResult.setText(text);
-        copy(text);
-        checkAssemblerButton();
+        
+
     }//GEN-LAST:event_jButtonDraw_VLpActionPerformed
 
     private void jButtonDraw_VL_modeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_VL_modeActionPerformed
         GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
         String name = jTextFieldLabelListname.getText();
         if (name.trim().length() == 0) name = "VectorList";
-        if (jCheckBoxVec32.isSelected())
+        if (jCheckBoxCStyle.isSelected())
         {
-            String text = vl.createASMDraw_VL_modeBASIC(name);
+            String text = vl.createCDraw_VL_mode(name, false, jCheckBoxAddFactor.isSelected(), jCheckBoxPCStyle.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "#define BLOW_UP 1\n\n"+text;
+            }
+
+            jTextAreaResult.setText(text);
             copy(text);
-            
+        }
+        else
+        {
+            if (jCheckBoxVec32.isSelected())
+            {
+                String text = vl.createASMDraw_VL_modeBASIC(name);
+                copy(text);
+
+                if (jCheckBoxRunnable.isSelected())
+                {
+                    text = "function getVectorList()\n" + text + "\n     return VectorList\nendfunction\n";
+                    Path template = Paths.get(Global.mainPathPrefix, "template", "drawVectorlist.bas");
+                    String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                    text = main +"\n"+text;
+                }
+
+                jTextAreaResult.setText(text);
+                return;
+            }
+            String text = vl.createASMDraw_VL_mode(name, false, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "BLOW_UP EQU 1\n\n"+text;
+            }
+
             if (jCheckBoxRunnable.isSelected())
             {
-                text = "function getVectorList()\n" + text + "\n     return VectorList\nendfunction\n";
-                Path template = Paths.get(".", "template", "drawVectorlist.bas");
+                Path template = Paths.get(Global.mainPathPrefix, "template", "vectorlistDraw_VL_mode.template");
                 String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-                text = main +"\n"+text;
+                main += "\nvData = "+name+"\n";
+                text = main +text;
             }
-            
+
             jTextAreaResult.setText(text);
-            return;
+            copy(text);
+            checkAssemblerButton();
         }
-        String text = vl.createASMDraw_VL_mode(name, false, jCheckBoxAddFactor.isSelected());
-        if (jCheckBoxAddFactor.isSelected())
-        {
-            text = "BLOW_UP EQU 1\n\n"+text;
-        }
-        
-        if (jCheckBoxRunnable.isSelected())
-        {
-            Path template = Paths.get(".", "template", "vectorlistDraw_VL_mode.template");
-            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-            main += "\nvData = "+name+"\n";
-            text = main +text;
-        }
-        
-        jTextAreaResult.setText(text);
-        copy(text);
-        checkAssemblerButton();
+
     }//GEN-LAST:event_jButtonDraw_VL_modeActionPerformed
 
     private void jButtonMov_Draw_VLc_aAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMov_Draw_VLc_aAnimActionPerformed
@@ -6081,29 +6196,43 @@ public class VeccyPanel extends javax.swing.JPanel implements
             else
                 name = "SceneList";
         }
-        String text = currentAnimation.createASMMov_Draw_VLc_a(name, jCheckBoxAddFactor.isSelected());
-        if (jCheckBoxAddFactor.isSelected())
-        {
-            text = "BLOW_UP EQU 1\n\n"+text;
-        }
-
-        if (jCheckBoxRunnable.isSelected())
-        {
-            Path template;
-            if (currentAnimation.isAnimation)
-                template = Paths.get(".", "template", "animationMov_Draw_VLc_a.template");
-            else
-                template = Paths.get(".", "template", "scenarioMov_Draw_VLc_a.template");
-                
-            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-            main += "\nvData = "+name+"\n";
-            main += "vDataLength = "+currentAnimation.size()+"\n";
-            text = main +text;
-        }
         
-        jTextAreaResult.setText(text);
-        copy(text);
-        checkAssemblerButton();
+        if (jCheckBoxCStyle.isSelected())
+        {
+            String text = currentAnimation.createCMov_Draw_VLc_a(name, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "#define BLOW_UP 1\n\n"+text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
+        }
+        else
+        {
+            String text = currentAnimation.createASMMov_Draw_VLc_a(name, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "BLOW_UP EQU 1\n\n"+text;
+            }
+
+            if (jCheckBoxRunnable.isSelected())
+            {
+                Path template;
+                if (currentAnimation.isAnimation)
+                    template = Paths.get(Global.mainPathPrefix, "template", "animationMov_Draw_VLc_a.template");
+                else
+                    template = Paths.get(Global.mainPathPrefix, "template", "scenarioMov_Draw_VLc_a.template");
+
+                String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                main += "\nvData = "+name+"\n";
+                main += "vDataLength = "+currentAnimation.size()+"\n";
+                text = main +text;
+            }
+
+            jTextAreaResult.setText(text);
+            copy(text);
+            checkAssemblerButton();            
+        }
     }//GEN-LAST:event_jButtonMov_Draw_VLc_aAnimActionPerformed
 
     private void jButtonDraw_VLcAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_VLcAnimActionPerformed
@@ -6116,30 +6245,42 @@ public class VeccyPanel extends javax.swing.JPanel implements
             else
                 name = "SceneList";
         }
+        if (jCheckBoxCStyle.isSelected())
+        {
+            String text = currentAnimation.createCDraw_VLc(name, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "#define BLOW_UP 1\n\n"+text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
+        }
+        else
+        {
+            String text = currentAnimation.createASMDraw_VLc(name, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "BLOW_UP EQU 1\n\n"+text;
+            }
 
-        String text = currentAnimation.createASMDraw_VLc(name, jCheckBoxAddFactor.isSelected());
-        if (jCheckBoxAddFactor.isSelected())
-        {
-            text = "BLOW_UP EQU 1\n\n"+text;
+            if (jCheckBoxRunnable.isSelected())
+            {
+                Path template;
+                if (currentAnimation.isAnimation)
+                    template = Paths.get(Global.mainPathPrefix, "template", "animationDraw_VLc.template");
+                else
+                    template = Paths.get(Global.mainPathPrefix, "template", "scenarioDraw_VLc.template");
+
+                String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                main += "\nvData = "+name+"\n";
+                main += "vDataLength = "+currentAnimation.size()+"\n";
+                text = main +text;
+            }
+
+            jTextAreaResult.setText(text);
+            copy(text);
+            checkAssemblerButton();
         }
-        
-        if (jCheckBoxRunnable.isSelected())
-        {
-            Path template;
-            if (currentAnimation.isAnimation)
-                template = Paths.get(".", "template", "animationDraw_VLc.template");
-            else
-                template = Paths.get(".", "template", "scenarioDraw_VLc.template");
-                
-            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-            main += "\nvData = "+name+"\n";
-            main += "vDataLength = "+currentAnimation.size()+"\n";
-            text = main +text;
-        }
-        
-        jTextAreaResult.setText(text);
-        copy(text);
-        checkAssemblerButton();
     }//GEN-LAST:event_jButtonDraw_VLcAnimActionPerformed
 
     private void jButtonDraw_VLpAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_VLpAnimActionPerformed
@@ -6153,29 +6294,43 @@ public class VeccyPanel extends javax.swing.JPanel implements
                 name = "SceneList";
         }
 
-        String text = currentAnimation.createASMDraw_VLp(name, jCheckBoxAddFactor.isSelected());
-        if (jCheckBoxAddFactor.isSelected())
+        if (jCheckBoxCStyle.isSelected())
         {
-            text = "BLOW_UP EQU 1\n\n"+text;
-        }
+            String text = currentAnimation.createCDraw_VLp(name, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "#define BLOW_UP 1\n\n"+text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
         
-        if (jCheckBoxRunnable.isSelected())
+        }
+        else
         {
-            Path template;
-            if (currentAnimation.isAnimation)
-                template = Paths.get(".", "template", "animationDraw_VLp.template");
-            else
-                template = Paths.get(".", "template", "scenarioDraw_VLp.template");
-                
-            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-            main += "\nvData = "+name+"\n";
-            main += "vDataLength = "+currentAnimation.size()+"\n";
-            text = main +text;
+            String text = currentAnimation.createASMDraw_VLp(name, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "BLOW_UP EQU 1\n\n"+text;
+            }
+
+            if (jCheckBoxRunnable.isSelected())
+            {
+                Path template;
+                if (currentAnimation.isAnimation)
+                    template = Paths.get(Global.mainPathPrefix, "template", "animationDraw_VLp.template");
+                else
+                    template = Paths.get(Global.mainPathPrefix, "template", "scenarioDraw_VLp.template");
+
+                String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                main += "\nvData = "+name+"\n";
+                main += "vDataLength = "+currentAnimation.size()+"\n";
+                text = main +text;
+            }
+
+            jTextAreaResult.setText(text);
+            copy(text);
+            checkAssemblerButton();            
         }
-        
-        jTextAreaResult.setText(text);
-        copy(text);
-        checkAssemblerButton();
     }//GEN-LAST:event_jButtonDraw_VLpAnimActionPerformed
 
     private void jButtonDraw_VL_modeAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_VL_modeAnimActionPerformed
@@ -6188,29 +6343,42 @@ public class VeccyPanel extends javax.swing.JPanel implements
             else
                 name = "SceneList";
         }
+        if (jCheckBoxCStyle.isSelected())
+        {
+            String text = currentAnimation.createCDraw_VL_mode(name, true, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "#define BLOW_UP 1\n\n"+text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
+        }
+        else
+        {
+            String text = currentAnimation.createASMDraw_VL_mode(name, true, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "BLOW_UP EQU 1\n\n"+text;
+            }
+            if (jCheckBoxRunnable.isSelected())
+            {
+                Path template;
+                if (currentAnimation.isAnimation)
+                    template = Paths.get(Global.mainPathPrefix, "template", "animationDraw_VL_mode.template");
+                else
+                    template = Paths.get(Global.mainPathPrefix, "template", "scenarioDraw_VL_mode.template");
 
-        String text = currentAnimation.createASMDraw_VL_mode(name, true, jCheckBoxAddFactor.isSelected());
-        if (jCheckBoxAddFactor.isSelected())
-        {
-            text = "BLOW_UP EQU 1\n\n"+text;
+                String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                main += "\nvData = "+name+"\n";
+                main += "vDataLength = "+currentAnimation.size()+"\n";
+                text = main +text;
+            }
+            jTextAreaResult.setText(text);
+
+            copy(text);
+            checkAssemblerButton();            
         }
-        if (jCheckBoxRunnable.isSelected())
-        {
-            Path template;
-            if (currentAnimation.isAnimation)
-                template = Paths.get(".", "template", "animationDraw_VL_mode.template");
-            else
-                template = Paths.get(".", "template", "scenarioDraw_VL_mode.template");
-                
-            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-            main += "\nvData = "+name+"\n";
-            main += "vDataLength = "+currentAnimation.size()+"\n";
-            text = main +text;
-        }
-        jTextAreaResult.setText(text);
-        
-        copy(text);
-        checkAssemblerButton();
+
     }//GEN-LAST:event_jButtonDraw_VL_modeAnimActionPerformed
 
     private void jButtonUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUndoActionPerformed
@@ -6269,12 +6437,10 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
         VediPanel p = new VediPanel(false);        
         p.setTreeVisible(false);
-        frame.addPanel(p);
-        frame.setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame f = frame.windowMe(p, 1024, 768, VediPanel.SID);
         
+        frame.addAsWindow(p, 1024, 768, VediPanel.SID);
         
-        String tmpFile = "tmp"+File.separator+"veccyAsm.asm";
+        String tmpFile = Global.mainPathPrefix+"tmp"+File.separator+"veccyAsm.asm";
         de.malban.util.UtilityFiles.createTextFile(tmpFile, jTextAreaResult.getText());
         p.addTempEditFile(tmpFile);
         
@@ -6288,18 +6454,16 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
         VediPanel p = new VediPanel(false);        
         p.setTreeVisible(false);
-        frame.addPanel(p);
-        frame.setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame f = frame.windowMe(p, 1024, 768, VediPanel.SID);
+        frame.addAsWindow(p, 1024, 768, VediPanel.SID);
         
         
-        String tmpFile = "tmp"+File.separator+"veccyAsm.asm";
+        String tmpFile = Global.mainPathPrefix+"tmp"+File.separator+"veccyAsm.asm";
         de.malban.util.UtilityFiles.createTextFile(tmpFile, jTextAreaResult1.getText());
         p.addTempEditFile(tmpFile);
     }//GEN-LAST:event_jButtonEditInVedi1ActionPerformed
 
     private void jButtonAssemble1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssemble1ActionPerformed
-        String filename = "tmp"+File.separator+"veccytmp.asm";
+        String filename = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.asm";
         de.malban.util.UtilityFiles.createTextFile(filename, jTextAreaResult1.getText());
         startASM(filename);
     }//GEN-LAST:event_jButtonAssemble1ActionPerformed
@@ -6316,7 +6480,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
         if (jCheckBoxRunnable1.isSelected())
         {
-            Path template = Paths.get(".", "template", "vectorlistCodeGen.template");
+            Path template = Paths.get(Global.mainPathPrefix, "template", "vectorlistCodeGen.template");
             String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
             main += "\nvData = "+name+"\n";
             text = main +text;
@@ -6343,9 +6507,9 @@ public class VeccyPanel extends javax.swing.JPanel implements
         {
             Path template;
             if (currentAnimation.isAnimation)
-                template = Paths.get(".", "template", "animationCodeGen.template");
+                template = Paths.get(Global.mainPathPrefix, "template", "animationCodeGen.template");
             else
-                template = Paths.get(".", "template", "scenarioCodeGen.template");
+                template = Paths.get(Global.mainPathPrefix, "template", "scenarioCodeGen.template");
                 
             String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
             main += "\nvData = "+name+"\n";
@@ -6489,29 +6653,50 @@ public class VeccyPanel extends javax.swing.JPanel implements
         String name = jTextFieldLabelListname.getText();
         if (name.trim().length() == 0) name = "VectorList";
         
-        StringBuilder t1 = new StringBuilder();
-        vl.createASMDraw_syncList(t1, name, jCheckBoxAddFactor.isSelected(), resync,jCheckBoxextendedList.isSelected(), de.malban.util.UtilityString.IntX(jTextFieldNeedSplit.getText(),127));
-        
-        String text = t1.toString();
+        if (jCheckBoxCStyle.isSelected())
+        {
+            StringBuilder t1 = new StringBuilder();
+            vl.createCDraw_syncList(t1, name, jCheckBoxAddFactor.isSelected(), resync,jCheckBoxextendedList.isSelected(), de.malban.util.UtilityString.IntX(jTextFieldNeedSplit.getText(),127));
+            String text = t1.toString();
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "#define BLOW_UP 1\n\n"+text;
+            }
 
-        if (jCheckBoxAddFactor.isSelected())
-        {
-            text = "BLOW_UP EQU 1\n\n"+text;
-        }
-        if (jCheckBoxRunnable.isSelected())
-        {
-            Path template = Paths.get(".", "template", "vectorlistDraw_sync.template");
-            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-            main += "\nvData = "+name+"\n";
-            
-            text = main +text;
+            jTextAreaResult.setText(text);
+            copy(text);
         }
         
-        jTextAreaResult.setText(text);
-        copy(text);
-        checkAssemblerButton();
+        else
+        {
+            StringBuilder t1 = new StringBuilder();
+            vl.createASMDraw_syncList(t1, name, jCheckBoxAddFactor.isSelected(), resync,jCheckBoxextendedList.isSelected(), de.malban.util.UtilityString.IntX(jTextFieldNeedSplit.getText(),127));
+
+            String text = t1.toString();
+
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "BLOW_UP EQU 1\n\n"+text;
+            }
+            if (jCheckBoxRunnable.isSelected())
+            {
+                Path template = Paths.get(Global.mainPathPrefix, "template", "vectorlistDraw_sync.template");
+                String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                main += "\nvData = "+name+"\n";
+
+                text = main +text;
+            }
+
+            jTextAreaResult.setText(text);
+            copy(text);
+            checkAssemblerButton();            
+        }
+        
+
     }//GEN-LAST:event_jButtonDraw_syncListActionPerformed
 
+      
+    
     private void jCheckBoxAutoEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxAutoEditActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxAutoEditActionPerformed
@@ -6529,40 +6714,55 @@ public class VeccyPanel extends javax.swing.JPanel implements
             else
                 name = "SceneList";
         }
-        StringBuilder t1 = new StringBuilder();
-        currentAnimation.createASMDraw_syncList(t1, name, jCheckBoxAddFactor.isSelected(), resync, jCheckBoxExtendedAnimSync.isSelected(), de.malban.util.UtilityString.IntX(jTextFieldNeedSplit.getText(),127), jCheckBoxNoSyncOpt.isSelected());
-        String text=            t1.toString();
-        if (jCheckBoxAddFactor.isSelected())
+        if (jCheckBoxCStyle.isSelected())
         {
-            text = "BLOW_UP EQU 1\n\n"+t1.toString();
+            StringBuilder t1 = new StringBuilder();
+            currentAnimation.createCDraw_syncList(t1, name, jCheckBoxAddFactor.isSelected(), resync, jCheckBoxExtendedAnimSync.isSelected(), de.malban.util.UtilityString.IntX(jTextFieldNeedSplit.getText(),127), jCheckBoxNoSyncOpt.isSelected());
+            String text= t1.toString();
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "#define BLOW_UP 1\n\n"+text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
         }
-        if (jCheckBoxRunnable.isSelected())
+        else
         {
-            Path template;
-            if (jCheckBoxExtendedAnimSync.isSelected())
+            StringBuilder t1 = new StringBuilder();
+            currentAnimation.createASMDraw_syncList(t1, name, jCheckBoxAddFactor.isSelected(), resync, jCheckBoxExtendedAnimSync.isSelected(), de.malban.util.UtilityString.IntX(jTextFieldNeedSplit.getText(),127), jCheckBoxNoSyncOpt.isSelected());
+            String text=            t1.toString();
+            if (jCheckBoxAddFactor.isSelected())
             {
-                if (currentAnimation.isAnimation)
-                    template = Paths.get(".", "template", "animationDraw_esync.template");
-                else
-                    template = Paths.get(".", "template", "scenarioDraw_esync.template");
+                text = "BLOW_UP EQU 1\n\n"+t1.toString();
             }
-            else
+            if (jCheckBoxRunnable.isSelected())
             {
-                if (currentAnimation.isAnimation)
-                    template = Paths.get(".", "template", "animationDraw_sync.template");
+                Path template;
+                if (jCheckBoxExtendedAnimSync.isSelected())
+                {
+                    if (currentAnimation.isAnimation)
+                        template = Paths.get(Global.mainPathPrefix, "template", "animationDraw_esync.template");
+                    else
+                        template = Paths.get(Global.mainPathPrefix, "template", "scenarioDraw_esync.template");
+                }
                 else
-                    template = Paths.get(".", "template", "scenarioDraw_sync.template");
+                {
+                    if (currentAnimation.isAnimation)
+                        template = Paths.get(Global.mainPathPrefix, "template", "animationDraw_sync.template");
+                    else
+                        template = Paths.get(Global.mainPathPrefix, "template", "scenarioDraw_sync.template");
+                }
+
+                String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                main += "\nvData = "+name+"\n";
+                main += "vDataLength = "+currentAnimation.size()+"\n";
+                text = main +text;
             }
-                
-            String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-            main += "\nvData = "+name+"\n";
-            main += "vDataLength = "+currentAnimation.size()+"\n";
-            text = main +text;
+            jTextAreaResult.setText(text);
+
+            copy(text);
+            checkAssemblerButton();   
         }
-        jTextAreaResult.setText(text);
-        
-        copy(text);
-        checkAssemblerButton();        
     }//GEN-LAST:event_jButtonDraw_syncListAnimActionPerformed
 
     private void jButtonEnlarge1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnlarge1ActionPerformed
@@ -6800,7 +7000,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         fc.setMultiSelectionEnabled(true);
         if (lastImagePath.length()==0)
         {
-            lastImagePath="."+File.separator;
+            lastImagePath=Global.mainPathPrefix+File.separator;
             fc.setCurrentDirectory(new java.io.File(lastImagePath));
         }
         else
@@ -6962,7 +7162,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jButtonLoad3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoad3ActionPerformed
         String name = GetSVGFilenamePanel.showEnterValueDialog();
         name = name+".svg";
-        String filename ="xml"+File.separator+"vectorlist";
+        String filename =Global.mainPathPrefix+"xml"+File.separator+"vectorlist";
         name = filename+File.separator+name;
         GFXVectorList vl = singleVectorPanel1.getForegroundVectorList().clone();
         
@@ -7163,7 +7363,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         {
             String orgname = GetOBJFilenamePanel.showEnterValueDialog();
             String name = orgname+".obj";
-            String filename ="xml"+File.separator+"vectorlist";
+            String filename =Global.mainPathPrefix+"xml"+File.separator+"vectorlist";
             name = filename+File.separator+name;
             GFXVectorList vl = singleVectorPanel1.getForegroundVectorList().clone();
 
@@ -7309,6 +7509,15 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private void jButtonJoin2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonJoin2ActionPerformed
         StoryboardPanelNew.showModPanelNoModal(this);
     }//GEN-LAST:event_jButtonJoin2ActionPerformed
+
+    private void jCheckBoxPCStyleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPCStyleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBoxPCStyleActionPerformed
+
+    private void jButtonDraw_syncList1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDraw_syncList1ActionPerformed
+
+        try3dOut();
+    }//GEN-LAST:event_jButtonDraw_syncList1ActionPerformed
 
     void closeSingleVecciPanel()
     {
@@ -7818,6 +8027,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JButton jButtonDraw_VLp;
     private javax.swing.JButton jButtonDraw_VLpAnim;
     private javax.swing.JButton jButtonDraw_syncList;
+    private javax.swing.JButton jButtonDraw_syncList1;
     private javax.swing.JButton jButtonDraw_syncListAnim;
     private javax.swing.JButton jButtonEditInVedi;
     private javax.swing.JButton jButtonEditInVedi1;
@@ -7883,6 +8093,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox2dOnly;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox3dDots;
+    private javax.swing.JCheckBox jCheckBox3ds;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JCheckBox jCheckBoxAddFactor;
@@ -7891,6 +8102,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBoxAutoEdit;
     private javax.swing.JCheckBox jCheckBoxAvoidMoreThan2;
     private javax.swing.JCheckBox jCheckBoxByteFrame;
+    private javax.swing.JCheckBox jCheckBoxCStyle;
     private javax.swing.JCheckBox jCheckBoxContinue;
     private javax.swing.JCheckBox jCheckBoxDisplayAxis;
     private javax.swing.JCheckBox jCheckBoxDragVectors;
@@ -7906,6 +8118,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBoxMulti;
     private javax.swing.JCheckBox jCheckBoxNoSyncOpt;
     private javax.swing.JCheckBox jCheckBoxOnePath;
+    private javax.swing.JCheckBox jCheckBoxPCStyle;
     private javax.swing.JCheckBox jCheckBoxPointsOk;
     private javax.swing.JCheckBox jCheckBoxPosition;
     private javax.swing.JCheckBox jCheckBoxRespectZero;
@@ -8412,7 +8625,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     
     boolean saveAnimation()
     {
-        String filename ="xml"+File.separator+"vectoranimation";
+        String filename =Global.mainPathPrefix+"xml"+File.separator+"vectoranimation";
         String saveName = VectorListFileChoserJPanel.showSavePanel(filename, "Save Vector-Animation", true);
         if (saveName != null)
         {
@@ -8448,7 +8661,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
     }
     boolean loadAnimation()
     {
-        String filename ="xml"+File.separator+"vectoranimation";
+        String filename =Global.mainPathPrefix+"xml"+File.separator+"vectoranimation";
         String loadName = VectorListFileChoserJPanel.showSavePanel(filename, "Load Vector-Animation", true);
         selectedAnimationFrameUID = -1;
         preSelectedAnimationFrameUID = -1;
@@ -9064,12 +9277,13 @@ public class VeccyPanel extends javax.swing.JPanel implements
     
     protected boolean loadPatterns()
     {
+        
         mClassSetting++;
         jComboBoxPatterns.setModel(new DefaultComboBoxModel(knownPatterns));
         mClassSetting--;
         try
         {
-            knownPatterns = (Vector<PatternInfo>) CSAMainFrame.deserialize("serialize"+File.separator+"PatternInfo.ser");
+            knownPatterns = (Vector<PatternInfo>) CSAMainFrame.deserialize(Global.mainPathPrefix+"serialize"+File.separator+"PatternInfo.ser");
             if (knownPatterns == null) 
             {
                 knownPatterns = new Vector<PatternInfo>();
@@ -9104,7 +9318,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
         
         try
         {
-            CSAMainFrame.serialize(knownPatterns, "serialize"+File.separator+"PatternInfo.ser");
+            CSAMainFrame.serialize(knownPatterns, Global.mainPathPrefix+"serialize"+File.separator+"PatternInfo.ser");
         }
         catch (Throwable e)
         {
@@ -9428,7 +9642,7 @@ public class VeccyPanel extends javax.swing.JPanel implements
             ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
 
-            String fname = "tmp"+File.separator+"veccytmp.bin";
+            String fname = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.bin";
             vec.startUp(fname);
             log.addLog("Vecci-Assembly successfull...", INFO);
         }
@@ -10255,6 +10469,44 @@ public class VeccyPanel extends javax.swing.JPanel implements
         fillStatus();
         if (jCheckBoxAutoApply.isSelected()) applyChanges();        
     }
+    public void deIconified() { }
+
+    private void try3dOut()
+    {
+        GFXVectorList vl = singleVectorPanel1.getForegroundVectorList();
+        String name = jTextFieldLabelListname.getText();
+        if (name.trim().length() == 0) name = "VectorList";
+
+        if (jCheckBoxCStyle.isSelected())
+        {
+            String text = vl.createC3dPattern(name, jCheckBoxAddFactor.isSelected(), jCheckBox3ds.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "#define BLOW_UP 1\n\n"+text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
+        }
+        else
+        {
+            String text = vl.createASMMov_Draw_VLc_a(false, name, jCheckBoxAddFactor.isSelected());
+            if (jCheckBoxAddFactor.isSelected())
+            {
+                text = "BLOW_UP EQU 1\n\n"+text;
+            }
+            if (jCheckBoxRunnable.isSelected())
+            {
+                Path template = Paths.get(Global.mainPathPrefix, "template", "vectorlistDraw_VLc.template");
+                String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+                main += "\nvData = "+name+"\n";
+                text = main +text;
+            }
+            jTextAreaResult.setText(text);
+            copy(text);
+            checkAssemblerButton();            
+        }        
+    }
+    
 
 }
 

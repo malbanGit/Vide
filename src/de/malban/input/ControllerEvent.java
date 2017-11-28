@@ -48,7 +48,8 @@ public class ControllerEvent
     public int currentAxisPercent = 50;
     public int currentPOV = OFF;
     public float currentRelative = 0F;
-
+    public boolean isRelative = false;
+    
     public int index = -1;
     
     public String toString()

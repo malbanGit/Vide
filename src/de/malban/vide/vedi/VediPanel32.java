@@ -12,6 +12,7 @@ import static com.fazecast.jSerialComm.SerialPort.NO_PARITY;
 import static com.fazecast.jSerialComm.SerialPort.ONE_STOP_BIT;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
+import de.malban.Global;
 import de.malban.gui.HotKey;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
@@ -31,6 +32,7 @@ import static de.malban.vide.script.ExecutionDescriptor.*;
 import de.malban.vide.script.*;
 import static de.malban.vide.vecx.VecX.START_TYPE_DEBUG;
 import static de.malban.vide.vecx.VecX.START_TYPE_RUN;
+import static de.malban.vide.vedi.VediPanel.convertSeperator;
 import de.malban.vide.vedi.project.FileProperties;
 import de.malban.vide.vedi.project.FilePropertiesPanel;
 import de.malban.vide.vedi.project.FilePropertiesPool;
@@ -108,7 +110,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     TreePath selectedTreePath = null;
     DefaultMutableTreeNode root = null;
     static ArrayList<VediPanel32> listVedi = new ArrayList<VediPanel32>();
-    Path currentStartPath = Paths.get(".");
+    Path currentStartPath = Paths.get(Global.mainPathPrefix);
 
     
     int startTypeRun = START_TYPE_RUN;
@@ -234,7 +236,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         }
         ubxPort = null;
         jLabel10.setText("not connected");
-        jLabel10.setForeground(Color.red);
+        jLabel10.setForeground(config.valueChanged);
         settings.pos2 = jSplitPane2.getDividerLocation();
         settings.pos1 = jSplitPane1.getDividerLocation();
         saveSettings();
@@ -289,19 +291,17 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
                 ArrayList<EditorFileSettings> toRemove = new ArrayList<EditorFileSettings>();
                 for (EditorFileSettings fn: settings.currentOpenFiles)
                 {
-                    EditorPanel edi = addEditor(fn.filename, false);
-                    edi.setPosition(fn.position);
-                    oneTimeTab = null;
+                    EditorPanel edi = addEditor(Global.mainPathPrefix+convertSeperator(fn.filename), false);
                     if (edi == null)
                     {
                         // error while loading, remove file from current
                         toRemove. add(fn); 
+                        continue;
                     }
-                    else
-                    {
-                        edi.setBasic(true);
-                        lastLoadedFile = fn.filename;
-                    }
+                    lastLoadedFile = fn.filename;
+                    edi.setPosition(fn.position);
+                    oneTimeTab = null;                    
+                    edi.setBasic(true);
                 }
                 for (EditorFileSettings fn: toRemove) settings.currentOpenFiles.remove(fn);
             }
@@ -324,7 +324,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             if (settings.vec32UsbMount.length()>0)
                 fillTree(Paths.get(settings.vec32UsbMount));
             else
-                fillTree(Paths.get("."+File.separator));
+                fillTree(Paths.get(Global.mainPathPrefix+File.separator));
             
         }
 
@@ -429,10 +429,16 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         String name = "edi";
         Path path = Paths.get(fullPathname);
         name = path.getFileName().toString();
+        
+        String settingsRel = de.malban.util.Utility.makeRelative(fullPathname);
+        String settingsAbs = de.malban.util.Utility.makeAbsolut(fullPathname);
+        if (!convertSeperator(fullPathname).toLowerCase().contains(Global.mainPathPrefix.toLowerCase()))
+        {
+            settingsAbs = de.malban.util.Utility.makeAbsolut(Global.mainPathPrefix+fullPathname);
+        }
+        
         if (addToSettings)
         {
-            String settingsRel = de.malban.util.Utility.makeRelative(fullPathname);
-            String settingsAbs = de.malban.util.Utility.makeAbsolut(fullPathname);
             if (settings.currentOpenFiles.contains(settingsAbs))
             {
                 return null;
@@ -1305,7 +1311,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         
         if (lastPath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -1544,7 +1550,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         }
         if (lastPath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -1637,13 +1643,14 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         if (test.exists())
         {
             
+            pathOnly = de.malban.util.Utility.makeRelative(pathOnly);
             FilePropertiesPool pool = new FilePropertiesPool(pathOnly+File.separator, test.getName());
             FileProperties fileProperties =  pool.get(filenameOnly);
             if (fileProperties!=null)
             {
                 if (fileProperties.getFilename().endsWith(filenameOnly))
                 {
-                    de.malban.util.UtilityFiles.deleteFile(pathOnly+File.separator+ filenameBaseOnly+"FileProperty.xml");
+                    de.malban.util.UtilityFiles.deleteFile(Global.mainPathPrefix+pathOnly+File.separator+ filenameBaseOnly+"FileProperty.xml");
                 }
             }
         }
@@ -1684,6 +1691,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         if (test.exists())
         {
             String pathOnly = test.getParent().toString();
+            pathOnly = de.malban.util.Utility.makeRelative(pathOnly);  
             if (pathOnly.length()!=0) pathOnly+=File.separator;
             FilePropertiesPool pool = new FilePropertiesPool(pathOnly, test.getName());
 
@@ -1692,15 +1700,15 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
 
             String scriptClass = fileProperties.getActionScriptClass();
             String scriptName = fileProperties.getActionScriptName();
-            ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_ACTION, "", fileNameOnly, "VediPanel32", pathOnly);
+            ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_ACTION, "", fileNameOnly, "VediPanel32", Global.mainPathPrefix+pathOnly );
             if (!ScriptDataPanel.executeScript(scriptClass, scriptName, VediPanel32.this, ed))
             {
                 printWarning("Script for "+fileNameOnly+" returned with error!");
             }
         }
 
-        scanTreeDirectory(selectedTreeEntry);
-
+        scanTreeDirectory(selectedTreeEntry);        
+        
     }//GEN-LAST:event_jMenuItemActionActionPerformed
 
     private void jButtonClearMessagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearMessagesActionPerformed
@@ -2067,7 +2075,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     {
         try
         {
-            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("error"));
+            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("editLogError"));
         } catch (Throwable e) { }
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
     }
@@ -2310,7 +2318,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     int treeCount = 0;
     void fillTree()
     {
-        Path startpath = Paths.get(".","codelib");
+        Path startpath = Paths.get(Global.mainPathPrefix,"codelib");
         fillTree(startpath);
     }
     void fillTree(Path startpath)
@@ -2330,7 +2338,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         if (startpath.toString().equals(""+File.separator)) 
         {
             
-            startpath = Paths.get(".","");
+            startpath = Paths.get(Global.mainPathPrefix,"");
         }
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeEntry(startpath));
         addChildrenFile(root);
@@ -2542,7 +2550,9 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             File test = new File(start+ filenameBaseOnly+"FileProperty.xml");
             if (test.exists())
             {
-                FilePropertiesPool pool = new FilePropertiesPool(start, filenameBaseOnly+"FileProperty.xml");
+                String rel = de.malban.util.Utility.makeRelative(start);
+                if (rel.length()>0) rel = rel + File.separator;
+                FilePropertiesPool pool = new FilePropertiesPool(rel, filenameBaseOnly+"FileProperty.xml");
                 FileProperties fileProperties =  pool.get(filenameOnly);
                 if (fileProperties == null)
                 {
@@ -2573,7 +2583,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
                         nfilenameBaseOnly = nfilenameOnly;                    
                     
                     fileProperties.mName = nfilenameOnly;
-                    fileProperties.setFilename(npathFull);
+                    fileProperties.setFilename(de.malban.util.Utility.makeRelative(npathFull));
                     fileProperties.setTyp(ntype);
                     pool.put(fileProperties);
                     pool.save();
@@ -2659,7 +2669,11 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         {
             String pathOnly = test.getParent().toString();
             if (pathOnly.length()!=0) pathOnly+=File.separator;
-            FilePropertiesPool pool = new FilePropertiesPool(pathOnly, test.getName());
+            
+            String relOnly = de.malban.util.Utility.ensureRelative(pathOnly);
+            if (relOnly.length()!=0) relOnly+=File.separator;
+            
+            FilePropertiesPool pool = new FilePropertiesPool(relOnly, test.getName());
 
             FileProperties fileProperties =  pool.get(fileNameOnly);
             if (fileProperties == null) return false;
@@ -2797,10 +2811,10 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         pathOnly = p.getParent().toString();
         filenameOnly = p.getFileName().toString();
         boolean pic = false;
-        if (filenameOnly.endsWith(".gif"))pic = true;
-        if (filenameOnly.endsWith(".jpg"))pic = true;
-        if (filenameOnly.endsWith(".png"))pic = true;
-        if (filenameOnly.endsWith(".bmp"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".gif"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".jpg"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".png"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".bmp"))pic = true;
         if (!pic) 
         {
             printError("Selected entry does not have a known image extension!");
@@ -2861,10 +2875,11 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         pathOnly = p.getParent().toString();
         filenameOnly = p.getFileName().toString();
         boolean pic = false;
-        if (filenameOnly.endsWith(".gif"))pic = true;
-        if (filenameOnly.endsWith(".jpg"))pic = true;
-        if (filenameOnly.endsWith(".png"))pic = true;
-        if (filenameOnly.endsWith(".bmp"))pic = true;
+        
+        if (filenameOnly.toLowerCase().endsWith(".gif"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".jpg"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".png"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".bmp"))pic = true;
         if (!pic) 
         {
             printError("Selected entry does not have a known image extension!");
@@ -2876,7 +2891,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     public static boolean displayHelp(String h)
     {
         h = h.toLowerCase();
-        String path = "help"+File.separator;
+        String path = Global.mainPathPrefix+"help"+File.separator;
         
         String full = path+h+".html";
         File f = new File(full);
@@ -3121,7 +3136,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
             ubxPort.closePort();
             ubxPort = null;
             jLabel10.setText("not connected");
-            jLabel10.setForeground(Color.red);
+            jLabel10.setForeground(config.valueChanged);
         }
         ubxPort = ports[index];
         boolean openedSuccessfully = ubxPort.openPort();
@@ -3143,7 +3158,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
 
         ubxPort.addDataListener(listener);
         jLabel10.setText("connected");
-        jLabel10.setForeground(Color.green);
+        jLabel10.setForeground(config.valueNotChanged);
         refreshTree();
     }
     void runBas(String fname)
@@ -3201,7 +3216,7 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
     {
         DefaultMutableTreeNode node =  (DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent() ;
         if (node == null) return;
-        VediPanel.TreeEntry entry = (VediPanel.TreeEntry) node.getUserObject();
+        VediPanel32.TreeEntry entry = (VediPanel32.TreeEntry) node.getUserObject();
         if (entry == null) return;
         if (tabName.equals(tabName))
         {
@@ -3261,4 +3276,5 @@ public class VediPanel32 extends VEdiFoundationPanel implements TinyLogInterface
         // int rowHeight = fontSize+2;
         // jTable1.setRowHeight(rowHeight);
     }
+    public void deIconified()  {}
 }

@@ -1,6 +1,7 @@
 package de.malban.vide.vecx.cartridge;
 
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
@@ -473,14 +474,14 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
         setAllFromCurrent();
     }//GEN-LAST:event_jComboBoxNameActionPerformed
 
-    String lastImagePath="."+File.separator+"system"+File.separator;
+    String lastImagePath=Global.mainPathPrefix+"system"+File.separator;
     private void jButtonFileSelect3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect3ActionPerformed
 
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
         fc.setMultiSelectionEnabled(false);
         if (lastImagePath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("system"+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix+"system"+File.separator));
         }
         else
         {
@@ -523,4 +524,5 @@ public class SystemRomPanel extends javax.swing.JPanel implements Windowable{
     private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 
+    public void deIconified() { }
 }

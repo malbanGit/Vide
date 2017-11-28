@@ -9,10 +9,8 @@ import de.malban.config.Configuration;
 import de.malban.gui.TimingTriggerer;
 import de.malban.gui.TriggerCallback;
 import de.malban.gui.panels.LogPanel;
-import static de.malban.gui.panels.LogPanel.VERBOSE;
 import static de.malban.input.ControllerEvent.CONTROLLER_DISCONNECT;
 import java.util.ArrayList;
-import javax.swing.JToggleButton;
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
 
@@ -45,9 +43,11 @@ public class EventController
     private boolean isAvailable = true;
     
     private ArrayList<ControllerListern> mListener= new ArrayList<ControllerListern>();
-    
+
+    static TimingTriggerer timer;
     public EventController(Controller c)
     {
+        timer = TimingTriggerer.getTimer();
         setController(c);
     }
     /**
@@ -115,7 +115,6 @@ public class EventController
         // log.addLog(event+" fired", VERBOSE);
     }
     
-    static TimingTriggerer timer = TimingTriggerer.getTimer();
     TriggerCallback triggerCallback = new TriggerCallback()
     {
         public void doIt(int state, Object o)
@@ -232,6 +231,8 @@ public class EventController
                 event.currentRelative = mRelative.get(i).lastRelative;
                 event.currentValue = mRelative.get(i).lastValue;
                 event.index = i;
+                event.isRelative = true;
+
                 fireControllerChanged(event);
             }
         }

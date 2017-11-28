@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx.devices;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
@@ -219,7 +220,7 @@ public class WheelData implements Serializable{
     // as in combobox
     public static WheelData getWheel(String name)
     {
-        WheelData wheel = WheelData.loadWheel("xml"+File.separator+"wheels"+File.separator+name+".xml");
+        WheelData wheel = WheelData.loadWheel(Global.mainPathPrefix+"xml"+File.separator+"wheels"+File.separator+name+".xml");
         if (wheel == null) wheel = new WheelData();
         return wheel;
     }

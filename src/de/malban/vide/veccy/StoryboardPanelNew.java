@@ -5,6 +5,7 @@
  */
 package de.malban.vide.veccy;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.graphics.GFXVectorAnimation;
 import de.malban.gui.CSAMainFrame;
@@ -768,11 +769,9 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
 
         VediPanel p = new VediPanel(false);
         p.setTreeVisible(false);
-        frame.addPanel(p);
-        frame.setMainPanel((javax.swing.JPanel)p);
-        CSAInternalFrame f = frame.windowMe(p, 1024, 768, VediPanel.SID);
+        frame.addAsWindow(p, 1024, 768, VediPanel.SID);
 
-        String tmpFile = "tmp"+File.separator+"veccyAsm.asm";
+        String tmpFile = Global.mainPathPrefix+"tmp"+File.separator+"veccyAsm.asm";
         de.malban.util.UtilityFiles.createTextFile(tmpFile, jTextAreaResult.getText());
         p.addTempEditFile(tmpFile);
 
@@ -780,7 +779,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
 
     private void jButtonAssembleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleActionPerformed
         generateSource();
-        String filename = "tmp"+File.separator+"veccytmp.asm";
+        String filename = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.asm";
         de.malban.util.UtilityFiles.createTextFile(filename, jTextAreaResult.getText());
         startASM(filename);
     }//GEN-LAST:event_jButtonAssembleActionPerformed
@@ -1018,7 +1017,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
             ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
 
-            String fname = "tmp"+File.separator+"veccytmp.bin";
+            String fname = Global.mainPathPrefix+"tmp"+File.separator+"veccytmp.bin";
             vec.startUp(fname);
             log.addLog("Vecci-Assembly successfull...", INFO);
         }
@@ -1094,9 +1093,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
             v.setSBPanel(panel);
             panel.veccy = v;
         }
-        
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1080, 800, panel.getMenuItem().getText());
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 1080, 800, "Storyboard Panel new");
     }    
 
     void updateToElement(boolean onlyAnimation)
@@ -1311,7 +1308,9 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
                 }
             }
         }
+        loadName = de.malban.util.Utility.makeRelative(loadName);
         jTextFieldAnimationName.setText(loadName);
+                
         currentElement.listName = loadName;
         upladeLaneData();
         return ok;
@@ -1350,7 +1349,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
     {
         boolean ok = false;
         
-        String filename ="xml"+File.separator+"vectoranimation";
+        String filename =Global.mainPathPrefix+"xml"+File.separator+"vectoranimation";
 //        String loadName = VectorListFileChoserJPanel.showSavePanel(filename, "Load Vector-Animation", true);
         
         
@@ -1361,7 +1360,8 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return false;
         String name = fc.getSelectedFile().getAbsolutePath();
 
-        return loadAnimationFromElement(de.malban.util.Utility.makeRelative(name));
+        return loadAnimationFromElement(name);
+//        return loadAnimationFromElement(de.malban.util.Utility.makeRelative(name));
     }
     
     private void setListType(String type)
@@ -1449,14 +1449,14 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
     boolean loadStoryboard()
     {
         
-        String filename ="xml"+File.separator+"storyboard";
+        String filename =Global.mainPathPrefix+"xml"+File.separator+"storyboard";
 
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
         fc.setCurrentDirectory(new java.io.File(filename));
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return false;
         String loadName = fc.getSelectedFile().getAbsolutePath();
-        loadName = de.malban.util.Utility.makeRelative(loadName);
+        //loadName = de.malban.util.Utility.makeRelative(loadName);
         
         boolean ok = false;
         if (loadName != null)
@@ -1483,14 +1483,14 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
     }
     boolean saveStoryboard()
     {
-        String filename ="xml"+File.separator+"storyboard";
+        String filename =Global.mainPathPrefix+"xml"+File.separator+"storyboard";
         
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
         fc.setCurrentDirectory(new java.io.File(filename));
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return false;
         String saveName = fc.getSelectedFile().getAbsolutePath();
-        saveName = de.malban.util.Utility.makeRelative(saveName);
+//        saveName = de.malban.util.Utility.makeRelative(saveName);
         
         if (saveName != null)
         {
@@ -1563,20 +1563,22 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
             errorCode|=xmlSupport.errorCode;
             
             StoryboardLanePanel sb = new StoryboardLanePanel(this);
-
             sb.fromXML(oneElement, xmlSupport);
+            if (sb.isVersion1())
+            {
+                log.addLog("Wrong storyboard version - not loaded", WARN);
+                lanes = new ArrayList<StoryboardLanePanel>();
+                upladeLaneData();
+                updateBounds();
+                return false;
+            }
+            
             errorCode|=xmlSupport.errorCode;
-            
-            
-            
             
             lanePanel.add(sb);
             sb.setBounds(0, 0+80*lanes.size(), sb.getBounds().width, 79);
             lanes.add(sb);
             lanePanel.repaint();
-            
-            
-            
         } while (true);
         
         upladeLaneData();
@@ -1698,18 +1700,18 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
             laneInitString.append(li);
         
         
-        Path template = Paths.get(".", "template", "storyboardDefines.template");
+        Path template = Paths.get(Global.mainPathPrefix, "template", "storyboardDefines.template");
         String defines = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
 
-        template = Paths.get(".", "template", "storyboardMain.template");
+        template = Paths.get(Global.mainPathPrefix, "template", "storyboardMain.template");
         String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
         
         main = de.malban.util.UtilityString.replace(main, ";INSERT LANE INIT CODE", laneInitString.toString());
                
-        template = Paths.get(".", "template", "storyboardRoutinesV2.template");
+        template = Paths.get(Global.mainPathPrefix, "template", "storyboardRoutinesV2.template");
         String lane_subroutines = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
 
-        template = Paths.get(".", "template", "storyboardRAMV2.template");
+        template = Paths.get(Global.mainPathPrefix, "template", "storyboardRAMV2.template");
         String ram = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
         ram = de.malban.util.UtilityString.replace(ram, "#LANE_COUNT#", ""+lanes.size());
 
@@ -1749,6 +1751,7 @@ public class StoryboardPanelNew extends javax.swing.JPanel  implements Windowabl
     {
         return 2;
     }
+    public void deIconified() { }
     
 }
 

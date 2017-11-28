@@ -1,5 +1,6 @@
 package de.malban.vide.vecx.cartridge;
 
+import de.malban.Global;
 import de.malban.gui.ImageCache;
 import de.malban.util.*;
 import java.awt.image.BufferedImage;
@@ -42,6 +43,15 @@ public class  CartridgeProperties implements Serializable
 	protected boolean mCompleteGame=false;
 	protected String mextremeVecFileImage="";
 	protected String mWheelName="";
+	protected boolean mConfigOverwrite=false;
+	protected boolean mCF_AutoSync=false;
+	protected boolean mCF_AllowROMWrite=false;
+	protected boolean mCF_ROM_PC_BreakPoints=false;
+	protected int mCF_IntegratorMaxX=0;
+	protected int mCF_IntegratorMaxY=0;
+	protected float mCF_OverlayThreshold=0f;
+	protected int mCF_DotdwellDivisor=0;
+        
 	public String getName()
 	{
 		return mName;
@@ -270,7 +280,71 @@ public class  CartridgeProperties implements Serializable
 	{
 		mWheelName=WheelName;
 	}
-	private String exportXML()
+	public boolean getConfigOverwrite()
+	{
+		return mConfigOverwrite;
+	}
+	public void setConfigOverwrite(boolean ConfigOverwrite)
+	{
+		mConfigOverwrite=ConfigOverwrite;
+	}
+	public boolean getCF_AutoSync()
+	{
+		return mCF_AutoSync;
+	}
+	public void setCF_AutoSync(boolean CF_AutoSync)
+	{
+		mCF_AutoSync=CF_AutoSync;
+	}
+	public boolean getCF_AllowROMWrite()
+	{
+		return mCF_AllowROMWrite;
+	}
+	public void setCF_AllowROMWrite(boolean CF_AllowROMWrite)
+	{
+		mCF_AllowROMWrite=CF_AllowROMWrite;
+	}
+	public boolean getCF_ROM_PC_BreakPoints()
+	{
+		return mCF_ROM_PC_BreakPoints;
+	}
+	public void setCF_ROM_PC_BreakPoints(boolean CF_ROM_PC_BreakPoints)
+	{
+		mCF_ROM_PC_BreakPoints=CF_ROM_PC_BreakPoints;
+	}
+	public int getCF_IntegratorMaxX()
+	{
+		return mCF_IntegratorMaxX;
+	}
+	public void setCF_IntegratorMaxX(int CF_IntegratorMaxX)
+	{
+		mCF_IntegratorMaxX=CF_IntegratorMaxX;
+	}
+	public int getCF_IntegratorMaxY()
+	{
+		return mCF_IntegratorMaxY;
+	}
+	public void setCF_IntegratorMaxY(int CF_IntegratorMaxY)
+	{
+		mCF_IntegratorMaxY=CF_IntegratorMaxY;
+	}
+	public float getCF_OverlayThreshold()
+	{
+		return mCF_OverlayThreshold;
+	}
+	public void setCF_OverlayThreshold(float CF_OverlayThreshold)
+	{
+		mCF_OverlayThreshold=CF_OverlayThreshold;
+	}
+	public int getCF_DotdwellDivisor()
+	{
+		return mCF_DotdwellDivisor;
+	}
+	public void setCF_DotdwellDivisor(int CF_DotdwellDivisor)
+	{
+		mCF_DotdwellDivisor=CF_DotdwellDivisor;
+	}
+        private String exportXML()
 	{
 		StringBuffer s = new StringBuffer();
 		s.append( "\t<CartridgeProperties>\n");
@@ -310,6 +384,14 @@ public class  CartridgeProperties implements Serializable
 		s.append( "\t\t<CompleteGame>"+mCompleteGame+"</CompleteGame>\n");
 		s.append( "\t\t<extremeVecFileImage>"+UtilityString.toXML(mextremeVecFileImage)+"</extremeVecFileImage>\n");
 		s.append( "\t\t<WheelName>"+UtilityString.toXML(mWheelName)+"</WheelName>\n");
+		s.append( "\t\t<ConfigOverwrite>"+mConfigOverwrite+"</ConfigOverwrite>\n");
+		s.append( "\t\t<CF_AutoSync>"+mCF_AutoSync+"</CF_AutoSync>\n");
+		s.append( "\t\t<CF_AllowROMWrite>"+mCF_AllowROMWrite+"</CF_AllowROMWrite>\n");
+		s.append( "\t\t<CF_ROM_PC_BreakPoints>"+mCF_ROM_PC_BreakPoints+"</CF_ROM_PC_BreakPoints>\n");
+		s.append( "\t\t<CF_IntegratorMaxX>"+mCF_IntegratorMaxX+"</CF_IntegratorMaxX>\n");
+		s.append( "\t\t<CF_IntegratorMaxY>"+mCF_IntegratorMaxY+"</CF_IntegratorMaxY>\n");
+		s.append( "\t\t<CF_OverlayThreshold>"+mCF_OverlayThreshold+"</CF_OverlayThreshold>\n");
+		s.append( "\t\t<CF_DotdwellDivisor>"+mCF_DotdwellDivisor+"</CF_DotdwellDivisor>\n");
 		s.append( "\t</CartridgeProperties>\n");
 		return s.toString();
 	}
@@ -389,9 +471,9 @@ public class  CartridgeProperties implements Serializable
 	}
         BufferedImage getImage(String filename, int w, int h)
         {
-            File f = new File(filename);
+            File f = new File(Global.mainPathPrefix+filename);
             if (!f.exists()) return null;
-            BufferedImage org = ImageCache.getImageCache().getImage(filename);
+            BufferedImage org = ImageCache.getImageCache().getImage(Global.mainPathPrefix+filename);
             return ImageCache.getImageCache().getDerivatScale(org, w, h);
         }
         public static String convertSeperator(String filename)

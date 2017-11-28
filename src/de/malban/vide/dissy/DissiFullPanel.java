@@ -5,6 +5,7 @@
  */
 package de.malban.vide.dissy;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
@@ -243,7 +244,7 @@ public class DissiFullPanel extends javax.swing.JPanel  implements
 
     private void jButtonFileSelect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFileSelect1ActionPerformed
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
-        fc.setCurrentDirectory(new java.io.File("."+File.separator));
+        fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
         String name = fc.getSelectedFile().getAbsolutePath();
@@ -295,5 +296,6 @@ public class DissiFullPanel extends javax.swing.JPanel  implements
     }
     public Serializable getAdditionalStateinfo(){return null;}
     public void setAdditionalStateinfo(Serializable ser){}
-    
+
+    public void deIconified() { }
 }

@@ -11,13 +11,18 @@ import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.Breakpoint;
 import de.malban.vide.vecx.Updatable;
 import de.malban.vide.vecx.VecXState;
+import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 /**
  *
@@ -25,6 +30,7 @@ import javax.swing.JTextField;
  */
 public class VIAJPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{
+    VideConfig config = VideConfig.getConfig();
     public boolean isLoadSettings() { return true; }
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
@@ -40,6 +46,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
     @Override
     public void closing()
     {
+        removeUIListerner();
         if (vecxPanel != null) vecxPanel.resetViai();
         deinit();
     }
@@ -88,6 +95,8 @@ public class VIAJPanel extends javax.swing.JPanel implements
      */
     public VIAJPanel() {
         initComponents();
+        UIManager.addPropertyChangeListener(pListener);
+        updateMyUI(); 
     }
 
     
@@ -248,6 +257,10 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField81.setText(""+(((currentDisplayed.via_t2ll&0x02)==0x02)?"1":"0"));
         jTextField82.setText(""+(((currentDisplayed.via_t2ll&0x01)==0x01)?"1":"0"));
         
+        if (currentDisplayed.via_t2int==0)
+            jLabel82.setText("int inactive");
+        else
+            jLabel82.setText("int active");
 
         tmp = (currentDisplayed.via_t2c>>8)&0xff;
         jLabel44.setText("$"+String.format("%02X", tmp));
@@ -480,6 +493,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jTextField89 = new javax.swing.JTextField();
         jTextField90 = new javax.swing.JTextField();
         jLabel66 = new javax.swing.JLabel();
+        jLabel82 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         jLabel45 = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
@@ -1214,7 +1228,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
                 .addComponent(jTextField57, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField58, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1541,6 +1555,9 @@ public class VIAJPanel extends javax.swing.JPanel implements
         jLabel66.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
         jLabel66.setText("9");
 
+        jLabel82.setFont(new java.awt.Font("Courier", 0, 12)); // NOI18N
+        jLabel82.setText(" ");
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -1557,21 +1574,24 @@ public class VIAJPanel extends javax.swing.JPanel implements
                         .addGap(2, 2, 2)
                         .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jTextField83, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField84, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField85, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField86, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField87, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField88, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField89, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField90, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(jTextField83, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField84, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField85, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField86, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField87, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField88, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField89, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField90, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel82, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
@@ -1589,7 +1609,9 @@ public class VIAJPanel extends javax.swing.JPanel implements
                     .addComponent(jTextField90, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel66, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(9, 9, 9)
-                .addComponent(jLabel43))
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel43)
+                    .addComponent(jLabel82)))
         );
 
         jPanel12.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -2668,6 +2690,7 @@ public class VIAJPanel extends javax.swing.JPanel implements
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel80;
     private javax.swing.JLabel jLabel81;
+    private javax.swing.JLabel jLabel82;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuItem jMenuItemCA1Change;
     private javax.swing.JMenuItem jMenuItemCA1GoHigh;
@@ -2856,5 +2879,23 @@ public class VIAJPanel extends javax.swing.JPanel implements
     {
         updateEnabled = b;
     }
-        
+    public void deIconified() { }
+
+    
+    public void removeUIListerner()
+    {
+        UIManager.removePropertyChangeListener(pListener);
+    }
+    private PropertyChangeListener pListener = new PropertyChangeListener()
+    {
+        public void propertyChange(PropertyChangeEvent evt)
+        {
+            updateMyUI();
+        }
+    };
+    void updateMyUI()
+    {
+        jTextFieldiput.setBackground(config.IOInput);
+        jTextFieldoutput.setBackground(config.IOOutput);
+    }    
 }

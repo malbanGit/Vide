@@ -12,22 +12,16 @@ import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.vide.VideConfig;
-import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.vecx.Breakpoint;
-import de.malban.vide.vecx.E8910State;
 import de.malban.vide.vecx.Updatable;
 import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.VecXState;
-import de.malban.vide.vecx.VecXStatics;
 import de.malban.vide.vecx.devices.VectrexJoyport;
-import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -141,8 +135,8 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         if (vecxPanel==null) return;
         VecXState state = vecxPanel.getVecXState();
         jLabel11.setText( ""+(state.sig_ramp.intValue!=0?"1":"0") );
-        if (state.sig_ramp.intValue != ramp) jLabel11.setForeground(Color.red);
-        else jLabel11.setForeground(Color.black);
+        if (state.sig_ramp.intValue != ramp) jLabel11.setForeground(config.getValueChangedColor());
+        else jLabel11.setForeground(config.getValueNotChangedColor());
         ramp = state.sig_ramp.intValue;
         if (ramp == 0)
             jLabel1.setBackground(Color.orange);
@@ -150,8 +144,8 @@ public class AnalogJPanel extends javax.swing.JPanel implements
             jLabel1.setBackground(jLabel34.getBackground());
 
         jLabel12.setText( ""+(state.sig_zero.intValue!=0?"1":"0") );
-        if (state.sig_zero.intValue != zero) jLabel12.setForeground(Color.red);
-        else jLabel12.setForeground(Color.black);
+        if (state.sig_zero.intValue != zero) jLabel12.setForeground(config.getValueChangedColor());
+        else jLabel12.setForeground(config.getValueNotChangedColor());
         zero = state.sig_zero.intValue;
         if (zero == 0)
             jLabel2.setBackground(Color.orange);
@@ -159,8 +153,8 @@ public class AnalogJPanel extends javax.swing.JPanel implements
             jLabel2.setBackground(jLabel34.getBackground());
 
         jLabel15.setText( ""+(state.sig_blank.intValue!=0?"1":"0") );
-        if (state.sig_blank.intValue != blank) jLabel15.setForeground(Color.red);
-        else jLabel15.setForeground(Color.black);
+        if (state.sig_blank.intValue != blank) jLabel15.setForeground(config.getValueChangedColor());
+        else jLabel15.setForeground(config.getValueNotChangedColor());
         blank = state.sig_blank.intValue;
         if (blank == 0)
             jLabel3.setBackground(Color.orange);
@@ -169,38 +163,38 @@ public class AnalogJPanel extends javax.swing.JPanel implements
             
         
         jLabel14.setText("$"+String.format("%02X", state.alg_DAC.intValue&0x0ff));
-        if (state.alg_DAC.intValue != dac) jLabel14.setForeground(Color.red);
-        else jLabel14.setForeground(Color.black);
+        if (state.alg_DAC.intValue != dac) jLabel14.setForeground(config.getValueChangedColor());
+        else jLabel14.setForeground(config.getValueNotChangedColor());
         dac = state.alg_DAC.intValue;
         jLabel14.setToolTipText("decimal: "+dac);
         
         jLabel13.setText("$"+String.format("%02X", state.alg_xsh.intValue&0x0ff));
-        if (state.alg_xsh.intValue != x_sh) jLabel13.setForeground(Color.red);
-        else jLabel13.setForeground(Color.black);
+        if (state.alg_xsh.intValue != x_sh) jLabel13.setForeground(config.getValueChangedColor());
+        else jLabel13.setForeground(config.getValueNotChangedColor());
         x_sh = state.alg_xsh.intValue;
         jLabel13.setToolTipText("decimal: "+x_sh);
         
         jLabel16.setText("$"+String.format("%02X", state.alg_ysh.intValue&0x0ff));
-        if (state.alg_ysh.intValue != y_sh) jLabel16.setForeground(Color.red);
-        else jLabel16.setForeground(Color.black);
+        if (state.alg_ysh.intValue != y_sh) jLabel16.setForeground(config.getValueChangedColor());
+        else jLabel16.setForeground(config.getValueNotChangedColor());
         y_sh = state.alg_ysh.intValue;
         jLabel16.setToolTipText("decimal: "+y_sh);
         
         jLabel17.setText("$"+String.format("%02X", state.alg_zsh.intValue&0x0ff));
-        if (state.alg_zsh.intValue != z_sh) jLabel17.setForeground(Color.red);
-        else jLabel17.setForeground(Color.black);
+        if (state.alg_zsh.intValue != z_sh) jLabel17.setForeground(config.getValueChangedColor());
+        else jLabel17.setForeground(config.getValueNotChangedColor());
         z_sh = state.alg_zsh.intValue;
         jLabel17.setToolTipText("decimal: "+z_sh);
         
         jLabel18.setText("$"+String.format("%02X", state.alg_ssh.intValue&0x0ff));
-        if (state.alg_ssh.intValue != s_sh) jLabel18.setForeground(Color.red);
-        else jLabel18.setForeground(Color.black);
+        if (state.alg_ssh.intValue != s_sh) jLabel18.setForeground(config.getValueChangedColor());
+        else jLabel18.setForeground(config.getValueNotChangedColor());
         s_sh = state.alg_ssh.intValue;
         jLabel18.setToolTipText("decimal: "+s_sh);
         
         jLabel19.setText("$"+String.format("%02X", state.alg_rsh.intValue&0x0ff));
-        if (state.alg_rsh.intValue != r_sh) jLabel19.setForeground(Color.red);
-        else jLabel19.setForeground(Color.black);
+        if (state.alg_rsh.intValue != r_sh) jLabel19.setForeground(config.getValueChangedColor());
+        else jLabel19.setForeground(config.getValueNotChangedColor());
         r_sh = state.alg_rsh.intValue;
         jLabel19.setToolTipText("decimal: "+r_sh);
         
@@ -208,26 +202,26 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         {
             VectrexJoyport[] joyport = ((VecX)state).joyport;
             jLabel24.setText("$"+String.format("%02X", joyport[0].getHorizontal()&0x0ff));
-            if (joyport[0].getHorizontal() != joy0) jLabel24.setForeground(Color.red);
-            else jLabel24.setForeground(Color.black);
+            if (joyport[0].getHorizontal() != joy0) jLabel24.setForeground(config.getValueChangedColor());
+            else jLabel24.setForeground(config.getValueNotChangedColor());
             joy0 = joyport[0].getHorizontal();
             jLabel24.setToolTipText("decimal: "+joyport[0].getHorizontal());
 
             jLabel26.setText("$"+String.format("%02X", joyport[0].getVertical()&0x0ff));
-            if (joyport[0].getVertical() != joy1) jLabel26.setForeground(Color.red);
-            else jLabel26.setForeground(Color.black);
+            if (joyport[0].getVertical() != joy1) jLabel26.setForeground(config.getValueChangedColor());
+            else jLabel26.setForeground(config.getValueNotChangedColor());
             joy1 = joyport[0].getVertical();
             jLabel26.setToolTipText("decimal: "+joyport[0].getVertical());
 
             jLabel29.setText("$"+String.format("%02X", joyport[1].getHorizontal()&0x0ff));
-            if (joyport[1].getHorizontal() != joy2) jLabel29.setForeground(Color.red);
-            else jLabel29.setForeground(Color.black);
+            if (joyport[1].getHorizontal() != joy2) jLabel29.setForeground(config.getValueChangedColor());
+            else jLabel29.setForeground(config.getValueNotChangedColor());
             joy2 = joyport[1].getHorizontal();
             jLabel29.setToolTipText("decimal: "+joyport[1].getHorizontal()+"");
 
             jLabel30.setText("$"+String.format("%02X", joyport[1].getVertical()&0x0ff));
-            if (joyport[1].getVertical() != joy3) jLabel30.setForeground(Color.red);
-            else jLabel30.setForeground(Color.black);
+            if (joyport[1].getVertical() != joy3) jLabel30.setForeground(config.getValueChangedColor());
+            else jLabel30.setForeground(config.getValueNotChangedColor());
             joy3 = joyport[1].getVertical();
             jLabel30.setToolTipText("decimal: "+joyport[1].getVertical()+"");
             
@@ -250,14 +244,14 @@ public class AnalogJPanel extends javax.swing.JPanel implements
             jTextField113.setEnabled(joyport[1].isInpuMode());
             jTextField114.setEnabled(joyport[1].isInpuMode());
             
-            if ((joyport[0].isButtonInRO(0)) != ((buttonIn&0x01)==0x01)) jTextField110.setForeground(Color.red); else jTextField110.setForeground(Color.black);
-            if ((joyport[0].isButtonInRO(1)) != ((buttonIn&0x02)==0x02)) jTextField109.setForeground(Color.red); else jTextField109.setForeground(Color.black);
-            if ((joyport[0].isButtonInRO(2)) != ((buttonIn&0x04)==0x04)) jTextField107.setForeground(Color.red); else jTextField107.setForeground(Color.black);
-            if ((joyport[0].isButtonInRO(3)) != ((buttonIn&0x08)==0x08)) jTextField108.setForeground(Color.red); else jTextField108.setForeground(Color.black);
-            if ((joyport[1].isButtonInRO(0)) != ((buttonIn&0x10)==0x10)) jTextField114.setForeground(Color.red); else jTextField114.setForeground(Color.black);
-            if ((joyport[1].isButtonInRO(1)) != ((buttonIn&0x20)==0x20)) jTextField113.setForeground(Color.red); else jTextField113.setForeground(Color.black);
-            if ((joyport[1].isButtonInRO(2)) != ((buttonIn&0x40)==0x40)) jTextField112.setForeground(Color.red); else jTextField112.setForeground(Color.black);
-            if ((joyport[1].isButtonInRO(3)) != ((buttonIn&0x80)==0x80)) jTextField111.setForeground(Color.red); else jTextField111.setForeground(Color.black);
+            if ((joyport[0].isButtonInRO(0)) != ((buttonIn&0x01)==0x01)) jTextField110.setForeground(config.getValueChangedColor()); else jTextField110.setForeground(config.getValueNotChangedColor());
+            if ((joyport[0].isButtonInRO(1)) != ((buttonIn&0x02)==0x02)) jTextField109.setForeground(config.getValueChangedColor()); else jTextField109.setForeground(config.getValueNotChangedColor());
+            if ((joyport[0].isButtonInRO(2)) != ((buttonIn&0x04)==0x04)) jTextField107.setForeground(config.getValueChangedColor()); else jTextField107.setForeground(config.getValueNotChangedColor());
+            if ((joyport[0].isButtonInRO(3)) != ((buttonIn&0x08)==0x08)) jTextField108.setForeground(config.getValueChangedColor()); else jTextField108.setForeground(config.getValueNotChangedColor());
+            if ((joyport[1].isButtonInRO(0)) != ((buttonIn&0x10)==0x10)) jTextField114.setForeground(config.getValueChangedColor()); else jTextField114.setForeground(config.getValueNotChangedColor());
+            if ((joyport[1].isButtonInRO(1)) != ((buttonIn&0x20)==0x20)) jTextField113.setForeground(config.getValueChangedColor()); else jTextField113.setForeground(config.getValueNotChangedColor());
+            if ((joyport[1].isButtonInRO(2)) != ((buttonIn&0x40)==0x40)) jTextField112.setForeground(config.getValueChangedColor()); else jTextField112.setForeground(config.getValueNotChangedColor());
+            if ((joyport[1].isButtonInRO(3)) != ((buttonIn&0x80)==0x80)) jTextField111.setForeground(config.getValueChangedColor()); else jTextField111.setForeground(config.getValueNotChangedColor());
 
             buttonIn = 0;
             buttonIn += (joyport[0].isButtonInRO(0))?0x01:0;
@@ -288,14 +282,14 @@ public class AnalogJPanel extends javax.swing.JPanel implements
             jTextField121.setText(""+((  (joyport[1].isButtonOutRO(2))?"1":"0")) );
             jTextField122.setText(""+((  (joyport[1].isButtonOutRO(3))?"1":"0")) );
             
-            if ((joyport[0].isButtonOutRO(0)) != ((buttonOut&0x01)==0x01)) jTextField115.setForeground(Color.red); else jTextField115.setForeground(Color.black);
-            if ((joyport[0].isButtonOutRO(1)) != ((buttonOut&0x02)==0x02)) jTextField116.setForeground(Color.red); else jTextField116.setForeground(Color.black);
-            if ((joyport[0].isButtonOutRO(2)) != ((buttonOut&0x04)==0x04)) jTextField117.setForeground(Color.red); else jTextField117.setForeground(Color.black);
-            if ((joyport[0].isButtonOutRO(3)) != ((buttonOut&0x08)==0x08)) jTextField118.setForeground(Color.red); else jTextField118.setForeground(Color.black);
-            if ((joyport[1].isButtonOutRO(0)) != ((buttonOut&0x10)==0x10)) jTextField119.setForeground(Color.red); else jTextField119.setForeground(Color.black);
-            if ((joyport[1].isButtonOutRO(1)) != ((buttonOut&0x20)==0x20)) jTextField120.setForeground(Color.red); else jTextField120.setForeground(Color.black);
-            if ((joyport[1].isButtonOutRO(2)) != ((buttonOut&0x40)==0x40)) jTextField121.setForeground(Color.red); else jTextField121.setForeground(Color.black);
-            if ((joyport[1].isButtonOutRO(3)) != ((buttonOut&0x80)==0x80)) jTextField122.setForeground(Color.red); else jTextField122.setForeground(Color.black);
+            if ((joyport[0].isButtonOutRO(0)) != ((buttonOut&0x01)==0x01)) jTextField115.setForeground(config.getValueChangedColor()); else jTextField115.setForeground(config.getValueNotChangedColor());
+            if ((joyport[0].isButtonOutRO(1)) != ((buttonOut&0x02)==0x02)) jTextField116.setForeground(config.getValueChangedColor()); else jTextField116.setForeground(config.getValueNotChangedColor());
+            if ((joyport[0].isButtonOutRO(2)) != ((buttonOut&0x04)==0x04)) jTextField117.setForeground(config.getValueChangedColor()); else jTextField117.setForeground(config.getValueNotChangedColor());
+            if ((joyport[0].isButtonOutRO(3)) != ((buttonOut&0x08)==0x08)) jTextField118.setForeground(config.getValueChangedColor()); else jTextField118.setForeground(config.getValueNotChangedColor());
+            if ((joyport[1].isButtonOutRO(0)) != ((buttonOut&0x10)==0x10)) jTextField119.setForeground(config.getValueChangedColor()); else jTextField119.setForeground(config.getValueNotChangedColor());
+            if ((joyport[1].isButtonOutRO(1)) != ((buttonOut&0x20)==0x20)) jTextField120.setForeground(config.getValueChangedColor()); else jTextField120.setForeground(config.getValueNotChangedColor());
+            if ((joyport[1].isButtonOutRO(2)) != ((buttonOut&0x40)==0x40)) jTextField121.setForeground(config.getValueChangedColor()); else jTextField121.setForeground(config.getValueNotChangedColor());
+            if ((joyport[1].isButtonOutRO(3)) != ((buttonOut&0x80)==0x80)) jTextField122.setForeground(config.getValueChangedColor()); else jTextField122.setForeground(config.getValueNotChangedColor());
 
             buttonOut = 0;
             buttonOut += (joyport[0].isButtonOutRO(0))?0x01:0;
@@ -315,10 +309,10 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         jTextField109.setText(""+(((e8910State.snd_regs[14]&0x02)==0)?"1":"0"));
         jTextField107.setText(""+(((e8910State.snd_regs[14]&0x04)==0)?"1":"0"));
         jTextField108.setText(""+(((e8910State.snd_regs[14]&0x08)==0)?"1":"0"));
-        if ((e8910State.snd_regs[14]&0x01) != (buttons&0x01)) jTextField110.setForeground(Color.red); else jTextField110.setForeground(Color.black);
-        if ((e8910State.snd_regs[14]&0x02) != (buttons&0x02)) jTextField109.setForeground(Color.red); else jTextField109.setForeground(Color.black);
-        if ((e8910State.snd_regs[14]&0x04) != (buttons&0x04)) jTextField107.setForeground(Color.red); else jTextField107.setForeground(Color.black);
-        if ((e8910State.snd_regs[14]&0x08) != (buttons&0x08)) jTextField108.setForeground(Color.red); else jTextField108.setForeground(Color.black);
+        if ((e8910State.snd_regs[14]&0x01) != (buttons&0x01)) jTextField110.setForeground(config.getValueChangedColor()); else jTextField110.setForeground(config.getValueNotChangedColor());
+        if ((e8910State.snd_regs[14]&0x02) != (buttons&0x02)) jTextField109.setForeground(config.getValueChangedColor()); else jTextField109.setForeground(config.getValueNotChangedColor());
+        if ((e8910State.snd_regs[14]&0x04) != (buttons&0x04)) jTextField107.setForeground(config.getValueChangedColor()); else jTextField107.setForeground(config.getValueNotChangedColor());
+        if ((e8910State.snd_regs[14]&0x08) != (buttons&0x08)) jTextField108.setForeground(config.getValueChangedColor()); else jTextField108.setForeground(config.getValueNotChangedColor());
         buttons = e8910State.snd_regs[14];
 */            
             
@@ -330,8 +324,8 @@ public class AnalogJPanel extends javax.swing.JPanel implements
         
         
         jLabel32.setText("$"+String.format("%02X", state.alg_jsh&0x0ff));
-        if (state.alg_jsh != jsh) jLabel32.setForeground(Color.red);
-        else jLabel32.setForeground(Color.black);
+        if (state.alg_jsh != jsh) jLabel32.setForeground(config.getValueChangedColor());
+        else jLabel32.setForeground(config.getValueNotChangedColor());
         jsh = state.alg_jsh;
         jLabel32.setToolTipText("decimal: "+state.alg_jsh);
         
@@ -345,8 +339,8 @@ public class AnalogJPanel extends javax.swing.JPanel implements
             jLabel20.setText("-$"+String.format("%04X", pos));
         else
             jLabel20.setText("$"+String.format("%04X", pos));
-        if (calc_x != x_int) jLabel20.setForeground(Color.red);
-        else jLabel20.setForeground(Color.black);
+        if (calc_x != x_int) jLabel20.setForeground(config.getValueChangedColor());
+        else jLabel20.setForeground(config.getValueNotChangedColor());
         x_int = calc_x;
         jLabel20.setToolTipText("decimal: "+x_int);
         /*
@@ -356,8 +350,8 @@ public class AnalogJPanel extends javax.swing.JPanel implements
             jLabel20.setText("-$"+String.format("%04X", pos));
         else
             jLabel20.setText("$"+String.format("%04X", pos));
-        if (state.alg_curr_x != x_int) jLabel20.setForeground(Color.red);
-        else jLabel20.setForeground(Color.black);
+        if (state.alg_curr_x != x_int) jLabel20.setForeground(config.getValueChangedColor());
+        else jLabel20.setForeground(config.getValueNotChangedColor());
         x_int = state.alg_curr_x;
         jLabel20.setToolTipText("decimal: "+x_int);
         */
@@ -369,8 +363,8 @@ public class AnalogJPanel extends javax.swing.JPanel implements
             jLabel22.setText("-$"+String.format("%04X", pos));
         else
             jLabel22.setText("$"+String.format("%04X", pos));
-        if (cacl_y != y_int) jLabel22.setForeground(Color.red);
-        else jLabel22.setForeground(Color.black);
+        if (cacl_y != y_int) jLabel22.setForeground(config.getValueChangedColor());
+        else jLabel22.setForeground(config.getValueNotChangedColor());
         y_int = cacl_y;
         jLabel22.setToolTipText("decimal: "+y_int);
         /*
@@ -380,8 +374,8 @@ public class AnalogJPanel extends javax.swing.JPanel implements
             jLabel22.setText("-$"+String.format("%04X", pos));
         else
             jLabel22.setText("$"+String.format("%04X", pos));
-        if (state.alg_curr_y != y_int) jLabel22.setForeground(Color.red);
-        else jLabel22.setForeground(Color.black);
+        if (state.alg_curr_y != y_int) jLabel22.setForeground(config.getValueChangedColor());
+        else jLabel22.setForeground(config.getValueNotChangedColor());
         y_int = state.alg_curr_y;
         jLabel22.setToolTipText("decimal: "+y_int);
         */
@@ -1152,6 +1146,7 @@ public class AnalogJPanel extends javax.swing.JPanel implements
     {
         SwingUtilities.updateComponentTreeUI(jPopupMenu1);
     }
+    public void deIconified() { }
     
 
 }

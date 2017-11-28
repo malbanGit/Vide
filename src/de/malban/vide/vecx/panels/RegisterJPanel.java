@@ -12,6 +12,7 @@ import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.util.KeyboardListener;
+import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.E6809;
 import de.malban.vide.vecx.Updatable;
@@ -33,6 +34,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class RegisterJPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{
+    VideConfig config = VideConfig.getConfig();
     public boolean isLoadSettings() { return true; }
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
@@ -220,45 +222,45 @@ public class RegisterJPanel extends javax.swing.JPanel implements
             jLabelCycles.setText(""+vecxPanel.getCyclesRunning());
         
         jLabel11.setText("$"+String.format("%02X", e6809.reg_a));
-        if (e6809.reg_a != reg_a) jLabel11.setForeground(Color.red);
-        else jLabel11.setForeground(Color.black);
+        if (e6809.reg_a != reg_a) jLabel11.setForeground(config.getValueChangedColor());
+        else jLabel11.setForeground(config.getValueNotChangedColor());
         reg_a = e6809.reg_a&0xff;
         jLabel11.setToolTipText("decimal: "+reg_a+"("+((reg_a>127)?(reg_a-256):(reg_a))+"), binary: %"+printbinary(reg_a));
         
         jLabel12.setText("$"+String.format("%02X", e6809.reg_b));
-        if (e6809.reg_b != reg_b) jLabel12.setForeground(Color.red);
-        else jLabel12.setForeground(Color.black);
+        if (e6809.reg_b != reg_b) jLabel12.setForeground(config.getValueChangedColor());
+        else jLabel12.setForeground(config.getValueNotChangedColor());
         reg_b = e6809.reg_b&0xff;
         jLabel12.setToolTipText("decimal: "+reg_b+"("+((reg_b>127)?(reg_b-256):(reg_b))+"), binary: %"+printbinary(reg_b));
         
         int d = ((reg_a << 8)&0xff00) | (reg_b & 0xff);
         jLabel15.setText("$"+String.format("%04X", d));
-        if (reg_d != d) jLabel15.setForeground(Color.red);
-        else jLabel15.setForeground(Color.black);
+        if (reg_d != d) jLabel15.setForeground(config.getValueChangedColor());
+        else jLabel15.setForeground(config.getValueNotChangedColor());
         reg_d = d&0xffff;
         jLabel15.setToolTipText("decimal: "+d+"("+((reg_d>32767)?(reg_d-65536):(reg_d))+"), binary: %"+printbinary(reg_a)+ " " + printbinary(reg_b));
         
         jLabel14.setText("$"+String.format("%04X", e6809.reg_x&0xffff));
-        if (e6809.reg_x != reg_x) jLabel14.setForeground(Color.red);
-        else jLabel14.setForeground(Color.black);
+        if (e6809.reg_x != reg_x) jLabel14.setForeground(config.getValueChangedColor());
+        else jLabel14.setForeground(config.getValueNotChangedColor());
         reg_x = e6809.reg_x&0xffff;
         jLabel14.setToolTipText("decimal: "+reg_x+"("+((reg_x>32767)?(reg_x-65536):(reg_x))+"), binary: %"+printbinary((reg_x>>8)&0xff)+ " " + printbinary(reg_x&0xff));
 
         jLabel13.setText("$"+String.format("%04X", e6809.reg_y&0xffff));
-        if (e6809.reg_y != reg_y) jLabel13.setForeground(Color.red);
-        else jLabel13.setForeground(Color.black);
+        if (e6809.reg_y != reg_y) jLabel13.setForeground(config.getValueChangedColor());
+        else jLabel13.setForeground(config.getValueNotChangedColor());
         reg_y = e6809.reg_y&0xffff;
         jLabel13.setToolTipText("decimal: "+reg_y+"("+((reg_y>32767)?(reg_y-65536):(reg_y))+"), binary: %"+printbinary((reg_y>>8)&0xff)+ " " + printbinary(reg_y&0xff));
 
         jLabel16.setText("$"+String.format("%04X", e6809.reg_u.intValue&0xffff));
-        if (e6809.reg_u.intValue != reg_u) jLabel16.setForeground(Color.red);
-        else jLabel16.setForeground(Color.black);
+        if (e6809.reg_u.intValue != reg_u) jLabel16.setForeground(config.getValueChangedColor());
+        else jLabel16.setForeground(config.getValueNotChangedColor());
         reg_u = e6809.reg_u.intValue&0xffff;
         jLabel16.setToolTipText("decimal: "+reg_u+"("+((reg_u>32767)?(reg_u-65536):(reg_u))+"), binary: %"+printbinary((reg_u>>8)&0xff)+ " " + printbinary(reg_u&0xff));
 
         jLabel17.setText("$"+String.format("%04X", e6809.reg_pc&0xffff));
-        if ((e6809.reg_pc&0xffff) != reg_pc) jLabel17.setForeground(Color.red);
-        else jLabel17.setForeground(Color.black);
+        if ((e6809.reg_pc&0xffff) != reg_pc) jLabel17.setForeground(config.getValueChangedColor());
+        else jLabel17.setForeground(config.getValueNotChangedColor());
         reg_pc = e6809.reg_pc&0xffff;
         jLabel17.setToolTipText("decimal: "+reg_pc+", binary: %"+printbinary((reg_pc>>8)&0xff)+ " " + printbinary(reg_pc&0xff));
 
@@ -266,8 +268,8 @@ public class RegisterJPanel extends javax.swing.JPanel implements
         {
             jLabel22.setVisible(true);
             jLabel22.setText("["+vecxPanel.getCurrentBank()+"]");
-            if (bank !=vecxPanel.getCurrentBank()) jLabel22.setForeground(Color.red);
-            else jLabel22.setForeground(Color.black);
+            if (bank !=vecxPanel.getCurrentBank()) jLabel22.setForeground(config.getValueChangedColor());
+            else jLabel22.setForeground(config.getValueNotChangedColor());
             bank =vecxPanel.getCurrentBank();
         }
         else
@@ -276,14 +278,14 @@ public class RegisterJPanel extends javax.swing.JPanel implements
         }
         
         jLabel18.setText("$"+String.format("%02X", e6809.reg_dp&0xff));
-        if (e6809.reg_dp != reg_dp) jLabel18.setForeground(Color.red);
-        else jLabel18.setForeground(Color.black);
+        if (e6809.reg_dp != reg_dp) jLabel18.setForeground(config.getValueChangedColor());
+        else jLabel18.setForeground(config.getValueNotChangedColor());
         reg_dp = e6809.reg_dp;
         jLabel18.setToolTipText("decimal: "+reg_dp+", binary: %"+printbinary(reg_dp));
 
         jLabel19.setText("%"+printbinary(e6809.reg_cc).substring(0, 4)+" "+printbinary(e6809.reg_cc).substring(4));
-        if (e6809.reg_cc != reg_cc) jLabel19.setForeground(Color.red);
-        else jLabel19.setForeground(Color.black);
+        if (e6809.reg_cc != reg_cc) jLabel19.setForeground(config.getValueChangedColor());
+        else jLabel19.setForeground(config.getValueNotChangedColor());
         reg_cc = e6809.reg_cc;
         String html = "<html>";
         html += "decimal: "+reg_cc+", hex: $"+String.format("%02X", reg_cc)+"<BR>";
@@ -302,8 +304,8 @@ public class RegisterJPanel extends javax.swing.JPanel implements
         jLabel19.setToolTipText(html);
         
         jLabel20.setText("$"+String.format("%04X", e6809.reg_s.intValue));
-        if (e6809.reg_s.intValue != reg_u) jLabel20.setForeground(Color.red);
-        else jLabel20.setForeground(Color.black);
+        if (e6809.reg_s.intValue != reg_u) jLabel20.setForeground(config.getValueChangedColor());
+        else jLabel20.setForeground(config.getValueNotChangedColor());
         reg_s = e6809.reg_s.intValue;
         jLabel20.setToolTipText("decimal: "+reg_s+"("+((reg_s>32767)?(reg_s-65536):(reg_s))+"), binary: %"+printbinary((reg_s>>8)&0xff)+ " " + printbinary(reg_s&0xff));
         
@@ -715,6 +717,7 @@ public class RegisterJPanel extends javax.swing.JPanel implements
         int rowHeight = fontSize+3;
         jTable1.setRowHeight(rowHeight);
     }
+    public void deIconified() { }
     
     
 }

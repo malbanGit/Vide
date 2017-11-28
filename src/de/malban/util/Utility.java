@@ -49,6 +49,7 @@ public class Utility
     }
     public static String makeAbsolut(String relpath, boolean pathOnly)
     {
+        relpath = de.malban.util.UtilityFiles.convertSeperator(relpath);
         File file = new File (relpath);
         String absPath = file.getAbsolutePath();
         if (!pathOnly)
@@ -62,10 +63,16 @@ public class Utility
     
     static boolean isWin = Global.getOSName().toUpperCase().indexOf("WIN")!=-1;
     
+    public static String ensureRelative(String path)
+    {
+        return makeRelative(makeAbsolut(path));
+    }
+    
     public static String makeRelative(String fullpath)
     {
+        fullpath = de.malban.util.UtilityFiles.convertSeperator(fullpath);
 //        File f = new File("."+File.separator);
-        File f = new File("");
+        File f = new File(Global.mainPathPrefix);
         String here = f.getAbsolutePath();
         String fullpathTest = fullpath;
         String hereTest = here;

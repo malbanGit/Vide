@@ -4,13 +4,15 @@
  * and open the template in the editor.
  */
 
-package de.malban.vide.vedi;
-
+package de.malban.vide.vedi; 
+ 
+import de.malban.Global;
 import de.malban.vide.vedi.panels.BinaryPanel;
 import de.malban.vide.vedi.panels.ImagePanel;
 import de.malban.gui.HotKey;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
+import static de.malban.graphics.GFXVectorList.hex;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.TimingTriggerer;
 import de.malban.gui.TriggerCallback;
@@ -18,16 +20,22 @@ import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.dialogs.JOptionPaneDialog;
 import de.malban.gui.dialogs.QuickHelpTopFrame;
 import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
+import de.malban.util.UtilityFiles;
+import static de.malban.util.UtilityFiles.executeOSCommand;
 import de.malban.util.syntax.Syntax.TokenStyles;
 import de.malban.util.UtilityString;
 import de.malban.util.syntax.entities.ASM6809FileInfo;
+import de.malban.util.syntax.entities.C6809FileInfo;
 import de.malban.util.syntax.entities.EntityDefinition;
+import de.malban.util.syntax.entities.FunctionSink;
 import de.malban.util.syntax.entities.LabelSink;
 import de.malban.util.syntax.entities.MacroSink;
 import de.malban.util.syntax.entities.SyntaxDebugJPanel;
 import de.malban.vide.VideConfig;
 import de.malban.vide.assy.Asmj;
+import de.malban.vide.assy.Comment;
 import de.malban.vide.dissy.DASM6809;
 import static de.malban.vide.dissy.DissiPanel.eval;
 import static de.malban.vide.script.ExecutionDescriptor.*;
@@ -35,6 +43,7 @@ import de.malban.vide.script.*;
 import static de.malban.vide.vecx.VecX.START_TYPE_DEBUG;
 import static de.malban.vide.vecx.VecX.START_TYPE_INJECT;
 import static de.malban.vide.vecx.VecX.START_TYPE_RUN;
+import static de.malban.vide.vecx.VecX.START_TYPE_STOP;
 import de.malban.vide.vecx.VecXPanel;
 import de.malban.vide.vecx.cartridge.Cartridge;
 import de.malban.vide.vecx.cartridge.CartridgeProperties;
@@ -44,6 +53,8 @@ import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_LIST;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_MESSAGE_ERROR;
 import de.malban.vide.vedi.panels.GetIDValuePanel;
 import de.malban.vide.vedi.panels.LabelVisibilityConfigPanel;
+import de.malban.vide.vedi.peeper.ASMLine;
+import de.malban.vide.vedi.peeper.FilePeeper;
 import de.malban.vide.vedi.project.FileProperties;
 import de.malban.vide.vedi.project.FilePropertiesPanel;
 import de.malban.vide.vedi.project.FilePropertiesPool;
@@ -69,6 +80,8 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -584,6 +597,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     public VediPanel(boolean ls) {
         initComponents();
+        jMenuItem1.setVisible(false);
+        jSeparator4.setVisible(false);
         defaultForegroundColor = jLabel10.getForeground();
         jMenuItemVector.setVisible(false); // dsabled, do image conversion from vecci
         loadSettings = ls;
@@ -626,8 +641,221 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         init();
         UIManager.addPropertyChangeListener(pListener);
         updateMyUI(); 
-        initScheduler();        
+        initScheduler();  
+        jButtonAssembleOne1.setVisible(false);
+        
     }
+/*    
+    // If we only support move operations...
+    ds = new TreeDragSource(jTree1, DnDConstants.ACTION_MOVE);
+    //ds = new TreeDragSource(tree, DnDConstants.ACTION_COPY_OR_MOVE);
+    dt = new TreeDropTarget(jTree1);        
+    }
+    
+    http://www.java2s.com/Code/Java/Swing-JFC/DnDdraganddropJTreecode.htm
+    
+  TreeDragSource ds;
+
+  TreeDropTarget dt;
+    
+    class TreeDragSource implements DragSourceListener, DragGestureListener {
+
+      DragSource source;
+
+      DragGestureRecognizer recognizer;
+
+      TransferableTreeNode transferable;
+
+      DefaultMutableTreeNode oldNode;
+
+      JTree sourceTree;
+
+      public TreeDragSource(JTree tree, int actions) 
+      {
+        sourceTree = tree;
+        source = new DragSource();
+        recognizer = source.createDefaultDragGestureRecognizer(sourceTree,
+            actions, this);
+      }    
+    
+  //
+   // Drag Gesture Handler
+   //
+  public void dragGestureRecognized(DragGestureEvent dge) {
+    TreePath path = sourceTree.getSelectionPath();
+    if ((path == null) || (path.getPathCount() <= 1)) {
+      // We can't move the root node or an empty selection
+      return;
+    }
+    oldNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+    transferable = new TransferableTreeNode(path);
+    source.startDrag(dge, DragSource.DefaultMoveNoDrop, transferable, this);
+
+    // If you support dropping the node anywhere, you should probably
+    // start with a valid move cursor:
+    //source.startDrag(dge, DragSource.DefaultMoveDrop, transferable,
+    // this);
+  }
+
+  //
+  // Drag Event Handlers
+   //
+  public void dragEnter(DragSourceDragEvent dsde) {
+  }
+
+  public void dragExit(DragSourceEvent dse) {
+  }
+
+  public void dragOver(DragSourceDragEvent dsde) {
+  }
+
+  public void dropActionChanged(DragSourceDragEvent dsde) {
+    System.out.println("Action: " + dsde.getDropAction());
+    System.out.println("Target Action: " + dsde.getTargetActions());
+    System.out.println("User Action: " + dsde.getUserAction());
+  }
+
+  public void dragDropEnd(DragSourceDropEvent dsde) {
+    //
+    // to support move or copy, we have to check which occurred:
+     //
+    System.out.println("Drop Action: " + dsde.getDropAction());
+    if (dsde.getDropSuccess()
+        && (dsde.getDropAction() == DnDConstants.ACTION_MOVE)) {
+      ((DefaultTreeModel) sourceTree.getModel())
+          .removeNodeFromParent(oldNode);
+    }
+
+    //
+    // * to support move only... if (dsde.getDropSuccess()) {
+    // ((DefaultTreeModel)sourceTree.getModel()).removeNodeFromParent(oldNode); }
+    //
+  }
+}
+
+//TreeDropTarget.java
+//A quick DropTarget that's looking for drops from draggable JTrees.
+//
+
+class TreeDropTarget implements DropTargetListener {
+
+  DropTarget target;
+
+  JTree targetTree;
+
+  public TreeDropTarget(JTree tree) {
+    targetTree = tree;
+    target = new DropTarget(targetTree, this);
+  }
+
+  /// *
+  // Drop Event Handlers
+  //
+  private TreeNode getNodeForEvent(DropTargetDragEvent dtde) {
+    Point p = dtde.getLocation();
+    DropTargetContext dtc = dtde.getDropTargetContext();
+    JTree tree = (JTree) dtc.getComponent();
+    TreePath path = tree.getClosestPathForLocation(p.x, p.y);
+    return (TreeNode) path.getLastPathComponent();
+  }
+
+  public void dragEnter(DropTargetDragEvent dtde) {
+    TreeNode node = getNodeForEvent(dtde);
+    if (node.isLeaf()) {
+      dtde.rejectDrag();
+    } else {
+      // start by supporting move operations
+      //dtde.acceptDrag(DnDConstants.ACTION_MOVE);
+      dtde.acceptDrag(dtde.getDropAction());
+    }
+  }
+
+  public void dragOver(DropTargetDragEvent dtde) {
+    TreeNode node = getNodeForEvent(dtde);
+    if (node.isLeaf()) {
+      dtde.rejectDrag();
+    } else {
+      // start by supporting move operations
+      //dtde.acceptDrag(DnDConstants.ACTION_MOVE);
+      dtde.acceptDrag(dtde.getDropAction());
+    }
+  }
+
+  public void dragExit(DropTargetEvent dte) {
+  }
+
+  public void dropActionChanged(DropTargetDragEvent dtde) {
+  }
+
+  public void drop(DropTargetDropEvent dtde) {
+    Point pt = dtde.getLocation();
+    DropTargetContext dtc = dtde.getDropTargetContext();
+    JTree tree = (JTree) dtc.getComponent();
+    TreePath parentpath = tree.getClosestPathForLocation(pt.x, pt.y);
+    DefaultMutableTreeNode parent = (DefaultMutableTreeNode) parentpath
+        .getLastPathComponent();
+    if (parent.isLeaf()) {
+      dtde.rejectDrop();
+      return;
+    }
+
+    try {
+      Transferable tr = dtde.getTransferable();
+      DataFlavor[] flavors = tr.getTransferDataFlavors();
+      for (int i = 0; i < flavors.length; i++) {
+        if (tr.isDataFlavorSupported(flavors[i])) {
+          dtde.acceptDrop(dtde.getDropAction());
+          TreePath p = (TreePath) tr.getTransferData(flavors[i]);
+          DefaultMutableTreeNode node = (DefaultMutableTreeNode) p
+              .getLastPathComponent();
+          DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+          model.insertNodeInto(node, parent, 0);
+          dtde.dropComplete(true);
+          return;
+        }
+      }
+      dtde.rejectDrop();
+    } catch (Exception e) {
+      e.printStackTrace();
+      dtde.rejectDrop();
+    }
+  }
+}
+
+//TransferableTreeNode.java
+//A Transferable TreePath to be used with Drag & Drop applications.
+//
+
+class TransferableTreeNode implements Transferable {
+
+  public DataFlavor TREE_PATH_FLAVOR = new DataFlavor(TreePath.class, "Tree Path");
+
+  DataFlavor flavors[] = { TREE_PATH_FLAVOR };
+
+  TreePath path;
+
+  public TransferableTreeNode(TreePath tp) {
+    path = tp;
+  }
+
+  public synchronized DataFlavor[] getTransferDataFlavors() {
+    return flavors;
+  }
+
+  public boolean isDataFlavorSupported(DataFlavor flavor) {
+    return (flavor.getRepresentationClass() == TreePath.class);
+  }
+
+  public synchronized Object getTransferData(DataFlavor flavor)
+      throws UnsupportedFlavorException, IOException {
+    if (isDataFlavorSupported(flavor)) {
+      return (Object) path;
+    } else {
+      throw new UnsupportedFlavorException(flavor);
+    }
+  }
+}
+*/
     public void setTreeVisible(boolean v)
     {
         if (!v)
@@ -680,19 +908,19 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 ArrayList<EditorFileSettings> toRemove = new ArrayList<EditorFileSettings>();
                 for (EditorFileSettings fn: settings.currentOpenFiles)
                 {
-                    EditorPanel edi = addEditor(fn.filename, false);
-                    if (edi == null) continue;
-                    edi.setPosition(fn.position);
-                    oneTimeTab = null;
+                    EditorPanel edi = addEditor(Global.mainPathPrefix+convertSeperator(fn.filename), false);
                     if (edi == null)
                     {
                         // error while loading, remove file from current
                         toRemove. add(fn); 
+                        continue;
                     }
                     else
                     {
                         lastLoadedFile = fn.filename;
                     }
+                    edi.setPosition(fn.position);
+                    oneTimeTab = null;
                 }
                 for (EditorFileSettings fn: toRemove) settings.currentOpenFiles.remove(fn);
                 jCheckBoxIgnoreCase1.setSelected(settings.v4eEnabled);
@@ -851,6 +1079,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         addEditor(bm.fullFilename, true);
         
         tabExistsSwitch(bm.fullFilename);
+        if (getSelectedEditor() == null) return;
         getSelectedEditor().jump(bm.lineNumber);
         updateTables();
         
@@ -893,13 +1122,16 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         name = path.getFileName().toString();
         EditorFileSettings oldSettings = null;
         int pos = 0;
+        String settingsRel = de.malban.util.Utility.makeRelative(fullPathname);
+        String settingsAbs = de.malban.util.Utility.makeAbsolut(fullPathname);
+        
+        if (!convertSeperator(fullPathname).toLowerCase().contains(Global.mainPathPrefix.toLowerCase()))
+        {
+            settingsAbs = de.malban.util.Utility.makeAbsolut(Global.mainPathPrefix+fullPathname);
+        }
+        
         if (addToSettings)
         {
-            String settingsRel = de.malban.util.Utility.makeRelative(fullPathname);
-            String settingsAbs = de.malban.util.Utility.makeAbsolut(fullPathname);
-            
-            
-            
             if (settings.openContains(settingsAbs))
             {
                 return null;
@@ -908,25 +1140,49 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             {
                 return null;
             }
-           
+           /*
             if (settings.recentContains(settingsAbs))
             {
                 oldSettings = settings.getRecent(settingsAbs);
                 settings.removeRecent(settingsAbs);
                 pos = oldSettings.position;
+                updateList();
             }
             if (settings.recentContains(settingsRel))
             {
                 oldSettings = settings.getRecent(settingsRel);
                 settings.removeRecent(settingsRel);
                 pos = oldSettings.position;
+                updateList();
+            }
+            */
+        }
+        else // even if not to be added to settings
+            // look if a tab with that nameis open, do not open a second one!
+        {
+            int tabNumber = checkTabExists(settingsAbs);
+            if (tabNumber != -1)
+            {
+                // todo
+                // ask reload or not
+                
+                // also gets it to front
+                EditorPanel edi = getEditor(settingsAbs, false); 
+
+                
+                
+                // for now - do not ask, but reload!
+                edi.reload(true);
+                return edi;
             }
         }
+        
+        
         EditorPanel edi = new EditorPanel(fullPathname, this);
         edi.setMinimumSize(new Dimension(5,5));
         edi.setAddToSettings(addToSettings);
         if (edi.isInitError()) return null;
-        jTabbedPane1.addTab(name, null, edi, fullPathname);
+        jTabbedPane1.addTab(name, null, edi, settingsRel);
         oneTimeTab = name;
         addCloseButton(jTabbedPane1, name);
         jTabbedPane1.setSelectedComponent(edi);
@@ -943,6 +1199,26 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         return edi;
     }
+    
+    // expects full path name(s)
+    // exchanges in a node the path to another name
+    // called from a save as
+    // return index of tab, or -1
+    public int checkTabExists(String fileName)
+    {
+        String pathName = Paths.get(fileName).getFileName().toString();
+        int count = jTabbedPane1.getTabCount();
+        int found = -1;
+        for (int i=0; i< count; i++)
+        {
+            if (pathName.equals(jTabbedPane1.getTitleAt(i)))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }    
+    
     ImagePanel addImageDisplay(String fullPathname, boolean addToSettings)
     {
         String name = "imi";
@@ -1008,6 +1284,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jMenuNewFileMenu = new javax.swing.JMenu();
         jMenuItemVectrexFile = new javax.swing.JMenuItem();
         jMenuItemNewFile = new javax.swing.JMenuItem();
+        jMenuItemCFile = new javax.swing.JMenuItem();
         jMenuItemNewProject = new javax.swing.JMenuItem();
         jPopupMenuTree = new javax.swing.JPopupMenu();
         jMenuItemFileProperties = new javax.swing.JMenuItem();
@@ -1028,6 +1305,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jMenuItemRename = new javax.swing.JMenuItem();
         jMenuItemDuplicate = new javax.swing.JMenuItem();
         jMenuItem1AddNewFile = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPopupMenuProjectProperties = new javax.swing.JPopupMenu();
         jMenuItemProjectProperties = new javax.swing.JMenuItem();
         jMenuItemRefresh = new javax.swing.JMenuItem();
@@ -1086,6 +1365,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel8 = new javax.swing.JPanel();
         jScrollPane10 = new javax.swing.JScrollPane();
         jTableWatches = new javax.swing.JTable();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jButtonAssembleOne1 = new javax.swing.JButton();
+        jButtonAssembleOne2 = new javax.swing.JButton();
+        jButtonAssembleOne3 = new javax.swing.JButton();
+        jButtonAssembleOne4 = new javax.swing.JButton();
         jButtonNew = new javax.swing.JButton();
         jButtonPrettyPrint = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -1120,6 +1405,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jLabel10 = new javax.swing.JLabel();
         jCheckBoxIgnoreCase1 = new javax.swing.JCheckBox();
         jButtonDebugSyntax = new javax.swing.JButton();
+        jButtonAssembleOne = new javax.swing.JButton();
 
         jPopupMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -1144,6 +1430,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
         jMenuNewFileMenu.add(jMenuItemNewFile);
+
+        jMenuItemCFile.setText("new C file");
+        jMenuItemCFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCFileActionPerformed(evt);
+            }
+        });
+        jMenuNewFileMenu.add(jMenuItemCFile);
 
         jPopupMenu1.add(jMenuNewFileMenu);
 
@@ -1279,6 +1573,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
         jPopupMenuTree.add(jMenuItem1AddNewFile);
+        jPopupMenuTree.add(jSeparator4);
+
+        jMenuItem1.setText("Invoke C-Compiler");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenuTree.add(jMenuItem1);
 
         jMenuItemProjectProperties.setText("Project properties");
         jMenuItemProjectProperties.addActionListener(new java.awt.event.ActionListener() {
@@ -1415,10 +1718,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
 
+        jSplitPane1.setBorder(null);
         jSplitPane1.setDividerLocation(500);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setResizeWeight(1.0);
 
+        jSplitPane2.setBorder(null);
         jSplitPane2.setDividerLocation(200);
 
         jTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -1430,6 +1735,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
         jSplitPane2.setRightComponent(jTabbedPane1);
 
+        jSplitPane4.setBorder(null);
         jSplitPane4.setDividerLocation(300);
         jSplitPane4.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
@@ -1437,6 +1743,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(80, 200));
 
+        jTree1.setDragEnabled(true);
         jTree1.setEditable(true);
         jTree1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -1484,7 +1791,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jButtonNew1)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -1531,7 +1838,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jButtonNew7)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -1606,7 +1913,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 .addComponent(jButtonAdressBack)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonAdressForward)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
                 .addComponent(jButtonLabelConfig))
         );
         jPanel7Layout.setVerticalGroup(
@@ -1617,7 +1924,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     .addComponent(jButtonAdressBack, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonLabelConfig, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
         );
 
         jSplitPane4.setRightComponent(jPanel7);
@@ -1626,6 +1933,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
         jSplitPane1.setTopComponent(jSplitPane2);
 
+        jSplitPane3.setBorder(null);
         jSplitPane3.setDividerLocation(600);
 
         jTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -1633,7 +1941,17 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 jTabbedPaneStateChanged(evt);
             }
         });
+        jTabbedPane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTabbedPaneMousePressed(evt);
+            }
+        });
 
+        jEditorLog.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jEditorLogMousePressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(jEditorLog);
 
         jTabbedPane.addTab("Editor messages", jScrollPane2);
@@ -1675,11 +1993,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("Bookmarks", jPanel2);
@@ -1706,11 +2024,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("Breakpoints", jPanel6);
@@ -1737,14 +2055,95 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
         );
 
         jTabbedPane3.addTab("Watches", jPanel8);
+
+        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("assi only"));
+
+        jButtonAssembleOne1.setText("to assi");
+        jButtonAssembleOne1.setToolTipText("");
+        jButtonAssembleOne1.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonAssembleOne1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAssembleOne1ActionPerformed(evt);
+            }
+        });
+
+        jButtonAssembleOne2.setText("to as6809");
+        jButtonAssembleOne2.setToolTipText("");
+        jButtonAssembleOne2.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonAssembleOne2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAssembleOne2ActionPerformed(evt);
+            }
+        });
+
+        jButtonAssembleOne3.setText("preProcess only");
+        jButtonAssembleOne3.setToolTipText("");
+        jButtonAssembleOne3.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonAssembleOne3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAssembleOne3ActionPerformed(evt);
+            }
+        });
+
+        jButtonAssembleOne4.setText("start as6809");
+        jButtonAssembleOne4.setToolTipText("");
+        jButtonAssembleOne4.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonAssembleOne4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAssembleOne4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonAssembleOne2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonAssembleOne1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonAssembleOne3, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                    .addComponent(jButtonAssembleOne4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(296, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addComponent(jButtonAssembleOne1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonAssembleOne3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonAssembleOne2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonAssembleOne4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+
+        jTabbedPane3.addTab("Assi->C", jPanel9);
 
         jSplitPane3.setRightComponent(jTabbedPane3);
 
@@ -1983,7 +2382,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         });
 
         jButtonDebug.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/bug_go.png"))); // NOI18N
-        jButtonDebug.setToolTipText("Assemble current file, if project is loaded, build project and start debugging it (if so defined in config).");
+        jButtonDebug.setToolTipText("<html>\nAssemble current file, if project is loaded, build project and start debugging it (if so defined in config).\n<BR>\nUsing C, this oes as of now nothing different than \"build\".\n</html>\n");
         jButtonDebug.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonDebug.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2066,6 +2465,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         });
 
+        jButtonAssembleOne.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_end_blue.png"))); // NOI18N
+        jButtonAssembleOne.setToolTipText("Assemble/compile current file - nothing is started!");
+        jButtonAssembleOne.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonAssembleOne.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAssembleOneActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -2093,12 +2501,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 .addGap(18, 18, 18)
                 .addComponent(jButtonPrettyPrint)
                 .addGap(18, 18, 18)
+                .addComponent(jButtonAssembleOne)
+                .addGap(4, 4, 4)
                 .addComponent(jButtonAssemble)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addComponent(jButtonDebug)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButtonInjectBin)
-                .addGap(18, 18, 18)
+                .addGap(2, 2, 2)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2131,30 +2541,34 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBoxIgnoreCase1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonPaste)
-                    .addComponent(jButtonSave)
-                    .addComponent(jButtonCopy)
-                    .addComponent(jButtonSaveAll)
-                    .addComponent(jButtonLoad)
-                    .addComponent(jButtonCut)
-                    .addComponent(jButtonRedo)
-                    .addComponent(jButtonUndo)
-                    .addComponent(jButtonAssemble)
-                    .addComponent(jButtonNew)
-                    .addComponent(jButtonPrettyPrint)
-                    .addComponent(jButtonRefresh)
-                    .addComponent(jButtonDebug)
-                    .addComponent(jButtonInjectBin)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel9)
-                        .addComponent(jTextFieldPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButtonCheckVec4Ever)
-                    .addComponent(jButtonEjectVecForever)
-                    .addComponent(jButtonDebugSyntax))
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonPaste)
+                            .addComponent(jButtonSave)
+                            .addComponent(jButtonCopy)
+                            .addComponent(jButtonSaveAll)
+                            .addComponent(jButtonLoad)
+                            .addComponent(jButtonCut)
+                            .addComponent(jButtonRedo)
+                            .addComponent(jButtonUndo)
+                            .addComponent(jButtonAssemble)
+                            .addComponent(jButtonNew)
+                            .addComponent(jButtonPrettyPrint)
+                            .addComponent(jButtonRefresh)
+                            .addComponent(jButtonDebug)
+                            .addComponent(jButtonInjectBin)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTextFieldCommand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel9)
+                                .addComponent(jTextFieldPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButtonFileSelect1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButtonCheckVec4Ever)
+                            .addComponent(jButtonEjectVecForever)
+                            .addComponent(jButtonDebugSyntax)
+                            .addComponent(jButtonAssembleOne))
+                        .addGap(1, 1, 1)))
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -2170,8 +2584,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButtonCutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCutActionPerformed
+   private void jButtonCutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCutActionPerformed
 
     }//GEN-LAST:event_jButtonCutActionPerformed
 
@@ -2213,9 +2626,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
        
     }//GEN-LAST:event_jButtonCopyActionPerformed
 
-    private void jButtonSaveAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveAllActionPerformed
+    private void jButtonSaveAllActionPerformed(java.awt.event.ActionEvent evt) {                                               
         saveAll();
-    }//GEN-LAST:event_jButtonSaveAllActionPerformed
+    }                                                                        
 
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
 
@@ -2232,7 +2645,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         if (lastPath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -2248,7 +2661,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             jMenuItemCloseActionPerformed(null);
         }
         // test and open, if project
-        if (isProject(lastPath))
+        if (isProject(de.malban.util.Utility.makeRelative(lastPath)))
         {
             return;
         }
@@ -2293,7 +2706,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         {
                             public void run()
                             {
-                                asmResult(asmOk);
+                                asmResult(asmOk, filenameASM);
                             }
                         });                    
                     }
@@ -2305,7 +2718,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                             {
                                 printASMMessage("Exception while assembling: " + e.getMessage(), ASM_MESSAGE_ERROR);
                                 printASMMessage(de.malban.util.Utility.getStackTrace(e), ASM_MESSAGE_ERROR);
-                                asmResult(false);
+                                asmResult(false, filenameASM);
                             }
                         });                    
                     }
@@ -2324,17 +2737,30 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         one.setName("Run ASMJ with: "+filenameASM);
         one.start();           
     }    
-    protected void asmResult(boolean asmOk)
+    protected void asmResult(boolean asmOk, String filename)
     {
         if (asmOk)
         {
-            if (config.invokeEmulatorAfterAssembly)
+            if ((config.invokeEmulatorAfterAssembly)&&(startTypeRun != START_TYPE_STOP))
             {
                 VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
                 ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
-
+                    
                 String fname = getSelectedEditor().getFilename();
+                
+                if (fname.toLowerCase().endsWith(".c"))
+                {
+                    Path p = Paths.get(fname);
+                    String pathOnly = p.getParent().toString();
+                    if (pathOnly.length()>0)
+                        pathOnly+= File.separator;
+        
+        
+                    fname= baseOnly(filename);
+   
+                }
+
                 if ( fname.toLowerCase().endsWith(".asm") ) {
                     // drop the ".asm" extension
                     fname = fname .substring( 0, fname.length()-4 );
@@ -2389,8 +2815,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         refreshTree();
     }
 
-    
     private void jButtonAssembleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleActionPerformed
+        FilePeeper.peepsFound = 0;
+        jEditorPaneASMListing.setText("");
+        jEditorASMMessages.setText("");
+        jEditorLog.setText("");
         run();
     }//GEN-LAST:event_jButtonAssembleActionPerformed
 
@@ -2409,7 +2838,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         // save File(s) to tmp
         if (inProject)
         {
-            doBuild();
+            doBuildProject();
             return;
         }
         // just compile current
@@ -2420,10 +2849,18 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         printMessage("\""+getSelectedEditor().getFilename()+"\" saved.");
         String fname = getSelectedEditor().getFilename();
         if (fname == null) return;
-        startASM(fname);
+
+        if (fname.toLowerCase().endsWith(".c"))
+        {
+            doCCompilerSingleFile(fname);
+        }
+        else
+        {
+            startASM(fname);
+        }
     }
     
-    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
         tabChanged(true);
         initInventory();
     }//GEN-LAST:event_jTabbedPane1StateChanged
@@ -2566,7 +3003,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             project.setExtras(0);
             doNewProject(project, false);
             fileView = false;
-            fillTree(Paths.get(currentProject.getPath(), currentProject.getProjectName()));
+            fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(currentProject.getPath()), currentProject.getProjectName()));
         }
     }//GEN-LAST:event_jButtonNewActionPerformed
 
@@ -2595,7 +3032,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private void jTextFieldSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSearchActionPerformed
         jButtonSearchNextActionPerformed(null);
     }//GEN-LAST:event_jTextFieldSearchActionPerformed
-
     
     // output "Tabs" for source generation
     
@@ -2686,21 +3122,48 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (ind == -1) return -1;
         return ind+preQuote.length()+quote.length();
     }
-
-    private void jButtonPrettyPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrettyPrintActionPerformed
-
-        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
-        {
-            ASM6809FileInfo.resetDefinitions();
-            initInventory();
-            return;
-        }
-        
-        
-        if (getSelectedEditor()==null) return;
+    
+    String getTABString()
+    {
+        String tab="";
+        for (int i=0;i<config.tab_width; i++) tab +=" ";
+        return tab;
+    }
+    String getTabForLineBracket(int count)
+    {
+        String ret="";
+        for (int i=0;i<count;i++) 
+            ret+="\t";
+        return ret;
+    }
+    String prettyPrintC(String orgText)
+    {
         StringBuilder b = new StringBuilder();
-        String orgText = getSelectedEditor().getText();
         orgText = UtilityString.replace(orgText, "\r\n", "\n");
+        int openBrackets = 0;
+        String[] lines = orgText.split("\n");
+        for (String line: lines)
+        {
+            int bracketHelp = 0;
+            
+            if (line.trim().startsWith("}")) bracketHelp = -1;
+            
+            b.append(getTabForLineBracket(openBrackets+bracketHelp));
+            b.append(line.trim());
+            openBrackets += UtilityString.countChars(line, "{");
+            openBrackets -= UtilityString.countChars(line, "}");
+           b.append("\n");
+        }
+        return  b.toString();
+    }
+    
+    String prettyPrint(String orgText)
+    {
+        StringBuilder b = new StringBuilder();
+        orgText = UtilityString.replace(orgText, "\r\n", "\n");
+        
+        
+        orgText = UtilityString.replace(orgText, "\t", getTABString());
         
         String[] lines = orgText.split("\n");
         for (String line: lines)
@@ -2833,7 +3296,42 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             c = spaceTo(b, c, config.TAB_COMMENT);
             b.append(comment).append("\n");
         }
-        text = b.toString();
+        return  b.toString();
+    }
+
+    private void jButtonPrettyPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrettyPrintActionPerformed
+
+        if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
+        {
+            if (inProject)
+            {
+                if (currentProject.getIsPeerCProject())
+                {
+                    String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+                    if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
+                    String baseProjectPath = path+currentProject.getProjectName();
+
+                    peerClean(baseProjectPath);
+                    refreshTree();
+                }
+            }
+            ASM6809FileInfo.resetDefinitions();
+            initInventory();
+            return;
+        }
+        
+        if (getSelectedEditor()==null) return;
+
+        String text = getSelectedEditor().getText();
+        if (getSelectedEditor().assume6809Asm)
+        {
+            text = prettyPrint(text);
+        }
+        else if (getSelectedEditor().assume6809C)
+        {
+            text = prettyPrintC(text);
+        }
+        
         getSelectedEditor().stopColoring();
         getSelectedEditor().setText(text);
         getSelectedEditor().startColoring(settings.fontSize);
@@ -2846,7 +3344,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         if (lastPath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -2896,6 +3394,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private void jButtonNewMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonNewMousePressed
         if ((evt != null ) && ((evt.getModifiers() & SHIFT_MASK) == SHIFT_MASK))
             return;
+        jMenuItemCFile.setVisible(false);
+        if (currentProject!=null)
+        {
+            if (currentProject.getIsPeerCProject())
+            {
+                jMenuItemCFile.setVisible(true);
+            }
+        }
         jPopupMenu1.show(jButtonNew, evt.getX()-20,evt.getY()-20);
     }//GEN-LAST:event_jButtonNewMousePressed
 
@@ -2904,7 +3410,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         if (lastPath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -2929,9 +3435,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
         }
         
-        Path template = Paths.get(".", "template", "vectrexMain.template");
+        Path template = Paths.get(Global.mainPathPrefix, "template", "vectrexMain.template");
         de.malban.util.UtilityFiles.copyOneFile(template.toString(), lastPath);
-        Path include = Paths.get(".", "template", "VECTREX.I");
+        Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
         
         
         Path p = Paths.get(lastPath);
@@ -2988,6 +3494,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
              (entry.name.toLowerCase().endsWith(".a69")) ||
              (entry.name.toLowerCase().endsWith(".template")) ||
              (entry.name.toLowerCase().endsWith(".i")) ||
+             (entry.name.toLowerCase().endsWith(".h")) ||
+             (entry.name.toLowerCase().endsWith(".c")) ||
+             (entry.name.toLowerCase().endsWith(".ec")) ||
              (entry.name.toLowerCase().endsWith(".inc")) 
            )
         {
@@ -2998,7 +3507,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         else if ( 
              (entry.name.toLowerCase().endsWith(".diz")) ||
              (entry.name.toLowerCase().endsWith(".doc")) ||
-             (entry.name.toLowerCase().endsWith(".c")) ||
              (entry.name.toLowerCase().endsWith(".cc")) ||
              (entry.name.toLowerCase().endsWith(".js")) ||
              (entry.name.toLowerCase().endsWith(".cpp")) ||
@@ -3008,8 +3516,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
              (entry.name.toLowerCase().endsWith(".bat")) || 
              (entry.name.toLowerCase().endsWith(".man")) || 
              (entry.name.toLowerCase().endsWith(".lst")) || 
-             (entry.name.toLowerCase().endsWith(".cnt")) || 
-             (entry.name.toLowerCase().endsWith(".h")) 
+             (entry.name.toLowerCase().endsWith(".map")) || 
+             (entry.name.toLowerCase().endsWith(".s19")) || 
+             (entry.name.toLowerCase().endsWith(".rel")) || 
+             (entry.name.toLowerCase().endsWith(".hlr")) || 
+             (entry.name.toLowerCase().endsWith(".rst")) || 
+             (entry.name.toLowerCase().endsWith(".cnt")) 
            )
         {
             addEditor(entry.pathAndName.toString(), true);
@@ -3033,7 +3545,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             addBinaryDisplay(entry.pathAndName.toString(), false);
         }
         initInventory();
-        
         
     }//GEN-LAST:event_jTree1ValueChanged
 
@@ -3066,6 +3577,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
                     return;
                 }
+                
                 jPopupMenuProjectProperties.show(evt.getComponent(), evt.getX(),evt.getY());
                 return;
             }
@@ -3073,14 +3585,28 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             if (((DefaultMutableTreeNode)jTree1.getSelectionPath().getLastPathComponent()).getUserObject() == null) return;
             TreeEntry te = (TreeEntry)((DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent()).getUserObject();
 
-            if (te.type==DIR) return;
+            if (te.type==DIR) 
+            {
+                if (currentProject != null)
+                {
+                    if (currentProject.getIsPeerCProject())
+                    {
+                        if (te.name.equals("lib"))
+                        {
+                            showAddLibPopup(evt);
+                        }
+                    }
+                }
+                return;
+            }
             selectedTreeEntry = te;
             
             jMenuItemModi.setEnabled(te.name.toLowerCase().endsWith(".mod"));
           //  jMenuItemModi.setEnabled(true);
             jMenuItemYM.setEnabled(te.name.toLowerCase().endsWith(".ym"));
-            jMenuItemYM.setEnabled(true);
+//            jMenuItemYM.setEnabled(true);
             jMenuItemASFX.setEnabled(te.name.toLowerCase().endsWith(".afx"));
+            jMenuItemAKS.setEnabled(te.name.toLowerCase().endsWith(".bin"));
             jMenuItemRaster.setEnabled(
                         te.name.toLowerCase().endsWith(".jpg") ||
                         te.name.toLowerCase().endsWith(".gif") ||
@@ -3095,9 +3621,87 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         te.name.toLowerCase().endsWith(".bmp")
                     );
             
+            
             jPopupMenuTree.show(evt.getComponent(), evt.getX(),evt.getY());
         }       
+        if (evt.getClickCount() == 2) 
+        {
+            if ((jTree1.getSelectionPath()!=null) && (jTree1.getSelectionPath().getLastPathComponent() != null))
+            {
+                TreeEntry te = (TreeEntry)((DefaultMutableTreeNode) jTree1.getSelectionPath().getLastPathComponent()).getUserObject();
+                if (te.type==DIR) return;
+                if (te.name.toLowerCase().endsWith(".bin"))
+                {
+                    // start a bin file in vecxi
+
+
+
+                    VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
+                    ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
+
+                    String fname = te.pathAndName.toString();
+
+                    vec.startUp(fname, true, START_TYPE_RUN);
+                    printMessage("Starting emulation...");
+                }
+                else
+                {
+                    String fname = te.pathAndName.toString();
+                    CSAMainFrame.invokeSystemFile(new File(fname));
+                }
+            }
+            
+            
+
+        }
+        
     }//GEN-LAST:event_jTree1MousePressed
+
+    void addLibItem(java.awt.event.ActionEvent evt)
+    {
+        String sourceInc =  Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vide"+File.separator+"include";
+        String source =  Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vide"+File.separator+"lib";
+        String dest =  Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+        String destInc =  Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+        if (dest.length() >0 ) dest += File.separator;
+        dest = dest+currentProject.getProjectName()+File.separator+"lib";
+        if (destInc.length() >0 ) destInc += File.separator;
+        destInc = destInc+currentProject.getProjectName()+File.separator+"include";
+
+        javax.swing.JMenuItem item = (javax.swing.JMenuItem) evt.getSource();
+        String baseName = item.getText();
+        
+        de.malban.util.UtilityFiles.copyOneFile(source+File.separator+baseName+".rel", dest+File.separator+baseName+".rel");
+        de.malban.util.UtilityFiles.copyOneFile(source+File.separator+baseName+".lst", dest+File.separator+baseName+".lst");
+
+        de.malban.util.UtilityFiles.copyOneFile(sourceInc+File.separator+baseName+".h", destInc+File.separator+baseName+".h");
+        refreshTree();
+    }
+    void showAddLibPopup(java.awt.event.MouseEvent evt)
+    {
+        javax.swing.JPopupMenu jPopupMenu = new javax.swing.JPopupMenu();
+        
+        String source =  Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vide"+File.separator+"lib";
+        File directory = new File(source);
+        File[] fList = directory.listFiles();
+        for (File file : fList) 
+        {
+            String fileNameOnly = file.getName();
+            if (!fileNameOnly.endsWith(".rel")) continue;
+            String nameonly = baseOnly(fileNameOnly);
+            javax.swing.JMenuItem item = new javax.swing.JMenuItem(nameonly);
+            item.setText(nameonly);
+            item.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    addLibItem(evt);
+                }
+            });
+            jPopupMenu.add(item);
+        }    
+    
+        jPopupMenu.show(evt.getComponent(), evt.getX(),evt.getY());
+    }
+            
 
     private void jMenuItemFilePropertiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFilePropertiesActionPerformed
         doFileProperties(selectedTreeEntry);
@@ -3105,6 +3709,15 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
     private void jMenuItemProjectPropertiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProjectPropertiesActionPerformed
         doProjectProperties();
+        
+        if (currentProject.getIsPeerCProject())
+        {
+            String flags = currentProject.getCFLAGS();
+            boolean hasFramePointer = true;
+            if (flags.contains("-fomit-frame-pointer"))
+                hasFramePointer = false;
+            resetCScan(hasFramePointer);    
+        }
     }//GEN-LAST:event_jMenuItemProjectPropertiesActionPerformed
 
     private void jMenuItemModiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemModiActionPerformed
@@ -3123,10 +3736,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }//GEN-LAST:event_jMenuItemRenameActionPerformed
 
     private void jMenuItemDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDeleteActionPerformed
+        
+        File ttest = new File(selectedTreeEntry.pathAndName.toString());
+        if (ttest.isDirectory()) return;
+        
         de.malban.util.UtilityFiles.deleteFile(selectedTreeEntry.pathAndName.toString());
 
         
-        // check for a property file!
+        // check for a property file!        
         String type ="";
         String pathFull ="";
         String pathOnly ="";
@@ -3148,13 +3765,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (test.exists())
         {
             
+            pathOnly = de.malban.util.Utility.makeRelative(pathOnly);
             FilePropertiesPool pool = new FilePropertiesPool(pathOnly+File.separator, test.getName());
             FileProperties fileProperties =  pool.get(filenameOnly);
             if (fileProperties!=null)
             {
                 if (fileProperties.getFilename().endsWith(filenameOnly))
                 {
-                    de.malban.util.UtilityFiles.deleteFile(pathOnly+File.separator+ filenameBaseOnly+"FileProperty.xml");
+                    de.malban.util.UtilityFiles.deleteFile(Global.mainPathPrefix+pathOnly+File.separator+ filenameBaseOnly+"FileProperty.xml");
                 }
             }
         }
@@ -3166,10 +3784,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         refreshTree();
     }//GEN-LAST:event_jMenuItemRefreshActionPerformed
 
-    public void refreshTree()
-    {
-        fillTree(currentStartPath);        
-    }
     
     private void jMenuItemDuplicateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDuplicateActionPerformed
         if (selectedTreeEntry == null) return;
@@ -3184,7 +3798,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         fc.setMultiSelectionEnabled(true);
         if (lastPath.length()==0)
         {
-            fc.setCurrentDirectory(new java.io.File("."));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
         }
         else
         {
@@ -3211,14 +3825,16 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             for (File f : files)
                 addFileToProject(f);
         }        
-        fillTree(Paths.get(currentProject.getPath(), currentProject.getProjectName()));
+        fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(currentProject.getPath()), currentProject.getProjectName()));
     }//GEN-LAST:event_jMenuItemAddToProjectActionPerformed
 
     private void jMenuItemCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseActionPerformed
         inProject = false;
         fillTree();
         closeAllEditors();
+        
         ASM6809FileInfo.clearDefinitions();
+        
         settings.currentProject = null;
         currentProject = null;
     }//GEN-LAST:event_jMenuItemCloseActionPerformed
@@ -3232,7 +3848,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         settings.currentProject = null;
         currentProject = null;
     }
-    
     private void jListProjectsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListProjectsMousePressed
         
         if (evt.getClickCount() == 2) 
@@ -3261,8 +3876,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             if (index == -1) return;
      
             EditorFileSettings fn = settings.recentOpenFiles.get(index);
-            EditorPanel edi = addEditor(fn.filename, false);
-            edi.setPosition(fn.position);
+            EditorPanel edi = addEditor(Global.mainPathPrefix+convertSeperator(fn.filename), true);
+            if (edi != null)
+            {
+                edi.setPosition(fn.position);
+            }
             oneTimeTab = null;
             if (edi == null)
             {
@@ -3272,7 +3890,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             if (!inProject)
             {
                 if (edi != null)
-                    fillTree(Paths.get(fn.filename).getParent());
+                    fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(fn.filename)).getParent());
                 else
                     fillTree();
             }
@@ -3310,6 +3928,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (test.exists())
         {
             String pathOnly = test.getParent().toString();
+            pathOnly = de.malban.util.Utility.makeRelative(pathOnly);  
             if (pathOnly.length()!=0) pathOnly+=File.separator;
             FilePropertiesPool pool = new FilePropertiesPool(pathOnly, test.getName());
 
@@ -3318,7 +3937,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
             String scriptClass = fileProperties.getActionScriptClass();
             String scriptName = fileProperties.getActionScriptName();
-            ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_ACTION, currentProject.getProjectName(), fileNameOnly, "VediPanel", pathOnly);
+            ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_ACTION, currentProject.getProjectName(), fileNameOnly, "VediPanel", Global.mainPathPrefix+pathOnly );
             if (!ScriptDataPanel.executeScript(scriptClass, scriptName, VediPanel.this, ed))
             {
                 printWarning("Script for "+fileNameOnly+" returned with error!");
@@ -3357,8 +3976,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         pathOnly = p.getParent().toString();
         filenameOnly = p.getFileName().toString();
         YMJPanel.showYMPanelNoModal(pathFull, this);
-
-
     }//GEN-LAST:event_jMenuItemYMActionPerformed
 
     private void jMenuItemASFXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemASFXActionPerformed
@@ -3572,7 +4189,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (selectedTreeEntry == null) return;
         
         
-        String dir = "."+File.separator;
+        String dir = Global.mainPathPrefix;
         if (selectedTreeEntry.pathAndName.getParent() != null)
         {
             dir = selectedTreeEntry.pathAndName.getParent()+File.separator;
@@ -3589,6 +4206,132 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         doAKS();
 
     }//GEN-LAST:event_jMenuItemAKSActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        if (selectedTreeEntry == null) return;
+        doCCompilerSingleFile(selectedTreeEntry.pathAndName.toString());
+        refreshTree();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jTabbedPaneMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPaneMousePressed
+      
+
+    }//GEN-LAST:event_jTabbedPaneMousePressed
+
+    private void jEditorLogMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jEditorLogMousePressed
+        if (evt.getClickCount() == 2) 
+        {
+            Point pt = new Point(evt.getX(), evt.getY());
+            int pos = jEditorLog.viewToModel(pt);
+            int line = getLineOfPos(jEditorLog, pos);
+            if (line != -1)
+            {
+                String lineString = getLine(jEditorLog, line);
+                if (!lineString.contains(": error")) return;
+                if (lineString.indexOf(": error")<2) return;
+                // format
+                // ABS_FILENAME:ROW: error:
+                String filename = "";
+                String linenumber = "";
+                filename = lineString.substring(0, lineString.indexOf(": error"));
+                filename = filename.substring(0, filename.lastIndexOf(":"));
+
+                File f = new File(filename); 
+                if (!f.exists())
+                {
+                    if (filename.lastIndexOf(":")>0)
+                        filename = filename.substring(0, filename.lastIndexOf(":"));
+                }
+                linenumber = de.malban.util.UtilityString.replace(lineString, filename+":", "");
+                linenumber = linenumber.substring(0,linenumber.indexOf(":"));
+                
+                /*
+        // check if "C"
+        String fn = getSelectedEditor().getFilename().toLowerCase();
+        if ((fn.endsWith(".c")) || (fn.endsWith(".h")));
+                
+                
+                if (!lineString.startsWith(File.separator)) return;
+                String[] split = lineString.split(":");
+                split = removeEmpty(split);
+                if (split.length<2) return;
+                String file = split[0];
+                String lineno = split[1];
+                */
+                int lineNoI = DASM6809.toNumber(linenumber);
+
+
+                processErrorLine(filename, lineNoI);
+            }
+        }
+    }//GEN-LAST:event_jEditorLogMousePressed
+
+    private void jButtonAssembleOneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleOneActionPerformed
+        startTypeRun = START_TYPE_STOP;
+        runInternal();
+    }//GEN-LAST:event_jButtonAssembleOneActionPerformed
+
+    private void jButtonAssembleOne1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleOne1ActionPerformed
+        toAssi();
+        refreshTree();
+    }//GEN-LAST:event_jButtonAssembleOne1ActionPerformed
+
+    private void jButtonAssembleOne2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleOne2ActionPerformed
+        jButtonClearMessagesActionPerformed(null);
+        toAs6809();
+        refreshTree();
+    }//GEN-LAST:event_jButtonAssembleOne2ActionPerformed
+
+    private void jButtonAssembleOne3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleOne3ActionPerformed
+        jButtonClearMessagesActionPerformed(null);
+        preprocessOnly();
+        refreshTree();
+    }//GEN-LAST:event_jButtonAssembleOne3ActionPerformed
+
+    private void jButtonAssembleOne4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleOne4ActionPerformed
+        jButtonClearMessagesActionPerformed(null);
+        doAS6809();
+        refreshTree();
+    }//GEN-LAST:event_jButtonAssembleOne4ActionPerformed
+
+    private void jMenuItemCFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCFileActionPerformed
+
+        if (currentProject==null) return;
+        if (!currentProject.getIsPeerCProject()) return;
+        
+        String baseProjectPath = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+        if ((baseProjectPath.length() >0 ) && (!baseProjectPath.endsWith(File.separator))) baseProjectPath += File.separator;
+        baseProjectPath = baseProjectPath+currentProject.getProjectName()+File.separator+"source"+File.separator;
+
+        InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
+        fc.setCurrentDirectory(new java.io.File(baseProjectPath));
+
+            
+        int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
+        if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        lastPath = fc.getSelectedFile().getAbsolutePath();
+        
+        File newFile = new File(lastPath);
+        if (newFile.exists())
+        {
+            JOptionPane pane = new JOptionPane("The file already exists, do you really want\nto create a new file?\n\nAll previous data will be lost!", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+            int answer = JOptionPaneDialog.show(pane);
+            if (answer == JOptionPane.YES_OPTION)
+                System.out.println("YES");
+            else
+            {
+                System.out.println("NO");
+                return;
+            }
+        }
+        Path template = Paths.get(Global.mainPathPrefix, "template", "template.c");
+        de.malban.util.UtilityFiles.copyOneFile(template.toString(), lastPath);
+        
+        addEditor(lastPath, true);        
+        oneTimeTab = null;     
+        refreshTree();
+        
+    }//GEN-LAST:event_jMenuItemCFileActionPerformed
     
     @Override
     public void doQuickHelp(String word, String integer)
@@ -3659,12 +4402,17 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdressBack;
     private javax.swing.JButton jButtonAdressForward;
-    private javax.swing.JButton jButtonAssemble;
+    javax.swing.JButton jButtonAssemble;
+    private javax.swing.JButton jButtonAssembleOne;
+    private javax.swing.JButton jButtonAssembleOne1;
+    private javax.swing.JButton jButtonAssembleOne2;
+    private javax.swing.JButton jButtonAssembleOne3;
+    private javax.swing.JButton jButtonAssembleOne4;
     private javax.swing.JButton jButtonCheckVec4Ever;
     private javax.swing.JButton jButtonClearMessages;
     private javax.swing.JButton jButtonCopy;
     private javax.swing.JButton jButtonCut;
-    private javax.swing.JButton jButtonDebug;
+    javax.swing.JButton jButtonDebug;
     private javax.swing.JButton jButtonDebugSyntax;
     private javax.swing.JButton jButtonEjectVecForever;
     private javax.swing.JButton jButtonFileSelect1;
@@ -3705,11 +4453,13 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jListFiles;
     private javax.swing.JList jListProjects;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem1AddNewFile;
     private javax.swing.JMenuItem jMenuItemAKS;
     private javax.swing.JMenuItem jMenuItemASFX;
     private javax.swing.JMenuItem jMenuItemAction;
     private javax.swing.JMenuItem jMenuItemAddToProject;
+    private javax.swing.JMenuItem jMenuItemCFile;
     private javax.swing.JMenuItem jMenuItemClose;
     private javax.swing.JMenuItem jMenuItemDelete;
     private javax.swing.JMenuItem jMenuItemDuplicate;
@@ -3731,6 +4481,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JMenuItem jMenuItemYM;
     private javax.swing.JMenu jMenuNewFileMenu;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3738,6 +4489,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenuBP;
     private javax.swing.JPopupMenu jPopupMenuProjectProperties;
@@ -3756,6 +4508,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
@@ -3779,28 +4532,72 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     {
         tabChanged(false);
     }
-    
     public void printMessage(String s)
     {
+        if (s.trim().length()==0) return;
         try
         {
-            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("editLogMessage"));
+            if (s.endsWith("\n"))
+                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("editLogMessage"));
+            else
+                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("editLogMessage"));
+        } catch (Throwable e) { }
+        jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
+    }
+    
+    public void printNoLNMessage(String s)
+    {
+        if (s.trim().length()==0) return;
+        try
+        {
+            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("editLogMessage"));
         } catch (Throwable e) { }
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
     }
     public void printWarning(String s)
     {
+        if (s.trim().length()==0) return;
         try
         {
-            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("editLogWarning"));
+            if (s.endsWith("\n"))
+                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("editLogWarning"));
+            else
+                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("editLogWarning"));
+        } catch (Throwable e) { }
+        jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
+    }    
+    public void printNoLNWarning(String s)
+    {
+        if (s.trim().length()==0) return;
+        try
+        {
+            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("editLogWarning"));
         } catch (Throwable e) { }
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
     }    
     public void printError(String s)
     {
+        if (s.trim().length()==0) return;
         try
         {
-            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("error"));
+            if (s.endsWith("\n"))
+                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("editLogError"));
+            else
+                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("editLogError"));
+        
+        } catch (Throwable e) { 
+        System.out.println(e);
+        e.printStackTrace();
+        
+        }
+        jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
+    }
+    public void printNoLNError(String s)
+    {
+        if (s.trim().length()==0) return;
+        try
+        {
+            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("editLogError"));
         } catch (Throwable e) { }
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
     }
@@ -3845,7 +4642,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             {
                 if (s.startsWith("******"))
                 {
-                    jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle("error"));
+                    jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle("editLogError"));
                 }
                 else if (s.startsWith("++++++"))
                 {
@@ -3853,7 +4650,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 }
                 else if (s.startsWith("######"))
                 {
-                    jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle( "comment"));
+                    jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle("editLogComment"));
                 }
                 else
                     jEditorPaneASMListing.getDocument().insertString(jEditorPaneASMListing.getDocument().getLength(), s, TokenStyles.getStyle("editLogMessage"));
@@ -3875,7 +4672,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
             else if (type == ASM_MESSAGE_ERROR)
             {
-                jEditorASMMessages.getDocument().insertString(jEditorASMMessages.getDocument().getLength(), s, TokenStyles.getStyle("error"));
+                jEditorASMMessages.getDocument().insertString(jEditorASMMessages.getDocument().getLength(), s, TokenStyles.getStyle("editLogError"));
             }
             else if (type == ASM_MESSAGE_WARNING)
             {
@@ -3883,7 +4680,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
             else if (type == ASM_MESSAGE_OPTIMIZATION)
             {
-                jEditorASMMessages.getDocument().insertString(jEditorASMMessages.getDocument().getLength(), s, TokenStyles.getStyle("comment"));
+                jEditorASMMessages.getDocument().insertString(jEditorASMMessages.getDocument().getLength(), s, TokenStyles.getStyle("editLogComment"));
             }
         } catch (Throwable e) { }
         jEditorASMMessages.setCaretPosition(jEditorASMMessages.getDocument().getLength());
@@ -3978,10 +4775,131 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             
         }
     }
+    private void processErrorLine(String file, int lineno)
+    {
+        try
+        {
+            jumpToEdit(file, lineno);
+        }
+        catch (Throwable e)
+        {
+            
+        }
+        
+    }
     
     // figure out filename and line, - if possible
     public void processIncludeLine(String lineString)
     {
+        // check if "C"
+        String fn = getSelectedEditor().getFilename().toLowerCase();
+        if ((fn.endsWith(".c")) || (fn.endsWith(".h"))|| (fn.endsWith(".i")))
+        {
+            // C assumed
+            if (lineString.contains("//"))
+                lineString = lineString.substring(0,lineString.indexOf("//"));
+            lineString = de.malban.util.UtilityString.replace(lineString.trim(), "#", "");
+            lineString = de.malban.util.UtilityString.replace(lineString.trim(), "\t", "");
+            lineString = de.malban.util.UtilityString.replace(lineString.trim(), "include", "");
+            lineString = de.malban.util.UtilityString.replace(lineString.trim(), "INCLUDE", "");
+            lineString = de.malban.util.UtilityString.replace(lineString.trim(), "<", "");
+            lineString = de.malban.util.UtilityString.replace(lineString.trim(), ">", "");
+            lineString = de.malban.util.UtilityString.replace(lineString.trim(), "\"", "").trim();
+            // assuming lineString = filename
+            // try load in current Dir first
+            String nameToLoad=convertSeperator(lineString);
+            String line = nameToLoad;
+
+            
+            String[] parts = line.split("\"");
+            String name = "";
+            if (parts.length<=1) 
+                parts = line.split("'");
+            if (parts.length<=1) 
+                parts = line.split(" ");
+            if (parts.length<=0) 
+                return;
+            String filename;
+            filename = parts[0].trim();
+            if ((filename.length()==0) && (parts.length>1))filename = parts[1].trim();
+            if (filename.length()==0)return;
+            String path = getSelectedEditor().getPath();
+            if (path != null)
+            {
+                nameToLoad=path+File.separator;
+            }
+            nameToLoad=convertSeperator(nameToLoad);
+            
+            // check sub dirs
+            if (File.separator.equals("\\"))
+            {
+                // Windows!!!!
+                parts = filename.split("\\\\");
+            }
+            else
+                parts = filename.split(File.separator);
+            if (parts.length > 1)
+            {
+                String firstPart="";
+                for (int i=0; i<parts.length-1; i++)
+                    firstPart += parts[i]+File.separator;
+                if (nameToLoad.endsWith(firstPart))
+                    filename = parts[parts.length-1];
+                
+            }            
+            nameToLoad+=filename;
+            
+            boolean hasFramePointer = true;
+            if (currentProject != null)
+            {
+                if (currentProject.getIsPeerCProject())
+                {
+                    String flags = currentProject.getCFLAGS();
+                    if (flags.contains("-fomit-frame-pointer"))
+                        hasFramePointer = false;
+                }
+            }
+            
+
+            File f = new File(nameToLoad);
+            if (!f.exists())
+            {
+                nameToLoad = Global.mainPathPrefix+"C"+File.separator+"include"+File.separator+filename;
+                if (inProject)
+                {
+                    if (currentProject.getIsPeerCProject())
+                    {
+                        if (hasFramePointer)
+                            nameToLoad = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"include"+File.separator+filename;
+                        else
+                            nameToLoad = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"include.nf"+File.separator+filename;
+                    }
+                }
+                f = new File(nameToLoad);
+                if (!f.exists())
+                {
+                    if (inProject)
+                    {
+                        if (currentProject.getIsPeerCProject())
+                        {
+                            path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+                            if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
+                            String baseProjectPath = path+currentProject.getProjectName();
+                            nameToLoad = baseProjectPath+ File.separator+"include"+File.separator+filename;;
+                        }
+                    }
+                    f = new File(nameToLoad);
+                    if (!f.exists()) return;
+                }
+            }
+            
+            jumpToEdit(nameToLoad, 0);
+
+            
+            return;
+        }
+        
+        
         // if something is not as expected... well just do nothing
         lineString = convertSeperator(lineString);
         try
@@ -4023,9 +4941,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     firstPart += parts[i]+File.separator;
                 if (nameToLoad.endsWith(firstPart))
                     filename = parts[parts.length-1];
-                
             }
-            
             
             
             nameToLoad+=filename;
@@ -4045,7 +4961,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         for (int i=0; i < jTabbedPane1.getTabCount(); i++)
         {
             String tabName = jTabbedPane1.getTitleAt(i);
-            if (tabName.equals(name))
+            if (tabName.equalsIgnoreCase(name))
             {
                 found = i;
                 break;
@@ -4166,6 +5082,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     public static final int DIR = 0;
     public static final int FILE = 1;
     public boolean projectLoaded = true;
+
+    public void refreshTree()
+    {
+        fillTree(currentStartPath, true);        
+    }
     void fillTree()
     {
         if (!projectLoaded)
@@ -4174,10 +5095,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             root = null;
             return;
         }
-        Path startpath = Paths.get(".","codelib");
+        Path startpath = Paths.get(Global.mainPathPrefix,"codelib");
         fillTree(startpath);
     }
     void fillTree(Path startpath)
+    {
+        fillTree(startpath, false);
+    }
+    void fillTree(Path startpath, boolean refresh)
     {
         if (fileView)
         {
@@ -4195,11 +5120,82 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         rootEntry.myNode = root;
         rootEntry.parentNode = null;
         addChildren(root);
-        jTree1.setModel(new DefaultTreeModel(root));
+        if (!refresh)
+            jTree1.setModel(new DefaultTreeModel(root));
+        else
+        {
+            
+            StringBuilder sb = new StringBuilder();
+
+            for(int i =0 ; i < jTree1.getRowCount(); i++){
+                TreePath tp = jTree1.getPathForRow(i);
+                if(jTree1.isExpanded(i)){
+                    sb.append(tp.toString());
+                    sb.append(",");
+                }
+            }
+            jTree1.setModel(new DefaultTreeModel(root));
+            
+            String state = sb.toString();
+            for(int i = 0 ; i<jTree1.getRowCount(); i++){
+                TreePath tp = jTree1.getPathForRow(i);
+                if(state.contains(tp.toString() )){
+                    jTree1.expandRow(i);
+                }             
+            }
+    
+/*            
+            List<TreePath> loEpanded = new ArrayList<>();        
+            for(int i = 0; i <jTree1.getRowCount()-1; i++){            
+                if(jTree1.getPathForRow(i).isDescendant(jTree1.getPathForRow(i+1))){
+                    loEpanded.add(jTree1.getPathForRow(i));
+                }
+            }        
+            jTree1.setModel(new DefaultTreeModel(root));
+//            ((DefaultTreeModel) jTree1.getModel()).reload();        
+            for(TreePath ot : loEpanded){
+                jTree1.expandPath(ot);
+            }
+*/
+        }
+        if (!refresh)
+        {
+            if (currentProject != null)
+            {
+                if (currentProject.getIsPeerCProject())
+                {
+
+
+                    DefaultMutableTreeNode node = null; 
+
+                    Enumeration enumeration= root.breadthFirstEnumeration(); 
+                    while(enumeration.hasMoreElements()) 
+                    {
+
+                        node = (DefaultMutableTreeNode)enumeration.nextElement(); 
+                        if("source".equals(node.getUserObject().toString())) 
+                        {
+                            TreeNode[] nodes = ((DefaultTreeModel) jTree1.getModel()).getPathToRoot(node);
+                                TreePath tpath = new TreePath(nodes);
+                                jTree1.scrollPathToVisible(tpath);
+
+                                jTree1.getSelectionModel().setSelectionPath(tpath);
+                                jTree1.expandPath(tpath);
+                //                jTree1.setSelectionPath(tpath);
+
+                                break;
+                        } 
+                    } 
+                }
+            }
+        }
+
+        
+        
     }
     void fillTreeFiles()
     {
-        Path startpath = Paths.get(".","");
+        Path startpath = Paths.get(Global.mainPathPrefix,"");
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeEntry(startpath));
         addChildrenFile(root);
         jTree1.setModel(new DefaultTreeModel(root));
@@ -4396,7 +5392,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             File test = new File(start+ filenameBaseOnly+"FileProperty.xml");
             if (test.exists())
             {
-                FilePropertiesPool pool = new FilePropertiesPool(start, filenameBaseOnly+"FileProperty.xml");
+                String rel = de.malban.util.Utility.makeRelative(start);
+                if (rel.length()>0) rel = rel + File.separator;
+                FilePropertiesPool pool = new FilePropertiesPool(rel, filenameBaseOnly+"FileProperty.xml");
                 FileProperties fileProperties =  pool.get(filenameOnly);
                 if (fileProperties == null)
                 {
@@ -4427,7 +5425,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         nfilenameBaseOnly = nfilenameOnly;                    
                     
                     fileProperties.mName = nfilenameOnly;
-                    fileProperties.setFilename(npathFull);
+                    fileProperties.setFilename(de.malban.util.Utility.makeRelative(npathFull));
                     fileProperties.setTyp(ntype);
                     pool.put(fileProperties);
                     pool.save();
@@ -4456,9 +5454,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         }
         // set Tree to location
         inProject = true;
-        fillTree(Paths.get(project.getPath(), project.getProjectName()));
-        
         currentProject = project;
+        fillTree(Paths.get(Global.mainPathPrefix+ convertSeperator(project.getPath()) , project.getProjectName()));
+        
         settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
         settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
                 
@@ -4471,16 +5469,22 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             String filenameASM = currentProject.getBankMainFiles().elementAt(b);
             if (filenameASM.length() == 0) continue;
             filenameASM = path+currentProject.getProjectName()+File.separator+filenameASM;
-            File test = new File(filenameASM);
+            File test = new File(Global.mainPathPrefix+filenameASM);
             if (!test.exists())
             {
                 continue; // allow empty names!
             }                
 
             ASM6809FileInfo.handleFile(filenameASM, null);
-        
         }
-                
+        if (currentProject.getIsPeerCProject())
+        {
+            String flags = currentProject.getCFLAGS();
+            boolean hasFramePointer = true;
+            if (flags.contains("-fomit-frame-pointer"))
+                hasFramePointer = false;
+            resetCScan(hasFramePointer);    
+        }
                 
                 
         updateList();
@@ -4496,7 +5500,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         // try to create dir and save project properties
         String p1 = project.getPath();
         String p2 = project.getProjectName();
-        Path p = Paths.get(p1,p2);
+        Path p = Paths.get(Global.mainPathPrefix+p1,p2);
         
         
         if (((p.toAbsolutePath().toFile().exists()) ) && (askForDirDouble))
@@ -4518,10 +5522,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             {
                 // create dir
                 File file = p.toAbsolutePath().toFile();
+
+                
                 boolean b = file.mkdir();
                 if (!b)
                 {
-                    JOptionPane pane = new JOptionPane("Failed to create directory!", JOptionPane.ERROR_MESSAGE, JOptionPane.CLOSED_OPTION);
+                    JOptionPane pane = new JOptionPane("Failed to create directory!\n"+p.toAbsolutePath(), JOptionPane.ERROR_MESSAGE, JOptionPane.CLOSED_OPTION);
                     JOptionPaneDialog.show(pane);
                     return;
                 }
@@ -4530,7 +5536,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         // dir created!
         // now save ProjectProperties!
         p = Paths.get(project.getPath(), project.getProjectName());
-        File xmlFile = new File(p.toString()+File.separator+ project.getProjectName()+".xml");
+        File xmlFile = new File(Global.mainPathPrefix+p.toString()+File.separator+ project.getProjectName()+".xml");
         if (xmlFile.exists())
         {
             JOptionPane pane = new JOptionPane("Projectfile already exists! \nNew project cancled!", JOptionPane.ERROR_MESSAGE, JOptionPane.CLOSED_OPTION);
@@ -4546,12 +5552,16 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
         // project file saved
         // now create new project [asm] file(s)
-        
+        if (project.getIsPeerCProject())
+        {
+            doCreatePeerCProject( project);
+            return;
+        }
         if (project.getcreateGameLoopCode())
         {
             if ((project.getBankswitching().equals("none")) || (!project.getcreateBankswitchCode()))
             {
-                File asmFile = new File(p.toString()+File.separator+ project.getMainFile());
+                File asmFile = new File(Global.mainPathPrefix+p.toString()+File.separator+ project.getMainFile());
                 if (asmFile.exists())
                 {
                     JOptionPane pane = new JOptionPane("The file:\""+project.getMainFile()+"\" already exists, do you really want\nto create a new file?\n\nAll previous data will be lost!", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
@@ -4565,10 +5575,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     }
                 }
 
-                Path template = Paths.get(".", "template", "vectrexMain.template");
+                Path template = Paths.get(Global.mainPathPrefix, "template", "vectrexMain.template");
                 de.malban.util.UtilityFiles.copyOneFile(template.toString(), asmFile.toString());
-                Path include = Paths.get(".", "template", "VECTREX.I");
-                File includeFile = new File(p.toString()+File.separator+ "VECTREX.I");
+                Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
+                File includeFile = new File(Global.mainPathPrefix+p.toString()+File.separator+ "VECTREX.I");
                 de.malban.util.UtilityFiles.copyOneFile(include.toString(), includeFile.toString());
 
                 addEditor(asmFile.toString(), true);      
@@ -4594,14 +5604,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     project.getBankMainFiles().setElementAt(name1, 1);
                 }
 
-                Path template = Paths.get(".", "template", "bank0Main.template");
-                de.malban.util.UtilityFiles.copyOneFile(template.toString(), p.toString()+File.separator+name0.toString());
-                template = Paths.get(".", "template", "bank1Main.template");
-                de.malban.util.UtilityFiles.copyOneFile(template.toString(), p.toString()+File.separator+name1.toString());
+                Path template = Paths.get(Global.mainPathPrefix, "template", "bank0Main.template");
+                de.malban.util.UtilityFiles.copyOneFile(template.toString(), Global.mainPathPrefix+p.toString()+File.separator+name0.toString());
+                template = Paths.get(Global.mainPathPrefix, "template", "bank1Main.template");
+                de.malban.util.UtilityFiles.copyOneFile(template.toString(), Global.mainPathPrefix+p.toString()+File.separator+name1.toString());
                 
                 
-                Path include = Paths.get(".", "template", "VECTREX.I");
-                de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "VECTREX.I");
+                Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
+                de.malban.util.UtilityFiles.copyOneFile(include.toString(), Global.mainPathPrefix+p.toString()+File.separator+ "VECTREX.I");
                 
                 
             }
@@ -4617,22 +5627,22 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         //name0 = file.toString();
                         project.getBankMainFiles().setElementAt(name, i);
                     }
-                    Path template = Paths.get(".", "template", "vecflashBankXMain.template");
+                    Path template = Paths.get(Global.mainPathPrefix, "template", "vecflashBankXMain.template");
                     
                     
                     String bankMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
                     bankMain = de.malban.util.UtilityString.replace(bankMain,"3+1", ""+project.getNumberOfBanks()+"+1");
                     bankMain = de.malban.util.UtilityString.replace(bankMain,"BANK 0", "BANK "+i);
                     bankMain = de.malban.util.UtilityString.replace(bankMain,"Bank 0", "Bank "+i);
-                    de.malban.util.UtilityFiles.createTextFile(p.toString()+File.separator+name.toString(), bankMain);
+                    de.malban.util.UtilityFiles.createTextFile(Global.mainPathPrefix+p.toString()+File.separator+name.toString(), bankMain);
 
                     
                     
                 }
-                Path include = Paths.get(".", "template", "VECTREX.I");
-                de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "VECTREX.I");
-                Path flashi = Paths.get(".", "template", "vecflash_bs.i");
-                de.malban.util.UtilityFiles.copyOneFile(flashi.toString(), p.toString()+File.separator+ "vecflash_bs.i");
+                Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
+                de.malban.util.UtilityFiles.copyOneFile(include.toString(), Global.mainPathPrefix+p.toString()+File.separator+ "VECTREX.I");
+                Path flashi = Paths.get(Global.mainPathPrefix, "template", "vecflash_bs.i");
+                de.malban.util.UtilityFiles.copyOneFile(flashi.toString(),Global.mainPathPrefix+ p.toString()+File.separator+ "vecflash_bs.i");
             }
             
             shouldSave = true;
@@ -4640,35 +5650,35 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         
         if ((project.getExtras() & Cartridge.FLAG_DS2430A) == Cartridge.FLAG_DS2430A)
         {
-            Path include = Paths.get(".", "template", "VECTREX.I");
-            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "VECTREX.I");
+            Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), Global.mainPathPrefix+p.toString()+File.separator+ "VECTREX.I");
 
-            include = Paths.get(".", "template", "ds2430LowLevel.i");
-            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2430LowLevel.i");
-            include = Paths.get(".", "template", "ds2430HighLevel.i");
-            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2430HighLevel.i");
-            include = Paths.get(".", "template", "ds2430ExampleMain.template");
-            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2430ExampleMain.asm");
+            include = Paths.get(Global.mainPathPrefix, "template", "ds2430LowLevel.i");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), Global.mainPathPrefix+p.toString()+File.separator+ "ds2430LowLevel.i");
+            include = Paths.get(Global.mainPathPrefix, "template", "ds2430HighLevel.i");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), Global.mainPathPrefix+p.toString()+File.separator+ "ds2430HighLevel.i");
+            include = Paths.get(Global.mainPathPrefix, "template", "ds2430ExampleMain.template");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), Global.mainPathPrefix+p.toString()+File.separator+ "ds2430ExampleMain.asm");
             project.getBankMainFiles().setElementAt("ds2430ExampleMain.asm", 0);
         }
         if ((project.getExtras() & Cartridge.FLAG_DS2431) == Cartridge.FLAG_DS2431)
         {
-            Path include = Paths.get(".", "template", "VECTREX.I");
-            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "VECTREX.I");
+            Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), Global.mainPathPrefix+p.toString()+File.separator+ "VECTREX.I");
 
-            include = Paths.get(".", "template", "ds2431LowLevel.i");
-            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2431LowLevel.i");
-            include = Paths.get(".", "template", "ds2431HighLevel.i");
-            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2431HighLevel.i");
-            include = Paths.get(".", "template", "ds2431ExampleMain.template");
-            de.malban.util.UtilityFiles.copyOneFile(include.toString(), p.toString()+File.separator+ "ds2431ExampleMain.asm");
+            include = Paths.get(Global.mainPathPrefix, "template", "ds2431LowLevel.i");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), Global.mainPathPrefix+p.toString()+File.separator+ "ds2431LowLevel.i");
+            include = Paths.get(Global.mainPathPrefix, "template", "ds2431HighLevel.i");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), Global.mainPathPrefix+p.toString()+File.separator+ "ds2431HighLevel.i");
+            include = Paths.get(Global.mainPathPrefix, "template", "ds2431ExampleMain.template");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), Global.mainPathPrefix+p.toString()+File.separator+ "ds2431ExampleMain.asm");
             project.getBankMainFiles().setElementAt("ds2431ExampleMain.asm", 0);
         }
 
 
         // set Tree to location
         inProject = true;
-        fillTree(Paths.get(project.getPath(), project.getProjectName()));
+        fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(project.getPath()), project.getProjectName()));
         
         // TODO all additional project stuff
         currentProject = project;
@@ -4679,22 +5689,31 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
 
         updateList();
 
-        p = Paths.get(project.getPath(), project.getProjectName());
+        p = Paths.get(Global.mainPathPrefix+convertSeperator(project.getPath()), project.getProjectName());
         File asmFile = new File(p.toString()+File.separator+ project.getMainFile());
         ASM6809FileInfo.resetToProject(asmFile);
     }
     @Override
     public void processWord(String word)
     {
-        if (checkBIOSFile(word))
+        if (!currentProject.getIsPeerCProject())
         {
-            return;
+            if (checkBIOSFile(word))
+            {
+                return;
+            }
         }
         EntityDefinition entity = LabelSink.knownGlobalVariables.get(word);
         if (entity == null)
         {
             entity = MacroSink.knownGlobalMacros.get(word);        
         }
+        if (entity == null)
+        {
+            entity = FunctionSink.knownGlobalFunctions.get(word);
+        }
+        
+        
         if (entity == null) 
         {
             printWarning("no definition found for: \""+word+"\"");
@@ -4705,12 +5724,23 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (entity.getType() == EntityDefinition.TYP_LABEL) message.append(" label");
         else message.append(" macro");
         message.append("\n");
-        message.append("defined at: ").append(entity.getFile().toString()).append("(").append(entity.getLineNumber()).append(")");
+        
+        
+        if (entity.getCFile()!=null)
+            message.append("defined at: ").append(entity.getCFile().toString()).append("(").append(entity.getLineNumber()).append(")");
+        else
+            message.append("defined at: ").append(entity.getFile().toString()).append("(").append(entity.getLineNumber()).append(")");
         printMessage(message.toString());
 
         try
         {
-            final String filename = de.malban.util.UtilityFiles.convertSeperator(entity.getFile().toString());
+            final String filename;
+            
+            if (entity.getCFile()!=null)
+                filename = de.malban.util.UtilityFiles.convertSeperator(entity.getCFile().toString());
+            else
+                filename = de.malban.util.UtilityFiles.convertSeperator(entity.getFile().toString());
+
             if (filename.length()==0)return;
             final int line = entity.getLineNumber();
             SwingUtilities.invokeLater(new Runnable()
@@ -4735,6 +5765,20 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (ppath.length()>0) ppath += File.separator;
         de.malban.util.UtilityFiles.copyOneFile(f.getAbsolutePath(), ppath+currentProject.mName+File.separator+filename);
     }
+    
+    public void reDisplayAll()
+    {
+        for (int i=0; i<jTabbedPane1.getTabCount();i++)
+        {
+            if (jTabbedPane1.getComponentAt(i) instanceof EditorPanel)
+            {
+                EditorPanel ep = (EditorPanel) jTabbedPane1.getComponentAt(i);
+                ep.reColorDirect();
+
+            }
+        }
+    }
+    
     private void closeAllEditors()
     {
         while (jTabbedPane1.getTabCount()>0)
@@ -4797,16 +5841,51 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     private void doFileProperties(TreeEntry te)
     {
+        if (selectedTreeEntry==null) return; // how?
+        if (selectedTreeEntry.pathAndName==null) return; // file not project?
          FilePropertiesPanel.showEditFileProperties(selectedTreeEntry.pathAndName.toString());
     }
-    void doBuild()
+    void doBuildProject()
     {
         saveAll();
+        if (currentProject.getIsCProject())
+        {
+            if (startTypeRun == START_TYPE_STOP)
+            {
+                String fname = getSelectedEditor().getFilename();
+                if (fname == null) return;
+
+                if (fname.toLowerCase().endsWith(".c"))
+                {
+                    doCCompilerSingleFile(fname);
+                }
+                return;
+            }
+            doBuildCProject();
+            return;
+        }
+        if (currentProject.getIsPeerCProject())
+        {
+            doBuildPeerCProject();
+            return;
+        }
+        
+        if (startTypeRun == START_TYPE_STOP)
+        {
+            String fname = getSelectedEditor().getFilename();
+            if (fname == null) return;
+            startASM(fname);
+            return;
+        }
+            
+            
+        
+        
         // Build the complete project
         String preClass = currentProject.getProjectPreScriptClass();
         String preName = currentProject.getProjectPreScriptName();
         
-        String p = currentProject.getPath();
+        String p = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
         if (p.length()!=0) p += File.separator;
         p+= currentProject.getProjectName()+File.separator;
         
@@ -4814,7 +5893,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         boolean ok =  ScriptDataPanel.executeScript(preClass, preName, this, ed);
         if (!ok) return;
         clearASMOutput();
-        startBuild();
+        startBuildProject();
     }
     public static String convertSeperator(String filename)
     {
@@ -4835,7 +5914,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         {
             String pathOnly = test.getParent().toString();
             if (pathOnly.length()!=0) pathOnly+=File.separator;
-            FilePropertiesPool pool = new FilePropertiesPool(pathOnly, test.getName());
+            
+            String relOnly = de.malban.util.Utility.ensureRelative(pathOnly);
+            if (relOnly.length()!=0) relOnly+=File.separator;
+            
+            FilePropertiesPool pool = new FilePropertiesPool(relOnly, test.getName());
 
             FileProperties fileProperties =  pool.get(fileNameOnly);
             if (fileProperties == null) return false;
@@ -4862,7 +5945,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             {
                 String pathOnly = test.getParent().toString();
                 if (pathOnly.length()!=0) pathOnly+=File.separator;
-                FilePropertiesPool pool = new FilePropertiesPool(pathOnly, test.getName());
+                
+                String relPathOnly = de.malban.util.Utility.makeRelative(pathOnly);
+                if (relPathOnly.length()!=0) relPathOnly+=File.separator;
+                FilePropertiesPool pool = new FilePropertiesPool(relPathOnly, test.getName());
 
                 FileProperties fileProperties =  pool.get(fileNameOnly);
                 if (fileProperties == null) continue;
@@ -4889,7 +5975,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         return null;
     }                           
     // start a thread for assembler
-    public void startBuild()
+    public void startBuildProject()
     {
         if (asmStarted) return;
         asmStarted = true;
@@ -4904,7 +5990,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 boolean asmOk = true;
                 try
                 {
-                    String path = convertSeperator(currentProject.getPath());
+                    String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
                     if (path.length() >0 ) path += File.separator;
                     
                     // get all the files from a directory
@@ -4918,7 +6004,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                                 public void run()
                                 {
                                     printError("Error execute pre build script for: " + failure);
-                                    buildResult(false);
+                                    buildProjectResult(false);
                                 }
                             });                    
                             one = null;
@@ -4999,7 +6085,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                             public void run()
                             {
                                 printError("Nothing compiled, main not set? ");
-                                buildResult(false);
+                                buildProjectResult(false);
                             }
                         });                    
                         one = null;
@@ -5012,7 +6098,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     
                     // get all the files from a directory
                     final String failure2 = executeFileScripts("Post", path+currentProject.getProjectName());
-                    if (failure!=null) 
+                    if (failure2!=null) 
                     {
                         if (!asmOk)
                         {
@@ -5021,7 +6107,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                                 public void run()
                                 {
                                     printError("Error execute post build script for: " + failure2);
-                                    buildResult(false);
+                                    buildProjectResult(false);
                                 }
                             });                    
                             one = null;
@@ -5041,7 +6127,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                         {
                             printASMMessage("Exception while building: " + e.getMessage(), ASM_MESSAGE_ERROR);
                             printASMMessage(de.malban.util.Utility.getStackTrace(e), ASM_MESSAGE_ERROR);
-                            buildResult(false);
+                            buildProjectResult(false);
                         }
                     });   
                     one = null;
@@ -5056,7 +6142,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                     {
                         public void run()
                         {
-                            buildResult(false);
+                            buildProjectResult(false);
                         }
                     });                    
                     one = null;
@@ -5068,7 +6154,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 String postClass = currentProject.getProjectPostScriptClass();
                 String postName = currentProject.getProjectPostScriptName();
                 
-                String pp = convertSeperator(currentProject.getPath());
+                String pp = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
                 if (pp.length() >0 ) pp += File.separator;
                 pp += currentProject.getProjectName();
 
@@ -5080,7 +6166,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 {
                     public void run()
                     {
-                        buildResult(asmOk2);
+                        buildProjectResult(asmOk2);
                     }
                 });                    
                 
@@ -5095,7 +6181,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         one.start();           
     }            
         
-    protected void buildResult(boolean buildOk)
+    protected void buildProjectResult(boolean buildOk)
     {
         refreshTree();
         if (buildOk)
@@ -5105,7 +6191,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
                 VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
                 ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
 
-                CartridgeProperties cartProp = buildCart(currentProject);
+                CartridgeProperties cartProp = buildCart(currentProject, true);
                 checkVec4EverProject(cartProp);
                 
                 
@@ -5156,7 +6242,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     {
         
         if (!filename.toLowerCase().endsWith("projectproperty.xml")) return false;
-        String file = de.malban.util.UtilityString.readTextFileToOneString(new File (filename));
+        String file = de.malban.util.UtilityString.readTextFileToOneString(new File (Global.mainPathPrefix+filename));
         if (!file.contains("<AllProjectProperties>")) return false;
         
         // remove all file from editor
@@ -5172,43 +6258,67 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         // set Tree to location
         inProject = true;
         
-        fillTree(Paths.get(project.getPath(), project.getProjectName()));
+        fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(project.getPath()), project.getProjectName()));
         
         currentProject = project;
         settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
         settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
         updateList();
 
-        Path p = Paths.get(project.getPath(), project.getProjectName());
+        Path p = Paths.get(Global.mainPathPrefix+convertSeperator(project.getPath()), project.getProjectName());
         File asmFile = new File(p.toString()+File.separator+ project.getMainFile());
 
         ASM6809FileInfo.resetToProject(asmFile);
         
         return true;
     }
-    CartridgeProperties buildCart(ProjectProperties project)
+    CartridgeProperties buildCart(ProjectProperties project, boolean banked)
     {
         CartridgeProperties cart = new CartridgeProperties();
         String path = convertSeperator(project.getPath());
         if (path.length() >0 ) path += File.separator;
 
-        for (int b = 0; b<project.getNumberOfBanks(); b++)
+        if (banked)
         {
-            String filename = project.getBankMainFiles().elementAt(b);
-            filename = path+project.getProjectName()+File.separator+filename;
-            int li = filename.lastIndexOf(".");
-            if (li>=0) 
-                filename = filename.substring(0,li);
-            filename = filename+"_"+(b) + ".bin";
-
-            File test = new File(filename);
-            if (!test.exists())
+            for (int b = 0; b<project.getNumberOfBanks(); b++)
             {
-                cart.getFullFilename().add("");
-                continue;
+                String filename = project.getBankMainFiles().elementAt(b);
+                filename = path+project.getProjectName()+File.separator+filename;
+                int li = filename.lastIndexOf(".");
+                if (li>=0) 
+                    filename = filename.substring(0,li);
+                filename = filename+"_"+(b) + ".bin";
+
+                File test = new File(Global.mainPathPrefix+filename);
+                if (!test.exists())
+                {
+                    cart.getFullFilename().add("");
+                    continue;
+                }
+                cart.getFullFilename().add(filename);
+            }        
+        }
+        else
+        {
+            int b= 0;
+            String filename = project.getBankMainFiles().elementAt(b);
+            
+            if (project.getIsPeerCProject())
+            {
+                filename = path+project.getProjectName()+File.separator+"bin"+File.separator+project.getProjectName();
             }
+            else
+            {
+                filename = path+project.getProjectName()+File.separator+project.getProjectName();
+            }
+            
+//            int li = filename.lastIndexOf(".");
+//            if (li>=0) 
+//                filename = filename.substring(0,li);
+            filename = filename+".bin";
+
             cart.getFullFilename().add(filename);
-        }        
+        }
         cart.setCartName(project.getProjectName()); 
         cart.setAuthor(project.getAuthor()); 
         String bs = project.getBankswitching();
@@ -5342,10 +6452,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         pathOnly = p.getParent().toString();
         filenameOnly = p.getFileName().toString();
         boolean pic = false;
-        if (filenameOnly.endsWith(".gif"))pic = true;
-        if (filenameOnly.endsWith(".jpg"))pic = true;
-        if (filenameOnly.endsWith(".png"))pic = true;
-        if (filenameOnly.endsWith(".bmp"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".gif"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".jpg"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".png"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".bmp"))pic = true;
         if (!pic) 
         {
             printError("Selected entry does not have a known image extension!");
@@ -5395,8 +6505,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         }
         filenameOnly = p.getFileName().toString();
         boolean wav = false;
-        if (filenameOnly.endsWith(".wav")) wav = true;
-        if (filenameOnly.endsWith(".pcm")) wav = true;
+        if (filenameOnly.toLowerCase().endsWith(".wav")) wav = true;
+        if (filenameOnly.toLowerCase().endsWith(".pcm")) wav = true;
         boolean done = false;
         if (!wav) 
             done  = SampleJPanel.showSamplePanel(pathOnly, false);
@@ -5496,30 +6606,45 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         String targetFile = pathOnly+File.separator+filenameBaseOnly+"AKS.asm";
         de.malban.util.UtilityFiles.createTextFile(targetFile, text);
         
-
-        String nameOnly = Paths.get(targetFile).getFileName().toString();
-        String barenameOnly = nameOnly.substring(0, nameOnly.length()-4); 
-        
-        Path include = Paths.get(".", "template", "VECTREX.I");
-        de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
-
-        Path digital = Paths.get(".", "template", "arkosPlayer.i");
-        de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "arkosPlayer.i");
-
-        Path template = Paths.get(".", "template", "arkosPlayerMain.template");
-        String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-
-        exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#AKS_DATA#", filenameBaseOnly+"AKS.asm");
+        boolean isPC = false;
+        if (currentProject!= null)
+        {
+            isPC = currentProject.getIsPeerCProject();
+        }
         
         
-        de.malban.util.UtilityFiles.createTextFile(pathOnly+filenameBaseOnly+"Main.asm", exampleMain);        
+        if (!isPC)
+        {
+            String nameOnly = Paths.get(targetFile).getFileName().toString();
+            String barenameOnly = nameOnly.substring(0, nameOnly.length()-4); 
+
+            Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
+
+            Path digital = Paths.get(Global.mainPathPrefix, "template", "arkosPlayer.i");
+            de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "arkosPlayer.i");
+
+            Path template = Paths.get(Global.mainPathPrefix, "template", "arkosPlayerMain.template");
+            String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#AKS_DATA#", filenameBaseOnly+"AKS.asm");
+
+
+            de.malban.util.UtilityFiles.createTextFile(pathOnly+filenameBaseOnly+"Main.asm", exampleMain);        
+        }
+        else
+        {
+            String pathSource = getProjectBase()+ File.separator+"source";
+            convertToCASM(targetFile, true);
+            de.malban.util.UtilityFiles.move(changeTypeTo(targetFile,"s"), pathSource+ File.separator+filenameBaseOnly+".s");
+
+            
+ 
+            String outName = pathSource+File.separator+filenameBaseOnly+".h";
+            String body = "extern const void* "+"SongAddress"+id+";\n";
+            de.malban.util.UtilityFiles.createTextFile(outName, body);
+        }
         refreshTree();            
-
-        
-        
-//         closeOneTimeTab();
-//            oneTimeTab = null;
-//           addEditor(pathOnly+File.separator+filenameOnly+"Bin.asm", true);
     }
     
     void doAYFX()
@@ -5536,6 +6661,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (pathOnly.length()>0)
             pathOnly+= File.separator;
         
+        
+        boolean isPC = false;
+        if (currentProject != null)
+        {
+            isPC = currentProject.getIsPeerCProject();
+        }
+        
+        
         filenameOnly = p.getFileName().toString();
         boolean pic = false;
         if (filenameOnly.toLowerCase().endsWith(".afx")) pic = true;
@@ -5545,33 +6678,69 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             return;
         }
         filenameBaseOnly = filenameOnly.substring(0, filenameOnly.length()-4);
-        
-        String targetFile = pathOnly+filenameBaseOnly+".asm";
-        if (!saveAYFX(pathFull, targetFile))
+                
+        if (isPC)
         {
-            printError("Could not generate asm file from: "+pathFull);
-            return;
+            String targetFile = pathOnly+filenameBaseOnly+".c";
+            if (!saveAYFXC(pathFull, targetFile))
+            {
+                printError("Could not generate c file from: "+pathFull);
+                return;
+
+            }
+            String nameOnly = Paths.get(targetFile).getFileName().toString();
+            String barenameOnly = nameOnly.substring(0, nameOnly.length()-2); // is a ".c", tehrefor a -2 must work!
+
+            String pathSource = getProjectBase()+ File.separator+"source";
+//            convertToCASM(targetFile, true);
+            de.malban.util.UtilityFiles.move(targetFile, pathSource+ File.separator+barenameOnly+".c");
+ 
             
+            
+            
+            String outName = pathSource+File.separator+barenameOnly+".h";
+            String body = "extern const unsigned int "+barenameOnly+"_data[];\n";
+            de.malban.util.UtilityFiles.createTextFile(outName, body);
         }
-        String nameOnly = Paths.get(targetFile).getFileName().toString();
-        String barenameOnly = nameOnly.substring(0, nameOnly.length()-4); // is a ".afx", tehrefor a -4 must work!
+        else
+        {
+            String targetFile = pathOnly+filenameBaseOnly+".asm";
+            if (!saveAYFX(pathFull, targetFile))
+            {
+                printError("Could not generate asm file from: "+pathFull);
+                return;
+
+            }
+            String nameOnly = Paths.get(targetFile).getFileName().toString();
+            String barenameOnly = nameOnly.substring(0, nameOnly.length()-4); // is a ".afx", tehrefor a -4 must work!
+
+            
+            Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
+            de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
+            Path digital = Paths.get(Global.mainPathPrefix, "template", "ayfxPlayer.i");
+            de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "ayfxPlayer.i");
+
+            Path template = Paths.get(Global.mainPathPrefix, "template", "ayfxPlayMain.template");
+            String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#AYFX_DATA_ADDRESS#", barenameOnly+"_data");
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#AYFX_DATA#", filenameBaseOnly+".asm");
+            exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#AYFX_NAME#", de.malban.util.UtilityString.onlyUpperASCII(filenameBaseOnly.toUpperCase()));
+
+
+            de.malban.util.UtilityFiles.createTextFile(pathOnly+filenameBaseOnly+"Main.asm", exampleMain);        
+        }
 
         
-        Path include = Paths.get(".", "template", "VECTREX.I");
-        de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
-        Path digital = Paths.get(".", "template", "ayfxPlayer.i");
-        de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "ayfxPlayer.i");
-
-        Path template = Paths.get(".", "template", "ayfxPlayMain.template");
-        String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
-
-        exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#AYFX_DATA_ADDRESS#", barenameOnly+"_data");
-        exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#AYFX_DATA#", filenameBaseOnly+".asm");
-        exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#AYFX_NAME#", de.malban.util.UtilityString.onlyUpperASCII(filenameBaseOnly.toUpperCase()));
-        
-        
-        de.malban.util.UtilityFiles.createTextFile(pathOnly+filenameBaseOnly+"Main.asm", exampleMain);        
         refreshTree();            
+    }
+    public String getProjectBase()
+    {
+        if (currentProject==null) return "";
+        String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+        if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
+        String baseProjectPath = path+currentProject.getProjectName();
+        return baseProjectPath;
     }
     boolean saveAYFX(String inFilename, String outFilename)
     {
@@ -5619,6 +6788,52 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         }
         return true;
     }
+    boolean saveAYFXC(String inFilename, String outFilename)
+    {
+        byte[] data;
+        Path path = Paths.get(inFilename);
+     
+        String nameOnly = path.getFileName().toString();
+        String barenameOnly = nameOnly.substring(0, nameOnly.length()-4); // is a ".afx", tehrefor a -4 must work!
+        
+        try
+        {
+            data = Files.readAllBytes(path);
+
+            StringBuilder buf = new StringBuilder();
+            int count = 0;
+
+            buf.append("// AYFX - Data of file: \""+inFilename+"\"\n");
+            buf.append("const unsigned int "+barenameOnly+"_data").append("[]=\n{\n");
+            for (int i=0; i< data.length;i++)
+            {
+                if (count == 0)
+                {
+                    buf.append("\t");
+                }
+                else
+                {
+                    buf.append("");
+                }
+                buf.append(String.format("0x%02X, ",data[i] ));
+                count++;
+                if (count == 10)
+                {
+                    count =0;
+                    buf.append("\n" );
+                }
+            }
+            buf.append("\n};\n");
+            de.malban.util.UtilityFiles.createTextFile(outFilename, buf.toString());
+        
+        }
+        catch (Throwable e)
+        {
+            log.addLog(e, WARN);
+            return false;
+        }
+        return true;
+    }
     void doVector()
     {
         // check for a property file!
@@ -5632,10 +6847,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         pathOnly = p.getParent().toString();
         filenameOnly = p.getFileName().toString();
         boolean pic = false;
-        if (filenameOnly.endsWith(".gif"))pic = true;
-        if (filenameOnly.endsWith(".jpg"))pic = true;
-        if (filenameOnly.endsWith(".png"))pic = true;
-        if (filenameOnly.endsWith(".bmp"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".gif"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".jpg"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".png"))pic = true;
+        if (filenameOnly.toLowerCase().endsWith(".bmp"))pic = true;
         if (!pic) 
         {
             printError("Selected entry does not have a known image extension!");
@@ -5933,11 +7148,11 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         Integer target = biosFileMap.get(word);
         if (target != null)
         {
-            String to = "tmp"+File.separator+"BIOS.ASM";
+            String to = Global.mainPathPrefix+"tmp"+File.separator+"BIOS.ASM";
             File biosFile = new File(to);
             if (!biosFile.exists())
             {
-                String from = "codelib"+File.separator+"Originals"+File.separator+"BIOS - Bruce Tomlin"+File.separator+"BIOS.ASM";
+                String from = Global.mainPathPrefix+"codelib"+File.separator+"Originals"+File.separator+"BIOS - Bruce Tomlin"+File.separator+"BIOS.ASM";
                 de.malban.util.UtilityFiles.copyOneFile(from, to);
             }
             try
@@ -5962,12 +7177,8 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     
     public static boolean displayHelp(String h)
     {
-//        if (checkBIOS(h))
-//        {
-//            return true;
-//        }
         h = h.toLowerCase();
-        String path = "help"+File.separator;
+        String path = Global.mainPathPrefix+"help"+File.separator;
         
         String full = path+h+".html";
         File f = new File(full);
@@ -6082,9 +7293,9 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             // concatinate the two
             if (cart.getFullFilename().size() == 2)
             {
-                String newFilename = cart.getFullFilename().elementAt(0).substring(0,cart.getFullFilename().elementAt(0).length()-1-4);
-                String n1 = cart.getFullFilename().elementAt(0);
-                String n2 = cart.getFullFilename().elementAt(1);
+                String newFilename = Global.mainPathPrefix+cart.getFullFilename().elementAt(0).substring(0,cart.getFullFilename().elementAt(0).length()-1-4);
+                String n1 = Global.mainPathPrefix+cart.getFullFilename().elementAt(0);
+                String n2 = Global.mainPathPrefix+cart.getFullFilename().elementAt(1);
                 de.malban.util.UtilityFiles.padFile(n1, (byte)0, 32768);
                 de.malban.util.UtilityFiles.padFile(n2, (byte)0, 32768);
                 n1 += ".fil";
@@ -6094,7 +7305,7 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
             }
             else
             {
-                String filename = cart.getFullFilename().elementAt(0);
+                String filename = Global.mainPathPrefix+cart.getFullFilename().elementAt(0);
                 checkVec4EverFile(filename);
             }
             
@@ -6130,12 +7341,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     void setFontSize(int fs)
     {
-        ArrayList<TokenStyles.MyStyle> cloneStyleList = TokenStyles.styleList;
-        TokenStyles.reset();
+//        ArrayList<TokenStyles.MyStyle> cloneStyleList = TokenStyles.styleList;
+        ArrayList<TokenStyles.MyStyle> cloneStyleList = (ArrayList<TokenStyles.MyStyle>) TokenStyles.styleList.clone();
+//        TokenStyles.reset();
         settings.fontSize = fs;
         
         for (TokenStyles.MyStyle style: cloneStyleList)
         {
+            if (style.name.contains("editLog")) continue;
             TokenStyles.addStyle(
                 style.name,
                 StyleConstants.getBackground(style),
@@ -6150,12 +7363,14 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     void increaseFontSize()
     {
-        ArrayList<TokenStyles.MyStyle> cloneStyleList = TokenStyles.styleList;
-        TokenStyles.reset();
+        ArrayList<TokenStyles.MyStyle> cloneStyleList = (ArrayList<TokenStyles.MyStyle>) TokenStyles.styleList.clone();
+//        ArrayList<TokenStyles.MyStyle> cloneStyleList = TokenStyles.styleList;
+    //    TokenStyles.reset();
         settings.fontSize++;
         
         for (TokenStyles.MyStyle style: cloneStyleList)
         {
+            if (style.name.contains("editLog")) continue;
             TokenStyles.addStyle(
                 style.name,
                 StyleConstants.getBackground(style),
@@ -6170,11 +7385,12 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     }
     void decreaseFontSize()
     {
-        ArrayList<TokenStyles.MyStyle> cloneStyleList = TokenStyles.styleList;
-        TokenStyles.reset();
+        ArrayList<TokenStyles.MyStyle> cloneStyleList = (ArrayList<TokenStyles.MyStyle>) TokenStyles.styleList.clone();
+    //    TokenStyles.reset();
         settings.fontSize--;
         for (TokenStyles.MyStyle style: cloneStyleList)
         {
+            if (style.name.contains("editLog")) continue;
             TokenStyles.addStyle(
                 style.name,
                 StyleConstants.getBackground(style),
@@ -6212,6 +7428,10 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
     };
     void updateMyUI()
     {
+        jEditorPaneASMListing.setText("");
+        jEditorASMMessages.setText("");
+        jEditorLog.setText("");
+
         SwingUtilities.updateComponentTreeUI(jPopupMenu1);
         SwingUtilities.updateComponentTreeUI(jPopupMenuTree);
         SwingUtilities.updateComponentTreeUI(jPopupMenuProjectProperties);
@@ -6239,61 +7459,123 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         if (edi != null)
         {
             String filename = edi.getFilename();
-            Set entries;
-            synchronized (LabelSink.knownGlobalVariables)
+            if (edi.assume6809C)
             {
-                HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) LabelSink.knownGlobalVariables.clone();
-                entries = clonnie.entrySet();
-            }
-            Iterator it = entries.iterator();
-            while (it.hasNext())
-            {
-                Map.Entry entry = (Map.Entry) it.next();
-                EntityDefinition entity = (EntityDefinition) entry.getValue();
-                if (!entity.getFile().toString().equals(filename)) continue;
-                boolean add = false;
-                
-                add = add || ((settings.showEQULabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_EQU_LABEL));
-                add = add || ((settings.showEqualLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_DEFINED_LABEL));
-                add = add || ((settings.showSetLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_SET_LABEL));
-                add = add || ((settings.showStructLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_STRUCT_LABEL));
-                add = add || ((settings.showInStructLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_INSTRUCT_LABEL));
-                add = add || ((settings.showLineLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_LINE_LABEL));
-                add = add || ((settings.showDataLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_DATA_LABEL));
-                add = add || ((settings.showMacroLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_INNER_MACRO_LABEL));
-                add = add || ((settings.showFunctionLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_FUNCTION_LABEL));
-                add = add || ((settings.showUserLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_VERIFIED_FUNCTION_LABEL));
-                
-                if (add)
-                    inventory.add(new InventoryEntry(entity.getName(), entity.getLineNumber(), entity.getSubType()));
-            }
-            HashMap<String, String> savety = new HashMap<String, String>();
-            if (settings.showMacroDefinition)
-            {
-                synchronized (MacroSink.knownGlobalMacros)
+                Set entries;
+                synchronized (FunctionSink.knownGlobalFunctions)
                 {
-                    HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) MacroSink.knownGlobalMacros.clone();
+                    HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) FunctionSink.knownGlobalFunctions.clone();
                     entries = clonnie.entrySet();
                 }
-                it = entries.iterator();
+                Iterator it = entries.iterator();
                 while (it.hasNext())
                 {
                     Map.Entry entry = (Map.Entry) it.next();
                     EntityDefinition entity = (EntityDefinition) entry.getValue();
-                    if (!entity.getFile().toString().equals(filename)) continue;
-                    
+                    if (entity.getCFile()!=null)
+                    {
+                        if (!entity.getCFile().toString().equals(filename)) 
+                            continue;
+                    }
                     boolean add = false;
 
-                    if ((entity.getSubType() == EntityDefinition.SUBTYPE_MACRO_DEFINITION_LABEL))
-                    {
-                        if (savety.get(entity.getName()) == null)
-                        {
-                            savety.put(entity.getName(), entity.getName());
-                            inventory.add(new InventoryEntry(entity.getName(), entity.getLineNumber(), entity.getSubType()));
-                        }
-                    }
-                }            
+                    add = add || ((settings.showEQULabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_EQU_LABEL));
+                    add = add || ((settings.showEqualLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_DEFINED_LABEL));
+                    add = add || ((settings.showSetLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_SET_LABEL));
+                    add = add || ((settings.showStructLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_STRUCT_LABEL));
+                    add = add || ((settings.showInStructLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_INSTRUCT_LABEL));
+                    add = add || ((settings.showLineLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_LINE_LABEL));
+                    add = add || ((settings.showDataLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_DATA_LABEL));
+                    add = add || ((settings.showMacroLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_INNER_MACRO_LABEL));
+                    add = add || ((settings.showFunctionLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_FUNCTION_LABEL));
+                    add = add || ((settings.showUserLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_VERIFIED_FUNCTION_LABEL));
+                    add = add || ((settings.showMacroDefinition) && (entity.getSubType() == EntityDefinition.SUBTYPE_MACRO_DEFINITION_LABEL));
+                    
+
+                    if (add)
+                        inventory.add(new InventoryEntry(entity.getName(), entity.getLineNumber(), entity.getSubType()));
+                }
             }
+            else if (edi.assume6809Asm)
+            {
+                Set entries;
+                synchronized (LabelSink.knownGlobalVariables)
+                {
+                    HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) LabelSink.knownGlobalVariables.clone();
+                    entries = clonnie.entrySet();
+                }
+                Iterator it = entries.iterator();
+                while (it.hasNext())
+                {
+                    Map.Entry entry = (Map.Entry) it.next();
+                    EntityDefinition entity = (EntityDefinition) entry.getValue();
+                    if (entity.getCFile()!=null)
+                    {
+                        if (!entity.getCFile().toString().equals(filename)) 
+                            continue;
+                    }
+                    else
+                    {
+                        if (!entity.getFile().toString().equals(filename)) 
+                            continue;
+                    }
+                    boolean add = false;
+
+                    add = add || ((settings.showEQULabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_EQU_LABEL));
+                    add = add || ((settings.showEqualLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_DEFINED_LABEL));
+                    add = add || ((settings.showSetLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_SET_LABEL));
+                    add = add || ((settings.showStructLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_STRUCT_LABEL));
+                    add = add || ((settings.showInStructLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_INSTRUCT_LABEL));
+                    add = add || ((settings.showLineLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_LINE_LABEL));
+                    add = add || ((settings.showDataLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_DATA_LABEL));
+                    add = add || ((settings.showMacroLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_INNER_MACRO_LABEL));
+                    add = add || ((settings.showFunctionLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_FUNCTION_LABEL));
+                    add = add || ((settings.showUserLabel) && (entity.getSubType() == EntityDefinition.SUBTYPE_VERIFIED_FUNCTION_LABEL));
+
+                    if (add)
+                        inventory.add(new InventoryEntry(entity.getName(), entity.getLineNumber(), entity.getSubType()));
+                }
+                HashMap<String, String> savety = new HashMap<String, String>();
+                if (settings.showMacroDefinition)
+                {
+                    synchronized (MacroSink.knownGlobalMacros)
+                    {
+                        HashMap<String, EntityDefinition> clonnie = (HashMap<String, EntityDefinition>) MacroSink.knownGlobalMacros.clone();
+                        entries = clonnie.entrySet();
+                    }
+                    it = entries.iterator();
+                    while (it.hasNext())
+                    {
+                        Map.Entry entry = (Map.Entry) it.next();
+                        EntityDefinition entity = (EntityDefinition) entry.getValue();
+
+                        if (entity.getCFile()!=null)
+                        {
+                            if (!entity.getCFile().toString().equals(filename)) 
+                                continue;
+                        }
+                        else
+                        {
+                            if (!entity.getFile().toString().equals(filename)) 
+                                continue;
+                        }
+                        
+
+                        boolean add = false;
+
+                        if ((entity.getSubType() == EntityDefinition.SUBTYPE_MACRO_DEFINITION_LABEL))
+                        {
+                            if (savety.get(entity.getName()) == null)
+                            {
+                                savety.put(entity.getName(), entity.getName());
+                                inventory.add(new InventoryEntry(entity.getName(), entity.getLineNumber(), entity.getSubType()));
+                            }
+                        }
+                    }            
+                }
+            }
+                
+
             
         }
         invUpdating = false;
@@ -6322,131 +7604,6 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         edi.goLine(inv.line);
         updateTables();
     }
-    
-    private Object syncObject = new Object();
-    private TimingTriggerer timer = null; 
-    private TriggerCallback timerWorker = null;
-    private void deinitScheduler()
-    {
-        synchronized (syncObject)
-        {
-            if (timer != null)
-            {
-                timer.removeTrigger(timerWorker);
-                timerWorker = null;
-                timer = null;
-            }
-        }
-    }
-
-    private void initScheduler()
-    {
-        if (timer == null)
-        {
-            timer = TimingTriggerer.getPrivatTimer();
-            timer.setResolution(10000); // 10 seconds
-            
-            timerWorker = new TriggerCallback()
-            {
-                @Override
-                public void doIt(int state, Object o)
-                {
-                    updateDefinitions();
-                    synchronized (syncObject)
-                    {
-                        if (timer != null)
-                        {
-                            if (timerWorker != null)
-                                timer.addTrigger(timerWorker, 10000, 0, null); // every 10 seconds
-                        }
-                    }
-                }
-            };
-            timer.addTrigger(timerWorker, 10000, 0, null);            
-        }
-    }
-    
-    boolean doIHaveSomeFocus()
-    {
-        Component c = getFrame().getFocusOwner();
-        if (c == null) return false;
-        
-        while (c != null)
-        {
-            if (c == this) return true;
-            c = c.getParent();
-        }
-        return false;
-    }
-    
-    boolean doesItHaveSomeFocus(Component editor)
-    {
-        Component c = getFrame().getFocusOwner();
-        if (c == null) return false;
-        
-        while (c != null)
-        {
-            if (c == editor) return true;
-            c = c.getParent();
-        }
-        return false;
-    }
-    private void updateDefinitions()
-    {
-        if (!doIHaveSomeFocus())
-        {
-            return;
-        }
-        SwingUtilities.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                for (int i=0; i <jTabbedPane1. getTabCount(); i++)
-                {
-                    try
-                    {
-                        if (jTabbedPane1.getComponentAt(i) instanceof EditorPanel)
-                        {
-                            EditorPanel edi = (EditorPanel) jTabbedPane1.getComponentAt(i);
-                            if (edi.assume6809Asm)
-                            {
-                                if (edi.hasChanged1)
-                                {
-                                    ASM6809FileInfo.resetDefinitions(edi.getFilename(), edi.getText());
-                                    edi.hasChanged1 = false;
-                                }
-                            }
-                        }
-                    }
-                    catch (Throwable e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-                if (getSelectedEditor() != null)
-                {
-                    if (getSelectedEditor().hasChanged2)
-                    {
-                        if (doesItHaveSomeFocus(getSelectedEditor()))
-                        {
-                            if (!getSelectedEditor().hasSelection())
-                            {
-        getSelectedEditor().setViewportEnabled(false);
-                                getSelectedEditor().saveSelection();
-                                getSelectedEditor().stopColoring();
-                                getSelectedEditor().startColoring(settings.fontSize);
-                                getSelectedEditor().restoreSelection();
-        getSelectedEditor().setViewportEnabled(true);
-                            }
-                        }
-                        getSelectedEditor().hasChanged2 = false;
-                    }
-                    
-                }
-               initInventory();
-            }
-        });                    
-    }   
     
     class HistoryEntry
     {
@@ -6514,5 +7671,4510 @@ public class VediPanel extends VEdiFoundationPanel implements TinyLogInterface, 
         jButtonAdressBack.setEnabled(historyPosition>0);
         jButtonAdressForward.setEnabled(historyPosition<history.size());
     }                                                 
+    private Object syncObject = new Object();
+    private TimingTriggerer timer = null; 
+    private TriggerCallback timerWorker = null;
+    private void deinitScheduler()
+    {
+        synchronized (syncObject)
+        {
+            if (timer != null)
+            {
+                timer.removeTrigger(timerWorker);
+                timerWorker = null;
+                timer = null;
+            }
+        }
+    }
+
+    private void initScheduler()
+    {
+        if (timer == null)
+        {
+            timer = TimingTriggerer.getPrivatTimer();
+            timer.setResolution(config.deepSyntaxCheckTiming); // 10 seconds
+            
+            timerWorker = new TriggerCallback()
+            {
+                @Override
+                public void doIt(int state, Object o)
+                {
+                    updateDefinitions();
+                    synchronized (syncObject)
+                    {
+                        if (timer != null)
+                        {
+                            if (timerWorker != null)
+                                timer.addTrigger(timerWorker, config.deepSyntaxCheckTiming, 0, null); // every 10 seconds
+                        }
+                    }
+                }
+            };
+            timer.addTrigger(timerWorker, config.deepSyntaxCheckTiming, 0, null);            
+        }
+    }
+    
+    boolean doIHaveSomeFocus()
+    {
+        if (getFrame()==null) return false;
+        Component c = getFrame().getFocusOwner();
+        if (c == null) return false;
+        
+        while (c != null)
+        {
+            if (c == this) return true;
+            c = c.getParent();
+        }
+        return false;
+    }
+    
+    boolean doesItHaveSomeFocus(Component editor)
+    {
+        Component c = getFrame().getFocusOwner();
+        if (c == null) return false;
+        
+        while (c != null)
+        {
+            if (c == editor) return true;
+            c = c.getParent();
+        }
+        return false;
+    }
+    private void updateDefinitions()
+    {
+        if (!doIHaveSomeFocus())
+        {
+            return;
+        }
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                if (config.deepSyntaxCheck)
+                {
+                    for (int i=0; i <jTabbedPane1. getTabCount(); i++)
+                    {
+                        try
+                        {
+                            if (jTabbedPane1.getComponentAt(i) instanceof EditorPanel)
+                            {
+                                EditorPanel edi = (EditorPanel) jTabbedPane1.getComponentAt(i);
+                                if (edi.assume6809Asm)
+                                {
+                                    if (edi.hasChanged1)
+                                    {
+                                        if ((config.deepSyntaxCheckThresholdActive) && (edi.getText().length()>config.deepSyntaxCheckThreshold))
+                                            continue;
+                                        ASM6809FileInfo.resetDefinitions(Global.mainPathPrefix+convertSeperator(edi.getFilename()), edi.getText());
+                                        edi.hasChanged1 = false;
+                                    }
+                                }
+                                if (edi.assume6809C)
+                                {
+                                    if (edi.hasChanged1)
+                                    {
+                                        if ((config.deepSyntaxCheckThresholdActive) && (edi.getText().length()>config.deepSyntaxCheckThreshold))
+                                            continue;
+                                        C6809FileInfo.resetDefinitions(Global.mainPathPrefix+convertSeperator(edi.getFilename()), edi.getText());
+                                        edi.hasChanged1 = false;
+                                    }
+                                }
+                            }
+                        }
+                        catch (Throwable e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (getSelectedEditor() != null)
+                    {
+                        if (getSelectedEditor().hasChanged2)
+                        {
+
+                            if (!((config.deepSyntaxCheckThresholdActive) && (getSelectedEditor().getText().length()>config.deepSyntaxCheckThreshold)))
+                            {
+                                if (doesItHaveSomeFocus(getSelectedEditor()))
+                                {
+                                    if (!getSelectedEditor().hasSelection())
+                                    {
+                getSelectedEditor().setViewportEnabled(false);
+                                        getSelectedEditor().saveSelection();
+                                        getSelectedEditor().stopColoring();
+                                        getSelectedEditor().startColoring(settings.fontSize);
+                                        getSelectedEditor().restoreSelection();
+                getSelectedEditor().setViewportEnabled(true);
+                                    }
+                                }
+                            }
+                            getSelectedEditor().hasChanged2 = false;
+                        }
+
+                    }
+                }
+
+                
+                
+                initInventory();
+            }
+        });                    
+    }   
+    public void deIconified()  {}
+    
+    // invokes compiler for one file
+    // and translforms output to assi compatible form
+    static boolean isMac = Global.getOSName().toUpperCase().contains("MAC");
+    static boolean isWin = Global.getOSName().toUpperCase().contains("WIN");
+    static boolean isLinux = Global.getOSName().toUpperCase().contains("LIN");
+
+    public void doCCompilerSingleFile(String file)
+    {
+        // build CFLAGS
+        String compiler = Global.mainPathPrefix+"C"+File.separator+"Mac"+File.separator+"gcc6809"+File.separator+"bin"+File.separator+"cc1";
+        String CFLAGS1a = "-dumpbase";
+        String CFLAGS1b = baseOnly(file);
+        String CFLAGS2a = "-O3";
+        String CFLAGS2b = "-g";
+        String CFLAGS3 = "-mint8";
+        String CFLAGS4 = "-msoft-reg-count=0";
+        String CFLAGS5a = "-auxbase";
+        String CFLAGS5b = baseOnly(file);
+        String CFLAGS6 = "-I"+Global.mainPathPrefix+"C"+File.separator+"include";
+        String CFLAGS7 = "-quiet";
+        
+        String program = file;
+        String output1 = "-o";
+        String output2 = changeTypeTo(file,"s");
+    
+        String [] cmd = new String[14];
+        int cl = 0;
+        cmd[cl++] = compiler;
+        cmd[cl++] = CFLAGS1a;   
+        cmd[cl++] = CFLAGS1b;   
+        cmd[cl++] = CFLAGS2a;
+        cmd[cl++] = CFLAGS2b;
+        cmd[cl++] = CFLAGS3;   
+        cmd[cl++] = CFLAGS4;
+        cmd[cl++] = CFLAGS5a;   
+        cmd[cl++] = CFLAGS5b;   
+        cmd[cl++] = CFLAGS6;   
+        cmd[cl++] = CFLAGS7;   
+        cmd[cl++] = program;
+        cmd[cl++] = output1;
+        cmd[cl++] = output2;  
+        
+        CompileResult compiled = doCCompiler( cmd);
+        if (peepAtASM)
+        {
+            if (currentProject.getIsCPeephole())
+                FilePeeper.peepCorrectASM(output2);
+        }
+        
+        
+        if (compiled != null)
+        {
+            ArrayList<CompileResult> crs = new ArrayList<CompileResult>();
+            crs.add(compiled);
+            buildFinalAssiResult(crs, false);
+        }
+    }
+    
+    public CompileResult doCCompiler(String[] flags)
+    {
+        if (isMac)
+        {
+            return doCCompilerMac(flags);
+        }
+        if (isWin)
+        {
+            return doCCompilerWin(flags);
+        }
+        return null;
+    }
+    public CompileResult doCCompilerWin(String[] flags)
+    {
+        flags[0]=Global.mainPathPrefix+"C"+File.separator+"Win32"+File.separator+"bin"+File.separator+"gcc6809.exe";
+        String file = flags[flags.length-3];
+        String outputFile = flags[flags.length-1];
+        try
+        {
+            log.addLog("Trying to compile: "+file, INFO);
+            boolean ok=  executeOSCommand(flags);
+            
+            String tt= UtilityFiles.lastError;
+            ok = ok && (!(UtilityFiles.lastError.contains("error:")));
+            
+            if (ok)
+            {
+                printWarning(UtilityFiles.lastError);
+                printMessage(UtilityFiles.lastMessage);
+                printMessage("\nCompile success");
+                CompileResult cr = doAssiConform(file, outputFile);
+                return cr;
+            }
+            
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
+        log.addLog("Compile failed: "+file, WARN);
+        printError(UtilityFiles.lastError);
+        printError(UtilityFiles.lastMessage);
+        printError("\nCompile failed");
+        return null;
+    }    
+    public CompileResult doCCompilerMac(String[] flags)
+    {
+        flags[0]=Global.mainPathPrefix+"C"+File.separator+"Mac"+File.separator+"bin"+File.separator+"cc1";
+        String file = flags[flags.length-3];
+        String outputFile = flags[flags.length-1];
+
+        printMessage("\nCompiling: "+file);
+        
+        try
+        {
+            log.addLog("Trying to compile: "+file, INFO);
+            boolean ok=  executeOSCommand(flags);
+            
+            String tt= UtilityFiles.lastError;
+            ok = ok && (!(UtilityFiles.lastError.contains("error:")));
+            
+            if (ok)
+            {
+                printWarning(UtilityFiles.lastError.trim());
+                printMessage(UtilityFiles.lastMessage.trim());
+                printMessage("\nCompile success");
+                CompileResult cr = doAssiConform(file, outputFile);
+                return cr;
+            }
+            
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
+        log.addLog("Compile failed: "+file, WARN);
+        printError(UtilityFiles.lastError);
+        printError(UtilityFiles.lastMessage);
+        printError("\nCompile failed");
+        return null;
+    }
+    public static String baseOnly(String file)
+    {
+        String fileWithoutEnding = file.substring(0, file.lastIndexOf("."));
+        return fileWithoutEnding;
+    }
+    public static String changeTypeTo(String file, String type)
+    {
+        return baseOnly(file)+"."+type;
+    }
+    static String nameOnly(String file)
+    {
+        file = convertSeperator(file);
+        if (!file.contains(File.separator)) return file;
+        if (file.endsWith(File.separator)) return "";
+        return file.substring(file.lastIndexOf(File.separator)+1);
+    }
+    
+    static class CompileResult
+    {
+        String inputFile;
+        String intermediateFile;
+        String codeData;
+        String dataData;
+        String bssData;
+        String bssInitData;
+        
+        
+        boolean initializedDataFound = false;
+        
+        String pathOnly;
+        String nameOnly;
+        
+        ArrayList <String> usedIncludeFiles = new ArrayList<String>();
+        HashMap<String,String> varMapping = new HashMap<String,String>();
+        HashMap<String,String> libCCalls = new HashMap<String,String>();
+    }
+    
+    boolean buildFinalAssiResult(ArrayList <CompileResult> compiles, boolean isProject)
+    {
+        String n = buildFinalAssiResultString(compiles, isProject);
+        if (n==null) return false;
+        String assiFile = changeTypeTo(compiles.get(0).inputFile, "asm");//.�pathOnly+"assiFile.asm";
+        if (currentProject != null)
+        {
+            String path = convertSeperator(currentProject.getPath());
+            if (path.length() >0 ) path += File.separator;
+            assiFile = path+currentProject.getProjectName()+File.separator+currentProject.getProjectName()+".asm";
+        }
+
+        de.malban.util.UtilityFiles.createTextFile(assiFile, n);
+        
+        if (!isProject)
+        {
+            startTypeRun = START_TYPE_RUN;
+            asmStarted = false;
+            startASM(assiFile);
+        }
+        
+        return true;
+    }
+    String buildFinalAssiResultString(ArrayList <CompileResult> compiles, boolean isProject)
+    {
+        if (compiles.size() == 0) return null;
+        HashMap<String,String> libCCalls = new HashMap<String,String>();
+        
+        Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
+        de.malban.util.UtilityFiles.copyOneFile(include.toString(), compiles.get(0).pathOnly+ "VECTREX.I");
+        
+        StringBuilder assiSource = new StringBuilder();
+        assiSource.append(" include \"VECTREX.I\"").append("\n");
+
+        boolean initializedDataFound = false;
+        for (CompileResult compile: compiles)
+        {
+            if (compile.initializedDataFound)
+            {
+                initializedDataFound = true;
+            }
+            Set entries = compile.libCCalls.entrySet();
+            Iterator it = entries.iterator();
+            while (it.hasNext())
+            {
+                Map.Entry entry = (Map.Entry) it.next();
+                String key = (String) entry.getKey();
+                String lib = (String) entry.getValue();
+                libCCalls.put(key, lib);
+            }
+        }
+        assiSource.append("; Vectrex RAM section").append("\n");
+        assiSource.append(" bss").append("\n");
+        assiSource.append(" org 0xc880").append("\n");
+        if (initializedDataFound)
+        {
+            assiSource.append("RAM_to_initialize_start:").append("\n");
+        }                
+        
+        for (CompileResult compile: compiles)
+        {
+            assiSource.append(compile.bssInitData);
+        }
+        
+        if (initializedDataFound)
+        {
+            assiSource.append("RAM_to_initialize_end:").append("\n");
+        }                
+        assiSource.append("RAM_uninitialized:").append("\n");
+        for (CompileResult compile: compiles)
+        {
+            assiSource.append(compile.bssData);
+        }
+
+        
+        StringBuilder crt0 = new StringBuilder();
+        crt0.append(getLibSource("crt0.s"));
+        // todo: replace some names etc
+
+        String crt0S = crt0.toString();
+        if (currentProject != null)
+        {
+            crt0S = de.malban.util.UtilityString.replace(crt0S, "VIDE-C", currentProject.getProjectName().toUpperCase());
+        }
+        
+        
+        assiSource.append(crt0S);
+
+        if (initializedDataFound)
+        {
+            assiSource.append(" jsr initializeData_bss").append("\n");
+        }                
+        assiSource.append(" jmp _main").append("\n");
+        
+        for (CompileResult compile: compiles)
+        {
+            assiSource.append(compile.codeData);
+        }
+        // add all libc sources that are needed
+        Set entries = libCCalls.entrySet();
+        Iterator it = entries.iterator();
+        while (it.hasNext())
+        {
+            Map.Entry entry = (Map.Entry) it.next();
+            String lib = (String) entry.getValue();
+            assiSource.append(getLibSource(lib));
+        }
+        
+        if (initializedDataFound)
+        {
+            assiSource.append(getLibSource("initbss.s"));
+            assiSource.append("data_to_initialize_bss:").append("\n");
+            for (CompileResult compile: compiles)
+            {
+                assiSource.append(compile.dataData);
+            }
+        }
+        
+        String n = prettyPrint(assiSource.toString());
+        
+        return n;
+    }
+    String getLibSource(String lib)
+    {
+        String fullPath = Global.mainPathPrefix+"C"+File.separator+"lib"+File.separator+lib;
+        return de.malban.util.UtilityString.readTextFileToOneString(new File(fullPath));
+    }
+    // returns length for use in "ds x" of a "db" statement
+    // it is tricky since DB can contain Strings and comma seperated values
+    static int getDBLen(String input)
+    {
+        if (!input.contains("db")) return 0;
+        if (!input.contains("\"")) return 1;
+        String split[] = input.split("\"");
+        split = removeEmpty(split);
+//        System.out.println(""+split);
+        return 1;
+    }
+    
+    public static  String[] removeEmpty(String split[])
+    {
+        ArrayList<String> l = new ArrayList<String>();
+        for (int i=0; i< split.length;i++)
+        {
+            if (split[i] == null) continue;
+            if (split[i].length() == 0) continue;
+            l.add(split[i]);
+        }
+        return l.toArray(new String[0]);
+    }
+    // check if line contains a variable
+    // if so change the line to use a with concatinated version of the name
+    static String doVarMapping(HashMap<String,String> map, String line, String append)
+    {
+        return line;
+        /*
+        String var="";
+        String workLine;
+        workLine = EntityDefinition.removeComment(line, ";");
+        workLine = EntityDefinition.removeComment(line, "*");
+        if (workLine.trim().length() == 0) return line;
+        if (workLine.startsWith("_main")) return line;
+
+        if (Character.isWhitespace(line.charAt(0))) 
+        {
+            // test operand
+            String split[] = line.split(" ");
+            split = removeEmpty(split);
+            if (split.length<2) return line;
+            
+            split[1] = de.malban.util.UtilityString.replace(split[1], "#", "");
+            split[1] = de.malban.util.UtilityString.replace(split[1], "<", "");
+            split[1] = de.malban.util.UtilityString.replace(split[1], ">", "");
+            split[1] = de.malban.util.UtilityString.replace(split[1], "<<", "");
+            
+            if (!split[1].startsWith("_")) return line;
+            String orgVar = split[1];
+
+            String newVar = orgVar+"_"+append;
+            map.put(orgVar, newVar);
+            return de.malban.util.UtilityString.replace(line, orgVar, newVar);
+        }
+            
+        String split[] = line.split(" ");
+        split = removeEmpty(split);
+        if (split.length == 0) return line;
+        if (!split[0].startsWith("_")) return line;
+        if (!split[0].endsWith(":")) return line;
+        String orgVar = split[0].substring(0,split[0].length()-1);
+        String newVar = orgVar+"_"+append;
+        map.put(orgVar, newVar);
+        return de.malban.util.UtilityString.replace(line, orgVar, newVar);
+            */
+        
+    }
+    static String checkRAMLocations(String sLine)
+    {
+        if (sLine.startsWith(";")) return sLine;
+        String wl = de.malban.util.UtilityString.replace(sLine, "#", "");
+        wl = de.malban.util.UtilityString.replace(wl, "<", "");
+        wl = de.malban.util.UtilityString.replace(wl, "<<", "");
+        wl = de.malban.util.UtilityString.replace(wl, ">", "");
+        String[] parts = wl.trim().split(" ");
+        parts = removeEmpty(parts);
+        for (int i=0;i<parts.length; i++)
+        {
+            int v=0;
+            try
+            {
+                v = DASM6809.toNumber(parts[i]);
+                if (((v>= 0xc800) && (v<0xc800+1024)) || ((v>= 0xd000) && (v<=0xd00f)))
+                {
+                    String label = DASM6809.getBIOSLabel(v);
+                    if (label != null)
+                    {
+                        return de.malban.util.UtilityString.replace(sLine, parts[i], label);
+                    }
+                }
+                else
+                {
+                    if ((v>256) && (v< ((-128)&0xffff)  ))
+                    {
+                        return de.malban.util.UtilityString.replace(sLine, parts[i], "0x"+String.format("%04X", (v & 0xFFFF)));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                
+            }
+        }
+        
+        return sLine;
+    }
+    
+    void doBuildCProject()
+    {
+
+        // Build the complete project
+        String preClass = currentProject.getProjectPreScriptClass();
+        String preName = currentProject.getProjectPreScriptName();
+        
+        String p = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+        if (p.length()!=0) p += File.separator;
+        p+= currentProject.getProjectName()+File.separator;
+        
+        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, currentProject.getProjectName(), "", "VediPanel", p);
+        boolean ok =  ScriptDataPanel.executeScript(preClass, preName, this, ed);
+        if (!ok) return;
+        clearASMOutput();
+        startBuildCProject();
+    }    
+    
+    String[] buildCFLAGS()
+    {
+        if (currentProject == null) return new String[0];
+        String[] splits = currentProject.getCFLAGS().split(" ");
+        splits = removeEmpty(splits);
+
+        for (int i=0; i<splits.length; i++)
+        {
+            if (splits[i].startsWith("-I"))
+            {
+                // "-O3 -mint8 -msoft-reg-count=0 -quiet -IC/include";
+                String dir = splits[i].substring(2);
+                dir = "-I"+Global.mainPathPrefix+dir;
+                splits[i] = de.malban.util.UtilityFiles.convertSeperator(dir);
+            }
+        }
+        
+        String[] cflags = new String[splits.length+4];
+        for (int i=0; i< splits.length; i++) cflags[i+1]=splits[i];
+
+        cflags[cflags.length-2] = "-o";
+        return cflags;
+    }
+    
+    
+    public void startBuildCProject()
+    {
+        if (asmStarted) return;
+        asmStarted = true;
+        jButtonAssemble.setEnabled(false);
+        jButtonDebug.setEnabled(false);
+        // paranoia!
+        if (one != null) return;
+        
+        String[] CFLAGS = buildCFLAGS();
+        log.addLog("GCC: "+CFLAGS);
+        one = new Thread() 
+        {
+            public void run() 
+            {
+                ArrayList<CompileResult> crs = new ArrayList<CompileResult>();
+                boolean asmOk = true;
+                try
+                {
+                    String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+                    if (path.length() >0 ) path += File.separator;
+                    path = path+currentProject.getProjectName();
+
+                    // get all the files from a directory
+                    final String failure = executeFileScripts("Pre", path);
+                    if (failure!=null) 
+                    {
+                        if (!asmOk)
+                        {
+                            SwingUtilities.invokeLater(new Runnable()
+                            {
+                                public void run()
+                                {
+                                    printError("Error execute pre build script for: " + failure);
+                                    buildCProjectResult(false, true);
+                                }
+                            });                    
+                            one = null;
+                            jButtonAssemble.setEnabled(true);
+                            jButtonDebug.setEnabled(true);
+                            asmStarted = false;
+                            return;
+                        }
+                    }
+                    
+                    // get 
+                    // get all the files from a directory
+                    {
+                        File directory = new File(path);
+                        File[] fList = directory.listFiles();
+                        for (File file : fList) 
+                        {
+                            String fileNameOnly = file.getName();
+
+                            // process only c files
+                            if (!fileNameOnly.toLowerCase().endsWith(".c")) continue;
+                            String fileNameBare = fileNameOnly;
+                            int li = fileNameOnly.lastIndexOf(".");
+                            if (li>=0) 
+                                fileNameBare = fileNameOnly.substring(0,li);
+                            if (path.length() != 0) path += File.separator;
+                            File test = new File(path+fileNameBare+"FileProperty.xml");
+                            if (test.exists())
+                            {
+                                String pathOnly = test.getParent().toString();
+                                if (pathOnly.length()!=0) pathOnly+=File.separator;
+
+                                String relPathOnly = de.malban.util.Utility.makeRelative(pathOnly);
+                                if (relPathOnly.length()!=0) relPathOnly+=File.separator;
+                                FilePropertiesPool pool = new FilePropertiesPool(relPathOnly, test.getName());
+
+                                FileProperties fileProperties =  pool.get(fileNameOnly);
+                                if (fileProperties != null) 
+                                {
+                                    if (fileProperties.getNoInternalProcessing()) continue;
+                                }
+                            }
+                            // compile file
+                    
+                            CFLAGS[CFLAGS.length-3] = file.getAbsolutePath();
+                            CFLAGS[CFLAGS.length-1] = changeTypeTo(file.getAbsolutePath(),"s");
+
+                            CompileResult compiled = doCCompiler(CFLAGS);
+                            if (compiled != null)
+                                crs.add(compiled);
+                            else
+                            {
+                                SwingUtilities.invokeLater(new Runnable()
+                                {
+                                    public void run()
+                                    {
+                                        printError("Error compiling: " + CFLAGS[CFLAGS.length-3]);
+                                        buildCProjectResult(false, true);
+                                    }
+                                });                    
+                                one = null;
+                                jButtonAssemble.setEnabled(true);
+                                jButtonDebug.setEnabled(true);
+                                asmStarted = false;
+                                return;
+                            }
+                        }
+                    }                                        
+                    
+                    // get all the files from a directory
+                    final String failure2 = executeFileScripts("Post", path);
+                    if (failure2!=null) 
+                    {
+                        if (!asmOk)
+                        {
+                            SwingUtilities.invokeLater(new Runnable()
+                            {
+                                public void run()
+                                {
+                                    printError("Error execute post build script for: " + failure2);
+                                    buildCProjectResult(false, true);
+                                }
+                            });                    
+                            one = null;
+                            jButtonAssemble.setEnabled(true);
+                            jButtonDebug.setEnabled(true);
+                            asmStarted = false;
+                            return;
+                        }
+
+                    }
+                }
+                catch (final Throwable e)
+                {
+                    SwingUtilities.invokeLater(new Runnable()
+                    {
+                        public void run()
+                        {
+                            printASMMessage("Exception while building: " + e.getMessage(), ASM_MESSAGE_ERROR);
+                            printASMMessage(de.malban.util.Utility.getStackTrace(e), ASM_MESSAGE_ERROR);
+                            buildCProjectResult(false, true);
+                        }
+                    });   
+                    one = null;
+                    jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
+                    asmStarted = false;
+                    return;
+                }
+
+                String postClass = currentProject.getProjectPostScriptClass();
+                String postName = currentProject.getProjectPostScriptName();
+                
+                String pp = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+                if (pp.length() >0 ) pp += File.separator;
+                pp += currentProject.getProjectName();
+
+                
+                ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, currentProject.getProjectName(), "", "VediPanel", pp);
+                boolean ok =  ScriptDataPanel.executeScript(postClass, postName, VediPanel.this, ed);
+                final boolean asmOk2 = asmOk; // effectivly final!
+                
+                
+                if (!ok)
+                {
+                    SwingUtilities.invokeLater(new Runnable()
+                    {
+                        public void run()
+                        {
+                            buildCProjectResult(false, true);
+                        }
+                    });                    
+                    one = null;
+                    jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
+                    asmStarted = false;
+                }
+                else
+                {
+                    asmOk = buildFinalAssiResult(crs, true);
+                    if (asmOk)
+                    {
+//                        String assiFile = changetypeTo(crs.get(0).inputFile, "asm");//pathOnly+"assiFile.asm";
+
+                        String path = convertSeperator(currentProject.getPath());
+                        if (path.length() >0 ) path += File.separator;
+                        String assiFile = path+currentProject.getProjectName()+File.separator+currentProject.getProjectName()+".asm";
+                        
+                        
+                        printMessage("Assembling: "+assiFile);
+                        Asmj asm = new Asmj(assiFile, asmErrorOut, null, null, asmMessagesOut, "", settings.allDebugComments);
+                        printASMList(asm.getListing(), ASM_LIST);
+
+                        String info = asm.getInfo();
+                        asmOk = info.indexOf("0 errors detected.") >=0;
+                    }
+                    if (asmOk)
+                    {
+//                        String filename = changetypeTo(crs.get(0).inputFile, "bin");
+//                        int li = filename.lastIndexOf(".");
+//                        if (li>=0) 
+//                            filename = filename.substring(0,li);
+//                        String org = filename + ".bin";
+//                        String banked = filename+"_"+(0) + ".bin";
+//                        de.malban.util.UtilityFiles.move(org, banked);
+//                        
+//                        org = filename + ".cnt";
+//                        banked = filename+"_"+(0) + ".cnt";
+//                        
+//                        Vector<String> what = new Vector<String>();
+//                        Vector<String> with = new Vector<String>();
+//                        what.add("BANK 0");
+//                        with.add("BANK "+(0));
+//                        de.malban.util.UtilityString.replaceToNewFile(new File(org), new File(banked), what,with);
+//                        de.malban.util.UtilityFiles.deleteFile(org);                        
+                    }
+                    boolean asmOk3 = asmOk;
+                    SwingUtilities.invokeLater(new Runnable()
+                    {
+                        public void run()
+                        {
+                            buildCProjectResult(asmOk3, false);
+                        }
+                    });                    
+                    one = null;
+                    asmStarted = false;
+                    jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
+                }
+            }  
+        };
+
+        one.setName("C-Build: "+currentProject.getProjectName());
+        one.start();           
+    }
+        
+    protected void buildCProjectResult(boolean buildOk, boolean errorPreAssembler)
+    {
+        refreshTree();
+        if (buildOk)
+        {
+            if (config.invokeEmulatorAfterAssembly)
+            {
+                VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
+                ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
+
+                CartridgeProperties cartProp = buildCart(currentProject, false);
+                checkVec4EverProject(cartProp);
+                
+                
+                boolean ask = false;
+                if (startTypeRun == START_TYPE_INJECT)
+                {
+                    CartridgeProperties oldProp = vec.getCurrentCartProp();
+                    if (oldProp == null) ask = true;
+                    else
+                    {
+                        String myName = currentProject.getProjectName();
+                        String oldName = oldProp.getCartName();
+                        if (!oldName.equals(myName)) ask = true;
+                    }
+                }
+        
+                boolean doit = true;
+                if (ask)
+                {
+                    JOptionPane pane = new JOptionPane("The bin files appear to be not compatible, inject anyway?", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+                    int answer = JOptionPaneDialog.show(pane);
+                    if (answer == JOptionPane.YES_OPTION)
+                        doit = true;
+                    else
+                    {
+                        doit = false;
+                    }
+                }
+                if (doit)
+                {
+                    vec.startCartridge(cartProp, startTypeRun);
+                    printMessage("Assembly successfull, starting emulation...");
+                }
+            }
+            else
+            {
+                printMessage("Assembly successfull...");
+            }
+        }
+        else
+        {
+            printError("Assembly not successfull, see ASM output...");
+            if (errorPreAssembler)
+                jTabbedPane.setSelectedIndex(0);
+            else
+                jTabbedPane.setSelectedIndex(1);
+        }
+        refreshTree();
+    }                    
+
+    CompileResult doAssiConform(String cFile, String gccSFile)
+    {
+        CompileResult result = new CompileResult();
+        result.inputFile = cFile;
+        result.intermediateFile = gccSFile;
+        
+        Path p = Paths.get(cFile);
+        result.pathOnly = p.getParent().toString();
+        if (result.pathOnly.length()>0)
+            result.pathOnly+= File.separator;
+        result.nameOnly = baseOnly(de.malban.util.UtilityString.replace(cFile, result.pathOnly, ""));
+
+        Vector<String> orgLines =  de.malban.util.UtilityString.readTextFileToString(new File(cFile));
+        Vector<String> sLines =  de.malban.util.UtilityString.readTextFileToString(new File(gccSFile));
+        
+        return doAssiConform(orgLines, sLines, result);
+        
+    }
+    static CompileResult doAssiConform(Vector<String> orgLines, Vector<String> sLines, CompileResult r)
+    {
+        CompileResult result = r;
+        if (result == null) result = new CompileResult();
+        
+        String cFile = "something, that does not occur in C Source";
+        if (r != null) cFile = r.inputFile;
+        
+        StringBuilder codeSource = new StringBuilder();
+        StringBuilder dataSource = new StringBuilder();
+        StringBuilder bssSource = new StringBuilder();
+        StringBuilder bssInitSource = new StringBuilder();
+
+        
+
+        
+        // Scan for include files.
+        // for each include file we look "automatically" if there is an
+        // accompanying "*.asm" file, if so, we load it as a library refference to include
+        // also we must fix somehow the callings of 
+        // added assembler routines, the "_" callings must somehow be handled
+        //
+        // also in diverse generated files in vide
+        // add option to generate an accompanying ".h" file
+        // with C conform global calling names
+        
+        
+        
+        
+        boolean in_Code = false;
+        boolean in_Data = false;
+        boolean in_BSS = false;
+        
+        
+        for (int i=0; i< sLines.size(); i++)
+        {
+            String sLine = sLines.elementAt(i);
+            if (sLine.contains(".area .data"))
+            {
+                result.initializedDataFound = true;
+                break;
+            }
+        }
+        for (int i=0; i< sLines.size(); i++)
+        {
+            String sLine = sLines.elementAt(i);
+            String[] splits = sLine.split(" ");
+            boolean doLine = true;
+            
+            if (sLine.contains(".area .text"))
+            {
+                in_Code = true;
+                in_Data = false;
+                in_BSS = false;
+                doLine = false;
+            }
+            if (sLine.contains(".area .data"))
+            {
+                in_Code = false;
+                in_Data = true;
+                in_BSS = false;
+                doLine = false;
+            }
+            if (sLine.contains(".area .bss"))
+            {
+                in_Code = false;
+                in_Data = false;
+                in_BSS = true;
+                doLine = false;
+            }
+            
+            // I don't like tabs, replace all tabs with spaces
+            sLine = de.malban.util.UtilityString.replace(sLine,"\t", "        ");
+
+            // reference to C-Line
+            if (sLine.contains(cFile))
+            {
+                int line = de.malban.util.UtilityString.Int0(splits[2]);
+                if (in_Code)
+                    codeSource.append("; ").append(orgLines.elementAt(line-1)).append("\n");
+                if (in_Data)
+                    dataSource.append("; ").append(orgLines.elementAt(line-1)).append("\n");
+                if (in_BSS)
+                    bssSource.append("; ").append(orgLines.elementAt(line-1)).append("\n");
+            }
+            // probably a call to BIOS
+            int pos = sLine.indexOf("jsr 0xF");
+            if (pos > 0)
+            {
+                String orgJSR = sLine.substring(pos, pos+10);
+                int biosAddress=DASM6809.toNumber(orgJSR.substring(4));
+                String name=DASM6809.getBIOSFunction(biosAddress);
+                if (name != null)
+                {
+                    sLine = de.malban.util.UtilityString.replace(sLine,orgJSR, "jsr "+name);
+                }
+            }
+            sLine = de.malban.util.UtilityString.replace(sLine,".byte", "db");
+            sLine = de.malban.util.UtilityString.replace(sLine,".word", "dw");
+            sLine = de.malban.util.UtilityString.replace(sLine,".blkb", "ds");
+                // 
+            
+            if (sLine.contains(".ascii"))
+            {
+                sLine = de.malban.util.UtilityString.replace(sLine,"\\0\"", "\", $80");
+            }
+            sLine = de.malban.util.UtilityString.replace(sLine,".ascii", "db");
+            
+            if (sLine.contains(".globl")) doLine = false;
+            if (sLine.contains(";----- asm")) doLine = false;
+            if (sLine.contains(";--- end asm")) doLine = false;
+            if (sLine.contains(".module")) doLine = false;
+            if (sLine.contains(";;; ")) doLine = false;
+            
+            if (doLine)
+            {
+                if (in_Data)
+                {
+                    if (sLine.contains("db"))
+                        bssInitSource.append(" ds "+getDBLen(sLine)+"\n");
+                    else if (sLine.contains("dw"))
+                        bssInitSource.append(" ds 2\n");
+                    if ((sLine.contains("_")) && (sLine.contains(":")))
+                    {
+                        bssInitSource.append(doVarMapping(result.varMapping, sLine, result.nameOnly)).append("\n");
+                        doLine = false;
+                    }
+                    if (doLine)
+                        dataSource.append(doVarMapping(result.varMapping, sLine, result.nameOnly)).append("\n");
+                }
+                if (in_BSS)
+                {
+                    bssSource.append(doVarMapping(result.varMapping, sLine, result.nameOnly)).append("\n");
+                    
+                }
+                if (in_Code)
+                {
+                    if (sLine.contains("_ashlhi3")) result.libCCalls.put("_ashlhi3", "ashlhi3.s");
+                    if (sLine.contains("_ashrhi3")) result.libCCalls.put("_ashrhi3", "ashrhi3.s");
+                    if (sLine.contains("_lshrhi3")) result.libCCalls.put("_lshrhi3", "lshrhi3.s");
+                    if (sLine.contains("_ashlsi3_one")) result.libCCalls.put("_ashlsi3_one", "ashlsi3_one.s");
+                    if (sLine.contains("_ashrsi3_one")) result.libCCalls.put("_ashrsi3_one", "ashrsi3_one.s");
+                    if (sLine.contains("_lshrsi3_one")) result.libCCalls.put("_lshrsi3_one", "lshrsi3_one.s");
+                    if (sLine.contains("_mulhi3")) result.libCCalls.put("_mulhi3", "mulhi3.s");
+                    if (sLine.contains("_divhi3")) result.libCCalls.put("divAndMod", "divAndMod.s");
+                    if (sLine.contains("_udivhi3")) result.libCCalls.put("divAndMod", "divAndMod.s");
+                    if (sLine.contains("_modhi3")) result.libCCalls.put("divAndMod", "divAndMod.s");
+                    if (sLine.contains("_umodhi3")) result.libCCalls.put("divAndMod", "divAndMod.s");
+                    
+                    sLine = checkRAMLocations(sLine);
+                    
+                    codeSource.append(doVarMapping(result.varMapping, sLine, result.nameOnly)).append("\n");
+                }
+            }
+        }
+        
+        result.bssInitData = bssInitSource.toString();
+        result.bssData = bssSource.toString();
+        result.codeData = codeSource.toString();
+        result.dataData = dataSource.toString();
+        
+       
+        
+        return result;
+    }
+    void doCreatePeerCProject(ProjectProperties project)
+    {
+        String p1 = project.getPath();
+        String p2 = project.getProjectName();
+        String projectDirPath = Global.mainPathPrefix+p1+File.separator+p2;
+        if (!projectDirPath.endsWith(File.separator)) projectDirPath= projectDirPath + File.separator;
+        Path p = Paths.get(Global.mainPathPrefix+p1,p2);
+        
+        
+        de.malban.util.UtilityFiles.copyDirectoryAllFiles(Global.mainPathPrefix+"template"+File.separator+"PeerC", projectDirPath);
+
+        de.malban.util.UtilityFiles.rename(projectDirPath+"overlay"+File.separator+"c_project.png",  project.getProjectName()+".png");
+        de.malban.util.UtilityFiles.rename(projectDirPath+"overlay"+File.separator+"c_project.pptx",  project.getProjectName()+".pptx");
+        
+        de.malban.util.UtilityFiles.rename(projectDirPath+"manual"+File.separator+"c_project.pdf",  project.getProjectName()+".pdf");
+        de.malban.util.UtilityFiles.rename(projectDirPath+"manual"+File.separator+"c_project.pptx",  project.getProjectName()+".pptx");
+        
+ 
+        // set Tree to location
+        inProject = true;
+        currentProject = project;
+        fillTree(Paths.get(Global.mainPathPrefix+convertSeperator(project.getPath()), project.getProjectName()));
+        
+        saveProject(); // since files 
+        settings.addProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
+        settings.setCurrentProject(currentProject.getName(), currentProject.getCClass(), project.getPath());
+
+        updateList();
+    }
+    void doBuildPeerCProject()
+    {
+        if (startTypeRun == START_TYPE_STOP)
+        {
+            String fname = getSelectedEditor().getFilename();
+            if (fname == null) return;
+
+            if (fname.toLowerCase().endsWith(".c"))
+            {
+                doSinglePeerCFile(fname);
+            }
+            return;
+        }
+        
+        
+        // Build the complete project
+        String preClass = currentProject.getProjectPreScriptClass();
+        String preName = currentProject.getProjectPreScriptName();
+        
+        String p = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+        if (p.length()!=0) p += File.separator;
+        p+= currentProject.getProjectName()+File.separator+"source"+File.separator;
+        
+        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_PRE, currentProject.getProjectName(), "", "VediPanel", p);
+        
+        
+        
+        boolean ok =  ScriptDataPanel.executeScript(preClass, preName, this, ed);
+        if (!ok) return;
+        clearASMOutput();
+        
+        startBuildPeerCProject();
+    }    
+
+    public void startBuildPeerCProject()
+    {
+        if (asmStarted) return;
+        asmStarted = true;
+        jButtonAssemble.setEnabled(false);
+        jButtonDebug.setEnabled(false);
+        // paranoia!
+        if (one != null) return;
+        
+        one = new Thread() 
+        {
+            public void run() 
+            {
+                ArrayList<VediPanel.CompileResult> crs = new ArrayList<VediPanel.CompileResult>();
+                boolean asmOk = true;
+                try
+                {
+                    String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+                    if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
+                    String baseProjectPath = path+currentProject.getProjectName();
+
+                    peerClean(baseProjectPath);
+                    path = baseProjectPath+ File.separator+"source";
+                    String libPath = baseProjectPath+ File.separator+"build"+ File.separator+"lib"+ File.separator;
+
+                    // copy all "s" files to build lib, so they get automatically included
+                    File directory = new File(path);
+                    File[] fList = directory.listFiles();
+                    for (File file : fList) 
+                    {
+                        String fileNameOnly = file.getName();
+                        // process only c files
+                        if (!fileNameOnly.toLowerCase().endsWith(".s")) continue;
+                        de.malban.util.UtilityFiles.copyOneFile(file.getAbsolutePath(), libPath+fileNameOnly);
+                    }                        
+                    
+                    // get all the files from a directory
+                    final String failure = executeFileScripts("Pre", path);
+                    if (failure!=null) 
+                    {
+                        if (!asmOk)
+                        {
+                            SwingUtilities.invokeLater(new Runnable()
+                            {
+                                public void run()
+                                {
+                                    printError("Error execute pre build script for: " + failure);
+                                    buildPeerCProjectResult(false, true);
+                                }
+                            });                    
+                            one = null;
+                            jButtonAssemble.setEnabled(true);
+                            jButtonDebug.setEnabled(true);
+                            asmStarted = false;
+                            return;
+                        }
+                    }
+
+                    directory = new File(path);
+                    fList = directory.listFiles();
+
+                            
+                    ArrayList<String> outNames = peerPreprocess(fList, baseProjectPath);
+
+                    if (outNames == null)
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+//                                printError("Error preprocessing...");
+                                buildPeerCProjectResult(false, true);
+                            }
+                        });                    
+                        one = null;
+                        jButtonAssemble.setEnabled(true);
+                        jButtonDebug.setEnabled(true);
+                        asmStarted = false;
+                        return;
+                    }
+                    
+                    // compile for errors
+                    if (!peerCompile(fList, baseProjectPath, false))
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+//                                printError("Error compiling...");
+                                buildPeerCProjectResult(false, true);
+                            }
+                        });                    
+                        one = null;
+                        jButtonAssemble.setEnabled(true);
+                        jButtonDebug.setEnabled(true);
+                        asmStarted = false;
+                        return;
+                    }                    
+                    if (currentProject.getIsCDebugging())
+                    {
+    // adding debug only START                    
+                        // compile for enriching
+                        // this enriches in current dir only "C" files
+                        deleteAllCompileTargets(fList, baseProjectPath);
+
+                        File[] fList2 = enrichCFiles(fList);
+                        if (!peerCompile(fList2, baseProjectPath, true))
+                        {
+                            deleteEnrichedCFiles(fList2);          
+                            SwingUtilities.invokeLater(new Runnable()
+                            {
+                                public void run()
+                                {
+                                    buildPeerCProjectResult(false, true);
+                                }
+                            });                    
+                            one = null;
+                            jButtonAssemble.setEnabled(true);
+                            jButtonDebug.setEnabled(true);
+                            asmStarted = false;
+                            return;
+                        }
+                        deleteEnrichedCFiles(fList2);          
+    // adding debug only END                    
+                    }
+                    
+                    path = baseProjectPath+ File.separator+"build"+ File.separator+"lib";
+                    directory = new File(path);
+                    fList = directory.listFiles();
+                    if (!peerAssemble(fList, baseProjectPath))
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+//                                printError("Error assembling...");
+                                buildPeerCProjectResult(false, true);
+                            }
+                        });                    
+                        one = null;
+                        jButtonAssemble.setEnabled(true);
+                        jButtonDebug.setEnabled(true);
+                        asmStarted = false;
+                        return;
+                    }
+                    if (!peerLink(baseProjectPath))
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+//                                printError("Error linking...");
+                                buildPeerCProjectResult(false, true);
+                            }
+                        });                    
+                        one = null;
+                        jButtonAssemble.setEnabled(true);
+                        jButtonDebug.setEnabled(true);
+                        asmStarted = false;
+                        return;
+                    }
+                    if (!peerBuild(baseProjectPath))
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+//                                printError("Error building...");
+                                buildPeerCProjectResult(false, true);
+                            }
+                        });                    
+                        one = null;
+                        jButtonAssemble.setEnabled(true);
+                        jButtonDebug.setEnabled(true);
+                        asmStarted = false;
+                        return;
+                    }
+                    
+                    
+                }
+                catch (final Throwable e)
+                {
+                    SwingUtilities.invokeLater(new Runnable()
+                    {
+                        public void run()
+                        {
+                            printError("Exception while building: " + e.getMessage());
+                            printError(de.malban.util.Utility.getStackTrace(e));
+                            buildPeerCProjectResult(false, true);
+                        }
+                    });   
+                    one = null;
+                    jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
+                    asmStarted = false;
+                    return;
+                }
+
+                String postClass = currentProject.getProjectPostScriptClass();
+                String postName = currentProject.getProjectPostScriptName();
+                
+                String pp = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+                if (pp.length() >0 ) pp += File.separator;
+                pp += currentProject.getProjectName();
+
+                
+                ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_PROJECT_POST, currentProject.getProjectName(), "", "VediPanel", pp);
+                boolean ok =  ScriptDataPanel.executeScript(postClass, postName, VediPanel.this, ed);
+                final boolean asmOk2 = asmOk; // effectivly final!
+                
+                
+                if (!ok)
+                {
+                    SwingUtilities.invokeLater(new Runnable()
+                    {
+                        public void run()
+                        {
+                            buildPeerCProjectResult(false, true);
+                        }
+                    });                    
+                    one = null;
+                    jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
+                    asmStarted = false;
+                }
+                else
+                {
+                    SwingUtilities.invokeLater(new Runnable()
+                    {
+                        public void run()
+                        {
+                            buildPeerCProjectResult(true, false);
+                        }
+                    });                    
+                    one = null;
+                    asmStarted = false;
+                    jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
+                }
+            }  
+        };
+
+        one.setName("C-Build: "+currentProject.getProjectName());
+        one.start();           
+    }          
+    protected void buildPeerCProjectResult(boolean buildOk, boolean errorPreAssembler)
+    {
+        refreshTree();
+        if (buildOk)
+        {
+            buildPeerCCNT();
+            if (config.invokeEmulatorAfterAssembly)
+            {
+                VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
+                ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
+
+                CartridgeProperties cartProp = buildCart(currentProject, false);
+                checkVec4EverProject(cartProp);
+                
+                boolean ask = false;
+                if (startTypeRun == START_TYPE_INJECT)
+                {
+                    CartridgeProperties oldProp = vec.getCurrentCartProp();
+                    if (oldProp == null) ask = true;
+                    else
+                    {
+                        String myName = currentProject.getProjectName();
+                        String oldName = oldProp.getCartName();
+                        if (!oldName.equals(myName)) ask = true;
+                    }
+                }
+        
+                boolean doit = true;
+                if (ask)
+                {
+                    JOptionPane pane = new JOptionPane("The bin files appear to be not compatible, inject anyway?", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+                    int answer = JOptionPaneDialog.show(pane);
+                    if (answer == JOptionPane.YES_OPTION)
+                        doit = true;
+                    else
+                    {
+                        doit = false;
+                    }
+                }
+                if (doit)
+                {
+                    vec.startCartridge(cartProp, startTypeRun);
+                    printMessage("Compile successfull, starting emulation...");
+                }
+            }
+            else
+            {
+                printMessage("Compile successfull...");
+            }
+        }
+        else
+        {
+//            printError("Compile not successfull, see ASM output...");
+/*
+            if (errorPreAssembler)
+                jTabbedPane.setSelectedIndex(0);
+            else
+                jTabbedPane.setSelectedIndex(1);
+*/        
+        }
+        refreshTree();
+    }          
+    
+    String[] buildPeerCFLAGS(String additional, String additionalFileFlags)
+    {
+        if (currentProject == null) return new String[0];
+
+        String flags = currentProject.getCFLAGS();
+        boolean hasFramePointer = true;
+        if (flags.contains("-fomit-frame-pointer"))
+            hasFramePointer = false;
+        flags = de.malban.util.UtilityString.replace(flags, "include.nf", "include");
+
+        if (!hasFramePointer)
+            flags = de.malban.util.UtilityString.replace(flags, "include", "include.nf");
+        
+        String[] splitsFile = additionalFileFlags.split(" ");
+        splitsFile = removeEmpty(splitsFile);
+
+        String[] splits = flags.split(" ");
+        splits = removeEmpty(splits);
+
+        String[] splits2 = additional.split(" ");
+        splits2 = removeEmpty(splits2);
+        
+        for (int i=0; i<splits.length; i++)
+        {
+            if (splits[i].startsWith("-I"))
+            {
+                // "-O3 -mint8 -msoft-reg-count=0 -quiet -IC/include";
+                String dir = splits[i].substring(2);
+                dir = "-I"+Global.mainPathPrefix+dir;
+                splits[i] = de.malban.util.UtilityFiles.convertSeperator(dir);
+            }
+        }
+
+        // if locally a include directory exists - add it to the include Path
+        String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+        if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
+        String baseProjectPath = path+currentProject.getProjectName();
+        File directory = new File(baseProjectPath+ File.separator+"include");
+        String additionalInclude ="";
+        int additionalFlags= 4;
+        
+        if (!hasFramePointer) additionalFlags++;
+                
+        if (directory.exists())
+        {
+            additionalInclude = "-I"+directory.getAbsolutePath();
+            additionalFlags++;
+        }
+        
+        String[] cflags = new String[splits.length+splits2.length+additionalFlags+splitsFile.length];
+        
+        int flagBase = 1;
+        for (int i=0; i< splits.length; i++) cflags[flagBase++]=splits[i];
+        for (int i=0; i< splits2.length; i++) cflags[flagBase++]=splits2[i];
+        for (int i=0; i< splitsFile.length; i++) cflags[flagBase++]=splitsFile[i];
+
+        if (additionalInclude.length()!=0)
+        {
+            cflags[cflags.length-4] = additionalInclude;
+            if (!hasFramePointer)
+                cflags[cflags.length-5] = "-DOMMIT_FRAMEPOINTER=1";
+        }
+        else
+        {
+            if (!hasFramePointer)
+                cflags[cflags.length-4] = "-DOMMIT_FRAMEPOINTER=1";
+        }
+
+        
+        cflags[cflags.length-2] = "-o";
+        return cflags;
+    }    
+    ArrayList<String> peerPreprocess(File[] fList, String baseProjectPath)  
+    {
+        ArrayList<String> outNames = new  ArrayList<String>();
+        String path = baseProjectPath+File.separator+"source";
+        String[] CFLAGS = buildPeerCFLAGS("-E","");
+        
+        for (File file : fList) 
+        {
+            String fileNameOnly = file.getName();
+            
+            if (file.isDirectory())
+            {
+                File directory = new File(file.getAbsoluteFile().toString());
+                File[] fList2 = directory.listFiles();
+                ArrayList<String> outNames2 = peerPreprocess(fList2, baseProjectPath);
+                if (null == outNames2)
+                {
+                    return null;
+                }
+                for (String on: outNames2)
+                    outNames.add(on);
+                continue;
+            }
+            
+            // process only c files
+            if (!fileNameOnly.toLowerCase().endsWith(".c")) continue;
+            fileNameOnly = de.malban.util.UtilityString.replace(fileNameOnly, ".enr.", ".");
+            
+            String fileNameBare = fileNameOnly;
+            int li = fileNameOnly.lastIndexOf(".");
+            if (li>=0) 
+                fileNameBare = fileNameOnly.substring(0,li);
+            if (path.length() != 0) path += File.separator;
+            File test = new File(path+fileNameBare+"FileProperty.xml");
+            if (test.exists())
+            {
+                String pathOnly = test.getParent().toString();
+                if (pathOnly.length()!=0) pathOnly+=File.separator;
+
+                String relPathOnly = de.malban.util.Utility.makeRelative(pathOnly);
+                if (relPathOnly.length()!=0) relPathOnly+=File.separator;
+                FilePropertiesPool pool = new FilePropertiesPool(relPathOnly, test.getName());
+
+                FileProperties fileProperties =  pool.get(fileNameOnly);
+                if (fileProperties != null) 
+                {
+                    if (fileProperties.getNoInternalProcessing()) continue;
+                }
+            }
+            // compile file
+
+            CFLAGS[CFLAGS.length-3] = file.getAbsolutePath();
+            CFLAGS[CFLAGS.length-1] = baseProjectPath+ File.separator+"build"+File.separator+"lib"+File.separator+fileNameBare+".i";
+            outNames.add(CFLAGS[CFLAGS.length-1]);
+            if (!doPeerCCompiler(CFLAGS, "Preprocessing", false))
+            {
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                    public void run()
+                    {
+                        printError("Error preprocessing: " + CFLAGS[CFLAGS.length-3]);
+                        buildPeerCProjectResult(false, true);
+                    }
+                });                    
+                one = null;
+                jButtonAssemble.setEnabled(true);
+                jButtonDebug.setEnabled(true);
+                asmStarted = false;
+                return null;
+            }
+        }    
+        return outNames;
+    }
+    boolean peerCompile(File[] fList, String baseProjectPath, boolean quiet)  
+    {
+        String path = baseProjectPath+File.separator+"source";
+        
+        for (File file : fList) 
+        {
+            String fileNameOnly = file.getName();
+            if (file.isDirectory())
+            {
+                File directory = new File(file.getAbsoluteFile().toString());
+                File[] fList2 = directory.listFiles();
+
+                if (!peerCompile(fList2, baseProjectPath, quiet))
+                {
+                    return false;
+                }
+                continue;
+            }
+
+            // process only c files
+            if (!fileNameOnly.toLowerCase().endsWith(".c")) continue;
+            // ensure enrciched files use the orignal file properties
+            fileNameOnly = de.malban.util.UtilityString.replace(fileNameOnly, ".enr.", ".");
+            
+            String fileNameBare = fileNameOnly;
+            
+            
+            int li = fileNameOnly.lastIndexOf(".");
+            if (li>=0) 
+                fileNameBare = fileNameOnly.substring(0,li);
+            if (path.length() != 0) path += File.separator;
+            File test = new File(path+fileNameBare+"FileProperty.xml");
+            String fileCFLAGS = "";
+            if (test.exists())
+            {
+                String pathOnly = test.getParent().toString();
+                if (pathOnly.length()!=0) pathOnly+=File.separator;
+
+                String relPathOnly = de.malban.util.Utility.makeRelative(pathOnly);
+                if (relPathOnly.length()!=0) relPathOnly+=File.separator;
+                FilePropertiesPool pool = new FilePropertiesPool(relPathOnly, test.getName());
+
+                FileProperties fileProperties =  pool.get(fileNameOnly);
+                if (fileProperties != null) 
+                {
+                    if (fileProperties.getNoInternalProcessing()) continue;
+                    fileCFLAGS = fileProperties.getFlags().trim();
+                }
+            }
+            // compile file
+            String[] CFLAGS = buildPeerCFLAGS("",fileCFLAGS);
+
+            CFLAGS[CFLAGS.length-3] = file.getAbsolutePath();
+            CFLAGS[CFLAGS.length-1] = baseProjectPath+ File.separator+"build"+File.separator+"lib"+File.separator+fileNameBare+".s";
+            
+            
+            if (!doPeerCCompiler(CFLAGS, "Compiling", quiet))
+            {
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                    public void run()
+                    {
+                        printError("Error compiling: " + CFLAGS[CFLAGS.length-3]);
+                        buildPeerCProjectResult(false, true);
+                    }
+                });                    
+                one = null;
+                jButtonAssemble.setEnabled(true);
+                jButtonDebug.setEnabled(true);
+                asmStarted = false;
+                return false;
+            }
+            if (peepAtASM)
+            {
+                if (currentProject.getIsCPeephole())
+                    FilePeeper.peepCorrectASM(CFLAGS[CFLAGS.length-1]);
+            }
+        }    
+        return true;
+    }
+    
+    void deleteAllCompileTargets(File[] fList, String baseProjectPath)
+    {
+        for (File file : fList) 
+        {
+            String fileNameOnly = file.getName();
+            if (file.isDirectory())
+            {
+                File directory = new File(file.getAbsoluteFile().toString());
+                File[] fList2 = directory.listFiles();
+                deleteAllCompileTargets(fList2, baseProjectPath);
+            }
+
+            // process only c files
+            if (!fileNameOnly.toLowerCase().endsWith(".c")) continue;
+            String fileNameBare = fileNameOnly;
+            int li = fileNameOnly.lastIndexOf(".");
+            if (li>=0) 
+                fileNameBare = fileNameOnly.substring(0,li);
+            
+            String targetName = baseProjectPath+ File.separator+"build"+File.separator+"lib"+File.separator+fileNameBare+".s";
+
+            de.malban.util.UtilityFiles.deleteFile(targetName);
+        }    
+    }
+    
+    public boolean doPeerCCompiler(String[] flags, String stageMessage, boolean quiet)
+    {
+        String[] envs = null;
+        if (isMac)
+        {
+            flags[0]=Global.mainPathPrefix+"C"+File.separator+"Mac"+File.separator+"bin"+File.separator+"cc1";
+            /*
+            Map<String, String> env = System.getenv();
+            String envkey = "DYLD_LIBRARY_PATH";
+            String envVal = env.get("DYLD_LIBRARY_PATH");
+            envVal+=":"+Global.mainPathPrefix+"C"+File.separator+"Mac"+File.separator+"lib"+File.separator+"mpfr"+File.separator+"lib"+":"+Global.mainPathPrefix+"C"+File.separator+"Mac"+File.separator+"lib"+File.separator+"gmp"+File.separator+"lib";
+            String envChange = envkey+"="+envVal;
+            envs = new String[1];
+            envs[0] = envChange;
+            */
+        }
+        if (isWin)
+        {
+            flags[0]=Global.mainPathPrefix+"C"+File.separator+"Win32"+File.separator+"bin"+File.separator+"gcc6809.exe";
+        }
+        if (isLinux)
+        {
+            if (Global.getOSBit()==64)
+            {
+                flags[0]=Global.mainPathPrefix+"C"+File.separator+"Linux64"+File.separator+"bin"+File.separator+"cc1";
+                /*
+                Map<String, String> env = System.getenv();
+                String envkey = "LD_LIBRARY_PATH";
+                String envVal = env.get("LD_LIBRARY_PATH");
+                envVal+=":"+Global.mainPathPrefix+"C"+File.separator+"Linux64"+File.separator+"lib"+File.separator+"mpfr"+File.separator+"lib"+":"+Global.mainPathPrefix+"C"+File.separator+"Mac"+File.separator+"lib"+File.separator+"gmp"+File.separator+"lib";
+                String envChange = envkey+"="+envVal;
+                envs = new String[1];
+                envs[0] = envChange;
+                */
+            }
+            else
+                flags[0]=Global.mainPathPrefix+"C"+File.separator+"Linux32"+File.separator+"bin"+File.separator+"cc1";
+        }
+        String flagsOut = ""; for (int i=0;i<flags.length; i++) flagsOut+= flags[i]+" " ;
+        log.addLog("GCC: "+flagsOut);
+        
+        
+        String file = flags[flags.length-3];
+        String outputFile = flags[flags.length-1];
+
+        if (!quiet)
+            printNoLNMessage(stageMessage+": "+truncateFilename(file));
+        
+
+        
+        try
+        {
+            log.addLog(stageMessage+": "+file, INFO);
+            boolean ok=  executeOSCommand(flags, envs);
+            
+
+            ok = ok && (!(UtilityFiles.lastError.contains("error:")));
+            
+            if (ok)
+            {
+                if (!quiet)
+                {
+                    printMessage(" ... success");
+                    printWarning(truncateFilename(UtilityFiles.lastError.trim()));
+                    printMessage(truncateFilename(UtilityFiles.lastMessage.trim()));
+                }
+                return true;
+            }
+            
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
+        log.addLog(stageMessage+" failed: "+file, WARN);
+        printError(stageMessage+" failed");
+        printError((UtilityFiles.lastError.trim()));
+        printError((UtilityFiles.lastMessage.trim()));
+        return false;
+    }    
+
+    String[] buildPeerASMFLAGS(String additional)
+    {
+        String[] splits = "-x -p -l -o -y -g".split(" ");
+        splits = removeEmpty(splits);
+
+        String[] splits2 = additional.split(" ");
+        splits2 = removeEmpty(splits2);
+        
+        String[] asmflags = new String[splits.length+splits2.length+3];
+        int flagBase = 1;
+        for (int i=0; i< splits.length; i++) asmflags[flagBase++]=splits[i];
+        for (int i=0; i< splits2.length; i++) asmflags[flagBase++]=splits2[i];
+        return asmflags;
+    } 
+    boolean peerAssemble(File[] fList, String baseProjectPath)  
+    {
+        String path = baseProjectPath+File.separator+"source";
+        String[] ASMFLAGS = buildPeerASMFLAGS("");
+        
+        for (File file : fList) 
+        {
+            String fileNameOnly = file.getName();
+
+            // process only c files
+            if (!fileNameOnly.toLowerCase().endsWith(".s")) continue;
+
+            ASMFLAGS[ASMFLAGS.length-2] = changeTypeTo(file.getAbsolutePath(),"rel");
+            ASMFLAGS[ASMFLAGS.length-1] = file.getAbsolutePath();
+
+            if (!doPeerAssemble(ASMFLAGS, "Assemble"))
+            {
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                    public void run()
+                    {
+                        printError("Error assembling: " + ASMFLAGS[ASMFLAGS.length-3]);
+                        buildPeerCProjectResult(false, true);
+                    }
+                });                    
+                one = null;
+                jButtonAssemble.setEnabled(true);
+                jButtonDebug.setEnabled(true);
+                asmStarted = false;
+                return false;
+            }
+        }    
+        return true;
+    }
+    boolean peepAtASM = true;
+    public boolean doPeerAssemble(String[] flags, String stageMessage)
+    {
+        if (isMac)
+        {
+            flags[0]=Global.mainPathPrefix+"C"+File.separator+"Mac"+File.separator+"bin"+File.separator+"as6809";
+        }
+        if (isWin)
+        {
+            flags[0]=Global.mainPathPrefix+"C"+File.separator+"Win32"+File.separator+"bin"+File.separator+"as6809.exe";
+        }
+        if (isLinux)
+        {
+            if (Global.getOSBit()==64)
+                flags[0]=Global.mainPathPrefix+"C"+File.separator+"Linux64"+File.separator+"bin"+File.separator+"as6809";
+            else
+                flags[0]=Global.mainPathPrefix+"C"+File.separator+"Linux32"+File.separator+"bin"+File.separator+"as6809";
+        }
+        String file = flags[flags.length-1];
+        String outputFile = flags[flags.length-2];
+
+        String flagsOut = ""; for (int i=0;i<flags.length; i++) flagsOut+= flags[i]+" " ;
+        log.addLog("ASM: "+flagsOut);
+        
+        printNoLNMessage(stageMessage+": "+truncateFilename(file));
+        
+        try
+        {
+/*
+            if (peepAtASM)
+            {
+                peepCorrectASM(file);
+            }
+*/            
+            
+            
+            log.addLog(stageMessage+": "+file, INFO);
+            boolean ok=  executeOSCommand(flags);
+            
+            String tt= UtilityFiles.lastError;
+            ok = ok && (!(UtilityFiles.lastError.contains("error:")));
+            
+            if (ok)
+            {
+                printMessage(" ... success");
+                printWarning(truncateFilename(UtilityFiles.lastError.trim()));
+                printMessage(truncateFilename(UtilityFiles.lastMessage.trim()));
+                return true;
+            }
+            
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
+        log.addLog(stageMessage+" failed: "+file, WARN);
+        printError(" ... failed");
+        printError((UtilityFiles.lastError.trim()));
+        printError((UtilityFiles.lastMessage.trim()));
+        return false;
+
+    }    
+
+    String[] buildPeerLINKFLAGS(String additional1, String[] additional3)
+    {
+        if (currentProject == null) return new String[0];
+        int extras = currentProject.getExtras();
+        boolean is48K = (extras & Cartridge.FLAG_48K) != 0;
+        
+        
+  //      String options="-n -m -u -w -s -k GCCLIB -l libgcov.a -l as-libgcc.a -l libgcc.a PROJECTS19 GCCLIBREL";
+        
+        String path = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"lib";
+        File directory = new File(path);
+        File[] fList = directory.listFiles();
+        
+        ArrayList<String> additional2 = new ArrayList<String>();
+        // needs crt0 to be first?
+        for (File file : fList) 
+        {
+            String fileNameOnly = file.getName();
+            if (is48K)
+            {
+                if (!fileNameOnly.toLowerCase().contains("crt0_48.rel")) continue;
+            }
+            else
+            {
+                if (!fileNameOnly.toLowerCase().contains("crt0.rel")) continue;
+            }
+            additional2.add(file.getAbsolutePath());
+            break;
+        }
+
+        for (File file : fList) 
+        {
+            String fileNameOnly = file.getName();
+            if (fileNameOnly.contains("crt0")) continue;
+            if (!fileNameOnly.toLowerCase().endsWith(".rel")) continue;
+            additional2.add(file.getAbsolutePath());
+        }        
+        String libPath = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"lib"+File.separator;
+
+        
+        ArrayList<String> allOptions= new ArrayList<String>();
+        allOptions.add("-n");
+        allOptions.add("-m");
+        allOptions.add("-u");
+        allOptions.add("-w");
+        allOptions.add("-s");
+        allOptions.add("-k");
+        allOptions.add(libPath);
+        allOptions.add("-l");
+        allOptions.add("libgcov.a");
+        allOptions.add("-l");
+        allOptions.add("as-libgcc.a");
+        allOptions.add("-l");
+        allOptions.add("libgcc.a");
+        allOptions.add(additional1);
+        for (String additional21 : additional2) allOptions.add(additional21);
+        for (String additional31 : additional3) allOptions.add(additional31);
+        
+        String[] asmflags = new String[allOptions.size()+1];
+        int flagBase = 1;
+        for (int i=0; i< allOptions.size(); i++) asmflags[flagBase++]=allOptions.get(i);
+        return asmflags;
+    } 
+    boolean peerLink(String baseProjectPath)  
+    {
+        String path = baseProjectPath+File.separator+"build";
+        path = baseProjectPath+ File.separator+"build"+ File.separator+"lib";
+
+        File directory = new File(path);
+        File[] fList = directory.listFiles();
+        ArrayList<String> files = new ArrayList<String>();
+        for (File file : fList) 
+        {
+            String fileNameOnly = file.getName();
+            if (!fileNameOnly.toLowerCase().endsWith(".rel")) continue;
+            files.add(file.getAbsolutePath());
+        }
+        
+        // if locally a lib directory exists - grab all rel files in there too
+        directory = new File(baseProjectPath+ File.separator+"lib");
+        if (directory.exists())
+        {
+            fList = directory.listFiles();
+            for (File file : fList) 
+            {
+                String fileNameOnly = file.getName();
+                if (!fileNameOnly.toLowerCase().endsWith(".rel")) continue;
+                files.add(file.getAbsolutePath());
+            }
+        }
+                
+        String[] LINKFLAGS = buildPeerLINKFLAGS(baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+".s19", files.toArray(new String[0]));
+        
+        if (!doPeerLink(LINKFLAGS, "Link"))
+        {
+            SwingUtilities.invokeLater(new Runnable()
+            {
+                public void run()
+                {
+                    printError("Error linking... " );
+                    buildPeerCProjectResult(false, true);
+                }
+            });                    
+            one = null;
+            jButtonAssemble.setEnabled(true);
+            jButtonDebug.setEnabled(true);
+            asmStarted = false;
+            return false;
+        }
+        return true;
+    }
+    public boolean doPeerLink(String[] flags, String stageMessage)
+    {
+        if (isMac)
+        {
+            flags[0]=Global.mainPathPrefix+"C"+File.separator+"Mac"+File.separator+"bin"+File.separator+"aslink";
+        }
+        if (isWin)
+        {
+            flags[0]=Global.mainPathPrefix+"C"+File.separator+"Win32"+File.separator+"bin"+File.separator+"aslink.exe";
+        }
+        if (isLinux)
+        {
+            if (Global.getOSBit()==64)
+                flags[0]=Global.mainPathPrefix+"C"+File.separator+"Linux64"+File.separator+"bin"+File.separator+"aslink";
+            else
+                flags[0]=Global.mainPathPrefix+"C"+File.separator+"Linux32"+File.separator+"bin"+File.separator+"aslink";
+        }
+        String outputFile = flags[flags.length-2];
+
+        String flagsOut = ""; for (int i=0;i<flags.length; i++) flagsOut+= flags[i]+" " ;
+        log.addLog("LINK: "+flagsOut);
+        
+        String to="";
+        String libs="";
+        String rels="";
+        for (int i=0;i<flags.length; i++)
+        {
+            if (flags[i].trim().endsWith(".a")) 
+            {
+                if (libs.length()>0) libs+=" ";
+                libs+=flags[i];
+            }
+            if (flags[i].trim().endsWith(".s19")) 
+            {
+                if (to.length()>0) to+=" ";
+                to+=flags[i];
+            }
+            if (flags[i].trim().endsWith(".rel")) 
+            {
+                if (rels.length()>0) rels+=" ";
+                rels+=flags[i];
+            }
+        }
+        String msg = libs+" "+rels+" to "+to;
+        msg = truncateFilename(msg);
+        printNoLNMessage(stageMessage+": "+msg);
+        
+        
+        try
+        {
+            log.addLog(stageMessage+" ...", INFO);
+            boolean ok=  executeOSCommand(flags);
+            int explain = 0;
+            String errorMessage = UtilityFiles.lastError;
+            if (errorMessage.contains("?ASlink-Warning-PageN relocation error"))
+                explain = 1;
+            
+            errorMessage = de.malban.util.UtilityString.replace(errorMessage, "?ASlink-Warning-PageN relocation error", "?ASlink-Warning-PageN relocation WARNING!");
+            
+            
+            
+            ok = ok && (!(errorMessage.toLowerCase().contains("error")));
+            ok = ok && (!(UtilityFiles.lastMessage.toLowerCase().contains("error")));
+            
+            if (ok)
+            {
+                printMessage(" ... success");
+                printWarning(truncateFilename(UtilityFiles.lastError.trim()));
+                printMessage(truncateFilename(UtilityFiles.lastMessage.trim()));
+                if (explain==1)
+                {
+                    printMessage("The above warning happens if direct access is used to another page than the current.\nThis is frequently the case, when accessing VIA.");
+                }
+                return true;
+            }
+            
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
+        log.addLog(stageMessage+" failed ", WARN);
+        printError(" ... failed");
+        printError(UtilityFiles.lastError);
+        printError(UtilityFiles.lastMessage);
+        return false;
+    } 
+
+    
+    String[] buildPeerSREC(String options)
+    {
+        if (currentProject == null) return new String[0];
+        String[] splits = options.split(" ");
+        splits = removeEmpty(splits);
+
+        String[] asmflags = new String[splits.length+3];
+        int flagBase = 1;
+        for (int i=0; i< splits.length; i++) asmflags[flagBase++]=splits[i];
+        return asmflags;
+    } 
+    boolean peerBuild(String baseProjectPath)  
+    {
+        String msg ="";
+        String path = baseProjectPath+File.separator+"build";
+
+        String fromS19 = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+"_rom.s19";
+        String toBin = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+"_rom.bin";
+        msg+="build"+File.separator+currentProject.getProjectName()+"_rom.s19";
+        msg+="->";
+        msg+="build"+File.separator+currentProject.getProjectName()+"_rom.bin";
+        String[] SRECFLAGS = buildPeerSREC("-q");
+        SRECFLAGS[SRECFLAGS.length-2] = fromS19;
+        SRECFLAGS[SRECFLAGS.length-1] = toBin;
+        boolean ok = true;
+        ok = ok && doPeerBuild(SRECFLAGS, "SREC2BIN: "+msg);
+
+
+        String fromS19ram = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+"_ram.s19";
+        String toBinram = baseProjectPath+File.separator+"build"+File.separator+currentProject.getProjectName()+"_ram.bin";
+        msg ="build"+File.separator+currentProject.getProjectName()+"_ram.s19";
+        msg+="->";
+        msg+="build"+File.separator+currentProject.getProjectName()+"_ram.bin";
+        SRECFLAGS = buildPeerSREC("-q -o -0xc880");
+        SRECFLAGS[SRECFLAGS.length-2] = fromS19ram;
+        SRECFLAGS[SRECFLAGS.length-1] = toBinram;
+        ok = ok && doPeerBuild(SRECFLAGS, "SREC2BIN: "+msg);
+
+        printMessage("Concatinate: "+"build"+File.separator+currentProject.getProjectName()+"_rom.bin"+" + "+"build"+File.separator+currentProject.getProjectName()+"_ram.bin"+" to "+"bin"+File.separator+currentProject.getProjectName()+".bin");
+        ok = ok && de.malban.util.UtilityFiles.concatFiles(toBin, toBinram, baseProjectPath+File.separator+"bin"+File.separator+currentProject.getProjectName()+".bin");
+
+        
+        if (!ok)
+        {
+            SwingUtilities.invokeLater(new Runnable()
+            {
+                public void run()
+                {
+                    printError("Error linking... " );
+                    buildPeerCProjectResult(false, true);
+                }
+            });                    
+            one = null;
+            jButtonAssemble.setEnabled(true);
+            jButtonDebug.setEnabled(true);
+            asmStarted = false;
+            return false;
+        }
+        return true;
+    }
+    public boolean doPeerBuild(String[] flags, String stageMessage)
+    {
+        if (isMac)
+        {
+            flags[0]=Global.mainPathPrefix+"C"+File.separator+"Mac"+File.separator+"bin"+File.separator+"srec2bin";
+        }
+        if (isWin)
+        {
+            flags[0]=Global.mainPathPrefix+"C"+File.separator+"Win32"+File.separator+"bin"+File.separator+"srec2bin.exe";
+        }
+        if (isLinux)
+        {
+        if (Global.getOSBit()==64)
+            flags[0]=Global.mainPathPrefix+"C"+File.separator+"Linux64"+File.separator+"bin"+File.separator+"srec2bin";
+        else
+            flags[0]=Global.mainPathPrefix+"C"+File.separator+"Linux32"+File.separator+"bin"+File.separator+"srec2bin";
+        }
+        String flagsOut = ""; for (int i=0;i<flags.length; i++) flagsOut+= flags[i]+" " ;
+        log.addLog("SREC: "+flagsOut);
+
+        
+
+                
+        
+        printNoLNMessage(stageMessage);
+        
+        try
+        {
+            log.addLog(stageMessage+" ", INFO);
+            boolean ok=  executeOSCommand(flags);
+            
+            ok = ok && (!(UtilityFiles.lastError.toLowerCase().contains("error")));
+            ok = ok && (!(UtilityFiles.lastMessage.toLowerCase().contains("error")));
+            
+            if (ok)
+            {
+                printMessage(" ... success");
+                printWarning(truncateFilename(UtilityFiles.lastError.trim()));
+                printMessage(truncateFilename(UtilityFiles.lastMessage.trim()));
+                return true;
+            }
+            
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
+        log.addLog(stageMessage+" failed ", WARN);
+        printError(" ... failed");
+        printError(UtilityFiles.lastError);
+        printError(UtilityFiles.lastMessage);
+        return false;
+    }    
+    void peerClean(String baseProjectPath)
+    {
+        de.malban.util.UtilityFiles.cleanDirectory(baseProjectPath+File.separator+"bin");
+        de.malban.util.UtilityFiles.cleanDirectory(baseProjectPath+File.separator+"build");
+        File f = new File(baseProjectPath+File.separator+"build"+File.separator+"lib");
+        f.mkdir();
+        printMessage("Cleaned...");
+        log.addLog("Clean was run...");
+    }
+    void doSinglePeerCFile(final String fname)
+    {
+        if (asmStarted) return;
+        asmStarted = true;
+        jButtonAssemble.setEnabled(false);
+        jButtonDebug.setEnabled(false);
+        // paranoia!
+        if (one != null) return;
+        
+        one = new Thread() 
+        {
+            public void run() 
+            {
+                boolean asmOk = true;
+                try
+                {
+                    String path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+                    if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
+                    String baseProjectPath = path+currentProject.getProjectName();
+
+                    peerClean(baseProjectPath);
+                 
+                    path = baseProjectPath+ File.separator+"source";
+                    File[] fList = new File[1];
+                    fList[0] = new File(fname);
+                    ArrayList<String> res = peerPreprocess(fList, baseProjectPath);
+                    if (res == null)
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                buildPeerCProjectResult(false, true);
+                            }
+                        });                    
+                        one = null;
+                        jButtonAssemble.setEnabled(true);
+                        jButtonDebug.setEnabled(true);
+                        asmStarted = false;
+                        refreshTree();
+
+                        return;
+                    }
+                    
+                    if (!peerCompile(fList, baseProjectPath, false))
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                buildPeerCProjectResult(false, true);
+                            }
+                        });                    
+                        one = null;
+                        jButtonAssemble.setEnabled(true);
+                        jButtonDebug.setEnabled(true);
+                        asmStarted = false;
+                        refreshTree();
+                        return;
+                    }
+                    path = baseProjectPath+ File.separator+"build"+ File.separator+"lib";
+                    File directory = new File(path);
+                    
+                    
+                    
+                    String sName = path +File.separator+changeTypeTo(nameOnly(fname),"s");
+                    fList[0] = new File(sName);
+
+                    
+                    if (!peerAssemble(fList, baseProjectPath))
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+//                                printError("Error assembling...");
+                                buildPeerCProjectResult(false, true);
+                            }
+                        });                    
+                        one = null;
+                        jButtonAssemble.setEnabled(true);
+                        jButtonDebug.setEnabled(true);
+                        asmStarted = false;
+                        refreshTree();
+                        return;
+                    }
+                }
+                catch (final Throwable e)
+                {
+                    SwingUtilities.invokeLater(new Runnable()
+                    {
+                        public void run()
+                        {
+                            printError("Exception while building: " + e.getMessage());
+                            printError(de.malban.util.Utility.getStackTrace(e));
+                            buildPeerCProjectResult(false, true);
+                        }
+                    });   
+                    one = null;
+                    jButtonAssemble.setEnabled(true);
+                    jButtonDebug.setEnabled(true);
+                    asmStarted = false;
+                    refreshTree();
+                    return;
+                }
+                printMessage("Compile successfull...");
+                
+                one = null;
+                asmStarted = false;
+                jButtonAssemble.setEnabled(true);
+                jButtonDebug.setEnabled(true);
+                refreshTree();
+            }  
+        };
+
+        one.setName("C-Build: "+currentProject.getProjectName());
+        one.start();                   
+    }
+    boolean buildPeerCCNT()
+    {
+        // do map file        
+        CartridgeProperties cart = new CartridgeProperties();
+        String path = convertSeperator(currentProject.getPath());
+        if (path.length() >0 ) path += File.separator;
+        String  cntFilename = path+currentProject.getProjectName()+File.separator+"bin"+File.separator+currentProject.getProjectName() +".cnt";
+
+        path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+        if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
+        String baseProjectPath = path+currentProject.getProjectName();
+
+        String pathSource = baseProjectPath+ File.separator+"source";
+        String pathBuild = baseProjectPath+ File.separator+"build";
+        String pathBuildLib = baseProjectPath+ File.separator+"build"+ File.separator+"lib";
+        String pathUsrLib = baseProjectPath+ File.separator+"lib";
+
+        File directory = new File(path);
+        File[] fList = directory.listFiles();
+        ASMap asmap = parseMap(pathBuild+File.separator+currentProject.getProjectName()+".map");
+
+        
+        
+        if (currentProject.getIsCDebugging())
+            FilePeeper.peepsFound /=2; // each compile is done 2 times.
+        
+        printMessage("Header size: "+asmap.headerLength+", Rom size: "+asmap.romLength+", iRam size: "+asmap.initializedRAMUsage+", uRam size: "+asmap.unInitializedRAMUsage+", PF: "+FilePeeper.peepsFound );
+        
+        String pathCLib = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"lib";
+        directory = new File(pathCLib);
+        fList = directory.listFiles();
+        
+        // all std C files
+        ArrayList<String> files = new ArrayList<String>();
+        for (File file : fList) 
+        {
+            String fileNameOnly = file.getName();
+            if (!fileNameOnly.toLowerCase().endsWith(".rst")) continue;
+            files.add(file.getAbsolutePath());
+        }
+
+        // all files of usr lib
+        directory = new File(pathUsrLib);
+        if (directory.exists())
+        {
+            fList = directory.listFiles();
+            for (File file : fList) 
+            {
+                String fileNameOnly = file.getName();
+                if (!fileNameOnly.toLowerCase().endsWith(".rst")) continue;
+                files.add(file.getAbsolutePath());
+            }
+        }
+
+        // all files of project
+        directory = new File(pathBuildLib);
+        fList = directory.listFiles();
+        for (File file : fList) 
+        {
+            String fileNameOnly = file.getName();
+            if (!fileNameOnly.toLowerCase().endsWith(".rst")) continue;
+            files.add(file.getAbsolutePath());
+        }
+        
+        RSTInfo rst = parseRSTs(files);
+        StringBuilder buf = new StringBuilder();
+
+        for (MemInfo info :rst.m)
+        {
+            if (info.label.length() != 0)
+            {
+                buf.append("LABEL ").append(String.format("$%04X", (info.address&0xffff))).append(" ").append(info.label).append("\n");
+            }
+        }
+
+        for (MemInfo info :rst.m)
+        {
+            if (info.comment.length() != 0)
+            {
+                String c = info.comment;
+                /*
+                c = c.trim();
+                c = de.malban.util.UtilityString.replace(c, "::",":").trim();
+                if (c.startsWith(":")) c = c.substring(1);
+                if (c.endsWith(":")) c = c.substring(0, c.length()-1);
+                */
+                
+                buf.append("COMMENT "+String.format("$%04X", (info.address&0xffff))+" "+c+"\n");
+           }
+        }
+        for (MemInfo info :rst.m)
+        {
+            if (info.lineComment.length() != 0)
+            {
+                String c = info.lineComment;
+                buf.append("COMMENT_LINE "+String.format("$%04X", (info.address&0xffff))+" "+c+"\n");
+           }
+        }
+        
+        // CINfo
+        for (MemInfo info :rst.m)
+        {
+            if (info.cInfo != null)
+            {
+                CInfoBlock c = info.cInfo;
+                if (c.hasBreakpoint)
+                    buf.append("C_INFO_BLOCK "+String.format("$%04X", (info.address&0xffff))+" \""+c.file+" \"FN_END "+c.lineNo+" \""+c.lineString+" \" BKPOINT=1\n");
+                else
+                    buf.append("C_INFO_BLOCK "+String.format("$%04X", (info.address&0xffff))+" \""+c.file+" \"FN_END "+c.lineNo+" \""+c.lineString+" \" BKPOINT=0\n");
+           }
+        }
+
+        int a = 0;
+        
+        while (a<0x8000)
+            a = addConsecutiveType(a, rst, buf);
+
+        
+        try
+        {
+            PrintWriter out = new PrintWriter(cntFilename);
+            out.println(buf.toString());
+            out.close();
+        }
+        catch (Throwable e)
+        {
+            System.out.println("Error saving CNT file...");
+            return false;
+        }
+                
+                
+        return true;
+    }
+    int addConsecutiveType(int start, RSTInfo rst, StringBuilder buf)
+    {
+        if (start > 0x7fff) return Integer.MAX_VALUE;
+        
+        int length = rst.m[start].typeLength;
+        int type = rst.m[start].type;
+        int end = start+rst.m[start].typeLength;
+        
+        while (end < 0x8000)
+        {
+            if (rst.m[end].type != type) break;
+
+
+            length += rst.m[end].typeLength;
+            end += rst.m[end].typeLength;
+        }
+        if (end>0x8000) end = 0x8000;
+        switch (type)
+        {
+            case CNT_DATA_BYTE:
+            {
+                buf.append("RANGE "+String.format("$%04X", (start&0xffff))+"-"+String.format("$%04X", ((start+length)&0xffff))+" DB_DATA"+" 8\n");
+                break;
+            }
+            case CNT_DATA_CHAR:
+            {
+                buf.append("RANGE "+String.format("$%04X", (start&0xffff))+"-"+String.format("$%04X", ((start+length)&0xffff))+" CHAR_DATA"+" 20\n");
+                break;
+            }
+            case CNT_DATA_WORD:
+            {
+                buf.append("RANGE "+String.format("$%04X", (start&0xffff))+"-"+String.format("$%04X", ((start+length)&0xffff))+" DW_DATA"+" 4\n");
+                break;
+            }
+            case CNT_CODE:
+            {
+                buf.append("RANGE "+String.format("$%04X", (start&0xffff))+"-"+String.format("$%04X", ((start+length)&0xffff))+" CODE"+"\n");
+                break;
+            }
+        }
+
+        
+        return end;
+    }
+    
+    
+    class Area
+    {
+        public int baseAddress=0;
+        public int length = 0;
+        public String fullname="";
+        ArrayList<GlobalSymbols> symbols = new ArrayList<GlobalSymbols>();
+        public boolean isROM = true;
+        public Area(String line)
+        {
+            // line as in: 
+            // .cartridge                 0000        0020 =          32. bytes (REL,CON,CSEG)
+            line = de.malban.util.UtilityString.replaceWhiteSpaces(line, " ");
+            line = de.malban.util.UtilityString.replace(line, "  ", " ").trim();
+            String[] split = line.split(" ");
+            split = removeEmpty(split);
+            fullname = split[0];
+            baseAddress = DASM6809.toNumber("$"+split[1]);
+            length = DASM6809.toNumber("$"+split[2]);
+            isROM = baseAddress<0xc800;
+        }
+    }
+    class GlobalSymbols
+    {
+        public int relativeAddress=0; // in rel file
+        public int absolutAddress=0;  // in final bin file
+        public String fullname="";
+        public GlobalSymbols(String line, Area a)
+        {
+            // line as in: 
+            // C880  __mc6809                           mc6809.c
+            line = de.malban.util.UtilityString.replaceWhiteSpaces(line, " ");
+            line = de.malban.util.UtilityString.replace(line, "  ", " ").trim();
+            String[] split = line.split(" ");
+            split = removeEmpty(split);
+            absolutAddress = DASM6809.toNumber("$"+split[0]);
+            relativeAddress = absolutAddress- a.baseAddress;
+            fullname = split[1];
+        }
+        
+    }
+    class ASMap
+    {
+        public ArrayList<Area> area = new ArrayList<Area>();
+        int initializedRAMUsage = 0;
+        int unInitializedRAMUsage = 0;
+        int headerLength = 0;
+        int romLength = 0;
+    }
+    ASMap parseMap(String mapFile)
+    {
+        File f = new File(mapFile);
+        if (f==null) return null;
+        ASMap m = new ASMap();
+        Vector<String>lines = de.malban.util.UtilityString.readTextFileToStringNoTab(f);
+        int areaCount = 0;
+        for (int i=0; i< lines.size(); i++)
+        {
+            String line = lines.elementAt(i);
+            
+            if (line.startsWith(".data"))
+            {
+                //.data                      C880        004C =          76. bytes (REL,CON,CSEG)
+                String[] split = line.split(" ");
+                split = removeEmpty(split);
+                m.initializedRAMUsage = DASM6809.toNumber("$"+split[2]);
+            }
+            if (line.startsWith(".bss"))
+            {
+                //.bss                       C8CC        016F =         367. bytes (REL,CON,CSEG)
+                String[] split = line.split(" ");
+                split = removeEmpty(split);
+                m.unInitializedRAMUsage = DASM6809.toNumber("$"+split[2]);
+            }
+            if (line.startsWith(".cartridge"))
+            {
+                //.cartridge                 0000        001D =          29. bytes (REL,CON,CSEG)
+                String[] split = line.split(" ");
+                split = removeEmpty(split);
+                m.headerLength = DASM6809.toNumber("$"+split[2]);
+            }
+            if (line.startsWith(".text"))
+            {
+                //.text                      001D        2110 =        8464. bytes (REL,CON,CSEG)
+                String[] split = line.split(" ");
+                split = removeEmpty(split);
+                m.romLength = DASM6809.toNumber("$"+split[2]);
+            }
+        }
+        
+        for (int i=0; i< lines.size(); i++)
+        {
+            String line = lines.elementAt(i);
+            if (line.contains("Files Linked")) break; // we are done here
+            if (!line.contains("Area")) continue;
+            areaCount++;
+            if (areaCount==1) continue;
+            // now we start at an interesing point in the file
+            // skip this line, and the next
+            i+=2;
+            line = lines.elementAt(i);
+            Area a = new Area(line);
+            m.area.add(a);
+            
+            while (!line.contains("Global")) line = lines.elementAt(i++);
+            // skip this line, and the next
+            i+=2;
+            while (line.trim().length() != 0)
+            {
+                // here each line is a global symbol
+                GlobalSymbols gs = new GlobalSymbols(line, a);
+                a.symbols.add(gs);
+                line = lines.elementAt(i++);
+            }
+            
+        }
+        
+        return m;
+    }
+    
+    final int CNT_UNKOWN = 0;
+    final int CNT_CODE = 1;
+    final int CNT_DATA_WORD = 2;
+    final int CNT_DATA_BYTE = 3;
+    final int CNT_DATA_CHAR = 4;
+    class CInfoBlock
+    {
+        boolean hasBreakpoint = false;
+        int lineNo=0;
+        String file="";
+        String lineString = "";
+        int address =0;
+    }
+    class MemInfo
+    {
+        String label="";
+        int address = 0;
+        int type = CNT_UNKOWN;
+        int typeLength = 1;
+        String comment="";
+        String lineComment="";
+        CInfoBlock cInfo = null;
+        boolean hasBreakpoint = false;
+        MemInfo(int i)
+        {
+            address = i;
+        }
+    }
+    class ValueName
+    {
+        int size=0; // bytes
+        int value=0;
+        String name ="";
+    }
+    class StackFrame
+    {
+        int start=0;
+        int end=0;
+        int size=0; // bytes
+        String frameReg = "u"; // or s
+        ArrayList<ValueName> defs = new ArrayList<ValueName>();
+    }
+    class RSTInfo
+    {
+        MemInfo[] m = new MemInfo[65536];
+        ArrayList<StackFrame> stackFrames = new ArrayList<StackFrame>();
+        
+        void setLabel(int a, String l)
+        {
+            if (l.startsWith("LBE")) return;
+            if (l.startsWith("LBB")) return;
+            if (l.startsWith("Lscope")) return;
+            if (l.startsWith("LFBB")) return;
+            if (l.startsWith("Ltext")) return;
+            if (m[a].label.length() != 0)
+            {
+                if (m[a].label.startsWith("_"))
+                    m[a].label = m[a].label +":"+ l;
+                else
+                    m[a].label = l + ":"+m[a].label;
+            }
+            else
+                m[a].label = l;
+        }
+        void setType(int a, int t, int l)
+        {
+            m[a].type = t;
+            m[a].typeLength = l;
+            while (a+l>65536) l--;
+            String comment = m[a].comment;
+
+            for (int i=1;i<l;i++)
+            {
+                m[a+i].type = t;
+                m[a+i].typeLength = l-i;
+                if (m[a+1].comment.length()!=0)
+                {
+                    if (comment.length()!=0)
+                    {
+                        comment +=":";
+                    }
+                    comment += m[a+i].comment;
+                }
+            }
+            setComment(a, comment);
+        }
+        void setLineComment(int a, String c)
+        {
+            m[a].lineComment = c;
+        }
+        void setComment(int a, String c)
+        {
+            String test = c.trim();
+            test = de.malban.util.UtilityString.replace(test, ",","").trim();
+            test = de.malban.util.UtilityString.replace(test, ":","").trim();
+            test = de.malban.util.UtilityString.replace(test, ";","").trim();
+            test = de.malban.util.UtilityString.replace(test, "*","").trim();
+            test = de.malban.util.UtilityString.replace(test, "i","").trim();
+            test = de.malban.util.UtilityString.replace(test, "0","").trim();
+            test = de.malban.util.UtilityString.replace(test, "1","").trim();
+            test = de.malban.util.UtilityString.replace(test, "2","").trim();
+            test = de.malban.util.UtilityString.replace(test, "3","").trim();
+            test = de.malban.util.UtilityString.replace(test, "4","").trim();
+            test = de.malban.util.UtilityString.replace(test, "5","").trim();
+            test = de.malban.util.UtilityString.replace(test, "6","").trim();
+            test = de.malban.util.UtilityString.replace(test, "7","").trim();
+            test = de.malban.util.UtilityString.replace(test, "8","").trim();
+            test = de.malban.util.UtilityString.replace(test, "9","").trim();
+            test = de.malban.util.UtilityString.replace(test, "D","").trim();
+            test = de.malban.util.UtilityString.replace(test, "i","").trim();
+            test = de.malban.util.UtilityString.replace(test, "t","").trim();
+            test = de.malban.util.UtilityString.replace(test, ".","").trim();
+            test = de.malban.util.UtilityString.replaceCI(test, "tmp","").trim();
+
+            test = de.malban.util.UtilityString.replace(test, "::",":").trim();
+            if (test.startsWith(":")) test = test.substring(1);
+            if (test.endsWith(":")) test = test.substring(0, test.length()-1);
+            if (test.startsWith(",")) test = test.substring(1);
+            if (test.startsWith(";")) test = test.substring(1);
+            if (test.endsWith(",")) test = test.substring(0, test.length()-1);
+            test = test.trim();
+            
+            if (test.trim().length()==0) return;
+            m[a].comment = c.trim();
+            m[a].comment = de.malban.util.UtilityString.replace(m[a].comment, "::",":").trim();
+            if (m[a].comment.endsWith(";")) m[a].comment = m[a].comment.substring(0, m[a].comment.length()-1).trim();
+            if (m[a].comment.endsWith(":")) m[a].comment = m[a].comment.substring(0, m[a].comment.length()-1).trim();;
+            if (m[a].comment.endsWith(",")) m[a].comment = m[a].comment.substring(0, m[a].comment.length()-1).trim();;
+            if (m[a].comment.startsWith(";")) m[a].comment = m[a].comment.substring(1).trim();;
+            if (m[a].comment.startsWith(":")) m[a].comment = m[a].comment.substring(1).trim();;
+            if (m[a].comment.startsWith(",")) m[a].comment = m[a].comment.substring(1).trim();;
+            m[a].comment = m[a].comment.trim();
+        }
+        void setCInfo(int a, CInfoBlock c)
+        {
+            if (m[a].cInfo!=null)
+            {
+                m[a].cInfo.lineString+=c.lineString;
+            }
+            else
+            {
+                m[a].cInfo = c;
+            }
+        }
+
+        RSTInfo()
+        {
+            for (int i=0;i<65536;i++)
+            {
+                m[i] = new MemInfo(i);
+            }
+        }
+
+    }
+    Vector<String> ensureFileLoaded(HashMap<String, Vector> cFiles, String filename)
+    {
+        File f = new File(filename);
+        if (!f.exists()) return null;
+        if (cFiles.get(filename) != null) return cFiles.get(filename);
+        Vector v = de.malban.util.UtilityString.readTextFileToStringNoTab(f);
+        cFiles.put(filename, v);
+        return v;
+    }
+    /*
+    
+    Stopping with stack frames...
+    Inlined functions go on the same stack frame as the calling function
+    same var names in inline function go on the same frame, this makes it
+    impossible to just call stack "offsets" by its varnames, since
+    there can be different definitions to one var name on one stack...
+    
+    Comments that are generated by gcc default must suffice...
+    
+    
+    ArrayList<StackFrame> getStackFrame(Vector<String>lines)
+    {
+        ArrayList<StackFrame> frames = new ArrayList<StackFrame>();
+        boolean hasFramepointer = false;
+        // do (end of line) comments first
+        
+        int OUT_OF_FRAME = 0;
+        int IN_FRAME = 1;
+        
+        int state = OUT_OF_FRAME;
+        for (int i=0; i< lines.size(); i++)
+        {
+            String line = lines.elementAt(i);
+            // this will always be set beforehand
+            if (line.contains("-fno-omit-frame-pointer")) hasFramepointer = true;
+
+            // stack frame are "encapsulated in 
+            // leas -##,s
+            // if frame pinter -> then followed by
+            //      leau ,s {or other fp index reg}
+            
+            // ...
+            // leas +##,s
+            // 0         1          2         3         4
+            // 012345678901233456789012345678901234567890
+            //  07CF 32 E8 EF      [ 5]  110   	leas	-17,s	; ,,
+            //                           104 	; #ENR#[373]int main(void)
+            //                           105 ;--- end asm ---
+            //                           106 	.area .text
+            //                           107 	.globl _main
+            //  07CD                     108 _main:
+            //  07CD 34 40         [ 6]  109 	pshs	u	; 
+            //  07CF 32 E8 EF      [ 5]  110 	leas	-17,s	; ,,
+            //  07D2 33 E4         [ 4]  111 	leau	,s	; ,
+
+            String mnemonic = getMnemonic(line);
+            if ("leas".equals(mnemonic))
+            {
+                if (state == OUT_OF_FRAME)
+                {
+                    
+                }
+            }
+            
+        
+        }
+        return frames;
+    }
+    int getOPCount(String line)
+    {
+        int ret = Integer.MAX_VALUE;
+        String op = getOperand(line);
+        if (op.length() ==0) return ret;
+        try
+        {
+            op = op.substring(0,op.indexOf(",")).trim();
+            ret = DASM6809.toNumber(op);
+            if (ret == 0) ret = Integer.MAX_VALUE;
+        }
+        catch (Throwable e) { }
+        return ret;
+    }
+    String getOperand(String line)
+    {
+        String ret = "";
+        try
+        {
+            if (!line.contains("[")) return ret;
+            if (!line.contains("]")) return ret;
+            line = line.substring(line.indexOf("]")+1).trim();
+            line = de.malban.util.UtilityString.replaceWhiteSpaces(line, " ");
+            line = de.malban.util.UtilityString.replace(line, "  "," ");
+            String[] split = line.split(" ");
+            split = removeEmpty(split);
+            ret = split[2];
+        }
+        catch (Throwable e) { }
+        return ret;
+    }
+    String getMnemonic(String line)
+    {
+        String ret = "";
+        try
+        {
+            if (!line.contains("[")) return ret;
+            if (!line.contains("]")) return ret;
+            line = line.substring(line.indexOf("]")+1).trim();
+            line = de.malban.util.UtilityString.replaceWhiteSpaces(line, " ");
+            line = de.malban.util.UtilityString.replace(line, "  "," ");
+            String[] split = line.split(" ");
+            split = removeEmpty(split);
+            ret = split[1];
+        }
+        catch (Throwable e) { }
+        return ret;
+    }
+    int getAddress(String line)
+    {
+        int ret = -1;
+        try
+        {
+            String a = line.substring(2,2+4);
+            ret = DASM6809.toNumber("$"+a);
+            if (ret == 0) ret = -1;
+        }
+        catch (Throwable e) { }
+        return ret;
+    }
+    
+    */
+    
+    
+    RSTInfo parseRSTs(ArrayList<String> files)
+    {
+        HashMap<String, Vector> cFiles = new HashMap<String, Vector>();
+        RSTInfo rst = new RSTInfo();
+        for (String f: files)
+        {
+            ArrayList<DebugComment> commentList = new ArrayList<DebugComment>();
+            String debugCommentFilename = de.malban.util.UtilityString.replace(f, "enr.rst", "c");
+            debugCommentFilename = de.malban.util.UtilityString.replace(debugCommentFilename, "build"+File.separator+"lib","source");
+// QUICK hack, 
+// TODO
+// does not work with subdirectoy files!
+            
+//        /Users/chrissalo/NetBeansProjects/Vide/projects/LodeRunner/source/jumpman.c
+//        /users/chrissalo/netbeansprojects/vide/projects/loderunner/build/lib/jumpman.c
+            
+            
+            DebugCommentList currentComments = getDebugComments(debugCommentFilename);
+            if (currentComments!=null)
+            {
+                commentList = currentComments.getList();
+                for (DebugComment dbc: commentList)
+                {
+                    dbc.breakpointCommitted = false;
+                }
+                
+            }
+
+            int areaCount = 0;
+            Vector<String>lines = de.malban.util.UtilityString.readTextFileToStringNoTab(new File (f));
+//            StackFrame frame = getStackFrame(lines);
+           
+            // do (end of line) comments first
+            for (int i=0; i< lines.size(); i++)
+            {
+                String line = lines.elementAt(i);
+                
+                
+                
+                line = de.malban.util.UtilityString.replaceWhiteSpaces(line, " ");
+                if (line.contains(".area")) areaCount++;
+                if (areaCount<1) continue;
+                // now we start at an interesing point in the file
+                // skip this line, and the next
+                if (line.contains("(Motorola 6809)")) break;
+                if (line.length()<30) continue;
+                String address = line.substring(3, 3+4);
+                
+                if (!de.malban.util.UtilityString.isHexNumber(address)) continue;
+                int iaddress = DASM6809.toNumber("$"+address);
+
+                // cycle info -> real assembler line
+                if ((line.contains("[")) && (line.contains("]"))) 
+                {
+                    if (!line.contains(";")) continue; // if there is no comment - skip
+                    String comment = line.substring(line.indexOf(";"));
+                    rst.setComment(iaddress, comment);
+                }
+            }
+            
+            
+            areaCount = 0;
+            // seek refferenced "C" lines
+            int lastAddress = 0;
+            String nextComment = "";
+            CInfoBlock cInfo = null;
+            for (int i=0; i< lines.size(); i++)
+            {
+                String line = lines.elementAt(i);
+   
+                
+                line = de.malban.util.UtilityString.replaceWhiteSpaces(line, " ");
+                if (line.contains(".area")) areaCount++;
+                if (areaCount<1) continue;
+                // now we start at an interesing point in the file
+                // skip this line, and the next
+                if (line.contains("(Motorola 6809)")) break;
+                
+                // look if there is an "C info block"
+                /*
+
+                    0A23                    1425 L89:
+                               1426 ;----- asm -----
+                               1427 ;  334 "/Users/chrissalo/NetBeansProjects/Vide/projects/LodeRunner/source/LRUNNER.enr.c" 1
+                               1428 	; #ENR#[X] player_heading = _DOWN;
+                               1429 ;--- end asm ---
+                    0A23 C6 01         [ 2] 1430 	ldb	#1	; ,            
+                */
+                
+                if (line.contains("; #ENR#["))
+                {
+                    // ensure we can inspect the next lines
+                    if (i+4<lines.size())
+                    {
+          //              String line0=line;                 // asm start
+                        String line1=lines.elementAt(i-1); // file info
+                        String line2=line; // enrich
+                        String line4="";// code, next address os gotten from
+                        
+                        int t=1;
+                        boolean adressFound = false;
+                        while (!adressFound)
+                        {
+                            if (lines.size()<i+t+1) break;
+                            line4=lines.elementAt(i+(t++));
+                            String address = line4.substring(3, 3+4);
+                            if (de.malban.util.UtilityString.isHexNumber(address)) adressFound = true;
+                        }
+
+                        if (line2.contains("#ENR#"))
+                        {
+                            if (cInfo == null)
+                                cInfo = new CInfoBlock();
+
+                            
+                            if (line1.indexOf("\"")==-1)
+                            {
+                                cInfo.file ="";
+                            }
+                            else
+                            {
+                                cInfo.file =line1.substring(line1.indexOf("\"")+1, line1.lastIndexOf("\""));
+                            }
+
+                            
+                            cInfo.file = de.malban.util.UtilityString.replace(cInfo.file, ".enr.c", ".c").trim();
+
+                            String lineNo = line2.substring(line2.indexOf("[")+1, line2.indexOf("]"));
+                            cInfo.lineNo = de.malban.util.UtilityString.Int0(lineNo);
+                            
+                            if (cInfo.lineString.length() == 0)
+                                cInfo.lineString = line2.substring(line2.indexOf("]")+1);
+                            else
+                                cInfo.lineString += ", "+line2.substring(line2.indexOf("]")+1);
+
+                            String address = line4.substring(3, 3+4);
+                            if (de.malban.util.UtilityString.isHexNumber(address)) 
+                            {
+                                cInfo.address = DASM6809.toNumber("$"+address);
+                            }                  
+                            
+                            for (DebugComment dbc: commentList)
+                            {
+                                if (dbc.beforLineNo == cInfo.lineNo)
+                                {
+                                    cInfo.hasBreakpoint = true;
+                                    dbc.breakpointCommitted = true;
+                                }
+                            }
+                            
+                            
+                            i+=1;
+                            continue;
+                        }
+                        
+                    }
+                }
+
+                
+                
+                if (line.length()<30) continue;
+                
+                String address = line.substring(3, 3+4);
+                
+                if (de.malban.util.UtilityString.isHexNumber(address)) 
+                {
+                    lastAddress = DASM6809.toNumber("$"+address);
+                    if (cInfo!= null)
+                    {
+                        rst.setCInfo(lastAddress, cInfo);
+                    }
+                    if (nextComment.length() != 0)
+                    {
+                        rst.setLineComment(lastAddress, nextComment);
+                    }
+                    cInfo = null;
+                    nextComment = "";
+                    continue;
+                }
+                
+//                examine if removal is bad!
+//                cInfo = null;
+                if (line.contains(".stabs")) continue;
+
+                if (line.contains(Global.mainPathPrefix))
+                {
+                    String ln = line.substring(33, 33+5).trim();
+                    if (de.malban.util.UtilityString.isDecNumber(ln))
+                    {
+                        /*
+                        like:
+                                                         572 ;  360 "/Users/chrissalo/NetBeansProjects/Vide/projects/Graham/source/main.c" 1
+                                02C6 35 76         [10]  573 	puls   d,x,y,u
+                        */
+                        int lineNumber = de.malban.util.UtilityString.Int0(ln);
+                        String filename = line.substring(line.indexOf("\"")+1, line.lastIndexOf("\""));
+                        Vector<String> v = ensureFileLoaded(cFiles, filename);
+
+                        
+                        if (v != null)
+                            nextComment = v.elementAt(lineNumber-1);
+                    }
+                }
+            }
+            areaCount = 0;
+            for (int i=0; i< lines.size(); i++)
+            {
+                String line = lines.elementAt(i);
+                line = de.malban.util.UtilityString.replaceWhiteSpaces(line, " ");
+                if (line.contains(".area")) areaCount++;
+                if (areaCount<1) continue;
+                // now we start at an interesing point in the file
+                // skip this line, and the next
+                if (line.contains("(Motorola 6809)")) break;
+                if (line.length()<30) continue;
+                String address = line.substring(3, 3+4);
+                
+                if (!de.malban.util.UtilityString.isHexNumber(address)) continue;
+                int iaddress = DASM6809.toNumber("$"+address);
+                
+                // test DATA
+                if (line.contains(".byte")) 
+                {
+                    rst.setType(iaddress, CNT_DATA_BYTE, 1);
+                    continue;
+                }
+                if (line.contains(".word")) 
+                {
+                    rst.setType(iaddress, CNT_DATA_WORD, 2);
+                    continue;
+                }
+                if (line.contains(".ascii")) 
+                {
+                    // peeping for next lines to get the len of ascii data
+                    
+                    int asciiLen = getAsciiLen(i, lines);
+                    
+                    rst.setType(iaddress, CNT_DATA_CHAR, asciiLen);
+                    continue;
+                }
+                if ((line.contains("[")) && (line.contains("]"))) 
+                {
+                    int x = getCodeBytes(line, 12);
+                    rst.setType(iaddress, CNT_CODE, x);
+                    continue;
+                }
+                
+                String label = line.substring(32);
+                if (!label.contains(":")) continue;
+                label = label.substring(0,label.indexOf(":")).trim();
+                if (label.trim().split(" ").length>1) label ="";
+                if (label.length() != 0)
+                {
+                    rst.setLabel(iaddress, label);
+                }
+            }
+            
+            
+            for (DebugComment dbc: commentList)
+            {
+                if (!dbc.breakpointCommitted)
+                {
+                    printWarning("Breakpoint "+debugCommentFilename+": "+dbc.beforLineNo+" could not be committed!");
+                }
+            }
+
+            
+        }
+        return rst;
+    }
+    
+    int getCodeBytes(String line, int max)
+    {
+        /* lines like:
+            037B 49            [ 2]  122 	rola
+            037C 10 8E 03 66   [ 4]  123 	ldy	#_objects        
+        */
+        int x = 0;
+        int end = 8+max;
+        while (line.length()<end) end--;
+        
+        line = line.substring(8, end).trim();
+        String[] split = line.split(" ");
+        split = removeEmpty(split);
+        for(int i=0; i< split.length;i++)
+        {
+            if (de.malban.util.UtilityString.isHexNumber(split[i]))
+                x++;
+            else
+                break;
+        }
+        return x;
+        
+    }
+    int getAsciiLen(int i, Vector<String> lines)
+    {
+        /*
+            021C                      59 LC0:
+            021C 47 45 54 20 52 45    60 	.ascii "GET READY\0"
+                 41 44 59 00
+                                      61 	.globl _game_init
+        */
+        String line = lines.elementAt(i++);
+        int count = getCodeBytes(line, 18);
+        line = lines.elementAt(i++);
+        while (line.startsWith("       "))
+        {
+            count+=getCodeBytes(line, 18);
+            line = lines.elementAt(i++);
+        }
+        return count;
+    }
+    
+    // Peer truncate only!
+    String truncateFilename(String file)
+    {
+        String path= Global.mainPathPrefix;
+        if (currentProject != null)
+            path = Global.mainPathPrefix + convertSeperator(currentProject.getPath());
+        if ((path.length() >0 ) && (!path.endsWith(File.separator))) path += File.separator;
+    
+        String baseProjectPath = path;
+        if (currentProject != null)
+            baseProjectPath = path+currentProject.getProjectName()+File.separator;
+
+        String path2 = Global.mainPathPrefix+"C"+File.separator+"PeerC"+File.separator+"vectrex"+File.separator+"lib"+File.separator;
+        
+        String ret = de.malban.util.UtilityString.replace(file, baseProjectPath, "");
+        ret = de.malban.util.UtilityString.replace(ret, path2, "");
+        return ret;
+    }
+    void toAssi()
+    {
+        if (getSelectedEditor() == null) return;
+        String fn = getSelectedEditor().getFilename();
+        if (!fn.toLowerCase().endsWith("s")) return;
+        
+        getSelectedEditor().save(false);
+        Vector<String> sLines =  de.malban.util.UtilityString.readTextFileToString(new File(fn));
+        CompileResult result = doAssiConform(null, sLines, null);
+        
+        ArrayList <CompileResult> compiles = new ArrayList <CompileResult>();
+        compiles.add(result);
+        String t = buildFinalAssiResultString(compiles, false);
+        if (t == null) return;
+        getSelectedEditor().stopColoring();
+        getSelectedEditor().setText(t);
+        getSelectedEditor().startColoring(settings.fontSize);
+        initInventory();
+    
+    }
+
+    // somthing that does not start a line
+    // but comes "second"
+    static String getMnemonic(String line)
+    {
+        if (!line.startsWith(" "))
+        {
+            if (!line.contains(" ")) return "";
+            line = line.substring(line.indexOf(" "));
+        }
+        
+        // next "word" is mnemonic
+        String[] split = line.split(" ");
+        int i=0;
+        while (i<split.length)
+        {
+            if (split[i].length()!=0) 
+                return split[i];
+            i++;
+        }
+        return "";
+    }
+    
+    // not realy the operand
+    // the rest of the line withour spaces!
+    static String getOperand(String line, String knownMnemonic)
+    {
+        String rest = line.substring(line.indexOf(knownMnemonic)+knownMnemonic.length()).trim();
+        if (rest.length()==0) return "";
+        rest = de.malban.util.UtilityString.replaceWhiteSpaces(rest, " ");
+        rest = de.malban.util.UtilityString.replace(rest, " ", "");
+
+        return rest;
+    }
+    void preprocessOnly()
+    {
+        if (getSelectedEditor() == null) return;
+        String fn = getSelectedEditor().getFilename();
+        if (!((fn.toLowerCase().endsWith("s")) || (fn.toLowerCase().endsWith("i"))|| (fn.toLowerCase().endsWith("asm"))   )    ) return;
+        
+        getSelectedEditor().save(false);
+        
+        CustomOutputStream preprocessOut = new CustomOutputStream();
+        PrintStream asmPreprocess = new PrintStream(preprocessOut);
+        CustomOutputStream _errOut = new CustomOutputStream();
+        PrintStream _asmErrOut = new PrintStream(_errOut);
+        
+        String o = new Asmj(fn, _asmErrOut, asmPreprocess).getAllOut();
+        fn = changeTypeTo(fn, "pre.s");
+        // todo translate struct
+
+        de.malban.util.UtilityString.writeToTextFile(o, new File(fn));
+        EditorPanel edi = addEditor(fn, true);
+        
+    }
+    
+    void toAs6809()
+    {
+        if (getSelectedEditor() == null) return;
+        String fn = getSelectedEditor().getFilename();
+        if (!((fn.toLowerCase().endsWith("s")) || (fn.toLowerCase().endsWith("i"))|| (fn.toLowerCase().endsWith("asm"))   )    ) return;
+        getSelectedEditor().save(false);
+        File f = new File (fn);
+        String nameOnly = f.getName();
+        
+        
+        Vector<String> sLines =  de.malban.util.UtilityString.readTextFileToString(new File(fn));
+        CompileResult result = toAs6809(sLines, nameOnly);
+        
+        fn = changeTypeTo(fn, "asx.s");
+        // todo translate struct
+
+        de.malban.util.UtilityString.writeToTextFile(result.codeData, new File(fn));
+        EditorPanel edi = addEditor(fn, true);
+    }
+    
+    static boolean containsWord(String line, String word)
+    {
+        if (!line.contains(word)) return false;
+        boolean contains = true;
+        int start = line.indexOf(word);
+        int end = line.indexOf(word) + word.length();
+        if (start>0)
+        {
+            char startChar = line.charAt(start-1);
+            if (!de.malban.util.UtilityString.isWordBoundry(startChar)) contains = false;
+        }
+        if (end<line.length())
+        {
+            char endChar = line.charAt(end);
+            if (!de.malban.util.UtilityString.isWordBoundry(endChar)) contains = false;
+        }
+        return contains;
+    }
+    
+    static CompileResult toAs6809(Vector<String> sLines, String module)
+    {
+        CompileResult result = new CompileResult();// doAssiConform(null, sLines, null);
+
+        module = de.malban.util.UtilityString.replaceWhiteSpaces(module.toLowerCase(), " ");
+        module = de.malban.util.UtilityString.replaceWhiteSpaces(module , "");
+        if (module.length()==0) module = "tmp";
+        if (Character.isDigit(module.charAt(0))) module = "_"+module;
+        
+        StringBuilder codeSource = new StringBuilder();
+        StringBuilder dataSource = new StringBuilder();
+        StringBuilder bssSource = new StringBuilder();
+        StringBuilder bssInitSource = new StringBuilder();
+
+        boolean in_Code = false;
+        boolean in_Data = false;
+        boolean in_BSS = false;
+        
+        ArrayList<String> globalNames = new ArrayList<String>();
+        ArrayList<String> globalVars = new ArrayList<String>();
+
+        
+        
+        codeSource.append(" .module "+module+"\n");
+//        codeSource.append(" .bank rom(BASE=0x0000,SIZE=0x8000,FSFX=_rom)\n");
+//        codeSource.append(" .area .cartridge (BANK=rom) \n");
+//        codeSource.append(" .area .text (BANK=rom)\n");
+//        codeSource.append(" .area .text.hot (BANK=rom)\n");
+//        codeSource.append(" .area .text.unlikely (BANK=rom)\n\n");
+//        codeSource.append(" .bank ram(BASE=0xc880,SIZE=0x036b,FSFX=_ram)\n");
+        
+//        codeSource.append(" .area .data  (BANK=ram)\n");
+//        codeSource.append(" .area .bss   (BANK=ram)\n\n");
+        codeSource.append(" .area .text\n");
+        
+        /* structs can be transfered like:
+                    struct   ObjectStruct 
+                    ds       Y_POS,1                      ; D (1) current position 
+                    ds       SCALE,1                      ; D (2) scale to position the object 
+                    ds       CURRENT_LIST,2               ; X current list vectorlist 
+                    ds       TYPE, 0 
+                    ds       BEHAVIOUR,2                  ; PC 
+                    ds       X_POS,1                      ; D (2) 
+                    ds       ANGLE,2                      ; if angle base, angle in degree *2 
+                    ds       NEXT_OBJECT,2                ; positive = end of list 
+                    ds       filler, 5                    ; #noDoubleWarn 
+                    end struct 
+        
+        Y_POS = 0           ; D (1) current position
+        SCALE = 1           ; D (2) scale to position the object 
+        CURRENT_LIST = 2    ; X current list vectorlist
+        TYPE = 4
+        BEHAVIOUR = 4       ; PC 
+        X_POS = 6           ; D (2) 
+        ANGLE = 7           ; if angle base, angle in degree *2 
+        NEXT_OBJECT = 9     ; positive = end of list 
+        filler = 11         ; #noDoubleWarn
+        ObjectStruct = filler +5
+        
+        */
+        
+        boolean inStruct = false;
+        String structName = "";
+        String structComment = "";
+        int structCount = 0;
+        for (int i=0; i< sLines.size(); i++)
+        {
+            boolean doLine = true;
+            String sLine = sLines.elementAt(i);
+            String orgLine = sLines.elementAt(i);
+
+            // handle YM file special
+            if (orgLine.trim().startsWith("SONG_DATA ")) continue; // quick hack for YM
+            
+            // handle // hex
+            orgLine = de.malban.util.UtilityString.replace(orgLine, "$", "0x");
+
+            // handle whitespaces
+            sLine = de.malban.util.UtilityString.replaceWhiteSpaces(sLine.toLowerCase(), " ");
+            if (sLine.trim().startsWith(";")) 
+            {
+                codeSource.append(orgLine+"\n");
+                continue;
+            }
+            // handle comment
+            if (sLine.trim().startsWith("*")) 
+            {
+                codeSource.append(";"+orgLine.substring(1)+"\n");
+                continue;
+            }
+            sLine = Comment.removeEndOfLineComment(sLine);
+
+            // handle // bin
+            if (sLine.contains("%"))
+            {
+                // check if following 8 are binary digits, is so - this is most probablya binary :-)
+                int pos = sLine.indexOf("%");
+                if(sLine.length()-pos>=8)
+                {
+                    boolean isBinary = true;
+                    // enough "space for digits
+                    for (int ib=pos+1; ib<pos+1+8; ib++)
+                    {
+                        char c = sLine.charAt(ib);
+                        if ((c != '0') && (c != '1'))
+                        {
+                            isBinary = false;
+                            break;
+                        }
+                    }
+                    if (isBinary)
+                    {
+                        orgLine = de.malban.util.UtilityString.replace(orgLine, "%", "0b");
+                        sLine = de.malban.util.UtilityString.replace(sLine, "%", "0b");
+                    }
+                }
+            }
+            
+            // handle end struct
+            if (sLine.contains(" end struct") )
+            {
+                // do somethine
+                codeSource.append(structName+" = "+structCount +" "+structComment+"\n");
+                inStruct= false;
+                structName = "";
+                structComment = "";
+                structCount = 0;
+                continue;
+            }
+            
+            // handle in struct
+            if (inStruct)
+            {
+                String line =  Comment.removeEndOfLineComment(orgLine);
+                String someComment = de.malban.util.UtilityString.replace(orgLine, line,"");
+                String someName = "";
+                line = de.malban.util.UtilityString.replaceWhiteSpaces(line, " ");
+
+                if (!line.toLowerCase().contains(" ds")) continue;
+                if (!line.toLowerCase().contains(",")) continue;
+                
+                int dsIndex = line.toLowerCase().indexOf(" ds");
+                int commaIndex = line.toLowerCase().indexOf(",");
+                someName = line.substring(dsIndex+" ds".length(), commaIndex).trim();
+                
+                codeSource.append(someName+" = "+structCount +" "+someComment+"\n");
+                
+                line =  line.substring(commaIndex+1).trim();
+                String[] split = line.split(" ");
+                split = removeEmpty(split);
+                for (String s: split)
+                {
+                    structCount += DASM6809.toNumber(s);
+                }
+                continue;
+            }
+            
+            // handle in struct start
+            if (sLine.contains(" struct") )
+            {
+                // do somethine
+                String line =  Comment.removeEndOfLineComment(orgLine);
+                structComment = de.malban.util.UtilityString.replace(orgLine, line,"");
+
+                int pos = sLine.indexOf(" struct");
+                if (sLine.length()> pos+" struct".length())
+                {
+                     pos = sLine.indexOf(" struct ");
+                }
+                // struct is only start of some stupid name
+                if (pos >=0)
+                {
+                    inStruct= true;
+                    structCount = 0;
+                    String lineCopy = line.toLowerCase();
+                    pos = lineCopy.indexOf(" struct");
+                    structName = line.substring(pos+" struct".length()).trim();
+                
+                    continue;
+                }
+            }
+            
+            // check if start of a "function"
+            boolean isFunction = true;
+            isFunction = isFunction & (!(sLine.trim().length()==0));
+            isFunction = isFunction & (!sLine.startsWith(" "));
+            isFunction = isFunction & (!sLine.contains("="));
+            isFunction = isFunction & (!containsWord(sLine,"equ"));
+            isFunction = isFunction & (!containsWord(sLine,"set"));
+            isFunction = isFunction & (!containsWord(sLine,"macro"));
+            isFunction = isFunction & (!containsWord(sLine,"struct"));
+            isFunction = isFunction & (!containsWord(sLine,"db"));
+            isFunction = isFunction & (!containsWord(sLine,"dw"));
+            isFunction = isFunction & (!containsWord(sLine,"ds"));
+            isFunction = isFunction & (!sLine.contains("\""));
+            
+            // check if standalone label, if so scan next line for data
+            String t1 = de.malban.util.UtilityString.replaceWhiteSpaces(orgLine, " ");
+            t1 = Comment.removeEndOfLineComment(t1);
+            t1 = de.malban.util.UtilityString.replaceWhiteSpaces(t1, " ");
+            t1 = de.malban.util.UtilityString.replace(t1,":", " ");
+            t1 = de.malban.util.UtilityString.replace(t1.trim(),"  ", " ");
+            String[] split = t1.split(" ");
+            split = removeEmpty(split);
+            if (split.length == 1) // is standalone label
+            {
+                // scan next lline
+                if (i+1< sLines.size())
+                {
+                    String nextLine = sLines.elementAt(i+1).toLowerCase();
+                    t1 = de.malban.util.UtilityString.replaceWhiteSpaces(nextLine, " ");
+                    t1 = Comment.removeEndOfLineComment(t1);
+                    t1 = de.malban.util.UtilityString.replaceWhiteSpaces(t1, " ");
+                    t1 = de.malban.util.UtilityString.replace(t1,":", " ");
+                    t1 = de.malban.util.UtilityString.replace(t1.trim(),"  ", " ");
+                    isFunction = isFunction & (!containsWord(t1,"equ"));
+                    isFunction = isFunction & (!containsWord(t1,"set"));
+                    isFunction = isFunction & (!containsWord(t1,"macro"));
+                    isFunction = isFunction & (!containsWord(t1,"struct"));
+                    isFunction = isFunction & (!containsWord(t1,"db"));
+                    isFunction = isFunction & (!containsWord(t1,"dw"));
+                    isFunction = isFunction & (!containsWord(t1,"ds"));
+                    isFunction = isFunction & (!t1.contains("\""));
+                    
+                }
+                else
+                {
+                    isFunction = false;
+                }
+            }
+            
+            if (isFunction)
+            {
+                // ensure label is same case, not "tolower"
+                String sLine2 = de.malban.util.UtilityString.replaceWhiteSpaces(orgLine, " ");
+                sLine2 = Comment.removeEndOfLineComment(sLine2);
+
+                
+                String name = sLine2.split(" ")[0];
+                if (name.endsWith(":")) name = name.substring(0, name.length()-1);
+                if (name.trim().length()!=0)
+                {
+                    codeSource.append(" .globl "+name+"\n");
+                    globalNames.add(name);
+                }
+                // ensure ":"
+                orgLine = de.malban.util.UtilityString.replace(orgLine, name+":", name);
+                orgLine = de.malban.util.UtilityString.replace(orgLine, name, name+":");
+            }
+            
+            // handle variable lables
+            boolean isVar = true & (!isFunction);
+            isVar = isVar & (!(sLine.trim().length()==0));
+            isVar = isVar & (!sLine.startsWith(" "));
+            isVar = isVar & (!sLine.contains("="));
+            isVar = isVar & (!containsWord(sLine,"equ"));
+            isVar = isVar & (!containsWord(sLine,"set"));
+            isVar = isVar & (!containsWord(sLine,"macro"));
+            isVar = isVar & (!containsWord(sLine,"struct"));
+            isVar = isVar & (!sLine.contains("\""));
+            
+            if (isVar)
+            {
+                // ensure label is same case, not "tolower"
+                String sLine2 = de.malban.util.UtilityString.replaceWhiteSpaces(orgLine, " ");
+                sLine2 = Comment.removeEndOfLineComment(sLine2);
+                
+                String name = sLine2.split(" ")[0];
+                if (name.endsWith(":")) name = name.substring(0, name.length()-1);
+                if (name.trim().length()!=0)
+                {
+                    codeSource.append(" .globl "+name+"\n");
+                    globalVars.add(name);
+                }
+                // ensure ":"
+                orgLine = de.malban.util.UtilityString.replace(orgLine, name+":", name);
+                orgLine = de.malban.util.UtilityString.replace(orgLine, name, name+":");
+                
+            }
+            
+            // handle special lo() / hi() command
+            
+            // code changes are neccesarry
+            // can not be done wit macro
+            // lo(x) = (x&0xff)
+            // hi(x) = ((x>>8)&0xff)
+            // "x" has to be "extracted" and inserted in above... than the above inserted instead of ...
+            String loHiTest = de.malban.util.UtilityString.replaceWhiteSpaces(orgLine, " ");
+            loHiTest = Comment.removeEndOfLineComment(loHiTest);
+            loHiTest = de.malban.util.UtilityString.replace(loHiTest, " ","");
+
+            if (loHiTest.toLowerCase().contains("lo("))
+            {
+                String line =  Comment.removeEndOfLineComment(orgLine);
+                String comment = de.malban.util.UtilityString.replace(orgLine, line,"");
+                 
+                line =  de.malban.util.UtilityString.replaceCI(line, "lo (","lo_(");
+                line =  de.malban.util.UtilityString.replaceCI(line, "lo(","lo_(");
+                // line is now no commented, and all occurences of "lo(" should be unified  
+                String r ="";
+                while (true)
+                {
+                    int pos = line.indexOf("lo_");
+                    if (pos == -1) break;
+                    r += line.substring(0,pos);
+                    line = line.substring(pos+4); // without low
+                    int in=1;
+                    int ii=0;
+                    for (ii=0;ii<line.length(); ii++)
+                    {
+                        char t = line.charAt(ii);
+                        if (t == '(') in++;
+                        if (t == ')') in--;
+                        if (in == 0) break;
+                    }
+                    String innerBracketString = line.substring(0, ii);
+                    line = line.substring(ii+1); // without low
+                    r += "("+"("+innerBracketString+")"+"&0xff"+")";
+                }
+                orgLine = r+line+comment;
+            }
+            if (loHiTest.toLowerCase().contains("hi("))
+            {
+                String line =  Comment.removeEndOfLineComment(orgLine);
+                String comment = de.malban.util.UtilityString.replace(orgLine, line,"");
+                 
+                line =  de.malban.util.UtilityString.replaceCI(line, "hi (","hi_(");
+                line =  de.malban.util.UtilityString.replaceCI(line, "hi(","hi_(");
+                // line is now no commented, and all occurences of "hi(" should be unified  
+                String r ="";
+                while (true)
+                {
+                    int pos = line.indexOf("hi_");
+                    if (pos == -1) break;
+                    r += line.substring(0,pos);
+                    line = line.substring(pos+4); // without high
+                    int in=1;
+                    int ii=0;
+                    for (ii=0;ii<line.length(); ii++)
+                    {
+                        char t = line.charAt(ii);
+                        if (t == '(') in++;
+                        if (t == ')') in--;
+                        if (in == 0) break;
+                    }
+                    String innerBracketString = line.substring(0, ii);
+                    line = line.substring(ii+1); // without high
+                    r += "("+"(("+innerBracketString+")>>8)"+"&0xff"+")";
+                }
+                orgLine = r+line+comment;
+             }                    
+
+            // start of special assembler mnemonic handling
+            String mnemonic = getMnemonic(sLine);
+            
+            
+            
+            if (mnemonic.trim().length() ==0)
+            {
+                codeSource.append(orgLine+"\n");
+                continue;
+            }
+            
+            if (mnemonic.equals("code"))
+            {
+                codeSource.append(de.malban.util.UtilityString.replaceCI(orgLine, "code", ".area .text", true)+"\n");
+                continue;
+            }
+            if (mnemonic.equals("bss"))
+            {
+                codeSource.append(de.malban.util.UtilityString.replaceCI(orgLine, "bss", ".area .bss", true)+"\n");
+                continue;
+            }
+            // direct is completely different in asxxxx
+            // since relocatibility should be a thing
+            // here we give only a warning
+            // page handling can in this case not be automated
+            if (mnemonic.equals("direct"))
+            {
+                codeSource.append("; Warning - direct line found!"+"\n");
+                codeSource.append(";" + orgLine+"\n");
+                continue;
+            }
+            if (mnemonic.equals("org"))
+            {
+                codeSource.append("; Warning - org line found, my be countering relocatable code!"+"\n");
+                codeSource.append(";" + orgLine+"\n");
+                continue;
+            }
+            
+            if (mnemonic.equals("equ"))
+            {
+                codeSource.append(de.malban.util.UtilityString.replaceCI(orgLine, "equ", "=", true)+"\n");
+                continue;
+            }
+            if (mnemonic.equals("set"))
+            {
+                codeSource.append(de.malban.util.UtilityString.replaceCI(orgLine, "set", "=", true)+"\n");
+                continue;
+            }
+             
+            // data statements
+            if ((mnemonic.equals("ds"))|| (mnemonic.equals("rmb")))
+            {
+                orgLine = de.malban.util.UtilityString.replaceCI(orgLine, "ds",".blkb", true);
+                orgLine = de.malban.util.UtilityString.replaceCI(orgLine, "rmb",".blkb", true);
+                codeSource.append(orgLine+"\n");
+                continue;
+            }
+            if ((mnemonic.equals("dw")) || (mnemonic.equals("fdb")))
+            {
+                orgLine = de.malban.util.UtilityString.replaceCI(orgLine, "dw",".word", true);
+                orgLine = de.malban.util.UtilityString.replaceCI(orgLine, "fdb",".word", true);
+                codeSource.append(orgLine+"\n");
+                continue;
+            }
+            if ((mnemonic.equals("db")) || (mnemonic.equals("fcb"))|| (mnemonic.equals("fcc")))
+            {
+                orgLine = de.malban.util.UtilityString.replaceCI(orgLine, "db",".byte", true);
+                orgLine = de.malban.util.UtilityString.replaceCI(orgLine, "fcb",".byte", true);
+                orgLine = de.malban.util.UtilityString.replaceCI(orgLine, "fcc",".byte", true);
+                
+                if (orgLine.contains("\""))
+                {
+                    orgLine = de.malban.util.UtilityString.replaceCI(orgLine, ".byte",".ascii", true);
+
+                    if (sLine.endsWith(", 0x80"))
+                    {
+                        orgLine = de.malban.util.UtilityString.replaceCI(orgLine, ", 0x80","");
+                        codeSource.append(orgLine+"\n");
+                        codeSource.append(" .byte 0x80\n");
+                        continue;
+                    }
+                    if (sLine.endsWith(",0x80"))
+                    {
+                        orgLine = de.malban.util.UtilityString.replaceCI(orgLine, ",0x80","");
+                        codeSource.append(orgLine+"\n");
+                        codeSource.append(" .byte 0x80\n");
+                        continue;
+                    }
+                }
+                codeSource.append(orgLine+"\n");
+                continue;
+            }
+            
+            
+            // not realy the operand
+            // the rest of the line withour spaces!
+            // handle extended, direct with modifiers!
+            String op = getOperand(sLine, mnemonic);
+            
+            // handle NOP (+ count)
+            if (mnemonic.equals("nop"))
+            {
+                String line =  Comment.removeEndOfLineComment(orgLine);
+                String someComment = de.malban.util.UtilityString.replace(orgLine, line,"");
+
+                op = de.malban.util.UtilityString.replace(op, "(","").toLowerCase();
+                op = de.malban.util.UtilityString.replace(op, "nop","");
+                op = de.malban.util.UtilityString.replace(op, ")","").trim();
+                int nopCount = de.malban.util.UtilityString.IntX(op, 1);
+                for (int ni=0;ni<nopCount;ni++)
+                {
+                    if (ni==0)
+                        codeSource.append(" nop "+someComment+"\n");
+                    else
+                        codeSource.append(" nop \n");
+                    
+                }
+                continue;
+            }
+            
+            
+            
+            if (op.startsWith("<<"))
+                orgLine = de.malban.util.UtilityString.replace(orgLine, "<<","");
+            if (op.startsWith("[<<"))
+                orgLine = de.malban.util.UtilityString.replace(orgLine, "[<<","[");
+
+            if (op.startsWith("<"))
+                orgLine = de.malban.util.UtilityString.replace(orgLine, "<","*");
+            if (op.startsWith("[<"))
+                orgLine = de.malban.util.UtilityString.replace(orgLine, "[<","[*");
+            if (op.startsWith(">"))
+                orgLine = de.malban.util.UtilityString.replace(orgLine, ">","");
+            if (op.startsWith("[>"))
+                orgLine = de.malban.util.UtilityString.replace(orgLine, "[>","[");
+            
+            codeSource.append(orgLine+"\n");
+        }
+        
+        // replace all global vars with _name
+        
+        String org = codeSource.toString();
+        for (String varName: globalVars)
+        {
+            String in = org;
+            String out ="";
+            int sPos = in.indexOf(varName);
+            while (sPos >=0)
+            {
+                char preChar=' '; // 0 lines are seperators
+                char postChar=' ';
+                String pre = in.substring(0,sPos);
+                String post = in.substring(sPos+varName.length(), in.length());
+                if (pre.length() > 0)
+                    preChar = pre.charAt(pre.length()-1);
+                if (post.length() > 0)
+                    postChar = post.charAt(0);
+                if ((isVarSeperator(preChar)) && (isVarSeperator(postChar)))
+                {
+                    out += pre+"_"+varName;
+                }
+                else
+                {
+                    out += pre+varName;
+                }
+                in = post;
+                sPos = in.indexOf(varName);
+            }
+            org = out+in;
+        }
+        
+        
+        result.bssInitData = bssInitSource.toString();
+        result.bssData = bssSource.toString();
+        result.codeData = org;//codeSource.toString();
+        result.dataData = dataSource.toString();
+        
+        return result;
+    }
+    static boolean isVarSeperator(char a)
+    {
+        boolean noSeperator = false;
+        if (Character.isAlphabetic(a)) noSeperator=true;
+        if (Character.isDigit(a)) noSeperator=true;
+        if (a=='_') noSeperator=true;
+        
+        return !noSeperator;
+    }
+    
+    
+    
+    void doAS6809()
+    {
+        if (getSelectedEditor() == null) return;
+        String fn = getSelectedEditor().getFilename();
+        if (!((fn.toLowerCase().endsWith("s")) || (fn.toLowerCase().endsWith("i"))|| (fn.toLowerCase().endsWith("asm"))   )    ) return;
+        getSelectedEditor().save(false);
+        
+        String[] ASMFLAGS = buildPeerASMFLAGS("");
+        
+        File file = new File(fn);
+
+        ASMFLAGS[ASMFLAGS.length-2] = changeTypeTo(file.getAbsolutePath(),"rel");
+        ASMFLAGS[ASMFLAGS.length-1] = file.getAbsolutePath();
+
+        if (doPeerAssemble(ASMFLAGS, "Assemble"))
+        {
+            EditorPanel edi = addEditor(ASMFLAGS[ASMFLAGS.length-2], false);
+        }    
+        
+    }
+    
+    // takes an input asm file and replaces it with a asxxxx.s
+    // old file is deleted!
+    public static void convertToCASM(String orgName, boolean deleteOrg)
+    {
+        // preprocess only:
+        CustomOutputStream preprocessOut = new CustomOutputStream();
+        PrintStream asmPreprocess = new PrintStream(preprocessOut);
+        CustomOutputStream _errOut = new CustomOutputStream();
+        PrintStream _asmErrOut = new PrintStream(_errOut);
+        
+        String o = new Asmj(orgName, _asmErrOut, asmPreprocess).getAllOut();
+        String newNamePre = changeTypeTo(orgName, "pre.s");
+        // todo translate struct
+
+        de.malban.util.UtilityString.writeToTextFile(o, new File(newNamePre));
+        
+        
+        
+        
+        
+        Vector<String> sLines =  de.malban.util.UtilityString.readTextFileToString(new File(newNamePre));
+        String module = baseOnly(new File(orgName).getName());
+        CompileResult result = toAs6809(sLines, module);
+        
+        
+        de.malban.util.UtilityFiles.deleteFile(newNamePre);
+        String newName_s = changeTypeTo(orgName, "s");
+        de.malban.util.UtilityString.writeToTextFile(result.codeData, new File(newName_s));
+        if (deleteOrg)
+            de.malban.util.UtilityFiles.deleteFile(orgName);
+    }
+                    
+    File[] enrichCFiles(ArrayList<String> fList)  
+    {
+        ArrayList<File> outputFiles = new ArrayList<File>();
+        
+        for (String file : fList) 
+        {
+            String outName = changeTypeTo(file, "enr.c");
+            enrichtOneFile(file, outName);
+            outputFiles.add(new File (outName));
+        }    
+        return outputFiles.toArray(new File[0]);
+    }                    
+    
+    File[] enrichCFiles(File[] fList)  
+    {
+        File[] flist2=  getAllCFiles(fList);
+        ArrayList<File> outputFiles = new ArrayList<File>();
+        
+        for (File file : flist2) 
+        {
+            String fileName = file.getAbsolutePath();
+            if (!fileName.toLowerCase().endsWith(".c")) continue;
+            String outName = changeTypeTo(fileName, "enr.c");
+            enrichtOneFile(fileName, outName);
+            outputFiles.add(new File (outName));
+        }    
+        return outputFiles.toArray(new File[0]);
+    }                    
+    
+    File[] getAllCFiles(File[] fList)
+    {
+        ArrayList<File> outputFiles = new ArrayList<File>();
+        
+        for (File file : fList) 
+        {
+            if (file.isDirectory())
+            {
+                File[] fList2 = file.listFiles();
+                File[] outputFiles3 = getAllCFiles(fList2);
+                for (File f3: outputFiles3) outputFiles.add(f3);
+                continue;
+            }
+            outputFiles.add(file);
+        }    
+        return outputFiles.toArray(new File[0]);
+        
+    }
+    String removeQuots(String line)
+    {
+        if (line.contains("\""))
+        {
+            String l1 = line.substring(0, line.indexOf("\""));
+            String l2 = "";
+            line = de.malban.util.UtilityString.replace(line, l1+"\"", "");
+            if (line.contains("\""))
+            {
+                l2 = line.substring(line.indexOf("\"")+1);
+            }
+            line = l1+l2;
+            if (line.contains("\"")) return removeQuots(line);
+        }
+        return line;
+    }
+    String removeComments(String line)
+    {
+        line = removeQuots(line);
+        
+        if (line.contains("//"))
+        {
+       
+            line = line.substring(0, line.indexOf("//"));
+        }
+        if (line.contains("/*"))
+        {
+            if (line.contains("*/"))
+            {
+                String l1 = line.substring(0, line.indexOf("/*"));
+                String l2 = "";
+                if (!line.trim().endsWith("*/"))
+                {
+
+                    if (line.lastIndexOf("*/")+2 <line.length())
+                    {
+                        l2 = line.substring(line.lastIndexOf("*/")+2);
+                    }
+     
+                }
+                line = l1+l2;
+            }
+            else
+            {
+                line = line.substring(0, line.indexOf("/*"));
+            }
+        }
+        
+        return line.trim();
+    }
+    
+    void enrichtOneFile(String in, String out)
+    {
+        Vector<String> sLines =  de.malban.util.UtilityString.readTextFileToString(new File(in));
+        ArrayList<String> outLines = new ArrayList<String>();
+        int countCurly =0;
+        int countRound =0;
+        int countSquare =0;
+        boolean inLargeLine=false;
+        boolean inComment = false;
+        boolean inStart = false;
+        boolean inStartRoundSeen = false;
+        boolean inVar = false;
+        boolean inFunc = false;
+        boolean openOneLiner = false;
+        boolean openDo = false;
+        int doCurlyCount = 0;
+        boolean doEnrich = true;        
+        
+        
+        for (int i=0; i< sLines.size(); i++)
+        {
+            boolean addCloseCurly = false;
+            String preLine = "";
+            boolean preLineAllowed=true;
+            boolean overwriteAllowed = false;
+            int curlyStart = countCurly;
+            boolean openIfStart = openOneLiner;
+
+            String orgLine = sLines.elementAt(i);
+            
+            if (orgLine.contains("EnrichmentOff"))
+                doEnrich = false;
+            if (orgLine.contains("EnrichmentOn"))
+                doEnrich = true;
+            
+            
+///// COMMENTS
+
+            // only in function (at least one { open)
+            // not in function "call" (in () of a function of IF
+            int commentStartPos = orgLine.indexOf("/*");
+            if (commentStartPos>=0)
+            {
+                if (orgLine.indexOf("//*")!=-1)commentStartPos=-1;
+            }
+            
+            
+            int commentEndPos = orgLine.lastIndexOf("*/");
+            if (commentStartPos>=0) inComment=true;
+            if (inComment)
+            {
+                if (commentEndPos>commentStartPos) inComment = false;
+            }
+            if (inComment) preLineAllowed = false;
+            
+            if ((commentStartPos>=0) && (commentEndPos>=0))
+            {
+                String l=orgLine.substring(0, commentStartPos);
+                l+=orgLine.substring(commentEndPos);
+                if (l.trim().length() == 0) preLineAllowed = false;
+            }
+            
+            String countReadyLine = orgLine.trim().toLowerCase();
+            if (inComment)
+            {
+                if (countReadyLine.contains("*/"))
+                    countReadyLine = countReadyLine.substring(countReadyLine.indexOf("*/")+2);
+                else
+                    countReadyLine="";
+            }
+            countReadyLine = removeComments(countReadyLine).trim();
+///// COMMENTS
+            
+            
+            
+            
+            
+            if (!inComment)
+            {
+                if (orgLine.trim().toLowerCase().startsWith("#define"))
+                {
+                    outLines.add(orgLine);
+
+                    
+                    while ((i+1< sLines.size()) && (orgLine.endsWith("\\")) )
+                    {
+                        i+=1;
+                        orgLine = sLines.elementAt(i);
+                        outLines.add(orgLine);
+                    }
+                    
+                    continue;
+                }
+            }
+            
+            
+            
+            if ((countReadyLine.contains("=")) && (!(countReadyLine.contains("!="))) && (!(countReadyLine.contains("=="))) && (!(countReadyLine.contains("<="))) 
+                    && (!(countReadyLine.contains(">="))) && (!(countReadyLine.contains("=<"))) && (!(countReadyLine.contains("=>"))) 
+                     && (!(countReadyLine.contains("*")))  && (!(countReadyLine.contains("+="))) && (!(countReadyLine.contains("/=")))  && (!(countReadyLine.contains("-=")))
+                     && (!(countReadyLine.contains("^=")))  && (!(countReadyLine.contains("|=")))  && (!(countReadyLine.contains("&=")))  && (!(countReadyLine.contains("~="))))
+            {
+                openOneLiner = true;
+                
+            }
+
+            if (countReadyLine.toLowerCase().trim().startsWith("while")) openOneLiner = true;
+            if (countReadyLine.toLowerCase().trim().startsWith("for")) openOneLiner = true;
+            if (countReadyLine.toLowerCase().trim().startsWith("if")) openOneLiner = true;
+            if (countReadyLine.toLowerCase().trim().startsWith("else")) 
+            {
+                openOneLiner = true;
+                preLineAllowed = false;
+            }
+            
+            
+            
+            if (orgLine.trim().contains("{")) openOneLiner = false;
+            if (orgLine.trim().contains(";")) 
+            {
+                String strange = de.malban.util.UtilityString.replaceWhiteSpaces(orgLine, "");
+                
+                if (strange.toLowerCase().trim().startsWith("}while"))
+                {
+                    openOneLiner = false;
+                }
+                else if (orgLine.toLowerCase().trim().startsWith("while"))
+                {
+                    openOneLiner = false;
+                }
+                else if (orgLine.toLowerCase().trim().startsWith("for"))
+                {
+                    if (orgLine.toLowerCase().trim().endsWith(";"))
+                    {
+                        openOneLiner = false;
+                    }
+                }
+                else
+                {
+                    if (openOneLiner)
+                    {
+//                        outLines.add("{");
+//                        addCloseCurly=true;
+//                        overwriteAllowed = true;
+                    }
+                    openOneLiner = false;
+                }
+                
+            }
+            if ( (orgLine.toLowerCase().contains("else")) && (orgLine.toLowerCase().contains("if")) )
+            {
+                preLineAllowed=false;
+                overwriteAllowed = false;
+            }
+            
+            
+            
+            boolean isAloneDo = false;
+            if (orgLine.trim().startsWith("do")) 
+            {
+                int doPos = orgLine.indexOf("do")+2;
+                isAloneDo = true;
+                if (doPos <orgLine.length())
+                {
+                    char next = orgLine.charAt(doPos);
+                    isAloneDo = de.malban.util.UtilityString.isWordBoundry(next);
+                }
+                if (isAloneDo)
+                {
+                    openDo = true;
+                    doCurlyCount = countCurly;
+                }
+            }
+            
+            // to enclosed do while(); loops can happen otherwise, 
+            if ((countReadyLine.trim().contains("while")) && (countReadyLine.trim().contains(";")))
+                    preLineAllowed = false;
+            
+            
+            
+            
+            
+            if (orgLine.trim().startsWith("#define")) preLineAllowed = false;
+            if (orgLine.trim().startsWith("{")) preLineAllowed = false;
+            if (orgLine.trim().startsWith("}")) preLineAllowed = false;
+            if (orgLine.trim().startsWith("//")) preLineAllowed = false;
+            if (orgLine.trim().length() == 0) preLineAllowed = false;
+            if (countCurly == 0) preLineAllowed = false;
+            if (countRound != 0) preLineAllowed = false;
+            if (countSquare != 0) preLineAllowed = false;
+            if ((openDo) && (doCurlyCount == countCurly))
+            {
+                if (!isAloneDo)
+                    preLineAllowed = false;
+            }
+            if (inLargeLine) preLineAllowed = false;
+            if (openIfStart) preLineAllowed = false;
+            
+            
+            
+            if (orgLine.trim().contains("while")) 
+            {
+                if (openDo)
+                {
+                    if (doCurlyCount == countCurly) openDo= false;
+                    if (orgLine.trim().startsWith("}")) 
+                    {
+                        if (doCurlyCount == countCurly-1) openDo= false;
+                        preLineAllowed = true;
+                    }
+                    else
+                    {
+                        String lastLine = outLines.get(outLines.size()-1);
+                        if (lastLine.trim().startsWith("}")) 
+                        {
+                            String prepreLine = "asm(\"; #ENR#["+i+"]"+escape(orgLine)+"\");";
+                            outLines.add(outLines.size()-1, prepreLine);
+                            preLineAllowed = false;
+                        }
+                    }
+//                    go back to last curly close and add
+                    
+                }
+            }
+
+            
+            if ((!countReadyLine.endsWith(";")) && (!countReadyLine.endsWith(";")))
+            {
+                if (sLines.size()>i+1)
+                {
+                    String nextLine = sLines.elementAt(i+1);
+                    if (nextLine.trim().startsWith("}"))
+                    {
+                        preLineAllowed = false;
+                    }
+                }
+            }
+
+            
+            countCurly += UtilityString.countChars(countReadyLine, "{");
+            countCurly -= UtilityString.countChars(countReadyLine, "}");
+            int countRoundStart = UtilityString.countChars(countReadyLine, "(");
+            countRound += UtilityString.countChars(countReadyLine, "(");
+            countRound -= UtilityString.countChars(countReadyLine, ")");
+            countSquare += UtilityString.countChars(countReadyLine, "[");
+            countSquare -= UtilityString.countChars(countReadyLine, "]");
+            if ((countCurly == 0) && (curlyStart!=0))
+            {
+                inStart = false;
+                inStartRoundSeen = false;
+                inFunc = false;
+            }
+            if ((!inFunc) && (curlyStart == 0))
+            {
+                if (orgLine.trim().toLowerCase().contains("void ")) inStart = true;
+                if (orgLine.trim().toLowerCase().contains("signed ")) inStart = true;
+                if (orgLine.trim().toLowerCase().contains("unsigned ")) inStart = true;
+                if (orgLine.trim().toLowerCase().contains("char ")) inStart = true;
+                if (orgLine.trim().toLowerCase().contains("int ")) inStart = true;
+                if (orgLine.trim().toLowerCase().contains("short ")) inStart = true;
+                if (orgLine.trim().toLowerCase().contains("long ")) inStart = true;
+                if (orgLine.trim().toLowerCase().contains("volatile ")) inStart = true;
+                if (orgLine.trim().toLowerCase().contains("const ")) inStart = true;
+                if (orgLine.trim().toLowerCase().contains("static ")) inStart = true;
+                if (orgLine.trim().toLowerCase().contains("inline ")) inStart = true;
+                if (orgLine.trim().toLowerCase().contains("struct ")) inStart = true;
+                
+                
+                if ((orgLine.trim().toLowerCase().contains("(")) 
+                     && (orgLine.trim().toLowerCase().contains(")")) 
+                     && (!(orgLine.trim().toLowerCase().contains(";")) )
+                     && (!(orgLine.trim().toLowerCase().contains("=")) )
+                    )
+                    inStart = true;
+            }
+            if ((countRoundStart>0) && (inStart)) inStartRoundSeen = true;
+
+            if (inStart)
+            {
+                if ((curlyStart == 0) && (countCurly != 0))
+                {
+                    int curlyPos = orgLine.indexOf("{");
+                    int roundPos = orgLine.indexOf(")");
+                    int equalPos = orgLine.indexOf("=");
+                    if ((curlyPos>roundPos) && (inStartRoundSeen))
+                    {
+                        inFunc = true;
+                    }
+                    if (roundPos==-1) roundPos = Integer.MAX_VALUE;
+                        
+                    if (equalPos>roundPos)
+                    {
+                        inFunc = false;
+                        inStart = false;
+                        inStartRoundSeen = false;
+                    }
+                    if (orgLine.contains("#define"))
+                    {
+                        inFunc = false;
+                        inStart = false;
+                        inStartRoundSeen = false;
+                    }
+                    if (orgLine.contains("\\"))
+                    {
+                        inFunc = false;
+                    }
+                    if ((orgLine.trim().startsWith("//")) ||(orgLine.trim().startsWith("/*")))
+                    {
+                        inFunc = false;
+                    }
+                    inStart = false;
+                }
+                else if ((curlyStart == 0) && (countCurly == 0))
+                {
+                    int roundPos = orgLine.indexOf(")");
+                    if ((roundPos>=0) &&  (inStartRoundSeen))
+                    {
+                        inFunc = true;
+                    }
+                    int equalPos = orgLine.indexOf("=");
+                    if (equalPos>roundPos)
+                    {
+                        inFunc = false;
+                        inStartRoundSeen = false;
+                        inStart = false;
+                    }
+                    if (orgLine.contains("#define"))
+                    {
+                        inFunc = false;
+                        inStartRoundSeen = false;
+                        inStart = false;
+                    }
+                    if (orgLine.contains("\\"))
+                    {
+                        inFunc = false;
+                    }
+                    if ((orgLine.trim().startsWith("//")) ||(orgLine.trim().startsWith("/*")))
+                    {
+                        inFunc = false;
+                    }
+                }
+            }
+            if ((inStart) && (inFunc))
+            {
+                inStartRoundSeen = false;
+                inStart = false;
+            }
+            if (orgLine.trim().startsWith("asm")) 
+            {
+                preLineAllowed = false;
+            }
+            if (orgLine.contains("#define")) 
+            {
+                preLineAllowed = false;
+            }
+            if (orgLine.trim().startsWith("*/")) 
+            {
+                preLineAllowed = false;
+            }
+            if (orgLine.trim().endsWith("\\"))
+            {
+                preLineAllowed = false;
+            }
+            String line = removeComments(orgLine).trim();
+            if (line.endsWith(","))
+            {
+                preLineAllowed = false;
+            }
+            
+            
+            if (!inFunc) preLineAllowed = false;
+            
+            
+            
+            preLine = "{asm(\"; #ENR#["+i+"]"+escape(orgLine)+"\");}";
+            preLine = de.malban.util.UtilityString.replace(preLine, "*/", "* /");
+/*            
+            if ((newFunction) && (!preLineAllowed))
+            {
+                // new func does not work anyway
+//                System.out.println("No Func: "+orgLine);
+                    preLineAllowed = true;
+                
+            }
+*/            
+            inLargeLine = orgLine.endsWith("\\");
+            if ((((preLine.length()>0) && (preLineAllowed)) || (overwriteAllowed)) && (doEnrich))
+                outLines.add(preLine);
+            if (addCloseCurly)
+            {
+                outLines.add(orgLine);
+                outLines.add("}");
+                
+            }
+            else
+                outLines.add(orgLine);
+        }
+        
+        
+        StringBuilder outString = new StringBuilder();
+        for (String s: outLines) outString.append(s).append("\n");
+        de.malban.util.UtilityString.writeToTextFile(outString.toString(), new File(out));
+    }
+    
+    // deletes all files ending with "enr.c"
+    void deleteEnrichedCFiles( File[] fList)
+    {
+        for (File f: fList)
+        {
+            if (f.exists())
+            {
+                if (f.getAbsolutePath().endsWith("enr.c"))
+                {
+                    if (currentProject.getIsCKeepEnriched())
+                    {
+                        String copyForTest = changeTypeTo(f.getAbsolutePath(), "ec");
+                        de.malban.util.UtilityFiles.move(f.getAbsolutePath(), copyForTest);
+                    }
+                    else
+                    {
+                        de.malban.util.UtilityFiles.deleteFile(f.getAbsolutePath());
+                    }
+                }
+            }
+        }
+    }
+    
+    String escape(String e)
+    {
+        return de.malban.util.UtilityString.replace(e, "\"", "\\\"");
+    }
+    
+    public Point getEditorPos()
+    {
+        Point p = new Point();
+        p.x = settings.pos2+10;
+        p.y = jSplitPane1.getY()+4+20; // splitz pos + border + TAB
+        return p;
+    }
+    
+    
+    public void resetCScan(boolean hasFramePointer)
+    {
+        if (C6809FileInfo.hasFramePointer == hasFramePointer) return;
+        C6809FileInfo.hasFramePointer = hasFramePointer;
+        C6809FileInfo.resetDefinitions();
+        updateDefinitions();
+    }
 
 }
+

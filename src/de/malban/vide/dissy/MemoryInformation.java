@@ -14,6 +14,15 @@ import java.util.ArrayList;
  */
 public class MemoryInformation
 {
+    static class MemCInfoBlock
+    {
+        int lineNo=0;
+        String file="";
+        String lineString = "";
+        int address =0;
+    }
+    
+    
     public static final int MEM_TYPE_RAM = 0;
     public static final int MEM_TYPE_ROM = 1;
     public static final int MEM_TYPE_IO = 2;
@@ -50,11 +59,8 @@ public class MemoryInformation
     public int length = 1;    // the instruction length (or the consecutive data length)
     public int memType = MEM_TYPE_ROM;    // RAM/ROM
     public int disType = DIS_TYPE_UNKOWN; // was knowledge gathered, and is known as, see above DIS_TYPE_DATA...
-
     public boolean visible = true; // only for cdissi, convenience lazyness
-    
     public int directPageAddress = -1;
-    
     public String disassemblerInfoText = ""; // if an error occured disassembling this address - an error text will be provided here
     
     public int disTypeCollectionMax = 4;  // how many bytes (when byte7word/char) can be collected on a single assembler instruction line
@@ -62,7 +68,7 @@ public class MemoryInformation
     public int referingToAddress=-1;      // and what is the adress of that
     public boolean referingToShort=false; // is it refering to 8 bit?
     public boolean contentUnkown = true;  // true if this memory address was not "loaded" from a file and is as such unkown
-
+    public boolean typeWasSet = false; // true if set from cnt or listing or manually
     public String forcedSymbol = null; // null = default, string = label, empty string = number
     
     public ArrayList<String> labels = new ArrayList<String>();   // all labels this adress has
@@ -82,7 +88,19 @@ public class MemoryInformation
     public MemoryInformation belongsToInstruction = null; // if a multi-byte opcode, than here is the memory information of the root byte (the first)
     public ArrayList<MemoryInformation> familyBytes = new ArrayList<MemoryInformation>(); // the "root" byte has here a collection of its "children"
     private ArrayList<Breakpoint> breakpoints = null;
-
+    public MemCInfoBlock cInfo = null;
+    public int myRow = -1;
+    public int cInfoRow = -1;
+    public boolean isCInfo()
+    {
+        return cInfo!=null;
+    }
+    public boolean isCInfo(int row)
+    {
+        if (cInfo==null) return false;
+        return row == cInfoRow;
+    }
+    
     
     int cycles =-1;
     public MemoryInformation(int adr, byte mem)

@@ -29,6 +29,10 @@ public class EntityDefinition
     public static int TYP_INCLUDE = 3;
     public static int TYP_MACRO_PARAM = 4;
 
+    public static int TYP_CFUNCTION = 5;  // also for struct!
+    public static int TYP_LIB_INCLUDE = 6;  // also for struct!
+    
+    
     // subtypes for labels
     public static int SUBTYPE_NO_LABEL = 0;
     public static int SUBTYPE_EQU_LABEL = 1;
@@ -63,6 +67,11 @@ public class EntityDefinition
     
     private int status = ENTITY_DELETED;
     ASM6809FileInfo file;
+    C6809FileInfo cfile;
+    public C6809FileInfo getCFile()
+    {
+        return cfile;
+    }
     public ASM6809FileInfo getFile()
     {
         return file;
@@ -130,6 +139,15 @@ public class EntityDefinition
         entity.processLine(_orgLine);
         return entity;
     }
+    // return null, if no known entity was found
+    public static EntityDefinition scanLine(C6809FileInfo _file, String _orgLine)
+    {
+        if (_orgLine==null) return null;
+        EntityDefinition entity = new EntityDefinition();
+        entity.cfile = _file;
+        entity.processCLine(_orgLine);
+        return entity;
+    }
 
     public int getStatus()
     {
@@ -143,7 +161,10 @@ public class EntityDefinition
     public int updateEntity(String line)
     {
         status = ENTITY_UNCHANGED;
-        processLine(line);
+        if (cfile != null) 
+            processCLine(line);
+        else 
+            processLine(line);
         return status;
     }
     
@@ -182,7 +203,8 @@ public class EntityDefinition
                 name = split[0].trim();
                 if (name != null)
                 {
-                    value = line.substring(pos+5).trim();
+                    if (pos+5<line.length())
+                        value = line.substring(pos+5).trim();
                 }
                 else
                 {
@@ -266,10 +288,12 @@ public class EntityDefinition
                     done = true;
                     type = TYP_LABEL;
                     subtype = SUBTYPE_SET_LABEL;
+    
                     String lineRest = line.substring(pos+3).trim();
                     value = lineRest.trim();
                     String lineStart = line.substring(0, pos).trim();
                     name = getLastName(lineStart);
+
                     if (name == null)
                     {
                         name = "";
@@ -422,6 +446,10 @@ public class EntityDefinition
         return;
     }
     
+    private int cincludePos(String line)
+    {
+        return searchPos(line.toLowerCase(), "#include", NORMAL);
+    }
     private int includePos(String line)
     {
         return searchPos(line.toLowerCase(), "include", HALF_PURE);
@@ -555,10 +583,25 @@ public class EntityDefinition
         if (pos <0) pos = line.indexOf(" "+search+"\t");
         if (pos <0) pos = line.indexOf("\t"+search+"\n");
         if (pos <0) pos = line.indexOf(" "+search+"\n");
+        
+        // check for end of line
+        if (pos<0)
+        {
+            int cpos = line.indexOf(search);
+            if (cpos >=0)
+            {
+                if (cpos+search.length() == line.length())
+                {
+                    cpos = line.indexOf(" "+search);
+                    if (cpos <0) cpos = line.indexOf("\t"+search);
+                    pos = cpos;
+                }
+            }
+        }
+        
         if (pos <0) return -1;
         return pos+1; // ignore leading WS
     }
-
     private static int purePos(String line, String search)
     {
         int pos =         line.indexOf(" "+search+" ");
@@ -654,11 +697,13 @@ public class EntityDefinition
             if (hasDoubleQuotes)
             {
                 String[] split = line.split("\"");
+                if (split.length<2) return "";
                 return split[1];
             }
             if (hasQuotes)
             {
                 String[] split = line.split("'");
+                if (split.length<2) return "";
                 return split[1];
             }
             String[] split = line.split(" ");
@@ -670,7 +715,22 @@ public class EntityDefinition
         }
         return "";
     }
-    
+    private String getFirstCLibFilename(String line)
+    {
+        try
+        {
+            if (!line.contains("<")) return "";
+            if (!line.contains(">")) return "";
+            line = line.substring(line.indexOf("<")+1);
+            line = line.substring(0,line.indexOf(">"));
+            return line;
+        }
+        catch (Throwable e)
+        {
+            e.printStackTrace();
+        }
+        return "";
+    }    
     // last discernable "name" in line
     private String getLastName(String lineStart)
     {
@@ -683,6 +743,7 @@ public class EntityDefinition
     private String getFirstName(String lineStart)
     {
         String[] split = lineStart.trim().split("[ \\t\\n:=]");
+        if (split.length == 0) return null;
         String n = split[0];
         return n.trim();
     }
@@ -695,7 +756,12 @@ public class EntityDefinition
     {
         return file.inMacro(this);
     }
-    
+    private boolean inCCommentMacro()
+    {
+        // not done
+        return false;
+    }
+
     // returns true if the label is the first line label in the file
     // or if the last non empty line befor was
     // data (db, ds, dw, fcb...)
@@ -712,4 +778,251 @@ public class EntityDefinition
     {
         return file.isDataLabel(this);
     }
+    
+    
+    
+    String removeLineNumber(String l)
+    {
+        int pos = l.lastIndexOf(";");
+        if (pos <= 0) return l;
+        if (l.trim().endsWith(";")) return l;
+        
+        l = l.substring(0,pos);
+        return l;
+    }
+    
+    // changed status
+    private void processCLine(String line)
+    {
+        previousOrgLine = orgLine;
+        previousName = name;
+        previousValue = value;
+        previousType = type;
+        previousParameter= parameter;
+        
+        boolean done = false;
+        type = 0;
+        name ="";
+        parameter = null;
+        isStructStart = false;
+        isStructEnd = false;
+        isMacroStart = false;
+        isMacroEnd = false;
+        
+        orgLine = line;
+        // remove comments
+        // this is RUDIMENTARY!
+        
+        line = removeLineNumber(line);
+        
+        line = removeComment(line, "//");
+        line = removeComment(line, "/*");
+    
+        if (line.trim().length()==0)
+        {
+            done = true;
+        }
+        // functions
+        if (!done)
+        {
+            // only simple forms!
+            boolean startWithType = false;
+            if (line.trim().startsWith("char "))startWithType=true;
+            if (line.trim().startsWith("unsigned "))startWithType=true;
+            if (line.trim().startsWith("signed "))startWithType=true;
+            if (line.trim().startsWith("static "))startWithType=true;
+            if (line.trim().startsWith("final "))startWithType=true;
+            if (line.trim().startsWith("extern "))startWithType=true;
+            if (line.trim().startsWith("int "))startWithType=true;
+            if (line.trim().startsWith("short "))startWithType=true;
+            if (line.trim().startsWith("const "))startWithType=true;
+            if (line.trim().startsWith("long "))startWithType=true;
+            if (line.trim().startsWith("volatile "))startWithType=true;
+            if (line.trim().startsWith("inline "))startWithType=true;
+            if (line.trim().startsWith("__INLINE "))
+                startWithType=true;
+            if (line.trim().startsWith("void "))startWithType=true;
+            if (line.trim().startsWith("FUNCTION_TYPE "))startWithType=true;
+            
+
+            boolean nothingDisturbing = true;
+            if (line.contains("="))  nothingDisturbing = false;
+            if (line.contains("["))  nothingDisturbing = false;
+            if (line.contains("]"))  nothingDisturbing = false;
+            
+            
+            boolean hasBrackets = false;
+//            if ((line.contains("(")) &&(line.contains(")"))) hasBrackets = true;
+            if ((line.contains("("))) hasBrackets = true;
+
+            boolean hasSemicolon = false;
+//            if (line.contains(";"))  hasSemicolon = true;
+            if (line.endsWith(";"))  hasSemicolon = true;
+            
+            if ((startWithType) && (hasBrackets)&& (nothingDisturbing) && (!hasSemicolon) && (!inCCommentMacro()))
+            {
+                line = de.malban.util.UtilityString.replace(line, "char", "", true);
+                line = de.malban.util.UtilityString.replace(line, "unsigned", "", true);
+                line = de.malban.util.UtilityString.replace(line, "signed", "", true);
+                line = de.malban.util.UtilityString.replace(line, "static", "", true);
+                line = de.malban.util.UtilityString.replace(line, "int", "", true);
+                line = de.malban.util.UtilityString.replace(line, "const", "", true);
+                line = de.malban.util.UtilityString.replace(line, "short", "", true);
+                line = de.malban.util.UtilityString.replace(line, "final", "", true);
+                line = de.malban.util.UtilityString.replace(line, "extern", "", true);
+                line = de.malban.util.UtilityString.replace(line, "long", "", true);
+                line = de.malban.util.UtilityString.replace(line, "volatile", "", true);
+                line = de.malban.util.UtilityString.replace(line, "inline", "", true);
+                line = de.malban.util.UtilityString.replace(line, "__INLINE", "", true);
+                line = de.malban.util.UtilityString.replace(line, "void", "", true);
+                line = de.malban.util.UtilityString.replace(line, "FUNCTION_TYPE", "", true);
+                String[] split = line.trim().split("\\(");
+                
+                name = split[0].trim();
+                done = true;
+                type = TYP_CFUNCTION;
+                subtype = SUBTYPE_FUNCTION_LABEL;
+            }
+        }
+
+//        if (line.contains("const signed char * const blocklist[]="))
+//            System.out.println("s");
+        // variables 
+        if (!done)
+        {
+            // only simple forms!
+            boolean startWithType = false;
+            if (line.trim().startsWith("char "))startWithType=true;
+            if (line.trim().startsWith("unsigned "))startWithType=true;
+            if (line.trim().startsWith("signed "))startWithType=true;
+            if (line.trim().startsWith("short "))startWithType=true;
+            if (line.trim().startsWith("void "))startWithType=true;
+            if (line.trim().startsWith("extern "))startWithType=true;
+            if (line.trim().startsWith("final "))startWithType=true;
+            if (line.trim().startsWith("int "))startWithType=true;
+            if (line.trim().startsWith("long "))startWithType=true;
+            if (line.trim().startsWith("static "))startWithType=true;
+            if (line.trim().startsWith("const "))startWithType=true;
+            if (line.trim().startsWith("volatile "))startWithType=true;
+
+            boolean nothingDisturbing = true;
+            if (line.contains("struct "))  nothingDisturbing = false;
+            if (line.contains("#define "))  nothingDisturbing = false;
+            if (line.contains("#include "))  nothingDisturbing = false;
+            if (line.contains("#if "))  nothingDisturbing = false;
+            if (line.contains("#endif "))  nothingDisturbing = false;
+            if (line.contains("#else "))  nothingDisturbing = false;
+            if (line.contains("#else "))  nothingDisturbing = false;
+            boolean hasSemicolon = line.contains(";");
+            
+            boolean endsOpen = line.trim().endsWith("=") || line.trim().endsWith("={")|| line.trim().endsWith("= {");
+            
+
+            if ((startWithType) && (nothingDisturbing) && ((hasSemicolon)||endsOpen) && (!inCCommentMacro()))
+            {
+                line = de.malban.util.UtilityString.replace(line, "const", "", true);
+                line = de.malban.util.UtilityString.replace(line, "extern", "", true);
+                line = de.malban.util.UtilityString.replace(line, "static", "", true);
+                line = de.malban.util.UtilityString.replace(line, "volatile", "", true);
+                line = de.malban.util.UtilityString.replace(line, "unsigned", "", true);
+                line = de.malban.util.UtilityString.replace(line, "signed", "", true);
+                line = de.malban.util.UtilityString.replace(line, "short", "", true);
+                line = de.malban.util.UtilityString.replace(line, "char", "", true);
+                line = de.malban.util.UtilityString.replace(line, "int", "", true);
+                line = de.malban.util.UtilityString.replace(line, "final", "", true);
+                line = de.malban.util.UtilityString.replace(line, "long", "", true);
+                line = de.malban.util.UtilityString.replace(line, "void", "", true);
+                line = de.malban.util.UtilityString.replace(line, "volatile", "", true);
+                line = de.malban.util.UtilityString.replace(line, "&", " ").trim();
+                line = de.malban.util.UtilityString.replace(line, "*", " ").trim();
+                line = de.malban.util.UtilityString.replace(line, ";", " ").trim();
+                line = de.malban.util.UtilityString.replace(line, ",", " ").trim();
+                line = de.malban.util.UtilityString.replace(line, "[", " ").trim();
+                line = de.malban.util.UtilityString.replace(line, "\t", " ").trim();
+
+                String[] split = line.trim().split(" ");
+                if (line.contains(" "))
+                {
+                    name = split[0].trim();
+                }
+                else
+                    name = line;
+                
+                done = true;
+                type = TYP_LABEL;
+                subtype = SUBTYPE_DATA_LABEL;
+            }
+        }
+        // macros
+        if (!done)
+        {
+            // only simple forms!
+            boolean startWithDefine = false;
+            if (line.trim().startsWith("#define"))startWithDefine=true;
+            
+
+            
+            
+            if ((startWithDefine)&& (!inCCommentMacro()))
+            {
+                // only one C Test for now -> FUNCTION
+                line = de.malban.util.UtilityString.replace(line, "#define", "", true).trim();
+                line = de.malban.util.UtilityString.replace(line, "\t", " ").trim();
+                line = de.malban.util.UtilityString.replace(line, "(", " ").trim();
+
+                String[] split = line.trim().split(" ");
+                if (line.contains(" "))
+                {
+                    name = split[0].trim();
+                }
+                else
+                    name = line;
+                
+                done = true;
+                type = TYP_MACRO;
+                subtype = SUBTYPE_MACRO_DEFINITION_LABEL;
+            }
+        }
+        if (!done)
+        {
+            // include
+            int pos;
+            pos = cincludePos(line);
+            if (pos !=-1)
+            {
+                done = true;
+                String lineRest = line.substring(pos+8).trim();
+                // see if " or <>
+                if (lineRest.contains("<"))
+                {
+                    type = TYP_LIB_INCLUDE;
+                    name = getFirstCLibFilename(lineRest);
+                }
+                else
+                {
+                    type = TYP_INCLUDE;
+                    name = getFirstFilename(lineRest);
+                }
+                
+                if (name == null)
+                {
+                    name = "";
+                }
+            }
+        }
+        
+        
+        if (name.trim().length()==0) 
+        {
+            status = ENTITY_DELETED;
+            return;
+        }
+        if (name.equals(previousName)) 
+        {
+            status = ENTITY_UNCHANGED;
+        }
+        else
+            status = ENTITY_CHANGED;
+        return;
+    }    
 }

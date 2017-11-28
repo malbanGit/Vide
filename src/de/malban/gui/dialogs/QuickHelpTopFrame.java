@@ -5,12 +5,18 @@
  */
 package de.malban.gui.dialogs;
 
+import de.malban.Global;
+import static de.malban.Global.getHTMLColor;
+import static de.malban.Global.mMainWindow;
 import java.awt.Dimension;
 import java.io.File;
 import java.net.URL;
+import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.Document;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
 
 /**
  *
@@ -77,7 +83,18 @@ public class QuickHelpTopFrame extends javax.swing.JFrame {
 
     private static boolean ensureDialog()
     {
-        if (frame!=null) return true;
+        
+        if (frame!=null) 
+        {
+            SwingUtilities.updateComponentTreeUI(frame);
+/*            
+            HTMLEditorKit kit = new HTMLEditorKit();
+            StyleSheet styleSheet = kit.getStyleSheet();
+            styleSheet.addRule("a {color:#ff0000;}");
+            styleSheet.addRule("body {color:#1e1e1e;}");
+*/            
+            return true;
+        }
         
         
         
@@ -110,8 +127,15 @@ public class QuickHelpTopFrame extends javax.swing.JFrame {
                    // Do something with e.getURL() here
                 }
             }
-        });        
-        return true;
+        });   
+        /*
+            SwingUtilities.updateComponentTreeUI(frame);
+            HTMLEditorKit kit = new HTMLEditorKit();
+            StyleSheet styleSheet = kit.getStyleSheet();
+            styleSheet.addRule("a {color:#ff0000;}");
+            styleSheet.addRule("body {color:#1e1e1e;}");
+        */
+            return true;
     }
     
     public static void showHelpHtmlFile(String page)
@@ -155,9 +179,9 @@ public class QuickHelpTopFrame extends javax.swing.JFrame {
             help += "<img src=\""+url.toString()+"\"  />";
             help += "</body>";
             help += "</html>";
-            de.malban.util.UtilityString.writeToTextFile(help, new File("tmp"+File.separator+"tmp.html"));
+            de.malban.util.UtilityString.writeToTextFile(help, new File(Global.mainPathPrefix+"tmp"+File.separator+"tmp.html"));
 
-                File file = new File("tmp"+File.separator+"tmp.html");
+                File file = new File(Global.mainPathPrefix+"tmp"+File.separator+"tmp.html");
                 URL url2 = file.toURI().toURL();
                 frame.jEditorPane1.setContentType("text/html");
 Document doc = frame.jEditorPane1.getDocument();

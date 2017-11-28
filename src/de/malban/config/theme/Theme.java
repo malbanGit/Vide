@@ -4,6 +4,7 @@
  */
 package de.malban.config.theme;
 
+import de.malban.Global;
 import java.awt.Image;
 import java.io.File;
 import java.util.Collection;
@@ -18,7 +19,7 @@ import java.util.Set;
  */
 public class Theme 
 {
-    public static final String THEME_BASE_PATH = "theme"+File.separator;
+    public static final String THEME_BASE_PATH = Global.mainPathPrefix+"theme"+File.separator;
     String themeDir = THEME_BASE_PATH+"default";
     boolean isDefault = true;
     String mName = "default";

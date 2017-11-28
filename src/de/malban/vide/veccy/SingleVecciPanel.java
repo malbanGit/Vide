@@ -204,7 +204,6 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
         jButtonRight.setBounds(33, 18, 19, 14);
 
         jSliderSourceScale.setMajorTickSpacing(1);
-        jSliderSourceScale.setMaximum(25);
         jSliderSourceScale.setMinimum(1);
         jSliderSourceScale.setMinorTickSpacing(1);
         jSliderSourceScale.setOrientation(javax.swing.JSlider.VERTICAL);
@@ -344,8 +343,7 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         SingleVecciPanel panel = new SingleVecciPanel(v);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 919, 387, panel.getMenuItem().getText());
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 919, 387, "Vecci Editor");
        return panel;
     }        
     public SingleVectorPanel getSVP()
@@ -430,6 +428,7 @@ public class SingleVecciPanel extends javax.swing.JPanel implements Windowable, 
         if (!((evt.dragging) && (evt.ctrlPressed))) return;
         updateOutput();
     }
+    public void deIconified() { }
 }
 
 

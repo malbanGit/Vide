@@ -1,5 +1,6 @@
 package de.malban.util;
 
+import de.malban.Global;
 import java.io.*;
 import java.util.*;
 import java.awt.Desktop.*;
@@ -30,7 +31,7 @@ public class ExcelHelper
         do
         {
             // filename = de.malban.Global.mBaseDir+"tmp\\temp_excel_"+basename+"_"+counter+".xls";
-            filename = "tmp\\temp_excel_"+basename+"_"+counter+".xls";
+            filename = Global.mainPathPrefix+"tmp\\temp_excel_"+basename+"_"+counter+".xls";
             filename = de.malban.util.UtilityString.cleanFileString(filename);
             f = new File (filename);
             counter++;
@@ -111,7 +112,7 @@ public class ExcelHelper
         do
         {
 //            filename = de.malban.Global.mBaseDir+"tmp\\temp_excel_"+basename+"_"+counter+".xls";
-            filename = "tmp\\temp_excel_"+basename+"_"+counter+".xls";
+            filename = Global.mainPathPrefix+"tmp\\temp_excel_"+basename+"_"+counter+".xls";
             filename = de.malban.util.UtilityString.cleanFileString(filename);
             f = new File (filename);
             counter++;

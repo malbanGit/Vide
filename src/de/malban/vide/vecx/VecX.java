@@ -11,6 +11,20 @@ Vecx
 3) FAST RTI
 4) interrupt flag of CA1 should be set in accordance to the CTR register of via (transition low/hi or hi/low) 
 5) T2 timer2 shift clock, also doubled (== 4 cycles)
+                    case 0x8:
+                        / T2 low order counter /
+                        data = via_t2c;
+                        via_ifr &= 0xdf; / remove timer 2 interrupt flag /
+                        via_t2int = 0; // THIS WAS original - and is wrong!
+                        via_t2int = 1;
+                        int_update ();
+                        break;
+6) original bug in emulation code discovered - upon read of T2 low counter the iFlag must be resetted - that was falsly implemented
+         and could lead to vectrex games crashing (e.g. omega chase).
+
+7)  exgtfr_read (op >> 4)); if fed with "a" register than "ff" is returned instead of value of a!
+8) 
+        return (datahi << 8) | (datalo&0xff); was done without &0xff negative lows could vanish the his
 
  */
 package de.malban.vide.vecx;
@@ -91,6 +105,7 @@ import static de.malban.vide.vecx.panels.PSGJPanel.REC_YM;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.lang.instrument.Instrumentation;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -102,6 +117,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     public static final int START_TYPE_DEBUG = 1;
     public static final int START_TYPE_RUN = 2;
     public static final int START_TYPE_INJECT = 3;
+    public static final int START_TYPE_STOP = 4;
 
     transient Profiler profiler = null;
     
@@ -126,7 +142,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     boolean rampOffFraction = true;
     boolean rampOnFraction = true;
 
-    
+    // via shift cycles - only eaxch alternate "cycle2
     boolean alternate = false;
 
 
@@ -137,10 +153,22 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         return breakpoints;
     }
 
-
-    class VectrexDisplayVectors
+    public static int OVERFLOW_BORDER_RAYWIDTH = 6;            
+    public static int OVERFLOW_SAMPLE_MAX = 16;
+    static class VectrexDisplayVectors
     {
         vector_t[] vectrexVectors = new vector_t[VECTOR_CNT];
+        float[] left = new float[OVERFLOW_SAMPLE_MAX];
+        float[] right = new float[OVERFLOW_SAMPLE_MAX];
+        float[] top = new float[OVERFLOW_SAMPLE_MAX];
+        float[] bottom = new float[OVERFLOW_SAMPLE_MAX];
+        void resetBorders()
+        {
+            for (int i=0; i<OVERFLOW_SAMPLE_MAX; i++)
+            {
+                left[i] = right[i] = top[i] = bottom[i]=0;
+            }
+        }
         int count = 0;
         VectrexDisplayVectors()
         {
@@ -186,16 +214,84 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     transient int[] vector_hash = new int[VECTOR_HASH];
     transient long fcycles;
 
-
-    void addTimerItem(TimerItem item)
+    ArrayList<TimerItem> timerHeap = new ArrayList<TimerItem>();
+/*
+    void timerAddItem(TimerItem item)
     {
         synchronized (timerItemList)
         {
             timerItemList.add(item);
         }
     }
+    */
+    void timerAddItem(int when, int value, IntegerPointer destination, int t)
+    {
+        TimerItem titem;
+        if (timerHeap.size() == 0)
+        {
+            titem = new  TimerItem( when,  value,  destination, t);
+        }
+        else
+        {
+            titem = timerHeap.remove(0);
+            titem.countDown = when;
+            titem.valueToSet = value;
+            titem.whereToSet = destination;
+            titem.type = t; 
+        }
+        synchronized (timerItemList)
+        {
+            timerItemList.add(titem);
+        }
+    }
+    void timerAddItem(int value, IntegerPointer destination, int t)
+    {
+        TimerItem titem;
+        if (timerHeap.size() == 0)
+        {
+            titem = new  TimerItem(value,  destination, t);
+        }
+        else
+        {
+            titem = timerHeap.remove(0);
+            titem.valueToSet = value;
+            titem.whereToSet = destination;
+            titem.type = t; 
+            
+            titem.countDown = VideConfig.getConfig().delays[(t&0xff)];
+        }
+        synchronized (timerItemList)
+        {
+            timerItemList.add(titem);
+        }
+    }
+    
+    /*
+    void timerAddItem(int when, int t)
+    {
+        TimerItem titem;
+        if (timerHeap.size() == 0)
+        {
+            titem = new  TimerItem(when, t);
+        }
+        else
+        {
+            titem = timerHeap.remove(0);
+            titem.countDown = when;
+            titem.type = t; 
+
+            titem.valueToSet = 0;
+            titem.whereToSet = null;
+        }
+        synchronized (timerItemList)
+        {
+            timerItemList.add(titem);
+        }
+    }
+*/
+    /*
     // remove all timer items of a type
-    void removerTimerItem(int t)
+    void timerRemoverItem(int t)
     {
         synchronized (timerItemList)
         {
@@ -209,7 +305,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             }
         }
     }
-    
+    */
     /**
      * Creates new form VecXPanel
      */
@@ -237,7 +333,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         }
         joyport[0].deinit();
         joyport[1].deinit();
-        displayer = null;
+        displayer = new DisplayerDummy();
     }
 
     public void setDisplayer(DisplayerInterface d)
@@ -265,8 +361,9 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
         */
         boolean changed = ((pb6_in & 0x40) ==0x40) != b;
 
-        if (changed) 
-            checkExternalLineBreakpoint(b);
+        if (config.breakpointsActive)
+            if (changed) 
+                checkExternalLineBreakpoint(b);
         if (b)
             pb6_in = 0x40;
         else
@@ -311,7 +408,8 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
             // dummy register, write directy to audio line buffer in psg emulation!
             e8910.e8910_write(255, alg_ssh.intValue);
         }
-        checkPSGBreakpoint();
+        if (config.breakpointsActive)
+            checkPSGBreakpoint();
     }
 
     /* update IRQ and bit-7 of the ifr register after making an adjustment to
@@ -434,29 +532,10 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                 }
             }
         } 
-        else if (address < 0x8000) 
+        else if (cart != null) 
         {
-            /* cartridge */
-            data = cart.get_cart(address);
+            return cart.get_cart(address)& 0xff;
         } 
-        else if ((address >= 0x8000) && (address < 0x8800) && (extraRam8000_8800Enabled))  
-        {
-            /* cartridge */
-            data = cart.get_cart(address);
-        } 
-        else if ((address == 0xa000) && (extraRam8000_8800Enabled))  
-        {
-            /* cartridge */
-            data = cart.get_cart(address);
-        } 
-        else if ( (sidEnabled) && ((address >= 0x8000) && (address < 0x8020)))
-        {
-            data = cart.get_cart(address);
-        }
-        else 
-        {
-            data = 0xff;
-        }
 
         return data & 0xff; // and return unsigned byte!        
     }
@@ -464,24 +543,29 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
     @Override
     public int e6809_read8(int address)
     {
-        int data = 0;
-        if (config.codeScanActive) dissiMem.mem[address].addAccess(e6809.reg_pc, e6809.reg_dp, MEMORY_READ);
-        checkMemReadBreakpoint(address);
+        int data=0;
+        if (config.debugingCore)
+        {
+            if (config.codeScanActive) dissiMem.mem[address].addAccess(e6809.reg_pc, e6809.reg_dp, MEMORY_READ);
+            checkMemReadBreakpoint(address);
+        }
 
         if ((address & 0xe000) == 0xe000) 
         {
             /* rom */
-            data = rom[address & 0x1fff];
+            return rom[address & 0x1fff];
         } 
         else if ((address & 0xe000) == 0xc000) 
         {
             if ((address & 0x800) != 0)
             {
                 /* ram */
-                data = ram[address & 0x3ff];
+                //data = ram[address & 0x3ff];
+                return ram[address & 0x3ff];
             } 
             else if ((address & 0x1000) != 0)
             {
+               // int data = 0;
                 /* io */
                 switch (address & 0xf) 
                 {
@@ -504,7 +588,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                             data = data & (0xff-0x40); // ensure pb6 =0
                             data = data | (pb6_in); // ensure pb6 in value
                         }
-                        break;
+                        return data;
                     case 0x1:
                         /* register 1 also performs handshakes if necessary */
                         if ((via_pcr & 0x0e) == 0x08) 
@@ -513,7 +597,7 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                              * goes low whenever ira is read.
                              */
                             via_ca2 = 0;
-                            addTimerItem(new TimerItem(via_ca2,sig_zero, TIMER_ZERO));
+                            timerAddItem(via_ca2,sig_zero, TIMER_ZERO);
                         }
                         via_ifr = via_ifr & (0xff-0x02); // clear ca1 interrupt
                         /* fall through */
@@ -521,123 +605,95 @@ public class VecX extends VecXState implements VecXStatics, E6809Access
                         if ((via_orb & 0x18) == 0x08) 
                         {
                             /* the snd chip is driving port a */
-                            data = e8910.read(snd_select);
+//                            data = e8910.read(snd_select);
+                            return e8910.read(snd_select);
                         } 
                         else 
                         {
-                            data = via_ora;
+//                            data = via_ora;
+                            return via_ora;
                         }
-                        break;
                     case 0x2:
-                        data = via_ddrb;
-                        break;
+                        //data = via_ddrb;
+                        return via_ddrb;
                     case 0x3:
-                        data = via_ddra;
-                        break;
+                        //data = via_ddra;
+                        return via_ddra;
                     case 0x4:
                         /* T1 low order counter */
                         data = via_t1c;
                         via_ifr &= 0xbf; /* remove timer 1 interrupt flag */
                         via_t1int = 0;
                         int_update ();
-                        break;
+                        return data;
                     case 0x5:
                         /* T1 high order counter */
-                        data = (via_t1c >> 8);
-                        break;
+                        // data = (via_t1c >> 8);
+                        return (via_t1c >> 8)&0xff;
                     case 0x6:
                         /* T1 low order latch */
-                        data = via_t1ll;
-                        break;
+                        //data = via_t1ll;
+                        return via_t1ll;
                     case 0x7:
                         /* T1 high order latch */
-                        data = via_t1lh;
-                        break;
+                        //data = via_t1lh;
+                        return via_t1lh;
                     case 0x8:
                         /* T2 low order counter */
                         data = via_t2c;
                         via_ifr &= 0xdf; /* remove timer 2 interrupt flag */
-                        via_t2int = 0;
+
+
+
+//                        via_t2int = 0; // THIS WAS original - and is wrong!
+                        via_t2int = 1;
+                        
+                        
+                        
+                        
                         int_update ();
-                        break;
+                        return data;
                     case 0x9:
                         /* T2 high order counter */
-                        data = (via_t2c >> 8);
-                        break;
+//                        data = (via_t2c >> 8);
+                        return (via_t2c >> 8)&0xff;
                     case 0xa:
-                        data = via_sr;
-                        addTimerItem(new TimerItem(data, null, TIMER_SHIFT_READ));
-                        
-/*                        
-s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggered)))
-                        {
-                            via_stalling = true;
-                            via_ifr &= 0xfb; /* remove shift register interrupt flag * /
-                            via_srclk = 1;
-                            int_update ();
-//                            // dunno if "stalling" cycle counter should reset...
-                            lastShiftTriggered = cyclesRunning;
-                        }
-                        else
-                        {
-                            via_stalling = false;
-
-                            lastShiftTriggered = cyclesRunning;
-                            via_ifr &= 0xfb; /* remove shift register interrupt flag * /
-                            via_srb = 0;
-                            via_srclk = 1;
-                            int_update ();
-                        }
-                        */
-                        break;
+                        //data = via_sr;
+                        timerAddItem(via_sr, null, TIMER_SHIFT_READ);
+                        return via_sr;
                     case 0xb:
-                        data = via_acr;
-                        break;
+                        //data = via_acr;
+                        return via_acr;
                     case 0xc:
-                        data = via_pcr;
-                        break;
+                        //data = via_pcr;
+                        return via_pcr;
                     case 0xd:
                         /* interrupt flag register */
-                        data = via_ifr;
-                        break;
+                        //data = via_ifr;
+                        return via_ifr;
                     case 0xe:
                         /* interrupt enable register */
-                        data = (via_ier | 0x80);
-                        break;
+                        //data = (via_ier | 0x80);
+                        return (via_ier | 0x80);
                 }
             }
         } 
-        else if (address < 0x8000) 
+        else if (cart != null) 
         {
-            data = cart.get_cart(address);
+            return cart.get_cart(address);
         } 
-        else if ((address >= 0x8000) && (address < 0x8800) && (extraRam8000_8800Enabled))  
-        {
-            /* cartridge */
-            data = cart.get_cart(address);
-        } 
-        else if ((address == 0xa000) && (extraRam8000_8800Enabled))  
-        {
-            /* cartridge */
-            data = cart.get_cart(address);
-        } 
-        else if ( (sidEnabled) && ((address >= 0x8000) && (address < 0x8020)))
-        {
-            data = cart.get_cart(address);
-        }
-        else 
-        {
-            data = 0xff;
-        }
-
-        return data & 0xff; // and return unsigned byte!
+        return 0xff; // and return unsigned byte!
     }
 
     @Override
     public void e6809_write8(int address, int data)
     {
-        if (config.codeScanActive) dissiMem.mem[address].addAccess(e6809.reg_pc, e6809.reg_dp, MEMORY_WRITE);
-        checkMemWriteBreakpoint(address, data);
+        if (config.debugingCore)
+        {
+            if (config.codeScanActive) dissiMem.mem[address].addAccess(e6809.reg_pc, e6809.reg_dp, MEMORY_WRITE);
+            checkMemWriteBreakpoint(address, data);
+        }
+        
         data = data & 0xff;
         if ((address & 0xe000) == 0xe000) 
         {
@@ -655,26 +711,11 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 switch (address & 0xf) 
                 {
                     case 0x0:
-                        /*
-                        // if pb6 in input mode, don't change pb6
-                        if ((via_ddrb & 0x40) == 0)
-                        {
-                            if ((data & 0x040) == 0x40)
-                            {
-                                data = data | 0x40;
-                            }
-                            else
-                            {
-                                data = data & (0xff - 0x40);
-                            }
-                        }
-                        */
-                        checkVIABreakpoint(0, via_orb, data);                  
-
+                        if (config.breakpointsActive) checkVIABreakpoint(0, via_orb, data);                  
                         boolean pb6 = setPB6FromVectrex(data, via_ddrb, true);
                         if ((data & 0x7) != (via_orb & 0x07)) // check if state of mux sel changed
                         {
-                            addTimerItem(new TimerItem(data, alg_sel, TIMER_MUX_SEL_CHANGE));
+                            timerAddItem(data, alg_sel, TIMER_MUX_SEL_CHANGE);
                         }
                         
                         // for old times sake, variable via_orb allways carries the vectrex "out" state of pb6
@@ -687,7 +728,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                              * goes low whenever orb is written.
                              */
                             via_cb2h = 0;
-                            addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                            timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE);
                         }
                         doCheckRamp(true);
 
@@ -700,7 +741,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                              * goes low whenever ora is written.
                              */
                             via_ca2 = 0;
-                            addTimerItem(new TimerItem(via_ca2,sig_zero, TIMER_ZERO));
+                            timerAddItem(via_ca2,sig_zero, TIMER_ZERO);
                         }
                         via_ifr = via_ifr & (0xff-0x02); // clear ca1 interrupt
                     /* fall through */
@@ -708,13 +749,13 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         /* output of port a feeds directly into the dac which then
                          * feeds the x axis sample and hold.
                          */
-                        addTimerItem(new TimerItem(getDACDelay((byte)(via_ora&0xff),(byte)( data&0xff)), data, alg_DAC, TIMER_DAC_CHANGE));
+                        timerAddItem(getDACDelay((byte)(via_ora&0xff),(byte)( data&0xff)), data, alg_DAC, TIMER_DAC_CHANGE);
                         via_ora = data;
                         
                         snd_update(false);
                         break;
                     case 0x2:
-                        boolean pb6_2 = setPB6FromVectrex(via_orb, data, false);
+                        setPB6FromVectrex(via_orb, data, false);
                         via_ddrb = data;
                         if (cart != null)
                         {
@@ -731,21 +772,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                     case 0x5:
                         /* T1 high order counter */
                         
-            addTimerItem(new TimerItem(data,null, TIMER_T1));
-/*
-                        via_t1on = 1; / * timer 1 starts running * /
-
-                        if ((via_acr & 0x80)!=0)  
-                        {
-                            if (via_t1pb7!=0)
-                                checkVIABreakpoint(0, via_orb, via_orb-via_t1pb7);                  
-                        }
-                        via_t1pb7 = 0;
-                        
-                        
-                        doCheckRamp(false);
-                        int_update ();
-*/                        
+                        timerAddItem(data,null, TIMER_T1);
                         break;
                     case 0x6:
                         /* T1 low order latch */
@@ -772,31 +799,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         break;
                     case 0xa:
                  
-                        addTimerItem(new TimerItem(data, via_shift, TIMER_SHIFT_WRITE));
-                        
-                        
-                        
-                        
-/*                        
-                        if (via_stalling)
-                        {
-                            via_ifr &= 0xfb; // * remove shift register interrupt flag * /
-                           // via_srb = 0;
-                            via_srclk = 1;
-                            int_update ();
-                            
-                        }
-                        else
-                        {
-                            // do normal - exactly as above
-                            lastShiftTriggered = cyclesRunning;
-                            via_sr = data;
-                            via_ifr &= 0xfb; /* remove shift register interrupt flag * /
-                            via_srb = 0;
-                            via_srclk = 1;
-                            int_update ();
-                        }
-*/
+                        timerAddItem(data, via_shift, TIMER_SHIFT_WRITE);
                         break;
                     case 0xb:
                         if ((via_acr & 0x1c) != (data & 0x1c))
@@ -812,7 +815,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                             else // use the last shift
                             {
     //                            addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
-                                addTimerItem(new TimerItem(0, sig_blank, TIMER_BLANK_CHANGE));
+                                timerAddItem(0, sig_blank, TIMER_BLANK_CHANGE);
                             }
                         }
                         if ((via_acr & 0xc0) != (data & 0xc0))
@@ -829,7 +832,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         {
                             /* ca2 is outputting low */
                             via_ca2 = 0;
-                            addTimerItem(new TimerItem(via_ca2,sig_zero, TIMER_ZERO));
+                            timerAddItem(via_ca2,sig_zero, TIMER_ZERO);
                         } 
                         else 
                         {
@@ -837,16 +840,8 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                              * outputting high.
                              */
                             via_ca2 = 1;
-                            addTimerItem(new TimerItem(via_ca2,sig_zero, TIMER_ZERO));
+                            timerAddItem(via_ca2,sig_zero, TIMER_ZERO);
                         }
-                        // new CSA - it seems manually setting blank
-                        // only works if shift is disabled
-                        
-                        
-// Thrust stall Gen 3 needs this commented out!                        
-                        
-// some line draw needed this enabled ????                        
-                        
                         if ((via_acr & 0x1c) == 0)
                         {
                             if ((via_pcr & 0xe0) == 0xc0) 
@@ -854,14 +849,14 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                                 /* cb2 is outputting low */
                                 via_cb2h = 0;
                                 via_cb2hmanual = 0;
-                                addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                                timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE);
                             } 
                             else if ((via_pcr & 0xe0) == 0xe0) 
                             {
                                 /* cb2 is outputting high */
                                 via_cb2h = 1;
                                 via_cb2hmanual = 1;
-                                addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                                timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE);
                             } 
                             else 
                             {
@@ -869,7 +864,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                                  * outputting high.
                                  */
                                 via_cb2h = 1;
-                                addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+                                timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE);
                             }
                         }
                         break;
@@ -892,43 +887,9 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         break;
                 }
             }
+            return;
         } 
-        else if ((address < 0x8000) &&(cart.isExtremeMulti()))
-        {
-            cart.write(address,(byte) data);
-        }
-        else if ((address >= 0x2000) && (address < 0x2800) && (extraRam2000_2800Enabled))
-        {
-            cart.write(address,(byte) data);
-        }
-        else if ((address >= 0x8000) && (address < 0x8800) && (extraRam8000_8800Enabled))  
-        {
-            cart.write(address,(byte) data);
-        }
-        else if ((address == 0xa000) && (extraRam8000_8800Enabled))  
-        {
-            cart.write(address,(byte) data);
-        }
-        else if ((address >= 0x6000) && (address < 0x6000+8192) && (extraRam6000_7fff_8k_Enabled))  
-        {
-            cart.write(address,(byte) data);
-        } 
-        else if ( (sidEnabled) && ((address >= 0x8000) && (address < 0x8020)))
-        {
-            cart.write(address,(byte) data);
-        }
-        else
-        {
-            if (config.ramAccessAllowed)
-            {
-                cart.poke(address,(byte) data);
-            }
-            else
-            {
-                log.addLog("ROM write-access at: $" + String.format("%04X", address)+", $"+String.format("%02X", (data&0xff))+" from $"+String.format("%04X", e6809.reg_pc), VERBOSE);
-                checkROMBreakPoint(address, data);
-            }
-        }
+        cart.write(address, (byte)data);
     }
 
     void vecx_reset()
@@ -953,10 +914,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         {
             e8910.e8910_write(r, 0);
         }
-
-        /* input buttons */
-        // this "write" does not work anymore, since it now
-        // reespects the input enable register
 
         snd_select = 0;
         lastShiftTriggered = 0;
@@ -1130,7 +1087,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             }
             pb6 = (viaOutTobe&0x40) == 0x40;
             cart.setPB6FromVectrex(pb6);
-            checkExternalLineBreakpoint(pb6);
+            if (config.breakpointsActive) checkExternalLineBreakpoint(pb6);
             old_pb6 = pb6;
         }
         if (pb6)
@@ -1158,10 +1115,10 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         return pb6;
     }
     int pb6_pulseCounter = 0;
-        /* perform a single cycle worth of via emulation.
+    /* perform a single cycle worth of via emulation.
      * via_sstep0 is the first postion of the emulation.
      */
-    void via_sstep0 ()
+    void via_sstep0()
     {
         int t2shift;
         if (via_t1on!=0) 
@@ -1175,12 +1132,15 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                     /* continuous interrupt mode */
                     via_ifr |= 0x40;
                     int_update ();
-                    if ((via_acr & 0x80)!=0)  
+                    if (config.breakpointsActive)
                     {
-                        if (via_t1pb7==0x80)
-                            checkVIABreakpoint(0, via_orb, via_orb-0x80); 
-                        else
-                            checkVIABreakpoint(0, via_orb, via_orb+0x80); 
+                        if ((via_acr & 0x80)!=0)  
+                        {
+                            if (via_t1pb7==0x80)
+                                checkVIABreakpoint(0, via_orb, via_orb-0x80); 
+                            else
+                                checkVIABreakpoint(0, via_orb, via_orb+0x80); 
+                        }
                     }
                     via_t1pb7 = 0x80 - via_t1pb7;
                     doCheckRamp(false);
@@ -1194,10 +1154,13 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                     {
                         via_ifr |= 0x40;
                         int_update ();
-                        if ((via_acr & 0x80)!=0)  
+                        if (config.breakpointsActive)
                         {
-                            if (via_t1pb7!=0x80)
-                                checkVIABreakpoint(0, via_orb, via_orb+0x80); 
+                            if ((via_acr & 0x80)!=0)  
+                            {
+                                if (via_t1pb7!=0x80)
+                                    checkVIABreakpoint(0, via_orb, via_orb+0x80); 
+                            }
                         }
                         via_t1pb7 = 0x80;
                         doCheckRamp(false);
@@ -1275,7 +1238,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         via_cb2s = (via_sr >> 7) & 1;
                         via_sr <<= 1;
                         via_sr |= via_cb2s;
-                        addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
+                        timerAddItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE);
                     }
                     break;
                 case 0x14:
@@ -1285,7 +1248,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         via_cb2s = (via_sr >> 7) & 1;
                         via_sr <<= 1;
                         via_sr |= via_cb2s;
-                        addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
+                        timerAddItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE);
                         via_srb++;
                     }
                     break;
@@ -1301,7 +1264,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         via_cb2s = (via_sr >> 7) & 1;
                         via_sr <<= 1;
                         via_sr |= via_cb2s;
-                        addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
+                        timerAddItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE);
                         via_srb++;
                     }
                     break;
@@ -1312,9 +1275,9 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             
             if (via_srb == 8)
             {
-                    via_ifr |= 0x04;
-                    int_update ();
-                    lastShift = via_cb2s;
+                via_ifr |= 0x04;
+                int_update ();
+                lastShift = via_cb2s;
             }
         }
         else
@@ -1335,7 +1298,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                     if (via_srb == 9) 
                     {
                         via_cb2s = lastShift;
-                        addTimerItem(new TimerItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE));
+                        timerAddItem(via_cb2s, sig_blank, TIMER_BLANK_CHANGE);
                             via_srb++;
                     }                
                 }                
@@ -1351,7 +1314,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
              * it gets restored to '1' after the pulse.
              */
             via_ca2 = 1;
-            addTimerItem(new TimerItem(via_ca2,sig_zero, TIMER_ZERO));
+            timerAddItem(via_ca2,sig_zero, TIMER_ZERO);
         }
 
         if ((via_pcr & 0xe0) == 0xa0) 
@@ -1360,13 +1323,13 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
              * it gets restored to '1' after the pulse.
              */
             via_cb2h = 1;
-            addTimerItem(new TimerItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE));
+            timerAddItem(via_cb2h, sig_blank, TIMER_BLANK_CHANGE);
         }
 
         // documentation of VIA
         if (via_ca1 !=old_via_ca1)
         {
-            checkVIABreakpoint(16, old_via_ca1, via_ca1);
+            if (config.breakpointsActive) checkVIABreakpoint(16, old_via_ca1, via_ca1);
             if ((via_pcr & 0x01) == 0x01) // interrupt flag is set by transition low to high
             {
                 if (via_ca1 != 0)
@@ -1395,9 +1358,37 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
     {
         alg_addline ( x0,  y0,  x1,  y1,  color, false, speed,  left,  right);
     }
+    long lastAddLine = 0;
+    double intensityDriftNow = 1;
+    boolean toManyvectors = false;
     void alg_addline (int x0, int y0, int x1, int y1, int color, boolean midChange, int speed, int left, int right)
     {
+        
+        alg_curr_x= (int )alg_curr_x;
+        alg_curr_y= (int )alg_curr_y;
+        
+        
         if (config.useRayGun) return;
+        
+        
+        
+//        if ((cyclesRunning-lastAddLine<15) && (x0==x1) && (y0==y1))
+        if (cyclesRunning-lastAddLine<15)
+        {
+            float driftXMax = 1+(float)Math.abs( (cyclesRunning-lastAddLine)*config.drift_x);
+            float driftYMax = 1+(float)Math.abs( (cyclesRunning-lastAddLine)*config.drift_y);
+
+            int xDif = Math.abs(x0-x1);
+            int yDif = Math.abs(y0-y1);
+            if ((xDif<=driftXMax) && (yDif<=driftYMax))
+            {
+                lastAddLine = cyclesRunning;
+                return; // this is a more or less "immediate" change of to flags (ramp/blank) and should not be TWO lines (or rather a line and a point)
+            }
+        }
+
+
+        lastAddLine = cyclesRunning;
         int index;
         
 
@@ -1415,9 +1406,14 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         // possibly add some brightness!
         if (vectorDisplay[displayedNext].count >=vectorDisplay[displayedNext].vectrexVectors.length)
         {
-            log.addLog("To many vectors - can't draw!", ERROR);
+            if ((!toManyvectors))
+            {
+                log.addLog("To many vectors - can't draw!", ERROR);
+            }
+            toManyvectors = true;
             return ;
         }
+        toManyvectors = false;
         
         vector_t v = vectorDisplay[displayedNext].vectrexVectors[vectorDisplay[displayedNext].count];
         v.speed = speed;
@@ -1427,20 +1423,18 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         v.y1 = y1;
         v.midChange = midChange;
         v.color = color;
+        v.imagerColorLeft = left;
+        v.imagerColorRight = right;
+        v.intensityDrift = intensityDriftNow = 1;
         if (intensityDrift>100000)
         {
            double degradePercent = (180000000.0-((double)intensityDrift))/180000000.0; // two minutes
            if (degradePercent<0) degradePercent = 0;
            v.color = (int)(((double)color)*degradePercent);
-           //System.out.println(intensityDrift+"-" + cyclesRunning);
+           v.intensityDrift = intensityDriftNow = degradePercent;
+//            v.imagerColorLeft =  (int)(((double)left)*degradePercent);
+//            v.imagerColorRight =  (int)(((double)right)*degradePercent);
         }
-        
-        
-        v.imagerColorLeft = left;
-        v.imagerColorRight = right;
-        
-        if (color < 0x7f) color = color/3;
-        
 
         if (config.vectorInformationCollectionActive)
         {
@@ -1469,7 +1463,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             directDrawVector.speed = speed;
             directDrawVector.midChange = midChange;
 
-            directDrawVector.color = 255;
+            directDrawVector.color = 127;
             directDrawVector.imagerColorLeft = left;
             directDrawVector.imagerColorRight = right;
             displayer.directDraw(directDrawVector);
@@ -1499,7 +1493,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         {
             if (cart != null) cart.cartStep(cyclesRunning);
             via_sstep0();
-            doTimerStep();
+            timerDoStep();
             // timer after via, to make sure befor analog step, that 0 timers are respected!
             analogStep();
             if (joyport[0] != null) joyport[0].step();
@@ -1509,21 +1503,10 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             cyclesRunning++;
         }
     }
-    int nonCPUStepsDone = 0;
-    ArrayList<Breakpoint> tmp = new ArrayList<Breakpoint>();
-    
-    
-    boolean syncImpulse = false;
-    long lastSyncCycles = 0;
-    long soundCycles = 0;
     public long getCycles()
     {
         return cyclesRunning;
     }
-    static int UID_ = 1;
-    static int uid = UID_++;    
-    volatile boolean debugging = false;
-    boolean stop = false;
     public boolean isDebugging()
     {
         return debugging;
@@ -1533,10 +1516,21 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         debugging = true;
         stop = true;
     }
+
+    int nonCPUStepsDone = 0;
+    ArrayList<Breakpoint> tmp = new ArrayList<Breakpoint>();
+    boolean syncImpulse = false;
+    long lastSyncCycles = 0;
+    long soundCycles = 0;
+    static int UID_ = 1;
+    static int uid = UID_++;    
+    volatile boolean debugging = false;
+    boolean stop = false;
     // for speed measurement    
     long cyclesDone=0;
     boolean thisWaitRecal = false;
     long lastWaitRecal=0;
+    long lastRecordCycle = 0;
     int vecx_emu(long cyclesOrg)
     {
         stop = false;
@@ -1579,10 +1573,11 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             {
                 thisWaitRecal = true;
             }
-
             
             int oldAdr = e6809.reg_pc%65536;
-            icycles = e6809.e6809_sstep (via_ifr & 0x80, firq);
+            icycles = e6809.e6809_sstep(via_ifr & 0x80, firq);
+//            icycles = e6809.e6809_sstep_opt(via_ifr & 0x80, firq);
+    
             firq = 0;
             if (config.codeScanActive) 
             {
@@ -1603,7 +1598,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             {
                 if (cart != null) cart.cartStep(cyclesRunning);
                 via_sstep0();
-                doTimerStep();
+                timerDoStep();
                 // timer after via, to make sure befor analog step, that 0 timers are respected!
                 analogStep();
                 if (joyport[0] != null) joyport[0].step();
@@ -1623,7 +1618,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 // imager games can be synced to their generated interrupt!
                 if ((imagerMode)&& ((via_ier &0x02) == 0x02))
                 {
-                    if (((via_ifr &0x02) == 0x02) && ((via_ier &0x02) == 0x02) && (e6809.get_cc(E6809.FLAG_I) == 0))
+                    if (((via_ifr &0x02) == 0x02) && ((via_ier &0x02) == 0x02) && (!e6809.get_cc(E6809.FLAG_I)))
                     {
                         doSync = true;
                         lastSyncCycles = cyclesRunning;
@@ -1632,7 +1627,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 }
                 else
                 {
-                    
                     if (syncImpulse)
                     {
                         // some carts use T2 for other timing (like digital output), these timers are "realy" small compared to 50 Hz
@@ -1689,6 +1683,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                     displayedNow =  (displayedNow+1)  %2;
                     displayer.updateDisplay();
                     vectorDisplay[displayedNext].count = 0;
+                    vectorDisplay[displayedNext].resetBorders();
                 }
                 else
                 {
@@ -1703,8 +1698,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             
             for (Breakpoint bp: tmp) 
                 displayer.breakpointRemove(bp); // circumvent concurrent modification
-
-
             
             if (activeBreakpoint.size() != 0)
             {
@@ -1756,14 +1749,173 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         
         return reason;
     }
-    long lastRecordCycle = 0;
+    
+    int vecx_emu_plain(long cyclesOrg)
+    {
+        config.breakpointsActive = false;
+        stop = false;
+        int c, icycles;
+        long cycles = cyclesOrg;
+        long cyclesStart = cyclesRunning;
+        int reason = EMU_EXIT_CYCLES_DONE;
+        breakpointExit=EMU_EXIT_CYCLES_DONE;
+
+        while ((cycles > 0) && (!stop))
+        {
+            nonCPUStepsDone = 0;
+            thisWaitRecal = ((e6809.reg_pc%65536) == 0xf1a2);
+/*
+            
+            E6809State save_good = new E6809State();
+            E6809State save_bad = new E6809State();
+            
+            E6809State saveOrg = new E6809State();            
+            E6809State.deepCopy(e6809, saveOrg);
+
+            icycles = e6809.e6809_sstep(via_ifr & 0x80, firq);
+            E6809State.deepCopy(e6809, save_good);
+            
+            E6809State.deepCopy(saveOrg, e6809);
+            
+            icycles = e6809.e6809_sstep_opt(via_ifr & 0x80, firq);
+            E6809State.deepCopy(e6809, save_bad);
+            
+            if (save_bad.reg_pc != save_good.reg_pc)
+            {
+                E6809State.deepCopy(saveOrg, e6809);
+                icycles = e6809.e6809_sstep_opt(via_ifr & 0x80, firq);
+            }
+            
+
+      */      
+            
+            
+            
+            
+            
+            icycles = e6809.e6809_sstep_opt(via_ifr & 0x80, firq);
+            
+            firq = 0;
+            for (c = 0; c < (icycles-nonCPUStepsDone); c++) 
+            {
+                // these are only "specials" like ds chips...
+                if (cart != null) cart.cartStep(cyclesRunning);
+                via_sstep0();
+                timerDoStep();
+                // timer after via, to make sure befor analog step, that 0 timers are respected!
+                analogStep();
+                if (joyport[0] != null) joyport[0].step();
+                if (joyport[1] != null) joyport[1].step();
+                via_sstep1();
+                
+                cyclesRunning++;
+            }
+
+            cycles -= (long) icycles;
+            fcycles -= (long) icycles;
+            soundCycles -= (long) icycles;
+            boolean doSync = false;
+            if (config.autoSync)
+            {
+                // imager games can be synced to their generated interrupt!
+                if ((imagerMode)&& ((via_ier &0x02) == 0x02))
+                {
+                    if (((via_ifr &0x02) == 0x02) && ((via_ier &0x02) == 0x02) && (!e6809.get_cc(E6809.FLAG_I)))
+                    {
+                        doSync = true;
+                        lastSyncCycles = cyclesRunning;
+                    }
+                        
+                }
+                else
+                {
+                    if (syncImpulse)
+                    {
+                        // some carts use T2 for other timing (like digital output), these timers are "realy" small compared to 50 Hz
+                        if (cyclesRunning - lastSyncCycles < 20000) // do not trust T2 timers which are to lo!
+                        {
+                            lastSyncCycles = cyclesRunning;
+                            syncImpulse = false;
+                        }
+                    }
+                    if (syncImpulse)
+                    {
+                        // this check evens out some peaks above the 3000cycle range
+                        if (cyclesRunning - lastWaitRecal < 100000)
+                        {
+                            if (thisWaitRecal)
+                            {
+                                lastSyncCycles = cyclesRunning;
+                                doSync = true;
+                            }
+                        }
+                        else
+                        {
+                            lastSyncCycles = cyclesRunning;
+                            doSync = true;
+                        }
+                    }
+                    else if (fcycles < 0) 
+                    {
+                        doSync = true;
+                    }
+                }
+            }
+            else
+            {
+                if (fcycles < 0) 
+                {
+                    doSync = true;
+                }
+            }
+            
+            if (doSync)
+            {
+                if (thisWaitRecal)
+                {
+                    thisWaitRecal = false;
+                    lastWaitRecal = cyclesRunning;
+                }                
+
+                syncImpulse = false;
+                fcycles = FCYCLES_INIT;
+
+                displayedNext = (displayedNext+1) %2;
+                displayedNow =  (displayedNow+1)  %2;
+                displayer.updateDisplay();
+                vectorDisplay[displayedNext].count = 0;
+                vectorDisplay[displayedNext].resetBorders();
+            }
+            
+            //Fill buffer and call core to update sound
+            // no sound while debugging (cycledOrg == 1)
+            if (soundCycles<=0)
+            {
+                soundCycles = 37500; // on 100% speed this is every 25ms Hz 40
+                e8910.updateSound();
+                if (sidEnabled)
+                {
+                    cart.updateSound();
+                }
+            }
+        }
+        cyclesDone=cyclesRunning-cyclesStart;
+        config.breakpointsActive = true;
+        return reason;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     public VectrexDisplayVectors getDisplayList()
     {
         return vectorDisplay[displayedNow];
     }
-
-
     public void poke(int address, byte value)
     {
         if ((address & 0xe000) == 0xe000) 
@@ -1784,9 +1936,9 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 e6809_write8(address, value);
             }
         } 
-        else if (address < 0x8000) 
+        else // if (address < 0x8000) 
         {
-            cart.poke(address, value);
+            cart.write(address, value);
         }
     }
 
@@ -1795,11 +1947,11 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
     {
         try
         {
-            Path path = Paths.get(config.usedSystemRom);
+            Path path = Paths.get(Global.mainPathPrefix+config.usedSystemRom);
             byte[] biosData = Files.readAllBytes(path);
             for (int i=0; i< biosData.length;i++)
             {
-                rom[i] = biosData[i];
+                rom[i] = biosData[i]&0xff;
             }
         }
         catch (Throwable e)
@@ -1813,11 +1965,11 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
     {
         try
         {
-            Path path = Paths.get("system"+File.separator+"system.img");
+            Path path = Paths.get(Global.mainPathPrefix+"system"+File.separator+"system.img");
             byte[] biosData = Files.readAllBytes(path);
             for (int i=0; i< biosData.length;i++)
             {
-                rom[i] = biosData[i];
+                rom[i] = biosData[i]&0xff;
             }
         }
         catch (Throwable e)
@@ -1830,6 +1982,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
 
     public boolean init(CartridgeProperties cartProp)
     {
+        config.resetCartChanges();
         ds2430Enabled = false;
         ds2431Enabled = false;
         microchipEnabled = false;
@@ -1886,6 +2039,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
     
     public boolean init(String filenameRom, boolean checkForCartridge)
     {
+        config.resetCartChanges();
         cart = new Cartridge();
         ds2430Enabled = false;
         ds2431Enabled = false;
@@ -1974,7 +2128,16 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         CompleteState state = new CompleteState();
         state.rom = rom;
         cart.initStateSave();
-        state.sidState = cart.vsid.oldState;
+
+        state.sidState = null;
+        if (sidEnabled)
+        {
+            if (cart.vsid != null)
+            {
+                state.sidState = cart.vsid.oldState;
+            }
+        }
+
         state.cart = cart;
         
         state.putState(this);
@@ -2281,11 +2444,18 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         return -1;
     }  
     
-    void doTimerStep()
+    ArrayList<TimerItem> timerRemoveList = new ArrayList<TimerItem>();
+    ArrayList<VecX.TimerItem> timerItemListClone = new ArrayList<TimerItem>();
+    void timerDoStep()
     {
         ticksRunning++;
-        ArrayList<VecX.TimerItem> timerItemListClone = (ArrayList<VecX.TimerItem>)timerItemList.clone();
-        ArrayList<TimerItem> removeList = new ArrayList<TimerItem>();
+        timerRemoveList.clear();
+        timerItemListClone.clear();
+        synchronized (timerItemList)
+        {
+            for (TimerItem t: timerItemList) timerItemListClone.add(t);
+        }
+
         for (TimerItem t: timerItemListClone)
         {
             t.countDown--;
@@ -2322,10 +2492,13 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                     via_ifr &= 0xbf; /* remove timer 1 interrupt flag */
                     via_t1int = 1;
 
-                    if ((via_acr & 0x80)!=0)  
+                    if (config.breakpointsActive)
                     {
-                        if (via_t1pb7!=0)
-                            checkVIABreakpoint(0, via_orb, via_orb-via_t1pb7);                  
+                        if ((via_acr & 0x80)!=0)  
+                        {
+                            if (via_t1pb7!=0)
+                                checkVIABreakpoint(0, via_orb, via_orb-via_t1pb7);                  
+                        }
                     }
                     via_t1pb7 = 0;
                     doCheckRamp(false);
@@ -2342,32 +2515,19 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                             via_ifr &= 0xfb; // * remove shift register interrupt flag * /
                             via_srclk = 1;
                             int_update ();
-                            removeList.add(t);
+                            timerRemoveList.add(t);
                             continue;
                         }
                         else
                         {
-//                            w
-//                            if (via_stalling)
-//                            {
-//                                via_ifr &= 0xfb; // * remove shift register interrupt flag * /
-//                                via_srclk = 1;
-//                                int_update ();
-//                            }
-//                            else
-                            {
                             via_stalling = false;
-                                lastShiftTriggered = cyclesRunning;
-                                via_sr = t.valueToSet & 0xff;
-                                via_ifr &= 0xfb; /* remove shift register interrupt flag */
-                                via_srb = 0;
-                                via_srclk = 1;
-                                int_update ();
-                            }                        
+                            lastShiftTriggered = cyclesRunning;
+                            via_sr = t.valueToSet & 0xff;
+                            via_ifr &= 0xfb; /* remove shift register interrupt flag */
+                            via_srb = 0;
+                            via_srclk = 1;
+                            int_update ();
                         }
-
-                    
-                    
                     }
                     else if (t.type == TIMER_RAMP_OFF_CHANGE) 
                     {
@@ -2423,7 +2583,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         /* output of port a feeds directly into the dac which then
                          * feeds the x axis sample and hold.
                          */
-                        addTimerItem(new TimerItem(t.whereToSet.intValue, alg_xsh, TIMER_XSH_CHANGE));
+                        timerAddItem(t.whereToSet.intValue, alg_xsh, TIMER_XSH_CHANGE);
                         doCheckMultiplexer();
                     }
                     if (t.type == TIMER_MUX_R_CHANGE)
@@ -2431,24 +2591,18 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         noiseCycles = cyclesRunning;
                     }
                 }
-                removeList.add(t);
+                timerRemoveList.add(t);
             }
         }
         synchronized (timerItemList)
         {
-            for (TimerItem t: removeList)
+            for (TimerItem t: timerRemoveList)
             {
                 timerItemList.remove(t);
+                timerHeap.add(t);
             }
         }
     }
-    /*
-    void doCheckOrb()
-    {
-        doCheckMultiplexer();
-        doCheckRamp();
-    }
-    */
     /* update the various analog values when orb is written. */
     void doCheckMultiplexer()
     {
@@ -2457,24 +2611,23 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         
         /* MUX has been enabled, state changed! */
         switch (alg_sel.intValue & 0x06) 
-//        switch (via_orb & 0x06) 
         {
             case 0x00:
                 /* demultiplexor is on */
-                addTimerItem(new TimerItem(alg_DAC.intValue, alg_ysh, TIMER_MUX_Y_CHANGE));
+                timerAddItem(alg_DAC.intValue, alg_ysh, TIMER_MUX_Y_CHANGE);
                 break;
             case 0x02:
                 /* demultiplexor is on */
-                addTimerItem(new TimerItem(alg_DAC.intValue, alg_rsh, TIMER_MUX_R_CHANGE));
+                timerAddItem(alg_DAC.intValue, alg_rsh, TIMER_MUX_R_CHANGE);
                 break;
             case 0x04:
                 /* demultiplexor is on */
-                addTimerItem(new TimerItem(alg_DAC.intValue , alg_zsh, TIMER_MUX_Z_CHANGE));
+                timerAddItem(alg_DAC.intValue , alg_zsh, TIMER_MUX_Z_CHANGE);
                 intensityDrift = 0;
                 break;
             case 0x06:
                 /* sound output line */
-                addTimerItem(new TimerItem(alg_DAC.intValue , alg_ssh, TIMER_MUX_S_CHANGE));
+                timerAddItem(alg_DAC.intValue , alg_ssh, TIMER_MUX_S_CHANGE);
                 break;
                 
         }
@@ -2500,7 +2653,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         }                
         
         /* compare the current joystick direction with a reference */        
-//        int com = (via_ora^0x80);
         if ((alg_jsh) > (via_ora^0x80)) // current DAC , here ORA, the XSH can't be used, since it will be set by timer
         {
             alg_compare = 0x20;// bit 5 of ORB
@@ -2518,9 +2670,9 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             if ((via_acr & 0x80)!=0) 
             {
                 if (via_t1pb7==0)
-                    addTimerItem(new TimerItem(via_t1pb7, sig_ramp, TIMER_RAMP_CHANGE));
+                    timerAddItem(via_t1pb7, sig_ramp, TIMER_RAMP_CHANGE);
                 else
-                    addTimerItem(new TimerItem(via_t1pb7, sig_ramp, TIMER_RAMP_OFF_CHANGE));
+                    timerAddItem(via_t1pb7, sig_ramp, TIMER_RAMP_OFF_CHANGE);
             } 
         }
         else
@@ -2528,16 +2680,15 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             if ((via_acr & 0x80)==0) 
             {
                 if ((via_orb & 0x80) == 0)
-                    addTimerItem(new TimerItem(via_orb & 0x80 , sig_ramp, TIMER_RAMP_CHANGE));
+                    timerAddItem(via_orb & 0x80 , sig_ramp, TIMER_RAMP_CHANGE);
                 else
-                    addTimerItem(new TimerItem(via_orb & 0x80, sig_ramp, TIMER_RAMP_OFF_CHANGE));
+                    timerAddItem(via_orb & 0x80, sig_ramp, TIMER_RAMP_OFF_CHANGE);
             }
         }
     }
 
     /* perform a single cycle worth of analog emulation */
     long noiseCycles = 0;
-    
     void analogStep()
     {
         intensityDrift++;
@@ -2557,7 +2708,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         {
             if (sig_zero.intValue == 0)
             {
-                // we start zeroing now
                 zeroRetainX = (((double)(zeroRetainX)) *0.99);
                 zeroRetainY = (((double)(zeroRetainY)) *0.99);
             }
@@ -2568,41 +2718,19 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             /* need to force the current point to the 'orgin' so just
              * calculate distance to origin and use that as dx,dy.
              */
-/*
-            if (alg_curr_x<config.ALG_MAX_X/2)
-            {
-                // smaller 0
-                sig_dx+= ((config.ALG_MAX_X/2)-alg_curr_x)/2;
-            }
-            else if (alg_curr_x>config.ALG_MAX_X/2)
-            {
-                // greater 0
-                sig_dx-= (alg_curr_x-(config.ALG_MAX_X/2))/2;
-            }
-            if (alg_curr_y<config.ALG_MAX_Y/2)
-            {
-                // smaller 0
-                sig_dy+= ((config.ALG_MAX_Y/2)-alg_curr_y)/2;
-            }
-            else if (alg_curr_x>config.ALG_MAX_Y/2)
-            {
-                // greater 0
-                sig_dy-= (alg_curr_y-(config.ALG_MAX_Y/2))/2;
-            }
-*/            
- // on zero - do not zero immediatly but "degrade" "slowly"
+            // on zero - do not zero immediatly but "degrade" "slowly"
             sig_dx = (int)(((double)(config.ALG_MAX_X / 2 - (int)alg_curr_x))/config.zero_divider);
             sig_dy = (int)(((double)(config.ALG_MAX_Y / 2 - (int)alg_curr_y))/config.zero_divider);
-            
+           
         } 
         //else 
         // no else anymore, integrating can be done WHILE zeroing (see my discussion in forum Vectrex32)
         {
             if (sig_ramp.intValue== 0) 
             {
-                sig_dx += alg_xsh.intValue;
-                sig_dy += -alg_ysh.intValue;
-                
+                sig_dx += alg_xsh.intValue - alg_rsh.intValue;
+                sig_dy += -alg_ysh.intValue + alg_rsh.intValue;
+
                 //fraction = false;
                 if (rampOnFraction)
                 {
@@ -2642,48 +2770,57 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
 
         if (alg_vectoring == 0) 
         {
-            if (sig_blank.intValue == 1 &&
-                    alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X &&
-                    alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y &&
-                    ((alg_zsh.intValue &0x80) ==0) &&  ((alg_zsh.intValue &0x7f) !=0)) 
+            if (sig_blank.intValue == 1 && ((alg_zsh.intValue &0x80) ==0) &&  ((alg_zsh.intValue &0x7f) !=0) ) 
             {
-                if (imagerMode)
+                // new vector should start
+                // is oob?
+                if (alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y)
                 {
-                    if (joyport[1].getDevice() instanceof Imager3dDevice)
+                    if (imagerMode)
                     {
-                        Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
-                        leftEyeColor = i3d.getLeftColor();
-                        rightEyeColor = i3d.getRightColor();
+                        if (joyport[1].getDevice() instanceof Imager3dDevice)
+                        {
+                            Imager3dDevice i3d = (Imager3dDevice)joyport[1].getDevice();
+                            leftEyeColor = i3d.getLeftColor();
+                            rightEyeColor = i3d.getRightColor();
+                        }
                     }
-                }
-                
-                /* start a new vector */
-                alg_vectoring = 1;
-                alg_vector_x0 = (int)alg_curr_x;
-                alg_vector_y0 = (int)alg_curr_y;
-                alg_vector_x1 = (int)alg_curr_x;
-                alg_vector_y1 = (int)alg_curr_y;
-                alg_vector_dx = alg_xsh.intValue;
-                alg_vector_dy = -alg_ysh.intValue;
-                alg_vector_speed = Math.max(Math.abs(alg_xsh.intValue), Math.abs(alg_ysh.intValue));
-                alg_leftEye = leftEyeColor;
-                alg_rightEye = rightEyeColor;
-        
-                alg_vector_color = alg_zsh.intValue;
-                alg_ramping = (sig_ramp.intValue== 0);
-                if ((alg_ramping) || (sig_zero.intValue == 0))
-                {
-                    alg_spline_compare_dx = sig_dx;
-                    alg_spline_compare_dy = sig_dy;
+
+                    /* start a new vector */
+                    alg_vectoring = 1;
+                    alg_vector_x0 = (int)alg_curr_x;
+                    alg_vector_y0 = (int)alg_curr_y;
+                    alg_vector_x1 = (int)alg_curr_x;
+                    alg_vector_y1 = (int)alg_curr_y;
+                    alg_vector_dx = alg_xsh.intValue;
+                    alg_vector_dy = -alg_ysh.intValue;
+
+                    alg_vector_speed = Math.max(Math.abs(alg_xsh.intValue), Math.abs(alg_ysh.intValue));
+
+                    alg_leftEye = leftEyeColor;
+                    alg_rightEye = rightEyeColor;
+
+                    alg_vector_color = alg_zsh.intValue;
+                    alg_ramping = (sig_ramp.intValue== 0);
+                    if ((alg_ramping) || (sig_zero.intValue == 0))
+                    {
+                        alg_spline_compare_dx = sig_dx;
+                        alg_spline_compare_dy = sig_dy;
+                    }
+                    else
+                    {
+                        alg_spline_compare_dx = Integer.MAX_VALUE;
+                        alg_spline_compare_dy = Integer.MAX_VALUE;
+                    }                    
                 }
                 else
                 {
-                    alg_spline_compare_dx = Integer.MAX_VALUE;
-                    alg_spline_compare_dy = Integer.MAX_VALUE;
+// OUT OF BOUNDS                    
+                    // OUT OF BOUNDS VECTOR START
                 }
             }
         } 
-        else 
+        else // vectoring == 1
         {
             if (imagerMode)
             {
@@ -2714,37 +2851,10 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 }
                 else
                 {
-                    boolean doLine = true;
-                 
-                    // if the last vector just because of timer (ramp = 1)
-                    // and then a cycle later blank is set
-                    // this should not be a "point"
-                    // actually it should, since it is a brighter spot
-                    // in this special emualation case
-                    // the brighter spot is realized by the drawing routines anyway!
-                    // since line end and start are the same point
-                    // and a double draw happens!
-                    /*
-                    if (sig_blank.intValue==0)
-                    {
-                        if (vectorDisplay[displayedNext].count>0)
-                        {
-                            vector_t lastv = vectorDisplay[displayedNext].vectrexVectors[vectorDisplay[displayedNext].count-1];
-                            if ( (lastv.x1 == alg_vector_x0) && (lastv.y1 == alg_vector_y0) )
-                                doLine = false;
-                        }
-                        
-                    }
-                    if (doLine)
-                        */
-                    
                     alg_addline (alg_vector_x0, alg_vector_y0, alg_vector_x1, alg_vector_y1, alg_zsh.intValue, alg_curved, alg_vector_speed, alg_leftEye, alg_rightEye);
-                    
                 }
                 alg_vectoring = 0;
             } 
-            
-            
             else if (imagerColorChanged || xChanged || yChanged || alg_zsh.intValue != alg_vector_color /*||  (sig_zero.intValue == 0)*/ || ((sig_ramp.intValue== 0) != alg_ramping) ) 
             {
                 /* the parameters of the vectoring processing has changed.
@@ -2806,6 +2916,9 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                 } 
                 else 
                 {
+// OUT OF BOUNDS        
+                    // an active vector was FINISHED OUT OF BOUNDS!
+                    // and a new vector should start                    
                     alg_vectoring = 0;
                 }
             }
@@ -2820,14 +2933,11 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             }
         }
         
-        
-        
-        
-        
-        
-        if (config.efficiencyEnabled)
+        // efficiency only active when non zeroing!
+        if ((config.efficiencyEnabled) && (sig_zero.intValue!=0))
         {
-            double EFFICIENCY_THRESHOLD = 0.6;
+            double EFFICIENCY_THRESHOLD_X = config.efficiencyThresholdX;
+            double EFFICIENCY_THRESHOLD_Y = config.efficiencyThresholdY;
             
             double xTest = alg_curr_x - (config.ALG_MAX_X / 2);
             double yTest = alg_curr_y - (config.ALG_MAX_Y / 2);
@@ -2837,16 +2947,16 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
 
             double xEfficience = 1.0;
             double yEfficience = 1.0;
-            if (xPercent>EFFICIENCY_THRESHOLD)
+            if (xPercent>EFFICIENCY_THRESHOLD_X)
             {
-                xEfficience = 1.0-((xPercent)/config.efficiency)*(xPercent-EFFICIENCY_THRESHOLD/EFFICIENCY_THRESHOLD);
+                xEfficience = 1.0-((xPercent)/config.efficiency)*(xPercent-EFFICIENCY_THRESHOLD_X/EFFICIENCY_THRESHOLD_X);
                 
                 if (xEfficience<0.01) xEfficience = 0.01;
                 if (xTest*sig_dx<0)xEfficience = 1/xEfficience;
             }
-            if (yPercent>EFFICIENCY_THRESHOLD)
+            if (yPercent>EFFICIENCY_THRESHOLD_Y)
             {
-                yEfficience = 1.0-((yPercent)/config.efficiency)*(yPercent-EFFICIENCY_THRESHOLD/EFFICIENCY_THRESHOLD);
+                yEfficience = 1.0-((yPercent)/config.efficiency)*(yPercent-EFFICIENCY_THRESHOLD_Y/EFFICIENCY_THRESHOLD_Y);
                 if (yEfficience<0.01) yEfficience = 0.01;
                 if (yTest*sig_dy<0)yEfficience = 1/yEfficience;
             }
@@ -2854,12 +2964,10 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             alg_curr_y += ((double)sig_dy)*yEfficience;
 
             // actually do not go negative should be sufficient here!
-
             if (sig_dx != 0)
             alg_curr_x += (config.scaleEfficiency / ((double)sig_dx))*xPercent;
             if (sig_dy != 0)
             alg_curr_y += (config.scaleEfficiency /((double)sig_dy))*yPercent;
-            
         }
         else
         {
@@ -2867,10 +2975,10 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             alg_curr_y += sig_dy;
         }        
         
-        if (alg_curr_x>70000) alg_curr_x=70000;
-        else if (alg_curr_x<-70000) alg_curr_x=-70000;
-        if (alg_curr_y>70000) alg_curr_y=70000;
-        else if (alg_curr_y<-70000) alg_curr_y=-70000;
+        if (alg_curr_x>100000) alg_curr_x=100000;
+        else if (alg_curr_x<-100000) alg_curr_x=-100000;
+        if (alg_curr_y>100000) alg_curr_y=100000;
+        else if (alg_curr_y<-100000) alg_curr_y=-100000;
         
         
         // drift only when not zeroing
@@ -2893,10 +3001,10 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         {
             if (Math.abs(sig_dx)>100)
             {
-            double yOverflow = (  ((double)sig_dx)+((double)sig_dy) ) / config.overflowFactor;
+                double yOverflow = (  ((double)sig_dx)+((double)sig_dy) ) / config.overflowFactor;
 
-//            alg_curr_x+= yOverflow;
-            alg_curr_y+= yOverflow;
+//            alg_curr_x+= xOverflow;
+                alg_curr_y+= yOverflow;
             }
         }
         
@@ -2946,13 +3054,78 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
         
         
         
-        if (alg_vectoring == 1 && alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y) 
+        if (alg_vectoring == 1)
         {
-            /* we're vectoring ... current point is still within limits so
-             * extend the current vector.
-             */
-            alg_vector_x1 = (int)alg_curr_x;
-            alg_vector_y1 = (int)alg_curr_y;
+            if( alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y) 
+            {
+                /* we're vectoring ... current point is still within limits so
+                 * extend the current vector.
+                 */
+                alg_vector_x1 = (int)alg_curr_x;
+                alg_vector_y1 = (int)alg_curr_y;
+            }
+            else
+            {
+// OUT OF BOUNDS        
+                // add values that are out of bounds if light is shining!
+            }
+        }
+        if (config.emulateBorders)
+        {
+            boolean inLimits = (alg_curr_x >= 0 && alg_curr_x < config.ALG_MAX_X && alg_curr_y >= 0 && alg_curr_y < config.ALG_MAX_Y);
+            if (!inLimits)
+            {
+                if ((sig_blank.intValue==1) && ((alg_zsh.intValue &0x80) ==0) && ((alg_zsh.intValue &0x7f) !=0) )
+                {
+                    int intensity = (alg_zsh.intValue &0x7f);
+                    if (intensityDrift>100000)
+                    {
+                       double degradePercent = (180000000.0-((double)intensityDrift))/180000000.0; // two minutes
+                       if (degradePercent<0) degradePercent = 0;
+                       intensity = (int)(((double)intensity)*degradePercent);
+                    }                    
+                    
+                    int OFFSET_START_DIVISOR = 40;
+                    double leftStart =  -config.ALG_MAX_X/OFFSET_START_DIVISOR;
+                    double rightStart =  config.ALG_MAX_X+config.ALG_MAX_X/OFFSET_START_DIVISOR;
+                    double topStart =   -config.ALG_MAX_Y/OFFSET_START_DIVISOR;
+                    double bottomStart = config.ALG_MAX_Y+config.ALG_MAX_Y/OFFSET_START_DIVISOR;
+                    // left
+                    if (alg_curr_x < leftStart) 
+                    {
+                        int leftCoordinate = (int)(alg_curr_y/((double)config.ALG_MAX_Y) * OVERFLOW_SAMPLE_MAX);
+                        if (leftCoordinate<0) leftCoordinate = 0;
+                        if (leftCoordinate>OVERFLOW_SAMPLE_MAX-1) leftCoordinate = OVERFLOW_SAMPLE_MAX-1;
+                        vectorDisplay[displayedNext].left[leftCoordinate] += intensity;
+                    }
+                    // right
+                    if (alg_curr_x > rightStart) 
+                    {
+                        int rightCoordinate = (int)(alg_curr_y/((double)config.ALG_MAX_Y) * OVERFLOW_SAMPLE_MAX);
+                        if (rightCoordinate<0) rightCoordinate = 0;
+                        if (rightCoordinate>OVERFLOW_SAMPLE_MAX-1) rightCoordinate = OVERFLOW_SAMPLE_MAX-1;
+                        vectorDisplay[displayedNext].right[rightCoordinate] += intensity;
+                    }
+                    // top
+                    if (alg_curr_y < topStart) 
+                    {
+                        int topCoordinate = (int)(alg_curr_x/((double)config.ALG_MAX_X) * OVERFLOW_SAMPLE_MAX);
+                        if (topCoordinate<0) topCoordinate = 0;
+                        if (topCoordinate>OVERFLOW_SAMPLE_MAX-1) topCoordinate = OVERFLOW_SAMPLE_MAX-1;
+                        vectorDisplay[displayedNext].top[topCoordinate] += intensity;
+                    }
+                    // bottom
+                    if (alg_curr_y > bottomStart) 
+                    {
+                        int bottomCoordinate = (int)(alg_curr_x/((double)config.ALG_MAX_X) * OVERFLOW_SAMPLE_MAX);
+                        if (bottomCoordinate<0) bottomCoordinate = 0;
+                        if (bottomCoordinate>OVERFLOW_SAMPLE_MAX-1) bottomCoordinate = OVERFLOW_SAMPLE_MAX-1;
+                        vectorDisplay[displayedNext].bottom[bottomCoordinate] += intensity;
+                    }
+                    
+                }
+                
+            }
         }
 
         
@@ -2985,9 +3158,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             alg_curr_y = config.ALG_MAX_Y/2;
     }
     
-    
-    
-    
     static final int WR_UNKOWN = 0;
     static final int WR_FIRST_FOUND = 1;
     int wrStatus = WR_UNKOWN;
@@ -3018,8 +3188,6 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
                         }
                     }
                 }
-                
-                
             }
         }
     }
@@ -3148,7 +3316,7 @@ s                        if (shouldStall((int)(cyclesRunning - lastShiftTriggere
             }                 
         }
     }
-    void checkROMBreakPoint(int address, int data)
+    public void checkROMBreakPoint(int address, int data)
     {
         if (!config.breakpointsActive) return;
         synchronized (breakpoints[Breakpoint.BP_TARGET_MEMORY])

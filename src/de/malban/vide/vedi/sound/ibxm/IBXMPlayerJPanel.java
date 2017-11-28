@@ -68,7 +68,7 @@ public class IBXMPlayerJPanel extends javax.swing.JPanel {
         }
         catch (Throwable e)
         {
-            log.addLog(e, WARN);
+            log.addLog("Modfile: \""+filename+"\" not loaded");
             return false;
         }
         return true;

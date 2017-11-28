@@ -39,14 +39,14 @@ public class  ProjectPropertiesPool
 	{
             java.io.File f;
             if (pathName==null)
-                f = new java.io.File(de.malban.Global.mBaseDir+mFileName);
+                f = new java.io.File(de.malban.Global.mainPathPrefix+mFileName);
             else
-                f = new java.io.File(pathName+mFileName);
+                f = new java.io.File(de.malban.Global.mainPathPrefix+pathName+mFileName);
             if (!f.exists()) return false;
             if (pathName == null)
                 mProjectProperties = ProjectProperties.getHashMapFromXML(mFileName);
             else
-                mProjectProperties = ProjectProperties.getHashMapFromXML(mFileName, pathName);
+                mProjectProperties = ProjectProperties.getHashMapFromXML(mFileName, de.malban.Global.mainPathPrefix+pathName);
             return true;
 	}
 	public void save()
@@ -54,7 +54,7 @@ public class  ProjectPropertiesPool
             if (pathName==null)
 		ProjectProperties.saveCollectionAsXML(mFileName, mProjectProperties.values());
             else
-		ProjectProperties.saveCollectionAsXML(pathName, mFileName, mProjectProperties.values());
+		ProjectProperties.saveCollectionAsXML(de.malban.Global.mainPathPrefix+pathName, mFileName, mProjectProperties.values());
             buildKlassenMap();
 	}
 	public void remove(ProjectProperties st)

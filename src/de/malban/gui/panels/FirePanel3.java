@@ -11,6 +11,7 @@
 
 package de.malban.gui.panels;
 
+import de.malban.Global;
 import de.malban.sound.PlayMP3;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -92,7 +93,7 @@ public class FirePanel3 extends javax.swing.JPanel implements Runnable{
                 
                 if (!de.malban.config.Configuration.getConfiguration().isSoundQuiet())
                 {
-                    play = new PlayMP3("sound"+File.separator+"burningFire.mp3");
+                    play = new PlayMP3(Global.mainPathPrefix+"sound"+File.separator+"burningFire.mp3");
                     play.play();
                 }
                 animator = new Thread(this);

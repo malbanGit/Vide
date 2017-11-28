@@ -490,6 +490,17 @@ public class VecSpeechDevice extends AbstractDevice implements Serializable
         if (!isReady())
         {
             joyport.setButton2(true, true);
+
+            // not sure why this is correct -> but Pythagorean Theoream
+            // tests for bita #$f0 (on joyport) 
+            // instead of bita #$20
+            // this is not in correspondance with the usual
+            // "dataLineInput" seetings
+            joyport.setButton3(true, true);
+            joyport.setButton4(true, true);
+            joyport.setButton1(true, true);
+            return;
+        
         }
         else
         {
@@ -683,7 +694,6 @@ public class VecSpeechDevice extends AbstractDevice implements Serializable
     // is VecVox enabled to receive more data (input buffer = 64 byte)
     boolean isReady()
     {
-        boolean ret = false;
         int nc = (nextComandPoint + 1) % C_LEN;
         if (nc == currentComandPoint) return false; // buffer is full
         return true;
@@ -697,6 +707,12 @@ public class VecSpeechDevice extends AbstractDevice implements Serializable
 
     void addCommand(int c)
     {
+        if (!isReady())
+        {
+            Configuration.getConfiguration().getDebugEntity().addLog(deviceName+": Buffer overflow ", WARN);
+            return;
+        }
+
         commands[nextComandPoint] = c;
         nextComandPoint = (nextComandPoint + 1) % C_LEN;
     }

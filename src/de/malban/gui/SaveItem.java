@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class SaveItem implements Serializable{
     public int x,y;
     public int w,h;
+    public int screenNo = 0;
     public boolean iconified;
     public String name;
     ArrayList<String> names;

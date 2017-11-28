@@ -5,6 +5,7 @@
  */
 package de.malban.vide.codi;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
@@ -25,7 +26,6 @@ import de.malban.vide.vedi.EditorListener;
 import de.malban.vide.vedi.VEdiFoundationPanel;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_LIST;
 import static de.malban.vide.vedi.VEdiFoundationPanel.ASM_MESSAGE_ERROR;
-import de.malban.vide.vedi.VediPanel;
 import static de.malban.vide.vedi.VediPanel.convertSeperator;
 import de.malban.vide.vedi.project.ProjectProperties;
 import de.malban.vide.vedi.project.ProjectPropertiesPool;
@@ -76,7 +76,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
             }
             else if (type == ASM_MESSAGE_ERROR)
             {
-                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("error"));
+                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("editLogError"));
             }
             else if (type == ASM_MESSAGE_WARNING)
             {
@@ -84,7 +84,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
             }
             else if (type == ASM_MESSAGE_OPTIMIZATION)
             {
-                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("comment"));
+                jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s, TokenStyles.getStyle("editLogComment"));
             }
         } catch (Throwable e) { }
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
@@ -228,7 +228,8 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         jSplitPane1.setDividerLocation(300);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setResizeWeight(1.0);
-        jSplitPane1.setPreferredSize(new java.awt.Dimension(966, 50));
+        jSplitPane1.setMinimumSize(new java.awt.Dimension(224, 164));
+        jSplitPane1.setPreferredSize(new java.awt.Dimension(576, 700));
 
         jSplitPane2.setDividerLocation(200);
         jSplitPane2.setPreferredSize(new java.awt.Dimension(964, 100));
@@ -423,7 +424,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+                .addComponent(jTabbedPane)
                 .addGap(1, 1, 1)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -572,11 +573,11 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         if (fileName.trim().length() == 0) return;
 
         Path p = Paths.get(fileName);
-        de.malban.util.UtilityFiles.cleanDirectory("."+File.separator+"tmp"+File.separator);
+        de.malban.util.UtilityFiles.cleanDirectory(Global.mainPathPrefix+"tmp"+File.separator);
         
         
-        de.malban.util.UtilityFiles.copyDirectoryAllFiles(p.getParent().toString(),"."+File.separator+"tmp"+File.separator);
-        p = Paths.get("."+File.separator+"tmp"+File.separator+p.getFileName());
+        de.malban.util.UtilityFiles.copyDirectoryAllFiles(p.getParent().toString(),Global.mainPathPrefix+"tmp"+File.separator);
+        p = Paths.get(Global.mainPathPrefix+"tmp"+File.separator+p.getFileName());
         jEditorLog.setText("");
         startASM(p.toString());
     }//GEN-LAST:event_jButtonAssembleActionPerformed
@@ -664,7 +665,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 fname = fname + ".bin";
                 vec.startUp(fname, false);
                 printMessage("Assembly successfull, starting emulation...");
-                de.malban.util.UtilityFiles.cleanDirectory("."+File.separator+"tmp"+File.separator);
+                de.malban.util.UtilityFiles.cleanDirectory(Global.mainPathPrefix+"tmp"+File.separator);
             }
             else
             {
@@ -889,7 +890,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     {
         try
         {
-            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("error"));
+            jEditorLog.getDocument().insertString(jEditorLog.getDocument().getLength(), s+"\n", TokenStyles.getStyle("editLogError"));
         } catch (Throwable e) { }
         jEditorLog.setCaretPosition(jEditorLog.getDocument().getLength());
     }
@@ -952,7 +953,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
     public static final int FILE = 1;
     void fillTree()
     {
-        Path startpath = Paths.get(".","codelib");
+        Path startpath = Paths.get(Global.mainPathPrefix,"codelib");
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(new TreeEntry(startpath));
         addChildren(root);
         jTree1.setModel(new DefaultTreeModel(root));
@@ -1004,7 +1005,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         {
             if (file.getName().contains("ProjectProperty.xml"))
             {
-                String ppath = file.getParent();
+                String ppath = de.malban.util.Utility.ensureRelative(file.getParent());
                 if (ppath.length()!=0)ppath+=File.separator;
                 ProjectPropertiesPool pool = new ProjectPropertiesPool(ppath, file.getName());
                 ProjectProperties project =  pool.get(file.getName().substring(0,file.getName().length()- ("ProjectProperty.xml").length()));
@@ -1048,7 +1049,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 
                 try
                 {
-                    String path = convertSeperator(project.getPath());
+                    String path = Global.mainPathPrefix + convertSeperator(project.getPath());
                     if (path.length() >0 ) path += File.separator;
                     
                     for (int b = 0; b<project.getNumberOfBanks(); b++)
@@ -1127,7 +1128,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 String postClass = project.getProjectPostScriptClass();
                 String postName = project.getProjectPostScriptName();
                 
-                String pp = convertSeperator(project.getPath());
+                String pp = Global.mainPathPrefix + convertSeperator(project.getPath());
                 if (pp.length() >0 ) pp += File.separator;
                 pp += project.getProjectName();
                 
@@ -1190,7 +1191,7 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
                 filename = filename.substring(0,li);
             filename = filename+"_"+(b) + ".bin";
 
-            File test = new File(filename);
+            File test = new File(Global.mainPathPrefix+filename);
             if (!test.exists())
             {
                 cart.getFullFilename().add("");
@@ -1241,4 +1242,5 @@ public class CodeLibraryPanel extends VEdiFoundationPanel implements TinyLogInte
         }
             
     }
+    public void deIconified() { }
 }

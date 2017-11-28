@@ -17,27 +17,47 @@ import java.util.HashMap;
  */
 public class Profiler implements Serializable 
 {
+    private static void deInitLock()
+    {
+        lockMap.clear();
+    }
+    private static void addLock(int address)
+    {
+        lockMap.put(address, address);
+    }
+    private static boolean isLocked(int address)
+    {
+        return lockMap.get(address) != null;
+    }
+    public static HashMap<Integer, Integer> lockMap = new HashMap<Integer, Integer>();
+
+
     public class ProfilerMemoryLocation
     {   
         public String name="";
         public int address = 0;
-        public boolean counted = false; // prohibit recursion
+//        public boolean counted = false; // prohibit recursion
         public long accessCount=0;
         public long accessCountSum = 0;
 
         public long accessCycles=0;
         public long accessCyclesSum = 0;
         
+        public long caller_accessCyclesSum = 0;
+        
         public long lastTrack_accessCount=0;
         public long lastTrack_accessCountSum = 0;
         public long lastTrack_accessCycles=0;
         public long lastTrack_accessCyclesSum = 0;
+        public long caller_lastTrack_accessCyclesSum = 0;
 
 
         public long lastTrack_accessCount_final=0;
         public long lastTrack_accessCountSum_final = 0;
         public long lastTrack_accessCycles_final=0;
         public long lastTrack_accessCyclesSum_final = 0;
+
+        public long caller_lastTrack_accessCyclesSum_final = 0;
 
         public void access(long cycles)
         {
@@ -53,11 +73,17 @@ public class Profiler implements Serializable
         }
         public void contextAccess(long cycles)
         {
-            if (counted) return;
+            if (isLocked(address)) return;
             accessCountSum++;
             accessCyclesSum+=cycles;
             lastTrack_accessCountSum++;
             lastTrack_accessCyclesSum+=cycles;
+        }
+        public void sumAccess(long cycles)
+        {
+            if (isLocked(address)) return;
+            caller_accessCyclesSum+=cycles;
+            caller_lastTrack_accessCyclesSum+=cycles;
         }
         
         ProfilerMemoryLocation(String n)
@@ -75,11 +101,12 @@ public class Profiler implements Serializable
         int stackedAddress; // return of subroutine which is on stack
         int stackAddress; // address of stack where the stacked address resides
         int startAddress; // address of first instruction of the subroutine
+        int callingAddress; // adress of the instruction that called this context
         ProfilerMemoryLocation mem; // 
-        
     }
 
-    public boolean trackingOnly = false;
+    public boolean finalOnly = false;
+    public boolean trackingOnly = true;
     public long overallCycles = 0;
     public long overallInstructions = 0;
     public long track_overallCycles = 0;
@@ -98,17 +125,17 @@ public class Profiler implements Serializable
     {
         for (int i=0; i<65536; i++)
         {
-
             memory[i].lastTrack_accessCount_final = memory[i].lastTrack_accessCount;
             memory[i].lastTrack_accessCountSum_final = memory[i].lastTrack_accessCountSum;
             memory[i].lastTrack_accessCycles_final = memory[i].lastTrack_accessCycles;
             memory[i].lastTrack_accessCyclesSum_final = memory[i].lastTrack_accessCyclesSum;
-        
-        
+            memory[i].caller_lastTrack_accessCyclesSum_final = memory[i].caller_lastTrack_accessCyclesSum;
+            
             memory[i].lastTrack_accessCount = 0;
             memory[i].lastTrack_accessCountSum = 0;
             memory[i].lastTrack_accessCycles = 0;
             memory[i].lastTrack_accessCyclesSum = 0;
+            memory[i].caller_lastTrack_accessCyclesSum = 0;
         }
         track_overallCycles_final = track_overallCycles;
         track_overallInstructions_final = track_overallInstructions;
@@ -158,26 +185,39 @@ public class Profiler implements Serializable
         }
     }
     
+    // locking ensures each instruction is counted for each access in each context only once!
     public void accessed(int address, int cycles)
     {
+        accessed_internal(address, cycles);
+        deInitLock();
+    }
+    private void accessed_internal(int address, int cycles)
+    {
+        if (address == -1) return;
         overallCycles+=cycles;
         overallInstructions++;
         track_overallCycles+=cycles;
         track_overallInstructions++;
         
         memory[address].access(cycles);
-        memory[address].counted = true;
+        addLock(address);
         for (Context c: currentContext)
         {
             c.mem.contextAccess(cycles);
+
+            int callerAddress = c.callingAddress;
+            if (callerAddress != -1)
+            {
+                memory[callerAddress].sumAccess(cycles);
+                addLock(callerAddress);
+            }
         }
-        memory[address].counted = false;
     }
     
     // address - of subroutines first instruction
     // stackAddress - address of the stackpointer where the return address resided
     // returnAdress - adress that was pushed onto stack as return address
-    public void addContext(int address, int stackAddress, int returnAddress)
+    public void addContext(int address, int stackAddress, int returnAddress, int callerAddress)
     {
         ProfilerMemoryLocation loc = memory[address];
         Context c = new Context();
@@ -187,7 +227,8 @@ public class Profiler implements Serializable
         c.stackAddress = stackAddress;
         c.stackedAddress = returnAddress;
         c.startAddress = address;
-
+        c.callingAddress = callerAddress;
+        
         currentContext.add(c);
     }
 
@@ -227,8 +268,6 @@ public class Profiler implements Serializable
             removeContext();
             index--;
         }
-
-        
     }
 
     private Profiler(int startAddress, String n)
@@ -246,6 +285,7 @@ public class Profiler implements Serializable
         c.stackAddress = -1;
         c.stackedAddress = -1;
         c.startAddress = -1;
+        c.callingAddress = -1;
         currentContext.add(c);
     }
     public static Profiler buildProfiler(int startAddress)
@@ -256,5 +296,5 @@ public class Profiler implements Serializable
     {
         return new Profiler(startAddress, n);
     }
-    
 }
+

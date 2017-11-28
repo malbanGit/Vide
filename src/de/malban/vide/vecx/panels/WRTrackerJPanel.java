@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx.panels;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.vide.vecx.VecXPanel;
@@ -76,7 +77,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
         mClassSetting--;
         try
         {
-            persistentInfo = (Vector<TrackiInfo>) CSAMainFrame.deserialize("serialize"+File.separator+"TrackiInfo.ser");
+            persistentInfo = (Vector<TrackiInfo>) CSAMainFrame.deserialize(Global.mainPathPrefix+"serialize"+File.separator+"TrackiInfo.ser");
             if (persistentInfo == null) 
             {
                 persistentInfo = new Vector<TrackiInfo>();
@@ -118,7 +119,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
         
         try
         {
-            CSAMainFrame.serialize(persistentInfo, "serialize"+File.separator+"TrackiInfo.ser");
+            CSAMainFrame.serialize(persistentInfo, Global.mainPathPrefix+"serialize"+File.separator+"TrackiInfo.ser");
         }
         catch (Throwable e)
         {
@@ -314,6 +315,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
         jPanel1.setPreferredSize(new java.awt.Dimension(345, 70));
 
         jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcam.png"))); // NOI18N
+        jToggleButton4.setSelected(true);
         jToggleButton4.setToolTipText("Toggle Update (always or only while debug)");
         jToggleButton4.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jToggleButton4.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcamSelect.png"))); // NOI18N
@@ -641,7 +643,7 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
         }
         
     }
-    private boolean updateEnabled = false;
+    private boolean updateEnabled = true;
     public void updateValues(boolean forceUpdate)
     {
         if (!forceUpdate)
@@ -652,4 +654,5 @@ public class WRTrackerJPanel extends javax.swing.JPanel implements
     {
         updateEnabled = b;
     }
+    public void deIconified() { }
 }

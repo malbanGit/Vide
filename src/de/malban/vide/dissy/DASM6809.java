@@ -24,6 +24,7 @@
  */
 package de.malban.vide.dissy;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
@@ -32,6 +33,7 @@ import de.malban.vide.VideConfig;
 import static de.malban.vide.dissy.MemoryInformation.MEM_TYPE_BAD;
 import static de.malban.vide.dissy.MemoryInformation.MEM_TYPE_IO;
 import static de.malban.vide.dissy.MemoryInformation.MEM_TYPE_RAM;
+import de.malban.vide.dissy.MemoryInformation.MemCInfoBlock;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -298,9 +300,12 @@ public class DASM6809 extends DASMStatics {
     
     static HashMap<Integer, String> BIOSLABELS;
     static HashMap<Integer, String> BIOSLABELS2;
+    static HashMap<Integer, String> BIOSFUNCTIONS;
+    
     
     static 
     {
+        BIOSFUNCTIONS = new HashMap<Integer, String>();
         BIOSLABELS = new HashMap<Integer, String>();
         BIOSLABELS2 = new HashMap<Integer, String>();
         BIOSLABELS.put(0xc800, "Vec_Snd_Shadow");
@@ -393,7 +398,23 @@ public class DASM6809 extends DASMStatics {
         BIOSLABELS.put(0xc87b, "Vec_Seed_Ptr");
         BIOSLABELS.put(0xc87d, "Vec_Random_Seed");
 
-    
+        BIOSLABELS.put(0xd000, "VIA_port_b");
+        BIOSLABELS.put(0xd001, "VIA_port_a");
+        BIOSLABELS.put(0xd002, "VIA_DDR_b");
+        BIOSLABELS.put(0xd003, "VIA_DDR_a");
+        BIOSLABELS.put(0xd004, "VIA_t1_cnt_lo");
+        BIOSLABELS.put(0xd005, "VIA_t1_cnt_hi");
+        BIOSLABELS.put(0xd006, "VIA_t1_lch_lo");
+        BIOSLABELS.put(0xd007, "VIA_t1_lch_hi");
+        BIOSLABELS.put(0xd008, "VIA_t2_lo");
+        BIOSLABELS.put(0xd009, "VIA_t2_hi");
+        BIOSLABELS.put(0xd00a, "VIA_shift_reg");
+        BIOSLABELS.put(0xd00b, "VIA_aux_cntl");
+        BIOSLABELS.put(0xd00c, "VIA_cntl");
+        BIOSLABELS.put(0xd00d, "VIA_int_flags");
+        BIOSLABELS.put(0xd00e, "VIA_int_enable");
+        BIOSLABELS.put(0xd00f, "VIA_port_a_nohs");
+
         BIOSLABELS.put(0xCBEA, "Vec_Default_Stk");
         BIOSLABELS.put(0xCBEB, "Vec_High_Score");
         BIOSLABELS.put(0xCBF2, "Vec_SWI3_Vector");
@@ -403,6 +424,141 @@ public class DASM6809 extends DASMStatics {
         BIOSLABELS.put(0xCBFB, "Vec_SWI_Vector");
         BIOSLABELS2.put(0xCBFB, "Vec_NMI_Vector");
         BIOSLABELS.put(0xCBFE, "Vec_Cold_Flag");
+        
+    
+        
+        // add them all
+        BIOSFUNCTIONS.put(0xF192, "Wait_Recal");
+        BIOSFUNCTIONS.put(0xF2AB, "Intensity_a");
+        BIOSFUNCTIONS.put(0xF56D, "Delay_3");
+        BIOSFUNCTIONS.put(0xF000, "Cold_Start");
+        BIOSFUNCTIONS.put(0xF06C, "Warm_Start");
+        BIOSFUNCTIONS.put(0xF14C, "Init_VIA");
+        BIOSFUNCTIONS.put(0xF164, "Init_OS_RAM");
+        BIOSFUNCTIONS.put(0xF18B, "Init_OS");
+        BIOSFUNCTIONS.put(0xF1A2, "Set_Refresh");
+        BIOSFUNCTIONS.put(0xF1AA, "DP_to_D0");
+        BIOSFUNCTIONS.put(0xF1AF, "DP_to_C8");
+        BIOSFUNCTIONS.put(0xF1BA, "Read_Btns");
+        BIOSFUNCTIONS.put(0xF1B4, "Read_Btns_Mask");
+        BIOSFUNCTIONS.put(0xF1F5, "Joy_Analog");
+        BIOSFUNCTIONS.put(0xF1F8, "Joy_Digital");
+        BIOSFUNCTIONS.put(0xF256, "Sound_Byte");
+        BIOSFUNCTIONS.put(0xF259, "Sound_Byte_x");
+        BIOSFUNCTIONS.put(0xF25B, "Sound_Byte_raw");
+        BIOSFUNCTIONS.put(0xF272, "Clear_Sound");
+        BIOSFUNCTIONS.put(0xF27D, "Sound_Bytes");
+        BIOSFUNCTIONS.put(0xF284, "DelaSound_Bytes_xy_3");
+        BIOSFUNCTIONS.put(0xF289, "Do_Sound");
+        BIOSFUNCTIONS.put(0xF28C, "Do_Sound_x");
+        BIOSFUNCTIONS.put(0xF29D, "Intensity_1F");
+        BIOSFUNCTIONS.put(0xF2A1, "Intensity_3F");
+        BIOSFUNCTIONS.put(0xF2A5, "Intensity_5F");
+        BIOSFUNCTIONS.put(0xF2A9, "Intensity_7F");
+        BIOSFUNCTIONS.put(0xF2AB, "Intensity_a");
+        BIOSFUNCTIONS.put(0xF2BE, "Dot_ix_b");
+        BIOSFUNCTIONS.put(0xF2C1, "Dot_ix");
+        BIOSFUNCTIONS.put(0xF2C3, "Dot_d");
+        BIOSFUNCTIONS.put(0xF2C5, "Dot_here");
+        BIOSFUNCTIONS.put(0xF2D5, "Dot_List");
+        BIOSFUNCTIONS.put(0xF2DE, "Dot_List_Reset");
+        BIOSFUNCTIONS.put(0xF2E6, "Recalibrate");
+        BIOSFUNCTIONS.put(0xF2F2, "Moveto_x_7F");
+        BIOSFUNCTIONS.put(0xF2FC, "Moveto_d_7F");
+        BIOSFUNCTIONS.put(0xF308, "Moveto_ix_FF");
+        BIOSFUNCTIONS.put(0xF30C, "Moveto_ix_7F");
+        BIOSFUNCTIONS.put(0xF30E, "Moveto_ix_b");
+        BIOSFUNCTIONS.put(0xF310, "Moveto_ix");
+        BIOSFUNCTIONS.put(0xF312, "Moveto_d");
+        BIOSFUNCTIONS.put(0xF34A, "Reset0Ref_D0");
+        BIOSFUNCTIONS.put(0xF34F, "Check0Ref");
+        BIOSFUNCTIONS.put(0xF354, "Reset0Ref");
+        BIOSFUNCTIONS.put(0xF35B, "Reset_Pen");
+        BIOSFUNCTIONS.put(0xF36B, "Reset0Int");
+        BIOSFUNCTIONS.put(0xF373, "Print_Str_hwyx");
+        BIOSFUNCTIONS.put(0xF378, "Print_Str_yx");
+        BIOSFUNCTIONS.put(0xF37A, "Print_Str_d");
+        BIOSFUNCTIONS.put(0xF385, "Print_List_hw");
+        BIOSFUNCTIONS.put(0xF38A, "Print_List");
+        BIOSFUNCTIONS.put(0xF38C, "Print_List_chk");
+        BIOSFUNCTIONS.put(0xF391, "Print_Ships_x");
+        BIOSFUNCTIONS.put(0xF393, "Print_Ships");
+        BIOSFUNCTIONS.put(0xF3AD, "Mov_Draw_VLc_a");
+        BIOSFUNCTIONS.put(0xF3B1, "Mov_Draw_VL_b");
+        BIOSFUNCTIONS.put(0xF3B5, "Mov_Draw_VLcs");
+        BIOSFUNCTIONS.put(0xF3B7, "Mov_Draw_VL_ab");
+        BIOSFUNCTIONS.put(0xF3B9, "Mov_Draw_VL_a");
+        BIOSFUNCTIONS.put(0xF3BC, "Mov_Draw_VL");
+        BIOSFUNCTIONS.put(0xF3BE, "Mov_Draw_VL_d");
+        BIOSFUNCTIONS.put(0xF3CE, "Draw_VLc");
+        BIOSFUNCTIONS.put(0xF3D2, "Draw_VL_b");
+        BIOSFUNCTIONS.put(0xF3D6, "Draw_VLcs");
+        BIOSFUNCTIONS.put(0xF3D8, "Draw_VL_ab");
+        BIOSFUNCTIONS.put(0xF3DA, "Draw_VL_a");
+        BIOSFUNCTIONS.put(0xF3DD, "Draw_VL");
+        BIOSFUNCTIONS.put(0xf3df, "Draw_Line_d");
+        BIOSFUNCTIONS.put(0xF404, "Draw_VLp_FF");
+        BIOSFUNCTIONS.put(0xF408, "Draw_VLp_7F");
+        BIOSFUNCTIONS.put(0xF40C, "Draw_VLp_scale");
+        BIOSFUNCTIONS.put(0xF40E, "Draw_VLp_b");
+        BIOSFUNCTIONS.put(0xF410, "Draw_VLp");
+        BIOSFUNCTIONS.put(0xF434, "Draw_Pat_VL_a");
+        BIOSFUNCTIONS.put(0xF437, "Draw_Pat_VL");
+        BIOSFUNCTIONS.put(0xF439, "Draw_Pat_VL_d");
+        BIOSFUNCTIONS.put(0xF46E, "Draw_VL_mode");
+        BIOSFUNCTIONS.put(0xF495, "Print_Str");
+        BIOSFUNCTIONS.put(0xF511, "Random_3");
+        BIOSFUNCTIONS.put(0xF517, "Random");
+        BIOSFUNCTIONS.put(0xF533, "Init_Music_Buf");
+        BIOSFUNCTIONS.put(0xF53F, "Clear_x_b");
+        BIOSFUNCTIONS.put(0xF542, "Clear_C8_RAM");
+        BIOSFUNCTIONS.put(0xF545, "Clear_x_256");
+        BIOSFUNCTIONS.put(0xF548, "Clear_x_d");
+        BIOSFUNCTIONS.put(0xF550, "Clear_x_b_80");
+        BIOSFUNCTIONS.put(0xF552, "Clear_x_b_a");
+        BIOSFUNCTIONS.put(0xF55A, "Dec_3_Counters");
+        BIOSFUNCTIONS.put(0xF55E, "Dec_6_Counters");
+        BIOSFUNCTIONS.put(0xF563, "Dec_Counters");
+        BIOSFUNCTIONS.put(0xF571, "Delay_2");
+        BIOSFUNCTIONS.put(0xF575, "Delay_1");
+        BIOSFUNCTIONS.put(0xF579, "Delay_0");
+        BIOSFUNCTIONS.put(0xF57A, "Delay_b");
+        BIOSFUNCTIONS.put(0xF57D, "Delay_RTS");
+        BIOSFUNCTIONS.put(0xF57E, "Bitmask_a");
+        BIOSFUNCTIONS.put(0xF584, "Abs_a_b");
+        BIOSFUNCTIONS.put(0xF58B, "Abs_b");
+        BIOSFUNCTIONS.put(0xF593, "Rise_Run_Angle");
+        BIOSFUNCTIONS.put(0xF5D9, "Get_Rise_Idx");
+        BIOSFUNCTIONS.put(0xF5DB, "Get_Run_Idx");
+        BIOSFUNCTIONS.put(0xF5EF, "Get_Rise_Run");
+        BIOSFUNCTIONS.put(0xF5FF, "Rise_Run_X");
+        BIOSFUNCTIONS.put(0xF601, "Rise_Run_Y");
+        BIOSFUNCTIONS.put(0xF603, "Rise_Run_Len");
+        BIOSFUNCTIONS.put(0xF610, "Rot_VL_ab");
+        BIOSFUNCTIONS.put(0xF616, "Rot_VL");
+        BIOSFUNCTIONS.put(0xF61F, "Rot_VL_Mode");
+        BIOSFUNCTIONS.put(0xF637, "Rot_VL_dft");
+        BIOSFUNCTIONS.put(0xF65B, "Xform_Run_a");
+        BIOSFUNCTIONS.put(0xF65D, "Xform_Run");
+        BIOSFUNCTIONS.put(0xF661, "Xform_Rise_a");
+        BIOSFUNCTIONS.put(0xF663, "Xform_Rise");
+        BIOSFUNCTIONS.put(0xF67F, "Move_Mem_a_1");
+        BIOSFUNCTIONS.put(0xF683, "Move_Mem_a");
+        BIOSFUNCTIONS.put(0xF687, "Init_Music_chk");
+        BIOSFUNCTIONS.put(0xF68D, "Init_Music");
+        BIOSFUNCTIONS.put(0xF692, "Init_Music_x");
+        BIOSFUNCTIONS.put(0xF7A9, "Select_Game");
+        BIOSFUNCTIONS.put(0xF84F, "Clear_Score");
+        BIOSFUNCTIONS.put(0xF85E, "Add_Score_a");
+        BIOSFUNCTIONS.put(0xF87C, "Add_Score_d");
+        BIOSFUNCTIONS.put(0xF8B7, "Strip_Zeros");
+        BIOSFUNCTIONS.put(0xF8C7, "Compare_Score");
+        BIOSFUNCTIONS.put(0xF8D8, "New_High_Score");
+        BIOSFUNCTIONS.put(0xF8E5, "Obj_Will_Hit_u");
+        BIOSFUNCTIONS.put(0xF8F3, "Obj_Will_Hit");
+        BIOSFUNCTIONS.put(0xF8FF, "Obj_Hit");
+        BIOSFUNCTIONS.put(0xF92E, "Explosion_Snd");
+        BIOSFUNCTIONS.put(0xFF9F, "Draw_Grid_VL");
     }
     public static boolean isBIOSLabelPublic(String label, int address)
     {
@@ -416,6 +572,17 @@ public class DASM6809 extends DASMStatics {
             isLabel = isLabel || (label.toLowerCase().equals(l2.toLowerCase()));
 
         return isLabel;
+    }
+    public static String getBIOSLabel(int address)
+    {
+        String l = BIOSLABELS.get(address);
+        String l2 = BIOSLABELS2.get(address);
+        if (l!=null) return l;
+        return l2;
+    }
+    public static String getBIOSFunction(int address)
+    {
+        return BIOSFUNCTIONS.get(address);
     }
     
     boolean isBIOSLabel(String label, int address)
@@ -1556,28 +1723,36 @@ public class DASM6809 extends DASMStatics {
             if (info == null) return -1;
             if (a > 0x8000) return -1;
             info.disType = MemoryInformation.DIS_TYPE_DATA_CHAR; // Copyright
+            info.typeWasSet = true;
             myMemory.memMap.get(stringOrg).length++;
         } while ((info.content & 0xff) != 0x80);
         info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE; // last of string is a $80 byte
+        info.typeWasSet = true;
         info = myMemory.memMap.get(a++);
 
         info.comments.add("Start music pointer");
         info.length = 2;
         info.disType = MemoryInformation.DIS_TYPE_DATA_WORD_POINTER; // music word pointer
+        info.typeWasSet = true;
         info = myMemory.memMap.get(a++);
         info.disType = MemoryInformation.DIS_TYPE_DATA_WORD_POINTER; // music word pointer
+        info.typeWasSet = true;
         while (myMemory.memMap.get(a).content != 0)
         {
             info = myMemory.memMap.get(a++);
             info.comments.add("hight, width, rel y, rel x (from 0,0)");
             info.disTypeCollectionMax = 4;
             info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE; // Text Pos and size
+            info.typeWasSet = true;
             info = myMemory.memMap.get(a++);
             info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE; // Text Pos and size
+            info.typeWasSet = true;
             info = myMemory.memMap.get(a++);
             info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE; // Text Pos and size
+            info.typeWasSet = true;
             info = myMemory.memMap.get(a++);
             info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE; // Text Pos and size
+            info.typeWasSet = true;
 
             myMemory.memMap.get(a).comments.add("individual title String(s)");
             stringOrg = a;
@@ -1587,12 +1762,15 @@ public class DASM6809 extends DASMStatics {
                 info = myMemory.memMap.get(a++);
                 info.disTypeCollectionMax = 30;
                 info.disType = MemoryInformation.DIS_TYPE_DATA_CHAR;
+                info.typeWasSet = true;
                 myMemory.memMap.get(stringOrg).length++;
             } while ((info.content & 0xff) != 0x80);
             info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE; // last of string is a $80 byte
+            info.typeWasSet = true;
         }
         
         myMemory.memMap.get(a).disType = MemoryInformation.DIS_TYPE_DATA_BYTE; // end of header
+        myMemory.memMap.get(a).typeWasSet = true;
         myMemory.memMap.get(a).comments.add("end of header");
         a++;
         myMemory.memMap.get(a).comments.add("start of cartridge code!");
@@ -1648,18 +1826,18 @@ public class DASM6809 extends DASMStatics {
             {
                 if (config.lstFirst)
                 {
-                    boolean done = readLSTFile("system"+File.separator+biosNameOnly+".lst", true);
+                    boolean done = readLSTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".lst", true);
                     if (!done)
-                        readCNTFile("system"+File.separator+biosNameOnly+".cnt");
+                        readCNTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".cnt");
                 }
                 else 
                 {
-                    boolean done = readCNTFile("system"+File.separator+biosNameOnly+".cnt");
+                    boolean done = readCNTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".cnt");
                     if (!done)
-                        readLSTFile("system"+File.separator+biosNameOnly+".lst", true);
+                        readLSTFile(Global.mainPathPrefix+"system"+File.separator+biosNameOnly+".lst", true);
                 }
                 
-                Path path = Paths.get("system"+File.separator+biosName);
+                Path path = Paths.get(Global.mainPathPrefix+"system"+File.separator+biosName);
                 byte[] biosData = Files.readAllBytes(path);
                 disassemble(biosData,0xe000, 0xe000, false, bank);
             }
@@ -1687,8 +1865,12 @@ public class DASM6809 extends DASMStatics {
         }
         
         if (data == null) return "";
+        
+        
+        // Changed fpr 48k
         int len = data.length;
-        if (len > 32768) len = 32768;
+//        if (len > 32768) len = 32768;
+        if (len > 49152) len = 49152;
         
         
         // check for:
@@ -1732,8 +1914,8 @@ public class DASM6809 extends DASMStatics {
     
     void reDisassemble(boolean all)
     {
-        int end = 0xbfff;
-        if (all) end = 0xffff;
+        int end = 0xc000;
+        if (all) end = 0xffff+1;
         
         doAllKnownMemoryLocations(0, end);
     }
@@ -1746,7 +1928,7 @@ public class DASM6809 extends DASMStatics {
     // "disassembler" all memory locations, which are already known
     // this is called after loading CNT files
     // probably only "data" sections are processed!
-    private void doAllKnownMemoryLocations(int startDisAddress, int endDisAddress)
+    public void doAllKnownMemoryLocations(int startDisAddress, int endDisAddress)
     {        
         // doAllKnownmemoryLocations
         for (int i=startDisAddress; i< endDisAddress; )
@@ -1858,8 +2040,14 @@ public class DASM6809 extends DASMStatics {
                 }
                 else
                 {
+                    // generate label
+                    myMemory.memMap.get(word).labels.add("_"+String.format("%04X", word));
                     info.disassembledMnemonic = "DW";
-                    info.disassembledOperand = DEF.hexPrefix+String.format("%04X", word);
+                    info.disassembledOperand = myMemory.memMap.get(word).labels.get(0);
+                    
+                    
+//                    info.disassembledMnemonic = "DW";
+//                    info.disassembledOperand = DEF.hexPrefix+String.format("%04X", word);
                 }
                 // disMax not done for word yet 
                 // todo fixme!
@@ -2234,6 +2422,7 @@ public class DASM6809 extends DASMStatics {
                                 info = myMemory.buildMemInfo(address);
                             }
                             info.disType = MemoryInformation.DIS_TYPE_DATA_CHAR;
+                            info.typeWasSet = true;
                             info.length=spl[0].length()-(cc);
                             info.disTypeCollectionMax=spl[0].length()-(cc++);
 //                            info.disassembledMnemonic = "DB";
@@ -2266,6 +2455,7 @@ public class DASM6809 extends DASMStatics {
                                 info = myMemory.buildMemInfo(address);
                             }
                             info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE;
+                            info.typeWasSet = true;
                             info.length=spl.length-(cc++);
                             info.disassembledMnemonic = "DB";
 //                            info.done = true;
@@ -2291,6 +2481,7 @@ public class DASM6809 extends DASMStatics {
                                 info = myMemory.buildMemInfo(address);
                             }
                             info.disType = MemoryInformation.DIS_TYPE_DATA_WORD;
+                            info.typeWasSet = true;
                             info.length = 2;
                             info.disassembledMnemonic = "DW";
 //                            info.done = true;
@@ -2313,6 +2504,7 @@ public class DASM6809 extends DASMStatics {
                                     info = myMemory.buildMemInfo(address);
                                 }
                                 info.disType = MemoryInformation.DIS_TYPE_DATA_INSTRUCTION_1_LENGTH;
+                                info.typeWasSet = true;
                             }
                         }
                         return address;
@@ -2340,6 +2532,7 @@ public class DASM6809 extends DASMStatics {
                 if (maxSame==0) maxSame = 8;
                 MemoryInformation info = myMemory.buildMemInfo(i);
                 info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE;
+                info.typeWasSet = true;
                 info.disTypeCollectionMax = maxSame;
             }
             if (type.trim().toUpperCase().equals("BIN_DATA"))
@@ -2347,6 +2540,7 @@ public class DASM6809 extends DASMStatics {
                 if (maxSame==0) maxSame = 8;
                 MemoryInformation info = myMemory.buildMemInfo(i);
                 info.disType = MemoryInformation.DIS_TYPE_DATA_BINARY;
+                info.typeWasSet = true;
                 info.disTypeCollectionMax = maxSame;
             }
             if (type.trim().toUpperCase().equals("DW_DATA"))
@@ -2354,6 +2548,7 @@ public class DASM6809 extends DASMStatics {
                 if (maxSame==0) maxSame = 4;
                 MemoryInformation info = myMemory.buildMemInfo(i);
                 info.disType = MemoryInformation.DIS_TYPE_DATA_WORD;
+                info.typeWasSet = true;
                 info.disTypeCollectionMax = maxSame;
             }
             if (type.trim().toUpperCase().equals("DWP_DATA"))
@@ -2361,6 +2556,7 @@ public class DASM6809 extends DASMStatics {
                 if (maxSame==0) maxSame = 1;
                 MemoryInformation info = myMemory.buildMemInfo(i);
                 info.disType = MemoryInformation.DIS_TYPE_DATA_WORD_POINTER;
+                info.typeWasSet = true;
                 info.disTypeCollectionMax = maxSame;
             }
             if (type.trim().toUpperCase().equals("CHAR_DATA"))
@@ -2368,12 +2564,14 @@ public class DASM6809 extends DASMStatics {
                 if (maxSame==0) maxSame = 20;
                 MemoryInformation info = myMemory.buildMemInfo(i);
                 info.disType = MemoryInformation.DIS_TYPE_DATA_CHAR;
+                info.typeWasSet = true;
                 info.disTypeCollectionMax = maxSame;
             }
             if (type.trim().toUpperCase().equals("CODE"))
             {
                 MemoryInformation info = myMemory.buildMemInfo(i);
                 info.disType = MemoryInformation.DIS_TYPE_UNKOWN; // will be disassaembled!
+                info.typeWasSet = true;
             }
             if (type.trim().toUpperCase().equals("DP"))
             {
@@ -2397,6 +2595,49 @@ public class DASM6809 extends DASMStatics {
     private void doOneCNTLine(String line)
     {
         line = line.trim();
+        
+        if (line.toUpperCase().startsWith("C_INFO_BLOCK"))
+        {
+            // C_INFO_BLOCK $053C "/Users/chrissalo/NetBeansProjects/Vide/projects/LodeRunner/source/LRUNNER.c "FN_END 154 " VIA_port_a = y; "
+
+            MemCInfoBlock infBlock = new MemCInfoBlock();
+            
+            line = line.substring("C_INFO_BLOCK".length()).trim();
+            String s[] = line.split(" ");
+            String address = s[0]; 
+            int adress = toNumber(address);
+            if (adress < 0) return;
+            if (adress > 65536) return;
+            infBlock.address = adress;
+            String filename = line.substring(line.indexOf("\"")+1, line.indexOf("\"FN_END"));
+            String subLine = line.substring(line.indexOf("\"FN_END")+"\"FN_END".length() ).trim();
+            s = subLine.split(" ");
+            s = removeEmpty(s);
+            String linenoS = s[0]; 
+            int lineNo = toNumber(linenoS);
+            subLine = subLine.substring(linenoS.length()+1).trim();
+            String cline = subLine.substring(subLine.indexOf("\"")+1, subLine.lastIndexOf("\""));
+            
+            boolean hasBreakPoint = line.contains("BKPOINT=1");
+            
+            infBlock.address = adress;
+            infBlock.lineNo = lineNo;
+            infBlock.file = filename;
+            infBlock.lineString = cline;
+            
+            MemoryInformation info = myMemory.memMap.get(adress);
+            if (info == null)
+            {
+                info = myMemory.buildMemInfo(adress);
+            }
+            info.cInfo = infBlock;
+            if (hasBreakPoint)
+            {
+                info.comments.add("; hey dissi \"break\"");
+            }
+            return;
+        }        
+        
         if (line.toUpperCase().startsWith("BANK"))
         {
             currentCNTScanBank = 0;
@@ -2644,6 +2885,7 @@ public class DASM6809 extends DASMStatics {
                     info = myMemory.buildMemInfo(a);
                 }
                 info.disType = MemoryInformation.DIS_TYPE_DATA_CHAR;
+                info.typeWasSet = true;
                 info.length = 1;
                 info.disTypeCollectionMax = max;
             }
@@ -2682,6 +2924,7 @@ public class DASM6809 extends DASMStatics {
                     info = myMemory.buildMemInfo(a);
                 }
                 info.disType = MemoryInformation.DIS_TYPE_DATA_BYTE;
+                info.typeWasSet = true;
                 info.disTypeCollectionMax = max;
                 info.length = 1;
             }
@@ -2719,6 +2962,7 @@ public class DASM6809 extends DASMStatics {
                     info = myMemory.buildMemInfo(a);
                 }
                 info.disType = MemoryInformation.DIS_TYPE_DATA_BINARY;
+                info.typeWasSet = true;
                 info.disTypeCollectionMax = max;
                 info.length = 1;
             }
@@ -2756,6 +3000,7 @@ public class DASM6809 extends DASMStatics {
                     info = myMemory.buildMemInfo(a);
                 }
                 info.disType = MemoryInformation.DIS_TYPE_DATA_WORD;
+                info.typeWasSet = true;
                 info.disTypeCollectionMax = max;
                 info.length = 1; // hm todo fixme
             }

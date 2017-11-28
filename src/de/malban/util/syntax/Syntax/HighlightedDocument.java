@@ -25,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import de.malban.util.syntax.Syntax.Lexer.*;
 import de.malban.util.syntax.entities.ASM6809FileInfo;
+import de.malban.util.syntax.entities.C6809FileInfo;
 
 /**
  * A <a href="http://ostermiller.org/syntax/editor.html">demonstration text
@@ -45,8 +46,8 @@ public class HighlightedDocument extends DefaultStyledDocument
 	public static final Object GRAYED_OUT_STYLE = new Object();
 	public static final Object M6809_STYLE = M6809Lexer.class;
 
-        
-        ASM6809FileInfo fileInfo = null;
+        ASM6809FileInfo asmFileInfo = null;
+        C6809FileInfo cFileInfo = null;
         String knownFilename = null;
 	/**
 	 * A reader wrapped around the document so that the document can be fed into
@@ -122,7 +123,21 @@ public class HighlightedDocument extends DefaultStyledDocument
                 try
                 {
                     String text = getText(0, getLength());
-                    fileInfo = ASM6809FileInfo.handleFile(filename, text);
+                    asmFileInfo = ASM6809FileInfo.handleFile(filename, text);
+                }
+                catch (Throwable e)
+                {
+                    e.printStackTrace();
+                }
+                if  ( filename.toLowerCase().endsWith(".c")
+                    ||filename.toLowerCase().endsWith(".cxx")
+                    ||filename.toLowerCase().endsWith(".c++")
+                    ||filename.toLowerCase().endsWith(".h")
+                        )   
+                try
+                {
+                    String text = getText(0, getLength());
+                    cFileInfo = C6809FileInfo.handleFile(filename, text);
                 }
                 catch (Throwable e)
                 {

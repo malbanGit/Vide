@@ -61,8 +61,9 @@ public class UtilityString
     public static String fromXML(String in)
     {
         String out = in;
-        out = replace(out,"&#x20;"," ");
+        
         out = replace(out,"&amp;","&");
+        out = replace(out,"&#x20;"," ");
         out = replace(out,"&apos;", "'");
         out = replace(out,"&apos;","´");
         out = replace(out,"&apos;", "`");
@@ -109,6 +110,10 @@ public class UtilityString
     {
         return replace( name,  search,  with, false); 
     }
+    static public String replaceCI(String name, String search, String with) 
+    {
+        return replaceCI( name,  search,  with, false); 
+    }
     static public boolean isWordBoundry(char s)
     {
         if (s == '_') return false;
@@ -124,6 +129,36 @@ public class UtilityString
         if ((s >='a') && (s<='f')) return false;
         if ((s >='A') && (s<='F')) return false;
         if ((s >='0') && (s<='9')) return false;
+        return true;
+    }
+    static public boolean isHexNumber(String a)
+    {
+        if (a.startsWith("+")) a = a.substring(1);
+        if (a.startsWith("-")) a = a.substring(1);
+        if (a.startsWith("$")) a = a.substring(1);
+        if (a.startsWith("0x")) a = a.substring(2);
+        a = a.toLowerCase();
+        for (int i=0; i<a.length(); i++)
+        {
+            char c = a.charAt(i);
+            
+            if ((c>='0') && (c<='9')) continue;
+            if ((c>='a') && (c<='f')) continue;
+            return false;
+        }
+        return true;
+    }    
+    static public boolean isDecNumber(String a)
+    {
+        if (a.startsWith("+")) a = a.substring(1);
+        if (a.startsWith("-")) a = a.substring(1);
+        a = a.toLowerCase();
+        for (int i=0; i<a.length(); i++)
+        {
+            char c = a.charAt(i);
+            if ((c>='0') && (c<='9')) continue;
+            return false;
+        }
         return true;
     }
     // whole words defined as
@@ -199,7 +234,87 @@ public class UtilityString
             }
             return name;
     }
+    // whole words defined as
+    // borders are everyrhing that is non: _a-zA-Z0-9
+    // the string is kept as is, but the search in the string for "with" is case independend
+    
+    static public String replaceCI(String name, String search, String with, boolean onlyWholeWords) 
+    {
+        // bad!
+        if (name == null)
+        {
+                return name;
+        }
 
+        if ((search == null) || (search.length() == 0)) {
+                return name;
+        }
+
+        if (with == null)
+        {
+                with = "";
+        }
+        
+        
+//mConfig - search
+//mConiguration - with
+        // ersetzen eines Strings mit sich selber oder mehr - wuerde endlosschleife geben
+        String[] keys={"!**!", "<-->", "§$$§", "%&&%"};
+        String orgSearch = search;
+        String orgwith = with;
+        int i=0;
+        while (with.toLowerCase().indexOf(search.toLowerCase())!=-1)
+        {
+            with=keys[i];
+            i++;
+            if (i==5) return "ERROR";
+        }
+        if (i!=0)
+        {
+            name = replaceCI(name, search, with, onlyWholeWords);
+            search=with;
+            with = orgwith;
+        }
+
+        String lowerName = name.toLowerCase();
+        String lowerSearch = search.toLowerCase();
+        int startSearch = 0;
+        while (lowerName.substring(startSearch).indexOf(lowerSearch) != -1) 
+        {
+            boolean wholeWord = true;
+            int p = lowerName.substring(startSearch).indexOf(lowerSearch);
+            if (p>0)
+            {
+                wholeWord = wholeWord && isWordBoundry(name.substring(startSearch).charAt(p-1));
+            }
+            if (p+search.length() <name.length())
+            {
+                wholeWord = wholeWord && isWordBoundry(name.substring(startSearch).charAt(p+search.length()));
+            }
+            if ((onlyWholeWords) && (!wholeWord))
+            {
+                startSearch += p+search.length();
+                continue;
+            }
+
+            String n1 = new String();
+            String n2 = new String();
+            try {
+                    // build first part of the return-String
+                    n1 = name.substring(0, startSearch+p);
+            } catch (StringIndexOutOfBoundsException ex) {
+            }
+            try {
+                    // build first part of the return-String
+                    n2 = name.substring(startSearch+p + search.length());
+            } catch (StringIndexOutOfBoundsException ex) {
+            }
+            // build complete return-String
+            name = n1 + with + n2;
+            lowerName = name.toLowerCase();
+        }
+        return name;
+    }
     // non SPACE white spaces
     public static String replaceWhiteSpaces(String in , String with)
     {
@@ -422,6 +537,19 @@ public class UtilityString
         String ret2 = replace(ret, "/", File.separator);
         return ret2;
     }
+    public static int countChars(String s, String c)
+    {
+        int count = 0;
+        int pos=-1;
+        do
+        {   
+            pos = s.indexOf(c, pos+1);
+            if (pos >=0) count++;
+        }
+        while (pos >=0);
+        
+        return count;
+    }   
 
     public static int  countStrings(String string, String what)
     {
@@ -517,6 +645,14 @@ public class UtilityString
 
     public static Vector<String> readTextFileToString(File file)
     {
+        return  readTextFileToString( file, false);
+    }
+    public static Vector<String> readTextFileToStringNoTab(File file)
+    {
+        return  readTextFileToString( file, true);
+    }
+    public static Vector<String> readTextFileToString(File file, boolean destroyWhitespaces)
+    {
         Vector<String> strings = new Vector<String>();
         BufferedReader reader;
 
@@ -529,6 +665,7 @@ public class UtilityString
             {
                 zeile = reader.readLine();
                 if (zeile == null) continue;
+                if (destroyWhitespaces) zeile = de.malban.util.UtilityString.replaceWhiteSpaces(zeile, " ");
                 strings.addElement(zeile);
 
             } while (zeile != null);
@@ -549,7 +686,6 @@ public class UtilityString
         }
         return strings;
     }
-
     public static String readTextFileToOneString(File file)
     {
         StringBuilder ret = new StringBuilder();

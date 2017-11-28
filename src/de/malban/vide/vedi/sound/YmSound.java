@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vedi.sound;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.panels.LogPanel;
@@ -237,7 +238,7 @@ public class YmSound {
             while (iter.hasNext()) 
             {
                 LhaEntry entry = (LhaEntry) iter.next();
-                String dstName = "tmp"+File.separator+entry.getFile().getName();
+                String dstName = Global.mainPathPrefix+"tmp"+File.separator+entry.getFile().getName();
                 dst = new File(dstName);
                 
                 if (entry.getMethod().equals(LhaEntry.METHOD_SIG_LHD)) 
@@ -269,7 +270,7 @@ public class YmSound {
         }
         return null;
     }
-int bitsSaved = 0;
+    int bitsSaved = 0;
     public String buildASM(boolean[] regsUsed)
     {
         if (!init) return null;

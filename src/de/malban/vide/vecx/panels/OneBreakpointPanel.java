@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx.panels;
 
+import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.Breakpoint;
 import java.awt.Color;
 
@@ -13,6 +14,7 @@ import java.awt.Color;
  * @author malban
  */
 public class OneBreakpointPanel extends javax.swing.JPanel {
+    VideConfig config = VideConfig.getConfig();
 
     Breakpoint breakpoint;
     BreakpointJPanel parent;
@@ -196,7 +198,7 @@ public class OneBreakpointPanel extends javax.swing.JPanel {
         jTextFieldName.setText(""+breakpoint.getName());
         if (bp.wasTriggered())
         {
-            setBackground(Color.red);
+            setBackground(config.getValueChangedColor());
             bp.setTriggered(false);
         }
     }

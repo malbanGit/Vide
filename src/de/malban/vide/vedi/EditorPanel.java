@@ -5,17 +5,21 @@
  */
 package de.malban.vide.vedi;
 
-
-
+import de.malban.Global;
 import de.malban.vide.vedi.panels.GetJumpValuePanel;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.HotKey;
+import de.malban.gui.ListPopupJPanel;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
-import de.malban.util.KeyboardListener;
+import de.malban.util.Downloader;
 import de.malban.util.UtilityString;
 import de.malban.util.syntax.Syntax.HighlightedDocument;
 import de.malban.util.syntax.Syntax.TokenStyles;
+import de.malban.util.syntax.entities.EntityDefinition;
+import de.malban.util.syntax.entities.FunctionSink;
+import de.malban.util.syntax.entities.LabelSink;
+import de.malban.vide.VideConfig;
 import de.malban.vide.veccy.VectorListFileChoserJPanel;
 import static de.malban.vide.vedi.DebugComment.SUB_WATCH_16BIT;
 import static de.malban.vide.vedi.DebugComment.SUB_WATCH_2_8BIT;
@@ -33,7 +37,9 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import static java.awt.event.ActionEvent.CTRL_MASK;
 import static java.awt.event.ActionEvent.SHIFT_MASK;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -41,7 +47,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -62,6 +72,7 @@ import javax.swing.text.StyleConstants;
  */
 public class EditorPanel extends EditorPanelFoundation
 {
+    VideConfig config = VideConfig.getConfig();
 
     // indicator whether rows must be counted anew
     int rowCount = -1;
@@ -69,9 +80,10 @@ public class EditorPanel extends EditorPanelFoundation
     boolean hasChanged1 = false;
     boolean hasChanged2 = false;
     boolean assume6809Asm = false;
+    boolean assume6809C = false;
     boolean addToSettings = true;  
-    private int FONTHEIGHT = 12;
-    private int FONTWIDTH = 12;
+//    private int FONTHEIGHT = 12;
+//    private int FONTWIDTH = 12;
     void setAddToSettings(boolean b)
     {
         addToSettings = b;
@@ -231,7 +243,7 @@ public class EditorPanel extends EditorPanelFoundation
     }
     public void startColoring(int fontSize)
     {
-        FONTWIDTH = fontSize;
+//        FONTWIDTH = fontSize;
         startColoring();
         jScrollPane2.getVerticalScrollBar().setUnitIncrement(fontSize);
         correctLineNumbers(true);
@@ -297,7 +309,12 @@ public class EditorPanel extends EditorPanelFoundation
         resetDocument();
         jTextPane1.setDocument(editorPaneDocument);
         
-        if ((getFilename().toLowerCase().endsWith(".template") ) ||(getFilename().toLowerCase().endsWith(".s") ) || (getFilename().toLowerCase().endsWith(".asm")) || (getFilename().toLowerCase().endsWith(".as9"))|| (getFilename().toLowerCase().endsWith(".a69")) || (getFilename().toLowerCase().endsWith(".i"))|| (getFilename().toLowerCase().endsWith(".inc")))
+        if ((getFilename().toLowerCase().endsWith(".template") )
+                ||(getFilename().toLowerCase().endsWith(".s") ) 
+                || (getFilename().toLowerCase().endsWith(".asm")) 
+                || (getFilename().toLowerCase().endsWith(".as9"))
+                || (getFilename().toLowerCase().endsWith(".a69")) 
+                || (getFilename().toLowerCase().endsWith(".inc")))
         {
             assume6809Asm = true;
             editorPaneDocument.setHighlightStyle(HighlightedDocument.M6809_STYLE, false);
@@ -308,8 +325,13 @@ public class EditorPanel extends EditorPanelFoundation
                 editorPaneDocument.setHighlightStyle(HighlightedDocument.JAVA_STYLE);
         else if (getFilename().toLowerCase().endsWith(".js"))
                 editorPaneDocument.setHighlightStyle(HighlightedDocument.JAVASCRIPT_STYLE);
-        else if ((getFilename().toLowerCase().endsWith(".c"))|| (getFilename().toLowerCase().endsWith(".h")))
-                editorPaneDocument.setHighlightStyle(HighlightedDocument.C_STYLE);
+        else if ((getFilename().toLowerCase().endsWith(".c"))
+                || (getFilename().toLowerCase().endsWith(".h"))
+                || (getFilename().toLowerCase().endsWith(".ec")))
+        {
+            editorPaneDocument.setHighlightStyle(HighlightedDocument.C_STYLE);
+            assume6809C = true;
+        }
         else if ((getFilename().toLowerCase().endsWith(".htm"))|| (getFilename().toLowerCase().endsWith(".html")))
                 editorPaneDocument.setHighlightStyle(HighlightedDocument.HTML_STYLE);
         else if (getFilename().toLowerCase().endsWith(".sql"))
@@ -319,7 +341,28 @@ public class EditorPanel extends EditorPanelFoundation
         else
                 editorPaneDocument.setHighlightStyle(HighlightedDocument.GRAYED_OUT_STYLE);
             
-            
+        if (parent instanceof VediPanel)   
+        {
+            if ((getFilename().toLowerCase().endsWith(".i") ))
+            {
+                if (((VediPanel)parent).currentProject!=null)
+                {
+                    if (((VediPanel)parent).currentProject.getIsPeerCProject())
+                    {
+                        editorPaneDocument.setHighlightStyle(HighlightedDocument.C_STYLE);
+                        assume6809C = true;
+                    }
+                }
+                if (!assume6809C)
+                {
+                    assume6809Asm = true;
+                    editorPaneDocument.setHighlightStyle(HighlightedDocument.M6809_STYLE, false);
+                }
+            }
+        }
+        
+        
+        
         if (t != null) jTextPane1.setText(t);
         editorPaneDocument.start(getFilename());
         editorPaneDocument.addUndoableEditListener(undoManager);
@@ -349,7 +392,6 @@ public class EditorPanel extends EditorPanelFoundation
 
         JViewport viewport = jScrollPane2.getViewport();
         
-
         
         
         viewport.addChangeListener(
@@ -380,6 +422,12 @@ public class EditorPanel extends EditorPanelFoundation
                     }
                 });            
         jTextPane1.setCaretPosition(0);
+        
+        
+        
+        
+        
+                
         
         final DefaultStyledDocument doc = new DefaultStyledDocument();
         jTextPane2.setDocument(doc);
@@ -602,11 +650,114 @@ public class EditorPanel extends EditorPanelFoundation
         add(jScrollPane1, java.awt.BorderLayout.WEST);
     }// </editor-fold>//GEN-END:initComponents
     
+    int countChars(String s, String c)
+    {
+        int count = 0;
+        int pos=-1;
+        do
+        {   
+            pos = s.indexOf(c, pos+1);
+            if (pos >=0) count++;
+        }
+        while (pos >=0);
+        
+        return count;
+    }
+    
+    int[] brackCount;
+    void recountBraces()
+    {
+        int lineCount = getLineCount(jTextPane1);
+        int openCount = 0;
+        brackCount = new int[lineCount];
+        try
+        {
+            int length = jTextPane1.getDocument().getLength();
+            String text = jTextPane1.getDocument().getText(0, length);
+            String[] split = text.split("\n");
+
+            for (int i=0; i<split.length; i++)
+            {
+                openCount += countChars(split[i], "{");
+                openCount -= countChars(split[i], "}");
+                if (i+1<brackCount.length) 
+                    brackCount[i+1]= openCount;
+            }
+        }
+        catch (Throwable e)
+        {
+
+        }
+    }
+    String getTabForLineBracket(int line)
+    {
+        recountBraces();
+        if (line>=brackCount.length) return "";
+        if (line<0) return "";
+
+        String ret = "";
+
+        for (int i=0;i<brackCount[line];i++) 
+            ret+="\t";
+        return ret;
+    }
+    
     private void jTextPane1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPane1KeyTyped
         rowCount = -1;
         fireEditorChanged(EditorEvent.EV_KEY_TYPED, getPosition());
         hasChanged1 = true;
         hasChanged2 = true;
+        
+        if (evt.getExtendedKeyCode()==KeyEvent.VK_ENTER)
+        {
+            try
+            {
+                int startPos = jTextPane1.getCaretPosition();
+                int lineNo = getLineOfPos(startPos);
+                synchronized (editorPaneDocument.getDocumentLock())
+                {
+                    jTextPane1.setSelectionStart(startPos);
+                    jTextPane1.setSelectionEnd(startPos);
+                    jTextPane1.replaceSelection(getTabForLineBracket(lineNo));
+                }
+            }
+            catch (Throwable e)
+            {
+                e.printStackTrace();
+            }
+        
+        
+        }
+        if (evt.getExtendedKeyCode()==KeyEvent.VK_BRACERIGHT)
+        {
+            try
+            {
+                // check if char befor is TAB if so delete it
+                int startPos = jTextPane1.getCaretPosition()-1;
+                int endPos = jTextPane1.getCaretPosition()-0;
+                jTextPane1.setSelectionStart(startPos);
+                jTextPane1.setSelectionEnd(endPos);
+                String before = jTextPane1.getSelectedText();
+                if (before.endsWith("\t"))
+                {
+                    synchronized (editorPaneDocument.getDocumentLock())
+                    {
+                        jTextPane1.replaceSelection("");
+                    }
+                }
+                jTextPane1.setSelectionStart(endPos);
+                jTextPane1.setSelectionEnd(endPos);
+                
+                
+            }
+            catch (Throwable e)
+            {
+                e.printStackTrace();
+            }
+        
+        
+        }
+        
         correctLineNumbers(false);
     }//GEN-LAST:event_jTextPane1KeyTyped
 
@@ -614,10 +765,152 @@ public class EditorPanel extends EditorPanelFoundation
           fireEditorChanged(EditorEvent.EV_CARET_CHANGED, getPosition());
     }//GEN-LAST:event_jTextPane1CaretUpdate
 
+    // gets the "word" that the current cursor has in front
+    // or "" - word breaks at current caret position
+    private String getStarterText()
+    {
+        int pos = jTextPane1.getCaretPosition()-1;
+        if (pos <=0) return "";
+        
+        
+        String word ="";
+        try
+        {
+            String text = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength());
+            char c = text.charAt(pos);
+            while (!de.malban.util.UtilityString.isWordBoundry(c)) 
+            {
+                pos--;
+                if (pos <0)
+                {
+                    break;
+                }
+                c = text.charAt(pos);
+            }
+            pos++;
+            c = text.charAt(pos);
+            while ((!de.malban.util.UtilityString.isWordBoundry(c)) && (pos<=jTextPane1.getCaretPosition()-1))
+            {
+                word += c;
+                pos++;
+                c = text.charAt(pos);
+            }
+        }
+        catch (Throwable e)
+        {
+        }
+        return word;
+        
+    }
+    
     private void jTextPane1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPane1KeyPressed
+        boolean ctrl = ((evt.getModifiers() & CTRL_MASK) == CTRL_MASK);
+        if (!ctrl) return;
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE)
+        {
+            // open ComboBox with possible extenion
+            int endPos = jTextPane1.getCaretPosition();
+            int startPos = endPos -1;
+            if (startPos <=0) return;
+            try
+            {
+                String text = jTextPane1.getDocument().getText(0, jTextPane1.getDocument().getLength());
+                char c = text.charAt(startPos);
+                while (!de.malban.util.UtilityString.isWordBoundry(c)) 
+                {
+                    startPos--;
+                    if (startPos <0)
+                    {
+                        break;
+                    }
+                    c = text.charAt(startPos);
+                }
+                startPos++;
+                String starter = getStarterText();
+                ArrayList<String> possibleWord = getPossibleWords(starter);
+                Rectangle pos = jTextPane1.modelToView(startPos);
+
+                int x1 = pos.x;
+                int x2 = parent.getEditorPos().x;
+                int x3 = Configuration.getConfiguration().getMainFrame().getInternalFrame(parent).getX();
+                int x4 = jScrollPane1.getWidth()+4;
+                int x5 = -jScrollPane2.getViewport().getViewPosition().x;
+                
+                int y1 = pos.y;
+                int y2 = parent.getEditorPos().y;
+                int y3 = Configuration.getConfiguration().getMainFrame().getInternalFrame(parent).getY();
+                int y4 = 95;
+                int y5 = -jScrollPane2.getViewport().getViewPosition().y;
+                
+                int posx = x1+x2+x3+x4+x5;
+                int posy = y1+y2+y3+y4+y5;
+
+                
+                
+                
+
+                String select = ListPopupJPanel.showListDialog(possibleWord, posx, posy);
+                if (select.length() != 0)
+                {
+                    // replace
+                    synchronized (editorPaneDocument.getDocumentLock())
+                    {
+                        jTextPane1.setSelectionStart(startPos);
+                        jTextPane1.setSelectionEnd(endPos);
+                        jTextPane1.replaceSelection(select);
+                    }
+                }
+                jTextPane1.requestFocusInWindow();
+            }
+            catch (Throwable e)
+            {
+//e.printStackTrace();
+            }
+            
+            
+        }
         
     }//GEN-LAST:event_jTextPane1KeyPressed
 
+    ArrayList<String> getPossibleWords(String starter)
+    {
+        ArrayList<String> ret = new ArrayList<String>();
+        if (assume6809Asm)
+        {
+            Set entries = LabelSink.knownGlobalVariables.entrySet();
+            Iterator it = entries.iterator();
+            while (it.hasNext())
+            {
+                Map.Entry entry = (Map.Entry) it.next();
+                EntityDefinition value = (EntityDefinition) entry.getValue();
+                if (value.getName().toLowerCase().startsWith(starter.toLowerCase()))
+                {
+                    ret.add(value.getName());
+                }
+            }
+        }
+        else if (assume6809C)
+        {
+            Set entries = FunctionSink.knownGlobalFunctions.entrySet();
+            Iterator it = entries.iterator();
+            while (it.hasNext())
+            {
+                Map.Entry entry = (Map.Entry) it.next();
+                EntityDefinition value = (EntityDefinition) entry.getValue();
+                if (value.getName().toLowerCase().startsWith(starter.toLowerCase()))
+                {
+                    ret.add(value.getName());
+                }
+            }
+            
+        }
+        Collections.sort(ret);
+        
+        return ret;
+    }
+    
+    
+    
     private void jTextPane1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextPane1MousePressed
 
         if (isBasic) return;
@@ -689,7 +982,7 @@ public class EditorPanel extends EditorPanelFoundation
 
     private void jMenuItemAddVectorlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAddVectorlistActionPerformed
        
-        String filenameI ="xml"+File.separator+"vectorlist";
+        String filenameI =Global.mainPathPrefix+"xml"+File.separator+"vectorlist";
         String text = VectorListFileChoserJPanel.showLoadPanel(filenameI,"Load Vectorlist", false, true);
         stopColoring();
         
@@ -709,7 +1002,7 @@ public class EditorPanel extends EditorPanelFoundation
 
     private void jMenuItemAddAnimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAddAnimActionPerformed
 
-        String filenameI ="xml"+File.separator+"vectoranimation";
+        String filenameI =Global.mainPathPrefix+"xml"+File.separator+"vectoranimation";
         String text = VectorListFileChoserJPanel.showLoadPanel(filenameI,"Load Vector-Animation", true, true);
         stopColoring();
         
@@ -768,6 +1061,10 @@ public class EditorPanel extends EditorPanelFoundation
         if (SwingUtilities.isLeftMouseButton(evt))
         {
             if (assume6809Asm)
+            {
+                toggleBreakpoint(line);
+            }
+            else if (assume6809C)
             {
                 toggleBreakpoint(line);
             }
@@ -1423,8 +1720,15 @@ public class EditorPanel extends EditorPanelFoundation
     }    
     public void reColor()
     {
+        
         editorPaneDocument.colorAll();
 //        correctLineNumbers(false);
+    }
+    public void reColorDirect()
+    {
+        editorPaneDocument.stopColoring();
+        editorPaneDocument.startColoring();
+        
     }
 
     // watching, if swing does something evil!
@@ -1524,8 +1828,13 @@ public class EditorPanel extends EditorPanelFoundation
         
         return ret;
     }
-
-    String TAB_STRING = "    ";
+    String getTABString()
+    {
+        String tab="";
+        for (int i=0;i<config.tab_width; i++) tab +=" ";
+        return tab;
+    }
+//    String TAB_STRING = "    ";
     AbstractAction tabAction = new AbstractAction()
     {
         @Override
@@ -1533,13 +1842,15 @@ public class EditorPanel extends EditorPanelFoundation
         {
             try
             {
+                String TAB_STRING = getTABString();
                 int start = jTextPane1.getSelectionStart();
                 int startOrg = start;
                 int end = jTextPane1.getSelectionEnd();
                 if (start != end) end--;
                 if (end-start == 0)
                 {
-                    jTextPane1.getDocument().insertString(jTextPane1.getCaretPosition(),TAB_STRING, null);
+//                    jTextPane1.getDocument().insertString(jTextPane1.getCaretPosition(),TAB_STRING, null);
+                    jTextPane1.getDocument().insertString(jTextPane1.getCaretPosition(),"\t", null);
                     return;
                 }
                 stopColoring();
@@ -1571,6 +1882,7 @@ public class EditorPanel extends EditorPanelFoundation
         {
             try
             {
+                String TAB_STRING = getTABString();
                 int start = jTextPane1.getSelectionStart();
                 int startOrg = start;
                 int end = jTextPane1.getSelectionEnd();
@@ -1668,6 +1980,7 @@ public class EditorPanel extends EditorPanelFoundation
     void updateMyUI()
     {
         SwingUtilities.updateComponentTreeUI(jPopupMenu1);
+        correctLineNumbers(true);
     }
     int getLineCount(JTextPane textpane)
     {
@@ -1912,57 +2225,6 @@ public class EditorPanel extends EditorPanelFoundation
         updateParentTables();
     }
 
-    // line is zero based
-    void correctLine(int line)
-    {
-        try
-        {
-            AttributeSet normal = TokenStyles.getStyle("comment");
-            AttributeSet breakpoint = TokenStyles.getStyle("breakpoint");
-            int lineCountOrg = getLineCount(jTextPane1);
-            int lineCountNow = 0;
-//            jTextPane2.setText("");
-
-            DebugCommentList list = null;
-            if (parent instanceof VediPanel)
-            {
-                VediPanel vedi = (VediPanel) parent;
-                list = vedi.getDebugComments(this);
-            }
-            DefaultStyledDocument doc = (DefaultStyledDocument)jTextPane2.getDocument();
-            int pos = 0;
-            while (lineCountNow <lineCountOrg)
-            {
-                AttributeSet currentStyle =  normal;
-                if (list!=null)
-                {
-                    if (list.getBreakpoint(lineCountNow) != null)
-                        currentStyle = breakpoint;
-                }
-
-                
-                lineCountNow++;
-                String num; 
-                if (lineCountNow==1)
-                    num = ""+(lineCountNow);
-                else
-                    num = "\n"+(lineCountNow);
-                
-                if (line+1 != lineCountNow)
-                {
-                    pos += num.length();
-                    continue;
-                }
-                doc.setCharacterAttributes(pos, num.length(), currentStyle, true);
-                return;
-            }
-//            syncViewports();
-        }
-        catch (Throwable e)
-        {
-        }
-    }
-    
     void breakPointLineAdded()
     {
         if (parent instanceof VediPanel)
@@ -2072,5 +2334,58 @@ public class EditorPanel extends EditorPanelFoundation
         });                    
         
     }
+
+    // line is zero based
+    void correctLine(int line)
+    {
+        try
+        {
+            AttributeSet normal = TokenStyles.getStyle("comment");
+            AttributeSet breakpoint = TokenStyles.getStyle("breakpoint");
+            int lineCountOrg = getLineCount(jTextPane1);
+            int lineCountNow = 0;
+//            jTextPane2.setText("");
+
+            DebugCommentList list = null;
+            if (parent instanceof VediPanel)
+            {
+                VediPanel vedi = (VediPanel) parent;
+                list = vedi.getDebugComments(this);
+            }
+            DefaultStyledDocument doc = (DefaultStyledDocument)jTextPane2.getDocument();
+            int pos = 0;
+            while (lineCountNow <lineCountOrg)
+            {
+                AttributeSet currentStyle =  normal;
+                if (list!=null)
+                {
+                    if (list.getBreakpoint(lineCountNow) != null)
+                        currentStyle = breakpoint;
+                }
+
+                
+                lineCountNow++;
+                String num; 
+                if (lineCountNow==1)
+                    num = ""+(lineCountNow);
+                else
+                    num = "\n"+(lineCountNow);
+                
+                if (line+1 != lineCountNow)
+                {
+                    pos += num.length();
+                    continue;
+                }
+                doc.setCharacterAttributes(pos, num.length(), currentStyle, true);
+                return;
+            }
+//            syncViewports();
+        }
+        catch (Throwable e)
+        {
+        }
+    }
+    
+
 }
 

@@ -6,10 +6,8 @@
 package de.malban.vide.vecx;
 
 import de.malban.vide.vecx.cartridge.Cartridge;
-import de.malban.vide.vecx.cartridge.resid.SID;
 import de.malban.vide.vecx.cartridge.resid.SID.State;
 import de.malban.vide.vecx.devices.Imager3dDevice;
-import de.malban.vide.vecx.devices.JoyportDevice;
 import java.io.Serializable;
 
 /**

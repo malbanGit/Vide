@@ -40,6 +40,7 @@ public class DebugComment implements Serializable, Comparable<DebugComment>
     boolean enabled = true;
     String generatedComment ="";
     String file="";
+    public boolean breakpointCommitted = false;
     
     public String getSubtypeString()
     {

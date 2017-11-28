@@ -1,6 +1,7 @@
 package de.malban.vide.vedi.project;
 
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.components.ModalInternalFrame;
 import de.malban.vide.script.ExecutionDescriptor;
@@ -26,6 +27,8 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
     String type ="";
     String pathFull ="";
     String pathOnly ="";
+    String relFull ="";
+    String relOnly ="";
     String filenameOnly ="";
     String filenameBaseOnly ="";
     
@@ -45,8 +48,12 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         // get xml representation
         Path p = Paths.get(path);
         pathFull = p.toString();
+        relFull = de.malban.util.Utility.makeRelative(pathFull);
+        
         pathOnly = p.getParent().toString();
+        relOnly  = de.malban.util.Utility.makeRelative(pathOnly);
         if (pathOnly.length()!=0) pathOnly+=File.separator;
+        if (relOnly.length()!=0) relOnly+=File.separator;
         filenameOnly = p.getFileName().toString();
         
         if (filenameOnly.contains("."))
@@ -57,7 +64,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         else
             filenameBaseOnly = filenameOnly;
 
-        mFilePropertiesPool = new FilePropertiesPool(pathOnly, filenameBaseOnly+"FileProperty.xml");
+        mFilePropertiesPool = new FilePropertiesPool(relOnly, filenameBaseOnly+"FileProperty.xml");
 
             
         mFileProperties =  mFilePropertiesPool.get(filenameOnly);
@@ -73,8 +80,8 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
             jButtonCreate.setName("ok");
         }
     
-        jTextField2.setText(pathFull);
-        mFileProperties.mFilename = pathFull;
+        jTextField2.setText(relFull);
+        mFileProperties.mFilename = relFull;
         jTextField1.setText(type);
         setAllFromCurrent();
     
@@ -309,13 +316,10 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         jLabel10.setText("Post build commands");
 
         jComboBoxPostName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxPostName.setPreferredSize(new java.awt.Dimension(59, 21));
 
         jComboBoxPreName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxPreName.setPreferredSize(new java.awt.Dimension(59, 21));
 
         jComboBoxPreClass.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxPreClass.setPreferredSize(new java.awt.Dimension(59, 21));
         jComboBoxPreClass.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBoxPreClassItemStateChanged(evt);
@@ -323,7 +327,6 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         });
 
         jComboBoxPostClass.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxPostClass.setPreferredSize(new java.awt.Dimension(59, 21));
         jComboBoxPostClass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxPostClassActionPerformed(evt);
@@ -355,7 +358,6 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         });
 
         jComboBoxActionClass.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxActionClass.setPreferredSize(new java.awt.Dimension(59, 21));
         jComboBoxActionClass.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBoxActionClassItemStateChanged(evt);
@@ -363,7 +365,6 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         });
 
         jComboBoxActionName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxActionName.setPreferredSize(new java.awt.Dimension(59, 21));
 
         jLabel11.setText("Action script");
 
@@ -379,6 +380,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
 
         jLabel13.setText("Flags");
 
+        jTextFieldFlags.setToolTipText("<html>\nIf using \"C\" these flags are applied to the gcc \"later\" than the ones in the project settings.<br>\nThis with gcc usually means that these flags here have priority over the flags given by the project.\n</html>");
         jTextFieldFlags.setPreferredSize(new java.awt.Dimension(6, 21));
 
         jCheckBox1.setText("no internal processing");
@@ -399,14 +401,11 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
                     .addComponent(jLabel8)
                     .addComponent(jLabel11)
                     .addComponent(jLabel9)
-                    .addComponent(jLabel10))
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel13))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addComponent(jLabel13)
-                        .addGap(12, 12, 12)
-                        .addComponent(jTextFieldFlags, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(218, 218, 218)
                         .addComponent(jLabel12)
                         .addGap(12, 12, 12)
                         .addComponent(jTextFieldVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -414,21 +413,22 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(4, 4, 4)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldFlags, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBox1)
                                     .addComponent(jTextFieldParam3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextFieldParam2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextFieldParam1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(0, 456, Short.MAX_VALUE))
                             .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jComboBoxActionName, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jComboBoxPreName, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBoxPostName, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jComboBoxPostName, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBox1))
                                 .addGap(10, 10, 10)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jComboBoxActionClass, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -451,17 +451,17 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13)
-                    .addComponent(jTextFieldFlags, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(jTextFieldVersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldFlags, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jTextFieldParam1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -491,7 +491,9 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
                     .addComponent(jButtonPost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxPostClass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxPostName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox1)
+                .addContainerGap(140, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -768,7 +770,8 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         
         String filenameOnly = Paths.get(mFileProperties.mFilename).getFileName().toString();
         
-        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_ACTION, "", filenameOnly, "FilePropertiesPanel", path);
+        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_ACTION, "", filenameOnly, "FilePropertiesPanel",Global.mainPathPrefix+ path);
+        
         sdp.setSelected(mFileProperties.mActionScriptClass, mFileProperties.mActionScriptName, ed);
         modal = new ModalInternalFrame("Scripter", frame.getRootPane(), frame, sdp, "done");
         modal.setVisible(true);
@@ -786,7 +789,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         String path = Paths.get(mFileProperties.mFilename).getParent().toString();
         String filenameOnly = Paths.get(mFileProperties.mFilename).getFileName().toString();
         
-        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_PRE, "", filenameOnly, "FilePropertiesPanel", path);
+        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_PRE, "", filenameOnly, "FilePropertiesPanel", Global.mainPathPrefix+path);
         sdp.setSelected(mFileProperties.mPreScriptClass, mFileProperties.mPreScriptName, ed);
         modal = new ModalInternalFrame("Scripter", frame.getRootPane(), frame, sdp, "done");
         modal.setVisible(true);
@@ -805,7 +808,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         String path = Paths.get(mFileProperties.mFilename).getParent().toString();
         String filenameOnly = Paths.get(mFileProperties.mFilename).getFileName().toString();
         
-        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_POST, "", filenameOnly, "FilePropertiesPanel", path);
+        ExecutionDescriptor ed = new ExecutionDescriptor(ED_TYPE_FILE_POST, "", filenameOnly, "FilePropertiesPanel", Global.mainPathPrefix+path);
         sdp.setSelected(mFileProperties.mPostScriptClass, mFileProperties.mPostScriptName, ed);
         modal = new ModalInternalFrame("Scripter", frame.getRootPane(), frame, sdp, "done");
         modal.setVisible(true);
@@ -898,7 +901,7 @@ public class FilePropertiesPanel extends javax.swing.JPanel {
         ArrayList<JButton> eb= new ArrayList<JButton>();
         eb.add(panel.jButtonCreate);
         eb.add(panel.jButtonCancel);
-        ModalInternalFrame modal = new ModalInternalFrame("New project", frame.getRootPane(), frame, panel,null, null , eb);
+        ModalInternalFrame modal = new ModalInternalFrame("New file properties", frame.getRootPane(), frame, panel,null, null , eb);
         panel.modelDialog = modal;
         modal.setVisible(true);
         String result = modal.getNamedExit();

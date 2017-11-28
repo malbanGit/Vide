@@ -670,4 +670,5 @@ public class ConfigurationPanel extends javax.swing.JPanel implements Windowable
         Configuration C = Configuration.getConfiguration();
         C.setFullScrrenResString(buildStringForMode(getDisplayModeForString(C.getFullScrrenResString())));
     }
+    public void deIconified()  {}
 }

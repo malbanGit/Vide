@@ -11,7 +11,7 @@ import de.malban.vide.vecx.VecXPanel;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
-import de.malban.util.KeyboardListener;
+import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.dissy.Memory;
 import de.malban.vide.dissy.MemoryInformation;
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.SwingUtilities;
 import de.muntjak.tinylookandfeel.Theme;
 import static java.awt.event.ActionEvent.SHIFT_MASK;
 import java.beans.PropertyChangeEvent;
@@ -40,6 +39,7 @@ import javax.swing.UIManager;
 public class LabelJPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{
     private CSAView mParent = null;
+    VideConfig config = VideConfig.getConfig();
     public boolean isLoadSettings() { return true; }
     private javax.swing.JMenuItem mParentMenuItem = null;
     private int mClassSetting=0;
@@ -447,7 +447,7 @@ public class LabelJPanel extends javax.swing.JPanel implements
         }
         public Color getBackground(int col)
         {
-            if (col == 0) return new Color(200,255,200,255);
+            if (col == 0) return config.tableAddress;
             return null; // default
         }
         
@@ -469,5 +469,6 @@ public class LabelJPanel extends javax.swing.JPanel implements
         int rowHeight = fontSize+3;
         jTable1.setRowHeight(rowHeight);
     }
+    public void deIconified() { }
 
 }

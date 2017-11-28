@@ -237,7 +237,6 @@ public class SingleVecciPanel3d extends javax.swing.JPanel implements Windowable
         jButtonRight.setBounds(33, 18, 19, 14);
 
         jSliderSourceScale.setMajorTickSpacing(1);
-        jSliderSourceScale.setMaximum(25);
         jSliderSourceScale.setMinimum(1);
         jSliderSourceScale.setMinorTickSpacing(1);
         jSliderSourceScale.setOrientation(javax.swing.JSlider.VERTICAL);
@@ -418,19 +417,18 @@ public class SingleVecciPanel3d extends javax.swing.JPanel implements Windowable
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jCheckBoxRotateSelection)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSliderSide1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                             .addComponent(jSliderFront1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSliderTop1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldTop2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldSide2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldFront2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jCheckBoxRotateSelection)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(jTextFieldTop2, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                            .addComponent(jTextFieldSide2, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                            .addComponent(jTextFieldFront2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -691,8 +689,8 @@ singleVectorPanel1.updateAndRepaint();
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         SingleVecciPanel3d panel = new SingleVecciPanel3d(v);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 919, 387, panel.getMenuItem().getText());
+        
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 919, 387, "Vecci Editor 3d");
        return panel;
     }        
     public SingleVectorPanel getSVP()
@@ -800,6 +798,7 @@ singleVectorPanel1.updateAndRepaint();
         if (!((evt.dragging) && (evt.ctrlPressed))) return;
         updateOutput();
     }
+    public void deIconified() { }
 }
 
 

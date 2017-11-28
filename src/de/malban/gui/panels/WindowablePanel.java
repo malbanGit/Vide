@@ -96,4 +96,5 @@ public class WindowablePanel extends javax.swing.JPanel implements Windowable{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 
+    public void deIconified() { }
 }

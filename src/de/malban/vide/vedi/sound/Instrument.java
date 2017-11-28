@@ -5,13 +5,12 @@
  */
 package de.malban.vide.vedi.sound;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.util.XMLSupport;
 import de.malban.vide.dissy.DASM6809;
-import de.malban.vide.vecx.devices.WheelData;
-import java.awt.Color;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -158,14 +157,14 @@ public class Instrument  implements Serializable{
     // as in combobox
     public static Instrument getInstrument(String name)
     {
-        Instrument instr = Instrument.loadInstrument("xml"+File.separator+"instruments"+File.separator+name+".xml");
+        Instrument instr = Instrument.loadInstrument(Global.mainPathPrefix+"xml"+File.separator+"instruments"+File.separator+name+".xml");
         if (instr == null) instr = new Instrument();
         return instr;
     }
     public static ArrayList<String> getInstrumentList()
     {
         ArrayList<String> instruments = new  ArrayList<String>();
-        String path = "xml"+File.separator+"instruments";
+        String path = Global.mainPathPrefix+"xml"+File.separator+"instruments";
         ArrayList<String> files = de.malban.util.UtilityFiles.getXMLFileList(path);
         for (String name: files)
         {

@@ -5,21 +5,30 @@
  */
 package de.malban.vide.vedi.sound;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.panels.LogPanel;
+import static de.malban.gui.panels.LogPanel.INFO;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.sound.tinysound.Stream;
 import de.malban.sound.tinysound.TinySound;
+import static de.malban.util.syntax.entities.EntityDefinition.removeComment;
+import de.malban.vide.assy.Asmj;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.vecx.E8910;
+import de.malban.vide.vecx.VecXPanel;
+import de.malban.vide.vedi.VediPanel;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -226,7 +235,13 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
         jTextField43 = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
         jTextField44 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel22 = new javax.swing.JLabel();
+        jButtonAssemble = new javax.swing.JToggleButton();
+        jButtonEditInVedi = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         jLabel1.setText("name");
 
@@ -249,7 +264,7 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
         });
 
         jButtonSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_save.png"))); // NOI18N
-        jButtonSave.setToolTipText("Save as YM");
+        jButtonSave.setToolTipText("Save instrument");
         jButtonSave.setMargin(new java.awt.Insets(0, 1, 0, -1));
         jButtonSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -635,7 +650,7 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
                 .addComponent(jSlider31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jSlider32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1125,7 +1140,7 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
                 .addComponent(jTextField31, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 60, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1272,6 +1287,7 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
             }
         });
 
+        jTextField43.setText("$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00");
         jTextField43.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTextField43FocusLost(evt);
@@ -1296,55 +1312,103 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
             }
         });
 
-        jLabel3.setText("All values are taken as HEX!");
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
+        jTextArea1.setRows(5);
+        jTextArea1.setText(" 2,12                         \n 0,12                         \n 2,12                         \n 0,12                         \n 2,6                          \n 0,6 \n 2,6 \n 0,6 \n 2,6 \n 0,6 \n 2,12 \n 0,12                         \n 2,12 \n 0,12 \n 2,12 \n 0,12                         \n 2,6 \n 0,6 \n 2,6 \n 0,6 \n 2,6 \n 0,6 \n 2,6                          \n 0,6 \n 2,12 \n 0,12 \n 128+2,128+26,26-12, 12       \n 128+0,128+31,31-12, 12       \n 128+2,128+31,31-12, 12       \n 128+0,128+33,33-12, 12       \n 128+2,128+35,35-12, 12 \n 128+0,128+31,31-12, 12       \n 128+2,128+35,35-12, 12 \n 128+0,128+33,33-12, 12 \n 128+2,128+26,26-12, 12 \n 128+0,128+31,31-12, 12       \n 128+2,128+31,31-12, 12 \n 128+0,128+33,33-12, 12 \n 128+2,128+35,35-12, 12 \n 128+0,128+31,31-12, 12       \n 2,12 \n 128+0,128+30,30-12, 12 \n 128+2,128+26,26-12, 12 \n 128+0,128+31,31-12, 12       \n 128+2,128+31,31-12, 12 \n 128+0,128+33,33-12, 12 \n 128+2,128+35,35-12, 12 \n 128+0,128+36,36-12, 12       \n 128+2,128+35,35-12, 12 \n 128+0,128+33,33-12, 12 \n 128+2,128+31,31-12, 12 \n 128+0,128+30,30-12, 12       \n 128+2,128+26,26-12, 12 \n 128+0,128+28,28-12, 12 \n 128+2,128+30,30-12, 12 \n 128+0,128+31,31-12, 12       \n 2, 12 \n 128+0,128+31,31-12, 12 \n 2, 12 \n 128+0,128+28,28-12, 18       \n 128+30,30-12, 06 \n 128+2,128+28,28-12, 12 \n 128+0,128+26,26-12, 12 \n 128+2,128+28,28-12, 12 \n 128+0,128+30,30-12, 12 \n 128+2,128+31,31-12, 12 \n 0, 12 \n 128+0,128+26,26-12, 18 \n 128+28,28-12, 06 \n 128+2,128+26,26-12, 12 \n 128+0,128+24,24-12, 12 \n 128+2,128+23,23-12, 12 \n 0, 12 \n 128+2,128+26,26-12, 12 \n 0, 12 \n 128+2,128+28,28-12, 18 \n 128+30,30-12, 06 \n 128+0,128+28,28-12, 12 \n 128+2,128+26,26-12, 12 \n 128+0,128+28,28-12, 12 \n 128+2,128+30,30-12, 12 \n 128+0,128+31,31-12, 12 \n 128+2,128+28,28-12, 12 \n 128+0,128+26,26-12, 12 \n 128+2,128+31,31-12, 12 \n 128+0,128+30,30-12, 12 \n 128+2,128+33,33-12, 12 \n 128+0,128+31,31-12, 12 \n 2, 12 \n 128+0,128+31,31-12, 12 \n 2, 12    ");
+        jScrollPane3.setViewportView(jTextArea1);
+
+        jLabel22.setText("Music data Input");
+
+        jButtonAssemble.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/control_play_blue.png"))); // NOI18N
+        jButtonAssemble.setToolTipText("Animates through all images, animation is looped. Given delay is taken.");
+        jButtonAssemble.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonAssemble.setPreferredSize(new java.awt.Dimension(21, 21));
+        jButtonAssemble.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAssembleActionPerformed(evt);
+            }
+        });
+
+        jButtonEditInVedi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/page_edit.png"))); // NOI18N
+        jButtonEditInVedi.setToolTipText("edit output in vedi");
+        jButtonEditInVedi.setMargin(new java.awt.Insets(0, 1, 0, -1));
+        jButtonEditInVedi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditInVediActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel4.setText("Enter notes in Vectrex music format - and hit \"play\" to listen.");
+
+        jLabel5.setFont(new java.awt.Font("Geneva", 2, 11)); // NOI18N
+        jLabel5.setText("Hex, bin, decimal, +/- are allowed!");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField37, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField39, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField40, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField43, javax.swing.GroupLayout.PREFERRED_SIZE, 592, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField44, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel22)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1a)
-                            .addComponent(jComboBox1, 0, 151, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonSave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonNewYM)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel2)
-                        .addGap(4, 4, 4)
-                        .addComponent(jTextField2b, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField43, javax.swing.GroupLayout.DEFAULT_SIZE, 905, Short.MAX_VALUE))
+                        .addContainerGap(64, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField35, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField36, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField37, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField39, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField40, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField41, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField42, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField44, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonAssemble, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonEditInVedi))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jTextField1a)
+                                            .addComponent(jComboBox1, 0, 151, Short.MAX_VALUE))
+                                        .addGap(12, 12, 12)
+                                        .addComponent(jButtonSave)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonNewYM)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel2)
+                                        .addGap(4, 4, 4)
+                                        .addComponent(jTextField2b, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel5))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1383,9 +1447,19 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
                         .addComponent(jCheckBox1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField1a, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(jLabel22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButtonEditInVedi)
+                        .addComponent(jButtonAssemble, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1396,7 +1470,7 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
             log.addLog("Instrument not saved, no name given!", WARN);
             return;
         }
-        String path = "xml"+File.separator+"instruments"+File.separator+currentInstrument.name+".xml";
+        String path = Global.mainPathPrefix+"xml"+File.separator+"instruments"+File.separator+currentInstrument.name+".xml";
         currentInstrument.saveAsXML(path);
         initComboBox(currentInstrument.name);
     }//GEN-LAST:event_jButtonSaveActionPerformed
@@ -1479,6 +1553,218 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
         currentInstrument = Instrument.getInstrument(name);
         initCurrentInstrument();
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    String getNotesInterpretation()
+    {
+        String t = jTextArea1.getText();
+        t = removeComment(t, ";");
+        t = de.malban.util.UtilityString.replace(t, "\n", ",");
+        t = de.malban.util.UtilityString.replaceWhiteSpaces(t, " ");
+        t = de.malban.util.UtilityString.replace(t, ";", ",");
+        t = de.malban.util.UtilityString.replace(t, ",", " , ");
+        t = de.malban.util.UtilityString.replace(t, "+", " + ");
+        t = de.malban.util.UtilityString.replace(t, "-", " - ");
+        t = de.malban.util.UtilityString.replace(t, "*", " * ");
+        t = de.malban.util.UtilityString.replace(t, "/", " / ");
+        t = de.malban.util.UtilityString.replace(t, "  ", " ");
+        ArrayList<Integer> values = new ArrayList<Integer>();
+        String[] tokens = t.split(" ");
+
+        
+        int OP_NONE = 0;
+        int OP_PLUS = 1;
+        int OP_MINUS = 2;
+        int OP_MUL = 3;
+        int OP_DIV = 4;
+        
+        int currentValue = 0;
+        int currentOP = OP_NONE;
+        boolean valueDone = true;
+        for (String v: tokens)
+        {
+            if (v == null) continue;
+            if (v.trim().length() == 0) continue;
+
+            int vt = toNumber(v, false);
+            if (vt == Integer.MAX_VALUE)
+            {
+                currentOP = OP_NONE;
+                if (v.equals(",")) valueDone = true;
+                if (valueDone) continue;
+                // not a number
+                if (v.equals("+")) currentOP = OP_PLUS;
+                if (v.equals("-")) currentOP = OP_MINUS;
+                if (v.equals("*")) currentOP = OP_MUL;
+                if (v.equals("/")) currentOP = OP_DIV;
+                // else ignore value alltogether
+            }
+            else if (currentOP == OP_NONE)
+            {
+                valueDone = false;
+                values.add(vt);
+            }
+            else if (currentOP == OP_PLUS)
+            {
+                int oldVal = values.remove(values.size()-1);
+                values.add(vt+oldVal);
+            }
+            else if (currentOP == OP_MINUS)
+            {
+                int oldVal = values.remove(values.size()-1);
+                values.add(oldVal-vt);
+            }
+            else if (currentOP == OP_MUL)
+            {
+                int oldVal = values.remove(values.size()-1);
+                values.add(oldVal*vt);
+            }
+            else if (currentOP == OP_DIV)
+            {
+                int oldVal = values.remove(values.size()-1);
+                values.add(oldVal/vt);
+            }
+        }
+        
+        StringBuilder s = new StringBuilder();
+        boolean mustStart = true;
+        int lastVal = 128;
+        for (int i: values)
+        {
+            if (mustStart)
+            {
+                s.append(" db $").append(String.format("%02X",i));
+                mustStart = false;
+                lastVal = 128;
+            }
+            else
+            {
+                s.append(", $"+String.format("%02X",i));
+            }
+            if (((lastVal & 0x80) != 0x80) && ((i & 0x80) != 0x80))
+            {
+                mustStart = true;
+                s.append("\n");
+            }
+            lastVal = i;
+        }
+        s.append(" db $01, $ff\n"); // end marker
+        
+        return s.toString();
+    }
+    
+    public static int toNumber(String s, boolean largeAllowed)
+    {
+        s = de.malban.util.UtilityString.replace(s, "$$","$");
+        s = s.toUpperCase();
+        boolean minus = false;
+        int radix = 10;
+        int result = Integer.MAX_VALUE;
+        if (s.startsWith("-"))
+        {
+            minus=true;
+            s = s.substring(1);
+        }
+        if (s.startsWith("+"))
+        {
+            s = s.substring(1);
+        }
+        if (s.startsWith("$"))
+        {
+            radix = 16;
+            s = s.substring(1);
+        }
+        if (s.startsWith("%"))
+        {
+            radix = 2;
+            s = s.substring(1);
+        }
+        if (s.startsWith("b"))
+        {
+            radix = 2;
+            s = s.substring(1);
+        }
+        
+        if (s.startsWith("0X"))
+        {
+            s= s.substring(2);
+            radix = 16;
+        }
+        try
+        {
+            result = Integer.parseInt(s, radix);
+            if (minus) result *=-1;
+            if (!largeAllowed)
+                result = result &(0xffff);
+        }
+        catch (Throwable ex)
+        {
+            
+        }
+        return result;
+    }    
+    
+    String getADSRInterpretation()
+    {
+        String ret = "adsr_table:\n";
+        ret += " db "+jTextField43.getText()+"\n";
+        ret += "twang_table:\n";
+        ret += " db ";
+        ret += " $"+jTextField35.getText();
+        ret += ", $"+jTextField36.getText();
+        ret += ", $"+jTextField37.getText();
+        ret += ", $"+jTextField38.getText();
+        ret += ", $"+jTextField39.getText();
+        ret += ", $"+jTextField40.getText();
+        ret += ", $"+jTextField41.getText();
+        ret += ", $"+jTextField42.getText();
+        ret += "\n";
+        
+        return ret;
+    }
+    String getADSRInterpretationPointer()
+    {
+        String ret = " dw adsr_table, twang_table\n";
+        return ret;
+    }
+    
+    String getProg()
+    {
+        String notes = getNotesInterpretation();
+        String adsr = getADSRInterpretation();
+        String adsrPointer = getADSRInterpretationPointer();
+
+        Path template = Paths.get(Global.mainPathPrefix, "template", "notePlayer.i");
+        String main = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
+        main += adsr+"\n";
+        main += "\nadsr_notes:\n";
+        main += adsrPointer+"\n";
+        main += "\nnotes:\n";
+        main += notes+"\n";
+        return main;
+    }
+    private void jButtonAssembleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAssembleActionPerformed
+
+        
+        String filename = Global.mainPathPrefix+"tmp"+File.separator+"musictmp.asm";
+        de.malban.util.UtilityFiles.createTextFile(filename, getProg());
+        startASM(filename);
+        
+        
+    }//GEN-LAST:event_jButtonAssembleActionPerformed
+
+    private void jButtonEditInVediActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditInVediActionPerformed
+        
+        CSAMainFrame frame = (CSAMainFrame)Configuration.getConfiguration().getMainFrame();
+        VediPanel p = new VediPanel(false);        
+        p.setTreeVisible(false);
+        
+        frame.addAsWindow(p, 1024, 768, VediPanel.SID);
+        String filename = Global.mainPathPrefix+"tmp"+File.separator+"musictmp.asm";
+        de.malban.util.UtilityFiles.createTextFile(filename, getProg());
+
+                
+        p.addTempEditFile(filename);
+    }//GEN-LAST:event_jButtonEditInVediActionPerformed
 
     int currentHz = 50;
     int compareMilli = 1000/50;
@@ -1586,21 +1872,25 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         InstrumentEditor panel = new InstrumentEditor(tl);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 919, 387, panel.getMenuItem().getText());
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  919, 700, "Instrument Editor");
     }        
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton jButtonAssemble;
+    private javax.swing.JButton jButtonEditInVedi;
     private javax.swing.JButton jButtonNewYM;
     private javax.swing.JButton jButtonSave;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSlider jSlider10;
     private javax.swing.JSlider jSlider11;
@@ -1633,6 +1923,7 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
     private javax.swing.JSlider jSlider7;
     private javax.swing.JSlider jSlider8;
     private javax.swing.JSlider jSlider9;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -2067,4 +2358,85 @@ public class InstrumentEditor extends javax.swing.JPanel implements Windowable{
         currentInstrument.setADSR(jTextField43.getText());
         currentInstrument.setTWANG(jTextField44.getText());
     }
+    public void deIconified()  {}
+    
+    
+    Thread one = null;
+    public boolean  asmStarted = false;
+    public boolean stop = false;
+    public boolean running = false;
+    public boolean pausing = false;
+
+    // start a thread for assembler
+    public void startASM(final String filenameASM)
+    {
+        if (asmStarted) return;
+        asmStarted = true;
+        jButtonAssemble.setEnabled(false);
+        // paranoia!
+        if (one != null) return;
+        one = new Thread() 
+        {
+            public void run() 
+            {
+                try 
+                {
+                    Thread.sleep(10);
+                    try
+                    {
+                        Asmj asm = new Asmj(filenameASM, null, null, null, null, "",null);
+                        String info = asm.getInfo();
+                        final boolean asmOk = info.indexOf("0 errors detected.") >=0;
+                        
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                asmResult(asmOk);
+                            }
+                        });                    
+                    }
+                    catch (final Throwable e)
+                    {
+                        SwingUtilities.invokeLater(new Runnable()
+                        {
+                            public void run()
+                            {
+                                log.addLog(e, WARN);
+                                asmResult(false);
+                            }
+                        });                    
+                    }
+                } 
+                catch(InterruptedException v) 
+                {
+                }
+
+                one = null;
+                jButtonAssemble.setEnabled(true);
+                asmStarted = false;
+            }  
+        };
+
+        one.setName("Run ASMJ with: "+filenameASM);
+        one.start();           
+    }    
+    protected void asmResult(boolean asmOk)
+    {
+        if (asmOk)
+        {
+            VecXPanel vec = ((CSAMainFrame)mParent).getVecxy();
+            ((CSAMainFrame)mParent).getInternalFrame(vec).toFront();
+
+
+            String fname = Global.mainPathPrefix+"tmp"+File.separator+"musictmp.bin";
+            vec.startUp(fname);
+            log.addLog("Music-Assembly successfull...", INFO);
+        }
+        else
+        {
+            log.addLog("Music-Assembly not successfull, see ASM output...", WARN);
+        }
+        jButtonAssemble.setEnabled(true);
+    }    
 }

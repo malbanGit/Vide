@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx.panels;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.vide.vecx.VecXPanel;
@@ -1895,7 +1896,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
     void initWheelList()
     {
         mClassSetting++;
-        String path = "xml"+File.separator+"wheels";
+        String path = Global.mainPathPrefix+"xml"+File.separator+"wheels";
         ArrayList<String> files = de.malban.util.UtilityFiles.getXMLFileList(path);
         jComboBoxWheelList.removeAllItems();
         for (String name: files)
@@ -1913,7 +1914,7 @@ public class JoyportPanel extends javax.swing.JPanel implements
             return;
         }
         String fname = jComboBoxWheelList.getSelectedItem().toString()+".xml";
-        String path = "xml"+File.separator+"wheels"+File.separator+fname;
+        String path = Global.mainPathPrefix+"xml"+File.separator+"wheels"+File.separator+fname;
         WheelData loadedWheel = WheelData.loadWheel(path);
         if (loadedWheel==null) 
         {
@@ -2044,4 +2045,5 @@ public class JoyportPanel extends javax.swing.JPanel implements
         double cycles = angle / anglePerCycle;
         label.setText("0x"+String.format("%04X", ((int)cycles)));
     }
+    public void deIconified() { }
 }

@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vedi.sound;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.gui.CSAMainFrame;
@@ -793,8 +794,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
         {
             panel.standalone = true;
         }
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1024, 600, panel.getMenuItem().getText());
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1024, 600, "VecSpeechPanel");
     }        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -836,7 +836,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
         phrasealatorMap = new HashMap<String, String>();
         try
         {
-            Vector<String> strings = de.malban.util.UtilityString.readTextFileToString(new File("template"+File.separator+"Phrasealator.Dic"));
+            Vector<String> strings = de.malban.util.UtilityString.readTextFileToString(new File(Global.mainPathPrefix+"template"+File.separator+"Phrasealator.Dic"));
             ArrayList<String> iterativePhrase = new ArrayList<String>();
             for (int i=0; i< strings.size(); i++)
             {
@@ -1101,7 +1101,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
             InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
             fc.setDialogTitle("Select save directory");
             fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
 
             int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
             if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
@@ -1115,18 +1115,18 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
             String pathOnly = Paths.get(home).toString();
             if (pathOnly.length()!=0)pathOnly+=File.separator;
 
-            Path include = Paths.get(".", "template", "VECTREX.I");
+            Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
             de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
 
-            Path serial = Paths.get(".", "template", "ser_ji.i");
+            Path serial = Paths.get(Global.mainPathPrefix, "template", "ser_ji.i");
             de.malban.util.UtilityFiles.copyOneFile(serial.toString(), pathOnly+ "ser_ji.i");
 
-            Path vecVox = Paths.get(".", "template", "vecvox.i");
+            Path vecVox = Paths.get(Global.mainPathPrefix, "template", "vecvox.i");
             de.malban.util.UtilityFiles.copyOneFile(vecVox.toString(), pathOnly+ "vecvox.i");
 
             if (jCheckBox2.isSelected())
             {
-                Path jetPhones = Paths.get(".", "template", "jetphones.inc");
+                Path jetPhones = Paths.get(Global.mainPathPrefix, "template", "jetphones.inc");
                 de.malban.util.UtilityFiles.copyOneFile(jetPhones.toString(), pathOnly+ "jetphones.inc");
             }
 
@@ -1135,7 +1135,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
 
             if (jCheckBox1.isSelected())
             {
-                Path template = Paths.get(".", "template", "vecVoxMain.template");
+                Path template = Paths.get(Global.mainPathPrefix, "template", "vecVoxMain.template");
                 String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
                 de.malban.util.UtilityFiles.createTextFile(pathOnly+"vecVoxMain.asm", exampleMain);    
             }
@@ -1156,13 +1156,13 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
             String pathOnly = Paths.get(home).toString();
             if (pathOnly.length()!=0)pathOnly+=File.separator;
 
-            Path include = Paths.get(".", "template", "VECTREX.I");
+            Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
             de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
 
-            Path serial = Paths.get(".", "template", "ser_ji.i");
+            Path serial = Paths.get(Global.mainPathPrefix, "template", "ser_ji.i");
             de.malban.util.UtilityFiles.copyOneFile(serial.toString(), pathOnly+ "ser_ji.i");
 
-            Path vecVox = Paths.get(".", "template", "vecvoice.i");
+            Path vecVox = Paths.get(Global.mainPathPrefix, "template", "vecvoice.i");
             de.malban.util.UtilityFiles.copyOneFile(vecVox.toString(), pathOnly+ "vecvoice.i");
 
             String vectrexData = generateVectrexVecVoiceData();
@@ -1170,7 +1170,7 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
 
             if (jCheckBox1.isSelected())
             {
-                Path template = Paths.get(".", "template", "vecVoiceMain.template");
+                Path template = Paths.get(Global.mainPathPrefix, "template", "vecVoiceMain.template");
                 String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
                 de.malban.util.UtilityFiles.createTextFile(pathOnly+"vecVoiceMain.asm", exampleMain);    
             }
@@ -1333,4 +1333,5 @@ public class VecSpeechPanel extends javax.swing.JPanel  implements Windowable
         jTable1.setRowHeight(rowHeight);
         jTable2.setRowHeight(rowHeight);
     }
+    public void deIconified()  {}
 }

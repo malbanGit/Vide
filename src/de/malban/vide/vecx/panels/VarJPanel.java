@@ -11,6 +11,7 @@ import de.malban.vide.vecx.VecXPanel;
 import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
+import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DissiPanel;
 import static de.malban.vide.dissy.DissiPanel.scrollToVisibleMid;
@@ -18,6 +19,7 @@ import de.malban.vide.dissy.Memory;
 import de.malban.vide.dissy.MemoryInformation;
 import de.malban.vide.vecx.Updatable;
 import static de.malban.vide.dissy.MemoryInformation.MEM_TYPE_RAM;
+import de.malban.vide.dissy.Watch;
 import de.malban.vide.vecx.Breakpoint;
 import java.awt.Color;
 import java.awt.Component;
@@ -47,6 +49,7 @@ import javax.swing.table.TableRowSorter;
  */
 public class VarJPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{
+    VideConfig config = VideConfig.getConfig();
     public boolean isLoadSettings() { return true; }
     private CSAView mParent = null;
     private javax.swing.JMenuItem mParentMenuItem = null;
@@ -238,6 +241,14 @@ public class VarJPanel extends javax.swing.JPanel implements
         jMenuItemBreakpointValue = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItemWatchBinary = new javax.swing.JMenuItem();
+        jMenuItemWatchByte = new javax.swing.JMenuItem();
+        jMenuItemWatchWord = new javax.swing.JMenuItem();
+        jMenuItemWatchString = new javax.swing.JMenuItem();
+        jMenuItemWatchBytePair = new javax.swing.JMenuItem();
+        jMenuItemWatchSequence = new javax.swing.JMenuItem();
         jToggleButton4 = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = buildTable();
@@ -279,6 +290,59 @@ public class VarJPanel extends javax.swing.JPanel implements
             }
         });
         jPopupMenu1.add(jMenuItem1);
+        jPopupMenu1.add(jSeparator2);
+
+        jMenu3.setText("Watches");
+
+        jMenuItemWatchBinary.setText("add watch binary");
+        jMenuItemWatchBinary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchBinaryActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchBinary);
+
+        jMenuItemWatchByte.setText("add watch byte");
+        jMenuItemWatchByte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchByteActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchByte);
+
+        jMenuItemWatchWord.setText("add watch word");
+        jMenuItemWatchWord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchWordActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchWord);
+
+        jMenuItemWatchString.setText("add watch string");
+        jMenuItemWatchString.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchStringActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchString);
+
+        jMenuItemWatchBytePair.setText("add watch byte pair");
+        jMenuItemWatchBytePair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchBytePairActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchBytePair);
+
+        jMenuItemWatchSequence.setText("add watch sequence 5");
+        jMenuItemWatchSequence.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemWatchSequenceActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemWatchSequence);
+
+        jPopupMenu1.add(jMenu3);
 
         jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/de/malban/vide/images/webcam.png"))); // NOI18N
         jToggleButton4.setToolTipText("Toggle Update (always or only while debug)");
@@ -352,7 +416,7 @@ public class VarJPanel extends javax.swing.JPanel implements
                 .addComponent(jCheckBoxHideBIOSNames)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonAddVariable))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -489,6 +553,82 @@ public class VarJPanel extends javax.swing.JPanel implements
     private void jCheckBoxShowAllRAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxShowAllRAMActionPerformed
         initVariables();
     }//GEN-LAST:event_jCheckBoxShowAllRAMActionPerformed
+    int getPopupWatchAddress()
+    {
+        return popUpAddress;
+
+    }
+    private void jMenuItemWatchBinaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchBinaryActionPerformed
+        int adr = getPopupWatchAddress();
+        if (adr == -1)
+        {
+            return;
+        }
+        int type = 0;
+        int len = 0;
+        Watch.addWatch(adr, type, len, dissi);
+        dissi.correctTableWatch();
+    }//GEN-LAST:event_jMenuItemWatchBinaryActionPerformed
+
+    private void jMenuItemWatchByteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchByteActionPerformed
+        int adr = getPopupWatchAddress();
+        if (adr == -1)
+        {
+            return;
+        }
+        int type = 1;
+        int len = 0;
+        Watch.addWatch(adr, type, len, dissi);
+        dissi.correctTableWatch();
+    }//GEN-LAST:event_jMenuItemWatchByteActionPerformed
+
+    private void jMenuItemWatchWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchWordActionPerformed
+        int adr = getPopupWatchAddress();
+        if (adr == -1)
+        {
+            return;
+        }
+        int type = 2;
+        int len = 0;
+        Watch.addWatch(adr, type, len, dissi);
+        dissi.correctTableWatch();
+    }//GEN-LAST:event_jMenuItemWatchWordActionPerformed
+
+    private void jMenuItemWatchStringActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchStringActionPerformed
+        int adr = getPopupWatchAddress();
+        if (adr == -1)
+        {
+            return;
+        }
+        int type = 3;
+        int len = 0;
+        Watch.addWatch(adr, type, len, dissi);
+        dissi.correctTableWatch();
+    }//GEN-LAST:event_jMenuItemWatchStringActionPerformed
+
+    private void jMenuItemWatchBytePairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchBytePairActionPerformed
+        int adr = getPopupWatchAddress();
+        if (adr == -1)
+        {
+            return;
+        }
+        int type = 4;
+        int len = 0;
+        Watch.addWatch(adr, type, len, dissi);
+        dissi.correctTableWatch();
+    }//GEN-LAST:event_jMenuItemWatchBytePairActionPerformed
+
+    private void jMenuItemWatchSequenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemWatchSequenceActionPerformed
+        int adr = getPopupWatchAddress();
+        if (adr == -1)
+        {
+            return;
+        }
+        int type = 5;
+        int len = 5;
+        Watch.addWatch(adr, type, len, dissi);
+        dissi.correctTableWatch();
+    }//GEN-LAST:event_jMenuItemWatchSequenceActionPerformed
 
     private boolean updateEnabled = false;
     public void updateValues(boolean forceUpdate)
@@ -507,13 +647,21 @@ public class VarJPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBoxHideBIOSNames;
     private javax.swing.JCheckBox jCheckBoxShowAllRAM;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemBreakpointRead;
     private javax.swing.JMenuItem jMenuItemBreakpointValue;
     private javax.swing.JMenuItem jMenuItemBreakpointWrite;
+    private javax.swing.JMenuItem jMenuItemWatchBinary;
+    private javax.swing.JMenuItem jMenuItemWatchByte;
+    private javax.swing.JMenuItem jMenuItemWatchBytePair;
+    private javax.swing.JMenuItem jMenuItemWatchSequence;
+    private javax.swing.JMenuItem jMenuItemWatchString;
+    private javax.swing.JMenuItem jMenuItemWatchWord;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTable jTable1;
     private javax.swing.JToggleButton jToggleButton4;
     // End of variables declaration//GEN-END:variables
@@ -667,7 +815,7 @@ public class VarJPanel extends javax.swing.JPanel implements
         }
         public Color getBackground(int col)
         {
-            if (col == 0) return new Color(200,255,200,255);
+            if (col == 0) return config.tableAddress;
             return null; // default
         }
         @Override
@@ -793,4 +941,5 @@ public class VarJPanel extends javax.swing.JPanel implements
         jTable1.setRowSelectionInterval(row, row);
         scrollToVisibleMid(jTable1, row,0);
     }
+    public void deIconified() { }
 }

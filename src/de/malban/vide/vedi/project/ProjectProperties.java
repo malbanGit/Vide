@@ -30,6 +30,12 @@ public class  ProjectProperties
 	protected String mProjectPostScriptName="";
 	protected Vector<String> mBankDefines=new Vector<String>();
 	protected String mWheelName="";
+	protected boolean mIsCProject=false;
+	protected boolean mIsPeerCProject=false;
+	protected String mCFLAGS="-O3 -g -fverbose-asm -mint8 -msoft-reg-count=0 -quiet -IC/include";
+	protected boolean mCDebugging=true;
+	protected boolean mCPeephole=true;
+	protected boolean mCKeepEnriched=true;
 	public String getName()
 	{
 		return mName;
@@ -198,6 +204,56 @@ public class  ProjectProperties
 	{
 		mWheelName=WheelName;
 	}
+	public boolean getIsPeerCProject()
+	{
+		return mIsPeerCProject;
+	}
+	public void setIsPeerCProject(boolean IsCProject)
+	{
+		mIsPeerCProject=IsCProject;
+	}
+	public boolean getIsCProject()
+	{
+		return mIsCProject;
+	}
+	public void setIsCProject(boolean IsCProject)
+	{
+		mIsCProject=IsCProject;
+	}
+        
+	public boolean getIsCDebugging()
+	{
+		return mCDebugging;
+	}
+	public void setIsCDebugging(boolean b)
+	{
+		mCDebugging=b;
+	}
+	public boolean getIsCPeephole()
+	{
+		return mCPeephole;
+	}
+	public void setIsCPeephole(boolean b)
+	{
+		mCPeephole=b;
+	}
+	public boolean getIsCKeepEnriched()
+	{
+		return mCKeepEnriched;
+	}
+	public void setIsCKeepEnriched(boolean b)
+	{
+		mCKeepEnriched=b;
+	}
+        
+	public String getCFLAGS()
+	{
+		return mCFLAGS;
+	}
+	public void setCFLAGS(String CFLAGS)
+	{
+		mCFLAGS=CFLAGS;
+	}
 	private String exportXML()
 	{
 		StringBuffer s = new StringBuffer();
@@ -233,6 +289,12 @@ public class  ProjectProperties
 		}
 		s.append( "\t\t</BankDefiness>\n");
 		s.append( "\t\t<WheelName>"+UtilityString.toXML(mWheelName)+"</WheelName>\n");
+                s.append( "\t\t<IsCDebugging>"+mCDebugging+"</IsCDebugging>\n");
+                s.append( "\t\t<IsCPeephole>"+mCPeephole+"</IsCPeephole>\n");
+                s.append( "\t\t<IsCKeepEnriched>"+mCKeepEnriched+"</IsCKeepEnriched>\n");
+                s.append( "\t\t<IsCProject>"+mIsCProject+"</IsCProject>\n");
+		s.append( "\t\t<IsPeerCProject>"+mIsPeerCProject+"</IsPeerCProject>\n");
+		s.append( "\t\t<CFLAGS>"+UtilityString.toXML(mCFLAGS)+"</CFLAGS>\n");
 		s.append( "\t</ProjectProperties>\n");
 		return s.toString();
 	}
@@ -247,7 +309,7 @@ public class  ProjectProperties
 	}
 	public static boolean saveCollectionAsXML(String filename, Collection<ProjectProperties> col)
 	{
-	return saveCollectionAsXML(de.malban.Global.mBaseDir,  filename, col);
+	return saveCollectionAsXML(de.malban.Global.mainPathPrefix,  filename, col);
 	}
 	public static boolean saveCollectionAsXML(String pathName, String filename, Collection<ProjectProperties> col)
 	{
@@ -267,14 +329,14 @@ public class  ProjectProperties
 		}
 		catch (IOException e)
 		{
-			System.err.println(e.toString());
+			System.err.println(e.toString()+" saveCollectionAsXML(): "+pathName+filename);
 			return false;
 		}
 		return true;
 	}
         public static HashMap<String, ProjectProperties> getHashMapFromXML(String filename)
 	{
-            return getHashMapFromXML( filename, de.malban.Global.mBaseDir);
+            return getHashMapFromXML( filename, de.malban.Global.mainPathPrefix);
 	}
 	public static HashMap<String, ProjectProperties> getHashMapFromXML(String filename, String path)
 	{

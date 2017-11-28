@@ -10,6 +10,7 @@
  */
 package de.malban.config.theme;
 
+import de.malban.Global;
 import de.malban.gui.components.CSAView;
 import de.malban.config.Configuration;
 import de.malban.config.Logable;
@@ -396,7 +397,7 @@ public class ThemeBuilderPanel extends javax.swing.JPanel implements Windowable,
         String name = jTextFieldName.getText();
 
         // make set Dir
-        String dirName = "theme"+File.separator+name;
+        String dirName = Global.mainPathPrefix+"theme"+File.separator+name;
         File dir = new File(dirName);
         if (!dir.exists())
         {
@@ -418,7 +419,7 @@ public class ThemeBuilderPanel extends javax.swing.JPanel implements Windowable,
         
         // create Theme (xml)
          ThemeData themeData = new ThemeData();
-         themeData.mGameImage = "theme"+File.separator+name+File.separator+jTextFieldGameBack.getText();
+         themeData.mGameImage = Global.mainPathPrefix+"theme"+File.separator+name+File.separator+jTextFieldGameBack.getText();
          themeData.mResizeGameImage = jCheckBoxScaleBack.isSelected();
          themeData.mResizeTitleImage = jCheckBoxScaleTitle.isSelected();
          themeData.mName = name;
@@ -682,5 +683,6 @@ public class ThemeBuilderPanel extends javax.swing.JPanel implements Windowable,
         }
         
     }
+    public void deIconified()  {}
     
 }

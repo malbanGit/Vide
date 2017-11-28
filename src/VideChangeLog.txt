@@ -1,5 +1,104 @@
+-------------
+Version 1.21
+- vedi: added an additional configuration for deep syntax check (in conficguration).
+      with large files (larger than e.g. 100000 bytes, some syntax check need more time, since the
+      complete document is scanned. If handling large files makes the editor chunky 
+      this part of syntax checking highlighting can now be switched off.
+      Also added a "Threshold" - so the above can be configured "ON" but for file sizes larger than xxxxxx
+      the deep syntax is automatically "OFF"
+- dissi: DW_POINTER added in popup in dissi (was avilable in CNT always - but never manually configurable
+- diffi: profiling, added ability to "update" dissi window, without the table following current PC (new CLI command DoNotFollow - "df")
+- help: added an ascii table (e.g. type ascii in editor help textbox, or dissi cli)
+- dissi: profiling enhanced, that the dissi column display, also displayes the sums of subroutine executions
+- display: added import of chassis png from ParaJVE in config - images are not used yet.
+         Franck: I didn't violate any copyright, to spare you the search look at de.malban.util.extractor package.
+         (PS. I made contact with Franck and he is ok with reuse!)
+- cartridge: some config options can be overwritten by the cartridge information, the config stays overwritten till
+       next cartridge with "overwrite" is loaded, or config is reloaded/changed
+- display: added full JOGL (OpenGL support), since iit was so much work - I'll list the different steps:
+  - rendering of lines, points and linestrips (last - splines)
+  - respecting movement speed, brightness and dotdwell
+  - blur/glow/spill shaders for more nice output
+  - linewidth, persitency and brightness can be adjusted (like everything on the fly)
+  - drawing done using openGL drawArray for speed (not "simple" line point commands)
+  - anitaliazing with/without MSAA supported
+  - overlays supported
+  - overlays can be "configured" to look nicer via special shader settings
+    a) alpha threshold
+    b) alpha "dim" if no vectors are drawn (direct adjustment of alpha values)
+    c) alpha "brighter" if vectors are drawn (adjustment via brightness factor of lines)
+  - 3d imager rendering supported
+  - lightpen supported
+  - debug outputs (messsages, vectors as arrows, integration position)
+  - LED (display)
+  - rotation
+  - raygun
+  - idea copied from ParaJVE, a "screen"-display can be added, and adjusted to ones likings
+- display: (JOGL only) screen "overflow" emulation now supported, e.g. frog demo "EmptyScreentro"
+- display: (JOGL only) added config to keep aspect ratio of emulator output
+- display: (JOGL only) added option to output emulator on complete window [in vecxi press SHIFT P to toggle]
+- display: (JOGL only) added option for fullscreen output (also rotated) [in vecxi press SHIFT F to toggle]
+- vecx: added a new vecx mode "no debug", than every debug "calling" are right from the start disabled.
+        This gives another speed increase. The mode is intended, when Vide is used as an emulator only.
+- Vide: support that Vide can be started from "any" directory, not from only the directory Vide resides in.
+        This was more complicated than it sounds, since ALL file accesses had to be changed. I am not sure that
+        I have got them all, there might be some errors with file accesses - please report if so. 
+        This was extensivly tested, but more than 100 classes had to be edited... - and humans make mistakes and 
+        overlook things!
+- support: added under utilities a new Window "Overlay Switcher", with that you can switch overlays easily on the fly
+           with currently running vecxi, without having the trouble to go to some configuration hassle each time.
+           (its not persistent though)
+- display: enhanced Catmul Rom Splines to be able to correctly draw Thomas new game (2048)
+- dissi: loading a saved state while in pause/debug mode - pauses/debugs the load directly after load
+- all: implemented a new default "LAF", some internal changes were necessary so that all necessary changes could be made,
+       to many to list here
+- vide: added a "message" of the day
+- vide: command line options started, following parameter working:
+        -help             -h        help
+        -configuration    -co (=)   name of the configuration file to load (e.g. developer.vsv)
+        -jogl             -jg (+/-) start with jogl graphics enabled
+        -oldJava          -oj (+/-) start with java graphics enabled
+        -keepAspectRatio  -ar (+/-) keep aspect ratio when size of vecxi changes
+        -exitAfterGame    -ex (+/-) shuts down vedi after exiting vecxi
+        -fullpanel        -fp (+/-) starts vecxi in fullpanel (only if vecxi runs)
+        -fullscreen       -fs (+/-) starts vecxi in fullscreen (only if vecxi runs)
+        -enableOverlay    -eo (+/-) whether to load an overlay, if available
+        -enableScreen     -es (+/-) whether to enable the 'screen' drawing
+        -port0Device      -p0 (=)   name of the configured input device (names as they appear in vecxi combobox)
+        -port1Device      -p1 (=)   name of the configured input device (names as they appear in vecxi combobox)
+        -rotation         -ro (=)   rotation (0, 90, 180, 270)
+        -binary           -bi (=)   loads a binary file and starts vecxi
+        -gameCartridge    -gc (=)   loads a cartridge definition and starts vecxi (name of the cart)
+        -resolution       -rs (=)   resolution of fullscreen, format like 800x600
+- dissi: added a small stack "view" in reg display (dissi only)
+- vedi: tree refresh now keeps the tree opened
+- vedi: added "mini" pretty print for C, also added autoindent for curly braces (1tab per brace)
+- config: saving a "no name" config - automatically now saves to "default"
+- vedi: double click on a file entry starts the OS default viewer (double click on a bin starts vecxi)
+- vedi: CTRL + Space gives a list of known vars/functions to chose
+- dissi: disassemble to code on an unkown binary, when PC "steps" to "data". This circumvents the need to do tedious "casts".
+         Only works, when "stepping" into the region, not when scrolling thru dissi (Thomas knows what I mean :-) ).
+- added binaries of Garry Grierson and Thomas' 2048 (for both I got permissions of the authors)
+- sound: added (in instrument editor) the opportunity to enter "songs" in vectrex format and play them back 
+- sound: new tool "Explosion editor" allows with a gui to edit explosion effects based on the explosion function provided by the BIOS
+- dissi: added (well hidden - see FAQ) the ability to also disasm RAM locations - for now this is a "Hack"
+- all: added support for 48k ROMs (must be configured for cartridge!)
+- C: CFLAGS can also be set via File properties
 
-----------------
+BugFix:
+- vecx: vector (drawings) get better updates when debugging
+- vedi: syntax check for macros had a bug, where a macro definition ending with the word "macro" was not recognized as such
+- cartridge: bug in cartridge config, where filesnames of instructions and critics might have been created wrong
+- overlay: rotation of overlay was not handled correctly
+- dissi: reinitializing after a dissi "destroy" now switches to the correct bank at startup
+- vecx: vecx bug fixed, TFR of register "A" (read) resulted ALWAYS in $ff -> fixed
+- vecx: vecx bug fixed, read word value was implemented with "(datahi << 8) | datalo" which
+        resulted in wrong values - correct it must be: (datahi << 8) | (datalo&0xff)
+
+
+
+July 1st 2017
+-------------
 Version 1.20
 new: 
 - vecxi: reSid emulation included - now properly included in the
@@ -22,14 +121,47 @@ new:
 - dissi: added first steps towards "profiling" (new dissi button)
        switched on in configuration, must be switched on BEFORE vectrex program is started,
        profiling data is not saved/loaded/influenced by load/save or stepping backwards and forwards while debugging,
-       if tracker is open and active one can also watch profiling data for one vectrex round (instead of comeplete runtime)
+       if tracker is open and active one can also watch profiling data for one vectrex round (instead of complete runtime)
        One can see how often subprograms are executed, and how much time (cycles) they need.
        No drill down yet, not instruction based yet!
-
+- dissi: added executed cycles and instruction count into dissi table (when profiling is enabled)
+- vecx: mouse can be configured as analog input (relative movement translated to horizontal/vertical analog)
+- vecx: added first steps to emulating "X, Y integrator offset values"
+- starter: slightly changed download configuration
+- starter: added quite a few TOSEC binaries (+ download)
+- starter: added many images and texts
+           starter contains by now about 190 "directly" executable vectrex binaries 
+           (the majority of homebrews/schoolbrews are downloaded by starting the first time)
+- codi: I got the sources for Becky's message and Koko's retribution from Dan Siewers with the permission to 
+        include them with Vide -> can be found in the codelib!
+- config: new config item whether images should be loaded for starter table (takes quite some time) - default is OFF
+        can be changed under tab miscellaneous. Changes only respected with next opened starter window 
+- cartinfo: bug where text "edits" were not saved to textfile (instruction and critics)
+- vecxi: played around again with open GL - JOGL this time
+         seems to work much "easier" than LWJGL, it can be "preliminary" switched on in configuration (miscellaneous) [for next vecxi instance].
+         But output as of yet is absolutely PLAIN - no overlays, colors, brightness, antialiazing, curves etc...
+- vecxi: original bug in emulation code discovered - upon read of T2 low counter the iFlag must be resetted - that was falsly implemented
+         and could lead to vectrex games crashing (e.g. omega chase).
+- vecxi: added as config item for efficiency also an efficiency "threshold"
+         I define efficiency as the "efficiency" with that the integrators work. The higher the sum of the integrators, the less "efficient" the
+         integration works.
+         e.g. x integrator is 0, adding 100 results in the integrator being 100
+              x integrator is 20000, adding 100 results in the integrator being 20090
+         Efficiency threshold calculates in laymans terms "at what" integration value the "degrading" of the
+         summarizing kicks in. Default values roughly like my own vectrex (it usually kicks in wayout of the visibity range)
+- documentation update
+ 
 BugFix:
 - vecci: storyboard animations could not be loaded if saved on another platform - due to file seperator settings
 - vecci: bug with rotation, did rotate always twice the given angle!
 - vecci: in new shortcuts, there could be paths connected with moves > 127 -> garbled output!
+- source: in the file "VECTREX.I" the definition of "Rot_VL_Mode" was wrong!
+          if that was used, than a crash of your program would occur!
+- util: minor flaw in reading xml text corrected (leading and trailing spaces)
+- vecvoice: Slight change in vecVoice emulation code. Pythagorean triangle was not running ok,
+        the "buffer full" test is different than in my alex herberts code.
+        This was "fixed" with a "hack"
+        
 
 31st of May 2017
 ----------------

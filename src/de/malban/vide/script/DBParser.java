@@ -179,6 +179,7 @@ public class DBParser {
         
         // also skip (if available) the ":"
         if (data.charAt(pos) == ':') pos++;
+ 
     }
     
     public void setPositionAfterLabel(String label)
@@ -252,7 +253,7 @@ public class DBParser {
         pos = lineStartSave;
         if (t == DB) pos += line.toLowerCase().indexOf(" db ")+4;
         if (t == DW) pos += line.toLowerCase().indexOf(" dw ")+4;
-        return DB;
+        return t;
     }
     
     // whitespaces are " ", "\n" , "\t"

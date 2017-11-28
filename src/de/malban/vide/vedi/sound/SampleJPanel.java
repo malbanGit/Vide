@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vedi.sound;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
 import de.malban.event.EditMouseEvent;
@@ -64,7 +65,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class SampleJPanel extends javax.swing.JPanel implements PositionListener, MousePressedListener, MouseMovedListener, Windowable {
 
-    public static final String TMP_FILENAME = "tmp"+File.separator+"sampleRecording.wav";
+    public static final String TMP_FILENAME = Global.mainPathPrefix+"tmp"+File.separator+"sampleRecording.wav";
     
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     String currentSampleFile = "";
@@ -170,6 +171,8 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
             pathOnly = file.getParent();
             currentSampleFile = filename;
         }
+        if (pathOnly == null) pathOnly = Global.mainPathPrefix;
+        if (pathOnly.length() == 0) pathOnly = Global.mainPathPrefix;
         
         // for debugging only
         if (currentSampleFile.length()==0)
@@ -1005,7 +1008,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        QuickHelpModal.showHelpHtmlFile("help"+File.separator+"sample.html");
+        QuickHelpModal.showHelpHtmlFile(Global.mainPathPrefix+"help"+File.separator+"sample.html");
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButtonStop3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStop3ActionPerformed
@@ -1037,7 +1040,11 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         
         String name = GetWavFilenamePanel.showEnterValueDialog();
         name = name+".wav";
+
+        if (pathOnly == null) pathOnly = Global.mainPathPrefix;
+        if (pathOnly.length() == 0) pathOnly = Global.mainPathPrefix;
         name = pathOnly+File.separator+name;
+
         try
         {
             byte[] orgData16Bit2Channel  = sound.getData();
@@ -1061,7 +1068,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         {
             if (pathOnly == null)
             {
-                lastPath = "."+File.separator;
+                lastPath = Global.mainPathPrefix;
                 fc.setCurrentDirectory(new java.io.File(lastPath));
             }
             else
@@ -1186,8 +1193,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         SampleJPanel panel = new SampleJPanel(null);
         panel.standalone = true;
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 800, 800, panel.getMenuItem().getText());
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  800, 800, "Samples");
         return true;
     }      
     private void checkTargetLine()
@@ -1665,6 +1671,7 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     }
     void createSource()
     {
+        
         byte[] vectrexSampleData = convertToVectrex();
         int size = vectrexSampleData.length;
         
@@ -1679,13 +1686,24 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
             // ask where to save!
             InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
             fc.setDialogTitle("Select save directory/name");
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
 
             int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
             if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
-            pathOnly = fc.getSelectedFile().getParent();
+            
+            if (fc.getSelectedFile() != null)
+                pathOnly = fc.getSelectedFile().getParent();
+            else
+                pathOnly = fc.getCurrentDirectory().getPath();
+            
+            if (pathOnly == null) pathOnly = Global.mainPathPrefix;
+            if (pathOnly.length() == 0) pathOnly = Global.mainPathPrefix;
+            
             if (!pathOnly.endsWith(File.separator)) pathOnly+=File.separator;
-            name = fc.getSelectedFile().getName();
+            if (fc.getSelectedFile()==null)
+                name = "SampleSource";
+            else
+                name = fc.getSelectedFile().getName();
         }
         else
         {
@@ -1695,8 +1713,9 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
         String nameOnly = name;
         name = name+".asm";
         
-        if (pathOnly.length()>0)
-            name = pathOnly+File.separator+name;
+        if (!pathOnly.endsWith(File.separator)) pathOnly+=File.separator;
+//        if (pathOnly.length()>0)
+//            name = pathOnly+File.separator+name;
             
         // convert to signed!
         for (int index8=0; index8<size; index8++)
@@ -1745,19 +1764,20 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
             count++;
         }
         b.append("\n"+nameOnly+"_data_end: ");
-        de.malban.util.UtilityFiles.createTextFile(name, b.toString());
-        
         String pathNow = pathOnly;
-        if (pathNow.length()>0)
-            pathNow = pathNow+File.separator;
+        if (!pathNow.endsWith(File.separator)) pathOnly+=File.separator;
+//        if (pathNow.length()>0)
+//            pathNow = pathNow+File.separator;
+        de.malban.util.UtilityFiles.createTextFile(pathNow+name, b.toString());
         
         
-        Path include = Paths.get(".", "template", "VECTREX.I");
+        
+        Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
         de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathNow+ "VECTREX.I");
-        Path digital = Paths.get(".", "template", "digitalPlayer.i");
+        Path digital = Paths.get(Global.mainPathPrefix, "template", "digitalPlayer.i");
         de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathNow+ "digitalPlayer.i");
 
-        Path template = Paths.get(".", "template", "digitalPlayMain.template");
+        Path template = Paths.get(Global.mainPathPrefix, "template", "digitalPlayMain.template");
         String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
 
         int sampleRate = de.malban.util.UtilityString.IntX(jTextFieldSampleRate.getText(), 8000);
@@ -1797,7 +1817,8 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     {
         String name = GetRawFilenamePanel.showEnterValueDialog();
         name = name+".raw";
-        name = pathOnly+File.separator+name;
+        if (!pathOnly.endsWith(File.separator)) pathOnly+=File.separator;
+        name = pathOnly+name;
         byte[] vectrexSampleData = convertToVectrex();
         if (vectrexSampleData == null) return;
         
@@ -1840,7 +1861,8 @@ public class SampleJPanel extends javax.swing.JPanel implements PositionListener
     {
         String name = GetWavFilenamePanel.showEnterValueDialog();
         name = name+".wav";
-        name = pathOnly+File.separator+name;
+        if (!pathOnly.endsWith(File.separator)) pathOnly+=File.separator;
+        name = pathOnly+name;
         
         
         
@@ -2167,4 +2189,5 @@ private static AudioInputStream convertSampleRate(
             paintSamples();
         }
 
+    public void deIconified()  {}
 }

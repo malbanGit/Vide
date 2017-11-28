@@ -547,4 +547,5 @@ public class VectorInfoJPanel extends javax.swing.JPanel implements
         int rowHeight = fontSize+3;
         jTable1.setRowHeight(rowHeight);
     }
+    public void deIconified() { }
  }

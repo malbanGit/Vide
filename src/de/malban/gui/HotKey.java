@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.malban.gui;
 
 import java.awt.Event;
@@ -183,7 +178,11 @@ public class HotKey implements Serializable
             HotKey.addMap(KeyEvent.VK_O, 0, "Overlay/Toggle", "Vecxi");
             HotKey.addMap(KeyEvent.VK_1, 0, "VecX QuickSave", "Vecxi");
             HotKey.addMap(KeyEvent.VK_2, 0, "VecX QuickLoad", "Vecxi");
-            HotKey.addMap(KeyEvent.VK_B, 0, "RingbufferToggle", "Vecxi");
+            HotKey.addMap(KeyEvent.VK_B, 0, "RingbufferToggle", "Vecxi");            
+            HotKey.addMap(KeyEvent.VK_P, Event.SHIFT_MASK, "Panel/Toggle", "Vecxi");
+            HotKey.addMap(KeyEvent.VK_F, Event.SHIFT_MASK, "FullScreen/Toggle", "Vecxi");
+            HotKey.addMap(KeyEvent.VK_Q, 0, "Quit vecxi", "Vecxi");
+            
             
             
             

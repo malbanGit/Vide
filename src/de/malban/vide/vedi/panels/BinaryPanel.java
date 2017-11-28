@@ -10,6 +10,7 @@ import de.malban.config.TinyLogInterface;
 import de.malban.gui.panels.LogPanel;
 import de.malban.vide.vedi.VEdiFoundationPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
+import de.malban.vide.VideConfig;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
 import java.awt.Component;
@@ -31,6 +32,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author malban
  */
 public class BinaryPanel extends javax.swing.JPanel {
+    VideConfig config = VideConfig.getConfig();
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     private javax.swing.JMenuItem mParentMenuItem = null;
     private int mClassSetting=0;
@@ -102,7 +104,7 @@ public class BinaryPanel extends javax.swing.JPanel {
         }
         public Color getBackground(int col)
         {
-            if (col == 0) return new Color(200,255,200,255);
+            if (col == 0) return config.tableAddress;
             return null; // default
         }
         

@@ -45,6 +45,7 @@ public class InternalFrameFileChoser extends JFileChooser{
                 if (modal.isExitButtonUsed())
                 {
                     returnValue =  JFileChooser.APPROVE_OPTION;
+                    return;
                 }
                 returnValue = JFileChooser.CANCEL_OPTION;
             }

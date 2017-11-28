@@ -14,7 +14,7 @@ import java.util.Vector;
 public class TimingTriggerer
 {
     public static final int DEFAULT_RESOLUTION = 200;// 1/5 second
-    private static TimingTriggerer timer = new TimingTriggerer();
+    private static final TimingTriggerer timer = new TimingTriggerer();
     public static TimingTriggerer getTimer()
     {
         return timer;
@@ -34,8 +34,8 @@ public class TimingTriggerer
         Object o;
     }
     private long resolution = DEFAULT_RESOLUTION; // 1/5 second
-    private boolean stop = true;
-    private boolean running = false;
+    private volatile boolean stop = true;
+    private volatile boolean running = false;
     private final Vector <Trigger> mTriggers = new Vector<Trigger>();
 
     private final boolean autoResolutionEnabled = true;
@@ -45,9 +45,9 @@ public class TimingTriggerer
 
     }
     int minRes = 100000;
-    public void start()
+    private void start()
     {
-        new Thread()
+        new Thread("Timer thread")
         {
             @Override public void run()
             {

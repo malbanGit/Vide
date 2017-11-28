@@ -146,14 +146,14 @@ public class SyntaxDebugJPanel extends javax.swing.JPanel  implements
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         SyntaxDebugJPanel panel = new SyntaxDebugJPanel();
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1080, 800, panel.getMenuItem().getText());
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel, 1080, 800, "Syntax Debug");
     }        
 
     public class LabelSingTableModel extends AbstractTableModel
     {
         public int getRowCount()
         {
+            if (FunctionSink.knownGlobalFunctions.size()!=0) return FunctionSink.knownGlobalFunctions.size();
             return LabelSink.knownGlobalVariables.size();
         }
         public int getColumnCount()
@@ -164,10 +164,19 @@ public class SyntaxDebugJPanel extends javax.swing.JPanel  implements
         {
             try
             {
-                EntityDefinition ed = (EntityDefinition) LabelSink.knownGlobalVariables.values().toArray()[row];
-                if (col == 0) return ed.name;
-                if (col == 1) return ed.file+":"+ed.getLineNumber();
-                
+                EntityDefinition ed;
+                if (FunctionSink.knownGlobalFunctions.size()!=0) 
+                {
+                    ed = (EntityDefinition) FunctionSink.knownGlobalFunctions.values().toArray()[row];
+                    if (col == 0) return ed.name;
+                    if (col == 1) return ed.cfile+":"+ed.getLineNumber();
+                }
+                else
+                {
+                    ed = (EntityDefinition) LabelSink.knownGlobalVariables.values().toArray()[row];
+                    if (col == 0) return ed.name;
+                    if (col == 1) return ed.file+":"+ed.getLineNumber();
+                }
             }
             catch (Throwable e)
             {
@@ -188,4 +197,5 @@ public class SyntaxDebugJPanel extends javax.swing.JPanel  implements
             return false;
         }
     }
+    public void deIconified() { }
 }

@@ -5,6 +5,7 @@
  */
 package de.malban.vide.veccy;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.graphics.GFXVectorAnimation;
 import de.malban.gui.panels.LogPanel;
@@ -35,8 +36,16 @@ public class StoryboardLanePanel extends javax.swing.JPanel {
     public StoryboardLanePanel() {
         initComponents();
     }
-
-   public StoryboardLanePanel(StoryboardPanelInterface s) {
+   
+    public boolean isVersion1()
+    {
+        for (StoryboardElement element : elements)
+        {
+            if (element.version == 1) return true;
+        }
+        return false;
+    }
+    public StoryboardLanePanel(StoryboardPanelInterface s) {
         initComponents();
         remove(storyelement);
         sb = s;
@@ -295,7 +304,7 @@ public class StoryboardLanePanel extends javax.swing.JPanel {
             if (!se.pause)
             {
                 GFXVectorAnimation currentAnimation = new GFXVectorAnimation();
-                boolean ok = currentAnimation.loadFromXML(se.listName);
+                boolean ok = currentAnimation.loadFromXML(Global.mainPathPrefix+se.listName);
                 if (ok)
                 {
                     se.setAnimation(currentAnimation);
@@ -339,6 +348,7 @@ public class StoryboardLanePanel extends javax.swing.JPanel {
             StringBuilder t1 = new StringBuilder();
             if (element.disabled) continue;
             if (element.getAnimation() == null) continue;
+            
             if (noDoubleAnimMap.get(element.listName) == null)
             {
                 if (element.drawType.equals("synced extended"))
@@ -396,7 +406,7 @@ public class StoryboardLanePanel extends javax.swing.JPanel {
                 {
                     // synced extended!
                     noDoubleRoutineMap.put(element.drawType, element.drawType);
-                    Path template = Paths.get(".", "template", "animationDraw_esync.template");
+                    Path template = Paths.get(Global.mainPathPrefix, "template", "animationDraw_esync.template");
 
                     String text = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
 
@@ -408,7 +418,7 @@ public class StoryboardLanePanel extends javax.swing.JPanel {
                 {
                     // synced !
                     noDoubleRoutineMap.put(element.drawType, element.drawType);
-                    Path template = Paths.get(".", "template", "animationDraw_sync.template");
+                    Path template = Paths.get(Global.mainPathPrefix, "template", "animationDraw_sync.template");
 
                     String text = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
 

@@ -301,8 +301,7 @@ public class StatementWindow extends javax.swing.JPanel implements
        JMenuItem menuItem = (JMenuItem) evt.getSource();
 
         StatementWindow stw = new StatementWindow();
-        ((CSAMainFrame)mParentView).addPanel(stw);
-        ((CSAMainFrame)mParentView).setMainPanel(stw);
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(stw, 800, 600, "SQL");
        
        UserSQLStatement st = (UserSQLStatement) mStatementPool.get(menuItem.getText());
        stw.resetStatementPool(st.mName, st.mKlasse);
@@ -1731,4 +1730,5 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         mInDBAdd--;
         mClassSetting--;
     }
+    public void deIconified() { }
 }

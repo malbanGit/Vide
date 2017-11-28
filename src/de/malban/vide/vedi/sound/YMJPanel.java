@@ -15,6 +15,7 @@ Ideas for further optmization of space usage
  */
 package de.malban.vide.vedi.sound;
 
+import de.malban.Global;
 import de.muntjak.tinylookandfeel.Theme;
 import de.malban.config.Configuration;
 import de.malban.config.TinyLogInterface;
@@ -24,12 +25,13 @@ import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
+import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.E8910;
 import de.malban.vide.vedi.VediPanel;
+import static de.malban.vide.vedi.VediPanel.convertToCASM;
 import de.malban.vide.vedi.VediPanel32;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -69,6 +71,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class YMJPanel extends javax.swing.JPanel implements Windowable
 {
+    VideConfig config = VideConfig.getConfig();
     LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     String currentYMFile = "";
     String ymSaveName = "";
@@ -289,12 +292,17 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                     }
                     if (row == ympos)
                     {
-                        setBackground(new Color(200,200,255));
+                        setForeground(table.getForeground());
+                        setBackground(config.ymCurrentLineBack);
                     }        
                     else
                     {
                         if (!isSelected)
-                            setBackground(Color.WHITE);
+                        {
+                            
+                            setBackground(table.getBackground());
+                            setForeground(table.getForeground());
+                        }
                     }
                 }
                 return this;
@@ -311,12 +319,10 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 {
                     if (row == ympos)
                     {
-                        setBackground(new Color(200,200,255));
+                        setBackground(config.ymCurrentLineBack);
                     }        
                     else
-                    {
-                        setBackground(Color.WHITE);
-                    }
+                        setBackground(table.getBackground());
                 }
                 return this;
             }   
@@ -374,6 +380,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
         buttonGroup4 = new javax.swing.ButtonGroup();
+        buttonGroup5 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -644,6 +651,12 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         jCheckBox19 = new javax.swing.JCheckBox();
         jCheckBox22 = new javax.swing.JCheckBox();
         jLabel143 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jLabel154 = new javax.swing.JLabel();
+        jLabel155 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
@@ -2883,7 +2896,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel13)
@@ -2905,18 +2918,15 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                     .addComponent(jTextFieldComment)
                     .addComponent(jComboBoxInterleaved, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextFieldFrequencyComputer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextFieldFrequencyPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTextFieldYMVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldFutureData, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel141))
-                        .addGap(0, 1, Short.MAX_VALUE)))
+                        .addComponent(jTextFieldFrequencyComputer, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldFrequencyPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldYMVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldFutureData, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel141))
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel15)
                     .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3171,6 +3181,65 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         jLabel143.setText("0");
 
+        jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("source option"));
+
+        buttonGroup5.add(jRadioButton1);
+        jRadioButton1.setSelected(true);
+        jRadioButton1.setText("assi");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup5.add(jRadioButton2);
+        jRadioButton2.setText("C");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup5.add(jRadioButton3);
+        jRadioButton3.setText("BASIC");
+        jRadioButton3.setEnabled(false);
+
+        jLabel154.setFont(jLabel154.getFont().deriveFont((jLabel154.getFont().getStyle() | java.awt.Font.ITALIC)));
+        jLabel154.setText("historic and streamed");
+
+        jLabel155.setFont(jLabel155.getFont().deriveFont((jLabel155.getFont().getStyle() | java.awt.Font.ITALIC)));
+        jLabel155.setText("not directly supported by C ");
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addComponent(jRadioButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRadioButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jRadioButton3)
+                .addGap(32, 32, 32)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel155)
+                    .addComponent(jLabel154))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton2)
+                    .addComponent(jRadioButton3)
+                    .addComponent(jLabel154))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel155)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -3178,37 +3247,54 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel144)
-                    .addComponent(jCheckBoxCreatePlayer))
-                .addGap(133, 133, 133)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox2, 0, 287, Short.MAX_VALUE)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel144)
+                                    .addComponent(jCheckBoxCreatePlayer))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(133, 133, 133))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(29, 29, 29)))
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel147, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel148, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jLabel135)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel136))
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel146, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel146, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel137)
-                            .addComponent(jLabel139)
-                            .addComponent(jLabel142))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jLabel135)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel136))
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jLabel137)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel138)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel143)
-                            .addComponent(jLabel140)
-                            .addComponent(jLabel138))))
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jLabel142)
+                                .addGap(28, 28, 28)
+                                .addComponent(jLabel143))
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jLabel139)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel140)))
+                        .addGap(35, 35, 35)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
@@ -3219,14 +3305,12 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel135)
                     .addComponent(jLabel136)
-                    .addComponent(jLabel137)
-                    .addComponent(jLabel138))
-                .addGap(7, 7, 7)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel139)
                     .addComponent(jLabel140))
-                .addGap(8, 8, 8)
+                .addGap(7, 7, 7)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel137)
+                    .addComponent(jLabel138)
                     .addComponent(jLabel142)
                     .addComponent(jLabel143))
                 .addGap(5, 5, 5)
@@ -3245,7 +3329,9 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                     .addComponent(jCheckBoxCreatePlayer)
                     .addComponent(jLabel148))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel147)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel147)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -3277,7 +3363,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Lister", jPanel9);
@@ -3518,7 +3604,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 .addComponent(jCheckBoxForce2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxForce3)
-                .addContainerGap(186, Short.MAX_VALUE))
+                .addContainerGap(274, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("more configuration", jPanel11);
@@ -3663,8 +3749,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(1, 1, 1)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane2)))
                             .addComponent(jButtonAddRow)))
                     .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0)
@@ -3709,7 +3795,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
             // ask where to save!
             InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
             fc.setDialogTitle("Select save directory");
-            fc.setCurrentDirectory(new java.io.File("."+File.separator));
+            fc.setCurrentDirectory(new java.io.File(Global.mainPathPrefix));
             fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
             int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
@@ -3950,7 +4036,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         if (copyBuf==null) return;
         insertYM(copyBuf, copyBuf[0].length);
     }//GEN-LAST:event_jButtonPasteActionPerformed
-    String lastPath ="."+File.separator;
+    String lastPath =Global.mainPathPrefix;
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
 
         if (jTable1.isEditing()) jTable1.getCellEditor().stopCellEditing();        
@@ -3960,7 +4046,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         {
             if (pathOnly.length()==0)
             {
-                pathOnly =  "."+File.separator;
+                pathOnly =  Global.mainPathPrefix;
             }
             fc.setCurrentDirectory(new java.io.File(pathOnly));
         }
@@ -3973,6 +4059,9 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
 
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
+        if (fc == null) return;
+        if (fc.getSelectedFile() == null) return;
+        
         lastPath = fc.getSelectedFile().getAbsolutePath();
         initYM( lastPath);
         
@@ -4306,7 +4395,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         {
             if (pathOnly.length()==0)
             {
-                pathOnly =  "."+File.separator;
+                pathOnly =  Global.mainPathPrefix;
             }
             fc.setCurrentDirectory(new java.io.File(pathOnly));
         }
@@ -4431,7 +4520,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         {
             if (pathOnly.length()==0)
             {
-                pathOnly =  "."+File.separator;
+                pathOnly =  Global.mainPathPrefix;
             }
             fc.setCurrentDirectory(new java.io.File(pathOnly));
         }
@@ -4454,11 +4543,21 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldReadChanelActionPerformed
 
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        jCheckBoxCreatePlayer.setEnabled(false);
+        jCheckBoxCreatePlayer.setSelected(false);
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        jCheckBoxCreatePlayer.setEnabled(true);
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.ButtonGroup buttonGroup5;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton13;
@@ -4601,6 +4700,8 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JLabel jLabel151;
     private javax.swing.JLabel jLabel152;
     private javax.swing.JLabel jLabel153;
+    private javax.swing.JLabel jLabel154;
+    private javax.swing.JLabel jLabel155;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -4713,6 +4814,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -4721,6 +4823,9 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -4781,8 +4886,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         YMJPanel panel = new YMJPanel(fileName, tl);
         panel.standalone = sa;
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1180, 700, panel.getMenuItem().getText());
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1180, 700, "YMPanel");
        
        if (tl instanceof VediPanel32)
        {
@@ -4877,7 +4981,7 @@ public class YMJPanel extends javax.swing.JPanel implements Windowable
                 if (jCheckBoxCreatePlayer.isSelected())
                 {
 
-                    Path template = Paths.get(".", "template", "playYMRaw.bas");
+                    Path template = Paths.get(Global.mainPathPrefix, "template", "playYMRaw.bas");
                     exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
                 }
                 String complete = exampleMain+out.toString();
@@ -4914,6 +5018,13 @@ s
             saveNameOnly = filenameBaseOnly+".asm";
             FileWriter fw;
             BufferedWriter bw;
+            String sName = new File(pathFull).getName();
+            if (sName.contains("."))
+                sName = sName.substring(0, sName.lastIndexOf("."));
+            if (!Character.isAlphabetic(sName.charAt(0))) sName="a"+sName;
+            sName = de.malban.util.UtilityString.replaceWhiteSpaces(sName, " ");
+            sName = de.malban.util.UtilityString.replace(sName, "  ", " ");
+            sName = de.malban.util.UtilityString.replace(sName.trim(), " ", "_");
             try
             {
                 fw = new FileWriter(file.getAbsoluteFile());
@@ -4923,24 +5034,46 @@ s
 
                 boolean started = false;
                 
-
-                bw.write("\n");
-                bw.write("SONG_DATA = ymlen\n");
-                bw.write("\n");
-                bw.write("ymlen:\n dw ");
-                bw.write("$"+String.format("%04X",(end-start)));
-                
-                bw.write("\nymregs:\n db ");
-                for (int r=0; r< 15; r++)
+                if (jRadioButton2.isSelected())
                 {
-                    if (!usedRegs[r]) continue;
+                    bw.write("\n");
+                    bw.write("ymlen_"+sName+":\n dw ");
+                    bw.write("$"+String.format("%04X",(end-start)));
+
+                    bw.write("\nymregs_"+sName+":\n db ");
+                    for (int r=0; r< 15; r++)
+                    {
+                        if (!usedRegs[r]) continue;
+
+                        if (started) bw.write(", ");
+                        bw.write("$"+String.format("%02X",r));
+                        started = true;
+                    }
+                    bw.write(", $ff \n");
+                    bw.write("ymdata_"+sName+":\n");
                     
-                    if (started) bw.write(", ");
-                    bw.write("$"+String.format("%02X",r));
-                    started = true;
                 }
-                bw.write(", $ff \n");
-                bw.write("ymdata:\n");
+                else
+                {
+                    bw.write("\n");
+                    bw.write("SONG_DATA = ymlen\n");
+                    bw.write("\n");
+                    bw.write("ymlen:\n dw ");
+                    bw.write("$"+String.format("%04X",(end-start)));
+
+                    bw.write("\nymregs:\n db ");
+                    for (int r=0; r< 15; r++)
+                    {
+                        if (!usedRegs[r]) continue;
+
+                        if (started) bw.write(", ");
+                        bw.write("$"+String.format("%02X",r));
+                        started = true;
+                    }
+                    bw.write(", $ff \n");
+                    bw.write("ymdata:\n");
+                }
+
                 
                 for (int i=start; i<end; i++)
                 {
@@ -4962,14 +5095,15 @@ s
                 }
                 bw.close();
                 
+                
                 if (jCheckBoxCreatePlayer.isSelected())
                 {
-                    Path include = Paths.get(".", "template", "VECTREX.I");
+                    Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
                     de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
-                    Path digital = Paths.get(".", "template", "ymUnpackedPlayer.i");
+                    Path digital = Paths.get(Global.mainPathPrefix, "template", "ymUnpackedPlayer.i");
                     de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "ymUnpackedPlayer.i");
 
-                    Path template = Paths.get(".", "template", "ymPlayUnpackedMain.template");
+                    Path template = Paths.get(Global.mainPathPrefix, "template", "ymPlayUnpackedMain.template");
                     String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
 
                     exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YM_DATA#", saveNameOnly);
@@ -4988,12 +5122,31 @@ s
             {
                 VediPanel.openInVedi(pathOnly+filenameOnly.substring(0,filenameOnly.length()-3)+"Main.asm");
             }
+            
+            if (jRadioButton2.isSelected())
+            {
+                
+                if (!(pathOnly+filenameBaseOnly+".asm").equals(startPath+File.separator+filenameBaseOnly+".asm"))
+                    de.malban.util.UtilityFiles.move(pathOnly+filenameBaseOnly+".asm", startPath+File.separator+filenameBaseOnly+".asm");
+                convertToCASM(startPath+File.separator+filenameBaseOnly+".asm", true);
+            
+                String outName = startPath+File.separator+filenameBaseOnly+".h";
+                String body = "extern const void* "+"ymlen_"+sName+";\n";
+                 body += "extern const void* "+"ymregs_"+sName+";\n";
+                 body += "extern const void* "+"ymdata_"+sName+";\n";
+                de.malban.util.UtilityFiles.createTextFile(outName, body);
+                
+                moveToSource(startPath, filenameBaseOnly);
+                
+                
+            }
         }
         else
         {
             // do compress
             start(pathFull);
         }
+                
     }
     
     void doYM_part2()
@@ -5031,12 +5184,12 @@ s
         {
             if (ymhistoric)
             {
-                Path include = Paths.get(".", "template", "VECTREX.I");
+                Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
                 de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
-                Path digital = Paths.get(".", "template", "ymPlayer.i");
+                Path digital = Paths.get(Global.mainPathPrefix, "template", "ymPlayer.i");
                 de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "ymPlayer.i");
 
-                Path template = Paths.get(".", "template", "ymPlayMain.template");
+                Path template = Paths.get(Global.mainPathPrefix, "template", "ymPlayMain.template");
                 String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
 
                 exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YM_DATA#", saveNameOnly);
@@ -5044,12 +5197,12 @@ s
             }
             if (ymoptimized)
             {
-                Path include = Paths.get(".", "template", "VECTREX.I");
+                Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
                 de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
-                Path digital = Paths.get(".", "template", "ymPlayerNoByteShannon.template");
+                Path digital = Paths.get(Global.mainPathPrefix, "template", "ymPlayerNoByteShannon.template");
                 de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "ymPlayer.i");
 
-                Path template = Paths.get(".", "template", "ymPlayMain.template");
+                Path template = Paths.get(Global.mainPathPrefix, "template", "ymPlayMain.template");
                 String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
 
                 exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YM_DATA#", saveNameOnly);
@@ -5077,6 +5230,16 @@ s
         
     }
         
+    void moveToSource(String basePath, String baseFilename)
+    {
+        String sourcePath = basePath+File.separator+"source";
+        if (new File(sourcePath).exists())
+        {
+            de.malban.util.UtilityFiles.move(basePath+File.separator+baseFilename+".s", sourcePath+File.separator+baseFilename+".s");
+            de.malban.util.UtilityFiles.move(basePath+File.separator+baseFilename+".h", sourcePath+File.separator+baseFilename+".h");
+        }
+    }
+
     public void start(final String pathFull)
     {
         // paranoia!
@@ -5098,6 +5261,16 @@ s
                 //if (!standalone)
                 {
                 }
+                String sName = new File(pathFull).getName();
+                if (sName.contains("."))
+                    sName = sName.substring(0, sName.lastIndexOf("."));
+                if (!Character.isAlphabetic(sName.charAt(0))) sName="a"+sName;
+                sName = de.malban.util.UtilityString.replaceWhiteSpaces(sName, " ");
+                sName = de.malban.util.UtilityString.replace(sName, "  ", " ");
+                sName = de.malban.util.UtilityString.replace(sName.trim(), " ", "_");
+                
+                ymSound.file_name = sName;
+                
                 ymSaveName = ymSound.buildASM(usedRegs);
                 if (ymSaveName != null) 
                 {
@@ -5110,11 +5283,21 @@ s
                         
                         de.malban.util.UtilityFiles.move(ymSaveName, startPath+name);
                         ymSaveName =startPath+name;
-                    }
-                    
+                        if (jRadioButton2.isSelected())
+                        {
+                            String filenameBaseOnly = VediPanel.baseOnly(new File(ymSaveName).getName());
+                            
+                            
+                            
+                            if (!(ymSound.file_name).equals(startPath+File.separator+filenameBaseOnly+".asm"))
+                                de.malban.util.UtilityFiles.move(ymSound.file_name, startPath+File.separator+filenameBaseOnly+".asm");
+                            convertToCASM(startPath+File.separator+filenameBaseOnly+".asm", true);
+                            addCInclude(ymSound.file_name, startPath+File.separator+filenameBaseOnly+".asm");
+                        
+                            moveToSource(startPath, filenameBaseOnly);
 
-                    
-                    
+                        }
+                    }
                     SwingUtilities.invokeLater(new Runnable()
                     {
                         public void run()
@@ -5129,6 +5312,15 @@ s
         two.start();           
     }    
 
+    void addCInclude(String dataName, String pathOfData)
+    {
+        String outName = VediPanel.changeTypeTo(pathOfData, "h");
+        String body = "extern const void* "+dataName+"_data;\n";
+        de.malban.util.UtilityFiles.createTextFile(outName, body);
+    }
+    
+    
+    
     boolean playingYM = false;
     int ympos = 0;
     int currentHz = 50;
@@ -5758,7 +5950,7 @@ s
         {
             if (pathOnly.length() == 0)
             {
-                lastPath = "."+File.separator;
+                lastPath = Global.mainPathPrefix;
                 fc.setCurrentDirectory(new java.io.File(lastPath));
             }
             else
@@ -5774,6 +5966,8 @@ s
 
         int re = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (re != InternalFrameFileChoser.APPROVE_OPTION) return false;
+        if (fc == null) return false;
+        if (fc.getSelectedFile() == null) return false;
         lastPath = fc.getSelectedFile().getAbsolutePath();
 
         
@@ -6081,12 +6275,12 @@ s
 
             if (jCheckBoxCreatePlayer.isSelected())
             {
-                Path include = Paths.get(".", "template", "VECTREX.I");
+                Path include = Paths.get(Global.mainPathPrefix, "template", "VECTREX.I");
                 de.malban.util.UtilityFiles.copyOneFile(include.toString(), pathOnly+ "VECTREX.I");
-                Path digital = Paths.get(".", "template", "ymStreamedPlayer.i");
+                Path digital = Paths.get(Global.mainPathPrefix, "template", "ymStreamedPlayer.i");
                 de.malban.util.UtilityFiles.copyOneFile(digital.toString(), pathOnly+ "ymStreamedPlayer.i");
 
-                Path template = Paths.get(".", "template", "ymPlayStreamedMain.template");
+                Path template = Paths.get(Global.mainPathPrefix, "template", "ymPlayStreamedMain.template");
                 String exampleMain = de.malban.util.UtilityString.readTextFileToOneString(new File(template.toString()));
 
                 exampleMain = de.malban.util.UtilityString.replace(exampleMain,"#YM_DATA#", saveNameOnly);
@@ -7488,7 +7682,55 @@ s
         int rowHeight = fontSize+2;
         jTable1.setRowHeight(rowHeight);
         jTable2.setRowHeight(rowHeight);
+        
+        // Voice A
+        jComboBoxNotesA.setBackground(config.psgChannelA);
+        jTextField1a.setBackground(config.psgChannelA);
+        jTextField2a.setBackground(config.psgChannelA);
+        jCheckBoxNoiseA.setBackground(config.psgChannelA);
+        jCheckBoxToneA.setBackground(config.psgChannelA);
+        jSliderAmplidtudeA.setBackground(config.psgChannelA);
+        jTextField9a.setBackground(config.psgChannelA);
+        jPanel7.setBackground(config.psgChannelA);
+        jCheckBox20.setBackground(config.psgChannelA);
+        jCheckBox17.setBackground(config.psgChannelA);
+        
+        // Voice B
+        jComboBoxNotesB.setBackground(config.psgChannelB);
+        jTextField3a.setBackground(config.psgChannelB);
+        jTextField4a.setBackground(config.psgChannelB);
+        jCheckBoxNoiseB.setBackground(config.psgChannelB);
+        jCheckBoxToneB.setBackground(config.psgChannelB);
+        jSliderAmplidtudeB.setBackground(config.psgChannelB);
+        jTextField10a.setBackground(config.psgChannelB);
+        jPanel8.setBackground(config.psgChannelB);
+        jCheckBox21.setBackground(config.psgChannelB);
+        jCheckBox18.setBackground(config.psgChannelB);
+        
+        // Voice B
+        jComboBoxNotesC.setBackground(config.psgChannelC);
+        jTextField5a.setBackground(config.psgChannelC);
+        jTextField6a.setBackground(config.psgChannelC);
+        jCheckBoxNoiseC.setBackground(config.psgChannelC);
+        jCheckBoxToneC.setBackground(config.psgChannelC);
+        jSliderAmplidtudeC.setBackground(config.psgChannelC);
+        jTextField11a.setBackground(config.psgChannelC);
+        jPanel6.setBackground(config.psgChannelC);
+        jCheckBox22.setBackground(config.psgChannelC);
+        jCheckBox19.setBackground(config.psgChannelC);
+
+        // Noise
+        jTextField7a.setBackground(config.psgChannelNoise);
+        jSliderNoise.setBackground(config.psgChannelNoise);
+        
+     
+        
+        
+        
     }
+    public void deIconified()  {}
     
+    
+
     
 }

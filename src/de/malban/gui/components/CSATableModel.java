@@ -31,8 +31,6 @@ public class CSATableModel extends AbstractTableModel implements TableCellRender
     
     private String mSheetName="";
     private int mEnabledColumnCount = 0;
-    private Color lightBlue = new Color(160, 160, 255);
-    private Color darkBlue  = new Color( 64,  64, 128);
     private static boolean mLogging = false;
     private static String mLog="";
     CSATablePanel parent=null;
@@ -253,6 +251,23 @@ public class CSATableModel extends AbstractTableModel implements TableCellRender
         return distinctRepresentation;
     }
 
+    private Color tableBackColor  = new Color( 64,  64, 128);
+    private Color tableForColor  = new Color( 64,  64, 128);
+    private Color tableSelBackColor  = new Color( 64,  64, 128);
+    private Color tableSelForColor  = new Color( 64,  64, 128);
+    private Color tableFocBackColor  = new Color( 64,  64, 128);
+    private Color tableFocForColor  = new Color( 64,  64, 128);
+    void getColors()
+    {
+        UIDefaults table = UIManager.getLookAndFeelDefaults();
+        tableBackColor = (Color) table.get( "Table.background" );
+        tableForColor = (Color) table.get( "Table.foreground" );
+        tableSelForColor = (Color) table.get( "Table.selectionForeground" );
+        tableSelBackColor = (Color) table.get( "Table.selectionBackground" );
+        tableFocForColor = (Color) table.get( "Table.focusCellForeground" );
+        tableFocBackColor = (Color) table.get( "Table.focusCellBackground" );
+    }
+    
     public Component getTableCellRendererComponent(
                 JTable table,
                 Object value,
@@ -262,7 +277,8 @@ public class CSATableModel extends AbstractTableModel implements TableCellRender
                 int column
                 ) 
      {
-        //Label erzeugen
+         getColors();
+         //Label erzeugen
         JLabel label ;
          if (value == null)
          {
@@ -282,14 +298,20 @@ public class CSATableModel extends AbstractTableModel implements TableCellRender
         Border b = BorderFactory.createEmptyBorder(1, 1, 1, 1);
         label.setBorder(b);
         label.setFont(table.getFont());
-        label.setForeground(table.getForeground());
-        label.setBackground(table.getBackground());
+        label.setForeground(tableForColor);
+        label.setBackground(tableBackColor);
         if (hasFocus) {
-            label.setBackground(darkBlue);
-            label.setForeground(Color.white);
-        } else if (isSelected) 
+            // not handled by laf
+            label.setBackground(tableFocBackColor);
+            label.setForeground(tableFocForColor);
+
+            label.setBackground(tableSelBackColor);
+            label.setForeground(tableSelForColor);
+        } 
+        else if (isSelected) 
         {
-            label.setBackground(lightBlue);
+            label.setBackground(tableSelBackColor);
+            label.setForeground(tableSelForColor);
         } 
         else 
         {
@@ -308,8 +330,9 @@ public class CSATableModel extends AbstractTableModel implements TableCellRender
             }
             else
 */
- {
-                 label.setBackground(Color.white);
+            {
+                label.setBackground(tableBackColor);
+                label.setForeground(tableForColor);
             }
         }
         return label;

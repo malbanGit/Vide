@@ -1,6 +1,251 @@
+Correct curly indenting!
+
+figure out how to add "h" to debgging!
+
+
+- Bei dieser Gelegenheit ist mir noch aufgefallen, dass in den Projekt xml Dateien 
+  der Projektpfad (relativ zum Vide Binary) abgespeichert ist. Beim Kopieren/Verschieben 
+  eines kompletten Projekt-Ordners stimmt diese Information dann nicht mehr, und es wird 
+  alles an der alten Location gesucht und nicht mehr gefunden (bzw. beim Kopieren arbeitet das 
+  Ganze dann unbemerkt auf dem „alten“ Folder). Wäre evtl. eine Funktionalität „load project“ 
+  sinnvoll, die beim Laden der xml Projekt-Informationen schlichtweg den Pfad nimmt, an dem die xml Datei liegt?
+
+bug with different main files
+
+
+Info:
+Vectrex EXEC ROM BIOS Checksums 
+
+Checksum 7931 : 
+First Release. 
+GCE ROM. 
+Title screen “GCE - ENTERTAINING NEW IDEAS”. 
+Vectrex with this ROM will have a buzz (unless manually de-buzzed). 
+
+Checksum B796 : 
+Second Release Release. 
+MB ROM. 
+Title screen "VECTREX”. 
+Vectrex with this ROM will have a buzz (unless manually de-buzzed). 
+
+Checksum 7ADB : 
+MB ROM. 
+Title screen "VECTREX”. 
+European Vectrex release. 
+Fixed version of the built in game Mine Storm. 
+No Buzz Vectrex. 
+Different Printed Circuit Board (PCB) as compared to other Vectrex. 
+Serial Number series 311xxxx.
 
 
 
+done:
+Am 12.11.2017 um 10:48 schrieb Frank Buss <fb@frank-buss.de>:
+    Eine weitere Ungereimtheit: Die Adresse für den Befehl ab $0042 wird geändert, wenn das Programm abläuft. Ich bin so vorgegangen: Das demo bin-File geöffnet, es wird dann dissi angezeigt, mit dem falschen Befehl "ldy #$53ff". Klicke ich dann auf Pause, schließe das dissi-Fenster, klicke auf den Associate Button im vecxi-Fenster, dann steht dort der richtige Befehl "ldy #$589d". Habe es nicht genauer debuggt, vielleicht wird da von irgendwo im Programm was geschrieben. Wäre wahrscheinlich besser, wenn das ROM nie geändert werden kann, es sei denn mit einer Option, für die Leute die SRAM-Cartridges testen wollen.
+
+    Habe das gerade versucht.
+    - bein „richtigen“ (ersten) starten ist dissi im der richtigen korrekt BANK (1) und zeigt dort den korrekten Wert an
+    - Wenn Du dissi „zerstörst“ und neu auf machst, startet dissi im „default“ Zustand (BANK 0) - und dort steht tatsächlich ein anderer Wert.
+
+    Das könnte man als Fehler von dissi bezeichnen, das er in der falschen BANK „neu startet“ - werde ich korrigieren.
+    Aber im Grunde sind beide Werte richtig - der eine steht in BANK 0, der andere in BANK 1.
+    Du kannst dissi auch manuell zwischen den Banks schalten lassen mit dem CLI:
+
+
+Debugging RAM
+--------------
+a) in dissi switch "nu" (no unkown) to not selected (GUI checkbox)
+b) better switch of "following" of dissi "df" (don't follow) (CLI command)
+c) switch on disassemble ram with "dr" disasm RAM (CLI command)
+
+Now RAM will be viewable in dissi.
+But usually all RAM is configured as Data - so no code will be displayed.
+While dissi is not tracking (camera is OFF) - best done also in pause mode,
+mark a RAM memory region and via popup menu cast to code.
+Perhaps you habe to "shift" memory regions, with "cast to byte" and "ungroup" also, to
+access the addresses that need to be cast to code.
+
+Disassembling RAM takes many resources, since the DISASM is done for each RAM - poke.
+If you do not need to disasm RAM, you better leave it switched off.
+
+Also note - disasm RAM might be usefull for bankswitch disasm.
+The cast to disasm is only done for the current active bank in dissi.
+Upon a bankswitch the casts have to be redone for the other bank!
+
+
+
+
+https://gcc.gnu.org/onlinedocs/gcc/Using-Assembly-Language-with-C.html#Using-Assembly-Language-with-C
+https://gcc.gnu.org/onlinedocs/gcc/Constraints.html
+
+
+
+
+DEBUG RAM
+
+
+to peer
+#define Vec_Loop_Count        RAM(0xC825, unsigned long int) // Loop counter word (incremented in Wait_Recal)
+
+
+
+
+
+done: double click on mcro def in "No Frame" search the include path of "with frame" 
+
+
+        
+
+
+done:
+   if without curly
+                    else
+                    for next without curly
+                            while without curly
+            
+
+
+####
+
+- stepping one instruction with only one byte -> does two instructions
+- Hey dissi in c
+- zentralpunkt perspektive in veccy
+- document song and explosion edit
+-YM player speed opti - only without USE_ENVELOPES
+- BUG Switch on macc from full to windowed
+  a native window title appears in addition to the tiny laf
+Bug?
+- Unter windows können in anderen Laufwerken keine Projekte angelegt werden,
+ da es unmöglich ist einen relativen Pfad zu finden. -> Excepiotn
+
+
+
+incorrect
+  todo add tp all locations where memory is written or read
+  vecx.vectrexNonCPUStep(3+1); ldx, ldy sty, add cmp etc
+
+- doc
+  saved states do not reload config, and do not load cartridge info configs
+
+- MAC problem wih keyboard
+  Setting defaults write -g ApplePressAndHoldEnabled -bool false makes it go away for me. Looks very like an OS related bug. – teppic Jan 9 at 6:33 
+  see:
+  https://stackoverflow.com/questions/41393525/java-swing-keybindings-stop-working-only-on-mac
+  Open the Terminal app and write:
+  defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+  Then restart any open app in which you want this setting to activate.
+  REVERTING BACK: Just,simply add true in place of false to the previous command like this:
+  defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
+
+bug: rotated in "normal" mode overlay wrong!
+bug: mouse coorindates wrong in rotation (vinfi)
+
+
+
+
+done: ASCII bild - andere Farben
+done: bug in disabled debug -> draw arrows!
+done: single step in c before a cline goes in marking one line to far
+done: watches in Vari
+done: doc command line
+
+done: in Instrument
+Wenn ich das richtig sehe, kann man dort ADRS und TWANG einstellen und dann einzelne Noten anspielen und anhören. 
+Gibt es dort auch die Möglichkeit, eine komplette Melodie „im Original-BIOS-Format“ einfach abzuspielen?
+Ich nutze momentan die BIOS Soundroutinen, und ich bin musikalisch absolut unbegabt. Also trial & error. 
+Die Turnaround-Zeiten für das Ausprobieren kleiner Jingles erfordern immer ein C-Coding + Compile & Run und 
+sind somit relativ lange. Daher wäre so ein Feature sehr nützlich.
+
+done 
+Ebenso nutze ich die BIOS Exlposion Routine. Ich bin damals auf keinerlei Doku hierzu gestoßen und habe dann 
+per reverse engineering den Code von Star Castle studiert, um die Funktionsweise herausgefunden. 
+Das war hart, aber durchaus spaßig. Auch hier wäre ein Ausprobier-Tool sehr hilfreich. 
+Ist aber nicht dringendes, nur so eine Idee.
+
+Done:
+Bzgl. der Tabs ist mir Folgendes aufgefallen: Beim Editieren in Vedi liefert die Tab-Taste 
+„Sprünge“ von 4 Spaces, genauso wie in Geany. Nach dem Einlesen meiner (Geany) C-Files in 
+Vedi haben alle Tabs jedoch 8 Spaces. Der Code wird so recht „breit“ und läuft bei Mehrfachverschachtelung 
+schnell rechts raus und wird unlesbar. Wenn ich dann in Vedi weiter editiere und neuen Code hinzufüge, 
+werden (weiterhin) 4 Space Tabs generiert. Werden hier beim Einlesen/Unwandeln evtl. zu breite Tabs generiert?
+ 
+done (but bad)
+Und wo wir schon dabei sind, hat der Editor evtl. auch einen auto-indent nach Zeilenumbruch 
+gemäß der Schachtelungstiefe der geschweiften {} Klammern (kennst Du sicherlich von anderen Editoren)?
+
+done
+Mention, that when two or more cexis are available and one is swotched to full or panel - the
+others lose there opengl surface
+
+
+done:
+ConfigPanel - reload config values e.g. when debugging starts!
+
+
+
+
+
+
+
+
+
+
+
+
+
+http://forum.jogamp.org/JOGL-Overlay-drawing-problem-td4036075.html
+ 
+Am 04.07.2017 13:08 schrieb chrissalo@posteo.de:
+
+Do you use a GLEventListener? Please avoid making the OpenGL context current on several threads, 
+call your JOGL code directly or indirectly in GLEventListener.display() or use GLAutoDrawable.invoke().
+
+http://forum.jogamp.org/How-to-Draw-a-Smooth-Curve-through-a-Set-of-2D-Points-td4037677.html
+
+Vertex buffer
+https://wadeawalker.wordpress.com/2010/10/17/tutorial-faster-rendering-with-vertex-buffer-objects/
+
+Shader
+http://copypastaresearch.tumblr.com/post/1033237190/ported-another-glsl-routine-to-jogl2-this-time-a
+http://bentonian.com/teaching/AdvGraph1314/6.%20OpenGL%20and%20shaders%201.pdf
+http://www.coding-daddy.xyz/node/16
+http://jogamp.org/git/?p=jogl-demos.git;a=blob;f=src/demos/es2/RawGL2ES2demo.java;hb=HEAD
+http://jogamp.org/deployment/jogamp-next/javadoc/jogl/javadoc/com/jogamp/opengl/util/glsl/package-summary.html
+forum jogl
+http://forum.jogamp.org/jogl-f782158.html
+
+-----
+- Regarding the "player 2 rotates with player 1" issue in "Spaceball": 
+  We observed this behavior on the real machine (a "buzz" Vectrex) if there is no 
+  controller plugged into port 2. If two controllers are attached, then everything behaves 
+and works as expected. The code itself looks fine. Could this be some analog Vectrex hardware phenomenon?
+-----
+dissi- bug
+Smallesst dissi step is 2 byte instruction
+- this is also true for profiling
+-----
+incorrect emulation:
+Allow me the question, why do you use the function „Read_Btns_Mask“ instead of „Read_Btns“?
+
+The mask version expects a „mask“ passed in register A. Which you don’t set - A is set to whatever value the print routines set (I think it is 03).
+I haven’t gotten a clue why it works on the emulators - which is interesting and I should check at some time - but why not just do:
+
+
+COLLIDES with info from Berzerk Arena 
+Must check so that both are emulated ok
+
+Chris-
+
+I figured it out. Clearing the sound chip was the culprit.  Kind of weird!  I hope your holiday trip was good!
+
+Scott - huggings
+-----
+
+
+
+----
+ongoing: BUG pythagorean theorem - Buffer overflow of VecVoice?
+----
 Just googling - no - potrace can't. It seems a program called "autotrace" can -> 
 http://autotrace.sourceforge.net/
 
@@ -21,26 +266,6 @@ Perhaps there are options in potrace that would work - never looked at it. Maybe
 http://autotrace.sourceforge.net/index.html#intro
 
 
-
-
------
-
-incorrect emulation:
-Allow me the question, why do you use the function „Read_Btns_Mask“ instead of „Read_Btns“?
-
-The mask version expects a „mask“ passed in register A. Which you don’t set - A is set to whatever value the print routines set (I think it is 03).
-I haven’t gotten a clue why it works on the emulators - which is interesting and I should check at some time - but why not just do:
-
-
-COLLIDES with info from Berzerk Arena 
-Must check so that both are emulated ok
-
-Chris-
-
-I figured it out. Clearing the sound chip was the culprit.  Kind of weird!  I hope your holiday trip was good!
-
-Scott
------
 
 
 
@@ -637,23 +862,6 @@ done? bug vedi:
 - done: table with current breakpoints/watches in vedi
 
 
-Frogger: (count starting at 1)
-ok 1. Level > 27100: ok (4 houses)
-ok 2. Level > 29400: 28d (4 houses + fly)
-ok 3. Level > 28600: 27800 (4 houses + croco + girl)
-ok 4. Level > 28000: ok (4 houses + fly + girl)
-ok 5. Level > 28800: 27800 (4 houses + fly + girl)
-ok 6. Level > 29200: 27500 (4 houses + fly + girl)
-ok 7. Level > 29400: 28100 (4 houses + croco + girl) 
-ok 8. Level > 29600: 27500 (4 houses + croco + girl + otter) 
-30200 - ok 9. Level > 30200: 28500 ! < 30000 ! non arcade conform 30138!
-ok 10. Level > 28700: 28270 non arcade conform
-ok 11. Level > 29200: 28100 non arcade conform (and 1 car reduced)
-30300 - ok 12. Level > 29000: 27800 non arcade conform 
-ok 13. Level > 29300: 27400 non arcade conform very difficult
-ok 14. Level > 28000: 27900 non arcade conform 
-ok 15. Level > 29500: 28400 non arcade conform  very difficult
-30100 - ok 16. Level > 29500: 28300 non arcade conform 
 
 - no: Karl Quappe Pause with FIRQ, I wont programm an interrupt handler, no other w<s to ask if firq occured...
 - Level in Original Frogger are band 3+4 same direction!
@@ -820,5 +1028,4 @@ serial usb to vectrex
 
 Controller:
 Vectrosis
-
 

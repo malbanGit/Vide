@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx.panels;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.ImageCache;
@@ -20,8 +21,10 @@ import de.malban.gui.dialogs.ShowErrorDialog;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.WARN;
 import de.malban.util.DownloaderPanel;
+import de.malban.vide.VideConfig;
 import de.malban.vide.vecx.VecX;
 import de.malban.vide.vecx.cartridge.Cartridge;
+import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_48K;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_BANKSWITCH_DONDZILA;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_BANKSWITCH_VECFLASH;
 import static de.malban.vide.vecx.cartridge.Cartridge.FLAG_EXTREME_MULTI;
@@ -61,6 +64,8 @@ public class StarterJPanel extends javax.swing.JPanel implements
     public boolean isLoadSettings() { return true; }
     transient LogPanel log = (LogPanel) Configuration.getConfiguration().getDebugEntity();
     private CSAView mParent = null;
+
+    boolean myImageShown = VideConfig.getConfig().loadStarterImages;
     private javax.swing.JMenuItem mParentMenuItem = null;
     private int mClassSetting=0;
     public static String SID = "starter";
@@ -68,7 +73,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
     
     ArrayList<CartridgeProperties> allCartridges = new ArrayList<CartridgeProperties>();
     
-    public static String[] headers = {"Name", "Author","Year","Cart","Front", "Back", "InGame", "Homebrew", "Demo", "Snippet", "Game"};
+    public static String[] headers = {"Name", "Author","Year", "Homebrew", "Demo", "Snippet", "Game","Cart","Front", "Back", "InGame"};
     class CartridgeTableModel extends AbstractTableModel
     {
         private CartridgeTableModel()
@@ -81,40 +86,41 @@ public class StarterJPanel extends javax.swing.JPanel implements
         }
         public int getColumnCount()
         {
-            return headers.length;
+            if (!myImageShown)
+            {
+                return headers.length-4;
+                
+            }
+           return headers.length;
         }
         public Object getValueAt(int row, int col)
         {
             if (col == 0) return allCartridges.get(row).getCartName();
             if (col == 1) return allCartridges.get(row).getAuthor();
             if (col == 2) return allCartridges.get(row).getYear();
-            //if (col == 3) return getImage(convertSeperator(allCartridges.get(row).getCartridgeImage()), 100,100);
-            //if (col == 4) return getImage(convertSeperator(allCartridges.get(row).getFrontImage()), 60,100);
-           // if (col == 5) return getImage(convertSeperator(allCartridges.get(row).getBackImage()), 60,100);
-            // if (col == 6) return getImage(convertSeperator(allCartridges.get(row).getInGameImage()), 60,100);
-            
-            if (col == 3) return allCartridges.get(row).getSmallCartridgeImage();
-            if (col == 4) return allCartridges.get(row).getSmallFrontImage();
-            if (col == 5) return allCartridges.get(row).getSmallBackImage();
-            if (col == 6) return allCartridges.get(row).getSmallInGameImage();
-
-            if (col == 7) return allCartridges.get(row).getHomebrew();
-            if (col == 8) return allCartridges.get(row).getDemo();
-            if (col == 9) return allCartridges.get(row).getSnippet();
-            if (col == 10) return allCartridges.get(row).getCompleteGame();
+            if (col == 3) return allCartridges.get(row).getHomebrew();
+            if (col == 4) return allCartridges.get(row).getDemo();
+            if (col == 5) return allCartridges.get(row).getSnippet();
+            if (col == 6) return allCartridges.get(row).getCompleteGame();
+            if (col == 7) return allCartridges.get(row).getSmallCartridgeImage();
+            if (col == 8) return allCartridges.get(row).getSmallFrontImage();
+            if (col == 9) return allCartridges.get(row).getSmallBackImage();
+            if (col == 10) return allCartridges.get(row).getSmallInGameImage();
             return "-";
         }
         public String getColumnName(int col) {
-
-            return headers[col];
+                return headers[col];
         }
         // input data column
         public Class<?> getColumnClass(int col) {
-            if (col == 3) return BufferedImage.class;
-            if (col == 4) return BufferedImage.class;
-            if (col == 5) return BufferedImage.class;
-            if (col == 6) return BufferedImage.class;
-            if (col >6) return Boolean.class;
+            if (col ==3) return Boolean.class;
+            if (col ==4) return Boolean.class;
+            if (col ==5) return Boolean.class;
+            if (col ==6) return Boolean.class;
+            if (col == 7) return BufferedImage.class;
+            if (col == 8) return BufferedImage.class;
+            if (col == 9) return BufferedImage.class;
+            if (col == 10) return BufferedImage.class;
             return String.class;
         }
         // input data column
@@ -127,6 +133,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
     }        
     CartridgeTableModel model = new CartridgeTableModel();
         
+    /*
     BufferedImage getImage(String filename, int w, int h)
     {
         File f = new File(filename);
@@ -134,7 +141,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
         BufferedImage org = ImageCache.getImageCache().getImage(filename);
         return ImageCache.getImageCache().getDerivatScale(org, w, h);
     }
-    
+    */
     
     public String getID()
     {
@@ -260,6 +267,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
         jCheckBox21 = new javax.swing.JCheckBox();
         jCheckBox22 = new javax.swing.JCheckBox();
         jCheckBox23 = new javax.swing.JCheckBox();
+        jCheckBox48KROM = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextPane2 = new javax.swing.JTextPane();
@@ -403,9 +411,11 @@ public class StarterJPanel extends javax.swing.JPanel implements
 
         jCheckBox21.setText("eEprom DS2431");
 
-        jCheckBox22.setText("32 k forced");
+        jCheckBox22.setText("32k forced");
 
         jCheckBox23.setText("SID");
+
+        jCheckBox48KROM.setText("48k ROM");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -468,13 +478,16 @@ public class StarterJPanel extends javax.swing.JPanel implements
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox22)
                     .addComponent(singleImagePanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox20)
+                    .addComponent(jCheckBox21)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jCheckBox19)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox23))
-                    .addComponent(jCheckBox21))
-                .addContainerGap(158, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox19)
+                            .addComponent(jCheckBox20))
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckBox23)
+                            .addComponent(jCheckBox48KROM))))
+                .addContainerGap(135, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -547,7 +560,9 @@ public class StarterJPanel extends javax.swing.JPanel implements
                                     .addComponent(jCheckBox19)
                                     .addComponent(jCheckBox23))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBox20)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jCheckBox20)
+                                    .addComponent(jCheckBox48KROM))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jCheckBox21)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -832,7 +847,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
             public void run()
             {
                 if (mCartridgeProperties==null) return;
-                if (!DownloaderPanel.ensureLocalFile("PDF", mCartridgeProperties.getPDFLink(), mCartridgeProperties.getPDFFile()))
+                if (!DownloaderPanel.ensureLocalFile("PDF", mCartridgeProperties.getPDFLink(), Global.mainPathPrefix+mCartridgeProperties.getPDFFile()))
                 {
                     SwingUtilities.invokeLater(new Runnable()
                     {
@@ -864,7 +879,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
         if (mCartridgeProperties.getPDFFile()!=null)
         {
             if (mCartridgeProperties.getPDFFile().trim().length()>2)
-                invokeSystemFile(new File(convertSeperator(mCartridgeProperties.getPDFFile().trim())));
+                invokeSystemFile(new File(Global.mainPathPrefix+convertSeperator(mCartridgeProperties.getPDFFile().trim())));
         }
     }
         
@@ -920,6 +935,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
     private javax.swing.JCheckBox jCheckBox23;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
+    private javax.swing.JCheckBox jCheckBox48KROM;
     private javax.swing.JCheckBox jCheckBox5;
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JCheckBox jCheckBox7;
@@ -1037,6 +1053,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
         jCheckBox21.setSelected((flag&Cartridge.FLAG_DS2431)!=0);
         jCheckBox22.setSelected((flag&Cartridge.FLAG_32K_ONLY)!=0);
         jCheckBox23.setSelected((flag&FLAG_SID)!=0);
+        jCheckBox48KROM.setSelected((flag&FLAG_48K)!=0);
 
         
         // load images
@@ -1044,31 +1061,31 @@ public class StarterJPanel extends javax.swing.JPanel implements
         if (mCartridgeProperties.getOverlay() != null)
         if (mCartridgeProperties.getOverlay().trim().length()>2)
         {
-            singleImagePanel3.setImage(convertSeperator(mCartridgeProperties.getOverlay().trim()), true);
+            singleImagePanel3.setImage(Global.mainPathPrefix+convertSeperator(mCartridgeProperties.getOverlay().trim()), true);
         }
         singleImagePanel1.unsetImage();
         if (mCartridgeProperties.getFrontImage()!= null)
         if (mCartridgeProperties.getFrontImage().trim().length()>2)
         {
-            singleImagePanel1.setImage(convertSeperator(mCartridgeProperties.getFrontImage()), true);
+            singleImagePanel1.setImage(Global.mainPathPrefix+convertSeperator(mCartridgeProperties.getFrontImage()), true);
         }
         singleImagePanel2.unsetImage();
         if (mCartridgeProperties.getBackImage()!=null)
         if (mCartridgeProperties.getBackImage().trim().length()>2)
         {
-            singleImagePanel2.setImage(convertSeperator(mCartridgeProperties.getBackImage().trim()), true);
+            singleImagePanel2.setImage(Global.mainPathPrefix+convertSeperator(mCartridgeProperties.getBackImage().trim()), true);
         }
         singleImagePanel5.unsetImage();
         if (mCartridgeProperties.getCartridgeImage()!=null)
         if (mCartridgeProperties.getCartridgeImage().trim().length()>2)
         {
-            singleImagePanel5.setImage(convertSeperator(mCartridgeProperties.getCartridgeImage().trim()), true);
+            singleImagePanel5.setImage(Global.mainPathPrefix+convertSeperator(mCartridgeProperties.getCartridgeImage().trim()), true);
         }
         singleImagePanel4.unsetImage();
         if (mCartridgeProperties.getInGameImage()!=null)
         if (mCartridgeProperties.getInGameImage().trim().length()>2)
         {
-            singleImagePanel4.setImage(convertSeperator(mCartridgeProperties.getInGameImage().trim()), true);
+            singleImagePanel4.setImage(Global.mainPathPrefix+convertSeperator(mCartridgeProperties.getInGameImage().trim()), true);
         }
         // load texts
         jTextPane2.setText("");
@@ -1077,7 +1094,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
         {
             try 
             {
-                FileReader fr = new FileReader(convertSeperator(mCartridgeProperties.getInstructionFile().trim()));
+                FileReader fr = new FileReader(Global.mainPathPrefix+convertSeperator(mCartridgeProperties.getInstructionFile().trim()));
                 jTextPane2.read(fr, null);
                 fr.close();
             }
@@ -1092,7 +1109,7 @@ public class StarterJPanel extends javax.swing.JPanel implements
         {
             try 
             {
-                FileReader fr = new FileReader(convertSeperator(mCartridgeProperties.getCritic().trim()));
+                FileReader fr = new FileReader(Global.mainPathPrefix+convertSeperator(mCartridgeProperties.getCritic().trim()));
                 jTextPane3.read(fr, null);
                 fr.close();
             }
@@ -1132,5 +1149,6 @@ public class StarterJPanel extends javax.swing.JPanel implements
         ret = de.malban.util.UtilityString.replace(ret, "\\", File.separator);
         return ret;
     }
+    public void deIconified() { }
 }
 

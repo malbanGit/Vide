@@ -5,6 +5,7 @@
  */
 package de.malban.util.syntax.entities;
 
+import de.malban.Global;
 import static de.malban.util.syntax.entities.EntityDefinition.SUBTYPE_MACRO_DEFINITION_LABEL;
 import static de.malban.util.syntax.entities.EntityDefinition.TYP_INCLUDE;
 import static de.malban.util.syntax.entities.EntityDefinition.TYP_LABEL;
@@ -421,12 +422,15 @@ public class ASM6809FileInfo
                 newFilename+=entity.name;
                 if (inReset)
                 {
-        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(newFilename)).toLowerCase();
-        allFileMap.remove(key);
+                    String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(newFilename)).toLowerCase();
+                    allFileMap.remove(key);
                 }
-                
-                handleFile(newFilename, null);
+                // todo circumvent circlular includes
+                // now they throw an stack overflow!
+                if (!newFilename.equals(fullName))
+                   handleFile(newFilename, null);
             }
+            
         }
         if ((status == ENTITY_DELETED) && (!existed)) 
             entity.setStatus(ENTITY_UNCHANGED);
@@ -639,7 +643,7 @@ public class ASM6809FileInfo
     // to be on the save side of line end definitions
     public static ASM6809FileInfo handleFile(String _fullname, String _text)
     {
-        String key = de.malban.util.UtilityFiles.convertSeperator(de.malban.util.Utility.makeAbsolut(_fullname)).toLowerCase();
+        String key = de.malban.util.Utility.makeAbsolut(Global.mainPathPrefix+de.malban.util.UtilityFiles.convertSeperator(_fullname)).toLowerCase();
         ASM6809FileInfo fileInfo = allFileMap.get(key);
         if (fileInfo != null) return fileInfo;
         fileInfo = new ASM6809FileInfo();

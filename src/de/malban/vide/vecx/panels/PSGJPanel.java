@@ -5,6 +5,7 @@
  */
 package de.malban.vide.vecx.panels;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.vide.vecx.VecXPanel;
@@ -12,6 +13,7 @@ import de.malban.gui.Stateable;
 import de.malban.gui.Windowable;
 import de.malban.gui.components.CSAView;
 import de.malban.gui.dialogs.InternalFrameFileChoser;
+import de.malban.vide.VideConfig;
 import de.malban.vide.dissy.DASM6809;
 import de.malban.vide.dissy.DissiPanel;
 import de.malban.vide.vecx.E8910State;
@@ -26,6 +28,7 @@ import java.io.Serializable;
  */
 public class PSGJPanel extends javax.swing.JPanel implements
         Windowable, Stateable, Updatable{
+    VideConfig config = VideConfig.getConfig();
     public boolean isLoadSettings() { return true; }
     public static final int REC_YM = 0;
     public static final int REC_BIN = 1;
@@ -122,156 +125,156 @@ public class PSGJPanel extends javax.swing.JPanel implements
         E8910State now = vecxPanel.getE8910State();
 
         jLabel12.setText( ""+(now.PSG.PeriodA) );
-        if (now.PSG.PeriodA != last.PSG.PeriodA) jLabel12.setForeground(Color.red);
-        else jLabel12.setForeground(Color.black);
+        if (now.PSG.PeriodA != last.PSG.PeriodA) jLabel12.setForeground(config.getValueChangedColor());
+        else jLabel12.setForeground(config.getValueNotChangedColor());
         
         jLabel36.setText( ""+(now.PSG.PeriodB) );
-        if (now.PSG.PeriodB != last.PSG.PeriodB) jLabel36.setForeground(Color.red);
-        else jLabel36.setForeground(Color.black);
+        if (now.PSG.PeriodB != last.PSG.PeriodB) jLabel36.setForeground(config.getValueChangedColor());
+        else jLabel36.setForeground(config.getValueNotChangedColor());
         
         jLabel38.setText( ""+(now.PSG.PeriodC) );
-        if (now.PSG.PeriodC != last.PSG.PeriodC) jLabel38.setForeground(Color.red);
-        else jLabel38.setForeground(Color.black);
+        if (now.PSG.PeriodC != last.PSG.PeriodC) jLabel38.setForeground(config.getValueChangedColor());
+        else jLabel38.setForeground(config.getValueNotChangedColor());
         
         jLabel40.setText( ""+(now.PSG.PeriodN) );
-        if (now.PSG.PeriodN != last.PSG.PeriodN) jLabel40.setForeground(Color.red);
-        else jLabel40.setForeground(Color.black);
+        if (now.PSG.PeriodN != last.PSG.PeriodN) jLabel40.setForeground(config.getValueChangedColor());
+        else jLabel40.setForeground(config.getValueNotChangedColor());
         
         jLabel42.setText( ""+(now.PSG.PeriodE) );
-        if (now.PSG.PeriodE != last.PSG.PeriodE) jLabel42.setForeground(Color.red);
-        else jLabel42.setForeground(Color.black);
+        if (now.PSG.PeriodE != last.PSG.PeriodE) jLabel42.setForeground(config.getValueChangedColor());
+        else jLabel42.setForeground(config.getValueNotChangedColor());
         
         
         jLabel45.setText( ""+(now.PSG.CountA) );
-        if (now.PSG.CountA != last.PSG.CountA) jLabel45.setForeground(Color.red);
-        else jLabel45.setForeground(Color.black);
+        if (now.PSG.CountA != last.PSG.CountA) jLabel45.setForeground(config.getValueChangedColor());
+        else jLabel45.setForeground(config.getValueNotChangedColor());
 
         jLabel47.setText( ""+(now.PSG.CountB) );
-        if (now.PSG.CountB != last.PSG.CountB) jLabel47.setForeground(Color.red);
-        else jLabel47.setForeground(Color.black);
+        if (now.PSG.CountB != last.PSG.CountB) jLabel47.setForeground(config.getValueChangedColor());
+        else jLabel47.setForeground(config.getValueNotChangedColor());
 
         jLabel49.setText( ""+(now.PSG.CountC) );
-        if (now.PSG.CountC != last.PSG.CountC) jLabel49.setForeground(Color.red);
-        else jLabel49.setForeground(Color.black);
+        if (now.PSG.CountC != last.PSG.CountC) jLabel49.setForeground(config.getValueChangedColor());
+        else jLabel49.setForeground(config.getValueNotChangedColor());
 
         jLabel51.setText( ""+(now.PSG.CountN) );
-        if (now.PSG.CountN != last.PSG.CountN) jLabel51.setForeground(Color.red);
-        else jLabel51.setForeground(Color.black);
+        if (now.PSG.CountN != last.PSG.CountN) jLabel51.setForeground(config.getValueChangedColor());
+        else jLabel51.setForeground(config.getValueNotChangedColor());
 
         jLabel53.setText( ""+(now.PSG.CountE) );
-        if (now.PSG.CountE != last.PSG.CountE) jLabel53.setForeground(Color.red);
-        else jLabel53.setForeground(Color.black);
+        if (now.PSG.CountE != last.PSG.CountE) jLabel53.setForeground(config.getValueChangedColor());
+        else jLabel53.setForeground(config.getValueNotChangedColor());
 
 
         jLabel56.setText( ""+(now.PSG.VolA) );
-        if (now.PSG.VolA != last.PSG.VolA) jLabel56.setForeground(Color.red);
-        else jLabel56.setForeground(Color.black);
+        if (now.PSG.VolA != last.PSG.VolA) jLabel56.setForeground(config.getValueChangedColor());
+        else jLabel56.setForeground(config.getValueNotChangedColor());
 
         jLabel58.setText( ""+(now.PSG.VolB) );
-        if (now.PSG.VolB != last.PSG.VolB) jLabel58.setForeground(Color.red);
-        else jLabel58.setForeground(Color.black);
+        if (now.PSG.VolB != last.PSG.VolB) jLabel58.setForeground(config.getValueChangedColor());
+        else jLabel58.setForeground(config.getValueNotChangedColor());
 
         jLabel60.setText( ""+(now.PSG.VolC) );
-        if (now.PSG.VolC != last.PSG.VolC) jLabel60.setForeground(Color.red);
-        else jLabel60.setForeground(Color.black);
+        if (now.PSG.VolC != last.PSG.VolC) jLabel60.setForeground(config.getValueChangedColor());
+        else jLabel60.setForeground(config.getValueNotChangedColor());
 
         jLabel62.setText( ""+(now.PSG.VolE) );
-        if (now.PSG.VolE != last.PSG.VolE) jLabel62.setForeground(Color.red);
-        else jLabel62.setForeground(Color.black);
+        if (now.PSG.VolE != last.PSG.VolE) jLabel62.setForeground(config.getValueChangedColor());
+        else jLabel62.setForeground(config.getValueNotChangedColor());
         
 
         jLabel64.setText( ""+(now.PSG.EnvelopeA) );
-        if (now.PSG.EnvelopeA != last.PSG.EnvelopeA) jLabel64.setForeground(Color.red);
-        else jLabel64.setForeground(Color.black);
+        if (now.PSG.EnvelopeA != last.PSG.EnvelopeA) jLabel64.setForeground(config.getValueChangedColor());
+        else jLabel64.setForeground(config.getValueNotChangedColor());
         
         jLabel65.setText( ""+(now.PSG.EnvelopeB) );
-        if (now.PSG.EnvelopeB != last.PSG.EnvelopeB) jLabel65.setForeground(Color.red);
-        else jLabel65.setForeground(Color.black);
+        if (now.PSG.EnvelopeB != last.PSG.EnvelopeB) jLabel65.setForeground(config.getValueChangedColor());
+        else jLabel65.setForeground(config.getValueNotChangedColor());
         
         jLabel67.setText( ""+(now.PSG.EnvelopeC) );
-        if (now.PSG.EnvelopeC != last.PSG.EnvelopeC) jLabel67.setForeground(Color.red);
-        else jLabel67.setForeground(Color.black);
+        if (now.PSG.EnvelopeC != last.PSG.EnvelopeC) jLabel67.setForeground(config.getValueChangedColor());
+        else jLabel67.setForeground(config.getValueNotChangedColor());
         
         jLabel70.setText( ""+(now.PSG.OutputA) );
-        if (now.PSG.OutputA != last.PSG.OutputA) jLabel70.setForeground(Color.red);
-        else jLabel70.setForeground(Color.black);
+        if (now.PSG.OutputA != last.PSG.OutputA) jLabel70.setForeground(config.getValueChangedColor());
+        else jLabel70.setForeground(config.getValueNotChangedColor());
         
         jLabel71.setText( ""+(now.PSG.OutputB) );
-        if (now.PSG.OutputB != last.PSG.OutputB) jLabel71.setForeground(Color.red);
-        else jLabel71.setForeground(Color.black);
+        if (now.PSG.OutputB != last.PSG.OutputB) jLabel71.setForeground(config.getValueChangedColor());
+        else jLabel71.setForeground(config.getValueNotChangedColor());
         
         jLabel73.setText( ""+(now.PSG.OutputC) );
-        if (now.PSG.OutputC != last.PSG.OutputC) jLabel73.setForeground(Color.red);
-        else jLabel73.setForeground(Color.black);
+        if (now.PSG.OutputC != last.PSG.OutputC) jLabel73.setForeground(config.getValueChangedColor());
+        else jLabel73.setForeground(config.getValueNotChangedColor());
         
         jLabel75.setText( ""+(now.PSG.OutputN) );
-        if (now.PSG.OutputN != last.PSG.OutputN) jLabel75.setForeground(Color.red);
-        else jLabel75.setForeground(Color.black);
+        if (now.PSG.OutputN != last.PSG.OutputN) jLabel75.setForeground(config.getValueChangedColor());
+        else jLabel75.setForeground(config.getValueNotChangedColor());
         
 
         jLabel13.setText( ""+(now.PSG.CountEnv) );
-        if (now.PSG.CountEnv != last.PSG.CountEnv) jLabel13.setForeground(Color.red);
-        else jLabel13.setForeground(Color.black);
+        if (now.PSG.CountEnv != last.PSG.CountEnv) jLabel13.setForeground(config.getValueChangedColor());
+        else jLabel13.setForeground(config.getValueNotChangedColor());
 
         jLabel14.setText( ""+(now.PSG.Hold) );
-        if (now.PSG.Hold != last.PSG.Hold) jLabel14.setForeground(Color.red);
-        else jLabel14.setForeground(Color.black);
+        if (now.PSG.Hold != last.PSG.Hold) jLabel14.setForeground(config.getValueChangedColor());
+        else jLabel14.setForeground(config.getValueNotChangedColor());
         
         jLabel15.setText( ""+(now.PSG.Alternate) );
-        if (now.PSG.Alternate != last.PSG.Alternate) jLabel15.setForeground(Color.red);
-        else jLabel15.setForeground(Color.black);
+        if (now.PSG.Alternate != last.PSG.Alternate) jLabel15.setForeground(config.getValueChangedColor());
+        else jLabel15.setForeground(config.getValueNotChangedColor());
         
         jLabel16.setText( ""+(now.PSG.Attack) );
-        if (now.PSG.Attack != last.PSG.Attack) jLabel16.setForeground(Color.red);
-        else jLabel16.setForeground(Color.black);
+        if (now.PSG.Attack != last.PSG.Attack) jLabel16.setForeground(config.getValueChangedColor());
+        else jLabel16.setForeground(config.getValueNotChangedColor());
         
         jLabel17.setText( ""+(now.PSG.Continue) );
-        if (now.PSG.Continue != last.PSG.Continue) jLabel17.setForeground(Color.red);
-        else jLabel17.setForeground(Color.black);
+        if (now.PSG.Continue != last.PSG.Continue) jLabel17.setForeground(config.getValueChangedColor());
+        else jLabel17.setForeground(config.getValueNotChangedColor());
         
         jLabel18.setText( ""+(now.PSG.RNG) );
-        if (now.PSG.RNG != last.PSG.RNG) jLabel18.setForeground(Color.red);
-        else jLabel18.setForeground(Color.black);
+        if (now.PSG.RNG != last.PSG.RNG) jLabel18.setForeground(config.getValueChangedColor());
+        else jLabel18.setForeground(config.getValueNotChangedColor());
 
         int reg = 0;
         jLabel77.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel77.setForeground(Color.red);
-        else jLabel77.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel77.setForeground(config.getValueChangedColor());
+        else jLabel77.setForeground(config.getValueNotChangedColor());
         reg++;
 
         jLabel78.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel78.setForeground(Color.red);
-        else jLabel78.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel78.setForeground(config.getValueChangedColor());
+        else jLabel78.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel79.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel79.setForeground(Color.red);
-        else jLabel79.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel79.setForeground(config.getValueChangedColor());
+        else jLabel79.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel80.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel80.setForeground(Color.red);
-        else jLabel80.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel80.setForeground(config.getValueChangedColor());
+        else jLabel80.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel84.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel84.setForeground(Color.red);
-        else jLabel84.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel84.setForeground(config.getValueChangedColor());
+        else jLabel84.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel83.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel83.setForeground(Color.red);
-        else jLabel83.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel83.setForeground(config.getValueChangedColor());
+        else jLabel83.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel82.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel82.setForeground(Color.red);
-        else jLabel82.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel82.setForeground(config.getValueChangedColor());
+        else jLabel82.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel81.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel81.setForeground(Color.red);
-        else jLabel81.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel81.setForeground(config.getValueChangedColor());
+        else jLabel81.setForeground(config.getValueNotChangedColor());
 
         String tt = "<html>\n";
         tt+= "hex: "+"$"+String.format("%02X", now.snd_regs[reg]&0x0ff);
@@ -290,49 +293,49 @@ jLabel81.setToolTipText(tt);
         
         
         jLabel92.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel92.setForeground(Color.red);
-        else jLabel92.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel92.setForeground(config.getValueChangedColor());
+        else jLabel92.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel91.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel91.setForeground(Color.red);
-        else jLabel91.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel91.setForeground(config.getValueChangedColor());
+        else jLabel91.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel90.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel90.setForeground(Color.red);
-        else jLabel90.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel90.setForeground(config.getValueChangedColor());
+        else jLabel90.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel89.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel89.setForeground(Color.red);
-        else jLabel89.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel89.setForeground(config.getValueChangedColor());
+        else jLabel89.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel88.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel88.setForeground(Color.red);
-        else jLabel88.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel88.setForeground(config.getValueChangedColor());
+        else jLabel88.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel87.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel87.setForeground(Color.red);
-        else jLabel87.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel87.setForeground(config.getValueChangedColor());
+        else jLabel87.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel86.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel86.setForeground(Color.red);
-        else jLabel86.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel86.setForeground(config.getValueChangedColor());
+        else jLabel86.setForeground(config.getValueNotChangedColor());
         reg++;
         
         jLabel85.setText( ""+(now.snd_regs[reg]) );
-        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel85.setForeground(Color.red);
-        else jLabel85.setForeground(Color.black);
+        if (now.snd_regs[reg] != last.snd_regs[reg]) jLabel85.setForeground(config.getValueChangedColor());
+        else jLabel85.setForeground(config.getValueNotChangedColor());
         reg++;
         
         
         jLabel93.setText( ""+vecxPanel.getVecXState().snd_select );
-        if (vecxPanel.getVecXState().snd_select != oldLatch) jLabel93.setForeground(Color.red);
-        else jLabel93.setForeground(Color.black);
+        if (vecxPanel.getVecXState().snd_select != oldLatch) jLabel93.setForeground(config.getValueChangedColor());
+        else jLabel93.setForeground(config.getValueNotChangedColor());
         
         oldLatch = vecxPanel.getVecXState().snd_select;
         E8910State.deepCopy(now, last);
@@ -1464,7 +1467,7 @@ jLabel81.setToolTipText(tt);
 
         InternalFrameFileChoser fc = new de.malban.gui.dialogs.InternalFrameFileChoser();
         fc.setMultiSelectionEnabled(false);
-        fc.setCurrentDirectory(new File("tmp"));
+        fc.setCurrentDirectory(new File(Global.mainPathPrefix+"tmp"));
 
         int r = fc.showOpenDialog(Configuration.getConfiguration().getMainFrame());
         if (r != InternalFrameFileChoser.APPROVE_OPTION) return;
@@ -1481,15 +1484,15 @@ jLabel81.setToolTipText(tt);
     }//GEN-LAST:event_jTextField2KeyTyped
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        if (!nameChanged) jTextField2.setText("tmp"+File.separator+"record.bin");
+        if (!nameChanged) jTextField2.setText(Global.mainPathPrefix+"tmp"+File.separator+"record.bin");
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
-        if (!nameChanged) jTextField2.setText("tmp"+File.separator+"record.ym");
+        if (!nameChanged) jTextField2.setText(Global.mainPathPrefix+"tmp"+File.separator+"record.ym");
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        if (!nameChanged) jTextField2.setText("tmp"+File.separator+"record.asm");
+        if (!nameChanged) jTextField2.setText(Global.mainPathPrefix+"tmp"+File.separator+"record.asm");
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
 
@@ -1632,4 +1635,5 @@ jLabel81.setToolTipText(tt);
     {
         updateEnabled = b;
     }
+    public void deIconified() { }
 }

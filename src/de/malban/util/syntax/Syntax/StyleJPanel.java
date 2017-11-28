@@ -9,10 +9,13 @@ import de.malban.gui.dialogs.FontChooserComponent;
 import de.malban.gui.dialogs.FontChooserPanel;
 import de.malban.gui.dialogs.InternalColorChooserDialog;
 import de.malban.util.syntax.Syntax.TokenStyles.MyStyle;
+import de.malban.vide.ConfigJPanel;
 import de.muntjak.tinylookandfeel.Theme;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
 import java.util.ArrayList;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -102,6 +105,11 @@ public class StyleJPanel extends javax.swing.JPanel {
             }
         ));
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTable1MousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("use");
@@ -246,11 +254,19 @@ public class StyleJPanel extends javax.swing.JPanel {
                 );
 
         jTable1.repaint();
+        ConfigJPanel.changeTab();
+        
+        jTable1.setRowSelectionInterval(0, 0);
+        tableSelectionChanged();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (currentStyle == null) return;
-        FontChooserComponent fontChooser = FontChooserPanel.showFontChoserDialog("Font Chooser", currentStyle, false);
+        
+        boolean enableSize = currentName.toLowerCase().contains("edit");
+        
+        FontChooserComponent fontChooser = FontChooserPanel.showFontChoserDialog("Font Chooser", currentStyle, enableSize);
+        if (fontChooser==null) return;
         jTextField1.setText(fontChooser.getSelectedFontFamily());
         StyleConstants.setFontFamily(currentStyle,fontChooser.getSelectedFontFamily());
         StyleConstants.setFontSize(currentStyle, fontChooser.getSelectedFontSize());
@@ -261,7 +277,8 @@ public class StyleJPanel extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (currentStyle == null) return;
-        Color c = InternalColorChooserDialog.showDialog("Color");
+
+        Color c = InternalColorChooserDialog.showDialog("Color", StyleConstants.getForeground(currentStyle));
         if (c == null) return;
         StyleConstants.setForeground(currentStyle,c);
 
@@ -270,7 +287,7 @@ public class StyleJPanel extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         if (currentStyle == null) return;
-        Color c = InternalColorChooserDialog.showDialog("Color");
+        Color c = InternalColorChooserDialog.showDialog("Color", StyleConstants.getBackground(currentStyle));
         if (c == null) return;
         StyleConstants.setBackground(currentStyle,c);
 
@@ -288,6 +305,10 @@ public class StyleJPanel extends javax.swing.JPanel {
         restyle();
         jTable1.repaint();
     }//GEN-LAST:event_jButtonFontMinusActionPerformed
+
+    private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
+        
+    }//GEN-LAST:event_jTable1MousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -364,8 +385,12 @@ public class StyleJPanel extends javax.swing.JPanel {
     void tableSelectionChanged() 
     {
         if (mClassSetting>0) return;
-        mClassSetting++;
         selectedRow = jTable1.getSelectedRow();
+        if (selectedRow==-1)
+        {
+            return;
+        }
+        mClassSetting++;
         currentStyle = (SimpleAttributeSet) TokenStyles.styleList.get(selectedRow).clone();
         currentName = TokenStyles.styleList.get(selectedRow).name;
         jTextField1.setText(StyleConstants.getFontFamily(currentStyle));
@@ -444,5 +469,9 @@ public class StyleJPanel extends javax.swing.JPanel {
         jTable1.setRowHeight(rowHeight);
     }
             
-
+    public void refresh()
+    {
+        jTable1.tableChanged(null);
+        jTextPane1.repaint();
+    }
 }

@@ -663,7 +663,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     }// </editor-fold>//GEN-END:initComponents
 
     
-    String lastImagePath = ".";
+    String lastImagePath = Global.mainPathPrefix;
     private void jButtonLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadActionPerformed
 
 
@@ -749,15 +749,11 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             return;
         }
         CSAMainFrame mainFrame = (CSAMainFrame) Configuration.getConfiguration().getMainFrame();
-        VeccyPanel p = new VeccyPanel();
-        mainFrame.addPanel(p);
-        mainFrame.setMainPanel(p);
-        CSAInternalFrame frame = mainFrame.windowMe(p, 800, 600, VeccyPanel.SID);
-        p.setVPanel(this);
-        setVeccy(p);
+        veccy = mainFrame.getVeccy();
+        veccy.setVPanel(this);
+        setVeccy(veccy);
+        veccy.setCurrentVectorList(singleVectorPanel1.getForegroundVectorList().clone());
 
-        p.setCurrentVectorList(singleVectorPanel1.getForegroundVectorList().clone());
-        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void singleImagePanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_singleImagePanel1MouseDragged
@@ -901,19 +897,14 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             v.setVPanel(panel);
             panel.veccy = v;
         }
-        
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1080, 800, panel.getMenuItem().getText());
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1080, 800, "Vector Panel");
     }        
 
     public static void showModPanelNoModal(String fileName, TinyLogInterface tl)
     {
         JFrame frame = Configuration.getConfiguration().getMainFrame();
         VectorJPanel panel = new VectorJPanel(fileName, tl);
-
-        
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addPanel(panel);
-       ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).windowMe(panel, 1080, 800, panel.getMenuItem().getText());
+        ((CSAMainFrame)Configuration.getConfiguration().getMainFrame()).addAsWindow(panel,  1080, 800, "Vector Panel");
     }        
     
     
@@ -943,9 +934,9 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     boolean building = false;
     public boolean buildVectors()
     {
+        if (baseImage==null) return false;
         if (building) return false;
         building = true;
-
         // BufferedImage orgImage = singleImagePanel1.getImage();
         int startX = de.malban.util.UtilityString.IntX(jTextFieldStartX.getText(), 0);
         int startY = de.malban.util.UtilityString.IntX(jTextFieldStartY.getText(), 0);
@@ -954,7 +945,6 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
 
 
         double upscale = ((double)jSliderCombineUpscale.getValue())/10.0;
-        
         if (width == 0) 
         {
             building = false;
@@ -967,7 +957,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         }
         BufferedImage orgImage = baseImage;
         
-        String filenameTMP = "tmp"+File.separator+"tmpImage"+(uid++)+".bmp";
+        String filenameTMP = Global.mainPathPrefix+"tmp"+File.separator+"tmpImage"+(uid++)+".bmp";
         try
         {
             // get image
@@ -1006,6 +996,8 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             {
                 filteredImage = ImageCache.getImageCache().getDerivatScale(filteredImage, (int)(width*upscale), (int)(height*upscale));
             }
+            
+            filteredImage = de.malban.util.UtilityImage.toNonAlpha(filteredImage);
             // write to tmp
             boolean result = ImageIO.write(filteredImage, "BMP", new File(filenameTMP));
             if (!result) 
@@ -1060,7 +1052,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
             return false;
         }
         building = false;
-        de.malban.util.UtilityFiles.cleanDirectory("tmp");
+        de.malban.util.UtilityFiles.cleanDirectory(Global.mainPathPrefix+"tmp");
         
         return true;
     }
@@ -1496,7 +1488,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     {
         int bits = Global.getOSBit();
         String osDir = "mac"+bits;
-        String filepath = "externalTools"+File.separator+"potrace"+File.separator+osDir+File.separator+"potrace";
+        String filepath = Global.mainPathPrefix+"externalTools"+File.separator+"potrace"+File.separator+osDir+File.separator+"potrace";
         
         String [] cmd = new String[6];
         cmd[0] = filepath;
@@ -1513,7 +1505,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     {
         int bits = Global.getOSBit();
         String osDir = "win"+bits;
-        String filepath = "externalTools"+File.separator+"potrace"+File.separator+osDir+File.separator+"potrace.exe";
+        String filepath = Global.mainPathPrefix+"externalTools"+File.separator+"potrace"+File.separator+osDir+File.separator+"potrace.exe";
         
         String [] cmd = new String[6];
         cmd[0] = filepath;
@@ -1530,7 +1522,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
     {
         int bits = Global.getOSBit();
         String osDir = "linux"+bits;
-        String filepath = "externalTools"+File.separator+"potrace"+File.separator+osDir+File.separator+"potrace";
+        String filepath = Global.mainPathPrefix+"externalTools"+File.separator+"potrace"+File.separator+osDir+File.separator+"potrace";
         
         String [] cmd = new String[6];
         cmd[0] = filepath;
@@ -1625,6 +1617,7 @@ public class VectorJPanel extends javax.swing.JPanel implements Windowable
         }
         return ret;
     }
+    public void deIconified()  {}
 
     
 }

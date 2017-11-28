@@ -207,7 +207,7 @@ public class  FileProperties
 	}
 	public static boolean saveCollectionAsXML(String filename, Collection<FileProperties> col)
 	{
-	return saveCollectionAsXML(de.malban.Global.mBaseDir,  filename, col);
+	return saveCollectionAsXML(de.malban.Global.mainPathPrefix,  filename, col);
 	}
 	public static boolean saveCollectionAsXML(String pathName, String filename, Collection<FileProperties> col)
 	{
@@ -234,7 +234,7 @@ public class  FileProperties
 	}
         public static HashMap<String, FileProperties> getHashMapFromXML(String filename)
 	{
-            return getHashMapFromXML( filename, de.malban.Global.mBaseDir);
+            return getHashMapFromXML( filename, de.malban.Global.mainPathPrefix);
 	}
 	public static HashMap<String, FileProperties> getHashMapFromXML(String filename, String path)
 	{

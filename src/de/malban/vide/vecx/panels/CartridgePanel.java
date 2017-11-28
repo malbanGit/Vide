@@ -3126,4 +3126,5 @@ public class CartridgePanel extends javax.swing.JPanel implements
         jTable3.setRowHeight(rowHeight);
         jTable4.setRowHeight(rowHeight);
     }
+    public void deIconified() { }
 }

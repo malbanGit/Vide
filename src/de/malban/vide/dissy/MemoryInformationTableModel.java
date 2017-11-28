@@ -5,10 +5,11 @@
  */
 package de.malban.vide.dissy;
 
+import de.malban.vide.VideConfig;
 import static de.malban.vide.dissy.DASMStatics.pgpointers;
+import de.malban.vide.vecx.Profiler;
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -25,17 +26,19 @@ public class MemoryInformationTableModel extends AbstractTableModel
         }
     }
         
+    VideConfig config = VideConfig.getConfig();
     
+    public Profiler profiler = null;
     
-    public static Boolean[] columnVisibleALL = {true, true,true, true,true,true, true,true, true, true,true ,true, true};
-    public Boolean[] columnVisible = {true, true,true, true,true,true, true,true, true, true,true ,true, true};
-    public static int[] columnWidthSmall =    {20       , 50    , 150      , 30        , 100       ,10       ,20  , 10    };
-    public static int[] columnWidth =    {10       , 100     , 150      , 30        , 100   ,  10      ,10      , 50   , 30        , 50    , 10      , 150    , 5};
+    public static Boolean[] columnVisibleALL = {true, true,true, true,true,true, true,true, true, true,true ,true, true, true, true, true};
+    public Boolean[] columnVisible =           {true, true,true, true,true,true, true,true, true, true,true ,true, true, true, true, true};
+    public static int[] columnWidthSmall =    {20       , 50    , 150      , 30        , 100       ,10       ,20  , 10 , 10, 10 };
+    public static int[] columnWidth =    {10       , 100     , 150      , 30        , 100   ,  10      ,10      , 50   , 30        , 50    , 10      , 150    , 5, 10, 10, 10};
 
     boolean smallMode = false;
-    String[] columnNamesSmall = {"Address", "Label", "Content", "Mnemonic","Operand", "Cycles", "Mode","Length" };
-    String[] columnNames = {"Address", "Label","Content", "Mnemonic","Operand","Page", "Cycles","Mode", "->Address", "Type","Length" ,"Comments", "DP"};
-    ArrayList<MemoryInformation> visible = new ArrayList<MemoryInformation>();
+    String[] columnNamesSmall = {"Address", "Label", "Content", "Mnemonic","Operand", "Cycles", "Mode","Length","Pr access","Pr cycles","Pr csum" };
+    String[] columnNames = {"Address", "Label","Content", "Mnemonic","Operand","Page", "Cycles","Mode", "->Address", "Type","Length" ,"Comments", "DP","PR access","PR cycles","Pr csum"};
+    private ArrayList<MemoryInformation> visible = new ArrayList<MemoryInformation>();
     Memory orgData = null; // this is NO copy, this is a reference to the DASM memory map!
 
     String highLightLabel = "";
@@ -53,11 +56,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
     public static MemoryInformationTableModel createModel(Memory mem)
     {
         MemoryInformationTableModel model = new MemoryInformationTableModel();
-        // new models reset visiblilty!
-/*        
-        for (int i=0; i< columnVisible.length; i++)
-            columnVisible[i] = true;
-*/        
+        // new models reset visiblilty!   
         model.orgData = mem;
         model.showAll();
         return model;
@@ -66,30 +65,87 @@ public class MemoryInformationTableModel extends AbstractTableModel
     public void showAll()
     {
         visible.clear();
+        int addedIndex = 0;
         for (int i=0; i<65536; i++)
         {
             MemoryInformation memInfo = orgData.memMap.get(i);
             if (memInfo != null)
-            visible.add(i,memInfo);
+            {
+                if (memInfo.cInfo != null)
+                {
+                    visible.add(memInfo);
+                    memInfo.cInfoRow = addedIndex;
+                    addedIndex++;
+                }
+                visible.add(memInfo);
+                memInfo.myRow = addedIndex;
+                addedIndex++;
+            }
         }
     }
     public void reduceBIOS()
     {
         ArrayList<MemoryInformation> visibleNew = new ArrayList<MemoryInformation>();
+        int addCount = 0;
         for (int i=0; i<visible.size(); i++)
         {
             if (visible.get(i).address < 0xe000)
-                visibleNew.add(visible.get(i));
+            {
+                MemoryInformation info = visible.get(i);
+                if(info.isCInfo())
+                {
+                    visibleNew.add(info);
+                    info.cInfoRow = addCount;
+                    info.myRow = addCount;
+                    addCount++;
+                    
+                    MemoryInformation info2 = visible.get(i+1);
+                    if (info == info2)
+                    {
+                        visibleNew.add(info);
+                        i++;
+                        info.myRow = addCount;
+                        addCount++;
+                    }
+                    continue;
+                }
+                visibleNew.add(info);
+                info.myRow = addCount;
+                addCount++;
+            }
         }
         visible = visibleNew;
     }
     public void reduceUnkown()
     {
         ArrayList<MemoryInformation> visibleNew = new ArrayList<MemoryInformation>();
+        int addCount =0 ;
         for (int i=0; i<visible.size(); i++)
         {
             if (visible.get(i).disType != MemoryInformation.DIS_TYPE_UNKOWN)
-                visibleNew.add(visible.get(i));
+            {
+                MemoryInformation info = visible.get(i);
+                if(info.isCInfo())
+                {
+                    visibleNew.add(info);
+                    info.cInfoRow = addCount;
+                    info.myRow = addCount;
+                    addCount++;
+                    
+                    MemoryInformation info2 = visible.get(i+1);
+                    if (info == info2)
+                    {
+                        visibleNew.add(info);
+                        i++;
+                        info.myRow = addCount;
+                        addCount++;
+                    }
+                    continue;
+                }
+                visibleNew.add(info);
+                info.myRow = addCount;
+                addCount++;
+            }
         }
         visible = visibleNew;
     }
@@ -97,10 +153,34 @@ public class MemoryInformationTableModel extends AbstractTableModel
     public void reduceInvisible()
     {
         ArrayList<MemoryInformation> visibleNew = new ArrayList<MemoryInformation>();
+        int addCount =0;
         for (int i=0; i<visible.size(); i++)
         {
             if (visible.get(i).visible)
-                visibleNew.add(visible.get(i));
+            {
+                MemoryInformation info = visible.get(i);
+                if(info.isCInfo())
+                {
+                    visibleNew.add(info);
+                    info.cInfoRow = addCount;
+                    info.myRow = addCount;
+                    addCount++;
+                    
+                    MemoryInformation info2 = visible.get(i+1);
+                    if (info == info2)
+                    {
+                        visibleNew.add(info);
+                        i++;
+                        info.myRow = addCount;
+                        addCount++;
+                    }
+                    continue;
+                }
+                visibleNew.add(info);
+                info.myRow = addCount;
+                addCount++;
+                
+            }
         }
         visible = visibleNew;
     }
@@ -109,12 +189,34 @@ public class MemoryInformationTableModel extends AbstractTableModel
     {
         ArrayList<MemoryInformation> visibleNew = new ArrayList<MemoryInformation>();
         int nextPossibleAddress = 0;
+        int addCount =0;
         for (int i=0; i<visible.size(); i++)
         {
             if (visible.get(i).address<nextPossibleAddress) continue;
             if (visible.get(i).disType < MemoryInformation.DIS_TYPE_DATA_BELONGSTO_INSTRUCTION_POS_1)
             {
-                visibleNew.add(visible.get(i));
+                MemoryInformation info = visible.get(i);
+                if(info.isCInfo())
+                {
+                    visibleNew.add(info);
+                    info.cInfoRow = addCount;
+                    info.myRow = addCount;
+                    addCount++;
+                    
+                    MemoryInformation info2 = visible.get(i+1);
+                    if (info == info2)
+                    {
+                        visibleNew.add(info);
+                        i++;
+                        info.myRow = addCount;
+                        addCount++;
+                    }
+                    continue;
+                }
+                visibleNew.add(info);
+                info.myRow = addCount;
+                addCount++;
+
                 nextPossibleAddress = visible.get(i).address+visible.get(i).length;
             }
         }
@@ -128,6 +230,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
         for (i=0; i<visible.size(); i++)
         {
             if (address>= visible.get(i).address ) continue;
+            if (visible.get(i).isCInfo(i)) continue;
             break;
         }
         return i-1;
@@ -139,7 +242,11 @@ public class MemoryInformationTableModel extends AbstractTableModel
         int i=0;
         for (i=0; i<visible.size(); i++)
         {
-            if (address== visible.get(i).address ) return i;
+            if (visible.get(i).isCInfo(i)) continue;
+            if (address== visible.get(i).address ) 
+            {
+                return i;
+            }
         }
         return -1;
     }
@@ -156,6 +263,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
         int counter =0;
         for (int i=0; i<columnVisible.length; i++)
         {
+            if (columnVisible[i] == null) columnVisible[i] = true;
             if (columnVisible[i])
             {
                 if (counter == col) return i;
@@ -191,9 +299,10 @@ public class MemoryInformationTableModel extends AbstractTableModel
         int ret = 0;
         for (int i=0; i<columnVisible.length; i++)
         {
+            if (columnVisible[i]==null) columnVisible[i] = true;
             if (columnVisible[i])
             {
-                ret ++;
+                ret++;
             }
         }
         return ret;
@@ -203,25 +312,52 @@ public class MemoryInformationTableModel extends AbstractTableModel
     {
     }
     
+    
     public int getRowCount()
     {
         return visible.size();
     }
+    public boolean isRowCInfo(int row)
+    {
+        return visible.get(row).cInfoRow == row;
+    }
+    
+    
     public int getColumnCount()
     {
         return getViewColumnCount();
     }
+    public int getColumnOrgCount()
+    {
+        return columnNames.length;
+    }
     // input model column!
     public boolean isVisible(int col)
     {
-        if (smallMode) return true;
+        
+        if (smallMode)
+        {
+            return true;
+        }
+        
+        if (!isProfiling())
+        {
+            if (col>=columnVisible.length-2)
+            {
+                return false;
+            }
+        }
+        
         return columnVisible[col];
     }
     // input data column
     public int getColWidth(int col)
     {
         if (smallMode)
+        {
+            if (col >= columnWidthSmall.length) return 10;
             return columnWidthSmall[col];
+        }
         return columnWidth[col];
     }
     public MemoryInformation getValueAt(int row)
@@ -231,9 +367,18 @@ public class MemoryInformationTableModel extends AbstractTableModel
     // input data column
     public Object getValueAt(int row, int col)
     {
+        MemoryInformation minfo = getValueAt(row);
+        if (minfo.isCInfo(row))
+        {
+            if (col == 0) return "$"+String.format("%04X", minfo.address);
+            if (col == 1) return minfo.cInfo.lineString;
+            return "";
+        }
+        
+        
         if (smallMode)
         {
-            if (col == 0) return "$"+String.format("%04X", visible.get(row).address);
+            if (col == 0) return "$"+String.format("%04X", minfo.address);
             if (col == 1) 
             {
                 StringBuilder l = new StringBuilder();
@@ -241,10 +386,12 @@ public class MemoryInformationTableModel extends AbstractTableModel
                 {
                     int countDisplay = 0;
                     int start = -1;
-                    for (int i = 0;i< visible.get(row).length; i++)
+                    
+                    
+                    for (int i = 0;i< minfo.length; i++)
                     {
                         boolean displayed = false;
-                        MemoryInformation next = orgData.memMap.get(visible.get(row).address+i);
+                        MemoryInformation next = orgData.memMap.get(minfo.address+i);
                         if (next != null)
                         {
                             for (int ii = 0;ii< next.labels.size(); ii++)
@@ -267,7 +414,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
                 }
                 else
                 {
-                    MemoryInformation next = orgData.memMap.get(visible.get(row).address);
+                    MemoryInformation next = orgData.memMap.get(minfo.address);
                     if (next != null)
                     {
                         for (int ii = 0;ii< next.labels.size(); ii++)
@@ -281,14 +428,14 @@ public class MemoryInformationTableModel extends AbstractTableModel
             }
             if (col == 2) 
             {
-                if (visible.get(row).contentUnkown) 
+                if (minfo.contentUnkown) 
                 {
                     return "???";
                 }
                 StringBuilder l = new StringBuilder();
-                for (int i = 0;i< visible.get(row).length; i++)
+                for (int i = 0;i< minfo.length; i++)
                 {
-                    MemoryInformation next = orgData.memMap.get(visible.get(row).address+i);
+                    MemoryInformation next = orgData.memMap.get(minfo.address+i);
                     if (next != null)
                     {
                         l.append(String.format("%02X ", next.content&0xff));
@@ -299,32 +446,32 @@ public class MemoryInformationTableModel extends AbstractTableModel
             }
             if (col == 3) 
             {
-                String l = visible.get(row).disassembledMnemonic;
+                String l = minfo.disassembledMnemonic;
                 return l;
             }
             if (col == 4) // operand(s)
             {
-                String l = visible.get(row).disassembledOperand;
+                String l = minfo.disassembledOperand;
                 return l;
             }
             if (col == 5) 
             {
-                int page = visible.get(row).page;
+                int page = minfo.page;
                 if (page == -1) 
                     return "???";
                 int index = 1;
-                if (page == 0) index = visible.get(row).indexInOpcodeTablePage0;
+                if (page == 0) index = minfo.indexInOpcodeTablePage0;
                 if (page == 1)
                 {
                     index = -1;
-                    MemoryInformation next = orgData.memMap.get(visible.get(row).address+1);
+                    MemoryInformation next = orgData.memMap.get(minfo.address+1);
                     if (next != null)
                         index = next.indexInOpcodeTablePage1;
                 }
                 if (page == 2)
                 {
                     index = -1;
-                    MemoryInformation next = orgData.memMap.get(visible.get(row).address+1);
+                    MemoryInformation next = orgData.memMap.get(minfo.address+1);
                     if (next != null)
                         index = next.indexInOpcodeTablePage2;
                 }
@@ -335,17 +482,19 @@ public class MemoryInformationTableModel extends AbstractTableModel
             }
             if (col == 6) // mode
             {
-                if (visible.get(row).referingAddressMode == -1) return "";
-                return DASMStatics.modenames[visible.get(row).referingAddressMode];
+                if (minfo.referingAddressMode == -1) return "";
+                return DASMStatics.modenames[minfo.referingAddressMode];
             }
             if (col == 7) 
             {
-                return visible.get(row).length;
+                return minfo.length;
             }
 
             return "-";
         }
-        if (col == 0) return "$"+String.format("%04X", visible.get(row).address);
+
+        // full mode
+        if (col == 0) return "$"+String.format("%04X", minfo.address);
         if (col == 1) 
         {
             StringBuilder l = new StringBuilder();
@@ -353,10 +502,10 @@ public class MemoryInformationTableModel extends AbstractTableModel
             {
                 int countDisplay = 0;
                 int start = -1;
-                for (int i = 0;i< visible.get(row).length; i++)
+                for (int i = 0;i< minfo.length; i++)
                 {
                     boolean displayed = false;
-                    MemoryInformation next = orgData.memMap.get(visible.get(row).address+i);
+                    MemoryInformation next = orgData.memMap.get(minfo.address+i);
                     if (next != null)
                     {
                         for (int ii = 0;ii< next.labels.size(); ii++)
@@ -379,7 +528,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
             }
             else
             {
-                MemoryInformation next = orgData.memMap.get(visible.get(row).address);
+                MemoryInformation next = orgData.memMap.get(minfo.address);
                 if (next != null)
                 {
                     for (int ii = 0;ii< next.labels.size(); ii++)
@@ -393,16 +542,16 @@ public class MemoryInformationTableModel extends AbstractTableModel
         }
         if (col == 2) 
         {
-            if (visible.get(row).contentUnkown) 
+            if (minfo.contentUnkown) 
             {
                 return "???";
                 
             }
             StringBuilder l = new StringBuilder();
           
-            for (int i = 0;i< visible.get(row).length; i++)
+            for (int i = 0;i< minfo.length; i++)
             {
-                MemoryInformation next = orgData.memMap.get(visible.get(row).address+i);
+                MemoryInformation next = orgData.memMap.get(minfo.address+i);
                 if (next != null)
                 {
                     l.append(String.format("%02X ", next.content&0xff));
@@ -413,37 +562,37 @@ public class MemoryInformationTableModel extends AbstractTableModel
         }
         if (col == 3) 
         {
-            String l = visible.get(row).disassembledMnemonic;
+            String l = minfo.disassembledMnemonic;
             return l;
         }
         if (col == 4) // operand(s)
         {
-            String l = visible.get(row).disassembledOperand;
+            String l = minfo.disassembledOperand;
             return l;
         }
         if (col == 5) //page
         {
-            String l = ""+(visible.get(row).page);
+            String l = ""+(minfo.page);
             return l;
         }
         if (col == 6) 
         {
-            int page = visible.get(row).page;
+            int page = minfo.page;
             if (page == -1) 
                 return "???";
             int index = 1;
-            if (page == 0) index = visible.get(row).indexInOpcodeTablePage0;
+            if (page == 0) index = minfo.indexInOpcodeTablePage0;
             if (page == 1)
             {
                 index = -1;
-                MemoryInformation next = orgData.memMap.get(visible.get(row).address+1);
+                MemoryInformation next = orgData.memMap.get(minfo.address+1);
                 if (next != null)
                     index = next.indexInOpcodeTablePage1;
             }
             if (page == 2)
             {
                 index = -1;
-                MemoryInformation next = orgData.memMap.get(visible.get(row).address+1);
+                MemoryInformation next = orgData.memMap.get(minfo.address+1);
                 if (next != null)
                     index = next.indexInOpcodeTablePage2;
             }
@@ -451,45 +600,45 @@ public class MemoryInformationTableModel extends AbstractTableModel
                 return "???";
             String l = ""+pgpointers[page][index].numcycles;
             
-            return ""+visible.get(row).cycles;
+            return ""+minfo.cycles;
         }
         
         if (col == 7) // mode
         {
-            if (visible.get(row).referingAddressMode == -1) return "";
-            return DASMStatics.modenames[visible.get(row).referingAddressMode];
+            if (minfo.referingAddressMode == -1) return "";
+            return DASMStatics.modenames[minfo.referingAddressMode];
         }
         if (col == 8) // address
         {
-            if (visible.get(row).referingToAddress == -1) return "";
-            if (visible.get(row).referingAddressMode == DASMStatics.REL)
+            if (minfo.referingToAddress == -1) return "";
+            if (minfo.referingAddressMode == DASMStatics.REL)
             {
-                int a = visible.get(row).referingToAddress & 0xff;
+                int a = minfo.referingToAddress & 0xff;
                 if (a<128)
                     return String.format("$%02X", a);
                 return String.format("-$%02X", 256-a);
                 
             }
-            if (visible.get(row).referingAddressMode == DASMStatics.LREL)
+            if (minfo.referingAddressMode == DASMStatics.LREL)
             {
-                int a = visible.get(row).referingToAddress & 0xffff;
+                int a = minfo.referingToAddress & 0xffff;
                 if (a<32768) 
                     return String.format("$%04X", a);
                 return String.format("-$%04X", 65536-a);
                 
             }
-            if (visible.get(row).referingToShort)
-                return String.format("$%02X", visible.get(row).referingToAddress);
+            if (minfo.referingToShort)
+                return String.format("$%02X", minfo.referingToAddress);
             else
-                return String.format("$%04X", visible.get(row).referingToAddress);
+                return String.format("$%04X", minfo.referingToAddress);
         }
         if (col == 9) 
         {
-            return MemoryInformation.disTypeString[visible.get(row).disType];
+            return MemoryInformation.disTypeString[minfo.disType];
         }
         if (col == 10) 
         {
-            return visible.get(row).length;
+            return minfo.length;
         }
         if (col == 11) 
         {
@@ -498,9 +647,9 @@ public class MemoryInformationTableModel extends AbstractTableModel
             {
                 int countDisplay = 0;
                 int start = -1;
-                for (int i = 0;i< visible.get(row).length; i++)
+                for (int i = 0;i< minfo.length; i++)
                 {
-                    MemoryInformation next = orgData.memMap.get(visible.get(row).address+i);
+                    MemoryInformation next = orgData.memMap.get(minfo.address+i);
                     boolean displayed=false;
                     if (next != null)
                     {
@@ -524,7 +673,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
             }
             else
             {
-                MemoryInformation next = orgData.memMap.get(visible.get(row).address);
+                MemoryInformation next = orgData.memMap.get(minfo.address);
                 if (next != null)
                 {
                     for (int ii = 0;ii< next.comments.size(); ii++)
@@ -535,15 +684,76 @@ public class MemoryInformationTableModel extends AbstractTableModel
             }
             return l.toString();
         }
-        if (col == 12) 
+        if (col == 12) // dp
         {
             String ret = "";
-            if (Math.abs(visible.get(row).directPageAddress)<256)
-                ret =String.format("$%02X", visible.get(row).directPageAddress&0xff);
+            if (Math.abs(minfo.directPageAddress)<256)
+                ret =String.format("$%02X", minfo.directPageAddress&0xff);
             else
-                ret = String.format("$%04X", visible.get(row).directPageAddress&0xffff);
+                ret = String.format("$%04X", minfo.directPageAddress&0xffff);
             return ret;
         }
+        
+        
+        int address = minfo.address;
+
+        if (col == 13) // "Pr access"
+        {
+            String ret = "";
+            if (!isProfiling()) return ret;
+
+            if (profiler.trackingOnly)
+            {
+                if (profiler.finalOnly)
+                    ret = ""+ profiler.memory[address].lastTrack_accessCount_final;
+                else
+                    ret = ""+ profiler.memory[address].lastTrack_accessCount;
+            }
+            else
+            {
+                ret = ""+ profiler.memory[address].accessCount;
+            }
+            return ret;
+        }
+        if (col == 14) // "Pr cycles"        
+        {
+            String ret = "";
+            if (!isProfiling()) return ret;
+            Profiler.ProfilerMemoryLocation memoryLocation = profiler.memory[address];
+
+            if (profiler.trackingOnly)
+            {
+                if (profiler.finalOnly)
+                    ret = ""+ profiler.memory[address].lastTrack_accessCycles_final;
+                else
+                    ret = ""+ profiler.memory[address].lastTrack_accessCycles;
+            }
+            else
+            {
+                ret = ""+ profiler.memory[address].accessCycles;
+            }
+            return ret;
+        }
+
+        if (col == 15) // "Pr cycles sum"        
+        {
+            String ret = "";
+            if (!isProfiling()) return ret;
+            Profiler.ProfilerMemoryLocation memoryLocation = profiler.memory[address];
+            if (profiler.trackingOnly)
+            {
+                if (profiler.finalOnly)
+                    ret = ""+ (profiler.memory[address].caller_lastTrack_accessCyclesSum_final+ profiler.memory[address].lastTrack_accessCycles_final);
+                else
+                    ret = ""+ (profiler.memory[address].caller_lastTrack_accessCyclesSum+ profiler.memory[address].lastTrack_accessCycles);
+            }
+            else
+            {
+                ret = ""+ (profiler.memory[address].accessCyclesSum+profiler.memory[address].accessCycles);
+            }
+            return ret;
+        }
+        
         return "-";
     }
     // input data column
@@ -560,6 +770,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
     // input data column
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         if (smallMode) return false;
+        if (isRowCInfo(rowIndex)) return false;
         if (columnIndex == 11) return true;
         if (columnIndex == 1) return true;
         return false;
@@ -570,7 +781,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
         if (columnIndex == 1)
         {
             // todo 
-            MemoryInformation memInfo = visible.get(rowIndex);
+            MemoryInformation memInfo = getValueAt(rowIndex);
             ArrayList<String> oldLabels = (ArrayList<String>)memInfo.labels.clone();   
             memInfo.labels.clear();
             String label = aValue.toString();
@@ -590,7 +801,7 @@ public class MemoryInformationTableModel extends AbstractTableModel
         }
         if (columnIndex == 11) 
         {
-            MemoryInformation memInfo = visible.get(rowIndex);
+            MemoryInformation memInfo = getValueAt(rowIndex);
 
             memInfo.comments.clear();
             String comment = aValue.toString();
@@ -601,16 +812,18 @@ public class MemoryInformationTableModel extends AbstractTableModel
         }
     }
     // input view column
+    
     public Color getBackground(int row, int c)
     {
+        MemoryInformation minfo = getValueAt(row);
         int col = convertViewToModel( c);
-            
-        
-        
-        
-        
-        if (col == 0) return new Color(200,255,200,255);
+        if (col == 0) return config.tableAddress;
 
+        if ( minfo.isCInfo(row))
+        {
+            return config.cLinesBack;
+        }
+        
         if ( highLightClick.length()>0)
         {
             if (col == 4) // operand
@@ -633,18 +846,27 @@ public class MemoryInformationTableModel extends AbstractTableModel
         MemoryInformation memInfo = getValueAt(row);
         if (memInfo.address>=0xe000)
         {
-            return new Color(200,200,200);
+            return config.tableBIOS;
         }
         if (orgData.currentBank != 0)
         {
-            return new Color(200,255,255);
+            return config.tableOtherBank;
         }
         
         return null; // default
-    }
+    }    
+    
     // input data column
     public Color getForeground(int row, int col)
     {
+        MemoryInformation minfo = getValueAt(row);
+
+        if ( minfo.isCInfo(row))
+        {
+            if (col!= 0)
+                return config.cLinesFore;
+        }
+        
         return null; // default
     }
     
@@ -656,5 +878,10 @@ public class MemoryInformationTableModel extends AbstractTableModel
     {
         highLightClick = h.trim();
     }
-   
+    
+    public boolean isProfiling()
+    {
+        if (profiler == null) return false;
+        return config.doProfile;
+    }
 }

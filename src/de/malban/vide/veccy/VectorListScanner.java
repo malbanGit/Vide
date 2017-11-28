@@ -5,6 +5,7 @@
  */
 package de.malban.vide.veccy;
 
+import de.malban.Global;
 import de.malban.graphics.GFXVector;
 import de.malban.graphics.GFXVectorList;
 import de.malban.vide.vecx.E6809;
@@ -78,7 +79,7 @@ public class VectorListScanner {
         
         
         
-        String filename ="xml"+File.separator+"vectorlist"+File.separator+name+".xml";
+        String filename =Global.mainPathPrefix+"xml"+File.separator+"vectorlist"+File.separator+name+".xml";
         
         return list.list.saveAsXML(filename);
     }    

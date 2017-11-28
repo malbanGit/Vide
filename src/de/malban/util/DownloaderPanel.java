@@ -1,6 +1,7 @@
 package de.malban.util;
 
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.CSAMainFrame;
 import de.malban.gui.components.CSAInternalFrame;
@@ -15,13 +16,12 @@ import java.awt.Rectangle;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.net.Proxy;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.util.*;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -153,6 +153,8 @@ public class DownloaderPanel extends javax.swing.JPanel {
         mDownloader = new Downloader();
         if (forcedClass)
             mDownloader.mClass = className;
+        else
+            mDownloader.mClass = "Cartridge";
         setAllFromCurrent();
         mClassSetting--;
     }
@@ -989,7 +991,7 @@ public class DownloaderPanel extends javax.swing.JPanel {
         }
         if (!downloader.misZip)
         {
-            String name = convertSeperator(downloader.mDestinationDirAll);
+            String name = Global.mainPathPrefix+convertSeperator(downloader.mDestinationDirAll);
             f = new File(name);
             if (f.exists()) return true;
             // no - try downloading
@@ -1009,27 +1011,57 @@ public class DownloaderPanel extends javax.swing.JPanel {
             return false;            
         }
         String[] adder = mName.split(" ");
-        String loadedZipName = "download"+File.separator+"zips"+File.separator+ adder[0]+ downloader.mURL.substring(last+1);
-
+        String loadedZipName = "";
         
-        String savedName = saveUrl(downloader.mURL, loadedZipName);
+        if (!downloader.mURL.toUpperCase().contains("TOSEC"))
+            loadedZipName = Global.mainPathPrefix+"download"+File.separator+"zips"+File.separator+ adder[0]+ downloader.mURL.substring(last+1);
+        else
+            loadedZipName = Global.mainPathPrefix+"download"+File.separator+"zips"+File.separator+ downloader.mURL.substring(last+1);
+        
+        String savedName = loadedZipName;
+        if (!(new File(loadedZipName).exists()))
+        {
+            savedName = saveUrl(downloader.mURL, loadedZipName);
+        }
         if ( savedName == null) return false;
         try
         {
             if (downloader.mUnpackAll)
             {
-                de.malban.util.UtilityFiles.unzip(savedName, downloader.mDestinationDirAll);
+                de.malban.util.UtilityFiles.unzip(savedName, Global.mainPathPrefix+downloader.mDestinationDirAll);
             }
             else
             {
-                de.malban.util.UtilityFiles.unzip(savedName, "tmp");
+                de.malban.util.UtilityFiles.unzip(savedName, Global.mainPathPrefix+"tmp");
                 for (int i=0; i<downloader.mFileInZip.size();i++)
                 {
-                    de.malban.util.UtilityFiles.copyOneFile("tmp"+File.separator+convertSeperator(downloader.mFileInZip.elementAt(i)), convertSeperator(downloader.mFileUnpacked.elementAt(i)));
+                    if (downloader.mFileInZip.elementAt(i).toLowerCase().endsWith(".zip"))
+                    {
+                        // try double unzip
+                        // stupid TOSEC
+                        de.malban.util.UtilityFiles.unzip(Global.mainPathPrefix+"tmp"+File.separator+convertSeperator(downloader.mFileInZip.elementAt(i)), Global.mainPathPrefix+"tmp"+File.separator+"1");
+                        ArrayList<String> unzippedZipZipFiles = de.malban.util.UtilityFiles.getFilesWith(Global.mainPathPrefix+"tmp"+File.separator+"1", ".bin");
+                        if (unzippedZipZipFiles.size() != 1)
+                        {
+                            // in tosec only one bin is expected - dunno what todo
+                            log.addLog("TOSEC suspected, but multiple entries found - no extraction!", ERROR);
+                            return false;
+                        }
+                        else
+                        {
+                            de.malban.util.UtilityFiles.copyOneFile(Global.mainPathPrefix+"tmp"+File.separator+"1"+File.separator+unzippedZipZipFiles.get(0), Global.mainPathPrefix+convertSeperator(downloader.mFileUnpacked.elementAt(i)));
+                            de.malban.util.UtilityFiles.deleteDirectoryRecursive(Global.mainPathPrefix+"tmp"+File.separator+"1");
+                        }
+                        
+                    }
+                    else
+                    {
+                        de.malban.util.UtilityFiles.copyOneFile(Global.mainPathPrefix+"tmp"+File.separator+convertSeperator(downloader.mFileInZip.elementAt(i)), Global.mainPathPrefix+convertSeperator(downloader.mFileUnpacked.elementAt(i)));
+                    }
 
                 }
             }
-            de.malban.util.UtilityFiles.cleanDirectory("tmp");
+            de.malban.util.UtilityFiles.cleanDirectory(Global.mainPathPrefix+"tmp");
         }
         catch (Throwable e)
         {

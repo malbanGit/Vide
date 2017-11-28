@@ -43,6 +43,14 @@
 		<FIELDNAME>CompleteGame</FIELDNAME>
 		<FIELDNAME>extremeVecFileImage</FIELDNAME>
 		<FIELDNAME>WheelName</FIELDNAME>
+		<FIELDNAME>ConfigOverwrite</FIELDNAME>
+		<FIELDNAME>CF_AutoSync</FIELDNAME>
+		<FIELDNAME>CF_AllowROMWrite</FIELDNAME>
+		<FIELDNAME>CF_ROM_PC_BreakPoints</FIELDNAME>
+		<FIELDNAME>CF_IntegratorMaxX</FIELDNAME>
+		<FIELDNAME>CF_IntegratorMaxY</FIELDNAME>
+		<FIELDNAME>CF_OverlayThreshold</FIELDNAME>
+		<FIELDNAME>CF_DotdwellDivisor</FIELDNAME>
 		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>CartName</XMLNAME>
 		<XMLNAME>Author</XMLNAME>
 		<XMLNAME>Year</XMLNAME>
@@ -72,6 +80,14 @@
 		<XMLNAME>CompleteGame</XMLNAME>
 		<XMLNAME>extremeVecFileImage</XMLNAME>
 		<XMLNAME>WheelName</XMLNAME>
+		<XMLNAME>ConfigOverwrite</XMLNAME>
+		<XMLNAME>CF_AutoSync</XMLNAME>
+		<XMLNAME>CF_AllowROMWrite</XMLNAME>
+		<XMLNAME>CF_ROM_PC_BreakPoints</XMLNAME>
+		<XMLNAME>CF_IntegratorMaxX</XMLNAME>
+		<XMLNAME>CF_IntegratorMaxY</XMLNAME>
+		<XMLNAME>CF_OverlayThreshold</XMLNAME>
+		<XMLNAME>CF_DotdwellDivisor</XMLNAME>
 		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
@@ -101,6 +117,14 @@
 		<TYPE>boolean</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>boolean</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>int</TYPE>
+		<TYPE>float</TYPE>
+		<TYPE>int</TYPE>
 		</TYPEs>	</XMLClassBuilderData>
 	<XMLClassBuilderData>
 		<Class>VIDE</Class>
@@ -204,6 +228,8 @@
 		<FIELDNAME>ProjectPostScriptName</FIELDNAME>
 		<FIELDNAME>BankDefines</FIELDNAME>
 		<FIELDNAME>WheelName</FIELDNAME>
+		<FIELDNAME>IsCProject</FIELDNAME>
+		<FIELDNAME>CFLAGS</FIELDNAME>
 		</FIELDNAMEs>		<XMLNAMEs>		<XMLNAME>ProjectName</XMLNAME>
 		<XMLNAME>DirectoryName</XMLNAME>
 		<XMLNAME>Path</XMLNAME>
@@ -223,6 +249,8 @@
 		<XMLNAME>ProjectPostScriptName</XMLNAME>
 		<XMLNAME>BankDefines</XMLNAME>
 		<XMLNAME>WheelName</XMLNAME>
+		<XMLNAME>IsCProject</XMLNAME>
+		<XMLNAME>CFLAGS</XMLNAME>
 		</XMLNAMEs>		<TYPEs>		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
@@ -241,6 +269,8 @@
 		<TYPE>String</TYPE>
 		<TYPE>String</TYPE>
 		<TYPE>Vector&lt;String></TYPE>
+		<TYPE>String</TYPE>
+		<TYPE>boolean</TYPE>
 		<TYPE>String</TYPE>
 		</TYPEs>	</XMLClassBuilderData>
 	<XMLClassBuilderData>

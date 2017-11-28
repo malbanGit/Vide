@@ -3,6 +3,7 @@
  */
 package de.malban.vide.vecx.devices;
 
+import de.malban.Global;
 import de.malban.config.Configuration;
 import de.malban.gui.panels.LogPanel;
 import static de.malban.gui.panels.LogPanel.INFO;
@@ -61,7 +62,7 @@ public class VecVoxSamples {
             type = ty;
             String loadname;
             filename = phoneme;
-            loadname = "samples"+File.separator+"SpeakJet"+File.separator+filename+".wav";
+            loadname = Global.mainPathPrefix+"samples"+File.separator+"SpeakJet"+File.separator+filename+".wav";
             sample = (MemSound) TinySound.loadSound(new File(loadname), false);
             if (sample != null)
             {

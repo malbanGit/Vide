@@ -72,8 +72,6 @@ public class SourceLine {
             fileName = fname;
             lineNumber = lineNum;
 
-            
-            
             label = op = rest = null;
             errorMessages = null;
             instr = null;

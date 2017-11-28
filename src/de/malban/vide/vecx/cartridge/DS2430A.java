@@ -260,14 +260,14 @@ DS2430_VALKEY   equ     $a5     ; Validation byte for COPYSP and LOCKAR
         public EpromData()
         {
             // Protector Values default
-            reg[0] = 0x19;
-            reg[1] = 0x1b;
-            reg[2] = 0x18;
-            reg[3] = 0x1d;
-            reg[4] = 0x0e;
-            reg[5] = 0x0c;
-            reg[6] = 0x00;
-            reg[7] = 0x00;
+            reg[0] = 0x19; // "P"
+            reg[1] = 0x1b; // "R"
+            reg[2] = 0x18; // "O"
+            reg[3] = 0x1d; // "T"
+            reg[4] = 0x0e; // "E"
+            reg[5] = 0x0c; // "C"
+            reg[6] = 0x00; // serial 1. digit
+            reg[7] = 0x00; // serial 2. digit
             
         }
     }

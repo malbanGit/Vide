@@ -15,6 +15,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -22,6 +25,7 @@ import java.util.HashMap;
  */
 public class GFXVectorList {
     
+    public static String hexSign = "$";
     public static boolean hex = true;
     public static boolean db = true;
     
@@ -56,7 +60,7 @@ public class GFXVectorList {
         }
         if (hex)
         {
-            s+="$";
+            s+=hexSign;
             s+=String.format("%02X",idata);
         }
         else
@@ -65,7 +69,8 @@ public class GFXVectorList {
         }
         return s;
     }
-    // unsigend number
+    
+// unsigend number
     static String hexU(int b)
     {
         String s="";
@@ -73,7 +78,7 @@ public class GFXVectorList {
         idata = idata & 0xff;
         if (hex)
         {
-            s+="$";
+            s+=hexSign;
             s+=String.format("%02X",idata);
         }
         else
@@ -2538,6 +2543,254 @@ public class GFXVectorList {
         return true;
     }
     
+    public String createPCMov_Draw_VLc_a(boolean includeMove, String name, boolean factor)
+    {
+        if (includeMove)
+            if (!isMov_Draw_VLc_a()) return "";
+        else
+            if (!isDraw_VLc()) return "";
+
+        StringBuilder s = new StringBuilder();
+        String oldHex = hexSign;
+        hexSign = "0x";
+        GFXVectorList vl = clone();
+        int count = vl.size();
+        if (!includeMove) count--;
+        s.append("const struct vector_t vectors_"+name+"[] =\n{\n");
+
+        boolean init = includeMove;
+        for (GFXVector v : vl.list)
+        {
+            if (init)
+            {
+                init = false;
+                if (!( (((int)v.start.y()) == 0) && (((int)v.start.x()) == 0)))
+                {
+                    s.append("\t{").append(getRelativeCoordString(v, factor)).append("}, // move to y, x\n");
+                }
+            }
+            s.append("\t{").append(getRelativeCoordString(v, factor)).append("}, // draw to y, x\n");
+        }
+        s.append("};\n");
+        
+        s.append("const struct vector_list_t "+name+" =\n");
+        s.append("{\n");
+        if (includeMove)
+            s.append("\t.type = DUFFY,\n");
+        else
+            s.append("\t.type = DIFFY,\n");
+        s.append("\t.size = "+hex(count)+",\n");
+        s.append("\t.vectors = &vectors_"+name+"\n");
+        s.append("};\n");
+
+        
+        String text = s.toString();
+        hexSign = oldHex;
+        return text;
+    }    
+
+    void addUsage(HashMap<String, String> map, String v)
+    {
+        v = de.malban.util.UtilityString.replace(v, "_N_0_0","_1_0_0");
+        v = de.malban.util.UtilityString.replace(v, "_N_N_0","_1_1_0");
+        v = de.malban.util.UtilityString.replace(v, "_N_0_N","_1_0_1");
+        v = de.malban.util.UtilityString.replace(v, "_N_N_N","_1_1_1");
+        v = de.malban.util.UtilityString.replace(v, "_0_N_0","_0_1_0");
+        v = de.malban.util.UtilityString.replace(v, "_0_N_N","_0_1_1");
+        v = de.malban.util.UtilityString.replace(v, "_0_0_N","_0_0_1");
+        v = de.malban.util.UtilityString.replace(v, "_1_N_0","_N_1_0");
+        v = de.malban.util.UtilityString.replace(v, "_1_0_N","_N_0_1");
+        v = de.malban.util.UtilityString.replace(v, "_0_1_N","_0_N_1");
+        v = de.malban.util.UtilityString.replace(v, "_1_N_N","_N_1_1");
+        v = de.malban.util.UtilityString.replace(v, "_N_1_N","_1_N_1");
+        v = de.malban.util.UtilityString.replace(v, "_N_N_1","_1_1_N");   
+        map.put(v, v);
+    }
+    
+    public String createC3dPattern(String name, boolean factor, boolean createNon3ds)
+    {
+        StringBuilder s = new StringBuilder();
+        String oldHex = hexSign;
+        hexSign = "0x";
+        GFXVectorList vl = clone();
+        int count = vl.size();
+
+        if (createNon3ds)
+            s.append("const struct Line3d "+name).append("[]=\n{\n");
+        else
+            s.append("const struct Line3ds "+name).append("[]=\n{\n");
+
+        HashMap<String, String> usageMap = new HashMap<String, String>();
+        for (GFXVector v : vl.list)
+        {
+            StringBuilder s2 = new StringBuilder();
+            s2.append("\t{");
+            
+            int pattern = v.pattern;
+            if (pattern == 0)
+            {
+                s2.append("  0, ");
+            }
+            else
+            {
+                s2.append("255, ");
+            }
+
+            StringBuilder t = new StringBuilder();
+            t.append("_");
+            double width = v.end.x()-v.start.x();
+            if (width==0) t.append("0");
+            else if (width>0) t.append("1");
+            else if (width<0) t.append("N");
+
+            double height = v.end.y()-v.start.y();
+            t.append("_");
+            if (height==0) t.append("0");
+            else if (height>0) t.append("1");
+            else if (height<0) t.append("N");
+
+            double depth = v.end.z()-v.start.z();
+            t.append("_");
+            if (depth==0) t.append("0");
+            else if (depth>0) t.append("1");
+            else if (depth<0) t.append("N");
+
+            addUsage(usageMap, t.toString());
+
+            boolean error = false;
+            int size =0;
+            if (width != 0)
+            {
+                size = (int) width;
+                if (height != 0)
+                {
+                    if (Math.abs(width) != Math.abs(height)) error = true;
+                }
+                if (depth != 0)
+                {
+                    if (Math.abs(width) != Math.abs(depth)) error = true;
+                }
+            }
+            if (height != 0)
+            {
+                size = (int) height;
+                if (depth != 0)
+                {
+                    if (Math.abs(height) != Math.abs(depth)) error = true;
+                }
+            }
+            if (depth != 0)
+            {
+                size = (int) depth;
+            }
+            if (error)
+            {
+                log.addLog("Error creating 3d list vector length not conform. ("+v.uid+")", WARN);
+            }
+            if (!createNon3ds)
+                s2.append(name.toUpperCase()+"_STRENGTH*"+Math.abs(size)+", ");
+            s2.append(t.toString());
+            s2.append("},\n");
+            if (createNon3ds)
+            {
+                for (int tt=0;tt<Math.abs(size); tt++)
+                    s.append(s2.toString());
+            }
+            else
+            {
+                s.append(s2.toString());
+            }
+            
+        }
+        if (createNon3ds)
+            s.append("\t{  1, _0_0_N}\n};\n");
+        else
+            s.append("\t{  1, 0, _0_0_N}\n};\n");
+        s.append("\n/* usage: \n");
+        
+        Set entries = usageMap.entrySet();
+        Iterator it = entries.iterator();
+        while (it.hasNext())
+        {
+            Map.Entry entry = (Map.Entry) it.next();
+            String value = (String) entry.getValue();
+        }        
+        s.append("\tcalc_000 = 0; \n");
+        s.append("\tcalc_100 = "+((usageMap.get("_1_0_0") != null)?1:0)+"; \n");
+        s.append("\tcalc_110 = "+((usageMap.get("_1_1_0") != null)?1:0)+"; \n");
+        s.append("\tcalc_101 = "+((usageMap.get("_1_0_1") != null)?1:0)+"; \n");
+        s.append("\tcalc_111 = "+((usageMap.get("_1_1_1") != null)?1:0)+"; \n");
+        s.append("\tcalc_010 = "+((usageMap.get("_0_1_0") != null)?1:0)+"; \n");
+        s.append("\tcalc_111 = "+((usageMap.get("_1_1_1") != null)?1:0)+"; \n");
+        s.append("\tcalc_001 = "+((usageMap.get("_0_0_1") != null)?1:0)+"; \n");
+        s.append("\tcalc_N10 = "+((usageMap.get("_N_1_0") != null)?1:0)+"; \n");
+        s.append("\tcalc_N01 = "+((usageMap.get("_N_0_1") != null)?1:0)+"; \n");
+        s.append("\tcalc_0N1 = "+((usageMap.get("_0_N_1") != null)?1:0)+"; \n");
+        s.append("\tcalc_N11 = "+((usageMap.get("_N_1_1") != null)?1:0)+"; \n");
+        s.append("\tcalc_1N1 = "+((usageMap.get("_1_N_1") != null)?1:0)+"; \n");
+        s.append("\tcalc_11N = "+((usageMap.get("_1_1_N") != null)?1:0)+"; \n");
+        
+        int usage = 0;
+        String us = "\n\tvectorBits = 0";
+        if (usageMap.get("_0_0_0")!=null) us += " + TEST_0_0_0";
+        if (usageMap.get("_1_0_0")!=null) us += " + TEST_1_0_0";
+        if (usageMap.get("_1_1_0")!=null) us += " + TEST_1_1_0";
+        if (usageMap.get("_1_0_1")!=null) us += " + TEST_1_0_1";
+        if (usageMap.get("_1_1_1")!=null) us += " + TEST_1_1_1";
+        if (usageMap.get("_0_1_0")!=null) us += " + TEST_0_1_0";
+        if (usageMap.get("_0_1_1")!=null) us += " + TEST_0_1_1";
+        if (usageMap.get("_0_0_1")!=null) us += " + TEST_0_0_1";
+        if (usageMap.get("_N_1_0")!=null) us += " + TEST_N_1_0";
+        if (usageMap.get("_N_0_1")!=null) us += " + TEST_N_0_1";
+        if (usageMap.get("_0_N_1")!=null) us += " + TEST_0_N_1";
+        if (usageMap.get("_N_1_1")!=null) us += " + TEST_N_1_1";
+        if (usageMap.get("_1_N_1")!=null) us += " + TEST_1_N_1";
+        if (usageMap.get("_1_1_N")!=null) us += " + TEST_1_1_N";
+        us += ";\n";
+        s.append(us);
+        
+        s.append("*/\n");
+        
+        String text = s.toString();
+        hexSign = oldHex;
+        return text;        
+    }
+    public String createCMov_Draw_VLc_a(boolean includeMove, String name, boolean factor, boolean pc)
+    {
+        if (pc) return createPCMov_Draw_VLc_a( includeMove,  name,  factor);
+        if (includeMove)
+            if (!isMov_Draw_VLc_a()) return "";
+        else
+            if (!isDraw_VLc()) return "";
+
+        StringBuilder s = new StringBuilder();
+        String oldHex = hexSign;
+        hexSign = "0x";
+        GFXVectorList vl = clone();
+        int count = vl.size();
+        if (!includeMove) count--;
+        s.append("const signed char "+name).append("[]=\n{");
+        s.append("\t"+hex(count)).append(",\n");
+
+        boolean init = includeMove;
+        for (GFXVector v : vl.list)
+        {
+            if (init)
+            {
+                init = false;
+                if (!( (((int)v.start.y()) == 0) && (((int)v.start.x()) == 0)))
+                {
+                    s.append("\t").append(hex((int)v.start.y())).append(", ").append(hex((int)v.start.x())).append(", // move to y, x\n");
+                    
+                }
+            }
+            s.append("\t").append(getRelativeCoordString(v, factor)).append(", // draw to y, x\n");
+        }
+        s.append("};\n");
+        String text = s.toString();
+        hexSign = oldHex;
+        return text;
+    }    
     public String createASMMov_Draw_VLc_a(boolean includeMove, String name, boolean factor)
     {
         if (includeMove)
@@ -2568,7 +2821,41 @@ public class GFXVectorList {
         String text = s.toString();
         return text;
     }
-    
+    // if highbyte in a pattern is cleared
+    // it is FORCED set!
+    public String createCDraw_VLp(String name, boolean factor)
+    {
+        if (!isDraw_VLp()) return "";
+        StringBuilder s = new StringBuilder();
+        
+        String oldHex = hexSign;
+        hexSign = "0x";
+        s.append("const signed char "+name).append("[]=\n{");
+        GFXVectorList vl = this;
+        for (GFXVector v : vl.list)
+        {
+            boolean warn = false;
+            int pattern = v.pattern&0xff;
+            if (pattern < 128)
+            {
+                warn = true;
+                pattern +=128; // high bit is forcible set!
+            }
+            s.append("\t(signed char) ").append(hexU(pattern)).append(", ");
+            s.append(getRelativeCoordString(v, factor)).append(", ");
+            if (warn)
+                s.append(" // WARN pattern high bit set!\n");
+            else
+                s.append(" // pattern, y, x\n");
+                
+        }
+        s.append("\t(signed char) ").append(hexU(1)).append(" // endmarker (high bit in pattern not set)\n");
+        s.append("};\n");
+        
+        String text = s.toString();
+        hexSign = oldHex;
+        return text;
+    }
     // if highbyte in a pattern is cleared
     // it is FORCED set!
     public String createASMDraw_VLp(String name, boolean factor)
@@ -2598,6 +2885,120 @@ public class GFXVectorList {
         s.append(" "+GFXVectorList.getDB()+" ").append(hexU(1)).append(" ; endmarker (high bit in pattern not set)\n");
         
         String text = s.toString();
+        return text;
+    }
+    public String createCDraw_VL_mode(String name, boolean includeInitialMove, boolean factor, boolean pc)
+    {
+        if (pc) return createPCDraw_VL_mode(name, includeInitialMove, factor);
+        if (!isDraw_VL_mode()) return "";
+        StringBuilder s = new StringBuilder();
+        
+        String oldHex = hexSign;
+        hexSign = "0x";
+        GFXVectorList vl = this;
+        s.append("const signed char "+name).append("[]=\n{");
+        boolean init = true;
+        for (GFXVector v : vl.list)
+        {
+            if ((includeInitialMove) && (init))
+            {
+                init = false;
+                if (!( (((int)v.start.y()) == 0) && (((int)v.start.x()) == 0)))
+                    s.append("\t(signed char) ").append(hexU(0)).append(", ").append(hex((int)v.start.y())).append(", ").append(hex((int)v.start.x())).append(", // move to y, x\n");
+            }
+
+            boolean warn = false;
+            int mode;
+            int pattern = v.pattern&0xff;
+            if (pattern != 0)
+            {
+                if (pattern < 128)
+                {
+                    warn = true;
+                    pattern +=128; // high byte is forcible set!
+                }
+            }
+            if (pattern == 0) mode = 0; // move
+            else if ((pattern == 255) && (!warn)) mode = 2; // draw full
+            else  mode = -1; // use pattern from memory
+            
+            
+            
+            s.append("\t(signed char) ").append(hexU(mode)).append(", ");
+            s.append(getRelativeCoordString(v, factor));
+            s.append(", // mode, y, x\n");
+                
+        }
+        s.append("\t(signed char) ").append(hexU(1)).append(" // endmarker (1)\n");
+        s.append("};\n");
+        
+        String text = s.toString();
+        hexSign = oldHex;
+        return text;
+    }
+    public String createPCDraw_VL_mode(String name, boolean includeInitialMove, boolean factor)
+    {
+        if (!isDraw_VL_mode()) return "";
+        StringBuilder s = new StringBuilder();
+        
+        String oldHex = hexSign;
+        hexSign = "0x";
+        GFXVectorList vl = this;
+        s.append("const struct packet_t vectors_"+name+"[] =\n{\n");
+        int count = 0;
+        boolean stopped = false;
+        for (GFXVector v : vl.list)
+        {
+            boolean warn = false;
+            int mode;
+            int pattern = v.pattern&0xff;
+            if (pattern != 0)
+            {
+                if (pattern < 128)
+                {
+                    warn = true;
+                    pattern +=128; // high byte is forcible set!
+                }
+            }
+            if (pattern == 0) mode = 0; // move
+            else if ((pattern == 255) && (!warn)) mode = 2; // draw full
+            else  mode = -1; // use pattern from memory
+            
+            if (mode == 0)
+                s.append("\t{MOVE, ");
+            if (mode == 2)
+                s.append("\t{DRAW, ");
+            if (mode == -1)
+            {
+                stopped = true;
+                s.append("\t{STOP, ");
+            }
+            s.append("{").append(getRelativeCoordString(v, factor)).append("}}");
+            if (mode != -1)
+                s.append(",\n");
+            else
+                s.append("\n");
+            count++;
+        }
+        if (!stopped)
+        {
+            s.append("\t{STOP, ");
+            s.append("{").append(hex((int)0)+", "+hex((int)0)).append("}}");
+            s.append("\n");
+            count++;
+        }
+        s.append("};\n");
+        
+        s.append("const struct vector_list_t "+name+" =\n");
+        s.append("{\n");
+        s.append("\t.type = PACKET,\n");
+        s.append("\t.size = "+hex(count)+",\n");
+        s.append("\t.vectors = &vectors_"+name+"\n");
+        s.append("};\n");
+        
+        
+        String text = s.toString();
+        hexSign = oldHex;
         return text;
     }
     
@@ -2984,6 +3385,148 @@ public class GFXVectorList {
         splitList(vl, maxResync, subLists);
         splitList(vl2, maxResync, subLists);
     }
+    public boolean createCDraw_syncList(StringBuilder source, String name, boolean factor, int maxResync, int splitter)
+    {
+        return createCDraw_syncList(source,name, factor, maxResync, false, splitter);
+    }
+    public boolean createCDraw_syncList(StringBuilder source,String name, boolean factor, int maxResync, boolean extended, int splitter)
+    {
+        return createCDraw_syncList(source, name,  factor,  maxResync,  extended,  splitter,  false);
+    }
+    public boolean createCDraw_syncList(StringBuilder source,String name, boolean factor, int maxResync, boolean extended, int splitter, boolean noAdditionalOptimization)
+    {
+        return createCDraw_syncList(source, name,  factor,  maxResync,  extended,  splitter,  false, "BLOW_UP");
+    }
+    
+    public boolean createCDraw_syncList(StringBuilder source,String name, boolean factor, int maxResync, boolean extended, int splitter, boolean noAdditionalOptimization, String blowString)
+    {
+        int maxLen = (int) getMaxAbsLenValue();
+        // actually this is nearly the same as a scenario - only the
+        // data is kept in one list, not in several, and there
+        // is a config byte to discern.
+        
+        // starting location for all entities is 0,0 of the vectorlist
+
+        // split list to max resyncs (-1 = no additional resyncs)
+        ArrayList<GFXVectorList> subLists1 = seperatePaths(noAdditionalOptimization);
+        ArrayList<GFXVectorList> subLists = new ArrayList<GFXVectorList>();
+        for (GFXVectorList vl: subLists1)
+        {
+            splitList(vl, maxResync, subLists);
+        }
+        int intensity = 256;
+        
+        String oldHex = hexSign;
+        hexSign = "0x";
+
+        source.append("const signed char "+name).append("[]=\n{");
+        for (GFXVectorList vectorlist: subLists)
+        {
+            boolean first = true;
+            // concatinate moves, if possible
+            vectorlist = optimizeMove(vectorlist, maxLen, true);
+
+            // split where needed
+            vectorlist.splitWhereNeeded(splitter);
+         
+            if (maxLen<splitter)
+            {
+                splitter = maxLen;
+            }
+            for (GFXVector vector: vectorlist.list)
+            {
+                int newIntensity = vector.intensity;
+                Vertex start = vector.start;
+                Vertex end = vector.end;
+                int pattern = vector.pattern&0xff;
+                
+                if ((newIntensity != intensity) && (extended))
+                    source.append("\t(signed char) ").append(hexU(3)).append(", ").append(hex(newIntensity)).append(", // new intensity\n");
+                if (first)
+                {
+                    // first info is always a sync + move
+                    // move might be 0,0 -> than the draw routine
+                    // can do a beq...
+                    int y =(int)start.y();
+                    int x =(int)start.x();
+                    
+                    // moves, which are added from internal vectorlist drawing can be larger than 2 comp. byte
+                    // split here needed in more moves
+                    // this can only happen after a sync
+                    do
+                    {
+                        int useX;
+                        int useY;
+                        if (y>splitter)
+                        {
+                            useY = splitter;
+                            y -= splitter;
+                        }
+                        else if (y<-splitter)
+                        {
+                            useY = -splitter;
+                            y += splitter;
+                        }
+                        else
+                        {
+                            useY = y;
+                            y -=useY;
+                        }
+                        if (x>splitter)
+                        {
+                            useX = splitter;
+                            x -= splitter;
+                        }
+                        else if (x<-splitter)
+                        {
+                            useX = -splitter;
+                            x += splitter;
+                        }
+                        else
+                        {
+                            useX = x;
+                            x -=useX;
+                        }
+                        if (factor)
+                        {
+                            // sync moves are not "blown up"
+                            if (first)
+                                source.append("\t(signed char) ").append(hexU(1)).append(", ").append(hex(useY)).append("*").append(blowString).append(", ").append(hex(useX)).append("*").append(blowString).append(", // sync and move to y, x\n");
+                            else
+                                source.append("\t(signed char) ").append(hexU(0)).append(", ").append(hex(useY)).append("*").append(blowString).append(", ").append(hex(useX)).append("*").append(blowString).append(", // additional sync move to y, x\n");
+                        }
+                        else
+                        {
+                            if (first)
+                                source.append("\t(signed char) ").append(hexU(1)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(", // sync and move to y, x\n");
+                            else
+                                source.append("\t(signed char) ").append(hexU(0)).append(", ").append(hex(useY)).append(", ").append(hex(useX)).append(", // additional sync move to y, x\n");
+                        }
+                        first = false;
+                    } while (((y!=0) || (x!=0)));
+                }
+                if (pattern == 0) // move
+                {
+                    source.append("\t(signed char) ").append(hexU(0)).append(", ");
+                    source.append(getRelativeCoordString(vector, factor, blowString));
+                    source.append(", // mode, y, x\n");
+                }
+                else  // draw
+                {
+                    source.append("\t(signed char) ").append(hexU(255)).append(", ");
+                    source.append(getRelativeCoordString(vector, factor, blowString));
+                    source.append(", // draw, y, x\n");
+                }
+                intensity = newIntensity;
+            }
+        }
+        source.append("\t(signed char) ").append(hexU(2)).append(" // endmarker \n");
+        source.append("};\n");
+        hexSign = oldHex;
+        return true;
+    }
+    
+    
     
     public boolean createASMDraw_syncList(StringBuilder source, String name, boolean factor, int maxResync, int splitter)
     {
